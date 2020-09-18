@@ -2,75 +2,143 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0A5C43463
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE31AC43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:25:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97AE4206FC
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:08:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C30721741
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:25:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IbeG4P6Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgIRHIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 03:08:34 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:42524 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726170AbgIRHIe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Sep 2020 03:08:34 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 660ADC95903D51753D89;
-        Fri, 18 Sep 2020 15:08:31 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 18 Sep 2020 15:08:22 +0800
-From:   Tian Tao <tiantao6@hisilicon.com>
-To:     <corbet@lwn.net>, <keescook@chromium.org>, <anton@enomsg.org>,
-        <ccross@android.com>, <tony.luck@intel.com>, <paulmck@kernel.org>,
-        <tglx@linutronix.de>, <akpm@linux-foundation.org>, <bp@suse.de>,
-        <mchehab+huawei@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
-        <rdunlap@infradead.org>, <mike.kravetz@oracle.com>,
-        <oneukum@suse.com>, <gpiccoli@canonical.com>,
-        <linux-doc@vger.kernel.org>
-CC:     <linuxarm@huawei.com>
-Subject: [PATCH v2] Documentation: Remove CMA's dependency on architecture
-Date:   Fri, 18 Sep 2020 15:05:58 +0800
-Message-ID: <1600412758-60545-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726435AbgIRHZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 03:25:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41435 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726312AbgIRHZl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 03:25:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600413940;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mqIgxLpQiWo1ZnzGLjH16sr1JY5Yhmtp14BB8uVAi5A=;
+        b=IbeG4P6ZLbMJEZMDpbZ8Y1dNY1L+ke7QTbHKLcqoVdoxjW52w+2+0MPhJhoJHgfbbEG5ds
+        /RIHsydGbk6wV3blk8nGlU7iVW6cTVTYfTh3EwoT6+wEJ3H/8IkRmfGY98WEUUSYzuS8hE
+        UCXDDbMXmm/JMsCCLL450uIR4Zo6nZw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-nwmjKfwgO6id3kUaSUiMUQ-1; Fri, 18 Sep 2020 03:25:36 -0400
+X-MC-Unique: nwmjKfwgO6id3kUaSUiMUQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6DB41018725;
+        Fri, 18 Sep 2020 07:25:33 +0000 (UTC)
+Received: from localhost (ovpn-12-42.pek2.redhat.com [10.72.12.42])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D823460C13;
+        Fri, 18 Sep 2020 07:25:29 +0000 (UTC)
+Date:   Fri, 18 Sep 2020 15:25:26 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
+        tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
+        corbet@lwn.net, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
+        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com, rppt@linux.ibm.com
+Subject: Re: [PATCH v12 3/9] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel[_low]()
+Message-ID: <20200918072526.GD25604@MiWiFi-R3L-srv>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <20200907134745.25732-4-chenzhou10@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200907134745.25732-4-chenzhou10@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CMA only depends on MMU. It doesn't depend on arch too much. such as ARM,
-ARM64, X86, MIPS etc. so We remove the dependency of cma about the
-architecture in kernel-parameters.txt.
+Hi,
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+On 09/07/20 at 09:47pm, Chen Zhou wrote:
+> To make the functions reserve_crashkernel[_low]() as generic,
+> replace some hard-coded numbers with macro CRASH_ADDR_LOW_MAX.
+> 
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> ---
+>  arch/x86/kernel/setup.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index d7fd90c52dae..71a6a6e7ca5b 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -430,7 +430,7 @@ static int __init reserve_crashkernel_low(void)
+>  	unsigned long total_low_mem;
+>  	int ret;
+>  
+> -	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+> +	total_low_mem = memblock_mem_size(CRASH_ADDR_LOW_MAX >> PAGE_SHIFT);
 
-v2:
-rewrite the patch, patch name, commit messages.
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just note that the replacement has been done in another patch from Mike
+Rapoport, partially. He seems to have done reserve_crashkernel_low()
+part, there's one left in reserve_crashkernel(), you might want to check
+that. 
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7ebe3be..7fbfc1a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -591,7 +591,7 @@
- 			some critical bits.
- 
- 	cma=nn[MG]@[start[MG][-end[MG]]]
--			[ARM,X86,KNL]
-+			[KNL,CMA]
- 			Sets the size of kernel global memory area for
- 			contiguous memory allocations and optionally the
- 			placement constraint by the physical address range of
--- 
-2.7.4
+Mike's patch which is from a patchset has been merged into Andrew's next
+tree.
+
+commit 6e50f7672ffa362e9bd4bc0c0d2524ed872828c5
+Author: Mike Rapoport <rppt@linux.ibm.com>
+Date:   Wed Aug 26 15:22:32 2020 +1000
+
+    x86/setup: simplify reserve_crashkernel()
+
+>  
+>  	/* crashkernel=Y,low */
+>  	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
+> @@ -451,7 +451,7 @@ static int __init reserve_crashkernel_low(void)
+>  			return 0;
+>  	}
+>  
+> -	low_base = memblock_find_in_range(CRASH_ALIGN, 1ULL << 32, low_size, CRASH_ALIGN);
+> +	low_base = memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MAX, low_size, CRASH_ALIGN);
+>  	if (!low_base) {
+>  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>  		       (unsigned long)(low_size >> 20));
+> @@ -504,8 +504,9 @@ static void __init reserve_crashkernel(void)
+>  	if (!crash_base) {
+>  		/*
+>  		 * Set CRASH_ADDR_LOW_MAX upper bound for crash memory,
+> -		 * crashkernel=x,high reserves memory over 4G, also allocates
+> -		 * 256M extra low memory for DMA buffers and swiotlb.
+> +		 * crashkernel=x,high reserves memory over CRASH_ADDR_LOW_MAX,
+> +		 * also allocates 256M extra low memory for DMA buffers
+> +		 * and swiotlb.
+>  		 * But the extra memory is not required for all machines.
+>  		 * So try low memory first and fall back to high memory
+>  		 * unless "crashkernel=size[KMG],high" is specified.
+> @@ -539,7 +540,7 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
+> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
+> +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
+>  		memblock_free(crash_base, crash_size);
+>  		return;
+>  	}
+> -- 
+> 2.20.1
+> 
 
