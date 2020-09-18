@@ -2,136 +2,134 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11F3FC43463
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 01:57:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48EEDC43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 03:01:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C997020872
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 01:57:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F5AE206B7
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 03:01:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lSvsaled"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OkQQJA4n"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726170AbgIRB4v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 21:56:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726101AbgIRB4v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 21:56:51 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11A1CC061756;
-        Thu, 17 Sep 2020 18:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=DzqRDNd51AABXfHvOGClQ6GjXbZcogsHuLBhYu1WzRk=; b=lSvsaledKpcxMeyBZOttoe+mHR
-        wrJNYGfwWLdsfUAWG8SWRljXsdUTfBsaWL3QxiGB2bVVvx5/bH8NfPbckU2hv1ViLPDNW7HOsNlYM
-        OvBKGjZlvo1+4N+ON4QKwPw9OA0EhumdjbwXq6Nwfvy87PtHDuswdV8usfpPea/NAn+/U8JnF85fm
-        W6lh1oecPRvGQmhh3UvrC+U/HfzoqNLrvTIS+FpwTaYjP/+i5cdrkJwyW8OFJZ73mRjKIr0tHeI9X
-        joJZ+AQHJLLc2brs22awxiNLZahBPmBCFSfPK8rliauq1Om9AYh9hvQrhAImrEwJ6qW+2lCQ/gLEU
-        y+UGFJaw==;
-Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kJ5do-0007g2-3I; Fri, 18 Sep 2020 01:56:48 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Karel Zak <kzak@redhat.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Martin Mares <mj@ucw.cz>, linux-video@atrey.karlin.mff.cuni.cz,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [RFC PATCH v2 1/2] Documentation/admin-guide: README & svga: remove use of "rdev"
-Date:   Thu, 17 Sep 2020 18:56:39 -0700
-Message-Id: <20200918015640.8439-2-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200918015640.8439-1-rdunlap@infradead.org>
-References: <20200918015640.8439-1-rdunlap@infradead.org>
+        id S1727652AbgIRDB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 23:01:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44497 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728185AbgIRDBd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 23:01:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600398092;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=08vvKo7W8fzgKzRki0M2Us+rPrn1t1DRF38EQBkZbD0=;
+        b=OkQQJA4nqPKXGR9479X/0V+z3L3UMzVHo6TmnVlRg5Nyn4NpgOc6n7hNYaQ17Ti395ip5f
+        H0c/M49u/PRdO+41WFNwyqqAvYarP6q+roFeFdJy2E6UU2tz2gfq8iLHi1eWJs/moBVLWr
+        obzt3DaPmSgHjuwlVCOzkBBB5/FVGn8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-CC16NPrCO_q5BV3RSOZkzw-1; Thu, 17 Sep 2020 23:01:28 -0400
+X-MC-Unique: CC16NPrCO_q5BV3RSOZkzw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F283910060C2;
+        Fri, 18 Sep 2020 03:01:24 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-13-81.pek2.redhat.com [10.72.13.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id BA00455766;
+        Fri, 18 Sep 2020 03:01:15 +0000 (UTC)
+Date:   Fri, 18 Sep 2020 11:01:12 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
+        tglx@linutronix.de, mingo@redhat.com, bhe@redhat.com,
+        corbet@lwn.net, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
+        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com
+Subject: Re: [PATCH v12 3/9] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel[_low]()
+Message-ID: <20200918030112.GA3356@dhcp-128-65.nay.redhat.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <20200907134745.25732-4-chenzhou10@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200907134745.25732-4-chenzhou10@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"rdev" is considered antiquated, ancient, archaic, obsolete, deprecated
-{choose any or all}.
+On 09/07/20 at 09:47pm, Chen Zhou wrote:
+> To make the functions reserve_crashkernel[_low]() as generic,
+> replace some hard-coded numbers with macro CRASH_ADDR_LOW_MAX.
+> 
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> ---
+>  arch/x86/kernel/setup.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index d7fd90c52dae..71a6a6e7ca5b 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -430,7 +430,7 @@ static int __init reserve_crashkernel_low(void)
+>  	unsigned long total_low_mem;
+>  	int ret;
+>  
+> -	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+> +	total_low_mem = memblock_mem_size(CRASH_ADDR_LOW_MAX >> PAGE_SHIFT);
 
-Remove use of "rdev" and "vidmode" (a symlink to rdev) in
-admin-guide/README.rst and admin-guide/svga.rst.
+total_low_mem != CRASH_ADDR_LOW_MAX
 
-"rdev" was removed from util-linux in 2010:
-  https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/commit/?id=a3e40c14651fccf18e7954f081e601389baefe3f
+>  
+>  	/* crashkernel=Y,low */
+>  	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Karel Zak <kzak@redhat.com>
-Cc: Paul Gortmaker <paul.gortmaker@windriver.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Martin Mares <mj@ucw.cz>
-Cc: linux-video@atrey.karlin.mff.cuni.cz
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
-v2: Modify when the Video Mode Selection feature is available (thanks, Peter).
+The param total_low_mem is for dynamically change crash_size according
+to system ram size.
 
-No email address for these:
- nCc: Werner Almesberger
- nCc: Stephen Tweedie
- nCc: Peter MacDonald
+Is above change a must for your arm64 patches?
 
- Documentation/admin-guide/README.rst |    6 +++---
- Documentation/admin-guide/svga.rst   |    7 ++++---
- 2 files changed, 7 insertions(+), 6 deletions(-)
+> @@ -451,7 +451,7 @@ static int __init reserve_crashkernel_low(void)
+>  			return 0;
+>  	}
+>  
+> -	low_base = memblock_find_in_range(CRASH_ALIGN, 1ULL << 32, low_size, CRASH_ALIGN);
+> +	low_base = memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MAX, low_size, CRASH_ALIGN);
+>  	if (!low_base) {
+>  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>  		       (unsigned long)(low_size >> 20));
+> @@ -504,8 +504,9 @@ static void __init reserve_crashkernel(void)
+>  	if (!crash_base) {
+>  		/*
+>  		 * Set CRASH_ADDR_LOW_MAX upper bound for crash memory,
+> -		 * crashkernel=x,high reserves memory over 4G, also allocates
+> -		 * 256M extra low memory for DMA buffers and swiotlb.
+> +		 * crashkernel=x,high reserves memory over CRASH_ADDR_LOW_MAX,
+> +		 * also allocates 256M extra low memory for DMA buffers
+> +		 * and swiotlb.
+>  		 * But the extra memory is not required for all machines.
+>  		 * So try low memory first and fall back to high memory
+>  		 * unless "crashkernel=size[KMG],high" is specified.
+> @@ -539,7 +540,7 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
+> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
+> +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
+>  		memblock_free(crash_base, crash_size);
+>  		return;
+>  	}
+> -- 
+> 2.20.1
+> 
 
---- lnx-59-rc5.orig/Documentation/admin-guide/README.rst
-+++ lnx-59-rc5/Documentation/admin-guide/README.rst
-@@ -322,9 +322,9 @@ Compiling the kernel
-    reboot, and enjoy!
- 
-    If you ever need to change the default root device, video mode,
--   ramdisk size, etc.  in the kernel image, use the ``rdev`` program (or
--   alternatively the LILO boot options when appropriate).  No need to
--   recompile the kernel to change these parameters.
-+   etc. in the kernel image, use your bootloader's boot options
-+   where appropriate.  No need to recompile the kernel to change
-+   these parameters.
- 
-  - Reboot with the new kernel and enjoy.
- 
---- lnx-59-rc5.orig/Documentation/admin-guide/svga.rst
-+++ lnx-59-rc5/Documentation/admin-guide/svga.rst
-@@ -12,7 +12,8 @@ Intro
- This small document describes the "Video Mode Selection" feature which
- allows the use of various special video modes supported by the video BIOS. Due
- to usage of the BIOS, the selection is limited to boot time (before the
--kernel decompression starts) and works only on 80X86 machines.
-+kernel decompression starts) and works only on 80X86 machines that are
-+booted through BIOS firmware (as opposed to through UEFI, kexec, etc.).
- 
- .. note::
- 
-@@ -23,7 +24,7 @@ kernel decompression starts) and works o
- 
- The video mode to be used is selected by a kernel parameter which can be
- specified in the kernel Makefile (the SVGA_MODE=... line) or by the "vga=..."
--option of LILO (or some other boot loader you use) or by the "vidmode" utility
-+option of LILO (or some other boot loader you use) or by the "xrandr" utility
- (present in standard Linux utility packages). You can use the following values
- of this parameter::
- 
-@@ -41,7 +42,7 @@ of this parameter::
-       better to use absolute mode numbers instead.
- 
-    0x.... - Hexadecimal video mode ID (also displayed on the menu, see below
--      for exact meaning of the ID). Warning: rdev and LILO don't support
-+      for exact meaning of the ID). Warning: LILO doesn't support
-       hexadecimal numbers -- you have to convert it to decimal manually.
- 
- Menu
