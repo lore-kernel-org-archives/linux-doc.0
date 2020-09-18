@@ -2,189 +2,185 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D99EEC43464
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 21:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC6BC43463
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 22:04:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A519F2158C
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 21:50:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3509E20DD4
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 22:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbgIRVul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 17:50:41 -0400
-Received: from mga18.intel.com ([134.134.136.126]:52818 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbgIRVul (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Sep 2020 17:50:41 -0400
-IronPort-SDR: gxdJjfIq5FiVU2tR2anLVqhgbQNjbGignlwcBq3BkxHE5neOLVac0auMFEeZdqdDn/g+py5PQy
- qwFqIdn6Dejg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="147788364"
-X-IronPort-AV: E=Sophos;i="5.77,276,1596524400"; 
-   d="scan'208";a="147788364"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 14:50:32 -0700
-IronPort-SDR: XYVmYjmO90sXANEXvQ0f5aRsogpF6JfBZo/VkvAEq522JRidVcPSUabodTRiPmUTY8d/9CUyLg
- 32NyyNqwjTOw==
-X-IronPort-AV: E=Sophos;i="5.77,276,1596524400"; 
-   d="scan'208";a="347180777"
-Received: from hseinige-mobl.amr.corp.intel.com (HELO pbossart-mobl3.intel.com) ([10.251.16.71])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 14:50:29 -0700
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-kbuild@vger.kernel.org,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Filipe Brandenburger <filbranden@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Michael Davidson <md@google.com>,
-        Eugene Surovegin <surovegin@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH] modpost: allow modpost to fail on warnings
-Date:   Fri, 18 Sep 2020 16:50:10 -0500
-Message-Id: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        id S1726187AbgIRWEA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 18:04:00 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38744 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726154AbgIRWEA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 18:04:00 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 8146F1C0B78; Sat, 19 Sep 2020 00:03:55 +0200 (CEST)
+Date:   Sat, 19 Sep 2020 00:03:55 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v12 1/8] x86/cet/ibt: Add Kconfig option for user-mode
+ Indirect Branch Tracking
+Message-ID: <20200918220355.GC7443@duo.ucw.cz>
+References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
+ <20200918192312.25978-2-yu-cheng.yu@intel.com>
+ <ce2524cc-081b-aec9-177a-11c7431cb20d@infradead.org>
+ <20200918205933.GB4304@duo.ucw.cz>
+ <019b5e45-b116-7f3d-f1f2-3680afbd676c@intel.com>
+ <20200918214020.GF4304@duo.ucw.cz>
+ <CAMe9rOrmq-7mZkp=O+wRRX+wGa=1dopUhXRbCJBJQUdGA3N=7w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="xesSdrSSBC0PokLI"
+Content-Disposition: inline
+In-Reply-To: <CAMe9rOrmq-7mZkp=O+wRRX+wGa=1dopUhXRbCJBJQUdGA3N=7w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Filipe Brandenburger <filbranden@google.com>
 
-Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
-kbuild fail when modpost generates any warnings. This will avoid
-misses such as [1] where the SOF CI did not catch a missing module
-license.
+--xesSdrSSBC0PokLI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This was initially contributed in 2016 [2], rebase/clean-ups and tests
-by Pierre Bossart.
+On Fri 2020-09-18 14:46:12, H.J. Lu wrote:
+> On Fri, Sep 18, 2020 at 2:40 PM Pavel Machek <pavel@ucw.cz> wrote:
+> >
+> > On Fri 2020-09-18 14:25:12, Yu, Yu-cheng wrote:
+> > > On 9/18/2020 1:59 PM, Pavel Machek wrote:
+> > > > On Fri 2020-09-18 13:24:13, Randy Dunlap wrote:
+> > > > > Hi,
+> > > > >
+> > > > > If you do another version of this:
+> > > > >
+> > > > > On 9/18/20 12:23 PM, Yu-cheng Yu wrote:
+> > > > > > Introduce Kconfig option X86_INTEL_BRANCH_TRACKING_USER.
+> > > > > >
+> > > > > > Indirect Branch Tracking (IBT) provides protection against CALL=
+-/JMP-
+> > > > > > oriented programming attacks.  It is active when the kernel has=
+ this
+> > > > > > feature enabled, and the processor and the application support =
+it.
+> > > > > > When this feature is enabled, legacy non-IBT applications conti=
+nue to
+> > > > > > work, but without IBT protection.
+> > > > > >
+> > > > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > > > > ---
+> > > > > > v10:
+> > > > > > - Change build-time CET check to config depends on.
+> > > > > >
+> > > > > >   arch/x86/Kconfig | 16 ++++++++++++++++
+> > > > > >   1 file changed, 16 insertions(+)
+> > > > > >
+> > > > > > diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> > > > > > index 6b6dad011763..b047e0a8d1c2 100644
+> > > > > > --- a/arch/x86/Kconfig
+> > > > > > +++ b/arch/x86/Kconfig
+> > > > > > @@ -1963,6 +1963,22 @@ config X86_INTEL_SHADOW_STACK_USER
+> > > > > >           If unsure, say y.
+> > > > > > +config X86_INTEL_BRANCH_TRACKING_USER
+> > > > > > +       prompt "Intel Indirect Branch Tracking for user-mode"
+> > > > > > +       def_bool n
+> > > > > > +       depends on CPU_SUP_INTEL && X86_64
+> > > > > > +       depends on $(cc-option,-fcf-protection)
+> > > > > > +       select X86_INTEL_CET
+> > > > > > +       help
+> > > > > > +         Indirect Branch Tracking (IBT) provides protection ag=
+ainst
+> > > > > > +         CALL-/JMP-oriented programming attacks.  It is active=
+ when
+> > > > > > +         the kernel has this feature enabled, and the processo=
+r and
+> > > > > > +         the application support it.  When this feature is ena=
+bled,
+> > > > > > +         legacy non-IBT applications continue to work, but wit=
+hout
+> > > > > > +         IBT protection.
+> > > > > > +
+> > > > > > +         If unsure, say y
+> > > > >
+> > > > >     If unsure, say y.
+> > > >
+> > > > Actually, it would be "If unsure, say Y.", to be consistent with the
+> > > > rest of the Kconfig.
+> > > >
+> > > > But I wonder if Yes by default is good idea. Only very new CPUs will
+> > > > support this, right? Are they even available at the market? Should =
+the
+> > > > help text say "if your CPU is Whatever Lake or newer, ...." :-) ?
+> > >
+> > > I will revise the wording if there is another version.  But a CET-cap=
+able
+> > > kernel can run on legacy systems.  We have been testing that combinat=
+ion.
+> >
+> > Yes, but enabling CET is unneccessary overhead on older systems. And
+> > Kconfig is great place to explain that.
+> >
+>=20
+> I can't tell any visible CET kernel overhead on my non-CET machines.
 
-Test example:
-$ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
-  GEN     Makefile
-  DESCEND  objtool
-  CALL    sof-dev/scripts/atomic/check-atomics.sh
-  CALL    sof-dev/scripts/checksyscalls.sh
-  CHK     include/generated/compile.h
-  MODPOST Module.symvers
-Kernel: arch/x86/boot/bzImage is ready  (#13)
-WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
-make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
+I assume you are not a troll but you sound a bit like one.
 
-[1] https://lkml.org/lkml/2020/9/17/2343
-[2] https://patchwork.kernel.org/patch/8343431/
+Please list kernel size before and after enabling
+X86_INTEL_CET option(s).
 
-Signed-off-by: Filipe Brandenburger <filbranden@google.com>
-Cc: Greg Thelen <gthelen@google.com>
-Cc: Michael Davidson <md@google.com>
-Cc: Eugene Surovegin <surovegin@google.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Co-developed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- Documentation/kbuild/kbuild.rst |  5 +++++
- scripts/Makefile.modpost        |  5 ++++-
- scripts/mod/modpost.c           | 12 +++++++++++-
- 3 files changed, 20 insertions(+), 2 deletions(-)
+That's the overhead I'm talking about, and that's why Kconfig should
+explain what machines this is useful on.
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 2d1fc03d346e..cc102aad8619 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -229,6 +229,11 @@ KBUILD_MODPOST_WARN can be set to avoid errors in case of undefined
- symbols in the final module linking stage. It changes such errors
- into warnings.
- 
-+KBUILD_MODPOST_FAIL_ON_WARNINGS
-+-------------------------------
-+KBUILD_MODPOST_FAIL_ON_WARNINGS can be set to turn all warnings into
-+errors in the final module linking stage.
-+
- KBUILD_MODPOST_NOFINAL
- ----------------------
- KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index f54b6ac37ac2..69297cd6f8ce 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -34,6 +34,8 @@
- 
- # KBUILD_MODPOST_WARN can be set to avoid error out in case of undefined
- # symbols in the final module linking stage
-+# KBUILD_MODPOST_FAIL_ON_WARNINGS can be set to fail whenever modpost
-+# generates warnings
- # KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
- # This is solely useful to speed up test compiles
- 
-@@ -47,7 +49,8 @@ MODPOST = scripts/mod/modpost								\
- 	$(if $(CONFIG_MODVERSIONS),-m)							\
- 	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
- 	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)					\
--	$(if $(KBUILD_MODPOST_WARN),-w) \
-+	$(if $(KBUILD_MODPOST_WARN),-w)							\
-+	$(if $(KBUILD_MODPOST_FAIL_ON_WARNINGS),-F)					\
- 	-o $@
- 
- ifdef MODPOST_VMLINUX
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 69341b36f271..422f1cfca289 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -39,6 +39,9 @@ static int sec_mismatch_fatal = 0;
- static int ignore_missing_files;
- /* If set to 1, only warn (instead of error) about missing ns imports */
- static int allow_missing_ns_imports;
-+/* Turn warnings into errors */
-+static int fail_on_warnings;
-+static int warnings_count;
- 
- enum export {
- 	export_plain,      export_unused,     export_gpl,
-@@ -59,6 +62,7 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...)
- 	switch (loglevel) {
- 	case LOG_WARN:
- 		fprintf(stderr, "WARNING: ");
-+		warnings_count++;
- 		break;
- 	case LOG_ERROR:
- 		fprintf(stderr, "ERROR: ");
-@@ -2559,7 +2563,7 @@ int main(int argc, char **argv)
- 	struct dump_list *dump_read_start = NULL;
- 	struct dump_list **dump_read_iter = &dump_read_start;
- 
--	while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
-+	while ((opt = getopt(argc, argv, "ei:mnT:o:awEFNd:")) != -1) {
- 		switch (opt) {
- 		case 'e':
- 			external_module = 1;
-@@ -2588,6 +2592,9 @@ int main(int argc, char **argv)
- 		case 'w':
- 			warn_unresolved = 1;
- 			break;
-+		case 'F':
-+			fail_on_warnings = 1;
-+			break;
- 		case 'E':
- 			sec_mismatch_fatal = 1;
- 			break;
-@@ -2671,5 +2678,8 @@ int main(int argc, char **argv)
- 
- 	free(buf.p);
- 
-+	if (fail_on_warnings && warnings_count)
-+		err |= 2;
-+
- 	return err;
- }
--- 
-2.25.1
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
+--xesSdrSSBC0PokLI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2UuywAKCRAw5/Bqldv6
+8tNJAJ9zzAqfN0aeU1k6gJtk7OBI9HGT+gCffaWJMFOfRANSTM5cDlxOOo23LTw=
+=3UMg
+-----END PGP SIGNATURE-----
+
+--xesSdrSSBC0PokLI--
