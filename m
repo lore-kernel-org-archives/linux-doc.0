@@ -2,125 +2,85 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DD4C43465
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:53:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD18C43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 08:10:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BF5E21D20
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:53:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E70A42100A
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 08:10:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="tEweahrA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZFI5K/L0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726649AbgIRHxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 03:53:35 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:46174 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726897AbgIRHxf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 03:53:35 -0400
-X-Greylist: delayed 4245 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Sep 2020 03:53:34 EDT
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08I6htbo107477;
-        Fri, 18 Sep 2020 01:43:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600411435;
-        bh=WCJiTCBYarku1p+J3FGwyc0AS5UhsiZgThHHJxu9xzA=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=tEweahrAWeneWQRkfSFP5lOI+xTcvytALgJWdcu1t1nuJH59IM2hP8U/Jt8RiF0g+
-         D6LhFt6Ab5kY7ls8zGkf53qEvEVw5phDtbbbNSjjXV4JUbQW8ZuHMxWXADyB6244nJ
-         zUkY1zwnLzI6bttNbMPN6sNs3ItjV7fIlixRTYZE=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08I6ht1g124170
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 18 Sep 2020 01:43:55 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 18
- Sep 2020 01:43:54 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 18 Sep 2020 01:43:54 -0500
-Received: from a0393678-ssd.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08I6gUCP094595;
-        Fri, 18 Sep 2020 01:43:02 -0500
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
-Subject: [PATCH v5 05/17] PCI: endpoint: Remove unused pci_epf_match_device()
-Date:   Fri, 18 Sep 2020 12:12:15 +0530
-Message-ID: <20200918064227.1463-6-kishon@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200918064227.1463-1-kishon@ti.com>
-References: <20200918064227.1463-1-kishon@ti.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1726119AbgIRIKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 04:10:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27073 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725882AbgIRIKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 04:10:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600416613;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=nn4mVXfrUSRgOT8MEs6N754ehCpTZG1A7BrNmYlopGM=;
+        b=ZFI5K/L0kXUX0kWSgZnFu5VkAmJ0LXf7TU3f3hKO8PbtqRerJRYByi+TbUFbEc1SnTKYRw
+        qqI1vUxxtviKB5kCIkkoSzZOPzEgdFe/dHGhDNEP6j17zEXfbtwap+N1Wn7v8zh8IqDe7o
+        71HCuXbqbjlYVK54QmdaBvFyz+RHQIo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-mPr4_xyANSi0M-pHjPS2EA-1; Fri, 18 Sep 2020 04:10:07 -0400
+X-MC-Unique: mPr4_xyANSi0M-pHjPS2EA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2006510A7AE4;
+        Fri, 18 Sep 2020 08:10:06 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-12-22.pek2.redhat.com [10.72.12.22])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C23A91001281;
+        Fri, 18 Sep 2020 08:10:01 +0000 (UTC)
+From:   Lianbo Jiang <lijiang@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     bhe@redhat.com, corbet@lwn.net, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, vgoyal@redhat.com
+Subject: [PATCH] docs: admin-guide: update kdump documentation due to change of crash URL
+Date:   Fri, 18 Sep 2020 16:09:58 +0800
+Message-Id: <20200918080958.19841-1-lijiang@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove unused pci_epf_match_device() function added in pci-epf-core.c
+Since crash utility has moved to github, the original URL is no longer
+available. Let's update it accordingly.
 
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+Suggested-by: Dave Young <dyoung@redhat.com>
+Signed-off-by: Lianbo Jiang <lijiang@redhat.com>
 ---
- drivers/pci/endpoint/pci-epf-core.c | 16 ----------------
- include/linux/pci-epf.h             |  2 --
- 2 files changed, 18 deletions(-)
+ Documentation/admin-guide/kdump/kdump.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
-index c977cf9dce56..e44a317a2a2a 100644
---- a/drivers/pci/endpoint/pci-epf-core.c
-+++ b/drivers/pci/endpoint/pci-epf-core.c
-@@ -282,22 +282,6 @@ struct pci_epf *pci_epf_create(const char *name)
- }
- EXPORT_SYMBOL_GPL(pci_epf_create);
+diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+index 2da65fef2a1c..75a9dd98e76e 100644
+--- a/Documentation/admin-guide/kdump/kdump.rst
++++ b/Documentation/admin-guide/kdump/kdump.rst
+@@ -509,9 +509,12 @@ ELF32-format headers using the --elf32-core-headers kernel option on the
+ dump kernel.
  
--const struct pci_epf_device_id *
--pci_epf_match_device(const struct pci_epf_device_id *id, struct pci_epf *epf)
--{
--	if (!id || !epf)
--		return NULL;
--
--	while (*id->name) {
--		if (strcmp(epf->name, id->name) == 0)
--			return id;
--		id++;
--	}
--
--	return NULL;
--}
--EXPORT_SYMBOL_GPL(pci_epf_match_device);
--
- static void pci_epf_dev_release(struct device *dev)
- {
- 	struct pci_epf *epf = to_pci_epf(dev);
-diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
-index fa3aca43eb19..f373a134ac04 100644
---- a/include/linux/pci-epf.h
-+++ b/include/linux/pci-epf.h
-@@ -165,8 +165,6 @@ static inline void *epf_get_drvdata(struct pci_epf *epf)
- 	return dev_get_drvdata(&epf->dev);
- }
+ You can also use the Crash utility to analyze dump files in Kdump
+-format. Crash is available on Dave Anderson's site at the following URL:
++format. Crash is available at the following URL:
  
--const struct pci_epf_device_id *
--pci_epf_match_device(const struct pci_epf_device_id *id, struct pci_epf *epf);
- struct pci_epf *pci_epf_create(const char *name);
- void pci_epf_destroy(struct pci_epf *epf);
- int __pci_epf_register_driver(struct pci_epf_driver *driver,
+-   http://people.redhat.com/~anderson/
++   https://github.com/crash-utility/crash
++
++Crash document can be found at:
++   https://crash-utility.github.io/
+ 
+ Trigger Kdump on WARN()
+ =======================
 -- 
 2.17.1
 
