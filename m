@@ -2,143 +2,117 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE31AC43464
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0260CC43463
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:53:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C30721741
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:25:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1C322176B
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 07:53:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IbeG4P6Z"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ER97wC+o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbgIRHZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 03:25:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41435 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726312AbgIRHZl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 03:25:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600413940;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mqIgxLpQiWo1ZnzGLjH16sr1JY5Yhmtp14BB8uVAi5A=;
-        b=IbeG4P6ZLbMJEZMDpbZ8Y1dNY1L+ke7QTbHKLcqoVdoxjW52w+2+0MPhJhoJHgfbbEG5ds
-        /RIHsydGbk6wV3blk8nGlU7iVW6cTVTYfTh3EwoT6+wEJ3H/8IkRmfGY98WEUUSYzuS8hE
-        UCXDDbMXmm/JMsCCLL450uIR4Zo6nZw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-nwmjKfwgO6id3kUaSUiMUQ-1; Fri, 18 Sep 2020 03:25:36 -0400
-X-MC-Unique: nwmjKfwgO6id3kUaSUiMUQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6DB41018725;
-        Fri, 18 Sep 2020 07:25:33 +0000 (UTC)
-Received: from localhost (ovpn-12-42.pek2.redhat.com [10.72.12.42])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D823460C13;
-        Fri, 18 Sep 2020 07:25:29 +0000 (UTC)
-Date:   Fri, 18 Sep 2020 15:25:26 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Chen Zhou <chenzhou10@huawei.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
-        tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
-        corbet@lwn.net, John.P.donnelly@oracle.com,
-        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
-        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com, rppt@linux.ibm.com
-Subject: Re: [PATCH v12 3/9] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel[_low]()
-Message-ID: <20200918072526.GD25604@MiWiFi-R3L-srv>
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
- <20200907134745.25732-4-chenzhou10@huawei.com>
+        id S1726899AbgIRHxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 03:53:35 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:46174 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726896AbgIRHxf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 03:53:35 -0400
+X-Greylist: delayed 4245 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Sep 2020 03:53:34 EDT
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08I6goJM107085;
+        Fri, 18 Sep 2020 01:42:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1600411370;
+        bh=re6MIOXxybv+Yv493YnPwG3dJx5wl6L6fPllpFd+bzs=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=ER97wC+oHgLo5SmMpl1Jc5TaC6m5d4uCiAEwR315MaCkW7elQC31hftlb+YaFm573
+         QBJQRUJu6i3YjRtI0xVLyFa9Hd60Kx9j/rKvut0WVQQMLX9TC0V87oByAsFCS3ARGh
+         Bes7wNEVkCFLt9akLCUPuDf5xv9AP89mLk0Ao6eA=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08I6goNt107846
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 18 Sep 2020 01:42:50 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 18
+ Sep 2020 01:42:49 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 18 Sep 2020 01:42:49 -0500
+Received: from a0393678-ssd.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08I6gUCM094595;
+        Fri, 18 Sep 2020 01:42:42 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
+Subject: [PATCH v5 02/17] PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit BAR
+Date:   Fri, 18 Sep 2020 12:12:12 +0530
+Message-ID: <20200918064227.1463-3-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200918064227.1463-1-kishon@ti.com>
+References: <20200918064227.1463-1-kishon@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200907134745.25732-4-chenzhou10@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+pci_epc_get_first_free_bar() uses only "reserved_bar" member in
+epc_features to get the first unreserved BAR. However if the
+reserved BAR is also a 64-bit BAR, then the next BAR shouldn't be
+returned (since 64-bit BAR uses two BARs).
 
-On 09/07/20 at 09:47pm, Chen Zhou wrote:
-> To make the functions reserve_crashkernel[_low]() as generic,
-> replace some hard-coded numbers with macro CRASH_ADDR_LOW_MAX.
-> 
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> ---
->  arch/x86/kernel/setup.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index d7fd90c52dae..71a6a6e7ca5b 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -430,7 +430,7 @@ static int __init reserve_crashkernel_low(void)
->  	unsigned long total_low_mem;
->  	int ret;
->  
-> -	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
-> +	total_low_mem = memblock_mem_size(CRASH_ADDR_LOW_MAX >> PAGE_SHIFT);
+Make pci_epc_get_first_free_bar() take into account 64 bit BAR while
+returning the first free unreserved BAR.
 
-Just note that the replacement has been done in another patch from Mike
-Rapoport, partially. He seems to have done reserve_crashkernel_low()
-part, there's one left in reserve_crashkernel(), you might want to check
-that. 
+Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+---
+ drivers/pci/endpoint/pci-epc-core.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Mike's patch which is from a patchset has been merged into Andrew's next
-tree.
-
-commit 6e50f7672ffa362e9bd4bc0c0d2524ed872828c5
-Author: Mike Rapoport <rppt@linux.ibm.com>
-Date:   Wed Aug 26 15:22:32 2020 +1000
-
-    x86/setup: simplify reserve_crashkernel()
-
->  
->  	/* crashkernel=Y,low */
->  	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
-> @@ -451,7 +451,7 @@ static int __init reserve_crashkernel_low(void)
->  			return 0;
->  	}
->  
-> -	low_base = memblock_find_in_range(CRASH_ALIGN, 1ULL << 32, low_size, CRASH_ALIGN);
-> +	low_base = memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MAX, low_size, CRASH_ALIGN);
->  	if (!low_base) {
->  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
->  		       (unsigned long)(low_size >> 20));
-> @@ -504,8 +504,9 @@ static void __init reserve_crashkernel(void)
->  	if (!crash_base) {
->  		/*
->  		 * Set CRASH_ADDR_LOW_MAX upper bound for crash memory,
-> -		 * crashkernel=x,high reserves memory over 4G, also allocates
-> -		 * 256M extra low memory for DMA buffers and swiotlb.
-> +		 * crashkernel=x,high reserves memory over CRASH_ADDR_LOW_MAX,
-> +		 * also allocates 256M extra low memory for DMA buffers
-> +		 * and swiotlb.
->  		 * But the extra memory is not required for all machines.
->  		 * So try low memory first and fall back to high memory
->  		 * unless "crashkernel=size[KMG],high" is specified.
-> @@ -539,7 +540,7 @@ static void __init reserve_crashkernel(void)
->  		return;
->  	}
->  
-> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
-> +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
->  		memblock_free(crash_base, crash_size);
->  		return;
->  	}
-> -- 
-> 2.20.1
-> 
+diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+index cadd3db0cbb0..25e57672e1a1 100644
+--- a/drivers/pci/endpoint/pci-epc-core.c
++++ b/drivers/pci/endpoint/pci-epc-core.c
+@@ -93,12 +93,20 @@ EXPORT_SYMBOL_GPL(pci_epc_get);
+ unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
+ 					*epc_features)
+ {
+-	int free_bar;
++	unsigned long free_bar;
+ 
+ 	if (!epc_features)
+ 		return 0;
+ 
+-	free_bar = ffz(epc_features->reserved_bar);
++	/* Find if the reserved BAR is also a 64-bit BAR */
++	free_bar = epc_features->reserved_bar & epc_features->bar_fixed_64bit;
++
++	/* Set the adjacent bit if the reserved BAR is also a 64-bit BAR */
++	free_bar <<= 1;
++	free_bar |= epc_features->reserved_bar;
++
++	/* Now find the free BAR */
++	free_bar = ffz(free_bar);
+ 	if (free_bar > 5)
+ 		return 0;
+ 
+-- 
+2.17.1
 
