@@ -2,57 +2,205 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8D6C43463
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 17:19:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A7CC43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 18:06:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B69F21707
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 17:19:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B089208C3
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 18:06:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Q6LWG1Dn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726152AbgIRRTU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 13:19:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35334 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725955AbgIRRTU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Sep 2020 13:19:20 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 85D8921707;
-        Fri, 18 Sep 2020 17:19:19 +0000 (UTC)
-Date:   Fri, 18 Sep 2020 13:19:17 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Subject: Re: [PATCH v3 2/2] docs: trace: ring-buffer-design.rst: use the new
- SPDX tag
-Message-ID: <20200918131917.13d9f570@gandalf.local.home>
-In-Reply-To: <dbc9bd9ab30c6862e465343239e82102cbdc0f39.1599628249.git.mchehab+huawei@kernel.org>
-References: <cover.1599628249.git.mchehab+huawei@kernel.org>
-        <dbc9bd9ab30c6862e465343239e82102cbdc0f39.1599628249.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726139AbgIRSGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 14:06:15 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:53110 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbgIRSGO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 14:06:14 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08I6j2tE016905;
+        Fri, 18 Sep 2020 01:45:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1600411502;
+        bh=dKk/x6X8YcSroAHhU2W03tyG96wKptoi3eaPmsVsNj8=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=Q6LWG1Dneo4hByflKrG6WSwCOh1OonroDWn23sMtildO0zZINVgeFhDlo0l7zjIMp
+         XXWm2ZdfOc3GwoVY3cLOMy5CRhneH0/u+raguCCo+Y4ulZN8EA9FlCYPVleIB4NHkT
+         MrICBpEQHNiKMGoPpfmzVghghYvrhYDknELb0GdY=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08I6j2kx042726;
+        Fri, 18 Sep 2020 01:45:02 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 18
+ Sep 2020 01:45:02 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 18 Sep 2020 01:45:02 -0500
+Received: from a0393678-ssd.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08I6gUCV094595;
+        Fri, 18 Sep 2020 01:44:25 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
+Subject: [PATCH v5 11/17] PCI: cadence: Implement ->msi_map_irq() ops
+Date:   Fri, 18 Sep 2020 12:12:21 +0530
+Message-ID: <20200918064227.1463-12-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200918064227.1463-1-kishon@ti.com>
+References: <20200918064227.1463-1-kishon@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed,  9 Sep 2020 07:14:33 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Implement ->msi_map_irq() ops in order to map physical address to
+MSI address and return MSI data.
 
-> SPDX v3.10 gained support for GFDL-1.2 with no invariant sections:
-> 
-> 	https://spdx.org/licenses/GFDL-1.2-no-invariants-only.html
-> 
-> Let's use it, instead of keeping a license text for this file.
+Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+---
+ .../pci/controller/cadence/pcie-cadence-ep.c  | 50 +++++++++++++++++++
+ drivers/pci/endpoint/pci-epc-core.c           |  7 ++-
+ include/linux/pci-epc.h                       |  2 +-
+ 3 files changed, 54 insertions(+), 5 deletions(-)
 
-Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+diff --git a/drivers/pci/controller/cadence/pcie-cadence-ep.c b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+index 254a3e1eff50..b9aacd6ce816 100644
+--- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
++++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+@@ -383,6 +383,54 @@ static int cdns_pcie_ep_send_msi_irq(struct cdns_pcie_ep *ep, u8 fn,
+ 	return 0;
+ }
+ 
++static int cdns_pcie_ep_map_msi_irq(struct pci_epc *epc, u8 fn,
++				    phys_addr_t addr, u8 interrupt_num,
++				    u32 entry_size, u32 *msi_data)
++{
++	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
++	u32 cap = CDNS_PCIE_EP_FUNC_MSI_CAP_OFFSET;
++	struct cdns_pcie *pcie = &ep->pcie;
++	u16 flags, mme, data, data_mask;
++	u8 msi_count;
++	u64 pci_addr;
++	int ret;
++	int i;
++
++	/* Check whether the MSI feature has been enabled by the PCI host. */
++	flags = cdns_pcie_ep_fn_readw(pcie, fn, cap + PCI_MSI_FLAGS);
++	if (!(flags & PCI_MSI_FLAGS_ENABLE))
++		return -EINVAL;
++
++	/* Get the number of enabled MSIs */
++	mme = (flags & PCI_MSI_FLAGS_QSIZE) >> 4;
++	msi_count = 1 << mme;
++	if (!interrupt_num || interrupt_num > msi_count)
++		return -EINVAL;
++
++	/* Compute the data value to be written. */
++	data_mask = msi_count - 1;
++	data = cdns_pcie_ep_fn_readw(pcie, fn, cap + PCI_MSI_DATA_64);
++	data = data & ~data_mask;
++
++	/* Get the PCI address where to write the data into. */
++	pci_addr = cdns_pcie_ep_fn_readl(pcie, fn, cap + PCI_MSI_ADDRESS_HI);
++	pci_addr <<= 32;
++	pci_addr |= cdns_pcie_ep_fn_readl(pcie, fn, cap + PCI_MSI_ADDRESS_LO);
++	pci_addr &= GENMASK_ULL(63, 2);
++
++	for (i = 0; i < interrupt_num; i++) {
++		ret = cdns_pcie_ep_map_addr(epc, fn, addr, pci_addr,
++					    entry_size);
++		if (ret)
++			return ret;
++		addr = addr + entry_size;
++	}
++
++	*msi_data = data;
++
++	return 0;
++}
++
+ static int cdns_pcie_ep_send_msix_irq(struct cdns_pcie_ep *ep, u8 fn,
+ 				      u16 interrupt_num)
+ {
+@@ -482,6 +530,7 @@ static const struct pci_epc_features cdns_pcie_epc_features = {
+ 	.linkup_notifier = false,
+ 	.msi_capable = true,
+ 	.msix_capable = true,
++	.align = 256,
+ };
+ 
+ static const struct pci_epc_features*
+@@ -501,6 +550,7 @@ static const struct pci_epc_ops cdns_pcie_epc_ops = {
+ 	.set_msix	= cdns_pcie_ep_set_msix,
+ 	.get_msix	= cdns_pcie_ep_get_msix,
+ 	.raise_irq	= cdns_pcie_ep_raise_irq,
++	.map_msi_irq	= cdns_pcie_ep_map_msi_irq,
+ 	.start		= cdns_pcie_ep_start,
+ 	.get_features	= cdns_pcie_ep_get_features,
+ };
+diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+index 73f9ff425824..d1e25be74665 100644
+--- a/drivers/pci/endpoint/pci-epc-core.c
++++ b/drivers/pci/endpoint/pci-epc-core.c
+@@ -235,7 +235,6 @@ EXPORT_SYMBOL_GPL(pci_epc_raise_irq);
+  *                         MSI data
+  * @epc: the EPC device which has the MSI capability
+  * @func_no: the physical endpoint function number in the EPC device
+- * @vfunc_no: the virtual endpoint function number in the physical function
+  * @phys_addr: the physical address of the outbound region
+  * @interrupt_num: the MSI interrupt number
+  * @entry_size: Size of Outbound address region for each interrupt
+@@ -249,7 +248,7 @@ EXPORT_SYMBOL_GPL(pci_epc_raise_irq);
+  * physical address (in outbound region) of the other interface to ring
+  * doorbell.
+  */
+-int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
++int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no,
+ 			phys_addr_t phys_addr, u8 interrupt_num, u32 entry_size,
+ 			u32 *msi_data)
+ {
+@@ -262,8 +261,8 @@ int pci_epc_map_msi_irq(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 		return -EINVAL;
+ 
+ 	mutex_lock(&epc->lock);
+-	ret = epc->ops->map_msi_irq(epc, func_no, vfunc_no, phys_addr,
+-				    interrupt_num, entry_size, msi_data);
++	ret = epc->ops->map_msi_irq(epc, func_no, phys_addr, interrupt_num,
++				    entry_size, msi_data);
+ 	mutex_unlock(&epc->lock);
+ 
+ 	return ret;
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index 88284f3a0698..61f2cebcd272 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -78,7 +78,7 @@ struct pci_epc_ops {
+ 	int	(*get_msix)(struct pci_epc *epc, u8 func_no);
+ 	int	(*raise_irq)(struct pci_epc *epc, u8 func_no,
+ 			     enum pci_epc_irq_type type, u16 interrupt_num);
+-	int	(*map_msi_irq)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
++	int	(*map_msi_irq)(struct pci_epc *epc, u8 func_no,
+ 			       phys_addr_t phys_addr, u8 interrupt_num,
+ 			       u32 entry_size, u32 *msi_data);
+ 	int	(*start)(struct pci_epc *epc);
+-- 
+2.17.1
 
--- Steve
