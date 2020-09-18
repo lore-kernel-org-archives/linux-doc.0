@@ -2,189 +2,83 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C13C43464
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B24C43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 13:25:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D809A2311B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:59:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DFPRb7Y9"
+	by mail.kernel.org (Postfix) with ESMTP id 2A9ED207FF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 13:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600435545;
+	bh=G/e6nP7tB6JJ82T2l/UuOlCcHfU2ER69cUanXqbjBxg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=mGdF2p7+/4CV82piuuMBgmn7UYERLQXwNDnFpKZBElihYbRbOZ78hHaupXTG1uO/X
+	 NzJKdPTUKvCGKAlP5uUKYQKzsRCVXZn6sHkC9T///ZrzFHk/7YDNuZlQNLyydrMLXD
+	 LU8plVxk2g8nwT3YKlkp1Y23VrrdxUy0+zShicto=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726472AbgIRL72 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 07:59:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgIRL72 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 07:59:28 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69E7C06174A
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:59:27 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id x69so6666145oia.8
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p0D5X7Y+m7ttT/u5XV6+XFjpJPYZ+5nXOo1ENk9Sr6U=;
-        b=DFPRb7Y9Hq4pascynXFSCCYpr/a4bl7ggPfVH9GJKFUO/ayct1amaR3wsxiMtCJvQ/
-         uU9aqLvE4+HXrlO+1KmjR1ZdHm6nGOfYqOI56XcYbAoZM0igN3mx+nI9ZJpSYU8yrxJZ
-         u+AZWJMVJIFe/bRMVGVi0Hi19qqYnmeQhZrR086TXXE4MzJZ6mBTzqOZdkbZePSwHv+b
-         NlzY544p6SNnIG7ZfXxC5dhxyENzUj8syiofKsaVyI8Ug7qrh9/+qUTSkKFX7uk83X41
-         cbPJFBW/Aoc0uFVMTF8ywh5ITaTxh+WCeIudQ5uchSvzeztt8D1HgMc80XgPqZ1p6LoH
-         P58Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p0D5X7Y+m7ttT/u5XV6+XFjpJPYZ+5nXOo1ENk9Sr6U=;
-        b=rVzkWuXeH4g341Hv2s3gWdjYTsHgby+Hlw+MVWDYrWRR7hl7fQVrcpv+BFRgqhMouo
-         lUGqRbtaEY36HUxOGKpg5/ZWnrYpCHUPuwUNRhxQPWltyRohZUKvamZvxrExNVxYkab1
-         GAlwi3fno8wbHYrhiuPqcxupvnHWLvS4/nCWLrrYpGTYdHL3SLr55KzRXfx1FMOwhvpE
-         GbAckrAzcMESKA5O8Naadyr2olaJqbFAL0zFkbaT5nzdQyLN5D1bZp9sjQ50XSYKob48
-         FknIdxcUP2eyK0YbX6KNN0fMUzLOYbDx91Zg7QXWPioBJHPuerXYjLC+98/N7LzJQ2so
-         minA==
-X-Gm-Message-State: AOAM530YsVoccDXrmpnZXT0JTxHmRoO2aYhxI2sEsKaSaR6wm5uUKb82
-        bnx9mB2GqOaOdW865FMnI7bSTKtf5tRbcM/2VykY9Q==
-X-Google-Smtp-Source: ABdhPJx1YWIbj0a3kj+XHGq4l0nWGyQu8DX2tequbx+9ACWXzIIk8edPn+mRXVtmJXtgCrXRQzALviAeMqM1jJ7KNJc=
-X-Received: by 2002:aca:5158:: with SMTP id f85mr9503239oib.121.1600430367017;
- Fri, 18 Sep 2020 04:59:27 -0700 (PDT)
+        id S1726917AbgIRNZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 09:25:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56158 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726759AbgIRNZh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Sep 2020 09:25:37 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 33A512078D;
+        Fri, 18 Sep 2020 13:25:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600435536;
+        bh=G/e6nP7tB6JJ82T2l/UuOlCcHfU2ER69cUanXqbjBxg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HW6HKqFGe7Z5pCz/n5ZkbXUtRvTv007S/C8TwIQO71BqAcIyQ3HI/hkiY22ytTEYK
+         5Dgwr7at7I7AKw6qJN61hf05N6sZusKncE8FchIzLC8dEX1jaY3Sn0EkflGotjdxNA
+         nV2845SvAVNG9d2b9LuaCDSEIA0bWRalVtgBfQTs=
+Date:   Fri, 18 Sep 2020 14:25:31 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Bailu Lin <bailu.lin@vivo.com>
+Cc:     catalin.marinas@arm.com, corbet@lwn.net, harryxiyou@gmail.com,
+        alex.shi@linux.alibaba.com, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@vivo.com
+Subject: Re: [PATCH v3] doc: zh_CN: index files in arm64 subdirectory
+Message-ID: <20200918132530.GA31232@willie-the-truck>
+References: <20200916130714.42438-1-bailu.lin@vivo.com>
+ <20200918081126.20765-1-bailu.lin@vivo.com>
 MIME-Version: 1.0
-References: <20200915132046.3332537-1-elver@google.com> <115e74b249417340b5c411f286768dbdb916fd12.camel@redhat.com>
-In-Reply-To: <115e74b249417340b5c411f286768dbdb916fd12.camel@redhat.com>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 18 Sep 2020 13:59:15 +0200
-Message-ID: <CANpmjNMkjuW_qU+G77UUzgqGx+e2RswfhYuWTFMq2da2NwqSdA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] KFENCE: A low-overhead sampling-based memory
- safety error detector
-To:     Qian Cai <cai@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200918081126.20765-1-bailu.lin@vivo.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Sep 2020 at 13:17, Qian Cai <cai@redhat.com> wrote:
->
-> On Tue, 2020-09-15 at 15:20 +0200, Marco Elver wrote:
-> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> > low-overhead sampling-based memory safety error detector of heap
-> > use-after-free, invalid-free, and out-of-bounds access errors.  This
-> > series enables KFENCE for the x86 and arm64 architectures, and adds
-> > KFENCE hooks to the SLAB and SLUB allocators.
-> >
-> > KFENCE is designed to be enabled in production kernels, and has near
-> > zero performance overhead. Compared to KASAN, KFENCE trades performance
-> > for precision. The main motivation behind KFENCE's design, is that with
-> > enough total uptime KFENCE will detect bugs in code paths not typically
-> > exercised by non-production test workloads. One way to quickly achieve a
-> > large enough total uptime is when the tool is deployed across a large
-> > fleet of machines.
-> >
-> > KFENCE objects each reside on a dedicated page, at either the left or
-> > right page boundaries. The pages to the left and right of the object
-> > page are "guard pages", whose attributes are changed to a protected
-> > state, and cause page faults on any attempted access to them. Such page
-> > faults are then intercepted by KFENCE, which handles the fault
-> > gracefully by reporting a memory access error.
-> >
-> > Guarded allocations are set up based on a sample interval (can be set
-> > via kfence.sample_interval). After expiration of the sample interval,
-> > the next allocation through the main allocator (SLAB or SLUB) returns a
-> > guarded allocation from the KFENCE object pool. At this point, the timer
-> > is reset, and the next allocation is set up after the expiration of the
-> > interval.
-> >
-> > To enable/disable a KFENCE allocation through the main allocator's
-> > fast-path without overhead, KFENCE relies on static branches via the
-> > static keys infrastructure. The static branch is toggled to redirect the
-> > allocation to KFENCE.
-> >
-> > The KFENCE memory pool is of fixed size, and if the pool is exhausted no
-> > further KFENCE allocations occur. The default config is conservative
-> > with only 255 objects, resulting in a pool size of 2 MiB (with 4 KiB
-> > pages).
-> >
-> > We have verified by running synthetic benchmarks (sysbench I/O,
-> > hackbench) that a kernel with KFENCE is performance-neutral compared to
-> > a non-KFENCE baseline kernel.
-> >
-> > KFENCE is inspired by GWP-ASan [1], a userspace tool with similar
-> > properties. The name "KFENCE" is a homage to the Electric Fence Malloc
-> > Debugger [2].
-> >
-> > For more details, see Documentation/dev-tools/kfence.rst added in the
-> > series -- also viewable here:
->
-> Does anybody else grow tried of all those different *imperfect* versions of in-
-> kernel memory safety error detectors? KASAN-generic, KFENCE, KASAN-tag-based
-> etc. Then, we have old things like page_poison, SLUB debugging, debug_pagealloc
-> etc which are pretty much inefficient to detect bugs those days compared to
-> KASAN. Can't we work towards having a single implementation and clean up all
-> those mess?
+On Fri, Sep 18, 2020 at 01:11:26AM -0700, Bailu Lin wrote:
+> Add arm64 subdirectory into the table of Contents for zh_CN,
+> then add other translations in arm64 conveniently.
+> 
+> Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+> ---
+> Changes in v3:
+>  - Correct email encoding format.
+> Changes in v2:
+>  - Fix patch description.
+> ---
+>  Documentation/arm64/index.rst                    |  4 ++++
+>  Documentation/translations/zh_CN/arm64/index.rst | 16 ++++++++++++++++
+>  Documentation/translations/zh_CN/index.rst       |  1 +
+>  3 files changed, 21 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/arm64/index.rst
 
-If you have suggestions on how to get a zero-overhead, precise
-("perfect") memory safety error detector without new hardware
-extensions, we're open to suggestions -- many people over many years
-have researched this problems, and while we're making progress for C
-(and C++), the fact remains that what you're asking is likely
-impossible. This might be useful background:
-https://arxiv.org/pdf/1802.09517.pdf
+Acked-by: Will Deacon <will@kernel.org>
 
-The fact remains that requirements and environments vary across
-applications and usecases. Maybe for one usecase (debugging, test env)
-normal KASAN is just fine. But that doesn't work for production, where
-we want to have max performance.
+I'm assuming Jon will pick this one up.
 
-MTE will get us closer (no silicon yet, and ARM64 only for now), but
-depending on implementation might come with small overheads, although
-quite acceptable for most environments with increasing processing
-power modern CPUs deliver.
+Cheers,
 
-Yet for other environments, where even a small performance regression
-is unacceptable, and where it's infeasible to capture in tests what
-the workloads execute, KFENCE is a very attractive option.
-
-There have also been discussions on using Rust in the kernel [1], but
-this is just not feasible for core kernel code in the near future
-(even then, you'll still need dynamic error detection tools for all
-the unsafe bits, of which there are many in an OS kernel).
-[1] https://lwn.net/Articles/829858/
-
-Thanks,
--- Marco
+Will
