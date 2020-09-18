@@ -2,265 +2,231 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B96C43465
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 18:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F49C43463
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 19:22:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28E2B22211
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 18:06:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="mVxwBxqw"
+	by mail.kernel.org (Postfix) with ESMTP id 4EB1C221EC
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 19:22:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726168AbgIRSGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 14:06:15 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:53110 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbgIRSGP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 14:06:15 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08I6jdH5017057;
-        Fri, 18 Sep 2020 01:45:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600411539;
-        bh=4Fz6/znawPVT5Re4ej/ysxXwiAWhNVKJ7aypY2BXCzQ=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=mVxwBxqwGtRZgIAHkivTPqF/U/ubKRhnIOMmhlolmOzQnoFUQGlVGAV+8QgUcZD2M
-         obN11TQc/sd9OXrkADV9LKobO/HDEeoFi8GjRhkWPSD8aOSacp1r6+TXNCxBhIfHks
-         XK0L++DEqTmHC8uVZgVjmbbQTHXkks04P/MZ2L1o=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08I6jdkk126815
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 18 Sep 2020 01:45:39 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 18
- Sep 2020 01:45:38 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 18 Sep 2020 01:45:38 -0500
-Received: from a0393678-ssd.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08I6gUCb094595;
-        Fri, 18 Sep 2020 01:45:33 -0500
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
+        id S1726236AbgIRTWR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 15:22:17 -0400
+Received: from mga18.intel.com ([134.134.136.126]:41776 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726115AbgIRTWR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Sep 2020 15:22:17 -0400
+IronPort-SDR: WwZc1mBOOCFNuPpvE9XwdRjii4i1+j4rBUrPKMlFnVDUyhdvSH8wWVnb37GiHCGddh6E8rQ/PL
+ FDkhHDsYvYVw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="147766214"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
+   d="scan'208";a="147766214"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 12:22:11 -0700
+IronPort-SDR: 1rH8l5SCWRlV1dSFgdfTofNhF/eGeqTZH5FlipxyW8mZq1UnbwJGtBA5uiGZD1S6KIbSSeJ+qK
+ 8YOm81peAsQA==
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
+   d="scan'208";a="484331792"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 12:22:10 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
-Subject: [PATCH v5 17/17] Documentation: PCI: Add userguide for PCI endpoint NTB function
-Date:   Fri, 18 Sep 2020 12:12:27 +0530
-Message-ID: <20200918064227.1463-18-kishon@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200918064227.1463-1-kishon@ti.com>
-References: <20200918064227.1463-1-kishon@ti.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v12 00/26] Control-flow Enforcement: Shadow Stack
+Date:   Fri, 18 Sep 2020 12:20:58 -0700
+Message-Id: <20200918192125.25473-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation to help users use pci-epf-ntb function driver and
-existing host side NTB infrastructure for NTB functionality.
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
----
- Documentation/PCI/endpoint/index.rst         |   1 +
- Documentation/PCI/endpoint/pci-ntb-howto.rst | 160 +++++++++++++++++++
- 2 files changed, 161 insertions(+)
- create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and has three parts:
 
-diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
-index 9cb6e5f3c4d5..38ea1f604b6d 100644
---- a/Documentation/PCI/endpoint/index.rst
-+++ b/Documentation/PCI/endpoint/index.rst
-@@ -12,6 +12,7 @@ PCI Endpoint Framework
-    pci-test-function
-    pci-test-howto
-    pci-ntb-function
-+   pci-ntb-howto
- 
-    function/binding/pci-test
-    function/binding/pci-ntb
-diff --git a/Documentation/PCI/endpoint/pci-ntb-howto.rst b/Documentation/PCI/endpoint/pci-ntb-howto.rst
-new file mode 100644
-index 000000000000..b6e1073c9a39
---- /dev/null
-+++ b/Documentation/PCI/endpoint/pci-ntb-howto.rst
-@@ -0,0 +1,160 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================================================
-+PCI Non-Transparent Bridge (NTB) Endpoint Function (EPF) User Guide
-+===================================================================
-+
-+:Author: Kishon Vijay Abraham I <kishon@ti.com>
-+
-+This document is a guide to help users use pci-epf-ntb function driver
-+and ntb_hw_epf host driver for NTB functionality. The list of steps to
-+be followed in the host side and EP side is given below. For the hardware
-+configuration and internals of NTB using configurable endpoints see
-+Documentation/PCI/endpoint/pci-ntb-function.rst
-+
-+Endpoint Device
-+===============
-+
-+Endpoint Controller Devices
-+---------------------------
-+
-+For implementing NTB functionality at least two endpoint controller devices
-+are required.
-+To find the list of endpoint controller devices in the system::
-+
-+        # ls /sys/class/pci_epc/
-+          2900000.pcie-ep  2910000.pcie-ep
-+
-+If PCI_ENDPOINT_CONFIGFS is enabled::
-+
-+	# ls /sys/kernel/config/pci_ep/controllers
-+	  2900000.pcie-ep  2910000.pcie-ep
-+
-+
-+Endpoint Function Drivers
-+-------------------------
-+
-+To find the list of endpoint function drivers in the system::
-+
-+	# ls /sys/bus/pci-epf/drivers
-+	  pci_epf_ntb   pci_epf_ntb
-+
-+If PCI_ENDPOINT_CONFIGFS is enabled::
-+
-+	# ls /sys/kernel/config/pci_ep/functions
-+	  pci_epf_ntb   pci_epf_ntb
-+
-+
-+Creating pci-epf-ntb Device
-+----------------------------
-+
-+PCI endpoint function device can be created using the configfs. To create
-+pci-epf-ntb device, the following commands can be used::
-+
-+	# mount -t configfs none /sys/kernel/config
-+	# cd /sys/kernel/config/pci_ep/
-+	# mkdir functions/pci_epf_ntb/func1
-+
-+The "mkdir func1" above creates the pci-epf-ntb function device that will
-+be probed by pci_epf_ntb driver.
-+
-+The PCI endpoint framework populates the directory with the following
-+configurable fields::
-+
-+	# ls functions/pci_epf_ntb/func1
-+          baseclass_code    deviceid          msi_interrupts    pci-epf-ntb.0
-+          progif_code       secondary         subsys_id         vendorid
-+          cache_line_size   interrupt_pin     msix_interrupts   primary
-+          revid             subclass_code     subsys_vendor_id
-+
-+The PCI endpoint function driver populates these entries with default values
-+when the device is bound to the driver. The pci-epf-ntb driver populates
-+vendorid with 0xffff and interrupt_pin with 0x0001::
-+
-+	# cat functions/pci_epf_ntb/func1/vendorid
-+	  0xffff
-+	# cat functions/pci_epf_ntb/func1/interrupt_pin
-+	  0x0001
-+
-+
-+Configuring pci-epf-ntb Device
-+-------------------------------
-+
-+The user can configure the pci-epf-ntb device using its configfs entry. In order
-+to change the vendorid and the deviceid, the following
-+commands can be used::
-+
-+	# echo 0x104c > functions/pci_epf_ntb/func1/vendorid
-+	# echo 0xb00d > functions/pci_epf_ntb/func1/deviceid
-+
-+In order to configure NTB specific attributes, a new sub-directory to func1
-+should be created::
-+
-+	# mkdir functions/pci_epf_ntb/func1/pci_epf_ntb.0/
-+
-+The NTB function driver will populate this directory with various attributes
-+that can be configured by the user::
-+
-+	# ls functions/pci_epf_ntb/func1/pci_epf_ntb.0/
-+          db_count    mw1         mw2         mw3         mw4         num_mws
-+          spad_count
-+
-+A sample configuration for NTB function is given below::
-+
-+	# echo 4 > functions/pci_epf_ntb/func1/pci_epf_ntb.0/db_count
-+	# echo 128 > functions/pci_epf_ntb/func1/pci_epf_ntb.0/spad_count
-+	# echo 2 > functions/pci_epf_ntb/func1/pci_epf_ntb.0/num_mws
-+	# echo 0x100000 > functions/pci_epf_ntb/func1/pci_epf_ntb.0/mw1
-+	# echo 0x100000 > functions/pci_epf_ntb/func1/pci_epf_ntb.0/mw2
-+
-+Binding pci-epf-ntb Device to EP Controller
-+--------------------------------------------
-+
-+NTB function device should be attached to two PCIe endpoint controllers
-+connected to the two hosts. Use the 'primary' and 'secondary' entries
-+inside NTB function device to attach one PCIe endpoint controller to
-+primary interface and the other PCIe endpoint controller to the secondary
-+interface. ::
-+
-+        # ln -s controllers/2900000.pcie-ep/ functions/pci-epf-ntb/func1/primary
-+        # ln -s controllers/2910000.pcie-ep/ functions/pci-epf-ntb/func1/secondary
-+
-+Once the above step is completed, both the PCI endpoint controllers are ready to
-+establish a link with the host.
-+
-+
-+Start the Link
-+--------------
-+
-+In order for the endpoint device to establish a link with the host, the _start_
-+field should be populated with '1'. For NTB, both the PCIe endpoint controllers
-+should establish link with the host::
-+
-+        #echo 1 > controllers/2900000.pcie-ep/start
-+        #echo 1 > controllers/2910000.pcie-ep/start
-+
-+
-+RootComplex Device
-+==================
-+
-+lspci Output
-+------------
-+
-+Note that the devices listed here correspond to the values populated in
-+"Creating pci-epf-ntb Device" section above::
-+
-+        # lspci
-+        0000:00:00.0 PCI bridge: Texas Instruments Device b00d
-+        0000:01:00.0 RAM memory: Texas Instruments Device b00d
-+
-+
-+Using ntb_hw_epf Device
-+-----------------------
-+
-+The host side software follows the standard NTB software architecture in Linux.
-+All the existing client side NTB utilities like NTB Transport Client and NTB
-+Netdev, NTB Ping Pong Test Client and NTB Tool Test Client can be used with NTB
-+function device.
-+
-+For more information on NTB see
-+:doc:`Non-Transparent Bridge <../../driver-api/ntb>`
+  - Shadow stack [2],
+  - Indirect branch tracking [3], and
+  - Selftests [4].
+
+I have run tests on these patches for quite some time, and they have been
+very stable.  Linux distributions with CET are available now, and Intel
+processors with CET are becoming available.  It would be nice if CET
+support can be accepted into the kernel.  I will be working to address any
+issues should they come up.
+
+Changes in v12:
+
+- Introduce x86-specific PROT_SHSTK for mprotect/mmap to replace the shadow
+  stack allocation arch_prctl().
+
+- Split shadow stack disabling and freeing into two functions.  This is
+  because in the exit syscall, there is no need to disable shadow stack.
+
+- The kernel ptrace patch is tested with an Intel-internal updated GDB.
+  I am holding the kernel ptrace patch off to re-test it with my earlier
+  patch for fixing regset holes.
+
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+
+[2] CET Shadow Stack patches v11:
+
+    https://lkml.kernel.org/r/20200825002540.3351-1-yu-cheng.yu@intel.com/
+
+[3] Indirect Branch Tracking patches v11.
+
+    https://lkml.kernel.org/r/20200825002645.3658-1-yu-cheng.yu@intel.com/
+
+[4] I am holding off the selftests changes and working to get Acked-by's.
+    The earlier version of the selftests patches:
+
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
+
+Yu-cheng Yu (26):
+  Documentation/x86: Add CET description
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/fpu/xstate: Introduce CET MSR XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/cet/shstk: Add Kconfig option for user-mode Shadow Stack
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Remove _PAGE_DIRTY_HW from kernel RO pages
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY_HW to _PAGE_COW
+  mm: Introduce VM_SHSTK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm: Re-introduce do_mmap_pgoff()
+  x86/cet/shstk: User-mode shadow stack support
+  x86/cet/shstk: Handle signals for shadow stack
+  binfmt_elf: Define GNU_PROPERTY_X86_FEATURE_1_AND properties
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Introduce PROT_SHSTK for shadow stack
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 133 +++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/x86/Kconfig                              |  36 ++
+ arch/x86/ia32/ia32_signal.c                   |  17 +
+ arch/x86/include/asm/cet.h                    |  42 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  13 +
+ arch/x86/include/asm/fpu/internal.h           |  10 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   5 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  81 +++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  20 +
+ arch/x86/include/asm/pgtable.h                | 209 ++++++++++-
+ arch/x86/include/asm/pgtable_types.h          |  58 ++-
+ arch/x86/include/asm/processor.h              |  15 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/traps.h                  |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |   9 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet.c                         | 343 ++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  68 ++++
+ arch/x86/kernel/cpu/common.c                  |  28 ++
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/signal.c                  | 100 +++++
+ arch/x86/kernel/fpu/xstate.c                  |  28 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  14 +-
+ arch/x86/kernel/process_64.c                  |  32 ++
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  10 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  59 +++
+ arch/x86/kvm/vmx/vmx.c                        |   2 +-
+ arch/x86/mm/fault.c                           |  19 +
+ arch/x86/mm/mmap.c                            |   2 +
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   6 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/hugetlbfs/inode.c                          |   2 +-
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/fs.h                            |   2 +-
+ include/linux/mm.h                            |  46 ++-
+ include/linux/mman.h                          |   8 +
+ include/linux/pgtable.h                       |  35 ++
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |   9 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  10 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  29 +-
+ mm/mprotect.c                                 |   6 +-
+ mm/nommu.c                                    |   6 +-
+ mm/shmem.c                                    |   2 +-
+ mm/util.c                                     |   4 +-
+ scripts/as-x86_64-has-shadow-stack.sh         |   4 +
+ tools/arch/x86/include/asm/cpufeatures.h      |   2 +
+ .../arch/x86/include/asm/disabled-features.h  |   8 +-
+ tools/arch/x86/include/asm/msr-index.h        |  20 +
+ tools/arch/x86/include/uapi/asm/prctl.h       |   4 +
+ 72 files changed, 1649 insertions(+), 102 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100755 scripts/as-x86_64-has-shadow-stack.sh
+
 -- 
-2.17.1
+2.21.0
 
