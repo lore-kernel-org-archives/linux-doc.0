@@ -2,84 +2,104 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C613C43464
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 05:09:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11A1AC43463
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 05:27:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC11821D20
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 05:09:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE99121D7F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 05:27:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TThGQDFJ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OBR8QHs0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726383AbgIRFJZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 01:09:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbgIRFJZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 01:09:25 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A773C06174A;
-        Thu, 17 Sep 2020 22:09:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=HLnh6iIbj00ze0CKUC639F6G3ECBVRfFGlYq7QMKuHE=; b=TThGQDFJWhzjXo2wJWwNttrw4S
-        IwZWjyPvlXz8W+XCgkp+vyTwB8GMdIo94tFBzFfwtKQT95T9bni85Go/ht/skyUocZ0pl3wXH2egD
-        v+F0Ol+8vElRwqWsTa4Yis1hnkoy5cdmivAe3xqykMq3fYLg+Dc1WZiUL7vR3733pZEu/tEqJlR8v
-        QKE5e6hZK1APz0L458SAUgk4L0V239N76SIoguqhXF279eLqnUyYQ7ySNRaLity7cLwSlvLZS+aAf
-        hVAAXnAGxB13TfyL2VI4tn9Ktu53K0T8gYtr1F2AQOspGW3lAzSxwLOGffglmaxu6jqy4WDQl9GSB
-        HRubsZog==;
-Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kJ8eA-0004xv-DB; Fri, 18 Sep 2020 05:09:22 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: admin-guide: reformat "lapic=" boot option
-Date:   Thu, 17 Sep 2020 22:09:18 -0700
-Message-Id: <20200918050918.518-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S1726462AbgIRF1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 01:27:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43457 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726461AbgIRF1W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 01:27:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600406841;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=x/q3gUore7zMYpWMNytQTNB0y+piFCSTZflyi2KzLVc=;
+        b=OBR8QHs0O4UY3V7rgRk+0X/fSY7O19bkstLVAfOu2rhEbzIuxhxMUMwSp0TBuBd/enNiSK
+        nEA2SBU4HYaJa7Vt2x98fbPU0jSHzvy3ZDdIGLIuYrwF/oo+dr0St0gGbEdnvUzdFKoTIh
+        WhFQhMxgOcVK/7JGnAmvwV/f/Txpdgc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-pRgiR_Y6MHShvn_qENIzvA-1; Fri, 18 Sep 2020 01:27:17 -0400
+X-MC-Unique: pRgiR_Y6MHShvn_qENIzvA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63BC6801AAB;
+        Fri, 18 Sep 2020 05:27:14 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-13-81.pek2.redhat.com [10.72.13.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 00D125576E;
+        Fri, 18 Sep 2020 05:27:00 +0000 (UTC)
+Date:   Fri, 18 Sep 2020 13:26:57 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     chenzhou <chenzhou10@huawei.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
+        tglx@linutronix.de, mingo@redhat.com, bhe@redhat.com,
+        corbet@lwn.net, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
+        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com
+Subject: Re: [PATCH v12 3/9] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel[_low]()
+Message-ID: <20200918052657.GA35322@dhcp-128-65.nay.redhat.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <20200907134745.25732-4-chenzhou10@huawei.com>
+ <20200918030112.GA3356@dhcp-128-65.nay.redhat.com>
+ <d4296985-7296-b5c9-45f3-b03d28bc7bd8@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4296985-7296-b5c9-45f3-b03d28bc7bd8@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reformat "lapic=" to try to make it more understandable and similar
-to the style that is mostly used in this file.
+On 09/18/20 at 11:57am, chenzhou wrote:
+> Hi Dave,
+> 
+> 
+> On 2020/9/18 11:01, Dave Young wrote:
+> > On 09/07/20 at 09:47pm, Chen Zhou wrote:
+> >> To make the functions reserve_crashkernel[_low]() as generic,
+> >> replace some hard-coded numbers with macro CRASH_ADDR_LOW_MAX.
+> >>
+> >> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> >> ---
+> >>  arch/x86/kernel/setup.c | 11 ++++++-----
+> >>  1 file changed, 6 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> >> index d7fd90c52dae..71a6a6e7ca5b 100644
+> >> --- a/arch/x86/kernel/setup.c
+> >> +++ b/arch/x86/kernel/setup.c
+> >> @@ -430,7 +430,7 @@ static int __init reserve_crashkernel_low(void)
+> >>  	unsigned long total_low_mem;
+> >>  	int ret;
+> >>  
+> >> -	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+> >> +	total_low_mem = memblock_mem_size(CRASH_ADDR_LOW_MAX >> PAGE_SHIFT);
+> > total_low_mem != CRASH_ADDR_LOW_MAX
+> I just replace the magic number with macro, no other change.
+> Besides, function memblock_mem_size(limit_pfn) will compute the memory size
+> according to the actual system ram.
+> 
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ok, it is not obvious in patch this is 64bit only, I'm fine with this
+then.
 
---- linux-next-20200917.orig/Documentation/admin-guide/kernel-parameters.txt
-+++ linux-next-20200917/Documentation/admin-guide/kernel-parameters.txt
-@@ -2384,9 +2384,10 @@
- 	lapic		[X86-32,APIC] Enable the local APIC even if BIOS
- 			disabled it.
- 
--	lapic=		[X86,APIC] "notscdeadline" Do not use TSC deadline
-+	lapic=		[X86,APIC] Do not use TSC deadline
- 			value for LAPIC timer one-shot implementation. Default
- 			back to the programmable timer unit in the LAPIC.
-+			Format: notscdeadline
- 
- 	lapic_timer_c2_ok	[X86,APIC] trust the local apic timer
- 			in C2 power state.
