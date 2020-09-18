@@ -2,185 +2,89 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F76C43466
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 16:09:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB568C43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 16:15:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96C27206A4
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 16:09:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FC6723788
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 16:15:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="QYYCOA96"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rcxE1zOO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbgIRQJp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 12:09:45 -0400
-Received: from mout.gmx.net ([212.227.15.18]:51409 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725955AbgIRQJp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Sep 2020 12:09:45 -0400
-X-Greylist: delayed 363 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Sep 2020 12:09:43 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1600445371;
-        bh=vBPwxcUdsi4o0aVug2jOVM/F/yFtmhBYDt7JUWcG0A0=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=QYYCOA96Hb8dmKyW0MnlJhl1ng2ubV5U7gKVtqQU9jwpOIvLm0AvMj/RpuBjy9CE7
-         RvYm2gOMOha2eDkunwYCYxIY7kJ2MGfTNOhEWGLa5jVA34bLpFXLs62b2EyZTCfhig
-         NZgMFNTnq9+CCcRKejGU5RN+RKEPqooV3y5mZV8M=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1N2mBa-1kT1jV0BRs-0133RJ; Fri, 18
- Sep 2020 18:02:21 +0200
-Date:   Fri, 18 Sep 2020 18:02:16 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     kernel-hardening@lists.openwall.com, Jann Horn <jannh@google.com>,
-        John Wood <john.wood@gmx.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        id S1726311AbgIRQPg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 12:15:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44058 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726269AbgIRQPO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 12:15:14 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483E4C0613CE;
+        Fri, 18 Sep 2020 09:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=67/LJuN1v7jqK9yEQqm5kjJLGJHidKzcy2YeicH9l8s=; b=rcxE1zOOSWuj1E7aHS2iL7rEb+
+        wfImjsWXEMzQKI2KN7AOpMpdBc2QYOJa2uKsNX5xNgUXFPUfG+TiuBpMRpL7zpQoHlhfvnMcgjyrX
+        74Tpj6LjKm4ZwnbLfA2dHQ7cunchcCZNEXjHhwbhuFWFIPvXQFtK5D2QaFnbuE5yHaEtKP+RSFtKA
+        X1dSUmaFQMt/9+NJtgfAcXu/As3aq1nlKgZG4wSowu006Rc9qHSSkSsv7YOE+Or4csW92/0yc265s
+        5H4ynYMicjg+KKyYnKIUUxKvCThsrsdTkWadTt4rzBaeOJy3xWX0+pOWRRkM2fYcCfCb91+5cAYCJ
+        l8Zy+Xtg==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kJJ2R-0005Gj-Nl; Fri, 18 Sep 2020 16:15:07 +0000
+Subject: Re: [PATCH v5 14/17] NTB: Add support for EPF PCI-Express
+ Non-Transparent Bridge
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH 6/6] security/fbfam: Mitigate a fork brute force
- attack
-Message-ID: <20200918152116.GB3229@ubuntu>
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <20200910202107.3799376-7-keescook@chromium.org>
- <202009101649.2A0BF95@keescook>
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ntb@googlegroups.com
+References: <20200918064227.1463-1-kishon@ti.com>
+ <20200918064227.1463-15-kishon@ti.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <93b651aa-23e5-9249-6b22-fef65806b007@infradead.org>
+Date:   Fri, 18 Sep 2020 09:15:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202009101649.2A0BF95@keescook>
-X-Provags-ID: V03:K1:2SvK/7q6kc93vKtX72+ajY6DtC4s5Tf67gk8f8WTvUKUt0yy6yS
- bWPSrhLmQB7npp3vXdL/TyLUT9kQbwwrrZfRfnDRwSp+8qRRcA+fXHTMVkdm4AmR03DhlcT
- QqX38Q1njL5cy0I9fCNox//miQdNddfYUM3rnCM2NyzFLf1BfPTFPt56NIeVLPusWXCyQcR
- 7R9iAboHfzD7xqTK+F1eQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TRqadyr8Bl0=:4GUSPI1Efe+8VovoQvq+Wd
- OP2aUleEEzyxVcVICaY34EPS7gs70rOpuUS5EJrdgG6Y01uSkw9c8ATNQgCst2sSXFMv7zEGv
- GRDUV/o0aAUxKQqfrZ/pUvQW7LKhlXZSlErW2BF5FYWfgODaXvBgtb6VAzOQHlFxyBCGQL07/
- nBHX9Jv65GaLb8BQtiR8tuVsxIdvceVpneMzeeMkGwU1FamG3udzpvfJBxijPYi2ri/t3yqfY
- ZyzOP8mDd0nCjqZL51+Q1Rbz3GRKXtchGtby/Lsvdb/Xx4AVWUz+dQnOpFXf5mqucgZXcgQn6
- uIM2KotJzLcX5xur8lz2MjPzEK6FcHT96kEyj97K91qf84/GkflVcEc1kmpUjzlqyP4vHND8b
- THEyLMRfn/zv2wC++0kG2V0t/a0dLVaOBYpM1pxGBWIvOu09fETeFMGh+iDkex1LFa1kewb/b
- 0sU3hollA7bNidhvaxGrglqED9on9TZhCcxdlLNMUYGLtQDBiRExqXHutId+bTBXiZJ7dh+xE
- R3QVc2zO10D4uqeCuFO9a0R8F+3sGUCK91Te/IRNh9XwCV4dqTrhV5NcTeV5g/v7p/Sxva8tB
- mh638Q842sN+UYXdJtcKq1N/74rRJxui7jTTy33oLkH4C3c3Srv0K0Kn8inPwYPfxfUClQhCX
- F/8LUdByAONHna7UU1P3c3YkUvGtaKUz+HC3KS4qTSImGgLRmwTO5k7deJc4+jfyC4wq7JVQ9
- be1r5B+TS+ErQyOczpg7UMGr7YZYGPuKUb8KzsUAvQMQHTdkr5zgQGwWYQ053I82R/e0i6uSW
- Z/6h7AVrjfKe1uuuc4w7eFEVUvgRZnpOdTX54MhtTuEpsoMjjiacTUeFmCwX7rHOhu3ylkBHx
- xCJ8laDqlkt1ZoTkzGyQbV5LE3ipeYH9or3C46h9QR+cdar19jXfysYeVhg7WKEFBu0exGHFa
- tNxWdnkqaMT1q53XPvEaV4j4NaUTz98VNGp6ZS+om1pfZr21gdS6n1faDm1J2ICW2WPIns5+f
- w6tJOUQKBRfH2mFSsysJF/1c8pYEugMS4ZHA+gqrkOkm+Nv4ac6c3SsJp4sc7oigH5krHbbQQ
- mCbg9LG1uJN2kjsP69GEnDeuo7B/EDI8uU4ekfva8IUMmq1pPMqPUasqMYJJKktGPkFPYslKJ
- 2HhriJTaYx5FiXIPSvkLS88g95ZLpP6eVMvUbshMhNGFSFLYbjitcUsUXq3rn0IzhM57znXse
- 70oQjtLbmjqnQ+4rG3ByYSnWc6mP9KSgENGc9CA==
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200918064227.1463-15-kishon@ti.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 04:56:19PM -0700, Kees Cook wrote:
-> On Thu, Sep 10, 2020 at 01:21:07PM -0700, Kees Cook wrote:
-> >  /**
-> > + * fbfam_kill_tasks() - Kill the offending tasks
-> > + *
-> > + * When a fork brute force attack is detected it is necessary to kill=
- all the
-> > + * offending tasks. Since this function is called from fbfam_handle_a=
-ttack(),
-> > + * and so, every time a core dump is triggered, only is needed to kil=
-l the
-> > + * others tasks that share the same statistical data, not the current=
- one as
-> > + * this is in the path to be killed.
-> > + *
-> > + * When the SIGKILL signal is sent to the offending tasks, this funct=
-ion will be
-> > + * called again during the core dump due to the shared statistical da=
-ta shows a
-> > + * quickly crashing rate. So, to avoid kill again the same tasks due =
-to a
-> > + * recursive call of this function, it is necessary to disable the at=
-tack
-> > + * detection setting the jiffies to zero.
-> > + *
-> > + * To improve the for_each_process loop it is possible to end it when=
- all the
-> > + * tasks that shared the same statistics are found.
-> > + *
-> > + * Return: -EFAULT if the current task doesn't have statistical data.=
- Zero
-> > + *         otherwise.
-> > + */
-> > +static int fbfam_kill_tasks(void)
-> > +{
-> > +	struct fbfam_stats *stats =3D current->fbfam_stats;
-> > +	struct task_struct *p;
-> > +	unsigned int to_kill, killed =3D 0;
-> > +
-> > +	if (!stats)
-> > +		return -EFAULT;
-> > +
-> > +	to_kill =3D refcount_read(&stats->refc) - 1;
-> > +	if (!to_kill)
-> > +		return 0;
-> > +
-> > +	/* Disable the attack detection */
-> > +	stats->jiffies =3D 0;
-> > +	rcu_read_lock();
-> > +
-> > +	for_each_process(p) {
-> > +		if (p =3D=3D current || p->fbfam_stats !=3D stats)
-> > +			continue;
-> > +
-> > +		do_send_sig_info(SIGKILL, SEND_SIG_PRIV, p, PIDTYPE_PID);
-> > +		pr_warn("fbfam: Offending process with PID %d killed\n",
-> > +			p->pid);
->
-> I'd make this ratelimited (along with Jann's suggestions).
+On 9/17/20 11:42 PM, Kishon Vijay Abraham I wrote:
+> diff --git a/drivers/ntb/hw/epf/Kconfig b/drivers/ntb/hw/epf/Kconfig
+> new file mode 100644
+> index 000000000000..6197d1aab344
+> --- /dev/null
+> +++ b/drivers/ntb/hw/epf/Kconfig
+> @@ -0,0 +1,6 @@
+> +config NTB_EPF
+> +	tristate "Generic EPF Non-Transparent Bridge support"
+> +	depends on m
+> +	help
+> +	  This driver supports EPF NTB on configurable endpoint.
+> +	  If unsure, say N.
 
-Sorry, but I don't understand what you mean with "make this ratelimited".
-A clarification would be greatly appreciated.
+Hi,
+Why is this driver restricted to 'm' (loadable module)?
+I.e., it cannot be builtin.
 
-> Also, instead of the explicit "fbfam:" prefix, use the regular
-> prefixing method:
->
-> #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+thanks.
+-- 
+~Randy
 
-Understood.
-
-> > +
-> > +		killed +=3D 1;
-> > +		if (killed >=3D to_kill)
-> > +			break;
-> > +	}
-> > +
-> > +	rcu_read_unlock();
->
-> Can't newly created processes escape this RCU read lock? I think this
-> need alternate locking, or something in the task_alloc hook that will
-> block any new process from being created within the stats group.
-
-I will work on this for the next version. Thanks.
-
-> > +	return 0;
-> > +}
->
-> --
-> Kees Cook
-
-Thanks
-John Wood
