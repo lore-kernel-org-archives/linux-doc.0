@@ -2,117 +2,102 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66260C43464
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 10:28:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C3FC43463
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 10:42:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C3E7208DB
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 10:28:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF0732068E
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 10:42:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0N7ia3f"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726253AbgIRK17 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 06:27:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46764 "EHLO
+        id S1726174AbgIRKm0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 06:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726152AbgIRK17 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 06:27:59 -0400
-Received: from tartarus.angband.pl (tartarus.angband.pl [IPv6:2001:41d0:602:dbe::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CAC1C06174A;
-        Fri, 18 Sep 2020 03:27:59 -0700 (PDT)
-Received: from kilobyte by tartarus.angband.pl with local (Exim 4.92)
-        (envelope-from <kilobyte@angband.pl>)
-        id 1kJDcM-0002VN-JV; Fri, 18 Sep 2020 12:27:50 +0200
-Date:   Fri, 18 Sep 2020 12:27:50 +0200
-From:   Adam Borowski <kilobyte@angband.pl>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        with ESMTP id S1725882AbgIRKmX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 06:42:23 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2003CC06174A;
+        Fri, 18 Sep 2020 03:42:23 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id u13so3251725pgh.1;
+        Fri, 18 Sep 2020 03:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BFicauIeUOrnsvlqKGsQXozub1xATSeMYMtEaHTT4g0=;
+        b=e0N7ia3fLHfHAR649eYTpypJn7blOCM9GO7orPVtX4EmgoJ/6YjpkWeMy/qKEWECAm
+         0fRLFnhHrZB5dzFkDp7ZQEmmfJrXL3zjd+yv6/3X7SQRMDiL/hVr+YX4Jskk4kupex5I
+         jl6iqE9LF8APZdFtexoFdPB8M99bnRBA/Av4O8h0X/1jCGyW+7CxJ4OxdNQaqWK2WZ34
+         FgiMj88af5Ia7E1mwPln+bLBuEZpsmZweBi11knwlFnyq48APTgQeVNi/l7E+nImmDvp
+         h9Fu42sVf3gSaCedHj+Qeq4ixte0Iq2g02tqvhmh0An8V4FlsdpxN0wCdDHDN9QIz9jN
+         yevg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BFicauIeUOrnsvlqKGsQXozub1xATSeMYMtEaHTT4g0=;
+        b=EHOcfp2yPuKaEsGDQE8/kERDjeJKInNW8W1vp4QwCp14AQqW4M+kZ7QRBxXn/Sn/QD
+         h5/niJLR79gcmbuq1NU2kGbaJQGIVI0mciRWGrzqDgvIbcGQz+v/4t8uybrc2sl7PEtt
+         pcibFb2y+B6xZ5eFrkY9CQO8kSZRIdg35VIFIIf/XGSxrF2BICicn95gwb12AqqcJpkB
+         Ntsd1O2ozjV80CNYgjNPVyTMDf3JPf5Z0s3Vt3N9HIcK3R//E3lPxlnqNLB8YUZSvIbN
+         dpTFxiXi0rt6h2udVgK2XBj2HsOHARDUGVGdUI6XmHpsX9uRj2uc3vD3hhC8SiDkjoTO
+         cWpg==
+X-Gm-Message-State: AOAM532Zeg5Dsr3xDyFi3lMnpOT9RHbw97tijW8AF0WD0zmxWHDtXi3G
+        zDwmUFwcfQMFogu4DugA9k/p+Eb6ZMY=
+X-Google-Smtp-Source: ABdhPJxmkSH2bsqdT6f0XKAxVeedtX4lm17YBE1bMJENRq8W21F6cXNJfF18OFoYIYusjEAAEH7J5Q==
+X-Received: by 2002:a65:42c2:: with SMTP id l2mr5480207pgp.61.1600425742614;
+        Fri, 18 Sep 2020 03:42:22 -0700 (PDT)
+Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id bj2sm2492747pjb.20.2020.09.18.03.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2020 03:42:21 -0700 (PDT)
+Date:   Fri, 18 Sep 2020 19:42:20 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Yuan Ming <yuanmingbuaa@gmail.com>, Willy Tarreau <w@1wt.eu>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        NopNop Nop <nopitydays@gmail.com>,
-        =?utf-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>,
-        Andy Lutomirski <luto@amacapital.net>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-Message-ID: <20200918102750.GA27828@angband.pl>
-References: <git-mailbomb-linux-master-50145474f6ef4a9c19205b173da6264a644c7489@kernel.org>
- <c9cd22ec-60dc-d761-b488-d3a1392708c0@infradead.org>
- <CAHk-=wiNTWpqUF0HgzoyPGEaaAjxD-Bor+EE3DbJ52S30cfCWg@mail.gmail.com>
- <20200916205434.GA10389@duo.ucw.cz>
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uAPI: buffer.rst: remove a left-over documentation
+Message-ID: <20200918104220.GF3049@jagdpanzerIV.localdomain>
+References: <2fd3e12d82de1e0a1ee2f96dedc4d4cbe771c979.1600327262.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200916205434.GA10389@duo.ucw.cz>
-X-Junkbait: aaron@angband.pl, zzyx@angband.pl
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: kilobyte@angband.pl
-X-SA-Exim-Scanned: No (on tartarus.angband.pl); SAEximRunCond expanded to false
+In-Reply-To: <2fd3e12d82de1e0a1ee2f96dedc4d4cbe771c979.1600327262.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 10:54:34PM +0200, Pavel Machek wrote:
-> On Mon 2020-09-14 18:28:34, Linus Torvalds wrote:
-> > Note that scrollback hasn't actually gone away entirely - the original
-> > scrollback supported by _hardware_ still exists.
-> > 
-> > Of course, that's really just the old-fashioned text VGA console, but
-> > that one actually scrolls not by moving any bytes around, but by
-> > moving the screen start address. And the scrollback similarly isn't
-> > about any software buffering, but about the ability of moving back
-> > that screen start address.
-
-> Could we pause this madness? Scrollback is still useful. I needed it
-> today... it was too small, so command results I was looking for
-> already scrolled away, but... life will be really painful with 0 scrollback.
+On (20/09/17 09:21), Mauro Carvalho Chehab wrote:
+> Changeset 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
+> reverted an uAPI flag, but it kept some left-overs at the documentation.
 > 
-> You'll need it, too... as soon as you get oops and will want to see
-> errors just prior to that oops.
+> Drop them too. This should solve this warning:
+> 
+> 	Documentation/userspace-api/media/v4l/buffer.rst:692: WARNING: The "flat-table" directive is empty; content required.
+> 
+> 	.. flat-table::
+> 	    :header-rows:  0
+> 	    :stub-columns: 0
+> 	    :widths:       3 1 4
+> 
+> Fixes: 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I concur -- this a serious usability regression for regular users.  Linus:
-you have a serial cable on your main dev machine, so do I, but hardly any
-regular people do -- that's restricted to mostly IPMI and such.
+Thanks for fixing this up.
 
-And without some kind of scrollback, there's no way of knowing why eg.
-your rootfs failed to mount (there was some oops, but its reason was at
-the beginning...).  Or, any other problem the user would be able to solve,
-or pass the error messages to someone more knowledgeable.
+FWIW,
+Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 
-I also wonder why did you choose to remove softscrollback which is actually
-useful, yet leave hardscrollback which doesn't come to use on any
-non-ancient hardware:
-* on !x86 there's no vgacon at all
-* on x86, in-tree drivers for GPUs by Intel, nVidia and AMD (others are
-  dead) default to switching away from vgacon
-* EFI wants its own earlycon
-... thus, the only niche left is nVidia proprietary drivers which, the last
-time I looked, still used CGA text mode.
-
-> If it means I get to maintain it... I'm not happy about it but that's
-> better than no scrollback.
-
-That'd be greatly appreciated.  There are also some simplifications/rewrites
-that could be done, like getting rid of redundant 1-byte/4-byte storage (or
-even the code for 1-byte...).  Hard scrollback could be axed altogether (it
-provides only a small amount of scroll).  Etc...
-
->  Kernel is now very verbose, so important messages
->  during bootup scroll away. It is way bigger deal when you can no
->  longer get to them using shift-pageup.
-
-Thus hard scrollback is inadequate in the rare cases it's even present.
-
-
-Meow!
--- 
-⢀⣴⠾⠻⢶⣦⠀
-⣾⠁⢠⠒⠀⣿⡁ in the beginning was the boot and root floppies and they were good.
-⢿⡄⠘⠷⠚⠋⠀                                       -- <willmore> on #linux-sunxi
-⠈⠳⣄⠀⠀⠀⠀
+	-ss
