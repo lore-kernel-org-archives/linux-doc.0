@@ -7,130 +7,104 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA336C43463
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:44:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE9BC43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:44:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AADFA207D3
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:44:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 028402311B
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:44:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sFh/HHTO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TpjzFHO4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726306AbgIRLoA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 07:44:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58478 "EHLO
+        id S1726406AbgIRLoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 07:44:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgIRLn7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 07:43:59 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A77C061756
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:43:59 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id y6so2844996plt.9
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:43:59 -0700 (PDT)
+        with ESMTP id S1726064AbgIRLoW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 07:44:22 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3725BC061756
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id a9so3041892pjg.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Z+Ama2Gn35NOMvXg+GDJdwPlC6h7Yc/5hgNBNtL9jUY=;
-        b=sFh/HHTOb26PpO+ksRIrJCdmApW1t5VywnOdPyUzGIrw5Rbwj3WMJL40NtTIEFL6AS
-         /lx2uK4Ykc/3gzLN9LEzeNwb43AzA5+LpUbw11A3p7pF2vSsdF1oFOmS0qEp4LPRh67f
-         mcOc75W8mSvx8mBa0OvstLr0qk9JsPiUHvMWC9mVnjlIr/TOTToZoncnx7GsabThWYmc
-         z0Hv+BcPS0Tbym+ibXXN2ck4SCHKjgsMTmsO3TXlwDN+yjWVuvp0Doo0Pls9cufQjkqv
-         zaUjpORJE12lyCrcY36729qZQzyW6h48J9jJj1hq+GnbrPQo8wbuyyXUv2baq0C0G9WQ
-         acrQ==
+        bh=qnYIT2Fro5rrEPZwxE6ivwPIktYrQuk+TOWeG9l01y0=;
+        b=TpjzFHO4Q6iK+2S0yd/r45ft/QIGxmZn1TMUb4TH3D9l+vvJwo/IcvVAvPGzQKDI3q
+         LaJDsKTCCvLDg4QDgB/amHYdB0swnnubRvYsXre1YIZ8FvlkJ4B6Z/dEY4AnPA4wrAN3
+         JjjuB5xAbdntz0qjwDuuvFsCH5ZJM5o88GM3CPOichmwCOIlFg7BQfrIhMA/YX/QA3hd
+         yh/tBbuAZR2MAZZ2sMGh7pTksFYUggquNudnb3wTqmRTjeaNxlk/6ILxCSsxW2sVx3HA
+         Wyz1o3y1D6pvb4jDkDFq0oYnT1hsRwKVXFMnoJUGERBbe9Mun2WkU0uWg4bYZHWwP5Rk
+         4brw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z+Ama2Gn35NOMvXg+GDJdwPlC6h7Yc/5hgNBNtL9jUY=;
-        b=nm6aFQBWIclW/LaplSH/VUQqINyc1pGQaA3amx/WjAGFlBFwz4gXV9ru/ip/PmvH/g
-         m1trSZ6MgV/rmKl6nHtcl61JLcS+xihNvJ5wdyYkuU2Z07U82YDEG4b9ly69wCd/tNaa
-         RuyNSWg/FZOE+5c92xNhJ1aDMO1MiTpTJnw+A4LtsDcWl3ai3Rypx/Lugv+I4jh7ZqL0
-         mKhlQ/uE2Xh3IfeQQAnMBbmJde/BXfTROHOjrW/tcEOxuQGaaoTgOOLjEs76Rb4n77+T
-         WGZZthLmMHjcEseC0Tk+v8iEfQD/cniE81k9jmSlIASHk6TRnB20QuKK7Ph03eVgHUAk
-         M2ZA==
-X-Gm-Message-State: AOAM530dxR2Ujc9EzowYsu9im8QKCMcY4b+NeNY8qqtWBFP0BlIrtJpd
-        PcVeOe7q2qOd1Eo3ciELZ6Boyl0ZfJ7Ze9NYcQViJw==
-X-Google-Smtp-Source: ABdhPJyKXFnzPYcYunpF9Uq+vq4TWzzKJynH7m2jTv2e+g7vCM0/LcoGLE6fnd5HeX/rpgzwoYJKnWY7Jm9IFnnE3Xk=
-X-Received: by 2002:a17:90b:140c:: with SMTP id jo12mr12638805pjb.41.1600429438957;
- Fri, 18 Sep 2020 04:43:58 -0700 (PDT)
+        bh=qnYIT2Fro5rrEPZwxE6ivwPIktYrQuk+TOWeG9l01y0=;
+        b=X3ji+rkfxTNY+Q07jUv+f8G92kR+lpsqi6Zu7VqrIc9OfkLUWJpl/Ts0ygK00Lb5S6
+         2eqSk9zyAWq2a1+5WnoJ9KkQSzjj90z9bwvj1bl2ftZGMWEavIzMFJZKCf7cYN5qyLru
+         5uy1NjCq+Wg/3qxgADd+GF9uz3BaVnXWcHhbnAhub1VeER55753Zdnq2A0Sp8t9evp7X
+         GLl+oZcZWezWrzc696lzx2iPSM55UPbpj0qGvb/wjzvBYbLscl3oTwcT8qk4G4DWumMy
+         kfqHcsxYJD4+YvTEtH7BRkvIMa7c8YhlTMQBib2MT+r5t8WFCbzAtWEOJF/ViolU2GjC
+         dcPQ==
+X-Gm-Message-State: AOAM53371zw/jtQcsgyG94/415cAlIDB6mIFifHiqTFl9dmUusBklkgo
+        wZROKXoalogYWwOZ8d9SsDUb7QJEkFhV4YJbAtVN8Q==
+X-Google-Smtp-Source: ABdhPJz0jo7HaXxwZF8WsvLi3jPEukK8M2gwgX2K292bWBOZWOpUAFd1MrQn+GrnUqx0G/Nt/9dglt6mHtQ30uo9yhM=
+X-Received: by 2002:a17:90a:cc0e:: with SMTP id b14mr12117134pju.166.1600429461570;
+ Fri, 18 Sep 2020 04:44:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200917134407.63487-1-standby24x7@gmail.com>
-In-Reply-To: <20200917134407.63487-1-standby24x7@gmail.com>
+References: <cover.1600328701.git.mchehab+huawei@kernel.org> <53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab+huawei@kernel.org>
+In-Reply-To: <53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab+huawei@kernel.org>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 18 Sep 2020 13:43:48 +0200
-Message-ID: <CAAeHK+x=X=m0yGCu-vsfvHRDY_6kPpiHWtktiun4yF2MxgFffg@mail.gmail.com>
-Subject: Re: [PATCH linux-next] docs:dev-tools: Fix typo in Documentation/dev-tools
-To:     Masanari Iida <standby24x7@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+Date:   Fri, 18 Sep 2020 13:44:10 +0200
+Message-ID: <CAAeHK+x-pDCWZX+vwiib6VH8mLJDD+Fbe6xeBA-_7OCcuLg_Ug@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs: kasan.rst: add two missing blank lines
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Alexander Potapenko <glider@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>
+        kasan-dev <kasan-dev@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 3:44 PM Masanari Iida <standby24x7@gmail.com> wrote:
+On Thu, Sep 17, 2020 at 10:04 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> This patch fixes some spelling typos found in
-> Documentation/dev-tools.
+> literal blocks should start and end with a blank line,
+> as otherwise the parser complains and may do the wrong
+> thing, as warned by Sphinx:
 >
-> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+>         Documentation/dev-tools/kasan.rst:298: WARNING: Literal block ends without a blank line; unexpected unindent.
+>         Documentation/dev-tools/kasan.rst:303: WARNING: Literal block ends without a blank line; unexpected unindent.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/dev-tools/kasan.rst    | 4 ++--
->  Documentation/dev-tools/kcov.rst     | 2 +-
->  Documentation/dev-tools/kmemleak.rst | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  Documentation/dev-tools/kasan.rst | 2 ++
+>  1 file changed, 2 insertions(+)
 >
 > diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index c09c9ca2ff1c..49ec0ab6cfc7 100644
+> index c09c9ca2ff1c..2b68addaadcd 100644
 > --- a/Documentation/dev-tools/kasan.rst
 > +++ b/Documentation/dev-tools/kasan.rst
-> @@ -328,7 +328,7 @@ using something like insmod or modprobe. The module is called ``test_kasan``.
->  ~~~~~~~~~~~~~
+> @@ -295,11 +295,13 @@ print the number of the test and the status of the test:
+>  pass::
 >
->  With ``CONFIG_KUNIT`` built-in, ``CONFIG_KASAN_KUNIT_TEST`` can be built-in
-> -on any architecure that supports KASAN. These and any other KUnit
-> +on any architecture that supports KASAN. These and any other KUnit
->  tests enabled will run and print the results at boot as a late-init
->  call.
+>          ok 28 - kmalloc_double_kzfree
+> +
+>  or, if kmalloc failed::
 >
-> @@ -349,5 +349,5 @@ converted to KUnit. These tests can be run only as a module with
->  ``CONFIG_KASAN`` built-in. The type of error expected and the
->  function being run is printed before the expression expected to give
->  an error. Then the error is printed, if found, and that test
-> -should be interpretted to pass only if the error was the one expected
-> +should be interpreted to pass only if the error was the one expected
->  by the test.
-> diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
-> index 8548b0b04e43..d2c4c27e1702 100644
-> --- a/Documentation/dev-tools/kcov.rst
-> +++ b/Documentation/dev-tools/kcov.rst
-> @@ -243,7 +243,7 @@ handles as they don't belong to a particular subsystem. The bytes 4-7 are
->  currently reserved and must be zero. In the future the number of bytes
->  used for the subsystem or handle ids might be increased.
+>          # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
+>          Expected ptr is not null, but is
+>          not ok 4 - kmalloc_large_oob_right
+> +
+>  or, if a KASAN report was expected, but not found::
 >
-> -When a particular userspace proccess collects coverage via a common
-> +When a particular userspace process collects coverage via a common
->  handle, kcov will collect coverage for each code section that is annotated
->  to use the common handle obtained as kcov_handle from the current
->  task_struct. However non common handles allow to collect coverage
-> diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tools/kmemleak.rst
-> index a41a2d238af2..1c935f41cd3a 100644
-> --- a/Documentation/dev-tools/kmemleak.rst
-> +++ b/Documentation/dev-tools/kmemleak.rst
-> @@ -229,7 +229,7 @@ Testing with kmemleak-test
->
->  To check if you have all set up to use kmemleak, you can use the kmemleak-test
->  module, a module that deliberately leaks memory. Set CONFIG_DEBUG_KMEMLEAK_TEST
-> -as module (it can't be used as bult-in) and boot the kernel with kmemleak
-> +as module (it can't be used as built-in) and boot the kernel with kmemleak
->  enabled. Load the module and perform a scan with::
->
->          # modprobe kmemleak-test
+>          # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
 
 Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
