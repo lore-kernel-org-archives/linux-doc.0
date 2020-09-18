@@ -2,115 +2,140 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D24E0C43464
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 08:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BEDC43463
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 08:59:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72C8D2176B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 08:20:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8BB7821D43
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 08:59:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726109AbgIRIUM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 04:20:12 -0400
-Received: from mail-m1272.qiye.163.com ([115.236.127.2]:55746 "EHLO
-        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgIRIUL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 04:20:11 -0400
-X-Greylist: delayed 503 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Sep 2020 04:20:02 EDT
-Received: from ubuntu.localdomain (unknown [58.250.176.229])
-        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id 897C6B0163A;
-        Fri, 18 Sep 2020 16:11:35 +0800 (CST)
-From:   Bailu Lin <bailu.lin@vivo.com>
-To:     catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-        harryxiyou@gmail.com, alex.shi@linux.alibaba.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     bailu.lin@vivo.com, kernel@vivo.com
-Subject: [PATCH v3] doc: zh_CN: index files in arm64 subdirectory
-Date:   Fri, 18 Sep 2020 01:11:26 -0700
-Message-Id: <20200918081126.20765-1-bailu.lin@vivo.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200916130714.42438-1-bailu.lin@vivo.com>
-References: <20200916130714.42438-1-bailu.lin@vivo.com>
+        id S1726327AbgIRI77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 04:59:59 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:13255 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726234AbgIRI77 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Sep 2020 04:59:59 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 92FA38072DD805E457D2;
+        Fri, 18 Sep 2020 16:59:57 +0800 (CST)
+Received: from [10.174.176.220] (10.174.176.220) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 18 Sep 2020 16:59:48 +0800
+Subject: Re: [PATCH v12 3/9] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel[_low]()
+To:     Baoquan He <bhe@redhat.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <20200907134745.25732-4-chenzhou10@huawei.com>
+ <20200918072526.GD25604@MiWiFi-R3L-srv>
+CC:     <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+        <dyoung@redhat.com>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
+        <bhsharma@redhat.com>, <horms@verge.net.au>, <robh+dt@kernel.org>,
+        <arnd@arndb.de>, <nsaenzjulienne@suse.de>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
+        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <rppt@linux.ibm.com>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <fa6634dd-4438-4e5d-f350-fc19d5fa7d97@huawei.com>
+Date:   Fri, 18 Sep 2020 16:59:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZTkpJGEgdGEIaSx5NVkpNS0tPSk1NQk5CQ0JVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKSkNITVVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nww6Mhw4PT8pHgo*ERAwHS4T
-        D0IaCRNVSlVKTUtLT0pNTUJNT0hMVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
-        VUlOS1VKTE1VSUlCWVdZCAFZQUhLQkM3Bg++
-X-HM-Tid: 0a74a044c65598b7kuuu897c6b0163a
+In-Reply-To: <20200918072526.GD25604@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.220]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add arm64 subdirectory into the table of Contents for zh_CN,
-then add other translations in arm64 conveniently.
+Hi Baoquan,
 
-Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
----
-Changes in v3:
- - Correct email encoding format.
-Changes in v2:
- - Fix patch description.
----
- Documentation/arm64/index.rst                    |  4 ++++
- Documentation/translations/zh_CN/arm64/index.rst | 16 ++++++++++++++++
- Documentation/translations/zh_CN/index.rst       |  1 +
- 3 files changed, 21 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/arm64/index.rst
+On 2020/9/18 15:25, Baoquan He wrote:
+> Hi,
+>
+> On 09/07/20 at 09:47pm, Chen Zhou wrote:
+>> To make the functions reserve_crashkernel[_low]() as generic,
+>> replace some hard-coded numbers with macro CRASH_ADDR_LOW_MAX.
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> ---
+>>  arch/x86/kernel/setup.c | 11 ++++++-----
+>>  1 file changed, 6 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+>> index d7fd90c52dae..71a6a6e7ca5b 100644
+>> --- a/arch/x86/kernel/setup.c
+>> +++ b/arch/x86/kernel/setup.c
+>> @@ -430,7 +430,7 @@ static int __init reserve_crashkernel_low(void)
+>>  	unsigned long total_low_mem;
+>>  	int ret;
+>>  
+>> -	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+>> +	total_low_mem = memblock_mem_size(CRASH_ADDR_LOW_MAX >> PAGE_SHIFT);
+> Just note that the replacement has been done in another patch from Mike
+> Rapoport, partially. He seems to have done reserve_crashkernel_low()
+> part, there's one left in reserve_crashkernel(), you might want to check
+> that. 
+>
+> Mike's patch which is from a patchset has been merged into Andrew's next
+> tree.
+>
+> commit 6e50f7672ffa362e9bd4bc0c0d2524ed872828c5
+> Author: Mike Rapoport <rppt@linux.ibm.com>
+> Date:   Wed Aug 26 15:22:32 2020 +1000
+>
+>     x86/setup: simplify reserve_crashkernel()
+Yeah, the function reserve_crashkernel() has been changed in the next tree.
+Thanks for your review and reminder.
 
-diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-index d9665d83c53a..907cda9c0f71 100644
---- a/Documentation/arm64/index.rst
-+++ b/Documentation/arm64/index.rst
-@@ -1,3 +1,7 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _arm64_index:
-+
- ==================
- ARM64 Architecture
- ==================
-diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
-new file mode 100644
-index 000000000000..c236b648740d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/arm64/index.rst
-@@ -0,0 +1,16 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/arm64/index.rst <arm64_index>`
-+:Translator: Bailu Lin <bailu.lin@vivo.com>
-+
-+.. _cn_arm64_index:
-+
-+
-+==========
-+ARM64 架构
-+==========
-+
-+.. toctree::
-+    :maxdepth: 2
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 85643e46e308..be6f11176200 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -19,6 +19,7 @@
-    admin-guide/index
-    process/index
-    filesystems/index
-+   arm64/index
- 
- 目录和表格
- ----------
--- 
-2.20.1
+Thanks,
+Chen Zhou
+>
+>>  
+>>  	/* crashkernel=Y,low */
+>>  	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
+>> @@ -451,7 +451,7 @@ static int __init reserve_crashkernel_low(void)
+>>  			return 0;
+>>  	}
+>>  
+>> -	low_base = memblock_find_in_range(CRASH_ALIGN, 1ULL << 32, low_size, CRASH_ALIGN);
+>> +	low_base = memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MAX, low_size, CRASH_ALIGN);
+>>  	if (!low_base) {
+>>  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>>  		       (unsigned long)(low_size >> 20));
+>> @@ -504,8 +504,9 @@ static void __init reserve_crashkernel(void)
+>>  	if (!crash_base) {
+>>  		/*
+>>  		 * Set CRASH_ADDR_LOW_MAX upper bound for crash memory,
+>> -		 * crashkernel=x,high reserves memory over 4G, also allocates
+>> -		 * 256M extra low memory for DMA buffers and swiotlb.
+>> +		 * crashkernel=x,high reserves memory over CRASH_ADDR_LOW_MAX,
+>> +		 * also allocates 256M extra low memory for DMA buffers
+>> +		 * and swiotlb.
+>>  		 * But the extra memory is not required for all machines.
+>>  		 * So try low memory first and fall back to high memory
+>>  		 * unless "crashkernel=size[KMG],high" is specified.
+>> @@ -539,7 +540,7 @@ static void __init reserve_crashkernel(void)
+>>  		return;
+>>  	}
+>>  
+>> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
+>> +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
+>>  		memblock_free(crash_base, crash_size);
+>>  		return;
+>>  	}
+>> -- 
+>> 2.20.1
+>>
+> .
+>
 
