@@ -2,109 +2,189 @@ Return-Path: <SRS0=bpCa=C3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE9BC43464
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C13C43464
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:59:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 028402311B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:44:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D809A2311B
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Sep 2020 11:59:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TpjzFHO4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DFPRb7Y9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgIRLoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 07:44:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58538 "EHLO
+        id S1726472AbgIRL72 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 07:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgIRLoW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 07:44:22 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3725BC061756
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id a9so3041892pjg.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
+        with ESMTP id S1726064AbgIRL72 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 07:59:28 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69E7C06174A
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:59:27 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id x69so6666145oia.8
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 04:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qnYIT2Fro5rrEPZwxE6ivwPIktYrQuk+TOWeG9l01y0=;
-        b=TpjzFHO4Q6iK+2S0yd/r45ft/QIGxmZn1TMUb4TH3D9l+vvJwo/IcvVAvPGzQKDI3q
-         LaJDsKTCCvLDg4QDgB/amHYdB0swnnubRvYsXre1YIZ8FvlkJ4B6Z/dEY4AnPA4wrAN3
-         JjjuB5xAbdntz0qjwDuuvFsCH5ZJM5o88GM3CPOichmwCOIlFg7BQfrIhMA/YX/QA3hd
-         yh/tBbuAZR2MAZZ2sMGh7pTksFYUggquNudnb3wTqmRTjeaNxlk/6ILxCSsxW2sVx3HA
-         Wyz1o3y1D6pvb4jDkDFq0oYnT1hsRwKVXFMnoJUGERBbe9Mun2WkU0uWg4bYZHWwP5Rk
-         4brw==
+        bh=p0D5X7Y+m7ttT/u5XV6+XFjpJPYZ+5nXOo1ENk9Sr6U=;
+        b=DFPRb7Y9Hq4pascynXFSCCYpr/a4bl7ggPfVH9GJKFUO/ayct1amaR3wsxiMtCJvQ/
+         uU9aqLvE4+HXrlO+1KmjR1ZdHm6nGOfYqOI56XcYbAoZM0igN3mx+nI9ZJpSYU8yrxJZ
+         u+AZWJMVJIFe/bRMVGVi0Hi19qqYnmeQhZrR086TXXE4MzJZ6mBTzqOZdkbZePSwHv+b
+         NlzY544p6SNnIG7ZfXxC5dhxyENzUj8syiofKsaVyI8Ug7qrh9/+qUTSkKFX7uk83X41
+         cbPJFBW/Aoc0uFVMTF8ywh5ITaTxh+WCeIudQ5uchSvzeztt8D1HgMc80XgPqZ1p6LoH
+         P58Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qnYIT2Fro5rrEPZwxE6ivwPIktYrQuk+TOWeG9l01y0=;
-        b=X3ji+rkfxTNY+Q07jUv+f8G92kR+lpsqi6Zu7VqrIc9OfkLUWJpl/Ts0ygK00Lb5S6
-         2eqSk9zyAWq2a1+5WnoJ9KkQSzjj90z9bwvj1bl2ftZGMWEavIzMFJZKCf7cYN5qyLru
-         5uy1NjCq+Wg/3qxgADd+GF9uz3BaVnXWcHhbnAhub1VeER55753Zdnq2A0Sp8t9evp7X
-         GLl+oZcZWezWrzc696lzx2iPSM55UPbpj0qGvb/wjzvBYbLscl3oTwcT8qk4G4DWumMy
-         kfqHcsxYJD4+YvTEtH7BRkvIMa7c8YhlTMQBib2MT+r5t8WFCbzAtWEOJF/ViolU2GjC
-         dcPQ==
-X-Gm-Message-State: AOAM53371zw/jtQcsgyG94/415cAlIDB6mIFifHiqTFl9dmUusBklkgo
-        wZROKXoalogYWwOZ8d9SsDUb7QJEkFhV4YJbAtVN8Q==
-X-Google-Smtp-Source: ABdhPJz0jo7HaXxwZF8WsvLi3jPEukK8M2gwgX2K292bWBOZWOpUAFd1MrQn+GrnUqx0G/Nt/9dglt6mHtQ30uo9yhM=
-X-Received: by 2002:a17:90a:cc0e:: with SMTP id b14mr12117134pju.166.1600429461570;
- Fri, 18 Sep 2020 04:44:21 -0700 (PDT)
+        bh=p0D5X7Y+m7ttT/u5XV6+XFjpJPYZ+5nXOo1ENk9Sr6U=;
+        b=rVzkWuXeH4g341Hv2s3gWdjYTsHgby+Hlw+MVWDYrWRR7hl7fQVrcpv+BFRgqhMouo
+         lUGqRbtaEY36HUxOGKpg5/ZWnrYpCHUPuwUNRhxQPWltyRohZUKvamZvxrExNVxYkab1
+         GAlwi3fno8wbHYrhiuPqcxupvnHWLvS4/nCWLrrYpGTYdHL3SLr55KzRXfx1FMOwhvpE
+         GbAckrAzcMESKA5O8Naadyr2olaJqbFAL0zFkbaT5nzdQyLN5D1bZp9sjQ50XSYKob48
+         FknIdxcUP2eyK0YbX6KNN0fMUzLOYbDx91Zg7QXWPioBJHPuerXYjLC+98/N7LzJQ2so
+         minA==
+X-Gm-Message-State: AOAM530YsVoccDXrmpnZXT0JTxHmRoO2aYhxI2sEsKaSaR6wm5uUKb82
+        bnx9mB2GqOaOdW865FMnI7bSTKtf5tRbcM/2VykY9Q==
+X-Google-Smtp-Source: ABdhPJx1YWIbj0a3kj+XHGq4l0nWGyQu8DX2tequbx+9ACWXzIIk8edPn+mRXVtmJXtgCrXRQzALviAeMqM1jJ7KNJc=
+X-Received: by 2002:aca:5158:: with SMTP id f85mr9503239oib.121.1600430367017;
+ Fri, 18 Sep 2020 04:59:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1600328701.git.mchehab+huawei@kernel.org> <53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab+huawei@kernel.org>
-In-Reply-To: <53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab+huawei@kernel.org>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 18 Sep 2020 13:44:10 +0200
-Message-ID: <CAAeHK+x-pDCWZX+vwiib6VH8mLJDD+Fbe6xeBA-_7OCcuLg_Ug@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs: kasan.rst: add two missing blank lines
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <20200915132046.3332537-1-elver@google.com> <115e74b249417340b5c411f286768dbdb916fd12.camel@redhat.com>
+In-Reply-To: <115e74b249417340b5c411f286768dbdb916fd12.camel@redhat.com>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 18 Sep 2020 13:59:15 +0200
+Message-ID: <CANpmjNMkjuW_qU+G77UUzgqGx+e2RswfhYuWTFMq2da2NwqSdA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] KFENCE: A low-overhead sampling-based memory
+ safety error detector
+To:     Qian Cai <cai@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         kasan-dev <kasan-dev@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 10:04 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Fri, 18 Sep 2020 at 13:17, Qian Cai <cai@redhat.com> wrote:
 >
-> literal blocks should start and end with a blank line,
-> as otherwise the parser complains and may do the wrong
-> thing, as warned by Sphinx:
+> On Tue, 2020-09-15 at 15:20 +0200, Marco Elver wrote:
+> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> > low-overhead sampling-based memory safety error detector of heap
+> > use-after-free, invalid-free, and out-of-bounds access errors.  This
+> > series enables KFENCE for the x86 and arm64 architectures, and adds
+> > KFENCE hooks to the SLAB and SLUB allocators.
+> >
+> > KFENCE is designed to be enabled in production kernels, and has near
+> > zero performance overhead. Compared to KASAN, KFENCE trades performance
+> > for precision. The main motivation behind KFENCE's design, is that with
+> > enough total uptime KFENCE will detect bugs in code paths not typically
+> > exercised by non-production test workloads. One way to quickly achieve a
+> > large enough total uptime is when the tool is deployed across a large
+> > fleet of machines.
+> >
+> > KFENCE objects each reside on a dedicated page, at either the left or
+> > right page boundaries. The pages to the left and right of the object
+> > page are "guard pages", whose attributes are changed to a protected
+> > state, and cause page faults on any attempted access to them. Such page
+> > faults are then intercepted by KFENCE, which handles the fault
+> > gracefully by reporting a memory access error.
+> >
+> > Guarded allocations are set up based on a sample interval (can be set
+> > via kfence.sample_interval). After expiration of the sample interval,
+> > the next allocation through the main allocator (SLAB or SLUB) returns a
+> > guarded allocation from the KFENCE object pool. At this point, the timer
+> > is reset, and the next allocation is set up after the expiration of the
+> > interval.
+> >
+> > To enable/disable a KFENCE allocation through the main allocator's
+> > fast-path without overhead, KFENCE relies on static branches via the
+> > static keys infrastructure. The static branch is toggled to redirect the
+> > allocation to KFENCE.
+> >
+> > The KFENCE memory pool is of fixed size, and if the pool is exhausted no
+> > further KFENCE allocations occur. The default config is conservative
+> > with only 255 objects, resulting in a pool size of 2 MiB (with 4 KiB
+> > pages).
+> >
+> > We have verified by running synthetic benchmarks (sysbench I/O,
+> > hackbench) that a kernel with KFENCE is performance-neutral compared to
+> > a non-KFENCE baseline kernel.
+> >
+> > KFENCE is inspired by GWP-ASan [1], a userspace tool with similar
+> > properties. The name "KFENCE" is a homage to the Electric Fence Malloc
+> > Debugger [2].
+> >
+> > For more details, see Documentation/dev-tools/kfence.rst added in the
+> > series -- also viewable here:
 >
->         Documentation/dev-tools/kasan.rst:298: WARNING: Literal block ends without a blank line; unexpected unindent.
->         Documentation/dev-tools/kasan.rst:303: WARNING: Literal block ends without a blank line; unexpected unindent.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/dev-tools/kasan.rst | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index c09c9ca2ff1c..2b68addaadcd 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -295,11 +295,13 @@ print the number of the test and the status of the test:
->  pass::
->
->          ok 28 - kmalloc_double_kzfree
-> +
->  or, if kmalloc failed::
->
->          # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
->          Expected ptr is not null, but is
->          not ok 4 - kmalloc_large_oob_right
-> +
->  or, if a KASAN report was expected, but not found::
->
->          # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
+> Does anybody else grow tried of all those different *imperfect* versions of in-
+> kernel memory safety error detectors? KASAN-generic, KFENCE, KASAN-tag-based
+> etc. Then, we have old things like page_poison, SLUB debugging, debug_pagealloc
+> etc which are pretty much inefficient to detect bugs those days compared to
+> KASAN. Can't we work towards having a single implementation and clean up all
+> those mess?
 
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+If you have suggestions on how to get a zero-overhead, precise
+("perfect") memory safety error detector without new hardware
+extensions, we're open to suggestions -- many people over many years
+have researched this problems, and while we're making progress for C
+(and C++), the fact remains that what you're asking is likely
+impossible. This might be useful background:
+https://arxiv.org/pdf/1802.09517.pdf
+
+The fact remains that requirements and environments vary across
+applications and usecases. Maybe for one usecase (debugging, test env)
+normal KASAN is just fine. But that doesn't work for production, where
+we want to have max performance.
+
+MTE will get us closer (no silicon yet, and ARM64 only for now), but
+depending on implementation might come with small overheads, although
+quite acceptable for most environments with increasing processing
+power modern CPUs deliver.
+
+Yet for other environments, where even a small performance regression
+is unacceptable, and where it's infeasible to capture in tests what
+the workloads execute, KFENCE is a very attractive option.
+
+There have also been discussions on using Rust in the kernel [1], but
+this is just not feasible for core kernel code in the near future
+(even then, you'll still need dynamic error detection tools for all
+the unsafe bits, of which there are many in an OS kernel).
+[1] https://lwn.net/Articles/829858/
+
+Thanks,
+-- Marco
