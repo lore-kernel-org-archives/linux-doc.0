@@ -2,99 +2,221 @@ Return-Path: <SRS0=W+AB=C4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B340DC43465
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 02:03:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE4B3C43464
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 06:32:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F6452388E
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 02:03:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q6VfzcZe"
+	by mail.kernel.org (Postfix) with ESMTP id 6373220795
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 06:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600497142;
+	bh=i0srx6e1wpjyTJmnsEWTpQOQKkcVgrZKVmBwfFoUjTI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=b909ezLCYU0MswreKqzevOTV6bTTleQ5CaODi4ZdC/xinWHokxoGjr7Am2bR6GJpc
+	 jqdtoTaVGCUwJI5NkszUQl78wjl8AlNykFQbXH4muZ7cW9eiAiuRM19xwg8t2qNMeL
+	 sc56lXxwa0UcvzSjfiHEu7oyl4taO60m5sAG9SW4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbgISCDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 22:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbgISCDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 22:03:19 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B0EC0613CE;
-        Fri, 18 Sep 2020 19:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=f/YzrMVS/+6EGG57fwOsw36jtmyBI4RY3lourFt19Ms=; b=Q6VfzcZe0nG0zjl01WjfCTsYd9
-        kk/Ls2jbyYsrtxe1xBwimrdWUvMf3My8M5M5JqFsHYCdmHEiJBpKppylmULvvYVv+M2TLZairYjNY
-        I8AEDHvwOIlJsePUMDb++ZjPHWOjgJPjbfFU42E5YJYdMsCbjhAxLXlfGqY/Lu06MaAo8lSv27UZy
-        T4r5qAXhyHa6H7/FRIn7mByl2P1fIK9BPWzG+bpX54FB56US1CaV2XCU7FUG4NbMT8D2PrFYAtq8A
-        nT7bkA72ymrcH23zBhVmO0hg9YgI6ac9LxNCocWV1CtHBUK5sB5yG7wDlruB0avLQhCSUBs8vLQF9
-        Fvx3Odcw==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kJSDa-0007QP-0r; Sat, 19 Sep 2020 02:03:14 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: filesystems: mount_api: fix headings
-Message-ID: <adaf123c-b394-f78c-53c0-671d7fda45e7@infradead.org>
-Date:   Fri, 18 Sep 2020 19:03:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726097AbgISGcW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Sep 2020 02:32:22 -0400
+Received: from condef-05.nifty.com ([202.248.20.70]:54613 "EHLO
+        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgISGcV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Sep 2020 02:32:21 -0400
+X-Greylist: delayed 334 seconds by postgrey-1.27 at vger.kernel.org; Sat, 19 Sep 2020 02:32:20 EDT
+Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-05.nifty.com with ESMTP id 08J6Ma7J016554
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2020 15:22:36 +0900
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 08J6MBlG013966;
+        Sat, 19 Sep 2020 15:22:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 08J6MBlG013966
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1600496532;
+        bh=3qpLDuWy/DcoGkn4p3JVkeymEbMB7rJdUSRKY9QQZKc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=wRMTMSfMOuL9Xf72hlZ42qrP5U1IBm+MptAkfb6n8TnJi4NXAvyPyHBJy7FOxpiJR
+         KgXqI4Up6hXdRiqQi3bb+h/vDllcwRoDaRiabmusTVaYiZuJBFTyDjLKPzJZe3ypFN
+         qk9jE19qJ0NWY02tEN1Uq/FclMegtoOA9QA7CpkddZUdYbcb3/4JsUgcGKMbBKHXBa
+         Ws0OWUb+pjG0LHJy9ynO82wpLDKcvrxATiXVmBaiVOQAS159FeU/tXSFma6395xTU/
+         KWSTzP8PwwcSlLwO+tx/tO5UpQ8DvJG0fyRQQTyeB9lGp0qtpNN4lacsG+bgE6WCLn
+         epVfcVFZMokUg==
+X-Nifty-SrcIP: [209.85.215.176]
+Received: by mail-pg1-f176.google.com with SMTP id s65so4765028pgb.0;
+        Fri, 18 Sep 2020 23:22:11 -0700 (PDT)
+X-Gm-Message-State: AOAM532YI7rqzaHixAd6QzMGicuD4GgLU7p6Ils/e2xqoIxzJOCdd0/q
+        MfMwdW7QD4F6Q2vULQ2XnSyzKwpmzrIKupWhcAE=
+X-Google-Smtp-Source: ABdhPJxJkXyCd6E0zMHk36ByBV/pa6RSIREVA4aqiLpGXE/V99ureSaipjtIDpiJTeT1xFn+XHzf+JVFpzfxQpTImpk=
+X-Received: by 2002:a63:d242:: with SMTP id t2mr30414737pgi.47.1600496530866;
+ Fri, 18 Sep 2020 23:22:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 19 Sep 2020 15:21:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
+Message-ID: <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
+Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
+To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Filipe Brandenburger <filbranden@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Michael Davidson <md@google.com>,
+        Eugene Surovegin <surovegin@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Sat, Sep 19, 2020 at 6:50 AM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.intel.com> wrote:
+>
+> From: Filipe Brandenburger <filbranden@google.com>
+>
+> Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
+> kbuild fail when modpost generates any warnings. This will avoid
+> misses such as [1] where the SOF CI did not catch a missing module
+> license.
+>
+> This was initially contributed in 2016 [2], rebase/clean-ups and tests
+> by Pierre Bossart.
+>
+> Test example:
+> $ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
+>   GEN     Makefile
+>   DESCEND  objtool
+>   CALL    sof-dev/scripts/atomic/check-atomics.sh
+>   CALL    sof-dev/scripts/checksyscalls.sh
+>   CHK     include/generated/compile.h
+>   MODPOST Module.symvers
+> Kernel: arch/x86/boot/bzImage is ready  (#13)
+> WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
+> make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
 
-Fix capitalization in two headings, correct one verb, and
-demote one heading to a section heading.
 
-Fixes: 791a17ee1973 ("docs: filesystems: convert mount_api.txt to ReST")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/filesystems/mount_api.rst |    7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+I think [1] should be an error instead of a warning
+by default.
 
---- linux-next-20200917.orig/Documentation/filesystems/mount_api.rst
-+++ linux-next-20200917/Documentation/filesystems/mount_api.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- ====================
--fILESYSTEM Mount API
-+Filesystem Mount API
- ====================
- 
- .. CONTENTS
-@@ -479,7 +479,7 @@ returned.
-         int vfs_parse_fs_param(struct fs_context *fc,
- 			       struct fs_parameter *param);
- 
--     Supply a single mount parameter to the filesystem context.  This include
-+     Supply a single mount parameter to the filesystem context.  This includes
-      the specification of the source/device which is specified as the "source"
-      parameter (which may be specified multiple times if the filesystem
-      supports that).
-@@ -592,8 +592,7 @@ The following helpers all wrap sget_fc()
- 	    one.
- 
- 
--=====================
--PARAMETER DESCRIPTION
-+Parameter Description
- =====================
- 
- Parameters are described using structures defined in linux/fs_parser.h.
 
+
+> [1] https://lkml.org/lkml/2020/9/17/2343
+> [2] https://patchwork.kernel.org/patch/8343431/
+>
+> Signed-off-by: Filipe Brandenburger <filbranden@google.com>
+> Cc: Greg Thelen <gthelen@google.com>
+> Cc: Michael Davidson <md@google.com>
+> Cc: Eugene Surovegin <surovegin@google.com>
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Co-developed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> ---
+>  Documentation/kbuild/kbuild.rst |  5 +++++
+>  scripts/Makefile.modpost        |  5 ++++-
+>  scripts/mod/modpost.c           | 12 +++++++++++-
+>  3 files changed, 20 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> index 2d1fc03d346e..cc102aad8619 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -229,6 +229,11 @@ KBUILD_MODPOST_WARN can be set to avoid errors in case of undefined
+>  symbols in the final module linking stage. It changes such errors
+>  into warnings.
+>
+> +KBUILD_MODPOST_FAIL_ON_WARNINGS
+> +-------------------------------
+> +KBUILD_MODPOST_FAIL_ON_WARNINGS can be set to turn all warnings into
+> +errors in the final module linking stage.
+> +
+>  KBUILD_MODPOST_NOFINAL
+>  ----------------------
+>  KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index f54b6ac37ac2..69297cd6f8ce 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -34,6 +34,8 @@
+>
+>  # KBUILD_MODPOST_WARN can be set to avoid error out in case of undefined
+>  # symbols in the final module linking stage
+> +# KBUILD_MODPOST_FAIL_ON_WARNINGS can be set to fail whenever modpost
+> +# generates warnings
+>  # KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
+>  # This is solely useful to speed up test compiles
+>
+> @@ -47,7 +49,8 @@ MODPOST = scripts/mod/modpost                                                         \
+>         $(if $(CONFIG_MODVERSIONS),-m)                                                  \
+>         $(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)                                        \
+>         $(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)                                  \
+> -       $(if $(KBUILD_MODPOST_WARN),-w) \
+> +       $(if $(KBUILD_MODPOST_WARN),-w)                                                 \
+> +       $(if $(KBUILD_MODPOST_FAIL_ON_WARNINGS),-F)                                     \
+>         -o $@
+>
+>  ifdef MODPOST_VMLINUX
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 69341b36f271..422f1cfca289 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -39,6 +39,9 @@ static int sec_mismatch_fatal = 0;
+>  static int ignore_missing_files;
+>  /* If set to 1, only warn (instead of error) about missing ns imports */
+>  static int allow_missing_ns_imports;
+> +/* Turn warnings into errors */
+> +static int fail_on_warnings;
+> +static int warnings_count;
+>
+>  enum export {
+>         export_plain,      export_unused,     export_gpl,
+> @@ -59,6 +62,7 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...)
+>         switch (loglevel) {
+>         case LOG_WARN:
+>                 fprintf(stderr, "WARNING: ");
+> +               warnings_count++;
+>                 break;
+>         case LOG_ERROR:
+>                 fprintf(stderr, "ERROR: ");
+> @@ -2559,7 +2563,7 @@ int main(int argc, char **argv)
+>         struct dump_list *dump_read_start = NULL;
+>         struct dump_list **dump_read_iter = &dump_read_start;
+>
+> -       while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
+> +       while ((opt = getopt(argc, argv, "ei:mnT:o:awEFNd:")) != -1) {
+>                 switch (opt) {
+>                 case 'e':
+>                         external_module = 1;
+> @@ -2588,6 +2592,9 @@ int main(int argc, char **argv)
+>                 case 'w':
+>                         warn_unresolved = 1;
+>                         break;
+> +               case 'F':
+> +                       fail_on_warnings = 1;
+> +                       break;
+>                 case 'E':
+>                         sec_mismatch_fatal = 1;
+>                         break;
+> @@ -2671,5 +2678,8 @@ int main(int argc, char **argv)
+>
+>         free(buf.p);
+>
+> +       if (fail_on_warnings && warnings_count)
+> +               err |= 2;
+> +
+>         return err;
+>  }
+> --
+> 2.25.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
