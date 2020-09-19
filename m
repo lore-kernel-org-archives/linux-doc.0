@@ -2,135 +2,85 @@ Return-Path: <SRS0=W+AB=C4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A16C43464
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 00:12:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F23C43464
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 00:52:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2E1E22208
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 00:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600474326;
-	bh=etjZlYYd1IIPDO1NfKNkztbf4goZGkm6DYQVvva74MI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=2UQmvGEX1ca5Sxjl68lYDE02xKoMlizQymNrwVkUST+qqzY2zzo+0zMrLx6F+drjR
-	 g8Zm8KN+PSUeCn6n3CQKpbO1Jmw69pBJSI/jrJm1hGxkHynegkswIZ6+SkYdgv4GS9
-	 q4OxW08ueL4UoUB7e4mGBhBYd/Xse1SgRxNwJm2c=
+	by mail.kernel.org (Postfix) with ESMTP id C040521D7F
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 00:52:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BG66IDlE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726168AbgISAME (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Sep 2020 20:12:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51976 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726104AbgISAME (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Sep 2020 20:12:04 -0400
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 655A02344C
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2020 00:12:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600474323;
-        bh=etjZlYYd1IIPDO1NfKNkztbf4goZGkm6DYQVvva74MI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=L7h6oG+UCIlVAj7i6PyxRQf7m9hC/1jmn3wsGAiTRhuPMAOQbzjvfwU1eUsohup7x
-         nsEMlDfmILL1Qv9F7HCx4sxrvxUj9AqhKo2z0RWVDQolq2dDHte4dIn/vts80Gz3rj
-         iLjVZ1Ydk2VK8jPEt1IyztAW9dwtHXaJ1tj9YxRE=
-Received: by mail-wm1-f52.google.com with SMTP id s13so6780093wmh.4
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2020 17:12:03 -0700 (PDT)
-X-Gm-Message-State: AOAM531Jjpxs+zNon6Nck50baskQTRVpSIjpM8D8yN3tx4+zYarrGgPZ
-        Vyv/sQtsydxpIn6RI1w2bBakL6ZoIi16sFkyqFO32g==
-X-Google-Smtp-Source: ABdhPJxmOMUD3oJeWUBWSi+Yvq5YFeJEC+DLVGlDfJl03Mlbg5VJuyOxaSuU065pkOCJwFJ0EmxFOn3UVUdyN4X8nu8=
-X-Received: by 2002:a05:600c:4104:: with SMTP id j4mr17372943wmi.36.1600474321906;
- Fri, 18 Sep 2020 17:12:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200918192312.25978-1-yu-cheng.yu@intel.com> <20200918192312.25978-9-yu-cheng.yu@intel.com>
-In-Reply-To: <20200918192312.25978-9-yu-cheng.yu@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 18 Sep 2020 17:11:50 -0700
-X-Gmail-Original-Message-ID: <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
-Message-ID: <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
-Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is enabled
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1726156AbgISAwH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Sep 2020 20:52:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgISAwH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Sep 2020 20:52:07 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0CCC0613CE;
+        Fri, 18 Sep 2020 17:52:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=Bdi+Xp/Uz5SX5F6bKzX/LNWrKxgSRH5Rf2H0YRsSQc0=; b=BG66IDlEWbX95+cObFyAdcEZ6o
+        D99VCZK1VtNAYoSvABcVaiK5glmgseErndVLl+yO2IOFRGqpIAGjhAQx/JMonfC4EXWBGkpvPbodz
+        LwfEwnRtcq0snbYdu2J4ftLEdMcg+r+0wIp0GdDUDVKduqyaSS8gbN8J0P3R9oWP5Uk9V0oxgvPQW
+        vTRG0cf927OZCzIumnA0+FaQd2YPU1b1B86k/bV+33ZCFaMDm28LIwZBKo+BEIQQ225xR4p3DikP/
+        br3c7LI4cU18eMI2a3A4/a4jbFcQSRjnZPHADQnLghKirP655MvVmbaM8+X587AHCRVI0ivLXAPKv
+        13O2zI4Q==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kJR6i-00049c-Tk; Sat, 19 Sep 2020 00:52:05 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        LKML <linux-kernel@vger.kernel.org>, linux-mips@vger.kernel.org,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: kernel-parameters: fix formatting of MIPS
+ "machtype"
+Message-ID: <c9059e35-188d-a749-1907-767b53479328@infradead.org>
+Date:   Fri, 18 Sep 2020 17:52:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 18, 2020 at 12:23 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> Emulation of the legacy vsyscall page is required by some programs
-> built before 2013.  Newer programs after 2013 don't use it.
-> Disable vsyscall emulation when Control-flow Enforcement (CET) is
-> enabled to enhance security.
->
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
-> v12:
-> - Disable vsyscall emulation only when it is attempted (vs. at compile time).
->
->  arch/x86/entry/vsyscall/vsyscall_64.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
-> index 44c33103a955..3196e963e365 100644
-> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> @@ -150,6 +150,15 @@ bool emulate_vsyscall(unsigned long error_code,
->
->         WARN_ON_ONCE(address != regs->ip);
->
-> +#ifdef CONFIG_X86_INTEL_CET
-> +       if (current->thread.cet.shstk_size ||
-> +           current->thread.cet.ibt_enabled) {
-> +               warn_bad_vsyscall(KERN_INFO, regs,
-> +                                 "vsyscall attempted with cet enabled");
-> +               return false;
-> +       }
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Nope, try again.  Having IBT on does *not* mean that every library in
-the process knows that we have indirect branch tracking.  The legacy
-bitmap exists for a reason.  Also, I want a way to flag programs as
-not using the vsyscall page, but that flag should not be called CET.
-And a process with vsyscalls off should not be able to read the
-vsyscall page, and /proc/self/maps should be correct.
+For the "machtype" boot parameter,
+fix word spacing, line wrap, and plural of "laptops".
 
-So you have some choices:
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: linux-mips@vger.kernel.org
+---
+ Documentation/admin-guide/kernel-parameters.txt |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-1. Drop this patch and make it work.
+--- linux-next-20200917.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-next-20200917/Documentation/admin-guide/kernel-parameters.txt
+@@ -2596,8 +2596,8 @@
+ 			(machvec) in a generic kernel.
+ 			Example: machvec=hpzx1
+ 
+-	machtype=	[Loongson] Share the same kernel image file between different
+-			 yeeloong laptop.
++	machtype=	[Loongson] Share the same kernel image file between
++			different yeeloong laptops.
+ 			Example: machtype=lemote-yeeloong-2f-7inch
+ 
+ 	max_addr=nn[KMG]	[KNL,BOOT,ia64] All physical memory greater
 
-2. Add a real per-process vsyscall control.  Either make it depend on
-vsyscall=xonly and wire it up correctly or actually make it work
-correctly with vsyscall=emulate.
-
-NAK to any hacks in this space.  Do it right or don't do it at all.
