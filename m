@@ -2,119 +2,233 @@ Return-Path: <SRS0=W+AB=C4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31678C43464
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 08:03:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E90C43463
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 18:14:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC64821D43
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 08:03:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6F8A21741
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Sep 2020 18:14:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="gCp0Pxfe"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CtqaZek9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbgISIDQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Sep 2020 04:03:16 -0400
-Received: from mout.gmx.net ([212.227.15.18]:57295 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726041AbgISIDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 19 Sep 2020 04:03:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1600502522;
-        bh=4XgdFtvAi6R4B5XmudteHuz8hEx5VkQonxbFFxSLuwY=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=gCp0Pxfe1yp36A3FUcn3Ym16DzjHZUgk64Ut9YWbXYe/BKi3p8cyxtAJI0hgpxtYP
-         e0+AlAlOyP8R57EgIGKVjk4e38bY9yau4aydPoEJ9autBnx7bJm9yJroWGVQs8csFs
-         jPkF+SEyN4GWAfOSKf5in74y2MfJDeGl+9Aq+Vjo=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MOiHl-1k7lYc36kx-00QAd0; Sat, 19
- Sep 2020 10:02:01 +0200
-Date:   Sat, 19 Sep 2020 10:01:43 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     John Wood <john.wood@gmx.com>, kernel-hardening@lists.openwall.com,
-        Jann Horn <jannh@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        id S1726528AbgISSOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Sep 2020 14:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726449AbgISSOR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Sep 2020 14:14:17 -0400
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6612C0613CE
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2020 11:14:17 -0700 (PDT)
+Received: by mail-yb1-xb44.google.com with SMTP id k2so6942415ybp.7
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2020 11:14:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Q9ptxfdoEfwu73EnjCKZtaPVR45R7yiJGjZWUa14+0Q=;
+        b=CtqaZek9ZP2Z2+ATOKYiaaPz8FaW/DMezoGqqNdpYCtZQpT30aNYA+No+MbCkulDW6
+         6KZ7QSGsUIKbYPsIjGhW+6tLI2pf98R+9919LefYj+SfSuKZ/uHHWJ/lmqXGw/fIbgCQ
+         cg3ImJNKdDTsqIJFWNfSf98awtSPYv4lCpHuWf735EpjboOmbwHJyEW12dxxEAjSkMZS
+         nb6xqDZZxFKHjsff6mLCulQFA+j4XmXvR3mkTjD97tWFzmb5fNbkHUl1kwxWzb7WyhDB
+         u47QhI41/vGWXsMOlrBw72Wp+ZciO1oEAMdgLLVrFkuOPV8DpuOI/Naaw3JIhEo27Z7d
+         m+Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q9ptxfdoEfwu73EnjCKZtaPVR45R7yiJGjZWUa14+0Q=;
+        b=oAJgTStlcioaCGLz5dM3BCgwgibwKvt+cKS3MpnFEllCDCA9Sg1r9CyQ5Q7eHiuZ3U
+         0babU1c6OURU3NbSsTQupN89fGhhzAPjIfMLRoWxbjtA/j79qcvEgqtlpTehI47lWx00
+         Xaf59jiZ8Yf7WqQPyhQE6H6XH2D/QmVw+hSZz9qwWd5bprpM0OCOZKuyhhXFZj4nEPKU
+         gHJXP1ffKH6zdTYuf8mCLQJIfF8wbYPiLya70bXIuhoro6PNLEYsKmuJkIVauginL45G
+         0NiKbkA8TQunHv4F6ioW9gpWWiXd1CgUWAIQXFw902RP7DI6t4vN3EKHjdXSzzZ9bIX2
+         cTQg==
+X-Gm-Message-State: AOAM532gLhIrzkJKuW3QMNvPLwQSO9lru8Nc8Os+N3Og3YQxZhxxyeUa
+        64+4FrakT8zg9zjVi+/Cs+KDWryG7nHEdklJTH2pFQ==
+X-Google-Smtp-Source: ABdhPJxQgzG1sCr0K7HLhY1pGoCZ07AtiIQrQzaF6FDRFj8I9Qv6KVvvAX108TV8rENpG+uQZIJaPWy5jjrnJ+6//yg=
+X-Received: by 2002:a25:5546:: with SMTP id j67mr8320422ybb.170.1600539256725;
+ Sat, 19 Sep 2020 11:14:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200520195134.GK26186@redhat.com> <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
+ <20200520211634.GL26186@redhat.com> <CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com>
+ <CA+EESO4kLaje0yTOyMSxHfSLC0n86zAF+M1DWB_XrwFDLOCawQ@mail.gmail.com>
+ <CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com>
+ <20200724093852-mutt-send-email-mst@kernel.org> <CAFJ0LnEZghYj=d3w8Fmko4GZAWw6Qc5rgAMmXj-8qgXtyU3bZQ@mail.gmail.com>
+ <20200806004351-mutt-send-email-mst@kernel.org> <CA+EESO6bxhKf5123feNX1LZyyN2QL4Ti5ApPAu=xb3pHXd7cwQ@mail.gmail.com>
+ <20200904033438.GI9411@redhat.com> <CA+EESO7yc9k79TxyQk+XvWbMfhMmax5GtJTYbNhDrb-0VgJunA@mail.gmail.com>
+In-Reply-To: <CA+EESO7yc9k79TxyQk+XvWbMfhMmax5GtJTYbNhDrb-0VgJunA@mail.gmail.com>
+From:   Nick Kralevich <nnk@google.com>
+Date:   Sat, 19 Sep 2020 11:14:03 -0700
+Message-ID: <CAFJ0LnEo-7YUvgOhb4pHteuiUW+wPfzqbwXUCGAA35ZMx11A-w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
+To:     Lokesh Gidra <lokeshgidra@google.com>
+Cc:     Andrea Arcangeli <aarcange@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kees Cook <keescook@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
         Luis Chamberlain <mcgrof@kernel.org>,
         Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH 6/6] security/fbfam: Mitigate a fork brute force
- attack
-Message-ID: <20200919080143.GA2998@ubuntu>
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <20200910202107.3799376-7-keescook@chromium.org>
- <202009101649.2A0BF95@keescook>
- <20200918152116.GB3229@ubuntu>
- <202009181433.EAF237C36@keescook>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202009181433.EAF237C36@keescook>
-X-Provags-ID: V03:K1:9L/Tjnvsa4rFId2m/ThIutvMMgMjZ/IzDuYdTCkaziufEFzDKT/
- IRrFLRh5iZZijoWA9cyyfuQ4k6jgKMd25Kk8d4GzwKnS21hKdASly6qgEiapWsHmSbTaFO+
- ENvVfY9y27mz4HzAjPWRFPwB2wIeSzoU1ixZMKt41hEE37FmLQuxey8tSSV1y7BasThZLWK
- UFxckuz1NmniW0O7Dq3Tw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DsrSIZNTKX4=:fcgG2vxOYNU28XvduGgWSa
- l8OZ/b33w3ZI6C2efMkW4M4v7bTdHnASMI4IqpDRJr818NfR2aEPc0wQF/se2ZEijsoc+fbZm
- g6oyJlTgpJSpsWyfvKwOSmljP4gX09HDMTHcVypA7NU+ujsxjA58GmgDEzM/a8tQT0maE6MkT
- 84zWkocT9nX/OtvYtNW5b1/JijWJkxtRk61NJPv14n1twCS8Mzl3Tw643fLm2K3wzEB8bnjGc
- OmlW6f04gTRYuNs5JpPApQxOCM6P4btmbltAm99vq9C8V4QWGrqSnlAPBArJf9/tzIjdTl/ZV
- cfAso21lbNzw9SFeRQyweLS/zOflRENFU9ISWCBnulBelTGqKi5S9MOtt4WkPJHbnTp0vXAOE
- Y3K++PK1wcas5NxxoCltB/JlKLdQz6dxsR3OgCEXpcieMaOyxxzsLHLvZYH1rmMGHGD1gbsAu
- VVzBIZ8dc3GFVnmGRTUL+VJfk+9P+LXhtSEcs29a2mWA6gs9997OxBHVz0Oqpqci1J/nqxs9y
- LG4jzr9JCMOqkF8xexq410aveWcLckUQp4k2RA+BQrk26YC+kN0Mj9Xse78p4EN96svVeLKbj
- Lqlj5k1+KEqd1qJfnhCxEG3suUQhW3xQh354D2+q45dSf1FlqlnBpbFzBt2wvVNq26prssG/X
- KK0vyakF7pgD5Wx9sV3XRmV6Zm4QuoTN+ZTnHHSLwgIICtSnrVQVLzn8GsKAbZtXYdPVc3Avl
- xvhafXunIOq2wROMVBjr9Z7srPprj1rUFtQdz0Nwlm/he+HlVwvSa8KcTazoXWepxIdyF7+HV
- BbSCC5D3Lk/DWhSkQ84CK5NIVlH8auL3JXuiT5AtkGNzzgPBf/hMpvP4GKhrVcY7fsmVTP0ow
- LkFRL7xchZ9ergYtr90Euxz6nV0Ko71ORgua7sVn+IeijeftZHqB3+ASSRommPaZzMeFNWKtQ
- 8j3sW3Zy4NNNdmi0BKNpV1FHOiQQKHNedyCUm4QTeQUALWHQxDr1lETNzG8O9iDvzpAZHa4SV
- W9bN3Iik9vt0yh8POyczQC94lONDsRZ1duce+iDjqfvdH8U239jL2GNwWyxOGfLzRHIHgdnT+
- UtdphSgI1cUGccdFzgH1EtmPf7mGGyAB2utUt75IHNLONIrMAfTxpK7eNTlSrTS4BPtbbM4e2
- e5Fk8i4DtMwmE1+qey/Od3qJdIcnFM3e1UUlGMI0Q3xOc4ZQsLqUYtDyzUzMcx+Iwlx5LkWCw
- tJj4wRrbj6ekneFnF4EzqQplU3U5eCTOuu4LMaQ==
-Content-Transfer-Encoding: quoted-printable
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Peter Xu <peterx@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Tim Murray <timmurray@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Sandeep Patil <sspatil@google.com>, kernel@android.com,
+        Daniel Colascione <dancol@dancol.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Dmitry Vyukov <dvyukov@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 18, 2020 at 02:35:12PM -0700, Kees Cook wrote:
-> On Fri, Sep 18, 2020 at 06:02:16PM +0200, John Wood wrote:
-> > On Thu, Sep 10, 2020 at 04:56:19PM -0700, Kees Cook wrote:
-> > > On Thu, Sep 10, 2020 at 01:21:07PM -0700, Kees Cook wrote:
-> > > > +		pr_warn("fbfam: Offending process with PID %d killed\n",
-> > > > +			p->pid);
-> > >
-> > > I'd make this ratelimited (along with Jann's suggestions).
+On Fri, Sep 4, 2020 at 5:36 PM Lokesh Gidra <lokeshgidra@google.com> wrote:
+>
+> On Thu, Sep 3, 2020 at 8:34 PM Andrea Arcangeli <aarcange@redhat.com> wrote:
 > >
-> > Sorry, but I don't understand what you mean with "make this ratelimite=
-d".
-> > A clarification would be greatly appreciated.
+> > 1) why don't you enforce the block of kernel initiated faults with
+> >    seccomp-bpf instead of adding a sysctl value 2? Is the sysctl just
+> >    an optimization to remove a few instructions per syscall in the bpf
+> >    execution of Android unprivileged apps? You should block a lot of
+> >    other syscalls by default to all unprivileged processes, including
+> >    vmsplice.
+> >
+> >    In other words if it's just for Android, why can't Android solve it
+> >    with only patch 1/2 by tweaking the seccomp filter?
 >
-> Ah! Yes, sorry for not being more clear. There are ratelimit helpers for
-> the pr_*() family of functions, e.g.:
+> I would let Nick (nnk@) and Jeff (jeffv@) respond to this.
 >
-> 	pr_warn_ratelimited("brute: Offending process with PID...
+> The previous responses from both of them on this email thread
+> (https://lore.kernel.org/lkml/CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com/
+> and https://lore.kernel.org/lkml/CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com/)
+> suggest that the performance overhead of seccomp-bpf is too much. Kees
+> also objected to it
+> (https://lore.kernel.org/lkml/202005200921.2BD5A0ADD@keescook/)
+>
+> I'm not familiar with how seccomp-bpf works. All that I can add here
+> is that userfaultfd syscall is usually not invoked in a performance
+> critical code path. So, if the performance overhead of seccomp-bpf (if
+> enabled) is observed on all syscalls originating from a process, then
+> I'd say patch 2/2 is essential. Otherwise, it should be ok to let
+> seccomp perform the same functionality instead.
+>
 
-Thanks for the clarification.
+There are two primary reasons why seccomp isn't viable here.
 
-> --
-> Kees Cook
+1) Seccomp was never designed for whole-of-system protections, and is
+impractical to deploy for anything other than "leaf" processes.
+2) Attempts to enable seccomp on Android have run into performance
+problems, even for trivial seccomp filters.
 
-Regards,
-John Wood
+Let's go into each one.
+
+Issue #1: Seccomp was never designed for whole-of-system protections,
+and is impractical to deploy for anything other than "leaf" processes.
+
+Andrea suggests deploying a seccomp filter purely focused on Android
+unprivileged[1] (third party installed) apps. However, the intention
+is for this security control to be used system-wide[2]. Only processes
+which have a need for kernel initiated faults should be allowed to use
+them; all other processes should be denied by default. And when I say
+"all' processes, I mean "all" processes, even those which run with
+UID=0. Andrea's proposal is akin to a denylist, where many modern
+distributions (such as Android) use allowlists.
+
+The seemingly obvious solution is to apply a global seccomp filter in
+init (PID=1), but it falls down in practice. Seccomp is an incredibly
+useful tool, but it wasn't designed to be applied system-wide. Seccomp
+is fundamentally hierarchical in nature. A seccomp filter, once
+applied, cannot be subsequently relaxed or removed in child processes.
+While this restriction is great for leaf processes, it causes problems
+for OS designers - a parent process must maintain an unused capability
+if any process in the parent's process tree uses that capability. This
+makes applying a userfaultfd seccomp filter in init impossible, since
+we expect a few of init's children (but not init itself or most of
+init's children) to use userfaultfd kernel faults. We end up back to a
+wack-a-mole (denylist) problem of trying to modify each individual
+process to block userfaultfd kernel faults, defeating the goals of
+system-wide protection, and introducing significant complexity into
+the system design.
+
+Seccomp should be used in the context where it provides the most value
+-- process leaf nodes. But trying to apply seccomp as a system-wide
+control just isn't viable.
+
+Lokesh's sysctl proposal doesn't have these problems. When the sysctl
+is set to 2 by the OS distributor, all processes which don't have
+CAP_SYS_PTRACE are denied kernel generated faults, making the system
+safe-by-default. Only processes which are on the OS distributor's
+CAP_SYS_PTRACE allowlist (see Android's allowlist at [3]) can generate
+these faults, and capabilities can be managed without regards to
+process hierarchy. This keeps the system minimally privileged and
+safe.
+
+Seccomp isn't a viable solution here.
+
+Issue #2: Attempts to enable seccomp on Android globally have run into
+performance problems, even for trivial seccomp filters.
+
+Android has tried a few times to enable seccomp globally, but even
+excluding the above-mentioned hierarchical process problems, we've
+seen performance regressions across the board. Imposing a seccomp
+filter merely for userfaultfd imposes a tax on every syscall, even if
+the process never makes use of userfaultfd. Lokesh's sysctl proposal
+avoids this tax and places the check where it's most effective, with
+the rest of the userfaultfd functionality.
+
+See also the threads that Lokesh mentioned above:
+
+* https://lore.kernel.org/lkml/CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com/
+* https://lore.kernel.org/lkml/CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com/
+* https://lore.kernel.org/lkml/202005200921.2BD5A0ADD@keescook/
+
+Thanks,
+-- Nick
+
+[1] The use of the term "unprivileged" is unfortunate. In Android,
+there's no coarse-grain privileged vs unprivileged process. Each
+process, including root processes, have only the privileges they need,
+and not a bit more. As a concrete example, Android's init process
+(PID=1) is not allowed to open TCP/UDP sockets, but is allowed to
+spawn children which can do so. Having each process be differently
+privileged, and ensuring that functionality is only given out on a
+need-to-have basis, is an important part of modern OS design.
+
+[2] The trend in modern exploits isn't to perform attacks directly
+from untrusted code to the kernel. A lot of the attack surface needed
+by an attacker isn't reachable directly from untrusted code, but only
+indirectly through other processes. The attacker moves laterally
+through the system, exploiting a process which has the necessary
+capabilities, then escalating to the kernel. Enforcing security
+controls system-wide is an important part of denying an attacker the
+tools for an effective exploit and preventing this kind of lateral
+movement from being useful. Denying an attacker access to kernel
+initiated faults in userfaultfd system-wide (except for authorized
+processes) is doubly important, as these kinds of faults are extremely
+valuable to an exploit writer (see explanation at
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=cefdca0a86be517bc390fc4541e3674b8e7803b0
+or https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit)
+
+[3] https://android.googlesource.com/platform/system/sepolicy/+/7be9e9e372c70a5518f729a0cdcb0d39a28be377/private/domain.te#107
+line 107
+
+-- 
+Nick Kralevich | nnk@google.com
