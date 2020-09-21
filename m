@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2242CC43466
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 13:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA8F8C4346A
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 13:27:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEE73221E2
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 13:27:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72ED221BE5
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 13:27:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t/PhPbvg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AwQ3SH4R"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbgIUN1O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 09:27:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
+        id S1727355AbgIUN1N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 09:27:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727290AbgIUN0z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 09:26:55 -0400
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AB7C0613D1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 06:26:55 -0700 (PDT)
-Received: by mail-qt1-x849.google.com with SMTP id b18so12890526qto.4
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 06:26:54 -0700 (PDT)
+        with ESMTP id S1727305AbgIUN05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 09:26:57 -0400
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66277C061755
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 06:26:57 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id a16so12817784qtj.7
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 06:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=Xu8t61b4dNKr+fiQ7+DCPl49hEzGiBe/cMhyep8752Q=;
-        b=t/PhPbvgVmVZNO9No4Qsi0HZRKHniwTfNY8al1/FxEWkHh40tZwZm8AG2oTdT6OtOE
-         0U1EmeVMJvqIU3FT608D0nMfNpWZdrS74pAWAyQtXEcglvXWT3hoZM3gk9OIvEZlM92Y
-         njI4DKdBxtMEsniD1uoqdp7LR2Kx0bmYr03XdW/yAxE9foJVT6JQDImhnmsDt0m+l50I
-         qBJ7XAVxF44YbVX+PQeCKvfjZ+JK9mDAS6pkbvbegvxujp51QBihra7o3Hi9nduA2yG3
-         PeiSIZbpwxu8jilOBEUmyAhKDo3ggadkcLt4SwKR3jtuywvAeXsITeIKnUnfOR+kZORB
-         MdbQ==
+        bh=+R3FkgLg/uUxAfttfYVSjxdiI+HJZltSBRxJWgKHPWI=;
+        b=AwQ3SH4RPdmBRFAyoSOJHU//nXO51R9eb6z2HWBBP/5KLsyCveVvAjoS/15dev1nHk
+         C1V6mTtovAY3Pzkn8XqqyXRcPtoZVTxMDg8Lp1weN8lPN8YN3uLOinjVacYCllLMgok5
+         f8ha/FnRT9SaJb+NLdV7pTTsSpCC3hub0bb12gt3j8skHWk/JUktSY1U4lt6/xjuVoYP
+         Y8nZ69cULu3nVdjxXK3zwVHwE7HMrbUr9dFp35w3c6SkDDqYTt2E/6153FiTwMQdZRnX
+         Q2lU7puug9u1gp2aen8hAYYse1dBtG4FTtkn9TLUxm7/9W/TmRC5Poh9NfcYqpi2wrIH
+         RplQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=Xu8t61b4dNKr+fiQ7+DCPl49hEzGiBe/cMhyep8752Q=;
-        b=tyPT5CIhNGJnExjYnyOy8rU8y/8+2WwCwxkfTCK+sJ579qxs4QM9ippOCbDtAXV7rr
-         aoumQ0EqDlIQQKwiMYMXnH0x8HOPsie9q77mmj2ymob7SfHjOZljYgE/fXzyWzeAxllm
-         KpvyeiDkwJododln/T2av3Nh1btMBgnUOL1xh5TKZXCy+2fIKnVeQUexdkUDO8c+WXfC
-         Zp+TSfw9tUoTrUUckFa993KD1sCn4U6v+mORTvAo6zVr/ok6JzMnAJFGi2v4Sahpo0up
-         XHR13fpq50oAXaLajNNmPKFWN7N/7VsmIsFfc4q6oi7i+Uh40mhcrLk/kEtE2Ih3PTvz
-         EE3w==
-X-Gm-Message-State: AOAM533iF/CpLs1kqE3wWFGlyM3BOzJ0p8rfPanJAXyBALa/JJn9HGJJ
-        XwYdfXwZl0Hf+claSfDO4U2riI8FpA==
-X-Google-Smtp-Source: ABdhPJwlomHZW5LFrUvnOYp1W3ILbDMFcZXnyVZmSCcK70XUPvRiAPt5y/KlgaYdqO/4DLRWjmwMvNsM3A==
+        bh=+R3FkgLg/uUxAfttfYVSjxdiI+HJZltSBRxJWgKHPWI=;
+        b=XlXN8soy276pCAb3/Fvo+k3iCI9rSlhEu3w/7n/veBIlr7gsE7NPbLDVAHwWePWFC6
+         uLJ6aJiBmEw+I4NZ0bPXosz2Kzlj3hn/V4ZItQlLJSkjwnC/lCSX52u1Or1JItmo5nFY
+         pqBPmHXqoPmcAxWBa767RD80UwrC/G1+kCQUf76D5fRiHfqpvfBk874ywbaCxjm5QqRm
+         GfOXg/mGH4WldP6cM/HIQNvZHZKqWAp2d7GDrPjPtHZeUXL1DrbUc7771gr5/l3n8eDu
+         9TLA1aEbVrSnKYblA5tiLJrf/KajIJOo4PwRjoXizSahdE1dORzn6B3FdhMpyhMUg/Bn
+         vyeg==
+X-Gm-Message-State: AOAM5328E4ydMpgedVcXCunaezpO3KGu+DsmiOA6AyDqisn2Q8V9RUgm
+        4hu7BTpLzGFe84rO3DjPtgv8S4W26g==
+X-Google-Smtp-Source: ABdhPJzdcj1vXa9IRzgIJT+0KIMH13pc+xxOpm4AAO5fmze8y5104JWt6jdjS+3w6lHF/NGj6w+Ksxvu5Q==
 Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:a0c:e311:: with SMTP id s17mr28925297qvl.45.1600694813892;
- Mon, 21 Sep 2020 06:26:53 -0700 (PDT)
-Date:   Mon, 21 Sep 2020 15:26:08 +0200
+ (user=elver job=sendgmr) by 2002:a0c:c709:: with SMTP id w9mr46105935qvi.26.1600694816482;
+ Mon, 21 Sep 2020 06:26:56 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 15:26:09 +0200
 In-Reply-To: <20200921132611.1700350-1-elver@google.com>
-Message-Id: <20200921132611.1700350-8-elver@google.com>
+Message-Id: <20200921132611.1700350-9-elver@google.com>
 Mime-Version: 1.0
 References: <20200921132611.1700350-1-elver@google.com>
 X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
-Subject: [PATCH v3 07/10] kfence, kmemleak: make KFENCE compatible with KMEMLEAK
+Subject: [PATCH v3 08/10] kfence, lockdep: make KFENCE compatible with lockdep
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
 Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
@@ -82,47 +82,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alexander Potapenko <glider@google.com>
+Lockdep checks that dynamic key registration is only performed on keys
+that are not static objects. With KFENCE, it is possible that such a
+dynamically allocated key is a KFENCE object which may, however, be
+allocated from a static memory pool (if HAVE_ARCH_KFENCE_STATIC_POOL).
 
-Add compatibility with KMEMLEAK, by making KMEMLEAK aware of the KFENCE
-memory pool. This allows building debug kernels with both enabled, which
-also helped in debugging KFENCE.
+Therefore, ignore KFENCE-allocated objects in static_obj().
 
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-Co-developed-by: Marco Elver <elver@google.com>
-Signed-off-by: Marco Elver <elver@google.com>
+Co-developed-by: Alexander Potapenko <glider@google.com>
 Signed-off-by: Alexander Potapenko <glider@google.com>
+Signed-off-by: Marco Elver <elver@google.com>
 ---
-v2:
-* Rework using delete_object_part() [suggested by Catalin Marinas].
----
- mm/kmemleak.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ kernel/locking/lockdep.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/mm/kmemleak.c b/mm/kmemleak.c
-index 5e252d91eb14..feff16068e8e 100644
---- a/mm/kmemleak.c
-+++ b/mm/kmemleak.c
-@@ -97,6 +97,7 @@
- #include <linux/atomic.h>
- 
- #include <linux/kasan.h>
+diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
+index 54b74fabf40c..0cf5d5ecbd31 100644
+--- a/kernel/locking/lockdep.c
++++ b/kernel/locking/lockdep.c
+@@ -38,6 +38,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/spinlock.h>
+ #include <linux/kallsyms.h>
 +#include <linux/kfence.h>
- #include <linux/kmemleak.h>
- #include <linux/memory_hotplug.h>
+ #include <linux/interrupt.h>
+ #include <linux/stacktrace.h>
+ #include <linux/debug_locks.h>
+@@ -755,6 +756,13 @@ static int static_obj(const void *obj)
+ 	if (arch_is_kernel_initmem_freed(addr))
+ 		return 0;
  
-@@ -1948,6 +1949,11 @@ void __init kmemleak_init(void)
- 		      KMEMLEAK_GREY, GFP_ATOMIC);
- 	create_object((unsigned long)__bss_start, __bss_stop - __bss_start,
- 		      KMEMLEAK_GREY, GFP_ATOMIC);
-+#if defined(CONFIG_KFENCE) && defined(CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL)
-+	/* KFENCE objects are located in .bss, which may confuse kmemleak. Skip them. */
-+	delete_object_part((unsigned long)__kfence_pool, KFENCE_POOL_SIZE);
-+#endif
++	/*
++	 * KFENCE objects may be allocated from a static memory pool, but are
++	 * not actually static objects.
++	 */
++	if (is_kfence_address(obj))
++		return 0;
 +
- 	/* only register .data..ro_after_init if not within .data */
- 	if (&__start_ro_after_init < &_sdata || &__end_ro_after_init > &_edata)
- 		create_object((unsigned long)__start_ro_after_init,
+ 	/*
+ 	 * static variable?
+ 	 */
 -- 
 2.28.0.681.g6f77f65b4e-goog
 
