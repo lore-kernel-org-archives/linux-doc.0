@@ -2,119 +2,139 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94480C43465
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8880CC4346A
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 16:22:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 137BE216C4
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:58:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SWjERXJF"
+	by mail.kernel.org (Postfix) with ESMTP id 5B0862076B
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 16:22:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727314AbgIUP6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 11:58:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727256AbgIUP6S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 11:58:18 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 229B0C061755;
-        Mon, 21 Sep 2020 08:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=Br0UNVJe+Ev8cjKbRyN9LsJUKEZ9LG0bn+D8b/Qg9zo=; b=SWjERXJFhFEJH0lY46f34q+9oU
-        vq74TEbEiWNWWoKzmvHh1PqERulc8ABD/2ghgG5DwgGiRNfujzlKgQIkT15zQ5UzbS6TJh+8GbjQ5
-        svc1PjoRSCHzX9SFxCaWnocjW2KiQZx9QqLumxVQdo09x7GfDB5QPMWvKbyeImqK4XQnoMHH8wwpT
-        5qpgL6zAox9JUXP08NvZdJpLq+66Cujskyow5xM/ulsfZk81wyg6mz/TN+RxVVj8OK3RdmqLiRHM5
-        DYJrSLJPU2imFQoqwV/W/Ep8N8afm+rV4uGQ1FBog/WDTNhKpelzDF1WvAacqp38cRb5RZ4T3VTH/
-        iwwhQk+w==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kKOCb-00074H-0l; Mon, 21 Sep 2020 15:58:05 +0000
-Subject: Re: [PATCH V2] Doc: admin-guide: Add entry for kvm_cma_resv_ratio
- kernel param
-To:     sathnaga@linux.vnet.ibm.com, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <82d06ba5-592c-1f19-aaae-a1f7b4041c7f@infradead.org>
-Date:   Mon, 21 Sep 2020 08:58:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+        id S1727246AbgIUQW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 12:22:29 -0400
+Received: from mga02.intel.com ([134.134.136.20]:36798 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726419AbgIUQW3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Sep 2020 12:22:29 -0400
+IronPort-SDR: WAODNz+AWg2Fv1qgtS+4SfBx2nYuI6MWYQRyP3bsZ7tj77dLTudoIB7CoTTrUlXTS1nvPJoRVC
+ b8iThqVFPTkA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="148077072"
+X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; 
+   d="scan'208";a="148077072"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 09:22:27 -0700
+IronPort-SDR: DzeCj1CYXt5zm0Njvv2xtnUdYaZZmhzsBjJGNA1e7sXxqTd/uptwCH02FfBaxY46EttPZoUWgv
+ pQwlJ5MOClew==
+X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; 
+   d="scan'208";a="348153605"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.102.78]) ([10.212.102.78])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 09:22:26 -0700
+Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is
+ enabled
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
+ <20200918192312.25978-9-yu-cheng.yu@intel.com>
+ <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <c96c98ec-d72a-81a3-06e2-2040f3ece33a@intel.com>
+Date:   Mon, 21 Sep 2020 09:22:25 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/21/20 2:02 AM, sathnaga@linux.vnet.ibm.com wrote:
-> From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+On 9/18/2020 5:11 PM, Andy Lutomirski wrote:
+> On Fri, Sep 18, 2020 at 12:23 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+>> Emulation of the legacy vsyscall page is required by some programs
+>> built before 2013.  Newer programs after 2013 don't use it.
+>> Disable vsyscall emulation when Control-flow Enforcement (CET) is
+>> enabled to enhance security.
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> ---
+>> v12:
+>> - Disable vsyscall emulation only when it is attempted (vs. at compile time).
+>>
+>>   arch/x86/entry/vsyscall/vsyscall_64.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
+>> index 44c33103a955..3196e963e365 100644
+>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
+>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+>> @@ -150,6 +150,15 @@ bool emulate_vsyscall(unsigned long error_code,
+>>
+>>          WARN_ON_ONCE(address != regs->ip);
+>>
+>> +#ifdef CONFIG_X86_INTEL_CET
+>> +       if (current->thread.cet.shstk_size ||
+>> +           current->thread.cet.ibt_enabled) {
+>> +               warn_bad_vsyscall(KERN_INFO, regs,
+>> +                                 "vsyscall attempted with cet enabled");
+>> +               return false;
+>> +       }
 > 
-> Add document entry for kvm_cma_resv_ratio kernel param which
-> is used to alter the KVM contiguous memory allocation percentage
-> for hash pagetable allocation used by hash mode PowerPC KVM guests.
+> Nope, try again.  Having IBT on does *not* mean that every library in
+> the process knows that we have indirect branch tracking.  The legacy
+> bitmap exists for a reason.  Also, I want a way to flag programs as
+> not using the vsyscall page, but that flag should not be called CET.
+> And a process with vsyscalls off should not be able to read the
+> vsyscall page, and /proc/self/maps should be correct.
 > 
-> Cc: linux-kernel@vger.kernel.org
-> Cc: kvm-ppc@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-
-Hi,
-
-> ---
+> So you have some choices:
 > 
-> V2: 
-> Addressed review comments from Randy.
+> 1. Drop this patch and make it work.
 > 
-> V1: https://lkml.org/lkml/2020/9/16/72
-
-In reply to V1, I didn't add a Reviewed-by: tag, but I can now.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> 2. Add a real per-process vsyscall control.  Either make it depend on
+> vsyscall=xonly and wire it up correctly or actually make it work
+> correctly with vsyscall=emulate.
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a1068742a6df..932ed45740c9 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2258,6 +2258,14 @@
->  			[KVM,ARM] Allow use of GICv4 for direct injection of
->  			LPIs.
->  
-> +	kvm_cma_resv_ratio=n [PPC]
-> +			Reserves given percentage from system memory area for
-> +			contiguous memory allocation for KVM hash pagetable
-> +			allocation.
-> +			By default it reserves 5% of total system memory.
-> +			Format: <integer>
-> +			Default: 5
-> +
->  	kvm-intel.ept=	[KVM,Intel] Disable extended page tables
->  			(virtualized MMU) support on capable Intel chips.
->  			Default is 1 (enabled)
+> NAK to any hacks in this space.  Do it right or don't do it at all.
 > 
 
-thanks.
--- 
-~Randy
+We can drop this patch, and bring back the previous patch that fixes up 
+shadow stack and ibt.  That makes vsyscall emulation work correctly, and 
+does not force the application to do anything different from what is 
+working now.  I will post the previous patch as a reply to this thread 
+so that people can make comments on it.
 
+Yu-cheng
