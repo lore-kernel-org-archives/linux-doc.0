@@ -2,125 +2,119 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C134FC43469
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:55:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94480C43465
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:58:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 639BF2311D
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:55:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 137BE216C4
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:58:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X6obxRKe"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SWjERXJF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbgIUPza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 11:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
+        id S1727314AbgIUP6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 11:58:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727591AbgIUPz3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 11:55:29 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04271C0613D2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 08:55:29 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id c2so11523093ljj.12
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 08:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KlAO2f2MCbdMFYmuMR/JVAe3ADfPLwZDOazJ0JPDtY8=;
-        b=X6obxRKeN8mR9RXp9MXChkD/M+vckq63Aq7SzA4AbmwqS/IV5RDlSeQScIvKUx90Yq
-         egE3yRvoKY3/syMLF2edGesVcPB6irZi2K8o1J7gzKQQYLf/KoNbSLvEDwPRQ8Zm/SCT
-         gq5vqLKF0gc7kMWfQqZL8aa0UB2Bz+NsoL8x+711eRc2LRrgrsg/Qn9SIOSuQ9Ca3Re+
-         Gztcy1jkdpujzRW0mt7Jdz3Iu8Kp1XCbeD5DMLzyrhsRRCN2VL1v0le3b5DU/mAV5WTR
-         X02fZxY1HAoBQI19wrg4qUPbFwT29TH7MY4J5mkMhi6z/F/8vW26DM+UxD+2RtSmOaVe
-         uYPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KlAO2f2MCbdMFYmuMR/JVAe3ADfPLwZDOazJ0JPDtY8=;
-        b=j+sQcqetZNvJ8OEMgLo0QIAeG45MOSbcVMjuskHI2YpYr8St5tSOBRWvDJcGpOL9uQ
-         jGiYdd4PxvwKqzc4o9m27rAt8/kou0wBn6ajP6d5PJmlr54VLpJS0cFITi2eniIcKgu7
-         b83qiL+El5Qzhl4vD+XXQnIDiYRoXbC7Qc2C1OynxaQtwUQfQCXWQUL9mbLiiewJ9rtC
-         melxRd3208CRauF21LyLS/+YtQRbaHiaEFjMitPzt9LO7agTUp4H/dlD0o8TdPmwBqOi
-         1kvQ3Z0zX+KAR6V89f76KX4azAkc4yF3NKNN43Qj7KEoBnum7pBJAJQCEO5YAjiAqrnC
-         wVdA==
-X-Gm-Message-State: AOAM531NsiqXBE1EFDdOP5Vf/c0iaIcdjrJnOLka1xODsME3eoYTEI+H
-        JWk4ArOOYAZr5l8VFaIhHRy4dRj4Ob6BaHnKRXzYoQ==
-X-Google-Smtp-Source: ABdhPJzAzrg0an3L/O21olXYAkjIkNnbmJ64HN6mgah50aQ3PSN08J/FUDGQvp5j4/fAmKh3qQmu1dRpTCZjQgXqSpU=
-X-Received: by 2002:a2e:7c09:: with SMTP id x9mr116899ljc.192.1600703726805;
- Mon, 21 Sep 2020 08:55:26 -0700 (PDT)
+        with ESMTP id S1727256AbgIUP6S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 11:58:18 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 229B0C061755;
+        Mon, 21 Sep 2020 08:58:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=Br0UNVJe+Ev8cjKbRyN9LsJUKEZ9LG0bn+D8b/Qg9zo=; b=SWjERXJFhFEJH0lY46f34q+9oU
+        vq74TEbEiWNWWoKzmvHh1PqERulc8ABD/2ghgG5DwgGiRNfujzlKgQIkT15zQ5UzbS6TJh+8GbjQ5
+        svc1PjoRSCHzX9SFxCaWnocjW2KiQZx9QqLumxVQdo09x7GfDB5QPMWvKbyeImqK4XQnoMHH8wwpT
+        5qpgL6zAox9JUXP08NvZdJpLq+66Cujskyow5xM/ulsfZk81wyg6mz/TN+RxVVj8OK3RdmqLiRHM5
+        DYJrSLJPU2imFQoqwV/W/Ep8N8afm+rV4uGQ1FBog/WDTNhKpelzDF1WvAacqp38cRb5RZ4T3VTH/
+        iwwhQk+w==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kKOCb-00074H-0l; Mon, 21 Sep 2020 15:58:05 +0000
+Subject: Re: [PATCH V2] Doc: admin-guide: Add entry for kvm_cma_resv_ratio
+ kernel param
+To:     sathnaga@linux.vnet.ibm.com, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <82d06ba5-592c-1f19-aaae-a1f7b4041c7f@infradead.org>
+Date:   Mon, 21 Sep 2020 08:58:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200921080255.15505-1-zangchunxin@bytedance.com>
-In-Reply-To: <20200921080255.15505-1-zangchunxin@bytedance.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Mon, 21 Sep 2020 08:55:15 -0700
-Message-ID: <CALvZod5JpEsmNvbaCMEfRMt83GbeLJk2oM0=siCj+aXEnxYh4Q@mail.gmail.com>
-Subject: Re: [PATCH] mm/memcontrol: Add the drop_cache interface for cgroup v2
-To:     zangchunxin@bytedance.com
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>, kafai@fb.com,
-        Song Liu <songliubraving@fb.com>, yhs@fb.com, andriin@fb.com,
-        john.fastabend@gmail.com, kpsingh@chromium.org,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 1:05 AM <zangchunxin@bytedance.com> wrote:
->
-> From: Chunxin Zang <zangchunxin@bytedance.com>
->
-> In the cgroup v1, we have 'force_mepty' interface. This is very
-> useful for userspace to actively release memory. But the cgroup
-> v2 does not.
->
-> This patch reuse cgroup v1's function, but have a new name for
-> the interface. Because I think 'drop_cache' may be is easier to
-> understand :)
->
-> Signed-off-by: Chunxin Zang <zangchunxin@bytedance.com>
+On 9/21/20 2:02 AM, sathnaga@linux.vnet.ibm.com wrote:
+> From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+> 
+> Add document entry for kvm_cma_resv_ratio kernel param which
+> is used to alter the KVM contiguous memory allocation percentage
+> for hash pagetable allocation used by hash mode PowerPC KVM guests.
+> 
+> Cc: linux-kernel@vger.kernel.org
+> Cc: kvm-ppc@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+
+Hi,
+
 > ---
->  Documentation/admin-guide/cgroup-v2.rst | 11 +++++++++++
->  mm/memcontrol.c                         |  5 +++++
->  2 files changed, 16 insertions(+)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index ce3e05e41724..fbff959c8116 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1181,6 +1181,17 @@ PAGE_SIZE multiple when read back.
->         high limit is used and monitored properly, this limit's
->         utility is limited to providing the final safety net.
->
-> +  memory.drop_cache
-> +    A write-only single value file which exists on non-root
-> +    cgroups.
-> +
-> +    Provide a mechanism for users to actively trigger memory
-> +    reclaim. The cgroup will be reclaimed and as many pages
-> +    reclaimed as possible.
-> +
-> +    It will broke low boundary. Because it tries to reclaim the
-> +    memory many times, until the memory drops to a certain level.
-> +
+> 
+> V2: 
+> Addressed review comments from Randy.
+> 
+> V1: https://lkml.org/lkml/2020/9/16/72
 
-drop_cache is not really force_empty(). What is your use-case? Maybe
-you can use memory.reclaim [1] for your use-case. It is already in
-Andrew's tree.
+In reply to V1, I didn't add a Reviewed-by: tag, but I can now.
 
-[1] https://lkml.kernel.org/r/20200909215752.1725525-1-shakeelb@google.com
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a1068742a6df..932ed45740c9 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2258,6 +2258,14 @@
+>  			[KVM,ARM] Allow use of GICv4 for direct injection of
+>  			LPIs.
+>  
+> +	kvm_cma_resv_ratio=n [PPC]
+> +			Reserves given percentage from system memory area for
+> +			contiguous memory allocation for KVM hash pagetable
+> +			allocation.
+> +			By default it reserves 5% of total system memory.
+> +			Format: <integer>
+> +			Default: 5
+> +
+>  	kvm-intel.ept=	[KVM,Intel] Disable extended page tables
+>  			(virtualized MMU) support on capable Intel chips.
+>  			Default is 1 (enabled)
+> 
+
+thanks.
+-- 
+~Randy
+
