@@ -2,107 +2,107 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB46C4727E
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:19:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E17F5C4727D
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:27:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F5E023A1B
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:19:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b="tLvKt6RB"
+	by mail.kernel.org (Postfix) with ESMTP id 9F39B23A6A
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:27:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728712AbgIUXTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 19:19:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38652 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728704AbgIUXTc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 19:19:32 -0400
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99532C061755;
-        Mon, 21 Sep 2020 16:19:32 -0700 (PDT)
-Received: by ozlabs.org (Postfix, from userid 1003)
-        id 4BwL4K2tFPz9sSt; Tue, 22 Sep 2020 09:19:29 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
-        t=1600730369; bh=Gh/jGMCMQmrrfp+HhoHjE8q2QWpEvx5rxPTcdpfPEt4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tLvKt6RBA7E4vUVZYVD3O0hQckC/kqu0Y6WFB8O4lOYXfgvdTXK9gsmS2BD7ls6Xr
-         A1w4ELvBsIAhbgPaFFbignPhVBc1+vqX+JLVk+i4hT/EJmapByfasDbtvk9ZdIRSiY
-         VVBZFvHlCGQiUgyF/mZ9yP+i3k8ThJdX+sjKTRfWPcM8mzSoNZ9quQ9ynaUbGeGfwD
-         zHkAT3JewA/O4SLmM/ZXDet68DJvmz2PUC/X2oxcj8Ee8mh4Y6Ut6o1RPksx6psUXi
-         nbGOfz1G8iQA3tLtlpbbVNHjCbXyoRskt/SrPz3ILNA3SiwzpqzpxiLangK6IevOV/
-         epbK+jzQSZ3hw==
-Date:   Tue, 22 Sep 2020 09:19:25 +1000
-From:   Paul Mackerras <paulus@ozlabs.org>
-To:     sathnaga@linux.vnet.ibm.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
+        id S1728704AbgIUX16 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 19:27:58 -0400
+Received: from mga06.intel.com ([134.134.136.31]:62727 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726457AbgIUX16 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Sep 2020 19:27:58 -0400
+IronPort-SDR: qX2EM5rH77KzBq9rqHoCxTEz6yAPEO8oFj3KSBSP6V4oB8k89KIxO94kjuxI9MnIP71u/iO7+J
+ kAr40tTonI7w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="222090913"
+X-IronPort-AV: E=Sophos;i="5.77,288,1596524400"; 
+   d="scan'208";a="222090913"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 16:27:57 -0700
+IronPort-SDR: s70dQPnrd9HnchA+yXDoMTCvVLXkQq9CMRN7cT6JqAIAicSh1zFZJSN7KpwAh8O9Z6jiqlhUlW
+ Jd+/61SFkjow==
+X-IronPort-AV: E=Sophos;i="5.77,288,1596524400"; 
+   d="scan'208";a="510929617"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.102.78]) ([10.212.102.78])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 16:27:56 -0700
+Subject: Re: [PATCH v12 1/8] x86/cet/ibt: Add Kconfig option for user-mode
+ Indirect Branch Tracking
+To:     Dave Hansen <dave.hansen@intel.com>, Pavel Machek <pavel@ucw.cz>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH V2] Doc: admin-guide: Add entry for kvm_cma_resv_ratio
- kernel param
-Message-ID: <20200921231925.GA348814@thinks.paulus.ozlabs.org>
-References: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
+ <20200918192312.25978-2-yu-cheng.yu@intel.com>
+ <ce2524cc-081b-aec9-177a-11c7431cb20d@infradead.org>
+ <20200918205933.GB4304@duo.ucw.cz>
+ <019b5e45-b116-7f3d-f1f2-3680afbd676c@intel.com>
+ <20200918214020.GF4304@duo.ucw.cz>
+ <c2b5d697-634d-a5cb-2728-cead44a221c9@intel.com>
+ <c91021a9-adb0-8733-2423-f78dbea5c88a@intel.com>
+ <3a0b0baf-a0f5-fd15-3af1-0059a807100b@intel.com>
+ <9cf234db-d0f7-0466-be2c-afe04eb76759@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <5e0a4005-45e3-3e88-e6e0-4ec31aad7eb9@intel.com>
+Date:   Mon, 21 Sep 2020 16:27:55 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
+In-Reply-To: <9cf234db-d0f7-0466-be2c-afe04eb76759@intel.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 02:32:20PM +0530, sathnaga@linux.vnet.ibm.com wrote:
-> From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+On 9/21/2020 3:54 PM, Dave Hansen wrote:
+> On 9/21/20 3:47 PM, Yu, Yu-cheng wrote:
+>>> The 900KB is probably wrong today in a lot of configurations, and will;
+>>> only get *more* wrong over time.
+>>
+>> I was talking about the vmlinux file, and probably should have said
+>> bzImage size, which has 14 KB increase when CET is enabled.
 > 
-> Add document entry for kvm_cma_resv_ratio kernel param which
-> is used to alter the KVM contiguous memory allocation percentage
-> for hash pagetable allocation used by hash mode PowerPC KVM guests.
+> Well, vmlinux size is important too.  1 page of vmlinux size means one
+> fewer page of memory available for real use.
 > 
-> Cc: linux-kernel@vger.kernel.org
-> Cc: kvm-ppc@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-> ---
+> I would really encourage you when you write to try to be specific and
+> use as much plain language as possible without being verbose.  Most
+> people understand things like "this feature increases kernel text size".
+>   I wouldn't expect most folks who can type "make oldconfig; make
+> install" to understands the difference between vmlinux and bzImage.
 > 
-> V2: 
-> Addressed review comments from Randy.
-> 
-> V1: https://lkml.org/lkml/2020/9/16/72
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a1068742a6df..932ed45740c9 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2258,6 +2258,14 @@
->  			[KVM,ARM] Allow use of GICv4 for direct injection of
->  			LPIs.
->  
-> +	kvm_cma_resv_ratio=n [PPC]
-> +			Reserves given percentage from system memory area for
-> +			contiguous memory allocation for KVM hash pagetable
-> +			allocation.
-> +			By default it reserves 5% of total system memory.
 
-I am concerned that using the term "reserve" here could give the
-impression that this memory is then not available for any other use.
-It is in fact available for other uses as long as they are movable
-allocations.  So this memory is available for uses such as process
-anonymous memory and page cache, just not for things like kmalloc.
+Ok, thanks!
 
-I'm not sure what would be a better term than "reserve", though.
-Perhaps we need to add a sentence something like "The reserved memory
-is available for use as process memory and page cache when it is not
-being used by KVM."
-
-Paul.
+Yu-cheng
