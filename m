@@ -2,139 +2,119 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8880CC4346A
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 16:22:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1722C43466
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 17:13:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B0862076B
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 16:22:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2A3E2085B
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 17:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600708407;
+	bh=nx2TaoLqWNqyr9nmT07RvYE1xPfejV7fHLR9RhvDxrs=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=ztxv8YVi7FeHJ4K2cWSx9oZd/4QiG/XacVDXQ5hBRgHbo3/mq18Qv0Bxp1k4SrACC
+	 Cgd3ZxNM9p0G+TTj0sS3ybjUXImx+k1L2lxy1ESSkTudOMIHmm/JExfUVIImHs0JTN
+	 fnBfca/KWk/EtYXx+JmlG1MqzW4zsNCO2E+JMJAA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727246AbgIUQW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 12:22:29 -0400
-Received: from mga02.intel.com ([134.134.136.20]:36798 "EHLO mga02.intel.com"
+        id S1726913AbgIURN1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 13:13:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726419AbgIUQW3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Sep 2020 12:22:29 -0400
-IronPort-SDR: WAODNz+AWg2Fv1qgtS+4SfBx2nYuI6MWYQRyP3bsZ7tj77dLTudoIB7CoTTrUlXTS1nvPJoRVC
- b8iThqVFPTkA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="148077072"
-X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; 
-   d="scan'208";a="148077072"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 09:22:27 -0700
-IronPort-SDR: DzeCj1CYXt5zm0Njvv2xtnUdYaZZmhzsBjJGNA1e7sXxqTd/uptwCH02FfBaxY46EttPZoUWgv
- pQwlJ5MOClew==
-X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; 
-   d="scan'208";a="348153605"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.102.78]) ([10.212.102.78])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 09:22:26 -0700
-Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is
- enabled
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
- <20200918192312.25978-9-yu-cheng.yu@intel.com>
- <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c96c98ec-d72a-81a3-06e2-2040f3ece33a@intel.com>
-Date:   Mon, 21 Sep 2020 09:22:25 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726818AbgIURN0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Sep 2020 13:13:26 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1305520758;
+        Mon, 21 Sep 2020 17:13:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600708406;
+        bh=nx2TaoLqWNqyr9nmT07RvYE1xPfejV7fHLR9RhvDxrs=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=1ijNGgPZsuS/MdRNOo+9S8z8K8msXaiAAXasAViW7Pc1fvHVHsRMQmavi1F5KLtPh
+         L9Re+/yGF1bX9rpvp3gODn97EevX4KNCT1dvqtucDsCJkeffjsyPXqu17zAkpdyhX1
+         W1lNBAILQoN644xeMWEGZaA7OWAQsGtAc0RFYifk=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id D2C8D352303A; Mon, 21 Sep 2020 10:13:25 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 10:13:25 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Marco Elver <elver@google.com>
+Cc:     akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
+        andreyknvl@google.com, aryabinin@virtuozzo.com, luto@kernel.org,
+        bp@alien8.de, catalin.marinas@arm.com, cl@linux.com,
+        dave.hansen@linux.intel.com, rientjes@google.com,
+        dvyukov@google.com, edumazet@google.com,
+        gregkh@linuxfoundation.org, hdanton@sina.com, mingo@redhat.com,
+        jannh@google.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
+        iamjoonsoo.kim@lge.com, keescook@chromium.org,
+        mark.rutland@arm.com, penberg@kernel.org, peterz@infradead.org,
+        sjpark@amazon.com, tglx@linutronix.de, vbabka@suse.cz,
+        will@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 10/10] kfence: add test suite
+Message-ID: <20200921171325.GE29330@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-11-elver@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200921132611.1700350-11-elver@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/18/2020 5:11 PM, Andy Lutomirski wrote:
-> On Fri, Sep 18, 2020 at 12:23 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> Emulation of the legacy vsyscall page is required by some programs
->> built before 2013.  Newer programs after 2013 don't use it.
->> Disable vsyscall emulation when Control-flow Enforcement (CET) is
->> enabled to enhance security.
->>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> ---
->> v12:
->> - Disable vsyscall emulation only when it is attempted (vs. at compile time).
->>
->>   arch/x86/entry/vsyscall/vsyscall_64.c | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
->> index 44c33103a955..3196e963e365 100644
->> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
->> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
->> @@ -150,6 +150,15 @@ bool emulate_vsyscall(unsigned long error_code,
->>
->>          WARN_ON_ONCE(address != regs->ip);
->>
->> +#ifdef CONFIG_X86_INTEL_CET
->> +       if (current->thread.cet.shstk_size ||
->> +           current->thread.cet.ibt_enabled) {
->> +               warn_bad_vsyscall(KERN_INFO, regs,
->> +                                 "vsyscall attempted with cet enabled");
->> +               return false;
->> +       }
+On Mon, Sep 21, 2020 at 03:26:11PM +0200, Marco Elver wrote:
+> Add KFENCE test suite, testing various error detection scenarios. Makes
+> use of KUnit for test organization. Since KFENCE's interface to obtain
+> error reports is via the console, the test verifies that KFENCE outputs
+> expected reports to the console.
 > 
-> Nope, try again.  Having IBT on does *not* mean that every library in
-> the process knows that we have indirect branch tracking.  The legacy
-> bitmap exists for a reason.  Also, I want a way to flag programs as
-> not using the vsyscall page, but that flag should not be called CET.
-> And a process with vsyscalls off should not be able to read the
-> vsyscall page, and /proc/self/maps should be correct.
-> 
-> So you have some choices:
-> 
-> 1. Drop this patch and make it work.
-> 
-> 2. Add a real per-process vsyscall control.  Either make it depend on
-> vsyscall=xonly and wire it up correctly or actually make it work
-> correctly with vsyscall=emulate.
-> 
-> NAK to any hacks in this space.  Do it right or don't do it at all.
-> 
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Co-developed-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
 
-We can drop this patch, and bring back the previous patch that fixes up 
-shadow stack and ibt.  That makes vsyscall emulation work correctly, and 
-does not force the application to do anything different from what is 
-working now.  I will post the previous patch as a reply to this thread 
-so that people can make comments on it.
+[ . . . ]
 
-Yu-cheng
+> +/* Test SLAB_TYPESAFE_BY_RCU works. */
+> +static void test_memcache_typesafe_by_rcu(struct kunit *test)
+> +{
+> +	const size_t size = 32;
+> +	struct expect_report expect = {
+> +		.type = KFENCE_ERROR_UAF,
+> +		.fn = test_memcache_typesafe_by_rcu,
+> +	};
+> +
+> +	setup_test_cache(test, size, SLAB_TYPESAFE_BY_RCU, NULL);
+> +	KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
+> +
+> +	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
+> +	*expect.addr = 42;
+> +
+> +	rcu_read_lock();
+> +	test_free(expect.addr);
+> +	KUNIT_EXPECT_EQ(test, *expect.addr, (char)42);
+> +	rcu_read_unlock();
+
+It won't happen very often, but memory really could be freed at this point,
+especially in CONFIG_RCU_STRICT_GRACE_PERIOD=y kernels ...
+
+> +	/* No reports yet, memory should not have been freed on access. */
+> +	KUNIT_EXPECT_FALSE(test, report_available());
+
+... so the above statement needs to go before the rcu_read_unlock().
+
+> +	rcu_barrier(); /* Wait for free to happen. */
+
+But you are quite right that the memory is not -guaranteed- to be freed
+until we get here.
+
+							Thanx, Paul
