@@ -2,137 +2,125 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA220C43466
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:37:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C134FC43469
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:55:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F5B820EDD
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:37:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 639BF2311D
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 15:55:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BYc74rVc"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X6obxRKe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727557AbgIUPhY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 11:37:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51966 "EHLO
+        id S1727822AbgIUPza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 11:55:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726611AbgIUPhX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 11:37:23 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8183CC061755
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 08:37:23 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id a9so13242746wmm.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 08:37:23 -0700 (PDT)
+        with ESMTP id S1727591AbgIUPz3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 11:55:29 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04271C0613D2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 08:55:29 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id c2so11523093ljj.12
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 08:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kVxfXE34UyHx4a9aedDaVHUi6pKMiF4098HvY7EGT4c=;
-        b=BYc74rVcObsxY5RoY7FBMvjUz7I+HJaB7IhAMx9FrV1rganW2S1g6KUoFgpgpnqRys
-         SMWPacFyEdfqMPAw5HLCbJQmqVoKTUYfmyOBS5OBxGnpGhFWTsvJUDm8nnbfIdQAnRtP
-         aWeprctyWDcO0WTV0CPMaJuFaew74ic3MENre4wcGr/Tr9AA0Es0vAnGTQmPqQQH9S+o
-         +AkdKBo++MoypREVKrTr/WFM2sS3+L4CeJ6HVm2xZY0709ol4d7QVZZEDV8tRX6B77wj
-         ZTn0MrnZ2DI7QIXulRGzqTFj1m6iSSKzHv/qCHZXxt2ZHklgUOXHUQGCBfgHNiYtlCCe
-         vWHw==
+        bh=KlAO2f2MCbdMFYmuMR/JVAe3ADfPLwZDOazJ0JPDtY8=;
+        b=X6obxRKeN8mR9RXp9MXChkD/M+vckq63Aq7SzA4AbmwqS/IV5RDlSeQScIvKUx90Yq
+         egE3yRvoKY3/syMLF2edGesVcPB6irZi2K8o1J7gzKQQYLf/KoNbSLvEDwPRQ8Zm/SCT
+         gq5vqLKF0gc7kMWfQqZL8aa0UB2Bz+NsoL8x+711eRc2LRrgrsg/Qn9SIOSuQ9Ca3Re+
+         Gztcy1jkdpujzRW0mt7Jdz3Iu8Kp1XCbeD5DMLzyrhsRRCN2VL1v0le3b5DU/mAV5WTR
+         X02fZxY1HAoBQI19wrg4qUPbFwT29TH7MY4J5mkMhi6z/F/8vW26DM+UxD+2RtSmOaVe
+         uYPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kVxfXE34UyHx4a9aedDaVHUi6pKMiF4098HvY7EGT4c=;
-        b=OJfHUXA8RYH37aZQoVNvImKNu3TbK8cI3Av9s88rmMlf3T3HEMurK0VtkIenHFAVJV
-         V15EazSmQ57mQlek8MbSyZiEKJ0JviYvA0DHOTilJwO3d3UWGhQhZJxiFkyQtyodauur
-         qFyzB2kF6xxW5XHPAqt9meGhRJyaV+d3si7MGIGdXafWXedBPSM27QTSr5PI8Oobi576
-         QfNw1kEUstIet0lAgFC+s6RfVxHmUtfZkivb86FLwmpVg5qm3Wdt9VHvgSAfg0ls5vRi
-         cAz0/WejVspncB8MD5WVOe9UkpVoxF05RcpkUc2edTRZdOHq5U4u+d5qU5Ad2uVwqq5E
-         is6A==
-X-Gm-Message-State: AOAM532wRGJuzwZke788NRx9eEgQTW24FIBJq45LjwD8/W1KDWpCF+GK
-        Hsren9Vg3gRmunb+MMSzxVARvnJ4IthWGKkp5OqEqg==
-X-Google-Smtp-Source: ABdhPJxOztNZkizJnsXhj3wk+nWXFKqGPJsuyIzMb4d7s9SxqbYZ2lfULvl21tc0mzpAWLEjISHQ1AcbURiGb5k8xgg=
-X-Received: by 2002:a7b:c4d3:: with SMTP id g19mr199189wmk.165.1600702641972;
- Mon, 21 Sep 2020 08:37:21 -0700 (PDT)
+        bh=KlAO2f2MCbdMFYmuMR/JVAe3ADfPLwZDOazJ0JPDtY8=;
+        b=j+sQcqetZNvJ8OEMgLo0QIAeG45MOSbcVMjuskHI2YpYr8St5tSOBRWvDJcGpOL9uQ
+         jGiYdd4PxvwKqzc4o9m27rAt8/kou0wBn6ajP6d5PJmlr54VLpJS0cFITi2eniIcKgu7
+         b83qiL+El5Qzhl4vD+XXQnIDiYRoXbC7Qc2C1OynxaQtwUQfQCXWQUL9mbLiiewJ9rtC
+         melxRd3208CRauF21LyLS/+YtQRbaHiaEFjMitPzt9LO7agTUp4H/dlD0o8TdPmwBqOi
+         1kvQ3Z0zX+KAR6V89f76KX4azAkc4yF3NKNN43Qj7KEoBnum7pBJAJQCEO5YAjiAqrnC
+         wVdA==
+X-Gm-Message-State: AOAM531NsiqXBE1EFDdOP5Vf/c0iaIcdjrJnOLka1xODsME3eoYTEI+H
+        JWk4ArOOYAZr5l8VFaIhHRy4dRj4Ob6BaHnKRXzYoQ==
+X-Google-Smtp-Source: ABdhPJzAzrg0an3L/O21olXYAkjIkNnbmJ64HN6mgah50aQ3PSN08J/FUDGQvp5j4/fAmKh3qQmu1dRpTCZjQgXqSpU=
+X-Received: by 2002:a2e:7c09:: with SMTP id x9mr116899ljc.192.1600703726805;
+ Mon, 21 Sep 2020 08:55:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
- <20200921143059.GO2139@willie-the-truck> <CAG_fn=WKaY9MVmbpkgoN4vaJYD_T_A3z2Lgqn+2o8-irmCKywg@mail.gmail.com>
-In-Reply-To: <CAG_fn=WKaY9MVmbpkgoN4vaJYD_T_A3z2Lgqn+2o8-irmCKywg@mail.gmail.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Mon, 21 Sep 2020 17:37:10 +0200
-Message-ID: <CAG_fn=XV7JfJDK+t1X6bnV6gRoiogNXsHfww0jvcEtJ2WZpR7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
-To:     Will Deacon <will@kernel.org>
-Cc:     Marco Elver <elver@google.com>,
+References: <20200921080255.15505-1-zangchunxin@bytedance.com>
+In-Reply-To: <20200921080255.15505-1-zangchunxin@bytedance.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Mon, 21 Sep 2020 08:55:15 -0700
+Message-ID: <CALvZod5JpEsmNvbaCMEfRMt83GbeLJk2oM0=siCj+aXEnxYh4Q@mail.gmail.com>
+Subject: Re: [PATCH] mm/memcontrol: Add the drop_cache interface for cgroup v2
+To:     zangchunxin@bytedance.com
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>, kafai@fb.com,
+        Song Liu <songliubraving@fb.com>, yhs@fb.com, andriin@fb.com,
+        john.fastabend@gmail.com, kpsingh@chromium.org,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
+        netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 4:58 PM Alexander Potapenko <glider@google.com> wrote:
+On Mon, Sep 21, 2020 at 1:05 AM <zangchunxin@bytedance.com> wrote:
 >
-> On Mon, Sep 21, 2020 at 4:31 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Mon, Sep 21, 2020 at 03:26:04PM +0200, Marco Elver wrote:
-> > > Add architecture specific implementation details for KFENCE and enable
-> > > KFENCE for the arm64 architecture. In particular, this implements the
-> > > required interface in <asm/kfence.h>. Currently, the arm64 version does
-> > > not yet use a statically allocated memory pool, at the cost of a pointer
-> > > load for each is_kfence_address().
-> > >
-> > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > > Co-developed-by: Alexander Potapenko <glider@google.com>
-> > > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> > > ---
-> > > For ARM64, we would like to solicit feedback on what the best option is
-> > > to obtain a constant address for __kfence_pool. One option is to declare
-> > > a memory range in the memory layout to be dedicated to KFENCE (like is
-> > > done for KASAN), however, it is unclear if this is the best available
-> > > option. We would like to avoid touching the memory layout.
-> >
-> > Sorry for the delay on this.
+> From: Chunxin Zang <zangchunxin@bytedance.com>
 >
-> NP, thanks for looking!
+> In the cgroup v1, we have 'force_mepty' interface. This is very
+> useful for userspace to actively release memory. But the cgroup
+> v2 does not.
 >
-> > Given that the pool is relatively small (i.e. when compared with our virtual
-> > address space), dedicating an area of virtual space sounds like it makes
-> > the most sense here. How early do you need it to be available?
+> This patch reuse cgroup v1's function, but have a new name for
+> the interface. Because I think 'drop_cache' may be is easier to
+> understand :)
 >
-> Yes, having a dedicated address sounds good.
-> We're inserting kfence_init() into start_kernel() after timekeeping_init().
-> So way after mm_init(), if that matters.
+> Signed-off-by: Chunxin Zang <zangchunxin@bytedance.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 11 +++++++++++
+>  mm/memcontrol.c                         |  5 +++++
+>  2 files changed, 16 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index ce3e05e41724..fbff959c8116 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1181,6 +1181,17 @@ PAGE_SIZE multiple when read back.
+>         high limit is used and monitored properly, this limit's
+>         utility is limited to providing the final safety net.
+>
+> +  memory.drop_cache
+> +    A write-only single value file which exists on non-root
+> +    cgroups.
+> +
+> +    Provide a mechanism for users to actively trigger memory
+> +    reclaim. The cgroup will be reclaimed and as many pages
+> +    reclaimed as possible.
+> +
+> +    It will broke low boundary. Because it tries to reclaim the
+> +    memory many times, until the memory drops to a certain level.
+> +
 
-The question is though, how big should that dedicated area be?
-Right now KFENCE_NUM_OBJECTS can be up to 16383 (which makes the pool
-size 64MB), but this number actually comes from the limitation on
-static objects, so we might want to increase that number on arm64.
+drop_cache is not really force_empty(). What is your use-case? Maybe
+you can use memory.reclaim [1] for your use-case. It is already in
+Andrew's tree.
+
+[1] https://lkml.kernel.org/r/20200909215752.1725525-1-shakeelb@google.com
