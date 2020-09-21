@@ -2,112 +2,167 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C08F1C43466
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 14:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A52C43465
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 14:58:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E63320735
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 14:51:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C88C21D91
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 14:58:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pihm+3yZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727294AbgIUOvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 10:51:03 -0400
-Received: from mga03.intel.com ([134.134.136.65]:31824 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727265AbgIUOvD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Sep 2020 10:51:03 -0400
-IronPort-SDR: Amya1mXeOo1TtW/QT3Z5iTDVPlBIeZNfyC0x8Esc+pZFV5BOEWg5P9eAG6+rNVBjU4/WR4WP8e
- 44cP1ykpp/Bg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="160452967"
-X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
-   d="scan'208";a="160452967"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 07:50:59 -0700
-IronPort-SDR: xn/KgqioDKaaG3NN/05jK2y0x4yrX4ejHsSFo1cxy48yoJXrusOhFwTkZuN6UE+b9SatRW4n+0
- vFFIoQbOkZxg==
-X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
-   d="scan'208";a="321796207"
-Received: from apatwary-mobl.amr.corp.intel.com (HELO [10.212.120.65]) ([10.212.120.65])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 07:50:57 -0700
-Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Filipe Brandenburger <filbranden@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Michael Davidson <md@google.com>,
-        Eugene Surovegin <surovegin@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
- <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Message-ID: <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
-Date:   Mon, 21 Sep 2020 09:50:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727593AbgIUO6a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 10:58:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726973AbgIUO63 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 10:58:29 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F205C0613CF
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 07:58:29 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id q9so12451566wmj.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 07:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=J02fUfHHsGOzjhQyl/tGfPUtfr9BJPAQxULq+u6ZRXM=;
+        b=pihm+3yZMKHKcYdASAww1rGEr2Dxntu4UArY54j2rSj/+nD8st9ACxliUmFGSoTDpl
+         SYW62IX43tVBiVLsps+pLlr7PiVubwfDVu+sMPAAohuq9lp51Wt+ZKPdFLEW5q1jOV8c
+         gHEiTzelfZRUecETp856lFG5KxFqbnWRRKGCMMVYJZjouqjBSXhYGnFaCZFWXgSa1LUb
+         ai9mNZxna9283GvRyEzueoFeoB+ZRgjB5RX5cuh1j9wmW0tjAud9Zcy8sSSNEi8Xb2ng
+         Z3Tf5sz8f37TbIMVt9ldV5IFpSNNDZPcFzAk2iQT9uFSoB6+wMOCyrSDB5nuhmuIbtdW
+         L2rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=J02fUfHHsGOzjhQyl/tGfPUtfr9BJPAQxULq+u6ZRXM=;
+        b=H7k4ZuK/7sRZ1ncrFqq620LZNEFYLRxtvww2SZj3KQhRHRnDjoIoe9ECspXh6hooOU
+         139cxFAfxcR/U5N2fo9a3K/37+rLmSy0fMWKOBJvV2xJC+Y9fZWa4FGdwot2QzKgqYrQ
+         8YLO98vYVpCJhm+UcYVmBNWN+WpiJyYjFVEtGfsUl77yVEkgeX1k81yC4kzisZ6g3qgk
+         iVVa3jpvxeoY5t+haoCV80jW2mO9jySpI5Qcj72wkVV7yEObB0Xdm1G+Gcv9ydgQ9xeO
+         unupOVs/18KvU4gbYk/vrnw9b6zGVa9R1iJ7p9Z+IjB9Zj+XvM3HJnypATm3CWR0Tog9
+         yKow==
+X-Gm-Message-State: AOAM533GPitKe4KbqMN0kYB9nVBHaPjHe7cQ5EEhAVZxrheS1EsyIwBI
+        WeK6HQRBPhd32fCXdY0QzXFjsGwA2RWGt/jzr3xIAg==
+X-Google-Smtp-Source: ABdhPJz9PSmNZXFkAIl8F7mMeI1IkMs29iiL7Fx77FGziAuV1SJmSBTtJ48EjMLqI0Oj5jqQ4/LlPfa8EPlyupGmeWM=
+X-Received: by 2002:a7b:c210:: with SMTP id x16mr47411wmi.37.1600700307697;
+ Mon, 21 Sep 2020 07:58:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
+ <20200921143059.GO2139@willie-the-truck>
+In-Reply-To: <20200921143059.GO2139@willie-the-truck>
+From:   Alexander Potapenko <glider@google.com>
+Date:   Mon, 21 Sep 2020 16:58:16 +0200
+Message-ID: <CAG_fn=WKaY9MVmbpkgoN4vaJYD_T_A3z2Lgqn+2o8-irmCKywg@mail.gmail.com>
+Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
+To:     Will Deacon <will@kernel.org>
+Cc:     Marco Elver <elver@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitriy Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for the review,
+On Mon, Sep 21, 2020 at 4:31 PM Will Deacon <will@kernel.org> wrote:
+>
+> On Mon, Sep 21, 2020 at 03:26:04PM +0200, Marco Elver wrote:
+> > Add architecture specific implementation details for KFENCE and enable
+> > KFENCE for the arm64 architecture. In particular, this implements the
+> > required interface in <asm/kfence.h>. Currently, the arm64 version does
+> > not yet use a statically allocated memory pool, at the cost of a pointe=
+r
+> > load for each is_kfence_address().
+> >
+> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> > Co-developed-by: Alexander Potapenko <glider@google.com>
+> > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > ---
+> > For ARM64, we would like to solicit feedback on what the best option is
+> > to obtain a constant address for __kfence_pool. One option is to declar=
+e
+> > a memory range in the memory layout to be dedicated to KFENCE (like is
+> > done for KASAN), however, it is unclear if this is the best available
+> > option. We would like to avoid touching the memory layout.
+>
+> Sorry for the delay on this.
 
->> Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
->> kbuild fail when modpost generates any warnings. This will avoid
->> misses such as [1] where the SOF CI did not catch a missing module
->> license.
->>
->> This was initially contributed in 2016 [2], rebase/clean-ups and tests
->> by Pierre Bossart.
->>
->> Test example:
->> $ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
->>    GEN     Makefile
->>    DESCEND  objtool
->>    CALL    sof-dev/scripts/atomic/check-atomics.sh
->>    CALL    sof-dev/scripts/checksyscalls.sh
->>    CHK     include/generated/compile.h
->>    MODPOST Module.symvers
->> Kernel: arch/x86/boot/bzImage is ready  (#13)
->> WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
->> make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
-> 
-> 
-> I think [1] should be an error instead of a warning
-> by default.
+NP, thanks for looking!
 
-would the following patch be what you have in mind?
+> Given that the pool is relatively small (i.e. when compared with our virt=
+ual
+> address space), dedicating an area of virtual space sounds like it makes
+> the most sense here. How early do you need it to be available?
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 422f1cfca289..ae1eb67aa0f2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2018,7 +2018,7 @@ static void read_symbols(const char *modname)
-         if (!mod->is_vmlinux) {
-                 license = get_modinfo(&info, "license");
-                 if (!license)
--                       warn("missing MODULE_LICENSE() in %s\n", modname);
-+                       error("missing MODULE_LICENSE() in %s\n", modname);
-                 while (license) {
-                         if (license_is_gpl_compatible(license))
-                                 mod->gpl_compatible = 1;
+Yes, having a dedicated address sounds good.
+We're inserting kfence_init() into start_kernel() after timekeeping_init().
+So way after mm_init(), if that matters.
+
+> An alternative approach would be to patch in the address at runtime, with
+> something like a static key to swizzle off the direct __kfence_pool load
+> once we're up and running.
+
+IIUC there's no such thing as address patching in the kernel at the
+moment, at least static keys work differently?
+I am not sure how much we need to randomize this address range (we
+don't on x86 anyway).
+
+> Will
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/kasan-dev/20200921143059.GO2139%40willie-the-truck.
 
 
-If yes, also wondering if we can still add the option to treat warnings 
-as errors as an opt-in behavior?
 
-Thanks!
--Pierre
+--
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
