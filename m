@@ -2,129 +2,104 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE6FC43464
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 09:03:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBADC43464
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 10:43:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1009A20874
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 09:03:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51998216C4
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 10:43:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="WHBBKE1G"
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="O11nMcko"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbgIUJDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 05:03:30 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41018 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726428AbgIUJDa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 05:03:30 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08L9305J146229;
-        Mon, 21 Sep 2020 05:03:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=leuZBYJN+/lc+Fxidrffl08f1oCjwqKg5qzlph2Ogn4=;
- b=WHBBKE1GUfZB1ECOVoQDcwNj9LmC1qqp47gJP8wq2B6HZr1wR96jYTTYMM2buaVgn3YE
- /7HD2WsZzVJZWOQdu5thPBBbJV3d3uLN44L2E3+mSv9qNAeygZzH6PfJqWXFXzTqQM5b
- 7qn2QsISdgnsQh1BUzOGE0PQZKcp58SU2a6N5ubIbK9+BFaTVXiXqdIBSNI5Gzim8Pa9
- dudhf4LUJatvlJesIDd6d1xxanVwUiaD3N2hvVIKbUrEnQTCARZ4N6ateAUKq8AA07JJ
- uezPdaCGhwE/R0R4EYzHWNwlzK3vWm+HWYUtg6JGSg6G3rONZGt1qDC3vWngc8X6p8gf DA== 
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 33ps1f08gr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 21 Sep 2020 05:03:04 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08L92ZQ9016538;
-        Mon, 21 Sep 2020 09:02:35 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma03ams.nl.ibm.com with ESMTP id 33n9m89u7s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 21 Sep 2020 09:02:34 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 08L92VSj27132210
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 21 Sep 2020 09:02:31 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9A1E4A4062;
-        Mon, 21 Sep 2020 09:02:32 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6E7BEA4054;
-        Mon, 21 Sep 2020 09:02:29 +0000 (GMT)
-Received: from satheesh.ibmuc.com (unknown [9.102.17.247])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 21 Sep 2020 09:02:29 +0000 (GMT)
-From:   sathnaga@linux.vnet.ibm.com
-To:     linux-doc@vger.kernel.org
-Cc:     Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
-        linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH V2] Doc: admin-guide: Add entry for kvm_cma_resv_ratio kernel param
-Date:   Mon, 21 Sep 2020 14:32:20 +0530
-Message-Id: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.26.2
+        id S1726775AbgIUKnE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 06:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726714AbgIUKnA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 06:43:00 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10AFDC061755
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 03:43:00 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id s12so12178584wrw.11
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 03:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mzDmB01mMTFr74qOHeLrNegprGQDAJ8oYYgiRLXCsfc=;
+        b=O11nMckorO8RMfFQjnz4Yfr97uv13nR1YIQqRQMKzLSmqJpsduBq1wuChdnYF707Mt
+         f/+wj7eFGyW12GAkCjm1muhOnRzjr3f5wjz14zI1gA1i+jm88cGKWNawNgUyFfmCT2kU
+         8fNAJ+9t7L+udORk1K93NKpZp7DBuwsh4+SiY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mzDmB01mMTFr74qOHeLrNegprGQDAJ8oYYgiRLXCsfc=;
+        b=iOTUWJIPUEC9ir4lMwpzxtVSFJKyBJPDH7tWqilTztWDhrl9eHFiWW9PCCRHhGrJBG
+         KhbmT1XXW3575vKE2TBq4qTg8Amew4FsmEHsYYDX2SXiQl4atEjqjbouvdqYJ4NhGxmV
+         yNU/lZKgQepV0uvcuvWMmpB69H4YjsS2B6VS+2tHEoyJ6VthVf4HYaM3SMPZRvPLMXWT
+         8RN5+pUBcLIvZkD/xhR7o3rV/hCJY0f53xBpQZ59nF+eaNBSArL1jkv20rBFaOJfW3NM
+         b1YgynMpx//Cdo++w/lm0mTV+nRVYaj7E32MXZKzN8mQJomAl8iEOCXAi/CkWCrsgobH
+         ZCTw==
+X-Gm-Message-State: AOAM5329dbtyHh7AT2NHMYGXXhUFQizT7cZ9Q9wUGmNBkgULKmcIyii5
+        qu/WDrFcvlVSUFz9rM//GdlHGA==
+X-Google-Smtp-Source: ABdhPJwiFnqrJc0lvNPEfKhVyaRyAOigEBoDGEEBcLdtcns0TD0AiK7aaXUyjI+kL+G3Jmo+frNDCQ==
+X-Received: by 2002:a5d:61c2:: with SMTP id q2mr55645381wrv.25.1600684978631;
+        Mon, 21 Sep 2020 03:42:58 -0700 (PDT)
+Received: from localhost ([2a01:4b00:8432:8a00:fa59:71ff:fe7e:8d21])
+        by smtp.gmail.com with ESMTPSA id g12sm19938335wro.89.2020.09.21.03.42.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2020 03:42:58 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 11:42:57 +0100
+From:   Chris Down <chris@chrisdown.name>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     zangchunxin@bytedance.com, hannes@cmpxchg.org,
+        vdavydov.dev@gmail.com, akpm@linux-foundation.org, tj@kernel.org,
+        lizefan@huawei.com, corbet@lwn.net, ast@kernel.org,
+        daniel@iogearbox.net, kafai@fb.com, songliubraving@fb.com,
+        yhs@fb.com, andriin@fb.com, john.fastabend@gmail.com,
+        kpsingh@chromium.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: Re: [PATCH] mm/memcontrol: Add the drop_cache interface for cgroup v2
+Message-ID: <20200921104257.GA632859@chrisdown.name>
+References: <20200921080255.15505-1-zangchunxin@bytedance.com>
+ <20200921081200.GE12990@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-21_01:2020-09-21,2020-09-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1011
- priorityscore=1501 malwarescore=0 mlxlogscore=979 mlxscore=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 spamscore=0 impostorscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009210067
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20200921081200.GE12990@dhcp22.suse.cz>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+Michal Hocko writes:
+>On Mon 21-09-20 16:02:55, zangchunxin@bytedance.com wrote:
+>> From: Chunxin Zang <zangchunxin@bytedance.com>
+>>
+>> In the cgroup v1, we have 'force_mepty' interface. This is very
+>> useful for userspace to actively release memory. But the cgroup
+>> v2 does not.
+>>
+>> This patch reuse cgroup v1's function, but have a new name for
+>> the interface. Because I think 'drop_cache' may be is easier to
+>> understand :)
+>
+>This should really explain a usecase. Global drop_caches is a terrible
+>interface and it has caused many problems in the past. People have
+>learned to use it as a remedy to any problem they might see and cause
+>other problems without realizing that. This is the reason why we even
+>log each attempt to drop caches.
+>
+>I would rather not repeat the same mistake on the memcg level unless
+>there is a very strong reason for it.
 
-Add document entry for kvm_cma_resv_ratio kernel param which
-is used to alter the KVM contiguous memory allocation percentage
-for hash pagetable allocation used by hash mode PowerPC KVM guests.
-
-Cc: linux-kernel@vger.kernel.org
-Cc: kvm-ppc@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
----
-
-V2: 
-Addressed review comments from Randy.
-
-V1: https://lkml.org/lkml/2020/9/16/72
----
- Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a1068742a6df..932ed45740c9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2258,6 +2258,14 @@
- 			[KVM,ARM] Allow use of GICv4 for direct injection of
- 			LPIs.
- 
-+	kvm_cma_resv_ratio=n [PPC]
-+			Reserves given percentage from system memory area for
-+			contiguous memory allocation for KVM hash pagetable
-+			allocation.
-+			By default it reserves 5% of total system memory.
-+			Format: <integer>
-+			Default: 5
-+
- 	kvm-intel.ept=	[KVM,Intel] Disable extended page tables
- 			(virtualized MMU) support on capable Intel chips.
- 			Default is 1 (enabled)
--- 
-2.26.2
-
+I agree with Michal. We already have ways to do best-effort memory release on 
+cgroup v2, primarily with memory.high. Singling out a category of memory for 
+reclaim has historically proved to be a fool's errand.
