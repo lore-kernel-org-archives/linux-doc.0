@@ -2,123 +2,107 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2A6C4727D
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 22:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB46C4727E
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:19:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 404C623A74
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 22:52:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F5E023A1B
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:19:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b="tLvKt6RB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728666AbgIUWwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 18:52:55 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:56940 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726913AbgIUWwy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 18:52:54 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id D6A341C0B8C; Tue, 22 Sep 2020 00:52:51 +0200 (CEST)
-Date:   Tue, 22 Sep 2020 00:52:51 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1728712AbgIUXTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 19:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728704AbgIUXTc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 19:19:32 -0400
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99532C061755;
+        Mon, 21 Sep 2020 16:19:32 -0700 (PDT)
+Received: by ozlabs.org (Postfix, from userid 1003)
+        id 4BwL4K2tFPz9sSt; Tue, 22 Sep 2020 09:19:29 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
+        t=1600730369; bh=Gh/jGMCMQmrrfp+HhoHjE8q2QWpEvx5rxPTcdpfPEt4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tLvKt6RBA7E4vUVZYVD3O0hQckC/kqu0Y6WFB8O4lOYXfgvdTXK9gsmS2BD7ls6Xr
+         A1w4ELvBsIAhbgPaFFbignPhVBc1+vqX+JLVk+i4hT/EJmapByfasDbtvk9ZdIRSiY
+         VVBZFvHlCGQiUgyF/mZ9yP+i3k8ThJdX+sjKTRfWPcM8mzSoNZ9quQ9ynaUbGeGfwD
+         zHkAT3JewA/O4SLmM/ZXDet68DJvmz2PUC/X2oxcj8Ee8mh4Y6Ut6o1RPksx6psUXi
+         nbGOfz1G8iQA3tLtlpbbVNHjCbXyoRskt/SrPz3ILNA3SiwzpqzpxiLangK6IevOV/
+         epbK+jzQSZ3hw==
+Date:   Tue, 22 Sep 2020 09:19:25 +1000
+From:   Paul Mackerras <paulus@ozlabs.org>
+To:     sathnaga@linux.vnet.ibm.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v12 1/8] x86/cet/ibt: Add Kconfig option for user-mode
- Indirect Branch Tracking
-Message-ID: <20200921225251.GB13299@amd>
-References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
- <20200918192312.25978-2-yu-cheng.yu@intel.com>
- <ce2524cc-081b-aec9-177a-11c7431cb20d@infradead.org>
- <20200918205933.GB4304@duo.ucw.cz>
- <019b5e45-b116-7f3d-f1f2-3680afbd676c@intel.com>
- <20200918214020.GF4304@duo.ucw.cz>
- <c2b5d697-634d-a5cb-2728-cead44a221c9@intel.com>
- <c91021a9-adb0-8733-2423-f78dbea5c88a@intel.com>
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH V2] Doc: admin-guide: Add entry for kvm_cma_resv_ratio
+ kernel param
+Message-ID: <20200921231925.GA348814@thinks.paulus.ozlabs.org>
+References: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="vGgW1X5XWziG23Ko"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c91021a9-adb0-8733-2423-f78dbea5c88a@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200921090220.14981-1-sathnaga@linux.vnet.ibm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Sep 21, 2020 at 02:32:20PM +0530, sathnaga@linux.vnet.ibm.com wrote:
+> From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+> 
+> Add document entry for kvm_cma_resv_ratio kernel param which
+> is used to alter the KVM contiguous memory allocation percentage
+> for hash pagetable allocation used by hash mode PowerPC KVM guests.
+> 
+> Cc: linux-kernel@vger.kernel.org
+> Cc: kvm-ppc@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+> ---
+> 
+> V2: 
+> Addressed review comments from Randy.
+> 
+> V1: https://lkml.org/lkml/2020/9/16/72
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a1068742a6df..932ed45740c9 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2258,6 +2258,14 @@
+>  			[KVM,ARM] Allow use of GICv4 for direct injection of
+>  			LPIs.
+>  
+> +	kvm_cma_resv_ratio=n [PPC]
+> +			Reserves given percentage from system memory area for
+> +			contiguous memory allocation for KVM hash pagetable
+> +			allocation.
+> +			By default it reserves 5% of total system memory.
 
---vGgW1X5XWziG23Ko
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am concerned that using the term "reserve" here could give the
+impression that this memory is then not available for any other use.
+It is in fact available for other uses as long as they are movable
+allocations.  So this memory is available for uses such as process
+anonymous memory and page cache, just not for things like kmalloc.
 
-Hi!
+I'm not sure what would be a better term than "reserve", though.
+Perhaps we need to add a sentence something like "The reserved memory
+is available for use as process memory and page cache when it is not
+being used by KVM."
 
-> > +config X86_INTEL_BRANCH_TRACKING_USER
-> > +    prompt "Intel Indirect Branch Tracking for user-mode"=20
->=20
-> Take the "Intel " and "INTEL_" out, please.  It will only cause us all
-> pain later if some of our x86 compatriots decide to implement this.
-
-Are other x86 manufacturers legally allowed to implement that?
-
-> > If the kernel is to be used only on older systems that do not support
-> > IBT, and the size of the binary is important, you can save 900 KB by
-> > disabling this feature.
-> >=20
-> > Otherwise, if unsure, say Y.
->=20
-> 900k seems like a *lot*.  Where the heck does that come from?
->=20
-> Also, comments like that don't age very well.  Consider:
->=20
-> 	Support for this feature is only known to be present on Intel
-> 	processors released in 2020 or later.  This feature is also
-> 	known to increase kernel text size substantially.
->=20
-> 	If unsure, say N.
-
-That is much better, thanks.
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---vGgW1X5XWziG23Ko
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl9pLsMACgkQMOfwapXb+vJrcACfdEe0RXB3Ob0O3qo7vS+3J9EX
-tmQAoMBivI2SYhK1uaQoHu+xCvzD3BHu
-=QpK9
------END PGP SIGNATURE-----
-
---vGgW1X5XWziG23Ko--
+Paul.
