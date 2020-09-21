@@ -2,109 +2,119 @@ Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB45C43463
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 04:58:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DAFC43466
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 06:36:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C003220866
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 04:58:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RvfoFYsq"
+	by mail.kernel.org (Postfix) with ESMTP id AAD2920866
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 06:36:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726389AbgIUE6e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 00:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726221AbgIUE6e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 00:58:34 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B255EC061755;
-        Sun, 20 Sep 2020 21:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=HQ/UY9FTcQifDZrg/8Ivhz0s2Q2BGUsiN0dGMhFdZV4=; b=RvfoFYsqhoGiy/me9DxKoQcWpc
-        7o5uO2ngHb7ubGtZV0aF/+Roa5HZo3l0iuLowdvanKGFTfaNvvBuBG415GvShueyUT19RbjQdfye7
-        Zbx2RH/tiaYM+QfzwHoMhRKcqay1A8jpJA6eCSZO5ShDBNz8dFkH+BGbQ0t7ldAV72tTE7Za41w8Y
-        TC0vjwZ1o3j6cCge6yeQHJ5ZR010S/zw/pP9J0fuNLD15aukcf9U6UOWSIY+ZmdoyhzULhBpL0F1R
-        W639KUdeB1IqnbwrMZyJFr5+G0r8SSvq7fFSED27XFtjPBu4uPkRQiqJBbWDOBQahs84wh5/EH5h5
-        o5E1ZqFA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kKDuC-0000QV-EL; Mon, 21 Sep 2020 04:58:24 +0000
-Subject: Re: [PATCH v5 14/17] NTB: Add support for EPF PCI-Express
- Non-Transparent Bridge
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ntb@googlegroups.com
-References: <20200918064227.1463-1-kishon@ti.com>
- <20200918064227.1463-15-kishon@ti.com>
- <93b651aa-23e5-9249-6b22-fef65806b007@infradead.org>
- <c8b7fa2b-5586-3929-1e00-8473106935f9@ti.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <afa7a7c9-a954-d82c-3b67-7c98bac164de@infradead.org>
-Date:   Sun, 20 Sep 2020 21:58:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726412AbgIUGgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 02:36:35 -0400
+Received: from verein.lst.de ([213.95.11.211]:38634 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726011AbgIUGge (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Sep 2020 02:36:34 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id B25CE68AFE; Mon, 21 Sep 2020 08:36:28 +0200 (CEST)
+Date:   Mon, 21 Sep 2020 08:36:28 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        netdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: a saner API for allocating DMA addressable pages v3
+Message-ID: <20200921063628.GB18349@lst.de>
+References: <20200915155122.1768241-1-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <c8b7fa2b-5586-3929-1e00-8473106935f9@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/20/20 9:52 PM, Kishon Vijay Abraham I wrote:
-> Hi Randy,
-> 
-> On 18/09/20 9:45 pm, Randy Dunlap wrote:
->> On 9/17/20 11:42 PM, Kishon Vijay Abraham I wrote:
->>> diff --git a/drivers/ntb/hw/epf/Kconfig b/drivers/ntb/hw/epf/Kconfig
->>> new file mode 100644
->>> index 000000000000..6197d1aab344
->>> --- /dev/null
->>> +++ b/drivers/ntb/hw/epf/Kconfig
->>> @@ -0,0 +1,6 @@
->>> +config NTB_EPF
->>> +	tristate "Generic EPF Non-Transparent Bridge support"
->>> +	depends on m
->>> +	help
->>> +	  This driver supports EPF NTB on configurable endpoint.
->>> +	  If unsure, say N.
->>
->> Hi,
->> Why is this driver restricted to 'm' (loadable module)?
->> I.e., it cannot be builtin.
-> 
-> I'm trying to keep all the host side PCI drivers corresponding to the
-> devices configured using endpoint function drivers as modules and also
-> not populate MODULE_DEVICE_TABLE() to prevent auto-loading.
-> 
-> The different endpoint function drivers (right now only pci-epf-test.c
-> and pci-epf-ntb.c) can use the same device ID and vendorID for
-> configuring the endpoint devices. So on the host side, it's possible an
-> un-intended PCI driver can be bound to the device. So in-order to give
-> users the flexibility of deciding the driver to be bound, I'm trying to
-> keep it as modules. (Some driver like NTB also uses class code
-> PCI_CLASS_MEMORY_RAM for binding a driver in addition to deviceID and
-> vendorID but it need not be the case for all the drivers.)
+Any comments?
 
-Thanks for the explanation.
+Thomas: this should be identical to the git tree I gave you for mips
+testing, and you add your tested-by (and reviewd-by tags where
+applicable)?
 
--- 
-~Randy
+Helge: for parisc this should effectively be the same as the first
+version, but I've dropped the tested-by tags due to the reshuffle,
+and chance you could retest it?
 
+On Tue, Sep 15, 2020 at 05:51:04PM +0200, Christoph Hellwig wrote:
+> Hi all,
+> 
+> this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
+> with a separate new dma_alloc_pages API, which is available on all
+> platforms.  In addition to cleaning up the convoluted code path, this
+> ensures that other drivers that have asked for better support for
+> non-coherent DMA to pages with incurring bounce buffering over can finally
+> be properly supported.
+> 
+> As a follow up I plan to move the implementation of the
+> DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
+> that is also is a fundamentally non coherent allocation.  The replacement
+> for that flag would then return a struct page, as it is allowed to
+> actually return pages without a kernel mapping as the name suggested
+> (although most of the time they will actually have a kernel mapping..)
+> 
+> In addition to the conversions of the existing non-coherent DMA users,
+> I've also added a patch to convert the firewire ohci driver to use
+> the new dma_alloc_pages API.
+> 
+> The first patch is queued up for 5.9 in the media tree, but included here
+> for completeness.
+> 
+> 
+> A git tree is available here:
+> 
+>     git://git.infradead.org/users/hch/misc.git dma_alloc_pages
+> 
+> Gitweb:
+> 
+>     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+> 
+> 
+> Changes since v2:
+>  - fix up the patch reshuffle which wasn't quite correct
+>  - fix up a few commit messages
+> 
+> Changes since v1:
+>  - rebased on the latests dma-mapping tree, which merged many of the
+>    cleanups
+>  - fix an argument passing typo in 53c700, caught by sparse
+>  - rename a few macro arguments in 53c700
+>  - pass the right device to the DMA API in the lib82596 drivers
+>  - fix memory ownershiptransfers in sgiseeq
+>  - better document what a page in the direct kernel mapping means
+>  - split into dma_alloc_pages that returns a struct page and is in the
+>    direct mapping vs dma_alloc_noncoherent that can be vmapped
+>  - conver the firewire ohci driver to dma_alloc_pages
+> 
+> Diffstat:
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+---end quoted text---
