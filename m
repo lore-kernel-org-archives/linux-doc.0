@@ -2,80 +2,128 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B266C4363D
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 07:23:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E4AC4363D
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 07:25:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 236192145D
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 07:23:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 570AC21548
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 07:25:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729776AbgIVHXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 03:23:37 -0400
-Received: from mga11.intel.com ([192.55.52.93]:51642 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729735AbgIVHXh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Sep 2020 03:23:37 -0400
-IronPort-SDR: 6eaAt+BmfjLTQ7b3y2qX0yayWXPume5Yg58NcZbnl29bPROWL81QB/pKrsuXFgg5Xk8vtLRKX8
- ECOXbrfGJolg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="157928292"
-X-IronPort-AV: E=Sophos;i="5.77,289,1596524400"; 
-   d="scan'208";a="157928292"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2020 00:23:37 -0700
-IronPort-SDR: SuZ/Kthom8dKaAHAyyryCUZWAbTo9l37PE6snPNG1ImXv88s0cuHtI28GH8KMuWXew4NYcjqt3
- rrRG1QZtiQ6Q==
-X-IronPort-AV: E=Sophos;i="5.77,289,1596524400"; 
-   d="scan'208";a="485844254"
-Received: from kgriffi1-mobl.ger.corp.intel.com (HELO localhost) ([10.251.84.202])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2020 00:23:34 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Markus Heiser <markus.heiser@darmarit.de>
-Subject: Re: [PATCH RFC] Make the docs build "work" with Sphinx 3.x
-In-Reply-To: <20200921222639.GY32101@casper.infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200904102925.52fcd2a1@lwn.net> <20200921222639.GY32101@casper.infradead.org>
-Date:   Tue, 22 Sep 2020 10:23:46 +0300
-Message-ID: <87sgbaqnp9.fsf@intel.com>
+        id S1729751AbgIVHZB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 03:25:01 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:18751 "EHLO
+        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729748AbgIVHZA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 03:25:00 -0400
+X-Greylist: delayed 610 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Sep 2020 03:24:57 EDT
+X-IronPort-AV: E=Sophos;i="5.77,289,1596470400"; 
+   d="scan'208";a="99496002"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 22 Sep 2020 15:14:46 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+        by cn.fujitsu.com (Postfix) with ESMTP id 9FBBC48990EC;
+        Tue, 22 Sep 2020 15:14:44 +0800 (CST)
+Received: from G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 22 Sep 2020 15:14:43 +0800
+Received: from TSO.g08.fujitsu.local (10.167.226.60) by
+ G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Tue, 22 Sep 2020 15:14:42 +0800
+From:   Cao jin <caoj.fnst@cn.fujitsu.com>
+To:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+        <linux-doc@vger.kernel.org>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <hpa@zytor.com>, <corbet@lwn.net>
+Subject: [RFC PATCH] Documentation/x86/boot.rst: minor languge improvement
+Date:   Tue, 22 Sep 2020 15:14:54 +0800
+Message-ID: <20200922071454.21726-1-caoj.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-yoursite-MailScanner-ID: 9FBBC48990EC.AC552
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: caoj.fnst@cn.fujitsu.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 21 Sep 2020, Matthew Wilcox <willy@infradead.org> wrote:
-> On Fri, Sep 04, 2020 at 10:29:25AM -0600, Jonathan Corbet wrote:
->> +# cdomain is badly broken in Sphinx 3+.  Leaving it out generates *most*
->> +# of the docs correctly, but not all.  Scream bloody murder but allow
->> +# the process to proceed; hopefully somebody will fix this properly soon.
->> +#
->> +if major >= 3:
->> +    sys.stderr.write('''WARNING: The kernel documentation build process
->> +	does not work correctly with Sphinx v3.0 and above.  Expect errors
->> +	in the generated output.
->
-> Should we be converting the kernel-doc script to output 3.0-style markup
-> for structs?
+Suggested-by: H. Peter Anvin <hpa@zytor.com>
+Signed-off-by: Cao jin <caoj.fnst@cn.fujitsu.com>
+---
+for 64-bit protocol, setup data still needs to be mapped, as there is
+operation on it in extract_kernel(), like:
 
-IIUC it's not backwards compatible with Sphinx pre-3.0, so you'd either
-have to require Sphinx 3.0 or have kernel-doc emit both, depending on
-the Sphinx version.
+        sanitize_boot_params(boot_params);
 
+initrd doesn't need to be mapped, which is also what KASLR does in its
+mem_avoid_init().
 
-BR,
-Jani.
+ Documentation/x86/boot.rst | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-
->
-> https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#c-roles
-
+diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+index 7fafc7ac00d7..392c6e147e70 100644
+--- a/Documentation/x86/boot.rst
++++ b/Documentation/x86/boot.rst
+@@ -1353,12 +1353,12 @@ In 32-bit boot protocol, the kernel is started by jumping to the
+ 32/64-bit kernel.
+ 
+ At entry, the CPU must be in 32-bit protected mode with paging
+-disabled; a GDT must be loaded with the descriptors for selectors
+-__BOOT_CS(0x10) and __BOOT_DS(0x18); both descriptors must be 4G flat
+-segment; __BOOT_CS must have execute/read permission, and __BOOT_DS
+-must have read/write permission; CS must be __BOOT_CS and DS, ES, SS
+-must be __BOOT_DS; interrupt must be disabled; %esi must hold the base
+-address of the struct boot_params; %ebp, %edi and %ebx must be zero.
++disabled and a GDT must be loaded with the descriptors for selectors
++__BOOT_CS(0x10) and __BOOT_DS(0x18): both descriptors must be 4G flat
++segment with __BOOT_CS having execute/read permission and __BOOT_DS
++having read/write permission. CS must be __BOOT_CS and DS, ES, SS
++must be __BOOT_DS. Interrupt must be disabled and %esi must hold the
++base address of the struct boot_params. %ebp, %edi and %ebx must be zero.
+ 
+ 64-bit Boot Protocol
+ ====================
+@@ -1379,7 +1379,7 @@ can be calculated as follows::
+ In addition to read/modify/write the setup header of the struct
+ boot_params as that of 16-bit boot protocol, the boot loader should
+ also fill the additional fields of the struct boot_params as described
+-in zero-page.txt.
++in zero-page.rst.
+ 
+ After setting up the struct boot_params, the boot loader can load
+ 64-bit kernel in the same way as that of 16-bit boot protocol, but
+@@ -1389,15 +1389,14 @@ In 64-bit boot protocol, the kernel is started by jumping to the
+ 64-bit kernel entry point, which is the start address of loaded
+ 64-bit kernel plus 0x200.
+ 
+-At entry, the CPU must be in 64-bit mode with paging enabled.
+-The range with setup_header.init_size from start address of loaded
+-kernel and zero page and command line buffer get ident mapping;
+-a GDT must be loaded with the descriptors for selectors
+-__BOOT_CS(0x10) and __BOOT_DS(0x18); both descriptors must be 4G flat
+-segment; __BOOT_CS must have execute/read permission, and __BOOT_DS
+-must have read/write permission; CS must be __BOOT_CS and DS, ES, SS
+-must be __BOOT_DS; interrupt must be disabled; %rsi must hold the base
+-address of the struct boot_params.
++At entry, the CPU must be in 64-bit mode. The range with
++setup_header.init_size from start address of loaded kernel, the zero page,
++and the command line buffer get identity-mapped, and a GDT must be loaded
++with the descriptors for selectors __BOOT_CS(0x10) and __BOOT_DS(0x18):
++both descriptors must be 4G flat segment with __BOOT_CS having execute/read
++permission and __BOOT_DS having read/write permission. CS must be __BOOT_CS
++and DS, ES, SS must be __BOOT_DS. Interrupt must be disabled and %rsi must
++hold the base address of the struct boot_params.
+ 
+ EFI Handover Protocol (deprecated)
+ ==================================
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.21.0
+
+
+
