@@ -2,68 +2,64 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 725DCC2D0E2
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 09:44:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55961C2D0E2
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 09:51:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A69220BED
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 09:44:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2484239A1
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 09:51:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="HrhPC/cS"
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="kWC+smJj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbgIVJoG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 05:44:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
+        id S1726586AbgIVJvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 05:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726489AbgIVJoG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 05:44:06 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970CDC0613D2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 02:44:05 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id w3so13565803ljo.5
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 02:44:05 -0700 (PDT)
+        with ESMTP id S1726454AbgIVJvj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 05:51:39 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA34C061755
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 02:51:38 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id nw23so21889380ejb.4
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 02:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=guVVaBxnWrQ86fDPccANXl4ruP0cfa0fdBrEFJjzk2w=;
-        b=HrhPC/cSVDNvm9kRZbwXzKjP6DTk7b2Nny0qurmlykw8pbZ55EM/YwnTphGw0Phb0i
-         zLX5bT+td8tZrb0mEVN/5fL82j/z07O92s3jT9d8a3W4dm57qRVrcwJUKb/E954BVUFV
-         TFAFWTS9f1YWrkJmJXHSfoOpeRSQND+w5H5Fjv8qHCsv7cOPHBTyoHb2k7c4eymMDFdn
-         36bHMIDD9tsCIpE+KTz3b5R3eCf65PHRjGW/uP65gLuixUJGJ3T+62IcXjI47ThEu5eZ
-         VV1igHblTySvW9p8oAXIc5QU5B9pDzu/21y96VHJGLYi8awC0gVsJZPlzCzJkQh6mF7V
-         96iw==
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=vLhN/ucVLfE69Dl/WKI0HEpcS5fMQFDATogS8fruK+Y=;
+        b=kWC+smJjtT0c9St6jcuRKFe+iC/3MNGMO2hzLmI4h3ukWa//TYGeZk5SPv1bkUzYpe
+         Piq5Gfchg23WCZ9wQAwQMGNwS3SbNdcaDAC2Az/+yjW8h+MjYeKt2dW1g/mome8M5EMI
+         iHbdhnfc6dBx+c0BNKdqAlSk0ap/1jplkFecY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=guVVaBxnWrQ86fDPccANXl4ruP0cfa0fdBrEFJjzk2w=;
-        b=DhAheuQzKmdUVuPm8r//U9t4DI59EP5+aGxOX2UBvk/xE7tgM9oc7bpaB7NU5gQS49
-         cCzF0iNwI1fhEVq/ROFqTHGioxa4hb/FJr/Xpsg2drNReznSX1AgI60PlSYb+jq9oFbS
-         aMUUKueH5vKW2ZDEQ4x1GkQr0sopZX1LSEHuQoVVDtR4vzpDdaEHvQ0TVB53DDUzwWxu
-         bwnku2BydfI+ECu8MCoo5TxDfR3gWMxDrb0YOeBxHxXyV1vSXPOriSBJHePXcjPvKr8Z
-         8fvL3qCFUiXPn08EY/YEQknTCrDkqzW/IVX7hmmSTHq9cjNTzEsCCt//HcgRO5N9ZQB0
-         Edzg==
-X-Gm-Message-State: AOAM530H1YFhNUieqHlXhjOVsICqm5wEWMyneHocQr/Bv8Foc9B1jKGn
-        MjdkK0aW2TnvWFrzmwROjp7bfD/TlkylLiLTtgk7ww==
-X-Google-Smtp-Source: ABdhPJxXVnl7GUvUOwrcD+5qdd9k2lu/yskeXQOKLRd98NXH9jTfBpsWC5OGIMBrUFqa0KDjRh3xVSSaQ18LIv9nGbI=
-X-Received: by 2002:a2e:b8d1:: with SMTP id s17mr1198265ljp.222.1600767843752;
- Tue, 22 Sep 2020 02:44:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200921080255.15505-1-zangchunxin@bytedance.com>
- <20200921081200.GE12990@dhcp22.suse.cz> <CALOAHbDKvT58UFjxy770VDxO0VWABRYb7GVwgw+NiJp62mB06w@mail.gmail.com>
- <20200921110505.GH12990@dhcp22.suse.cz>
-In-Reply-To: <20200921110505.GH12990@dhcp22.suse.cz>
-From:   Chunxin Zang <zangchunxin@bytedance.com>
-Date:   Tue, 22 Sep 2020 17:43:52 +0800
-Message-ID: <CAKRVAeN5U6S78jF1n8nCs5ioAdqvVn5f6GGTAnA93g_J0daOLw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] mm/memcontrol: Add the drop_cache
- interface for cgroup v2
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Yafang Shao <laoar.shao@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=vLhN/ucVLfE69Dl/WKI0HEpcS5fMQFDATogS8fruK+Y=;
+        b=GTefOb31Xf4rVHq3YTP86yEK8gjZvhgBS4rsWPAAgslS6yQs3+PO1VjMwJOyZb2TLA
+         m/vU0OmbcmLgW/LRTNi8IiJ05gbhxk/TzkrpaJYWSWMyHJ5rnYYgbooRA4SX3ASfgIiE
+         +MqLxiWnZ4kAnUhUEQ8Qfm+1tZzDLDIwuY70my50WRO5Iu24e8OR7hFRcqloWGKGbuDx
+         9nqoaX9blgTBkON8Qi1aPyQnUpIGbGa+rbyjIVtX5SsWTBygSQ7MzhDolxWjr/yw1jdB
+         JVVrKCXZ3R/sz519DvzzwpRQh+Q0LTLYO7SWf6LzZA5o356NpALC+t6znF5qRdK14b00
+         MECw==
+X-Gm-Message-State: AOAM530kxZd1jYARR0CqgwU+LGKK/BiV346BdFWnGwWa0assRX6Xhm8/
+        /r73fGB8n8GpB8BdUunPgbgnvw==
+X-Google-Smtp-Source: ABdhPJz0OsMdgyayNctU/Uicxzh0FHbqFj8fYde2wyp0iYG7bitVMgqzdrly9+4XgRu7N/ARK6LFpw==
+X-Received: by 2002:a17:906:af53:: with SMTP id ly19mr3778973ejb.503.1600768297333;
+        Tue, 22 Sep 2020 02:51:37 -0700 (PDT)
+Received: from localhost ([2620:10d:c093:400::5:7783])
+        by smtp.gmail.com with ESMTPSA id y14sm10723374eje.10.2020.09.22.02.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2020 02:51:36 -0700 (PDT)
+Date:   Tue, 22 Sep 2020 10:51:36 +0100
+From:   Chris Down <chris@chrisdown.name>
+To:     Chunxin Zang <zangchunxin@bytedance.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Yafang Shao <laoar.shao@gmail.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -77,75 +73,43 @@ Cc:     Yafang Shao <laoar.shao@gmail.com>,
         Linux MM <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
         netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [External] Re: [PATCH] mm/memcontrol: Add the drop_cache
+ interface for cgroup v2
+Message-ID: <20200922095136.GA9682@chrisdown.name>
+References: <20200921080255.15505-1-zangchunxin@bytedance.com>
+ <20200921081200.GE12990@dhcp22.suse.cz>
+ <CALOAHbDKvT58UFjxy770VDxO0VWABRYb7GVwgw+NiJp62mB06w@mail.gmail.com>
+ <20200921110505.GH12990@dhcp22.suse.cz>
+ <CAKRVAeN5U6S78jF1n8nCs5ioAdqvVn5f6GGTAnA93g_J0daOLw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKRVAeN5U6S78jF1n8nCs5ioAdqvVn5f6GGTAnA93g_J0daOLw@mail.gmail.com>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 7:05 PM Michal Hocko <mhocko@suse.com> wrote:
+Chunxin Zang writes:
+>My usecase is that there are two types of services in one server. They
+>have difference
+>priorities. Type_A has the highest priority, we need to ensure it's
+>schedule latency、I/O
+>latency、memory enough. Type_B has the lowest priority, we expect it
+>will not affect
+>Type_A when executed.
+>So Type_A could use memory without any limit. Type_B could use memory
+>only when the
+>memory is absolutely sufficient. But we cannot estimate how much
+>memory Type_B should
+>use. Because everything is dynamic. So we can't set Type_B's memory.high.
 >
-> On Mon 21-09-20 18:55:40, Yafang Shao wrote:
-> > On Mon, Sep 21, 2020 at 4:12 PM Michal Hocko <mhocko@suse.com> wrote:
-> > >
-> > > On Mon 21-09-20 16:02:55, zangchunxin@bytedance.com wrote:
-> > > > From: Chunxin Zang <zangchunxin@bytedance.com>
-> > > >
-> > > > In the cgroup v1, we have 'force_mepty' interface. This is very
-> > > > useful for userspace to actively release memory. But the cgroup
-> > > > v2 does not.
-> > > >
-> > > > This patch reuse cgroup v1's function, but have a new name for
-> > > > the interface. Because I think 'drop_cache' may be is easier to
-> > > > understand :)
-> > >
-> > > This should really explain a usecase. Global drop_caches is a terribl=
-e
-> > > interface and it has caused many problems in the past. People have
-> > > learned to use it as a remedy to any problem they might see and cause
-> > > other problems without realizing that. This is the reason why we even
-> > > log each attempt to drop caches.
-> > >
-> > > I would rather not repeat the same mistake on the memcg level unless
-> > > there is a very strong reason for it.
-> > >
-> >
-> > I think we'd better add these comments above the function
-> > mem_cgroup_force_empty() to explain why we don't want to expose this
-> > interface in cgroup2, otherwise people will continue to send this
-> > proposal without any strong reason.
->
-> I do not mind people sending this proposal.  "V1 used to have an
-> interface, we need it in v2 as well" is not really viable without
-> providing more reasoning on the specific usecase.
->
-> _Any_ patch should have a proper justification. This is nothing really
-> new to the process and I am wondering why this is coming as a surprise.
->
+>So we want to release the memory of Type_B when global memory is
+>insufficient in order
+>to ensure the quality of service of Type_A . In the past, we used the
+>'force_empty' interface
+>of cgroup v1.
 
-I'm so sorry for that.
-My usecase is that there are two types of services in one server. They
-have difference
-priorities. Type_A has the highest priority, we need to ensure it's
-schedule latency=E3=80=81I/O
-latency=E3=80=81memory enough. Type_B has the lowest priority, we expect it
-will not affect
-Type_A when executed.
-So Type_A could use memory without any limit. Type_B could use memory
-only when the
-memory is absolutely sufficient. But we cannot estimate how much
-memory Type_B should
-use. Because everything is dynamic. So we can't set Type_B's memory.high.
-
-So we want to release the memory of Type_B when global memory is
-insufficient in order
-to ensure the quality of service of Type_A . In the past, we used the
-'force_empty' interface
-of cgroup v1.
-
-> --
-> Michal Hocko
-> SUSE Labs
-
-Best wishes
-Chunxin
+This sounds like a perfect use case for memory.low on Type_A, and it's pretty 
+much exactly what we invented it for. What's the problem with that?
