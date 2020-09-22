@@ -2,71 +2,100 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12246C4727D
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 11:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD98C2D0E2
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 12:16:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D447F23600
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 11:50:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0F522395C
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 12:16:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbgIVLuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 07:50:20 -0400
-Received: from elvis.franken.de ([193.175.24.41]:51272 "EHLO elvis.franken.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727004AbgIVLuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Sep 2020 07:50:19 -0400
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1kKfxr-000822-06; Tue, 22 Sep 2020 12:56:03 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 4F214C0FFF; Tue, 22 Sep 2020 10:51:34 +0200 (CEST)
-Date:   Tue, 22 Sep 2020 10:51:34 +0200
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH 13/18] 53c700: convert to dma_alloc_noncoherent
-Message-ID: <20200922085134.GG8477@alpha.franken.de>
-References: <20200915155122.1768241-1-hch@lst.de>
- <20200915155122.1768241-14-hch@lst.de>
+        id S1726601AbgIVMQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 08:16:08 -0400
+Received: from m17618.mail.qiye.163.com ([59.111.176.18]:35793 "EHLO
+        m17618.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726588AbgIVMQI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 08:16:08 -0400
+X-Greylist: delayed 565 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Sep 2020 08:16:07 EDT
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.231])
+        by m17618.mail.qiye.163.com (Hmail) with ESMTPA id 8790C4E163F;
+        Tue, 22 Sep 2020 20:06:40 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: zh_CN: add translatation for btrfs
+Date:   Tue, 22 Sep 2020 20:03:34 +0800
+Message-Id: <1600776267-20146-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915155122.1768241-14-hch@lst.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZQkkfTxpKTUJJHU8ZVkpNS0tMTE1PS0tDSE9VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OhQ6Qxw*TD8sCg4yGhouGi4T
+        GSsaCzJVSlVKTUtLTExNT0tKSUhOVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5KVUxPVUlISllXWQgBWUFJTUNCNwY+
+X-HM-Tid: 0a74b5b56f6a9376kuws8790c4e163f
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 05:51:17PM +0200, Christoph Hellwig wrote:
-> Use the new non-coherent DMA API including proper ownership transfers.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/scsi/53c700.c | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
+Translate Documentation/filesystems/btrfs.rst into Chinese.
 
-Tested-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ .../translations/zh_CN/filesystems/btrfs.rst       | 37 ++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
+diff --git a/Documentation/translations/zh_CN/filesystems/btrfs.rst b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+index 0000000..8b8cca2
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+@@ -0,0 +1,37 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/filesystems/ext3.rst <ext3_index>`
++
++translated by 王擎 Wang Qing<wangqing@vivo.com>
++
++=====
++BTRFS
++=====
++
++Btrfs是一个写时复制更新的文件系统，它注重容错、修复和易于管理。
++Btrfs由多家公司联合开发，并获得GPL许可，免费开放给所有人。
++
++Btrfs的主要功能包括：
++
++    *扩展大小的文件存储（文件最大支持2^64）
++    *填充方式使小文件更节省空间
++    *索引目录的方式更节省空间
++    *动态的索引节点分配方式
++    *可写快照的特性
++    *支持子卷（独立的内部根文件系统）
++    *对象级别的镜像克隆
++    *基于数据和元数据的校验和（支持多种算法）
++    *支持压缩
++    *內建多种磁盘阵列算法，支持多种设备
++    *支持离线的文件系统检查
++    *高效的增量备份和文件系统镜像
++    *在线文件系统碎片整理
++
++更多有关信息，请参阅Wiki
++
++  https://btrfs.wiki.kernel.org
++
++维护信息包含管理任务、常见问题、用例、挂载选项、变更日志、
++特性、手册、源码仓、联系人等。
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+2.7.4
+
