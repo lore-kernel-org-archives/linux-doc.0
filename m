@@ -2,68 +2,63 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C68DFC4741F
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 10:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAA1C2D0E2
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 10:43:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DA4B239CF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 10:24:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D45D208A9
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 10:43:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="ZtgOaPqm"
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="NTQO2+kj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgIVKYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 06:24:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56500 "EHLO
+        id S1726531AbgIVKmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 06:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726515AbgIVKYs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 06:24:48 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31BCC0613D0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 03:24:47 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id k25so13638652ljg.9
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 03:24:47 -0700 (PDT)
+        with ESMTP id S1726514AbgIVKmz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 06:42:55 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD5BC0613D0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 03:42:54 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id c8so15697002edv.5
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 03:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=g5wJkgiy/5FUVTvT1Ox6eVPIWc3NhBDnEL+aZwGUv7Y=;
-        b=ZtgOaPqmXy1A+Gbcwyx2WDHIh7QWWMV6+7AyiGVfXG59CKMLwIW2QZN4PY2kq21Tza
-         H/X+ct31ngIt+7wS3O7ROOUvcaUpup8Dbv+Ly1LggaWmUnBzAqLyYATz2WbmFpkmDrXm
-         AMPTCfrdy03wZTWDdlin2/sp+zqfx0M6mqn28RqJ0HBH7rVGFbcCSyFQ++I3f+wfehPY
-         52GRZKGV27KnUlbl9VCEdzjFVC8ApeVroVdRtAm9vN8YD9MQPMd1Vgii+dxp/L3CRb1K
-         Z4w4OlZeGH4w6ZbCl6wnq9J76mbtLsbIyGD/DGC9SxxJFiYUYVf0zRrb09OdoNwYEM2e
-         I+lw==
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=d1+yTgS/nDdjZEJi5XLFsbasjOospBGkZinpc5mGS48=;
+        b=NTQO2+kjCrvdbjEFL+8qa0xnM8j2aFkI4YIcOCf4DCtwzIrmLrmov9WqKk+Wh+vi4c
+         gCqSG+yI5jbUdW0ZVX5erknsxE3avoRsk7dEgDoLscAWzHi9kia5w25FMnOnzVtYelst
+         N+N+jIm2n4VgPnzMfUEdrh/Ou7cDYiyq+cqLg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=g5wJkgiy/5FUVTvT1Ox6eVPIWc3NhBDnEL+aZwGUv7Y=;
-        b=VKqRVkKryFl2c8IubXabe6nTXFwrp0r4Miw4V22IUduGj8ccjrrchIV+juWfNaw0DC
-         B8QrlqfyLYw0+u8yNkpdbg7F2bz7lDDmZmLHpzK4kBHviOwEpDkSmgogvaTyUuCligJC
-         Vq1w5OE4Pxs17yBywY6tTzSU45kNdqgBcH291AskZXj279AMU1DLMBm2WzQ6V15RbV/q
-         Jof2iNfaqS4D5DDxBF7/aDnn4N70lEH7khIDhMo6eKeliSSiRgVzCaqQkxMHvRUEOXjO
-         MmPyTnSRsM1/3ZZ/17XjG+cmt049d6iV7ZE2tc4T5uamdY2PZbmtAqrMgMJK5iymV5P2
-         wvtA==
-X-Gm-Message-State: AOAM531qB3qk9e+8QtxOJVMiq18YgskN/INglLJhi86gwSVLcaDO1ae6
-        ZCai+/B7UlF32GAx7I6XK7/Xme0Q3/ahIVQpaGM33Q==
-X-Google-Smtp-Source: ABdhPJxXgZA7Wz+QbkdSrznteFqsjG1l1yak8212eYOgy3YfDUn51qAkpOY4//6idh0NbD3pHLC0kbbYv+E8XlP7zWI=
-X-Received: by 2002:a05:651c:1203:: with SMTP id i3mr1217853lja.382.1600770286046;
- Tue, 22 Sep 2020 03:24:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200921080255.15505-1-zangchunxin@bytedance.com>
- <20200921081200.GE12990@dhcp22.suse.cz> <CALOAHbDKvT58UFjxy770VDxO0VWABRYb7GVwgw+NiJp62mB06w@mail.gmail.com>
- <20200921110505.GH12990@dhcp22.suse.cz> <CAKRVAeN5U6S78jF1n8nCs5ioAdqvVn5f6GGTAnA93g_J0daOLw@mail.gmail.com>
- <20200922095136.GA9682@chrisdown.name>
-In-Reply-To: <20200922095136.GA9682@chrisdown.name>
-From:   Chunxin Zang <zangchunxin@bytedance.com>
-Date:   Tue, 22 Sep 2020 18:24:35 +0800
-Message-ID: <CAKRVAePisoOg8QBz11gPqzEoUdwPiJ-9Z9MyFE2LHzR-r+PseQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] mm/memcontrol: Add the drop_cache
- interface for cgroup v2
-To:     Chris Down <chris@chrisdown.name>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=d1+yTgS/nDdjZEJi5XLFsbasjOospBGkZinpc5mGS48=;
+        b=fFBNCr+OqS+W4wifXgGFKk6MYoWmY/axQZ3a0VhKeayJzEo6tROlQEzSbSfj423eGf
+         UfU7v4TYksNqPQwZNUavUvKyvtwulOkV0p6h2ecalMq+KmyOjYOr6sJOT2hwUNtbKyJQ
+         s5RVPWfeD26RJybqGSwZ7Kb/+w/L5RIrRvskHANN3lJZe36gdXQlb6rUEoiItTxA1JLV
+         ovUWB7Boa11exIsZwvZgRhxw/vu6pUt5rrvxQK8wbKGWICRpxkZpvihMHJ+DYtW5Xi70
+         CyNvFc+la8Cv1OrOjcRR3+LO37ryfWVDHaJa9mhT5RhwMjlc/EKStqFaBKk4jjb/YlIO
+         eBZg==
+X-Gm-Message-State: AOAM530lZIKWmLRnXPfYI2oZss3v5Ouage7oFqnRBW1u3/E8dtG5Efmv
+        oRFCWYC7j1et5IDDu9TCLUxUBA==
+X-Google-Smtp-Source: ABdhPJyLjjf0N1v9YU9XDgeN4pEzCTJKyLcJJ5cAqsBsxayr1kBl20EtWfgNKP9UQ2nNgW/Tp4JosQ==
+X-Received: by 2002:a05:6402:202a:: with SMTP id ay10mr3317444edb.36.1600771373203;
+        Tue, 22 Sep 2020 03:42:53 -0700 (PDT)
+Received: from localhost ([2620:10d:c093:400::5:7783])
+        by smtp.gmail.com with ESMTPSA id 16sm10724717edx.72.2020.09.22.03.42.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2020 03:42:52 -0700 (PDT)
+Date:   Tue, 22 Sep 2020 11:42:52 +0100
+From:   Chris Down <chris@chrisdown.name>
+To:     Chunxin Zang <zangchunxin@bytedance.com>
 Cc:     Michal Hocko <mhocko@suse.com>, Yafang Shao <laoar.shao@gmail.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
@@ -78,50 +73,62 @@ Cc:     Michal Hocko <mhocko@suse.com>, Yafang Shao <laoar.shao@gmail.com>,
         Linux MM <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
         netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [External] Re: [PATCH] mm/memcontrol: Add the drop_cache
+ interface for cgroup v2
+Message-ID: <20200922104252.GB9682@chrisdown.name>
+References: <20200921080255.15505-1-zangchunxin@bytedance.com>
+ <20200921081200.GE12990@dhcp22.suse.cz>
+ <CALOAHbDKvT58UFjxy770VDxO0VWABRYb7GVwgw+NiJp62mB06w@mail.gmail.com>
+ <20200921110505.GH12990@dhcp22.suse.cz>
+ <CAKRVAeN5U6S78jF1n8nCs5ioAdqvVn5f6GGTAnA93g_J0daOLw@mail.gmail.com>
+ <20200922095136.GA9682@chrisdown.name>
+ <CAKRVAePisoOg8QBz11gPqzEoUdwPiJ-9Z9MyFE2LHzR-r+PseQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKRVAePisoOg8QBz11gPqzEoUdwPiJ-9Z9MyFE2LHzR-r+PseQ@mail.gmail.com>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 22, 2020 at 5:51 PM Chris Down <chris@chrisdown.name> wrote:
+Chunxin Zang writes:
+>On Tue, Sep 22, 2020 at 5:51 PM Chris Down <chris@chrisdown.name> wrote:
+>>
+>> Chunxin Zang writes:
+>> >My usecase is that there are two types of services in one server. They
+>> >have difference
+>> >priorities. Type_A has the highest priority, we need to ensure it's
+>> >schedule latency、I/O
+>> >latency、memory enough. Type_B has the lowest priority, we expect it
+>> >will not affect
+>> >Type_A when executed.
+>> >So Type_A could use memory without any limit. Type_B could use memory
+>> >only when the
+>> >memory is absolutely sufficient. But we cannot estimate how much
+>> >memory Type_B should
+>> >use. Because everything is dynamic. So we can't set Type_B's memory.high.
+>> >
+>> >So we want to release the memory of Type_B when global memory is
+>> >insufficient in order
+>> >to ensure the quality of service of Type_A . In the past, we used the
+>> >'force_empty' interface
+>> >of cgroup v1.
+>>
+>> This sounds like a perfect use case for memory.low on Type_A, and it's pretty
+>> much exactly what we invented it for. What's the problem with that?
 >
-> Chunxin Zang writes:
-> >My usecase is that there are two types of services in one server. They
-> >have difference
-> >priorities. Type_A has the highest priority, we need to ensure it's
-> >schedule latency=E3=80=81I/O
-> >latency=E3=80=81memory enough. Type_B has the lowest priority, we expect=
- it
-> >will not affect
-> >Type_A when executed.
-> >So Type_A could use memory without any limit. Type_B could use memory
-> >only when the
-> >memory is absolutely sufficient. But we cannot estimate how much
-> >memory Type_B should
-> >use. Because everything is dynamic. So we can't set Type_B's memory.high=
-.
-> >
-> >So we want to release the memory of Type_B when global memory is
-> >insufficient in order
-> >to ensure the quality of service of Type_A . In the past, we used the
-> >'force_empty' interface
-> >of cgroup v1.
->
-> This sounds like a perfect use case for memory.low on Type_A, and it's pr=
-etty
-> much exactly what we invented it for. What's the problem with that?
+>But we cannot estimate how much memory Type_A uses at least.
 
-But we cannot estimate how much memory Type_A uses at least.
-For example:
-total memory: 100G
-At the beginning, Type_A was in an idle state, and it only used 10G of memo=
-ry.
-The load is very low. We want to run Type_B to avoid wasting machine resour=
-ces.
-When Type_B runs for a while, it used 80G of memory.
-At this time Type_A is busy, it needs more memory.
+memory.low allows ballparking, you don't have to know exactly how much it uses.  
+Any amount of protection biases reclaim away from that cgroup.
 
-Usually we will reclaim the memory of B first for Type_A . If not
-enough, we will
-kill Type_B.
+>For example:
+>total memory: 100G
+>At the beginning, Type_A was in an idle state, and it only used 10G of memory.
+>The load is very low. We want to run Type_B to avoid wasting machine resources.
+>When Type_B runs for a while, it used 80G of memory.
+>At this time Type_A is busy, it needs more memory.
+
+Ok, so set memory.low for Type_A close to your maximum expected value.
