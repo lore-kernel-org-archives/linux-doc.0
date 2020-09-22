@@ -2,337 +2,145 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC9FC47426
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 20:16:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E91EDC2D0E2
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 21:14:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD96C206B8
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 20:16:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3C0E23600
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 21:14:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PV8LXosR"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B1hYCzRI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbgIVUPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 16:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34508 "EHLO
+        id S1726631AbgIVVOK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 17:14:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgIVUPg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 16:15:36 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A923C061755;
-        Tue, 22 Sep 2020 13:15:36 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id l126so13496379pfd.5;
-        Tue, 22 Sep 2020 13:15:36 -0700 (PDT)
+        with ESMTP id S1726615AbgIVVOK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 17:14:10 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38A8C0613D2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 14:14:10 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id k14so12994340pgi.9
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 14:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=sKGrNkNTHjkBPRsVfP9DsBVB9vQeFFiSFha5UW0riiY=;
-        b=PV8LXosRad6T4RYxgZNMRQszFuw2OftjACPsz9ly+3HmL/+ACHPK3Bb38Klv20gOSA
-         7NwVmEZZeTSHmcWQFxJzrwpLghysDVUOzcMyOi7Xp1MFU4zl7pXKLxBAxVhaGvLayluv
-         lifRJEl69A6YsZeGm6K9tQS7bDZXX6Dr9ir4bF3+XoPjA6MLIu4/YBqM/gXl9suKvaXw
-         7hl7B3l+Uk3sCFtdW8ZLmrB4/yyh/Qc7pFa6/vZkkFSlwmvmkFkp/kfB2wfIf3ls9zhP
-         KDLCRAq5sZiyKF1NjaCwhiiobKGvtuu9kd5+9VVlZqN1RC8jPH8I9gYCCARo7zr4gDWS
-         N2Mg==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jX0oqiM8ZRWUr1y81TApDh2RLCO5qMFygk0a8MYzzVI=;
+        b=B1hYCzRIzXGxf476oO1RyhjC26uBYCDdckWaQTm5Z1XUjvlWEEJN1luX8NvRRESzqy
+         uI37IR6+6MX61y1oGcN8An610Ee2QYGs6VGNllKq9m+zlneUHDzy3UsAGGBHv9DE1E1D
+         qT8GQM4UVAesCA8kLMpRrA9ZeI4cfw8eGjxYKtyE0yjY59irZXh2Dfmz9OjumiYUu/qm
+         yHTO7ctPRUbZ9EigdnrWAIXnwvosn5CW58fpf0+coea0060UfoW1dsYi0nQkVmy0O4VO
+         g81iae2/630fno3kknm7E/zhJn0XhCUt3WhKQcA0ckIX/ElhyihqNT81SRkD23FlxBLs
+         OQcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=sKGrNkNTHjkBPRsVfP9DsBVB9vQeFFiSFha5UW0riiY=;
-        b=ZrqeN73KGByL3ZhTDfUJ48htg+zHCNJABk7wJJ4ovx9qGd1v/HmWC3BVP9iE0fkyu6
-         60rahOJbb7bAvfR2HG07xeRheVTZ/2z0+brOEyU3dgMH6hjaE+Q8Mjk1BLRyVPeddzsb
-         YVSVzPGWdsrAe/ZnxD+oweHCo6xXdsrrjK66HR3yiLfySq4ANTj/gsnID4fmZcvWZVSz
-         Q5OnakJIN+Gq/16xj1YjN5EwyiTN1HKr/6Lt2ivqTbbE9eFlgUjwWaWzqg+HMO21pRtx
-         tN9nXqjD6bW0u/x/aSjJLvwvk+7DGeVR8qxxAbvEtjihsZpeV0T9ecedVOkcOat2SN3n
-         G2aw==
-X-Gm-Message-State: AOAM531CwkNpEtxFSQPcAcuvlJr7Bot/AAhtaZBocY4wThV4aKHv8/mk
-        MZP5tV/mmPufA0BlXaP87KE=
-X-Google-Smtp-Source: ABdhPJxFPpWYdP/rbDYYF9In9wTLg6tp19iNquLjJLErQuemXIs08VoOZLQpepPk/Ogiya//jKKfdQ==
-X-Received: by 2002:a62:cfc4:0:b029:142:440e:231d with SMTP id b187-20020a62cfc40000b0290142440e231dmr5460767pfg.7.1600805735748;
-        Tue, 22 Sep 2020 13:15:35 -0700 (PDT)
-Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
-        by smtp.gmail.com with ESMTPSA id e10sm15793028pgb.45.2020.09.22.13.15.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 Sep 2020 13:15:35 -0700 (PDT)
-From:   Jacob Pan <jacob.pan.linux@gmail.com>
-X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To:     iommu@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "Lu Baolu" <baolu.lu@linux.intel.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-api@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
-        Yi Sun <yi.y.sun@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: [PATCH v10 1/7] docs: IOMMU user API
-Date:   Tue, 22 Sep 2020 13:16:56 -0700
-Message-Id: <1600805822-1177-2-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1600805822-1177-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1600805822-1177-1-git-send-email-jacob.jun.pan@linux.intel.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jX0oqiM8ZRWUr1y81TApDh2RLCO5qMFygk0a8MYzzVI=;
+        b=OcfSEOJQP5xL5ddcC1Mu/pjA5c4qe8MAIOANt+TruTKt78PVq+lT6or8LY/RkIorux
+         7Xuvp7GT/tlV0lCvX118inZi8pOiMVVqh8H8C0pOJATWlxK/IqU/Syx907wgSvrM3sTK
+         zoN23UrVvQ+gNGBRcb44ZBBi8mo5qn+5ZlOBt3qxaTZgDKYldJyznGT/REIoeK7WTmWk
+         FOxYfT89YGmmSqgKvT+7ywdxJ4v1+VvYyZb8R2hzmxCdSECjJy8B+x6V8IVW+tS/gdvs
+         2nKpvxbxPPLBjEBNb39P1tnRdQGu+4zUL2L/PvgwakHfjumltSFji7zyMIHlr5RHcqvF
+         gvGg==
+X-Gm-Message-State: AOAM530Efg9pGkpNpFNUyS+QNP8f0A+Fc2mTrlDHanQxcFDiNO3C6i1o
+        j2uOb5cpmg0ZBPeLT02LYsvj5A==
+X-Google-Smtp-Source: ABdhPJzzrNDDUM06Vr4/E2y5sYnq1wUrhSBwgHDHzOZNGlz/fG05U62zoyb1FdFl0XlVuaTCkIKrPg==
+X-Received: by 2002:a63:516:: with SMTP id 22mr5143414pgf.316.1600809249779;
+        Tue, 22 Sep 2020 14:14:09 -0700 (PDT)
+Received: from google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
+        by smtp.gmail.com with ESMTPSA id r15sm15218636pgg.17.2020.09.22.14.14.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2020 14:14:09 -0700 (PDT)
+Date:   Tue, 22 Sep 2020 14:14:04 -0700
+From:   Vipin Sharma <vipinsh@google.com>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     thomas.lendacky@amd.com, pbonzini@redhat.com, tj@kernel.org,
+        lizefan@huawei.com, joro@8bytes.org, corbet@lwn.net,
+        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
+        gingell@google.com, rientjes@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC Patch 0/2] KVM: SVM: Cgroup support for SVM SEV ASIDs
+Message-ID: <20200922211404.GA4141897@google.com>
+References: <20200922004024.3699923-1-vipinsh@google.com>
+ <20200922014836.GA26507@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200922014836.GA26507@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-IOMMU UAPI is newly introduced to support communications between guest
-virtual IOMMU and host IOMMU. There has been lots of discussions on how
-it should work with VFIO UAPI and userspace in general.
+On Mon, Sep 21, 2020 at 06:48:38PM -0700, Sean Christopherson wrote:
+> On Mon, Sep 21, 2020 at 05:40:22PM -0700, Vipin Sharma wrote:
+> > Hello,
+> > 
+> > This patch series adds a new SEV controller for tracking and limiting
+> > the usage of SEV ASIDs on the AMD SVM platform.
+> > 
+> > SEV ASIDs are used in creating encrypted VM and lightweight sandboxes
+> > but this resource is in very limited quantity on a host.
+> > 
+> > This limited quantity creates issues like SEV ASID starvation and
+> > unoptimized scheduling in the cloud infrastructure.
+> > 
+> > SEV controller provides SEV ASID tracking and resource control
+> > mechanisms.
+> 
+> This should be genericized to not be SEV specific.  TDX has a similar
+> scarcity issue in the form of key IDs, which IIUC are analogous to SEV ASIDs
+> (gave myself a quick crash course on SEV ASIDs).  Functionally, I doubt it
+> would change anything, I think it'd just be a bunch of renaming.  The hardest
+> part would probably be figuring out a name :-).
+> 
+> Another idea would be to go even more generic and implement a KVM cgroup
+> that accounts the number of VMs of a particular type, e.g. legacy, SEV,
+> SEV-ES?, and TDX.  That has potential future problems though as it falls
+> apart if hardware every supports 1:MANY VMs:KEYS, or if there is a need to
+> account keys outside of KVM, e.g. if MKTME for non-KVM cases ever sees the
+> light of day.
 
-This document is intended to clarify the UAPI design and usage. The
-mechanics of how future extensions should be achieved are also covered
-in this documentation.
+I read about the TDX and its use of the KeyID for encrypting VMs. TDX
+has two kinds of KeyIDs private and shared.
 
-Cc: linux-api@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- Documentation/userspace-api/iommu.rst | 210 ++++++++++++++++++++++++++++++++++
- MAINTAINERS                           |   1 +
- 2 files changed, 211 insertions(+)
- create mode 100644 Documentation/userspace-api/iommu.rst
+On AMD platform there are two types of ASIDs for encryption.
+1. SEV ASID - Normal runtime guest memory encryption.
+2. SEV-ES ASID - Extends SEV ASID by adding register state encryption with
+		 integrity.
 
-diff --git a/Documentation/userspace-api/iommu.rst b/Documentation/userspace-api/iommu.rst
-new file mode 100644
-index 000000000000..591609863cdc
---- /dev/null
-+++ b/Documentation/userspace-api/iommu.rst
-@@ -0,0 +1,210 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. iommu:
-+
-+=====================================
-+IOMMU Userspace API
-+=====================================
-+
-+IOMMU UAPI is used for virtualization cases where communications are
-+needed between physical and virtual IOMMU drivers. For baremetal
-+usage, the IOMMU is a system device which does not need to communicate
-+with userspace directly.
-+
-+The primary use cases are guest Shared Virtual Address (SVA) and
-+guest IO virtual address (IOVA), wherein the vIOMMU implementation
-+relies on the physical IOMMU and for this reason requires interactions
-+with the host driver.
-+
-+.. contents:: :local:
-+
-+Functionalities
-+===============
-+Communications of user and kernel involve both directions. The
-+supported user-kernel APIs are as follows:
-+
-+1. Alloc/Free PASID
-+2. Bind/Unbind guest PASID (e.g. Intel VT-d)
-+3. Bind/Unbind guest PASID table (e.g. ARM SMMU)
-+4. Invalidate IOMMU caches upon guest requests
-+5. Report errors to the guest and serve page requests
-+
-+Requirements
-+============
-+The IOMMU UAPIs are generic and extensible to meet the following
-+requirements:
-+
-+1. Emulated and para-virtualised vIOMMUs
-+2. Multiple vendors (Intel VT-d, ARM SMMU, etc.)
-+3. Extensions to the UAPI shall not break existing userspace
-+
-+Interfaces
-+==========
-+Although the data structures defined in IOMMU UAPI are self-contained,
-+there are no user API functions introduced. Instead, IOMMU UAPI is
-+designed to work with existing user driver frameworks such as VFIO.
-+
-+Extension Rules & Precautions
-+-----------------------------
-+When IOMMU UAPI gets extended, the data structures can *only* be
-+modified in two ways:
-+
-+1. Adding new fields by re-purposing the padding[] field. No size change.
-+2. Adding new union members at the end. May increase the structure sizes.
-+
-+No new fields can be added *after* the variable sized union in that it
-+will break backward compatibility when offset moves. A new flag must
-+be introduced whenever a change affects the structure using either
-+method. The IOMMU driver processes the data based on flags which
-+ensures backward compatibility.
-+
-+Version field is only reserved for the unlikely event of UAPI upgrade
-+at its entirety.
-+
-+It's *always* the caller's responsibility to indicate the size of the
-+structure passed by setting argsz appropriately.
-+Though at the same time, argsz is user provided data which is not
-+trusted. The argsz field allows the user app to indicate how much data
-+it is providing; it's still the kernel's responsibility to validate
-+whether it's correct and sufficient for the requested operation.
-+
-+Compatibility Checking
-+----------------------
-+When IOMMU UAPI extension results in some structure size increase,
-+IOMMU UAPI code shall handle the following cases:
-+
-+1. User and kernel has exact size match
-+2. An older user with older kernel header (smaller UAPI size) running on a
-+   newer kernel (larger UAPI size)
-+3. A newer user with newer kernel header (larger UAPI size) running
-+   on an older kernel.
-+4. A malicious/misbehaving user passing illegal/invalid size but within
-+   range. The data may contain garbage.
-+
-+Feature Checking
-+----------------
-+While launching a guest with vIOMMU, it is strongly advised to check
-+the compatibility upfront, as some subsequent errors happening during
-+vIOMMU operation, such as cache invalidation failures cannot be nicely
-+escalated to the guest due to IOMMU specifications. This can lead to
-+catastrophic failures for the users.
-+
-+User applications such as QEMU are expected to import kernel UAPI
-+headers. Backward compatibility is supported per feature flags.
-+For example, an older QEMU (with older kernel header) can run on newer
-+kernel. Newer QEMU (with new kernel header) may refuse to initialize
-+on an older kernel if new feature flags are not supported by older
-+kernel. Simply recompiling existing code with newer kernel header should
-+not be an issue in that only existing flags are used.
-+
-+IOMMU vendor driver should report the below features to IOMMU UAPI
-+consumers (e.g. via VFIO).
-+
-+1. IOMMU_NESTING_FEAT_SYSWIDE_PASID
-+2. IOMMU_NESTING_FEAT_BIND_PGTBL
-+3. IOMMU_NESTING_FEAT_BIND_PASID_TABLE
-+4. IOMMU_NESTING_FEAT_CACHE_INVLD
-+5. IOMMU_NESTING_FEAT_PAGE_REQUEST
-+
-+Take VFIO as example, upon request from VFIO userspace (e.g. QEMU),
-+VFIO kernel code shall query IOMMU vendor driver for the support of
-+the above features. Query result can then be reported back to the
-+userspace caller. Details can be found in
-+Documentation/driver-api/vfio.rst.
-+
-+
-+Data Passing Example with VFIO
-+------------------------------
-+As the ubiquitous userspace driver framework, VFIO is already IOMMU
-+aware and shares many key concepts such as device model, group, and
-+protection domain. Other user driver frameworks can also be extended
-+to support IOMMU UAPI but it is outside the scope of this document.
-+
-+In this tight-knit VFIO-IOMMU interface, the ultimate consumer of the
-+IOMMU UAPI data is the host IOMMU driver. VFIO facilitates user-kernel
-+transport, capability checking, security, and life cycle management of
-+process address space ID (PASID).
-+
-+VFIO layer conveys the data structures down to the IOMMU driver. It
-+follows the pattern below::
-+
-+   struct {
-+	__u32 argsz;
-+	__u32 flags;
-+	__u8  data[];
-+   };
-+
-+Here data[] contains the IOMMU UAPI data structures. VFIO has the
-+freedom to bundle the data as well as parse data size based on its own flags.
-+
-+In order to determine the size and feature set of the user data, argsz
-+and flags (or the equivalent) are also embedded in the IOMMU UAPI data
-+structures.
-+
-+A "__u32 argsz" field is *always* at the beginning of each structure.
-+
-+For example:
-+::
-+
-+   struct iommu_cache_invalidate_info {
-+	__u32	argsz;
-+	#define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
-+	__u32	version;
-+	/* IOMMU paging structure cache */
-+	#define IOMMU_CACHE_INV_TYPE_IOTLB	(1 << 0) /* IOMMU IOTLB */
-+	#define IOMMU_CACHE_INV_TYPE_DEV_IOTLB	(1 << 1) /* Device IOTLB */
-+	#define IOMMU_CACHE_INV_TYPE_PASID	(1 << 2) /* PASID cache */
-+	#define IOMMU_CACHE_INV_TYPE_NR		(3)
-+	__u8	cache;
-+	__u8	granularity;
-+	__u8	padding[6];
-+	union {
-+		struct iommu_inv_pasid_info pasid_info;
-+		struct iommu_inv_addr_info addr_info;
-+	} granu;
-+   };
-+
-+VFIO is responsible for checking its own argsz and flags. It then
-+invokes appropriate IOMMU UAPI functions. The user pointers are passed
-+to the IOMMU layer for further processing. The responsibilities are
-+divided as follows:
-+
-+- Generic IOMMU layer checks argsz range based on UAPI data in the
-+  current kernel version.
-+
-+- Generic IOMMU layer checks content of the UAPI data for non-zero
-+  reserved bits in flags, padding fields, and unsupported version.
-+  This is to ensure not breaking userspace in the future when these
-+  fields or flags are used.
-+
-+- Vendor IOMMU driver checks argsz based on vendor flags. UAPI data
-+  is consumed based on flags. Vendor driver has access to
-+  unadulterated argsz value in case of vendor specific future
-+  extensions. Currently, it does not perform the copy_from_user()
-+  itself. A __user pointer can be provided in some future scenarios
-+  where there's vendor data outside of the structure definition.
-+
-+IOMMU code treats UAPI data in two categories:
-+
-+- structure contains vendor data
-+  (Example: iommu_uapi_cache_invalidate())
-+
-+- structure contains only generic data
-+  (Example: iommu_uapi_sva_bind_gpasid())
-+
-+
-+
-+Sharing UAPI with in-kernel users
-+---------------------------------
-+For UAPIs that are shared with in-kernel users, a wrapper function is
-+provided to distinguish the callers. For example,
-+
-+Userspace caller ::
-+
-+  int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain,
-+                                   struct device *dev,
-+                                   void __user *udata)
-+
-+In-kernel caller ::
-+
-+  int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
-+                              struct device *dev, ioasid_t ioasid);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0d0862b19ce5..5766583e4383 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9125,6 +9125,7 @@ L:	iommu@lists.linux-foundation.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
- F:	Documentation/devicetree/bindings/iommu/
-+F:	Documentation/userspace-api/iommu.rst
- F:	drivers/iommu/
- F:	include/linux/iommu.h
- F:	include/linux/iova.h
--- 
-2.7.4
+Both types of ASIDs have their own maximum value which is provisioned in
+the firmware
 
+So, we are talking about 4 different types of resources:
+1. AMD SEV ASID (implemented in this patch as sev.* files in SEV cgroup)
+2. AMD SEV-ES ASID (in future, adding files like sev_es.*)
+3. Intel TDX private KeyID
+4. Intel TDX shared KeyID
+
+TDX private KeyID is similar to SEV and SEV-ES ASID. I think coming up
+with the same name which can be used by both platforms will not be easy,
+and extensible with the future enhancements. This will get even more
+difficult if Arm also comes up with something similar but with different
+nuances.
+
+I like the idea of the KVM cgroup and when it is mounted it will have
+different files based on the hardware platform.
+
+1. KVM cgroup on AMD will have:
+sev.max & sev.current.
+sev_es.max & sev_es.current.
+
+2. KVM cgroup mounted on Intel:
+tdx_private_keys.max
+tdx_shared_keys.max
+
+The KVM cgroup can be used to have control files which are generic (no
+use case in my mind right now) and hardware platform specific files
+also.
