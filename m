@@ -1,205 +1,115 @@
-Return-Path: <SRS0=TOdD=C6=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDB8DC47420
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:48:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84303C4727D
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 00:40:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8540723A79
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Sep 2020 23:48:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600732122;
-	bh=N8vHQdEHpTHWvUHKpDbNH8Yi1jVK5l/yl5V+P+NE0OA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=nD/f6lb/UYJpeagtzKSHNh4ZXiAfPMW2gmywzlw1M01ZhC5/9gudVLBhE0NlfIikA
-	 VD4hEg2vnXTUNmYyn0TFNA7gjNHCzoctoO6YrKhw6ciyy15h9EO2BDh4ImiaTkf31V
-	 j5Df5ksUo9kebOyFjzKd9zizcNsecmNqyKEBOaLM=
+	by mail.kernel.org (Postfix) with ESMTP id 4ED2923A32
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 00:40:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kdyVgyus"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728712AbgIUXsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Sep 2020 19:48:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59218 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728701AbgIUXsj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Sep 2020 19:48:39 -0400
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F91B23A84
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 23:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600732118;
-        bh=N8vHQdEHpTHWvUHKpDbNH8Yi1jVK5l/yl5V+P+NE0OA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=goDxIMoDoxVa3C64VsVsoO1jj5SNv4S6MzZHZ98rF+dlRwaM2zylky7OMs58V0cIt
-         0k34+7+qqV1O1on10uR7KTin37l5HHeADO5pXJZJTKNV4jiznZr/kCqEdpy6SoWJMv
-         J+loS6sIAobeIhC7PKoJMovzXnqu/F07k7RzKvZA=
-Received: by mail-wr1-f47.google.com with SMTP id j2so15009818wrx.7
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 16:48:38 -0700 (PDT)
-X-Gm-Message-State: AOAM532OSR9K+Zl4O2JmjmkkyBlrpijjSyKht2G5yWc6XtS7MBy57/G3
-        L7NVs2rG2Urh9MoIFHkpAVZgAhJXM7ACVONj53TT+Q==
-X-Google-Smtp-Source: ABdhPJzngS+LJRRhcziEyC3Eee4FojJ0Xz7OhABh4eqwGzQo/447WGnYoKx4dZhgKZSGTGYlukUJFQ1u+OQ1i1Jxyaw=
-X-Received: by 2002:a5d:6a47:: with SMTP id t7mr2138226wrw.75.1600732116993;
- Mon, 21 Sep 2020 16:48:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200918192312.25978-1-yu-cheng.yu@intel.com> <20200918192312.25978-9-yu-cheng.yu@intel.com>
- <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
- <c96c98ec-d72a-81a3-06e2-2040f3ece33a@intel.com> <24718de58ab7bc6d7288c58d3567ad802eeb6542.camel@intel.com>
-In-Reply-To: <24718de58ab7bc6d7288c58d3567ad802eeb6542.camel@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 21 Sep 2020 16:48:25 -0700
-X-Gmail-Original-Message-ID: <CALCETrWssUxxfhPPJZgPOmpaQcf4o9qCe1j-P7yiPyZVV+O8ZQ@mail.gmail.com>
-Message-ID: <CALCETrWssUxxfhPPJZgPOmpaQcf4o9qCe1j-P7yiPyZVV+O8ZQ@mail.gmail.com>
-Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is enabled
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
+        id S1729051AbgIVAks (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Sep 2020 20:40:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51118 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729007AbgIVAko (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Sep 2020 20:40:44 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3018C0613D0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 17:40:44 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 140so13602485ybf.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2020 17:40:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=V3Xr2zBCrWRdkK+k7x0nVhZayUYo5UZWzWiSfnS90fI=;
+        b=kdyVgyusZNzoXrTJhguQAb+Mx6TJNWHRXlrjar7ZHpeVOaXSPFcnqpBVcrKSj7jdY/
+         Z9S2h73yYxQ9ye0LpN+CnHJtEkvDKrW9dX9pf4gz/5JYMJcccJoedfYoOR8AT6arrG/0
+         ux966VV/bda9j4D3905gY+7QxO5ycI5EIzvDsYywy96gVK8JhFGFJMy2GicwDum9X/7W
+         5AEWANjjafFjdR3tEOf/Btn3rFXzJXaLz1TU4p2opSJylwS9O8Y07YUPXzdI/9WSkVZ9
+         xceQndQbqE8aM4VfKijgA1/KGV6BKYHLXzO7PTdnAOW4uHnL0OrmfA8n9UcoRW9J8H5E
+         Wt1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=V3Xr2zBCrWRdkK+k7x0nVhZayUYo5UZWzWiSfnS90fI=;
+        b=sQ3jsSMNzlAKbD1IQxL8zV/HfRAMOR1tSSgWwTcuDoSm1juYV1vQ4H3JEmRN2VwJHg
+         nZ6Tz6Spgq1KOknQOvTmmYvhC+2AN4+fIGwZN9BJezxatp5XoAKx3FUDI8QDOMI5oq69
+         kSQ32Pr6jX3Ew+ZkOP8gqFlQHXq9yg7mmTBT+DK7jTV9QD4h7DdSHR86sU9h8cyRyDfb
+         sH1xCbDpPCVGJ40Q8Nkv/xmbUTq67TCq0noaiRIgoIDBs135fSdqWNEXBpapiG9Ca9+4
+         CBZ3gtrB2nRwij7CZ2BG6mHzU0YnMdOxGlH9aJygU7PhaTjQ71t1fNLh7TQUwSyQ1LAo
+         0XGw==
+X-Gm-Message-State: AOAM532swvdJyomBDWv0YCSYgpQacGdgr10Cd5FfAn2zuE1KTRwVg1gS
+        awTkZUczeklcuALLdVElseK9YgvxS+X6
+X-Google-Smtp-Source: ABdhPJxDC6JLVG11hhZe1uOVPGKcetCubbINqx66dzuSedg2x2A03OBC/7sbWEURwwLPReMPnq569d3iROp7
+Sender: "vipinsh via sendgmr" <vipinsh@vipinsh.kir.corp.google.com>
+X-Received: from vipinsh.kir.corp.google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
+ (user=vipinsh job=sendgmr) by 2002:a25:900b:: with SMTP id
+ s11mr3389263ybl.426.1600735243795; Mon, 21 Sep 2020 17:40:43 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 17:40:22 -0700
+Message-Id: <20200922004024.3699923-1-vipinsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
+Subject: [RFC Patch 0/2] KVM: SVM: Cgroup support for SVM SEV ASIDs
+From:   Vipin Sharma <vipinsh@google.com>
+To:     thomas.lendacky@amd.com, pbonzini@redhat.com,
+        sean.j.christopherson@intel.com, tj@kernel.org, lizefan@huawei.com
+Cc:     joro@8bytes.org, corbet@lwn.net, brijesh.singh@amd.com,
+        jon.grimm@amd.com, eric.vantassell@amd.com, gingell@google.com,
+        rientjes@google.com, kvm@vger.kernel.org, x86@kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vipin Sharma <vipinsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 3:37 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> On Mon, 2020-09-21 at 09:22 -0700, Yu, Yu-cheng wrote:
-> > On 9/18/2020 5:11 PM, Andy Lutomirski wrote:
-> > > On Fri, Sep 18, 2020 at 12:23 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > > > Emulation of the legacy vsyscall page is required by some programs
-> > > > built before 2013.  Newer programs after 2013 don't use it.
-> > > > Disable vsyscall emulation when Control-flow Enforcement (CET) is
-> > > > enabled to enhance security.
-> > > >
-> > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> [...]
-> > >
-> > > Nope, try again.  Having IBT on does *not* mean that every library in
-> > > the process knows that we have indirect branch tracking.  The legacy
-> > > bitmap exists for a reason.  Also, I want a way to flag programs as
-> > > not using the vsyscall page, but that flag should not be called CET.
-> > > And a process with vsyscalls off should not be able to read the
-> > > vsyscall page, and /proc/self/maps should be correct.
-> > >
-> > > So you have some choices:
-> > >
-> > > 1. Drop this patch and make it work.
-> > >
-> > > 2. Add a real per-process vsyscall control.  Either make it depend on
-> > > vsyscall=xonly and wire it up correctly or actually make it work
-> > > correctly with vsyscall=emulate.
-> > >
-> > > NAK to any hacks in this space.  Do it right or don't do it at all.
-> > >
-> >
-> > We can drop this patch, and bring back the previous patch that fixes up
-> > shadow stack and ibt.  That makes vsyscall emulation work correctly, and
-> > does not force the application to do anything different from what is
-> > working now.  I will post the previous patch as a reply to this thread
-> > so that people can make comments on it.
-> >
-> > Yu-cheng
->
-> Here is the patch:
->
-> ------
->
-> From dfdee39c795ee5dcee2c77f6ba344a61f4d8124b Mon Sep 17 00:00:00 2001
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Date: Thu, 29 Nov 2018 14:15:38 -0800
-> Subject: [PATCH 34/43] x86/vsyscall/64: Fixup Shadow Stack and Indirect Branch
->  Tracking for vsyscall emulation
->
-> Vsyscall entry points are effectively branch targets.  Mark them with
-> ENDBR64 opcodes.  When emulating the RET instruction, unwind the shadow
-> stack and reset IBT state machine.
->
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/entry/vsyscall/vsyscall_64.c     | 29 +++++++++++++++++++++++
->  arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 +++++++
->  arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
->  3 files changed, 39 insertions(+)
->
-> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
-> b/arch/x86/entry/vsyscall/vsyscall_64.c
-> index 44c33103a955..0131c9f7f9c5 100644
-> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> @@ -38,6 +38,9 @@
->  #include <asm/fixmap.h>
->  #include <asm/traps.h>
->  #include <asm/paravirt.h>
-> +#include <asm/fpu/xstate.h>
-> +#include <asm/fpu/types.h>
-> +#include <asm/fpu/internal.h>
->
->  #define CREATE_TRACE_POINTS
->  #include "vsyscall_trace.h"
-> @@ -286,6 +289,32 @@ bool emulate_vsyscall(unsigned long error_code,
->         /* Emulate a ret instruction. */
->         regs->ip = caller;
->         regs->sp += 8;
-> +
-> +       if (current->thread.cet.shstk_size ||
-> +           current->thread.cet.ibt_enabled) {
-> +               u64 r;
-> +
-> +               fpregs_lock();
-> +               if (test_thread_flag(TIF_NEED_FPU_LOAD))
-> +                       __fpregs_load_activate();
+Hello,
 
-Wouldn't this be nicer if you operated on the memory image, not the registers?
+This patch series adds a new SEV controller for tracking and limiting
+the usage of SEV ASIDs on the AMD SVM platform.
 
-> +
-> +#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-> +               /* Fixup branch tracking */
-> +               if (current->thread.cet.ibt_enabled) {
-> +                       rdmsrl(MSR_IA32_U_CET, r);
-> +                       wrmsrl(MSR_IA32_U_CET, r & ~CET_WAIT_ENDBR);
-> +               }
-> +#endif
+SEV ASIDs are used in creating encrypted VM and lightweight sandboxes
+but this resource is in very limited quantity on a host.
 
-Seems reasonable on first glance.
+This limited quantity creates issues like SEV ASID starvation and
+unoptimized scheduling in the cloud infrastructure.
 
-> +
-> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-> +               /* Unwind shadow stack. */
-> +               if (current->thread.cet.shstk_size) {
-> +                       rdmsrl(MSR_IA32_PL3_SSP, r);
-> +                       wrmsrl(MSR_IA32_PL3_SSP, r + 8);
-> +               }
-> +#endif
+SEV controller provides SEV ASID tracking and resource control
+mechanisms.
 
-What happens if the result is noncanonical?  A quick skim of the SDM
-didn't find anything.  This latter issue goes away if you operate on
-the memory image, though -- writing a bogus value is just fine, since
-the FP restore will handle it.
+Patch 1 - Overview, motivation, and implementation details of the SEV
+          controller.
+Patch 2 - Kernel documentation of the SEV controller for both
+	  cgroup v1 and v2.
+
+Thanks
+
+Vipin Sharma (2):
+  KVM: SVM: Create SEV cgroup controller.
+  KVM: SVM: SEV cgroup controller documentation
+
+ Documentation/admin-guide/cgroup-v1/sev.rst |  94 +++++
+ Documentation/admin-guide/cgroup-v2.rst     |  56 ++-
+ arch/x86/kvm/Makefile                       |   1 +
+ arch/x86/kvm/svm/sev.c                      |  16 +-
+ arch/x86/kvm/svm/sev_cgroup.c               | 414 ++++++++++++++++++++
+ arch/x86/kvm/svm/sev_cgroup.h               |  40 ++
+ include/linux/cgroup_subsys.h               |   3 +
+ init/Kconfig                                |  14 +
+ 8 files changed, 634 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/cgroup-v1/sev.rst
+ create mode 100644 arch/x86/kvm/svm/sev_cgroup.c
+ create mode 100644 arch/x86/kvm/svm/sev_cgroup.h
+
+-- 
+2.28.0.681.g6f77f65b4e-goog
+
