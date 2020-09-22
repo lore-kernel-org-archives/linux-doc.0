@@ -2,172 +2,337 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BFC7C2D0E2
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 19:57:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC9FC47426
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 20:16:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8E53238A1
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 19:57:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD96C206B8
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 20:16:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c9Y5X31I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PV8LXosR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgIVT5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 15:57:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59984 "EHLO
+        id S1726632AbgIVUPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 16:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726685AbgIVT5e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 15:57:34 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58C87C061755
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 12:57:34 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id r24so15208863ljm.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 12:57:34 -0700 (PDT)
+        with ESMTP id S1726567AbgIVUPg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 16:15:36 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A923C061755;
+        Tue, 22 Sep 2020 13:15:36 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id l126so13496379pfd.5;
+        Tue, 22 Sep 2020 13:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Z6CQ4PR7LXXUvvSI+PnJV2oiFyZAUecU41+cGfwOujU=;
-        b=c9Y5X31ITFROkCz58BWDmVOTUSXQxwKVO0+YO5gM7Dueho0fqdMOddqGunqR3K1DSz
-         koftFlaQy5AWDynEFTUKrj/IhzVPvGkhTp5Nxa+Zlib8R9NmI9XnuBG9iHCHh7KcMQ/B
-         R2VvMWJxVq3CuEFElE+lE4DkpmSBO4nOKPEAgpV6PF+cdQ0sJlc2ScNbTbgx8wIlp+Dj
-         kZAs1jbuzLo5f/4MpCexanAo64EI9+2+h41TrGEHG8twyTTttEPJrctB/YnAZ2+HkB5k
-         uWovA5v2eCiXYkMwI/ZVzbxoqj8LOi8G4gzoBn6tiRDAJ7YqjH0xAUIYJg7tM5JKyukd
-         +iUg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=sKGrNkNTHjkBPRsVfP9DsBVB9vQeFFiSFha5UW0riiY=;
+        b=PV8LXosRad6T4RYxgZNMRQszFuw2OftjACPsz9ly+3HmL/+ACHPK3Bb38Klv20gOSA
+         7NwVmEZZeTSHmcWQFxJzrwpLghysDVUOzcMyOi7Xp1MFU4zl7pXKLxBAxVhaGvLayluv
+         lifRJEl69A6YsZeGm6K9tQS7bDZXX6Dr9ir4bF3+XoPjA6MLIu4/YBqM/gXl9suKvaXw
+         7hl7B3l+Uk3sCFtdW8ZLmrB4/yyh/Qc7pFa6/vZkkFSlwmvmkFkp/kfB2wfIf3ls9zhP
+         KDLCRAq5sZiyKF1NjaCwhiiobKGvtuu9kd5+9VVlZqN1RC8jPH8I9gYCCARo7zr4gDWS
+         N2Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Z6CQ4PR7LXXUvvSI+PnJV2oiFyZAUecU41+cGfwOujU=;
-        b=fjPK1GdUIvCV9ppqDdd97kLlARVzWKM3JO8tXpmupC6+VQP6KbXh3dZFFFWMhpbkeg
-         riL1fUXxgi69ghvYf8fVlh3ugApzrEForeuKYPqR7VyLdjGjxjREKzsPHI1I2GzN6D5M
-         xDxAoBR/WhVAmX0ms2ezDuaqdqCR0eKByHjqTAq2YGDP7S/CgMp/HkgKKaJV85vwmS3S
-         W0f3okcA4AyQA4pLm5cwOle4tkNGcDCCZx6ElV4jxzSXqu5gfRtRcRZZtrqhgCrC9hEq
-         885F7WFmI+Jt42o63ZFpTI5EgzH2L/IlD/J3HemRKmCS8mIxx8yst4YvJZNDrMenKE2k
-         /I6w==
-X-Gm-Message-State: AOAM5309MOWqXDci4kBQsW61xzra6FdT79fphbbfxOp8Npa8fnh9JDx4
-        wGKkksu/HFgD7gvC3qRfyWu7OWZD8xU6NTBF5hvOlg==
-X-Google-Smtp-Source: ABdhPJzYews2Ih4OsV/9BJPJX66ITSb1cl147pd8KN4Cqs6H0ueYwNCOPq7ksxkbE9zvtTGB9qj/7KwbIsYjwO4rXFQ=
-X-Received: by 2002:a2e:7c09:: with SMTP id x9mr1916202ljc.192.1600804651550;
- Tue, 22 Sep 2020 12:57:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200921080255.15505-1-zangchunxin@bytedance.com>
- <20200921081200.GE12990@dhcp22.suse.cz> <CALOAHbDKvT58UFjxy770VDxO0VWABRYb7GVwgw+NiJp62mB06w@mail.gmail.com>
- <20200921110505.GH12990@dhcp22.suse.cz> <CAKRVAeN5U6S78jF1n8nCs5ioAdqvVn5f6GGTAnA93g_J0daOLw@mail.gmail.com>
- <20200922095136.GA9682@chrisdown.name> <CAKRVAePisoOg8QBz11gPqzEoUdwPiJ-9Z9MyFE2LHzR-r+PseQ@mail.gmail.com>
- <20200922104252.GB9682@chrisdown.name> <CAKRVAeOjST1vJsSXMgj91=tMf1MQTeNp_dz34z=DwL7Weh0bmg@mail.gmail.com>
-In-Reply-To: <CAKRVAeOjST1vJsSXMgj91=tMf1MQTeNp_dz34z=DwL7Weh0bmg@mail.gmail.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 22 Sep 2020 12:57:19 -0700
-Message-ID: <CALvZod64Qwzjv3N2PO-EUtMkA4bs_PM=Tq4=cmuM0VO9P3BAjw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] mm/memcontrol: Add the drop_cache
- interface for cgroup v2
-To:     Chunxin Zang <zangchunxin@bytedance.com>
-Cc:     Chris Down <chris@chrisdown.name>, Michal Hocko <mhocko@suse.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>, kafai@fb.com,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        andriin@fb.com, john.fastabend@gmail.com, kpsingh@chromium.org,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=sKGrNkNTHjkBPRsVfP9DsBVB9vQeFFiSFha5UW0riiY=;
+        b=ZrqeN73KGByL3ZhTDfUJ48htg+zHCNJABk7wJJ4ovx9qGd1v/HmWC3BVP9iE0fkyu6
+         60rahOJbb7bAvfR2HG07xeRheVTZ/2z0+brOEyU3dgMH6hjaE+Q8Mjk1BLRyVPeddzsb
+         YVSVzPGWdsrAe/ZnxD+oweHCo6xXdsrrjK66HR3yiLfySq4ANTj/gsnID4fmZcvWZVSz
+         Q5OnakJIN+Gq/16xj1YjN5EwyiTN1HKr/6Lt2ivqTbbE9eFlgUjwWaWzqg+HMO21pRtx
+         tN9nXqjD6bW0u/x/aSjJLvwvk+7DGeVR8qxxAbvEtjihsZpeV0T9ecedVOkcOat2SN3n
+         G2aw==
+X-Gm-Message-State: AOAM531CwkNpEtxFSQPcAcuvlJr7Bot/AAhtaZBocY4wThV4aKHv8/mk
+        MZP5tV/mmPufA0BlXaP87KE=
+X-Google-Smtp-Source: ABdhPJxFPpWYdP/rbDYYF9In9wTLg6tp19iNquLjJLErQuemXIs08VoOZLQpepPk/Ogiya//jKKfdQ==
+X-Received: by 2002:a62:cfc4:0:b029:142:440e:231d with SMTP id b187-20020a62cfc40000b0290142440e231dmr5460767pfg.7.1600805735748;
+        Tue, 22 Sep 2020 13:15:35 -0700 (PDT)
+Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
+        by smtp.gmail.com with ESMTPSA id e10sm15793028pgb.45.2020.09.22.13.15.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 Sep 2020 13:15:35 -0700 (PDT)
+From:   Jacob Pan <jacob.pan.linux@gmail.com>
+X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     iommu@lists.linux-foundation.org,
         LKML <linux-kernel@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        "Lu Baolu" <baolu.lu@linux.intel.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-api@vger.kernel.org,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Yi Liu <yi.l.liu@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
+        Yi Sun <yi.y.sun@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: [PATCH v10 1/7] docs: IOMMU user API
+Date:   Tue, 22 Sep 2020 13:16:56 -0700
+Message-Id: <1600805822-1177-2-git-send-email-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1600805822-1177-1-git-send-email-jacob.jun.pan@linux.intel.com>
+References: <1600805822-1177-1-git-send-email-jacob.jun.pan@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 22, 2020 at 5:37 AM Chunxin Zang <zangchunxin@bytedance.com> wr=
-ote:
->
-> On Tue, Sep 22, 2020 at 6:42 PM Chris Down <chris@chrisdown.name> wrote:
-> >
-> > Chunxin Zang writes:
-> > >On Tue, Sep 22, 2020 at 5:51 PM Chris Down <chris@chrisdown.name> wrot=
-e:
-> > >>
-> > >> Chunxin Zang writes:
-> > >> >My usecase is that there are two types of services in one server. T=
-hey
-> > >> >have difference
-> > >> >priorities. Type_A has the highest priority, we need to ensure it's
-> > >> >schedule latency=E3=80=81I/O
-> > >> >latency=E3=80=81memory enough. Type_B has the lowest priority, we e=
-xpect it
-> > >> >will not affect
-> > >> >Type_A when executed.
-> > >> >So Type_A could use memory without any limit. Type_B could use memo=
-ry
-> > >> >only when the
-> > >> >memory is absolutely sufficient. But we cannot estimate how much
-> > >> >memory Type_B should
-> > >> >use. Because everything is dynamic. So we can't set Type_B's memory=
-.high.
-> > >> >
-> > >> >So we want to release the memory of Type_B when global memory is
-> > >> >insufficient in order
-> > >> >to ensure the quality of service of Type_A . In the past, we used t=
-he
-> > >> >'force_empty' interface
-> > >> >of cgroup v1.
-> > >>
-> > >> This sounds like a perfect use case for memory.low on Type_A, and it=
-'s pretty
-> > >> much exactly what we invented it for. What's the problem with that?
-> > >
-> > >But we cannot estimate how much memory Type_A uses at least.
-> >
-> > memory.low allows ballparking, you don't have to know exactly how much =
-it uses.
-> > Any amount of protection biases reclaim away from that cgroup.
-> >
-> > >For example:
-> > >total memory: 100G
-> > >At the beginning, Type_A was in an idle state, and it only used 10G of=
- memory.
-> > >The load is very low. We want to run Type_B to avoid wasting machine r=
-esources.
-> > >When Type_B runs for a while, it used 80G of memory.
-> > >At this time Type_A is busy, it needs more memory.
-> >
-> > Ok, so set memory.low for Type_A close to your maximum expected value.
->
-> Please forgive me for not being able to understand why setting
-> memory.low for Type_A can solve the problem.
-> In my scene, Type_A is the most important, so I will set 100G to memory.l=
-ow.
-> But 'memory.low' only takes effect passively when the kernel is
-> reclaiming memory. It means that reclaim Type_B's memory only when
-> Type_A  in alloc memory slow path. This will affect Type_A's
-> performance.
-> We want to reclaim Type_B's memory in advance when A is expected to be bu=
-sy.
->
+IOMMU UAPI is newly introduced to support communications between guest
+virtual IOMMU and host IOMMU. There has been lots of discussions on how
+it should work with VFIO UAPI and userspace in general.
 
-How will you know when to reclaim from B? Are you polling /proc/meminfo?
+This document is intended to clarify the UAPI design and usage. The
+mechanics of how future extensions should be achieved are also covered
+in this documentation.
 
-From what I understand, you want to proactively reclaim from B, so
-that A does not go into global reclaim and in the worst case kill B,
-right?
+Cc: linux-api@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+---
+ Documentation/userspace-api/iommu.rst | 210 ++++++++++++++++++++++++++++++++++
+ MAINTAINERS                           |   1 +
+ 2 files changed, 211 insertions(+)
+ create mode 100644 Documentation/userspace-api/iommu.rst
 
-BTW you can use memory.high to reclaim from B by setting it lower than
-memory.current of B and reset it to 'max' once the reclaim is done.
-Since 'B' is not high priority (I am assuming not a latency sensitive
-workload), B hitting temporary memory.high should not be an issue.
-Also I am assuming you don't much care about the amount of memory to
-be reclaimed from B, so I think memory.high can fulfil your use-case.
-However if in future you decide to proactively reclaim from all the
-jobs based on their priority i.e. more aggressive reclaim from B and a
-little bit reclaim from A then memory.high is not a good interface.
+diff --git a/Documentation/userspace-api/iommu.rst b/Documentation/userspace-api/iommu.rst
+new file mode 100644
+index 000000000000..591609863cdc
+--- /dev/null
++++ b/Documentation/userspace-api/iommu.rst
+@@ -0,0 +1,210 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. iommu:
++
++=====================================
++IOMMU Userspace API
++=====================================
++
++IOMMU UAPI is used for virtualization cases where communications are
++needed between physical and virtual IOMMU drivers. For baremetal
++usage, the IOMMU is a system device which does not need to communicate
++with userspace directly.
++
++The primary use cases are guest Shared Virtual Address (SVA) and
++guest IO virtual address (IOVA), wherein the vIOMMU implementation
++relies on the physical IOMMU and for this reason requires interactions
++with the host driver.
++
++.. contents:: :local:
++
++Functionalities
++===============
++Communications of user and kernel involve both directions. The
++supported user-kernel APIs are as follows:
++
++1. Alloc/Free PASID
++2. Bind/Unbind guest PASID (e.g. Intel VT-d)
++3. Bind/Unbind guest PASID table (e.g. ARM SMMU)
++4. Invalidate IOMMU caches upon guest requests
++5. Report errors to the guest and serve page requests
++
++Requirements
++============
++The IOMMU UAPIs are generic and extensible to meet the following
++requirements:
++
++1. Emulated and para-virtualised vIOMMUs
++2. Multiple vendors (Intel VT-d, ARM SMMU, etc.)
++3. Extensions to the UAPI shall not break existing userspace
++
++Interfaces
++==========
++Although the data structures defined in IOMMU UAPI are self-contained,
++there are no user API functions introduced. Instead, IOMMU UAPI is
++designed to work with existing user driver frameworks such as VFIO.
++
++Extension Rules & Precautions
++-----------------------------
++When IOMMU UAPI gets extended, the data structures can *only* be
++modified in two ways:
++
++1. Adding new fields by re-purposing the padding[] field. No size change.
++2. Adding new union members at the end. May increase the structure sizes.
++
++No new fields can be added *after* the variable sized union in that it
++will break backward compatibility when offset moves. A new flag must
++be introduced whenever a change affects the structure using either
++method. The IOMMU driver processes the data based on flags which
++ensures backward compatibility.
++
++Version field is only reserved for the unlikely event of UAPI upgrade
++at its entirety.
++
++It's *always* the caller's responsibility to indicate the size of the
++structure passed by setting argsz appropriately.
++Though at the same time, argsz is user provided data which is not
++trusted. The argsz field allows the user app to indicate how much data
++it is providing; it's still the kernel's responsibility to validate
++whether it's correct and sufficient for the requested operation.
++
++Compatibility Checking
++----------------------
++When IOMMU UAPI extension results in some structure size increase,
++IOMMU UAPI code shall handle the following cases:
++
++1. User and kernel has exact size match
++2. An older user with older kernel header (smaller UAPI size) running on a
++   newer kernel (larger UAPI size)
++3. A newer user with newer kernel header (larger UAPI size) running
++   on an older kernel.
++4. A malicious/misbehaving user passing illegal/invalid size but within
++   range. The data may contain garbage.
++
++Feature Checking
++----------------
++While launching a guest with vIOMMU, it is strongly advised to check
++the compatibility upfront, as some subsequent errors happening during
++vIOMMU operation, such as cache invalidation failures cannot be nicely
++escalated to the guest due to IOMMU specifications. This can lead to
++catastrophic failures for the users.
++
++User applications such as QEMU are expected to import kernel UAPI
++headers. Backward compatibility is supported per feature flags.
++For example, an older QEMU (with older kernel header) can run on newer
++kernel. Newer QEMU (with new kernel header) may refuse to initialize
++on an older kernel if new feature flags are not supported by older
++kernel. Simply recompiling existing code with newer kernel header should
++not be an issue in that only existing flags are used.
++
++IOMMU vendor driver should report the below features to IOMMU UAPI
++consumers (e.g. via VFIO).
++
++1. IOMMU_NESTING_FEAT_SYSWIDE_PASID
++2. IOMMU_NESTING_FEAT_BIND_PGTBL
++3. IOMMU_NESTING_FEAT_BIND_PASID_TABLE
++4. IOMMU_NESTING_FEAT_CACHE_INVLD
++5. IOMMU_NESTING_FEAT_PAGE_REQUEST
++
++Take VFIO as example, upon request from VFIO userspace (e.g. QEMU),
++VFIO kernel code shall query IOMMU vendor driver for the support of
++the above features. Query result can then be reported back to the
++userspace caller. Details can be found in
++Documentation/driver-api/vfio.rst.
++
++
++Data Passing Example with VFIO
++------------------------------
++As the ubiquitous userspace driver framework, VFIO is already IOMMU
++aware and shares many key concepts such as device model, group, and
++protection domain. Other user driver frameworks can also be extended
++to support IOMMU UAPI but it is outside the scope of this document.
++
++In this tight-knit VFIO-IOMMU interface, the ultimate consumer of the
++IOMMU UAPI data is the host IOMMU driver. VFIO facilitates user-kernel
++transport, capability checking, security, and life cycle management of
++process address space ID (PASID).
++
++VFIO layer conveys the data structures down to the IOMMU driver. It
++follows the pattern below::
++
++   struct {
++	__u32 argsz;
++	__u32 flags;
++	__u8  data[];
++   };
++
++Here data[] contains the IOMMU UAPI data structures. VFIO has the
++freedom to bundle the data as well as parse data size based on its own flags.
++
++In order to determine the size and feature set of the user data, argsz
++and flags (or the equivalent) are also embedded in the IOMMU UAPI data
++structures.
++
++A "__u32 argsz" field is *always* at the beginning of each structure.
++
++For example:
++::
++
++   struct iommu_cache_invalidate_info {
++	__u32	argsz;
++	#define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
++	__u32	version;
++	/* IOMMU paging structure cache */
++	#define IOMMU_CACHE_INV_TYPE_IOTLB	(1 << 0) /* IOMMU IOTLB */
++	#define IOMMU_CACHE_INV_TYPE_DEV_IOTLB	(1 << 1) /* Device IOTLB */
++	#define IOMMU_CACHE_INV_TYPE_PASID	(1 << 2) /* PASID cache */
++	#define IOMMU_CACHE_INV_TYPE_NR		(3)
++	__u8	cache;
++	__u8	granularity;
++	__u8	padding[6];
++	union {
++		struct iommu_inv_pasid_info pasid_info;
++		struct iommu_inv_addr_info addr_info;
++	} granu;
++   };
++
++VFIO is responsible for checking its own argsz and flags. It then
++invokes appropriate IOMMU UAPI functions. The user pointers are passed
++to the IOMMU layer for further processing. The responsibilities are
++divided as follows:
++
++- Generic IOMMU layer checks argsz range based on UAPI data in the
++  current kernel version.
++
++- Generic IOMMU layer checks content of the UAPI data for non-zero
++  reserved bits in flags, padding fields, and unsupported version.
++  This is to ensure not breaking userspace in the future when these
++  fields or flags are used.
++
++- Vendor IOMMU driver checks argsz based on vendor flags. UAPI data
++  is consumed based on flags. Vendor driver has access to
++  unadulterated argsz value in case of vendor specific future
++  extensions. Currently, it does not perform the copy_from_user()
++  itself. A __user pointer can be provided in some future scenarios
++  where there's vendor data outside of the structure definition.
++
++IOMMU code treats UAPI data in two categories:
++
++- structure contains vendor data
++  (Example: iommu_uapi_cache_invalidate())
++
++- structure contains only generic data
++  (Example: iommu_uapi_sva_bind_gpasid())
++
++
++
++Sharing UAPI with in-kernel users
++---------------------------------
++For UAPIs that are shared with in-kernel users, a wrapper function is
++provided to distinguish the callers. For example,
++
++Userspace caller ::
++
++  int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain,
++                                   struct device *dev,
++                                   void __user *udata)
++
++In-kernel caller ::
++
++  int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
++                              struct device *dev, ioasid_t ioasid);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0d0862b19ce5..5766583e4383 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9125,6 +9125,7 @@ L:	iommu@lists.linux-foundation.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
+ F:	Documentation/devicetree/bindings/iommu/
++F:	Documentation/userspace-api/iommu.rst
+ F:	drivers/iommu/
+ F:	include/linux/iommu.h
+ F:	include/linux/iova.h
+-- 
+2.7.4
 
-Shakeel
