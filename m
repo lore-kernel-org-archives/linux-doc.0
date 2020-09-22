@@ -2,46 +2,37 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1313AC4727D
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 17:52:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6693C4363D
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 18:22:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D241823A74
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 17:52:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AA18239D4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 18:22:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgIVRwN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 13:52:13 -0400
-Received: from mga12.intel.com ([192.55.52.136]:45249 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726615AbgIVRwM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Sep 2020 13:52:12 -0400
-IronPort-SDR: ddcOIDm69ZzICYcxq2RnKZ8qRhnrXeOq5/sX/FQ0A8SwW9ic2B+N12FAgam0gSu8OSPIQT3VB3
- Vgp1hclaBYFA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="140153337"
-X-IronPort-AV: E=Sophos;i="5.77,291,1596524400"; 
-   d="scan'208";a="140153337"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2020 10:52:12 -0700
-IronPort-SDR: hzGM7ZD/TLaivxNqob4cD0Y2BbYb0rbiuqA54mVS/DQldSC8tI27QcHr3AkXn3MwS/VtAnY3kk
- teMxcet2SI5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,291,1596524400"; 
-   d="scan'208";a="290475502"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
-  by fmsmga007.fm.intel.com with SMTP; 22 Sep 2020 10:52:06 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 22 Sep 2020 20:52:06 +0300
-Date:   Tue, 22 Sep 2020 20:52:06 +0300
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Lyude Paul <lyude@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S1726563AbgIVSWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 14:22:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgIVSWE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 14:22:04 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA0CC061755;
+        Tue, 22 Sep 2020 11:22:04 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 844492C0;
+        Tue, 22 Sep 2020 18:22:02 +0000 (UTC)
+Date:   Tue, 22 Sep 2020 12:22:00 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc:     Lyude Paul <lyude@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>,
         Alexei Starovoitov <ast@kernel.org>,
         Andrii Nakryiko <andriin@fb.com>,
@@ -58,56 +49,28 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
 Subject: Re: [PATCH 0/3] Fix Kernel-doc warnings introduced on next-20200921
-Message-ID: <20200922175206.GY6112@intel.com>
+Message-ID: <20200922122200.149d8e96@lwn.net>
+In-Reply-To: <20200922175206.GY6112@intel.com>
 References: <cover.1600773619.git.mchehab+huawei@kernel.org>
- <a2c0d1ac02fb4bef142196d837323bcde41e9427.camel@redhat.com>
+        <a2c0d1ac02fb4bef142196d837323bcde41e9427.camel@redhat.com>
+        <20200922175206.GY6112@intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a2c0d1ac02fb4bef142196d837323bcde41e9427.camel@redhat.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 22, 2020 at 01:39:41PM -0400, Lyude Paul wrote:
-> For patches 2 and 3:
-> 
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> 
-> I'll go ahead and push these to drm-intel-next-queued (since drm-misc-next
-> doesn't have these patches in yet, and the commits these fix were originally
-> merged through drm-intel-next-queued anyway). thanks!
+On Tue, 22 Sep 2020 20:52:06 +0300
+Ville Syrj√§l√§ <ville.syrjala@linux.intel.com> wrote:
 
-Mea culpa. My doc test build was foiled by the sphinx 2 vs. 3
-regression and I was too lazy to start downgrading things.
-Any ETA for getting that fixed btw?
+> Mea culpa. My doc test build was foiled by the sphinx 2 vs. 3
+> regression and I was too lazy to start downgrading things.
+> Any ETA for getting that fixed btw?
 
-> 
-> On Tue, 2020-09-22 at 13:22 +0200, Mauro Carvalho Chehab wrote:
-> > A few new warnings were added at linux-next. Address them, in order for us
-> > to keep zero warnings at the docs.
-> > 
-> > The entire patchset fixing all kernel-doc warnings is at:
-> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=doc-fixes
-> > 
-> > Mauro Carvalho Chehab (3):
-> >   net: fix a new kernel-doc warning at dev.c
-> >   drm/dp: fix kernel-doc warnings at drm_dp_helper.c
-> >   drm/dp: fix a kernel-doc issue at drm_edid.c
-> > 
-> >  drivers/gpu/drm/drm_dp_helper.c | 5 +++++
-> >  drivers/gpu/drm/drm_edid.c      | 2 +-
-> >  net/core/dev.c                  | 4 ++--
-> >  3 files changed, 8 insertions(+), 3 deletions(-)
-> > 
-> -- 
-> Cheers,
-> 	Lyude Paul (she/her)
-> 	Software Engineer at Red Hat
+There's a fix of sorts in docs-next (and thus linux-next) now, has been
+there for a few weeks.  Really fixing that problem properly requires more
+time than anybody seems to have at the moment.
 
--- 
-Ville Syrj‰l‰
-Intel
+jon
