@@ -2,133 +2,94 @@ Return-Path: <SRS0=bcQJ=C7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAA1C2D0E2
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 10:43:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51485C4727D
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 11:23:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D45D208A9
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 10:43:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="NTQO2+kj"
+	by mail.kernel.org (Postfix) with ESMTP id E4BCE23A5F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Sep 2020 11:22:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600773780;
+	bh=BXOV2/wMUecYDuk+Af/OccQnwb4IQj2Pi9tGe6aNU2k=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=Mmq5J9PO3KjnmBHKE1sLHw5FoxWKty7r9tx+jFd3Zg6/lZALrusWVJ08Pmj4G4kcy
+	 uVhPwhWF+ko+T5EFCeHMU6kiLrIDRAszA1i7KDhd7ONOJpWqXs6+wl49WMNv35etXT
+	 kbYi7C1hlw/BsrKraEV63YAaTfcrBYFW9tFcy8Dg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726531AbgIVKmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Sep 2020 06:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59340 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726514AbgIVKmz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Sep 2020 06:42:55 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD5BC0613D0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 03:42:54 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id c8so15697002edv.5
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2020 03:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=d1+yTgS/nDdjZEJi5XLFsbasjOospBGkZinpc5mGS48=;
-        b=NTQO2+kjCrvdbjEFL+8qa0xnM8j2aFkI4YIcOCf4DCtwzIrmLrmov9WqKk+Wh+vi4c
-         gCqSG+yI5jbUdW0ZVX5erknsxE3avoRsk7dEgDoLscAWzHi9kia5w25FMnOnzVtYelst
-         N+N+jIm2n4VgPnzMfUEdrh/Ou7cDYiyq+cqLg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=d1+yTgS/nDdjZEJi5XLFsbasjOospBGkZinpc5mGS48=;
-        b=fFBNCr+OqS+W4wifXgGFKk6MYoWmY/axQZ3a0VhKeayJzEo6tROlQEzSbSfj423eGf
-         UfU7v4TYksNqPQwZNUavUvKyvtwulOkV0p6h2ecalMq+KmyOjYOr6sJOT2hwUNtbKyJQ
-         s5RVPWfeD26RJybqGSwZ7Kb/+w/L5RIrRvskHANN3lJZe36gdXQlb6rUEoiItTxA1JLV
-         ovUWB7Boa11exIsZwvZgRhxw/vu6pUt5rrvxQK8wbKGWICRpxkZpvihMHJ+DYtW5Xi70
-         CyNvFc+la8Cv1OrOjcRR3+LO37ryfWVDHaJa9mhT5RhwMjlc/EKStqFaBKk4jjb/YlIO
-         eBZg==
-X-Gm-Message-State: AOAM530lZIKWmLRnXPfYI2oZss3v5Ouage7oFqnRBW1u3/E8dtG5Efmv
-        oRFCWYC7j1et5IDDu9TCLUxUBA==
-X-Google-Smtp-Source: ABdhPJyLjjf0N1v9YU9XDgeN4pEzCTJKyLcJJ5cAqsBsxayr1kBl20EtWfgNKP9UQ2nNgW/Tp4JosQ==
-X-Received: by 2002:a05:6402:202a:: with SMTP id ay10mr3317444edb.36.1600771373203;
-        Tue, 22 Sep 2020 03:42:53 -0700 (PDT)
-Received: from localhost ([2620:10d:c093:400::5:7783])
-        by smtp.gmail.com with ESMTPSA id 16sm10724717edx.72.2020.09.22.03.42.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 03:42:52 -0700 (PDT)
-Date:   Tue, 22 Sep 2020 11:42:52 +0100
-From:   Chris Down <chris@chrisdown.name>
-To:     Chunxin Zang <zangchunxin@bytedance.com>
-Cc:     Michal Hocko <mhocko@suse.com>, Yafang Shao <laoar.shao@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, lizefan@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726620AbgIVLW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Sep 2020 07:22:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42116 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726613AbgIVLW7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Sep 2020 07:22:59 -0400
+Received: from mail.kernel.org (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E4162399A;
+        Tue, 22 Sep 2020 11:22:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600773778;
+        bh=BXOV2/wMUecYDuk+Af/OccQnwb4IQj2Pi9tGe6aNU2k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vFvk7ZwMV6SNdK/3/D+GYOTYKMsfFwsEDIpY1YZWRtuwIjGgoM01CI+twtVBrkE1o
+         ImTeDXXYTEEAdCBHATt7CH8ZrUNKFR7nR+ipw45ihTn14l6sTrLZNtKds8OZBLMzxD
+         SuWdjRDzeBW3XbNWO76zax0qQH/EZxjmRrWby0nc=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kKgNr-0010Ke-Kx; Tue, 22 Sep 2020 13:22:55 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>,
         Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>, kafai@fb.com,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        andriin@fb.com, john.fastabend@gmail.com, kpsingh@chromium.org,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org
-Subject: Re: [External] Re: [PATCH] mm/memcontrol: Add the drop_cache
- interface for cgroup v2
-Message-ID: <20200922104252.GB9682@chrisdown.name>
-References: <20200921080255.15505-1-zangchunxin@bytedance.com>
- <20200921081200.GE12990@dhcp22.suse.cz>
- <CALOAHbDKvT58UFjxy770VDxO0VWABRYb7GVwgw+NiJp62mB06w@mail.gmail.com>
- <20200921110505.GH12990@dhcp22.suse.cz>
- <CAKRVAeN5U6S78jF1n8nCs5ioAdqvVn5f6GGTAnA93g_J0daOLw@mail.gmail.com>
- <20200922095136.GA9682@chrisdown.name>
- <CAKRVAePisoOg8QBz11gPqzEoUdwPiJ-9Z9MyFE2LHzR-r+PseQ@mail.gmail.com>
+        Andrii Nakryiko <andriin@fb.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Eric Dumazet <edumazet@google.com>,
+        Francesco Ruggeri <fruggeri@arista.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jiri Pirko <jiri@mellanox.com>, Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Taehee Yoo <ap420073@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+Subject: [PATCH 0/3] Fix Kernel-doc warnings introduced on next-20200921
+Date:   Tue, 22 Sep 2020 13:22:51 +0200
+Message-Id: <cover.1600773619.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKRVAePisoOg8QBz11gPqzEoUdwPiJ-9Z9MyFE2LHzR-r+PseQ@mail.gmail.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Chunxin Zang writes:
->On Tue, Sep 22, 2020 at 5:51 PM Chris Down <chris@chrisdown.name> wrote:
->>
->> Chunxin Zang writes:
->> >My usecase is that there are two types of services in one server. They
->> >have difference
->> >priorities. Type_A has the highest priority, we need to ensure it's
->> >schedule latency、I/O
->> >latency、memory enough. Type_B has the lowest priority, we expect it
->> >will not affect
->> >Type_A when executed.
->> >So Type_A could use memory without any limit. Type_B could use memory
->> >only when the
->> >memory is absolutely sufficient. But we cannot estimate how much
->> >memory Type_B should
->> >use. Because everything is dynamic. So we can't set Type_B's memory.high.
->> >
->> >So we want to release the memory of Type_B when global memory is
->> >insufficient in order
->> >to ensure the quality of service of Type_A . In the past, we used the
->> >'force_empty' interface
->> >of cgroup v1.
->>
->> This sounds like a perfect use case for memory.low on Type_A, and it's pretty
->> much exactly what we invented it for. What's the problem with that?
->
->But we cannot estimate how much memory Type_A uses at least.
+A few new warnings were added at linux-next. Address them, in order for us
+to keep zero warnings at the docs.
 
-memory.low allows ballparking, you don't have to know exactly how much it uses.  
-Any amount of protection biases reclaim away from that cgroup.
+The entire patchset fixing all kernel-doc warnings is at:
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=doc-fixes
 
->For example:
->total memory: 100G
->At the beginning, Type_A was in an idle state, and it only used 10G of memory.
->The load is very low. We want to run Type_B to avoid wasting machine resources.
->When Type_B runs for a while, it used 80G of memory.
->At this time Type_A is busy, it needs more memory.
+Mauro Carvalho Chehab (3):
+  net: fix a new kernel-doc warning at dev.c
+  drm/dp: fix kernel-doc warnings at drm_dp_helper.c
+  drm/dp: fix a kernel-doc issue at drm_edid.c
 
-Ok, so set memory.low for Type_A close to your maximum expected value.
+ drivers/gpu/drm/drm_dp_helper.c | 5 +++++
+ drivers/gpu/drm/drm_edid.c      | 2 +-
+ net/core/dev.c                  | 4 ++--
+ 3 files changed, 8 insertions(+), 3 deletions(-)
+
+-- 
+2.26.2
+
+
