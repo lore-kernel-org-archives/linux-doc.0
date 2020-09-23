@@ -2,184 +2,344 @@ Return-Path: <SRS0=6mJA=DA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EBD6C2D0A8
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 17:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C724FC4727F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 17:48:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 148D821BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 17:05:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 738DC20708
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 17:48:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m+5t6/WR"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="t8TFoPBB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbgIWRFL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Sep 2020 13:05:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726413AbgIWRFL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Sep 2020 13:05:11 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3956C0613CE
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2020 10:05:10 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id 77so744708lfj.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2020 10:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e4dEeErX3fsJf6YfVdhDLGuUkUQWGltXcsACjrY/uUI=;
-        b=m+5t6/WReDb3eJGSXP+SUuLUwfRUdODd/gkzMeTwF+vQXEDdtXpZ8z0pgCktidjkqk
-         dex5yOo+KZyYZt/RngNJ03vEPmDiKY3E6Rs4mxpYyUot6d8Pb2RWyI1hI3bhHzEwjIXC
-         FbODuVFocd5UQvROdQS52y2Q5RL+//IYAHs9u9nL2lxRY/vSWnKlPmCaC8N4iirqRmrP
-         1RPzrLASW/3/fZQQEHL3ngFIxi/nWH0rIyY+RwDL7FZDsrQs8f1zsXwnhT2eoVSBZjL+
-         6b8hFmiVlFaDmmzvZerKvOJ8l/WtRB1yCuow/q7JzeskhwQo2zn64WHaob2SmO5I0GdU
-         NI6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e4dEeErX3fsJf6YfVdhDLGuUkUQWGltXcsACjrY/uUI=;
-        b=XY0ZhqgBq+k2ckYwyqhGfUGQ+aztQJc9CMkhnF5iAfkYq97aCr8GDWyOUNn4T5rq1u
-         y57SJeBXxNfHnbMBfb8R3xayJBBzXRV163MafH231x4+rjyp6YQ+ktNLEdJ/tgkVBs/9
-         2gMpVfAwH9OfAbTm8XabBV3GlRChJvAyKHbYu3WSSbuBDKhgbJ+BlPt6p+qQ924RJK28
-         61nl1nDPOZc/CQRc68++agcKNW0GYvvlqOOf4XswWayhG9jCNQn2JReSJJ5WUhxm77CA
-         Lfl1YiSnXblH4uPGY8YRgTO87++XC4NzUz+iwGqmal38GuNDz6ry3C2unpySGmQTvZV/
-         1UQw==
-X-Gm-Message-State: AOAM530W0JTo0WnvhqXg4SuycYr94abzUvbGeFwQsHDeVFi3lr7kbmUO
-        RDnj0hSpRNb+FivPxVoQFM0GdI4uuJApg+ISpHm7xA==
-X-Google-Smtp-Source: ABdhPJxyVSTU6OwDrnwBr27zTvXQW3Cc+Jmn5hKL9YGv53XywBc2KXEux75LUE51dxjMmNkE1Wk1wlrvd7lleGb/XqQ=
-X-Received: by 2002:a05:6512:304a:: with SMTP id b10mr229017lfb.475.1600880708833;
- Wed, 23 Sep 2020 10:05:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200817105137.19296-1-sjpark@amazon.com>
-In-Reply-To: <20200817105137.19296-1-sjpark@amazon.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 23 Sep 2020 10:04:57 -0700
-Message-ID: <CALvZod7nA+_hupDrtp-G886XrgmBVf7izs5VH+1mEj6SNnyWJw@mail.gmail.com>
-Subject: Re: [PATCH v20 00/15] Introduce Data Access MONitor (DAMON)
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        "Du, Fan" <fan.du@intel.com>, foersleo@amazon.de,
-        Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
-        "Kirill A. Shutemov" <kirill@shutemov.name>, mark.rutland@arm.com,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, rppt@kernel.org,
-        sblbir@amazon.com, shuah@kernel.org, sj38.park@gmail.com,
-        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
-        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726735AbgIWRsN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Sep 2020 13:48:13 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:56528 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726761AbgIWRsE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Sep 2020 13:48:04 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08NHckVq157118;
+        Wed, 23 Sep 2020 17:47:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=VJPsaSlsog7RzRjpSned5XBa998d2a8H4JDAgwG6wc4=;
+ b=t8TFoPBB2qdVS6eSe1NWr0RvkNzVY8OetLJoPN7YPwoHq4VtFgKby9TKhEAddZDJMvJN
+ s+0Ubu4Gqb7CIikz2BZMo7otMVLQWb+0B/2xxiuCGmOOLhCT42SZFkGHtzN7YanUkTj0
+ /195iqhIlCUuCSZXwdwU2LnSC0gUhRP6lJhMrSdKXHRYMnoudvzonLy5FmxMtHK0X+mG
+ CPBP7QFtSExg1KuHKst+jTZlgY44sme62SjkENnbawpwyvPAIZOzFeSwj0WlAsMnCwgD
+ tj3t7coqEdBPgCI12r95ih6OHdMp+kFZ53Bw9HeEMajOFgOYZ0kkQ5CNusuXnrVZ9e77 yg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 33ndnukyx1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 23 Sep 2020 17:47:17 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08NHeRcf042949;
+        Wed, 23 Sep 2020 17:47:17 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 33nurv0x7v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 23 Sep 2020 17:47:17 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08NHlCNH024133;
+        Wed, 23 Sep 2020 17:47:12 GMT
+Received: from dhcp-10-154-189-14.vpn.oracle.com (/10.154.189.14)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 23 Sep 2020 10:47:12 -0700
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.5\))
+Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
+ kdump
+From:   John Donnelly <john.p.donnelly@oracle.com>
+In-Reply-To: <05b1fdbb-5bb3-1345-14ac-9bf91df16aa4@huawei.com>
+Date:   Wed, 23 Sep 2020 12:47:10 -0500
+Cc:     catalin.marinas@arm.com, dyoung@redhat.com, will@kernel.org,
+        james.morse@arm.com, tglx@linutronix.de, mingo@redhat.com,
+        bhe@redhat.com, corbet@lwn.net, prabhakar.pkin@gmail.com,
+        bhsharma@redhat.com, horms@verge.net.au, robh+dt@kernel.org,
+        arnd@arndb.de, nsaenzjulienne@suse.de,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1FEE65CB-702C-4C79-947B-21EA8D0DEFFD@oracle.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <05b1fdbb-5bb3-1345-14ac-9bf91df16aa4@huawei.com>
+To:     chenzhou <chenzhou10@huawei.com>
+X-Mailer: Apple Mail (2.3445.9.5)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009230135
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009230135
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 3:52 AM SeongJae Park <sjpark@amazon.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> Changes from Previous Version
-> =============================
->
-> - Place 'CREATE_TRACE_POINTS' after '#include' statements (Steven Rostedt)
-> - Support large record file (Alkaid)
-> - Place 'put_pid()' of virtual monitoring targets in 'cleanup' callback
-> - Avoid conflict between concurrent DAMON users
-> - Update evaluation result document
->
-> Introduction
-> ============
->
-> DAMON is a data access monitoring framework subsystem for the Linux kernel.
-> The core mechanisms of DAMON called 'region based sampling' and 'adaptive
-> regions adjustment' (refer to 'mechanisms.rst' in the 11th patch of this
-> patchset for the detail) make it
->
->  - accurate (The monitored information is useful for DRAM level memory
->    management. It might not appropriate for Cache-level accuracy, though.),
->  - light-weight (The monitoring overhead is low enough to be applied online
->    while making no impact on the performance of the target workloads.), and
->  - scalable (the upper-bound of the instrumentation overhead is controllable
->    regardless of the size of target workloads.).
->
-> Using this framework, therefore, the kernel's core memory management mechanisms
-> such as reclamation and THP can be optimized for better memory management.  The
-> experimental memory management optimization works that incurring high
-> instrumentation overhead will be able to have another try.  In user space,
-> meanwhile, users who have some special workloads will be able to write
-> personalized tools or applications for deeper understanding and specialized
-> optimizations of their systems.
->
-> Evaluations
-> ===========
->
-> We evaluated DAMON's overhead, monitoring quality and usefulness using 25
-> realistic workloads on my QEMU/KVM based virtual machine running a kernel that
-> v20 DAMON patchset is applied.
->
-> DAMON is lightweight.  It increases system memory usage by 0.12% and slows
-> target workloads down by 1.39%.
->
-> DAMON is accurate and useful for memory management optimizations.  An
-> experimental DAMON-based operation scheme for THP, 'ethp', removes 88.16% of
-> THP memory overheads while preserving 88.73% of THP speedup.  Another
-> experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
-> reduces 91.34% of residential sets and 25.59% of system memory footprint while
-> incurring only 1.58% runtime overhead in the best case (parsec3/freqmine).
->
-> NOTE that the experimentail THP optimization and proactive reclamation are not
-> for production but just only for proof of concepts.
->
-> Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
-> a document for DAMON" patch in this patchset for detailed evaluation setup and
-> results.
->
-> [1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
->
 
 
-Hi SeongJae,
+> On Sep 15, 2020, at 2:16 AM, chenzhou <chenzhou10@huawei.com> wrote:
+>=20
+>=20
+>=20
+> On 2020/9/7 21:47, Chen Zhou wrote:
+>> There are following issues in arm64 kdump:
+>> 1. We use crashkernel=3DX to reserve crashkernel below 4G, which
+>> will fail when there is no enough low memory.
+>> 2. If reserving crashkernel above 4G, in this case, crash dump
+>> kernel will boot failure because there is no low memory available
+>> for allocation.
+>> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and =
+ZONE_DMA32"),
+>> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
+>> the devices in crash dump kernel need to use ZONE_DMA will alloc
+>> fail.
+>>=20
+>> To solve these issues, change the behavior of crashkernel=3DX.
+>> crashkernel=3DX tries low allocation in DMA zone, and fall back to
+>> high allocation if it fails.
+>> If requized size X is too large and leads to very little low memory
+>> in DMA zone after low allocation, the system may not work normally.
+>> So add a threshold and go for high allocation directly if the =
+required
+>> size is too large. The value of threshold is set as the half of
+>> the low memory.
+>>=20
+>> We can also use "crashkernel=3DX,high" to select a high region above
+>> DMA zone, which also tries to allocate at least 256M low memory in
+>> DMA zone automatically.
+>> "crashkernel=3DY,low" can be used to allocate specified size low =
+memory.
+>> For non-RPi4 platforms, change DMA zone memtioned above to DMA32 =
+zone.
+>>=20
+>> When reserving crashkernel in high memory, some low memory is =
+reserved
+>> for crash dump kernel devices. So there may be two regions reserved =
+for
+>> crash dump kernel.
+>> In order to distinct from the high region and make no effect to the =
+use
+>> of existing kexec-tools, rename the low region as "Crash kernel =
+(low)",
+>> and pass the low region by reusing DT property
+>> "linux,usable-memory-range". We made the low memory region as the =
+last
+>> range of "linux,usable-memory-range" to keep compatibility with =
+existing
+>> user-space and older kdump kernels.
+>>=20
+>> Besides, we need to modify kexec-tools:
+>> arm64: support more than one crash kernel regions(see [1])
+>>=20
+>> Another update is document about DT property =
+'linux,usable-memory-range':
+>> schemas: update 'linux,usable-memory-range' node schema(see [2])
+>>=20
+>> This patchset contains the following nine patches:
+>> 0001-x86-kdump-move-CRASH_ALIGN-to-2M.patch
+>> 0002-x86-kdump-make-the-lower-bound-of-crash-kernel-reser.patch
+>> 0003-x86-kdump-use-macro-CRASH_ADDR_LOW_MAX-in-functions-.patch
+>> 0004-x86-kdump-move-reserve_crashkernel-_low-into-crash_c.patch
+>> 0005-arm64-kdump-introduce-some-macroes-for-crash-kernel-.patch
+>> 0006-arm64-kdump-reimplement-crashkernel-X.patch
+>> 0007-kdump-add-threshold-for-the-required-memory.patch
+>> 0008-arm64-kdump-add-memory-for-devices-by-DT-property-li.patch
+>> 0009-kdump-update-Documentation-about-crashkernel.patch
+>>=20
+>> 0001-0003 are some x86 cleanups which prepares for making
+>> functionsreserve_crashkernel[_low]() generic.
+>>=20
+>> 0004 makes functions reserve_crashkernel[_low]() generic.
+>> 0005-0006 reimplements crashkernel=3DX.
+>> 0007 adds threshold for the required memory.
+>> 0008 adds memory for devices by DT property =
+linux,usable-memory-range.
+>> 0009 updates the doc.
+> Hi Catalin and Dave,
 
-Sorry for the late response. I will start looking at this series in
-more detail in the next couple of weeks. I have a couple of high level
-comments for now.
+  Hi,
 
-1) Please explain in the cover letter why someone should prefer to use
-DAMON instead of Page Idle Tracking.
+   This patch set  has been going on since May, 2019.  When will this be =
+accepted and integrated into a rc build ?
 
-2) Also add what features Page Idle Tracking provides which the first
-version of DAMON does not provide (like page level tracking, physical
-or unmapped memory tracking e.t.c) and tell if you plan to add such
-features to DAMON in future. Basically giving reasons to not block the
-current version of DAMON until it is feature-rich.
+ =20
 
-3) I think in the first mergeable version of DAMON, I would prefer to
-have support to control (create/delete/account) the DAMON context. You
-already have a RFC series on it. I would like to have that series part
-of this one.
 
-I will go through individual patches to provide more detailed
-feedback, so, you don't need to post the next version until then.
 
-thanks,
-Shakeel
+>=20
+> Any other suggestions about this patchset? Let me know if you have any =
+questions.
+>=20
+> Thanks,
+> Chen Zhou
+>>=20
+>> Changes since [v11]
+>> - Rebased on top of 5.9-rc4.
+>> - Make the function reserve_crashkernel() of x86 generic.
+>> Suggested by Catalin, make the function reserve_crashkernel() of x86 =
+generic
+>> and arm64 use the generic version to reimplement crashkernel=3DX.
+>>=20
+>> Changes since [v10]
+>> - Reimplement crashkernel=3DX suggested by Catalin, Many thanks to =
+Catalin.
+>>=20
+>> Changes since [v9]
+>> - Patch 1 add Acked-by from Dave.
+>> - Update patch 5 according to Dave's comments.
+>> - Update chosen schema.
+>>=20
+>> Changes since [v8]
+>> - Reuse DT property "linux,usable-memory-range".
+>> Suggested by Rob, reuse DT property "linux,usable-memory-range" to =
+pass the low
+>> memory region.
+>> - Fix kdump broken with ZONE_DMA reintroduced.
+>> - Update chosen schema.
+>>=20
+>> Changes since [v7]
+>> - Move x86 CRASH_ALIGN to 2M
+>> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
+>> - Update Documentation/devicetree/bindings/chosen.txt.
+>> Add corresponding documentation to =
+Documentation/devicetree/bindings/chosen.txt
+>> suggested by Arnd.
+>> - Add Tested-by from Jhon and pk.
+>>=20
+>> Changes since [v6]
+>> - Fix build errors reported by kbuild test robot.
+>>=20
+>> Changes since [v5]
+>> - Move reserve_crashkernel_low() into kernel/crash_core.c.
+>> - Delete crashkernel=3DX,high.
+>> - Modify crashkernel=3DX,low.
+>> If crashkernel=3DX,low is specified simultaneously, reserve spcified =
+size low
+>> memory for crash kdump kernel devices firstly and then reserve memory =
+above 4G.
+>> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, =
+and then
+>> pass to crash dump kernel by DT property "linux,low-memory-range".
+>> - Update Documentation/admin-guide/kdump/kdump.rst.
+>>=20
+>> Changes since [v4]
+>> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
+>>=20
+>> Changes since [v3]
+>> - Add memblock_cap_memory_ranges back for multiple ranges.
+>> - Fix some compiling warnings.
+>>=20
+>> Changes since [v2]
+>> - Split patch "arm64: kdump: support reserving crashkernel above 4G" =
+as
+>> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a =
+separate
+>> patch.
+>>=20
+>> Changes since [v1]:
+>> - Move common reserve_crashkernel_low() code into =
+kernel/kexec_core.c.
+>> - Remove memblock_cap_memory_ranges() i added in v1 and implement =
+that
+>> in fdt_enforce_memory_region().
+>> There are at most two crash kernel regions, for two crash kernel =
+regions
+>> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
+>> and then remove the memory range in the middle.
+>>=20
+>> [1]: =
+https://urldefense.com/v3/__http://lists.infradead.org/pipermail/kexec/202=
+0-June/020737.html__;!!GqivPVa7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0=
+WkR6OxQ0trzzeR2zyIkUM8_zMCI6U-$=20
+>> [2]: =
+https://urldefense.com/v3/__https://github.com/robherring/dt-schema/pull/1=
+9__;!!GqivPVa7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zy=
+IkUM8_5c9NEUf$ =20
+>> [v1]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/2/1174__;!!GqivPV=
+a7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_1bFn-e=
+N$=20
+>> [v2]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/86__;!!GqivPVa7=
+Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_wVqWygD$=
+=20
+>> [v3]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/306__;!!GqivPVa=
+7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_8fQ7uBl=
+$=20
+>> [v4]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/15/273__;!!GqivPV=
+a7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_ztbOBK=
+M$=20
+>> [v5]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2019/5/6/1360__;!!GqivPV=
+a7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_9TAk7O=
+j$=20
+>> [v6]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2019/8/30/142__;!!GqivPV=
+a7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_9IFx5H=
+x$=20
+>> [v7]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2019/12/23/411__;!!GqivP=
+Va7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_0x8im=
+8q$=20
+>> [v8]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2020/5/21/213__;!!GqivPV=
+a7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_yVVP42=
+e$=20
+>> [v9]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2020/6/28/73__;!!GqivPVa=
+7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_y2-BLN1=
+$=20
+>> [v10]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2020/7/2/1443__;!!GqivPV=
+a7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_0qJHLG=
+R$=20
+>> [v11]: =
+https://urldefense.com/v3/__https://lkml.org/lkml/2020/8/1/150__;!!GqivPVa=
+7Brio!JI57eED82U9Uq1k8V_Kus7azGGPSDqfaSZPHM0WkR6OxQ0trzzeR2zyIkUM8_3QitPUY=
+$=20
+>>=20
+>> Chen Zhou (9):
+>>  x86: kdump: move CRASH_ALIGN to 2M
+>>  x86: kdump: make the lower bound of crash kernel reservation
+>>    consistent
+>>  x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
+>>    reserve_crashkernel[_low]()
+>>  x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
+>>  arm64: kdump: introduce some macroes for crash kernel reservation
+>>  arm64: kdump: reimplement crashkernel=3DX
+>>  kdump: add threshold for the required memory
+>>  arm64: kdump: add memory for devices by DT property
+>>    linux,usable-memory-range
+>>  kdump: update Documentation about crashkernel
+>>=20
+>> Documentation/admin-guide/kdump/kdump.rst     |  25 ++-
+>> .../admin-guide/kernel-parameters.txt         |  13 +-
+>> arch/arm64/include/asm/kexec.h                |  15 ++
+>> arch/arm64/include/asm/processor.h            |   1 +
+>> arch/arm64/kernel/setup.c                     |  13 +-
+>> arch/arm64/mm/init.c                          | 105 ++++------
+>> arch/arm64/mm/mmu.c                           |   4 +
+>> arch/x86/include/asm/kexec.h                  |  28 +++
+>> arch/x86/kernel/setup.c                       | 165 +--------------
+>> include/linux/crash_core.h                    |   4 +
+>> include/linux/kexec.h                         |   2 -
+>> kernel/crash_core.c                           | 192 =
+++++++++++++++++++
+>> kernel/kexec_core.c                           |  17 --
+>> 13 files changed, 328 insertions(+), 256 deletions(-)
+
