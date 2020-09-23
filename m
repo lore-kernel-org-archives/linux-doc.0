@@ -2,243 +2,583 @@ Return-Path: <SRS0=6mJA=DA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07935C2D0A8
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 13:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37553C4363D
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 14:02:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73FC0221EB
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 13:50:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="TEMPDJLk"
+	by mail.kernel.org (Postfix) with ESMTP id B5A26221EB
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Sep 2020 14:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600869740;
+	bh=/Sa4Fd49FLuwnAE9zi43dYsBxaHdQIaOk7jTf/1qtSE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=PwbcvzsB75jCqL0mHopwN2diz0oIJKFewO9np80MsxwVOSulK/vgjGSS2lz2w7X/s
+	 9zvEzti/vTnZx5b8yfB7Hv20hnchXxPbJA5TgGXpkvCCOlomcHWXlJYedcpVGAHtQW
+	 azohgrFKxIvrvqnhSuTuAkNuBnXPiugCZW2GaQPA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbgIWNuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Sep 2020 09:50:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726587AbgIWNuO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Sep 2020 09:50:14 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC12CC0613CE;
-        Wed, 23 Sep 2020 06:50:14 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0d13003cb05fb00c1da4a2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1300:3cb0:5fb0:c1d:a4a2])
+        id S1726460AbgIWOCU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Sep 2020 10:02:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49324 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726156AbgIWOCU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Sep 2020 10:02:20 -0400
+Received: from coco.lan (ip5f5ad5c8.dynamic.kabel-deutschland.de [95.90.213.200])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 934761EC0409;
-        Wed, 23 Sep 2020 15:50:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1600869012;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=0fGvnIQVdKsMqeTksW4QaaQdYOv2dMjo3K5+QpVLLC8=;
-        b=TEMPDJLks9CJno66rpFCZKPTRy9PbYXCVYKioWfHID1hEW9su1NnCiPiF7C9/aZ7WlciEb
-        QybTPddDIiIPJ55Q21MtaXLgesdq2zN81lzt8IY+cw1TKVj91JUbo5IXEJ7G2en8LgcrK+
-        l9AwkaJl9Dk6AIQLdy4WEK56UyZeFtA=
-Date:   Wed, 23 Sep 2020 15:50:05 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, linux-sgx@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
-        asapek@google.com, cedric.xing@intel.com, chenalexchen@google.com,
-        conradparker@google.com, cyhanish@google.com,
-        dave.hansen@intel.com, haitao.huang@intel.com,
-        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
-        kmoy@google.com, ludloff@google.com, luto@kernel.org,
-        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
-        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
-Subject: Re: [PATCH v38 23/24] docs: x86/sgx: Document SGX micro architecture
- and kernel internals
-Message-ID: <20200923135005.GI28545@zn.tnic>
-References: <20200915112842.897265-1-jarkko.sakkinen@linux.intel.com>
- <20200915112842.897265-24-jarkko.sakkinen@linux.intel.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 31540221F0;
+        Wed, 23 Sep 2020 14:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600869737;
+        bh=/Sa4Fd49FLuwnAE9zi43dYsBxaHdQIaOk7jTf/1qtSE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=aa2AV/VgTEg1VPsmQVAfWtSC7CQc33huwLSpaJB/92ShZBtriDtA1hTQzvKKs5QN5
+         vmH94uEmcjI9wCKXwftw8E+YhjnFd15maGNDuqxIqJDkt5opxo167uuG4OaX1CL+JE
+         d5aHI/gulCn0B+6zpAaoSmOtG5Vy54GkMQSwSqc8=
+Date:   Wed, 23 Sep 2020 16:02:10 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC] Make the docs build "work" with Sphinx 3.x
+Message-ID: <20200923160210.7cd16161@coco.lan>
+In-Reply-To: <20200923135318.48bb93f5@coco.lan>
+References: <20200904102925.52fcd2a1@lwn.net>
+        <20200921222639.GY32101@casper.infradead.org>
+        <87sgbaqnp9.fsf@intel.com>
+        <20200922105656.11043bd9@lwn.net>
+        <20200923110106.192e313f@coco.lan>
+        <20200923135318.48bb93f5@coco.lan>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200915112842.897265-24-jarkko.sakkinen@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch must come first in the set so that other reviewers can read
-what all this jazz is about first, before exposing them to the gory
-details later.
+Em Wed, 23 Sep 2020 13:53:18 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-On Tue, Sep 15, 2020 at 02:28:41PM +0300, Jarkko Sakkinen wrote:
-> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-> new file mode 100644
-> index 000000000000..706a846ae353
-> --- /dev/null
-> +++ b/Documentation/x86/sgx.rst
-> @@ -0,0 +1,200 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============
-> +Architecture
-> +============
+> Em Wed, 23 Sep 2020 11:01:06 +0200
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+> 
+> > Em Tue, 22 Sep 2020 10:56:56 -0600
+> > Jonathan Corbet <corbet@lwn.net> escreveu:
+> >   
+> > > On Tue, 22 Sep 2020 10:23:46 +0300
+> > > Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> > >     
+> > > > > Should we be converting the kernel-doc script to output 3.0-style markup
+> > > > > for structs?      
+> > > > 
+> > > > IIUC it's not backwards compatible with Sphinx pre-3.0, so you'd either
+> > > > have to require Sphinx 3.0 or have kernel-doc emit both, depending on
+> > > > the Sphinx version.    
+> > > 
+> > > Certainly before requiring 3.0 we should, like, actually make it work with
+> > > 3.0...  People with time to do that appear to be rather scarce at the
+> > > moment, though.  I'll get to it eventually but I have a few other things
+> > > on my plate as well.    
+> > 
+> > Tried to build now with Sphinx 3.2.1. There are thousands of warnings:
+> > 
+> > 	build succeeded, 3423 warnings.
+> > 
+> > Like those:
+> > 
+> > 	Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/workqueue'.
+> > 	Declaration is 'unsigned long delay'.
+> > 
+> > And those:
+> > 
+> > 	./include/uapi/linux/firewire-cdev.h:38: WARNING: Type must be either just a name or a typedef-like declaration.
+> > 	If just a name:
+> > 	  Error in declarator or parameters
+> > 	  Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
+> > 	    struct fw_cdev_event_iso_interrupt
+> > 	    ------^
+> > 	If typedef-like declaration:
+> > 	  Error in declarator or parameters
+> > 	  Invalid C declaration: Expected identifier in nested name. [error at 34]
+> > 	    struct fw_cdev_event_iso_interrupt
+> > 	    ----------------------------------^
+> > 
+> > If I'm not mistaken, one of the reasons why cdomain was added is
+> > due to the duplicate C declaration.
+> > 
+> > -
+> > 
+> > I guess changing kernel-doc to produce Sphinx 3.x syntax and
+> > raise the bar requiring 3.0 to be the minimal version would be
+> > one alternative, but this won't solve the duplicated C declarations. 
+> > 
+> > Does Sphinx 3.x have some way to enable "local" C references?
+> > 
+> > Another one could be to make cdomain compatible with 3.x and
+> > make it handle the differences. Not sure how easy/hard would be
+> > to do that.  
+> 
+> Ok, I checked the code of cdomain.py. It sounds that Markus
+> tried to make cdomain compatible with Sphinx 3.x[1]:
+> 
+> 	https://github.com/return42/linuxdoc/commit/48f09de2aff80169b7b9be5b0f2431ad8954e5cc
+> 
+> [1] Yet, he ended disabling cdomain.py at his latest commit there:
+> 
+> 	https://github.com/return42/linuxdoc/commit/70673dcf69e705e08d81f53794895dc15c4920b3#diff-40ccfb63661f88fd819794047febd54d
+> 
+>     (Basically, if Sphinx > 3.0, the cdomain.py is just an alias for c.py)
+> 
+> I was hoping that porting such change would be enough for docs to build
+> with Sphinx 3.2, but it isn't[2]. It seems that the entire Cdomain code
+> was re-written:
+> 
+> 	https://github.com/sphinx-doc/sphinx/commit/0f49e30c51b5cc5055cda5b4b294c2dd9d1df573#r38750737
+> 
+> There are now some environment vars that are required. Some of them
+> have things like:
+> 
+>         lastSymbol = self.env.temp_data['c:last_symbol']  # type: Symbol
+>         assert lastSymbol
+> 
+> If those aren't found, Sphinx crashes.
+> 
+> So, making anything that would be compatible with both Sphinx 2.x
+> and Sphinx 3.x seems very painful.
+> 
+> It sounds to me that we need to make a choice here about how to
+> proceed. We have a few alternatives:
+> 
+> 1) stick forever with Sphinx 2.x syntax. We may end needing to 
+>    support a fork of Sphinx, if we follow this direction, as
+>    nobody currently fix bugs on older versions of Sphinx;
+> 
+> 2) switch to use Sphinx 3.x c domains and drop support for
+>    version < 3.x;
 
-Only the title of the document should be sandwiched between two lines of
+Based on what it was described here:
 
-============
+	https://github.com/sphinx-doc/sphinx/issues/7421
 
-as that is what appears in the documentation TOC. As it is right now,it says
-"Architecture" but it should say "Software Guard eXtensions (SGX)"
+I worked on a RFC patch converting one of the media files
+(the CEC one, mentioned at the issue) in order to use the
+new Sphinx 3.1 C domain.
 
-Architecture should follow only with a bottom line as a section name:
+Yet, it sounds that the c:namespace is broken on Sphinx 3.2.1:
 
-Architecture
-============
+	Documentation/userspace-api/media/cec/cec-func-close.rst:23: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fclose'.
+	Declaration is 'int close( int fd )'.
+	Documentation/userspace-api/media/cec/cec-func-close.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fclose'.
+	Declaration is 'int close(int fd)'.
+	Documentation/userspace-api/media/cec/cec-func-close.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fclose'.
+	Declaration is 'int fd'.
+	Documentation/userspace-api/media/cec/cec-func-open.rst:22: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fopen'.
+	Declaration is 'int open( const char *device_name, int flags )'.
+	Documentation/userspace-api/media/cec/cec-func-open.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fopen'.
+	Declaration is 'int open(const char *deviceName, int flags)'.
+	Documentation/userspace-api/media/cec/cec-func-open.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fopen'.
 
-> +
-> +*Software Guard eXtensions (SGX)* is a set of instructions that enable ring-3
-> +applications to set aside private regions of code and data. These regions are
-> +called enclaves. An enclave can be entered to a fixed set of entry points. Only
 
-s / to / at /
+Or maybe it has to be defined on each individual .rst file that
+uses an specific domain?
 
-> +a CPU running inside the enclave can access its code and data.
-> +
-> +The support can be determined by
-> +
-> +	``grep sgx /proc/cpuinfo``
-> +
-> +Enclave Page Cache
-> +==================
-> +
-> +SGX utilizes an *Enclave Page Cache (EPC)* to store pages that are associated
-> +with an enclave. It is contained in a BIOS reserved region of physical memory.
+Thanks,
+Mauro
 
-BIOS-reserved
+RFC: convert CEC userspace docs to use Sphinx 3.1 domains
 
-> +Unlike pages used for regular memory, pages can only be accessed outside the
-> +enclave for different purposes with the instructions **ENCLS**, **ENCLV** and
-> +**ENCLU**.
-> +
-> +Direct memory accesses to an enclave can be only done by a CPU executing inside
-> +the enclave. An enclave can be entered with **ENCLU[EENTER]** to a fixed set of
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-s / to / at /
+diff --git a/Documentation/userspace-api/media/cec/cec-api.rst b/Documentation/userspace-api/media/cec/cec-api.rst
+index 4d229ed8a1d9..3c33d7f3bcf6 100644
+--- a/Documentation/userspace-api/media/cec/cec-api.rst
++++ b/Documentation/userspace-api/media/cec/cec-api.rst
+@@ -1,6 +1,8 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+ .. include:: <isonum.txt>
+ 
++.. c:namespace:: CEC
++
+ .. _cec:
+ 
+ #########################################
+@@ -44,3 +46,5 @@ Revision History
+ :revision: 1.0.0 / 2016-03-17 (*hv*)
+ 
+ Initial revision
++
++.. c:namespace:: NULL
+diff --git a/Documentation/userspace-api/media/cec/cec-func-close.rst b/Documentation/userspace-api/media/cec/cec-func-close.rst
+index 33c563f414a8..4849b315739b 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-close.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-close.rst
+@@ -21,13 +21,12 @@ Synopsis
+ 
+ 
+ .. c:function:: int close( int fd )
+-    :name: cec-close
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ 
+ Description
+@@ -40,7 +39,7 @@ freed. The device configuration remain unchanged.
+ Return Value
+ ============
+ 
+-:c:func:`close() <cec-close>` returns 0 on success. On error, -1 is returned, and
++:c:func:close() returns 0 on success. On error, -1 is returned, and
+ ``errno`` is set appropriately. Possible error codes are:
+ 
+ ``EBADF``
+diff --git a/Documentation/userspace-api/media/cec/cec-func-ioctl.rst b/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
+index 3b88230fad80..a584d21afd73 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
+@@ -20,13 +20,12 @@ Synopsis
+ 
+ 
+ .. c:function:: int ioctl( int fd, int request, void *argp )
+-   :name: cec-ioctl
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``request``
+     CEC ioctl request code as defined in the cec.h header file, for
+@@ -39,7 +38,7 @@ Arguments
+ Description
+ ===========
+ 
+-The :c:func:`ioctl() <cec-ioctl>` function manipulates cec device parameters. The
++The :c:func:ioctl() function manipulates cec device parameters. The
+ argument ``fd`` must be an open file descriptor.
+ 
+ The ioctl ``request`` code specifies the cec function to be called. It
+diff --git a/Documentation/userspace-api/media/cec/cec-func-open.rst b/Documentation/userspace-api/media/cec/cec-func-open.rst
+index 887bfd2a755e..ce108e699dd7 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-open.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-open.rst
+@@ -20,7 +20,6 @@ Synopsis
+ 
+ 
+ .. c:function:: int open( const char *device_name, int flags )
+-   :name: cec-open
+ 
+ 
+ Arguments
+@@ -46,7 +45,7 @@ Arguments
+ Description
+ ===========
+ 
+-To open a cec device applications call :c:func:`open() <cec-open>` with the
++To open a cec device applications call :c:func:open() with the
+ desired device name. The function has no side effects; the device
+ configuration remain unchanged.
+ 
+@@ -58,7 +57,7 @@ EBADF.
+ Return Value
+ ============
+ 
+-:c:func:`open() <cec-open>` returns the new file descriptor on success. On error,
++:c:func:open() returns the new file descriptor on success. On error,
+ -1 is returned, and ``errno`` is set appropriately. Possible error codes
+ include:
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-func-poll.rst b/Documentation/userspace-api/media/cec/cec-func-poll.rst
+index 2d87136e9a3f..1e1d95303b78 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-poll.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-poll.rst
+@@ -21,7 +21,6 @@ Synopsis
+ 
+ 
+ .. c:function:: int poll( struct pollfd *ufds, unsigned int nfds, int timeout )
+-   :name: cec-poll
+ 
+ Arguments
+ =========
+@@ -39,10 +38,10 @@ Arguments
+ Description
+ ===========
+ 
+-With the :c:func:`poll() <cec-poll>` function applications can wait for CEC
++With the :c:func:poll() function applications can wait for CEC
+ events.
+ 
+-On success :c:func:`poll() <cec-poll>` returns the number of file descriptors
++On success :c:func:poll() returns the number of file descriptors
+ that have been selected (that is, file descriptors for which the
+ ``revents`` field of the respective struct :c:type:`pollfd`
+ is non-zero). CEC devices set the ``POLLIN`` and ``POLLRDNORM`` flags in
+@@ -53,13 +52,13 @@ then the ``POLLPRI`` flag is set. When the function times out it returns
+ a value of zero, on failure it returns -1 and the ``errno`` variable is
+ set appropriately.
+ 
+-For more details see the :c:func:`poll() <cec-poll>` manual page.
++For more details see the :c:func:poll() manual page.
+ 
+ 
+ Return Value
+ ============
+ 
+-On success, :c:func:`poll() <cec-poll>` returns the number structures which have
++On success, :c:func:poll() returns the number structures which have
+ non-zero ``revents`` fields, or zero if the call timed out. On error -1
+ is returned, and the ``errno`` variable is set appropriately:
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
+index 7f25365ce0fb..d74b6d0d44c6 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
+@@ -14,14 +14,15 @@ CEC_ADAP_G_CAPS - Query device capabilities
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_CAPS, struct cec_caps *argp )
+-    :name: CEC_ADAP_G_CAPS
++.. c:macro:: CEC_ADAP_G_CAPS
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_CAPS, struct cec_caps *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``argp``
+ 
+@@ -36,32 +37,29 @@ returns the information to the application. The ioctl never fails.
+ 
+ .. tabularcolumns:: |p{1.2cm}|p{2.5cm}|p{13.8cm}|
+ 
+-.. c:type:: cec_caps
++.. c:struct:: cec_caps
+ 
+-.. flat-table:: struct cec_caps
+-    :header-rows:  0
+-    :stub-columns: 0
+-    :widths:       1 1 16
+-
+-    * - char
+-      - ``driver[32]``
+-      - The name of the cec adapter driver.
+-    * - char
+-      - ``name[32]``
+-      - The name of this CEC adapter. The combination ``driver`` and
+-	``name`` must be unique.
+-    * - __u32
+-      - ``available_log_addrs``
+-      - The maximum number of logical addresses that can be configured.
+-    * - __u32
+-      - ``capabilities``
+-      - The capabilities of the CEC adapter, see
+-	:ref:`cec-capabilities`.
+-    * - __u32
+-      - ``version``
+-      - CEC Framework API version, formatted with the ``KERNEL_VERSION()``
+-	macro.
++    .. c:var:: char driver[32]
++
++         - The name of the cec adapter driver.
++
++    .. c:var:: char name[32]
++
++         - The name of this CEC adapter. The combination :c:var:`driver` and
++	   :c:var:`name` must be unique.
++
++    .. c:var:: __u32 available_log_addrs
++
++         - The maximum number of logical addresses that can be configured.
++
++    .. c:var:: __u32 capabilities
++
++	 - The capabilities of the CEC adapter, see :ref:`cec-capabilities`.
++
++    .. c:var:: __u32 version
+ 
++         - CEC Framework API version, formatted with the ``KERNEL_VERSION()``
++	   macro.
+ 
+ .. tabularcolumns:: |p{4.4cm}|p{2.5cm}|p{10.6cm}|
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
+index 6818ddf1495c..a40c81c0779a 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
+@@ -16,14 +16,15 @@ CEC_ADAP_G_CONNECTOR_INFO - Query HDMI connector information
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_CONNECTOR_INFO, struct cec_connector_info *argp )
+-    :name: CEC_ADAP_G_CONNECTOR_INFO
++.. c:macro:: CEC_ADAP_G_CONNECTOR_INFO
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_CONNECTOR_INFO, struct cec_connector_info *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``argp``
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+index 1ca893270ae9..7f5a17817c0e 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+@@ -17,17 +17,21 @@ CEC_ADAP_G_LOG_ADDRS, CEC_ADAP_S_LOG_ADDRS - Get or set the logical addresses
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_LOG_ADDRS, struct cec_log_addrs *argp )
++.. c:macro:: CEC_ADAP_G_LOG_ADDRS
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_LOG_ADDRS, struct cec_log_addrs *argp)`
+    :name: CEC_ADAP_G_LOG_ADDRS
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_S_LOG_ADDRS, struct cec_log_addrs *argp )
++.. c:macro:: CEC_ADAP_S_LOG_ADDRS
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_S_LOG_ADDRS, struct cec_log_addrs *argp)`
+    :name: CEC_ADAP_S_LOG_ADDRS
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``argp``
+     Pointer to struct :c:type:`cec_log_addrs`.
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
+index a10443be1b26..2d83be209dcb 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
+@@ -17,17 +17,19 @@ CEC_ADAP_G_PHYS_ADDR, CEC_ADAP_S_PHYS_ADDR - Get or set the physical address
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_PHYS_ADDR, __u16 *argp )
+-    :name: CEC_ADAP_G_PHYS_ADDR
++.. c:macro:: CEC_ADAP_G_PHYS_ADDR
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_S_PHYS_ADDR, __u16 *argp )
+-    :name: CEC_ADAP_S_PHYS_ADDR
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_PHYS_ADDR, __u16 *argp)`
++
++.. c:macro:: CEC_ADAP_S_PHYS_ADDR
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_S_PHYS_ADDR, __u16 *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``argp``
+     Pointer to the CEC address.
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst b/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
+index 3bc81fc5a73f..688f8e88dd86 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
+@@ -15,14 +15,15 @@ CEC_DQEVENT - Dequeue a CEC event
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_DQEVENT, struct cec_event *argp )
+-    :name: CEC_DQEVENT
++.. c:macro:: CEC_DQEVENT
++
++``int`` :c:expr:`ioctl(int fd, CEC_DQEVENT, struct cec_event *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``argp``
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst b/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
+index 2093e373c93c..482b5a455b9f 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
+@@ -13,17 +13,19 @@ CEC_G_MODE, CEC_S_MODE - Get or set exclusive use of the CEC adapter
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_G_MODE, __u32 *argp )
+-   :name: CEC_G_MODE
++.. c:macro:: CEC_G_MODE
+ 
+-.. c:function:: int ioctl( int fd, CEC_S_MODE, __u32 *argp )
+-   :name: CEC_S_MODE
++``int`` :c:expr:`ioctl(int fd, CEC_G_MODE, __u32 *argp)`
++
++.. c:macro:: CEC_S_MODE
++
++``int`` :c:expr:`ioctl(int fd, CEC_S_MODE, __u32 *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``argp``
+     Pointer to CEC mode.
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-receive.rst b/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
+index 9d629d46973c..d5d8f63eeaf7 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
+@@ -16,17 +16,20 @@ CEC_RECEIVE, CEC_TRANSMIT - Receive or transmit a CEC message
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_RECEIVE, struct cec_msg \*argp )
+-    :name: CEC_RECEIVE
++.. c:macro:: CEC_RECEIVE
+ 
+-.. c:function:: int ioctl( int fd, CEC_TRANSMIT, struct cec_msg \*argp )
++``int`` :c:expr:`ioctl(int fd, CEC_RECEIVE, struct cec_msg \*argp)`
++
++.. c:macro:: CEC_TRANSMIT
++
++``int`` :c:expr:`ioctl(int fd, CEC_TRANSMIT, struct cec_msg \*argp)`
+     :name: CEC_TRANSMIT
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:open().
+ 
+ ``argp``
+     Pointer to struct cec_msg.
 
-> +entry points. However, a CPU executing inside the enclave can do outside memory
-> +accesses.
-> +
-> +Page Types
-> +----------
-> +
-> +**SGX Enclave Control Structure (SECS)**
-> +   Enclave's address range, attributes and other global data are defined
-> +   by this structure.
-> +
-> +**Regular (REG)**
-> +   Regular EPC pages contain the code and data of an enclave.
-> +
-> +**Thread Control Structure (TCS)**
-> +   Thread Control Structure pages define the entry points to an enclave and
-> +   track the execution state of an enclave thread.
-> +
-> +**Version Array (VA)**
-> +   Version Array pages contain 512 slots, each of which can contain a version
-> +   number for a page evicted from the EPC.
-> +
-> +Enclave Page Cache Map
-> +----------------------
-> +
-> +The processor tracks EPC pages via the *Enclave Page Cache Map (EPCM)*.  EPCM
-> +contains an entry for each EPC page, which describes the owning enclave, access
-> +rights and page type among the other things.
-> +
-> +The permissions from EPCM is consulted if and only if walking the kernel page
-
-s/ is / are /
-
-> +tables succeeds. The total permissions are thus a conjunction between page table
-> +and EPCM permissions.
-> +
-> +For all intents and purposes the SGX architecture allows the processor to
-			       ^
-			       ,
-
-> +invalidate all EPCM entries at will, i.e. requires that software be prepared to
-> +handle an EPCM fault at any time. The contents of EPC are encrypted with an
-> +ephemeral key, which is lost on power transitions.
-> +
-> +EPC management
-> +==============
-> +
-> +EPC pages do not have ``struct page`` instances. They are IO memory from kernel
-> +perspective. The consequence is that they are always mapped as shared memory.
-> +Kernel defines ``/dev/sgx/enclave`` that can be mapped as ``MAP_SHARED`` to
-> +define the address range for an enclave.
-> +
-> +EPC Over-subscription
-> +=====================
-> +
-> +When the amount of free EPC pages goes below a low watermark the swapping thread
-> +starts reclaiming pages. The pages that do not have the **A** bit set are
-> +selected as victim pages.
-> +
-> +Launch Control
-> +==============
-> +
-> +SGX provides a launch control mechanism. After all enclave pages have been
-> +copied, kernel executes **ENCLS[EINIT]**, which initializes the enclave. Only
-> +after this the CPU can execute inside the enclave.
-> +
-> +This leaf function takes an RSA-3072 signature of the enclave measurement and an
-> +optional cryptographic token. Linux does not take advantage of launch tokens.
-> +The instruction checks that the signature is signed with the key defined in
-> +**IA32_SGXLEPUBKEYHASH?** MSRs and the measurement is correct. If so, the
-
-That '?' wants to be '[0123]' perhaps?
-
-> +enclave is allowed to be executed.
-> +
-> +MSRs can be configured by the BIOS to be either readable or writable. Linux
-
-"Those MSRs..."
-
-> +supports only writable configuration in order to give full control to the kernel
-> +on launch control policy. Readable configuration requires the use of previously
-> +mentioned launch tokens.
-> +
-> +The current kernel implementation supports only writable MSRs.
-
-This sentence is repeated a couple of lines above.
-
-> The launch is
-> +performed by setting the MSRs to the hash of the enclave signer's public key.
-> +The alternative would be to have *a launch enclave* that would be signed with
-> +the key set into MSRs, which would then generate launch tokens for other
-> +enclaves. This would only make sense with read-only MSRs, and thus the option
-> +has been discarded.
-> +
-> +Attestation
-> +===========
-> +
-> +Local Attestation
-> +-----------------
-> +
-> +In local attestation an enclave creates a **REPORT** data structure with
-		       ^
-		       ,
-
-> +**ENCLS[EREPORT]**, which describes the origin of an enclave. In particular, it
-> +contains a AES-CMAC of the enclave contents signed with a report key unique to
-> +each processor. All enclaves have access to this key.
-> +
-> +This mechanism can also be used in addition as a communication channel as the
-> +**REPORT** data structure includes a 64-byte field for variable information.
-
-...
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
