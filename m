@@ -2,174 +2,159 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D39C2D0E2
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 06:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB71C4346E
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 07:02:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE7332388A
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 06:56:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wFNt8Gqo"
+	by mail.kernel.org (Postfix) with ESMTP id 049D22395B
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 07:02:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600930956;
+	bh=evsTuHd3Fp4+7Taw7zaMfgqVvZz1cHE/DTSUFgQDaCk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=NbnCHTv/GC0gpoyCDkN5D+UmzDfygdbyodbti7qBilTQBtP0DHoaDnP+7o7oC6eL2
+	 tzDueiZ3vrl6RSzaHm+FToqK1cHabu6autED5Tk2hezoqz63Xe/DnQymgdPLGn1LP6
+	 LS8WQ35sm4m4MhK31tDnsLjG47BbXzhlsoYxqZz8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbgIXG4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 02:56:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727124AbgIXG4R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 02:56:17 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D1F0C0613D3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2020 23:56:17 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id 139so1373516qkl.11
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2020 23:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=ke1FEsl77Kc9oiXNsFHcCDNOwBSCt2v+UAY//5HtPgA=;
-        b=wFNt8GqobtkvzKQbpeNuwwKD7cJM6653QEQTP0/fQ32HCibNFnNSCAdUGk7XxvxLCQ
-         wZMVMziyIc+3KTIXWzlQ44tdEtv4Jms/lVWMSApeK+7xyiNDVGXduAgCQPWQmGScBe0y
-         b3DZXlUy+6BpBugiPDDa6yscGSmDf4orJiy+k4J33nRIG0YifrMCLg9DsHILEenRyogr
-         xgpuzhDOsJoD/y9ak4A+GfsFCQdUT9rNiT2C+iRojP6S0NSxY5Yy9rih4puQaZqexUQi
-         WfclaOJ5k4/HwBP5gzQpCfxbdYlMU6bi6k0Pb6Pk2/aFrsXrwg4ro0JeWieN9YfqtCIW
-         iqEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=ke1FEsl77Kc9oiXNsFHcCDNOwBSCt2v+UAY//5HtPgA=;
-        b=HB/w+MtRK5iWqeTo8Lde8Ll2G0mFirTV1ZKwrUT9/2l/VxgCI7mc69oZNKn/F4ktIl
-         ZeHyI6gpjasqH7QHRF+f1IlFdYOaFBNCq15Icyo4FnemIldOkDtVLxeqBSKyiCgDeuZ2
-         HTRUFyNSWIMpYqasQxeRQ6kcOiUKMISHd53bxh25t6bc4zqlxH73e+I1W7QJl0Sjb+BQ
-         Ti4iMrdRAgec3XHcjPyLk2nG7ZORXEnri2iZ7tT2Bun3GvLWDN9JnYE4gIEp/H22oXfm
-         vl+x7mdObdR5fAIxEHR5/Ww9wL+bG0elFFe5s39CdfhlMTJ9hXy8Lv2ubq+ISKVYPYXu
-         pyyA==
-X-Gm-Message-State: AOAM533B97vILDkgi7kgOWSWyQTw77mf+NrSZrKF80G0Le04iaP9SQ3Q
-        /i9gdQ/RyhmgGIblz8qsIZnA9f0iWSvpOAs80w==
-X-Google-Smtp-Source: ABdhPJxza0fuBaFmbZ3gbUVLmFUZdTvAFAr+hqa4TX5v95zkmpSNEi+rzcne2bTvV+co7oFl2J4bRL0sKnZX61IOKQ==
-Sender: "lokeshgidra via sendgmr" <lokeshgidra@lg.mtv.corp.google.com>
-X-Received: from lg.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:29dd])
- (user=lokeshgidra job=sendgmr) by 2002:ad4:58e3:: with SMTP id
- di3mr3949934qvb.54.1600930576477; Wed, 23 Sep 2020 23:56:16 -0700 (PDT)
-Date:   Wed, 23 Sep 2020 23:56:06 -0700
-In-Reply-To: <20200924065606.3351177-1-lokeshgidra@google.com>
-Message-Id: <20200924065606.3351177-3-lokeshgidra@google.com>
-Mime-Version: 1.0
-References: <20200924065606.3351177-1-lokeshgidra@google.com>
-X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
-Subject: [PATCH v4 2/2] Add user-mode only option to unprivileged_userfaultfd
- sysctl knob
-From:   Lokesh Gidra <lokeshgidra@google.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kaleshsingh@google.com,
-        calin@google.com, surenb@google.com, nnk@google.com,
-        jeffv@google.com, kernel-team@android.com,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726989AbgIXHCf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 03:02:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726950AbgIXHCf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Sep 2020 03:02:35 -0400
+Received: from coco.lan (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 276632388A;
+        Thu, 24 Sep 2020 07:02:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600930954;
+        bh=evsTuHd3Fp4+7Taw7zaMfgqVvZz1cHE/DTSUFgQDaCk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=TeKiUreKRn7nADFH5PmCNUoZbwkZoEuQFtrpwo9xMGrfWKQN5c2c5nPhG67FOTcIh
+         00KelyzysqwjnZB+In3Kipqy9DJOZvI6FEqhdtFFfZVYh4gdVszve8KwTyM7qhWzbx
+         gaCGd8ae+TRrxxybjiR2VojEnJJ9HjaOQJzjne2w=
+Date:   Thu, 24 Sep 2020 09:02:30 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC] Make the docs build "work" with Sphinx 3.x
+Message-ID: <20200924090230.6f3b0ca1@coco.lan>
+In-Reply-To: <20200923160210.7cd16161@coco.lan>
+References: <20200904102925.52fcd2a1@lwn.net>
+        <20200921222639.GY32101@casper.infradead.org>
+        <87sgbaqnp9.fsf@intel.com>
+        <20200922105656.11043bd9@lwn.net>
+        <20200923110106.192e313f@coco.lan>
+        <20200923135318.48bb93f5@coco.lan>
+        <20200923160210.7cd16161@coco.lan>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With this change, when the knob is set to 0, it allows unprivileged
-users to call userfaultfd, like when it is set to 1, but with the
-restriction that page faults from only user-mode can be handled.
-In this mode, an unprivileged user (without SYS_CAP_PTRACE capability)
-must pass UFFD_USER_MODE_ONLY to userfaultd or the API will fail with
-EPERM.
+Em Wed, 23 Sep 2020 16:02:10 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-This enables administrators to reduce the likelihood that
-an attacker with access to userfaultfd can delay faulting kernel
-code to widen timing windows for other exploits.
+> Based on what it was described here:
+> 
+> 	https://github.com/sphinx-doc/sphinx/issues/7421
+> 
+> I worked on a RFC patch converting one of the media files
+> (the CEC one, mentioned at the issue) in order to use the
+> new Sphinx 3.1 C domain.
+> 
+> Yet, it sounds that the c:namespace is broken on Sphinx 3.2.1:
+> 
+> 	Documentation/userspace-api/media/cec/cec-func-close.rst:23: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fclose'.
+> 	Declaration is 'int close( int fd )'.
+> 	Documentation/userspace-api/media/cec/cec-func-close.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fclose'.
+> 	Declaration is 'int close(int fd)'.
+> 	Documentation/userspace-api/media/cec/cec-func-close.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fclose'.
+> 	Declaration is 'int fd'.
+> 	Documentation/userspace-api/media/cec/cec-func-open.rst:22: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fopen'.
+> 	Declaration is 'int open( const char *device_name, int flags )'.
+> 	Documentation/userspace-api/media/cec/cec-func-open.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fopen'.
+> 	Declaration is 'int open(const char *deviceName, int flags)'.
+> 	Documentation/userspace-api/media/cec/cec-func-open.rst: WARNING: Duplicate C declaration, also defined in 'media/dvb/video-fopen'.
+> 
+> Or maybe it has to be defined on each individual .rst file that
+> uses an specific domain?
 
-The default value of this knob is changed to 0. This is required for
-correct functioning of pipe mutex. However, this will fail postcopy
-live migration, which will be unnoticeable to the VM guests. To avoid
-this, set 'vm.userfault = 1' in /sys/sysctl.conf. For more details,
-refer to Andrea's reply [1].
+Ok, I was able to get rid of the above warnings, after some discussions at:
 
-[1] https://lore.kernel.org/lkml/20200904033438.GI9411@redhat.com/
+	https://github.com/sphinx-doc/sphinx/issues/7421
 
-Signed-off-by: Lokesh Gidra <lokeshgidra@google.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 15 ++++++++++-----
- fs/userfaultfd.c                        |  6 ++++--
- 2 files changed, 14 insertions(+), 7 deletions(-)
+In summary, the ".. c:namespace::" tag should be used on _every_ file
+that uses a different namespace. For CEC, this is not too much,
+but on v4l we have 249 files. Lots of them will require the usage of
+the namespace directive.
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 4b9d2e8e9142..4263d38c3c21 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -871,12 +871,17 @@ file-backed pages is less than the high watermark in a zone.
- unprivileged_userfaultfd
- ========================
- 
--This flag controls whether unprivileged users can use the userfaultfd
--system calls.  Set this to 1 to allow unprivileged users to use the
--userfaultfd system calls, or set this to 0 to restrict userfaultfd to only
--privileged users (with SYS_CAP_PTRACE capability).
-+This flag controls the mode in which unprivileged users can use the
-+userfaultfd system calls. Set this to 0 to restrict unprivileged users
-+to handle page faults in user mode only. In this case, users without
-+SYS_CAP_PTRACE must pass UFFD_USER_MODE_ONLY in order for userfaultfd to
-+succeed. Prohibiting use of userfaultfd for handling faults from kernel
-+mode may make certain vulnerabilities more difficult to exploit.
- 
--The default value is 1.
-+Set this to 1 to allow unprivileged users to use the userfaultfd system
-+calls without any restrictions.
-+
-+The default value is 0.
- 
- 
- user_reserve_kbytes
-diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-index 3191434057f3..3816c11a986a 100644
---- a/fs/userfaultfd.c
-+++ b/fs/userfaultfd.c
-@@ -28,7 +28,7 @@
- #include <linux/security.h>
- #include <linux/hugetlb.h>
- 
--int sysctl_unprivileged_userfaultfd __read_mostly = 1;
-+int sysctl_unprivileged_userfaultfd __read_mostly;
- 
- static struct kmem_cache *userfaultfd_ctx_cachep __read_mostly;
- 
-@@ -1972,7 +1972,9 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
- 	struct userfaultfd_ctx *ctx;
- 	int fd;
- 
--	if (!sysctl_unprivileged_userfaultfd && !capable(CAP_SYS_PTRACE))
-+	if (!sysctl_unprivileged_userfaultfd &&
-+	    (flags & UFFD_USER_MODE_ONLY) == 0 &&
-+	    !capable(CAP_SYS_PTRACE))
- 		return -EPERM;
- 
- 	BUG_ON(!current->mm);
--- 
-2.28.0.681.g6f77f65b4e-goog
+I'm enclosing a patch with the minimal set of changes required to
+make the CEC documentation compatible with Sphinx 3.1 and above.
 
+Btw, according with Jakob, there was a bug that cause a run time
+regression on Sphinx 3.2, affecting its performance:
+
+	https://github.com/sphinx-doc/sphinx/issues/7421#issuecomment-697710707
+
+Upstream Sphinx developers are working on a fix. So, maybe the
+performance for an upcoming 3.2.2 will be similar to 2.x.
+
+Jon,
+
+Should we proceed enforcing version 3.1 to be the minimal one
+required?
+
+If so, I can take care of the conversion patches for the
+media documents. I guess it should be easy to write a script that
+would convert all the tags there to use the new notation.
+
+I can also take a look at the kernel-doc issues.
+
+-
+
+If something has enough time to work at cdomain.py, we may
+still have backward compatibility with versions 1.x/2.x
+(support for 3.0.x would be a lot harder, IMHO), if cdomain.py 
+would get support for at least those two tags:
+
+	:c:expr:
+	.. c:namespace::
+
+Those two are the ones that are required to fix Sphinx 3.1+
+support for the media docs (although there are other new
+c domain tags that could also be interesting).
+
+No idea wow easy/hard would be to add support for them over
+there, as cdomain.py currently relies on the Sphinx 1.x/2.x
+c domain code. I suspect that implementing support for namespace 
+shouldn't be hard, as it internally does that already, but
+using a different notation. Support for other tags can be
+trickier.
+
+I guess support for :c:expr:`foo()` should also be easy,
+as this doesn't produce cross references. So, the code
+could just convert this into something equivalent to:
+
+	**``foo()``**
+
+(e. g. into a bold monospaced font).
+
+In any case, if we go to this direction, we'll be limited
+to use a subset of the Sphinx 3.1 c domain notation.
+
+
+Thanks,
+Mauro
