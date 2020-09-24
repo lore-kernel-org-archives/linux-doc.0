@@ -2,42 +2,42 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15617C4727D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 204EFC4363D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:08:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C86C3238D6
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:06:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2CF92395C
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:08:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728577AbgIXRGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 13:06:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726458AbgIXRGW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 13:06:22 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D2DAC0613CE;
-        Thu, 24 Sep 2020 10:06:22 -0700 (PDT)
+        id S1727402AbgIXRIh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 13:08:37 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59390 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727292AbgIXRIh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Sep 2020 13:08:37 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D7CBC750;
-        Thu, 24 Sep 2020 17:06:21 +0000 (UTC)
-Date:   Thu, 24 Sep 2020 11:06:19 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id C6D4E2CB;
+        Thu, 24 Sep 2020 17:08:35 +0000 (UTC)
+Date:   Thu, 24 Sep 2020 11:08:33 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jessica Yu <jeyu@kernel.org>
-Subject: Re: [PATCH] Documentation: kernel-parameters: clarify "module."
- parameters
-Message-ID: <20200924110619.0339b3cc@lwn.net>
-In-Reply-To: <67d40b6d-c073-a3bf-cbb6-6cad941cceeb@infradead.org>
-References: <67d40b6d-c073-a3bf-cbb6-6cad941cceeb@infradead.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Subject: Re: [PATCH v3 2/2] docs: trace: ring-buffer-design.rst: use the new
+ SPDX tag
+Message-ID: <20200924110833.2c669418@lwn.net>
+In-Reply-To: <20200918131917.13d9f570@gandalf.local.home>
+References: <cover.1599628249.git.mchehab+huawei@kernel.org>
+        <dbc9bd9ab30c6862e465343239e82102cbdc0f39.1599628249.git.mchehab+huawei@kernel.org>
+        <20200918131917.13d9f570@gandalf.local.home>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,28 +46,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Sep 2020 19:49:02 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Fri, 18 Sep 2020 13:19:17 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> From: Randy Dunlap <rdunlap@infradead.org>
+> On Wed,  9 Sep 2020 07:14:33 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> The command-line parameters "dyndbg" and "async_probe" are not
-> parameters for kernel/module.c but instead they are for the
-> module that is being loaded. Try to make that distinction in the
-> help text.
+> > SPDX v3.10 gained support for GFDL-1.2 with no invariant sections:
+> > 
+> > 	https://spdx.org/licenses/GFDL-1.2-no-invariants-only.html
+> > 
+> > Let's use it, instead of keeping a license text for this file.  
 > 
-> OTOH, "module.sig_enforce" is handled as a parameter of kernel/module.c
-> so "module." is correct for it.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Jessica Yu <jeyu@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
-Applied, thanks.
+OK, I've applied this; it looks like Greg already got part 1.
+
+Thanks,
 
 jon
