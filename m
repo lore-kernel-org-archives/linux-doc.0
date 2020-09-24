@@ -2,73 +2,93 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F226BC4346E
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 15:43:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D453FC4346E
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 15:55:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D6A32220C
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 15:43:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98D952395C
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 15:55:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="j/EqoXz2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728391AbgIXPnk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 11:43:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41208 "EHLO
+        id S1728573AbgIXPzH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 11:55:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728139AbgIXPnj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 11:43:39 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EA66C0613CE;
-        Thu, 24 Sep 2020 08:43:38 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
+        with ESMTP id S1728285AbgIXPzF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 11:55:05 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 493ABC0613CE
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2020 08:55:05 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0c950086c1a307bd73ace8.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:9500:86c1:a307:bd73:ace8])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3EF72382;
-        Thu, 24 Sep 2020 15:43:37 +0000 (UTC)
-Date:   Thu, 24 Sep 2020 09:43:35 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] docs: cdomain.py: add support for two new Sphinx
- 3.1+ tags
-Message-ID: <20200924094335.65944316@lwn.net>
-In-Reply-To: <4b8a20013ca0b631724e8a986544ada08ac3dfd7.1600945712.git.mchehab+huawei@kernel.org>
-References: <cover.1600945712.git.mchehab+huawei@kernel.org>
-        <4b8a20013ca0b631724e8a986544ada08ac3dfd7.1600945712.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1EAD81EC03D2;
+        Thu, 24 Sep 2020 17:55:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1600962901;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=J/4r033Gyo3ppyqwY9Pbc9elt+QQJk8ct5cP7ZKcUho=;
+        b=j/EqoXz2+IffhVveRKizA8vUZ3LdiGdPZpMaCqlpWuU1mRu4YjukcKsXG87JkoBBxXCz7N
+        e5A/OBJs/ho96hyFZmIfML/QsE5kVlyjlSbhoyuKgC/U5mO2rj4W6Fjh2wDnH8lvdcqqP8
+        GJH2TbreiYgkDjikll+THr+aOv9wGBw=
+Date:   Thu, 24 Sep 2020 17:54:59 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     x86@kernel.org, linux-sgx@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
+        asapek@google.com, cedric.xing@intel.com, chenalexchen@google.com,
+        conradparker@google.com, cyhanish@google.com,
+        dave.hansen@intel.com, haitao.huang@intel.com,
+        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
+        kmoy@google.com, ludloff@google.com, luto@kernel.org,
+        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
+        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
+Subject: Re: [PATCH v38 23/24] docs: x86/sgx: Document SGX micro architecture
+ and kernel internals
+Message-ID: <20200924155459.GI5030@zn.tnic>
+References: <20200915112842.897265-1-jarkko.sakkinen@linux.intel.com>
+ <20200915112842.897265-24-jarkko.sakkinen@linux.intel.com>
+ <20200923135005.GI28545@zn.tnic>
+ <20200924112801.GC56811@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200924112801.GC56811@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So I'm just getting into this and trying to understand what's really going
-on, but one thing jumped at me:
+On Thu, Sep 24, 2020 at 02:28:01PM +0300, Jarkko Sakkinen wrote:
+> On Wed, Sep 23, 2020 at 03:50:05PM +0200, Borislav Petkov wrote:
+> > > +This leaf function takes an RSA-3072 signature of the enclave measurement and an
+> > > +optional cryptographic token. Linux does not take advantage of launch tokens.
+> > > +The instruction checks that the signature is signed with the key defined in
+> > > +**IA32_SGXLEPUBKEYHASH?** MSRs and the measurement is correct. If so, the
+> > 
+> > That '?' wants to be '[0123]' perhaps?
+> 
+> What do you think of this:
+> 
+> "The leaf instruction checks that the measurement is correct and
+> signature is signed with the key hashed to the four
+> +**IA32_SGXLEPUBKEYHASH{0, 1, 2, 3}** MSRs representing the SHA256 of a
+> public key."
 
-On Thu, 24 Sep 2020 13:22:04 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+ACK.
 
-> +# Namespace to be prepended to the full name
-> +namespace = None
-> +
-> +#
-> +# Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
-> +# - Convert :c:expr:`foo` into ``foo``
-> +# - Store the namespace if ".. c:namespace::" tag is found
-> +
-> +RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
-> +RE_expr = re.compile(r':c:expr:`([^\`]+)`')
-> +
-> +def markup_namespace(match):
-> +    namespace = match.group(1)
-> +
-> +    return ""
-> +
+Thx.
 
-How can this possibly work without a "global namespace" declaration in
-markup_namespace()?
+-- 
+Regards/Gruss,
+    Boris.
 
-jon
+https://people.kernel.org/tglx/notes-about-netiquette
