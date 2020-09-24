@@ -2,154 +2,167 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3041C4363D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:27:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF911C4727D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:38:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1D83238D6
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:27:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600968475;
-	bh=IWNu5UyTukyvhHAOrP6jeCyd8ohnDHDjmLCxJ4fQfTQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=2YEF2aEm36nntbPmI2ZYFnI7kWd5G2On8LuNJg1/MZt2rIWEhtzI09T1R2N6sATeK
-	 Z0uqVykxxb2sfdtarDvZRiIHGo+lA711s4zTB4iyC822I85koTtrMaxEwmsGL/T/4w
-	 9lyobRIsBCmbGbmglnuJ5F63xUo1vqVDEQdp621A=
+	by mail.kernel.org (Postfix) with ESMTP id 8F3F7239E5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:38:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cZOWGP+A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728600AbgIXR1z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 13:27:55 -0400
-Received: from condef-03.nifty.com ([202.248.20.68]:60219 "EHLO
-        condef-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727988AbgIXR1z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 13:27:55 -0400
-Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-03.nifty.com with ESMTP id 08OHO0j9012341
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 02:24:00 +0900
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 08OHNMh3022365;
-        Fri, 25 Sep 2020 02:23:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 08OHNMh3022365
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1600968203;
-        bh=joTtiAZjMaYsT1Nb+EImochKGA88DFvnzBk5ymeSa6Q=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XnIZ+b0Kk9VpVcPQ5TbZfY+2ZDRhVm81Sug4iNmKuz4i8okUW9+jm/8lK01KDjznD
-         Jj+PS4O0DJByBjl0eEXDAZII8wDNQTXyCyneXQlFnMnXKOGTpkHKaIHimlN/kh4bVO
-         bhB0GJwadc5q4Ch/ff0cJ/FNTl4JQmi9RdyLrEiujIOjO4bHKFdpVFonWjJBj5mXW7
-         bNdHZNZNeya6VDRDQ4L9vtOWew9rl8+8z2w/+Jg9FY8tnslQIaJRvS1KiEGqDJQpeP
-         s0Tx+OYDM2serqEKofAZ5LzUAK4JUFesXR6q6++oMVgui8+atOPmDlgd98BqhpdW7/
-         u43DpOYIEfnkQ==
-X-Nifty-SrcIP: [209.85.214.173]
-Received: by mail-pl1-f173.google.com with SMTP id c3so87894plz.5;
-        Thu, 24 Sep 2020 10:23:22 -0700 (PDT)
-X-Gm-Message-State: AOAM5320bJwUsQ29LbeHQALreIhX+pq0zQVfiKryLa9J707yRhXMm+JE
-        zr9NHyHn79jxazqTDtQmlqv2X+WkDoCaR5ANc5U=
-X-Google-Smtp-Source: ABdhPJwxGkDvbczFQVCA0yU/ETKsepVugFYXutPJdGOG8Q0qMurDnQK9TbgMpfOLov3Gt4majojwcKVXc4Emk+auYWw=
-X-Received: by 2002:a17:902:7489:b029:d2:439c:4e0e with SMTP id
- h9-20020a1709027489b02900d2439c4e0emr183827pll.71.1600968201985; Thu, 24 Sep
- 2020 10:23:21 -0700 (PDT)
+        id S1726915AbgIXRiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 13:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726477AbgIXRiF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 13:38:05 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D62C0613CE;
+        Thu, 24 Sep 2020 10:38:05 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id q5so286891qkc.2;
+        Thu, 24 Sep 2020 10:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5bhRjdNmwctA9bi8GxsYvmMwgzV/9dcdCn2Ip4F4euc=;
+        b=cZOWGP+ALCi4vj4BHTzKgWDrtzwE4tF3jGNpkhuLUh6fG/k8zqpGq1Lo/0dcBLLoIi
+         pPGI5IpS/OrzvOjkni8+1PZ149ujLT0LOP6DV/JchuR6Qm2t3wNtyHG6ve58+vpA1a+n
+         vo9tdcnK4n/fTNOQCs55j4rhmmB4gid8Yk08zVDqQHhgx6gWFwcbAHR0ggH6v1Hu9XQg
+         NWk8LyxkU2lLBfuX9c41Izqi6n4RXF8OzcYv/vBHceR4AQDOinz6HygZUKBdg1Ok6Fhz
+         x7PDV/Kr3TTU4rGFdiyUzzj3q20kP8wByDlsqyrvCMsSIga89AVXjSHZt/HQ36A/Zqys
+         Zm7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=5bhRjdNmwctA9bi8GxsYvmMwgzV/9dcdCn2Ip4F4euc=;
+        b=EMrsNQXf4gCxtm1u3qeXqYCljaVzImbs5t2tgxVSEFEYnOYu141mHiKutlLC7bXHDY
+         PlsQ+BMtUZUrg5Av+HOpRmViWVzCpsjUKDN5NDPG6eQQFFAUAXWh4I0pLqN+qu3eQ85p
+         +/a1qG1jwVvoAcAFz+AVYHTzR49bQrMCei+XqMr/oAhCKBWOSxeFvMhLC0Zrg/7fQBd+
+         XgxUwvS3VwhCb+pV2xBr6GEldGZLVLJD1TzfNQD0aD3zk0jjtKvQI6k54x43F9lCnDej
+         ihhwfyoSUIYb09eXKLr17czvAdNv1W8UO3yx6rdb2iK9TYATNulfyq03oXhAzhJvoR1e
+         AbbA==
+X-Gm-Message-State: AOAM531+HhRlU4/fQPZZYI5GoKpHSJ03TR08FOwCyUnKS5M6A/gjbKmj
+        gEedA1FF5YcL2pXQVhLCoFA=
+X-Google-Smtp-Source: ABdhPJzvAQTyLYVuqTgONX5CqLnI4a7/K1S3m2ztmokOk/j35ocAhw/nB+FROtf10E9RL4+9MkjRSg==
+X-Received: by 2002:a37:9c8:: with SMTP id 191mr213412qkj.292.1600969083722;
+        Thu, 24 Sep 2020 10:38:03 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id n136sm96584qkn.14.2020.09.24.10.38.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2020 10:38:03 -0700 (PDT)
+Sender: Arvind Sankar <niveditas98@gmail.com>
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Thu, 24 Sep 2020 13:38:01 -0400
+To:     Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        luto@amacapital.net, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
+Message-ID: <20200924173801.GA103726@rani.riverdale.lan>
+References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+ <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
 MIME-Version: 1.0
-References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
- <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com> <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
-In-Reply-To: <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 25 Sep 2020 02:22:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
-Message-ID: <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
-Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
-To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Filipe Brandenburger <filbranden@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Michael Davidson <md@google.com>,
-        Eugene Surovegin <surovegin@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 11:51 PM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.intel.com> wrote:
->
-> Thanks for the review,
->
-> >> Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
-> >> kbuild fail when modpost generates any warnings. This will avoid
-> >> misses such as [1] where the SOF CI did not catch a missing module
-> >> license.
-> >>
-> >> This was initially contributed in 2016 [2], rebase/clean-ups and tests
-> >> by Pierre Bossart.
-> >>
-> >> Test example:
-> >> $ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
-> >>    GEN     Makefile
-> >>    DESCEND  objtool
-> >>    CALL    sof-dev/scripts/atomic/check-atomics.sh
-> >>    CALL    sof-dev/scripts/checksyscalls.sh
-> >>    CHK     include/generated/compile.h
-> >>    MODPOST Module.symvers
-> >> Kernel: arch/x86/boot/bzImage is ready  (#13)
-> >> WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
-> >> make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
-> >
-> >
-> > I think [1] should be an error instead of a warning
-> > by default.
->
-> would the following patch be what you have in mind?
+On Thu, Sep 24, 2020 at 10:58:35AM -0400, Ross Philipson wrote:
+> The Secure Launch (SL) stub provides the entry point for Intel TXT (and
+> later AMD SKINIT) to vector to during the late launch. The symbol
+> sl_stub_entry is that entry point and its offset into the kernel is
+> conveyed to the launching code using the MLE (Measured Launch
+> Environment) header in the structure named mle_header. The offset of the
+> MLE header is set in the kernel_info. The routine sl_stub contains the
+> very early late launch setup code responsible for setting up the basic
+> environment to allow the normal kernel startup_32 code to proceed. It is
+> also responsible for properly waking and handling the APs on Intel
+> platforms. The routine sl_main which runs after entering 64b mode is
+> responsible for measuring configuration and module information before
+> it is used like the boot params, the kernel command line, the TXT heap,
+> an external initramfs, etc.
+> 
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
 
+Which version of the kernel is this based on?
 
-No.
-error() does not exist.
+> diff --git a/arch/x86/boot/compressed/head_64.S b/arch/x86/boot/compressed/head_64.S
+> index 97d37f0..42043bf 100644
+> --- a/arch/x86/boot/compressed/head_64.S
+> +++ b/arch/x86/boot/compressed/head_64.S
+> @@ -279,6 +279,21 @@ SYM_INNER_LABEL(efi32_pe_stub_entry, SYM_L_LOCAL)
+>  SYM_FUNC_END(efi32_stub_entry)
+>  #endif
+>  
+> +#ifdef CONFIG_SECURE_LAUNCH
+> +SYM_FUNC_START(sl_stub_entry)
+> +	/*
+> +	 * On entry, %ebx has the entry abs offset to sl_stub_entry. To
+> +	 * find the beginning of where we are loaded, sub off from the
+> +	 * beginning.
+> +	 */
 
-merror() exists, but the difference from warn()
-is just a prefix.
+This requirement should be added to the documentation. Is it necessary
+or can this stub just figure out the address the same way as the other
+32-bit entry points, using the scratch space in bootparams as a little
+stack?
 
-If any error happens, modpost should return the error code.
+> +	leal	(startup_32 - sl_stub_entry)(%ebx), %ebx
+> +
+> +	/* More room to work in sl_stub in the text section */
+> +	jmp	sl_stub
+> +
+> +SYM_FUNC_END(sl_stub_entry)
+> +#endif
+> +
+>  	.code64
+>  	.org 0x200
+>  SYM_CODE_START(startup_64)
+> @@ -537,6 +552,25 @@ SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
+>  	shrq	$3, %rcx
+>  	rep	stosq
+>  
+> +#ifdef CONFIG_SECURE_LAUNCH
+> +	/*
+> +	 * Have to do the final early sl stub work in 64b area.
+> +	 *
+> +	 * *********** NOTE ***********
+> +	 *
+> +	 * Several boot params get used before we get a chance to measure
+> +	 * them in this call. This is a known issue and we currently don't
+> +	 * have a solution. The scratch field doesn't matter and loadflags
+> +	 * have KEEP_SEGMENTS set by the stub code. There is no obvious way
+> +	 * to do anything about the use of kernel_alignment or init_size
+> +	 * though these seem low risk.
+> +	 */
 
+There are various fields in bootparams that depend on where the
+kernel/initrd and cmdline are loaded in memory. If the entire bootparams
+page is getting measured, does that mean they all have to be at fixed
+addresses on every boot?
 
+Also KEEP_SEGMENTS support is gone from the kernel since v5.7, since it
+was unused. startup_32 now always loads a GDT and then the segment
+registers. I think this should be ok for you as the only thing the flag
+used to do in the 64-bit kernel was to stop startup_32 from blindly
+loading __BOOT_DS into the segment registers before it had setup its own
+GDT.
 
+For the 32-bit assembler code that's being added, tip/master now has
+changes that prevent the compressed kernel from having any runtime
+relocations.  You'll need to revise some of the code and the data
+structures initial values to avoid creating relocations.
 
-
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 422f1cfca289..ae1eb67aa0f2 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2018,7 +2018,7 @@ static void read_symbols(const char *modname)
->          if (!mod->is_vmlinux) {
->                  license = get_modinfo(&info, "license");
->                  if (!license)
-> -                       warn("missing MODULE_LICENSE() in %s\n", modname);
-> +                       error("missing MODULE_LICENSE() in %s\n", modname);
->                  while (license) {
->                          if (license_is_gpl_compatible(license))
->                                  mod->gpl_compatible = 1;
->
->
-> If yes, also wondering if we can still add the option to treat warnings
-> as errors as an opt-in behavior?
-
-
-I want to add a new option only when it is necessary to do so.
-
-I am not sure which warnings are real warnings.
-
-
-> Thanks!
-> -Pierre
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Thanks.
