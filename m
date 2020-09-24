@@ -2,195 +2,153 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B8A7C4346E
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 06:39:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D67C4346E
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 06:56:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B13732311A
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 06:39:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB96A20758
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 06:56:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vkNobJS9"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A6fOq1HO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726908AbgIXGjz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 02:39:55 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:37837 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726885AbgIXGjy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 02:39:54 -0400
+        id S1727014AbgIXG4L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 02:56:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727076AbgIXG4L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 02:56:11 -0400
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDFD6C0613CE
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2020 23:56:10 -0700 (PDT)
+Received: by mail-pj1-x104a.google.com with SMTP id y7so1307999pjt.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2020 23:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1600929594; x=1632465594;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=PW0B655DySKTSqtBH4LuirqSOsvQ6UdGky6VjqG365Y=;
-  b=vkNobJS9Yoo7KqqAJXQZR/x7nEV1B1apxzWlV4Su9MZuXqWDv2kkzjbR
-   wX7hWd0V6MYmtETthFoUjVlL7cbhi/61hd/qaau/xOvEFIUAiLiQMQluo
-   KyaGCNTNQ1wd0fZrHLFEZjvgTT7kvG0Hc0mWHbbPR0+bKiXKdr6Hjd30z
-   U=;
-X-IronPort-AV: E=Sophos;i="5.77,296,1596499200"; 
-   d="scan'208";a="77594955"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-168cbb73.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 24 Sep 2020 06:39:42 +0000
-Received: from EX13D31EUA004.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2c-168cbb73.us-west-2.amazon.com (Postfix) with ESMTPS id B322AA1BD4;
-        Thu, 24 Sep 2020 06:39:39 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.35) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 24 Sep 2020 06:39:19 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Shakeel Butt <shakeelb@google.com>
-CC:     SeongJae Park <sjpark@amazon.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@huawei.com>,
-        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
-        "Du, Fan" <fan.du@intel.com>, <foersleo@amazon.de>,
-        Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, Mel Gorman <mgorman@suse.de>,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        "David Rientjes" <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, <rppt@kernel.org>,
-        <sblbir@amazon.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
-        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v20 00/15] Introduce Data Access MONitor (DAMON)
-Date:   Thu, 24 Sep 2020 08:39:03 +0200
-Message-ID: <20200924063903.12432-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod7nA+_hupDrtp-G886XrgmBVf7izs5VH+1mEj6SNnyWJw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.35]
-X-ClientProxiedBy: EX13D43UWC002.ant.amazon.com (10.43.162.172) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=FX0p/GcmPpR3We5nTHUDyc9BUTZhvYJ9+N0VF4ja3D0=;
+        b=A6fOq1HOlUuYS2ejjODUD35m8TFnAilniB8q/he/79yXRI6J7NI/5Ni7kHBCvEkC2m
+         lcXuePvKeAjjCDD7fCMEPX38aVIXcuUWP+W4OMSy0zBk2sxHJx8ra7LETRsT0HIRDyye
+         xSwf61KUpd7wPrXq18JauwkfZwXsMB8awli9ljDrb5XWJlKwH3mlcV56ZLOVPibIG4Ic
+         o/eVdv/JTMLjilq0gn9LEnIdeugRCiuR9+nExc8TyYrfq2ju1CexD/xlhgumusLgQp7o
+         XRzmYIJmWMncSaLiHbfMQfFKTa0htqvMutDnKpI3x/vLO5QTmvQvgoeB0YAL5ijGpOW3
+         0CmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=FX0p/GcmPpR3We5nTHUDyc9BUTZhvYJ9+N0VF4ja3D0=;
+        b=VGlRBP4umCnNKNNddwOlX4brZMi8okgD+IE8H74zw1N53wf4C6jRIaXWa4jGPAGHma
+         VvwmIVlGG9F+Kyqn4bPc9P08IQVETNWpDXfGbRf2CBlTF71zi350b8rTRGXpkNxXy6mP
+         +i92fw1hJU62KSodU+b46d5GH8UFZlaH5bMCLRidq/27I2CrpVTSFHCSoz56+bHBsa37
+         9COiDe/dS8VKv3DJl+/O6TVPCJUPARjOYWy5Ml8enrGRvoBYUXK+90TxkGgfpXFkRrvr
+         4SgzUkeWBDm+++f0jbPqP+kj6Ydf10O44F8zPBXIZZLo6Bi5j4OWRzRjrDkiTNnDdz2E
+         80rQ==
+X-Gm-Message-State: AOAM532I/CwAGSaHY8vfaMA9hykzdfoxU1CO7LG20dRWqX3xO6J23gfI
+        GbdvLigP/y/0ibfI1oeZwIPp1OeUZ4FKVV1etQ==
+X-Google-Smtp-Source: ABdhPJwhRa38PHwfQdB4AKI0fOgdNDJYzEpWP8u7QkJdKT8QhABjPf/lE453ktfsBvnzt0vFPv5CAiF1JPyJRhzdTA==
+Sender: "lokeshgidra via sendgmr" <lokeshgidra@lg.mtv.corp.google.com>
+X-Received: from lg.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:29dd])
+ (user=lokeshgidra job=sendgmr) by 2002:a17:902:82c2:b029:d1:f36a:ab97 with
+ SMTP id u2-20020a17090282c2b02900d1f36aab97mr3356719plz.64.1600930570089;
+ Wed, 23 Sep 2020 23:56:10 -0700 (PDT)
+Date:   Wed, 23 Sep 2020 23:56:04 -0700
+Message-Id: <20200924065606.3351177-1-lokeshgidra@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
+Subject: [PATCH v4 0/2] Control over userfaultfd kernel-fault handling
+From:   Lokesh Gidra <lokeshgidra@google.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Daniel Colascione <dancol@dancol.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kaleshsingh@google.com,
+        calin@google.com, surenb@google.com, nnk@google.com,
+        jeffv@google.com, kernel-team@android.com,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Nitin Gupta <nigupta@nvidia.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 23 Sep 2020 10:04:57 -0700 Shakeel Butt <shakeelb@google.com> wrote:
+This patch series is split from [1]. The other series enables SELinux
+support for userfaultfd file descriptors so that its creation and
+movement can be controlled.
 
-> On Mon, Aug 17, 2020 at 3:52 AM SeongJae Park <sjpark@amazon.com> wrote:
-> >
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > Changes from Previous Version
-> > =============================
-> >
-> > - Place 'CREATE_TRACE_POINTS' after '#include' statements (Steven Rostedt)
-> > - Support large record file (Alkaid)
-> > - Place 'put_pid()' of virtual monitoring targets in 'cleanup' callback
-> > - Avoid conflict between concurrent DAMON users
-> > - Update evaluation result document
-> >
-> > Introduction
-> > ============
-> >
-> > DAMON is a data access monitoring framework subsystem for the Linux kernel.
-> > The core mechanisms of DAMON called 'region based sampling' and 'adaptive
-> > regions adjustment' (refer to 'mechanisms.rst' in the 11th patch of this
-> > patchset for the detail) make it
-> >
-> >  - accurate (The monitored information is useful for DRAM level memory
-> >    management. It might not appropriate for Cache-level accuracy, though.),
-> >  - light-weight (The monitoring overhead is low enough to be applied online
-> >    while making no impact on the performance of the target workloads.), and
-> >  - scalable (the upper-bound of the instrumentation overhead is controllable
-> >    regardless of the size of target workloads.).
-> >
-> > Using this framework, therefore, the kernel's core memory management mechanisms
-> > such as reclamation and THP can be optimized for better memory management.  The
-> > experimental memory management optimization works that incurring high
-> > instrumentation overhead will be able to have another try.  In user space,
-> > meanwhile, users who have some special workloads will be able to write
-> > personalized tools or applications for deeper understanding and specialized
-> > optimizations of their systems.
-> >
-> > Evaluations
-> > ===========
-> >
-> > We evaluated DAMON's overhead, monitoring quality and usefulness using 25
-> > realistic workloads on my QEMU/KVM based virtual machine running a kernel that
-> > v20 DAMON patchset is applied.
-> >
-> > DAMON is lightweight.  It increases system memory usage by 0.12% and slows
-> > target workloads down by 1.39%.
-> >
-> > DAMON is accurate and useful for memory management optimizations.  An
-> > experimental DAMON-based operation scheme for THP, 'ethp', removes 88.16% of
-> > THP memory overheads while preserving 88.73% of THP speedup.  Another
-> > experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
-> > reduces 91.34% of residential sets and 25.59% of system memory footprint while
-> > incurring only 1.58% runtime overhead in the best case (parsec3/freqmine).
-> >
-> > NOTE that the experimentail THP optimization and proactive reclamation are not
-> > for production but just only for proof of concepts.
-> >
-> > Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
-> > a document for DAMON" patch in this patchset for detailed evaluation setup and
-> > results.
-> >
-> > [1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
-> >
-> 
-> 
-> Hi SeongJae,
-> 
-> Sorry for the late response. I will start looking at this series in
-> more detail in the next couple of weeks.
+It has been demonstrated on various occasions that suspending kernel
+code execution for an arbitrary amount of time at any access to
+userspace memory (copy_from_user()/copy_to_user()/...) can be exploited
+to change the intended behavior of the kernel. For instance, handling
+page faults in kernel-mode using userfaultfd has been exploited in [2, 3].
+Likewise, FUSE, which is similar to userfaultfd in this respect, has been
+exploited in [4, 5] for similar outcome.
 
-Thank you so much!
+This small patch series adds a new flag to userfaultfd(2) that allows
+callers to give up the ability to handle kernel-mode faults with the
+resulting UFFD file object. It then adds a 'user-mode only' option to
+the unprivileged_userfaultfd sysctl knob to require unprivileged
+callers to use this new flag.
 
-> I have a couple of high level comments for now.
-> 
-> 1) Please explain in the cover letter why someone should prefer to use
-> DAMON instead of Page Idle Tracking.
+The purpose of this new interface is to decrease the chance of an
+unprivileged userfaultfd user taking advantage of userfaultfd to
+enhance security vulnerabilities by lengthening the race window in
+kernel code.
 
-In short, because DAMON provides overhead-quality tradeoff and allow use of
-variable monitoring primitives other than only PG_Idle and PTE Accessed bits.
-I will explain this in detail in the cover letter of the next version of this
-patchset.
+[1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@google.com/
+[2] https://duasynt.com/blog/linux-kernel-heap-spray
+[3] https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit
+[4] https://googleprojectzero.blogspot.com/2016/06/exploiting-recursion-in-linux-kernel_20.html
+[5] https://bugs.chromium.org/p/project-zero/issues/detail?id=808
 
-> 
-> 2) Also add what features Page Idle Tracking provides which the first
-> version of DAMON does not provide (like page level tracking, physical
-> or unmapped memory tracking e.t.c) and tell if you plan to add such
-> features to DAMON in future. Basically giving reasons to not block the
-> current version of DAMON until it is feature-rich.
+Changes since v3:
 
-In short, DAMON will provide only virtual address space monitoring by default
-but I believe the lack of features because DAMON is expandable for those.
-Also, I will make DAMON co-exists with Idle Page Tracking again.  I will post
-another RFC patchset for this soon.  Again, I will describe this in detail in
-the next version of the cover letter.
+  - Modified the meaning of value '0' of unprivileged_userfaultfd
+    sysctl knob. Setting this knob to '0' now allows unprivileged users
+    to use userfaultfd, but can handle page faults in user-mode only.
+  - The default value of unprivileged_userfaultfd sysctl knob is changed
+    to '0'.
 
-> 
-> 3) I think in the first mergeable version of DAMON, I would prefer to
-> have support to control (create/delete/account) the DAMON context. You
-> already have a RFC series on it. I would like to have that series part
-> of this one.
+Changes since v2:
 
-Ok, I will apply it here.
+  - Removed 'uffd_flags' and directly used 'UFFD_USER_MODE_ONLY' in
+    userfaultfd().
 
+Changes since v1:
 
-Thanks,
-SeongJae Park
+  - Added external references to the threats from allowing unprivileged
+    users to handle page faults from kernel-mode.
+  - Removed the new sysctl knob restricting handling of page
+    faults from kernel-mode, and added an option for the same
+    in the existing 'unprivileged_userfaultfd' knob.
+
+Lokesh Gidra (2):
+  Add UFFD_USER_MODE_ONLY
+  Add user-mode only option to unprivileged_userfaultfd sysctl knob
+
+ Documentation/admin-guide/sysctl/vm.rst | 15 ++++++++++-----
+ fs/userfaultfd.c                        | 12 +++++++++---
+ include/uapi/linux/userfaultfd.h        |  9 +++++++++
+ 3 files changed, 28 insertions(+), 8 deletions(-)
+
+-- 
+2.28.0.681.g6f77f65b4e-goog
+
