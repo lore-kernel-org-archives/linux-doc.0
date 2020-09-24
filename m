@@ -2,124 +2,89 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C979C2D0E2
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:22:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 581F6C4363D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:23:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45882239EE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600946544;
-	bh=tSrMjh6Tp12F91iwQGjfztE81iQr93TgUJgtnz2nFkw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CEqiVgrJB/ncJySQVEJ3RgFZ6/zBmq1qVB4HlgU9sRNx00wgwZ/KAluIZYSb/zRzD
-	 d3I5XOq2lCoC27V8JNWcT9gpFnFMl242SKpu0DdXp1k6iGf2BGKXhrgobht59erLuE
-	 s7IYIrMZnFPLgcXZZi/vmgV3adMYNBMTuQFDccxQ=
+	by mail.kernel.org (Postfix) with ESMTP id 0327B239A1
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:23:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rMBUvIGc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbgIXLWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 07:22:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49456 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726483AbgIXLWM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Sep 2020 07:22:12 -0400
-Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB78E2396E;
-        Thu, 24 Sep 2020 11:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600946532;
-        bh=tSrMjh6Tp12F91iwQGjfztE81iQr93TgUJgtnz2nFkw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bSeH9EaLIUTTpJLk0icANW25BYYnoH9u2e/WtucDsWSrE5G7wiedatFCst+b/UxV6
-         s8AnEtvh0fbHz09JedBhw4QnSquf+sWgOPoH0dODQhEz1yzjGEUSjsZ25rsY0swISB
-         Fkgm6jUCLCDmmiXnQU1bej48tZ6PGjFHhzVtDsTE=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kLPKD-000AES-Fp; Thu, 24 Sep 2020 13:22:09 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH 0/2] Start supporting builds with Sphinx 3.1+
-Date:   Thu, 24 Sep 2020 13:22:03 +0200
-Message-Id: <cover.1600945712.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200924090230.6f3b0ca1@coco.lan>
-References: <20200924090230.6f3b0ca1@coco.lan>
+        id S1727174AbgIXLXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 07:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbgIXLXX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 07:23:23 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ABE5C0613CE;
+        Thu, 24 Sep 2020 04:23:23 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id q12so1493308plr.12;
+        Thu, 24 Sep 2020 04:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=0Yw4y12mYXqqzBAefSKmQPErnuJA8Bd/3bClQhft1f4=;
+        b=rMBUvIGc+BcQpRaPLrLivcdmH5/cNfPYvjpayM+lekuyx8VuxAhksOC6eg4D/J9YEe
+         Mx4Xx3+Ru6ERuUByDfqCq5nDbZfyAoWjwZkapKrhQ4x20ah5C+kkeds3Op/Ip+IHxR0K
+         eYZs1Sts6KLRBwFzGasrN1PUVPZylc+Su+BsvPnXeR9qjCakGD5GttsJKcS1SPdWL0aN
+         jBup4W2fDsIe+iqtQmc2Ts8DDrtg5QekDonZnvDcfwKFkZlJUszutBsiIJRThNxgjmXs
+         i8czb5FnZOoyVWEHlafhNN3qbPx9ZBcwhkTu6qJhUzFwsDw20o4i+nzfkVXynAWn0fJq
+         nS4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=0Yw4y12mYXqqzBAefSKmQPErnuJA8Bd/3bClQhft1f4=;
+        b=nI/qoArTWMzBfsFEYYVlQGcE2FTL38T8iJ3Upb7FRMHLmU0kipiaTRoh4kxzLmkRH6
+         jqi+HhbUdE/TaWN3qwb+7SlQtS3tClxwqvDjuXcuKJf6iYNLhp9zQMB3kVKUED6+Vzk2
+         2asS+8P9kf0A7xv1oZcYg50LkDIMN1aQjuG9Kl6t8Zi4qDg5XpyaYj4iMUD9p14UJJkT
+         Z4l+CJXB1GoPqgCgkYADd4Pm8wOaqiNazaHrDOP9F5ymTcb254IjyY2m6HkWScbiaG2h
+         0rzcZsfp/UwA1F4svLAVmBg/zHWuXRpBSr0H4e1Rd7WxjGLK87g7G7yocPzBXrm1cU5M
+         q72A==
+X-Gm-Message-State: AOAM533eCA1DfvxB0yG+jvhGb7C2SVaJaB0fwz4ufQoijdujTLJoUHhI
+        UFEQfoGTr/zufA0Tdju10On7eietA3ofXPDA
+X-Google-Smtp-Source: ABdhPJxNrpc1T1RzR987qCLYFRPoqeSupCopENIpU/JLVTz9WxgvLwLNb59t0zxAPzjfTznserHVnA==
+X-Received: by 2002:a17:902:82c7:b029:d2:2a0b:f0c7 with SMTP id u7-20020a17090282c7b02900d22a0bf0c7mr4053217plz.30.1600946602591;
+        Thu, 24 Sep 2020 04:23:22 -0700 (PDT)
+Received: from adolin ([49.207.208.43])
+        by smtp.gmail.com with ESMTPSA id k3sm2768096pfp.41.2020.09.24.04.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2020 04:23:21 -0700 (PDT)
+Date:   Thu, 24 Sep 2020 16:53:16 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     Julia.Lawall@lip6.fr
+Cc:     corbet@lwn.net, Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, cocci@systeme.lip6.fr,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH 0/2] Improve Coccinelle Parallelisation
+Message-ID: <cover.1600945451.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+Coccinelle utilises all available threads to implement parallelisation.
+However, this results in a decrease in performance.
 
-This is a small patch series with just two patches.
+This patchset aims to improve performance by modifying cocciccheck to
+use at most one thread per core by default.
 
-The first one adds support at cdomain.py for two notations found on
-Sphinx 3.1:
+Sumera Priyadarsini (2):
+  scripts: coccicheck: Change default value for parallelism
+  Documentation: Coccinelle: Modify parallelisation information in docs
 
-	:c:expr:
-	.. c:namespace::
-
-With that, it should now be possible to use those two C domain
-tags at the media documentation, which will make it produce a
-decent result with both Sphinx 1.x/2.x and Sphinx 3.1+.
-
-The second patch manually changes the CEC documentation in
-order for it to use those macros, instead of relying at the original
-cdomain extensions.
-
-I tested building the docs with both Sphinx 2.4.4 and 3.2.1.
-They are identical, except by a minor difference:  the output of
-:c:expr: uses a bold monospaced font with 3.1+, while it uses a
-non-bold monospaced font with older versions.
-
-Yet, the output looks decent on both versions.
-
-I'm planning to use the same approach on all the other documents
-under userspace-api/media. So, I guess it would be easier if
-I could merge both the cdomain.py and the media patches via
-the media tree, if this is ok for you.
-
--
-
-With regards to patch 1, I tried first to use a hook at 'doctree-resolved',
-just like the automarkup.py, but that is too late for  changing the
-namespace. So, I ended hooking the extra logic at 'source-read'.
-
-I suspect that this could be implemented on some other ways, but
-this can be optimized later on, if needed.
-
-Mauro Carvalho Chehab (2):
-  docs: cdomain.py: add support for two new Sphinx 3.1+ tags
-  media: docs: make CEC documents compatible with Sphinx 3.1+
-
- Documentation/sphinx/cdomain.py               | 56 ++++++++++++++++++-
- .../media/cec/cec-func-close.rst              |  7 ++-
- .../media/cec/cec-func-ioctl.rst              |  7 ++-
- .../userspace-api/media/cec/cec-func-open.rst |  7 ++-
- .../userspace-api/media/cec/cec-func-poll.rst | 11 ++--
- .../media/cec/cec-ioc-adap-g-caps.rst         |  9 ++-
- .../media/cec/cec-ioc-adap-g-conn-info.rst    | 11 ++--
- .../media/cec/cec-ioc-adap-g-log-addrs.rst    | 14 +++--
- .../media/cec/cec-ioc-adap-g-phys-addr.rst    | 14 +++--
- .../media/cec/cec-ioc-dqevent.rst             |  9 ++-
- .../media/cec/cec-ioc-g-mode.rst              | 14 +++--
- .../media/cec/cec-ioc-receive.rst             | 14 +++--
- 12 files changed, 128 insertions(+), 45 deletions(-)
+ Documentation/dev-tools/coccinelle.rst | 4 ++--
+ scripts/coccicheck                     | 5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
 -- 
-2.26.2
-
+2.25.1
 
