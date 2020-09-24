@@ -6,38 +6,35 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42329C4363D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:45:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB3FC4363D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:46:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 098A420936
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:45:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DFFD22208
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:46:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727153AbgIXQpy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 12:45:54 -0400
-Received: from ms.lwn.net ([45.79.88.28]:59212 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727330AbgIXQpy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Sep 2020 12:45:54 -0400
+        id S1726897AbgIXQqc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 12:46:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50888 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726477AbgIXQqc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 12:46:32 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED6FC0613CE;
+        Thu, 24 Sep 2020 09:46:32 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EEC5D77D;
-        Thu, 24 Sep 2020 16:45:51 +0000 (UTC)
-Date:   Thu, 24 Sep 2020 10:45:49 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id DD8C877D;
+        Thu, 24 Sep 2020 16:46:31 +0000 (UTC)
+Date:   Thu, 24 Sep 2020 10:46:28 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tian Tao <tiantao6@hisilicon.com>
-Cc:     <keescook@chromium.org>, <anton@enomsg.org>, <ccross@android.com>,
-        <tony.luck@intel.com>, <paulmck@kernel.org>, <tglx@linutronix.de>,
-        <akpm@linux-foundation.org>, <bp@suse.de>,
-        <mchehab+huawei@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
-        <rdunlap@infradead.org>, <mike.kravetz@oracle.com>,
-        <oneukum@suse.com>, <gpiccoli@canonical.com>,
-        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>
-Subject: Re: [PATCH v2] Documentation: Remove CMA's dependency on
- architecture
-Message-ID: <20200924104549.0e77e40d@lwn.net>
-In-Reply-To: <1600412758-60545-1-git-send-email-tiantao6@hisilicon.com>
-References: <1600412758-60545-1-git-send-email-tiantao6@hisilicon.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/admin-guide: kernel-parameters: fix
+ "disable_ddw" wording
+Message-ID: <20200924104628.61cd42d5@lwn.net>
+In-Reply-To: <20200918054803.6588-1-rdunlap@infradead.org>
+References: <20200918054803.6588-1-rdunlap@infradead.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,26 +43,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Sep 2020 15:05:58 +0800
-Tian Tao <tiantao6@hisilicon.com> wrote:
+On Thu, 17 Sep 2020 22:48:03 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> CMA only depends on MMU. It doesn't depend on arch too much. such as ARM,
-> ARM64, X86, MIPS etc. so We remove the dependency of cma about the
-> architecture in kernel-parameters.txt.
+> Drop and extraneous word (if) in a sentence.
 > 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-
-Applied, thanks.  One small request, though:
-
-> v2:
-> rewrite the patch, patch name, commit messages.
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  Documentation/admin-guide/kernel-parameters.txt |    2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-
-The "v2:" information should appear after the "---" line so I don't have
-to edit it out manually.
-
-Thanks,
+> 
+> --- linux-next-20200917.orig/Documentation/admin-guide/kernel-parameters.txt
+> +++ linux-next-20200917/Documentation/admin-guide/kernel-parameters.txt
+> @@ -951,7 +951,7 @@
+>  			Arch Perfmon v4 (Skylake and newer).
+>  
+>  	disable_ddw	[PPC/PSERIES]
+> -			Disable Dynamic DMA Window support. Use this if
+> +			Disable Dynamic DMA Window support. Use this
+>  			to workaround buggy firmware.
+>  
+Applied, thanks.
 
 jon
