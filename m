@@ -2,41 +2,40 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,PDS_TONAME_EQ_TOLOCAL_SHORT,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8566EC4363D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:41:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3735C4363D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:44:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38E622396D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:41:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E02720738
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbgIXQlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 12:41:44 -0400
-Received: from ms.lwn.net ([45.79.88.28]:59178 "EHLO ms.lwn.net"
+        id S1727010AbgIXQoD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 12:44:03 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59198 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726915AbgIXQlo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Sep 2020 12:41:44 -0400
+        id S1726645AbgIXQoD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Sep 2020 12:44:03 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7D89277D;
-        Thu, 24 Sep 2020 16:41:43 +0000 (UTC)
-Date:   Thu, 24 Sep 2020 10:41:41 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A14022CB;
+        Thu, 24 Sep 2020 16:44:02 +0000 (UTC)
+Date:   Thu, 24 Sep 2020 10:43:57 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bailu Lin <bailu.lin@vivo.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, harryxiyou@gmail.com,
-        alex.shi@linux.alibaba.com, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@vivo.com
-Subject: Re: [PATCH v2] Documentation: Chinese translation of
- Documentation/arm64/amu.rst
-Message-ID: <20200924104141.7abc7271@lwn.net>
-In-Reply-To: <20200918092136.23190-1-bailu.lin@vivo.com>
-References: <20200915025822.29885-1-bailu.lin@vivo.com>
-        <20200918092136.23190-1-bailu.lin@vivo.com>
+To:     lijiang <lijiang@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        vgoyal@redhat.com
+Subject: Re: [PATCH v2] docs: admin-guide: update kdump documentation due to
+ change of crash URL
+Message-ID: <20200924104357.7729210e@lwn.net>
+In-Reply-To: <a088bff5-1174-25fa-ac26-6e46795f4085@redhat.com>
+References: <20200918080958.19841-1-lijiang@redhat.com>
+        <a088bff5-1174-25fa-ac26-6e46795f4085@redhat.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,38 +44,18 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Sep 2020 02:21:36 -0700
-Bailu Lin <bailu.lin@vivo.com> wrote:
+On Thu, 24 Sep 2020 09:56:02 +0800
+lijiang <lijiang@redhat.com> wrote:
 
-> This is a Chinese translated version of Documentation/arm64/amu.rst
+> Since crash utility has been moved to github, the original URL is no
+> longer available. Let's update it accordingly.
 > 
-> Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+> Suggested-by: Dave Young <dyoung@redhat.com>
+> Signed-off-by: Lianbo Jiang <lijiang@redhat.com>
 > ---
-> Changes in v2:
->  - Add index to arm64 directoy.
->  - Fix a document format error.
->  - Correct email encoding format.
-> ---
->  Documentation/arm64/amu.rst                   |   4 +
->  .../translations/zh_CN/arm64/amu.rst          | 102 ++++++++++++++++++
->  .../translations/zh_CN/arm64/index.rst        |   2 +
->  3 files changed, 108 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/arm64/amu.rst
-> 
-> diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
-> index 452ec8b115c2..a97d1e18876d 100644
-> --- a/Documentation/arm64/amu.rst
-> +++ b/Documentation/arm64/amu.rst
-> @@ -1,3 +1,7 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _amu_index:
-> +
+>  Documentation/admin-guide/kdump/kdump.rst | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
-So that's not a translation, it's an unrelated change that doesn't belong
-in this patch.  Asserting a license always needs to be done carefully, and
-it needs to be called out as such.
-
-Thanks,
+Applied, thanks.
 
 jon
