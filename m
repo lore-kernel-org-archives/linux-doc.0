@@ -2,138 +2,403 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD86C4363D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 12:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D87AC2D0E2
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 14:58:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA76621D24
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 12:47:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 511AD206C3
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 14:58:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZOLJzYtd"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IahnXl8H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727919AbgIXMrL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 08:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42072 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727788AbgIXMrJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 08:47:09 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86431C0613CE
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2020 05:47:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To;
-        bh=oN/eolXZY9u+LKnpVrUX4gJQ+gqfCB4thtUFDwSk17s=; b=ZOLJzYtdbnHYdOx5Bdt6MzSKbl
-        NrGjeCpLtNFCtn2bzF7+yj7aXeVjC9boFq7LLXzGpt6ZIdkkHOutz7tLc0WuwU1VEKCJer2Y5lT6U
-        gTwaUEto01pwqlw3rMFxuRtxj94vX8UgKnD37rLKEU4CewkKRW+BKXYfJ4x1a8wpTQErL/4UcVC0L
-        oEEhe53B1ovBZcCC1soKQnaZSRGW+C3RuJ9dHn9328PpjEgx5sxQF2KAgyNZYo7J7g8LTHtudu+CP
-        +yzfQsfx/bZG5uU97dfWG4X1WS69HwHAQNE8AI5vR7lW/GMXnBlH/3IXf9FCy/q6TtsajaIh9a8+g
-        KZ0rLygw==;
-Received: from ip5f5ad5c4.dynamic.kabel-deutschland.de ([95.90.213.196] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kLQeP-0007WT-HI; Thu, 24 Sep 2020 12:47:05 +0000
-Date:   Thu, 24 Sep 2020 14:47:03 +0200
-From:   Mauro Carvalho Chehab <mchehab@infradead.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Markus Heiser <markus.heiser@darmarit.de>
-Subject: Re: [PATCH RFC] Make the docs build "work" with Sphinx 3.x
-Message-ID: <20200924144703.33202e24@coco.lan>
-References: <20200904102925.52fcd2a1@lwn.net>
-        <20200921222639.GY32101@casper.infradead.org>
-        <87sgbaqnp9.fsf@intel.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+        id S1728434AbgIXO6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 10:58:42 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:57270 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728408AbgIXO6l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 10:58:41 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OErXvv101502;
+        Thu, 24 Sep 2020 14:58:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
+ bh=EG2cDtHDj3afXnJV2kE6YpRWdf+r6HX61ECzGa4txCg=;
+ b=IahnXl8HN8sriDPY4qBMrEjj0cpksyu87777AgCnlvd433L2GxdhBXGtxsMEOGY9XJS4
+ ZEpHEMeTn9bto6biMUo0YVi6HXHhjxTatqGsxxDU6U9l51BJtRD5OZh/3C4l9VMoDecM
+ s1keeIlhTS4GOZtB3M4ZBZ6h0Cj/Btyo5okriT/MoTsa7f9lH8yEXDghi0arnwaabujR
+ HU79PSfaeOz//T2ikWpn3fLVGDTFq/n+98HenF/JDAozyeDFcguPdMjszMfvlorZzpkN
+ cnajd4BEXtXUXQOvY2LKs6uVX7JJC4ZhdeLftfXLafbt4W6gNBIWEEjluMWCztoPb3Ha DQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 33qcpu5qcr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 24 Sep 2020 14:58:20 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OEtUQZ159389;
+        Thu, 24 Sep 2020 14:58:19 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 33nux2vwnf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 24 Sep 2020 14:58:19 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OEwGIx016161;
+        Thu, 24 Sep 2020 14:58:16 GMT
+Received: from disposition.us.oracle.com (/10.152.32.81)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 24 Sep 2020 07:58:16 -0700
+From:   Ross Philipson <ross.philipson@oracle.com>
+To:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        luto@amacapital.net, trenchboot-devel@googlegroups.com
+Subject: [PATCH 10/13] x86: Secure Launch adding event log securityfs
+Date:   Thu, 24 Sep 2020 10:58:38 -0400
+Message-Id: <1600959521-24158-11-git-send-email-ross.philipson@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009240114
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
+ adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 spamscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009240114
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 23 Sep 2020 14:31:55 +0200
-Mauro Carvalho Chehab <mchehab@infradead.org> escreveu:
+From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
 
-> Em Tue, 22 Sep 2020 10:23:46 +0300
-> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-> 
-> > On Mon, 21 Sep 2020, Matthew Wilcox <willy@infradead.org> wrote:  
-> > > On Fri, Sep 04, 2020 at 10:29:25AM -0600, Jonathan Corbet wrote:    
-> > >> +# cdomain is badly broken in Sphinx 3+.  Leaving it out generates *most*
-> > >> +# of the docs correctly, but not all.  Scream bloody murder but allow
-> > >> +# the process to proceed; hopefully somebody will fix this properly soon.
-> > >> +#
-> > >> +if major >= 3:
-> > >> +    sys.stderr.write('''WARNING: The kernel documentation build process
-> > >> +	does not work correctly with Sphinx v3.0 and above.  Expect errors
-> > >> +	in the generated output.    
-> > >
-> > > Should we be converting the kernel-doc script to output 3.0-style markup
-> > > for structs?    
-> > 
-> > IIUC it's not backwards compatible with Sphinx pre-3.0, so you'd either
-> > have to require Sphinx 3.0 or have kernel-doc emit both, depending on
-> > the Sphinx version.  
-> 
-> Well, making kernel-doc to emit both may be not too hard, as it
-> could be doing something like:
+The late init functionality registers securityfs nodes to allow access
+to TXT register fields on Intel along with the fetching of and writing
+events to the late launch TPM log.
 
-Hi Jani,
+Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+Signed-off-by: garnetgrimm <grimmg@ainfosec.com>
+---
+ arch/x86/kernel/slaunch.c | 293 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 292 insertions(+), 1 deletion(-)
 
-> 
-> <snp
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 0a102d57437d..0605949db383 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -50,6 +50,7 @@ if major >= 3:
->  	does not work correctly with Sphinx v3.0 and above.  Expect errors
->  	in the generated output.
->  	''')
-> +    tags.add('sphinx3')
->  else:
->      extensions.append('cdomain')
->  
-> diff --git a/Documentation/userspace-api/media/v4l/v4l2.rst b/Documentation/userspace-api/media/v4l/v4l2.rst
-> index ad7a2bf0cf26..5007f33a7920 100644
-> --- a/Documentation/userspace-api/media/v4l/v4l2.rst
-> +++ b/Documentation/userspace-api/media/v4l/v4l2.rst
-> @@ -3,6 +3,10 @@
->  
->  .. _v4l2spec:
->  
-> +.. only: sphinx3
-> +
-> +   .. c:namespace:: v4l_uAPI
-> +
->  ############################
->  Part I - Video for Linux API
->  ############################
-> @@ -416,3 +420,7 @@ Second draft, with corrections pointed out by Gerd Knorr.
->  
->  First draft, based on documentation by Bill Dirks and discussions on the
->  V4L mailing list.
-> +
-> +.. only: sphinx3
-> +
-> +   .. c:namespace:: NULL
+diff --git a/arch/x86/kernel/slaunch.c b/arch/x86/kernel/slaunch.c
+index e040e32..7bdb89e 100644
+--- a/arch/x86/kernel/slaunch.c
++++ b/arch/x86/kernel/slaunch.c
+@@ -8,7 +8,7 @@
+  *
+  * Author(s):
+  *     Daniel P. Smith <dpsmith@apertussolutions.com>
+- *
++ *     Garnet T. Grimm <grimmg@ainfosec.com>
+  */
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+@@ -493,3 +493,294 @@ void __init slaunch_setup(void)
+ 	    vendor[3] == INTEL_CPUID_MFGID_EDX)
+ 		slaunch_setup_intel();
+ }
++
++#define SL_FS_ENTRIES		10
++/* root directory node must be last */
++#define SL_ROOT_DIR_ENTRY	(SL_FS_ENTRIES - 1)
++#define SL_TXT_DIR_ENTRY	(SL_FS_ENTRIES - 2)
++#define SL_TXT_FILE_FIRST	(SL_TXT_DIR_ENTRY - 1)
++#define SL_TXT_ENTRY_COUNT	7
++
++#define DECLARE_TXT_PUB_READ_U(size, fmt, msg_size)			\
++static ssize_t txt_pub_read_u##size(unsigned int offset,		\
++		loff_t *read_offset,					\
++		size_t read_len,					\
++		char __user *buf)					\
++{									\
++	void __iomem *txt;						\
++	char msg_buffer[msg_size];					\
++	u##size reg_value = 0;						\
++	txt = ioremap(TXT_PUB_CONFIG_REGS_BASE,				\
++			TXT_NR_CONFIG_PAGES * PAGE_SIZE);		\
++	if (IS_ERR(txt))						\
++		return PTR_ERR(txt);					\
++	memcpy_fromio(&reg_value, txt + offset, sizeof(u##size));	\
++	iounmap(txt);							\
++	snprintf(msg_buffer, msg_size, fmt, reg_value);			\
++	return simple_read_from_buffer(buf, read_len, read_offset,	\
++			&msg_buffer, msg_size);				\
++}
++
++DECLARE_TXT_PUB_READ_U(8, "%#04x\n", 6);
++DECLARE_TXT_PUB_READ_U(32, "%#010x\n", 12);
++DECLARE_TXT_PUB_READ_U(64, "%#018llx\n", 20);
++
++#define DECLARE_TXT_FOPS(reg_name, reg_offset, reg_size)		\
++static ssize_t txt_##reg_name##_read(struct file *flip,			\
++		char __user *buf, size_t read_len, loff_t *read_offset)	\
++{									\
++	return txt_pub_read_u##reg_size(reg_offset, read_offset,	\
++			read_len, buf);					\
++}									\
++static const struct file_operations reg_name##_ops = {			\
++	.read = txt_##reg_name##_read,					\
++}
++
++DECLARE_TXT_FOPS(sts, TXT_CR_STS, 64);
++DECLARE_TXT_FOPS(ests, TXT_CR_ESTS, 8);
++DECLARE_TXT_FOPS(errorcode, TXT_CR_ERRORCODE, 32);
++DECLARE_TXT_FOPS(didvid, TXT_CR_DIDVID, 64);
++DECLARE_TXT_FOPS(e2sts, TXT_CR_E2STS, 64);
++DECLARE_TXT_FOPS(ver_emif, TXT_CR_VER_EMIF, 32);
++DECLARE_TXT_FOPS(scratchpad, TXT_CR_SCRATCHPAD, 64);
++
++/*
++ * Securityfs exposure
++ */
++struct memfile {
++	char *name;
++	void *addr;
++	size_t size;
++};
++
++static struct memfile sl_evtlog = {"eventlog", 0, 0};
++static void *txt_heap;
++static struct txt_heap_event_log_pointer2_1_element __iomem *evtlog20;
++static DEFINE_MUTEX(sl_evt_log_mutex);
++
++static ssize_t sl_evtlog_read(struct file *file, char __user *buf,
++			      size_t count, loff_t *pos)
++{
++	ssize_t size;
++
++	if (!sl_evtlog.addr)
++		return 0;
++
++	mutex_lock(&sl_evt_log_mutex);
++	size = simple_read_from_buffer(buf, count, pos, sl_evtlog.addr,
++				       sl_evtlog.size);
++	mutex_unlock(&sl_evt_log_mutex);
++
++	return size;
++}
++
++static ssize_t sl_evtlog_write(struct file *file, const char __user *buf,
++				size_t datalen, loff_t *ppos)
++{
++	char *data;
++	ssize_t result;
++
++	if (!sl_evtlog.addr)
++		return 0;
++
++	/* No partial writes. */
++	result = -EINVAL;
++	if (*ppos != 0)
++		goto out;
++
++	data = memdup_user(buf, datalen);
++	if (IS_ERR(data)) {
++		result = PTR_ERR(data);
++		goto out;
++	}
++
++	mutex_lock(&sl_evt_log_mutex);
++	if (evtlog20)
++		result = tpm20_log_event(evtlog20, sl_evtlog.addr,
++					 datalen, data);
++	else
++		result = tpm12_log_event(sl_evtlog.addr, datalen, data);
++	mutex_unlock(&sl_evt_log_mutex);
++
++	kfree(data);
++out:
++	return result;
++}
++
++static const struct file_operations sl_evtlog_ops = {
++	.read = sl_evtlog_read,
++	.write = sl_evtlog_write,
++	.llseek	= default_llseek,
++};
++
++static struct dentry *fs_entries[SL_FS_ENTRIES];
++
++struct sfs_file {
++	int parent;
++	const char *name;
++	const struct file_operations *fops;
++};
++
++static const struct sfs_file sl_files[] = {
++	{ SL_TXT_DIR_ENTRY, "sts", &sts_ops },
++	{ SL_TXT_DIR_ENTRY, "ests", &ests_ops },
++	{ SL_TXT_DIR_ENTRY, "errorcode", &errorcode_ops },
++	{ SL_TXT_DIR_ENTRY, "didvid", &didvid_ops },
++	{ SL_TXT_DIR_ENTRY, "ver_emif", &ver_emif_ops },
++	{ SL_TXT_DIR_ENTRY, "scratchpad", &scratchpad_ops },
++	{ SL_TXT_DIR_ENTRY, "e2sts", &e2sts_ops }
++};
++
++static int sl_create_file(int entry, int parent, const char *name,
++		const struct file_operations *ops)
++{
++	if (entry < 0 || entry > SL_TXT_DIR_ENTRY)
++		return -EINVAL;
++	fs_entries[entry] = securityfs_create_file(name, 0440,
++			fs_entries[parent], NULL, ops);
++	if (IS_ERR(fs_entries[entry])) {
++		pr_err("Error creating securityfs %s file\n", name);
++		return PTR_ERR(fs_entries[entry]);
++	}
++	return 0;
++}
++
++static long slaunch_expose_securityfs(void)
++{
++	long ret = 0;
++	int i = 0;
++
++	fs_entries[SL_ROOT_DIR_ENTRY] = securityfs_create_dir("slaunch", NULL);
++	if (IS_ERR(fs_entries[SL_ROOT_DIR_ENTRY])) {
++		pr_err("Error creating securityfs slaunch root directory\n");
++		ret = PTR_ERR(fs_entries[SL_ROOT_DIR_ENTRY]);
++		goto err;
++	}
++
++	if (sl_flags & SL_FLAG_ARCH_TXT) {
++		fs_entries[SL_TXT_DIR_ENTRY] = securityfs_create_dir("txt",
++				fs_entries[SL_ROOT_DIR_ENTRY]);
++		if (IS_ERR(fs_entries[SL_TXT_DIR_ENTRY])) {
++			pr_err("Error creating securityfs txt directory\n");
++			ret = PTR_ERR(fs_entries[SL_TXT_DIR_ENTRY]);
++			goto err_dir;
++		}
++
++		for (i = 0; i < SL_TXT_ENTRY_COUNT; i++) {
++			ret = sl_create_file(SL_TXT_FILE_FIRST - i,
++					sl_files[i].parent, sl_files[i].name,
++					sl_files[i].fops);
++			if (ret)
++				goto err_dir;
++		}
++	}
++
++	if (sl_evtlog.addr > 0) {
++		ret = sl_create_file(0, SL_ROOT_DIR_ENTRY, sl_evtlog.name,
++				&sl_evtlog_ops);
++		if (ret)
++			goto err_dir;
++	}
++
++	return 0;
++
++err_dir:
++	for (i = 0; i <= SL_ROOT_DIR_ENTRY; i++)
++		securityfs_remove(fs_entries[i]);
++err:
++	return ret;
++}
++
++static void slaunch_teardown_securityfs(void)
++{
++	int i;
++
++	for (i = 0; i < SL_FS_ENTRIES; i++)
++		securityfs_remove(fs_entries[i]);
++
++	if (sl_flags & SL_FLAG_ARCH_TXT) {
++		if (sl_evtlog.addr) {
++			memunmap(sl_evtlog.addr);
++			sl_evtlog.addr = NULL;
++		}
++		sl_evtlog.size = 0;
++		if (txt_heap) {
++			memunmap(txt_heap);
++			txt_heap = NULL;
++		}
++	}
++}
++
++static void slaunch_intel_evtlog(void)
++{
++	void __iomem *config;
++	struct txt_os_mle_data *params;
++	void *os_sinit_data;
++	u64 base, size;
++
++	config = ioremap(TXT_PUB_CONFIG_REGS_BASE, TXT_NR_CONFIG_PAGES *
++			 PAGE_SIZE);
++	if (!config) {
++		pr_err("Error failed to ioremap TXT reqs\n");
++		return;
++	}
++
++	memcpy_fromio(&base, config + TXT_CR_HEAP_BASE, sizeof(u64));
++	memcpy_fromio(&size, config + TXT_CR_HEAP_SIZE, sizeof(u64));
++	iounmap(config);
++
++	/* now map TXT heap */
++	txt_heap = memremap(base, size, MEMREMAP_WB);
++	if (!txt_heap) {
++		pr_err("Error failed to memremap TXT heap\n");
++		return;
++	}
++
++	params = (struct txt_os_mle_data *)txt_os_mle_data_start(txt_heap);
++
++	sl_evtlog.size = params->evtlog_size;
++	sl_evtlog.addr = memremap(params->evtlog_addr, params->evtlog_size,
++				  MEMREMAP_WB);
++	if (!sl_evtlog.addr) {
++		pr_err("Error failed to memremap TPM event log\n");
++		return;
++	}
++
++	/* Determine if this is TPM 1.2 or 2.0 event log */
++	if (memcmp(sl_evtlog.addr + sizeof(struct tpm12_pcr_event),
++		    TPM20_EVTLOG_SIGNATURE, sizeof(TPM20_EVTLOG_SIGNATURE)))
++		return; /* looks like it is not 2.0 */
++
++	/* For TPM 2.0 logs, the extended heap element must be located */
++	os_sinit_data = txt_os_sinit_data_start(txt_heap);
++
++	evtlog20 = tpm20_find_log2_1_element(os_sinit_data);
++
++	/*
++	 * If this fails, things are in really bad shape. Any attempt to write
++	 * events to the log will fail.
++	 */
++	if (!evtlog20)
++		pr_err("Error failed to find TPM20 event log element\n");
++}
++
++static int __init slaunch_late_init(void)
++{
++	/* Check to see if Secure Launch happened */
++	if (!(sl_flags & (SL_FLAG_ACTIVE|SL_FLAG_ARCH_TXT)))
++		return 0;
++
++	/* Only Intel TXT is supported at this point */
++	slaunch_intel_evtlog();
++
++	return slaunch_expose_securityfs();
++}
++
++static void __exit slaunch_exit(void)
++{
++	slaunch_teardown_securityfs();
++}
++
++late_initcall(slaunch_late_init);
++
++__exitcall(slaunch_exit);
+-- 
+1.8.3.1
 
-I actually tried that, but this didn't work.
-
-Btw, it is not that simple. It needs to convert also several other tags,
-and some are in the middle of the tests.
-
-So, even if this would work, a change like that will introduce lots
-of "noise" at the docs.
-
-The approach of adding support for c:namespace: at cdomain
-(see the patchset I sent today) is a lot more cleaner.
-
-Thanks,
-Mauro
