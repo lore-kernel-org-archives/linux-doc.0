@@ -2,72 +2,117 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8706CC4363D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:10:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EF74C2D0E2
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:14:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F5A1204EC
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:10:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 088F02388A
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600964040;
+	bh=hYhqt1zEygj1WJNEIIGL6rzLpB3sm1KkPrVfrQLZA8M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=YvDE4zh+NhrNBbA5nTZcQXEvDOvf8XazlGgKGSRKWfe1bEWxQHaDqa5x9ZLW7ynnl
+	 kV/K4fzSNpo7QoQceLY7aMlab48rgrcnZf4pOGmE9TBksRM9hWDO0/ZAs0Mc0T0x+G
+	 6M72atdJo+PvOkKqv/aKtzoJ6GbGe0pYexAnBet4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728485AbgIXQKu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 12:10:50 -0400
-Received: from smtprelay0138.hostedemail.com ([216.40.44.138]:34742 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728448AbgIXQKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 12:10:50 -0400
-X-Greylist: delayed 348 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Sep 2020 12:10:50 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 41F3F18003C3E;
-        Thu, 24 Sep 2020 16:05:03 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 6A350181D337B;
-        Thu, 24 Sep 2020 16:05:01 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: face47_290156b27160
-X-Filterd-Recvd-Size: 1629
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf04.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 24 Sep 2020 16:04:59 +0000 (UTC)
-Message-ID: <21cc553cc3a07e0952eb52a50149c323daff6041.camel@perches.com>
-Subject: Re: [PATCH 5/9] gpio: mockup: use pr_fmt()
-From:   Joe Perches <joe@perches.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kent Gibson <warthog618@gmail.com>
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 24 Sep 2020 09:04:58 -0700
-In-Reply-To: <20200924113842.11670-6-brgl@bgdev.pl>
-References: <20200924113842.11670-1-brgl@bgdev.pl>
-         <20200924113842.11670-6-brgl@bgdev.pl>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1727478AbgIXQN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 12:13:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41072 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726426AbgIXQN7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Sep 2020 12:13:59 -0400
+Received: from coco.lan (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 18F572388A;
+        Thu, 24 Sep 2020 16:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600964039;
+        bh=hYhqt1zEygj1WJNEIIGL6rzLpB3sm1KkPrVfrQLZA8M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=PvRqwecwPYLFRLPE/T1L6whxVNOnIuw5O5dIUK+AP0FWwfhyViN6WjXW5oAfDQlbM
+         6ftTCxLYti0BC45lwSs4NkdAkoNZQkd3ZZPwws4pJJRq9wu7rTu2YF6pAuk/D4+eoV
+         zwFemSgWkqFK55OH8eujQ+bv9AkAh3fVDtihnVWI=
+Date:   Thu, 24 Sep 2020 18:13:54 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: cdomain.py: add support for two new Sphinx
+ 3.1+ tags
+Message-ID: <20200924181354.59087a8d@coco.lan>
+In-Reply-To: <20200924094335.65944316@lwn.net>
+References: <cover.1600945712.git.mchehab+huawei@kernel.org>
+        <4b8a20013ca0b631724e8a986544ada08ac3dfd7.1600945712.git.mchehab+huawei@kernel.org>
+        <20200924094335.65944316@lwn.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2020-09-24 at 13:38 +0200, Bartosz Golaszewski wrote:
-> We don't need a custom logging helper. Let's use the standard pr_fmt()
-> macro which allows us to use all pr_*() routines with custom format.
-[]
-> diff --git a/drivers/gpio/gpio-mockup.c b/drivers/gpio/gpio-mockup.c
-[]
-> @@ -577,7 +577,7 @@ static int __init gpio_mockup_init(void)
->  
->  		pdev = platform_device_register_full(&pdevinfo);
->  		if (IS_ERR(pdev)) {
-> -			gpio_mockup_err("error registering device");
-> +			pr_err("error registering device");
+Em Thu, 24 Sep 2020 09:43:35 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-You could add the missing newline at the same time.
+> So I'm just getting into this and trying to understand what's really going
+> on, but one thing jumped at me:
+> 
+> On Thu, 24 Sep 2020 13:22:04 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > +# Namespace to be prepended to the full name
+> > +namespace = None
+
+^^^ See here....
+
+> > +
+> > +#
+> > +# Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
+> > +# - Convert :c:expr:`foo` into ``foo``
+> > +# - Store the namespace if ".. c:namespace::" tag is found
+> > +
+> > +RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
+> > +RE_expr = re.compile(r':c:expr:`([^\`]+)`')
+> > +
+> > +def markup_namespace(match):
+> > +    namespace = match.group(1)
+> > +
+> > +    return ""
+> > +  
+> 
+> How can this possibly work without a "global namespace" declaration in
+> markup_namespace()?
+
+... While I'm not a python expert, the namespace variable is global
+    because it was defined outside the "markup_namespace" function.
+
+-
+
+On a quick check at the internet, this is supposed to work properly:
+
+	https://www.programiz.com/python-programming/global-local-nonlocal-variables
+
+-
+
+In any cases, on my tests, this is working properly.
+
+Anyway, I'm sending a version 2 of the series, addressing the
+namespace for the remaining files under userspace-api/media.
+
+You can try building the media books without and with the
+patch series, in order to see the differences.
+
+There are still ~200 warnings produced after that, but it
+sounds that the remaining issues will require changes at
+kernel-doc.
 
 
+Thanks,
+Mauro
