@@ -2,167 +2,117 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF911C4727D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A04F6C4363D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 18:13:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F3F7239E5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 17:38:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cZOWGP+A"
+	by mail.kernel.org (Postfix) with ESMTP id 565DD2176B
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 18:13:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbgIXRiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 13:38:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726477AbgIXRiF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 13:38:05 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D62C0613CE;
-        Thu, 24 Sep 2020 10:38:05 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id q5so286891qkc.2;
-        Thu, 24 Sep 2020 10:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5bhRjdNmwctA9bi8GxsYvmMwgzV/9dcdCn2Ip4F4euc=;
-        b=cZOWGP+ALCi4vj4BHTzKgWDrtzwE4tF3jGNpkhuLUh6fG/k8zqpGq1Lo/0dcBLLoIi
-         pPGI5IpS/OrzvOjkni8+1PZ149ujLT0LOP6DV/JchuR6Qm2t3wNtyHG6ve58+vpA1a+n
-         vo9tdcnK4n/fTNOQCs55j4rhmmB4gid8Yk08zVDqQHhgx6gWFwcbAHR0ggH6v1Hu9XQg
-         NWk8LyxkU2lLBfuX9c41Izqi6n4RXF8OzcYv/vBHceR4AQDOinz6HygZUKBdg1Ok6Fhz
-         x7PDV/Kr3TTU4rGFdiyUzzj3q20kP8wByDlsqyrvCMsSIga89AVXjSHZt/HQ36A/Zqys
-         Zm7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=5bhRjdNmwctA9bi8GxsYvmMwgzV/9dcdCn2Ip4F4euc=;
-        b=EMrsNQXf4gCxtm1u3qeXqYCljaVzImbs5t2tgxVSEFEYnOYu141mHiKutlLC7bXHDY
-         PlsQ+BMtUZUrg5Av+HOpRmViWVzCpsjUKDN5NDPG6eQQFFAUAXWh4I0pLqN+qu3eQ85p
-         +/a1qG1jwVvoAcAFz+AVYHTzR49bQrMCei+XqMr/oAhCKBWOSxeFvMhLC0Zrg/7fQBd+
-         XgxUwvS3VwhCb+pV2xBr6GEldGZLVLJD1TzfNQD0aD3zk0jjtKvQI6k54x43F9lCnDej
-         ihhwfyoSUIYb09eXKLr17czvAdNv1W8UO3yx6rdb2iK9TYATNulfyq03oXhAzhJvoR1e
-         AbbA==
-X-Gm-Message-State: AOAM531+HhRlU4/fQPZZYI5GoKpHSJ03TR08FOwCyUnKS5M6A/gjbKmj
-        gEedA1FF5YcL2pXQVhLCoFA=
-X-Google-Smtp-Source: ABdhPJzvAQTyLYVuqTgONX5CqLnI4a7/K1S3m2ztmokOk/j35ocAhw/nB+FROtf10E9RL4+9MkjRSg==
-X-Received: by 2002:a37:9c8:: with SMTP id 191mr213412qkj.292.1600969083722;
-        Thu, 24 Sep 2020 10:38:03 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id n136sm96584qkn.14.2020.09.24.10.38.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2020 10:38:03 -0700 (PDT)
-Sender: Arvind Sankar <niveditas98@gmail.com>
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Thu, 24 Sep 2020 13:38:01 -0400
-To:     Ross Philipson <ross.philipson@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
-Message-ID: <20200924173801.GA103726@rani.riverdale.lan>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
+        id S1728659AbgIXSNj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 14:13:39 -0400
+Received: from mga12.intel.com ([192.55.52.136]:7229 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727753AbgIXSNi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Sep 2020 14:13:38 -0400
+IronPort-SDR: a/djZr5ntzpdlnZaZ8kkF6kQAu6xfgk7P0F+ha+Kq/ZVkN1a4kGJ+z7fcVoKSN+pjnNWn4jSJS
+ /tykWhHFu1Gw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="140732721"
+X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; 
+   d="scan'208";a="140732721"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 11:13:38 -0700
+IronPort-SDR: fQ9Tzp6ZRlcYFB2KRWD+hrbPicg63xexfZDY9TywMs7EyZYknrFoEklc6Wf1tjfflX17drqm9E
+ l1Kk1E9OFesg==
+X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; 
+   d="scan'208";a="291322958"
+Received: from vanidesa-mobl.amr.corp.intel.com (HELO [10.209.65.234]) ([10.209.65.234])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 11:13:36 -0700
+Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Filipe Brandenburger <filbranden@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Michael Davidson <md@google.com>,
+        Eugene Surovegin <surovegin@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
+ <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
+ <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
+ <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <c9d19777-9027-0bb6-8590-1bfeac14b33f@linux.intel.com>
+Date:   Thu, 24 Sep 2020 13:13:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
+In-Reply-To: <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 10:58:35AM -0400, Ross Philipson wrote:
-> The Secure Launch (SL) stub provides the entry point for Intel TXT (and
-> later AMD SKINIT) to vector to during the late launch. The symbol
-> sl_stub_entry is that entry point and its offset into the kernel is
-> conveyed to the launching code using the MLE (Measured Launch
-> Environment) header in the structure named mle_header. The offset of the
-> MLE header is set in the kernel_info. The routine sl_stub contains the
-> very early late launch setup code responsible for setting up the basic
-> environment to allow the normal kernel startup_32 code to proceed. It is
-> also responsible for properly waking and handling the APs on Intel
-> platforms. The routine sl_main which runs after entering 64b mode is
-> responsible for measuring configuration and module information before
-> it is used like the boot params, the kernel command line, the TXT heap,
-> an external initramfs, etc.
+
+
+>>> I think [1] should be an error instead of a warning
+>>> by default.
+>>
+>> would the following patch be what you have in mind?
 > 
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> 
+> No.
+> error() does not exist.
+> 
+> merror() exists, but the difference from warn()
+> is just a prefix.
+> 
+> If any error happens, modpost should return the error code.
 
-Which version of the kernel is this based on?
+Sorry, I am not able to understand your recommendation. Existing code 
+which calls merror() does not exit with an error code, e.g.
 
-> diff --git a/arch/x86/boot/compressed/head_64.S b/arch/x86/boot/compressed/head_64.S
-> index 97d37f0..42043bf 100644
-> --- a/arch/x86/boot/compressed/head_64.S
-> +++ b/arch/x86/boot/compressed/head_64.S
-> @@ -279,6 +279,21 @@ SYM_INNER_LABEL(efi32_pe_stub_entry, SYM_L_LOCAL)
->  SYM_FUNC_END(efi32_stub_entry)
->  #endif
->  
-> +#ifdef CONFIG_SECURE_LAUNCH
-> +SYM_FUNC_START(sl_stub_entry)
-> +	/*
-> +	 * On entry, %ebx has the entry abs offset to sl_stub_entry. To
-> +	 * find the beginning of where we are loaded, sub off from the
-> +	 * beginning.
-> +	 */
+static void sym_update_namespace(const char *symname, const char *namespace)
+{
+	struct symbol *s = find_symbol(symname);
 
-This requirement should be added to the documentation. Is it necessary
-or can this stub just figure out the address the same way as the other
-32-bit entry points, using the scratch space in bootparams as a little
-stack?
+	/*
+	 * That symbol should have been created earlier and thus this is
+	 * actually an assertion.
+	 */
+	if (!s) {
+		merror("Could not update namespace(%s) for symbol %s\n",
+		       namespace, symname);
+		return;
+	}
 
-> +	leal	(startup_32 - sl_stub_entry)(%ebx), %ebx
-> +
-> +	/* More room to work in sl_stub in the text section */
-> +	jmp	sl_stub
-> +
-> +SYM_FUNC_END(sl_stub_entry)
-> +#endif
-> +
->  	.code64
->  	.org 0x200
->  SYM_CODE_START(startup_64)
-> @@ -537,6 +552,25 @@ SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
->  	shrq	$3, %rcx
->  	rep	stosq
->  
-> +#ifdef CONFIG_SECURE_LAUNCH
-> +	/*
-> +	 * Have to do the final early sl stub work in 64b area.
-> +	 *
-> +	 * *********** NOTE ***********
-> +	 *
-> +	 * Several boot params get used before we get a chance to measure
-> +	 * them in this call. This is a known issue and we currently don't
-> +	 * have a solution. The scratch field doesn't matter and loadflags
-> +	 * have KEEP_SEGMENTS set by the stub code. There is no obvious way
-> +	 * to do anything about the use of kernel_alignment or init_size
-> +	 * though these seem low risk.
-> +	 */
+What would be suggestion be then in this case?
 
-There are various fields in bootparams that depend on where the
-kernel/initrd and cmdline are loaded in memory. If the entire bootparams
-page is getting measured, does that mean they all have to be at fixed
-addresses on every boot?
+change all functions to return -EINVAL after each use of merror() or 
+something?
 
-Also KEEP_SEGMENTS support is gone from the kernel since v5.7, since it
-was unused. startup_32 now always loads a GDT and then the segment
-registers. I think this should be ok for you as the only thing the flag
-used to do in the 64-bit kernel was to stop startup_32 from blindly
-loading __BOOT_DS into the segment registers before it had setup its own
-GDT.
+Or just add an exit(1) after all uses of merror()?
 
-For the 32-bit assembler code that's being added, tip/master now has
-changes that prevent the compressed kernel from having any runtime
-relocations.  You'll need to revise some of the code and the data
-structures initial values to avoid creating relocations.
+>> If yes, also wondering if we can still add the option to treat warnings
+>> as errors as an opt-in behavior?
+> 
+> 
+> I want to add a new option only when it is necessary to do so.
+> 
+> I am not sure which warnings are real warnings.
 
-Thanks.
+That was the point of the suggested option, treat all warnings as errors 
+and ignore the warning if it's no big deal. it's standard with gcc 
+-Werror, it's be good to extend this to modpost - or what would be the 
+drawback of doing so?
