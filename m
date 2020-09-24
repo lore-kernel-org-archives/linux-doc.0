@@ -6,35 +6,32 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92CEAC2D0E2
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5985DC4363D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:48:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 684792396E
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:47:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 208A622208
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 16:48:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728352AbgIXQr4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 12:47:56 -0400
-Received: from ms.lwn.net ([45.79.88.28]:59264 "EHLO ms.lwn.net"
+        id S1727074AbgIXQsk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 12:48:40 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59276 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726477AbgIXQrz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Sep 2020 12:47:55 -0400
+        id S1726477AbgIXQsk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Sep 2020 12:48:40 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A6F4377D;
-        Thu, 24 Sep 2020 16:47:53 +0000 (UTC)
-Date:   Thu, 24 Sep 2020 10:47:51 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 8D8C6382;
+        Thu, 24 Sep 2020 16:48:39 +0000 (UTC)
+Date:   Thu, 24 Sep 2020 10:48:37 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: admin-guide: kernel-parameters: reformat
- "lapic=" boot option
-Message-ID: <20200924104751.328cc109@lwn.net>
-In-Reply-To: <20200918054739.2523-1-rdunlap@infradead.org>
-References: <20200918054739.2523-1-rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/admin-guide: kernel-parameters:
+ capitalize Korina
+Message-ID: <20200924104837.0cbd74a6@lwn.net>
+In-Reply-To: <20200918054722.28713-1-rdunlap@infradead.org>
+References: <20200918054722.28713-1-rdunlap@infradead.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,35 +40,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Sep 2020 22:47:39 -0700
+On Thu, 17 Sep 2020 22:47:22 -0700
 Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> Reformat "lapic=" to try to make it more understandable and similar
-> to the style that is mostly used in this file.
+> Fix typo, capitalize Korina proper noun.
 > 
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: x86@kernel.org
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: linux-doc@vger.kernel.org
 > ---
->  Documentation/admin-guide/kernel-parameters.txt |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  Documentation/admin-guide/kernel-parameters.txt |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > --- linux-next-20200917.orig/Documentation/admin-guide/kernel-parameters.txt
 > +++ linux-next-20200917/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2384,9 +2384,10 @@
->  	lapic		[X86-32,APIC] Enable the local APIC even if BIOS
->  			disabled it.
+> @@ -2194,7 +2194,7 @@
+>  	kgdbwait	[KGDB] Stop kernel execution and enter the
+>  			kernel debugger at the earliest opportunity.
 >  
-> -	lapic=		[X86,APIC] "notscdeadline" Do not use TSC deadline
-> +	lapic=		[X86,APIC] Do not use TSC deadline
->  			value for LAPIC timer one-shot implementation. Default
->  			back to the programmable timer unit in the LAPIC.
-> +			Format: notscdeadline
+> -	kmac=		[MIPS] korina ethernet MAC address.
+> +	kmac=		[MIPS] Korina ethernet MAC address.
 
 Applied, thanks.
 
