@@ -2,83 +2,106 @@ Return-Path: <SRS0=A0dr=DB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC09C4363D
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E90BC4363D
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:38:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 687DA2395B
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:28:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1F042311B
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Sep 2020 11:38:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="vAQ0FAWT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbgIXL2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Sep 2020 07:28:11 -0400
-Received: from mga14.intel.com ([192.55.52.115]:16373 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726652AbgIXL2L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Sep 2020 07:28:11 -0400
-IronPort-SDR: 190nK8jV78sjHnGgbbyr00u9Q3Tb/c37ZPFYUIxjXaAuPPLz6nsbiV3O+DIrtLrGN6J69MmFnz
- 4uaBXN8NsLNg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9753"; a="160457571"
-X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; 
-   d="scan'208";a="160457571"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 04:28:10 -0700
-IronPort-SDR: 6AaJWL+W/8naSncd7ds/TQNBCRDBKYoSc7qLYzcsk3/4fkbG3+WX2R+VyamwX13Q2vJU66ZQUv
- BZCJFIs+FjRg==
-X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; 
-   d="scan'208";a="486866581"
-Received: from ekoteln-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.45.129])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 04:28:04 -0700
-Date:   Thu, 24 Sep 2020 14:28:01 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, linux-sgx@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
-        asapek@google.com, cedric.xing@intel.com, chenalexchen@google.com,
-        conradparker@google.com, cyhanish@google.com,
-        dave.hansen@intel.com, haitao.huang@intel.com,
-        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
-        kmoy@google.com, ludloff@google.com, luto@kernel.org,
-        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
-        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
-Subject: Re: [PATCH v38 23/24] docs: x86/sgx: Document SGX micro architecture
- and kernel internals
-Message-ID: <20200924112801.GC56811@linux.intel.com>
-References: <20200915112842.897265-1-jarkko.sakkinen@linux.intel.com>
- <20200915112842.897265-24-jarkko.sakkinen@linux.intel.com>
- <20200923135005.GI28545@zn.tnic>
+        id S1727433AbgIXLiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Sep 2020 07:38:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59622 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726617AbgIXLiu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Sep 2020 07:38:50 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF0C3C0613CE
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2020 04:38:49 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id j2so3428597wrx.7
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2020 04:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FLL/Sx98lxd1x3lyr+uBKTSay9yyyLoslx53kZxkqUI=;
+        b=vAQ0FAWT0KVylcyqqJcCUfCFpNiDU+BswPp5oDUnxUalupXSWv08HnLTCWOY5Y/0vD
+         /NNSV+JbKgeNHJnI/ZGBQi9LEtPzWcpRd5FZeCGxEm3bStW4h98DVZO65JP9Doo+3RvS
+         vjefnFdYx0NPhxs9W/IVXx7nExH9+cIhTqtlmQleSxvZYs0wke7DIosXZ6KGrS0NeAT2
+         5KongtvQepTN4osy85pgyS+O294PcAwgIHsTIXc864Zan+OahUHMoRZ9OF2hxUbHfM52
+         hL/Ue0HOvAEN6/QKQY2af05vuXHmVoIYAeJksPst2UcktchbrOd7aQVrjFhzUCfZcqV8
+         kCAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FLL/Sx98lxd1x3lyr+uBKTSay9yyyLoslx53kZxkqUI=;
+        b=s7bownp0f95sFxBzgJ6n2Bv9RJIOxpn6g/koxJqeMYQwAhOFXvjyQtDa322Td/Wmfl
+         OJBzow3DqDKZP8Nl//WhGTWEUHH0P51E5VV4+6yGjO48GoFVjuzNa6IppEUpCtQ+WokX
+         bHcHIdHQWaqaEpyn/F2R7nmHUK5/KoNGzDG46BVmDEu8aHUWWRWjsJmvYu3XVkFP1q7r
+         wzXIxoJ1v5yrbjFDKFBGakIyKQcLwv19T+c8/yWsuFmLGska9LI8L+bXoJWNztOiDuJ1
+         6vSiEvQr0EMsS+KJV0BX2CVDnf6D3nvG9s2ltkvae3If8dGRUSegJv9V4iUs4bDqnC5z
+         qhmw==
+X-Gm-Message-State: AOAM531g9Y1vCC2VBtTrviVjCl33B18oH2Omm0Qqt4AATtZcWchshs1F
+        +4tPO6xb6zdVOsqJ1A8DM7c1Bg2reAvLWA==
+X-Google-Smtp-Source: ABdhPJw1+9CUXXOeZMznTfNNY3yjhlC0wQSe/OvdJnBxNgTWl5CZGL9/IPzAlH/67qgH5fZEvKl46w==
+X-Received: by 2002:a5d:49d2:: with SMTP id t18mr4366937wrs.99.1600947528426;
+        Thu, 24 Sep 2020 04:38:48 -0700 (PDT)
+Received: from debian-brgl.home (lfbn-nic-1-68-20.w2-15.abo.wanadoo.fr. [2.15.159.20])
+        by smtp.gmail.com with ESMTPSA id y207sm3390133wmc.17.2020.09.24.04.38.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2020 04:38:47 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kent Gibson <warthog618@gmail.com>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH 0/9] gpio: mockup: refactoring + documentation
+Date:   Thu, 24 Sep 2020 13:38:33 +0200
+Message-Id: <20200924113842.11670-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200923135005.GI28545@zn.tnic>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 23, 2020 at 03:50:05PM +0200, Borislav Petkov wrote:
-> > +This leaf function takes an RSA-3072 signature of the enclave measurement and an
-> > +optional cryptographic token. Linux does not take advantage of launch tokens.
-> > +The instruction checks that the signature is signed with the key defined in
-> > +**IA32_SGXLEPUBKEYHASH?** MSRs and the measurement is correct. If so, the
-> 
-> That '?' wants to be '[0123]' perhaps?
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-What do you think of this:
+These patches were part of the bigger overhaul of gpio-mockup but since
+the initial idea was dropped in favor of using configfs + sysfs in the
+future I thought I'd resent just the refactoring of the existing code
++ documentation patches. I think it's good to apply them since we don't
+really know when the new interface will be ready (configfs needs a new
+functionality - commitable items - to support mockup chip instantiation).
 
-"The leaf instruction checks that the measurement is correct and
-signature is signed with the key hashed to the four
-+**IA32_SGXLEPUBKEYHASH{0, 1, 2, 3}** MSRs representing the SHA256 of a
-public key."
+Bartosz Golaszewski (9):
+  lib: string_helpers: provide kfree_strarray()
+  Documentation: gpio: add documentation for gpio-mockup
+  gpio: mockup: drop unneeded includes
+  gpio: mockup: use KBUILD_MODNAME
+  gpio: mockup: use pr_fmt()
+  gpio: mockup: remove unneeded return statement
+  gpio: mockup: pass the chip label as device property
+  gpio: mockup: use the generic 'gpio-line-names' property
+  gpio: mockup: refactor the module init function
 
-I though that little more detail would make sense here (i.e. what do the
-MSRs represent).
+ .../admin-guide/gpio/gpio-mockup.rst          |  50 ++++++
+ drivers/gpio/gpio-mockup.c                    | 154 +++++++++---------
+ include/linux/string_helpers.h                |   2 +
+ lib/string_helpers.c                          |  22 +++
+ 4 files changed, 152 insertions(+), 76 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-mockup.rst
 
-/Jarkko
+-- 
+2.26.1
+
