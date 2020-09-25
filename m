@@ -2,718 +2,231 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B99C4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8398C4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:32:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A945323447
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601015486;
-	bh=zJOxucCXGY+/g1Zhqy7+Iy3zmsjOu4tR8o67hpj1+5I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=YvuOV98qC7qsJRzeJzZMtt+NdcTg/zmk+ODmplSEO0460+kl4nuyQHGpSoLzZAzKF
-	 XXNceqfAXTjgN1ySiNH4VjVVv6oFH1YAv1Rp8lDIepekv18EbiONMiCXmQQ31Z4OO3
-	 o4/+nt35X5/ViGyo2/NO+P7mW110pksV6ABn7hWw=
+	by mail.kernel.org (Postfix) with ESMTP id 4C5D7235F8
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:32:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727210AbgIYGaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 02:30:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57596 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727143AbgIYGax (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 02:30:53 -0400
-Received: from mail.kernel.org (ip5f5ad5bf.dynamic.kabel-deutschland.de [95.90.213.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1D3FA238A0;
-        Fri, 25 Sep 2020 06:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601015452;
-        bh=zJOxucCXGY+/g1Zhqy7+Iy3zmsjOu4tR8o67hpj1+5I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lsYyWqZa7y7wXiGe7socT66ILOURtbU7poM4PG1HiYho0xp81v8N/4Z4FT4YBeJHo
-         TNOvrHFkbbhAu4XVeCuddl/TaPR+ff0Fo+JpKIcCE5wSmq40BDtG2cUU6OGM0kM0Y9
-         +7x0RlcfCQmEkuosdbJA6QYU6oP98QJbezWDkNOE=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kLhFo-000R4u-6m; Fri, 25 Sep 2020 08:30:48 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sean Young <sean@mess.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v3 8/8] media: docs: make RC documents more compatible with Sphinx 3.1+
-Date:   Fri, 25 Sep 2020 08:30:46 +0200
-Message-Id: <640bd982e40af548f916268ce01e17123e88f855.1601014299.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1601014299.git.mchehab+huawei@kernel.org>
-References: <cover.1601014299.git.mchehab+huawei@kernel.org>
+        id S1727044AbgIYGcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 02:32:51 -0400
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:52320 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726925AbgIYGcu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 02:32:50 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R851e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UA07i-0_1601015565;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UA07i-0_1601015565)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 25 Sep 2020 14:32:45 +0800
+Subject: Re: [PATCH V2] doc: zh_CN: add translatation for tmpfs.rst
+To:     Wang Qing <wangqing@vivo.com>, Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wang Wenhu <wenhu.wang@vivo.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Chucheng Luo <luochucheng@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1600928720-21134-1-git-send-email-wangqing@vivo.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <9acdd26b-c71b-d2fc-e61a-1e9aea5fcf80@linux.alibaba.com>
+Date:   Fri, 25 Sep 2020 14:30:30 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <1600928720-21134-1-git-send-email-wangqing@vivo.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx 3.x broke support for the cdomain.py extension, as the
-c domain code was rewritten. Due to that, the c tags need to
-be re-written, in order to use the new c domain notation.
+The same issue:
+error: dev/null: does not exist in index
+Patch failed at 0001 doc: zh_CN: add translatation for tmpfs.rst
+The copy of the patch that failed is found in:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../userspace-api/media/rc/lirc-get-features.rst   |  9 ++++-----
- .../userspace-api/media/rc/lirc-get-rec-mode.rst   | 12 +++++++-----
- .../media/rc/lirc-get-rec-resolution.rst           |  8 ++++----
- .../userspace-api/media/rc/lirc-get-send-mode.rst  | 14 +++++++-------
- .../userspace-api/media/rc/lirc-get-timeout.rst    | 13 +++++++------
- Documentation/userspace-api/media/rc/lirc-read.rst | 10 +++-------
- .../media/rc/lirc-set-measure-carrier-mode.rst     |  8 ++++----
- .../media/rc/lirc-set-rec-carrier-range.rst        |  6 ++++--
- .../media/rc/lirc-set-rec-carrier.rst              |  8 ++++----
- .../media/rc/lirc-set-rec-timeout-reports.rst      |  8 ++++----
- .../media/rc/lirc-set-rec-timeout.rst              | 13 +++++++------
- .../media/rc/lirc-set-send-carrier.rst             |  8 ++++----
- .../media/rc/lirc-set-send-duty-cycle.rst          |  8 ++++----
- .../media/rc/lirc-set-transmitter-mask.rst         |  8 ++++----
- .../media/rc/lirc-set-wideband-receiver.rst        |  8 ++++----
- .../userspace-api/media/rc/lirc-write.rst          |  7 ++-----
- 16 files changed, 73 insertions(+), 75 deletions(-)
+Maybe it is editor issue of your patch, Could you try you git send-email directly?
 
-diff --git a/Documentation/userspace-api/media/rc/lirc-get-features.rst b/Documentation/userspace-api/media/rc/lirc-get-features.rst
-index 6846ae99848c..66a243dbd437 100644
---- a/Documentation/userspace-api/media/rc/lirc-get-features.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-get-features.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_get_features:
- 
-@@ -14,8 +15,9 @@ LIRC_GET_FEATURES - Get the underlying hardware device's features
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_GET_FEATURES, __u32 *features)
--    :name: LIRC_GET_FEATURES
-+.. c:macro:: LIRC_GET_FEATURES
-+
-+``int ioctl(int fd, LIRC_GET_FEATURES, __u32 *features)``
- 
- Arguments
- =========
-@@ -26,11 +28,9 @@ Arguments
- ``features``
-     Bitmask with the LIRC features.
- 
--
- Description
- ===========
- 
--
- Get the underlying hardware device's features. If a driver does not
- announce support of certain features, calling of the corresponding ioctls
- is undefined.
-@@ -184,7 +184,6 @@ LIRC features
- 
-     Unused. Kept just to avoid breaking uAPI.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst b/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst
-index e8f397a87331..188478ed1233 100644
---- a/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_get_rec_mode:
- .. _lirc_set_rec_mode:
-@@ -15,11 +16,13 @@ LIRC_GET_REC_MODE/LIRC_SET_REC_MODE - Get/set current receive mode.
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_GET_REC_MODE, __u32 *mode)
--	:name: LIRC_GET_REC_MODE
-+.. c:macro:: LIRC_GET_REC_MODE
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_REC_MODE, __u32 *mode)
--	:name: LIRC_SET_REC_MODE
-+``int ioctl(int fd, LIRC_GET_REC_MODE, __u32 *mode)``
-+
-+.. c:macro:: LIRC_SET_REC_MODE
-+
-+``int ioctl(int fd, LIRC_SET_REC_MODE, __u32 *mode)``
- 
- Arguments
- =========
-@@ -47,7 +50,6 @@ Return Value
-     :header-rows:  0
-     :stub-columns: 0
- 
--
-     -  .. row 1
- 
-        -  ``ENODEV``
-diff --git a/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst b/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst
-index 3f08aa7c24a9..e29445c5ce16 100644
---- a/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_get_rec_resolution:
- 
-@@ -14,8 +15,9 @@ LIRC_GET_REC_RESOLUTION - Obtain the value of receive resolution, in microsecond
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_GET_REC_RESOLUTION, __u32 *microseconds)
--    :name: LIRC_GET_REC_RESOLUTION
-+.. c:macro:: LIRC_GET_REC_RESOLUTION
-+
-+``int ioctl(int fd, LIRC_GET_REC_RESOLUTION, __u32 *microseconds)``
- 
- Arguments
- =========
-@@ -26,7 +28,6 @@ Arguments
- ``microseconds``
-     Resolution, in microseconds.
- 
--
- Description
- ===========
- 
-@@ -38,7 +39,6 @@ This ioctl returns the integer value with such resolution, with can be
- used by userspace applications like lircd to automatically adjust the
- tolerance value.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst b/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst
-index f93b30c92193..77472fb5608a 100644
---- a/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_get_send_mode:
- .. _lirc_set_send_mode:
-@@ -15,11 +16,13 @@ LIRC_GET_SEND_MODE/LIRC_SET_SEND_MODE - Get/set current transmit mode.
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_GET_SEND_MODE, __u32 *mode )
--    :name: LIRC_GET_SEND_MODE
-+.. c:macro:: LIRC_GET_SEND_MODE
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_SEND_MODE, __u32 *mode )
--    :name: LIRC_SET_SEND_MODE
-+``int ioctl(int fd, LIRC_GET_SEND_MODE, __u32 *mode)``
-+
-+.. c:macro:: LIRC_SET_SEND_MODE
-+
-+``int ioctl(int fd, LIRC_SET_SEND_MODE, __u32 *mode)``
- 
- Arguments
- =========
-@@ -30,7 +33,6 @@ Arguments
- ``mode``
-     The mode used for transmitting.
- 
--
- Description
- ===========
- 
-@@ -44,14 +46,12 @@ modes the driver supports.
- Return Value
- ============
- 
--
- .. tabularcolumns:: |p{2.5cm}|p{15.0cm}|
- 
- .. flat-table::
-     :header-rows:  0
-     :stub-columns: 0
- 
--
-     -  .. row 1
- 
-        -  ``ENODEV``
-diff --git a/Documentation/userspace-api/media/rc/lirc-get-timeout.rst b/Documentation/userspace-api/media/rc/lirc-get-timeout.rst
-index ec191a383d75..f5f3e06d6206 100644
---- a/Documentation/userspace-api/media/rc/lirc-get-timeout.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-get-timeout.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_get_min_timeout:
- .. _lirc_get_max_timeout:
-@@ -16,11 +17,13 @@ range for IR receive.
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_GET_MIN_TIMEOUT, __u32 *timeout)
--    :name: LIRC_GET_MIN_TIMEOUT
-+.. c:macro:: LIRC_GET_MIN_TIMEOUT
- 
--.. c:function:: int ioctl( int fd, LIRC_GET_MAX_TIMEOUT, __u32 *timeout)
--    :name: LIRC_GET_MAX_TIMEOUT
-+``int ioctl(int fd, LIRC_GET_MIN_TIMEOUT, __u32 *timeout)``
-+
-+.. c:macro:: LIRC_GET_MAX_TIMEOUT
-+
-+``int ioctl(int fd, LIRC_GET_MAX_TIMEOUT, __u32 *timeout)``
- 
- Arguments
- =========
-@@ -31,7 +34,6 @@ Arguments
- ``timeout``
-     Timeout, in microseconds.
- 
--
- Description
- ===========
- 
-@@ -47,7 +49,6 @@ that can be set.
-    both ioctls will return the same value even though the timeout
-    cannot be changed via :ref:`LIRC_SET_REC_TIMEOUT`.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-read.rst b/Documentation/userspace-api/media/rc/lirc-read.rst
-index b94a349bd99e..d589560214f4 100644
---- a/Documentation/userspace-api/media/rc/lirc-read.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-read.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc-read:
- 
-@@ -11,7 +12,6 @@ Name
- 
- lirc-read - Read from a LIRC device
- 
--
- Synopsis
- ========
- 
-@@ -19,10 +19,7 @@ Synopsis
- 
-     #include <unistd.h>
- 
--
- .. c:function:: ssize_t read( int fd, void *buf, size_t count )
--    :name: lirc-read
--
- 
- Arguments
- =========
-@@ -39,9 +36,9 @@ Arguments
- Description
- ===========
- 
--:ref:`read() <lirc-read>` attempts to read up to ``count`` bytes from file
-+:c:func:`read()` attempts to read up to ``count`` bytes from file
- descriptor ``fd`` into the buffer starting at ``buf``.  If ``count`` is zero,
--:ref:`read() <lirc-read>` returns zero and has no other results. If ``count``
-+:c:func:`read()` returns zero and has no other results. If ``count``
- is greater than ``SSIZE_MAX``, the result is unspecified.
- 
- The exact format of the data depends on what :ref:`lirc_modes` a driver
-@@ -59,7 +56,6 @@ by hardware decoders. The :c:type:`rc_proto` member is set to the
- used for transmission, and ``scancode`` to the decoded scancode,
- and the ``keycode`` set to the keycode or ``KEY_RESERVED``.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst b/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst
-index 820d6bf28c1c..9bf9811a905a 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_measure_carrier_mode:
- 
-@@ -14,8 +15,9 @@ LIRC_SET_MEASURE_CARRIER_MODE - enable or disable measure mode
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_MEASURE_CARRIER_MODE, __u32 *enable )
--    :name: LIRC_SET_MEASURE_CARRIER_MODE
-+.. c:macro:: LIRC_SET_MEASURE_CARRIER_MODE
-+
-+``int ioctl(int fd, LIRC_SET_MEASURE_CARRIER_MODE, __u32 *enable)``
- 
- Arguments
- =========
-@@ -27,7 +29,6 @@ Arguments
-     enable = 1 means enable measure mode, enable = 0 means disable measure
-     mode.
- 
--
- Description
- ===========
- 
-@@ -37,7 +38,6 @@ Enable or disable measure mode. If enabled, from the next key
- press on, the driver will send ``LIRC_MODE2_FREQUENCY`` packets. By
- default this should be turned off.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst
-index e33e6a320b7a..530bc223930a 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_rec_carrier_range:
- 
-@@ -15,8 +16,9 @@ IR receive.
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_REC_CARRIER_RANGE, __u32 *frequency )
--    :name: LIRC_SET_REC_CARRIER_RANGE
-+.. c:macro:: LIRC_SET_REC_CARRIER_RANGE
-+
-+``int ioctl(int fd, LIRC_SET_REC_CARRIER_RANGE, __u32 *frequency)``
- 
- Arguments
- =========
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst
-index a6784d5e59c8..28c928f1cc14 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_rec_carrier:
- 
-@@ -11,12 +12,12 @@ Name
- 
- LIRC_SET_REC_CARRIER - Set carrier used to modulate IR receive.
- 
--
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_REC_CARRIER, __u32 *frequency )
--    :name: LIRC_SET_REC_CARRIER
-+.. c:macro:: LIRC_SET_REC_CARRIER
-+
-+``int ioctl(int fd, LIRC_SET_REC_CARRIER, __u32 *frequency)``
- 
- Arguments
- =========
-@@ -37,7 +38,6 @@ Set receive carrier used to modulate IR PWM pulses and spaces.
-    If called together with :ref:`LIRC_SET_REC_CARRIER_RANGE`, this ioctl
-    sets the upper bound frequency that will be recognized by the device.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst
-index 55be65df7d5a..83e7155c5796 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_rec_timeout_reports:
- 
-@@ -14,8 +15,9 @@ LIRC_SET_REC_TIMEOUT_REPORTS - enable or disable timeout reports for IR receive
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_REC_TIMEOUT_REPORTS, __u32 *enable )
--    :name: LIRC_SET_REC_TIMEOUT_REPORTS
-+.. c:macro:: LIRC_SET_REC_TIMEOUT_REPORTS
-+
-+``int ioctl(int fd, LIRC_SET_REC_TIMEOUT_REPORTS, __u32 *enable)``
- 
- Arguments
- =========
-@@ -27,7 +29,6 @@ Arguments
-     enable = 1 means enable timeout report, enable = 0 means disable timeout
-     reports.
- 
--
- Description
- ===========
- 
-@@ -40,7 +41,6 @@ should be turned off.
- 
-    This ioctl is only valid for :ref:`LIRC_MODE_MODE2 <lirc-mode-mode2>`.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst
-index e91a0daecde6..8f3f9adf54ab 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_rec_timeout:
- .. _lirc_get_rec_timeout:
-@@ -15,11 +16,13 @@ LIRC_GET_REC_TIMEOUT/LIRC_SET_REC_TIMEOUT - Get/set the integer value for IR ina
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_GET_REC_TIMEOUT, __u32 *timeout )
--    :name: LIRC_GET_REC_TIMEOUT
-+.. c:macro:: LIRC_GET_REC_TIMEOUT
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_REC_TIMEOUT, __u32 *timeout )
--    :name: LIRC_SET_REC_TIMEOUT
-+``int ioctl(int fd, LIRC_GET_REC_TIMEOUT, __u32 *timeout)``
-+
-+.. c:macro:: LIRC_SET_REC_TIMEOUT
-+
-+``int ioctl(int fd, LIRC_SET_REC_TIMEOUT, __u32 *timeout)``
- 
- Arguments
- =========
-@@ -30,7 +33,6 @@ Arguments
- ``timeout``
-     Timeout, in microseconds.
- 
--
- Description
- ===========
- 
-@@ -45,7 +47,6 @@ given value should be set.
- 
-    The range of supported timeout is given by :ref:`LIRC_GET_MIN_TIMEOUT`.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst b/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst
-index e199aac7d8e0..e3810ba58746 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_send_carrier:
- 
-@@ -11,12 +12,12 @@ Name
- 
- LIRC_SET_SEND_CARRIER - Set send carrier used to modulate IR TX.
- 
--
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_SEND_CARRIER, __u32 *frequency )
--    :name: LIRC_SET_SEND_CARRIER
-+.. c:macro:: LIRC_SET_SEND_CARRIER
-+
-+``int ioctl(int fd, LIRC_SET_SEND_CARRIER, __u32 *frequency)``
- 
- Arguments
- =========
-@@ -32,7 +33,6 @@ Description
- 
- Set send carrier used to modulate IR PWM pulses and spaces.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst b/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst
-index a9074f4fb058..52a072529af9 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_send_duty_cycle:
- 
-@@ -15,8 +16,9 @@ IR transmit.
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_SEND_DUTY_CYCLE, __u32 *duty_cycle)
--    :name: LIRC_SET_SEND_DUTY_CYCLE
-+.. c:macro:: LIRC_SET_SEND_DUTY_CYCLE
-+
-+``int ioctl(int fd, LIRC_SET_SEND_DUTY_CYCLE, __u32 *duty_cycle)``
- 
- Arguments
- =========
-@@ -28,7 +30,6 @@ Arguments
-     Duty cicle, describing the pulse width in percent (from 1 to 99) of
-     the total cycle. Values 0 and 100 are reserved.
- 
--
- Description
- ===========
- 
-@@ -38,7 +39,6 @@ Currently, no special meaning is defined for 0 or 100, but this
- could be used to switch off carrier generation in the future, so
- these values should be reserved.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst b/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst
-index 1f5527427281..68f4cc2e3ae3 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_transmitter_mask:
- 
-@@ -14,8 +15,9 @@ LIRC_SET_TRANSMITTER_MASK - Enables send codes on a given set of transmitters
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_TRANSMITTER_MASK, __u32 *mask )
--    :name: LIRC_SET_TRANSMITTER_MASK
-+.. c:macro:: LIRC_SET_TRANSMITTER_MASK
-+
-+``int ioctl(int fd, LIRC_SET_TRANSMITTER_MASK, __u32 *mask)``
- 
- Arguments
- =========
-@@ -26,7 +28,6 @@ Arguments
- ``mask``
-     Mask with channels to enable tx. Channel 0 is the least significant bit.
- 
--
- Description
- ===========
- 
-@@ -42,7 +43,6 @@ When an invalid bit mask is given, i.e. a bit is set, even though the device
- does not have so many transitters, then this ioctl returns the number of
- available transitters and does nothing otherwise.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst b/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst
-index 2c43b620b3f3..be5321c4a91f 100644
---- a/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc_set_wideband_receiver:
- 
-@@ -14,8 +15,9 @@ LIRC_SET_WIDEBAND_RECEIVER - enable wide band receiver.
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, LIRC_SET_WIDEBAND_RECEIVER, __u32 *enable )
--    :name: LIRC_SET_WIDEBAND_RECEIVER
-+.. c:macro:: LIRC_SET_WIDEBAND_RECEIVER
-+
-+``int ioctl(int fd, LIRC_SET_WIDEBAND_RECEIVER, __u32 *enable)``
- 
- Arguments
- =========
-@@ -27,7 +29,6 @@ Arguments
-     enable = 1 means enable wideband receiver, enable = 0 means disable
-     wideband receiver.
- 
--
- Description
- ===========
- 
-@@ -47,7 +48,6 @@ reduced range of reception.
-     carrier reports. Trying to disable wide band receiver while carrier
-     reports are active will do nothing.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/rc/lirc-write.rst b/Documentation/userspace-api/media/rc/lirc-write.rst
-index 421de2cfa4ca..c1c3230d4fd6 100644
---- a/Documentation/userspace-api/media/rc/lirc-write.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-write.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: RC
- 
- .. _lirc-write:
- 
-@@ -11,7 +12,6 @@ Name
- 
- lirc-write - Write to a LIRC device
- 
--
- Synopsis
- ========
- 
-@@ -19,9 +19,7 @@ Synopsis
- 
-     #include <unistd.h>
- 
--
- .. c:function:: ssize_t write( int fd, void *buf, size_t count )
--    :name: lirc-write
- 
- Arguments
- =========
-@@ -38,7 +36,7 @@ Arguments
- Description
- ===========
- 
--:ref:`write() <lirc-write>` writes up to ``count`` bytes to the device
-+:c:func:`write()` writes up to ``count`` bytes to the device
- referenced by the file descriptor ``fd`` from the buffer starting at
- ``buf``.
- 
-@@ -64,7 +62,6 @@ for the protocol or the scancode is not valid for the specified protocol,
- ``EINVAL`` is returned. The write function blocks until the scancode
- is transmitted by the hardware.
- 
--
- Return Value
- ============
- 
--- 
-2.26.2
+Thanks
+Alex
 
+在 2020/9/24 下午2:23, Wang Qing 写道:
+> Translate Documentation/filesystems/tmpfs.rst into Chinese.
+> 
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> ---
+>  .../translations/zh_CN/filesystems/index.rst       |   3 +-
+>  .../translations/zh_CN/filesystems/tmpfs.rst       | 146 +++++++++++++++++++++
+>  2 files changed, 148 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+> index 186501d..c45b550
+> --- a/Documentation/translations/zh_CN/filesystems/index.rst
+> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
+> @@ -21,8 +21,9 @@ Linux Kernel中的文件系统
+>  文件系统实现文档。
+>  
+>  .. toctree::
+> -   :maxdepth: 2
+> +   :maxdepth: 3
+>  
+>     virtiofs
+>     debugfs
+> +   tmpfs
+>  
+> diff --git a/Documentation/translations/zh_CN/filesystems/tmpfs.rst b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+> index 0000000..700d870
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+> @@ -0,0 +1,146 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/filesystems/tmpfs.rst <tmpfs_index>`
+> +
+> +translated by 王擎 Wang Qing<wangqing@vivo.com>
+> +
+> +=====
+> +Tmpfs
+> +=====
+> +
+> +Tmpfs是一个将所有文件都保存在虚拟内存中的文件系统。
+> +
+> +tmpfs中的所有内容都是临时的，也就是说没有任何文件会在硬盘上创建。
+> +如果卸载tmpfs实例，所有保存在其中的文件都会丢失。
+> +
+> +tmpfs将所有文件保存在内核缓存中，随着文件内容增长或缩小可以将不需要的
+> +页面swap出去。它具有最大限制，可以通过“mount -o remount ...”调整。
+> +
+> +和ramfs（创建tmpfs的模板）相比，tmpfs包含交换和限制检查。和tmpfs相似的另
+> +一个东西是RAM磁盘（/dev/ram*），可以在物理RAM中模拟固定大小的硬盘，并在
+> +此之上创建一个普通的文件系统。Ramdisks无法swap，因此无法调整它们的大小。
+> +
+> +由于tmpfs完全保存于页面缓存和swap中，因此所有tmpfs页面将在/proc/meminfo
+> +中显示为“Shmem”，而在free(1)中显示为“Shared”。请注意，这些计数还包括
+> +共享内存(shmem，请参阅ipcs(1))。获得计数的最可靠方法是使用df(1)和du(1)。
+> +
+> +tmpfs具有以下用途：
+> +
+> +1) 内核总有一个无法看到的内部挂载，用于共享匿名映射和SYSV共享内存。
+> +
+> +   挂载不依赖于CONFIG_TMPFS。如果CONFIG_TMPFS未设置，tmpfs对用户不可见。
+> +   但是内部机制始终存在。
+> +
+> +2) glibc 2.2及更高版本期望将tmpfs挂载在/dev/shm上以用于POSIX共享内存
+> +   (shm_open，shm_unlink)。添加内容到/etc/fstab应注意如下：
+> +
+> +	tmpfs	/dev/shm	tmpfs	defaults	0 0
+> +
+> +   使用时需要记住创建挂载tmpfs的目录。
+> +   
+> +   SYSV共享内存无需挂载，内部已默认支持。(在2.3内核版本中，必须挂载
+> +   tmpfs的前身(shm fs)才能使用SYSV共享内存)
+> +
+> +3) 很多人（包括我）都觉的在/tmp和/var/tmp上挂载非常方便，并具有较大的
+> +   swap分区。目前循环挂载tmpfs可以正常工作，所以大多数发布都应当可以
+> +   使用mkinitrd通过/tmp访问/tmp。
+> +
+> +4) 也许还有更多我不知道的地方:-)
+> +
+> +
+> +tmpfs有三个用于调整大小的挂载选项：
+> +
+> +=========  ============================================================
+> +size       tmpfs实例分配的字节数限制。默认值是不swap时物理RAM的一半。
+> +           如果tmpfs实例过大，机器将死锁，因为OOM处理将无法释放该内存。
+> +nr_blocks  与size相同，但以PAGE_SIZE为单位。
+> +nr_inodes  tmpfs实例的最大inode个数。默认值是物理内存页数的一半，或者
+> +           (有高端内存的机器)低端内存RAM的页数，二者以较低者为准。
+> +=========  ============================================================
+> +
+> +这些参数接受后缀k，m或g表示千，兆和千兆字节，可以在remount时更改。
+> +size参数也接受后缀％用来限制tmpfs实例占用物理RAM的百分比：
+> +未指定size或nr_blocks时，默认值为size=50％
+> +
+> +如果nr_blocks=0（或size=0），block个数将不受限制；如果nr_inodes=0，
+> +inode个数将不受限制。这样挂载通常是不明智的，因为它允许任何具有写权限的
+> +用户通过访问tmpfs耗尽机器上的所有内存；但同时这样做也会增强在多个CPU的
+> +场景下的访问。
+> +
+> +tmpfs具有为所有文件设置NUMA内存分配策略挂载选项(如果启用了CONFIG_NUMA),
+> +可以通过“mount -o remount ...”调整
+> +
+> +======================== ==============================================
+> +mpol=default             采用进程分配策略
+> +                         (请参阅 set_mempolicy(2))
+> +mpol=prefer:Node         倾向从给定的节点分配
+> +mpol=bind:NodeList       只允许从指定的链表分配
+> +mpol=interleave          倾向于依次从每个节点分配
+> +mpol=interleave:NodeList 依次从每个节点分配
+> +mpol=local		 prefers 从本地节点分配内存
+> +======================== ==============================================
+> +
+> +NodeList格式是以逗号分隔的十进制数字表示大小和范围，最大和最小范围是用-
+> +分隔符的十进制数来表示。例如，mpol=bind0-3,5,7,9-15
+> +
+> +带有有效NodeList的内存策略将按指定格式保存，在创建文件时使用。当任务在该
+> +文件系统上创建文件时，会使用到挂载时的内存策略NodeList选项，如果设置的话，
+> +由调用任务的cpuset[请参见Documentation/admin-guide/cgroup-v1/cpusets.rst]
+> +以及下面列出的可选标志约束。如果NodeLists为设置为空集，则文件的内存策略将
+> +恢复为“默认”策略。
+> +
+> +NUMA内存分配策略有可选标志，可以用于模式结合。在挂载tmpfs时指定这些可选
+> +标志可以在NodeList之前生效。
+> +Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的内存
+> +分配策略模式标志及其对内存策略。
+> +
+> +::
+> +
+> +	=static		相当于	MPOL_F_STATIC_NODES
+> +	=relative	相当于	MPOL_F_RELATIVE_NODES
+> +
+> +例如，mpol=bind=staticNodeList相当于MPOL_BIND|MPOL_F_STATIC_NODES的分配策略
+> +
+> +请注意，如果内核不支持NUMA，那么使用mpol选项挂载tmpfs将会失败；nodelist指定不
+> +在线的节点也会失败。如果您的系统依赖于此，但内核会运行不带NUMA功能(也许是安全
+> +revocery内核)，或者具有较少的节点在线，建议从自动模式中省略mpol选项挂载选项。
+> +可以在以后通过“mount -o remount,mpol=Policy:NodeList MountPoint”添加到挂载点。
+> +
+> +要指定初始根目录，可以使用如下挂载选项：
+> +
+> +====	==================================
+> +模式	权限用八进制数字表示
+> +uid		应用ID
+> +gid		组ID
+> +====	==================================
+> +
+> +这些选项对remount没有任何影响。您可以通过chmod(1),chown(1)和chgrp(1)的更改
+> +已经挂载的参数。
+> +
+> +tmpfs具有选择32位还是64位inode的挂载选项：
+> +
+> +=======   ========================
+> +inode64   Use 64-bit inode numbers
+> +inode32   Use 32-bit inode numbers
+> +=======   ========================
+> +
+> +在32位内核上，默认是inode32，挂载时指定inode64会被拒绝。
+> +在64位内核上，默认配置是CONFIG_TMPFS_INODE64。inode64避免了单个设备上可能有多个
+> +具有相同inode编号的文件；比如32位应用程序使用glibc如果长期访问tmpfs，一旦达到33
+> +位inode编号，就有EOVERFLOW失败的危险，无法打开大于2GiB的文件，并返回EINVAL。
+> +
+> +所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'将在
+> +/mytmpfs上挂载tmpfs实例，分配只能由root用户访问的10GB RAM/SWAP，可以有10240个
+> +inode的实例。
+> +
+> +
+> +:作者:
+> +   Christoph Rohland <cr@sap.com>, 1.12.01
+> +:更新:
+> +   Hugh Dickins, 4 June 2007
+> +:更新:
+> +   KOSAKI Motohiro, 16 Mar 2010
+> +:更新:
+> +   Chris Down, 13 July 2020
+> 
