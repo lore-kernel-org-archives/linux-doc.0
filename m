@@ -7,68 +7,67 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6574BC47420
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 22:37:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 958A1C4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 23:06:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F2D622211
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 22:37:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C15D21D91
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 23:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601073472;
-	bh=TYuTe9g0mwa2Y2IZS451izNtSZ/ugBwYsG+gLW1eHno=;
+	s=default; t=1601075170;
+	bh=QxoSfI6uLVfikSdXGH4EFLGndRgkR+zRuuSIqIEhjcY=;
 	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=v367GGlqlTb3RblmpFg/BFq+fy+Dmxi/maCKYSvzkhkCRYpQ0cPmknpxrqyuyxO+t
-	 o2Dx655NXzx31VQkgoUwptW5vGahiCv/evnTJqxx1f5udca5dwWufKPxhXDkrx2oTf
-	 0ohhRbdcBjX02tunJ+yNL4WHi9a3qiOpURhRamk4=
+	b=z4dn3IsL/7BzaAfOn5OKBNLGKMcxyQHvyoCS2w66jIDM9ZSGPPfCYL1yxbvrMNoA3
+	 F+XnBLFzvao0gmKuUj8oHGLXVOvKWSVbxy6VJPNaQ03EegP4JMrFX7ozEpXPIugK6U
+	 5DA69eG+47e3QjZNhe1NnMYY0eq15SKDsTXv6VFA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729032AbgIYWhs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 18:37:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45218 "EHLO
+        id S1729302AbgIYXGH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 19:06:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728983AbgIYWhs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 18:37:48 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 109E6C0613D4
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 15:37:48 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id v20so4436249oiv.3
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 15:37:48 -0700 (PDT)
+        with ESMTP id S1729287AbgIYXGG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 19:06:06 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A0FFC0613D4
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 16:06:06 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id i17so4451882oig.10
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 16:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1GUnPWZQb3wmsz17jd8cPsFjDlwSIdeaeunn4YKd8bc=;
-        b=cUGmiVVab0u8mYTiDe3U8u1ya2bN2aQHwiRyr0oN+SEQeoBac0yel+rVAJpG23d6Cw
-         SkWYyhXR+Q0RhmtVczpwc52Ra7P92GEyVfLujifP74L85bN+J8e9V+D07zbcd4hggTWn
-         sTf5Y3Nm3Lj+rn13yl8gTMvITuy5xWYxaBBBg=
+        bh=76AVeLPThqJyq9xRW6clpHIRKAOCQwmI85cgL3Cyres=;
+        b=c+XpSxQO/nxlyT0ft4XZzdREUsZN6qokIzkZCdfBlxYsfnKoDcsMJJ9R5g4+Qi8D+p
+         gSLotVkVSfHXVSAXrZMhoIhhcDe0Lkxo/ye47mROh45ZpOWSOW1FHnGe2RuIUda9iVXy
+         W4gjczoxcJKDDxiloVI1ZfzdGNVBkcFaAIUSw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=1GUnPWZQb3wmsz17jd8cPsFjDlwSIdeaeunn4YKd8bc=;
-        b=tzYKBOYkvJGauGq8n0trsFw5+smMfdvvHyJXT/JhauNArZoTHg5lwtMdypbupYYxLx
-         br8XcASATErW3xNoIL8hU8kO082y2VxDj8xGREYsl6ij7G+iCfur66Hz2e9WFDWPKONE
-         7ksSgjhcBniIfCJPhuNAFcVH0fMD/FJ81h4MSVDDrLzwjQ0YwEDIAynBV8/mKn6Fqeee
-         /696y0PlKRKJ79sQF5uUx2+tCOX0TgAixQ5siEZ8npa/sjp8MZc1E0S86OCUWZlQSTow
-         mrt1cXzPavJnxKwLvf54sc1USLGzeklbOZeZKhNC39WBocMJHfD1jL2yvoBUaqu22Ugj
-         3xJA==
-X-Gm-Message-State: AOAM530UfGZkk5dXKajnZgQlc/grywimCnbIVl6iHWQ0vKd78KkpTUXk
-        O8PZjQ92Fm2QX01YCrgsNWgSXA==
-X-Google-Smtp-Source: ABdhPJzlc9XcIwkgj1jA3voZXHCy+z/zzMdn6CUvY2QhJa2e+80Yy/KlTGUEECczFqtoREwqoRqFAA==
-X-Received: by 2002:aca:d693:: with SMTP id n141mr496407oig.26.1601073467264;
-        Fri, 25 Sep 2020 15:37:47 -0700 (PDT)
+        bh=76AVeLPThqJyq9xRW6clpHIRKAOCQwmI85cgL3Cyres=;
+        b=T1GVm4rsiiZV6QLVeo90HuxUirZ8DEv/X6AkN2TdVezIBghA/esonWUrTj9PDhYInn
+         WKgWEFM+coEPwL83DjiRPqJ/d5Ol3/RUiqANmi18UcuAql+7/ebizgG/FoVOCwznqdYn
+         whuVbDA3UNMT5YUn4oM/Y5lat6ng66Ah/3AQHCJms9nyedPPX1dT83IDeroZmF9UA3Zq
+         ++Vmh51ad7VaqlmN0NurCxofdDcyz55X8TMDSFKqOZs5Z6FrWcI9oTZQyKCIEndPfINM
+         0QLGAZnVWoM+Jd8GoDo06Q78jM9++Sz++Jk1VOjgMqmTANky3Psuw5Y54pyFh5+CXfkK
+         amIQ==
+X-Gm-Message-State: AOAM530CmkdzWShXs0DQjE/G6KxWMEOAxdxsMVcSruda6mbAHO1bYI+Q
+        pI3qaXmX+ZkC06I1W05+Rxg8Nw==
+X-Google-Smtp-Source: ABdhPJyWna6d5P8FvJbM90Pt7OdJcvYVRXH0ouob2XpQcut86to6eu59wT9/3fQh+R4sVTzQdTqGSg==
+X-Received: by 2002:a05:6808:996:: with SMTP id a22mr483988oic.109.1601075165095;
+        Fri, 25 Sep 2020 16:06:05 -0700 (PDT)
 Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id i7sm983027oto.62.2020.09.25.15.37.45
+        by smtp.gmail.com with ESMTPSA id 74sm996786otc.65.2020.09.25.16.06.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2020 15:37:46 -0700 (PDT)
+        Fri, 25 Sep 2020 16:06:04 -0700 (PDT)
 Subject: Re: [PATCHv5 kselftest next] selftests/run_kselftest.sh: make each
  test individually selectable
-To:     Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>
+To:     Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>
 Cc:     Hangbin Liu <liuhangbin@gmail.com>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         open list <linux-kernel@vger.kernel.org>, Tim.Bird@sony.com,
         lkft-triage@lists.linaro.org,
         Anders Roxell <anders.roxell@linaro.org>,
@@ -80,8 +79,8 @@ References: <20200914021758.420874-1-liuhangbin@gmail.com/>
  <CA+G9fYvT6Mw2BamoiVyw=wLUqD-3LB2oaDqcuabOyWfFxEN1qg@mail.gmail.com>
  <202009251414.15274C0@keescook>
 From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <659b23c9-abf5-0387-c4c6-5d0a48e3afdc@linuxfoundation.org>
-Date:   Fri, 25 Sep 2020 16:37:45 -0600
+Message-ID: <f375a87d-7ba3-f97f-b39a-06b61f80c552@linuxfoundation.org>
+Date:   Fri, 25 Sep 2020 17:06:02 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -113,27 +112,8 @@ On 9/25/20 3:16 PM, Kees Cook wrote:
 > Yes, please revert this patch. The resulting script is completely
 > trashed:
 > 
-> BASE_DIR=$(realpath $(dirname $0))
-> . ./kselftest/runner.sh
-> TESTS="seccomp"
-> 
-> run_seccomp()
-> {
-> -e      [ -w /dev/kmsg ] && echo "kselftest: Running tests in seccomp" >> /dev/kmsg
-> -e      cd seccomp
-> -en     run_many
->          \
-> -ne             "seccomp_bpf"
->          \
-> -ne             "seccomp_benchmark"
-> 
-> -e      cd $ROOT
-> }
-> 
-> 
-> 
 
-Will do.
+Thank you both. Now reverted.
 
 thanks,
 -- Shuah
