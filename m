@@ -2,240 +2,400 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EBC8C4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38568C4727D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:32:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 594A921775
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:32:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qyHbJgNn"
+	by mail.kernel.org (Postfix) with ESMTP id 00B8D221EB
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:32:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727290AbgIYLcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 07:32:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727132AbgIYLcB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 07:32:01 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FE5CC0613D3
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 04:32:01 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id o8so1964149otl.4
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 04:32:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6L8pDz+HxatuOD/RjMAAdgwqh+b4jciwbLlL8vlXkeA=;
-        b=qyHbJgNndjOJTaIgRnJQ6gdz3KVViOFrAgXDGuXJJIRD74pqZXl32ezx/nLKfU26eO
-         4Sswiyv+wYx+68aCOYEcsAZf3hLxli00w3yhK/RaeNtOxUrc10pokEGeU+s1NS9L342a
-         f/3qUcxxVICL9wVpKmpyDNMssvgh9Q51lddnuQkfdLh0ATuhFv3NzEnuvvXUTsOLsvgO
-         YJLBGwF8305u0itBfxkYCF5CDWafOUXiMyTZvcIvDk2rDy10zKMmhaH5F/2Ze2kOAEPI
-         at+QdWNp6iNyaX5chYaA3CG+ThU646hbW4DslUpQHdVbrXIUHwwyE7WKMgtzG5rLJb2I
-         29cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6L8pDz+HxatuOD/RjMAAdgwqh+b4jciwbLlL8vlXkeA=;
-        b=oXVFjs2uytS1lxDiS9JOxZwmcu51pf2+O2nNKwVABGUT6G/biNGVWbJQ8xpbXAPEym
-         iJT72QGqvJSv9tdGmLlj6Q/abUyl9T0oSvN9gTQLUySQXN4ww7KNmUUqUJdMFiXVKH0f
-         SXbMwdc0Q03LhJ1D0GYzbaMkWDLiTdi7/vsKuDZzvCokc3f0MVxm5b/cZTUZZc1VvQeD
-         EpAF1kvWg7baEPBPA1sc8B1x4T+oLFqgu3np3BO4Z7EuHdXglqnKI9s34SZHTHRDguld
-         0K4PHyPTPZwT+7V3IJrJlPrgmp59RH/MZLQeY27CF/wfp+vWDDjPx+mFKvjAPKUdqa9L
-         vbzw==
-X-Gm-Message-State: AOAM530evMD1BHZWNdNRLPtWeYK/HWBoKiYeGUXEwT71ruqTnEkMveA8
-        Su7MBWYmrTEYJmytnYxU6d02iWrAO6lhSRo05+RMNOIkJAWCfA==
-X-Google-Smtp-Source: ABdhPJyormovoExEyKquxcPkW3fXKMFM7xowV9E55jiL8kHHZvbTZiiejygZobwfWQwB8aFC0qqx0h8nfjkvgKtV6TA=
-X-Received: by 2002:a9d:66a:: with SMTP id 97mr2621626otn.233.1601033519970;
- Fri, 25 Sep 2020 04:31:59 -0700 (PDT)
+        id S1728189AbgIYLcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 07:32:15 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46948 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728139AbgIYLcO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Sep 2020 07:32:14 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 70A8DAD1B;
+        Fri, 25 Sep 2020 11:32:09 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] dma-buf: Add struct dma-buf-map for storing struct
+ dma_buf.vaddr_ptr
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        sumit.semwal@linaro.org, afd@ti.com, corbet@lwn.net,
+        benjamin.gaignard@linaro.org, lmark@codeaurora.org,
+        labbott@redhat.com, Brian.Starkey@arm.com, john.stultz@linaro.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, l.stach@pengutronix.de,
+        linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, mchehab@kernel.org,
+        matthew.auld@intel.com, robin.murphy@arm.com,
+        thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+References: <20200923123205.30671-1-tzimmermann@suse.de>
+ <20200923123205.30671-2-tzimmermann@suse.de>
+ <fa595f8a-3360-dc9f-2b85-0cdda28da3e5@amd.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <3037ab4c-8f9f-b794-32f6-3c0a3c7c9386@suse.de>
+Date:   Fri, 25 Sep 2020 13:32:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200921132611.1700350-2-elver@google.com> <20200925112328.10057-1-sjpark@amazon.com>
-In-Reply-To: <20200925112328.10057-1-sjpark@amazon.com>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 25 Sep 2020 13:31:48 +0200
-Message-ID: <CANpmjNMG+1Fiff+_PMFanRVc9SRoTKa-Z9SMM9eKTRL9MsoD0w@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Hillf Danton <hdanton@sina.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Christoph Lameter <cl@linux.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        David Rientjes <rientjes@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <fa595f8a-3360-dc9f-2b85-0cdda28da3e5@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="49giZWWPeWjVVqaE8hkWJZ8vcyv1KOI11"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Sep 2020 at 13:24, 'SeongJae Park' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
->
-> On Mon, 21 Sep 2020 15:26:02 +0200 Marco Elver <elver@google.com> wrote:
->
-> > From: Alexander Potapenko <glider@google.com>
-> >
-> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> > low-overhead sampling-based memory safety error detector of heap
-> > use-after-free, invalid-free, and out-of-bounds access errors.
-> >
-> > KFENCE is designed to be enabled in production kernels, and has near
-> > zero performance overhead. Compared to KASAN, KFENCE trades performance
-> > for precision. The main motivation behind KFENCE's design, is that with
-> > enough total uptime KFENCE will detect bugs in code paths not typically
-> > exercised by non-production test workloads. One way to quickly achieve a
-> > large enough total uptime is when the tool is deployed across a large
-> > fleet of machines.
-> >
-> > KFENCE objects each reside on a dedicated page, at either the left or
-> > right page boundaries. The pages to the left and right of the object
-> > page are "guard pages", whose attributes are changed to a protected
-> > state, and cause page faults on any attempted access to them. Such page
-> > faults are then intercepted by KFENCE, which handles the fault
-> > gracefully by reporting a memory access error. To detect out-of-bounds
-> > writes to memory within the object's page itself, KFENCE also uses
-> > pattern-based redzones. The following figure illustrates the page
-> > layout:
-> >
-> >   ---+-----------+-----------+-----------+-----------+-----------+---
-> >      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
-> >      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
-> >      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
-> >      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
-> >      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
-> >      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
-> >   ---+-----------+-----------+-----------+-----------+-----------+---
-> >
-> > Guarded allocations are set up based on a sample interval (can be set
-> > via kfence.sample_interval). After expiration of the sample interval, a
-> > guarded allocation from the KFENCE object pool is returned to the main
-> > allocator (SLAB or SLUB). At this point, the timer is reset, and the
-> > next allocation is set up after the expiration of the interval.
-> >
-> > To enable/disable a KFENCE allocation through the main allocator's
-> > fast-path without overhead, KFENCE relies on static branches via the
-> > static keys infrastructure. The static branch is toggled to redirect the
-> > allocation to KFENCE. To date, we have verified by running synthetic
-> > benchmarks (sysbench I/O workloads) that a kernel compiled with KFENCE
-> > is performance-neutral compared to the non-KFENCE baseline.
-> >
-> > For more details, see Documentation/dev-tools/kfence.rst (added later in
-> > the series).
-> >
-> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Co-developed-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > ---
-> > v3:
-> > * Reports by SeongJae Park:
-> >   * Remove reference to Documentation/dev-tools/kfence.rst.
-> >   * Remove redundant braces.
-> >   * Use CONFIG_KFENCE_NUM_OBJECTS instead of ARRAY_SIZE(...).
-> >   * Align some comments.
-> > * Add figure from Documentation/dev-tools/kfence.rst added later in
-> >   series to patch description.
-> >
-> > v2:
-> > * Add missing __printf attribute to seq_con_printf, and fix new warning.
-> >   [reported by kernel test robot <lkp@intel.com>]
-> > * Fix up some comments [reported by Jonathan Cameron].
-> > * Remove 2 cases of redundant stack variable initialization
-> >   [reported by Jonathan Cameron].
-> > * Fix printf format [reported by kernel test robot <lkp@intel.com>].
-> > * Print (in kfence-#nn) after address, to more clearly establish link
-> >   between first and second stacktrace [reported by Andrey Konovalov].
-> > * Make choice between KASAN and KFENCE clearer in Kconfig help text
-> >   [suggested by Dave Hansen].
-> > * Document CONFIG_KFENCE_SAMPLE_INTERVAL=0.
-> > * Shorten memory corruption report line length.
-> > * Make /sys/module/kfence/parameters/sample_interval root-writable for
-> >   all builds (to enable debugging, automatic dynamic tweaking).
-> > * Reports by Dmitry Vyukov:
-> >   * Do not store negative size for right-located objects
-> >   * Only cache-align addresses of right-located objects.
-> >   * Run toggle_allocation_gate() after KFENCE is enabled.
-> >   * Add empty line between allocation and free stacks.
-> >   * Add comment about SLAB_TYPESAFE_BY_RCU.
-> >   * Also skip internals for allocation/free stacks.
-> >   * s/KFENCE_FAULT_INJECTION/KFENCE_STRESS_TEST_FAULTS/ as FAULT_INJECTION
-> >     is already overloaded in different contexts.
-> >   * Parenthesis for macro variable.
-> >   * Lower max of KFENCE_NUM_OBJECTS config variable.
-> > ---
-> >  MAINTAINERS            |  11 +
-> >  include/linux/kfence.h | 174 ++++++++++
-> >  init/main.c            |   2 +
-> >  lib/Kconfig.debug      |   1 +
-> >  lib/Kconfig.kfence     |  63 ++++
-> >  mm/Makefile            |   1 +
-> >  mm/kfence/Makefile     |   3 +
-> >  mm/kfence/core.c       | 733 +++++++++++++++++++++++++++++++++++++++++
-> >  mm/kfence/kfence.h     | 102 ++++++
-> >  mm/kfence/report.c     | 219 ++++++++++++
-> >  10 files changed, 1309 insertions(+)
-> >  create mode 100644 include/linux/kfence.h
-> >  create mode 100644 lib/Kconfig.kfence
-> >  create mode 100644 mm/kfence/Makefile
-> >  create mode 100644 mm/kfence/core.c
-> >  create mode 100644 mm/kfence/kfence.h
-> >  create mode 100644 mm/kfence/report.c
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b5cfab015bd6..863899ed9a29 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -9673,6 +9673,17 @@ F:     include/linux/keyctl.h
-> >  F:   include/uapi/linux/keyctl.h
-> >  F:   security/keys/
-> >
-> > +KFENCE
-> > +M:   Alexander Potapenko <glider@google.com>
-> > +M:   Marco Elver <elver@google.com>
-> > +R:   Dmitry Vyukov <dvyukov@google.com>
-> > +L:   kasan-dev@googlegroups.com
-> > +S:   Maintained
-> > +F:   Documentation/dev-tools/kfence.rst
->
-> This patch doesn't introduce this file yet, right?  How about using a separate
-> final patch for MAINTAINERS update?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--49giZWWPeWjVVqaE8hkWJZ8vcyv1KOI11
+Content-Type: multipart/mixed; boundary="a0B5SjwbJ043BiHrfHGQFb73vMfEbDQR3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ sumit.semwal@linaro.org, afd@ti.com, corbet@lwn.net,
+ benjamin.gaignard@linaro.org, lmark@codeaurora.org, labbott@redhat.com,
+ Brian.Starkey@arm.com, john.stultz@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ thierry.reding@gmail.com, jonathanh@nvidia.com, pawel@osciak.com,
+ m.szyprowski@samsung.com, kyungmin.park@samsung.com, tfiga@chromium.org,
+ mchehab@kernel.org, matthew.auld@intel.com, robin.murphy@arm.com,
+ thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Message-ID: <3037ab4c-8f9f-b794-32f6-3c0a3c7c9386@suse.de>
+Subject: Re: [PATCH v2 1/3] dma-buf: Add struct dma-buf-map for storing struct
+ dma_buf.vaddr_ptr
+References: <20200923123205.30671-1-tzimmermann@suse.de>
+ <20200923123205.30671-2-tzimmermann@suse.de>
+ <fa595f8a-3360-dc9f-2b85-0cdda28da3e5@amd.com>
+In-Reply-To: <fa595f8a-3360-dc9f-2b85-0cdda28da3e5@amd.com>
 
-Sure.
+--a0B5SjwbJ043BiHrfHGQFb73vMfEbDQR3
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Other than that,
->
-> Reviewed-by: SeongJae Park <sjpark@amazon.de>
+Hi
 
-Thanks!
+Am 23.09.20 um 16:27 schrieb Christian K=C3=B6nig:
+> Am 23.09.20 um 14:32 schrieb Thomas Zimmermann:
+>> The new type struct dma_buf_map represents a mapping of dma-buf memory=
+
+>> into kernel space. It contains a flag, is_iomem, that signals users to=
+
+>> access the mapped memory with I/O operations instead of regular loads
+>> and stores.
+>>
+>> It was assumed that DMA buffer memory can be accessed with regular loa=
+d
+>> and store operations. Some architectures, such as sparc64, require the=
+
+>> use of I/O operations to access dma-map buffers that are located in I/=
+O
+>> memory. Providing struct dma_buf_map allows drivers to implement this.=
+
+>> This was specifically a problem when refreshing the graphics framebuff=
+er
+>> on such systems. [1]
+>>
+>> As the first step, struct dma_buf stores an instance of struct
+>> dma_buf_map
+>> internally. Afterwards, dma-buf's vmap and vunmap interfaces are be
+>> converted. Finally, affected drivers can be fixed.
+>>
+>> [1]
+>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flo=
+re.kernel.org%2Fdri-devel%2F20200725191012.GA434957%40ravnborg.org%2F&amp=
+;data=3D02%7C01%7Cchristian.koenig%40amd.com%7C54486b9682654f3950b808d85f=
+bcb1d3%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637364611338153209&am=
+p;sdata=3D%2BZm7t8OcgkIxnY%2FdZSLhSbKC7t1y4VW5lINFKwCQv3A%3D&amp;reserved=
+=3D0
+>>
+>=20
+> Only two nit picks below, apart from that Reviewed-by: Christian K=C3=B6=
+nig
+> <christian.koenig@amd.com>
+>=20
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+>> ---
+>> =C2=A0 Documentation/driver-api/dma-buf.rst |=C2=A0 3 +
+>> =C2=A0 drivers/dma-buf/dma-buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 ++---
+>> =C2=A0 include/linux/dma-buf-map.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 87 ++++++++++++++++++++++++++++
+>> =C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +-
+>> =C2=A0 4 files changed, 99 insertions(+), 8 deletions(-)
+>> =C2=A0 create mode 100644 include/linux/dma-buf-map.h
+>>
+>> diff --git a/Documentation/driver-api/dma-buf.rst
+>> b/Documentation/driver-api/dma-buf.rst
+>> index 13ea0cc0a3fa..3244c600a9a1 100644
+>> --- a/Documentation/driver-api/dma-buf.rst
+>> +++ b/Documentation/driver-api/dma-buf.rst
+>> @@ -115,6 +115,9 @@ Kernel Functions and Structures Reference
+>> =C2=A0 .. kernel-doc:: include/linux/dma-buf.h
+>> =C2=A0=C2=A0=C2=A0=C2=A0 :internal:
+>> =C2=A0 +.. kernel-doc:: include/linux/dma-buf-map.h
+>> +=C2=A0=C2=A0 :internal:
+>> +
+>> =C2=A0 Reservation Objects
+>> =C2=A0 -------------------
+>> =C2=A0 diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-bu=
+f.c
+>> index 58564d82a3a2..5e849ca241a0 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -1207,12 +1207,12 @@ void *dma_buf_vmap(struct dma_buf *dmabuf)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_lock(&dmabuf->lock);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dmabuf->vmapping_counter) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dmabuf->vmappin=
+g_counter++;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(!dmabuf->vmap_ptr);=
+
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ptr =3D dmabuf->vmap_ptr;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(dma_buf_map_is_null=
+(&dmabuf->vmap_ptr));
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ptr =3D dmabuf->vmap_ptr.v=
+addr;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock=
+;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 -=C2=A0=C2=A0=C2=A0 BUG_ON(dmabuf->vmap_ptr);
+>> +=C2=A0=C2=A0=C2=A0 BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ptr =3D dmabuf->ops->vmap(dmabuf=
+);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(IS_ERR(ptr)))
+>> @@ -1220,7 +1220,7 @@ void *dma_buf_vmap(struct dma_buf *dmabuf)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!ptr)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock=
+;
+>> =C2=A0 -=C2=A0=C2=A0=C2=A0 dmabuf->vmap_ptr =3D ptr;
+>> +=C2=A0=C2=A0=C2=A0 dmabuf->vmap_ptr.vaddr =3D ptr;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dmabuf->vmapping_counter =3D 1;
+>> =C2=A0 =C2=A0 out_unlock:
+>> @@ -1239,15 +1239,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf,
+>> void *vaddr)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON(!dmabuf))
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>> =C2=A0 -=C2=A0=C2=A0=C2=A0 BUG_ON(!dmabuf->vmap_ptr);
+>> +=C2=A0=C2=A0=C2=A0 BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(dmabuf->vmapping_counter =3D=3D =
+0);
+>> -=C2=A0=C2=A0=C2=A0 BUG_ON(dmabuf->vmap_ptr !=3D vaddr);
+>> +=C2=A0=C2=A0=C2=A0 BUG_ON(!dma_buf_map_is_vaddr(&dmabuf->vmap_ptr, va=
+ddr));
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_lock(&dmabuf->lock);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (--dmabuf->vmapping_counter =3D=3D 0=
+) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dmabuf->ops=
+->vunmap)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 dmabuf->ops->vunmap(dmabuf, vaddr);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dmabuf->vmap_ptr =3D NULL;=
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_map_clear(&dmabuf-=
+>vmap_ptr);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&dmabuf->lock);
+>> =C2=A0 }
+>> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h=
+
+>> new file mode 100644
+>> index 000000000000..d4b1bb3cc4b0
+>> --- /dev/null
+>> +++ b/include/linux/dma-buf-map.h
+>> @@ -0,0 +1,87 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Pointer to dma-buf-mapped memory, plus helpers.
+>> + */
+>> +
+>> +#ifndef __DMA_BUF_MAP_H__
+>> +#define __DMA_BUF_MAP_H__
+>> +
+>> +#include <linux/io.h>
+>> +
+>> +/**
+>> + * struct dma_buf_map - Pointer to vmap'ed dma-buf memory.
+>> + * @vaddr_iomem:=C2=A0=C2=A0=C2=A0 The buffer's address if in I/O mem=
+ory
+>> + * @vaddr:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The buffer's add=
+ress if in system memory
+>> + * @is_iomem:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 True if the d=
+ma-buf memory is located in I/O
+>> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+memory, or false otherwise.
+>> + *
+>> + * Calling dma-buf's vmap operation returns a pointer to the buffer.
+>> + * Depending on the location of the buffer, users may have to access =
+it
+>> + * with I/O operations or memory load/store operations. struct
+>> dma_buf_map
+>> + * stores the buffer address and a flag that signals the required
+>> access.
+>> + */
+>> +struct dma_buf_map {
+>> +=C2=A0=C2=A0=C2=A0 union {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void __iomem *vaddr_iomem;=
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *vaddr;
+>> +=C2=A0=C2=A0=C2=A0 };
+>> +=C2=A0=C2=A0=C2=A0 bool is_iomem;
+>> +};
+>> +
+>> +/* API transition helper */
+>> +static inline bool dma_buf_map_is_vaddr(const struct dma_buf_map
+>> *map, const void *vaddr)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 return !map->is_iomem && (map->vaddr =3D=3D vaddr)=
+;
+>> +}
+>> +
+>> +/**
+>> + * dma_buf_map_is_null - Tests for a dma-buf mapping to be NULL
+>> + * @map:=C2=A0=C2=A0=C2=A0 The dma-buf mapping structure
+>> + *
+>> + * Depending on the state of struct dma_buf_map.is_iomem, tests if th=
+e
+>> + * mapping is NULL.
+>> + *
+>> + * Returns:
+>> + * True if the mapping is NULL, or false otherwise.
+>> + */
+>> +static inline bool dma_buf_map_is_null(const struct dma_buf_map *map)=
+
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 if (map->is_iomem)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return map->vaddr_iomem =3D=
+=3D NULL;
+>> +=C2=A0=C2=A0=C2=A0 return map->vaddr =3D=3D NULL;
+>=20
+> This looks like overkill since both pointers are part of the same union=
+=2E
+>=20
+> I suggest to test only one and add a comment.
+
+I've been trying to separate I/O and system memory as much as possible.
+I'd rather leave it as it is.
+
+Best regards
+Thomas
+
+>=20
+>> +}
+>> +
+>> +/**
+>> + * dma_buf_map_is_set - Tests is the dma-buf mapping has been set
+>> + * @map:=C2=A0=C2=A0=C2=A0 The dma-buf mapping structure
+>> + *
+>> + * Depending on the state of struct dma_buf_map.is_iomem, tests if th=
+e
+>> + * mapping has been set.
+>> + *
+>> + * Returns:
+>> + * True if the mapping is been set, or false otherwise.
+>> + */
+>> +static inline bool dma_buf_map_is_set(const struct dma_buf_map *map)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 return !dma_buf_map_is_null(map);
+>> +}
+>> +
+>> +/**
+>> + * dma_buf_map_clear - Clears a dma-buf mapping structure
+>> + * @map:=C2=A0=C2=A0=C2=A0 The dma-buf mapping structure
+>> + *
+>> + * Clears all fields to zero; including struct dma_buf_map.is_iomem. =
+So
+>> + * mapping structures that were set to point to I/O memory are reset =
+for
+>> + * system memory. Pointers are cleared to NULL. This is the default.
+>> + */
+>> +static inline void dma_buf_map_clear(struct dma_buf_map *map)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 if (map->is_iomem) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 map->vaddr_iomem =3D NULL;=
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 map->is_iomem =3D false;
+>> +=C2=A0=C2=A0=C2=A0 } else {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 map->vaddr =3D NULL;
+>> +=C2=A0=C2=A0=C2=A0 }
+>=20
+> Maybe just use memset() on the structure.
+>=20
+> Christian.
+>=20
+>> +}
+>> +
+>> +#endif /* __DMA_BUF_MAP_H__ */
+>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>> index 957b398d30e5..fcc2ddfb6d18 100644
+>> --- a/include/linux/dma-buf.h
+>> +++ b/include/linux/dma-buf.h
+>> @@ -13,6 +13,7 @@
+>> =C2=A0 #ifndef __DMA_BUF_H__
+>> =C2=A0 #define __DMA_BUF_H__
+>> =C2=A0 +#include <linux/dma-buf-map.h>
+>> =C2=A0 #include <linux/file.h>
+>> =C2=A0 #include <linux/err.h>
+>> =C2=A0 #include <linux/scatterlist.h>
+>> @@ -309,7 +310,7 @@ struct dma_buf {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct dma_buf_ops *ops;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct mutex lock;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned vmapping_counter;
+>> -=C2=A0=C2=A0=C2=A0 void *vmap_ptr;
+>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map vmap_ptr;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *exp_name;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *name;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spinlock_t name_lock;
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--a0B5SjwbJ043BiHrfHGQFb73vMfEbDQR3--
+
+--49giZWWPeWjVVqaE8hkWJZ8vcyv1KOI11
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9t1TUUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMsXAf/Rp7g/ueCyrDxiqYgnjHhJodeYxjU
+ITNTefS6a2Pp2f4c2nPOpQrsLZAQI88rALoDareFIFLDt+5hLYXBlr9ZP8PhpU/z
+L6SIxyUIFJ0d7doD9OIUPmedRXHkvOshGXnQ1RpNQYA07Aw1QrQeKBdt/nJY6IiJ
+4sKVQznERwRv1a3FaUer40F22SuuAbWrH1MQ+TYjbW2nlJx5b4YTQkyOdCdpD8az
+Vh/OF7XKAVPYndTILizxt9Wym1E5FRsdPrmsb9+T4SoUZqjvpbvih26gS5A2NmbY
+GJJ4Lp5Huc8h/5ZtRHwLECD+RzwXESpcAJAgGfRkInpx9bAaB3BAA3sDSw==
+=PsUA
+-----END PGP SIGNATURE-----
+
+--49giZWWPeWjVVqaE8hkWJZ8vcyv1KOI11--
