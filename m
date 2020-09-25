@@ -2,153 +2,169 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B6AC4727E
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 18:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB3FC4727E
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 18:57:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5052722211
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 18:54:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57B3A21D42
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 18:57:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="T4YlAJrc"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QTx6r5Il"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729722AbgIYSys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 14:54:48 -0400
-Received: from m12-15.163.com ([220.181.12.15]:51832 "EHLO m12-15.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729644AbgIYSys (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 14:54:48 -0400
-X-Greylist: delayed 946 seconds by postgrey-1.27 at vger.kernel.org; Fri, 25 Sep 2020 14:54:47 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=QyxXF
-        vM0apX/hfN8xhdDiavcUL+dbBENIYuDPC48tb8=; b=T4YlAJrcUPhI9IESDot6X
-        ULpCWEquJOW5WVQ8Kg02ZF/3ajidZ2y6Zk6ITSVDrQRFi6Z+zywgGttqbpCuCevs
-        KAy2CNCVBm7XgSpw7eAGSQkWbPLTXhWF12igxe99L3+1zLZE//WIxtF2TAWU6xJl
-        nYnZNKglF6xHdF7Enh3MGk=
-Received: from localhost (unknown [101.86.214.224])
-        by smtp11 (Coremail) with SMTP id D8CowACH4aPpOG5f04wxDw--.53071S2;
-        Sat, 26 Sep 2020 02:37:29 +0800 (CST)
-Date:   Sat, 26 Sep 2020 02:37:29 +0800
-From:   Hui Su <sh_def@163.com>
-To:     catalin.marinas@arm.com, corbet@lwn.net, akpm@linux-foundation.org,
-        mchehab+huawei@kernel.org, davem@davemloft.net, robh@kernel.org,
-        yamada.masahiro@socionext.com, sam@ravnborg.org,
-        jpoimboe@redhat.com, rostedt@goodmis.org,
-        miguel.ojeda.sandonis@gmail.com, divya.indi@oracle.com,
-        sh_def@163.com, tomas.winkler@intel.com, dhowells@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: [PATCH] mm,kmemleak-test.c: move kmemleak-test.c to samples dir
-Message-ID: <20200925183729.GA172837@rlk>
+        id S1728353AbgIYS5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 14:57:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39184 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726990AbgIYS5X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 14:57:23 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CD6C0613CE
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 11:57:23 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id x14so4745861wrl.12
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 11:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kt10/F2kcNigvJv3MHb/KIAmOU9k1DQ04CJDICU2o4s=;
+        b=QTx6r5IlMJgqdfwJqok4Oloopf1e2dZXk3B0aDmwbL6ioYYkzCGrMSpDnP8j6NNV3l
+         yBz4zT5KFJwmp5I9Db949916H/gFIZcgBe/1kzt/5tyHir7LeNSMfejEwXrKPMEOLkyg
+         j1kARuv3rn07sUE3TxMaZtRIYj7ioUiQOKjyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kt10/F2kcNigvJv3MHb/KIAmOU9k1DQ04CJDICU2o4s=;
+        b=GPYE1M5LepIgfUv/+ttMnN4xDdP8uAt8DjuqxSLyeWhV7yXfljEkD2B4ydkOLXMfkN
+         dJyxD5U+vtDS0iCWfPTP46S0uZVpyWh8SVl+RKAyw37kKZTuAHaRjP3M/qLATeU/sYM3
+         QmzcgTztCi/8A9QH/wefMTqoMNOySEcT0sFUIRTPtykqfJR7ld4LUBJaD7YsRGsg7SvU
+         lRY0uS5EAK/budX+1sBnLCVy2f2CGG2eLKT0MtcvzRysxvnRugY2hsyhlqBljTrZZqhb
+         iV1Be5mVCDM0Hg46wc9wL+l68Dt8raVjpcl1GsOuzbEd6AgzUAVEYYOOvyRH0cTUtrBl
+         cCQg==
+X-Gm-Message-State: AOAM531H1qGrWhwPrVoRllLWhUaO4JtNG2MVsW/NJ3IgBqK1gqedfrRQ
+        X82GFYQeGrOvNzrM10i4CwRhMw==
+X-Google-Smtp-Source: ABdhPJwlnbyLQnA0JGmqU4U9R8tlABeEj0Cg/d1CLNatanhXkzrWE7eBAspLFZGWY/+anA8OvMidfQ==
+X-Received: by 2002:adf:f5c1:: with SMTP id k1mr6445083wrp.271.1601060242019;
+        Fri, 25 Sep 2020 11:57:22 -0700 (PDT)
+Received: from chromium.org (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
+        by smtp.gmail.com with ESMTPSA id p1sm25001wma.0.2020.09.25.11.57.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2020 11:57:21 -0700 (PDT)
+Date:   Fri, 25 Sep 2020 18:57:19 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
+        corbet@lwn.net, benjamin.gaignard@linaro.org, lmark@codeaurora.org,
+        labbott@redhat.com, Brian.Starkey@arm.com, john.stultz@linaro.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, l.stach@pengutronix.de,
+        linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, mchehab@kernel.org,
+        matthew.auld@intel.com, robin.murphy@arm.com,
+        thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com,
+        arnd@arndb.de, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
+ memory
+Message-ID: <20200925185719.GD3607091@chromium.org>
+References: <20200925115601.23955-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-CM-TRANSID: D8CowACH4aPpOG5f04wxDw--.53071S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWr45Kw1xAw43Cr1xWF4kWFg_yoWrJr13pr
-        4Fvr1ftrn7Ar1UW3y8tFyrGryUtwn7WFnruFWrZw4UXF9rXw18ZrsIk3y2yay3JayxWFWf
-        Gas7KFy7Cr1rJ3JanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jwID7UUUUU=
-X-Originating-IP: [101.86.214.224]
-X-CM-SenderInfo: xvkbvvri6rljoofrz/1tbiJgmqX1v2eVoAzwAAsb
+In-Reply-To: <20200925115601.23955-1-tzimmermann@suse.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kmemleak-test.c is just a kmemleak test module, which
-also can not be used as a built-in kernel module.
-Thus, i think it may should not be in mm dir, and move
-the kmemleak-test.c to samples/kmemleak/kmemleak-test.c.
-Fix the spelling of built-in by the way.
+Hi Thomas,
 
-Signed-off-by: Hui Su <sh_def@163.com>
----
- Documentation/dev-tools/kmemleak.rst     | 2 +-
- MAINTAINERS                              | 2 +-
- mm/Makefile                              | 1 -
- samples/Makefile                         | 1 +
- samples/kmemleak/Makefile                | 3 +++
- {mm => samples/kmemleak}/kmemleak-test.c | 2 +-
- 6 files changed, 7 insertions(+), 4 deletions(-)
- create mode 100644 samples/kmemleak/Makefile
- rename {mm => samples/kmemleak}/kmemleak-test.c (98%)
+On Fri, Sep 25, 2020 at 01:55:57PM +0200, Thomas Zimmermann wrote:
+> Dma-buf provides vmap() and vunmap() for retriving and releasing mappings
+> of dma-buf memory in kernel address space. The functions operate with plain
+> addresses and the assumption is that the memory can be accessed with load
+> and store operations. This is not the case on some architectures (e.g.,
+> sparc64) where I/O memory can only be accessed with dedicated instructions.
+> 
+> This patchset introduces struct dma_buf_map, which contains the address of
+> a buffer and a flag that tells whether system- or I/O-memory instructions
+> are required.
+> 
+> Some background: updating the DRM framebuffer console on sparc64 makes the
+> kernel panic. This is because the framebuffer memory cannot be accessed with
+> system-memory instructions. We currently employ a workaround in DRM to
+> address this specific problem. [1]
+> 
+> To resolve the problem, we'd like to address it at the most common point,
+> which is the dma-buf framework. The dma-buf mapping ideally knows if I/O
+> instructions are required and exports this information to it's users. The
+> new structure struct dma_buf_map stores the buffer address and a flag that
+> signals I/O memory. Affected users of the buffer (e.g., drivers, frameworks)
+> can then access the memory accordingly.
+> 
+> This patchset only introduces struct dma_buf_map, and updates struct dma_buf
+> and it's interfaces. Further patches can update dma-buf users. For example,
+> there's a prototype patchset for DRM that fixes the framebuffer problem. [2]
+> 
+> Further work: TTM, one of DRM's memory managers, already exports an
+> is_iomem flag of its own. It could later be switched over to exporting struct
+> dma_buf_map, thus simplifying some code. Several DRM drivers expect their
+> fbdev console to operate on I/O memory. These could possibly be switched over
+> to the generic fbdev emulation, as soon as the generic code uses struct
+> dma_buf_map.
+> 
+> v3:
+> 	* update fastrpc driver (kernel test robot)
+> 	* expand documentation (Daniel)
+> 	* move documentation into separate patch
+> v2:
+> 	* always clear map parameter in dma_buf_vmap() (Daniel)
+> 	* include dma-buf-heaps and i915 selftests (kernel test robot)
+> 	* initialize cma_obj before using it in drm_gem_cma_free_object()
+> 	  (kernel test robot)
+> 
+> [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
+> [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmermann@suse.de/
+> 
+> Thomas Zimmermann (4):
+>   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
+>   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
+>   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
+>   dma-buf: Document struct dma_buf_map
+> 
+>  Documentation/driver-api/dma-buf.rst          |   9 +
+>  drivers/dma-buf/dma-buf.c                     |  42 ++--
+>  drivers/dma-buf/heaps/heap-helpers.c          |  10 +-
+>  drivers/gpu/drm/drm_gem_cma_helper.c          |  20 +-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 +-
+>  drivers/gpu/drm/drm_prime.c                   |  15 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 +-
+>  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  14 +-
+>  drivers/gpu/drm/tegra/gem.c                   |  23 ++-
+>  .../common/videobuf2/videobuf2-dma-contig.c   |  17 +-
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
+>  .../common/videobuf2/videobuf2-vmalloc.c      |  21 +-
+>  drivers/misc/fastrpc.c                        |   6 +-
+>  include/drm/drm_prime.h                       |   5 +-
+>  include/linux/dma-buf-map.h                   | 193 ++++++++++++++++++
+>  include/linux/dma-buf.h                       |  11 +-
+>  18 files changed, 372 insertions(+), 94 deletions(-)
+>  create mode 100644 include/linux/dma-buf-map.h
 
-diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tools/kmemleak.rst
-index a41a2d238af2..1c935f41cd3a 100644
---- a/Documentation/dev-tools/kmemleak.rst
-+++ b/Documentation/dev-tools/kmemleak.rst
-@@ -229,7 +229,7 @@ Testing with kmemleak-test
- 
- To check if you have all set up to use kmemleak, you can use the kmemleak-test
- module, a module that deliberately leaks memory. Set CONFIG_DEBUG_KMEMLEAK_TEST
--as module (it can't be used as bult-in) and boot the kernel with kmemleak
-+as module (it can't be used as built-in) and boot the kernel with kmemleak
- enabled. Load the module and perform a scan with::
- 
-         # modprobe kmemleak-test
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 190c7fa2ea01..8172787535fc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9712,8 +9712,8 @@ M:	Catalin Marinas <catalin.marinas@arm.com>
- S:	Maintained
- F:	Documentation/dev-tools/kmemleak.rst
- F:	include/linux/kmemleak.h
--F:	mm/kmemleak-test.c
- F:	mm/kmemleak.c
-+F:	samples/kmemleak/kmemleak-test.c
- 
- KMOD KERNEL MODULE LOADER - USERMODE HELPER
- M:	Luis Chamberlain <mcgrof@kernel.org>
-diff --git a/mm/Makefile b/mm/Makefile
-index d5649f1c12c0..d73aed0fc99c 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -94,7 +94,6 @@ obj-$(CONFIG_GUP_BENCHMARK) += gup_benchmark.o
- obj-$(CONFIG_MEMORY_FAILURE) += memory-failure.o
- obj-$(CONFIG_HWPOISON_INJECT) += hwpoison-inject.o
- obj-$(CONFIG_DEBUG_KMEMLEAK) += kmemleak.o
--obj-$(CONFIG_DEBUG_KMEMLEAK_TEST) += kmemleak-test.o
- obj-$(CONFIG_DEBUG_RODATA_TEST) += rodata_test.o
- obj-$(CONFIG_DEBUG_VM_PGTABLE) += debug_vm_pgtable.o
- obj-$(CONFIG_PAGE_OWNER) += page_owner.o
-diff --git a/samples/Makefile b/samples/Makefile
-index 754553597581..c3392a595e4b 100644
---- a/samples/Makefile
-+++ b/samples/Makefile
-@@ -28,3 +28,4 @@ subdir-$(CONFIG_SAMPLE_VFS)		+= vfs
- obj-$(CONFIG_SAMPLE_INTEL_MEI)		+= mei/
- subdir-$(CONFIG_SAMPLE_WATCHDOG)	+= watchdog
- subdir-$(CONFIG_SAMPLE_WATCH_QUEUE)	+= watch_queue
-+obj-$(CONFIG_DEBUG_KMEMLEAK_TEST)	+= kmemleak/
-diff --git a/samples/kmemleak/Makefile b/samples/kmemleak/Makefile
-new file mode 100644
-index 000000000000..16b6132c540c
---- /dev/null
-+++ b/samples/kmemleak/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_DEBUG_KMEMLEAK_TEST) += kmemleak-test.o
-diff --git a/mm/kmemleak-test.c b/samples/kmemleak/kmemleak-test.c
-similarity index 98%
-rename from mm/kmemleak-test.c
-rename to samples/kmemleak/kmemleak-test.c
-index e19279ff6aa3..7b476eb8285f 100644
---- a/mm/kmemleak-test.c
-+++ b/samples/kmemleak/kmemleak-test.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * mm/kmemleak-test.c
-+ * samples/kmemleak/kmemleak-test.c
-  *
-  * Copyright (C) 2008 ARM Limited
-  * Written by Catalin Marinas <catalin.marinas@arm.com>
--- 
-2.25.1
+For drivers/media/common/videobuf2 changes:
 
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
+Best regards,
+Tomasz
