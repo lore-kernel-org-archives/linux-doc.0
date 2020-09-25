@@ -2,115 +2,130 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768D7C4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B2A2C4727D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:48:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40D7D20756
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:41:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F337A21D42
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:48:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729559AbgIYQlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 12:41:07 -0400
-Received: from mga03.intel.com ([134.134.136.65]:28196 "EHLO mga03.intel.com"
+        id S1729393AbgIYQsE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 12:48:04 -0400
+Received: from mga01.intel.com ([192.55.52.88]:45354 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726990AbgIYQlH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 12:41:07 -0400
-IronPort-SDR: 4tYFPzOYUsW/q5LT2sKGDoHb+6pRK5WtgzU9McIKBXZKE2//9ZNRH6s+n+eFxbqhTBBwCdvvg5
- ANakS9crxHPQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="161667547"
+        id S1727812AbgIYQsD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Sep 2020 12:48:03 -0400
+IronPort-SDR: IGBJdcdLHK/rkTvqrCAOZsnNpD0AbG+qAZydLzSFxtMZ3JRqv4O1cTSfoG4DkkgOPDOYtWQwZG
+ PS+qlJ59cpAA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="179657363"
 X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
-   d="scan'208";a="161667547"
+   d="scan'208";a="179657363"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 09:41:06 -0700
-IronPort-SDR: NzOnULLjjtadOZgBjjeoL4UErQg+tVTLHrrNRTTaakimhjOfWOSfVeVwSPj+ibb/rnOqh3gxvB
- B9rhpk/2i6uw==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 09:48:02 -0700
+IronPort-SDR: XbYr2jPVpT1Wf6fIuRpAKebBnup6ZoThBmfiO9H5MEW0vAntBNX4+b0Tc3QLEpvPIPzUkLk/qB
+ wcEFkVXs16qQ==
 X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
-   d="scan'208";a="292811695"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 09:41:04 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kLmrQ-001uuf-NO; Fri, 25 Sep 2020 15:30:00 +0300
-Date:   Fri, 25 Sep 2020 15:30:00 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
+   d="scan'208";a="336806828"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.213.161.229]) ([10.213.161.229])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 09:47:59 -0700
+Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
+ Branch Tracking for vsyscall emulation
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kent Gibson <warthog618@gmail.com>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 8/9] gpio: mockup: use the generic 'gpio-line-names'
- property
-Message-ID: <20200925123000.GD3956970@smile.fi.intel.com>
-References: <20200924113842.11670-1-brgl@bgdev.pl>
- <20200924113842.11670-9-brgl@bgdev.pl>
- <20200925090329.GZ3956970@smile.fi.intel.com>
- <CAMpxmJWBSwofFy94mHZWB2mdvHGStYp5oLDZp2M+wO57t40HSQ@mail.gmail.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20200925145804.5821-1-yu-cheng.yu@intel.com>
+ <20200925145804.5821-9-yu-cheng.yu@intel.com>
+ <CALCETrXs11c8ZcB2QdWUm5CeCXRm1wo706g5J9ajR8+6yYTgtQ@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
+Date:   Fri, 25 Sep 2020 09:47:55 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMpxmJWBSwofFy94mHZWB2mdvHGStYp5oLDZp2M+wO57t40HSQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <CALCETrXs11c8ZcB2QdWUm5CeCXRm1wo706g5J9ajR8+6yYTgtQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 01:40:10PM +0200, Bartosz Golaszewski wrote:
-> On Fri, Sep 25, 2020 at 11:03 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Sep 24, 2020 at 01:38:41PM +0200, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > >
-> > > GPIO line names are currently created by the driver from the chip label.
-> > > We'll want to support custom formats for line names (for instance: to
-> > > name all lines the same) for user-space tests so create them in the
-> > > module init function and pass them to the driver using the standard
-> > > 'gpio-line-names' property.
-> >
-> > ...
-> >
-> > > +             if (gpio_mockup_named_lines) {
-> > > +                     line_names = gpio_mockup_make_line_names(chip_label,
-> > > +                                                              ngpio);
-> > > +                     if (!line_names) {
-> > > +                             platform_driver_unregister(&gpio_mockup_driver);
-> > > +                             gpio_mockup_unregister_pdevs();
-> > > +                             return -ENOMEM;
-> > > +                     }
-> >
-> > > +                     properties[prop++] = PROPERTY_ENTRY_STRING_ARRAY_LEN(
-> > > +                                             "gpio-line-names",
-> > > +                                             line_names, ngpio);
-> >
-> > Forgot to update GPIO_MOCKUP_MAX_PROP?
-> >
+On 9/25/2020 9:31 AM, Andy Lutomirski wrote:
+> On Fri, Sep 25, 2020 at 7:58 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+
+[...]
+
+>> @@ -286,6 +289,37 @@ bool emulate_vsyscall(unsigned long error_code,
+>>          /* Emulate a ret instruction. */
+>>          regs->ip = caller;
+>>          regs->sp += 8;
+>> +
+>> +#ifdef CONFIG_X86_CET
+>> +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
+>> +               struct cet_user_state *cet;
+>> +               struct fpu *fpu;
+>> +
+>> +               fpu = &tsk->thread.fpu;
+>> +               fpregs_lock();
+>> +
+>> +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
+>> +                       copy_fpregs_to_fpstate(fpu);
+>> +                       set_thread_flag(TIF_NEED_FPU_LOAD);
+>> +               }
+>> +
+>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+>> +               if (!cet) {
+>> +                       fpregs_unlock();
+>> +                       goto sigsegv;
 > 
-> No, there are still three properties: chip-label, nr-gpios and
-> gpio-line-names. Same answer to patch 8/9.
+> I *think* your patchset tries to keep cet.shstk_size and
+> cet.ibt_enabled in sync with the MSR, in which case it should be
+> impossible to get here, but a comment and a warning would be much
+> better than a random sigsegv.
+
+Yes, it should be impossible to get here.  I will add a comment and a 
+warning, but still do sigsegv.  Should this happen, and the function 
+return, the app gets a control-protection fault.  Why not let it fail early?
+
+>
+> Shouldn't we have a get_xsave_addr_or_allocate() that will never
+> return NULL but instead will mark the state as in use and set up the
+> init state if the feature was previously not in use?
 > 
-> > > +             }
-> >
-> > ...
-> >
-> > > +             kfree_strarray(line_names, line_names ? ngpio : 0);
-> >
-> > Perhaps you may check for NULL pointer in the kfree_strarray() and drop ternary
-> > here?
-> >
-> 
-> I did in the previous series and you told me to not to. :)
 
-Hmm... What was my argument? What was wrong with me? free() should be NULL-aware.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+We already have a static __raw_xsave_addr(), which returns a pointer to 
+the requested xstate.  Maybe we can export __raw_xsave_addr(), if that 
+is needed.
