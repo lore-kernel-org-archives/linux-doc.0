@@ -2,88 +2,137 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F268C4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 04:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B36C4727E
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 05:30:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F275A20888
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 04:37:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601008640;
-	bh=3EVUiepKXd96fe5LeoL320sa23usfSSfETrG33UhF5g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=fi9dufrJvvkHbmvI0JllaVspcgPcCBL1FnoOttnT7ezl3vOBN4++VsaTfKXrUFrHi
-	 7B9UokkouhU/IHT9XwMS9efeHHGw6lrTYYCYlI5gJnlUwxKbpbDBg535LlesN66Di9
-	 jXv5rYOrALehmIbjqi3l/xoz+DLOAhsOrjOIUFbA=
+	by mail.kernel.org (Postfix) with ESMTP id B9B502085B
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 05:30:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgIYEhT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 00:37:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48812 "EHLO mail.kernel.org"
+        id S1726990AbgIYFa6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 01:30:58 -0400
+Received: from mga07.intel.com ([134.134.136.100]:3284 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726758AbgIYEhT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 00:37:19 -0400
-Received: from coco.lan (ip5f5ad5bf.dynamic.kabel-deutschland.de [95.90.213.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A1C020888;
-        Fri, 25 Sep 2020 04:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601008639;
-        bh=3EVUiepKXd96fe5LeoL320sa23usfSSfETrG33UhF5g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SBsyzwD1bpopnkh8paY9VNFWFEHnbsHTqbdSp09/mf6m042OECNqEfOA6Rit1HZXC
-         RfkTa5XNd2PpfufDn3Z1nXhXGskc+1aus5foX5Qa3EmtZOzeLr16o1h/CkiU+q3Sic
-         Ingo51YbKni3C9HPH+Rm2syGd0Xzx3fxC37Z7di8=
-Date:   Fri, 25 Sep 2020 06:37:15 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] docs: cdomain.py: add support for two new Sphinx
- 3.1+ tags
-Message-ID: <20200925063715.047cc585@coco.lan>
-In-Reply-To: <20200924102439.18f95779@lwn.net>
-References: <cover.1600963096.git.mchehab+huawei@kernel.org>
-        <64f6f8bc4c416bcf1a6439529346ec6cbcf34ac1.1600963096.git.mchehab+huawei@kernel.org>
-        <20200924102439.18f95779@lwn.net>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726980AbgIYFa5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Sep 2020 01:30:57 -0400
+IronPort-SDR: jInhIzinHivbxtnyecv3DFF6R8/cm6MeMSQeP/hJYAy/0z8IWLjZP/Ws8SX4x5A9D5HTKpUfH/
+ 0rEYq/0t6GPA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="225588386"
+X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; 
+   d="scan'208";a="225588386"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 22:30:56 -0700
+IronPort-SDR: WHC8TVpRPckTyme5K4pR2/mKS9uladFAgCqeF3TUhnY+DIiX0PVqaAxDdiRV3gA/ZlPqnbyqEt
+ T2o5VBueKJWA==
+X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; 
+   d="scan'208";a="487315674"
+Received: from erybin-mobl.ccr.corp.intel.com (HELO localhost) ([10.249.47.248])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 22:30:53 -0700
+Date:   Fri, 25 Sep 2020 08:30:51 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        luto@amacapital.net, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH 00/13] x86: Trenchboot secure dynamic launch Linux kernel
+ support
+Message-ID: <20200925053051.GA165011@linux.intel.com>
+References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 24 Sep 2020 10:24:39 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Thu, Sep 24, 2020 at 10:58:28AM -0400, Ross Philipson wrote:
+> The Trenchboot project focus on boot security has led to the enabling of
+> the Linux kernel to be directly invocable by the x86 Dynamic Launch
+> instruction(s) for establishing a Dynamic Root of Trust for Measurement
+> (DRTM). The dynamic launch will be initiated by a boot loader with
 
-> On Thu, 24 Sep 2020 18:21:45 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+What is "the dynamic launch"?
+
+> associated support added to it, for example the first targeted boot
+> loader will be GRUB2. An integral part of establishing the DRTM involves
+> measuring everything that is intended to be run (kernel image, initrd,
+> etc) and everything that will configure that kernel to run (command
+> line, boot params, etc) into specific PCRs, the DRTM PCRs (17-22), in
+> the TPM. Another key aspect is the dynamic launch is rooted in hardware,
+> that is to say the hardware (CPU) is what takes the first measurement
+> for the chain of integrity measurements. On Intel this is done using
+> the GETSEC instruction provided by Intel's TXT and the SKINIT
+> instruction provided by AMD's AMD-V. Information on these technologies
+> can be readily found online. This patchset introduces Intel TXT support.
+
+Why not both Intel and AMD? You should explain this in the cover letter.
+
+I'd be more motivated to review and test a full all encompassing x86
+solution. It would increase the patch set size but would also give it
+a better test coverage, which I think would be a huge plus in such a
+complex patch set.
+
+> To enable the kernel to be launched by GETSEC, a stub must be built
+> into the setup section of the compressed kernel to handle the specific
+> state that the dynamic launch process leaves the BSP in. This is
+> analogous to the EFI stub that is found in the same area. Also this stub
+
+How is it analogous?
+
+> must measure everything that is going to be used as early as possible.
+> This stub code and subsequent code must also deal with the specific
+> state that the dynamic launch leaves the APs in.
+
+What is "the specific state"?
+
+> A quick note on terminology. The larger open source project itself is
+> called Trenchboot, which is hosted on Github (links below). The kernel
+> feature enabling the use of the x86 technology is referred to as "Secure
+> Launch" within the kernel code. As such the prefixes sl_/SL_ or
+> slaunch/SLAUNCH will be seen in the code. The stub code discussed above
+> is referred to as the SL stub.
+
+Is this only for Trenchboot? I'm a bit lost. What is it anyway?
+
+> The basic flow is:
 > 
-> > As part of changing the documentation subsystem to properly
-> > build with Sphinx 3.1+, add support for two tags:
-> > 
-> > 	- :c:expr:`foo`
-> > 	- .. c:namespace::"  
-> 
-> So is there a reason we need :c:expr: ?  What does it add for us?
+>  - Entry from the dynamic launch jumps to the SL stub
+>  - SL stub fixes up the world on the BSP
 
-Good point. This came from a suggestion from the Sphinx issue.
+What is "SL"?
 
-The :c:expr: actually helped to identify two wrong declarations at the
-DVB uAPI docs[1] but in practice it doesn't do much, except
-by using a different font like placing "struct" in italics.
+>  - For TXT, SL stub wakes the APs, fixes up their worlds
+>  - For TXT, APs are left halted waiting for an NMI to wake them
+>  - SL stub jumps to startup_32
+>  - SL main runs to measure configuration and module information into the
+>    DRTM PCRs. It also locates the TPM event log.
+>  - Kernel boot proceeds normally from this point.
+>  - During early setup, slaunch_setup() runs to finish some validation
+>    and setup tasks.
 
-I was expecting it to also create cross-references to the structs
-mentioned there, but, at least on my tests, it didn't work like that.
+What are "some" validation and setup tasks?
 
-Anyway, I guess we can just get rid of it.
+>  - The SMP bringup code is modified to wake the waiting APs. APs vector
+>    to rmpiggy and start up normally from that point.
+>  - Kernel boot finishes booting normally
+>  - SL securityfs module is present to allow reading and writing of the
+>    TPM event log.
 
-I'll send a v3 series without that.
+What is SL securityfs module? Why is it needed? We already have
+securityfs file for the event log. Why it needs to be writable?
 
-Thanks,
-Mauro
+>  - SEXIT support to leave SMX mode is present on the kexec path and
+>    the various reboot paths (poweroff, reset, halt).
+
+What SEXIT do and why it is required on the kexec path?
+
+/Jarkko
