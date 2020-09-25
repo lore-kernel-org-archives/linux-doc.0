@@ -2,148 +2,89 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D10EDC4727E
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 08:38:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D075DC4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 09:00:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EC58208B6
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 08:38:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601023124;
-	bh=bZXcJEGn6enyHGS8lxkZ6bKy81r0Oo99A6VeDeDrw/g=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=di2ZBPcHGcEn5TEOgoEcxgcobn2sHPjpOQJ7EbtL2vnXT2gDR1n4UlSR0/V6VhRXx
-	 e8d8TxL1M/eJ1SdoM/wo5ZrtBpM3KCWNcsqsu8cALGxEvkNB15UmLfngcPa6uy1Ade
-	 5euJTaMxibsQ8M43/uBmIcoKZ4vztRIqXNY4xayA=
+	by mail.kernel.org (Postfix) with ESMTP id 76ABE21741
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 09:00:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727608AbgIYIio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 04:38:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39330 "EHLO mail.kernel.org"
+        id S1727132AbgIYJAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 05:00:37 -0400
+Received: from mga07.intel.com ([134.134.136.100]:19406 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727699AbgIYIii (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 04:38:38 -0400
-Received: from mail.kernel.org (ip5f5ad5bf.dynamic.kabel-deutschland.de [95.90.213.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 78E39208B6;
-        Fri, 25 Sep 2020 08:38:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601023117;
-        bh=bZXcJEGn6enyHGS8lxkZ6bKy81r0Oo99A6VeDeDrw/g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oag0JksG34Jew5PeHxbvLO79R8G41CMS8MYc03iPqc7iVHWH3FWh4HBSQXOdo+lf+
-         8yRX7BFt2Jar4IVDvfJj5VrPjJioYH2UdlVTJKXMKuC2WyJss41LtgEVJRYYh5YrIA
-         y72tPp9dlSphW5+rhq4AE42aY53rsGY3LgZDyQ/o=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kLjFS-000TqD-Qo; Fri, 25 Sep 2020 10:38:34 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC] scripts: kernel-doc: use a less pedantic markup for funcs on Sphinx 3.x
-Date:   Fri, 25 Sep 2020 10:38:33 +0200
-Message-Id: <14bed823b6c6f290705debfe42dfd6bed21c3231.1601022949.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        id S1727044AbgIYJAh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Sep 2020 05:00:37 -0400
+IronPort-SDR: 7OjYIsobAf/PLluLcJdrFiB8zVVyYx/FUIJdbN++1YmgTkm5vYFj+AGXJOAkCjH/e+41BF2d/L
+ CVuK6PRouY1g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="225621530"
+X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; 
+   d="scan'208";a="225621530"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 02:00:36 -0700
+IronPort-SDR: ILA4FS7fJgpNARCSc58njc14jCnhe09EWCz0ihD1wqPoQ8WeuTcHl89HM/ac6imOfHomH7wyYo
+ mFHomaURuJ3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; 
+   d="scan'208";a="339420923"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 25 Sep 2020 02:00:34 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kLjag-001sVF-NX; Fri, 25 Sep 2020 12:00:30 +0300
+Date:   Fri, 25 Sep 2020 12:00:30 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH 7/9] gpio: mockup: pass the chip label as device property
+Message-ID: <20200925090030.GY3956970@smile.fi.intel.com>
+References: <20200924113842.11670-1-brgl@bgdev.pl>
+ <20200924113842.11670-8-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200924113842.11670-8-brgl@bgdev.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Unfortunately, Sphinx 3.x parser for c functions is too pedantic:
+On Thu, Sep 24, 2020 at 01:38:40PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> While we do check the "chip-name" property in probe(), we never actually
+> use it. Let's pass the chip label to the driver using device properties
+> as we'll want to allow users to define their own once dynamically
+> created chips are supported.
+> 
+> The property is renamed to "chip-label" to not cause any confusion with
+> the actual chip name which is of the form: "gpiochipX".
+> 
+> If the "chip-label" property is missing, let's do what most devices in
+> drivers/gpio/ do and use dev_name().
 
-	https://github.com/sphinx-doc/sphinx/issues/8241
+...
 
-Making impossible to use it at the Kernel, as otherwise we would
-need to add thousands of macros to conf.py, with would require
-lots of maintainance.
+> +		properties[prop++] = PROPERTY_ENTRY_STRING("chip-label",
+> +							   chip_label);
 
-So, let's instead use the :c:macro notation. This will
-produce a worse result, but should provide cross-references and
-will remove thousands of warnings when building with newer
-versions of Sphinx.
+Forgot to update GPIO_MOCKUP_MAX_PROP?
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+>  		base = gpio_mockup_range_base(i);
+>  		if (base >= 0)
+>  			properties[prop++] = PROPERTY_ENTRY_U32("gpio-base",
 
-Jon,
-
-With this patch, the html doc builds with Sphinx 3.2.1 reduced from
-1705 warnings to 624 ones.
-
-The markup is not as nice as with Sphinx 1.x/2.x, but, IMHO, it is still
-decent.
-
-What do you think?
-
-Please notice that this patch will affect the automarkup type used for
-functions (with is currently broken anyway, with Sphinx 3.x)
-
- scripts/kernel-doc | 36 +++++++++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 9 deletions(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 48301ff41ec5..5b891e5c6338 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -886,15 +886,29 @@ sub output_function_rst(%) {
-     my $oldprefix = $lineprefix;
-     my $start = "";
- 
--    if ($args{'typedef'}) {
--	print ".. c:function:: ". $args{'function'} . "\n\n";
--	print_lineno($declaration_start_line);
--	print "   **Typedef**: ";
--	$lineprefix = "";
--	output_highlight_rst($args{'purpose'});
--	$start = "\n\n**Syntax**\n\n  ``";
-+    if ($sphinx_major < 3) {
-+	if ($args{'typedef'}) {
-+	    print ".. c:function:: ". $args{'function'} . "\n\n";
-+	    print_lineno($declaration_start_line);
-+	    print "   **Typedef**: ";
-+	    $lineprefix = "";
-+	    output_highlight_rst($args{'purpose'});
-+	    $start = "\n\n**Syntax**\n\n  ``";
-+	} else {
-+	    print ".. c:function:: ";
-+	}
-     } else {
--	print ".. c:function:: ";
-+	print ".. c:macro:: ". $args{'function'} . "\n\n";
-+
-+	if ($args{'typedef'}) {
-+	    print_lineno($declaration_start_line);
-+	    print "   **Typedef**: ";
-+	    $lineprefix = "";
-+	    output_highlight_rst($args{'purpose'});
-+	    $start = "\n\n**Syntax**\n\n  ``";
-+	} else {
-+	    print "``";
-+	}
-     }
-     if ($args{'functiontype'} ne "") {
- 	$start .= $args{'functiontype'} . " " . $args{'function'} . " (";
-@@ -921,7 +935,11 @@ sub output_function_rst(%) {
-     if ($args{'typedef'}) {
- 	print ");``\n\n";
-     } else {
--	print ")\n\n";
-+	if ($sphinx_major < 3) {
-+	    print ")\n";
-+	} else {
-+	    print ")``\n\n";
-+	}
- 	print_lineno($declaration_start_line);
- 	$lineprefix = "   ";
- 	output_highlight_rst($args{'purpose'});
 -- 
-2.26.2
+With Best Regards,
+Andy Shevchenko
 
 
