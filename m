@@ -2,111 +2,166 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1ED8C4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:25:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B44D3C4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:25:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 87B832344C
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:25:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KM9OZ7Bi"
+	by mail.kernel.org (Postfix) with ESMTP id 8991120756
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:25:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728888AbgIYPZZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 11:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728612AbgIYPZY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 11:25:24 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2C6C0613CE
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 08:25:24 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id j2so4018758wrx.7
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 08:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=V7t4fEIEyVBsi/fjg9YkHb+gy/WAE7FgQtIkyl4FSCQ=;
-        b=KM9OZ7Biuv/yQe+fyjAagbCVboVA9WGPjj/1U97fdkl6Hfxv+A5iWZSmt8hlFVjOPc
-         W1HaNnR+6fTIz7NL3gQHy3UV0XhUJg8vM0a8mglzpBCR3uRNsQwXwHuMdrLHAWGGacmV
-         IX84JJFO7YtnQ2OjSWbktlicNpCpTN0PlbP89Hpn2GwE5TxGjH7A9/Dk/WuX/Z0EZC72
-         sBGlM35ZjCNN9OpaNA735G37RlDJokox2C6Qp7QuRfZjcGjX0qSqF+B3aEZpq1dvzHSt
-         7reRdjaq6udHpT3S+OUHZoGiFz/6BBju4nvnXhR+va4WZuG9zAWx/DvRF/F7WFcIkz5K
-         HnOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V7t4fEIEyVBsi/fjg9YkHb+gy/WAE7FgQtIkyl4FSCQ=;
-        b=CK8FIJmnZeoRjQguOLKFsvAEumvXhoW3mAtcviP+BOEsCbyf+dhk/Wr2HryGRy5Anr
-         g25nPOEjn+I1stKR9RzG1ezC3qbSzrH4AbnSuw+ygT92BHH61KsVNKMc/2Gs6jw1man4
-         GxELTdpXKxCLYzASo8Y1+z+kBYGWmB54qCYZQjIuaQn19qfSo0B1VcDsqFL5qC5K5N9w
-         1f8evC91WbMywr+S3ilv2pCRSWBouIh/xKwjG6d9UhkdKcZnNyjC0SsqxBy8xfz6YcyQ
-         ulAgSaXBREya7OWrdBpgdbiw05RNr+YLcwEzpViUlw1l5WHdwnzIWP/dEPcg0q+Y14pG
-         m06A==
-X-Gm-Message-State: AOAM530tbOoxT73oS21+izHGbnb/ulDCbi9sh0ym3YK2oZJ1W77rBsTt
-        kA3v12FjxEKXVRPGFD3bUvtjtbbZd/LifPaABpLs6w==
-X-Google-Smtp-Source: ABdhPJyZC6LaW4EhV/2oZznYx/893DZokEKtYHJPWcYE5I0O+k12BELKilXwNkpXCMze/LLQrSVCvwKYmQSG2pDbA6M=
-X-Received: by 2002:a5d:4581:: with SMTP id p1mr5255102wrq.345.1601047522816;
- Fri, 25 Sep 2020 08:25:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
- <20200921143059.GO2139@willie-the-truck>
-In-Reply-To: <20200921143059.GO2139@willie-the-truck>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Fri, 25 Sep 2020 17:25:11 +0200
-Message-ID: <CAG_fn=WXknUnNmyniy_UE7daivSNmy0Da2KzNmX4wcmXC2Z_Mg@mail.gmail.com>
-Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
-To:     Will Deacon <will@kernel.org>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        id S1729349AbgIYPZb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 11:25:31 -0400
+Received: from mga04.intel.com ([192.55.52.120]:19949 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728678AbgIYPZa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Sep 2020 11:25:30 -0400
+IronPort-SDR: pTZ4wDZNQOLCHTry4cEf7wxxzmEWCiiv5elgHt0RJcIzEONt8s7hVE9wK1mR7UGjLUaKPrCO1s
+ dKkynv9pZRJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="158942301"
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
+   d="scan'208";a="158942301"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:22 -0700
+IronPort-SDR: r1BMx5Qu3bfGkLVfz4QblRFjZhcbtWh8XVeTX73hcYo5zqxypGMr/4S4Ga9RbSSkPZd7lbeAB5
+ KusDdOKr0zzA==
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
+   d="scan'208";a="487499183"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:22 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v13 13/26] x86/mm: Shadow Stack page fault error checking
+Date:   Fri, 25 Sep 2020 07:56:36 -0700
+Message-Id: <20200925145649.5438-14-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200925145649.5438-1-yu-cheng.yu@intel.com>
+References: <20200925145649.5438-1-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Will,
+Shadow stack accesses are those that are performed by the CPU where it
+expects to encounter a shadow stack mapping.  These accesses are performed
+implicitly by CALL/RET at the site of the shadow stack pointer.  These
+accesses are made explicitly by shadow stack management instructions like
+WRUSSQ.
 
-> Given that the pool is relatively small (i.e. when compared with our virtual
-> address space), dedicating an area of virtual space sounds like it makes
-> the most sense here. How early do you need it to be available?
+Shadow stacks accesses to shadow-stack mapping can see faults in normal,
+valid operation just like regular accesses to regular mappings.  Shadow
+stacks need some of the same features like delayed allocation, swap and
+copy-on-write.
 
-How do we assign struct pages to a fixed virtual space area (I'm
-currently experimenting with 0xffff7f0000000000-0xffff7f0000200000)?
-Looks like filling page table entries (similarly to what's being done
-in arch/arm64/mm/kasan_init.c) is not enough.
-I thought maybe vmemmap_populate() would do the job, but it didn't
-(virt_to_pfn() still returns invalid PFNs).
+Shadow stack accesses can also result in errors, such as when a shadow
+stack overflows, or if a shadow stack access occurs to a non-shadow-stack
+mapping.
+
+In handling a shadow stack page fault, verify it occurs within a shadow
+stack mapping.  It is always an error otherwise.  For valid shadow stack
+accesses, set FAULT_FLAG_WRITE to effect copy-on-write.  Because clearing
+_PAGE_DIRTY_HW (vs. _PAGE_RW) is used to trigger the fault, shadow stack
+read fault and shadow stack write fault are not differentiated and both are
+handled as a write access.
+
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+v10:
+-Revise commit log.
+
+ arch/x86/include/asm/traps.h |  2 ++
+ arch/x86/mm/fault.c          | 19 +++++++++++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
+index 714b1a30e7b0..28b493c53d70 100644
+--- a/arch/x86/include/asm/traps.h
++++ b/arch/x86/include/asm/traps.h
+@@ -50,6 +50,7 @@ void __noreturn handle_stack_overflow(const char *message,
+  *   bit 3 ==				1: use of reserved bit detected
+  *   bit 4 ==				1: fault was an instruction fetch
+  *   bit 5 ==				1: protection keys block access
++ *   bit 6 ==				1: shadow stack access fault
+  */
+ enum x86_pf_error_code {
+ 	X86_PF_PROT	=		1 << 0,
+@@ -58,5 +59,6 @@ enum x86_pf_error_code {
+ 	X86_PF_RSVD	=		1 << 3,
+ 	X86_PF_INSTR	=		1 << 4,
+ 	X86_PF_PK	=		1 << 5,
++	X86_PF_SHSTK	=		1 << 6,
+ };
+ #endif /* _ASM_X86_TRAPS_H */
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index 6e3e8a124903..2390399c157f 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -1110,6 +1110,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
+ 				       (error_code & X86_PF_INSTR), foreign))
+ 		return 1;
+ 
++	/*
++	 * Verify a shadow stack access is within a shadow stack VMA.
++	 * It is always an error otherwise.  Normal data access to a
++	 * shadow stack area is checked in the case followed.
++	 */
++	if (error_code & X86_PF_SHSTK) {
++		if (!(vma->vm_flags & VM_SHSTK))
++			return 1;
++		return 0;
++	}
++
+ 	if (error_code & X86_PF_WRITE) {
+ 		/* write, present and write, not present: */
+ 		if (unlikely(!(vma->vm_flags & VM_WRITE)))
+@@ -1275,6 +1286,14 @@ void do_user_addr_fault(struct pt_regs *regs,
+ 
+ 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+ 
++	/*
++	 * Clearing _PAGE_DIRTY_HW is used to detect shadow stack access.
++	 * This method cannot distinguish shadow stack read vs. write.
++	 * For valid shadow stack accesses, set FAULT_FLAG_WRITE to effect
++	 * copy-on-write.
++	 */
++	if (hw_error_code & X86_PF_SHSTK)
++		flags |= FAULT_FLAG_WRITE;
+ 	if (hw_error_code & X86_PF_WRITE)
+ 		flags |= FAULT_FLAG_WRITE;
+ 	if (hw_error_code & X86_PF_INSTR)
+-- 
+2.21.0
+
