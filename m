@@ -2,161 +2,99 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF5BC4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:52:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC300C4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 07:07:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 210C523447
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601016723;
-	bh=6xPjWQx4pdqPWhe57hN7t0TY4FqQaqlHz6FS3YcZ3GM=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=dHFxFAEtkTagR3UyurkD8yl17GqHVqYwBGxqswyIq4KLpry4owLgd6F8+1SjCGeXz
-	 FaY1Nd9UPTJ6mY+cSPa8DZhBVhrOJsXkCOT7PmW5oBk6Xhr6EzApk9UDnQG91eoNaU
-	 /4wb4LS9SpWxLVwcVZ2wquRvaluBdkG2zaSLin9w=
+	by mail.kernel.org (Postfix) with ESMTP id 6AFA522211
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 07:07:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727176AbgIYGwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 02:52:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34756 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726983AbgIYGwC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 02:52:02 -0400
-Received: from mail.kernel.org (ip5f5ad5bf.dynamic.kabel-deutschland.de [95.90.213.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 513BC21D91;
-        Fri, 25 Sep 2020 06:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601016721;
-        bh=6xPjWQx4pdqPWhe57hN7t0TY4FqQaqlHz6FS3YcZ3GM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=l5Es0kVxSXLh5hpXELdE3Soy0XNuLthuknTRPhxeRK8vc4Dgm8KFgMZLw688+qikk
-         x3Y67Vkm7fK/Mx283IoMxwHKRuROSLH8oupofKPN8i+I70d5jN+m6ozrT82WrvN8TR
-         W7HPe27VXKL1xFSsbTofvO95jgbXZPe5DeBQ99es=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kLhaH-000RZE-Qq; Fri, 25 Sep 2020 08:51:57 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S1727324AbgIYHH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 03:07:26 -0400
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:48267 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727068AbgIYHH0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 03:07:26 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R711e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UA0ImaR_1601017642;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UA0ImaR_1601017642)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 25 Sep 2020 15:07:22 +0800
+Subject: Re: [PATCH V3] doc: zh_CN: add translatation for btrfs
+To:     Wang Qing <wangqing@vivo.com>, Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] media: glossary.rst: use the right case for glossary entries
-Date:   Fri, 25 Sep 2020 08:51:56 +0200
-Message-Id: <8aa69e13e14d3c687721b64780b03ad5dd59af78.1601016714.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+References: <1601016619-19352-1-git-send-email-wangqing@vivo.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <0a5df537-9f74-f877-7775-df920097a819@linux.alibaba.com>
+Date:   Fri, 25 Sep 2020 15:05:07 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1601016619-19352-1-git-send-email-wangqing@vivo.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx 3.x is pedantic with glossary entries:
+this file looks fine.
 
-    Documentation/userspace-api/media/glossary.rst:17: WARNING: term device driver not found in case sensitive match.made a reference to Device Driver instead.
-    Documentation/userspace-api/media/glossary.rst:59: WARNING: term media hardware not found in case sensitive match.made a reference to Media Hardware instead.
-    Documentation/userspace-api/media/glossary.rst:59: WARNING: term IP block not found in case sensitive match.made a reference to IP Block instead.
-    Documentation/userspace-api/media/glossary.rst:64: WARNING: term hardware component not found in case sensitive match.made a reference to Hardware Component instead.
-    Documentation/userspace-api/media/glossary.rst:64: WARNING: term ip block not found in case sensitive match.made a reference to IP Block instead.
-    Documentation/userspace-api/media/glossary.rst:70: WARNING: term peripheral not found in case sensitive match.made a reference to Peripheral instead.
-    Documentation/userspace-api/media/glossary.rst:130: WARNING: term V4L2 hardware not found in case sensitive match.made a reference to V4L2 Hardware instead.
-    Documentation/userspace-api/media/glossary.rst:151: WARNING: term hardware peripheral not found in case sensitive match.made a reference to Hardware Peripheral instead.
-    Documentation/userspace-api/media/glossary.rst:183: WARNING: term device node not found in case sensitive match.made a reference to Device Node instead.
-    Documentation/userspace-api/media/glossary.rst:191: WARNING: term bridge driver not found in case sensitive match.made a reference to Bridge Driver instead.
+but we still need a link in index.rst to show page in web.
 
-While it works with case-insensitive entires, it complains.
-
-Let's fix it, in order to cleanup the warnings. Also, I won't
-doubt that a later change on Sphinx will end breaking support
-for it.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../userspace-api/media/glossary.rst          | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-index 59a95dba5909..cb165d7176b7 100644
---- a/Documentation/userspace-api/media/glossary.rst
-+++ b/Documentation/userspace-api/media/glossary.rst
-@@ -14,7 +14,7 @@ Glossary
- .. glossary::
- 
-     Bridge Driver
--	A :term:`device driver` that implements the main logic to talk with
-+	A :term:`Device Driver` that implements the main logic to talk with
- 	media hardware.
- 
-     CEC API
-@@ -56,18 +56,18 @@ Glossary
- 	See https://en.wikipedia.org/wiki/Field-programmable_gate_array.
- 
-     Hardware Component
--	A subset of the :term:`media hardware`. For example an :term:`I²C` or
--	:term:`SPI` device, or an :term:`IP block` inside an
-+	A subset of the :term:`Media Hardware`. For example an :term:`I²C` or
-+	:term:`SPI` device, or an :term:`IP Block` inside an
- 	:term:`SoC` or :term:`FPGA`.
- 
-     Hardware Peripheral
--	A group of :term:`hardware components <hardware component>` that
-+	A group of :term:`hardware components <Hardware Component>` that
- 	together make a larger user-facing functional peripheral. For
--	instance, the :term:`SoC` :term:`ISP` :term:`IP block <ip block>`
-+	instance, the :term:`SoC` :term:`ISP` :term:`IP Block`
- 	and the external camera sensors together make a camera hardware
- 	peripheral.
- 
--	Also known as :term:`peripheral`.
-+	Also known as :term:`Peripheral`.
- 
-     I²C
- 	**Inter-Integrated Circuit**
-@@ -127,7 +127,7 @@ Glossary
- 	See :ref:`media_controller`.
- 
-     MC-centric
--	:term:`V4L2 hardware` device driver that requires :term:`MC API`.
-+	:term:`V4L2 Hardware` device driver that requires :term:`MC API`.
- 
- 	Such drivers have ``V4L2_CAP_IO_MC`` device_caps field set
- 	(see :ref:`VIDIOC_QUERYCAP`).
-@@ -148,7 +148,7 @@ Glossary
- 	instructions on a single integrated circuit.
- 
-     Peripheral
--	The same as :term:`hardware peripheral`.
-+	The same as :term:`Hardware Peripheral`.
- 
-     RC API
- 	**Remote Controller API**
-@@ -180,7 +180,7 @@ Glossary
- 	control a V4L2 hardware.
- 
-     V4L2 Device Node
--	A :term:`device node` that is associated to a V4L driver.
-+	A :term:`Device Node` that is associated to a V4L driver.
- 
- 	The V4L2 device node naming is specified at :ref:`v4l2_device_naming`.
- 
-@@ -189,7 +189,7 @@ Glossary
- 
-     V4L2 Sub-device
- 	V4L2 hardware components that aren't controlled by a
--	:term:`bridge driver`. See :ref:`subdev`.
-+	:term:`Bridge Driver`. See :ref:`subdev`.
- 
-     Video-node-centric
- 	V4L2 device driver that doesn't require a media controller to be used.
--- 
-2.26.2
-
+在 2020/9/25 下午2:49, Wang Qing 写道:
+> Translate Documentation/filesystems/btrfs.rst into Chinese.
+> 
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> ---
+>  .../translations/zh_CN/filesystems/btrfs.rst       | 37 ++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/filesystems/btrfs.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/filesystems/btrfs.rst b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+> new file mode 100644
+> index 0000000..8b8cca2
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+> @@ -0,0 +1,37 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/filesystems/ext3.rst <ext3_index>`
+> +
+> +translated by 王擎 Wang Qing<wangqing@vivo.com>
+> +
+> +=====
+> +BTRFS
+> +=====
+> +
+> +Btrfs是一个写时复制更新的文件系统，它注重容错、修复和易于管理。
+> +Btrfs由多家公司联合开发，并获得GPL许可，免费开放给所有人。
+> +
+> +Btrfs的主要功能包括：
+> +
+> +    *扩展大小的文件存储（文件最大支持2^64）
+> +    *填充方式使小文件更节省空间
+> +    *索引目录的方式更节省空间
+> +    *动态的索引节点分配方式
+> +    *可写快照的特性
+> +    *支持子卷（独立的内部根文件系统）
+> +    *对象级别的镜像克隆
+> +    *基于数据和元数据的校验和（支持多种算法）
+> +    *支持压缩
+> +    *內建多种磁盘阵列算法，支持多种设备
+> +    *支持离线的文件系统检查
+> +    *高效的增量备份和文件系统镜像
+> +    *在线文件系统碎片整理
+> +
+> +更多有关信息，请参阅Wiki
+> +
+> +  https://btrfs.wiki.kernel.org
+> +
+> +维护信息包含管理任务、常见问题、用例、挂载选项、变更日志、
+> +特性、手册、源码仓、联系人等。
+> 
