@@ -2,85 +2,210 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F4A2C4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82974C4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:24:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 183ED208A9
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:15:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40B5E20BED
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 11:24:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="KFvhSpXN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727997AbgIYLPn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 07:15:43 -0400
-Received: from foss.arm.com ([217.140.110.172]:42402 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727132AbgIYLPn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 07:15:43 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34B1D101E;
-        Fri, 25 Sep 2020 04:15:42 -0700 (PDT)
-Received: from [10.57.48.76] (unknown [10.57.48.76])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 986323F70D;
-        Fri, 25 Sep 2020 04:15:38 -0700 (PDT)
-Subject: Re: [PATCH 08/18] dma-mapping: add a new dma_alloc_noncoherent API
-To:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org
-Cc:     alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        netdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20200915155122.1768241-1-hch@lst.de>
- <20200915155122.1768241-9-hch@lst.de>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <c8ea4023-3e19-d63b-d936-46a04f502a61@arm.com>
-Date:   Fri, 25 Sep 2020 12:15:37 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+        id S1728038AbgIYLYI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 07:24:08 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:32737 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726255AbgIYLYI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 07:24:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1601033046; x=1632569046;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=5NMENrUjSNjCsQoUiDftw7mzxLQdx0hBB98A7KX4Fnk=;
+  b=KFvhSpXNm5IbcTk8dlvJnaxDn5I8iSSXu6iOytltrSfYmExKAyjd7sIn
+   /NJvTZtQMOUZRHCL2lweJ1L/JDh/2y2zSgsUTOfjKYja5TBRd8551p875
+   fzuGYeiN8rWTG5ePzTotDidkI9IZbSIEvE9uOzc/Cnp3VLgD744RpBKva
+   Y=;
+X-IronPort-AV: E=Sophos;i="5.77,301,1596499200"; 
+   d="scan'208";a="57674777"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 25 Sep 2020 11:24:02 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com (Postfix) with ESMTPS id 73A44A0334;
+        Fri, 25 Sep 2020 11:23:59 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.229) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 25 Sep 2020 11:23:44 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Marco Elver <elver@google.com>
+CC:     <akpm@linux-foundation.org>, <glider@google.com>,
+        <mark.rutland@arm.com>, <hdanton@sina.com>,
+        <linux-doc@vger.kernel.org>, <peterz@infradead.org>,
+        <catalin.marinas@arm.com>, <dave.hansen@linux.intel.com>,
+        <linux-mm@kvack.org>, <edumazet@google.com>, <hpa@zytor.com>,
+        <cl@linux.com>, <will@kernel.org>, <sjpark@amazon.com>,
+        <corbet@lwn.net>, <x86@kernel.org>, <kasan-dev@googlegroups.com>,
+        <mingo@redhat.com>, <vbabka@suse.cz>, <rientjes@google.com>,
+        <aryabinin@virtuozzo.com>, <keescook@chromium.org>,
+        <paulmck@kernel.org>, <jannh@google.com>, <andreyknvl@google.com>,
+        <bp@alien8.de>, <luto@kernel.org>, <Jonathan.Cameron@huawei.com>,
+        <tglx@linutronix.de>, <dvyukov@google.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <penberg@kernel.org>, <iamjoonsoo.kim@lge.com>
+Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
+Date:   Fri, 25 Sep 2020 13:23:28 +0200
+Message-ID: <20200925112328.10057-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200921132611.1700350-2-elver@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915155122.1768241-9-hch@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.229]
+X-ClientProxiedBy: EX13D29UWA004.ant.amazon.com (10.43.160.33) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-09-15 16:51, Christoph Hellwig wrote:
-[...]
-> +These APIs allow to allocate pages in the kernel direct mapping that are
-> +guaranteed to be DMA addressable.  This means that unlike dma_alloc_coherent,
-> +virt_to_page can be called on the resulting address, and the resulting
+On Mon, 21 Sep 2020 15:26:02 +0200 Marco Elver <elver@google.com> wrote:
 
-Nit: if we explicitly describe this as if it's a guarantee that can be 
-relied upon...
+> From: Alexander Potapenko <glider@google.com>
+> 
+> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> low-overhead sampling-based memory safety error detector of heap
+> use-after-free, invalid-free, and out-of-bounds access errors.
+> 
+> KFENCE is designed to be enabled in production kernels, and has near
+> zero performance overhead. Compared to KASAN, KFENCE trades performance
+> for precision. The main motivation behind KFENCE's design, is that with
+> enough total uptime KFENCE will detect bugs in code paths not typically
+> exercised by non-production test workloads. One way to quickly achieve a
+> large enough total uptime is when the tool is deployed across a large
+> fleet of machines.
+> 
+> KFENCE objects each reside on a dedicated page, at either the left or
+> right page boundaries. The pages to the left and right of the object
+> page are "guard pages", whose attributes are changed to a protected
+> state, and cause page faults on any attempted access to them. Such page
+> faults are then intercepted by KFENCE, which handles the fault
+> gracefully by reporting a memory access error. To detect out-of-bounds
+> writes to memory within the object's page itself, KFENCE also uses
+> pattern-based redzones. The following figure illustrates the page
+> layout:
+> 
+>   ---+-----------+-----------+-----------+-----------+-----------+---
+>      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
+>      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
+>      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
+>      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
+>      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
+>      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
+>   ---+-----------+-----------+-----------+-----------+-----------+---
+> 
+> Guarded allocations are set up based on a sample interval (can be set
+> via kfence.sample_interval). After expiration of the sample interval, a
+> guarded allocation from the KFENCE object pool is returned to the main
+> allocator (SLAB or SLUB). At this point, the timer is reset, and the
+> next allocation is set up after the expiration of the interval.
+> 
+> To enable/disable a KFENCE allocation through the main allocator's
+> fast-path without overhead, KFENCE relies on static branches via the
+> static keys infrastructure. The static branch is toggled to redirect the
+> allocation to KFENCE. To date, we have verified by running synthetic
+> benchmarks (sysbench I/O workloads) that a kernel compiled with KFENCE
+> is performance-neutral compared to the non-KFENCE baseline.
+> 
+> For more details, see Documentation/dev-tools/kfence.rst (added later in
+> the series).
+> 
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Co-developed-by: Marco Elver <elver@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> ---
+> v3:
+> * Reports by SeongJae Park:
+>   * Remove reference to Documentation/dev-tools/kfence.rst.
+>   * Remove redundant braces.
+>   * Use CONFIG_KFENCE_NUM_OBJECTS instead of ARRAY_SIZE(...).
+>   * Align some comments.
+> * Add figure from Documentation/dev-tools/kfence.rst added later in
+>   series to patch description.
+> 
+> v2:
+> * Add missing __printf attribute to seq_con_printf, and fix new warning.
+>   [reported by kernel test robot <lkp@intel.com>]
+> * Fix up some comments [reported by Jonathan Cameron].
+> * Remove 2 cases of redundant stack variable initialization
+>   [reported by Jonathan Cameron].
+> * Fix printf format [reported by kernel test robot <lkp@intel.com>].
+> * Print (in kfence-#nn) after address, to more clearly establish link
+>   between first and second stacktrace [reported by Andrey Konovalov].
+> * Make choice between KASAN and KFENCE clearer in Kconfig help text
+>   [suggested by Dave Hansen].
+> * Document CONFIG_KFENCE_SAMPLE_INTERVAL=0.
+> * Shorten memory corruption report line length.
+> * Make /sys/module/kfence/parameters/sample_interval root-writable for
+>   all builds (to enable debugging, automatic dynamic tweaking).
+> * Reports by Dmitry Vyukov:
+>   * Do not store negative size for right-located objects
+>   * Only cache-align addresses of right-located objects.
+>   * Run toggle_allocation_gate() after KFENCE is enabled.
+>   * Add empty line between allocation and free stacks.
+>   * Add comment about SLAB_TYPESAFE_BY_RCU.
+>   * Also skip internals for allocation/free stacks.
+>   * s/KFENCE_FAULT_INJECTION/KFENCE_STRESS_TEST_FAULTS/ as FAULT_INJECTION
+>     is already overloaded in different contexts.
+>   * Parenthesis for macro variable.
+>   * Lower max of KFENCE_NUM_OBJECTS config variable.
+> ---
+>  MAINTAINERS            |  11 +
+>  include/linux/kfence.h | 174 ++++++++++
+>  init/main.c            |   2 +
+>  lib/Kconfig.debug      |   1 +
+>  lib/Kconfig.kfence     |  63 ++++
+>  mm/Makefile            |   1 +
+>  mm/kfence/Makefile     |   3 +
+>  mm/kfence/core.c       | 733 +++++++++++++++++++++++++++++++++++++++++
+>  mm/kfence/kfence.h     | 102 ++++++
+>  mm/kfence/report.c     | 219 ++++++++++++
+>  10 files changed, 1309 insertions(+)
+>  create mode 100644 include/linux/kfence.h
+>  create mode 100644 lib/Kconfig.kfence
+>  create mode 100644 mm/kfence/Makefile
+>  create mode 100644 mm/kfence/core.c
+>  create mode 100644 mm/kfence/kfence.h
+>  create mode 100644 mm/kfence/report.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b5cfab015bd6..863899ed9a29 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9673,6 +9673,17 @@ F:	include/linux/keyctl.h
+>  F:	include/uapi/linux/keyctl.h
+>  F:	security/keys/
+>  
+> +KFENCE
+> +M:	Alexander Potapenko <glider@google.com>
+> +M:	Marco Elver <elver@google.com>
+> +R:	Dmitry Vyukov <dvyukov@google.com>
+> +L:	kasan-dev@googlegroups.com
+> +S:	Maintained
+> +F:	Documentation/dev-tools/kfence.rst
 
-> +struct page can be used for everything a struct page is suitable for.
+This patch doesn't introduce this file yet, right?  How about using a separate
+final patch for MAINTAINERS update?
 
-[...]
-> +This routine allocates a region of <size> bytes of consistent memory.  It
-> +returns a pointer to the allocated region (in the processor's virtual address
-> +space) or NULL if the allocation failed.  The returned memory may or may not
-> +be in the kernels direct mapping.  Drivers must not call virt_to_page on
-> +the returned memory region.
+Other than that,
 
-...then forbid this document's target audience from relying on it, 
-something seems off. At the very least it's unhelpfully unclear :/
+Reviewed-by: SeongJae Park <sjpark@amazon.de>
 
-Given patch #17, I suspect that the first paragraph is the one that's no 
-longer true.
 
-Robin.
+Thanks,
+SeongJae Park
