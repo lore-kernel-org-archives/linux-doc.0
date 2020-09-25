@@ -2,78 +2,106 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB634C4727E
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 05:43:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D231FC4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:24:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A17F21D7A
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 05:43:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B4A521D7F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:24:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbgIYFnT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 01:43:19 -0400
-Received: from mga12.intel.com ([192.55.52.136]:63311 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726925AbgIYFnS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Sep 2020 01:43:18 -0400
-IronPort-SDR: 596ihZ6WvUD0getK0hMzORkCv99ZI34ONHhOfgcUeRpcxtiWGLwEw9axZLY0znpzHYvJ3c8O4L
- kCx2tv1aQxvw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="140863320"
-X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; 
-   d="scan'208";a="140863320"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 22:43:18 -0700
-IronPort-SDR: fd4ITIhTxcQZZfnwoepJLdugVs8r1WtFhOoLToH1S5iY96G0wBOocQXZXY11Ztf63VOZq7kx8f
- zpi90Z27C95w==
-X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; 
-   d="scan'208";a="487319116"
-Received: from erybin-mobl.ccr.corp.intel.com (HELO localhost) ([10.249.47.248])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 22:43:15 -0700
-Date:   Fri, 25 Sep 2020 08:43:13 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Ross Philipson <ross.philipson@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 05/13] x86: Add early TPM1.2/TPM2.0 interface support for
- Secure Launch
-Message-ID: <20200925054313.GB165011@linux.intel.com>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-6-git-send-email-ross.philipson@oracle.com>
+        id S1727357AbgIYGX6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 02:23:58 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:43470 "EHLO
+        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727183AbgIYGXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 02:23:55 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R661e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UA0Ih0N_1601015032;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UA0Ih0N_1601015032)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 25 Sep 2020 14:23:52 +0800
+Subject: Re: [PATCH V2] doc: zh_CN: add translatation for btrfs
+To:     Wang Qing <wangqing@vivo.com>, Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1600928938-22829-1-git-send-email-wangqing@vivo.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <a26feba2-ef23-3dfb-6f3f-d7e5ce2c6eb8@linux.alibaba.com>
+Date:   Fri, 25 Sep 2020 14:21:37 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1600959521-24158-6-git-send-email-ross.philipson@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <1600928938-22829-1-git-send-email-wangqing@vivo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 10:58:33AM -0400, Ross Philipson wrote:
-> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+I still can not apply your patch, is there sth wrong?
+
+Applying: doc: zh_CN: add translatation for btrfs
+error: dev/null: does not exist in index
+Patch failed at 0001 doc: zh_CN: add translatation for btrfs
+The copy of the patch that failed is found in:
+   /root/linux-next/.git/rebase-apply/patch
+
+Also can not read your patch in git too.
+
+Thanks
+Alex
+
+在 2020/9/24 下午2:28, Wang Qing 写道:
+> Translate Documentation/filesystems/btrfs.rst into Chinese.
 > 
-> This commit introduces an abstraction for TPM1.2 and TPM2.0 devices
-> above the TPM hardware interface.
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> ---
+>  .../translations/zh_CN/filesystems/btrfs.rst       | 37 ++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 > 
-> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-
-This is way, way too PoC. I wonder why there is no RFC tag.
-
-Please also read section 2 of
-
-https://www.kernel.org/doc/html/v5.8/process/submitting-patches.html
-
-You should leverage existing TPM code in a way or another. Refine it so
-that it scales for your purpose and then compile it into your thing
-(just include the necesary C-files with relative paths).
-
-How it is now is never going to fly.
-
-/Jarkko
+> diff --git a/Documentation/translations/zh_CN/filesystems/btrfs.rst b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+> index 0000000..8b8cca2
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+> @@ -0,0 +1,37 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/filesystems/ext3.rst <ext3_index>`
+> +
+> +translated by 王擎 Wang Qing<wangqing@vivo.com>
+> +
+> +=====
+> +BTRFS
+> +=====
+> +
+> +Btrfs是一个写时复制更新的文件系统，它注重容错、修复和易于管理。
+> +Btrfs由多家公司联合开发，并获得GPL许可，免费开放给所有人。
+> +
+> +Btrfs的主要功能包括：
+> +
+> +    *扩展大小的文件存储（文件最大支持2^64）
+> +    *填充方式使小文件更节省空间
+> +    *索引目录的方式更节省空间
+> +    *动态的索引节点分配方式
+> +    *可写快照的特性
+> +    *支持子卷（独立的内部根文件系统）
+> +    *对象级别的镜像克隆
+> +    *基于数据和元数据的校验和（支持多种算法）
+> +    *支持压缩
+> +    *內建多种磁盘阵列算法，支持多种设备
+> +    *支持离线的文件系统检查
+> +    *高效的增量备份和文件系统镜像
+> +    *在线文件系统碎片整理
+> +
+> +更多有关信息，请参阅Wiki
+> +
+> +  https://btrfs.wiki.kernel.org
+> +
+> +维护信息包含管理任务、常见问题、用例、挂载选项、变更日志、
+> +特性、手册、源码仓、联系人等。
+> 
