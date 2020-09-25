@@ -2,114 +2,101 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E05B4C4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF4DC4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:50:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8408E2311B
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:40:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 800B422211
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 06:50:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727067AbgIYGkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 02:40:22 -0400
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:43308 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727044AbgIYGkW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 02:40:22 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UA06yVo_1601016017;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UA06yVo_1601016017)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 25 Sep 2020 14:40:18 +0800
-Subject: Re: [PATCH v3] doc: zh_CN: index files in arm64 subdirectory
-To:     Bailu Lin <bailu.lin@vivo.com>, catalin.marinas@arm.com,
-        will@kernel.org, corbet@lwn.net, harryxiyou@gmail.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        id S1727110AbgIYGuf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 02:50:35 -0400
+Received: from m17618.mail.qiye.163.com ([59.111.176.18]:26841 "EHLO
+        m17618.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727044AbgIYGuf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 02:50:35 -0400
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.231])
+        by m17618.mail.qiye.163.com (Hmail) with ESMTPA id E03B54E0F06;
+        Fri, 25 Sep 2020 14:50:30 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com
-References: <20200916130714.42438-1-bailu.lin@vivo.com>
- <20200918081126.20765-1-bailu.lin@vivo.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <bdce1e87-e0de-bd4a-fcfc-73f406af8148@linux.alibaba.com>
-Date:   Fri, 25 Sep 2020 14:38:03 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.7.0
+Subject: [PATCH V3] doc: zh_CN: add translatation for btrfs
+Date:   Fri, 25 Sep 2020 14:49:27 +0800
+Message-Id: <1601016619-19352-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20200918081126.20765-1-bailu.lin@vivo.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZHk1JQkNPHkgYGh8aVkpNS0pLSk1NSEpJS0tVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAg6NQw5DT8ZLAI*MxorLzAY
+        PQ8aCh9VSlVKTUtKS0pNTUhKTU5IVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5KVUxPVUlISllXWQgBWUFJQ0tKNwY+
+X-HM-Tid: 0a74c4070f4f9376kuwse03b54e0f06
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Translate Documentation/filesystems/btrfs.rst into Chinese.
 
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ .../translations/zh_CN/filesystems/btrfs.rst       | 37 ++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/btrfs.rst
 
-在 2020/9/18 下午4:11, Bailu Lin 写道:
-> Add arm64 subdirectory into the table of Contents for zh_CN,
-> then add other translations in arm64 conveniently.
-> 
-> Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
-> ---
-> Changes in v3:
->  - Correct email encoding format.
-> Changes in v2:
->  - Fix patch description.
-> ---
->  Documentation/arm64/index.rst                    |  4 ++++
->  Documentation/translations/zh_CN/arm64/index.rst | 16 ++++++++++++++++
->  Documentation/translations/zh_CN/index.rst       |  1 +
->  3 files changed, 21 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/arm64/index.rst
-> 
-> diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-> index d9665d83c53a..907cda9c0f71 100644
-> --- a/Documentation/arm64/index.rst
-> +++ b/Documentation/arm64/index.rst
-> @@ -1,3 +1,7 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
+diff --git a/Documentation/translations/zh_CN/filesystems/btrfs.rst b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+new file mode 100644
+index 0000000..8b8cca2
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/btrfs.rst
+@@ -0,0 +1,37 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/filesystems/ext3.rst <ext3_index>`
++
++translated by 王擎 Wang Qing<wangqing@vivo.com>
++
++=====
++BTRFS
++=====
++
++Btrfs是一个写时复制更新的文件系统，它注重容错、修复和易于管理。
++Btrfs由多家公司联合开发，并获得GPL许可，免费开放给所有人。
++
++Btrfs的主要功能包括：
++
++    *扩展大小的文件存储（文件最大支持2^64）
++    *填充方式使小文件更节省空间
++    *索引目录的方式更节省空间
++    *动态的索引节点分配方式
++    *可写快照的特性
++    *支持子卷（独立的内部根文件系统）
++    *对象级别的镜像克隆
++    *基于数据和元数据的校验和（支持多种算法）
++    *支持压缩
++    *內建多种磁盘阵列算法，支持多种设备
++    *支持离线的文件系统检查
++    *高效的增量备份和文件系统镜像
++    *在线文件系统碎片整理
++
++更多有关信息，请参阅Wiki
++
++  https://btrfs.wiki.kernel.org
++
++维护信息包含管理任务、常见问题、用例、挂载选项、变更日志、
++特性、手册、源码仓、联系人等。
+-- 
+2.7.4
 
-As Jon and Will mentioned, a License claim should be removed...
- 
-> +.. _arm64_index:
-> +
->  ==================
->  ARM64 Architecture
->  ==================
-> diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
-> new file mode 100644
-> index 000000000000..c236b648740d
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/arm64/index.rst
-> @@ -0,0 +1,16 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/arm64/index.rst <arm64_index>`
-> +:Translator: Bailu Lin <bailu.lin@vivo.com>
-> +
-> +.. _cn_arm64_index:
-> +
-> +
-> +==========
-> +ARM64 架构
-> +==========
-> +
-> +.. toctree::
-> +    :maxdepth: 2
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index 85643e46e308..be6f11176200 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -19,6 +19,7 @@
->     admin-guide/index
->     process/index
->     filesystems/index
-> +   arm64/index
->  
->  目录和表格
->  ----------
-> 
