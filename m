@@ -2,88 +2,99 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEB4C4741F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:40:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC00C4363D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:41:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 550FF206BE
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:40:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m5NtFveS"
+	by mail.kernel.org (Postfix) with ESMTP id C26FA206BE
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 16:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728056AbgIYQkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 12:40:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728011AbgIYQkV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 12:40:21 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27D8C0613CE
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 09:40:20 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id o8so2901544otl.4
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 09:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=adS2w4MfZVtQ+JdOzVjFl88CdbAyPhM8+osYUFtdj/U=;
-        b=m5NtFveSMLhfuRJGGdkLfEMup8cEopZ/jbnqb7UUZO0HMgcTV545eLiYK19f2Rtic9
-         XnixmPOvGbambOL+DhjMVQ9mGnjHwL1P63lW23ZeaEO5CtuX7BJVAuDISt87ZaFzaqji
-         +TQjVytRPzlc/f3cs+CnYLbe28QaWc/I3Y0KTEmvF+sQfXu+M9+G5B4+IG9tJkm66rVa
-         LssiqNZHVitPn5b4xTv8RcqNDD6hXDLkYK1+zwQcydYyoFgi6iBfLBm8BNH2WMTlsoAi
-         tCmQl5+2u9BjRUgBdaRT/uOKAwywJ/Qoc9DxSCWSzydl0lJh1NbwKzGeQbxoDOP7vrQP
-         gOSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=adS2w4MfZVtQ+JdOzVjFl88CdbAyPhM8+osYUFtdj/U=;
-        b=X0YuoPS7IbGVpPOZHnrPL36k3cDwUMBvtzin4pRXEN2UnBt4u4FuVdlBHlSPTSLklK
-         ddvMGwOOu5qJ54TH6nomV7CDSDfczqpWLZBGHb6G0B8X1w4O8q+ZT1auHzTfxICvRgUz
-         bzehknLKp641s5W8foTbI64LdyJN3PLz4t28GgsoFEB3l10KY4rcvwGc3unV3wVijjQN
-         dxvCBWk/zYrk7Le3Uc+laALLZv6Ok9cGv/IOxvKg9XIMI1RyCgnEPUqYWFU2kx64izs1
-         wApDNVzVNGRfOR4cF7bN6LcjIlmjqakF/XsglsP3tYAWCJdwzrhnHhuaQ82JXggv6AfK
-         m/jg==
-X-Gm-Message-State: AOAM53045MFTtwpy9xw7fWkcgg8T31hPfPxMlODGf/ecDHXpqMKsAytF
-        pEEDhyfMlMnqB0Sq0Ii0ZYTnoAovpTLCh/xA7lENfA==
-X-Google-Smtp-Source: ABdhPJy/QdDf8ZZphXLshFnr46sMAVEmrQ6ga42OUf0dnO02EpnX+XXwrzbC1TlH5wbcBksxHK3/H9KCAGjVDCAkWbM=
-X-Received: by 2002:a05:6830:164e:: with SMTP id h14mr894858otr.56.1601052020022;
- Fri, 25 Sep 2020 09:40:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200925143422.21718-1-graf@amazon.com> <20200925143422.21718-2-graf@amazon.com>
-In-Reply-To: <20200925143422.21718-2-graf@amazon.com>
-From:   Jim Mattson <jmattson@google.com>
-Date:   Fri, 25 Sep 2020 09:40:08 -0700
-Message-ID: <CALMp9eSDH1F70i=-3wrC55ipz91qygrsPtw7RL4iCi09A-Da6A@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] KVM: x86: Return -ENOENT on unimplemented MSRs
-To:     Alexander Graf <graf@amazon.com>
-Cc:     kvm list <kvm@vger.kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        id S1729078AbgIYQlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 12:41:04 -0400
+Received: from mga11.intel.com ([192.55.52.93]:19942 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726990AbgIYQlE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Sep 2020 12:41:04 -0400
+IronPort-SDR: Me5HzumdUfC+imb3Npr9D4Ls0HY4wWssDNmmh1r4DWJfKa1go19jGXOpYJEbTbZCr2ARTjV2X8
+ JDB9UBMHG1yQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="158936131"
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
+   d="scan'208";a="158936131"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 09:41:03 -0700
+IronPort-SDR: Qbg96RyIDZE69SpY8G9y5rk466eek6K/vAeSIASoTig1Amupl9y1Wwvs6ovpTjLiLrP8bQzL4h
+ cu4S3r4Vf5SA==
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
+   d="scan'208";a="413872238"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 09:41:01 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kLmpW-001ut5-Gl; Fri, 25 Sep 2020 15:28:02 +0300
+Date:   Fri, 25 Sep 2020 15:28:02 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        KarimAllah Raslan <karahmed@amazon.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kent Gibson <warthog618@gmail.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/9] lib: string_helpers: provide kfree_strarray()
+Message-ID: <20200925122802.GC3956970@smile.fi.intel.com>
+References: <20200924113842.11670-1-brgl@bgdev.pl>
+ <20200924113842.11670-2-brgl@bgdev.pl>
+ <20200925084804.GX3956970@smile.fi.intel.com>
+ <CAMpxmJV27BO0A82TKWK59StYXnLfgqT5qS_chgn73GPoNn3wCA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMpxmJV27BO0A82TKWK59StYXnLfgqT5qS_chgn73GPoNn3wCA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 7:34 AM Alexander Graf <graf@amazon.com> wrote:
->
-> When we find an MSR that we can not handle, bubble up that error code as
-> MSR error return code. Follow up patches will use that to expose the fact
-> that an MSR is not handled by KVM to user space.
->
-> Suggested-by: Aaron Lewis <aaronlewis@google.com>
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-Reviewed-by: Jim Mattson <jmattson@google.com>
+On Fri, Sep 25, 2020 at 01:32:01PM +0200, Bartosz Golaszewski wrote:
+> On Fri, Sep 25, 2020 at 11:01 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Thu, Sep 24, 2020 at 01:38:34PM +0200, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > There's a common pattern of dynamically allocating an array of char
+> > > pointers and then also dynamically allocating each string in this
+> > > array. Provide a helper for freeing such a string array with one call.
+> >
+> > For consistency I would like to provide kalloc_strarray(), but it seems a bit
+> > ambiguous. So I'm fine with this going alone.
+> >
+> 
+> But how would it even work - you can allocate strings in so many ways?
+
+Yes, that's what I meant in the second part of the first sentence.
+
+Something like:
+
+static inline char **kalloc_strarray(n, gfp)
+{
+	return kcalloc(n, sizeof(char *), gfp);
+}
+
+looks good enough, but it's only first part of the equation.
+
+> Also: let's not introduce functions without users.
+
+Agree.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
