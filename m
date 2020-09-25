@@ -2,197 +2,110 @@ Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E414FC4363D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:18:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8B4C4727D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:21:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE191208B6
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:18:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 846F921D42
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 15:21:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oxe8hyB3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728806AbgIYPSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 11:18:42 -0400
-Received: from mail-m1272.qiye.163.com ([115.236.127.2]:21924 "EHLO
-        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728818AbgIYPSm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 11:18:42 -0400
-Received: from ubuntu.localdomain (unknown [58.250.176.229])
-        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id 745FEB024A7;
-        Fri, 25 Sep 2020 23:18:30 +0800 (CST)
-From:   Bailu Lin <bailu.lin@vivo.com>
-To:     corbet@lwn.net
-Cc:     alex.shi@linux.alibaba.com, bailu.lin@vivo.com,
-        catalin.marinas@arm.com, harryxiyou@gmail.com, kernel@vivo.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, will@kernel.org
-Subject: [PATCH v3] Documentation: Chinese translation of  Documentation/arm64/amu.rst
-Date:   Fri, 25 Sep 2020 08:17:58 -0700
-Message-Id: <20200925151758.41818-1-bailu.lin@vivo.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200924104141.7abc7271@lwn.net>
-References: <20200924104141.7abc7271@lwn.net>
+        id S1729002AbgIYPVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 11:21:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728750AbgIYPVa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 11:21:30 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E43CC0613CE;
+        Fri, 25 Sep 2020 08:21:30 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id 7so2841997pgm.11;
+        Fri, 25 Sep 2020 08:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HfdKNxFN//fHQRteZ3ano4yEULisk9Ub6ql9G5B3xNA=;
+        b=oxe8hyB3SWoORMJx2Fg35b7spl30TjSgnbPZjGJVk6sS6rhFD96ISWOevGjmuBDi4N
+         DhzBdjFTeeK67b7waaPtxuVSbKdGK8HdpJOFCGyynvcNzRYBPNca4DN4/QsM7ooGZrcd
+         WsP/Ajt4zhN+5EwGmgbbP9cP5gG7CD7lmEy26yf4q6X7px4QGiODop3OJfN3oH3nMg0L
+         G/jwVvERTuCU8LKLqUatu0st4i/C6Vurd/9+ofCYqTd8TEs4wF0SE/YXQFYjrcdhPbmA
+         wWIhrFBSL2rrJeGLzJeZtp/DPD5aWDotB4wQEOlGucBFRp/ogUnRhAFcsBIfZW7BM7tH
+         DVaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HfdKNxFN//fHQRteZ3ano4yEULisk9Ub6ql9G5B3xNA=;
+        b=IaatSI7Tr13aXBMMkox3D5r+C/U9tgt/vhJcH223OsoeUIZe4UIaGaRokTwtbc+ZEe
+         B2n1K5ngXfOrB/7WXqdGxDbmU8Pgw0qu/QsHGjnWcIrzKL9hq1PWsZDbMM/9fLbc773S
+         kZ7z3qHZprbccIp1MvbUGBAEOxdSUIZGm24lePNvfjR0JuMHUEykeF3V0rNyMaYQW+3E
+         L+zteHdufkjbEVeS5ZFRBQXILxZka+++7G5QelFQC3lW8WlWiocp1qXjA/hyopXVV3Da
+         0f1BdxF5yPF2COsdFT7NDUdlulbcfQgJAgplkhJV/dsMRzEGPTnyyUgDcsY+f+bsLpZI
+         JkWQ==
+X-Gm-Message-State: AOAM5313HbWbVE6X3LNXalQM0utqxf1/qshGOwK1kdg179j4dO0B7UXC
+        tVvXiq9G4qo86j44mTh2DD2PqXOO1JFi8g==
+X-Google-Smtp-Source: ABdhPJx3SX4VU6qPahtPnpvBQkwftTxqRgX/Y/NQGT9VlhrynmpafqUBKJ6pXMXIuzy3KtKBOY9G1Q==
+X-Received: by 2002:a17:902:9698:b029:d1:9492:745b with SMTP id n24-20020a1709029698b02900d19492745bmr5152587plp.26.1601047289728;
+        Fri, 25 Sep 2020 08:21:29 -0700 (PDT)
+Received: from localhost.localdomain (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
+        by smtp.gmail.com with ESMTPSA id gf12sm2323324pjb.16.2020.09.25.08.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2020 08:21:28 -0700 (PDT)
+From:   Florian Fainelli <f.fainelli@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        clang-built-linux@googlegroups.com (open list:CLANG/LLVM BUILD SUPPORT),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH] Documentation/llvm: Fix clang target examples
+Date:   Fri, 25 Sep 2020 08:21:14 -0700
+Message-Id: <20200925152121.20527-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZTkpPSh9JTR5PS0gaVkpNS0pLT0xKSktCSExVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS0hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6N0k6TAw5FD8tHgE5HDESDiop
-        GSpPCRlVSlVKTUtKS09MSkpKSENKVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
-        VUlOS1VKTE1VSUlCWVdZCAFZQU1MSEM3Bg++
-X-HM-Tid: 0a74c5d8249598b7kuuu745feb024a7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a Chinese translated version of Documentation/arm64/amu.rst
+clang --target=<triple> is how we can specify a particular toolchain
+triple to be use, fix the two occurences in the documentation.
 
-Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+Fixes: fcf1b6a35c16 ("Documentation/llvm: add documentation on building w/ Clang/LLVM")
+Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 ---
-Changes in v3:
- - Remove Documentation/arm64/amu.rst's inappropriate License claim.
-Changes in v2:
- - Add index to arm64 directoy.
- - Fix a document format error.
- - Correct email encoding format.
----
- Documentation/arm64/amu.rst                   |   2 +
- .../translations/zh_CN/arm64/amu.rst          | 102 ++++++++++++++++++
- .../translations/zh_CN/arm64/index.rst        |   2 +
- 3 files changed, 106 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/arm64/amu.rst
+ Documentation/kbuild/llvm.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
-index 452ec8b115c2..01f2de2b0450 100644
---- a/Documentation/arm64/amu.rst
-+++ b/Documentation/arm64/amu.rst
-@@ -1,3 +1,5 @@
-+.. _amu_index:
-+
- =======================================================
- Activity Monitors Unit (AMU) extension in AArch64 Linux
- =======================================================
-diff --git a/Documentation/translations/zh_CN/arm64/amu.rst b/Documentation/translations/zh_CN/arm64/amu.rst
-new file mode 100644
-index 000000000000..7aa538c40304
---- /dev/null
-+++ b/Documentation/translations/zh_CN/arm64/amu.rst
-@@ -0,0 +1,102 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/arm64/amu.rst <amu_index>`
-+
-+Translator: Bailu Lin <bailu.lin@vivo.com>
-+
-+===============================
-+AArch64 Linux 中扩展的活动监控单元
-+===============================
-+
-+作者: Ionela Voinescu <ionela.voinescu@arm.com>
-+
-+日期: 2019-09-10
-+
-+本文档简要描述了 AArch64 Linux 支持的活动监控单元的规范。
-+
-+
-+架构总述
-+--------
-+
-+活动监控是 ARMv8.4 CPU 架构引入的一个可选扩展特性。
-+
-+活动监控单元(在每个 CPU 中实现)为系统管理提供了性能计数器。既可以通
-+过系统寄存器的方式访问计数器，同时也支持外部内存映射的方式访问计数器。
-+
-+AMUv1 架构实现了一个由4个固定的64位事件计数器组成的计数器组。
-+
-+  - CPU 周期计数器：同 CPU 的频率增长
-+  - 常量计数器：同固定的系统时钟频率增长
-+  - 淘汰指令计数器: 同每次架构指令执行增长
-+  - 内存停顿周期计数器：计算由在时钟域内的最后一级缓存中未命中而引起
-+    的指令调度停顿周期数
-+
-+当处于 WFI 或者 WFE 状态时，计数器不会增长。
-+
-+AMU 架构提供了一个高达16位的事件计数器空间，未来新的 AMU 版本中可能
-+用它来实现新增的事件计数器。
-+
-+另外，AMUv1 实现了一个多达16个64位辅助事件计数器的计数器组。
-+
-+冷复位时所有的计数器会清零。
-+
-+
-+基本支持
-+--------
-+
-+内核可以安全地运行在支持 AMU 和不支持 AMU 的 CPU 组合中。
-+因此，当配置 CONFIG_ARM64_AMU_EXTN 后我们无条件使能后续
-+(secondary or hotplugged) CPU 检测和使用这个特性。
-+
-+当在 CPU 上检测到该特性时，我们会标记为特性可用但是不能保证计数器的功能，
-+仅表明有扩展属性。
-+
-+固件(代码运行在高异常级别，例如 arm-tf )需支持以下功能：
-+
-+ - 提供低异常级别(EL2 和 EL1)访问 AMU 寄存器的能力。
-+ - 使能计数器。如果未使能，它的值应为 0。
-+ - 在从电源关闭状态启动 CPU 前或后保存或者恢复计数器。
-+
-+当使用使能了该特性的内核启动但固件损坏时，访问计数器寄存器可能会遭遇
-+panic 或者死锁。即使未发现这些症状，计数器寄存器返回的数据结果并不一
-+定能反映真实情况。通常，计数器会返回 0，表明他们未被使能。
-+
-+如果固件没有提供适当的支持最好关闭 CONFIG_ARM64_AMU_EXTN。
-+值得注意的是，出于安全原因，不要绕过 AMUSERRENR_EL0 设置而捕获从
-+EL0(用户空间) 访问 EL1(内核空间)。 因此，固件应该确保访问 AMU寄存器
-+不会困在 EL2或EL3。
-+
-+AMUv1 的固定计数器可以通过如下系统寄存器访问：
-+
-+ - SYS_AMEVCNTR0_CORE_EL0
-+ - SYS_AMEVCNTR0_CONST_EL0
-+ - SYS_AMEVCNTR0_INST_RET_EL0
-+ - SYS_AMEVCNTR0_MEM_STALL_EL0
-+
-+特定辅助计数器可以通过 SYS_AMEVCNTR1_EL0(n) 访问，其中n介于0到15。
-+
-+详细信息定义在目录：arch/arm64/include/asm/sysreg.h。
-+
-+
-+用户空间访问
-+------------
-+
-+由于以下原因，当前禁止从用户空间访问 AMU 的寄存器：
-+
-+  - 安全因数：可能会暴露处于安全模式执行的代码信息。
-+  - 意愿：AMU 是用于系统管理的。
-+
-+同样，该功能对用户空间不可见。
-+
-+
-+虚拟化
-+------
-+
-+由于以下原因，当前禁止从 KVM 客户端的用户空间(EL0)和内核空间(EL1)
-+访问 AMU 的寄存器：
-+
-+  - 安全因数：可能会暴露给其他客户端或主机端执行的代码信息。
-+
-+任何试图访问 AMU 寄存器的行为都会触发一个注册在客户端的未定义异常。
-diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
-index c236b648740d..9bcf2c51a696 100644
---- a/Documentation/translations/zh_CN/arm64/index.rst
-+++ b/Documentation/translations/zh_CN/arm64/index.rst
-@@ -14,3 +14,5 @@ ARM64 架构
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index 334df758dce3..dae90c21aed3 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -39,10 +39,10 @@ which can help simplify cross compiling. ::
+ 	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
  
- .. toctree::
-     :maxdepth: 2
-+
-+   amu
+ ``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
+-``CROSS_COMPILE`` is used to set a command line flag: ``--target <triple>``. For
++``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
+ example: ::
+ 
+-	clang --target aarch64-linux-gnu foo.c
++	clang --target=aarch64-linux-gnu foo.c
+ 
+ LLVM Utilities
+ --------------
 -- 
-2.20.1
+2.25.1
 
