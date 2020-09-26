@@ -2,117 +2,224 @@ Return-Path: <SRS0=ljnh=DD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EC9C4727E
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 02:11:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87ECFC4727D
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 02:20:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D56BF2087D
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 02:11:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nvNxfcH8"
+	by mail.kernel.org (Postfix) with ESMTP id 4A4CC2087D
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 02:20:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729842AbgIZCLu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 22:11:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49964 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729605AbgIZCLu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 22:11:50 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12409C0613CE;
-        Fri, 25 Sep 2020 19:11:50 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id a4so3918654qth.0;
-        Fri, 25 Sep 2020 19:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=J6M1NDDexikmB6Lw4o/cJ8CAeclIPdykh7z3pVXAl2Q=;
-        b=nvNxfcH8OApZmb/YwbtKanRepgVmME7DxDehCJsQcmv3aRN2nbtgOH7gU/2XWk1NLt
-         6AQteyOSy7unC5wCSjkbF0S8mKk4+dHPnem2nXlfPe9NLySfGW/XXQLIjOKAwwkqqP3R
-         VdZa27x+y4QZW38qcT/3uX58gcB7M040+UBwQL8AslpIc4UdlQW6wrv6FwayTJNPcsNt
-         uMkW8dIanhew1xHz5128M0irh8wSlEJQEoPP+qIpyAYXEEW9z2/QZnuVlVo/VQpAtj1N
-         tlRZgZu5KqwHuJ/uLSJsUd43Cpe1t6xLuiujthNDJNs/IZ1/6gf9dMl3ExMKP9mlTN37
-         /fDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=J6M1NDDexikmB6Lw4o/cJ8CAeclIPdykh7z3pVXAl2Q=;
-        b=so4z8okp23D7689h6/e3Nh3wYb/DhKY4tvZZ9bTVYui1bZZ3ZciONqyvcfay4SMifS
-         52B2Y7ugfODt+CVwmmrI468O7CI+GV8IAdX91BtRYDgOay6Vffi+R1LcRuCV1zKzHOdJ
-         /OUVyxF9reRldTPMUd9ZTE0uz6HqVXGd9QVgS5JmX6M3fda5v8MdhSQpGGLYdLx23eux
-         rgwM8+867W1u4P5LXJuoLMceMnn0vql0VNKVjuL6qCHIc3Om92N2lcVArgAydRixeUTL
-         LCCNF2sLWekNOHB0rNDf5+z2QgpMpSmastyJEf4knSqhFljCkulZTxhDuvDdUWGVCo6z
-         gUkQ==
-X-Gm-Message-State: AOAM530zsUnt/zjwKpv5ZE0PmQs47MsjTc/y8lAYCAhHZyYxqYiVQAgG
-        m1zX+nDqLQ57xu0jeHzpeAE=
-X-Google-Smtp-Source: ABdhPJwOwtE/LCPkjxOBwPq7H0BE9L/4PEQS1i9rc6sWMnCOZA75O5FKb0YGojBX44gd19IfX4tEwA==
-X-Received: by 2002:aed:2308:: with SMTP id h8mr2683482qtc.65.1601086308948;
-        Fri, 25 Sep 2020 19:11:48 -0700 (PDT)
-Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
-        by smtp.gmail.com with ESMTPSA id r21sm3427488qtj.80.2020.09.25.19.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 19:11:47 -0700 (PDT)
-Date:   Fri, 25 Sep 2020 19:11:46 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        id S1729057AbgIZCUm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 22:20:42 -0400
+Received: from m17618.mail.qiye.163.com ([59.111.176.18]:32944 "EHLO
+        m17618.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729008AbgIZCUl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 22:20:41 -0400
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.231])
+        by m17618.mail.qiye.163.com (Hmail) with ESMTPA id C3C464E144C;
+        Sat, 26 Sep 2020 10:20:35 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        "open list:CLANG/LLVM BUILD SUPPORT" 
-        <clang-built-linux@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Documentation/llvm: Fix clang target examples
-Message-ID: <20200926021146.GA1917299@ubuntu-n2-xlarge-x86>
-References: <20200925152121.20527-1-f.fainelli@gmail.com>
+        Wang Wenhu <wenhu.wang@vivo.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Wang Qing <wangqing@vivo.com>,
+        Chucheng Luo <luochucheng@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH V3] doc: zh_CN: add translatation for tmpfs
+Date:   Sat, 26 Sep 2020 10:18:03 +0800
+Message-Id: <1601086785-3708-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200925152121.20527-1-f.fainelli@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZSx5DTEwaHU9LTx5OVkpNS0pLQ01DSE1KQkJVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MiI6Khw4Tj8vMAEiUQM1OTBW
+        Dy4wCw9VSlVKTUtKS0NNQ0hNTUNPVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5KVUxPVUlISllXWQgBWUFCSEhKNwY+
+X-HM-Tid: 0a74c8364d8d9376kuwsc3c464e144c
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 08:21:14AM -0700, Florian Fainelli wrote:
-> clang --target=<triple> is how we can specify a particular toolchain
-> triple to be use, fix the two occurences in the documentation.
-> 
-> Fixes: fcf1b6a35c16 ("Documentation/llvm: add documentation on building w/ Clang/LLVM")
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+Translate Documentation/filesystems/tmpfs.rst into Chinese.
 
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ .../translations/zh_CN/filesystems/index.rst       |   1 +
+ .../translations/zh_CN/filesystems/tmpfs.rst       | 146 +++++++++++++++++++++
+ 2 files changed, 147 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/tmpfs.rst
 
-Thank you for the patch!
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+index 47e86397..2e42569
+--- a/Documentation/translations/zh_CN/filesystems/index.rst
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -26,4 +26,5 @@ Linux Kernel中的文件系统
+    virtiofs
+    debugfs
+    btrfs
++   tmpfs
+ 
+diff --git a/Documentation/translations/zh_CN/filesystems/tmpfs.rst b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+new file mode 100644
+index 0000000..700d870
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+@@ -0,0 +1,146 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/filesystems/tmpfs.rst <tmpfs_index>`
++
++translated by 王擎 Wang Qing<wangqing@vivo.com>
++
++=====
++Tmpfs
++=====
++
++Tmpfs是一个将所有文件都保存在虚拟内存中的文件系统。
++
++tmpfs中的所有内容都是临时的，也就是说没有任何文件会在硬盘上创建。
++如果卸载tmpfs实例，所有保存在其中的文件都会丢失。
++
++tmpfs将所有文件保存在内核缓存中，随着文件内容增长或缩小可以将不需要的
++页面swap出去。它具有最大限制，可以通过“mount -o remount ...”调整。
++
++和ramfs（创建tmpfs的模板）相比，tmpfs包含交换和限制检查。和tmpfs相似的另
++一个东西是RAM磁盘（/dev/ram*），可以在物理RAM中模拟固定大小的硬盘，并在
++此之上创建一个普通的文件系统。Ramdisks无法swap，因此无法调整它们的大小。
++
++由于tmpfs完全保存于页面缓存和swap中，因此所有tmpfs页面将在/proc/meminfo
++中显示为“Shmem”，而在free(1)中显示为“Shared”。请注意，这些计数还包括
++共享内存(shmem，请参阅ipcs(1))。获得计数的最可靠方法是使用df(1)和du(1)。
++
++tmpfs具有以下用途：
++
++1) 内核总有一个无法看到的内部挂载，用于共享匿名映射和SYSV共享内存。
++
++   挂载不依赖于CONFIG_TMPFS。如果CONFIG_TMPFS未设置，tmpfs对用户不可见。
++   但是内部机制始终存在。
++
++2) glibc 2.2及更高版本期望将tmpfs挂载在/dev/shm上以用于POSIX共享内存
++   (shm_open，shm_unlink)。添加内容到/etc/fstab应注意如下：
++
++	tmpfs	/dev/shm	tmpfs	defaults	0 0
++
++   使用时需要记住创建挂载tmpfs的目录。
++   
++   SYSV共享内存无需挂载，内部已默认支持。(在2.3内核版本中，必须挂载
++   tmpfs的前身(shm fs)才能使用SYSV共享内存)
++
++3) 很多人（包括我）都觉的在/tmp和/var/tmp上挂载非常方便，并具有较大的
++   swap分区。目前循环挂载tmpfs可以正常工作，所以大多数发布都应当可以
++   使用mkinitrd通过/tmp访问/tmp。
++
++4) 也许还有更多我不知道的地方:-)
++
++
++tmpfs有三个用于调整大小的挂载选项：
++
++=========  ============================================================
++size       tmpfs实例分配的字节数限制。默认值是不swap时物理RAM的一半。
++           如果tmpfs实例过大，机器将死锁，因为OOM处理将无法释放该内存。
++nr_blocks  与size相同，但以PAGE_SIZE为单位。
++nr_inodes  tmpfs实例的最大inode个数。默认值是物理内存页数的一半，或者
++           (有高端内存的机器)低端内存RAM的页数，二者以较低者为准。
++=========  ============================================================
++
++这些参数接受后缀k，m或g表示千，兆和千兆字节，可以在remount时更改。
++size参数也接受后缀％用来限制tmpfs实例占用物理RAM的百分比：
++未指定size或nr_blocks时，默认值为size=50％
++
++如果nr_blocks=0（或size=0），block个数将不受限制；如果nr_inodes=0，
++inode个数将不受限制。这样挂载通常是不明智的，因为它允许任何具有写权限的
++用户通过访问tmpfs耗尽机器上的所有内存；但同时这样做也会增强在多个CPU的
++场景下的访问。
++
++tmpfs具有为所有文件设置NUMA内存分配策略挂载选项(如果启用了CONFIG_NUMA),
++可以通过“mount -o remount ...”调整
++
++======================== ==============================================
++mpol=default             采用进程分配策略
++                         (请参阅 set_mempolicy(2))
++mpol=prefer:Node         倾向从给定的节点分配
++mpol=bind:NodeList       只允许从指定的链表分配
++mpol=interleave          倾向于依次从每个节点分配
++mpol=interleave:NodeList 依次从每个节点分配
++mpol=local		 prefers 从本地节点分配内存
++======================== ==============================================
++
++NodeList格式是以逗号分隔的十进制数字表示大小和范围，最大和最小范围是用-
++分隔符的十进制数来表示。例如，mpol=bind0-3,5,7,9-15
++
++带有有效NodeList的内存策略将按指定格式保存，在创建文件时使用。当任务在该
++文件系统上创建文件时，会使用到挂载时的内存策略NodeList选项，如果设置的话，
++由调用任务的cpuset[请参见Documentation/admin-guide/cgroup-v1/cpusets.rst]
++以及下面列出的可选标志约束。如果NodeLists为设置为空集，则文件的内存策略将
++恢复为“默认”策略。
++
++NUMA内存分配策略有可选标志，可以用于模式结合。在挂载tmpfs时指定这些可选
++标志可以在NodeList之前生效。
++Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的内存
++分配策略模式标志及其对内存策略。
++
++::
++
++	=static		相当于	MPOL_F_STATIC_NODES
++	=relative	相当于	MPOL_F_RELATIVE_NODES
++
++例如，mpol=bind=staticNodeList相当于MPOL_BIND|MPOL_F_STATIC_NODES的分配策略
++
++请注意，如果内核不支持NUMA，那么使用mpol选项挂载tmpfs将会失败；nodelist指定不
++在线的节点也会失败。如果您的系统依赖于此，但内核会运行不带NUMA功能(也许是安全
++revocery内核)，或者具有较少的节点在线，建议从自动模式中省略mpol选项挂载选项。
++可以在以后通过“mount -o remount,mpol=Policy:NodeList MountPoint”添加到挂载点。
++
++要指定初始根目录，可以使用如下挂载选项：
++
++====	==================================
++模式	权限用八进制数字表示
++uid		应用ID
++gid		组ID
++====	==================================
++
++这些选项对remount没有任何影响。您可以通过chmod(1),chown(1)和chgrp(1)的更改
++已经挂载的参数。
++
++tmpfs具有选择32位还是64位inode的挂载选项：
++
++=======   ========================
++inode64   Use 64-bit inode numbers
++inode32   Use 32-bit inode numbers
++=======   ========================
++
++在32位内核上，默认是inode32，挂载时指定inode64会被拒绝。
++在64位内核上，默认配置是CONFIG_TMPFS_INODE64。inode64避免了单个设备上可能有多个
++具有相同inode编号的文件；比如32位应用程序使用glibc如果长期访问tmpfs，一旦达到33
++位inode编号，就有EOVERFLOW失败的危险，无法打开大于2GiB的文件，并返回EINVAL。
++
++所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'将在
++/mytmpfs上挂载tmpfs实例，分配只能由root用户访问的10GB RAM/SWAP，可以有10240个
++inode的实例。
++
++
++:作者:
++   Christoph Rohland <cr@sap.com>, 1.12.01
++:更新:
++   Hugh Dickins, 4 June 2007
++:更新:
++   KOSAKI Motohiro, 16 Mar 2010
++:更新:
++   Chris Down, 13 July 2020
+-- 
+2.7.4
 
-> ---
->  Documentation/kbuild/llvm.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index 334df758dce3..dae90c21aed3 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -39,10 +39,10 @@ which can help simplify cross compiling. ::
->  	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
->  
->  ``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
-> -``CROSS_COMPILE`` is used to set a command line flag: ``--target <triple>``. For
-> +``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
->  example: ::
->  
-> -	clang --target aarch64-linux-gnu foo.c
-> +	clang --target=aarch64-linux-gnu foo.c
->  
->  LLVM Utilities
->  --------------
-> -- 
-> 2.25.1
-> 
