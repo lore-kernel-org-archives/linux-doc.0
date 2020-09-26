@@ -2,146 +2,97 @@ Return-Path: <SRS0=ljnh=DD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA93FC47423
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 15:25:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76128C4741F
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 16:22:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76D5520878
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 15:25:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 308312177B
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 16:22:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IgNtiCGT"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Isi2jLYX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729644AbgIZPZr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Sep 2020 11:25:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59070 "EHLO
+        id S1729634AbgIZQWt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Sep 2020 12:22:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725208AbgIZPZq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 11:25:46 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C43C0613CE
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 08:25:46 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id k14so5547036edo.1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 08:25:46 -0700 (PDT)
+        with ESMTP id S1729810AbgIZQWt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 12:22:49 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51317C0613D5
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 09:22:49 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id d6so5792789pfn.9
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 09:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NyijGOIcOg0IQ8xJ7tRK9WXb8VbwFr7joS3ngRxTFtY=;
-        b=IgNtiCGTIRw+9Jq9+OugAEUgOtWjA8eNb9N0lGKIZhSzq8+Nq6i8p6dAPgDSw3WCu5
-         5zLCQcy1nGd484dN8MEuuVSYHqucVtHjEfU81Ws4/lYX/HOp4JbMrZzXbrOql6BtdQAy
-         +hEnD/Pr6tT/viPh9YkxxEEc7eplb0NwJB92c=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=56nCuRUirvF7dXeR3ek+2dKjHsN+uDHepkMc5x/GUbI=;
+        b=Isi2jLYXO6Dg8qyvVuPVHRyByy5BJbI/6gQ7oyreYCwo3hF2HZWbgFd+OR7hRce1fZ
+         2U/ZQbjFTvRuIeCm/BU9DG+iLYnBeO1MwXQ0sQdx/BPZPYKSow2g5lkv8xfIdoh/h6P+
+         yYMV58dnKIat08n/3yoDRx3fvWRtDiWeJp814=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NyijGOIcOg0IQ8xJ7tRK9WXb8VbwFr7joS3ngRxTFtY=;
-        b=aPB8ck0hSiJql5QPdipP1CVMrKC4oCDl9piyEFkzatW/eC5zibtOJ24lweEpzY4oCJ
-         J+nRGKrO2sPEq3RzkS/THXSj1mKroYpwCn45S+P/cZmAi1xvm8x+TvvBCA56KInbo1rd
-         BTwhmyXZe0kMp97nqVJ2SHVUvsGCdxPOx78kX55UL9IDgq0mK7FlqM+1IxWpI5ufkhx1
-         uaAcD4Qiu2dVakEDg5SuftK7WxyJDzg2ZrSrZpNPkciKUy5LXWeU0CrzbZmCdBpnomJk
-         2abzRQvEzzYQjhGxiltjtyMF0L8OQSDhRPa4Xe3niThCaBCgMw2bpqw4kWz3DZwc18aQ
-         JqFQ==
-X-Gm-Message-State: AOAM530kFYI4UaoVC43bxQzsOVBfYf2IEMhN3dW5rbNoJeMLsMNka7RR
-        wGEIs6ziJHOePHIUBX8EZiKS+LtBgYOdHRNT
-X-Google-Smtp-Source: ABdhPJz4AiJmAx4m1D8rhNuhUcQAOWfqBMPss0LP945Gngb0+zhPFKgq7m4qy/LxZvz7JBAEFXlExQ==
-X-Received: by 2002:a50:fc08:: with SMTP id i8mr7265081edr.257.1601133944865;
-        Sat, 26 Sep 2020 08:25:44 -0700 (PDT)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com. [209.85.128.48])
-        by smtp.gmail.com with ESMTPSA id bf25sm4542009edb.95.2020.09.26.08.25.43
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Sep 2020 08:25:44 -0700 (PDT)
-Received: by mail-wm1-f48.google.com with SMTP id x23so2166381wmi.3
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 08:25:43 -0700 (PDT)
-X-Received: by 2002:a7b:c925:: with SMTP id h5mr2968012wml.28.1601133943201;
- Sat, 26 Sep 2020 08:25:43 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=56nCuRUirvF7dXeR3ek+2dKjHsN+uDHepkMc5x/GUbI=;
+        b=C5eAZabUZCUBIjRuSaQc5TSHtaDFGLOROkk7Au+FprL9GIjXJevDuA3JNwj+wBiIAd
+         gpLStB8+mOd0R8R/fm8VdzJTuKfn7gaf1NedywtfaMkHJIaC5XzgvHChrGTNkrX7MBlQ
+         vHAG2NgAw7L44q0WfWGtem3bzumrLByvYNOnAiCP8btvNT0XmM1hUV+vikE4In0VtEwP
+         zMjmwwb3satYptbsVpkd0ycul3WMMj5bN0EGV+4DuGtpXbOfrJuvCOAwvsy+XYIx8whM
+         kUUr9hJ3Ro1SJiGKak+JBUBSbx+AC+IsNdeEoGUWvBIEC7yX7prjVG1PXFwT/keqcGUA
+         nS3g==
+X-Gm-Message-State: AOAM533MWU4MomHNVt8frfumIM/nMmOxq5KLzXU6cL9eKRkqfP2NB2q/
+        wE1pm2v/BynuZrO72zltTvEg3VC3ErcI46Et
+X-Google-Smtp-Source: ABdhPJz7HHjVeWBhAtMxjtcOjPKebh0qtmEHXOfr7MHXU6sFu9+pz+tyh0OJt8n2B09hRbUf6d5KgA==
+X-Received: by 2002:a65:6883:: with SMTP id e3mr585170pgt.250.1601137368721;
+        Sat, 26 Sep 2020 09:22:48 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g4sm5156438pgj.15.2020.09.26.09.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2020 09:22:47 -0700 (PDT)
+Date:   Sat, 26 Sep 2020 09:22:46 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, shuah@kernel.org,
+        rafael@kernel.org, johannes@sipsolutions.net, lenb@kernel.org,
+        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
+        arve@android.com, tkjos@android.com, maco@android.com,
+        joel@joelfernandes.org, christian@brauner.io, hridya@google.com,
+        surenb@google.com, minyard@acm.org, arnd@arndb.de,
+        mchehab@kernel.org, rric@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-edac@vger.kernel.org
+Subject: Re: [PATCH 00/11] Introduce Simple atomic and non-atomic counters
+Message-ID: <202009260920.DC9C2743@keescook>
+References: <cover.1601073127.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20200915155122.1768241-1-hch@lst.de> <20200915155122.1768241-18-hch@lst.de>
- <20200925184622.GB3607091@chromium.org> <20200926141428.GB10379@lst.de>
-In-Reply-To: <20200926141428.GB10379@lst.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Sat, 26 Sep 2020 17:25:27 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CjSKswdc3qOEZy73cyYJ9kfaXsSFyxkOHA+buh-J12UA@mail.gmail.com>
-Message-ID: <CAAFQd5CjSKswdc3qOEZy73cyYJ9kfaXsSFyxkOHA+buh-J12UA@mail.gmail.com>
-Subject: Re: [PATCH 17/18] dma-iommu: implement ->alloc_noncoherent
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1601073127.git.skhan@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 26, 2020 at 4:14 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Fri, Sep 25, 2020 at 06:46:22PM +0000, Tomasz Figa wrote:
-> > > +static void *iommu_dma_alloc_noncoherent(struct device *dev, size_t size,
-> > > +           dma_addr_t *handle, enum dma_data_direction dir, gfp_t gfp)
-> > > +{
-> > > +   if (!gfpflags_allow_blocking(gfp)) {
-> > > +           struct page *page;
-> > > +
-> > > +           page = dma_common_alloc_pages(dev, size, handle, dir, gfp);
-> > > +           if (!page)
-> > > +                   return NULL;
-> > > +           return page_address(page);
-> > > +   }
-> > > +
-> > > +   return iommu_dma_alloc_remap(dev, size, handle, gfp | __GFP_ZERO,
-> > > +                                PAGE_KERNEL, 0);
-> >
-> > iommu_dma_alloc_remap() makes use of the DMA_ATTR_ALLOC_SINGLE_PAGES attribute
-> > to optimize the allocations for devices which don't care about how contiguous
-> > the backing memory is. Do you think we could add an attrs argument to this
-> > function and pass it there?
-> >
-> > As ARM is being moved to the common iommu-dma layer as well, we'll probably
-> > make use of the argument to support the DMA_ATTR_NO_KERNEL_MAPPING attribute to
-> > conserve the vmalloc area.
->
-> We could probably at it.  However I wonder why this is something the
-> drivers should care about.  Isn't this really something that should
-> be a kernel-wide policy for a given system?
+On Fri, Sep 25, 2020 at 05:47:14PM -0600, Shuah Khan wrote:
+> This patch series is a result of discussion at the refcount_t BOF
+> the Linux Plumbers Conference. In this discussion, we identified
+> a need for looking closely and investigating atomic_t usages in
+> the kernel when it is used strictly as a counter without it
+> controlling object lifetimes and state changes.
 
-There are IOMMUs out there which support huge pages and those can
-benefit *some* hardware depending on what kind of accesses they
-perform, possibly on a per-buffer basis. At the same time, order > 0
-allocations can be expensive, significantly affecting allocation
-latency, so for devices which don't care about huge pages anyone would
-prefer simple single-page allocations. Currently the drivers know the
-best on whether the hardware they drive would care. There are some
-decision factors listed in the documentation [1].
+BTW, I realized the KSPP issue tracker hadn't broken this task out of
+the refcount_t conversion issue[1] into a separate issue, so I've created
+it now: https://github.com/KSPP/linux/issues/106
 
-I can imagine cases where drivers could not be the best to decide
-about this - for example, the workload could vary depending on the
-userspace or a product decision regarding the performance vs
-allocation latency, but we haven't seen such cases in practice yet.
+-Kees
 
-[1] https://www.kernel.org/doc/html/latest/core-api/dma-attributes.html?highlight=dma_attr_alloc_single_pages#dma-attr-alloc-single-pages
+[1] https://github.com/KSPP/linux/issues/104
 
-Best regards,
-Tomasz
+-- 
+Kees Cook
