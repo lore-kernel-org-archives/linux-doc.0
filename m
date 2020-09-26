@@ -2,228 +2,174 @@ Return-Path: <SRS0=ljnh=DD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF58FC2D0A8
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 06:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93772C4741F
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 07:18:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB6852168B
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 06:32:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 585D1206E5
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 07:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727482AbgIZGcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Sep 2020 02:32:31 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:58311 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726694AbgIZGcb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 02:32:31 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UA6-Y8q_1601101941;
-Received: from IT-FVFX43SYHV2H.lan(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UA6-Y8q_1601101941)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sat, 26 Sep 2020 14:32:22 +0800
-Subject: Re: [PATCH V3] doc: zh_CN: add translatation for tmpfs
-To:     Wang Qing <wangqing@vivo.com>, Harry Wei <harryxiyou@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Wenhu <wenhu.wang@vivo.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Chucheng Luo <luochucheng@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1601086785-3708-1-git-send-email-wangqing@vivo.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <ab6996f9-ef6c-154f-d401-09970891ec04@linux.alibaba.com>
-Date:   Sat, 26 Sep 2020 14:30:00 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.7.0
+        id S1728680AbgIZHS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Sep 2020 03:18:57 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:50996 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbgIZHS5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 03:18:57 -0400
+X-Greylist: delayed 311 seconds by postgrey-1.27 at vger.kernel.org; Sat, 26 Sep 2020 03:18:55 EDT
+Received: from ravnborg.org (unknown [188.228.123.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 25FB6200E6;
+        Sat, 26 Sep 2020 09:13:35 +0200 (CEST)
+Date:   Sat, 26 Sep 2020 09:13:34 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
+        corbet@lwn.net, benjamin.gaignard@linaro.org, lmark@codeaurora.org,
+        labbott@redhat.com, Brian.Starkey@arm.com, john.stultz@linaro.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, l.stach@pengutronix.de,
+        linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, mchehab@kernel.org,
+        matthew.auld@intel.com, robin.murphy@arm.com,
+        thomas.hellstrom@intel.com, kraxel@redhat.com, arnd@arndb.de,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-doc@vger.kernel.org, etnaviv@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
+ memory
+Message-ID: <20200926071334.GA42915@ravnborg.org>
+References: <20200925115601.23955-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <1601086785-3708-1-git-send-email-wangqing@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200925115601.23955-1-tzimmermann@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
+        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+        a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8
+        a=VHCyA-Zl7a4LrUxzt10A:9 a=MWUCcgKsKLDUXRMs:21 a=VnMhorO1uwyDQjeY:21
+        a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Qing,
+Hi Thomas.
 
-Could you please setup your email editor well. or just send it
-by git send-email. I failed to apply your patch repeatedly.
+Sorry for chiming in late here, have been offline for a while.
 
-And record changes in different version is good thing to do.
-
-Thanks
-Alex
-
-在 2020/9/26 上午10:18, Wang Qing 写道:
-> Translate Documentation/filesystems/tmpfs.rst into Chinese.
+On Fri, Sep 25, 2020 at 01:55:57PM +0200, Thomas Zimmermann wrote:
+> Dma-buf provides vmap() and vunmap() for retriving and releasing mappings
+> of dma-buf memory in kernel address space. The functions operate with plain
+> addresses and the assumption is that the memory can be accessed with load
+> and store operations. This is not the case on some architectures (e.g.,
+> sparc64) where I/O memory can only be accessed with dedicated instructions.
 > 
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
-> ---
->  .../translations/zh_CN/filesystems/index.rst       |   1 +
->  .../translations/zh_CN/filesystems/tmpfs.rst       | 146 +++++++++++++++++++++
->  2 files changed, 147 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/filesystems/tmpfs.rst
+> This patchset introduces struct dma_buf_map, which contains the address of
+> a buffer and a flag that tells whether system- or I/O-memory instructions
+> are required.
+
+The whole idea with a struct that can represent both a pointer to system
+memory and io memory is very nice.
+dma-buf is one user of this but we may/will see other users. So the
+naming seems of as this should be a concept independent of dma-buf.
+
+And then the struct definition and all the helpers should be moved away
+from dma-buf.
+
+Maybe something like this:
+
+struct simap {
+       union {
+               void __iomem *vaddr_iomem;
+               void *vaddr;
+       };
+       bool is_iomem;
+};
+
+Where simap is a shorthand for system_iomem_map
+And it could al be stuffed into a include/linux/simap.h file.
+
+Not totally sold on the simap name - but wanted to come up with
+something.
+
+With this approach users do not have to pull in dma-buf to use it and
+users will not confuse that this is only for dma-buf usage.
+
+I am sorry for being late with the feedback.
+
+	Sam
+
+
+> Some background: updating the DRM framebuffer console on sparc64 makes the
+> kernel panic. This is because the framebuffer memory cannot be accessed with
+> system-memory instructions. We currently employ a workaround in DRM to
+> address this specific problem. [1]
 > 
-> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-> index 47e86397..2e42569
-> --- a/Documentation/translations/zh_CN/filesystems/index.rst
-> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
-> @@ -26,4 +26,5 @@ Linux Kernel中的文件系统
->     virtiofs
->     debugfs
->     btrfs
-> +   tmpfs
->  
-> diff --git a/Documentation/translations/zh_CN/filesystems/tmpfs.rst b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
-> new file mode 100644
-> index 0000000..700d870
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
-> @@ -0,0 +1,146 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/filesystems/tmpfs.rst <tmpfs_index>`
-> +
-> +translated by 王擎 Wang Qing<wangqing@vivo.com>
-> +
-> +=====
-> +Tmpfs
-> +=====
-> +
-> +Tmpfs是一个将所有文件都保存在虚拟内存中的文件系统。
-> +
-> +tmpfs中的所有内容都是临时的，也就是说没有任何文件会在硬盘上创建。
-> +如果卸载tmpfs实例，所有保存在其中的文件都会丢失。
-> +
-> +tmpfs将所有文件保存在内核缓存中，随着文件内容增长或缩小可以将不需要的
-> +页面swap出去。它具有最大限制，可以通过“mount -o remount ...”调整。
-> +
-> +和ramfs（创建tmpfs的模板）相比，tmpfs包含交换和限制检查。和tmpfs相似的另
-> +一个东西是RAM磁盘（/dev/ram*），可以在物理RAM中模拟固定大小的硬盘，并在
-> +此之上创建一个普通的文件系统。Ramdisks无法swap，因此无法调整它们的大小。
-> +
-> +由于tmpfs完全保存于页面缓存和swap中，因此所有tmpfs页面将在/proc/meminfo
-> +中显示为“Shmem”，而在free(1)中显示为“Shared”。请注意，这些计数还包括
-> +共享内存(shmem，请参阅ipcs(1))。获得计数的最可靠方法是使用df(1)和du(1)。
-> +
-> +tmpfs具有以下用途：
-> +
-> +1) 内核总有一个无法看到的内部挂载，用于共享匿名映射和SYSV共享内存。
-> +
-> +   挂载不依赖于CONFIG_TMPFS。如果CONFIG_TMPFS未设置，tmpfs对用户不可见。
-> +   但是内部机制始终存在。
-> +
-> +2) glibc 2.2及更高版本期望将tmpfs挂载在/dev/shm上以用于POSIX共享内存
-> +   (shm_open，shm_unlink)。添加内容到/etc/fstab应注意如下：
-> +
-> +	tmpfs	/dev/shm	tmpfs	defaults	0 0
-> +
-> +   使用时需要记住创建挂载tmpfs的目录。
-> +   
-> +   SYSV共享内存无需挂载，内部已默认支持。(在2.3内核版本中，必须挂载
-> +   tmpfs的前身(shm fs)才能使用SYSV共享内存)
-> +
-> +3) 很多人（包括我）都觉的在/tmp和/var/tmp上挂载非常方便，并具有较大的
-> +   swap分区。目前循环挂载tmpfs可以正常工作，所以大多数发布都应当可以
-> +   使用mkinitrd通过/tmp访问/tmp。
-> +
-> +4) 也许还有更多我不知道的地方:-)
-> +
-> +
-> +tmpfs有三个用于调整大小的挂载选项：
-> +
-> +=========  ============================================================
-> +size       tmpfs实例分配的字节数限制。默认值是不swap时物理RAM的一半。
-> +           如果tmpfs实例过大，机器将死锁，因为OOM处理将无法释放该内存。
-> +nr_blocks  与size相同，但以PAGE_SIZE为单位。
-> +nr_inodes  tmpfs实例的最大inode个数。默认值是物理内存页数的一半，或者
-> +           (有高端内存的机器)低端内存RAM的页数，二者以较低者为准。
-> +=========  ============================================================
-> +
-> +这些参数接受后缀k，m或g表示千，兆和千兆字节，可以在remount时更改。
-> +size参数也接受后缀％用来限制tmpfs实例占用物理RAM的百分比：
-> +未指定size或nr_blocks时，默认值为size=50％
-> +
-> +如果nr_blocks=0（或size=0），block个数将不受限制；如果nr_inodes=0，
-> +inode个数将不受限制。这样挂载通常是不明智的，因为它允许任何具有写权限的
-> +用户通过访问tmpfs耗尽机器上的所有内存；但同时这样做也会增强在多个CPU的
-> +场景下的访问。
-> +
-> +tmpfs具有为所有文件设置NUMA内存分配策略挂载选项(如果启用了CONFIG_NUMA),
-> +可以通过“mount -o remount ...”调整
-> +
-> +======================== ==============================================
-> +mpol=default             采用进程分配策略
-> +                         (请参阅 set_mempolicy(2))
-> +mpol=prefer:Node         倾向从给定的节点分配
-> +mpol=bind:NodeList       只允许从指定的链表分配
-> +mpol=interleave          倾向于依次从每个节点分配
-> +mpol=interleave:NodeList 依次从每个节点分配
-> +mpol=local		 prefers 从本地节点分配内存
-> +======================== ==============================================
-> +
-> +NodeList格式是以逗号分隔的十进制数字表示大小和范围，最大和最小范围是用-
-> +分隔符的十进制数来表示。例如，mpol=bind0-3,5,7,9-15
-> +
-> +带有有效NodeList的内存策略将按指定格式保存，在创建文件时使用。当任务在该
-> +文件系统上创建文件时，会使用到挂载时的内存策略NodeList选项，如果设置的话，
-> +由调用任务的cpuset[请参见Documentation/admin-guide/cgroup-v1/cpusets.rst]
-> +以及下面列出的可选标志约束。如果NodeLists为设置为空集，则文件的内存策略将
-> +恢复为“默认”策略。
-> +
-> +NUMA内存分配策略有可选标志，可以用于模式结合。在挂载tmpfs时指定这些可选
-> +标志可以在NodeList之前生效。
-> +Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的内存
-> +分配策略模式标志及其对内存策略。
-> +
-> +::
-> +
-> +	=static		相当于	MPOL_F_STATIC_NODES
-> +	=relative	相当于	MPOL_F_RELATIVE_NODES
-> +
-> +例如，mpol=bind=staticNodeList相当于MPOL_BIND|MPOL_F_STATIC_NODES的分配策略
-> +
-> +请注意，如果内核不支持NUMA，那么使用mpol选项挂载tmpfs将会失败；nodelist指定不
-> +在线的节点也会失败。如果您的系统依赖于此，但内核会运行不带NUMA功能(也许是安全
-> +revocery内核)，或者具有较少的节点在线，建议从自动模式中省略mpol选项挂载选项。
-> +可以在以后通过“mount -o remount,mpol=Policy:NodeList MountPoint”添加到挂载点。
-> +
-> +要指定初始根目录，可以使用如下挂载选项：
-> +
-> +====	==================================
-> +模式	权限用八进制数字表示
-> +uid		应用ID
-> +gid		组ID
-> +====	==================================
-> +
-> +这些选项对remount没有任何影响。您可以通过chmod(1),chown(1)和chgrp(1)的更改
-> +已经挂载的参数。
-> +
-> +tmpfs具有选择32位还是64位inode的挂载选项：
-> +
-> +=======   ========================
-> +inode64   Use 64-bit inode numbers
-> +inode32   Use 32-bit inode numbers
-> +=======   ========================
-> +
-> +在32位内核上，默认是inode32，挂载时指定inode64会被拒绝。
-> +在64位内核上，默认配置是CONFIG_TMPFS_INODE64。inode64避免了单个设备上可能有多个
-> +具有相同inode编号的文件；比如32位应用程序使用glibc如果长期访问tmpfs，一旦达到33
-> +位inode编号，就有EOVERFLOW失败的危险，无法打开大于2GiB的文件，并返回EINVAL。
-> +
-> +所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'将在
-> +/mytmpfs上挂载tmpfs实例，分配只能由root用户访问的10GB RAM/SWAP，可以有10240个
-> +inode的实例。
-> +
-> +
-> +:作者:
-> +   Christoph Rohland <cr@sap.com>, 1.12.01
-> +:更新:
-> +   Hugh Dickins, 4 June 2007
-> +:更新:
-> +   KOSAKI Motohiro, 16 Mar 2010
-> +:更新:
-> +   Chris Down, 13 July 2020
+> To resolve the problem, we'd like to address it at the most common point,
+> which is the dma-buf framework. The dma-buf mapping ideally knows if I/O
+> instructions are required and exports this information to it's users. The
+> new structure struct dma_buf_map stores the buffer address and a flag that
+> signals I/O memory. Affected users of the buffer (e.g., drivers, frameworks)
+> can then access the memory accordingly.
 > 
+> This patchset only introduces struct dma_buf_map, and updates struct dma_buf
+> and it's interfaces. Further patches can update dma-buf users. For example,
+> there's a prototype patchset for DRM that fixes the framebuffer problem. [2]
+> 
+> Further work: TTM, one of DRM's memory managers, already exports an
+> is_iomem flag of its own. It could later be switched over to exporting struct
+> dma_buf_map, thus simplifying some code. Several DRM drivers expect their
+> fbdev console to operate on I/O memory. These could possibly be switched over
+> to the generic fbdev emulation, as soon as the generic code uses struct
+> dma_buf_map.
+> 
+> v3:
+> 	* update fastrpc driver (kernel test robot)
+> 	* expand documentation (Daniel)
+> 	* move documentation into separate patch
+> v2:
+> 	* always clear map parameter in dma_buf_vmap() (Daniel)
+> 	* include dma-buf-heaps and i915 selftests (kernel test robot)
+> 	* initialize cma_obj before using it in drm_gem_cma_free_object()
+> 	  (kernel test robot)
+> 
+> [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
+> [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmermann@suse.de/
+> 
+> Thomas Zimmermann (4):
+>   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
+>   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
+>   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
+>   dma-buf: Document struct dma_buf_map
+> 
+>  Documentation/driver-api/dma-buf.rst          |   9 +
+>  drivers/dma-buf/dma-buf.c                     |  42 ++--
+>  drivers/dma-buf/heaps/heap-helpers.c          |  10 +-
+>  drivers/gpu/drm/drm_gem_cma_helper.c          |  20 +-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 +-
+>  drivers/gpu/drm/drm_prime.c                   |  15 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 +-
+>  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  14 +-
+>  drivers/gpu/drm/tegra/gem.c                   |  23 ++-
+>  .../common/videobuf2/videobuf2-dma-contig.c   |  17 +-
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
+>  .../common/videobuf2/videobuf2-vmalloc.c      |  21 +-
+>  drivers/misc/fastrpc.c                        |   6 +-
+>  include/drm/drm_prime.h                       |   5 +-
+>  include/linux/dma-buf-map.h                   | 193 ++++++++++++++++++
+>  include/linux/dma-buf.h                       |  11 +-
+>  18 files changed, 372 insertions(+), 94 deletions(-)
+>  create mode 100644 include/linux/dma-buf-map.h
+> 
+> --
+> 2.28.0
