@@ -1,201 +1,124 @@
-Return-Path: <SRS0=pZ1j=DC=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=ljnh=DD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC0AC4727C
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 23:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7BF8C4727E
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 00:13:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0088C207F7
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Sep 2020 23:54:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8845023718
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 00:13:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601079223;
+	bh=dO8+9I+CCh6iqMqYiE6bsUKPVGRtxlD4MSSBRH4tTa4=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=adgoUAmHoNrGROa1r/PKQ03kS/VhEjLetcR+4Dyqr/tch1IQeQr6GQEcRs+yYl2qz
+	 /vQ7tvgkEx1k5upbCa0aPswZYeY2duv5WX6MEDZR78R9gKftGKbSZPAouuSPzdH7Ja
+	 IFes5gQwkyW4u9TGK2/rVUoXzlwfcuBlcP5uo6fo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbgIYXyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Sep 2020 19:54:00 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:42448 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725208AbgIYXyA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 19:54:00 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UA4H6sE_1601078035;
-Received: from IT-FVFX43SYHV2H.lan(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UA4H6sE_1601078035)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sat, 26 Sep 2020 07:53:55 +0800
-Subject: Re: [PATCH v3] Documentation: Chinese translation of
- Documentation/arm64/amu.rst
-To:     Bailu Lin <bailu.lin@vivo.com>, corbet@lwn.net
-Cc:     catalin.marinas@arm.com, harryxiyou@gmail.com, kernel@vivo.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, will@kernel.org
-References: <20200924104141.7abc7271@lwn.net>
- <20200925151758.41818-1-bailu.lin@vivo.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <85b40e5b-c130-79c7-d97d-356b82189bb9@linux.alibaba.com>
-Date:   Sat, 26 Sep 2020 07:51:33 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.7.0
+        id S1729448AbgIZANm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Sep 2020 20:13:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729601AbgIZANl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Sep 2020 20:13:41 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD7DBC0613D5
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 17:13:40 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id q21so3966973ota.8
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2020 17:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=uV0OqNe6fNGB9fHblrzHw8cV18adwvrkpgLxsiNP0V0=;
+        b=Itebs+wDAb4wpBvU4vPbCiLJnqG1udHed3DIfGnE4q+RUOWLMv3mGel8E4yijdBKEY
+         I9B5MlW3NcLxPV4yZNs0MN9CUGtiqpVaXBemJ5vvVwM93NCjMqEEtaE3pMrenijGh90R
+         nX3nRIJ5N6mKMl8WCK7FP09bwZBnRfzV9FTzM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=uV0OqNe6fNGB9fHblrzHw8cV18adwvrkpgLxsiNP0V0=;
+        b=hcgA6UqrZRjwknzC8uAXe5eLL3w5esNj4O3MtLJocMWiZmZVC36ZU2zdCCcN6/xM3y
+         2neJ6DxYixFVLO5PQSNCtQvT1wobapdFgk9F72WC/3aKoin4GX1KFqp90znXjOX+B0J+
+         Gt3UgVVo+B8nKHor5y6o20R6yckiMU3K/4J1mi0D4mBVx50lZzA5KkP8lYs5IDJlD6x9
+         Em0gHkIdNXlmy+8pJdml7p1fBxgoey6P1mPsyplSqqeZNA12WxSbqigYlvd299Sfod/e
+         Hm2g7wwGjEmTkXtdXo7sgVqsKCCL7eCamTxL8IOyikJIkiojyftDwC733Ceajm9QYNPL
+         wfrw==
+X-Gm-Message-State: AOAM531oGdzLFcw09vl8/1f08I5SJL41G/wKMjE6U1czodqCX7hiWzTK
+        cZLSHEb+lLAigV076PabnJYfPA==
+X-Google-Smtp-Source: ABdhPJy+UJfLmw1XfbHObY0B1wHdW9//e0AKIl4aAw2lTnknEdN9TO9NnMLa3wvcpjkRI2FBogyCmA==
+X-Received: by 2002:a9d:6e1:: with SMTP id 88mr1876214otx.279.1601079219831;
+        Fri, 25 Sep 2020 17:13:39 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id d63sm958205oig.53.2020.09.25.17.13.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Sep 2020 17:13:39 -0700 (PDT)
+Subject: Re: [PATCH 00/11] Introduce Simple atomic and non-atomic counters
+To:     Kees Cook <keescook@chromium.org>
+Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, shuah@kernel.org,
+        rafael@kernel.org, johannes@sipsolutions.net, lenb@kernel.org,
+        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
+        arve@android.com, tkjos@android.com, maco@android.com,
+        joel@joelfernandes.org, christian@brauner.io, hridya@google.com,
+        surenb@google.com, minyard@acm.org, arnd@arndb.de,
+        mchehab@kernel.org, rric@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-edac@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1601073127.git.skhan@linuxfoundation.org>
+ <202009251650.193E2AD@keescook>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <7d8f86ab-4333-afa1-6523-e42ae5c7d9b2@linuxfoundation.org>
+Date:   Fri, 25 Sep 2020 18:13:37 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200925151758.41818-1-bailu.lin@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202009251650.193E2AD@keescook>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-在 2020/9/25 下午11:17, Bailu Lin 写道:
-> This is a Chinese translated version of Documentation/arm64/amu.rst
+On 9/25/20 5:52 PM, Kees Cook wrote:
+> On Fri, Sep 25, 2020 at 05:47:14PM -0600, Shuah Khan wrote:
+>> -- Addressed Kees's comments:
+>>     1. Non-atomic counters renamed to counter_simple32 and counter_simple64
+>>        to clearly indicate size.
+>>     2. Added warning for counter_simple* usage and it should be used only
+>>        when there is no need for atomicity.
+>>     3. Renamed counter_atomic to counter_atomic32 to clearly indicate size.
+>>     4. Renamed counter_atomic_long to counter_atomic64 and it now uses
+>>        atomic64_t ops and indicates size.
+>>     5. Test updated for the API renames.
+>>     6. Added helper functions for test results printing
+>>     7. Verified that the test module compiles in kunit env. and test
+>>        module can be loaded to run the test.
 > 
-> Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
-> ---
-> Changes in v3:
->  - Remove Documentation/arm64/amu.rst's inappropriate License claim.
-> Changes in v2:
->  - Add index to arm64 directoy.
->  - Fix a document format error.
->  - Correct email encoding format.
-> ---
->  Documentation/arm64/amu.rst                   |   2 +
->  .../translations/zh_CN/arm64/amu.rst          | 102 ++++++++++++++++++
->  .../translations/zh_CN/arm64/index.rst        |   2 +
->  3 files changed, 106 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/arm64/amu.rst
+> Thanks for all of this!
 > 
-> diff --git a/Documentation/arm64/amu.rst b/Documentation/arm64/amu.rst
-> index 452ec8b115c2..01f2de2b0450 100644
-> --- a/Documentation/arm64/amu.rst
-> +++ b/Documentation/arm64/amu.rst
-> @@ -1,3 +1,5 @@
-> +.. _amu_index:
-> +
->  =======================================================
->  Activity Monitors Unit (AMU) extension in AArch64 Linux
->  =======================================================
-> diff --git a/Documentation/translations/zh_CN/arm64/amu.rst b/Documentation/translations/zh_CN/arm64/amu.rst
-> new file mode 100644
-> index 000000000000..7aa538c40304
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/arm64/amu.rst
-> @@ -0,0 +1,102 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-
-Is it appropriate if original doc has no this claim?
-
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/arm64/amu.rst <amu_index>`
-> +
-> +Translator: Bailu Lin <bailu.lin@vivo.com>
-> +
-> +===============================
-> +AArch64 Linux 中扩展的活动监控单元
-> +===============================
-> +
-> +作者: Ionela Voinescu <ionela.voinescu@arm.com>
-> +
-> +日期: 2019-09-10
-> +
-> +本文档简要描述了 AArch64 Linux 支持的活动监控单元的规范。
-> +
-> +
-> +架构总述
-> +--------
-> +
-> +活动监控是 ARMv8.4 CPU 架构引入的一个可选扩展特性。
-> +
-> +活动监控单元(在每个 CPU 中实现)为系统管理提供了性能计数器。既可以通
-> +过系统寄存器的方式访问计数器，同时也支持外部内存映射的方式访问计数器。
-> +
-> +AMUv1 架构实现了一个由4个固定的64位事件计数器组成的计数器组。
-> +
-> +  - CPU 周期计数器：同 CPU 的频率增长
-> +  - 常量计数器：同固定的系统时钟频率增长
-> +  - 淘汰指令计数器: 同每次架构指令执行增长
-> +  - 内存停顿周期计数器：计算由在时钟域内的最后一级缓存中未命中而引起
-> +    的指令调度停顿周期数
-> +
-> +当处于 WFI 或者 WFE 状态时，计数器不会增长。
-> +
-> +AMU 架构提供了一个高达16位的事件计数器空间，未来新的 AMU 版本中可能
-> +用它来实现新增的事件计数器。
-> +
-> +另外，AMUv1 实现了一个多达16个64位辅助事件计数器的计数器组。
-> +
-> +冷复位时所有的计数器会清零。
-> +
-> +
-> +基本支持
-> +--------
-> +
-> +内核可以安全地运行在支持 AMU 和不支持 AMU 的 CPU 组合中。
-> +因此，当配置 CONFIG_ARM64_AMU_EXTN 后我们无条件使能后续
-> +(secondary or hotplugged) CPU 检测和使用这个特性。
-> +
-> +当在 CPU 上检测到该特性时，我们会标记为特性可用但是不能保证计数器的功能，
-> +仅表明有扩展属性。
-> +
-> +固件(代码运行在高异常级别，例如 arm-tf )需支持以下功能：
-> +
-> + - 提供低异常级别(EL2 和 EL1)访问 AMU 寄存器的能力。
-> + - 使能计数器。如果未使能，它的值应为 0。
-> + - 在从电源关闭状态启动 CPU 前或后保存或者恢复计数器。
-> +
-> +当使用使能了该特性的内核启动但固件损坏时，访问计数器寄存器可能会遭遇
-> +panic 或者死锁。即使未发现这些症状，计数器寄存器返回的数据结果并不一
-> +定能反映真实情况。通常，计数器会返回 0，表明他们未被使能。
-> +
-> +如果固件没有提供适当的支持最好关闭 CONFIG_ARM64_AMU_EXTN。
-> +值得注意的是，出于安全原因，不要绕过 AMUSERRENR_EL0 设置而捕获从
-> +EL0(用户空间) 访问 EL1(内核空间)。 因此，固件应该确保访问 AMU寄存器
-> +不会困在 EL2或EL3。
-> +
-> +AMUv1 的固定计数器可以通过如下系统寄存器访问：
-> +
-> + - SYS_AMEVCNTR0_CORE_EL0
-> + - SYS_AMEVCNTR0_CONST_EL0
-> + - SYS_AMEVCNTR0_INST_RET_EL0
-> + - SYS_AMEVCNTR0_MEM_STALL_EL0
-> +
-> +特定辅助计数器可以通过 SYS_AMEVCNTR1_EL0(n) 访问，其中n介于0到15。
-> +
-> +详细信息定义在目录：arch/arm64/include/asm/sysreg.h。
-> +
-> +
-> +用户空间访问
-> +------------
-> +
-> +由于以下原因，当前禁止从用户空间访问 AMU 的寄存器：
-> +
-> +  - 安全因数：可能会暴露处于安全模式执行的代码信息。
-> +  - 意愿：AMU 是用于系统管理的。
-> +
-> +同样，该功能对用户空间不可见。
-> +
-> +
-> +虚拟化
-> +------
-> +
-> +由于以下原因，当前禁止从 KVM 客户端的用户空间(EL0)和内核空间(EL1)
-> +访问 AMU 的寄存器：
-> +
-> +  - 安全因数：可能会暴露给其他客户端或主机端执行的代码信息。
-> +
-> +任何试图访问 AMU 寄存器的行为都会触发一个注册在客户端的未定义异常。
-> diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
-> index c236b648740d..9bcf2c51a696 100644
-> --- a/Documentation/translations/zh_CN/arm64/index.rst
-> +++ b/Documentation/translations/zh_CN/arm64/index.rst
-> @@ -14,3 +14,5 @@ ARM64 架构
->  
->  .. toctree::
->      :maxdepth: 2
-> +
-> +   amu
-
-alignment?
-
+>>     8. Updated Documentation to reflect the intent to make the API
+>>        restricted so it can never be used to guard object lifetimes
+>>        and state management. I left _return ops for now, inc_return
+>>        is necessary for now as per the discussion we had on this topic.
 > 
+> I still *really* do not want dec_return() to exist. That is asking for
+> trouble. I'd prefer inc_return() not exist either, but I can live with
+> it. ;)
+> 
+
+Thanks. I am equally concerned about adding anything that can be used to
+guard object lifetimes. So I will make sure this set won't expand and
+plan to remove dec_return() if we don't find any usages.
+
+thanks,
+-- Shuah
