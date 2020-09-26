@@ -2,121 +2,146 @@ Return-Path: <SRS0=ljnh=DD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B309EC2D0A8
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 14:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA93FC47423
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 15:25:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82B202184D
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 14:44:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76D5520878
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Sep 2020 15:25:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IgNtiCGT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725208AbgIZOo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Sep 2020 10:44:57 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:56315 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729356AbgIZOo4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 10:44:56 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UA7ntYq_1601131484;
-Received: from IT-FVFX43SYHV2H.lan(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UA7ntYq_1601131484)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sat, 26 Sep 2020 22:44:45 +0800
-Subject: Re: [PATCH V4] doc: zh_CN: add translatation for btrfs
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     Wang Qing <wangqing@vivo.com>, Harry Wei <harryxiyou@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Wenhu <wenhu.wang@vivo.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Chucheng Luo <luochucheng@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1601018642-31711-1-git-send-email-wangqing@vivo.com>
- <f0febb25-29a1-02d4-223a-65e2c6a9db5e@linux.alibaba.com>
-Message-ID: <f12d8844-ce72-bf96-e615-0cfe7852d7a9@linux.alibaba.com>
-Date:   Sat, 26 Sep 2020 22:42:22 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.7.0
+        id S1729644AbgIZPZr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Sep 2020 11:25:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725208AbgIZPZq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 11:25:46 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C43C0613CE
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 08:25:46 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id k14so5547036edo.1
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 08:25:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NyijGOIcOg0IQ8xJ7tRK9WXb8VbwFr7joS3ngRxTFtY=;
+        b=IgNtiCGTIRw+9Jq9+OugAEUgOtWjA8eNb9N0lGKIZhSzq8+Nq6i8p6dAPgDSw3WCu5
+         5zLCQcy1nGd484dN8MEuuVSYHqucVtHjEfU81Ws4/lYX/HOp4JbMrZzXbrOql6BtdQAy
+         +hEnD/Pr6tT/viPh9YkxxEEc7eplb0NwJB92c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NyijGOIcOg0IQ8xJ7tRK9WXb8VbwFr7joS3ngRxTFtY=;
+        b=aPB8ck0hSiJql5QPdipP1CVMrKC4oCDl9piyEFkzatW/eC5zibtOJ24lweEpzY4oCJ
+         J+nRGKrO2sPEq3RzkS/THXSj1mKroYpwCn45S+P/cZmAi1xvm8x+TvvBCA56KInbo1rd
+         BTwhmyXZe0kMp97nqVJ2SHVUvsGCdxPOx78kX55UL9IDgq0mK7FlqM+1IxWpI5ufkhx1
+         uaAcD4Qiu2dVakEDg5SuftK7WxyJDzg2ZrSrZpNPkciKUy5LXWeU0CrzbZmCdBpnomJk
+         2abzRQvEzzYQjhGxiltjtyMF0L8OQSDhRPa4Xe3niThCaBCgMw2bpqw4kWz3DZwc18aQ
+         JqFQ==
+X-Gm-Message-State: AOAM530kFYI4UaoVC43bxQzsOVBfYf2IEMhN3dW5rbNoJeMLsMNka7RR
+        wGEIs6ziJHOePHIUBX8EZiKS+LtBgYOdHRNT
+X-Google-Smtp-Source: ABdhPJz4AiJmAx4m1D8rhNuhUcQAOWfqBMPss0LP945Gngb0+zhPFKgq7m4qy/LxZvz7JBAEFXlExQ==
+X-Received: by 2002:a50:fc08:: with SMTP id i8mr7265081edr.257.1601133944865;
+        Sat, 26 Sep 2020 08:25:44 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com. [209.85.128.48])
+        by smtp.gmail.com with ESMTPSA id bf25sm4542009edb.95.2020.09.26.08.25.43
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 26 Sep 2020 08:25:44 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id x23so2166381wmi.3
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2020 08:25:43 -0700 (PDT)
+X-Received: by 2002:a7b:c925:: with SMTP id h5mr2968012wml.28.1601133943201;
+ Sat, 26 Sep 2020 08:25:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f0febb25-29a1-02d4-223a-65e2c6a9db5e@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <20200915155122.1768241-1-hch@lst.de> <20200915155122.1768241-18-hch@lst.de>
+ <20200925184622.GB3607091@chromium.org> <20200926141428.GB10379@lst.de>
+In-Reply-To: <20200926141428.GB10379@lst.de>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Sat, 26 Sep 2020 17:25:27 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5CjSKswdc3qOEZy73cyYJ9kfaXsSFyxkOHA+buh-J12UA@mail.gmail.com>
+Message-ID: <CAAFQd5CjSKswdc3qOEZy73cyYJ9kfaXsSFyxkOHA+buh-J12UA@mail.gmail.com>
+Subject: Re: [PATCH 17/18] dma-iommu: implement ->alloc_noncoherent
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Sep 26, 2020 at 4:14 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Fri, Sep 25, 2020 at 06:46:22PM +0000, Tomasz Figa wrote:
+> > > +static void *iommu_dma_alloc_noncoherent(struct device *dev, size_t size,
+> > > +           dma_addr_t *handle, enum dma_data_direction dir, gfp_t gfp)
+> > > +{
+> > > +   if (!gfpflags_allow_blocking(gfp)) {
+> > > +           struct page *page;
+> > > +
+> > > +           page = dma_common_alloc_pages(dev, size, handle, dir, gfp);
+> > > +           if (!page)
+> > > +                   return NULL;
+> > > +           return page_address(page);
+> > > +   }
+> > > +
+> > > +   return iommu_dma_alloc_remap(dev, size, handle, gfp | __GFP_ZERO,
+> > > +                                PAGE_KERNEL, 0);
+> >
+> > iommu_dma_alloc_remap() makes use of the DMA_ATTR_ALLOC_SINGLE_PAGES attribute
+> > to optimize the allocations for devices which don't care about how contiguous
+> > the backing memory is. Do you think we could add an attrs argument to this
+> > function and pass it there?
+> >
+> > As ARM is being moved to the common iommu-dma layer as well, we'll probably
+> > make use of the argument to support the DMA_ATTR_NO_KERNEL_MAPPING attribute to
+> > conserve the vmalloc area.
+>
+> We could probably at it.  However I wonder why this is something the
+> drivers should care about.  Isn't this really something that should
+> be a kernel-wide policy for a given system?
 
+There are IOMMUs out there which support huge pages and those can
+benefit *some* hardware depending on what kind of accesses they
+perform, possibly on a per-buffer basis. At the same time, order > 0
+allocations can be expensive, significantly affecting allocation
+latency, so for devices which don't care about huge pages anyone would
+prefer simple single-page allocations. Currently the drivers know the
+best on whether the hardware they drive would care. There are some
+decision factors listed in the documentation [1].
 
-在 2020/9/25 下午4:19, Alex Shi 写道:
-> Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+I can imagine cases where drivers could not be the best to decide
+about this - for example, the workload could vary depending on the
+userspace or a product decision regarding the performance vs
+allocation latency, but we haven't seen such cases in practice yet.
 
-Sorry, this patch still has format issue and can not be applied.
-I would take back the reviewed-by.
+[1] https://www.kernel.org/doc/html/latest/core-api/dma-attributes.html?highlight=dma_attr_alloc_single_pages#dma-attr-alloc-single-pages
 
-Thanks
-Alex
-> 
-> 在 2020/9/25 下午3:22, Wang Qing 写道:
->> Translate Documentation/filesystems/btrfs.rst into Chinese.
->>
->> Signed-off-by: Wang Qing <wangqing@vivo.com>
->> ---
->>  .../translations/zh_CN/filesystems/btrfs.rst       | 37 ++++++++++++++++++++++
->>  .../translations/zh_CN/filesystems/index.rst       |  1 +
->>  2 files changed, 38 insertions(+)
->>  create mode 100644 Documentation/translations/zh_CN/filesystems/btrfs.rst
->>
->> diff --git a/Documentation/translations/zh_CN/filesystems/btrfs.rst b/Documentation/translations/zh_CN/filesystems/btrfs.rst
->> new file mode 100644
->> index 0000000..8b8cca2
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/filesystems/btrfs.rst
->> @@ -0,0 +1,37 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: :ref:`Documentation/filesystems/ext3.rst <ext3_index>`
->> +
->> +translated by 王擎 Wang Qing<wangqing@vivo.com>
->> +
->> +=====
->> +BTRFS
->> +=====
->> +
->> +Btrfs是一个写时复制更新的文件系统，它注重容错、修复和易于管理。
->> +Btrfs由多家公司联合开发，并获得GPL许可，免费开放给所有人。
->> +
->> +Btrfs的主要功能包括：
->> +
->> +    *扩展大小的文件存储（文件最大支持2^64）
->> +    *填充方式使小文件更节省空间
->> +    *索引目录的方式更节省空间
->> +    *动态的索引节点分配方式
->> +    *可写快照的特性
->> +    *支持子卷（独立的内部根文件系统）
->> +    *对象级别的镜像克隆
->> +    *基于数据和元数据的校验和（支持多种算法）
->> +    *支持压缩
->> +    *內建多种磁盘阵列算法，支持多种设备
->> +    *支持离线的文件系统检查
->> +    *高效的增量备份和文件系统镜像
->> +    *在线文件系统碎片整理
->> +
->> +更多有关信息，请参阅Wiki
->> +
->> +  https://btrfs.wiki.kernel.org
->> +
->> +维护信息包含管理任务、常见问题、用例、挂载选项、变更日志、
->> +特性、手册、源码仓、联系人等。
->> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
->> index 186501d..47e86397
->> --- a/Documentation/translations/zh_CN/filesystems/index.rst
->> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
->> @@ -25,4 +25,5 @@ Linux Kernel中的文件系统
->>  
->>     virtiofs
->>     debugfs
->> +   btrfs
->>  
->>
+Best regards,
+Tomasz
