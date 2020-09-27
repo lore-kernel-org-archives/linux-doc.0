@@ -7,50 +7,51 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7FFC47420
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B595C4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE35E23977
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39B7C23977
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="snXKYTaw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dCG7TC8A"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0tG2QVs6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NeihXZui"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726920AbgI0T5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:57:18 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:40898 "EHLO
+        id S1726917AbgI0T5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:57:17 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:40792 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726878AbgI0T5Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:16 -0400
-Message-Id: <20200927194920.529620472@linutronix.de>
+        with ESMTP id S1726873AbgI0T5O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:14 -0400
+Message-Id: <20200927194920.327665456@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236634;
+        s=2020; t=1601236631;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=EDKBcMIgD/09FuiGSNYHhCF3jDv+nrJ0d2CEBofmw7g=;
-        b=snXKYTawQUFS88tiTEow0tXsxP1tLJM9xHT4/iSNgIAGuodQmc9Qp0KQGNZNqlz9QV4M5I
-        Rwhti+lRXO9IB8T3AG1+oqCZy8zEWXsIqGQUGjndLp2o/23CsbScRTMQxV1S+kh8QLeOFq
-        GhrN/1KMvDQQJRY8cCanEj7G/YgGLxhd8+CicY7yErSGgVrutMDhvDA+2Le5tZEPNrhF92
-        HNLfR/nf1tFFd6gkjfLx4iaWWvrDbiiNIpQNQydVKD+szuJ1u60oQehMuNWOmSJiLRtlOZ
-        NjsUY5WOXonQTXiJuGxEgPxLSh81hYb/Q/qsEkT8VlOOAQCtaHM8RWF7F0a1IA==
+        bh=LDyMI8Hz49Jgdl18F8Ta9e6p+YRh1dkfwAZ1XTos3j8=;
+        b=0tG2QVs6g8rkE0bRdQ8JdMu4aP/Q7FauXbgPsjH7E62PT9jMd3rMuTE30ia2tqheyomNZj
+        f0Q53jlOjvftWeF1ykrxl/rSGqHc13tFUPFffEF+5XM9/IVCCNoMxbdjdjuUJDQeSqrooh
+        Nkd5o4E5Gn17JuQgU6qoel3O9qQzfxkH3FvzJ9KTrb21Zjxj/M4A1vwhx/j+lhhqhcgFOd
+        rJghApRHbvV4oCVU8TIQ6d02sDpEeOE0t2g8CPE2Bu8OP0f+I/nVC9XKjaNAkzU2PU4xs2
+        b7gFIz/eHI7D40fN5R2Rba+BPLJq5DLsKbKtsq8wjrzZ62cKnbc+pPpd/EEj4w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236634;
+        s=2020e; t=1601236631;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=EDKBcMIgD/09FuiGSNYHhCF3jDv+nrJ0d2CEBofmw7g=;
-        b=dCG7TC8ALt/lqqr+lqrqo16u3cIrM1QEOqBoykQQB7Oqrb7kPbGrYa/ghwEhg4k/GILAkS
-        r43l5jfMGGMm/jDA==
-Date:   Sun, 27 Sep 2020 21:48:53 +0200
+        bh=LDyMI8Hz49Jgdl18F8Ta9e6p+YRh1dkfwAZ1XTos3j8=;
+        b=NeihXZuinmBVQYVnFomZAN0HcKRGTntP3I3XGFPCfYihWAR3yZ30mG99h+HiZaZcvFyruj
+        L+GdfMd29fk8eJDQ==
+Date:   Sun, 27 Sep 2020 21:48:51 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Linus Torvalds <torvalds@linuxfoundation.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
         "David S. Miller" <davem@davemloft.net>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
@@ -60,8 +61,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-doc@vger.kernel.org,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Jay Cliburn <jcliburn@gmail.com>,
-        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
         Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         intel-wired-lan@lists.osuosl.org,
         Shannon Nelson <snelson@pensando.io>,
@@ -98,7 +98,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 07/35] net: cxbg4: Remove pointless in_interrupt() check
+Subject: [patch 05/35] net: atheros: Remove WARN_ON(in_interrupt())
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -109,38 +109,64 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-t4_sge_stop() is only ever called from task context and the in_interrupt()
-check is presumably a leftover from copying t3_sge_stop().
+in_interrupt() is ill defined and does not provide what the name
+suggests. The usage especially in driver code is deprecated and a tree wide
+effort to clean up and consolidate the (ab)usage of in_interrupt() and
+related checks is happening.
 
-Aside of in_interrupt() being deprecated because it's not providing what it
-claims to provide, this check would paper over illegitimate callers.
+In this case the check covers only parts of the contexts in which these
+functions cannot be called. It fails to detect preemption or interrupt
+disabled invocations.
 
-The functions invoked from t4_sge_stop() contain already warnings to catch
-invocations from invalid contexts.
+As the functions which are invoked from at*_reinit_locked() contain a broad
+variety of checks (always enabled or debug option dependent) which cover
+all invalid conditions already, there is no point in having inconsistent
+warnings in those drivers.
 
-Remove it.
+Just remove them.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Vishal Kulkarni <vishal@chelsio.com>
 Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jay Cliburn <jcliburn@gmail.com>
+Cc: Chris Snook <chris.snook@gmail.com>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
 
-
 ---
- drivers/net/ethernet/chelsio/cxgb4/sge.c |    3 ---
- 1 file changed, 3 deletions(-)
+ drivers/net/ethernet/atheros/atl1c/atl1c_main.c |    1 -
+ drivers/net/ethernet/atheros/atl1e/atl1e_main.c |    2 --
+ drivers/net/ethernet/atheros/atlx/atl2.c        |    1 -
+ 3 files changed, 4 deletions(-)
 
---- a/drivers/net/ethernet/chelsio/cxgb4/sge.c
-+++ b/drivers/net/ethernet/chelsio/cxgb4/sge.c
-@@ -4872,9 +4872,6 @@ void t4_sge_stop(struct adapter *adap)
- 	int i;
- 	struct sge *s = &adap->sge;
+--- a/drivers/net/ethernet/atheros/atl1c/atl1c_main.c
++++ b/drivers/net/ethernet/atheros/atl1c/atl1c_main.c
+@@ -220,7 +220,6 @@ static void atl1c_phy_config(struct time
  
--	if (in_interrupt())  /* actions below require waiting */
--		return;
+ void atl1c_reinit_locked(struct atl1c_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	atl1c_down(adapter);
+ 	atl1c_up(adapter);
+ 	clear_bit(__AT_RESETTING, &adapter->flags);
+--- a/drivers/net/ethernet/atheros/atl1e/atl1e_main.c
++++ b/drivers/net/ethernet/atheros/atl1e/atl1e_main.c
+@@ -127,8 +127,6 @@ static void atl1e_phy_config(struct time
+ 
+ void atl1e_reinit_locked(struct atl1e_adapter *adapter)
+ {
 -
- 	if (s->rx_timer.function)
- 		del_timer_sync(&s->rx_timer);
- 	if (s->tx_timer.function)
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__AT_RESETTING, &adapter->flags))
+ 		msleep(1);
+ 	atl1e_down(adapter);
+--- a/drivers/net/ethernet/atheros/atlx/atl2.c
++++ b/drivers/net/ethernet/atheros/atlx/atl2.c
+@@ -1085,7 +1085,6 @@ static int atl2_up(struct atl2_adapter *
+ 
+ static void atl2_reinit_locked(struct atl2_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__ATL2_RESETTING, &adapter->flags))
+ 		msleep(1);
+ 	atl2_down(adapter);
 
