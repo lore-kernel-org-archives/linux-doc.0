@@ -7,35 +7,34 @@ X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13344C4346E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 21:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA83C4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 21:03:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD85E2311C
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 21:02:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00FB92311C
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 21:03:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbgI0VC0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 17:02:26 -0400
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:55524 "EHLO
+        id S1726314AbgI0VDB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 17:03:01 -0400
+Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:55548 "EHLO
         mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726267AbgI0VC0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 17:02:26 -0400
-X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Sun, 27 Sep 2020 17:02:25 EDT
+        by vger.kernel.org with ESMTP id S1726267AbgI0VDB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 17:03:01 -0400
 X-IronPort-AV: E=Sophos;i="5.77,311,1596492000"; 
-   d="scan'208";a="469746005"
+   d="scan'208";a="469746023"
 Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Sep 2020 22:55:17 +0200
-Date:   Sun, 27 Sep 2020 22:55:17 +0200 (CEST)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Sep 2020 22:55:53 +0200
+Date:   Sun, 27 Sep 2020 22:55:52 +0200 (CEST)
 From:   Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
 To:     Sumera Priyadarsini <sylphrenadin@gmail.com>
 cc:     corbet@lwn.net, michal.lkml@markovi.net, Gilles.Muller@lip6.fr,
         linux-doc@vger.kernel.org, nicolas.palix@imag.fr,
         linux-kernel@vger.kernel.org, cocci@systeme.lip6.fr
-Subject: Re: [Cocci] [PATCH 2/2] Documentation: Coccinelle: Modify parallelisation
- information in docs
-In-Reply-To: <3ecfe0e7f95021525b7bbf783a45eb3a176791a9.1600945451.git.sylphrenadin@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2009272254140.20726@hadrien>
-References: <cover.1600945451.git.sylphrenadin@gmail.com> <3ecfe0e7f95021525b7bbf783a45eb3a176791a9.1600945451.git.sylphrenadin@gmail.com>
+Subject: Re: [Cocci] [PATCH 1/2] scripts: coccicheck: Change default value
+ for    parallelism
+In-Reply-To: <3beb97122995eafe3f0b831e36167b1edadb47c5.1600945451.git.sylphrenadin@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2009272255220.20726@hadrien>
+References: <cover.1600945451.git.sylphrenadin@gmail.com> <3beb97122995eafe3f0b831e36167b1edadb47c5.1600945451.git.sylphrenadin@gmail.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,37 +46,59 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, 24 Sep 2020, Sumera Priyadarsini wrote:
 
-> This patchset modifies coccicheck to use at most one thread per core by
-> default for optimal performance. Modify documentation in coccinelle.rst
-> to reflect the same.
+> By default, coccicheck utilizes all available threads to implement
+> parallelisation. However, when all available threads are used,
+> a decrease in performance is noted. The elapsed time is  minimum
+> when at most one thread per core is used.
+>
+> For example, on benchmarking the semantic patch kfree.cocci for
+> usb/serial using hyperfine, the outputs obtained for J=5 and J=2
+> are 1.32 and 1.90 times faster than those for J=10 and J=9
+> respectively for two separate runs. For the larger drivers/staging
+> directory, minimium elapsed time is obtained for J=3 which is 1.86
+> times faster than that for J=12. The optimal J value does not
+> exceed 6 in any of the test runs. The benchmarks are run on a machine
+> with 6 cores, with 2 threads per core, i.e, 12 hyperthreads in all.
+>
+> To improve performance, modify coccicheck to use at most only
+> one thread per core by default.
+>
+> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
 
-It would be good for the documentation to mention that this only occurs if
-the machine has more than two cores (and more than 4 hardware threads).
+I have applied this one, so just the patch on the docuemtnation needs to
+be improved.
 
 julia
 
-
 >
-> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
 > ---
->  Documentation/dev-tools/coccinelle.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Changes in V2:
+> 	- Change commit message as suggested by Julia Lawall
+> Changes in V3:
+> 	- Use J/2 as optimal value for machines with more
+> than 8 hyperthreads as well.
+> ---
+>  scripts/coccicheck | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
-> index 74c5e6aeeff5..a27a4867018c 100644
-> --- a/Documentation/dev-tools/coccinelle.rst
-> +++ b/Documentation/dev-tools/coccinelle.rst
-> @@ -130,8 +130,8 @@ To enable verbose messages set the V= variable, for example::
->  Coccinelle parallelization
->  --------------------------
+> diff --git a/scripts/coccicheck b/scripts/coccicheck
+> index e04d328210ac..a72aa6c037ff 100755
+> --- a/scripts/coccicheck
+> +++ b/scripts/coccicheck
+> @@ -75,8 +75,13 @@ else
+>          OPTIONS="--dir $KBUILD_EXTMOD $COCCIINCLUDE"
+>      fi
 >
-> -By default, coccicheck tries to run as parallel as possible. To change
-> -the parallelism, set the J= variable. For example, to run across 4 CPUs::
-> +By default, coccicheck uses at most only one thread per core of the system.
-> +To change the parallelism, set the J= variable. For example, to run across 4 CPUs::
->
->     make coccicheck MODE=report J=4
->
+> +    # Use only one thread per core by default if hyperthreading is enabled
+> +    THREADS_PER_CORE=$(lscpu | grep "Thread(s) per core: " | tr -cd [:digit:])
+>      if [ -z "$J" ]; then
+>          NPROC=$(getconf _NPROCESSORS_ONLN)
+> +	if [ $THREADS_PER_CORE -gt 1 -a $NPROC -gt 2 ] ; then
+> +		NPROC=$((NPROC/2))
+> +	fi
+>      else
+>          NPROC="$J"
+>      fi
 > --
 > 2.25.1
 >
