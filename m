@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A86C47420
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5295CC4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:59:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 026AC23A58
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:59:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 207B223A54
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:59:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="W7W1d/tx";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+bW9sb+f"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DgFWCTRm";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jsZYaXiR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726280AbgI0T7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:59:37 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:42068 "EHLO
+        id S1727126AbgI0T7j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:59:39 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:42202 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727161AbgI0T6D (ORCPT
+        with ESMTP id S1727167AbgI0T6D (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:58:03 -0400
-Message-Id: <20200927194922.629869406@linutronix.de>
+Message-Id: <20200927194922.938263514@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236660;
+        s=2020; t=1601236664;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Ki3wNa4qUnOTSFl9Or2v+BVEDl4x1h8hIm3EJjTZXcE=;
-        b=W7W1d/txuLVfTz5Gt3j5zZyALW2f3kMpwRn8gRNuPAB5eHtPCRrCzV9ZNJwpbPqEQ/eg6f
-        sBq+WihGLhJmsoBS1K6HhiJMKOK8MlBal7/2OI7l/TaNg/m6FzeILzJSPiZ99295mvUyeA
-        R+rWpDnz6AZzm5I4WiOfbPOO+0FwTUEQ2q7iR6PfwHqgzd2LYVaM/QYn4U5NtN3eZtcZwJ
-        ub1+M3DpzM6UZ5A2BYzNi4eCZNGBuPyvBJc6bsAJDlJhQ0BTovLcOTwgDCKx3S3dI4Ljwx
-        dSyTdrwmMUz/SBnqvB9seFFG23GywYmHdtFHwhzXcGpB9eX94MmoGFUGiht3tg==
+        bh=+EKrA6HqGMF4faSCoLrAtx6KX3hw/q02kTTYVH77/+8=;
+        b=DgFWCTRmyeEjV0+OEYDVbCkMlQbEJFzwD69vMLAlqAaimPSm5lMXaR3fbldN0wOl0BqeFc
+        zQrD8mqr+OmCWZYyLm7RLr56R6Uisc43UcpkNxfH9uStf4GT/Q/fOOinHmuT8RHGl0jL6Z
+        wUdLMut+XHwHPnR1ey1uae/dXTbri3XVyYTJ74NBWHyM13bI0ohdjaz6zEB+4yolDn+ZDF
+        0VIc/HnK6kTk3f3URI1GJAzoEEojDjpAtLIW88F5cK7YtFr4+asZd929ZyG9pTudMogrbw
+        7fLYoNxT5ATayz/0EYF6tk7HKCZLrxinEoIEgQOi3akiNU10TFB4xtu5xojEMQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236660;
+        s=2020e; t=1601236664;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Ki3wNa4qUnOTSFl9Or2v+BVEDl4x1h8hIm3EJjTZXcE=;
-        b=+bW9sb+foCwyzKhCANixWcGu7F1F0w5JY3fi3c0uv8xHX4iTofneq9h/A3y3145b80cFZH
-        3Z0xjOpEwIYXGwBA==
-Date:   Sun, 27 Sep 2020 21:49:14 +0200
+        bh=+EKrA6HqGMF4faSCoLrAtx6KX3hw/q02kTTYVH77/+8=;
+        b=jsZYaXiRN4xRZ5BWns5HUuV12Wy5QkGKco5gufMggE6/zBZBdgkjf30s/8iphwg89FOg4S
+        +jX7dKxRVl7/tZBw==
+Date:   Sun, 27 Sep 2020 21:49:17 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,15 +50,11 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
         Kalle Valo <kvalo@codeaurora.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        Christian Benvenuti <benve@cisco.com>,
+        libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -90,14 +86,19 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         brcm80211-dev-list.pdl@broadcom.com,
         brcm80211-dev-list@cypress.com,
         Stanislav Yakovlev <stas.yakovlev@gmail.com>,
-        Stanislaw Gruszka <stf_xl@wp.pl>, Jouni Malinen <j@w1.fi>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
         Amitkumar Karwar <amitkarwar@gmail.com>,
         Ganapathi Bhat <ganapathi.bhat@nxp.com>,
         Xinming Hu <huxinming820@gmail.com>,
-        libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 28/35] net: iwlwifi: Remove in_interrupt() from tracing macro.
+Subject: [patch 31/35] net: libertas libertas_tf: Remove in_interrupt() from
+ debug macro.
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -108,68 +109,50 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The usage of in_interrupt) in driver code is phased out.
+The debug macro prints (INT) when in_interrupt() returns true. The value of
+this information is dubious as it does not distinguish between the various
+contexts which are covered by in_interrupt().
 
-The iwlwifi_dbg tracepoint records in_interrupt() seperately, but that's
-superfluous because the trace header already records all kind of state and
-context information like hardirq status, softirq status, preemption count
-etc.
-
-Aside of that the recording of in_interrupt() as boolean does not allow to
-distinguish between the possible contexts (hard interrupt, soft interrupt,
-bottom half disabled) while the trace header gives precise information.
-
-Remove the duplicate information from the tracepoint and fixup the caller.
+As the usage of in_interrupt() in drivers is phased out and the same
+information can be more precisely obtained with tracing, remove the
+in_interrupt() conditional from this debug printk.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Johannes Berg <johannes.berg@intel.com>
-Cc: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
-Cc: Luca Coelho <luciano.coelho@intel.com>
-Cc: Intel Linux Wireless <linuxwifi@intel.com>
 Cc: Kalle Valo <kvalo@codeaurora.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: libertas-dev@lists.infradead.org
 Cc: linux-wireless@vger.kernel.org
 Cc: netdev@vger.kernel.org
 
 ---
- drivers/net/wireless/intel/iwlwifi/iwl-debug.c        |    2 +-
- drivers/net/wireless/intel/iwlwifi/iwl-devtrace-msg.h |    6 ++----
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ drivers/net/wireless/marvell/libertas/defs.h        |    3 +--
+ drivers/net/wireless/marvell/libertas_tf/deb_defs.h |    3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
---- a/drivers/net/wireless/intel/iwlwifi/iwl-debug.c
-+++ b/drivers/net/wireless/intel/iwlwifi/iwl-debug.c
-@@ -123,7 +123,7 @@ void __iwl_dbg(struct device *dev,
- 	    (!limit || net_ratelimit()))
- 		dev_printk(KERN_DEBUG, dev, "%s %pV", function, &vaf);
+--- a/drivers/net/wireless/marvell/libertas/defs.h
++++ b/drivers/net/wireless/marvell/libertas/defs.h
+@@ -50,8 +50,7 @@ extern unsigned int lbs_debug;
+ #ifdef DEBUG
+ #define LBS_DEB_LL(grp, grpnam, fmt, args...) \
+ do { if ((lbs_debug & (grp)) == (grp)) \
+-  printk(KERN_DEBUG DRV_NAME grpnam "%s: " fmt, \
+-         in_interrupt() ? " (INT)" : "", ## args); } while (0)
++  printk(KERN_DEBUG DRV_NAME grpnam ": " fmt, ## args); } while (0)
+ #else
+ #define LBS_DEB_LL(grp, grpnam, fmt, args...) do {} while (0)
  #endif
--	trace_iwlwifi_dbg(level, in_interrupt(), function, &vaf);
-+	trace_iwlwifi_dbg(level, function, &vaf);
- 	va_end(args);
- }
- IWL_EXPORT_SYMBOL(__iwl_dbg);
---- a/drivers/net/wireless/intel/iwlwifi/iwl-devtrace-msg.h
-+++ b/drivers/net/wireless/intel/iwlwifi/iwl-devtrace-msg.h
-@@ -54,18 +54,16 @@ DEFINE_EVENT(iwlwifi_msg_event, iwlwifi_
- );
- 
- TRACE_EVENT(iwlwifi_dbg,
--	TP_PROTO(u32 level, bool in_interrupt, const char *function,
-+	TP_PROTO(u32 level, const char *function,
- 		 struct va_format *vaf),
--	TP_ARGS(level, in_interrupt, function, vaf),
-+	TP_ARGS(level, function, vaf),
- 	TP_STRUCT__entry(
- 		__field(u32, level)
--		__field(u8, in_interrupt)
- 		__string(function, function)
- 		__dynamic_array(char, msg, MAX_MSG_LEN)
- 	),
- 	TP_fast_assign(
- 		__entry->level = level;
--		__entry->in_interrupt = in_interrupt;
- 		__assign_str(function, function);
- 		WARN_ON_ONCE(vsnprintf(__get_dynamic_array(msg),
- 				       MAX_MSG_LEN, vaf->fmt,
+--- a/drivers/net/wireless/marvell/libertas_tf/deb_defs.h
++++ b/drivers/net/wireless/marvell/libertas_tf/deb_defs.h
+@@ -48,8 +48,7 @@ extern unsigned int lbtf_debug;
+ #ifdef DEBUG
+ #define LBTF_DEB_LL(grp, grpnam, fmt, args...) \
+ do { if ((lbtf_debug & (grp)) == (grp)) \
+-  printk(KERN_DEBUG DRV_NAME grpnam "%s: " fmt, \
+-         in_interrupt() ? " (INT)" : "", ## args); } while (0)
++  printk(KERN_DEBUG DRV_NAME grpnam ": " fmt, ## args); } while (0)
+ #else
+ #define LBTF_DEB_LL(grp, grpnam, fmt, args...) do {} while (0)
+ #endif
 
