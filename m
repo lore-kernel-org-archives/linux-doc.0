@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F371C4346E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 601D1C47420
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C010423977
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C4CA23977
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CtRgXZy1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fOw8Y7qT"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n0fgVb3U";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MxuTsE5o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727213AbgI0UA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 16:00:57 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:41032 "EHLO
+        id S1727021AbgI0UA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 16:00:56 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41464 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbgI0T5W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:22 -0400
-Message-Id: <20200927194920.918550822@linutronix.de>
+        with ESMTP id S1727027AbgI0T50 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:26 -0400
+Message-Id: <20200927194921.248795602@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236639;
+        s=2020; t=1601236643;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=/fpa+toQOmOckTk4P8bpyLB4MBbJ8JHunUi6QvsD4Yo=;
-        b=CtRgXZy1ytX0/p5X9xftiTfTn0VPr01EWM6ZZHsLKvgzshhk7j4Q6rrIgVfvsR+VinKo2J
-        x1oBanNQRWjFumbU68u5+JAcFUCxfvPsdOqghKCDpl5FP+27bwJDHEV0R4KceCasrV6t4z
-        EJicpEbJi88VxuekWda8z4ATJtjRgwh9cW/ttclV5jMEQe+zMGdbrMw4/BNbtxFLA04eP2
-        rdoQyFA0iNXXmD2ZX5Q1A88SeU/JIQ+0WmrT1h3mUuC+M3gFYkn9M6Us3KbmXYh3NB+Kkp
-        mjOW4NRPtwalK1I89k1bvvG6rHL3DLE4QdfqZRnkgmK/qsf6nxt1Yz2EwXiz2w==
+        bh=Sj3WauQU8mi402/vRACel76kLJxRIV6EoAhfHNnxpZY=;
+        b=n0fgVb3Ug96wov56+pRrgznJLENd83NZztxL5cyqW/rVs62U4xh9ED8AyXKo/EjqPo+xBF
+        peEpgiPXH9pqfPTHuc8ujx6mE3CqTAmG67DnVLbNpu8RBpazQS1wh901eYwfW/W5rp9T6+
+        mQTOLfBSNd9kRiHuwpgIPESkTjF4A0NRGBVdql3pJmsnTAOFj5m6KfoyQOWe6ssNzkS7iT
+        eBAMx2FpFw/opevgcSiqx8diP/c/uxdfw1c8BkohEzqYYLzW4BgmEd0QGstEPUth1aG0Q7
+        6fZI2on8pqr2ghE5M7Tv3ZHOD6xf+1FjO7XiKcla80cDj1W5WEtQihQWFA0ycA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236639;
+        s=2020e; t=1601236643;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=/fpa+toQOmOckTk4P8bpyLB4MBbJ8JHunUi6QvsD4Yo=;
-        b=fOw8Y7qTo4iLde0u11Ekj1AAZR2ePbfjT+y8Hd2a4xm2+O+r2fibRhuAj395bp2J0WLTcL
-        gvs7HcgEwIbgycBA==
-Date:   Sun, 27 Sep 2020 21:48:57 +0200
+        bh=Sj3WauQU8mi402/vRACel76kLJxRIV6EoAhfHNnxpZY=;
+        b=MxuTsE5o1wR/CArNtxLqX7nQvCbFh3lkQwB/tLVdXvBcDOcBMzl1i35xwzuVQpDS6q9W1t
+        OM74ajQF8JW2zFDw==
+Date:   Sun, 27 Sep 2020 21:49:00 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,8 +50,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Shannon Nelson <snelson@pensando.io>,
-        Pensando Drivers <drivers@pensando.io>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
@@ -65,10 +64,12 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Chris Snook <chris.snook@gmail.com>,
         Vishal Kulkarni <vishal@chelsio.com>,
         Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        intel-wired-lan@lists.osuosl.org, Andrew Lunn <andrew@lunn.ch>,
+        intel-wired-lan@lists.osuosl.org,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
         Edward Cree <ecree@solarflare.com>,
         Martin Habets <mhabets@solarflare.com>,
@@ -97,7 +98,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 11/35] net: ionic: Replace in_interrupt() usage.
+Subject: [patch 14/35] net: natsemi: Replace in_interrupt() usage.
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -106,214 +107,144 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+The usage of in_interrupt() in drivers is phased out and Linus clearly
+requested that code which changes behaviour depending on context should
+either be seperated or the context be conveyed in an argument passed by the
+caller, which usually knows the context.
 
-The in_interrupt() usage in this driver tries to figure out which context
-may sleep and which context may not sleep. in_interrupt() is not really
-suitable as it misses both preemption disabled and interrupt disabled
-invocations from task context.
+sonic_quiesce() uses 'in_interrupt() || irqs_disabled()' to chose either
+udelay() or usleep_range() in the wait loop.
 
-Conditionals like that in driver code are frowned upon in general because
-invocations of functions from invalid contexts might not be detected
-as the conditional papers over it.
+In all callchains leading to it the context is well defined and known.
 
-ionic_lif_addr() can be called from:
-
- 1) ->ndo_set_rx_mode() which is under netif_addr_lock_bh()) so it must not
-    sleep.
-
- 2) Init and setup functions which are in fully preemptible task context.
-
-_ionic_lif_rx_mode() has only one call path with BH disabled.
-
-ionic_link_status_check_request() has two call paths:
-
- 1) NAPI which obviously cannot sleep
-
- 2) Setup which is again fully preemptible task context
-
-Add 'can_sleep' arguments to the affected functions and let the callers
-provide the context instead of letting the functions deduce it.
+Add a 'may_sleep' argument and pass it through the various callchains
+leading to this function.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Shannon Nelson <snelson@pensando.io>
-Cc: Pensando Drivers <drivers@pensando.io>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
----
-
-While reviewing the callpaths, a couple of things were observed which could
-be improved:
-
-- ionic_lif_deferred_work() can iterate over the list. There is no need
-  to schedule the work item after each iteration
-
-- ionic_link_status_check_request() could have ionic_deferred_work within
-  ionic_lif(). This would avoid memory allocation from NAPI. More
-  important, once IONIC_LIF_F_LINK_CHECK_REQUESTED is set and that alloc
-  fails, the link check never happens.
-
-- ionic_lif_handle_fw_down() sets IONIC_LIF_F_FW_RESET. Invokes then
-  ionic_lif_deinit() which only invokes cancel_work_sync() if
-  IONIC_LIF_F_FW_RESET is not set. I think the logic is wrong here as
-  the work must always be cancled. Also the list with ionic_deferred
-  work items needs a clean up.
 
 ---
- drivers/net/ethernet/pensando/ionic/ionic_dev.c |    2 -
- drivers/net/ethernet/pensando/ionic/ionic_lif.c |   43 +++++++++++-------------
- drivers/net/ethernet/pensando/ionic/ionic_lif.h |    2 -
- 3 files changed, 22 insertions(+), 25 deletions(-)
+ drivers/net/ethernet/natsemi/sonic.c |   24 ++++++++++++------------
+ drivers/net/ethernet/natsemi/sonic.h |    2 +-
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
---- a/drivers/net/ethernet/pensando/ionic/ionic_dev.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_dev.c
-@@ -22,7 +22,7 @@ static void ionic_watchdog_cb(struct tim
- 	hb = ionic_heartbeat_check(ionic);
+--- a/drivers/net/ethernet/natsemi/sonic.c
++++ b/drivers/net/ethernet/natsemi/sonic.c
+@@ -143,7 +143,7 @@ static int sonic_open(struct net_device
+ 	/*
+ 	 * Initialize the SONIC
+ 	 */
+-	sonic_init(dev);
++	sonic_init(dev, true);
  
- 	if (hb >= 0 && ionic->master_lif)
--		ionic_link_status_check_request(ionic->master_lif);
-+		ionic_link_status_check_request(ionic->master_lif, false);
+ 	netif_start_queue(dev);
+ 
+@@ -153,7 +153,7 @@ static int sonic_open(struct net_device
  }
  
- void ionic_init_devinfo(struct ionic *ionic)
---- a/drivers/net/ethernet/pensando/ionic/ionic_lif.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.c
-@@ -135,7 +135,7 @@ static void ionic_link_status_check(stru
- 	clear_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state);
- }
- 
--void ionic_link_status_check_request(struct ionic_lif *lif)
-+void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep)
+ /* Wait for the SONIC to become idle. */
+-static void sonic_quiesce(struct net_device *dev, u16 mask)
++static void sonic_quiesce(struct net_device *dev, u16 mask, bool may_sleep)
  {
- 	struct ionic_deferred_work *work;
- 
-@@ -143,7 +143,7 @@ void ionic_link_status_check_request(str
- 	if (test_and_set_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state))
- 		return;
- 
--	if (in_interrupt()) {
-+	if (!can_sleep) {
- 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
- 		if (!work)
+ 	struct sonic_local * __maybe_unused lp = netdev_priv(dev);
+ 	int i;
+@@ -163,7 +163,7 @@ static void sonic_quiesce(struct net_dev
+ 		bits = SONIC_READ(SONIC_CMD) & mask;
+ 		if (!bits)
  			return;
-@@ -751,7 +751,7 @@ static bool ionic_notifyq_service(struct
+-		if (irqs_disabled() || in_interrupt())
++		if (!may_sleep)
+ 			udelay(20);
+ 		else
+ 			usleep_range(100, 200);
+@@ -187,7 +187,7 @@ static int sonic_close(struct net_device
+ 	 * stop the SONIC, disable interrupts
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS);
+-	sonic_quiesce(dev, SONIC_CR_ALL);
++	sonic_quiesce(dev, SONIC_CR_ALL, true);
  
- 	switch (le16_to_cpu(comp->event.ecode)) {
- 	case IONIC_EVENT_LINK_CHANGE:
--		ionic_link_status_check_request(lif);
-+		ionic_link_status_check_request(lif, false);
- 		break;
- 	case IONIC_EVENT_RESET:
- 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
-@@ -928,7 +928,8 @@ static int ionic_lif_addr_del(struct ion
- 	return 0;
- }
+ 	SONIC_WRITE(SONIC_IMR, 0);
+ 	SONIC_WRITE(SONIC_ISR, 0x7fff);
+@@ -229,7 +229,7 @@ static void sonic_tx_timeout(struct net_
+ 	 * disable all interrupts before releasing DMA buffers
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS);
+-	sonic_quiesce(dev, SONIC_CR_ALL);
++	sonic_quiesce(dev, SONIC_CR_ALL, false);
  
--static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add)
-+static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add,
-+			  bool can_sleep)
- {
- 	struct ionic *ionic = lif->ionic;
- 	struct ionic_deferred_work *work;
-@@ -957,7 +958,7 @@ static int ionic_lif_addr(struct ionic_l
- 			lif->nucast--;
+ 	SONIC_WRITE(SONIC_IMR, 0);
+ 	SONIC_WRITE(SONIC_ISR, 0x7fff);
+@@ -246,7 +246,7 @@ static void sonic_tx_timeout(struct net_
+ 		}
  	}
+ 	/* Try to restart the adaptor. */
+-	sonic_init(dev);
++	sonic_init(dev, false);
+ 	lp->stats.tx_errors++;
+ 	netif_trans_update(dev); /* prevent tx timeout */
+ 	netif_wake_queue(dev);
+@@ -692,9 +692,9 @@ static void sonic_multicast_list(struct
  
--	if (in_interrupt()) {
-+	if (!can_sleep) {
- 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
- 		if (!work) {
- 			netdev_err(lif->netdev, "%s OOM\n", __func__);
-@@ -983,12 +984,12 @@ static int ionic_lif_addr(struct ionic_l
- 
- static int ionic_addr_add(struct net_device *netdev, const u8 *addr)
- {
--	return ionic_lif_addr(netdev_priv(netdev), addr, true);
-+	return ionic_lif_addr(netdev_priv(netdev), addr, true, false);
- }
- 
- static int ionic_addr_del(struct net_device *netdev, const u8 *addr)
- {
--	return ionic_lif_addr(netdev_priv(netdev), addr, false);
-+	return ionic_lif_addr(netdev_priv(netdev), addr, false, false);
- }
- 
- static void ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode)
-@@ -1032,19 +1033,15 @@ static void _ionic_lif_rx_mode(struct io
- {
- 	struct ionic_deferred_work *work;
- 
--	if (in_interrupt()) {
--		work = kzalloc(sizeof(*work), GFP_ATOMIC);
--		if (!work) {
--			netdev_err(lif->netdev, "%s OOM\n", __func__);
--			return;
--		}
--		work->type = IONIC_DW_TYPE_RX_MODE;
--		work->rx_mode = rx_mode;
--		netdev_dbg(lif->netdev, "deferred: rx_mode\n");
--		ionic_lif_deferred_enqueue(&lif->deferred, work);
--	} else {
--		ionic_lif_rx_mode(lif, rx_mode);
-+	work = kzalloc(sizeof(*work), GFP_ATOMIC);
-+	if (!work) {
-+		netdev_err(lif->netdev, "%s OOM\n", __func__);
-+		return;
+ 			/* LCAM and TXP commands can't be used simultaneously */
+ 			spin_lock_irqsave(&lp->lock, flags);
+-			sonic_quiesce(dev, SONIC_CR_TXP);
++			sonic_quiesce(dev, SONIC_CR_TXP, false);
+ 			SONIC_WRITE(SONIC_CMD, SONIC_CR_LCAM);
+-			sonic_quiesce(dev, SONIC_CR_LCAM);
++			sonic_quiesce(dev, SONIC_CR_LCAM, false);
+ 			spin_unlock_irqrestore(&lp->lock, flags);
+ 		}
  	}
-+	work->type = IONIC_DW_TYPE_RX_MODE;
-+	work->rx_mode = rx_mode;
-+	netdev_dbg(lif->netdev, "deferred: rx_mode\n");
-+	ionic_lif_deferred_enqueue(&lif->deferred, work);
- }
+@@ -708,7 +708,7 @@ static void sonic_multicast_list(struct
+ /*
+  * Initialize the SONIC ethernet controller.
+  */
+-static int sonic_init(struct net_device *dev)
++static int sonic_init(struct net_device *dev, bool may_sleep)
+ {
+ 	struct sonic_local *lp = netdev_priv(dev);
+ 	int i;
+@@ -730,7 +730,7 @@ static int sonic_init(struct net_device
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, 0);
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS | SONIC_CR_STP);
+-	sonic_quiesce(dev, SONIC_CR_ALL);
++	sonic_quiesce(dev, SONIC_CR_ALL, may_sleep);
  
- static void ionic_set_rx_mode(struct net_device *netdev)
-@@ -1312,7 +1309,7 @@ static int ionic_set_mac_address(struct
- 	eth_commit_mac_addr_change(netdev, addr);
- 	netdev_info(netdev, "updating mac addr %pM\n", mac);
+ 	/*
+ 	 * initialize the receive resource area
+@@ -759,7 +759,7 @@ static int sonic_init(struct net_device
+ 	netif_dbg(lp, ifup, dev, "%s: issuing RRRA command\n", __func__);
  
--	return ionic_addr_add(netdev, mac);
-+	return ionic_lif_addr(netdev_priv(netdev), mac, true, true);
- }
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RRRA);
+-	sonic_quiesce(dev, SONIC_CR_RRRA);
++	sonic_quiesce(dev, SONIC_CR_RRRA, may_sleep);
  
- static int ionic_change_mtu(struct net_device *netdev, int new_mtu)
-@@ -2252,7 +2249,7 @@ static void ionic_lif_handle_fw_up(struc
- 	}
+ 	/*
+ 	 * Initialize the receive descriptors so that they
+@@ -834,7 +834,7 @@ static int sonic_init(struct net_device
+ 	 * load the CAM
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_LCAM);
+-	sonic_quiesce(dev, SONIC_CR_LCAM);
++	sonic_quiesce(dev, SONIC_CR_LCAM, may_sleep);
  
- 	clear_bit(IONIC_LIF_F_FW_RESET, lif->state);
--	ionic_link_status_check_request(lif);
-+	ionic_link_status_check_request(lif, true);
- 	netif_device_attach(lif->netdev);
- 	dev_info(ionic->dev, "FW Up: LIFs restarted\n");
- 
-@@ -2468,7 +2465,7 @@ static int ionic_station_set(struct ioni
- 		 */
- 		if (!ether_addr_equal(ctx.comp.lif_getattr.mac,
- 				      netdev->dev_addr))
--			ionic_lif_addr(lif, netdev->dev_addr, true);
-+			ionic_lif_addr(lif, netdev->dev_addr, true, true);
- 	} else {
- 		/* Update the netdev mac with the device's mac */
- 		memcpy(addr.sa_data, ctx.comp.lif_getattr.mac, netdev->addr_len);
-@@ -2485,7 +2482,7 @@ static int ionic_station_set(struct ioni
- 
- 	netdev_dbg(lif->netdev, "adding station MAC addr %pM\n",
- 		   netdev->dev_addr);
--	ionic_lif_addr(lif, netdev->dev_addr, true);
-+	ionic_lif_addr(lif, netdev->dev_addr, true, true);
- 
- 	return 0;
- }
---- a/drivers/net/ethernet/pensando/ionic/ionic_lif.h
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.h
-@@ -237,7 +237,7 @@ static inline u32 ionic_coal_usec_to_hw(
- 
- typedef void (*ionic_reset_cb)(struct ionic_lif *lif, void *arg);
- 
--void ionic_link_status_check_request(struct ionic_lif *lif);
-+void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep);
- void ionic_get_stats64(struct net_device *netdev,
- 		       struct rtnl_link_stats64 *ns);
- void ionic_lif_deferred_enqueue(struct ionic_deferred *def,
+ 	/*
+ 	 * enable receiver, disable loopback
+--- a/drivers/net/ethernet/natsemi/sonic.h
++++ b/drivers/net/ethernet/natsemi/sonic.h
+@@ -338,7 +338,7 @@ static void sonic_rx(struct net_device *
+ static int sonic_close(struct net_device *dev);
+ static struct net_device_stats *sonic_get_stats(struct net_device *dev);
+ static void sonic_multicast_list(struct net_device *dev);
+-static int sonic_init(struct net_device *dev);
++static int sonic_init(struct net_device *dev, bool may_sleep);
+ static void sonic_tx_timeout(struct net_device *dev, unsigned int txqueue);
+ static void sonic_msg_init(struct net_device *dev);
+ static int sonic_alloc_descriptors(struct net_device *dev);
 
