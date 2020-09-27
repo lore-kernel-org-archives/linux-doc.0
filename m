@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5295CC4346E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF9BC4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 207B223A54
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:59:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E73A123A54
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DgFWCTRm";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jsZYaXiR"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d1rdgmwn";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+Iasu9O3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727126AbgI0T7j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:59:39 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:42202 "EHLO
+        id S1727395AbgI0T7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:59:50 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41984 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727167AbgI0T6D (ORCPT
+        with ESMTP id S1727168AbgI0T6D (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:58:03 -0400
-Message-Id: <20200927194922.938263514@linutronix.de>
+Message-Id: <20200927194923.249291290@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236664;
+        s=2020; t=1601236668;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=+EKrA6HqGMF4faSCoLrAtx6KX3hw/q02kTTYVH77/+8=;
-        b=DgFWCTRmyeEjV0+OEYDVbCkMlQbEJFzwD69vMLAlqAaimPSm5lMXaR3fbldN0wOl0BqeFc
-        zQrD8mqr+OmCWZYyLm7RLr56R6Uisc43UcpkNxfH9uStf4GT/Q/fOOinHmuT8RHGl0jL6Z
-        wUdLMut+XHwHPnR1ey1uae/dXTbri3XVyYTJ74NBWHyM13bI0ohdjaz6zEB+4yolDn+ZDF
-        0VIc/HnK6kTk3f3URI1GJAzoEEojDjpAtLIW88F5cK7YtFr4+asZd929ZyG9pTudMogrbw
-        7fLYoNxT5ATayz/0EYF6tk7HKCZLrxinEoIEgQOi3akiNU10TFB4xtu5xojEMQ==
+        bh=vdFvMNzU/x4SViOrfq3OSncwJYM+GQFlzT+TSG/Jurw=;
+        b=d1rdgmwnvlZUOMpyU4UwQtQF5yM+v2oLv1PhrnAnkHxJQzIDZgi08y5xJkIOTSE/HAzJEH
+        m73NHuf5Y89Z2k6h38GqvMhbSuHXcsYWEhQFMlCubYP/tF8Jn7+x0BWkiqvq84BZz2au5+
+        jeOQRZ+SbMvIfd0bYm/vRXEfCj8GFf9rdkD2NTEk9issoJjNBodZCfdyRGpCwXRDJ4t3Vj
+        NFI1CZVkn2YaxWM0AceskQU+v5Y6CKEVl7I9HSw0GC9gTC+iEMk2EuYdRrcFbkjWF/toyh
+        50r7CaIT6BWY13Wv5j7G+heQ0084VyqmX0HOzN5sSyE1/j5ABUNMQkw1MxEM2w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236664;
+        s=2020e; t=1601236668;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=+EKrA6HqGMF4faSCoLrAtx6KX3hw/q02kTTYVH77/+8=;
-        b=jsZYaXiRN4xRZ5BWns5HUuV12Wy5QkGKco5gufMggE6/zBZBdgkjf30s/8iphwg89FOg4S
-        +jX7dKxRVl7/tZBw==
-Date:   Sun, 27 Sep 2020 21:49:17 +0200
+        bh=vdFvMNzU/x4SViOrfq3OSncwJYM+GQFlzT+TSG/Jurw=;
+        b=+Iasu9O3lwwW7SROFddv+F7Dm0tiCLGVcfnBPStOmcOCHkGfZ9zKVkGE4wbbUA3CekIMz/
+        b5ri9EnSdYCQtJBQ==
+Date:   Sun, 27 Sep 2020 21:49:20 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,11 +50,12 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Ping-Ke Shih <pkshih@realtek.com>,
         Kalle Valo <kvalo@codeaurora.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, Christian Benvenuti <benve@cisco.com>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -95,10 +96,9 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Amitkumar Karwar <amitkarwar@gmail.com>,
         Ganapathi Bhat <ganapathi.bhat@nxp.com>,
         Xinming Hu <huxinming820@gmail.com>,
-        Pascal Terjan <pterjan@google.com>,
-        Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 31/35] net: libertas libertas_tf: Remove in_interrupt() from
- debug macro.
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>
+Subject: [patch 34/35] net: rtlwifi: Remove in_interrupt() from debug macro
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -109,50 +109,87 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The debug macro prints (INT) when in_interrupt() returns true. The value of
-this information is dubious as it does not distinguish between the various
-contexts which are covered by in_interrupt().
+The usage of in_interrupt() in drivers in is phased out.
 
-As the usage of in_interrupt() in drivers is phased out and the same
-information can be more precisely obtained with tracing, remove the
-in_interrupt() conditional from this debug printk.
+rtlwifi uses in_interrupt() in the RT_TRACE() debug macro which is
+sprinkled all over the driver. RT_TRACE() is almost identical to RTPRINT()
+which another hideous debug printk wrapper. The only difference is the
+printout of in_interrupt().
+
+The decoding of in_interrupt() as hexvalue is non-trivial and aside of
+being phased out for driver use the return value is just by chance the
+masked preempt count value and not a boolean.
+
+These home brewn printk debug aids are tedious to work with and provide
+only minimal context.  They should be replaced by trace_printk() or a debug
+tracepoint which automatically records all context information.
+
+To make progress on the in_interrupt() cleanup, make RT_TRACE() use the
+RTPRINT() debug function and remove _rtl_dbg_trace().
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ping-Ke Shih <pkshih@realtek.com>
 Cc: Kalle Valo <kvalo@codeaurora.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: libertas-dev@lists.infradead.org
 Cc: linux-wireless@vger.kernel.org
 Cc: netdev@vger.kernel.org
 
 ---
- drivers/net/wireless/marvell/libertas/defs.h        |    3 +--
- drivers/net/wireless/marvell/libertas_tf/deb_defs.h |    3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/net/wireless/realtek/rtlwifi/debug.c |   20 --------------------
+ drivers/net/wireless/realtek/rtlwifi/debug.h |    6 +-----
+ 2 files changed, 1 insertion(+), 25 deletions(-)
 
---- a/drivers/net/wireless/marvell/libertas/defs.h
-+++ b/drivers/net/wireless/marvell/libertas/defs.h
-@@ -50,8 +50,7 @@ extern unsigned int lbs_debug;
- #ifdef DEBUG
- #define LBS_DEB_LL(grp, grpnam, fmt, args...) \
- do { if ((lbs_debug & (grp)) == (grp)) \
--  printk(KERN_DEBUG DRV_NAME grpnam "%s: " fmt, \
--         in_interrupt() ? " (INT)" : "", ## args); } while (0)
-+  printk(KERN_DEBUG DRV_NAME grpnam ": " fmt, ## args); } while (0)
- #else
- #define LBS_DEB_LL(grp, grpnam, fmt, args...) do {} while (0)
- #endif
---- a/drivers/net/wireless/marvell/libertas_tf/deb_defs.h
-+++ b/drivers/net/wireless/marvell/libertas_tf/deb_defs.h
-@@ -48,8 +48,7 @@ extern unsigned int lbtf_debug;
- #ifdef DEBUG
- #define LBTF_DEB_LL(grp, grpnam, fmt, args...) \
- do { if ((lbtf_debug & (grp)) == (grp)) \
--  printk(KERN_DEBUG DRV_NAME grpnam "%s: " fmt, \
--         in_interrupt() ? " (INT)" : "", ## args); } while (0)
-+  printk(KERN_DEBUG DRV_NAME grpnam ": " fmt, ## args); } while (0)
- #else
- #define LBTF_DEB_LL(grp, grpnam, fmt, args...) do {} while (0)
- #endif
+--- a/drivers/net/wireless/realtek/rtlwifi/debug.c
++++ b/drivers/net/wireless/realtek/rtlwifi/debug.c
+@@ -8,26 +8,6 @@
+ #include <linux/vmalloc.h>
+ 
+ #ifdef CONFIG_RTLWIFI_DEBUG
+-void _rtl_dbg_trace(struct rtl_priv *rtlpriv, u64 comp, int level,
+-		    const char *fmt, ...)
+-{
+-	if (unlikely((comp & rtlpriv->cfg->mod_params->debug_mask) &&
+-		     level <= rtlpriv->cfg->mod_params->debug_level)) {
+-		struct va_format vaf;
+-		va_list args;
+-
+-		va_start(args, fmt);
+-
+-		vaf.fmt = fmt;
+-		vaf.va = &args;
+-
+-		pr_info(":<%lx> %pV", in_interrupt(), &vaf);
+-
+-		va_end(args);
+-	}
+-}
+-EXPORT_SYMBOL_GPL(_rtl_dbg_trace);
+-
+ void _rtl_dbg_print(struct rtl_priv *rtlpriv, u64 comp, int level,
+ 		    const char *fmt, ...)
+ {
+--- a/drivers/net/wireless/realtek/rtlwifi/debug.h
++++ b/drivers/net/wireless/realtek/rtlwifi/debug.h
+@@ -149,10 +149,6 @@ enum dbgp_flag_e {
+ struct rtl_priv;
+ 
+ __printf(4, 5)
+-void _rtl_dbg_trace(struct rtl_priv *rtlpriv, u64 comp, int level,
+-		    const char *fmt, ...);
+-
+-__printf(4, 5)
+ void _rtl_dbg_print(struct rtl_priv *rtlpriv, u64 comp, int level,
+ 		    const char *fmt, ...);
+ 
+@@ -161,7 +157,7 @@ void _rtl_dbg_print_data(struct rtl_priv
+ 			 const void *hexdata, int hexdatalen);
+ 
+ #define RT_TRACE(rtlpriv, comp, level, fmt, ...)			\
+-	_rtl_dbg_trace(rtlpriv, comp, level,				\
++	_rtl_dbg_print(rtlpriv, comp, level,				\
+ 		       fmt, ##__VA_ARGS__)
+ 
+ #define RTPRINT(rtlpriv, dbgtype, dbgflag, fmt, ...)			\
 
