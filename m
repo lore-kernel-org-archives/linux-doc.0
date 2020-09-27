@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BE8C4727E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7EC6C47420
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D531823977
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C9B222207
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CcZFp0N7";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/M51OKep"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EcGTRs6k";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hWtxjUGi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727531AbgI0UBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 16:01:23 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:40678 "EHLO
+        id S1726939AbgI0T5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:57:18 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41008 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726992AbgI0T5W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:22 -0400
-Message-Id: <20200927194921.026798214@linutronix.de>
+        with ESMTP id S1726880AbgI0T5R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:17 -0400
+Message-Id: <20200927194920.621578351@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236640;
+        s=2020; t=1601236635;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=WBk7ImKZQAt0d2wxHkRuKN0hWwG1NSVpPJF8H/yNsK4=;
-        b=CcZFp0N7vlQVa6ac97Y3qUNt6v0qDmhHGAiWm+DVU26D8YTbAEQ/PkC0QC11zzMJT2P9o5
-        TNnDh1BmSK0ZRYS0lSzYoN/KOgFhNKSsdWBqm3yiNse+1okDgZPIN2NXGQ9QhZ6eUqFhVm
-        CSOBgqXdigZffn32Pb5n7qcEyOsJogcY3VZwiQFQbkmSNdLcTVB9k7e3PryRCOdw+h+uGT
-        R76KdDe9u8HP73I4StgurzMnoiJ64RCkT/TPW9s7JKijfPp3VfsqFjJCza38Ioizb0NrB2
-        r1uwtapjJCnmt0pUt8Y8PYpYUdxWnkmFR2OIxrin3wIk+KnJipjMDxPeu0UbFA==
+        bh=GmRWTTg+MNTA0DaNDIlEXevW16R3g516zjE3yhxS5XQ=;
+        b=EcGTRs6kb2RDfe2vyrf2+4PlTt9+1DxF8xx4TukwbvrjHvPN/bK00Rh9OwV+XrLtzQQiKp
+        5YkzTiEqP+CUpeMVzxkK770Zn2LqxoGqekXuL4WpC03EEpLfqHHNc+yaATldWUENSYX8uK
+        Fpwww0Eg/kIenfNeKQFWF/4R8zudM55O/i8cF0E+53SJuBr+zlRE42pPnxnUHgpw+PpUuw
+        yxMnpHdK1H6DVKGV2jJT0QVET6zb9XNaf9xXe3Q8emDzLnwU/sRViGNhTqD5hInVKQ4bkZ
+        M6MnBlUz1M+wQzG84vC+cHQ2X8UeSNGr7HJYylvjMNB9y+F5NNaQbmd/ZsW5mA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236640;
+        s=2020e; t=1601236635;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=WBk7ImKZQAt0d2wxHkRuKN0hWwG1NSVpPJF8H/yNsK4=;
-        b=/M51OKepEW4g1TnEWDY31pJNtQW3vc0R6kqk1LfTBUqRqWuI1unbYC4XqOEuE3chioiAU/
-        smitcvDvaLkIBJAA==
-Date:   Sun, 27 Sep 2020 21:48:58 +0200
+        bh=GmRWTTg+MNTA0DaNDIlEXevW16R3g516zjE3yhxS5XQ=;
+        b=hWtxjUGi2gFRAx8XtEhLw5uROxf7tPRASC/GDVwAj2gS8xyWHVw9Vv65j/9pO1/TwqLZ27
+        FQxcdeBMHBK0AYBw==
+Date:   Sun, 27 Sep 2020 21:48:54 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,10 +50,10 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Shannon Nelson <snelson@pensando.io>,
-        Pensando Drivers <drivers@pensando.io>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
@@ -64,8 +64,9 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Jay Cliburn <jcliburn@gmail.com>,
         Chris Snook <chris.snook@gmail.com>,
         Vishal Kulkarni <vishal@chelsio.com>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        intel-wired-lan@lists.osuosl.org, Andrew Lunn <andrew@lunn.ch>,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -97,7 +98,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 12/35] net: ionic: Remove WARN_ON(in_interrupt()).
+Subject: [patch 08/35] net: e100: Remove in_interrupt() usage and pointless
+ GFP_ATOMIC allocation
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -108,52 +110,60 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-in_interrupt() is ill defined and does not provide what the name
-suggests. The usage especially in driver code is deprecated and a tree wide
-effort to clean up and consolidate the (ab)usage of in_interrupt() and
-related checks is happening.
+e100_hw_init() invokes e100_self_test() only if in_interrupt() returns
+false as e100_self_test() uses msleep() which requires sleepable task
+context. The in_interrupt() check is incomplete because in_interrupt()
+cannot catch callers from contexts which have just preemption or interrupts
+disabled.
 
-In this case the check covers only parts of the contexts in which these
-functions cannot be called. It fails to detect preemption or interrupt
-disabled invocations.
+e100_hw_init() is invoked from:
 
-As the functions which are invoked from ionic_adminq_post() and
-ionic_dev_cmd_wait() contain a broad variety of checks (always enabled or
-debug option dependent) which cover all invalid conditions already, there
-is no point in having inconsistent warnings in those drivers.
+  - e100_loopback_test() which clearly is sleepable task context as the
+    function uses msleep() itself.
 
-Just remove them.
+  - e100_up() which clearly is sleepable task context as well because it
+    invokes e100_alloc_cbs() abd request_irq() which both require sleepable
+    task context due to GFP_KERNEL allocations and mutex_lock() operations.
+
+Remove the pointless in_interrupt() check.
+
+As a side effect of this analysis it turned out that e100_rx_alloc_list()
+which is only invoked from e100_loopback_test() and e100_up() pointlessly
+uses a GFP_ATOMIC allocation. The next invoked function e100_alloc_cbs() is
+using GFP_KERNEL already.
+
+Change the allocation mode in e100_rx_alloc_list() to GFP_KERNEL as well.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Shannon Nelson <snelson@pensando.io>
-Cc: Pensando Drivers <drivers@pensando.io>
+Cc: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: intel-wired-lan@lists.osuosl.org
 Cc: netdev@vger.kernel.org
 
 ---
- drivers/net/ethernet/pensando/ionic/ionic_main.c |    4 ----
- 1 file changed, 4 deletions(-)
+ drivers/net/ethernet/intel/e100.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/net/ethernet/pensando/ionic/ionic_main.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_main.c
-@@ -248,8 +248,6 @@ static int ionic_adminq_post(struct ioni
- 	struct ionic_queue *adminq;
- 	int err = 0;
+--- a/drivers/net/ethernet/intel/e100.c
++++ b/drivers/net/ethernet/intel/e100.c
+@@ -1531,7 +1531,7 @@ static int e100_hw_init(struct nic *nic)
+ 	e100_hw_reset(nic);
  
--	WARN_ON(in_interrupt());
--
- 	if (!lif->adminqcq)
- 		return -EIO;
+ 	netif_err(nic, hw, nic->netdev, "e100_hw_init\n");
+-	if (!in_interrupt() && (err = e100_self_test(nic)))
++	if ((err = e100_self_test(nic)))
+ 		return err;
  
-@@ -346,8 +344,6 @@ int ionic_dev_cmd_wait(struct ionic *ion
- 	int done;
- 	int err;
+ 	if ((err = e100_phy_init(nic)))
+@@ -2155,7 +2155,7 @@ static int e100_rx_alloc_list(struct nic
+ 	nic->rx_to_use = nic->rx_to_clean = NULL;
+ 	nic->ru_running = RU_UNINITIALIZED;
  
--	WARN_ON(in_interrupt());
--
- 	/* Wait for dev cmd to complete, retrying if we get EAGAIN,
- 	 * but don't wait any longer than max_seconds.
- 	 */
+-	if (!(nic->rxs = kcalloc(count, sizeof(struct rx), GFP_ATOMIC)))
++	if (!(nic->rxs = kcalloc(count, sizeof(struct rx), GFP_KERNEL)))
+ 		return -ENOMEM;
+ 
+ 	for (rx = nic->rxs, i = 0; i < count; rx++, i++) {
 
