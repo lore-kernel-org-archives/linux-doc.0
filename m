@@ -7,42 +7,45 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF9BC4346E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BCFC4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E73A123A54
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 101C323A53
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d1rdgmwn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+Iasu9O3"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nhYIaX41";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7fGheggQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727395AbgI0T7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:59:50 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:41984 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727168AbgI0T6D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:58:03 -0400
-Message-Id: <20200927194923.249291290@linutronix.de>
+        id S1727386AbgI0T7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:59:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38690 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbgI0T6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:58:01 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEEAC0613D8
+        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2020 12:57:29 -0700 (PDT)
+Message-Id: <20200927194921.639274921@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236668;
+        s=2020; t=1601236648;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=vdFvMNzU/x4SViOrfq3OSncwJYM+GQFlzT+TSG/Jurw=;
-        b=d1rdgmwnvlZUOMpyU4UwQtQF5yM+v2oLv1PhrnAnkHxJQzIDZgi08y5xJkIOTSE/HAzJEH
-        m73NHuf5Y89Z2k6h38GqvMhbSuHXcsYWEhQFMlCubYP/tF8Jn7+x0BWkiqvq84BZz2au5+
-        jeOQRZ+SbMvIfd0bYm/vRXEfCj8GFf9rdkD2NTEk9issoJjNBodZCfdyRGpCwXRDJ4t3Vj
-        NFI1CZVkn2YaxWM0AceskQU+v5Y6CKEVl7I9HSw0GC9gTC+iEMk2EuYdRrcFbkjWF/toyh
-        50r7CaIT6BWY13Wv5j7G+heQ0084VyqmX0HOzN5sSyE1/j5ABUNMQkw1MxEM2w==
+        bh=ZLebWG85y+lfZEscB172xr+yUv6gjKFl/pP0A1z7yUY=;
+        b=nhYIaX41QlWLTB0HhbCQbyoLlS7e6/PqbqIyu4P0N9B01PYahN3AMWkhj7/VDx9v60EJ7Z
+        zM81SWL3RHJvyUznq5uVoiQnbu9Vv3arPTvOD5+q44KBrkngR2+su/eE7Ji9FGsD+P/aNn
+        ugnJqfuVcKFk2rv2IEshDade5mSMsk3kKvWUT4Mc8pIvT/8XNfBJPvhpzmEcemwOUMZQgw
+        6mM5mrfI6CeLeftmKmhBSMg5hgJQJKuO4boQ0Fp2/xX3XRw9y3K/qCMOxhzsxIOafbx/Wc
+        ec/XJFqccCGTtEXNCEOYlQups2n2IStZuOLfmfRNJBYodsj8+VbX8yCwYq0q2w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236668;
+        s=2020e; t=1601236648;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=vdFvMNzU/x4SViOrfq3OSncwJYM+GQFlzT+TSG/Jurw=;
-        b=+Iasu9O3lwwW7SROFddv+F7Dm0tiCLGVcfnBPStOmcOCHkGfZ9zKVkGE4wbbUA3CekIMz/
-        b5ri9EnSdYCQtJBQ==
-Date:   Sun, 27 Sep 2020 21:49:20 +0200
+        bh=ZLebWG85y+lfZEscB172xr+yUv6gjKFl/pP0A1z7yUY=;
+        b=7fGheggQN+nN+jjiLG1/4PqQ5OiaQeTM6pt16LT5wSQq+5BKZ5hf08HjCYMDWAN7+LRg3K
+        3SxbEKtPPc1yuyBg==
+Date:   Sun, 27 Sep 2020 21:49:04 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,11 +53,9 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
+        Jon Mason <jdmason@kudzu.us>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
@@ -76,8 +77,10 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
         Edward Cree <ecree@solarflare.com>,
         Martin Habets <mhabets@solarflare.com>,
-        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
-        Ulrich Kunitz <kune@deine-taler.de>, linux-usb@vger.kernel.org,
+        Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arend van Spriel <arend.vanspriel@broadcom.com>,
         Franky Lin <franky.lin@broadcom.com>,
@@ -97,8 +100,9 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Ganapathi Bhat <ganapathi.bhat@nxp.com>,
         Xinming Hu <huxinming820@gmail.com>,
         libertas-dev@lists.infradead.org,
-        Pascal Terjan <pterjan@google.com>
-Subject: [patch 34/35] net: rtlwifi: Remove in_interrupt() from debug macro
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+Subject: [patch 18/35] net: vxge: Remove in_interrupt() conditionals
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -109,87 +113,80 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The usage of in_interrupt() in drivers in is phased out.
+vxge_os_dma_malloc() and vxge_os_dma_malloc_async() are both called from
+callchains which use GFP_KERNEL allocations unconditionally or have other
+requirements to be called from fully preemptible task context..
 
-rtlwifi uses in_interrupt() in the RT_TRACE() debug macro which is
-sprinkled all over the driver. RT_TRACE() is almost identical to RTPRINT()
-which another hideous debug printk wrapper. The only difference is the
-printout of in_interrupt().
+vxge_os_dma_malloc():
+  1)  __vxge_hw_blockpool_create() <- GFP_KERNEL
+	
+  2)  __vxge_hw_mempool_grow() <- vzalloc()
+        __vxge_hw_blockpool_malloc()
 
-The decoding of in_interrupt() as hexvalue is non-trivial and aside of
-being phased out for driver use the return value is just by chance the
-masked preempt count value and not a boolean.
+vxge_os_dma_malloc_async():
+  1  __vxge_hw_mempool_grow() <- vzalloc()
+      __vxge_hw_blockpool_malloc()
+	__vxge_hw_blockpool_blocks_add()
 
-These home brewn printk debug aids are tedious to work with and provide
-only minimal context.  They should be replaced by trace_printk() or a debug
-tracepoint which automatically records all context information.
+  2)  vxge_hw_vpath_open()	<- vzalloc()
+	__vxge_hw_blockpool_block_allocate()
 
-To make progress on the in_interrupt() cleanup, make RT_TRACE() use the
-RTPRINT() debug function and remove _rtl_dbg_trace().
+That means neither of these functions needs a conditional allocation mode.
+
+Remove the in_interrupt() conditional and use GFP_KERNEL.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ping-Ke Shih <pkshih@realtek.com>
-Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: Jon Mason <jdmason@kudzu.us>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-wireless@vger.kernel.org
 Cc: netdev@vger.kernel.org
 
 ---
- drivers/net/wireless/realtek/rtlwifi/debug.c |   20 --------------------
- drivers/net/wireless/realtek/rtlwifi/debug.h |    6 +-----
- 2 files changed, 1 insertion(+), 25 deletions(-)
+ drivers/net/ethernet/neterion/vxge/vxge-config.c |    9 +--------
+ drivers/net/ethernet/neterion/vxge/vxge-config.h |    7 +------
+ 2 files changed, 2 insertions(+), 14 deletions(-)
 
---- a/drivers/net/wireless/realtek/rtlwifi/debug.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/debug.c
-@@ -8,26 +8,6 @@
- #include <linux/vmalloc.h>
- 
- #ifdef CONFIG_RTLWIFI_DEBUG
--void _rtl_dbg_trace(struct rtl_priv *rtlpriv, u64 comp, int level,
--		    const char *fmt, ...)
--{
--	if (unlikely((comp & rtlpriv->cfg->mod_params->debug_mask) &&
--		     level <= rtlpriv->cfg->mod_params->debug_level)) {
--		struct va_format vaf;
--		va_list args;
--
--		va_start(args, fmt);
--
--		vaf.fmt = fmt;
--		vaf.va = &args;
--
--		pr_info(":<%lx> %pV", in_interrupt(), &vaf);
--
--		va_end(args);
--	}
--}
--EXPORT_SYMBOL_GPL(_rtl_dbg_trace);
--
- void _rtl_dbg_print(struct rtl_priv *rtlpriv, u64 comp, int level,
- 		    const char *fmt, ...)
+--- a/drivers/net/ethernet/neterion/vxge/vxge-config.c
++++ b/drivers/net/ethernet/neterion/vxge/vxge-config.c
+@@ -2303,16 +2303,9 @@ static void vxge_hw_blockpool_block_add(
+ static inline void
+ vxge_os_dma_malloc_async(struct pci_dev *pdev, void *devh, unsigned long size)
  {
---- a/drivers/net/wireless/realtek/rtlwifi/debug.h
-+++ b/drivers/net/wireless/realtek/rtlwifi/debug.h
-@@ -149,10 +149,6 @@ enum dbgp_flag_e {
- struct rtl_priv;
+-	gfp_t flags;
+ 	void *vaddr;
  
- __printf(4, 5)
--void _rtl_dbg_trace(struct rtl_priv *rtlpriv, u64 comp, int level,
--		    const char *fmt, ...);
+-	if (in_interrupt())
+-		flags = GFP_ATOMIC | GFP_DMA;
+-	else
+-		flags = GFP_KERNEL | GFP_DMA;
 -
--__printf(4, 5)
- void _rtl_dbg_print(struct rtl_priv *rtlpriv, u64 comp, int level,
- 		    const char *fmt, ...);
+-	vaddr = kmalloc((size), flags);
+-
++	vaddr = kmalloc(size, GFP_KERNEL | GFP_DMA);
+ 	vxge_hw_blockpool_block_add(devh, vaddr, size, pdev, pdev);
+ }
  
-@@ -161,7 +157,7 @@ void _rtl_dbg_print_data(struct rtl_priv
- 			 const void *hexdata, int hexdatalen);
+--- a/drivers/net/ethernet/neterion/vxge/vxge-config.h
++++ b/drivers/net/ethernet/neterion/vxge/vxge-config.h
+@@ -1899,18 +1899,13 @@ static inline void *vxge_os_dma_malloc(s
+ 			struct pci_dev **p_dmah,
+ 			struct pci_dev **p_dma_acch)
+ {
+-	gfp_t flags;
+ 	void *vaddr;
+ 	unsigned long misaligned = 0;
+ 	int realloc_flag = 0;
+ 	*p_dma_acch = *p_dmah = NULL;
  
- #define RT_TRACE(rtlpriv, comp, level, fmt, ...)			\
--	_rtl_dbg_trace(rtlpriv, comp, level,				\
-+	_rtl_dbg_print(rtlpriv, comp, level,				\
- 		       fmt, ##__VA_ARGS__)
- 
- #define RTPRINT(rtlpriv, dbgtype, dbgflag, fmt, ...)			\
+-	if (in_interrupt())
+-		flags = GFP_ATOMIC | GFP_DMA;
+-	else
+-		flags = GFP_KERNEL | GFP_DMA;
+ realloc:
+-	vaddr = kmalloc((size), flags);
++	vaddr = kmalloc(size, GFP_KERNEL | GFP_DMA);
+ 	if (vaddr == NULL)
+ 		return vaddr;
+ 	misaligned = (unsigned long)VXGE_ALIGN((unsigned long)vaddr,
 
