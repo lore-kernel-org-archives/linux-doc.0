@@ -2,125 +2,237 @@ Return-Path: <SRS0=NuvG=DE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0905C4727F
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2553C4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC1BD23A33
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:16:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B9A723A5A
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qDV71a+1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VP4vqOvB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726280AbgI0TQQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:16:16 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:50146 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbgI0TQQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:16:16 -0400
-Received: from ravnborg.org (unknown [188.228.123.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id C2B8980637;
-        Sun, 27 Sep 2020 21:16:06 +0200 (CEST)
-Date:   Sun, 27 Sep 2020 21:16:05 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     christian.koenig@amd.com, airlied@linux.ie,
-        dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
-        kraxel@redhat.com, tfiga@chromium.org, m.szyprowski@samsung.com,
-        arnd@arndb.de, corbet@lwn.net, linux-doc@vger.kernel.org,
-        jonathanh@nvidia.com, matthew.auld@intel.com,
-        linux+etnaviv@armlinux.org.uk, labbott@redhat.com,
-        linux-media@vger.kernel.org, pawel@osciak.com,
-        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
-        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        lmark@codeaurora.org, afd@ti.com, kyungmin.park@samsung.com,
-        robin.murphy@arm.com
-Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
- memory
-Message-ID: <20200927191605.GA237178@ravnborg.org>
-References: <20200925115601.23955-1-tzimmermann@suse.de>
- <20200926071334.GA42915@ravnborg.org>
- <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
+        id S1726335AbgI0T57 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:57:59 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:40678 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726934AbgI0T5U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:20 -0400
+Message-Id: <20200927194920.824108021@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1601236638;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=83qDvGuLXzUs/9fusW5YkDt4paS3sBnoEIk7Nou3kd0=;
+        b=qDV71a+1GCvWhc9lufX4zEQV7QRn9/bZHT8FQITekgxUS3UAIr0pogPAdA1ExY69S+jY/y
+        fkbAjNZifsS1uaBZ56OIZlb/i3fbugRM4FDd4AfJ2FXShvtx00KA5Db9UVXjW6mUGqUgfg
+        rinNQlXj5sEvgqNILV8BDzifz0AdiMlUsSB1znzPo1Q6Pmi+re17ux1P+Oi4e3ZiLtwaIg
+        Bsr9UzJiR/me2V1yYQ6eX720Q8Itoag1PNITz/wjwjbcca850NRUnYK12EbcnOuGtOvg5Z
+        7iEEqlEw6MUfb6qe7q0AmBk4MYMjT4fHF9lFdtOJUh92ScVj2MbYTXe8t+QmQg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1601236638;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=83qDvGuLXzUs/9fusW5YkDt4paS3sBnoEIk7Nou3kd0=;
+        b=VP4vqOvBpurOsdqBLfFebJsD1S6lOmeXln+fiJ3timSPl/o5O/7c6kKdrszLlbgNceW6o4
+        F9IPNZN2VRbcQUDg==
+Date:   Sun, 27 Sep 2020 21:48:56 +0200
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Dave Miller <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        intel-wired-lan@lists.osuosl.org,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+Subject: [patch 10/35] net: intel: Remove in_interrupt() warnings
+References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=GurwE-QF2vAYMD8ieTkA:9
-        a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+Content-Type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8-bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thomas.
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-> > 
-> > struct simap {
-> >        union {
-> >                void __iomem *vaddr_iomem;
-> >                void *vaddr;
-> >        };
-> >        bool is_iomem;
-> > };
-> > 
-> > Where simap is a shorthand for system_iomem_map
-> > And it could al be stuffed into a include/linux/simap.h file.
-> > 
-> > Not totally sold on the simap name - but wanted to come up with
-> > something.
-> 
-> Yes. Others, myself included, have suggested to use a name that does not
-> imply a connection to the dma-buf framework, but no one has come up with
->  a good name.
-> 
-> I strongly dislike simap, as it's entirely non-obvious what it does.
-> dma-buf-map is not actually wrong. The structures represents the mapping
-> of a dma-able buffer in most cases.
-> 
-> > 
-> > With this approach users do not have to pull in dma-buf to use it and
-> > users will not confuse that this is only for dma-buf usage.
-> 
-> There's no need to enable dma-buf. It's all in the header file without
-> dependencies on dma-buf. It's really just the name.
-> 
-> But there's something else to take into account. The whole issue here is
-> that the buffer is disconnected from its originating driver, so we don't
-> know which kind of memory ops we have to use. Thinking about it, I
-> realized that no one else seemed to have this problem until now.
-> Otherwise there would be a solution already. So maybe the dma-buf
-> framework *is* the native use case for this data structure.
+in_interrupt() is ill defined and does not provide what the name
+suggests. The usage especially in driver code is deprecated and a tree wide
+effort to clean up and consolidate the (ab)usage of in_interrupt() and
+related checks is happening.
 
-We have at least:
-linux/fb.h:
-	union {
-		char __iomem *screen_base;      /* Virtual address */
-		char *screen_buffer;
-	};
+In this case the checks cover only parts of the contexts in which these
+functions cannot be called. They fail to detect preemption or interrupt
+disabled invocations.
 
-Which solve more or less the same problem.
+As the functions which are invoked from the various places contain already
+a broad variety of checks (always enabled or debug option dependent) cover
+all invalid conditions already, there is no point in having inconsistent
+warnings in those drivers.
 
+Just remove them.
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org
+
+---
+ drivers/net/ethernet/intel/e1000/e1000_main.c     |    1 -
+ drivers/net/ethernet/intel/fm10k/fm10k_pci.c      |    2 --
+ drivers/net/ethernet/intel/i40e/i40e_main.c       |    4 ----
+ drivers/net/ethernet/intel/ice/ice_main.c         |    1 -
+ drivers/net/ethernet/intel/igb/igb_main.c         |    1 -
+ drivers/net/ethernet/intel/igc/igc_main.c         |    1 -
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c     |    1 -
+ drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c |    2 --
+ 8 files changed, 13 deletions(-)
+
+--- a/drivers/net/ethernet/intel/e1000/e1000_main.c
++++ b/drivers/net/ethernet/intel/e1000/e1000_main.c
+@@ -534,7 +534,6 @@ void e1000_down(struct e1000_adapter *ad
  
-> Anyway, if a better name than dma-buf-map comes in, I'm willing to
-> rename the thing. Otherwise I intend to merge the patchset by the end of
-> the week.
+ void e1000_reinit_locked(struct e1000_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__E1000_RESETTING, &adapter->flags))
+ 		msleep(1);
+ 
+--- a/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
++++ b/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
+@@ -221,8 +221,6 @@ static bool fm10k_prepare_for_reset(stru
+ {
+ 	struct net_device *netdev = interface->netdev;
+ 
+-	WARN_ON(in_interrupt());
+-
+ 	/* put off any impending NetWatchDogTimeout */
+ 	netif_trans_update(netdev);
+ 
+--- a/drivers/net/ethernet/intel/i40e/i40e_main.c
++++ b/drivers/net/ethernet/intel/i40e/i40e_main.c
+@@ -6689,7 +6689,6 @@ static void i40e_vsi_reinit_locked(struc
+ {
+ 	struct i40e_pf *pf = vsi->back;
+ 
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__I40E_CONFIG_BUSY, pf->state))
+ 		usleep_range(1000, 2000);
+ 	i40e_down(vsi);
+@@ -8462,9 +8461,6 @@ void i40e_do_reset(struct i40e_pf *pf, u
+ {
+ 	u32 val;
+ 
+-	WARN_ON(in_interrupt());
+-
+-
+ 	/* do the biggest reset indicated */
+ 	if (reset_flags & BIT_ULL(__I40E_GLOBAL_RESET_REQUESTED)) {
+ 
+--- a/drivers/net/ethernet/intel/ice/ice_main.c
++++ b/drivers/net/ethernet/intel/ice/ice_main.c
+@@ -486,7 +486,6 @@ static void ice_do_reset(struct ice_pf *
+ 	struct ice_hw *hw = &pf->hw;
+ 
+ 	dev_dbg(dev, "reset_type 0x%x requested\n", reset_type);
+-	WARN_ON(in_interrupt());
+ 
+ 	ice_prepare_for_reset(pf);
+ 
+--- a/drivers/net/ethernet/intel/igb/igb_main.c
++++ b/drivers/net/ethernet/intel/igb/igb_main.c
+@@ -2220,7 +2220,6 @@ void igb_down(struct igb_adapter *adapte
+ 
+ void igb_reinit_locked(struct igb_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__IGB_RESETTING, &adapter->state))
+ 		usleep_range(1000, 2000);
+ 	igb_down(adapter);
+--- a/drivers/net/ethernet/intel/igc/igc_main.c
++++ b/drivers/net/ethernet/intel/igc/igc_main.c
+@@ -3831,7 +3831,6 @@ void igc_down(struct igc_adapter *adapte
+ 
+ void igc_reinit_locked(struct igc_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	while (test_and_set_bit(__IGC_RESETTING, &adapter->state))
+ 		usleep_range(1000, 2000);
+ 	igc_down(adapter);
+--- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
++++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+@@ -5677,7 +5677,6 @@ static void ixgbe_up_complete(struct ixg
+ 
+ void ixgbe_reinit_locked(struct ixgbe_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+ 	/* put off any impending NetWatchDogTimeout */
+ 	netif_trans_update(adapter->netdev);
+ 
+--- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
++++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+@@ -2526,8 +2526,6 @@ void ixgbevf_down(struct ixgbevf_adapter
+ 
+ void ixgbevf_reinit_locked(struct ixgbevf_adapter *adapter)
+ {
+-	WARN_ON(in_interrupt());
+-
+ 	while (test_and_set_bit(__IXGBEVF_RESETTING, &adapter->state))
+ 		msleep(1);
+ 
 
-Well, the main thing is that I think this shoud be moved away from
-dma-buf. But if indeed dma-buf is the only relevant user in drm then
-I am totally fine with the current naming.
-
-One alternative named that popped up in my head: struct sys_io_map {}
-But again, if this is kept in dma-buf then I am fine with the current
-naming.
-
-In other words, if you continue to think this is mostly a dma-buf
-thing all three patches are:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
