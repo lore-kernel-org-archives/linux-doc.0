@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50238C4727F
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9DBC4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1315E23A5A
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8862423A54
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N+JwA8r3";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4RL85lLh"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PrCzljmB";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ep6Zpi00"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727195AbgI0T6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:58:04 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:41894 "EHLO
+        id S1726393AbgI0T6U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:58:20 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41032 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726882AbgI0T5d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:33 -0400
-Message-Id: <20200927194921.839848434@linutronix.de>
+        with ESMTP id S1727150AbgI0T6D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:58:03 -0400
+Message-Id: <20200927194922.722439719@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236650;
+        s=2020; t=1601236662;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=E8BWshtU8a/PkQjFPYy93BN17JLJsGh02VUnxk0upzE=;
-        b=N+JwA8r3ht2f/M3ne58BpHfK1GOt4GMqgR18UWPfudBaJBFVIMdq0c1il9j4d+HHmtwtzs
-        dmqcYnudPntJFjQw+NeBhPlRkwqSgONwm1d7AhSB6RMMtlKXUSrO/zsTuOPAOq0SzUhg72
-        ZYvkb2hSCYvJCyLpN5Nw1itasArreCiHk2i661yoGbLq2npjGEWG3aIJgA2yx7gcFqOoeX
-        s3wVL+sMCKLksBDWA0g69AYJhaNQL0jnR8gZXl3eqiXQxdYi914TlLexu6dI2Y6U7nqN5H
-        5n1t4HiKzEK+gZC8Kb5q4zYumbZWOdMm39zvPowPfdmw12wBDSIyP1vvzR1+2g==
+        bh=WvKjADYjqlirQWpKFkh9jiGNfOCHnSN3m3D0jVUtW0s=;
+        b=PrCzljmBSAbUlAdc2KPSwm3FWq7oyuhKTCA/A13rCnsp+P21HilefWUDdgjD6zptDW20PN
+        L1l2nP2ixF7o93oSksRXm8PZjJ1N3ASFkPtUpDSjIZ985qA7jgeh9xqqEQdIRuqILWSoeD
+        xMWSKPv4YxzLWEJvQBw6H5Ydkq7hF/skZLyhZ0HgpeqOPowvtcg4z2YcPk5igICA8bbT+C
+        gAzjIvQ0N8ryidB+PoXPSR8ISHrM4Xf2ini/+USiED3bNYoivJCtFgkfwiDx1dKlMH4WGg
+        DMLTtpcTvBMRgdkScfN/xfYKw5uQ2I3bX7eYnIH5OqlVsqeNkO6x9zfG6PRZ7A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236650;
+        s=2020e; t=1601236662;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=E8BWshtU8a/PkQjFPYy93BN17JLJsGh02VUnxk0upzE=;
-        b=4RL85lLhlslR61dMUmztot7BjIosLb2ekytQx92VaR4TQzSfM5fCdFe3L+k6GNbwDMYffR
-        V1pCph8cyROkLAAQ==
-Date:   Sun, 27 Sep 2020 21:49:06 +0200
+        bh=WvKjADYjqlirQWpKFkh9jiGNfOCHnSN3m3D0jVUtW0s=;
+        b=Ep6Zpi00NNdvI7QOgXcUfp1BZMPJEiA8XvD3zgRHmZ/mowcbAvgHLx3IjKHfC571s5FhSl
+        VHuFjTIQAwD9PdBA==
+Date:   Sun, 27 Sep 2020 21:49:15 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,9 +50,11 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Jouni Malinen <j@w1.fi>, Kalle Valo <kvalo@codeaurora.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, Christian Benvenuti <benve@cisco.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -74,9 +76,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Edward Cree <ecree@solarflare.com>,
         Martin Habets <mhabets@solarflare.com>,
         Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
-        Ulrich Kunitz <kune@deine-taler.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        linux-wireless@vger.kernel.org,
+        Ulrich Kunitz <kune@deine-taler.de>, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arend van Spriel <arend.vanspriel@broadcom.com>,
         Franky Lin <franky.lin@broadcom.com>,
@@ -91,15 +91,13 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
         Luca Coelho <luciano.coelho@intel.com>,
         Intel Linux Wireless <linuxwifi@intel.com>,
-        Jouni Malinen <j@w1.fi>,
         Amitkumar Karwar <amitkarwar@gmail.com>,
         Ganapathi Bhat <ganapathi.bhat@nxp.com>,
         Xinming Hu <huxinming820@gmail.com>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 20/35] net: usb: kaweth: Replace kaweth_control() with
- usb_control_msg()
+Subject: [patch 29/35] net: hostap: Remove in_interrupt() usage
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -110,175 +108,64 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-kaweth_control() is almost the same as usb_control_msg() except for the
-memory allocation mode (GFP_ATOMIC vs GFP_NOIO) and the in_interrupt()
-check.
+in_interrupt() is ill defined and does not provide what the name
+suggests. The usage especially in driver code is deprecated and a tree wide
+effort to clean up and consolidate the (ab)usage of in_interrupt() and
+related checks is happening.
 
-All the invocations of kaweth_control() are within the probe function in
-fully preemtible context so there is no reason to use atomic allocations,
-GFP_NOIO which is used by usb_control_msg() is perfectly fine.
+hfa384x_cmd() and prism2_hw_reset() check in_interrupt() at function entry
+and if true emit a printk at debug loglevel and return. This is clearly debug
+code.
 
-Replace kaweth_control() invocations from probe with usb_control_msg().
+Both functions invoke functions which can sleep. These functions already
+have appropriate debug checks which cover all invalid contexts, while
+in_interrupt() fails to detect context which just has preemption or
+interrupts disabled.
+
+Remove both checks as they are incomplete, debug only and already covered
+by the subsequently invoked functions properly. If called from invalid
+context the resulting back trace is definitely more helpful to analyze the
+problem than a printk at debug loglevel.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jouni Malinen <j@w1.fi>
+Cc: Kalle Valo <kvalo@codeaurora.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-usb@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
 Cc: netdev@vger.kernel.org
 
 ---
- drivers/net/usb/kaweth.c |   93 +++++++++++++++--------------------------------
- 1 file changed, 30 insertions(+), 63 deletions(-)
+ drivers/net/wireless/intersil/hostap/hostap_hw.c |   12 ------------
+ 1 file changed, 12 deletions(-)
 
---- a/drivers/net/usb/kaweth.c
-+++ b/drivers/net/usb/kaweth.c
-@@ -282,19 +282,13 @@ static int kaweth_control(struct kaweth_
-  ****************************************************************/
- static int kaweth_read_configuration(struct kaweth_device *kaweth)
- {
--	int retval;
+--- a/drivers/net/wireless/intersil/hostap/hostap_hw.c
++++ b/drivers/net/wireless/intersil/hostap/hostap_hw.c
+@@ -320,12 +320,6 @@ static int hfa384x_cmd(struct net_device
+ 	iface = netdev_priv(dev);
+ 	local = iface->local;
+ 
+-	if (in_interrupt()) {
+-		printk(KERN_DEBUG "%s: hfa384x_cmd called from interrupt "
+-		       "context\n", dev->name);
+-		return -1;
+-	}
 -
--	retval = kaweth_control(kaweth,
--				usb_rcvctrlpipe(kaweth->dev, 0),
-+	return usb_control_msg(kaweth->dev, usb_rcvctrlpipe(kaweth->dev, 0),
- 				KAWETH_COMMAND_GET_ETHERNET_DESC,
- 				USB_TYPE_VENDOR | USB_DIR_IN | USB_RECIP_DEVICE,
--				0,
--				0,
--				(void *)&kaweth->configuration,
-+				0, 0,
-+				&kaweth->configuration,
- 				sizeof(kaweth->configuration),
- 				KAWETH_CONTROL_TIMEOUT);
+ 	if (local->cmd_queue_len >= HOSTAP_CMD_QUEUE_MAX_LEN) {
+ 		printk(KERN_DEBUG "%s: hfa384x_cmd: cmd_queue full\n",
+ 		       dev->name);
+@@ -1560,12 +1554,6 @@ static void prism2_hw_reset(struct net_d
+ 	iface = netdev_priv(dev);
+ 	local = iface->local;
+ 
+-	if (in_interrupt()) {
+-		printk(KERN_DEBUG "%s: driver bug - prism2_hw_reset() called "
+-		       "in interrupt context\n", dev->name);
+-		return;
+-	}
 -
--	return retval;
- }
+ 	if (local->hw_downloading)
+ 		return;
  
- /****************************************************************
-@@ -302,21 +296,14 @@ static int kaweth_read_configuration(str
-  ****************************************************************/
- static int kaweth_set_urb_size(struct kaweth_device *kaweth, __u16 urb_size)
- {
--	int retval;
--
- 	netdev_dbg(kaweth->net, "Setting URB size to %d\n", (unsigned)urb_size);
- 
--	retval = kaweth_control(kaweth,
--				usb_sndctrlpipe(kaweth->dev, 0),
--				KAWETH_COMMAND_SET_URB_SIZE,
--				USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
--				urb_size,
--				0,
--				(void *)&kaweth->scratch,
--				0,
--				KAWETH_CONTROL_TIMEOUT);
--
--	return retval;
-+	return usb_control_msg(kaweth->dev, usb_sndctrlpipe(kaweth->dev, 0),
-+			       KAWETH_COMMAND_SET_URB_SIZE,
-+			       USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
-+			       urb_size, 0,
-+			       &kaweth->scratch, 0,
-+			       KAWETH_CONTROL_TIMEOUT);
- }
- 
- /****************************************************************
-@@ -324,21 +311,14 @@ static int kaweth_set_urb_size(struct ka
-  ****************************************************************/
- static int kaweth_set_sofs_wait(struct kaweth_device *kaweth, __u16 sofs_wait)
- {
--	int retval;
--
- 	netdev_dbg(kaweth->net, "Set SOFS wait to %d\n", (unsigned)sofs_wait);
- 
--	retval = kaweth_control(kaweth,
--				usb_sndctrlpipe(kaweth->dev, 0),
--				KAWETH_COMMAND_SET_SOFS_WAIT,
--				USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
--				sofs_wait,
--				0,
--				(void *)&kaweth->scratch,
--				0,
--				KAWETH_CONTROL_TIMEOUT);
--
--	return retval;
-+	return usb_control_msg(kaweth->dev, usb_sndctrlpipe(kaweth->dev, 0),
-+			       KAWETH_COMMAND_SET_SOFS_WAIT,
-+			       USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
-+			       sofs_wait, 0,
-+			       &kaweth->scratch, 0,
-+			       KAWETH_CONTROL_TIMEOUT);
- }
- 
- /****************************************************************
-@@ -347,22 +327,15 @@ static int kaweth_set_sofs_wait(struct k
- static int kaweth_set_receive_filter(struct kaweth_device *kaweth,
- 				     __u16 receive_filter)
- {
--	int retval;
--
- 	netdev_dbg(kaweth->net, "Set receive filter to %d\n",
- 		   (unsigned)receive_filter);
- 
--	retval = kaweth_control(kaweth,
--				usb_sndctrlpipe(kaweth->dev, 0),
--				KAWETH_COMMAND_SET_PACKET_FILTER,
--				USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
--				receive_filter,
--				0,
--				(void *)&kaweth->scratch,
--				0,
--				KAWETH_CONTROL_TIMEOUT);
--
--	return retval;
-+	return usb_control_msg(kaweth->dev, usb_sndctrlpipe(kaweth->dev, 0),
-+			       KAWETH_COMMAND_SET_PACKET_FILTER,
-+			       USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
-+			       receive_filter, 0,
-+			       &kaweth->scratch, 0,
-+			       KAWETH_CONTROL_TIMEOUT);
- }
- 
- /****************************************************************
-@@ -407,14 +380,11 @@ static int kaweth_download_firmware(stru
- 		   kaweth->firmware_buf, kaweth);
- 	netdev_dbg(kaweth->net, "Firmware length: %d\n", data_len);
- 
--	return kaweth_control(kaweth,
--		              usb_sndctrlpipe(kaweth->dev, 0),
-+	return usb_control_msg(kaweth->dev, usb_sndctrlpipe(kaweth->dev, 0),
- 			      KAWETH_COMMAND_SCAN,
- 			      USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
--			      0,
--			      0,
--			      (void *)kaweth->firmware_buf,
--			      data_len,
-+			      0, 0,
-+			      kaweth->firmware_buf, data_len,
- 			      KAWETH_CONTROL_TIMEOUT);
- }
- 
-@@ -433,15 +403,12 @@ static int kaweth_trigger_firmware(struc
- 	kaweth->firmware_buf[6] = 0x00;
- 	kaweth->firmware_buf[7] = 0x00;
- 
--	return kaweth_control(kaweth,
--			      usb_sndctrlpipe(kaweth->dev, 0),
--			      KAWETH_COMMAND_SCAN,
--			      USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
--			      0,
--			      0,
--			      (void *)kaweth->firmware_buf,
--			      8,
--			      KAWETH_CONTROL_TIMEOUT);
-+	return usb_control_msg(kaweth->dev, usb_sndctrlpipe(kaweth->dev, 0),
-+			       KAWETH_COMMAND_SCAN,
-+			       USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_DEVICE,
-+			       0, 0,
-+			       (void *)kaweth->firmware_buf, 8,
-+			       KAWETH_CONTROL_TIMEOUT);
- }
- 
- /****************************************************************
 
