@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D99BC4727F
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC3A4C4727E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46A2323A54
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80A6423A54
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 19:58:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wj8/tcbv";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8f2wzbUG"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BNwpzMCN";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RneFpvEa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbgI0T6g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:58:36 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:41550 "EHLO
+        id S1727268AbgI0T6x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 15:58:53 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:42022 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727149AbgI0T6D (ORCPT
+        with ESMTP id S1727166AbgI0T6D (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:58:03 -0400
-Message-Id: <20200927194922.830361303@linutronix.de>
+Message-Id: <20200927194923.031899444@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236663;
+        s=2020; t=1601236665;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=aWutwpvby216c/jOr44XERgFZl4JWtXaiUmlGu9Ew5g=;
-        b=wj8/tcbvjbHIE2iyck9XlzqXoukgZyVheOsfUEKrEo4aIBHQd2UAF6C9tE9ne+KwuYig4A
-        a5M7VYVsc+Oywp1tcXKy8izFLMNtYmJZvshZxaHl1+kduoiNkfloFf/1VvZ8boXlgtSn67
-        IjDTrpZm0zDbk7eiZkcQUuor7Nvv5UQi+4ppYjuPbQDElv7mOok7bU4jx4VVLL73NQB0Na
-        0S6Y8ojP+Egk7zUp9PXG1Us71hG8bWKrTl6e7TDLTAoL6zyTvjKhLqZ2OokxU+YAUti1+c
-        ZIkMhdZQ1LizZKopauzd0MRCLso4Yy7mTtcfEa060b3Ij4FjUgIXjPasNmVu/A==
+        bh=c0LQ/6xJuhVNob25oG2NjVswf02HdLBqhSkgCWoFfG4=;
+        b=BNwpzMCNvEzgCA9bu4GlhMhhVdvRv79cj4yGgf9wGod1HvEwCRyKBd/mo4XyX569hvlTTV
+        mJ8sDlGJUh0s7n0Kg121twB5Jk9x4633y93i3wCm3n+AR/9NwI9BpWIgkqQHitRErACx1s
+        /nbFmIsYBdEu1M7KDXEbdsnS0ulwBIvX4+s3EZDnz4/QmX9l4+o70l9Y0zTGxuj3CS4iq5
+        SBqQknFV6jUPDMHVq82D4ARNcN/u69R4znf24pft2CAbPGS4EiwY/Gbol8v8VoejFljSKM
+        gyMSl5tgawDOb3rajivW7LKoSbrLaW/EwO+W64Abvivr0Xi1Izy74USxL6KGtQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236663;
+        s=2020e; t=1601236665;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=aWutwpvby216c/jOr44XERgFZl4JWtXaiUmlGu9Ew5g=;
-        b=8f2wzbUGXSB8jpn1CQ9Mvv39d3JAL0NEKIqF6hUzTpgjDiXKWzLpnuKrothTbqaZQEgcv+
-        ZS9Q0EULAtTY8TBg==
-Date:   Sun, 27 Sep 2020 21:49:16 +0200
+        bh=c0LQ/6xJuhVNob25oG2NjVswf02HdLBqhSkgCWoFfG4=;
+        b=RneFpvEarxklOXRwGHvMzSys1JfSZFNJD6ldlfH4hBbqdL6tpHU4K7CeDilZFuYy5rLaD2
+        ADxwxws26Ji8tMAA==
+Date:   Sun, 27 Sep 2020 21:49:18 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -50,14 +50,12 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
-        Xinming Hu <huxinming820@gmail.com>,
         Kalle Valo <kvalo@codeaurora.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        Christian Benvenuti <benve@cisco.com>,
+        Pascal Terjan <pterjan@google.com>,
+        libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -94,10 +92,12 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
         Luca Coelho <luciano.coelho@intel.com>,
         Intel Linux Wireless <linuxwifi@intel.com>,
-        Jouni Malinen <j@w1.fi>, libertas-dev@lists.infradead.org,
-        Pascal Terjan <pterjan@google.com>,
+        Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 30/35] net: mwifiex: Use netif_rx_any_context().
+Subject: [patch 32/35] net: libertas: Use netif_rx_any_context()
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -112,59 +112,54 @@ The usage of in_interrupt() in non-core code is phased out. Ideally the
 information of the calling context should be passed by the callers or the
 functions be split as appropriate.
 
-mwifiex uses in_interupt() to select the netif_rx*() variant which matches
+libertas uses in_interupt() to select the netif_rx*() variant which matches
 the calling context. The attempt to consolidate the code by passing an
 arguemnt or by distangling it failed due lack of knowledge about this
 driver and because the call chains are hard to follow.
 
-As a stop gap use netif_rx_any_context() which invokes the correct code
+As a stop gap tse netif_rx_any_context() which invokes the correct code
 path depending on context and confines the in_interrupt() usage to core
 code.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Amitkumar Karwar <amitkarwar@gmail.com>
-Cc: Ganapathi Bhat <ganapathi.bhat@nxp.com>
-Cc: Xinming Hu <huxinming820@gmail.com>
 Cc: Kalle Valo <kvalo@codeaurora.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Pascal Terjan <pterjan@google.com>
+Cc: libertas-dev@lists.infradead.org
 Cc: linux-wireless@vger.kernel.org
 Cc: netdev@vger.kernel.org
 
 ---
- drivers/net/wireless/marvell/mwifiex/uap_txrx.c |    6 +-----
- drivers/net/wireless/marvell/mwifiex/util.c     |    6 +-----
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ drivers/net/wireless/marvell/libertas/rx.c |   11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
---- a/drivers/net/wireless/marvell/mwifiex/uap_txrx.c
-+++ b/drivers/net/wireless/marvell/mwifiex/uap_txrx.c
-@@ -350,11 +350,7 @@ int mwifiex_uap_recv_packet(struct mwifi
- 		skb->truesize += (skb->len - MWIFIEX_RX_DATA_BUF_SIZE);
+--- a/drivers/net/wireless/marvell/libertas/rx.c
++++ b/drivers/net/wireless/marvell/libertas/rx.c
+@@ -147,10 +147,7 @@ int lbs_process_rxed_packet(struct lbs_p
+ 	dev->stats.rx_packets++;
  
- 	/* Forward multicast/broadcast packet to upper layer*/
+ 	skb->protocol = eth_type_trans(skb, dev);
 -	if (in_interrupt())
 -		netif_rx(skb);
 -	else
 -		netif_rx_ni(skb);
--
 +	netif_rx_any_context(skb);
- 	return 0;
- }
  
---- a/drivers/net/wireless/marvell/mwifiex/util.c
-+++ b/drivers/net/wireless/marvell/mwifiex/util.c
-@@ -488,11 +488,7 @@ int mwifiex_recv_packet(struct mwifiex_p
- 	    (skb->truesize > MWIFIEX_RX_DATA_BUF_SIZE))
- 		skb->truesize += (skb->len - MWIFIEX_RX_DATA_BUF_SIZE);
+ 	ret = 0;
+ done:
+@@ -265,11 +262,7 @@ static int process_rxed_802_11_packet(st
+ 	dev->stats.rx_packets++;
  
+ 	skb->protocol = eth_type_trans(skb, priv->dev);
+-
 -	if (in_interrupt())
 -		netif_rx(skb);
 -	else
 -		netif_rx_ni(skb);
--
 +	netif_rx_any_context(skb);
- 	return 0;
- }
+ 
+ 	ret = 0;
  
 
