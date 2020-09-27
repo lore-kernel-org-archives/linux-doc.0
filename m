@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BCFC4346E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED34C4346E
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 101C323A53
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1F1823A53
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:00:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nhYIaX41";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7fGheggQ"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="luQoDsZ/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CJEGU8fP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbgI0T7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:59:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38690 "EHLO
+        id S1726565AbgI0UAT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 16:00:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726485AbgI0T6B (ORCPT
+        with ESMTP id S1726461AbgI0T6B (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:58:01 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEEAC0613D8
-        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2020 12:57:29 -0700 (PDT)
-Message-Id: <20200927194921.639274921@linutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 565A3C0613D7
+        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2020 12:57:28 -0700 (PDT)
+Message-Id: <20200927194921.547895614@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236648;
+        s=2020; t=1601236646;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=ZLebWG85y+lfZEscB172xr+yUv6gjKFl/pP0A1z7yUY=;
-        b=nhYIaX41QlWLTB0HhbCQbyoLlS7e6/PqbqIyu4P0N9B01PYahN3AMWkhj7/VDx9v60EJ7Z
-        zM81SWL3RHJvyUznq5uVoiQnbu9Vv3arPTvOD5+q44KBrkngR2+su/eE7Ji9FGsD+P/aNn
-        ugnJqfuVcKFk2rv2IEshDade5mSMsk3kKvWUT4Mc8pIvT/8XNfBJPvhpzmEcemwOUMZQgw
-        6mM5mrfI6CeLeftmKmhBSMg5hgJQJKuO4boQ0Fp2/xX3XRw9y3K/qCMOxhzsxIOafbx/Wc
-        ec/XJFqccCGTtEXNCEOYlQups2n2IStZuOLfmfRNJBYodsj8+VbX8yCwYq0q2w==
+        bh=JgK9BvUnrN5KEKte8DUJYLpLmg2eoJVVxGQL+B6LgJk=;
+        b=luQoDsZ/u/OZYtSOAZUvOKs9PWs/xn3Mz7ihYBH07iWyk0cYbH7lfePHj2pixo6NiEWzXd
+        oJXEanyJg17wF1R89tmpA4cZPQ7jd6nC+dYmWnuRgbgLMeEgYPG+MGV+HfCTPGG/sADs+n
+        gABjIX7r/GvTIA+8sxMeBKz8mCQW2oWRNoq0+f1aWeklsZF6FstmRzRIucJlN8z77if1pH
+        78pWWVbFNdoTTJ9EKPafcdraXF/V6h2SLaeGCjPErStZAydScBaMCl4lN5glc2gFjh+Ls2
+        LgyOARL6jJEqCsBh2nRr8aDhFhiLLWGcSExs66CpX6oXwn28n1zEbjvDaPrAaw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236648;
+        s=2020e; t=1601236646;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=ZLebWG85y+lfZEscB172xr+yUv6gjKFl/pP0A1z7yUY=;
-        b=7fGheggQN+nN+jjiLG1/4PqQ5OiaQeTM6pt16LT5wSQq+5BKZ5hf08HjCYMDWAN7+LRg3K
-        3SxbEKtPPc1yuyBg==
-Date:   Sun, 27 Sep 2020 21:49:04 +0200
+        bh=JgK9BvUnrN5KEKte8DUJYLpLmg2eoJVVxGQL+B6LgJk=;
+        b=CJEGU8fPiYX7XdDsyUZbaXr4aORyMdfxxAauXdyIf1MRTiZHsG5EjttvXEle4mj7ShM7gt
+        a8Zen0Ym17WFzmCg==
+Date:   Sun, 27 Sep 2020 21:49:03 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -53,7 +53,6 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Jon Mason <jdmason@kudzu.us>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
@@ -77,7 +76,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
         Edward Cree <ecree@solarflare.com>,
         Martin Habets <mhabets@solarflare.com>,
-        Daniel Drake <dsd@gentoo.org>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
         Ulrich Kunitz <kune@deine-taler.de>,
         Kalle Valo <kvalo@codeaurora.org>,
         linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -102,7 +101,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 18/35] net: vxge: Remove in_interrupt() conditionals
+Subject: [patch 17/35] net: sun3lance: Remove redundant checks in interrupt handler
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -113,80 +112,52 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-vxge_os_dma_malloc() and vxge_os_dma_malloc_async() are both called from
-callchains which use GFP_KERNEL allocations unconditionally or have other
-requirements to be called from fully preemptible task context..
+lance_interrupt() contains two pointless checks:
 
-vxge_os_dma_malloc():
-  1)  __vxge_hw_blockpool_create() <- GFP_KERNEL
-	
-  2)  __vxge_hw_mempool_grow() <- vzalloc()
-        __vxge_hw_blockpool_malloc()
+ - A check whether the 'dev_id' argument is NULL. 'dev_id' is the pointer
+   which was handed in to request_irq() and the interrupt handler will
+   always be invoked with that pointer as 'dev_id' argument by the core
+   code.
 
-vxge_os_dma_malloc_async():
-  1  __vxge_hw_mempool_grow() <- vzalloc()
-      __vxge_hw_blockpool_malloc()
-	__vxge_hw_blockpool_blocks_add()
+ - A check for interrupt reentrancy. The core code already guarantees
+   non-reentrancy of interrupt handlers.
 
-  2)  vxge_hw_vpath_open()	<- vzalloc()
-	__vxge_hw_blockpool_block_allocate()
-
-That means neither of these functions needs a conditional allocation mode.
-
-Remove the in_interrupt() conditional and use GFP_KERNEL.
+Remove these check.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jon Mason <jdmason@kudzu.us>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
-
 ---
- drivers/net/ethernet/neterion/vxge/vxge-config.c |    9 +--------
- drivers/net/ethernet/neterion/vxge/vxge-config.h |    7 +------
- 2 files changed, 2 insertions(+), 14 deletions(-)
+ drivers/net/ethernet/amd/sun3lance.c |   11 -----------
+ 1 file changed, 11 deletions(-)
 
---- a/drivers/net/ethernet/neterion/vxge/vxge-config.c
-+++ b/drivers/net/ethernet/neterion/vxge/vxge-config.c
-@@ -2303,16 +2303,9 @@ static void vxge_hw_blockpool_block_add(
- static inline void
- vxge_os_dma_malloc_async(struct pci_dev *pdev, void *devh, unsigned long size)
- {
--	gfp_t flags;
- 	void *vaddr;
+--- a/drivers/net/ethernet/amd/sun3lance.c
++++ b/drivers/net/ethernet/amd/sun3lance.c
+@@ -657,16 +657,6 @@ static irqreturn_t lance_interrupt( int
+ 	struct net_device *dev = dev_id;
+ 	struct lance_private *lp = netdev_priv(dev);
+ 	int csr0;
+-	static int in_interrupt;
+-
+-	if (dev == NULL) {
+-		DPRINTK( 1, ( "lance_interrupt(): invalid dev_id\n" ));
+-		return IRQ_NONE;
+-	}
+-
+-	if (in_interrupt)
+-		DPRINTK( 2, ( "%s: Re-entering the interrupt handler.\n", dev->name ));
+-	in_interrupt = 1;
  
--	if (in_interrupt())
--		flags = GFP_ATOMIC | GFP_DMA;
--	else
--		flags = GFP_KERNEL | GFP_DMA;
--
--	vaddr = kmalloc((size), flags);
--
-+	vaddr = kmalloc(size, GFP_KERNEL | GFP_DMA);
- 	vxge_hw_blockpool_block_add(devh, vaddr, size, pdev, pdev);
+  still_more:
+ 	flush_cache_all();
+@@ -774,7 +764,6 @@ static irqreturn_t lance_interrupt( int
+ 
+ 	DPRINTK( 2, ( "%s: exiting interrupt, csr0=%#04x.\n",
+ 				  dev->name, DREG ));
+-	in_interrupt = 0;
+ 	return IRQ_HANDLED;
  }
  
---- a/drivers/net/ethernet/neterion/vxge/vxge-config.h
-+++ b/drivers/net/ethernet/neterion/vxge/vxge-config.h
-@@ -1899,18 +1899,13 @@ static inline void *vxge_os_dma_malloc(s
- 			struct pci_dev **p_dmah,
- 			struct pci_dev **p_dma_acch)
- {
--	gfp_t flags;
- 	void *vaddr;
- 	unsigned long misaligned = 0;
- 	int realloc_flag = 0;
- 	*p_dma_acch = *p_dmah = NULL;
- 
--	if (in_interrupt())
--		flags = GFP_ATOMIC | GFP_DMA;
--	else
--		flags = GFP_KERNEL | GFP_DMA;
- realloc:
--	vaddr = kmalloc((size), flags);
-+	vaddr = kmalloc(size, GFP_KERNEL | GFP_DMA);
- 	if (vaddr == NULL)
- 		return vaddr;
- 	misaligned = (unsigned long)VXGE_ALIGN((unsigned long)vaddr,
 
