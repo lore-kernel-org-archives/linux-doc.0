@@ -7,56 +7,54 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72545C4346E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE95C4727F
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40E3723977
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BE9923977
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 20:01:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dTurmhNk";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="33r9PiCB"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KbehhohW";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cWc0Cj3h"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbgI0T5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Sep 2020 15:57:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38528 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726865AbgI0T5J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:09 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8F5C0613CE
-        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2020 12:57:08 -0700 (PDT)
-Message-Id: <20200927194919.806110712@linutronix.de>
+        id S1726566AbgI0UBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Sep 2020 16:01:50 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:40834 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726877AbgI0T5P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Sep 2020 15:57:15 -0400
+Message-Id: <20200927194920.437625772@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601236626;
+        s=2020; t=1601236633;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=JTTK/iwFBS/lwuXuEFjiZEf5zOcCMhuI2Qrc8qysdmE=;
-        b=dTurmhNkhlSDVW3y/bXCSbXhHjsX2Znsv8S2xOsxpKNZbIjums2OPbSjNFy+wp9wEMCK4s
-        /WH5BpNwRyonykNemmxlL2nRMiB/2svlByU2u7AHCjS2a2+qJ2UNuq5mueQQ4SJnLlTckV
-        wXCVpxlhAo83mcTjFfGklccsLaH44hYlSYtUdPoUYszPVR0nlJVjmXqa9+uO/9CB7diIjf
-        +mypTgdgZ7FEb9iPN7U99vluG0HbDCK2ZeKrpDz1esRYusXCAbr0JuyodrwactGjYDI6RN
-        BX0JX8PLu5togBKAznx7pdnauDK5ZEbqxOJRhJyJCYYEJwcIU7JMzEqA8SkOXw==
+        bh=Nr+HwxG8LNdSmT94mAamQPUuBl65nafz2ip56wkroJ0=;
+        b=KbehhohWE2i0RJJ/I4NPEnvmzRPqQAwTJ9c795tOfUYyQoKJ1QT3SZdKrdNNY0yFoQZY5H
+        Rriou1lrgdkocgTrlrPnbRpu2IiQc+I5ybI6hf2y7FJRJcxRW5lXQHWE+ZqgBQ4Gx1gEah
+        5saPaD1AeNCkcvophqbUNF8e2L8NxLUVk06WFGvAnnSUjwvOcPQF6o5IFK7xzNa2Zpd2CI
+        1QxIChyN4I5dHa9UKRW1gAOgIToLg11A14tDhL7jtoBH5ee30muaiSywjrjn9wpIOOFvs3
+        EWQvhHRwO8Eh7ZInAnN71OVEM2pAMgf15hno4dnlQd53rMB2TtDg6/qVcLJJDg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601236626;
+        s=2020e; t=1601236633;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=JTTK/iwFBS/lwuXuEFjiZEf5zOcCMhuI2Qrc8qysdmE=;
-        b=33r9PiCBgAGIgPr/Gjw7tySmuVUoiduugzeHovAIDOO2BuhcexNnPA2DJQe3tBNIy3Suvf
-        y+NWnP2mXGCzRUBQ==
-Date:   Sun, 27 Sep 2020 21:48:47 +0200
+        bh=Nr+HwxG8LNdSmT94mAamQPUuBl65nafz2ip56wkroJ0=;
+        b=cWc0Cj3hMdO2yBy/o5JKdrFUXDXwIiJqV12pCuzu1xmC2epM8ctXhUBINnzLyDh82L8Iox
+        bnLfDgsDy3FKXbDw==
+Date:   Sun, 27 Sep 2020 21:48:52 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Linus Torvalds <torvalds@linuxfoundation.org>,
         Paul McKenney <paulmck@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Christian Benvenuti <benve@cisco.com>,
         Govindarajulu Varadarajan <_govind@gmx.com>,
         Dave Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-doc@vger.kernel.org,
@@ -64,7 +62,6 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Jay Cliburn <jcliburn@gmail.com>,
         Chris Snook <chris.snook@gmail.com>,
-        Vishal Kulkarni <vishal@chelsio.com>,
         Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         intel-wired-lan@lists.osuosl.org,
         Shannon Nelson <snelson@pensando.io>,
@@ -101,7 +98,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch 01/35] net: enic: Cure the enic api locking trainwreck
+Subject: [patch 06/35] net: cxgb3: Cleanup in_interrupt() usage
 References: <20200927194846.045411263@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -112,146 +109,113 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-enic_dev_wait() has a BUG_ON(in_interrupt()).
+t3_sge_stop() is called from task context and from error handlers in
+interrupt context. It relies on in_interrupt() to differentiate the
+contexts.
 
-Chasing the callers of enic_dev_wait() revealed the gems of enic_reset()
-and enic_tx_hang_reset() which are both invoked through work queues in
-order to be able to call rtnl_lock(). So far so good.
+in_interrupt() is deprecated as it is ill defined and does not provide what
+it suggests.
 
-After locking rtnl both functions acquire enic::enic_api_lock which
-serializes against the (ab)use from infiniband. This is where the
-trainwreck starts.
+Instead of replacing it with some other construct, simply split the
+function into t3_sge_stop_dma(), which can be called from any context, and
+t3_sge_stop() which can be only called from task context.
 
-enic::enic_api_lock is a spin_lock() which implicitly disables preemption,
-but both functions invoke a ton of functions under that lock which can
-sleep. The BUG_ON(in_interrupt()) does not trigger in that case because it
-can't detect the preempt disabled condition.
+This has the advantage that any bogus invocation of t3_sge_stop() from
+wrong contexts can be caught by debug kernels instead of being papered over
+by the conditional.
 
-This clearly has never been tested with any of the mandatory debug options
-for 7+ years, which would have caught that for sure.
-
-Cure it by adding a enic_api_busy member to struct enic, which is modified
-and evaluated with enic::enic_api_lock held.
-
-If enic_api_devcmd_proxy_by_index() observes enic::enic_api_busy as true,
-it drops enic::enic_api_lock and busy waits for enic::enic_api_busy to
-become false.
-
-It would be smarter to wait for a completion of that busy period, but
-enic_api_devcmd_proxy_by_index() is called with other spin locks held which
-obviously can't sleep.
-
-Remove the BUG_ON(in_interrupt()) check as well because it's incomplete and
-with proper debugging enabled the problem would have been caught from the
-debug checks in schedule_timeout().
-
-Fixes: 0b038566c0ea ("drivers/net: enic: Add an interface for USNIC to interact with firmware")
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Christian Benvenuti <benve@cisco.com>
-Cc: Govindarajulu Varadarajan <_govind@gmx.com>
-Cc: Dave Miller <davem@davemloft.net>
+Cc: Vishal Kulkarni <vishal@chelsio.com>
+Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
----
- drivers/net/ethernet/cisco/enic/enic.h      |    1 +
- drivers/net/ethernet/cisco/enic/enic_api.c  |    6 ++++++
- drivers/net/ethernet/cisco/enic/enic_main.c |   27 +++++++++++++++++++++------
- 3 files changed, 28 insertions(+), 6 deletions(-)
+Cc: linux-kernel@vger.kernel.org
 
---- a/drivers/net/ethernet/cisco/enic/enic.h
-+++ b/drivers/net/ethernet/cisco/enic/enic.h
-@@ -169,6 +169,7 @@ struct enic {
- 	u16 num_vfs;
- #endif
- 	spinlock_t enic_api_lock;
-+	bool enic_api_busy;
- 	struct enic_port_profile *pp;
+---
+ drivers/net/ethernet/chelsio/cxgb3/adapter.h    |    1 
+ drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c |    2 -
+ drivers/net/ethernet/chelsio/cxgb3/sge.c        |   44 ++++++++++++++----------
+ 3 files changed, 29 insertions(+), 18 deletions(-)
+
+--- a/drivers/net/ethernet/chelsio/cxgb3/adapter.h
++++ b/drivers/net/ethernet/chelsio/cxgb3/adapter.h
+@@ -313,6 +313,7 @@ void t3_os_link_fault(struct adapter *ad
+ void t3_os_link_fault_handler(struct adapter *adapter, int port_id);
  
- 	/* work queue cache line section */
---- a/drivers/net/ethernet/cisco/enic/enic_api.c
-+++ b/drivers/net/ethernet/cisco/enic/enic_api.c
-@@ -34,6 +34,12 @@ int enic_api_devcmd_proxy_by_index(struc
- 	struct vnic_dev *vdev = enic->vdev;
+ void t3_sge_start(struct adapter *adap);
++void t3_sge_stop_dma(struct adapter *adap);
+ void t3_sge_stop(struct adapter *adap);
+ void t3_start_sge_timers(struct adapter *adap);
+ void t3_stop_sge_timers(struct adapter *adap);
+--- a/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c
++++ b/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c
+@@ -2996,7 +2996,7 @@ void t3_fatal_err(struct adapter *adapte
+ 	unsigned int fw_status[4];
  
- 	spin_lock(&enic->enic_api_lock);
-+	while (enic->enic_api_busy) {
-+		spin_unlock(&enic->enic_api_lock);
-+		cpu_relax();
-+		spin_lock(&enic->enic_api_lock);
-+	}
-+
- 	spin_lock_bh(&enic->devcmd_lock);
- 
- 	vnic_dev_cmd_proxy_by_index_start(vdev, vf);
---- a/drivers/net/ethernet/cisco/enic/enic_main.c
-+++ b/drivers/net/ethernet/cisco/enic/enic_main.c
-@@ -2106,8 +2106,6 @@ static int enic_dev_wait(struct vnic_dev
- 	int done;
- 	int err;
- 
--	BUG_ON(in_interrupt());
--
- 	err = start(vdev, arg);
- 	if (err)
- 		return err;
-@@ -2295,6 +2293,13 @@ static int enic_set_rss_nic_cfg(struct e
- 		rss_hash_bits, rss_base_cpu, rss_enable);
+ 	if (adapter->flags & FULL_INIT_DONE) {
+-		t3_sge_stop(adapter);
++		t3_sge_stop_dma(adapter);
+ 		t3_write_reg(adapter, A_XGM_TX_CTRL, 0);
+ 		t3_write_reg(adapter, A_XGM_RX_CTRL, 0);
+ 		t3_write_reg(adapter, XGM_REG(A_XGM_TX_CTRL, 1), 0);
+--- a/drivers/net/ethernet/chelsio/cxgb3/sge.c
++++ b/drivers/net/ethernet/chelsio/cxgb3/sge.c
+@@ -3271,30 +3271,40 @@ void t3_sge_start(struct adapter *adap)
  }
  
-+static void enic_set_api_busy(struct enic *enic, bool busy)
-+{
-+	spin_lock(&enic->enic_api_lock);
-+	enic->enic_api_busy = busy;
-+	spin_unlock(&enic->enic_api_lock);
+ /**
+- *	t3_sge_stop - disable SGE operation
++ *	t3_sge_stop_dma - Disable SGE DMA engine operation
+  *	@adap: the adapter
+  *
+- *	Disables the DMA engine.  This can be called in emeregencies (e.g.,
+- *	from error interrupts) or from normal process context.  In the latter
+- *	case it also disables any pending queue restart tasklets.  Note that
+- *	if it is called in interrupt context it cannot disable the restart
+- *	tasklets as it cannot wait, however the tasklets will have no effect
+- *	since the doorbells are disabled and the driver will call this again
+- *	later from process context, at which time the tasklets will be stopped
+- *	if they are still running.
++ *	Can be invoked from interrupt context e.g.  error handler.
++ *
++ *	Note that this function cannot disable the restart of tasklets as
++ *	it cannot wait if called from interrupt context, however the
++ *	tasklets will have no effect since the doorbells are disabled. The
++ *	driver will call tg3_sge_stop() later from process context, at
++ *	which time the tasklets will be stopped if they are still running.
+  */
+-void t3_sge_stop(struct adapter *adap)
++void t3_sge_stop_dma(struct adapter *adap)
+ {
+ 	t3_set_reg_field(adap, A_SG_CONTROL, F_GLOBALENABLE, 0);
+-	if (!in_interrupt()) {
+-		int i;
 +}
 +
- static void enic_reset(struct work_struct *work)
- {
- 	struct enic *enic = container_of(work, struct enic, reset);
-@@ -2304,7 +2309,9 @@ static void enic_reset(struct work_struc
- 
- 	rtnl_lock();
- 
--	spin_lock(&enic->enic_api_lock);
-+	/* Stop any activity from infiniband */
-+	enic_set_api_state(enic, true);
++/**
++ *	t3_sge_stop - disable SGE operation completly
++ *	@adap: the adapter
++ *
++ *	Called from process context. Disables the DMA engine and any
++ *	pending queue restart tasklets.
++ */
++void t3_sge_stop(struct adapter *adap)
++{
++	int i;
 +
- 	enic_stop(enic->netdev);
- 	enic_dev_soft_reset(enic);
- 	enic_reset_addr_lists(enic);
-@@ -2312,7 +2319,10 @@ static void enic_reset(struct work_struc
- 	enic_set_rss_nic_cfg(enic);
- 	enic_dev_set_ig_vlan_rewrite_mode(enic);
- 	enic_open(enic->netdev);
--	spin_unlock(&enic->enic_api_lock);
-+
-+	/* Allow infiniband to fiddle with the device again */
-+	enic_set_api_state(enic, false);
-+
- 	call_netdevice_notifiers(NETDEV_REBOOT, enic->netdev);
++	t3_sge_stop_dma(adap);
  
- 	rtnl_unlock();
-@@ -2324,7 +2334,9 @@ static void enic_tx_hang_reset(struct wo
+-		for (i = 0; i < SGE_QSETS; ++i) {
+-			struct sge_qset *qs = &adap->sge.qs[i];
++	for (i = 0; i < SGE_QSETS; ++i) {
++		struct sge_qset *qs = &adap->sge.qs[i];
  
- 	rtnl_lock();
+-			tasklet_kill(&qs->txq[TXQ_OFLD].qresume_tsk);
+-			tasklet_kill(&qs->txq[TXQ_CTRL].qresume_tsk);
+-		}
++		tasklet_kill(&qs->txq[TXQ_OFLD].qresume_tsk);
++		tasklet_kill(&qs->txq[TXQ_CTRL].qresume_tsk);
+ 	}
+ }
  
--	spin_lock(&enic->enic_api_lock);
-+	/* Stop any activity from infiniband */
-+	enic_set_api_state(enic, true);
-+
- 	enic_dev_hang_notify(enic);
- 	enic_stop(enic->netdev);
- 	enic_dev_hang_reset(enic);
-@@ -2333,7 +2345,10 @@ static void enic_tx_hang_reset(struct wo
- 	enic_set_rss_nic_cfg(enic);
- 	enic_dev_set_ig_vlan_rewrite_mode(enic);
- 	enic_open(enic->netdev);
--	spin_unlock(&enic->enic_api_lock);
-+
-+	/* Allow infiniband to fiddle with the device again */
-+	enic_set_api_state(enic, false);
-+
- 	call_netdevice_notifiers(NETDEV_REBOOT, enic->netdev);
- 
- 	rtnl_unlock();
 
