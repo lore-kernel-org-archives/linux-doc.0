@@ -2,145 +2,107 @@ Return-Path: <SRS0=NuvG=DE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EDC3C2D0A8
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 01:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E205C2D0A8
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 02:14:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 113D0221E5
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 01:53:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nf+wkl5y"
+	by mail.kernel.org (Postfix) with ESMTP id C93E921D95
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Sep 2020 02:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728417AbgI0Bxr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Sep 2020 21:53:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726478AbgI0Bxr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 21:53:47 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE87EC0613CE;
-        Sat, 26 Sep 2020 18:53:46 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id d13so5399421pgl.6;
-        Sat, 26 Sep 2020 18:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=63gTB/opngvWQpxsqyyVmbz485xcMBG552lLah4TntY=;
-        b=nf+wkl5yx8wpRiM7+3p7Kvxjbp54f85aDPU7nfrglXIbeitshFVNeHQn4xeNO1LMOI
-         Xh19u6fShKUbL+djFQzBpBoNfjpOVtX0DuufNvHnvpgFJzGWR9Wle+bp1V78e6gJeEWT
-         iHfXHXbL2UyVFNe+RnFxvt16HL76igfk+2LJdJ1OcYMcUsotWc3bXGOSd+Qy78lmegaK
-         y7MXNWdQRGf5lPeANQ70zqcaECDpdZhf5C08GZsiMC5Be+WlwTIX1daRFLAMplUiNYJ2
-         4qPmw+Una7M6l+rVovJW6eLWnr5Gi33N17okqMFHVMGBtdy2dlPvRWxJdPZePcPlLb/z
-         xsDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=63gTB/opngvWQpxsqyyVmbz485xcMBG552lLah4TntY=;
-        b=JzNE7T7Rl5U3YfXHyy2Dzrg8uHe3Pt4I7Pj35uxoszjY6JET/ESdyXNHlyNyUzpNXL
-         DwdRHOzxcELZmb2pmmTYQzfVj8R5x23AMcl0gwn4rr6HMcr73g7tqf2aHZvrk7g8wdud
-         7wD+8mNDSirPSULvFgIR7QX1veHgu6+D2PBwlEwK3ZsaW6yLltZFsh7S0Hd8Hg6I/za2
-         Zu7FFMWOrY16KjrNBGKuMHhec07Jq8B7EReADHA+QwUXhamsmZIXrJFQsHLyPZNEnGE6
-         U88PqJgkenM6z3xFq2XWbes357EFwL2ig4RFSco80Xyomfkv5753gYxbRikSJkbfHLX1
-         H5rw==
-X-Gm-Message-State: AOAM533yQi5e0AJlXaGWAropgVGqZvqNCnoX/Rx4swW4TE9cu1H4DOgD
-        hbqCeBuICagbDqFcN2suQfg=
-X-Google-Smtp-Source: ABdhPJzeGzXSb8Xqr+qYPObX4r2M6kOGPtBlgo4hIZrbnCIeD1OGQBR8N9BX/MTdkDzxguPs2FfNGg==
-X-Received: by 2002:aa7:9850:0:b029:142:2501:34f0 with SMTP id n16-20020aa798500000b0290142250134f0mr5425247pfq.73.1601171626422;
-        Sat, 26 Sep 2020 18:53:46 -0700 (PDT)
-Received: from dhcp-12-153.nay.redhat.com ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id b11sm6609285pfo.15.2020.09.26.18.53.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2020 18:53:45 -0700 (PDT)
-Date:   Sun, 27 Sep 2020 09:53:34 +0800
-From:   Hangbin Liu <liuhangbin@gmail.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Shuah Khan <shuah@kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        linux-doc@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>, Tim.Bird@sony.com,
-        lkft-triage@lists.linaro.org,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Justin Cook <justin.cook@linaro.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [PATCHv5 kselftest next] selftests/run_kselftest.sh: make each
- test individually selectable
-Message-ID: <20200927015334.GC2531@dhcp-12-153.nay.redhat.com>
-References: <20200914021758.420874-1-liuhangbin@gmail.com/>
- <20200914022227.437143-1-liuhangbin@gmail.com>
- <CA+G9fYvT6Mw2BamoiVyw=wLUqD-3LB2oaDqcuabOyWfFxEN1qg@mail.gmail.com>
- <202009251414.15274C0@keescook>
+        id S1726478AbgI0COp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Sep 2020 22:14:45 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:44668 "EHLO
+        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726382AbgI0COp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Sep 2020 22:14:45 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R951e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0UAAO-Kc_1601172880;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UAAO-Kc_1601172880)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sun, 27 Sep 2020 10:14:40 +0800
+Subject: Re: [PATCH] Documentation: Chinese translation of
+ Documentation/arm64/perf.rst
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Bailu Lin <bailu.lin@vivo.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Harry Wei <harryxiyou@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@vivo.com,
+        Wang Qing <wangqing@vivo.com>
+References: <20200926102242.3652-1-bailu.lin@vivo.com>
+ <747aff97-8b24-5ac2-e46a-fe34b398deb6@linux.alibaba.com>
+ <20200926141547.0ef26bdb@lwn.net>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <8d7eec7d-5a62-9cc6-75de-10490b999e7a@linux.alibaba.com>
+Date:   Sun, 27 Sep 2020 10:12:17 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202009251414.15274C0@keescook>
+In-Reply-To: <20200926141547.0ef26bdb@lwn.net>
+Content-Type: text/plain; charset=gbk
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 02:16:14PM -0700, Kees Cook wrote:
-> On Fri, Sep 25, 2020 at 01:51:53PM +0530, Naresh Kamboju wrote:
-> > On Mon, 14 Sep 2020 at 07:53, Hangbin Liu <liuhangbin@gmail.com> wrote:
-> > >
-> > > Currently, after generating run_kselftest.sh, there is no way to choose
-> > > which test we could run. All the tests are listed together and we have
-> > > to run all every time. This patch enhanced the run_kselftest.sh to make
-> > > the tests individually selectable. e.g.
-> > >
-> > >   $ ./run_kselftest.sh -t "bpf size timers"
-> > 
-> > My test run break on linux next
-> > 
-> > ./run_kselftest.sh: line 1331: syntax error near unexpected token `)'
-> > ./run_kselftest.sh: line 1331: `-e -s | --summary )
-> > logfile=$BASE_DIR/output.log; cat /dev/null > $logfile; shift ;;'
-> 
-> Yes, please revert this patch. The resulting script is completely
-> trashed:
-> 
-> BASE_DIR=$(realpath $(dirname $0))
-> . ./kselftest/runner.sh
-> TESTS="seccomp"
-> 
-> run_seccomp()
-> {
-> -e      [ -w /dev/kmsg ] && echo "kselftest: Running tests in seccomp" >> /dev/kmsg
-> -e      cd seccomp
-> -en     run_many
->         \
-> -ne             "seccomp_bpf"
->         \
-> -ne             "seccomp_benchmark"
-> 
-> -e      cd $ROOT
-> }
+		
 
-I'm really sorry to make this trouble. And I'm OK to revert the patch.
-I just a little wondering how do you generate this script.
-I tested with 'make -C tools/testing/selftests gen_tar FORMAT=.xz' before
-post the patch and all looks good to me.
+ÔÚ 2020/9/27 ÉÏÎç4:15, Jonathan Corbet Ð´µÀ:
+> On Sat, 26 Sep 2020 22:35:51 +0800
+> Alex Shi <alex.shi@linux.alibaba.com> wrote:
+> 
+>> Why your patch repeatly has encoding issue which fails on 'git am'
+>> Could you like to check the problem before send out?
+>> Could you please fix your editor issue by Documentation/process/email-clients.rst
+>> or send patch by git send-email.
+>>
+>> And please don't waste other time on meaningless issue again!
+> 
+> The way to be sure you have solved this kind of problem is to first email
+> the patch to you, then be sure that what you receive can be applied.
+> Please get to the point where that works, then I'll be glad to apply your
+> translations.
+> 
 
-```
+CC Qing,
 
-run_seccomp()
-{
-        [ -w /dev/kmsg ] && echo "kselftest: Running tests in seccomp" >> /dev/kmsg
-        cd seccomp
-        run_many        \
-                "seccomp_bpf"   \
-                "seccomp_benchmark"
-        cd $ROOT
-}
+There are few documents of how to join the community development
+  https://www.kernel.org/doc/html/latest/translations/zh_CN/index.html
+Shortly, sth could be summaried as following in pariticular documents.
 
-```
+1, setup well your email client, to be sure all your patch from your email system
+could be applied by 'git am'. Current email client often cover the endcoding issue
+but git will failed on that.
+
+2, 'make help' show couple of doc related options:
+  htmldocs        - HTML
+  latexdocs       - LaTeX
+  pdfdocs         - PDF
+  epubdocs        - EPUB
+  xmldocs         - XML
+  linkcheckdocs   - check for broken external links
+                    (will connect to external hosts)
+  refcheckdocs    - check for references to non-existing files under
+                    Documentation
+  cleandocs       - clean all generated files
+
+Do 'make linkcheckdocs/refcheckdocs/htmldocs', and check if the result works as
+expected, of course it would be better if you can make/check all type docs, but
+at least finish above 3 kinds of checks.
+
+3, As to related docs, sending them as a couple series could help people retrieve
+easy.
+
+looking forward for your new translation docs.
 
 Thanks
-Hangbin
+Alex
+
+> Thanks,
+> 
+> jon
+> 
