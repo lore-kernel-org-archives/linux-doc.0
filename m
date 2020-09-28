@@ -2,214 +2,152 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE3FC2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 13:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97993C2D0A8
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 13:02:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10A1920738
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 13:02:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50E4C20738
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 13:02:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="GskZscDe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726460AbgI1NCT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 09:02:19 -0400
-Received: from mga05.intel.com ([192.55.52.43]:47478 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725290AbgI1NCT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Sep 2020 09:02:19 -0400
-IronPort-SDR: QShKUJRrYzSbRtoQEooO6I/KJ/VQ1tL27Mv1jnuONYwNCu8h+OJI0f/u5gL2LcgMsKtPqHjm1M
- TQUmhLei2gGg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9757"; a="246728898"
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
-   d="scan'208";a="246728898"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 06:01:49 -0700
-IronPort-SDR: zDeHxpc53tVzmjlt8pB3g+nWBQHagM2/zOsbPoOViv1T2QWj/v/OVeclZwqQeZGuS8bx+NaUwb
- His/+7TmLY3g==
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
-   d="scan'208";a="307328259"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 06:01:46 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kMsmi-002Z7q-6n; Mon, 28 Sep 2020 16:01:40 +0300
-Date:   Mon, 28 Sep 2020 16:01:40 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        id S1726636AbgI1NCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 09:02:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726442AbgI1NCr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 09:02:47 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02C52C0613CE
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 06:02:47 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id d1so616939qtr.6
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 06:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=0vw0hzc9LBmLPORF1IWKKNtSKYXmHXVZRRprHQAaYXo=;
+        b=GskZscDezG2KqdkACqV8aTol4TYVU67vtXhjpLjLmCHlsc8eztYkj/KyG0nACG75+R
+         rNXcSTO6VBIBqXAyqHCAAJSdD5fzv77e73XzOz1w28Mmdl/OIxqRk7eyhlZrjHnSem/a
+         UknUSWtU4yOGXyh1VjK3hZXYJstYNsRdBhJEgOic5any935sWaTBJDMjURDxaX7yzafb
+         Q6x9bblYnRjtCuKvu5dxw+A+srcuScuD9W/eelwqZphZeKEtrk9k4W8FEY0IUZH/1AKu
+         yVv+ZuBDofv3kNcMtRhxiCa6c985NzKdNUOYA6A2qDno6+R3gm3meQARiy+gYA3PbBZq
+         AogA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=0vw0hzc9LBmLPORF1IWKKNtSKYXmHXVZRRprHQAaYXo=;
+        b=Qr+e+2hBUyjkViUSL1A8Q1Wcpvpe7HIbiSeTYaBOpeMew0Imly5RiZwBSHsQ7O4p+O
+         el8EYoSMcCFOFnEnMICqU+Rx5bjfLqE4hUo6j2E+4JY5DQWDgSUQSw42pCtbg5bvY/1Y
+         8qKDmTxcPfT/GKeHerZxn7vStpLY2FS5ymChlw1qe3dp1jwl8/CCercpVKRim7c0+bwx
+         0vB/2c2BikOcljYK3Hg35zBvowogj8zZRf+wURuIVxxOBQqtOMBwPF0q+r02DTHy+BPk
+         s3i63zaKg8VXFeNHBAez6jFSzIw4EdSem6y+wB6SjdVNJxCAJp24KVkuODAAdgYtnpvl
+         k4WQ==
+X-Gm-Message-State: AOAM532u42k59sREUvJuagBYfMiVMzYdZbW0CNHz6/Ao4oYR1BaMj6UE
+        7F5SEWAAJuzWA42nxQnb3HCT4g==
+X-Google-Smtp-Source: ABdhPJxNelY8OktJZyftNDCq39TaQIPExwt+riZUsci5Sw5qww94PXK5KPyw8lwkqStl+sFd9YRKLA==
+X-Received: by 2002:ac8:7b3d:: with SMTP id l29mr1463274qtu.366.1601298166224;
+        Mon, 28 Sep 2020 06:02:46 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id 76sm876952qkl.127.2020.09.28.06.02.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 06:02:45 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kMsnl-001us3-0v; Mon, 28 Sep 2020 10:02:45 -0300
+Date:   Mon, 28 Sep 2020 10:02:45 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 8/9] gpio: mockup: use the generic 'gpio-line-names'
- property
-Message-ID: <20200928130140.GK3956970@smile.fi.intel.com>
-References: <20200928104155.7385-1-brgl@bgdev.pl>
- <20200928104155.7385-9-brgl@bgdev.pl>
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Shuah Khan <shuah@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: Re: [PATCH 8/8] selftests/vm: hmm-tests: remove the libhugetlbfs
+ dependency
+Message-ID: <20200928130245.GQ9916@ziepe.ca>
+References: <20200928062159.923212-1-jhubbard@nvidia.com>
+ <20200928062159.923212-9-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200928104155.7385-9-brgl@bgdev.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200928062159.923212-9-jhubbard@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 12:41:54PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> GPIO line names are currently created by the driver from the chip label.
-> We'll want to support custom formats for line names (for instance: to
-> name all lines the same) for user-space tests so create them in the
-> module init function and pass them to the driver using the standard
-> 'gpio-line-names' property.
+On Sun, Sep 27, 2020 at 11:21:59PM -0700, John Hubbard wrote:
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> @@ -76,8 +79,6 @@ TEST_FILES := test_vmalloc.sh
+>  KSFT_KHDR_INSTALL := 1
+>  include ../lib.mk
+>  
+> -$(OUTPUT)/hmm-tests: LDLIBS += -lhugetlbfs
+> -
+>  ifeq ($(ARCH),x86_64)
+>  BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
+>  BINARIES_64 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_64))
+> @@ -130,3 +131,22 @@ endif
+>  $(OUTPUT)/mlock-random-test: LDLIBS += -lcap
+>  
+>  $(OUTPUT)/gup_test: ../../../../mm/gup_test.h
+> +
+> +$(OUTPUT)/hmm-tests: local_config.h
+> +
+> +# HMM_EXTRA_LIBS may get set in local_config.mk, or it may be left empty.
+> +$(OUTPUT)/hmm-tests: LDLIBS += $(HMM_EXTRA_LIBS)
+> +
+> +local_config.mk local_config.h: check_config.sh
+> +	./check_config.sh
+> +
+> +EXTRA_CLEAN += local_config.mk local_config.h
+> +
+> +ifeq ($(HMM_EXTRA_LIBS),)
+> +all: warn_missing_hugelibs
+> +
+> +warn_missing_hugelibs:
+> +	@echo ; \
+> +	echo "Warning: missing libhugetlbfs support. Some HMM tests will be skipped." ; \
+> +	echo
+> +endif
+> diff --git a/tools/testing/selftests/vm/check_config.sh b/tools/testing/selftests/vm/check_config.sh
+> new file mode 100755
+> index 000000000000..651a4b192479
+> +++ b/tools/testing/selftests/vm/check_config.sh
+> @@ -0,0 +1,30 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Probe for libraries and create header files to record the results. Both C
+> +# header files and Makefile include fragments are created.
+> +
+> +OUTPUT_H_FILE=local_config.h
+> +OUTPUT_MKFILE=local_config.mk
+> +
+> +# libhugetlbfs
+> +tmpname=$(mktemp)
+> +tmpfile_c=${tmpname}.c
+> +tmpfile_o=${tmpname}.o
+> +
+> +echo "#include <sys/types.h>"        > $tmpfile_c
+> +echo "#include <hugetlbfs.h>"       >> $tmpfile_c
+> +echo "int func(void) { return 0; }" >> $tmpfile_c
+> +
+> +gcc -c $tmpfile_c -o $tmpfile_o >/dev/null 2>&1
 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  drivers/gpio/gpio-mockup.c | 70 +++++++++++++++++++++-----------------
->  1 file changed, 38 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/gpio/gpio-mockup.c b/drivers/gpio/gpio-mockup.c
-> index 5b2686f9e07d..47b7de6d5ab1 100644
-> --- a/drivers/gpio/gpio-mockup.c
-> +++ b/drivers/gpio/gpio-mockup.c
-> @@ -19,6 +19,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/property.h>
->  #include <linux/slab.h>
-> +#include <linux/string_helpers.h>
->  #include <linux/uaccess.h>
->  
->  #include "gpiolib.h"
-> @@ -374,29 +375,6 @@ static void gpio_mockup_debugfs_setup(struct device *dev,
->  	}
->  }
->  
-> -static int gpio_mockup_name_lines(struct device *dev,
-> -				  struct gpio_mockup_chip *chip)
-> -{
-> -	struct gpio_chip *gc = &chip->gc;
-> -	char **names;
-> -	int i;
-> -
-> -	names = devm_kcalloc(dev, gc->ngpio, sizeof(char *), GFP_KERNEL);
-> -	if (!names)
-> -		return -ENOMEM;
-> -
-> -	for (i = 0; i < gc->ngpio; i++) {
-> -		names[i] = devm_kasprintf(dev, GFP_KERNEL,
-> -					  "%s-%d", gc->label, i);
-> -		if (!names[i])
-> -			return -ENOMEM;
-> -	}
-> -
-> -	gc->names = (const char *const *)names;
-> -
-> -	return 0;
-> -}
-> -
->  static void gpio_mockup_dispose_mappings(void *data)
->  {
->  	struct gpio_mockup_chip *chip = data;
-> @@ -464,12 +442,6 @@ static int gpio_mockup_probe(struct platform_device *pdev)
->  	for (i = 0; i < gc->ngpio; i++)
->  		chip->lines[i].dir = GPIO_LINE_DIRECTION_IN;
->  
-> -	if (device_property_read_bool(dev, "named-gpio-lines")) {
-> -		rv = gpio_mockup_name_lines(dev, chip);
-> -		if (rv)
-> -			return rv;
-> -	}
-> -
->  	chip->irq_sim_domain = devm_irq_domain_create_sim(dev, NULL,
->  							  gc->ngpio);
->  	if (IS_ERR(chip->irq_sim_domain))
-> @@ -510,6 +482,27 @@ static void gpio_mockup_unregister_pdevs(void)
->  	}
->  }
->  
-> +static __init char **gpio_mockup_make_line_names(const char *label,
-> +						 unsigned int num_lines)
-> +{
-> +	unsigned int i;
-> +	char **names;
-> +
-> +	names = kcalloc(num_lines + 1, sizeof(char *), GFP_KERNEL);
-> +	if (!names)
-> +		return NULL;
-> +
-> +	for (i = 0; i < num_lines; i++) {
-> +		names[i] = kasprintf(GFP_KERNEL, "%s-%u", label, i);
-> +		if (!names[i]) {
-> +			kfree_strarray(names, i);
-> +			return NULL;
-> +		}
-> +	}
-> +
-> +	return names;
-> +}
-> +
->  static int __init gpio_mockup_init(void)
->  {
->  	struct property_entry properties[GPIO_MOCKUP_MAX_PROP];
-> @@ -517,6 +510,7 @@ static int __init gpio_mockup_init(void)
->  	struct platform_device_info pdevinfo;
->  	struct platform_device *pdev;
->  	char chip_label[32];
-> +	char **line_names;
->  	u16 ngpio;
->  
->  	if ((gpio_mockup_num_ranges < 2) ||
-> @@ -549,6 +543,7 @@ static int __init gpio_mockup_init(void)
->  		memset(properties, 0, sizeof(properties));
->  		memset(&pdevinfo, 0, sizeof(pdevinfo));
->  		prop = 0;
-> +		line_names = NULL;
->  
->  		snprintf(chip_label, sizeof(chip_label),
->  			 "gpio-mockup-%c", i + 'A');
-> @@ -564,15 +559,26 @@ static int __init gpio_mockup_init(void)
->  				 : gpio_mockup_range_ngpio(i) - base;
->  		properties[prop++] = PROPERTY_ENTRY_U16("nr-gpios", ngpio);
->  
-> -		if (gpio_mockup_named_lines)
-> -			properties[prop++] = PROPERTY_ENTRY_BOOL(
-> -						"named-gpio-lines");
-> +		if (gpio_mockup_named_lines) {
-> +			line_names = gpio_mockup_make_line_names(chip_label,
-> +								 ngpio);
-> +			if (!line_names) {
-> +				platform_driver_unregister(&gpio_mockup_driver);
-> +				gpio_mockup_unregister_pdevs();
-> +				return -ENOMEM;
-> +			}
-> +
-> +			properties[prop++] = PROPERTY_ENTRY_STRING_ARRAY_LEN(
-> +						"gpio-line-names",
-> +						line_names, ngpio);
-> +		}
->  
->  		pdevinfo.name = "gpio-mockup";
->  		pdevinfo.id = i;
->  		pdevinfo.properties = properties;
->  
->  		pdev = platform_device_register_full(&pdevinfo);
-> +		kfree_strarray(line_names, ngpio);
->  		if (IS_ERR(pdev)) {
->  			pr_err("error registering device");
->  			platform_driver_unregister(&gpio_mockup_driver);
-> -- 
-> 2.26.1
-> 
+This gcc has to come from some makefile variable
 
--- 
-With Best Regards,
-Andy Shevchenko
+This is kind of janky :\
 
+Could we just not use libhugetlbfs? Doesn't it all just boil down to
+creating a file in /dev/huge? Eg look at tools/testing/selftests/vm/hugepage-mmap.c
 
+Jason
