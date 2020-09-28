@@ -2,287 +2,111 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE62C2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:38:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1731AC4741F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:42:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4E64206F7
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:38:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA47C21548
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:42:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="DV6kV1Zs"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="Q71rF1t2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726686AbgI1KiM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 06:38:12 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:20212 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726668AbgI1KiL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 06:38:11 -0400
+        id S1726420AbgI1KmB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 06:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33050 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726461AbgI1KmB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 06:42:01 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACAC0C0613CE
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 03:42:00 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id v12so634435wmh.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 03:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1601289491; x=1632825491;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=6GREaQYLw0Ho63BrhBcruGzxG22Apn0xI0E3Xv5Cu8Q=;
-  b=DV6kV1ZsCtU0XeSG+du53H6tso3KaM6trzvS1zHSWPLWhLoZ/1bwb5g0
-   5+DmT49KKAF1J21CbdJyRiEH7VWSJdaeCE7cHxfIiUaaqJKtqO3wExp1Y
-   LL/gRjAKo7E4QRwhwN1qW4kh9jv87fnjz06iJyavS8NrtlXLl+JatGfI4
-   A=;
-X-IronPort-AV: E=Sophos;i="5.77,313,1596499200"; 
-   d="scan'208";a="79768829"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 28 Sep 2020 10:38:07 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com (Postfix) with ESMTPS id B18CAA1EDC;
-        Mon, 28 Sep 2020 10:37:54 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 28 Sep 2020 10:37:28 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH 5/5] mm/damon/primitives: Make coexistable with Idle Page Tracking
-Date:   Mon, 28 Sep 2020 12:35:28 +0200
-Message-ID: <20200928103528.4256-6-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200928103528.4256-1-sjpark@amazon.com>
-References: <20200928103528.4256-1-sjpark@amazon.com>
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TQMvlLYzShRCjCuL+yV81657EukM33lCWc0jTd+wtqA=;
+        b=Q71rF1t2bmcMfRwytJBuynwNN15/ByLljGm4hKcReMfRR3aUAyDnZfL46xPJrM5reY
+         261DLQFLCHGTe6lH7wxM4tXKkkSWtiPukBCugp85jIdF2XZwCTk0ebKmQ0EGgUhV7NIX
+         NZcl1Yp9qKCFM+lQ1uoHwG4JXjNGpK47v7SmFKWlcGTAHOgnCdm5khI9IsIRygT8PWeM
+         Ihqw7dQhY6PnKnxRUuVowQRqopazgpt+QVAqTI7EiCdXPngzR3EaFUfl6IaHlugtQluw
+         SewPjypPYg/hpYLabx0j+uyAm1+cmc+8RNc20hkwql5hnN3TLagYaeZBnCPGPi3RI9EI
+         XLCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TQMvlLYzShRCjCuL+yV81657EukM33lCWc0jTd+wtqA=;
+        b=qjRA+Jahp3cSYjEUvOkwuO1JpnvD3uso6KaNcW05GkyBuJMV7tMuAIXT+FXBVnDAbA
+         Jorscnle/mVBp/4uFiZgLe7bUT79J+gwAuYQUeIEW2z/OlmVZklHE/9oeq9rRqfeZkIP
+         +N2tJ7tFdpzQx1k2l+JHEaa5by5j8Z1yFXmcRSpF6qizlOhXa8hcrSIY4AJD2CFGZYjo
+         +gKTA/DA3gD861vxcbwSyXNAUBiIOgUbBo0vcSMUTE2fjRtq2CO32ffqpVygTs9oarIz
+         4v4zGcENO+mG4yk1qhb9XzIg2Y/gPnU+P8f4O0yxfWHmX97L5b/Sa5F0cgucuwGy7Nuj
+         gocQ==
+X-Gm-Message-State: AOAM5319I6znHpdyFYz6C7R1ycuGg/lvrE39pStLQSCUfLUhR48HrmiG
+        K8B8YXihJs2tVV6T+xCnLU4Y1g==
+X-Google-Smtp-Source: ABdhPJwPGd//WWr9Jhlhc+3bFfRSgHhG5wSnpNrwbziZfU4fkhd4NnKXwaZD+EP8L+s2F9KTS1JYgQ==
+X-Received: by 2002:a05:600c:230c:: with SMTP id 12mr933441wmo.23.1601289719294;
+        Mon, 28 Sep 2020 03:41:59 -0700 (PDT)
+Received: from debian-brgl.home (lfbn-nic-1-68-20.w2-15.abo.wanadoo.fr. [2.15.159.20])
+        by smtp.gmail.com with ESMTPSA id f14sm939258wrt.53.2020.09.28.03.41.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 03:41:58 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kent Gibson <warthog618@gmail.com>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v2 0/9] gpio: mockup: refactoring + documentation
+Date:   Mon, 28 Sep 2020 12:41:46 +0200
+Message-Id: <20200928104155.7385-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.237]
-X-ClientProxiedBy: EX13D10UWA003.ant.amazon.com (10.43.160.248) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-DAMON's reference 'primitives' internally use 'PG_Idle' flag.  Because
-the flag is also used by Idle Page Tracking but there was no way to
-synchronize with it, the 'primitives' were configured to be exclusive
-with Idle Page Tracking before.  However, as we can now synchronize with
-Idle Page Tracking using 'idle_page_lock', this commit makes the
-primitives to do the synchronization and coexistable with Idle Page
-Tracking.
+These patches were part of the bigger overhaul of gpio-mockup but since
+the initial idea was dropped in favor of using configfs + sysfs in the
+future I thought I'd resent just the refactoring of the existing code
++ documentation patches. I think it's good to apply them since we don't
+really know when the new interface will be ready (configfs needs a new
+functionality - commitable items - to support mockup chip instantiation).
 
-In more detail, the 'primitives' only require the users to do the
-synchronization by themselves.  Real synchronization is done by the
-DAMON debugfs interface, who is the only one user of the 'primitives' as
-of now.
+v1 -> v2:
+- check for NULL pointer in kfree_strarray() to avoid having to always pass
+  a zeroed string count when the array pointer is NULL
+- collect review tags from Andy
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- include/linux/damon.h     |  1 +
- include/linux/page_idle.h |  2 ++
- mm/damon/Kconfig          |  2 +-
- mm/damon/dbgfs.c          | 32 +++++++++++++++++++++++++++++++-
- mm/damon/primitives.c     | 16 +++++++++++++++-
- mm/page_idle.c            |  2 +-
- 6 files changed, 51 insertions(+), 4 deletions(-)
+Bartosz Golaszewski (9):
+  lib: string_helpers: provide kfree_strarray()
+  Documentation: gpio: add documentation for gpio-mockup
+  gpio: mockup: drop unneeded includes
+  gpio: mockup: use KBUILD_MODNAME
+  gpio: mockup: use pr_fmt()
+  gpio: mockup: remove unneeded return statement
+  gpio: mockup: pass the chip label as device property
+  gpio: mockup: use the generic 'gpio-line-names' property
+  gpio: mockup: refactor the module init function
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 606e59f785a2..12200a1171a8 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -312,6 +312,7 @@ void kdamond_init_phys_regions(struct damon_ctx *ctx);
- void kdamond_update_phys_regions(struct damon_ctx *ctx);
- void kdamond_prepare_phys_access_checks(struct damon_ctx *ctx);
- unsigned int kdamond_check_phys_accesses(struct damon_ctx *ctx);
-+bool kdamond_phys_target_valid(struct damon_target *t);
- void damon_set_paddr_primitives(struct damon_ctx *ctx);
- 
- #endif	/* CONFIG_DAMON_PRIMITIVES */
-diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
-index d8a6aecf99cb..bcbb965b566c 100644
---- a/include/linux/page_idle.h
-+++ b/include/linux/page_idle.h
-@@ -8,6 +8,8 @@
- 
- #ifdef CONFIG_PAGE_IDLE_FLAG
- 
-+extern struct mutex page_idle_lock;
-+
- #ifdef CONFIG_64BIT
- static inline bool page_is_young(struct page *page)
- {
-diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-index 8b3f3dd3bd32..64d69a239408 100644
---- a/mm/damon/Kconfig
-+++ b/mm/damon/Kconfig
-@@ -26,7 +26,7 @@ config DAMON_KUNIT_TEST
- 
- config DAMON_PRIMITIVES
- 	bool "DAMON primitives for virtual/physical address spaces monitoring"
--	depends on DAMON && MMU && !IDLE_PAGE_TRACKING
-+	depends on DAMON && MMU
- 	select PAGE_EXTENSION if !64BIT
- 	select PAGE_IDLE_FLAG
- 	help
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index 7a6c279690f8..ce12e92e1667 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -12,6 +12,7 @@
- #include <linux/file.h>
- #include <linux/mm.h>
- #include <linux/module.h>
-+#include <linux/page_idle.h>
- #include <linux/slab.h>
- 
- #define MIN_RECORD_BUFFER_LEN	1024
-@@ -28,6 +29,7 @@ struct debugfs_recorder {
- /* Monitoring contexts for debugfs interface users. */
- static struct damon_ctx **debugfs_ctxs;
- static int debugfs_nr_ctxs = 1;
-+static int debugfs_nr_terminated_ctxs;
- 
- static DEFINE_MUTEX(damon_dbgfs_lock);
- 
-@@ -106,9 +108,20 @@ static void debugfs_init_vm_regions(struct damon_ctx *ctx)
- 	kdamond_init_vm_regions(ctx);
- }
- 
-+static void debugfs_unlock_page_idle_lock(void)
-+{
-+	mutex_lock(&damon_dbgfs_lock);
-+	if (++debugfs_nr_terminated_ctxs == debugfs_nr_ctxs) {
-+		debugfs_nr_terminated_ctxs = 0;
-+		mutex_unlock(&page_idle_lock);
-+	}
-+	mutex_unlock(&damon_dbgfs_lock);
-+}
-+
- static void debugfs_vm_cleanup(struct damon_ctx *ctx)
- {
- 	debugfs_flush_rbuffer(ctx->private);
-+	debugfs_unlock_page_idle_lock();
- 	kdamond_vm_cleanup(ctx);
- }
- 
-@@ -120,6 +133,8 @@ static void debugfs_init_phys_regions(struct damon_ctx *ctx)
- static void debugfs_phys_cleanup(struct damon_ctx *ctx)
- {
- 	debugfs_flush_rbuffer(ctx->private);
-+	debugfs_unlock_page_idle_lock();
-+
- }
- 
- /*
-@@ -197,6 +212,21 @@ static char *user_input_str(const char __user *buf, size_t count, loff_t *ppos)
- 	return kbuf;
- }
- 
-+static int debugfs_start_ctx_ptrs(struct damon_ctx **ctxs, int nr_ctxs)
-+{
-+	int rc;
-+
-+	if (!mutex_trylock(&page_idle_lock))
-+		return -EBUSY;
-+
-+	rc = damon_start_ctx_ptrs(ctxs, nr_ctxs);
-+	if (rc)
-+		mutex_unlock(&page_idle_lock);
-+
-+	return rc;
-+}
-+
-+
- static ssize_t debugfs_monitor_on_write(struct file *file,
- 		const char __user *buf, size_t count, loff_t *ppos)
- {
-@@ -212,7 +242,7 @@ static ssize_t debugfs_monitor_on_write(struct file *file,
- 	if (sscanf(kbuf, "%s", kbuf) != 1)
- 		return -EINVAL;
- 	if (!strncmp(kbuf, "on", count))
--		err = damon_start_ctx_ptrs(debugfs_ctxs, debugfs_nr_ctxs);
-+		err = debugfs_start_ctx_ptrs(debugfs_ctxs, debugfs_nr_ctxs);
- 	else if (!strncmp(kbuf, "off", count))
- 		err = damon_stop_ctx_ptrs(debugfs_ctxs, debugfs_nr_ctxs);
- 	else
-diff --git a/mm/damon/primitives.c b/mm/damon/primitives.c
-index e762dc8a5f2e..442b41b79b82 100644
---- a/mm/damon/primitives.c
-+++ b/mm/damon/primitives.c
-@@ -30,6 +30,10 @@
- 
- #include "damon.h"
- 
-+#ifndef CONFIG_IDLE_PAGE_TRACKING
-+DEFINE_MUTEX(page_idle_lock);
-+#endif
-+
- /* Minimal region size.  Every damon_region is aligned by this. */
- #ifndef CONFIG_DAMON_KUNIT_TEST
- #define MIN_REGION PAGE_SIZE
-@@ -776,6 +780,9 @@ bool kdamond_vm_target_valid(struct damon_target *t)
- {
- 	struct task_struct *task;
- 
-+	if (!mutex_is_locked(&page_idle_lock))
-+		return false;
-+
- 	task = damon_get_task_struct(t);
- 	if (task) {
- 		put_task_struct(task);
-@@ -795,6 +802,13 @@ void kdamond_vm_cleanup(struct damon_ctx *ctx)
- 	}
- }
- 
-+bool kdamond_phys_target_valid(struct damon_target *t)
-+{
-+	if (!mutex_is_locked(&page_idle_lock))
-+		return false;
-+	return true;
-+}
-+
- #ifndef CONFIG_ADVISE_SYSCALLS
- static int damos_madvise(struct damon_target *target, struct damon_region *r,
- 			int behavior)
-@@ -874,7 +888,7 @@ void damon_set_paddr_primitives(struct damon_ctx *ctx)
- 	ctx->update_target_regions = kdamond_update_phys_regions;
- 	ctx->prepare_access_checks = kdamond_prepare_phys_access_checks;
- 	ctx->check_accesses = kdamond_check_phys_accesses;
--	ctx->target_valid = NULL;
-+	ctx->target_valid = kdamond_phys_target_valid;
- 	ctx->cleanup = NULL;
- 	ctx->apply_scheme = NULL;
- }
-diff --git a/mm/page_idle.c b/mm/page_idle.c
-index 0aa45f848570..958dcc18f6cd 100644
---- a/mm/page_idle.c
-+++ b/mm/page_idle.c
-@@ -16,7 +16,7 @@
- #define BITMAP_CHUNK_SIZE	sizeof(u64)
- #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
- 
--static DEFINE_MUTEX(page_idle_lock);
-+DEFINE_MUTEX(page_idle_lock);
- 
- /*
-  * Idle page tracking only considers user memory pages, for other types of
+ .../admin-guide/gpio/gpio-mockup.rst          |  50 ++++++
+ drivers/gpio/gpio-mockup.c                    | 154 +++++++++---------
+ include/linux/string_helpers.h                |   2 +
+ lib/string_helpers.c                          |  25 +++
+ 4 files changed, 155 insertions(+), 76 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-mockup.rst
+
 -- 
-2.17.1
+2.26.1
 
