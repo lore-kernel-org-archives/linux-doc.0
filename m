@@ -2,137 +2,99 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BAEBC4727F
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 12:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6D6C4741F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 12:57:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 361E42067D
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 12:55:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4856221EC
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 12:57:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fh+YvJ9B"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbgI1Mzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 08:55:48 -0400
-Received: from mga05.intel.com ([192.55.52.43]:46944 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726380AbgI1Mzs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Sep 2020 08:55:48 -0400
-IronPort-SDR: inyh5kDXlsGzJwnnHUnWHf5uHJS4F6djxp+Bgt5BgAKqDScsri1dDhxdLWp7CFM7KCgQoKT0LH
- RusWN3JyZTKA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9757"; a="246727851"
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
-   d="scan'208";a="246727851"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 05:55:47 -0700
-IronPort-SDR: mKCJBKZI9NNwz0s5WtvkbDmtw4AvxLXFN92cm8ENdBw+uwCbl3IZHkjsrp2fMY60xzozIb/7BW
- dC5vUs/9/Ggw==
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
-   d="scan'208";a="338170423"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 05:55:45 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kMsgu-002Z4Y-08; Mon, 28 Sep 2020 15:55:40 +0300
-Date:   Mon, 28 Sep 2020 15:55:39 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        id S1726466AbgI1M5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 08:57:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbgI1M5l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 08:57:41 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B566C0613D0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 05:57:41 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id a4so613496qth.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 05:57:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wDoFUE99bIcRGspOXbo3zjmN4PbXIvPVJjhLWXzP2ws=;
+        b=fh+YvJ9Brb4kYYngrH/s/qYqgriElu1sQclUqqsUqnI6iNy73Lw71pmIIPHLpV9j4W
+         59/nCSWYfA/9pGsQa331v3pqyC5dMWH3s2EMmVDI+3A4EQ+MyDFAIwCT5zkaVKiutdiD
+         WSUcE1foff3Wj638oHgA24KPnv6GD0y1GudgeynBKA6Nu51WFE993W/MIKFGyZ3ush6d
+         ABAxCR8X8x/SGd7waBLsiY7M4rWb0PJpGnacZAdQ3fZPhRYbBVf3YEiCJS3URIz0mZTj
+         AHIvDqoKW/ZwBWN2LF3qlDVUxFT7tspnHuVo9Kgx5rmhoUybDzdx4349SK5guLHxC5T+
+         0b0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wDoFUE99bIcRGspOXbo3zjmN4PbXIvPVJjhLWXzP2ws=;
+        b=XQaLu093i1PUHcNo7/XvwZ4q4BSg1vnVdyFNV2mpN3HGtN85+NNTMVOwA1xlYhooYU
+         PPMRmne/tsWVcsggrVWqyGrcgIJaDFOrsiDrbDb4fubYiw3sHmb8+YSfUKknArNqa6Sv
+         N2uOD/v6GCBtOOy6x6ixmMUPFnmnt8hJbwp2rpPkzkCQ3GCOtaOoCF5yDwpykZVenSe3
+         3+uAqwLlEPgW2Xfe9xQ93XYVrXNUV7BnBLTPch1fl9+jpFe9g5C0Sh8x/QdzR0t5TirM
+         USbENx/1rA1LKGnzBmLui+ySYiFoSyfqGQ6OI/HtPMMDthbMok8CVYrqe7Mrvh6Gm2WM
+         eJMA==
+X-Gm-Message-State: AOAM531pyXUBJTUejNIYcJ7Bt0VvtlL2Ti613s+lt5gcB4MeNmCflw5q
+        DT8IhzTJGZ+fdRIv1yHAFoUbHg==
+X-Google-Smtp-Source: ABdhPJxCKooSFDLWgOXoraPDbg4q0zhejQPruckFKr8pWCDzdZCLrg6aCuKusJtuOinatJbK6F9iAw==
+X-Received: by 2002:ac8:4a93:: with SMTP id l19mr1379042qtq.163.1601297860267;
+        Mon, 28 Sep 2020 05:57:40 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id d22sm857359qkj.93.2020.09.28.05.57.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 05:57:39 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kMsip-001uld-4v; Mon, 28 Sep 2020 09:57:39 -0300
+Date:   Mon, 28 Sep 2020 09:57:39 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 1/9] lib: string_helpers: provide kfree_strarray()
-Message-ID: <20200928125539.GI3956970@smile.fi.intel.com>
-References: <20200928104155.7385-1-brgl@bgdev.pl>
- <20200928104155.7385-2-brgl@bgdev.pl>
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Shuah Khan <shuah@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
+Message-ID: <20200928125739.GP9916@ziepe.ca>
+References: <20200928062159.923212-1-jhubbard@nvidia.com>
+ <20200928062159.923212-3-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200928104155.7385-2-brgl@bgdev.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200928062159.923212-3-jhubbard@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 12:41:47PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> There's a common pattern of dynamically allocating an array of char
-> pointers and then also dynamically allocating each string in this
-> array. Provide a helper for freeing such a string array with one call.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-But see below.
-
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  include/linux/string_helpers.h |  2 ++
->  lib/string_helpers.c           | 25 +++++++++++++++++++++++++
->  2 files changed, 27 insertions(+)
-> 
-> diff --git a/include/linux/string_helpers.h b/include/linux/string_helpers.h
-> index 86f150c2a6b6..55b25120a1c6 100644
-> --- a/include/linux/string_helpers.h
-> +++ b/include/linux/string_helpers.h
-> @@ -94,4 +94,6 @@ char *kstrdup_quotable(const char *src, gfp_t gfp);
->  char *kstrdup_quotable_cmdline(struct task_struct *task, gfp_t gfp);
->  char *kstrdup_quotable_file(struct file *file, gfp_t gfp);
+On Sun, Sep 27, 2020 at 11:21:53PM -0700, John Hubbard wrote:
+> diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
+> index d1ae706d9927..9cc6bc087461 100644
+> +++ b/tools/testing/selftests/vm/Makefile
+> @@ -130,3 +130,5 @@ endif
+>  $(OUTPUT)/userfaultfd: LDLIBS += -lpthread
 >  
-> +void kfree_strarray(char **str_array, size_t num_str);
+>  $(OUTPUT)/mlock-random-test: LDLIBS += -lcap
 > +
->  #endif
-> diff --git a/lib/string_helpers.c b/lib/string_helpers.c
-> index 963050c0283e..bfa4c9f3ca0a 100644
-> --- a/lib/string_helpers.c
-> +++ b/lib/string_helpers.c
-> @@ -649,3 +649,28 @@ char *kstrdup_quotable_file(struct file *file, gfp_t gfp)
->  	return pathname;
->  }
->  EXPORT_SYMBOL_GPL(kstrdup_quotable_file);
-> +
-> +/**
-> + * kfree_strarray - free a number of dynamically allocated strings contained
-> + *                  in an array and the array itself
-> + *
-> + * @str_array: Dynamically allocated array of strings to free. If NULL - the
-> + *             function does nothing.
-> + * @num_str: Number of strings (starting from the beginning of the array) to
-> + *           free.
-> + *
-> + * Passing a non-null str_array and num_str == 0 as well as NULL str_array
-> + * are valid use-cases.
-> + */
-> +void kfree_strarray(char **str_array, size_t num_str)
+> +$(OUTPUT)/gup_test: ../../../../mm/gup_test.h
 
-Hmm... I have missed your answer to 
- str_array -> array
- num_str -> n
+There is no reason to do this, the auto depends will pick up header
+files, and gup_test.h isn't a generated file
 
-The rationale behind dropping str is to avoid duplicates in the name of the
-function and its parameters. 'array' is harder to avoid, but also possible,
-though I leave it to you.
-
-> +{
-> +	unsigned int i;
-> +
-> +	if (!str_array)
-> +		return;
-> +
-> +	for (i = 0; i < num_str; i++)
-> +		kfree(str_array[i]);
-> +	kfree(str_array);
-> +}
-> +EXPORT_SYMBOL_GPL(kfree_strarray);
-> -- 
-> 2.26.1
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jason
