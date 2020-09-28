@@ -5,60 +5,60 @@ X-Spam-Level:
 X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50241C2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8BCC47420
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:26:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1743C214D8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:24:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68E23208D5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:26:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=pensando.io header.i=@pensando.io header.b="sJXRxO3V"
+	dkim=pass (2048-bit key) header.d=pensando.io header.i=@pensando.io header.b="0/6i+Lzw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbgI1RYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 13:24:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39000 "EHLO
+        id S1726600AbgI1R0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 13:26:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbgI1RYw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 13:24:52 -0400
+        with ESMTP id S1726380AbgI1R0Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 13:26:16 -0400
 Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B8BC061755
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 10:24:52 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id d9so1669104pfd.3
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 10:24:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B44C0613CF
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 10:26:16 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id d9so1673148pfd.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 10:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pensando.io; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=dXB5sy6RuZTJPqx7JJLXNWe1a908CXA07ElMJ2w7R68=;
-        b=sJXRxO3VX4I/D6OKhoVkZO/piViwl1rsupkYazfFzknNozgI8OsHjhRNoJktdix5sL
-         XUePafekvxNj5dX2ZMNgPcxdgvjKnkbGxEJHb5M7MD6jsXR24Z16f7Q8EMF5gSrpcqV3
-         6mdJsMem+f4C7b9Iy8bk9humZkeCkuU0VDUAFi3VrIZ1AvBJykcO3j/m813G3+0PUELA
-         8jig6g1XAuBTfOqXNacgr0soT1uIdlZZ/QhywRu6HBMy1Ncr+lfoiCUVKIuNsV2E8yzC
-         6Etpltkq/5EZsG8x+m98hzY644sBlZD9g9rlktFFEXZxJkhYAnrqwKkSvnbtDB8ytbwH
-         WhHQ==
+        bh=xu75CUkAEe8YKESDX+6RMXTyhfVPWONUsVk2klTLLIw=;
+        b=0/6i+LzwyathOMbvG6oG2ll/0evYhsEXpg9MB8BFBLC+1GFyqK6z7LlJJBxzxFdfbJ
+         05TEF7DdGGpuvCMyi2NZv1Q92KQL0cR+D9CHNZcApVdI271h571JbWXG7v8ceUFtVFtf
+         iwjyPFqYKOGDgEmB8LpvoaUN93/ZIPIYVvLAUawMj6Y4rR+hfMhita75OZvkqLyaAvUf
+         xvE+pK94Tr93FIKvvY4r5qpOHmvw3WITNJyYhNThNqO4q29c3wTZYVBQe7Tq8UTIL6k4
+         0ZHjkrbMpMyKmBmkJEdjYVDtZTHnR2/b6Pa/4fNUCUmKUcc1eo5AP/szp3Nr9ULAH1LL
+         Gszg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=dXB5sy6RuZTJPqx7JJLXNWe1a908CXA07ElMJ2w7R68=;
-        b=uSztPJ0968jaVgcUB7aq0qsmrXlQw0IR0bcLn0hBVNVJjhOUEC/ZTjyHINYVFURY5F
-         Sqr5mc9OiNeeOrHOgl52SRYPbI2+7QIblEFLo+7js4Z5fY3UuKQBGc/SKi+R89Fw3N5g
-         TyI2OxWmnAM96FpSSXZY1KqyL0o7XKESYYT0qcwgYKftsScJmMvQpzDt9aM98CpGstYd
-         yu6M0eb04pUz8so8XLhdftsJToIMdlL2OUZZuw3XRcihGEKvO5pQgCyqPI7qT8rMZqFh
-         UZxocJZcZf6GMhzMZ3aPVOU4ARQlC834DUmVwKUhVHOoHMNpKHLpmt5vtRranrrkXORU
-         zTAg==
-X-Gm-Message-State: AOAM532OStOf39MurOhCyE8XtKjo/DJqdtKkwwaDCk2IhqKC3hrUzDW6
-        RBY6FY6qEg/WpRIPsPvNlxzeCA==
-X-Google-Smtp-Source: ABdhPJyoyl1fomYslG+xBdkpZIhAHLVX6EHj3huo2N9gQMS+dYAudkP3ZT0Owaa2qZhTwb+CGqQqNA==
-X-Received: by 2002:a63:784:: with SMTP id 126mr121408pgh.428.1601313891289;
-        Mon, 28 Sep 2020 10:24:51 -0700 (PDT)
+        bh=xu75CUkAEe8YKESDX+6RMXTyhfVPWONUsVk2klTLLIw=;
+        b=fJUS7ECHz1rG8sD5dveVG0NaygKl3fss8TwePdOY3So/ihj2eh5UyDrDqzEN8dp+Mq
+         sv3gpbWhJ4bcITXcKFatARk9QwA01uh50GP4XD/tiElKhiePQ/hNBmJmF/NEbQ275bhr
+         fl/59Rv7V5yv7Q5WXxgYAX7iw+tXIZujEOmvK+0pwdRRdnZA9yXzUp7VpJNmrSPCafd0
+         +t3gr4HRVw9J7SBAUyl/fR23p4aOodgO/uuKXJXSJU0J5Qm+e4HoRFwoy/519wIm3h5X
+         roL2ofz+Bo5uAU1esLGCnoZev2LPCHyv+k3OSa2NFF8CWzIemcEWUZH6nqbo+R0hU+Fz
+         5Y0w==
+X-Gm-Message-State: AOAM5327HpYqJAueFPzanmlIHZi+b9P9zGmglROwErlkWZV/NAzMF3qQ
+        Y5koG/dHFZ7fCLskeMrfm/Pk6Q==
+X-Google-Smtp-Source: ABdhPJzwfjXkCsxEu3XfK2aVP501w1BXp/1/rfPP3H13WpeMSgLae7v91sNjQ8w4DmdYg1Jo2bc1PA==
+X-Received: by 2002:a63:595a:: with SMTP id j26mr130244pgm.406.1601313975665;
+        Mon, 28 Sep 2020 10:26:15 -0700 (PDT)
 Received: from Shannons-MacBook-Pro.local (static-50-53-47-17.bvtn.or.frontiernet.net. [50.53.47.17])
-        by smtp.gmail.com with ESMTPSA id u71sm2511314pfc.43.2020.09.28.10.24.49
+        by smtp.gmail.com with ESMTPSA id j18sm1986127pgm.30.2020.09.28.10.26.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2020 10:24:50 -0700 (PDT)
-Subject: Re: [patch 11/35] net: ionic: Replace in_interrupt() usage.
+        Mon, 28 Sep 2020 10:26:15 -0700 (PDT)
+Subject: Re: [patch 12/35] net: ionic: Remove WARN_ON(in_interrupt()).
 To:     Thomas Gleixner <tglx@linutronix.de>,
         LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -112,16 +112,16 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
 References: <20200927194846.045411263@linutronix.de>
- <20200927194920.918550822@linutronix.de>
+ <20200927194921.026798214@linutronix.de>
 From:   Shannon Nelson <snelson@pensando.io>
-Message-ID: <5e4c3201-9d90-65b1-5c13-e2381445be1d@pensando.io>
-Date:   Mon, 28 Sep 2020 10:24:47 -0700
+Message-ID: <96baeba9-eb5f-1462-2dcc-ecb9793727a1@pensando.io>
+Date:   Mon, 28 Sep 2020 10:26:10 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
  Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200927194920.918550822@linutronix.de>
+In-Reply-To: <20200927194921.026798214@linutronix.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -130,32 +130,21 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On 9/27/20 12:48 PM, Thomas Gleixner wrote:
 > From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 >
-> The in_interrupt() usage in this driver tries to figure out which context
-> may sleep and which context may not sleep. in_interrupt() is not really
-> suitable as it misses both preemption disabled and interrupt disabled
-> invocations from task context.
+> in_interrupt() is ill defined and does not provide what the name
+> suggests. The usage especially in driver code is deprecated and a tree wide
+> effort to clean up and consolidate the (ab)usage of in_interrupt() and
+> related checks is happening.
 >
-> Conditionals like that in driver code are frowned upon in general because
-> invocations of functions from invalid contexts might not be detected
-> as the conditional papers over it.
+> In this case the check covers only parts of the contexts in which these
+> functions cannot be called. It fails to detect preemption or interrupt
+> disabled invocations.
 >
-> ionic_lif_addr() can be called from:
+> As the functions which are invoked from ionic_adminq_post() and
+> ionic_dev_cmd_wait() contain a broad variety of checks (always enabled or
+> debug option dependent) which cover all invalid conditions already, there
+> is no point in having inconsistent warnings in those drivers.
 >
->   1) ->ndo_set_rx_mode() which is under netif_addr_lock_bh()) so it must not
->      sleep.
->
->   2) Init and setup functions which are in fully preemptible task context.
->
-> _ionic_lif_rx_mode() has only one call path with BH disabled.
->
-> ionic_link_status_check_request() has two call paths:
->
->   1) NAPI which obviously cannot sleep
->
->   2) Setup which is again fully preemptible task context
->
-> Add 'can_sleep' arguments to the affected functions and let the callers
-> provide the context instead of letting the functions deduce it.
+> Just remove them.
 >
 > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
@@ -164,38 +153,33 @@ On 9/27/20 12:48 PM, Thomas Gleixner wrote:
 > Cc: "David S. Miller" <davem@davemloft.net>
 > Cc: Jakub Kicinski <kuba@kernel.org>
 > Cc: netdev@vger.kernel.org
+Thanks.
 
 Acked-by: Shannon Nelson <snelson@pensando.io>
 
 > ---
+>   drivers/net/ethernet/pensando/ionic/ionic_main.c |    4 ----
+>   1 file changed, 4 deletions(-)
 >
-> While reviewing the callpaths, a couple of things were observed which could
-> be improved:
+> --- a/drivers/net/ethernet/pensando/ionic/ionic_main.c
+> +++ b/drivers/net/ethernet/pensando/ionic/ionic_main.c
+> @@ -248,8 +248,6 @@ static int ionic_adminq_post(struct ioni
+>   	struct ionic_queue *adminq;
+>   	int err = 0;
+>   
+> -	WARN_ON(in_interrupt());
+> -
+>   	if (!lif->adminqcq)
+>   		return -EIO;
+>   
+> @@ -346,8 +344,6 @@ int ionic_dev_cmd_wait(struct ionic *ion
+>   	int done;
+>   	int err;
+>   
+> -	WARN_ON(in_interrupt());
+> -
+>   	/* Wait for dev cmd to complete, retrying if we get EAGAIN,
+>   	 * but don't wait any longer than max_seconds.
+>   	 */
 >
-> - ionic_lif_deferred_work() can iterate over the list. There is no need
->    to schedule the work item after each iteration
-
-I think the original writer's intent was to avoid monopolizing the work 
-thread for very long on any one cycle, with the thought that we'd be 
-making more use of this than we currently are.  I'll address this.
-
->
-> - ionic_link_status_check_request() could have ionic_deferred_work within
->    ionic_lif(). This would avoid memory allocation from NAPI. More
->    important, once IONIC_LIF_F_LINK_CHECK_REQUESTED is set and that alloc
->    fails, the link check never happens.
-
-Thanks, I'll fix up that error condition.
-
->
-> - ionic_lif_handle_fw_down() sets IONIC_LIF_F_FW_RESET. Invokes then
->    ionic_lif_deinit() which only invokes cancel_work_sync() if
->    IONIC_LIF_F_FW_RESET is not set. I think the logic is wrong here as
->    the work must always be cancled. Also the list with ionic_deferred
->    work items needs a clean up.
-
-I'll look at that, thanks.
-
-sln
-
 
