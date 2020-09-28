@@ -2,44 +2,45 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 642ECC4741F
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:36:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E352C4727F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:36:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EB6D2073A
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:36:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEEB4206F7
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:36:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="hiY/JR1m"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="tbJlE3Cc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726564AbgI1KgQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 06:36:16 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:13421 "EHLO
+        id S1726605AbgI1Kg6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 06:36:58 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:13559 "EHLO
         smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbgI1KgQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 06:36:16 -0400
+        with ESMTP id S1726552AbgI1Kg5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 06:36:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1601289375; x=1632825375;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=5lenCskr89LpQ2AkgUWGLyG5rz1PujU6V1uVjmWt4d4=;
-  b=hiY/JR1mEy5OI8881dHLDWBAgfPksfJ99SHxIUekk5lTtFBDel4IPZwM
-   NF1zk/2kZzI+6GrXoH3myz6FCXFMqiTpRTnpE51BywON5WQI1Wfqr8+gQ
-   g/DEZBV7yRKltaLaOTNJJq1AHxKkq7KeK1rSeZu2/iQIyvsGGRn1NzVZu
-   o=;
+  t=1601289416; x=1632825416;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=c/MK2pCSgOMGVOP2p7S4cmlEP6k8s8TkAwQl4lTQDDY=;
+  b=tbJlE3CcVuNa1n7weeepTnRud12OB7gTNHEsVLdebpXLFwvH4VnPr9Ah
+   SEZ3PKs7+s6LkNSRVUvIclyV/bnXtwV8G2ZIJ1V5IK5jf5GUT0mbeMGQF
+   9rjAV603HQj9ScqTvrydns+NxB1eXORDQCXGS0ox+5l2LluXteVU/sMnj
+   U=;
 X-IronPort-AV: E=Sophos;i="5.77,313,1596499200"; 
-   d="scan'208";a="56638054"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 28 Sep 2020 10:36:14 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com (Postfix) with ESMTPS id 00BCBA1CF1;
-        Mon, 28 Sep 2020 10:36:01 +0000 (UTC)
+   d="scan'208";a="56638137"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 28 Sep 2020 10:36:56 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS id AE83DA1DB6;
+        Mon, 28 Sep 2020 10:36:43 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 28 Sep 2020 10:35:43 +0000
+ id 15.0.1497.2; Mon, 28 Sep 2020 10:36:25 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -61,10 +62,12 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH 0/5] DAMON: Make coexistable with Idle Page Tracking
-Date:   Mon, 28 Sep 2020 12:35:23 +0200
-Message-ID: <20200928103528.4256-1-sjpark@amazon.com>
+Subject: [RFC PATCH 2/5] mm/damon: Separate DAMON schemes application to primitives
+Date:   Mon, 28 Sep 2020 12:35:25 +0200
+Message-ID: <20200928103528.4256-3-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200928103528.4256-1-sjpark@amazon.com>
+References: <20200928103528.4256-1-sjpark@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.43.161.237]
@@ -76,113 +79,299 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-NOTE: This is an RFC for future change of DAMON patchsets[1,2,3], which is not
-merged in the mainline yet.  The aim of this RFC is to show how the patchset
-would be changed in the next version.  So, if you have some interest in this
-RFC, please consider reviewing the DAMON patchset, either.
+DAMON-based operation schemes feature is implemented inside DAMON
+'core'.  Though the access pattern based schemes target region tracking
+part makes sense to reside in the 'core', applying the scheme action
+would better to be reside in the 'primitives', as the work highly
+depends on the type of the target region.
 
-Currently, DAMON is configured to be exclusive with Idle Page Tracking because
-both of the subsystems use PG_Idle flag and there is no way to synchronize with
-Idle Page Tracking.  Though there are many use cases DAMON could do better than
-Idle Page Tracking, DAMON cannot fully replace Idle Page Tracking, since
+For the reason, this commit moves the part to 'primitives' by adding one
+more context callback, 'apply_scheme' and implementing it in the
+reference primitives implementation for the virtual address spaces.
+Note that this doesn't add the implementation for the physical address
+space, as it didn't exist before.  Nonetheless, the extension for
+physical space would be easily done in this way in future.
 
-- DAMON doesn't support all features of Idle Page Tracking from the beginning
-  (e.g., physical address space is supported from the third DAMON patchset[3]),
-  and
-- there are some use cases Idle Page Tracking could be more efficient (e.g.,
-  page size granularity working set size calculation).
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ include/linux/damon.h |  8 +++++
+ mm/damon/core.c       | 65 ++------------------------------------
+ mm/damon/damon.h      | 28 -----------------
+ mm/damon/primitives.c | 73 ++++++++++++++++++++++++++++++++++++++++++-
+ 4 files changed, 82 insertions(+), 92 deletions(-)
 
-Therefore, this patchset makes DAMON coexistable with Idle Page Tracking.  As
-the first decision of making DAMON exclusive was not a good idea, this change
-will be merged in the next versions of the original patchsets[1,2,3].
-Therefore, you could skip detail of the changes but wait for postings of the
-next versions of the patchsets, except the 4th patch.
-
-The changes significantly refactor the code, especially 'damon.c' and
-'damon-test.c'.  Though the refactoring changes are only straightforward, if
-you gave 'Reviewed-by' before and you want to drop it due to the changes,
-please let me know.
-
-[1] https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/
-[2] https://lore.kernel.org/linux-mm/20200804142430.15384-1-sjpark@amazon.com/
-[3] https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/
-
-Sequence of Patches
-===================
-
-The 1st patch separates DAMON components that unnecessarily implemented in one
-source file and depend on one config option (CONFIG_DAMON)
-to multiple files and apply fine-grained dependency.  As a result, the core
-framework part of DAMON becomes coexistable with Idle Page Tracking.
-
-Following two patches further refactor the code for cleaner bound between the
-components.
-
-The 4th patch implements a synchronization infrastructure for PG_idle flag
-users.  We implement it to eventually used for DAMON, but the change is
-independent with DAMON and the also required for Idle Page Tracking itself.
-This could be picked before DAMON patchsets merged.
-
-Finally, the 5th patch updates DAMON to use the PG_idle synchronization
-infrastructure and fully coexistable with Page Idle Tracking.
-
-Baseline and Complete Git Trees
-===============================
-
-The patches are based on the v5.8 plus DAMON v20 patchset[1], RFC v14 of DAMOS
-patchset, RFC v8 of physical address space support patchset, RFC v1 of user
-space improvement[4], and some more trivial fixes (s/snprintf/scnprintf).  You
-can also clone the complete git tree:
-
-    $ git clone git://github.com/sjp38/linux -b damon-usi/rfc/v1
-
-The web is also available:
-https://github.com/sjp38/linux/releases/tag/damon-usi/rfc/v1
-
-
-[1] https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/
-[2] https://lore.kernel.org/linux-mm/20200804142430.15384-1-sjpark@amazon.com/
-[3] https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/
-[4] https://lore.kernel.org/linux-mm/20200915180807.18812-1-sjpark@amazon.com/
-
-SeongJae Park (5):
-  mm/damon: Separate components and apply fine-grained dependencies
-  mm/damon: Separate DAMON schemes application to primitives
-  mm/damon: Move recording feature from core to dbgfs
-  mm/page_idle: Avoid interferences from concurrent users
-  mm/damon/primitives: Make coexistable with Idle Page Tracking
-
- .../admin-guide/mm/idle_page_tracking.rst     |   22 +-
- MAINTAINERS                                   |    3 +-
- include/linux/damon.h                         |  109 +-
- include/linux/page_idle.h                     |    2 +
- mm/Kconfig                                    |   25 +-
- mm/Makefile                                   |    2 +-
- mm/damon-test.h                               |  724 -----
- mm/damon.c                                    | 2754 -----------------
- mm/damon/Kconfig                              |   68 +
- mm/damon/Makefile                             |    5 +
- mm/damon/core-test.h                          |  253 ++
- mm/damon/core.c                               |  860 +++++
- mm/damon/damon.h                              |    7 +
- mm/damon/dbgfs-test.h                         |  264 ++
- mm/damon/dbgfs.c                              | 1158 +++++++
- mm/damon/primitives-test.h                    |  328 ++
- mm/damon/primitives.c                         |  896 ++++++
- mm/page_idle.c                                |   40 +
- 18 files changed, 3982 insertions(+), 3538 deletions(-)
- delete mode 100644 mm/damon-test.h
- delete mode 100644 mm/damon.c
- create mode 100644 mm/damon/Kconfig
- create mode 100644 mm/damon/Makefile
- create mode 100644 mm/damon/core-test.h
- create mode 100644 mm/damon/core.c
- create mode 100644 mm/damon/damon.h
- create mode 100644 mm/damon/dbgfs-test.h
- create mode 100644 mm/damon/dbgfs.c
- create mode 100644 mm/damon/primitives-test.h
- create mode 100644 mm/damon/primitives.c
-
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index 264958a62c02..505e6261cefa 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -170,6 +170,7 @@ struct damos {
+  * @check_accesses:		Checks the access of target regions.
+  * @target_valid:		Determine if the target is valid.
+  * @cleanup:			Cleans up the context.
++ * @apply_scheme:		Apply a DAMON-based operation scheme.
+  * @sample_cb:			Called for each sampling interval.
+  * @aggregate_cb:		Called for each aggregation interval.
+  *
+@@ -193,6 +194,9 @@ struct damos {
+  * monitoring.
+  * @cleanup is called from @kdamond just before its termination.  After this
+  * call, only @kdamond_lock and @kdamond will be touched.
++ * @apply_scheme is called from @kdamond when a region for user provided
++ * DAMON-based operation scheme is found.  It should apply the scheme's action
++ * to the region.
+  *
+  * @sample_cb and @aggregate_cb are called from @kdamond for each of the
+  * sampling intervals and aggregation intervals, respectively.  Therefore,
+@@ -229,6 +233,8 @@ struct damon_ctx {
+ 	unsigned int (*check_accesses)(struct damon_ctx *context);
+ 	bool (*target_valid)(struct damon_target *target);
+ 	void (*cleanup)(struct damon_ctx *context);
++	int (*apply_scheme)(struct damon_ctx *context, struct damon_target *t,
++			struct damon_region *r, struct damos *scheme);
+ 	void (*sample_cb)(struct damon_ctx *context);
+ 	void (*aggregate_cb)(struct damon_ctx *context);
+ };
+@@ -312,6 +318,8 @@ void kdamond_prepare_vm_access_checks(struct damon_ctx *ctx);
+ unsigned int kdamond_check_vm_accesses(struct damon_ctx *ctx);
+ bool kdamond_vm_target_valid(struct damon_target *t);
+ void kdamond_vm_cleanup(struct damon_ctx *ctx);
++int kdamond_vm_apply_scheme(struct damon_ctx *context, struct damon_target *t,
++		struct damon_region *r, struct damos *scheme);
+ void damon_set_vaddr_primitives(struct damon_ctx *ctx);
+ 
+ /* Reference callback implementations for physical memory */
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index d85ade7b5e23..ba52421a2673 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -701,68 +701,6 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
+ 	}
+ }
+ 
+-#ifndef CONFIG_ADVISE_SYSCALLS
+-static int damos_madvise(struct damon_target *target, struct damon_region *r,
+-			int behavior)
+-{
+-	return -EINVAL;
+-}
+-#else
+-static int damos_madvise(struct damon_target *target, struct damon_region *r,
+-			int behavior)
+-{
+-	struct task_struct *t;
+-	struct mm_struct *mm;
+-	int ret = -ENOMEM;
+-
+-	t = damon_get_task_struct(target);
+-	if (!t)
+-		goto out;
+-	mm = damon_get_mm(target);
+-	if (!mm)
+-		goto put_task_out;
+-
+-	ret = do_madvise(t, mm, PAGE_ALIGN(r->ar.start),
+-			PAGE_ALIGN(r->ar.end - r->ar.start), behavior);
+-	mmput(mm);
+-put_task_out:
+-	put_task_struct(t);
+-out:
+-	return ret;
+-}
+-#endif	/* CONFIG_ADVISE_SYSCALLS */
+-
+-static int damos_do_action(struct damon_target *target, struct damon_region *r,
+-			enum damos_action action)
+-{
+-	int madv_action;
+-
+-	switch (action) {
+-	case DAMOS_WILLNEED:
+-		madv_action = MADV_WILLNEED;
+-		break;
+-	case DAMOS_COLD:
+-		madv_action = MADV_COLD;
+-		break;
+-	case DAMOS_PAGEOUT:
+-		madv_action = MADV_PAGEOUT;
+-		break;
+-	case DAMOS_HUGEPAGE:
+-		madv_action = MADV_HUGEPAGE;
+-		break;
+-	case DAMOS_NOHUGEPAGE:
+-		madv_action = MADV_NOHUGEPAGE;
+-		break;
+-	case DAMOS_STAT:
+-		return 0;
+-	default:
+-		pr_warn("Wrong action %d\n", action);
+-		return -EINVAL;
+-	}
+-
+-	return damos_madvise(target, r, madv_action);
+-}
+-
+ static void damon_do_apply_schemes(struct damon_ctx *c,
+ 				   struct damon_target *t,
+ 				   struct damon_region *r)
+@@ -781,7 +719,8 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
+ 			continue;
+ 		s->stat_count++;
+ 		s->stat_sz += sz;
+-		damos_do_action(t, r, s->action);
++		if (c->apply_scheme)
++			c->apply_scheme(c, t, r, s);
+ 		if (s->action != DAMOS_STAT)
+ 			r->age = 0;
+ 	}
+diff --git a/mm/damon/damon.h b/mm/damon/damon.h
+index fc565fff4953..4315dadcca8a 100644
+--- a/mm/damon/damon.h
++++ b/mm/damon/damon.h
+@@ -5,31 +5,3 @@
+ 
+ /* Get a random number in [l, r) */
+ #define damon_rand(l, r) (l + prandom_u32() % (r - l))
+-
+-/*
+- * 't->id' should be the pointer to the relevant 'struct pid' having reference
+- * count.  Caller must put the returned task, unless it is NULL.
+- */
+-#define damon_get_task_struct(t) \
+-	(get_pid_task((struct pid *)t->id, PIDTYPE_PID))
+-
+-/*
+- * Get the mm_struct of the given target
+- *
+- * Caller _must_ put the mm_struct after use, unless it is NULL.
+- *
+- * Returns the mm_struct of the target on success, NULL on failure
+- */
+-static inline struct mm_struct *damon_get_mm(struct damon_target *t)
+-{
+-	struct task_struct *task;
+-	struct mm_struct *mm;
+-
+-	task = damon_get_task_struct(t);
+-	if (!task)
+-		return NULL;
+-
+-	mm = get_task_mm(task);
+-	put_task_struct(task);
+-	return mm;
+-}
+diff --git a/mm/damon/primitives.c b/mm/damon/primitives.c
+index d7796cbffbd8..e762dc8a5f2e 100644
+--- a/mm/damon/primitives.c
++++ b/mm/damon/primitives.c
+@@ -38,8 +38,11 @@
+ #endif
+ 
+ /*
+- * Functions for the initial monitoring target regions construction
++ * 't->id' should be the pointer to the relevant 'struct pid' having reference
++ * count.  Caller must put the returned task, unless it is NULL.
+  */
++#define damon_get_task_struct(t) \
++	(get_pid_task((struct pid *)t->id, PIDTYPE_PID))
+ 
+ /*
+  * Get the mm_struct of the given target
+@@ -62,6 +65,10 @@ struct mm_struct *damon_get_mm(struct damon_target *t)
+ 	return mm;
+ }
+ 
++/*
++ * Functions for the initial monitoring target regions construction
++ */
++
+ /*
+  * Size-evenly split a region into 'nr_pieces' small regions
+  *
+@@ -788,6 +795,68 @@ void kdamond_vm_cleanup(struct damon_ctx *ctx)
+ 	}
+ }
+ 
++#ifndef CONFIG_ADVISE_SYSCALLS
++static int damos_madvise(struct damon_target *target, struct damon_region *r,
++			int behavior)
++{
++	return -EINVAL;
++}
++#else
++static int damos_madvise(struct damon_target *target, struct damon_region *r,
++			int behavior)
++{
++	struct task_struct *t;
++	struct mm_struct *mm;
++	int ret = -ENOMEM;
++
++	t = damon_get_task_struct(target);
++	if (!t)
++		goto out;
++	mm = damon_get_mm(target);
++	if (!mm)
++		goto put_task_out;
++
++	ret = do_madvise(t, mm, PAGE_ALIGN(r->ar.start),
++			PAGE_ALIGN(r->ar.end - r->ar.start), behavior);
++	mmput(mm);
++put_task_out:
++	put_task_struct(t);
++out:
++	return ret;
++}
++#endif	/* CONFIG_ADVISE_SYSCALLS */
++
++int kdamond_vm_apply_scheme(struct damon_ctx *ctx, struct damon_target *t,
++		struct damon_region *r, struct damos *scheme)
++{
++	int madv_action;
++
++	switch (scheme->action) {
++	case DAMOS_WILLNEED:
++		madv_action = MADV_WILLNEED;
++		break;
++	case DAMOS_COLD:
++		madv_action = MADV_COLD;
++		break;
++	case DAMOS_PAGEOUT:
++		madv_action = MADV_PAGEOUT;
++		break;
++	case DAMOS_HUGEPAGE:
++		madv_action = MADV_HUGEPAGE;
++		break;
++	case DAMOS_NOHUGEPAGE:
++		madv_action = MADV_NOHUGEPAGE;
++		break;
++	case DAMOS_STAT:
++		return 0;
++	default:
++		pr_warn("Wrong action %d\n", scheme->action);
++		return -EINVAL;
++	}
++
++	return damos_madvise(t, r, madv_action);
++}
++
+ void damon_set_vaddr_primitives(struct damon_ctx *ctx)
+ {
+ 	ctx->init_target_regions = kdamond_init_vm_regions;
+@@ -796,6 +865,7 @@ void damon_set_vaddr_primitives(struct damon_ctx *ctx)
+ 	ctx->check_accesses = kdamond_check_vm_accesses;
+ 	ctx->target_valid = kdamond_vm_target_valid;
+ 	ctx->cleanup = kdamond_vm_cleanup;
++	ctx->apply_scheme = kdamond_vm_apply_scheme;
+ }
+ 
+ void damon_set_paddr_primitives(struct damon_ctx *ctx)
+@@ -806,6 +876,7 @@ void damon_set_paddr_primitives(struct damon_ctx *ctx)
+ 	ctx->check_accesses = kdamond_check_phys_accesses;
+ 	ctx->target_valid = NULL;
+ 	ctx->cleanup = NULL;
++	ctx->apply_scheme = NULL;
+ }
+ 
+ #include "primitives-test.h"
 -- 
 2.17.1
 
