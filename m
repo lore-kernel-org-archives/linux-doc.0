@@ -2,229 +2,88 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DC8C2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 416F0C2D0A8
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:59:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04737206D4
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:51:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D756E2083B
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:59:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=pensando.io header.i=@pensando.io header.b="C9EUv+2w"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="MwztjGxe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbgI1TvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 15:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726716AbgI1TvS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 15:51:18 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08196C061755
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 12:51:18 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id d6so2073998pfn.9
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 12:51:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pensando.io; s=google;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=BqQM2i0VFoVIUWIR0YuEpa6Ai1/97mzRDr35j7tf8L4=;
-        b=C9EUv+2wwyyFn6FJiu/VVbLVblSjg9av85L/szVbIz0Rpy3mJiykJyAX94048whYfv
-         xgNsRhYsRnuF4WvxMHmC9mBSXCorfrwc5rM6jE7aNlWsJU5zF/D9ezZV/MKvR4Kgxn6c
-         hGEIm89YQAmjo7R5FqdFlWCeu3xCILdpu1ABFzulST9FvrmJr9AM3bKwkoul2jbE2Un7
-         e3TukRt5VX493lR24AiqxiiLA1dpjeS95yta+Vm7vPIS2bjbuAUl5C/urY6sQbqC8ysH
-         Cu3NWy/mFVXd6hnN7gFAnlpYSxpFbhWjRgd6e+vMhcaM1GIbrcFd+iyfRje2wvH3zLz7
-         YP7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=BqQM2i0VFoVIUWIR0YuEpa6Ai1/97mzRDr35j7tf8L4=;
-        b=oSI49SjTANQt0OW2msaXFQWhfM85jUC6otwhfYq24DiepORh/0CnDFPjgdt21tqYSD
-         ik9b+wqbViOi9YFzagjgElGNZc3MrR2nlPLgEDoCc4Bd99NflLsRjUOb7TcTwdv/woo8
-         dH70aRwjo+vXljVmfJSI0qMSBJLDy4XQhK9NBAJq7ff4I+QxPonFJzyZqZubfp/nsgcE
-         bnlOmnF49LW8vPBkgaKicBeIIi9BHK26bVEW9+O9XbnKzlagiSy4CnPgzRr7EIElUKmW
-         +kohhFmex2fBTGtDWeRsUz0w3EtTxjRVy5FxBfpM3dAMQQD66xQUv2b3rIRcrLZQdB7a
-         cxiw==
-X-Gm-Message-State: AOAM530MRN53K1O+TxZaKBvL71V+iJSZdUrGtpub0vsOvNFRIU050Uv5
-        Mt8fHzTsEewGDNh8KV3pjPKBrQ==
-X-Google-Smtp-Source: ABdhPJzckG5HDk1GrXpcpaQSCKZRP7ZefiC9sUCSVPJwppJZTnuH436/cYjoi7KCfletdPnr9Qi8DQ==
-X-Received: by 2002:aa7:9427:0:b029:142:2501:35df with SMTP id y7-20020aa794270000b0290142250135dfmr818795pfo.63.1601322677478;
-        Mon, 28 Sep 2020 12:51:17 -0700 (PDT)
-Received: from Shannons-MacBook-Pro.local (static-50-53-47-17.bvtn.or.frontiernet.net. [50.53.47.17])
-        by smtp.gmail.com with ESMTPSA id j26sm2608117pfa.160.2020.09.28.12.51.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2020 12:51:16 -0700 (PDT)
-Subject: Re: [patch 11/35] net: ionic: Replace in_interrupt() usage.
-From:   Shannon Nelson <snelson@pensando.io>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Paul McKenney <paulmck@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Pensando Drivers <drivers@pensando.io>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Christian Benvenuti <benve@cisco.com>,
-        Govindarajulu Varadarajan <_govind@gmx.com>,
+        id S1726393AbgI1T7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 15:59:00 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1318 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbgI1T7A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 15:59:00 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f72401f0000>; Mon, 28 Sep 2020 12:57:19 -0700
+Received: from [10.2.53.30] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 28 Sep
+ 2020 19:58:55 +0000
+Subject: Re: [PATCH 7/8] selftests/vm: run_vmtest.sh: update and clean up
+ gup_test invocation
+To:     Ira Weiny <ira.weiny@intel.com>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Jay Cliburn <jcliburn@gmail.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        intel-wired-lan@lists.osuosl.org, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
-        Edward Cree <ecree@solarflare.com>,
-        Martin Habets <mhabets@solarflare.com>,
-        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
-        Ulrich Kunitz <kune@deine-taler.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arend van Spriel <arend.vanspriel@broadcom.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-        Wright Feng <wright.feng@cypress.com>,
-        brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211-dev-list@cypress.com,
-        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
-        Stanislaw Gruszka <stf_xl@wp.pl>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Jouni Malinen <j@w1.fi>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
-        Xinming Hu <huxinming820@gmail.com>,
-        libertas-dev@lists.infradead.org,
-        Pascal Terjan <pterjan@google.com>,
-        Ping-Ke Shih <pkshih@realtek.com>
-References: <20200927194846.045411263@linutronix.de>
- <20200927194920.918550822@linutronix.de>
- <5e4c3201-9d90-65b1-5c13-e2381445be1d@pensando.io>
-Message-ID: <1d0950f8-cab4-9ef2-6cf7-73b71b750a8d@pensando.io>
-Date:   Mon, 28 Sep 2020 12:51:14 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Shuah Khan <shuah@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>
+References: <20200928062159.923212-1-jhubbard@nvidia.com>
+ <20200928062159.923212-8-jhubbard@nvidia.com>
+ <20200928192619.GF458519@iweiny-DESK2.sc.intel.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <176baf45-d2c7-0c74-f552-22361866d365@nvidia.com>
+Date:   Mon, 28 Sep 2020 12:58:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <5e4c3201-9d90-65b1-5c13-e2381445be1d@pensando.io>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200928192619.GF458519@iweiny-DESK2.sc.intel.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601323039; bh=InzEzYCH/2Dx5AYCDHf17XufKcWKsou9uJe1itYgGDo=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=MwztjGxexeXt76/WGabmo/tm6bXP/E5fHgXFNxlAWXnNkr6cDLt0YSrsAxPj9+1fb
+         LuKYjcjeNGBeoUdzDHjAY3fsZCDQG33Xw46fh3wI1Z2HqqVrJXTFzCLU0Fvmaal/sT
+         ZZ5CvRUPJQMtmVxU6TpLWv5V60f+EAC16uw9BCNfF6XRYNe/OSyndnOAUyqGy70BIH
+         +rSiRP8DV9RjJVKGw2+4+uGAZ+adLxCuR4kC+CDC/yiRa0gqg6EfkYYIwrerLol6db
+         P7Wcu9JlMlJH8Grv81AjnvkQsd7OFDBDKkxwLcdIYeue3DH2eo6hqTgrKTdoI5ruY8
+         +ayOHRmkJsAUg==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/28/20 10:24 AM, Shannon Nelson wrote:
-> On 9/27/20 12:48 PM, Thomas Gleixner wrote:
->> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
->>
->> The in_interrupt() usage in this driver tries to figure out which 
->> context
->> may sleep and which context may not sleep. in_interrupt() is not really
->> suitable as it misses both preemption disabled and interrupt disabled
->> invocations from task context.
->>
->> Conditionals like that in driver code are frowned upon in general 
->> because
->> invocations of functions from invalid contexts might not be detected
->> as the conditional papers over it.
->>
->> ionic_lif_addr() can be called from:
->>
->>   1) ->ndo_set_rx_mode() which is under netif_addr_lock_bh()) so it 
->> must not
->>      sleep.
->>
->>   2) Init and setup functions which are in fully preemptible task 
->> context.
->>
->> _ionic_lif_rx_mode() has only one call path with BH disabled.
+On 9/28/20 12:26 PM, Ira Weiny wrote:
+> On Sun, Sep 27, 2020 at 11:21:58PM -0700, John Hubbard wrote:
+...
+>> +echo "--------------------------------------------------------------"
+>> +echo "running gup_test -ct -F 0x1 0 19 0x1000"
+>> +echo "   Dumps pages 0, 19, and 4096, using pin_user_pages (-F 0x1)"
+>> +echo "--------------------------------------------------------------"
+>> +./gup_test -ct -F 0x1 0 19 0x1000
+> 
+> Ah here it is...  Maybe just remove that from the previous commit message.
+> 
+> Ira
 
-Now that I've had my coffee, let's look at this again - there are 
-multiple paths that get us to _ionic_lif_rx_mode():
+Yes, will do, thanks for spotting that.
 
-.ndo_set_rx_mode
-   ionic_set_rx_mode,
-     _ionic_lif_rx_mode
-
-{ ionic_open, ionic_lif_handle_fw_up, ionic_start_queues_reconfig }
-     ionic_txrx_init
-       ionic_set_rx_mode
-         _ionic_lif_rx_mode
-
-We may not want to change this one.
-
-sln
-
-
-
->>
->> ionic_link_status_check_request() has two call paths:
->>
->>   1) NAPI which obviously cannot sleep
->>
->>   2) Setup which is again fully preemptible task context
->>
->> Add 'can_sleep' arguments to the affected functions and let the callers
->> provide the context instead of letting the functions deduce it.
->>
->> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
->> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
->> Cc: Shannon Nelson <snelson@pensando.io>
->> Cc: Pensando Drivers <drivers@pensando.io>
->> Cc: "David S. Miller" <davem@davemloft.net>
->> Cc: Jakub Kicinski <kuba@kernel.org>
->> Cc: netdev@vger.kernel.org
->
-> Acked-by: Shannon Nelson <snelson@pensando.io>
->
->> ---
->>
->> While reviewing the callpaths, a couple of things were observed which 
->> could
->> be improved:
->>
->> - ionic_lif_deferred_work() can iterate over the list. There is no need
->>    to schedule the work item after each iteration
->
-> I think the original writer's intent was to avoid monopolizing the 
-> work thread for very long on any one cycle, with the thought that we'd 
-> be making more use of this than we currently are.  I'll address this.
->
->>
->> - ionic_link_status_check_request() could have ionic_deferred_work 
->> within
->>    ionic_lif(). This would avoid memory allocation from NAPI. More
->>    important, once IONIC_LIF_F_LINK_CHECK_REQUESTED is set and that 
->> alloc
->>    fails, the link check never happens.
->
-> Thanks, I'll fix up that error condition.
->
->>
->> - ionic_lif_handle_fw_down() sets IONIC_LIF_F_FW_RESET. Invokes then
->>    ionic_lif_deinit() which only invokes cancel_work_sync() if
->>    IONIC_LIF_F_FW_RESET is not set. I think the logic is wrong here as
->>    the work must always be cancled. Also the list with ionic_deferred
->>    work items needs a clean up.
->
-> I'll look at that, thanks.
->
-> sln
->
->
-
+thanks,
+-- 
+John Hubbard
+NVIDIA
