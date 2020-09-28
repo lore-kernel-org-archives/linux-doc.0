@@ -2,88 +2,132 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 416F0C2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0635C4727F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:06:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D756E2083B
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CE322083B
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:06:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="MwztjGxe"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OdImwqSK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbgI1T7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 15:59:00 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1318 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbgI1T7A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 15:59:00 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f72401f0000>; Mon, 28 Sep 2020 12:57:19 -0700
-Received: from [10.2.53.30] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 28 Sep
- 2020 19:58:55 +0000
-Subject: Re: [PATCH 7/8] selftests/vm: run_vmtest.sh: update and clean up
- gup_test invocation
-To:     Ira Weiny <ira.weiny@intel.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
+        id S1726558AbgI1UGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 16:06:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726781AbgI1UGS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 16:06:18 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CE62C0613CF
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:06:17 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id jw11so1313922pjb.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GB2ojgWNqZXvqEdj/VV8371C+BmRndozba/z5/3tWGk=;
+        b=OdImwqSK9MfonoLopWLPhPPwNfbz9gexbud4kQh5dYPi1aYXnLcNS7Fs0Q3VUr6DX9
+         BdxPS2tdTenGb/kWVbJUd1ffR67EUMaxyDwRwHKdqhSf7ppcYTPrh1NLn7aBTb2UhTq+
+         9zy0WTzkdLpMaQzEfSiw/9c0XIPc62gte6O6I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GB2ojgWNqZXvqEdj/VV8371C+BmRndozba/z5/3tWGk=;
+        b=UMstiYa664yB2Lg5YhlQ9XpE584tPg1sEDVntZGYf03JhIKbZTrlfAZg3uqZY5lpUy
+         NedFMq5LHG1TDKFGfDMxMQnwX+rmmyCXzh50qEvffrD/K6nRTOPMlXunYUDMZh6EL8Lm
+         Fep3vE4ud2CUdq8wf3ErLhHM/Mhvp+t4MjDJcxDKPdosTI54MQbbm7z4aUgPzj+25c9/
+         s3gRIS9ZdXJekuCnYO3qC0MPpUN7PcQ3+1gzJyeo+93uS4BDRa3Fn1wJglknvaPJhMtd
+         /Q8rHj7qc76ZsqMxtvQ4uObKFggdmR9BQdyNl1RivAwFKt+5h4Jc1MqL3KjvjlF0u+ZM
+         egTQ==
+X-Gm-Message-State: AOAM532Gkk4a3FhxbrxwrWaev63CbpijceRCZdDjdGRyfNKX+DzoDRzK
+        l1qsheERQeA9r4rVTazE6bbybQ==
+X-Google-Smtp-Source: ABdhPJxO+MI0WUHrgxRNZjH1ImCCvDkrrvTbzJHKtH0SHCAC/3OKSHmbyqvGL0KgC2NSJyvv4QR9pg==
+X-Received: by 2002:a17:90a:b88c:: with SMTP id o12mr768525pjr.43.1601323576799;
+        Mon, 28 Sep 2020 13:06:16 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a24sm2148981pju.25.2020.09.28.13.06.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 13:06:16 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 13:06:15 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Hangbin Liu <liuhangbin@gmail.com>
+Cc:     Shuah Khan <shuah@kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>
-References: <20200928062159.923212-1-jhubbard@nvidia.com>
- <20200928062159.923212-8-jhubbard@nvidia.com>
- <20200928192619.GF458519@iweiny-DESK2.sc.intel.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <176baf45-d2c7-0c74-f552-22361866d365@nvidia.com>
-Date:   Mon, 28 Sep 2020 12:58:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        linux-doc@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>, Tim.Bird@sony.com,
+        lkft-triage@lists.linaro.org,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Justin Cook <justin.cook@linaro.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: [PATCHv5 kselftest next] selftests/run_kselftest.sh: make each
+ test individually selectable
+Message-ID: <202009281305.E6F9595@keescook>
+References: <20200914021758.420874-1-liuhangbin@gmail.com/>
+ <20200914022227.437143-1-liuhangbin@gmail.com>
+ <CA+G9fYvT6Mw2BamoiVyw=wLUqD-3LB2oaDqcuabOyWfFxEN1qg@mail.gmail.com>
+ <202009251414.15274C0@keescook>
+ <20200927015334.GC2531@dhcp-12-153.nay.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200928192619.GF458519@iweiny-DESK2.sc.intel.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1601323039; bh=InzEzYCH/2Dx5AYCDHf17XufKcWKsou9uJe1itYgGDo=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=MwztjGxexeXt76/WGabmo/tm6bXP/E5fHgXFNxlAWXnNkr6cDLt0YSrsAxPj9+1fb
-         LuKYjcjeNGBeoUdzDHjAY3fsZCDQG33Xw46fh3wI1Z2HqqVrJXTFzCLU0Fvmaal/sT
-         ZZ5CvRUPJQMtmVxU6TpLWv5V60f+EAC16uw9BCNfF6XRYNe/OSyndnOAUyqGy70BIH
-         +rSiRP8DV9RjJVKGw2+4+uGAZ+adLxCuR4kC+CDC/yiRa0gqg6EfkYYIwrerLol6db
-         P7Wcu9JlMlJH8Grv81AjnvkQsd7OFDBDKkxwLcdIYeue3DH2eo6hqTgrKTdoI5ruY8
-         +ayOHRmkJsAUg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200927015334.GC2531@dhcp-12-153.nay.redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/28/20 12:26 PM, Ira Weiny wrote:
-> On Sun, Sep 27, 2020 at 11:21:58PM -0700, John Hubbard wrote:
-...
->> +echo "--------------------------------------------------------------"
->> +echo "running gup_test -ct -F 0x1 0 19 0x1000"
->> +echo "   Dumps pages 0, 19, and 4096, using pin_user_pages (-F 0x1)"
->> +echo "--------------------------------------------------------------"
->> +./gup_test -ct -F 0x1 0 19 0x1000
+On Sun, Sep 27, 2020 at 09:53:34AM +0800, Hangbin Liu wrote:
+> On Fri, Sep 25, 2020 at 02:16:14PM -0700, Kees Cook wrote:
+> > On Fri, Sep 25, 2020 at 01:51:53PM +0530, Naresh Kamboju wrote:
+> > > On Mon, 14 Sep 2020 at 07:53, Hangbin Liu <liuhangbin@gmail.com> wrote:
+> > > >
+> > > > Currently, after generating run_kselftest.sh, there is no way to choose
+> > > > which test we could run. All the tests are listed together and we have
+> > > > to run all every time. This patch enhanced the run_kselftest.sh to make
+> > > > the tests individually selectable. e.g.
+> > > >
+> > > >   $ ./run_kselftest.sh -t "bpf size timers"
+> > > 
+> > > My test run break on linux next
+> > > 
+> > > ./run_kselftest.sh: line 1331: syntax error near unexpected token `)'
+> > > ./run_kselftest.sh: line 1331: `-e -s | --summary )
+> > > logfile=$BASE_DIR/output.log; cat /dev/null > $logfile; shift ;;'
+> > 
+> > Yes, please revert this patch. The resulting script is completely
+> > trashed:
+> > 
+> > BASE_DIR=$(realpath $(dirname $0))
+> > . ./kselftest/runner.sh
+> > TESTS="seccomp"
+> > 
+> > run_seccomp()
+> > {
+> > -e      [ -w /dev/kmsg ] && echo "kselftest: Running tests in seccomp" >> /dev/kmsg
+> > -e      cd seccomp
+> > -en     run_many
+> >         \
+> > -ne             "seccomp_bpf"
+> >         \
+> > -ne             "seccomp_benchmark"
+> > 
+> > -e      cd $ROOT
+> > }
 > 
-> Ah here it is...  Maybe just remove that from the previous commit message.
-> 
-> Ira
+> I'm really sorry to make this trouble. And I'm OK to revert the patch.
+> I just a little wondering how do you generate this script.
 
-Yes, will do, thanks for spotting that.
+This issue is with which shell is used. I suspect your /bin/sh is full
+/bin/bash, where as Naresh's, the CI's, and mine are /bin/dash (which
+lacks "-e" support for the built-in "echo").
 
-thanks,
 -- 
-John Hubbard
-NVIDIA
+Kees Cook
