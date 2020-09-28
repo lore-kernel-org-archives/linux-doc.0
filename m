@@ -7,59 +7,59 @@ X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E96ECC2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:08:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4FE2C4741F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:09:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A45F82080A
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:08:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B19020809
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:09:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TXz1uRJz"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Uk8bicKc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbgI1QIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 12:08:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55326 "EHLO
+        id S1726566AbgI1QJi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 12:09:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726420AbgI1QIS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 12:08:18 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF869C0613CE
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 09:08:17 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id g4so1981207edk.0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 09:08:17 -0700 (PDT)
+        with ESMTP id S1726460AbgI1QJh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 12:09:37 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83369C0613CE
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 09:09:37 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id gx22so9342905ejb.5
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 09:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ofB/nv2GCR1iBpmgOJtZPjrK0vaQJ8MfIT5aS/7qZSs=;
-        b=TXz1uRJzzB/pr3oAfTmpUw47xO1t1ZD/4Gzv3Nfj/orcUBgE+FvmSJa4zy1lbUKQjk
-         UA8aK0zPsPb4AmNcJNfeH2DbKSXicWsSPqJU3NptPVtx2X2yi0/3QWsQA31pJYw2eEKO
-         dITUIaCkl16BLjkTNOqPLxAV90OJfu/pbEO6BqjURT54nddvrNjoOX6nLfJ2DbtiqWvf
-         UYNMKUdn66e7aqbNSgR14gvmqRpxzWFpo4kCvIcAnL3nKSaF+HGbBEK5Hg9af3V1x51o
-         zwNDymM2jKoCD625YWKMYt4APTULrVTNbXLKgYgFFYmT4XkpPeXb2DbevTaKC3pSBnXW
-         rtOQ==
+        bh=Up1q7Lh5lzvjFc9/cxHyzghr4+aFRynRiUu3dMieLtc=;
+        b=Uk8bicKc4zth43BPspUYEp5dLDqrP9I6O6GUTRzrQdgvFiowxRu+Qpum0iEH89lrzV
+         ActGx9oUnCYKSYEjzDdx6Fyw7ldZw9CjocNllVmDeKAhd4jl9TCZevDPCbZ2KVG9LAfS
+         +l//B7TziMzVX3fnYFKx4JcSUVtoF0aG8lxnf78lyBDDp0eXgP4zKY00gyVEWsm3TwNH
+         xZUtRXPvC1TXOtn4imVjVYKAUMNC5WIjKha7GLRg65lPknrirrpy7CxHqMVC+N09b67m
+         gxREQXfrzX1wk5/oL2SRozU4OquNrNYY76K4OUPqs0kMeI92VH0Qe8PKJwuFtReA/WPP
+         xBMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ofB/nv2GCR1iBpmgOJtZPjrK0vaQJ8MfIT5aS/7qZSs=;
-        b=sm10Mi+bMLVm+OIVPKDQMrNiZSpsTfPikpiCsLKFhym+I4T7lyYw7uF5eOQxkXv2/1
-         cyghW4pzf/kyBFqkNVao8Idt8wyPiAU14WSXOw3XC/qYfe9e6RulzrrL5S8ipLGnFKKF
-         e774MLJdonyd+i4ymlc19nSNOML9Uad6En74B3Dg8fOFYGzzY5Fyhm8q3JDs8Zv2uI+J
-         VMBamvAvihY1UFLU16yKuqj93LEvnTqn4NNMXQDx4QlWrk7fmsiqpfivnebRaLWoyyha
-         Y0W8+C8ZjHalURakPZt8jY+wn3RbqJqXNK7z6TpWxOZCy3rTckOhPWRB2ua3UFkt9JDb
-         cdNA==
-X-Gm-Message-State: AOAM531fxXWMRO+jb9pD+cUXAHoBuNs+7G7OdzCe1cCkjESX/Ke4t4y9
-        Hvvz/We+i5HJ26nJGMLhh2BZsFVTMehVuxziRuWTFg==
-X-Google-Smtp-Source: ABdhPJxGmoa8fxh96Nu08ZI31iPAe002nm5dbBSAH1X1Q5vkX2UMdMl4Ale5/X1hNgzP5fPTDrX7TZ5wtpfcCAyra0A=
-X-Received: by 2002:a50:e78f:: with SMTP id b15mr2645686edn.104.1601309296249;
- Mon, 28 Sep 2020 09:08:16 -0700 (PDT)
+        bh=Up1q7Lh5lzvjFc9/cxHyzghr4+aFRynRiUu3dMieLtc=;
+        b=GW4Ue2SBfl09QyBCuUyN8GqqPgjtcXzfhmz/E9V8kb7/NwiZlAXn1bTtBMjYFDfAbF
+         sNnf2OPSAJgXaVNiqYgxTgljj+bR4+ue6eeq9AVnL2QqzAKkpTFfmHxB5rXTxL0Ihp2k
+         WzB+nTi2vWuNgpX+dp+6BtVGHqhX4eNXYyPXrmfvwtbEtqEdphDtsC1ajrzt7FT/Eg7T
+         hAt0zm0XBC3g6dbmgiSz1dFiGXNyL1Az2QTuw8b8kmExUOH9WwqwiEe8+FRQc+VJemum
+         G3FuMhJ7sDx9ez2NWLaS9+aXxcPCGvkvYa6xuLZgF1Pv/NcOiuLG7n2VTVHnMT/wlGf8
+         /4Xw==
+X-Gm-Message-State: AOAM530nEqZ04Lw3OK1V5cpEae4PXDgd2igisSVAFGAqpY7YmoaPwHX5
+        yjeQM2bPRBAWAShpyB/pFZ4nlxOR+BEnA25feTEUlQ==
+X-Google-Smtp-Source: ABdhPJw69H527++mfTxIHdHujjdJNWdrx/lYVxW964jL5Na5DK0aiFgGyAWcvOPGRwcalQ0XRDMpA6pl0uffYHr5eMo=
+X-Received: by 2002:a17:906:2655:: with SMTP id i21mr2279494ejc.511.1601309376000;
+ Mon, 28 Sep 2020 09:09:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200925143422.21718-1-graf@amazon.com> <20200925143422.21718-4-graf@amazon.com>
-In-Reply-To: <20200925143422.21718-4-graf@amazon.com>
+References: <20200925143422.21718-1-graf@amazon.com> <20200925143422.21718-8-graf@amazon.com>
+In-Reply-To: <20200925143422.21718-8-graf@amazon.com>
 From:   Aaron Lewis <aaronlewis@google.com>
-Date:   Mon, 28 Sep 2020 09:08:05 -0700
-Message-ID: <CAAAPnDHN3eNig6nWGsV120dzy55Vd9k8i1vL6S7_Z2sDR0FQFg@mail.gmail.com>
-Subject: Re: [PATCH v8 3/8] KVM: x86: Add infrastructure for MSR filtering
+Date:   Mon, 28 Sep 2020 09:09:24 -0700
+Message-ID: <CAAAPnDGt8nk+wPyr-j+j713atv+xXoO0BjpMSFB+2NgWHPv6PQ@mail.gmail.com>
+Subject: Re: [PATCH v8 7/8] KVM: x86: Introduce MSR filtering
 To:     Alexander Graf <graf@amazon.com>
 Cc:     kvm list <kvm@vger.kernel.org>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
@@ -78,11 +78,19 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 7:36 AM Alexander Graf <graf@amazon.com> wrote:
+On Fri, Sep 25, 2020 at 7:35 AM Alexander Graf <graf@amazon.com> wrote:
 >
-> In the following commits we will add pieces of MSR filtering.
-> To ensure that code compiles even with the feature half-merged, let's add
-> a few stubs and struct definitions before the real patches start.
+> It's not desireable to have all MSRs always handled by KVM kernel space. Some
+> MSRs would be useful to handle in user space to either emulate behavior (like
+> uCode updates) or differentiate whether they are valid based on the CPU model.
+>
+> To allow user space to specify which MSRs it wants to see handled by KVM,
+> this patch introduces a new ioctl to push filter rules with bitmaps into
+> KVM. Based on these bitmaps, KVM can then decide whether to reject MSR access.
+> With the addition of KVM_CAP_X86_USER_SPACE_MSR it can also deflect the
+> denied MSR events to user space to operate on.
+>
+> If no filter is populated, MSR handling stays identical to before.
 >
 > Signed-off-by: Alexander Graf <graf@amazon.com>
 
@@ -91,12 +99,14 @@ Reviewed-by: Aaron Lewis <aaronlewis@google.com>
 >
 > ---
 >
-> v7 -> v8:
+> v2 -> v3:
 >
->   s/KVM_MSR_ALLOW/KVM_MSR_FILTER/g
-> ---
->  arch/x86/include/asm/kvm_host.h | 1 +
->  arch/x86/include/uapi/asm/kvm.h | 2 ++
->  arch/x86/kvm/x86.c              | 6 ++++++
->  arch/x86/kvm/x86.h              | 1 +
->  4 files changed, 10 insertions(+)
+>   - document flags for KVM_X86_ADD_MSR_ALLOWLIST
+>   - generalize exit path, always unlock when returning
+>   - s/KVM_CAP_ADD_MSR_ALLOWLIST/KVM_CAP_X86_MSR_ALLOWLIST/g
+>   - Add KVM_X86_CLEAR_MSR_ALLOWLIST
+>
+> v3 -> v4:
+>   - lock allow check and clearing
+>   - free bitmaps on clear
+>
