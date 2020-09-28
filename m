@@ -2,184 +2,142 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8BCC47420
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3EAEC47420
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:37:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68E23208D5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:26:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=pensando.io header.i=@pensando.io header.b="0/6i+Lzw"
+	by mail.kernel.org (Postfix) with ESMTP id 8F57B21941
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 17:37:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601314679;
+	bh=NigSMLyumIm9ggwTyG5LDnbruxmBhHyjdEZJ9Az6pxk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=Wc/tTsw53XW0A9fFg9X+xSq1a+oVUPocFPuIBfisTl0s9R1Mw89ct3tPi/LrhSKLg
+	 it1SZlYorgw40iX/uqWHnDtC5v7h/ZBhhcULdfjE2n2T36GqRkVSPruv+AE1fdW/w2
+	 xVWSf4Ojat3nfVwVh8cFdCJEVlrjbWLo0WTnfsrI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbgI1R0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 13:26:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726380AbgI1R0Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 13:26:16 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B44C0613CF
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 10:26:16 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id d9so1673148pfd.3
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 10:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pensando.io; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=xu75CUkAEe8YKESDX+6RMXTyhfVPWONUsVk2klTLLIw=;
-        b=0/6i+LzwyathOMbvG6oG2ll/0evYhsEXpg9MB8BFBLC+1GFyqK6z7LlJJBxzxFdfbJ
-         05TEF7DdGGpuvCMyi2NZv1Q92KQL0cR+D9CHNZcApVdI271h571JbWXG7v8ceUFtVFtf
-         iwjyPFqYKOGDgEmB8LpvoaUN93/ZIPIYVvLAUawMj6Y4rR+hfMhita75OZvkqLyaAvUf
-         xvE+pK94Tr93FIKvvY4r5qpOHmvw3WITNJyYhNThNqO4q29c3wTZYVBQe7Tq8UTIL6k4
-         0ZHjkrbMpMyKmBmkJEdjYVDtZTHnR2/b6Pa/4fNUCUmKUcc1eo5AP/szp3Nr9ULAH1LL
-         Gszg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=xu75CUkAEe8YKESDX+6RMXTyhfVPWONUsVk2klTLLIw=;
-        b=fJUS7ECHz1rG8sD5dveVG0NaygKl3fss8TwePdOY3So/ihj2eh5UyDrDqzEN8dp+Mq
-         sv3gpbWhJ4bcITXcKFatARk9QwA01uh50GP4XD/tiElKhiePQ/hNBmJmF/NEbQ275bhr
-         fl/59Rv7V5yv7Q5WXxgYAX7iw+tXIZujEOmvK+0pwdRRdnZA9yXzUp7VpJNmrSPCafd0
-         +t3gr4HRVw9J7SBAUyl/fR23p4aOodgO/uuKXJXSJU0J5Qm+e4HoRFwoy/519wIm3h5X
-         roL2ofz+Bo5uAU1esLGCnoZev2LPCHyv+k3OSa2NFF8CWzIemcEWUZH6nqbo+R0hU+Fz
-         5Y0w==
-X-Gm-Message-State: AOAM5327HpYqJAueFPzanmlIHZi+b9P9zGmglROwErlkWZV/NAzMF3qQ
-        Y5koG/dHFZ7fCLskeMrfm/Pk6Q==
-X-Google-Smtp-Source: ABdhPJzwfjXkCsxEu3XfK2aVP501w1BXp/1/rfPP3H13WpeMSgLae7v91sNjQ8w4DmdYg1Jo2bc1PA==
-X-Received: by 2002:a63:595a:: with SMTP id j26mr130244pgm.406.1601313975665;
-        Mon, 28 Sep 2020 10:26:15 -0700 (PDT)
-Received: from Shannons-MacBook-Pro.local (static-50-53-47-17.bvtn.or.frontiernet.net. [50.53.47.17])
-        by smtp.gmail.com with ESMTPSA id j18sm1986127pgm.30.2020.09.28.10.26.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2020 10:26:15 -0700 (PDT)
-Subject: Re: [patch 12/35] net: ionic: Remove WARN_ON(in_interrupt()).
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Paul McKenney <paulmck@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Pensando Drivers <drivers@pensando.io>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Christian Benvenuti <benve@cisco.com>,
-        Govindarajulu Varadarajan <_govind@gmx.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Jay Cliburn <jcliburn@gmail.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        intel-wired-lan@lists.osuosl.org, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
-        Edward Cree <ecree@solarflare.com>,
-        Martin Habets <mhabets@solarflare.com>,
-        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
-        Ulrich Kunitz <kune@deine-taler.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arend van Spriel <arend.vanspriel@broadcom.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-        Wright Feng <wright.feng@cypress.com>,
-        brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211-dev-list@cypress.com,
-        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
-        Stanislaw Gruszka <stf_xl@wp.pl>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Jouni Malinen <j@w1.fi>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
-        Xinming Hu <huxinming820@gmail.com>,
-        libertas-dev@lists.infradead.org,
-        Pascal Terjan <pterjan@google.com>,
-        Ping-Ke Shih <pkshih@realtek.com>
-References: <20200927194846.045411263@linutronix.de>
- <20200927194921.026798214@linutronix.de>
-From:   Shannon Nelson <snelson@pensando.io>
-Message-ID: <96baeba9-eb5f-1462-2dcc-ecb9793727a1@pensando.io>
-Date:   Mon, 28 Sep 2020 10:26:10 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1726504AbgI1Rh7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 13:37:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47562 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726551AbgI1Rh5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Sep 2020 13:37:57 -0400
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B875E2184D
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 17:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601314677;
+        bh=NigSMLyumIm9ggwTyG5LDnbruxmBhHyjdEZJ9Az6pxk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BWf0gF/1Q2N2DRi0WitlGM15dK3OoCFj7ovB6s6ZXn5zi2NKs3faVDgZTWbQcnGc0
+         cGifc3fJghySiXTrJ7GmiKOHhCYNGczgcFgzS1ey7Yzx4wfjeZSNbAhghZBhCql8PV
+         XM6gRGQYTk2QBxa7BidHfDlS6u3mAqGTqwZNQJ1I=
+Received: by mail-wm1-f49.google.com with SMTP id e17so1974951wme.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 10:37:56 -0700 (PDT)
+X-Gm-Message-State: AOAM533LoZfYcqx5iIfjFIJnb8O9+GE/QITAdMCBe1R6Yr9QtpGT2nOM
+        FXs2s87KCo/ryIAmi5Hddd9CYaLTS+uD2zagRTEY4g==
+X-Google-Smtp-Source: ABdhPJz8+wjcR1Xd7cJT/xzMQ5Y823qmYExTDDQnf50+Oxufxdq2wRFjnFMC9Lbm2uLY6O2u6ua5c+9MahX9wVjYQZA=
+X-Received: by 2002:a1c:740c:: with SMTP id p12mr291853wmc.176.1601314675297;
+ Mon, 28 Sep 2020 10:37:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200927194921.026798214@linutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
+ <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net> <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
+In-Reply-To: <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 28 Sep 2020 10:37:42 -0700
+X-Gmail-Original-Message-ID: <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+Message-ID: <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
+ Branch Tracking for vsyscall emulation
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/27/20 12:48 PM, Thomas Gleixner wrote:
-> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> in_interrupt() is ill defined and does not provide what the name
-> suggests. The usage especially in driver code is deprecated and a tree wide
-> effort to clean up and consolidate the (ab)usage of in_interrupt() and
-> related checks is happening.
->
-> In this case the check covers only parts of the contexts in which these
-> functions cannot be called. It fails to detect preemption or interrupt
-> disabled invocations.
->
-> As the functions which are invoked from ionic_adminq_post() and
-> ionic_dev_cmd_wait() contain a broad variety of checks (always enabled or
-> debug option dependent) which cover all invalid conditions already, there
-> is no point in having inconsistent warnings in those drivers.
->
-> Just remove them.
->
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Shannon Nelson <snelson@pensando.io>
-> Cc: Pensando Drivers <drivers@pensando.io>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: netdev@vger.kernel.org
-Thanks.
+> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
+> > > On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+> +
+> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+> +               if (!cet) {
+> +                       /*
+> +                        * This is an unlikely case where the task is
+> +                        * CET-enabled, but CET xstate is in INIT.
+> +                        */
+> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
 
-Acked-by: Shannon Nelson <snelson@pensando.io>
+"unlikely" doesn't really cover this.
 
-> ---
->   drivers/net/ethernet/pensando/ionic/ionic_main.c |    4 ----
->   1 file changed, 4 deletions(-)
->
-> --- a/drivers/net/ethernet/pensando/ionic/ionic_main.c
-> +++ b/drivers/net/ethernet/pensando/ionic/ionic_main.c
-> @@ -248,8 +248,6 @@ static int ionic_adminq_post(struct ioni
->   	struct ionic_queue *adminq;
->   	int err = 0;
->   
-> -	WARN_ON(in_interrupt());
-> -
->   	if (!lif->adminqcq)
->   		return -EIO;
->   
-> @@ -346,8 +344,6 @@ int ionic_dev_cmd_wait(struct ionic *ion
->   	int done;
->   	int err;
->   
-> -	WARN_ON(in_interrupt());
-> -
->   	/* Wait for dev cmd to complete, retrying if we get EAGAIN,
->   	 * but don't wait any longer than max_seconds.
->   	 */
->
+> +                       fpregs_unlock();
+> +                       goto sigsegv;
+> +               }
+> +
+> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
+> +                       cet->user_ssp += 8;
 
+This looks buggy.  The condition should be "if SHSTK is on, then add 8
+to user_ssp".  If the result is noncanonical, then some appropriate
+exception should be generated, probably by the FPU restore code -- see
+below.  You should be checking the SHSTK_EN bit, not SSP.
+
+Also, can you point me to where any of these canonicality rules are
+documented in the SDM?  I looked and I can't find them.
+
+
+This reminds me: this code in extable.c needs to change.
+
+__visible bool ex_handler_fprestore(const struct exception_table_entry *fixup,
+                                    struct pt_regs *regs, int trapnr,
+                                    unsigned long error_code,
+                                    unsigned long fault_addr)
+{
+        regs->ip = ex_fixup_addr(fixup);
+
+        WARN_ONCE(1, "Bad FPU state detected at %pB, reinitializing
+FPU registers.",
+                  (void *)instruction_pointer(regs));
+
+        __copy_kernel_to_fpregs(&init_fpstate, -1);
+
+Now that we have supervisor states like CET, this is buggy.  This
+should do something intelligent like initializing all the *user* state
+and trying again.  If that succeeds, a signal should be sent rather
+than just corrupting the task.  And if it fails, then perhaps some
+actual intelligence is needed.  We certainly should not just disable
+CET because something is wrong with the CET MSRs.
