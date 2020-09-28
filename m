@@ -2,122 +2,113 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CDEEC2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:03:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3454DC2D0A8
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:25:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F95920BED
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:03:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C870C21531
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 10:25:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gefvSazq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OxHd7Eyf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgI1KDX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 06:03:23 -0400
-Received: from m17618.mail.qiye.163.com ([59.111.176.18]:17757 "EHLO
-        m17618.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726658AbgI1KDX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 06:03:23 -0400
-Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.231])
-        by m17618.mail.qiye.163.com (Hmail) with ESMTPA id 303C54E2363;
-        Mon, 28 Sep 2020 18:03:19 +0800 (CST)
-From:   Wang Qing <wangqing@vivo.com>
-To:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Qing <wangqing@vivo.com>,
-        Wang Wenhu <wenhu.wang@vivo.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Chucheng Luo <luochucheng@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V5] doc: zh_CN: add translatation for btrfs
-Date:   Mon, 28 Sep 2020 17:59:47 +0800
-Message-Id: <1601287276-25406-1-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726635AbgI1KZG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 06:25:06 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:38042 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726625AbgI1KZF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 06:25:05 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1601288703;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RS8aaD/teCyQjHIzfzURMvl8u+n+j/rIgE5B0tuRdqE=;
+        b=gefvSazqCe4P8yXMo6E5U3J2nl9MRIsoO0COTSGGhv6CaqV3kK47f3WLpsoS162+/W9/Vc
+        Wkzqk6yvWPGwPTL2eAmHgrG3XH/+ywXzrlCVryyrOnGaUtfzn4Tijwv/s1YNtCkS0vEhrG
+        +4YN1IIfcrakr2TzIlS9lSPb9AyFXfZrXkhJw1HF7Pi6y5zrgk9waDEU48V9Kw+lPeZLly
+        Wu1mg8ha3QHNKHUEwLgWa6tKTwRcGJLzAda1mhslxVkZ1je+KWGN3kAPZD7ly/wCWCC4CD
+        OnKYpfAfsMlO2sywS2GlLfQG5j5EJ4fk8dHmS+9cCbyjOqWVrFmGedLp39lLug==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1601288703;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RS8aaD/teCyQjHIzfzURMvl8u+n+j/rIgE5B0tuRdqE=;
+        b=OxHd7EyfzbyMOnvuIYpsPknE9szpQG6fIVC/UtImzmuMTucnagAwUguEK0km7NFiEUZ3/L
+        u706LrSyXdPBgFAg==
+To:     David Miller <davem@davemloft.net>
+Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
+        torvalds@linuxfoundation.org, paulmck@kernel.org,
+        willy@infradead.org, benve@cisco.com, _govind@gmx.com,
+        kuba@kernel.org, netdev@vger.kernel.org, corbet@lwn.net,
+        mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+        bigeasy@linutronix.de, luc.vanoostenryck@gmail.com,
+        jcliburn@gmail.com, chris.snook@gmail.com, vishal@chelsio.com,
+        jeffrey.t.kirsher@intel.com, intel-wired-lan@lists.osuosl.org,
+        snelson@pensando.io, drivers@pensando.io, andrew@lunn.ch,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        tsbogend@alpha.franken.de, linux-net-drivers@solarflare.com,
+        ecree@solarflare.com, mhabets@solarflare.com, jdmason@kudzu.us,
+        dsd@gentoo.org, kune@deine-taler.de, kvalo@codeaurora.org,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org, arend.vanspriel@broadcom.com,
+        franky.lin@broadcom.com, hante.meuleman@broadcom.com,
+        chi-hsien.lin@cypress.com, wright.feng@cypress.com,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com, stas.yakovlev@gmail.com,
+        stf_xl@wp.pl, johannes.berg@intel.com, emmanuel.grumbach@intel.com,
+        luciano.coelho@intel.com, linuxwifi@intel.com
+Subject: Re: [patch 00/35] net: in_interrupt() cleanup and fixes
+In-Reply-To: <20200927.135707.1699954431349573308.davem@davemloft.net>
+References: <20200927194846.045411263@linutronix.de> <20200927.135707.1699954431349573308.davem@davemloft.net>
+Date:   Mon, 28 Sep 2020 12:25:02 +0200
+Message-ID: <87blhqkxkx.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZTB0ZHRpKSEtKSh8fVkpNS0pJQ0xIQkJOTUJVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NzY6Djo5MT8fGlYhNhwNDkIQ
-        FikaFDpVSlVKTUtKSUNMT0tLS0lKVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
-        SU5KVUxPVUlISllXWQgBWUFITUpPNwY+
-X-HM-Tid: 0a74d42aa8459376kuws303c54e2363
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/filesystems/btrfs.rst into Chinese.
+On Sun, Sep 27 2020 at 13:57, David Miller wrote:
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
-Changes in v5:
- - Fix ref errors in Original.
-Changes in v4:
- - Add btrfs index.
-Changes in v3:
- - Fix patch format issue.
----
- .../translations/zh_CN/filesystems/btrfs.rst       | 37 ++++++++++++++++++++++
- .../translations/zh_CN/filesystems/index.rst       |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/filesystems/btrfs.rst
+> From: Thomas Gleixner <tglx@linutronix.de>
+> Date: Sun, 27 Sep 2020 21:48:46 +0200
+>
+>> in the discussion about preempt count consistency accross kernel configu=
+rations:
+>
+> Please respin this against net-next, some of the patches in here are alre=
+ady
+> in net-next (the wireless debug macro one) and even after that the series
+> doesn't build:
 
-diff --git a/Documentation/translations/zh_CN/filesystems/btrfs.rst b/Documentation/translations/zh_CN/filesystems/btrfs.rst
-new file mode 100644
-index 0000000..8b8cca2
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/btrfs.rst
-@@ -0,0 +1,37 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/filesystems/btrfs.rst <btrfs_index>`
-+
-+translated by 王擎 Wang Qing<wangqing@vivo.com>
-+
-+=====
-+BTRFS
-+=====
-+
-+Btrfs是一个写时复制更新的文件系统，它注重容错、修复和易于管理。
-+Btrfs由多家公司联合开发，并获得GPL许可，免费开放给所有人。
-+
-+Btrfs的主要功能包括：
-+
-+    *扩展大小的文件存储（文件最大支持2^64）
-+    *填充方式使小文件更节省空间
-+    *索引目录的方式更节省空间
-+    *动态的索引节点分配方式
-+    *写快照的特性
-+    *支持子卷（独立的内部根文件系统）
-+    *对象级别的镜像克隆
-+    *基于数据和元数据的校验和（支持多种算法）
-+    *支持压缩
-+    *內建多种磁盘阵列算法，支持多种设备
-+    *支持离线的文件系统检查
-+    *高效的增量备份和文件系统镜像
-+    *在线文件系统碎片整理
-+
-+更多有关信息，请参阅Wiki
-+
-+  https://btrfs.wiki.kernel.org
-+
-+维护信息包含管理任务、常见问题、用例、挂载选项、变更日志、
-+特性、手册、源码仓、联系人等。
-diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-index 186501d..47e86397
---- a/Documentation/translations/zh_CN/filesystems/index.rst
-+++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -25,4 +25,5 @@ Linux Kernel中的文件系统
- 
-    virtiofs
-    debugfs
-+   btrfs
- 
--- 
-2.7.4
+Will do.
 
+> drivers/net/ethernet/cisco/enic/enic_main.c: In function =E2=80=98enic_re=
+set=E2=80=99:
+> drivers/net/ethernet/cisco/enic/enic_main.c:2315:2: error: implicit decla=
+ration of function =E2=80=98enic_set_api_state=E2=80=99; did you mean =E2=
+=80=98enic_set_api_busy=E2=80=99? [-Werror=3Dimplicit-function-declaration]
+>  2315 |  enic_set_api_state(enic, true);
+>       |  ^~~~~~~~~~~~~~~~~~
+>       |  enic_set_api_busy
+> At top level:
+> drivers/net/ethernet/cisco/enic/enic_main.c:2298:13: warning: =E2=80=98en=
+ic_set_api_busy=E2=80=99 defined but not used [-Wunused-function]
+>  2298 | static void enic_set_api_busy(struct enic *enic, bool busy)
+>       |             ^~~~~~~~~~~~~~~~~
+
+Duh, not sure how I managed that. Sorry. will fix and rebase.
+
+Thanks,
+
+        tglx
