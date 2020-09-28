@@ -2,109 +2,116 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA4EC2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9612C4727C
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52F14207F7
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:18:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68F0120809
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:26:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="mzXVXwiR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MlFab++6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726500AbgI1US4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 16:18:56 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3433 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbgI1US4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 16:18:56 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f7244cc0000>; Mon, 28 Sep 2020 13:17:16 -0700
-Received: from [10.2.53.30] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 28 Sep
- 2020 20:18:55 +0000
-Subject: Re: [PATCH 8/8] selftests/vm: hmm-tests: remove the libhugetlbfs
- dependency
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>
-References: <20200928062159.923212-1-jhubbard@nvidia.com>
- <20200928062159.923212-9-jhubbard@nvidia.com>
- <20200928130245.GQ9916@ziepe.ca>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <982fd9bf-64cb-00e9-f092-13849c7cf7d9@nvidia.com>
-Date:   Mon, 28 Sep 2020 13:18:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726668AbgI1U0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 16:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38868 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726692AbgI1U0z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 16:26:55 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5092C0613CE
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:26:54 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id e18so1900052pgd.4
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lJ5ZdKcP2oAkwJGbJu7+t9DxeD4UPnPYjzHySuJB9PE=;
+        b=MlFab++6Ip3miUqv0VUcTTNeUxVV45WuF5PFiNzVNk1Ih0DWAMRo93baww8sIoZcuL
+         Cva6K7F9j2ZeLMDPnoJunPlqO7v4JnzhXtJIVt+mbmxZjzYIy/ZTeUA5TsNyRtLBpmWe
+         jArZUszX6PfOEgwGFNEEE6ZGNMbxfVeBhqs64=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lJ5ZdKcP2oAkwJGbJu7+t9DxeD4UPnPYjzHySuJB9PE=;
+        b=bCAVH0Vqd6aU5CzOzToQdOiQPptVMa69GC1Df0zUKAOIE/LpCPqNev9pN6+B5cIc1C
+         vSLtWGT4OUO+boh+SyDmeqR8S2hvimsBVVMmGRWLxHfJ0f1DpA0Df899Jp5mLHMjspJ4
+         dBorWQlV7XnUe55zWsMBnspkx3BzlF7EH2AXNduwzfhRCT3GyvanQkPlunZfHPpQiRNr
+         lz23d/4dDS93x7ESjiuYDQNmiij2bBDepVsUPEN/zPI+zFf3C0lo+tRpwM4U+2EI0gql
+         uYwfooX63Qs+YCTsAvi53twXmrG087DrOySaBhPVkMpBjAGRHqrGQnI7Wtii3AKhsecJ
+         BXDg==
+X-Gm-Message-State: AOAM532Or4fA+EVdQN5DsT4j8S+XSt+RAgNVQ2WbHYNWh3dUtOd52oG5
+        WktqAAksReAiQfDgU7ci7RZwNA==
+X-Google-Smtp-Source: ABdhPJxH5K44N+9tEm104267VEbgaRdZeWLDO/ScilChvQxDBLD7mNFmT4KCtmzLAvGg2fUSgu8YNA==
+X-Received: by 2002:a17:902:14f:b029:d2:562d:e84 with SMTP id 73-20020a170902014fb02900d2562d0e84mr1027485plb.64.1601324814455;
+        Mon, 28 Sep 2020 13:26:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q4sm2484432pjl.28.2020.09.28.13.26.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 13:26:53 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Shuah Khan <shuah@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Hangbin Liu <liuhangbin@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Tim.Bird@sony.com, lkft-triage@lists.linaro.org,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Justin Cook <justin.cook@linaro.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 0/3] Extract run_kselftest.sh and generate stand-alone test list
+Date:   Mon, 28 Sep 2020 13:26:47 -0700
+Message-Id: <20200928202650.2530280-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200928130245.GQ9916@ziepe.ca>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1601324236; bh=O2i3Vdy5N6Vs0TRULMqHmrEurgd7OBZM5lfhatrbaRg=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=mzXVXwiRJ+Il0yV0xeEzTd7ksvI/MhOCIjEBbWjkvlITArH3Mqb9yFhwVo3s2Qq6H
-         uRxhc98vGseLTO//ZeUc98XyvBExMD0JZbk9uO+fkSK9463sKShxdXO4PSHDhpVY6l
-         6ZRqsNpkB3oXpo/f3MA9WLP9zTxu58u59M5XbkWfXsLQaOWl/ABVQuCqG+7Qq111nG
-         RmMzTPY8pK3CMb1292VSCjmeXOhODzka6F+vTjqwkUzp8fm3msMU+vpSJQCcvO7mmk
-         w0cr273zgoiDsUaJpISMH9GmXR6RgXeCPeflmVz+1CC2bFmtBzYpgvvNBBcBgqQlOp
-         KN5PBysEory5Q==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/28/20 6:02 AM, Jason Gunthorpe wrote:
-> On Sun, Sep 27, 2020 at 11:21:59PM -0700, John Hubbard wrote:
-...
->> +gcc -c $tmpfile_c -o $tmpfile_o >/dev/null 2>&1
-> 
-> This gcc has to come from some makefile variable
+v2:
+- update documentation
+- include SPDX line in extracted script
+v1: https://lore.kernel.org/linux-kselftest/20200925234527.1885234-1-keescook@chromium.org/
 
-ahem, yes, that really should have just been $(CC), will change to that.
 
-> 
-> This is kind of janky :\
-> 
-> Could we just not use libhugetlbfs? Doesn't it all just boil down to
-> creating a file in /dev/huge? Eg look at tools/testing/selftests/vm/hugepage-mmap.c
-> 
+Hi!
 
-Well, the situation is a lot worse than that, because hmm-tests.c is using a few
-helper functions that end up pulling in more and more.
+I really like Hangbin Liu's intent[1] but I think we need to be a little
+more clean about the implementation. This extracts run_kselftest.sh from
+the Makefile so it can actually be changed without embeds, etc. Instead,
+generate the test list into a text file. Everything gets much simpler.
+:)
 
-My first attempt was actually in your direction: just grab a bit of code from the
-library and drop it in. But that ended up turning into several pages of code from
-quite a few functions and definitions, and it was looking maybe excessive. (I
-can look at it again, though. Maybe it feels less excessive if there are no other
-acceptible alternatives.)
+And in patch 2, I add back Hangbin Liu's new options (with some extra
+added) with knowledge of "collections" (i.e. Makefile TARGETS) and
+subtests. This should work really well with LAVA too, which needs to
+manipulate the lists of tests being run.
 
-So then I thought, why not just *delete* those two routines from hmm-tests.c? But
-Ralph didn't like that because he notes that hmm_range_fault() loses some useful
-test coverage by being exercised with hugetlbfs.
+Thoughts?
 
-So finally I landed here, which is so far, the smallest change that would be
-potentially acceptible: a couple dozen lines, in order to selectively disable the
-problematic routines.
+-Kees
 
-Anyway, thoughts? I like the current approach but am open to anything that makes
-hmm-test Just Work for more people, on the *first* try.
+[1] https://lore.kernel.org/lkml/20200914022227.437143-1-liuhangbin@gmail.com/
 
-thanks,
+Kees Cook (3):
+  selftests: Extract run_kselftest.sh and generate stand-alone test list
+  selftests/run_kselftest.sh: Make each test individually selectable
+  doc: dev-tools: kselftest.rst: Update examples and paths
+
+ Documentation/dev-tools/kselftest.rst    | 35 +++++----
+ tools/testing/selftests/Makefile         | 26 ++-----
+ tools/testing/selftests/lib.mk           |  5 +-
+ tools/testing/selftests/run_kselftest.sh | 93 ++++++++++++++++++++++++
+ 4 files changed, 124 insertions(+), 35 deletions(-)
+ create mode 100755 tools/testing/selftests/run_kselftest.sh
+
 -- 
-John Hubbard
-NVIDIA
+2.25.1
+
