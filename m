@@ -2,56 +2,57 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9612C4727C
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:26:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B2AC2D0A8
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:27:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68F0120809
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:26:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D907520717
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 20:27:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MlFab++6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jzjFbeQC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbgI1U0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 16:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38868 "EHLO
+        id S1726621AbgI1U07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 16:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726692AbgI1U0z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 16:26:55 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5092C0613CE
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:26:54 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id e18so1900052pgd.4
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:26:54 -0700 (PDT)
+        with ESMTP id S1726874AbgI1U05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 16:26:57 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E790C0613D8
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:26:56 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id bw23so1374110pjb.2
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 13:26:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lJ5ZdKcP2oAkwJGbJu7+t9DxeD4UPnPYjzHySuJB9PE=;
-        b=MlFab++6Ip3miUqv0VUcTTNeUxVV45WuF5PFiNzVNk1Ih0DWAMRo93baww8sIoZcuL
-         Cva6K7F9j2ZeLMDPnoJunPlqO7v4JnzhXtJIVt+mbmxZjzYIy/ZTeUA5TsNyRtLBpmWe
-         jArZUszX6PfOEgwGFNEEE6ZGNMbxfVeBhqs64=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=84Wkm7II+zR8a1S1XbEc0SAaLAitSu9by2LK3K8LLZY=;
+        b=jzjFbeQC0BOwC59BlIVN2ZD9Bjg+kpxXoCamP3rbFMeNXlT5A44rhrBi1/hP2VR/2N
+         Yz4xMvTvF/IVCMTawSARPCrWJFAyxjqHWONLjXci0pBwHhpp+qK7flV9anmFW0vYRW97
+         kRVlk0d7tppB+g7b5R7BN30fkEEi2ATsg6ztU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lJ5ZdKcP2oAkwJGbJu7+t9DxeD4UPnPYjzHySuJB9PE=;
-        b=bCAVH0Vqd6aU5CzOzToQdOiQPptVMa69GC1Df0zUKAOIE/LpCPqNev9pN6+B5cIc1C
-         vSLtWGT4OUO+boh+SyDmeqR8S2hvimsBVVMmGRWLxHfJ0f1DpA0Df899Jp5mLHMjspJ4
-         dBorWQlV7XnUe55zWsMBnspkx3BzlF7EH2AXNduwzfhRCT3GyvanQkPlunZfHPpQiRNr
-         lz23d/4dDS93x7ESjiuYDQNmiij2bBDepVsUPEN/zPI+zFf3C0lo+tRpwM4U+2EI0gql
-         uYwfooX63Qs+YCTsAvi53twXmrG087DrOySaBhPVkMpBjAGRHqrGQnI7Wtii3AKhsecJ
-         BXDg==
-X-Gm-Message-State: AOAM532Or4fA+EVdQN5DsT4j8S+XSt+RAgNVQ2WbHYNWh3dUtOd52oG5
-        WktqAAksReAiQfDgU7ci7RZwNA==
-X-Google-Smtp-Source: ABdhPJxH5K44N+9tEm104267VEbgaRdZeWLDO/ScilChvQxDBLD7mNFmT4KCtmzLAvGg2fUSgu8YNA==
-X-Received: by 2002:a17:902:14f:b029:d2:562d:e84 with SMTP id 73-20020a170902014fb02900d2562d0e84mr1027485plb.64.1601324814455;
-        Mon, 28 Sep 2020 13:26:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=84Wkm7II+zR8a1S1XbEc0SAaLAitSu9by2LK3K8LLZY=;
+        b=FlWoO4EC0tMt4sa/nGiZbFXddamo2xMNCwa+3WQcEuwpZ8EDqGRAO7H5bXqeU4k9iF
+         GSFgxa94ADyS0h/jbk+PhY/52CWc0GvI+vyd4MeCgbxSq9vyfU4lXYrx0qOoCxlUCT2/
+         h2a9X6lPe0qXPzRCfC2HQqxdj/DCkABRJ2nXnuzHMvGkBeWjm/e+emSaqdt1+Z4aaMpz
+         m2HoavMuWGLdbBgZucj8eEIsiDym7wriJNl1w//3u/VCwfEnr2wGzN0dciOuibrBLMcJ
+         751EBRyygo2z2JNmqcMtXM85D+jDzLG9X2jh9DmY5s9p/oXX0756BIvEa4iEMq9VJCPV
+         CWmg==
+X-Gm-Message-State: AOAM530XdttvVg1qiXrD7upCQDBNhrO94KeULAxvfxWcQEKfjuTO698D
+        MSR1mPcONt2aWRM9U37r1/ZAwg==
+X-Google-Smtp-Source: ABdhPJzunOfjF8LprL3XY61w3FvvpSkqtHIqXlVfnXXgRC88QVU+My/W354njw01Dr7RLCEJWbZv+Q==
+X-Received: by 2002:a17:90a:e38a:: with SMTP id b10mr817027pjz.17.1601324815742;
+        Mon, 28 Sep 2020 13:26:55 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q4sm2484432pjl.28.2020.09.28.13.26.52
+        by smtp.gmail.com with ESMTPSA id s16sm2107828pgl.78.2020.09.28.13.26.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 28 Sep 2020 13:26:53 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -65,53 +66,95 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Justin Cook <justin.cook@linaro.org>,
         Linux-Next Mailing List <linux-next@vger.kernel.org>,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH v2 0/3] Extract run_kselftest.sh and generate stand-alone test list
-Date:   Mon, 28 Sep 2020 13:26:47 -0700
-Message-Id: <20200928202650.2530280-1-keescook@chromium.org>
+Subject: [PATCH v2 3/3] doc: dev-tools: kselftest.rst: Update examples and paths
+Date:   Mon, 28 Sep 2020 13:26:50 -0700
+Message-Id: <20200928202650.2530280-4-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200928202650.2530280-1-keescook@chromium.org>
+References: <20200928202650.2530280-1-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v2:
-- update documentation
-- include SPDX line in extracted script
-v1: https://lore.kernel.org/linux-kselftest/20200925234527.1885234-1-keescook@chromium.org/
+Update the installation commands and path details, detail the new
+options available in the run_kselftests.sh script.
 
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/dev-tools/kselftest.rst | 35 +++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
 
-Hi!
-
-I really like Hangbin Liu's intent[1] but I think we need to be a little
-more clean about the implementation. This extracts run_kselftest.sh from
-the Makefile so it can actually be changed without embeds, etc. Instead,
-generate the test list into a text file. Everything gets much simpler.
-:)
-
-And in patch 2, I add back Hangbin Liu's new options (with some extra
-added) with knowledge of "collections" (i.e. Makefile TARGETS) and
-subtests. This should work really well with LAVA too, which needs to
-manipulate the lists of tests being run.
-
-Thoughts?
-
--Kees
-
-[1] https://lore.kernel.org/lkml/20200914022227.437143-1-liuhangbin@gmail.com/
-
-Kees Cook (3):
-  selftests: Extract run_kselftest.sh and generate stand-alone test list
-  selftests/run_kselftest.sh: Make each test individually selectable
-  doc: dev-tools: kselftest.rst: Update examples and paths
-
- Documentation/dev-tools/kselftest.rst    | 35 +++++----
- tools/testing/selftests/Makefile         | 26 ++-----
- tools/testing/selftests/lib.mk           |  5 +-
- tools/testing/selftests/run_kselftest.sh | 93 ++++++++++++++++++++++++
- 4 files changed, 124 insertions(+), 35 deletions(-)
- create mode 100755 tools/testing/selftests/run_kselftest.sh
-
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index 469d115a95f1..a901def730d9 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -125,32 +125,41 @@ Note that some tests will require root privileges.
+ Install selftests
+ =================
+ 
+-You can use the kselftest_install.sh tool to install selftests in the
+-default location, which is tools/testing/selftests/kselftest, or in a
+-user specified location.
++You can use the "install" target of "make" (which calls the `kselftest_install.sh`
++tool) to install selftests in the default location (`tools/testing/selftests/kselftest_install`),
++or in a user specified location via the `INSTALL_PATH` "make" variable.
+ 
+ To install selftests in default location::
+ 
+-   $ cd tools/testing/selftests
+-   $ ./kselftest_install.sh
++   $ make -C tools/testing/selftests install
+ 
+ To install selftests in a user specified location::
+ 
+-   $ cd tools/testing/selftests
+-   $ ./kselftest_install.sh install_dir
++   $ make -C tools/testing/selftests install INSTALL_PATH=/some/other/path
+ 
+ Running installed selftests
+ ===========================
+ 
+-Kselftest install as well as the Kselftest tarball provide a script
+-named "run_kselftest.sh" to run the tests.
++Found in the install directory, as well as in the Kselftest tarball,
++is a script named `run_kselftest.sh` to run the tests.
+ 
+ You can simply do the following to run the installed Kselftests. Please
+ note some tests will require root privileges::
+ 
+-   $ cd kselftest
++   $ cd kselftest_install
+    $ ./run_kselftest.sh
+ 
++To see the list of available tests, the `-l` option can be used::
++
++   $ ./run_kselftest.sh -l
++
++The `-c` option can be used to run all the tests from a test collection, or
++the `-t` option for specific single tests. Either can be used multiple times::
++
++   $ ./run_kselftest.sh -c bpf -c seccomp -t timers:posix_timers -t timer:nanosleep
++
++For other features see the script usage output, seen with the `-h` option.
++
+ Packaging selftests
+ ===================
+ 
+@@ -160,9 +169,9 @@ different system. To package selftests, run::
+    $ make -C tools/testing/selftests gen_tar
+ 
+ This generates a tarball in the `INSTALL_PATH/kselftest-packages` directory. By
+-default, `.gz` format is used. The tar format can be overridden by specifying
+-a `FORMAT` make variable. Any value recognized by `tar's auto-compress`_ option
+-is supported, such as::
++default, `.gz` format is used. The tar compression format can be overridden by
++specifying a `FORMAT` make variable. Any value recognized by `tar's auto-compress`_
++option is supported, such as::
+ 
+     $ make -C tools/testing/selftests gen_tar FORMAT=.xz
+ 
 -- 
 2.25.1
 
