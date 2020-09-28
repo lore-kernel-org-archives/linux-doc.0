@@ -2,98 +2,77 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A0B4C4741F
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9470C4727E
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:06:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 099DC20809
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:06:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fvsDnXfK"
+	by mail.kernel.org (Postfix) with ESMTP id 763E82080A
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 16:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726409AbgI1QGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 12:06:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726500AbgI1QGL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 12:06:11 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C932FC0613CE
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 09:06:10 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id p9so9304439ejf.6
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 09:06:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o71LzbqX367JaJH9ttdwJUvGzrnJxktn3m8pbVRAwzw=;
-        b=fvsDnXfKUBOAXccBDwFSPn5D6Csgk0G1mHyAUd74eUxAq5zR8163TbnodrFpDHFksK
-         q2UiyDX8dhCNVWDabaAhGk6xzfG4SXk1cjcB+qzfJ7yDn1xhigkN52Szo+wj1QDppJZy
-         SQIg1zSkc4EsBC+GeqRxR6kysSFmHW8aanRGoDDPzu+9MkTBuf1hXhNNXN+d3nIR/hOU
-         1p+7sGA15/ttgAVlsAnYSh8fZUQuiNAtvq8tEXBc7wT+Dzt+eNRle4hU6ePzLCSiumPP
-         94zV7qksW3cZEgcTnZWteH9J53JSPSP4z9MrIiYAh1NbGG9saHFBAmXyiozR7L2/MR6P
-         ARaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o71LzbqX367JaJH9ttdwJUvGzrnJxktn3m8pbVRAwzw=;
-        b=gqq5LFDnM5R4Q5XG16CZ46rD/yf3Obeosjp8vR6bTWFx0oD5mlj0+i8fBztcFXEPwY
-         PMPrGoD5o6l9J34JYhQxgnVjYKJmUPPpg7EGGBPZbL8dZfguBNVGZIPj09Kuezu0yq/0
-         kuioBgTljkv4VnFupew1hfCdrKZHwpJgUUg/VFhZwG6J30Umc0kSRtHH6ar2UyACyb7E
-         VAMqJGmQbCESS9mv5OJdxnvUqbATuvmuny0PnYY9o6zRJT1uubWAG03qRE1LEW4dQoFa
-         nGeQMle8DQfpkI3IT6GUERcUws83yRiioPnO/ZbX7UZgCsDnr+sCs2O1EfmkojZRDjSr
-         tthA==
-X-Gm-Message-State: AOAM5336xYZ0wEOhRo4qY+GTgtEUoZJ7LDozyinueEV4UaXrQFj6GFhu
-        fas+DQIMzHkJlzuL+Uex42VYluHvUq5UrljOUSeARw==
-X-Google-Smtp-Source: ABdhPJwqh8E0xHjHa+dXhoJEb6VW08INWmr1q9wGgTppwWtMYPE+FmoLDTQjTf5DzUZYK4TAiqHPx/WYKmjPD/totDw=
-X-Received: by 2002:a17:906:3e08:: with SMTP id k8mr2297800eji.480.1601309169232;
- Mon, 28 Sep 2020 09:06:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200925143422.21718-1-graf@amazon.com> <20200925143422.21718-3-graf@amazon.com>
-In-Reply-To: <20200925143422.21718-3-graf@amazon.com>
-From:   Aaron Lewis <aaronlewis@google.com>
-Date:   Mon, 28 Sep 2020 09:05:58 -0700
-Message-ID: <CAAAPnDGVKDvVRdDK8yUzqXHzWzFK_9tnbwdmHkwbgcVb2wU5aA@mail.gmail.com>
-Subject: Re: [PATCH v8 2/8] KVM: x86: Deflect unknown MSR accesses to user space
-To:     Alexander Graf <graf@amazon.com>
-Cc:     kvm list <kvm@vger.kernel.org>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        id S1726613AbgI1QGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 12:06:40 -0400
+Received: from smtprelay0062.hostedemail.com ([216.40.44.62]:41254 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726551AbgI1QGk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 12:06:40 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id EA4BF8383102;
+        Mon, 28 Sep 2020 16:06:38 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: coast39_3a00add27182
+X-Filterd-Recvd-Size: 2060
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf12.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 28 Sep 2020 16:06:37 +0000 (UTC)
+Message-ID: <12317bbc7712d96be8f52a3bf574e47628830191.camel@perches.com>
+Subject: Re: [PATCH v2 1/9] lib: string_helpers: provide kfree_strarray()
+From:   Joe Perches <joe@perches.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        KarimAllah Raslan <karahmed@amazon.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kent Gibson <warthog618@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Mon, 28 Sep 2020 09:06:34 -0700
+In-Reply-To: <CAMRc=Mds0ccYBhRJnCQ0NEPkUpWRGtyX4FKj4+4rxN27_gfobA@mail.gmail.com>
+References: <20200928104155.7385-1-brgl@bgdev.pl>
+         <20200928104155.7385-2-brgl@bgdev.pl>
+         <2fcfd81f62ec87d9b75cca32468d8b9583faec47.camel@perches.com>
+         <CAMRc=Mds0ccYBhRJnCQ0NEPkUpWRGtyX4FKj4+4rxN27_gfobA@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->
-> This patch adds a generic interface to handle WRMSR and RDMSR from user
-> space. With this, any future MSR that is part of the latter categories can
-> be handled in user space.
->
-> Furthermore, it allows us to replace the existing "ignore_msrs" logic with
-> something that applies per-VM rather than on the full system. That way you
-> can run productive VMs in parallel to experimental ones where you don't care
-> about proper MSR handling.
->
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> Reviewed-by: Jim Mattson <jmattson@google.com>
+On Mon, 2020-09-28 at 18:02 +0200, Bartosz Golaszewski wrote:
+> On Mon, Sep 28, 2020 at 5:59 PM Joe Perches <joe@perches.com> wrote:
+> > On Mon, 2020-09-28 at 12:41 +0200, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > 
+> > > There's a common pattern of dynamically allocating an array of char
+> > > pointers and then also dynamically allocating each string in this
+> > > array. Provide a helper for freeing such a string array with one call.
+> > 
+> > Isn't this also common for things like ring buffers?
+> > Why limit this to char *[]?
+> > 
+> 
+> I don't want to add APIs nobody is using. What do you suggest?
 
-Reviewed-by: Aaron Lewis <aaronlewis@google.com>
+Change the argument to void** and call it
 
->
-> ---
->
-> v1 -> v2:
+void kfree_array(void **array, int count);
+
+
+
+
