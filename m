@@ -2,144 +2,141 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73034C2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 06:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646F1C4741F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 06:50:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38A1421941
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 06:42:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gaAPsr1e"
+	by mail.kernel.org (Postfix) with ESMTP id 3016D235F7
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 06:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601275811;
+	bh=9RLOX5t9/gxEad4ACFbvcDY/LFaF2xfXrQ+4kIuB910=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=2H1VbloSjQNxDJg6l6jEC8mT0LnOrkL7dNP8Lqj0Btol73OPIdaVF1YH8W/dXF0IH
+	 SkJHDT1tSU7vn/DyEA3n3vuYhR2iQPp948G3iz0wEmD+6g1Yms1k6JmFbKaFupC3ni
+	 ISDCclu+k42Rxcr55zIy9LWmwgQqsZoruYDcfqUA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbgI1Gmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 02:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725290AbgI1Gmz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 02:42:55 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26910C0613CE;
-        Sun, 27 Sep 2020 23:42:55 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id gx22so6935827ejb.5;
-        Sun, 27 Sep 2020 23:42:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=qN+S61oVmPC+Q3dWpJjCh6WwaRMPQCJpevSG1rLGzow=;
-        b=gaAPsr1eQolYUOGe9xSWxntexJqKCVnQSoYWSGe3KJDLR7z09fD1A5fKObl5/9IGKR
-         ueMKPiAKANCX0LUiqWxJ6KjyDH6q1JEwC60B/dk03wYJptr83gc+GnjJO3001Me15EEW
-         oMvgetsntbd7vqqgDJ8U/mEMEeXdlqNVLWg9D7WM+cC8Aaa6Kk6JCIchYNcRPZodnXsA
-         7p8DfJB0m5Ecvk0/y/5daHEP+hJm8zQFrBiGihVE7CtkungkUfFgQsZoJ1HtiejuWdt2
-         cSo1DdcXwxIuzAo9M1UIvf4CbNOqwjGdvgLjIM/n8M37oWBR/LSEk2VaAzanqtTExLoD
-         PKuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=qN+S61oVmPC+Q3dWpJjCh6WwaRMPQCJpevSG1rLGzow=;
-        b=O+y9w8+J5lWjN3SbP5gM/IRmwml86lY63q9vKG+oLD6eup7aF+wwnsBJacWjiPj9P7
-         Opn/HKGvJN7S9sUA37NAjJUo+clmkwNUEHeAhbVeDlz6FJKxAezMM0WyXOIFdGOhw3VM
-         x5YTMB+s61dyjxz4VhKn4ZcGTZqXB4PgRfdpK83JbeNzMuHdWre9X0VeaUDVkCsYSNqR
-         ihn8sREZQWeCj4vEWVEDkc8pSQyn9Jg0c2ijeNATHj3XRxD1gqwCNIrr5bSlE2zR7ixi
-         wDnChiuY3wiS2VCHT1RSc3U6L8P9KSJIxuCK+l0PbE9DbbPIFHKiZToU62tcF/XxDhMs
-         7Kjg==
-X-Gm-Message-State: AOAM5312PZNbYlG1fv3NRJHfGsmdxPe9nqeCwuEu8cCQ0w2HNUAqjVVR
-        figgRZN3a96QbhcowIw/890=
-X-Google-Smtp-Source: ABdhPJyoLdeeL5FGFduOYkr7rEhDILDQ4q8oJjqEotR4NwQH3lEnzkjqzfIzQPtc9b6BgiUtc3TNTQ==
-X-Received: by 2002:a17:906:2c14:: with SMTP id e20mr244311ejh.205.1601275373814;
-        Sun, 27 Sep 2020 23:42:53 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2d9d:5000:b971:2536:319e:5b1d])
-        by smtp.gmail.com with ESMTPSA id lz22sm9221047ejb.98.2020.09.27.23.42.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2020 23:42:52 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH RFC] kbuild: doc: describe proper script invocation
-Date:   Mon, 28 Sep 2020 08:42:44 +0200
-Message-Id: <20200928064244.29206-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726534AbgI1GuF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 02:50:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40480 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725308AbgI1GuE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Sep 2020 02:50:04 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B6B5F23119;
+        Mon, 28 Sep 2020 06:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601275803;
+        bh=9RLOX5t9/gxEad4ACFbvcDY/LFaF2xfXrQ+4kIuB910=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=og/c53pjfRJcUKFeQP/+XI4TOYNopKOah3CJmIRZAuZ+nrH0Uy20x6XZnt3Z/X1dh
+         JeK8r/a3UKPHoivUomFM2K1bM9dcKwGFsDHijBQ1CCRza4shtATy1PrMIsKBAhOnw2
+         rdb1pWc6X3HzXQVcC44b8MBTu/96Qe9iId0hF4pE=
+Date:   Mon, 28 Sep 2020 08:50:11 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        intel-wired-lan@lists.osuosl.org,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+Subject: Re: [patch 21/35] net: usb: kaweth: Remove last user of
+ kaweth_control()
+Message-ID: <20200928065011.GB381927@kroah.com>
+References: <20200927194846.045411263@linutronix.de>
+ <20200927194921.948595516@linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200927194921.948595516@linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-During an investigation to fix up the execute bits of scripts in the kernel
-repository, Andrew Morton and Kees Cook pointed out that the execute bit
-should not matter, and that build scripts cannot rely on that. Kees could
-not point to any documentation, though.
+On Sun, Sep 27, 2020 at 09:49:07PM +0200, Thomas Gleixner wrote:
+> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> 
+> kaweth_async_set_rx_mode() invokes kaweth_contol() and has two callers:
+> 
+> - kaweth_open() which is invoked from preemptible context
+> .
+> - kaweth_start_xmit() which holds a spinlock and has bottom halfs disabled.
+> 
+> If called from kaweth_start_xmit() kaweth_async_set_rx_mode() obviously
+> cannot block, which means it can't call kaweth_control(). This is detected
+> with an in_interrupt() check.
+> 
+> Replace the in_interrupt() check in kaweth_async_set_rx_mode() with an
+> argument which is set true by the caller if the context is safe to sleep,
+> otherwise false.
+> 
+> Now kaweth_control() is only called from preemptible context which means
+> there is no need for GFP_ATOMIC allocations anymore. Replace it with
+> usb_control_msg(). Cleanup the code a bit while at it.
+> 
+> Finally remove kaweth_control() since the last user is gone.
+> 
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: netdev@vger.kernel.org
 
-Provide some basic documentation how the build shall invoke scripts, such
-that the execute bits do not matter.
+Thanks for the cleanup, that driver really needed it!
 
-This serves as reference for further clean-up patches in the future.
-
-Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-
-Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-Suggested-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on next-20200925 and v5.9-rc7
-
-Kees, Andrew, please ack.
-
-Masahiro-san, please pick this small documentation update into your kbuild tree.
-
-Ujjwal Kumar, a potential future mentee, will follow up with further fixes to
-the build scripts.
-
- Documentation/kbuild/makefiles.rst | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 58d513a0fa95..9d0d198adb7e 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -21,6 +21,7 @@ This document describes the Linux kernel Makefiles.
- 	   --- 3.10 Special Rules
- 	   --- 3.11 $(CC) support functions
- 	   --- 3.12 $(LD) support functions
-+	   --- 3.13 Script Invocation
- 
- 	=== 4 Host Program support
- 	   --- 4.1 Simple Host Program
-@@ -605,6 +606,23 @@ more details, with real examples.
- 		#Makefile
- 		LDFLAGS_vmlinux += $(call ld-option, -X)
- 
-+3.13 Script invocation
-+----------------------
-+
-+	Make rules may invoke scripts to build the kernel. The rules shall
-+	always provide the appropriate interpreter to execute the script. They
-+	shall not rely on the execute bits being set, and shall not invoke the
-+	script directly.
-+
-+	Kbuild provides variables $(CONFIG_SHELL), $(AWK), $(PERL),
-+	$(PYTHON) and $(PYTHON3) to refer to interpreters for the respective
-+	scripts.
-+
-+	Example::
-+
-+		#Makefile
-+		cmd_depmod = $(CONFIG_SHELL) $(srctree)/scripts/depmod.sh $(DEPMOD) \
-+			     $(KERNELRELEASE)
- 
- 4 Host Program support
- ======================
--- 
-2.17.1
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
