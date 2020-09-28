@@ -2,182 +2,143 @@ Return-Path: <SRS0=F/ae=DF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DC1AC2D0A8
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 11:29:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D599EC47420
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 11:54:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8A0922204
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 11:29:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601292576;
-	bh=v/bFP0icfRJskCWJXSYlrJX3ksAzbBwqcLcdN8ylMF4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=HgvdoYM92v1c5MPSmaxD1o20cslwEuszPUcKSPi0cAX1m3vdsVy2DY18tUnm2BzJM
-	 U+w7QrKjFieS+fKhmHRqUGWIPhTFUVsrJk4q7Hd7z3ZE5HS/B+8jC7HqXgD/ncORl0
-	 Tl0JXaCY2RQYDGc4tY1/OdjxFoXPoaS1C/jZ9Yvw=
+	by mail.kernel.org (Postfix) with ESMTP id 9B9CB2100A
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 11:54:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FrUJQhU8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbgI1L3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 07:29:36 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:26180 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbgI1L3f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 07:29:35 -0400
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 08SBTIZo006002;
-        Mon, 28 Sep 2020 20:29:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 08SBTIZo006002
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1601292558;
-        bh=dAHDBKnRo5H4VGCubh2JayTblFUcU7x9zWqqFA0TefA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=2EtzaCpQrm1yeFzUFwHnLucZZxcz645G+8YEnqQefxrjPkswsiBZwGiJdLjpC7DXW
-         BU/GlUyc0zpFaQRKXKXd4cVkGpChF36vvwjMlGB4pWYlinLacBwvhJce5RJNI5EqFq
-         SDKKr/A56jAz47X7YCBKp35hMJ4h3ivsLokkgDGE7lfy2IlhoZ8EYYB4NfwuMrYE7s
-         XdrT0DRG2C1VM+vglc+L4blA45K6iAXjJNRcmDkbw/aFfxnc3OQ5dNpIjRIqIPudtB
-         djv6wjf7F1nMEvwZU5hbSRRzALRp8dMSIiAEkuSvFVcVibjJbEx1hCBlLCrxTtdgx2
-         zExuVYr/sccHw==
-X-Nifty-SrcIP: [209.85.216.48]
-Received: by mail-pj1-f48.google.com with SMTP id s14so2097185pju.1;
-        Mon, 28 Sep 2020 04:29:18 -0700 (PDT)
-X-Gm-Message-State: AOAM531TCrhi5dP06evEdwueDpRQtb3V/pKszeIXTOpxSsaXrqZhh4GN
-        EFh4qwPAMie+otk4jjNXqN9M/6pKvlurTv9rfJk=
-X-Google-Smtp-Source: ABdhPJzWqDhdIsNJPkJ596mhZG9tc0uVp7T+xNkSujcLvuLMJSbxUCJxqXGZMVSxYGaXZ4YTc0g3cZsfccjUKkTS1b4=
-X-Received: by 2002:a17:90b:1211:: with SMTP id gl17mr947942pjb.87.1601292557471;
- Mon, 28 Sep 2020 04:29:17 -0700 (PDT)
+        id S1726693AbgI1LyJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 07:54:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726566AbgI1LyI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 07:54:08 -0400
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFDCC0613CE
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 04:54:07 -0700 (PDT)
+Received: by mail-oo1-xc44.google.com with SMTP id w25so221163oos.10
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2020 04:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qVxE17p4zsLCszLlrp2+yy6w1PaUWdFxLyFkrOjdfgU=;
+        b=FrUJQhU8kLw5wzKwxdDxIRtiVoZ4lfeEZwy4LJPWfKENd3ZpDBr+fUeXyts5ABr4TM
+         ZH5Q5AUVRyledcZkhZFHMj1Xb7lLb7lvKlji7ROGvzgo5ad7SJnlL95Wct+/0nKk++lq
+         wYWBtVoulBHcCIV7zqSRjVQeTpnuEVHGkiONEu3FSe0BhD/SwyM/JVJg1Di8LjLpUzMQ
+         Ed0RQHWOFbz70PZpdJtw4ZCSz3+jgk5repK1v2BzNhFohtN0QypxHHQD9EbCKbCxyof+
+         XI+394+OH71KeoWaiKUNCaoq1tLs3vkcMfYf4L9lvcLWzyN3U+23iR3Pz3G1aYmjKf0n
+         RJPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qVxE17p4zsLCszLlrp2+yy6w1PaUWdFxLyFkrOjdfgU=;
+        b=A8A/XcClHw/jVIpekMSCZyOYPW1SyWRTZcDzv1Z5l/z50/wIc+DVFDyz54+8IPOuta
+         5HscjzwUY8+TAnWNY+VOFXh/p8kL4258QR3oQG4wbWJQ7+q7UbIVrCn9usdVzme+Unxg
+         wP0oq4dXSNtyIo12i4RaOJ5zgiluoC9n0ZKlrj68M5NQ4Lulzrsk05UNj2MI9/lxNyxI
+         LhaHa/vbvXFpRPSYDiUoVIuG9yDkI6sYLfpvn34bpF8ptt2YMT4F8OqgmY2Xt0XqBg+E
+         GhRcEfRry9VKMlrrxG7SQrBa5s3mpav+oMtkhVQ/QExCIBIbdovUkGubMtpNCC5frm6l
+         NeAA==
+X-Gm-Message-State: AOAM533afxktCqXWgkO+NaUj/ZtUGOOeYIv0Q86yCbHXFQ2JcuGgogR2
+        0dqT0DAM5QRMel2/W0l73Dkz6WUQK2vtO6OVf6sEvA==
+X-Google-Smtp-Source: ABdhPJzpY53/CL/rlGYhaAH12AEPiz652/Rpx7oha4MEk7h+kTfhAQNGeyGlFXmxe76ygSbGoIxkc8SQ6hVOJ6Wmhdo=
+X-Received: by 2002:a4a:a58f:: with SMTP id d15mr554121oom.36.1601294046985;
+ Mon, 28 Sep 2020 04:54:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200928064244.29206-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20200928064244.29206-1-lukas.bulwahn@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 28 Sep 2020 20:28:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com>
-Message-ID: <CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com>
-Subject: Re: [PATCH RFC] kbuild: doc: describe proper script invocation
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
+ <20200921143059.GO2139@willie-the-truck>
+In-Reply-To: <20200921143059.GO2139@willie-the-truck>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 28 Sep 2020 13:53:55 +0200
+Message-ID: <CANpmjNMS-6mfDF6o31yiejP0wmgpEeuoh0PP9QJa-qt0OpiRBg@mail.gmail.com>
+Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
+To:     Will Deacon <will@kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 3:42 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->
-> During an investigation to fix up the execute bits of scripts in the kernel
-> repository, Andrew Morton and Kees Cook pointed out that the execute bit
-> should not matter, and that build scripts cannot rely on that. Kees could
-> not point to any documentation, though.
->
-> Provide some basic documentation how the build shall invoke scripts, such
-> that the execute bits do not matter.
->
-> This serves as reference for further clean-up patches in the future.
+On Mon, 21 Sep 2020 at 16:31, Will Deacon <will@kernel.org> wrote:
+> On Mon, Sep 21, 2020 at 03:26:04PM +0200, Marco Elver wrote:
+> > Add architecture specific implementation details for KFENCE and enable
+> > KFENCE for the arm64 architecture. In particular, this implements the
+> > required interface in <asm/kfence.h>. Currently, the arm64 version does
+> > not yet use a statically allocated memory pool, at the cost of a pointer
+> > load for each is_kfence_address().
+[...]
+> > For ARM64, we would like to solicit feedback on what the best option is
+> > to obtain a constant address for __kfence_pool. One option is to declare
+> > a memory range in the memory layout to be dedicated to KFENCE (like is
+> > done for KASAN), however, it is unclear if this is the best available
+> > option. We would like to avoid touching the memory layout.
 
+> Given that the pool is relatively small (i.e. when compared with our virtual
+> address space), dedicating an area of virtual space sounds like it makes
+> the most sense here. How early do you need it to be available?
 
-For scripts run by users directly, the executable bit
-should be set. (e.g. scripts/checkpatch.pl)
+Note: we're going to send a v4 this or next week with a few other
+minor fixes in it. But I think we just don't want to block the entire
+series on figuring out what the static-pool arm64 version should do,
+especially if we'll have a few iterations with only this patch here
+changing.
 
+So the plan will be:
 
-For scripts invoked from the build system, the
-convention is to use interpreters such as
-$(CONFIG_SHELL), and we do not need to set
-the executable bit. But, we often set the executable bit
-for this case, too.
+1. Send v4, which could from our point-of-view be picked up for
+merging. Unless of course there are more comments.
 
+2. Work out the details for the static-pool arm64 version, since it
+doesn't seem trivial to do the same thing as we do for x86. In
+preparation for that, v4 will allow the __kfence_pool's attributes to
+be defined entirely by <asm/kfence.h>, so that we can fiddle with
+sections etc.
 
-This convention started from the following commit, which
-was made by the previous kbuild maintainer.
+3. Send patch switching out the simpler arm64 version here for one
+that places __kfence_pool at a static location.
 
+Hopefully that plan is reasonable.
 
-
-commit 06ed5c2bfacaf67039e87a213fa5d1cdde34246a
-Author: Michal Marek <mmarek@suse.cz>
-Date:   Wed Aug 20 16:02:59 2014 +0200
-
-    kbuild: Make scripts executable
-
-    The Makefiles call the respective interpreter explicitly, but this makes
-    it easier to use the scripts manually.
-
-    Signed-off-by: Michal Marek <mmarek@suse.cz>
-
-
-
-
-
-
-
-
-> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
->
-> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> applies cleanly on next-20200925 and v5.9-rc7
->
-> Kees, Andrew, please ack.
->
-> Masahiro-san, please pick this small documentation update into your kbuild tree.
->
-> Ujjwal Kumar, a potential future mentee, will follow up with further fixes to
-> the build scripts.
->
->  Documentation/kbuild/makefiles.rst | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 58d513a0fa95..9d0d198adb7e 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -21,6 +21,7 @@ This document describes the Linux kernel Makefiles.
->            --- 3.10 Special Rules
->            --- 3.11 $(CC) support functions
->            --- 3.12 $(LD) support functions
-> +          --- 3.13 Script Invocation
->
->         === 4 Host Program support
->            --- 4.1 Simple Host Program
-> @@ -605,6 +606,23 @@ more details, with real examples.
->                 #Makefile
->                 LDFLAGS_vmlinux += $(call ld-option, -X)
->
-> +3.13 Script invocation
-> +----------------------
-> +
-> +       Make rules may invoke scripts to build the kernel. The rules shall
-> +       always provide the appropriate interpreter to execute the script. They
-> +       shall not rely on the execute bits being set, and shall not invoke the
-> +       script directly.
-> +
-> +       Kbuild provides variables $(CONFIG_SHELL), $(AWK), $(PERL),
-> +       $(PYTHON) and $(PYTHON3) to refer to interpreters for the respective
-> +       scripts.
-> +
-> +       Example::
-> +
-> +               #Makefile
-> +               cmd_depmod = $(CONFIG_SHELL) $(srctree)/scripts/depmod.sh $(DEPMOD) \
-> +                            $(KERNELRELEASE)
->
->  4 Host Program support
->  ======================
-> --
-> 2.17.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Thanks,
+-- Marco
