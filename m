@@ -7,150 +7,142 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C00AC4741F
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77482C2D0A8
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:12:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0313208D5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:04:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29C5C20717
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Sep 2020 19:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgI1TEc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 15:04:32 -0400
-Received: from mga03.intel.com ([134.134.136.65]:27306 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726310AbgI1TEc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Sep 2020 15:04:32 -0400
-IronPort-SDR: Db4LpqT5s5y8ANUINDsZFMGI8JsRKk2jHRGBHJHMD7qgLQeXcX/LgJ3Kv6VTmwxi8FKAS30X+B
- wmKEtlMnT87g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="162104913"
-X-IronPort-AV: E=Sophos;i="5.77,315,1596524400"; 
-   d="scan'208";a="162104913"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 12:04:27 -0700
-IronPort-SDR: XmEAeOL/Im4mDpKC+6Gmdg8kzbb4nmZMIW/ZRA58CEKjr+/4kaCzRdQbwBHUEtZbZVXRnSYZiQ
- S9D+NDksRl4Q==
-X-IronPort-AV: E=Sophos;i="5.77,315,1596524400"; 
-   d="scan'208";a="338299546"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.43.157]) ([10.212.43.157])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 12:04:25 -0700
-Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
- Branch Tracking for vsyscall emulation
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1726466AbgI1TMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Sep 2020 15:12:14 -0400
+Received: from dispatch1-us1.ppe-hosted.com ([67.231.154.164]:37650 "EHLO
+        dispatch1-us1.ppe-hosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726228AbgI1TMO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 15:12:14 -0400
+X-Greylist: delayed 498 seconds by postgrey-1.27 at vger.kernel.org; Mon, 28 Sep 2020 15:12:13 EDT
+Received: from dispatch1-us1.ppe-hosted.com (localhost.localdomain [127.0.0.1])
+        by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 2BF94515BF;
+        Mon, 28 Sep 2020 19:03:56 +0000 (UTC)
+Received: from mx1-us1.ppe-hosted.com (unknown [10.110.50.137])
+        by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 77B5C200BF;
+        Mon, 28 Sep 2020 19:03:55 +0000 (UTC)
+Received: from us4-mdac16-58.at1.mdlocal (unknown [10.110.50.151])
+        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 710D26009B;
+        Mon, 28 Sep 2020 19:03:55 +0000 (UTC)
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from mx1-us1.ppe-hosted.com (unknown [10.110.49.32])
+        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id BDC04220086;
+        Mon, 28 Sep 2020 19:03:54 +0000 (UTC)
+Received: from webmail.solarflare.com (uk.solarflare.com [193.34.186.16])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 46E2E28007B;
+        Mon, 28 Sep 2020 19:03:53 +0000 (UTC)
+Received: from [10.17.20.203] (10.17.20.203) by ukex01.SolarFlarecom.com
+ (10.17.10.4) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 28 Sep
+ 2020 20:03:31 +0100
+Subject: Re: [patch 15/35] net: sfc: Replace in_interrupt() usage.
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>
+CC:     Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        "Matthew Wilcox" <willy@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
- <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net>
- <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
- <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <054bd574-1566-2be4-b542-884500b7319d@intel.com>
-Date:   Mon, 28 Sep 2020 12:04:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        <intel-wired-lan@lists.osuosl.org>,
+        "Shannon Nelson" <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        <linux-wireless@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        "Hante Meuleman" <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        <brcm80211-dev-list.pdl@broadcom.com>,
+        <brcm80211-dev-list@cypress.com>,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        "Intel Linux Wireless" <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        "Amitkumar Karwar" <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        <libertas-dev@lists.infradead.org>,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+References: <20200927194846.045411263@linutronix.de>
+ <20200927194921.344476620@linutronix.de>
+From:   Edward Cree <ecree@solarflare.com>
+Message-ID: <168a1f9e-cba4-69a8-9b29-5c121295e960@solarflare.com>
+Date:   Mon, 28 Sep 2020 20:03:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200927194921.344476620@linutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-Originating-IP: [10.17.20.203]
+X-ClientProxiedBy: ocex03.SolarFlarecom.com (10.20.40.36) To
+ ukex01.SolarFlarecom.com (10.17.10.4)
+X-TM-AS-Product-Ver: SMEX-12.5.0.1300-8.6.1012-25674.003
+X-TM-AS-Result: No-3.392600-8.000000-10
+X-TMASE-MatchedRID: scwq2vQP8OHoSitJVour/fZvT2zYoYOwC/ExpXrHizwZwGrh4y4izL88
+        DvjRvF4AxVy/bbd+rAzlMoALbl7BxnAe/yBs2gz+SJA7ysb1rf4KJM4okvH5XoVCSVIDsC6o8FS
+        rkmy6/FJuCEgimCyJQyMYmr0rrl/pgl5Rdh8uTQGz5GTUpcs/m3Fa/hQHt1A1+S5C/08hWc0UBy
+        nKnmzE5ngVNbMoKNzVH0rosakDCyyvvxILmKK/HIMbH85DUZXyYxU/PH+vZxv6C0ePs7A07Y6HM
+        5rqDwqtN237Af2aNF37I73RKjILsWlTLDIPbPGsLoghHcIpC2/UZWTGDxA33ihvJVwuK5sjeBCY
+        ZbP6cf5T86emsjutggfap7ehBz6Q4vn0zMfSmjYrbLOj1GuP3A+hgLflG6KEo9QjuF9BKnnfMd6
+        s6DDccQ==
+X-TM-AS-User-Approved-Sender: Yes
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--3.392600-8.000000
+X-TMASE-Version: SMEX-12.5.0.1300-8.6.1012-25674.003
+X-MDID: 1601319835-pcw6fPKCBDdo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/28/2020 10:37 AM, Andy Lutomirski wrote:
-> On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
->>>> On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->> +
->> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
->> +               if (!cet) {
->> +                       /*
->> +                        * This is an unlikely case where the task is
->> +                        * CET-enabled, but CET xstate is in INIT.
->> +                        */
->> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
-> 
-> "unlikely" doesn't really cover this.
-> 
->> +                       fpregs_unlock();
->> +                       goto sigsegv;
->> +               }
->> +
->> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
->> +                       cet->user_ssp += 8;
-> 
-> This looks buggy.  The condition should be "if SHSTK is on, then add 8
-> to user_ssp".  If the result is noncanonical, then some appropriate
-> exception should be generated, probably by the FPU restore code -- see
-> below.  You should be checking the SHSTK_EN bit, not SSP.
+On 27/09/2020 20:49, Thomas Gleixner wrote:
+> Note, that the fixes tag is empty as it is unclear which of the commits to
+> blame.
+Seems like it should be
+Fixes: f00bf2305cab("sfc: don't update stats on VF when called in atomic context")
+ since that adds the in_interrupt() check and the code concerned
+ doesn't seemto have changed a great deal since.
 
-The code now checks if shadow stack is on (yes, it should check SHSTK_EN 
-bit, I will fix it.), then adds 8 to user_ssp.  If the result is 
-canonical, then it sets the corresponding xstate.
+Anyway, this fix looks correct, and you can have my
+Acked-by: Edward Cree <ecree@solarflare.com>
+ but I thinkit might be cleaner to avoid having to have this unused
+ can_sleep argument on all the NICs that don't need it, by instead
+ adding an update_stats_atomic() member to struct efx_nic_type, which
+ could be set to the same as update_stats() for everything except
+ EF10 VFs which would just do the call to efx_update_sw_stats().
+I'll send an rfc patch embodying the above shortly...
 
-If the resulting address is not canonical, the kernel does not know what 
-the address should be either.  I think the best action to take is doing 
-nothing about the shadow stack pointer, and let the application return 
-and get a control protection fault.  The application should have not got 
-into such situation in the first place; if it does, it should fault.
-
-> 
-> Also, can you point me to where any of these canonicality rules are
-> documented in the SDM?  I looked and I can't find them.
-
-The SDM is not very explicit.  It should have been.
-
-> 
-> This reminds me: this code in extable.c needs to change.
-> 
-> __visible bool ex_handler_fprestore(const struct exception_table_entry *fixup,
->                                      struct pt_regs *regs, int trapnr,
->                                      unsigned long error_code,
->                                      unsigned long fault_addr)
-> {
->          regs->ip = ex_fixup_addr(fixup);
-> 
->          WARN_ONCE(1, "Bad FPU state detected at %pB, reinitializing
-> FPU registers.",
->                    (void *)instruction_pointer(regs));
-> 
->          __copy_kernel_to_fpregs(&init_fpstate, -1);
-> 
-> Now that we have supervisor states like CET, this is buggy.  This
-> should do something intelligent like initializing all the *user* state
-> and trying again.  If that succeeds, a signal should be sent rather
-> than just corrupting the task.  And if it fails, then perhaps some
-> actual intelligence is needed.  We certainly should not just disable
-> CET because something is wrong with the CET MSRs.
-> 
-
-Yes, but it needs more thought.  Maybe a separate patch and more discussion?
-
-Yu-cheng
+-ed
