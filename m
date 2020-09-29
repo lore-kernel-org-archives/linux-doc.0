@@ -2,230 +2,105 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F233C4727C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD013C4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:11:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26E9721548
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601409669;
-	bh=VdAwB85Jl6jjnWW1rC86bh2TRgL/h2uAnUFh0PPFMr4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=eIs5YRWWT/rxQgAOV7PkoW+a6/8cHMr+t2oVaVu22SXyGaYsS66iRL5Yx7SVb5wqU
-	 n06gOFunbLa0eisHd01fsqokByYn3v8m4fn0gByH9NPS1PTT+5eH3oGFi2p/hrASlx
-	 FD+rH9kxp+Ri4Sj7l0364E4ijay+M1hdIkrjCw4s=
+	by mail.kernel.org (Postfix) with ESMTP id 78CC220774
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:11:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Wl4BhHVX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728900AbgI2UBI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:01:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52022 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728800AbgI2UBI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Sep 2020 16:01:08 -0400
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8A03721941
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 20:01:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601409666;
-        bh=VdAwB85Jl6jjnWW1rC86bh2TRgL/h2uAnUFh0PPFMr4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cfdXigA6DKc6rUVWXz2HkTTAVHFK2u4oD2afzFAEDTqSJkRE3Q5dtTQuX7LK+FTqN
-         9+fMmUb+HYDN5S1ssEhWegXnE3VGr0Vasy6cNRqdVHTNtZCg8TNELu7qp/DUB38K9F
-         l9uVkrvMA5plbPjskmdqZQovD6jblgJnJZE16zAw=
-Received: by mail-wm1-f41.google.com with SMTP id k18so6113608wmj.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 13:01:06 -0700 (PDT)
-X-Gm-Message-State: AOAM533T/0ICmK3+xzORtu9/NKLZYF7CXIr34rCnNYSAsDc6cI7HmTEC
-        b5HE+fqtY/lxRsaVz3kWMtvsL2bDJYTLGzWwFO6EZQ==
-X-Google-Smtp-Source: ABdhPJxSIxQqxZfr1Lddd+J2JuqnCdsUEPeddo75CLB979xi4dT2T9iOuaSovNDW2MTrs8626F2sx3ezpS7no2PeGnM=
-X-Received: by 2002:a05:600c:4104:: with SMTP id j4mr6098469wmi.36.1601409664710;
- Tue, 29 Sep 2020 13:01:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
- <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net> <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
- <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
- <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com> <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
-In-Reply-To: <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 29 Sep 2020 13:00:53 -0700
-X-Gmail-Original-Message-ID: <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
-Message-ID: <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
-Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
- Branch Tracking for vsyscall emulation
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1728884AbgI2ULf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:11:35 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10423 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728825AbgI2ULe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:11:34 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f7394c40000>; Tue, 29 Sep 2020 13:10:44 -0700
+Received: from [10.2.53.30] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 29 Sep
+ 2020 20:11:34 +0000
+Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Shuah Khan <shuah@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>
+References: <20200928062159.923212-1-jhubbard@nvidia.com>
+ <20200928062159.923212-3-jhubbard@nvidia.com>
+ <20200928125739.GP9916@ziepe.ca>
+ <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
+ <20200929163507.GV9916@ziepe.ca>
+ <aab477bf-4353-5e6b-4cc9-9872c9376ed2@nvidia.com>
+ <20200929175524.GX9916@ziepe.ca>
+ <715c49ec-d2a8-45cb-8ace-c6b1b4b8f978@nvidia.com>
+ <20200929190816.GY9916@ziepe.ca>
+ <3022912c-f11b-f564-3a8a-f516ca259a37@nvidia.com>
+ <20200929195356.GZ9916@ziepe.ca>
+ <64bb5ba7-77f7-2f09-44f0-29ee9329b183@linuxfoundation.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <554699c6-cc01-4c3c-3ed5-26d22ac3bac0@nvidia.com>
+Date:   Tue, 29 Sep 2020 13:11:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <64bb5ba7-77f7-2f09-44f0-29ee9329b183@linuxfoundation.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601410244; bh=h1cShwScpls1cxoBr43dDhqnFtUnjOc7/H7Y8HWxAgM=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=Wl4BhHVXCxnN2MbBzLUijMKatEV4a+hk1x1KprGMe7sx2IRfHuUPwV1G8DK3/Uym7
+         s1WqObC4zZUpHV8MazVJcK+ij9OSOyFSV41pcViWpH2droSzSXzO2B7YDNLd7btX+v
+         haigRF8z6Y+X6YrXltTZ9sMTl2J2ov5VYW9wkM18+El91/tvCj5Q9/Yyibh8hkZjR/
+         CCjieAzw/GA8k2JNpdvnBl+kTEbTLiCQ+v6NFpsRYWEhhojsy5RtmogBk/1lRFSKSG
+         W6hQ8eoCKGbLEkWXVX9fTyH4pp+F5n6hM7dxRfUwgc7DOtOQ+6DX/0KZ6eB51vLh2d
+         njiPyDcmUpJhw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 12:57 PM Andy Lutomirski <luto@kernel.org> wrote:
->
-> On Tue, Sep 29, 2020 at 11:37 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> >
-> > On 9/28/2020 10:37 AM, Andy Lutomirski wrote:
-> > > On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > >>
-> > >> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
-> > >>>> On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> > >> +
-> > >> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> > >> +               if (!cet) {
-> > >> +                       /*
-> > >> +                        * This is an unlikely case where the task is
-> > >> +                        * CET-enabled, but CET xstate is in INIT.
-> > >> +                        */
-> > >> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
-> > >
-> > > "unlikely" doesn't really cover this.
-> > >
-> > >> +                       fpregs_unlock();
-> > >> +                       goto sigsegv;
-> > >> +               }
-> > >> +
-> > >> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
-> > >> +                       cet->user_ssp += 8;
-> > >
-> > > This looks buggy.  The condition should be "if SHSTK is on, then add 8
-> > > to user_ssp".  If the result is noncanonical, then some appropriate
-> > > exception should be generated, probably by the FPU restore code -- see
-> > > below.  You should be checking the SHSTK_EN bit, not SSP.
-> >
-> > Updated.  Is this OK?  I will resend the whole series later.
-> >
-> > Thanks,
-> > Yu-cheng
-> >
-> > ======
-> >
-> >  From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
-> > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > Date: Thu, 29 Nov 2018 14:15:38 -0800
-> > Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
-> > Indirect Branch
-> >   Tracking for vsyscall emulation
-> >
-> > Vsyscall entry points are effectively branch targets.  Mark them with
-> > ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
-> > and reset IBT state machine.
-> >
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> > v13:
-> > - Check shadow stack address is canonical.
-> > - Change from writing to MSRs to writing to CET xstate.
-> >
-> >   arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
-> >   arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
-> >   arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
-> >   3 files changed, 44 insertions(+)
-> >
-> > diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
-> > b/arch/x86/entry/vsyscall/vsyscall_64.c
-> > index 44c33103a955..30b166091d46 100644
-> > --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> > +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> > @@ -38,6 +38,9 @@
-> >   #include <asm/fixmap.h>
-> >   #include <asm/traps.h>
-> >   #include <asm/paravirt.h>
-> > +#include <asm/fpu/xstate.h>
-> > +#include <asm/fpu/types.h>
-> > +#include <asm/fpu/internal.h>
-> >
-> >   #define CREATE_TRACE_POINTS
-> >   #include "vsyscall_trace.h"
-> > @@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
-> >         /* Emulate a ret instruction. */
-> >         regs->ip = caller;
-> >         regs->sp += 8;
-> > +
-> > +#ifdef CONFIG_X86_CET
-> > +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
-> > +               struct cet_user_state *cet;
-> > +               struct fpu *fpu;
-> > +
-> > +               fpu = &tsk->thread.fpu;
-> > +               fpregs_lock();
-> > +
-> > +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
-> > +                       copy_fpregs_to_fpstate(fpu);
-> > +                       set_thread_flag(TIF_NEED_FPU_LOAD);
-> > +               }
-> > +
-> > +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> > +               if (!cet) {
-> > +                       /*
-> > +                        * This should not happen.  The task is
-> > +                        * CET-enabled, but CET xstate is in INIT.
-> > +                        */
->
-> Can the comment explain better, please?  I would say something like:
->
-> If the kernel thinks this task has CET enabled (because
-> tsk->thread.cet has one of the features enabled), then the
-> corresponding bits must also be set in the CET XSAVES region.  If the
-> CET XSAVES region is in the INIT state, then the kernel's concept of
-> the task's CET state is corrupt.
->
-> > +                       WARN_ONCE(1, "CET is enabled, but no xstates");
-> > +                       fpregs_unlock();
-> > +                       goto sigsegv;
-> > +               }
-> > +
-> > +               if (cet->user_cet & CET_SHSTK_EN) {
-> > +                       if (cet->user_ssp && (cet->user_ssp + 8 < TASK_SIZE_MAX))
-> > +                               cet->user_ssp += 8;
-> > +               }
->
-> This makes so sense to me.  Also, the vsyscall emulation code is
-> intended to be as rigid as possible to minimize the chance that it
-> gets used as an exploit gadget.  So we should not silently corrupt
-> anything.  Moreover, this code seems quite dangerous -- you've created
-> a gadget that does RET without actually verifying the SHSTK token.  If
-> SHSTK and some form of strong indirect branch/call CFI is in use, then
-> the existance of a CFI-bypassing return primitive at a fixed address
-> seems quite problematic.
->
-> So I think you need to write a function that reasonably accurately
-> emulates a usermode RET.
->
+On 9/29/20 1:00 PM, Shuah Khan wrote:
+> On 9/29/20 1:53 PM, Jason Gunthorpe wrote:
+>> I only remarked because I didn't know it wasn't using kbuild. I
+>> thought it would have used the existing HOSTCC stuff, not sure why it
+>> is special.
+>>
+>> The only investment that seems worthwhile would be to switch it to use
+>> the normal kbuild stuff??
+>>
+> 
+> I explored switching to kbuild at the kernel summit last year during
+> my kselftest where are we talk.
+> 
+> There was push back from several developers. We can definitely explore
+> it as long as we can still support being able to build and run
+> individual subsystem tests and doesn't break workflow for developers.
+> 
 
-For what it's worth, I think there is an alternative.  If you all
-(userspace people, etc) can come up with a credible way for a user
-program to statically declare that it doesn't need vsyscalls, then we
-could make SHSTK depend on *that*, and we could avoid this mess.  This
-breaks orthogonality, but it's probably a decent outcome.
+Do you have a link or two for that? Especially about the pushback, and
+conclusions reached, if any.
+
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
