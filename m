@@ -2,29 +2,29 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0FCAC4727C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:24:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18961C4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:28:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D0A920702
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:24:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD43E20739
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:28:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728651AbgI2OYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 10:24:20 -0400
-Received: from foss.arm.com ([217.140.110.172]:46102 "EHLO foss.arm.com"
+        id S1728569AbgI2O2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 10:28:01 -0400
+Received: from foss.arm.com ([217.140.110.172]:46258 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727543AbgI2OYT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Sep 2020 10:24:19 -0400
+        id S1727543AbgI2O2B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Sep 2020 10:28:01 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3E5331B;
-        Tue, 29 Sep 2020 07:24:18 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F3D031B;
+        Tue, 29 Sep 2020 07:28:00 -0700 (PDT)
 Received: from C02TD0UTHF1T.local (unknown [10.57.51.69])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D59CA3F6CF;
-        Tue, 29 Sep 2020 07:24:13 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 15:24:11 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B01F3F6CF;
+        Tue, 29 Sep 2020 07:27:55 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 15:27:52 +0100
 From:   Mark Rutland <mark.rutland@arm.com>
 To:     Marco Elver <elver@google.com>
 Cc:     akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
@@ -40,87 +40,101 @@ Cc:     akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
         linux-mm@kvack.org
-Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
-Message-ID: <20200929142411.GC53442@C02TD0UTHF1T.local>
+Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
+Message-ID: <20200929142752.GD53442@C02TD0UTHF1T.local>
 References: <20200921132611.1700350-1-elver@google.com>
- <20200921132611.1700350-2-elver@google.com>
+ <20200921132611.1700350-4-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200921132611.1700350-2-elver@google.com>
+In-Reply-To: <20200921132611.1700350-4-elver@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 03:26:02PM +0200, Marco Elver wrote:
-> From: Alexander Potapenko <glider@google.com>
+On Mon, Sep 21, 2020 at 03:26:04PM +0200, Marco Elver wrote:
+> Add architecture specific implementation details for KFENCE and enable
+> KFENCE for the arm64 architecture. In particular, this implements the
+> required interface in <asm/kfence.h>. Currently, the arm64 version does
+> not yet use a statically allocated memory pool, at the cost of a pointer
+> load for each is_kfence_address().
 > 
-> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> low-overhead sampling-based memory safety error detector of heap
-> use-after-free, invalid-free, and out-of-bounds access errors.
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Co-developed-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+> For ARM64, we would like to solicit feedback on what the best option is
+> to obtain a constant address for __kfence_pool. One option is to declare
+> a memory range in the memory layout to be dedicated to KFENCE (like is
+> done for KASAN), however, it is unclear if this is the best available
+> option. We would like to avoid touching the memory layout.
+> ---
+>  arch/arm64/Kconfig              |  1 +
+>  arch/arm64/include/asm/kfence.h | 39 +++++++++++++++++++++++++++++++++
+>  arch/arm64/mm/fault.c           |  4 ++++
+>  3 files changed, 44 insertions(+)
+>  create mode 100644 arch/arm64/include/asm/kfence.h
 > 
-> KFENCE is designed to be enabled in production kernels, and has near
-> zero performance overhead. Compared to KASAN, KFENCE trades performance
-> for precision. The main motivation behind KFENCE's design, is that with
-> enough total uptime KFENCE will detect bugs in code paths not typically
-> exercised by non-production test workloads. One way to quickly achieve a
-> large enough total uptime is when the tool is deployed across a large
-> fleet of machines.
-> 
-> KFENCE objects each reside on a dedicated page, at either the left or
-> right page boundaries. The pages to the left and right of the object
-> page are "guard pages", whose attributes are changed to a protected
-> state, and cause page faults on any attempted access to them. Such page
-> faults are then intercepted by KFENCE, which handles the fault
-> gracefully by reporting a memory access error. To detect out-of-bounds
-> writes to memory within the object's page itself, KFENCE also uses
-> pattern-based redzones. The following figure illustrates the page
-> layout:
-> 
->   ---+-----------+-----------+-----------+-----------+-----------+---
->      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
->      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
->      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
->      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
->      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
->      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
->   ---+-----------+-----------+-----------+-----------+-----------+---
-> 
-> Guarded allocations are set up based on a sample interval (can be set
-> via kfence.sample_interval). After expiration of the sample interval, a
-> guarded allocation from the KFENCE object pool is returned to the main
-> allocator (SLAB or SLUB). At this point, the timer is reset, and the
-> next allocation is set up after the expiration of the interval.
-
-From other sub-threads it sounds like these addresses are not part of
-the linear/direct map. Having kmalloc return addresses outside of the
-linear map is going to break anything that relies on virt<->phys
-conversions, and is liable to make DMA corrupt memory. There were
-problems of that sort with VMAP_STACK, and this is why kvmalloc() is
-separate from kmalloc().
-
-Have you tested with CONFIG_DEBUG_VIRTUAL? I'd expect that to scream.
-
-I strongly suspect this isn't going to be safe unless you always use an
-in-place carevout from the linear map (which could be the linear alias
-of a static carevout).
-
-[...]
-
-> +static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 6d232837cbee..1acc6b2877c3 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -132,6 +132,7 @@ config ARM64
+>  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>  	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
+>  	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
+> +	select HAVE_ARCH_KFENCE if (!ARM64_16K_PAGES && !ARM64_64K_PAGES)
+>  	select HAVE_ARCH_KGDB
+>  	select HAVE_ARCH_MMAP_RND_BITS
+>  	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
+> diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
+> new file mode 100644
+> index 000000000000..608dde80e5ca
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/kfence.h
+> @@ -0,0 +1,39 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __ASM_KFENCE_H
+> +#define __ASM_KFENCE_H
+> +
+> +#include <linux/kfence.h>
+> +#include <linux/log2.h>
+> +#include <linux/mm.h>
+> +
+> +#include <asm/cacheflush.h>
+> +
+> +#define KFENCE_SKIP_ARCH_FAULT_HANDLER "el1_sync"
+> +
+> +/*
+> + * FIXME: Support HAVE_ARCH_KFENCE_STATIC_POOL: Use the statically allocated
+> + * __kfence_pool, to avoid the extra pointer load for is_kfence_address(). By
+> + * default, however, we do not have struct pages for static allocations.
+> + */
+> +
+> +static inline bool arch_kfence_initialize_pool(void)
 > +{
-> +	return static_branch_unlikely(&kfence_allocation_key) ? __kfence_alloc(s, size, flags) :
-> +								      NULL;
+> +	const unsigned int num_pages = ilog2(roundup_pow_of_two(KFENCE_POOL_SIZE / PAGE_SIZE));
+> +	struct page *pages = alloc_pages(GFP_KERNEL, num_pages);
+> +
+> +	if (!pages)
+> +		return false;
+> +
+> +	__kfence_pool = page_address(pages);
+> +	return true;
+> +}
+> +
+> +static inline bool kfence_protect_page(unsigned long addr, bool protect)
+> +{
+> +	set_memory_valid(addr, 1, !protect);
+> +
+> +	return true;
 > +}
 
-Minor (unrelated) nit, but this would be easier to read as:
-
-static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
-{
-	if (static_branch_unlikely(&kfence_allocation_key))
-		return __kfence_alloc(s, size, flags);
-	return NULL;
-}
+This is only safe if the linear map is force ot page granularity. That's
+the default with rodata=full, but this is not always the case, so this
+will need some interaction with the MMU setup in arch/arm64/mm/mmu.c.
 
 Thanks,
 Mark.
