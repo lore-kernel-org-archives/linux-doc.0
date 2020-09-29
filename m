@@ -2,167 +2,136 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2614DC4727C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 17:26:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB21C4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 17:44:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF82E208FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 17:26:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38916207F7
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 17:44:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n4MkOq3U"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="T25zSwWn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728205AbgI2R0u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 13:26:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36118 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727328AbgI2R0u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 13:26:50 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 589B3C061755;
-        Tue, 29 Sep 2020 10:26:48 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id a22so4674334ljp.13;
-        Tue, 29 Sep 2020 10:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vhk3MbInaaF/6croUvi+/zraDixQnx7wCrXOslWTtys=;
-        b=n4MkOq3UvJP9m0yc5Rtex4KtclxrWnItxqOpn6tZJzlS3ahY9sxrZ99wx/IIjkLyvA
-         K0GqFxQHjcFt79Rjzd/Zm9P8+hgfC0QYVVFBS3iB5TCojtSzbQJOyd0rGk4g2xAykhL1
-         Mpwh64dBzCzV9r1Za8avYcsDcrmErdyZmkPZ9kEoUIO8LDElIUZB0ATuZbnGDNr+fYQS
-         fMRGTlsGFAmcXPGzIlYRJpjM9y6G5KnSBPq844V0njnx82hXnbevNRGQZz0ZkAWsenvR
-         bKCofziWQTxGJfxBozUMNCYve9GC3OKOVWJ2cqK5v8FXJ+cKBVDwL7pzd68pvgwRMTG2
-         wnFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vhk3MbInaaF/6croUvi+/zraDixQnx7wCrXOslWTtys=;
-        b=WfRKpf+xKr1jnku10q+LWizcTjobYgzqxwg/MsSTHoORCKk8U4zB7RTf4RSA17I1mC
-         6j907yyP/WpxcHxSU4oDDKJxMGaOhWSZAdbXQMlXOKr03tBVdm87wT7UDrwpQNpBrhgg
-         XN+QUXfiwFPiHupYV1lQoxDSPwar+sqKD29xFAzkz0VYIoACQC9f5lbcZUlU4S1RMH/w
-         NMIsQ0jOvMDfN0Tp75Ei02S4lft5jjHJI67km4uinwl4uhL4iqXtss58V0PQWRaHVSS7
-         aJaUBcxh0Af83tHbS/+Y41C/MaT9GUWyN9Npb5SFdpVekU/bPFMvZIqDrignIfeITfWO
-         sKcQ==
-X-Gm-Message-State: AOAM533e6CaU0nhZ/epOu1jmf6pUGOji4zQrTtOK2XQig8Ln9l2iknLI
-        FG4Igp8uYV8x0FEHqyLnasICk9Q7fz6lHn9Owgg=
-X-Google-Smtp-Source: ABdhPJwxqnsM76aGzSU8gOeBJXlMS/Kp47YaHZhDo+51LyfyeEh9/7V3IF/bZW3wgT6Vd6jz1IR+rbVD/zCvPQOIjpY=
-X-Received: by 2002:a2e:8988:: with SMTP id c8mr1422707lji.433.1601400406761;
- Tue, 29 Sep 2020 10:26:46 -0700 (PDT)
+        id S1729350AbgI2Roc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 13:44:32 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16614 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725776AbgI2Roc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 13:44:32 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f7372730000>; Tue, 29 Sep 2020 10:44:19 -0700
+Received: from [10.2.53.30] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 29 Sep
+ 2020 17:44:32 +0000
+Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Shuah Khan <shuah@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>
+References: <20200928062159.923212-1-jhubbard@nvidia.com>
+ <20200928062159.923212-3-jhubbard@nvidia.com>
+ <20200928125739.GP9916@ziepe.ca>
+ <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
+ <20200929163507.GV9916@ziepe.ca>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <aab477bf-4353-5e6b-4cc9-9872c9376ed2@nvidia.com>
+Date:   Tue, 29 Sep 2020 10:44:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com> <1600959521-24158-4-git-send-email-ross.philipson@oracle.com>
-In-Reply-To: <1600959521-24158-4-git-send-email-ross.philipson@oracle.com>
-From:   Jason Andryuk <jandryuk@gmail.com>
-Date:   Tue, 29 Sep 2020 13:26:34 -0400
-Message-ID: <CAKf6xpt=G_SJTGikXpQ36pfpSfXQZf0Upn9qTkf-F+mrY2SRDA@mail.gmail.com>
-Subject: Re: [PATCH 03/13] x86: Add early SHA support for Secure Launch early measurements
-To:     Ross Philipson <ross.philipson@oracle.com>
-Cc:     open list <linux-kernel@vger.kernel.org>, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Daniel Smith <dpsmith@apertussolutions.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, luto@amacapital.net,
-        trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200929163507.GV9916@ziepe.ca>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601401459; bh=uNB6W6VUgOF7PVI0O4uW24Wk0Hp70vGOsM51NQ2J+Xo=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=T25zSwWnUbC5wggeyQkeiG3SpY0bF9dllCWrcl9qmeMPam+QqfE5yXi725BbPimLw
+         uMGGWVg+kObDn3P6CVyIiiSpdYQhkt19mBrUU49eM9Xygp1gpM++3NMGhCgpYRy9Ax
+         6AtHWa8ndJVmvWK2H+hmkTRX8ePqTzQ9AfDAglOnTtB4qSJa+v1KWKsiienZfPvO2f
+         Da5doU60TAsENipzY0Owwuuso8AjyDBo/akCrdDwvx7CuL/T0U2hIVYX8wCo9tdFu6
+         ogkDtq1tLCiKr0kvhN3cQ73Svdd7FPVnYHnshz7+mQ8u9UgeVb0DC1jcRrmOJzaf2H
+         ZCBlQv0MjQf7g==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 11:00 AM Ross Philipson
-<ross.philipson@oracle.com> wrote:
->
-> The SHA algorithms are necessary to measure configuration information into
-> the TPM as early as possible before using the values. This implementation
-> uses the established approach of #including the SHA libraries directly in
-> the code since the compressed kernel is not uncompressed at this point.
->
-> The SHA code here has its origins in the code from the main kernel. That
-> code could not be pulled directly into the setup portion of the compressed
-> kernel because of other dependencies it pulls in. The result is this is a
-> modified copy of that code that still leverages the core SHA algorithms.
->
-> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> ---
->  arch/x86/boot/compressed/Makefile       |   4 +
->  arch/x86/boot/compressed/early_sha1.c   | 104 ++++++++++++++++
->  arch/x86/boot/compressed/early_sha1.h   |  17 +++
->  arch/x86/boot/compressed/early_sha256.c |   6 +
->  arch/x86/boot/compressed/early_sha512.c |   6 +
->  include/linux/sha512.h                  |  21 ++++
->  lib/sha1.c                              |   4 +
->  lib/sha512.c                            | 209 ++++++++++++++++++++++++++++++++
->  8 files changed, 371 insertions(+)
->  create mode 100644 arch/x86/boot/compressed/early_sha1.c
->  create mode 100644 arch/x86/boot/compressed/early_sha1.h
->  create mode 100644 arch/x86/boot/compressed/early_sha256.c
->  create mode 100644 arch/x86/boot/compressed/early_sha512.c
->  create mode 100644 include/linux/sha512.h
->  create mode 100644 lib/sha512.c
->
-> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-> index ff7894f..0fd84b9 100644
-> --- a/arch/x86/boot/compressed/Makefile
-> +++ b/arch/x86/boot/compressed/Makefile
-> @@ -96,6 +96,10 @@ vmlinux-objs-$(CONFIG_ACPI) += $(obj)/acpi.o
->  vmlinux-objs-$(CONFIG_EFI_MIXED) += $(obj)/efi_thunk_$(BITS).o
->  efi-obj-$(CONFIG_EFI_STUB) = $(objtree)/drivers/firmware/efi/libstub/lib.a
->
-> +vmlinux-objs-$(CONFIG_SECURE_LAUNCH) += $(obj)/early_sha1.o
-> +vmlinux-objs-$(CONFIG_SECURE_LAUNCH_SHA256) += $(obj)/early_sha256.o
-> +vmlinux-objs-$(CONFIG_SECURE_LAUNCH_SHA512) += $(obj)/early_sha512.o
-> +
->  # The compressed kernel is built with -fPIC/-fPIE so that a boot loader
->  # can place it anywhere in memory and it will still run. However, since
->  # it is executed as-is without any ELF relocation processing performed
-> diff --git a/arch/x86/boot/compressed/early_sha1.c b/arch/x86/boot/compressed/early_sha1.c
-> new file mode 100644
-> index 0000000..198c46d
-> --- /dev/null
-> +++ b/arch/x86/boot/compressed/early_sha1.c
-> @@ -0,0 +1,104 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2020, Oracle and/or its affiliates.
-> + * Copyright (c) 2020 Apertus Solutions, LLC.
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/linkage.h>
-> +#include <linux/string.h>
-> +#include <asm/boot.h>
-> +#include <asm/unaligned.h>
-> +
-> +#include "early_sha1.h"
-> +
-> +#define SHA1_DISABLE_EXPORT
-> +#include "../../../../lib/sha1.c"
-> +
-> +/* The SHA1 implementation in lib/sha1.c was written to get the workspace
-> + * buffer as a parameter. This wrapper function provides a container
-> + * around a temporary workspace that is cleared after the transform completes.
-> + */
-> +static void __sha_transform(u32 *digest, const char *data)
-> +{
-> +       u32 ws[SHA1_WORKSPACE_WORDS];
-> +
-> +       sha1_transform(digest, data, ws);
-> +
-> +       memset(ws, 0, sizeof(ws));
-> +       /*
-> +        * As this is cryptographic code, prevent the memset 0 from being
-> +        * optimized out potentially leaving secrets in memory.
-> +        */
-> +       wmb();
+On 9/29/20 9:35 AM, Jason Gunthorpe wrote:
+> On Mon, Sep 28, 2020 at 01:10:24PM -0700, John Hubbard wrote:
+>> On 9/28/20 5:57 AM, Jason Gunthorpe wrote:
+>>> On Sun, Sep 27, 2020 at 11:21:53PM -0700, John Hubbard wrote:
+>>>> diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
+>>>> index d1ae706d9927..9cc6bc087461 100644
+>>>> +++ b/tools/testing/selftests/vm/Makefile
+>>>> @@ -130,3 +130,5 @@ endif
+>>>>    $(OUTPUT)/userfaultfd: LDLIBS += -lpthread
+>>>>    $(OUTPUT)/mlock-random-test: LDLIBS += -lcap
+>>>> +
+>>>> +$(OUTPUT)/gup_test: ../../../../mm/gup_test.h
+>>>
+>>> There is no reason to do this, the auto depends will pick up header
+>>> files, and gup_test.h isn't a generated file
+>>>
 
-You can use memzero_explicit instead of open coding it.
+Oh, I misread your comment! You were talking about this Makefile
+dependency that I'm adding, rather than the ../'s in the path.
 
-Regards,
-Jason
+Well, for that though, it also has to stay as shown in this patch,
+because of this:
+
+I don't see any "gcc -m" type of dependency generation pass happening
+in this relatively simple Make system. And so, without including an
+explicit header file dependency (at least, that's the simplest way),
+changes to gup_test.h are not detected. Both the Makefile code and the
+observed behavior back this up. (I expect that this is because there is
+less use of header files in this area, because most unit tests are
+self-contained within a single .c file.)
+
+
+>>
+>> It is less capable than you might think. Without the admittedly ugly technique
+>> above, it fails to build, and as you can see, the include paths that are fed to
+>> gcc are just a single one: usr/include:
+>>
+>> $ make
+>> make --no-builtin-rules ARCH=x86 -C ../../../.. headers_install
+>> gcc -Wall -I ../../../../usr/include     gup_test.c
+>> /kernel_work/linux-next-github/tools/testing/selftests/kselftest_harness.h
+>> /kernel_work/linux-next-github/tools/testing/selftests/kselftest.h
+>> ../../../../mm/gup_test.h -lrt -o
+>> /kernel_work/linux-next-github/tools/testing/selftests/vm/gup_test
+>> make[1]: Entering directory '/kernel_work/linux-next-github'
+>> gup_test.c:10:10: fatal error: gup_test.h: No such file or directory
+>>     10 | #include "gup_test.h"
+>>        |          ^~~~~~~~~~~~
+> 
+> You are supposed to use
+> 
+>    #include "../../../../mm/gup_test.h"
+
+Good, I'll leave it as I had it.
+
+
+> I have no idea what weird behavior the makefile is triggering that the
+> above include works
+> 
+
+See the commit description for yet another Makefile weird behavior point. :)
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
