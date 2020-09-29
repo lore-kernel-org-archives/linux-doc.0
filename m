@@ -2,121 +2,108 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 132AFC4741F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:53:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C861C4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 15:06:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2DB22158C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:53:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hX4Y+3jt"
+	by mail.kernel.org (Postfix) with ESMTP id EC7AF20773
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 15:05:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729299AbgI2Oxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 10:53:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727328AbgI2Oxj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 10:53:39 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD0AC061755;
-        Tue, 29 Sep 2020 07:53:39 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id k25so3742827qtu.4;
-        Tue, 29 Sep 2020 07:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LxdLM+iHttbSOumhWDZv97egHmbUeQtF2b9Swdl0B60=;
-        b=hX4Y+3jtPvmClo/JSzRgoXA7gAjY0UBMBegDnAUpaUUZ7Q0TCFt3Rbmkl9e7xFp03h
-         8RrDQvip4qZZDm6p9y5GvJy67aDdmxQjqTE7g9ieImWJKEl8VeBCjiA9BP4ZEUbtvAW4
-         mksZA6rG6G59SjA9ixhEV2oGgk2ayn5BlCQESHVEBZfgoxvEQ7lrj9uLsAX+LwH5REbL
-         EMMRnX6vmW+F3Pj22TnZiHbIJiwkPW9TZRZGq+UK9OJ2hEmuFLUCISVsl7Xs9pEOrgpc
-         skwvBWO7Fb5zomGupjbOUIUAXxGPqeje0IPbSJhKm6/deaEvFM/NFc/a2yKxsIbPhRv0
-         jswA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=LxdLM+iHttbSOumhWDZv97egHmbUeQtF2b9Swdl0B60=;
-        b=C75rfI0z3PCzjVhWYYoLDKS+MNyEXQFSBWGOrGtepD+p9EywGTjI0TB268DC2nYwE6
-         QX/mqORA8t6mUFcV80UAkSx4C73PkrA1C0sEEkQv0Y5WIw9Be4WXmsMIkAER36Okdwo6
-         F10kZGq3kOammhcIb1/x2a/Bs9obqdGnMn1QrpHwCROgg073Z6XsroqHXDiLCypzplAP
-         Dfu2/td+e7yoMyBhCjrXL7z4+nDpu9R1NvdLpoXYcDfxOwU2peAvBL+NbW+LOjOtgXZ4
-         Lo2gtInDX31Vii3suz9hrnzfOAd70xDlAIx1NHQke24x7nz07rs+CndwWWP+tNkBOVcO
-         5NLw==
-X-Gm-Message-State: AOAM531ZdjlNQkIKDXo8x/T70l/KJJNk5PTguVT1cSW0wlcX+KjKCeum
-        B0Rwy5adIYBr92d+CVjWX6c=
-X-Google-Smtp-Source: ABdhPJymfyNEfxzlEcxwwnxSu38R7ekXhi2LVXO3vbzyz7NOzIeyRuscN1rfk14H6x5irwigFmaiaA==
-X-Received: by 2002:ac8:6a06:: with SMTP id t6mr3700476qtr.1.1601391218859;
-        Tue, 29 Sep 2020 07:53:38 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id 192sm4923961qkm.110.2020.09.29.07.53.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 07:53:38 -0700 (PDT)
-Sender: Arvind Sankar <niveditas98@gmail.com>
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 29 Sep 2020 10:53:35 -0400
-To:     Ross Philipson <ross.philipson@oracle.com>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
-Message-ID: <20200929145335.GA2454775@rani.riverdale.lan>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
- <20200924173801.GA103726@rani.riverdale.lan>
- <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
- <20200925191842.GA643740@rani.riverdale.lan>
- <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
+        id S1728973AbgI2PF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 11:05:59 -0400
+Received: from foss.arm.com ([217.140.110.172]:46806 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725710AbgI2PF7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Sep 2020 11:05:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 566D91063;
+        Tue, 29 Sep 2020 08:05:58 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.51.69])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE43B3F6CF;
+        Tue, 29 Sep 2020 08:05:51 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 16:05:49 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
+Message-ID: <20200929150549.GE53442@C02TD0UTHF1T.local>
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-2-elver@google.com>
+ <20200929142411.GC53442@C02TD0UTHF1T.local>
+ <CANpmjNNQGrpq+fBh4OypP9aK+-548vbCbKYiWQnSHESM0SLVzw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
+In-Reply-To: <CANpmjNNQGrpq+fBh4OypP9aK+-548vbCbKYiWQnSHESM0SLVzw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 10:03:47AM -0400, Ross Philipson wrote:
-> On 9/25/20 3:18 PM, Arvind Sankar wrote:
-> > You will also need to avoid initializing data with symbol addresses.
-> > 
-> > 	.long mle_header
-> > 	.long sl_stub_entry
-> > 	.long sl_gdt
-> > 
-...
-> > 
-> > The other two are more messy, unfortunately there is no easy way to tell
-> > the linker what we want here. The other entry point addresses (for the
-> > EFI stub) are populated in a post-processing step after the compressed
-> > kernel has been linked, we could teach it to also update kernel_info.
-> > 
-> > Without that, for kernel_info, you could change it to store the offset
-> > of the MLE header from kernel_info, instead of from the start of the
-> > image.
+On Tue, Sep 29, 2020 at 04:51:29PM +0200, Marco Elver wrote:
+> On Tue, 29 Sep 2020 at 16:24, Mark Rutland <mark.rutland@arm.com> wrote:
+> [...]
+> >
+> > From other sub-threads it sounds like these addresses are not part of
+> > the linear/direct map. Having kmalloc return addresses outside of the
+> > linear map is going to break anything that relies on virt<->phys
+> > conversions, and is liable to make DMA corrupt memory. There were
+> > problems of that sort with VMAP_STACK, and this is why kvmalloc() is
+> > separate from kmalloc().
+> >
+> > Have you tested with CONFIG_DEBUG_VIRTUAL? I'd expect that to scream.
+> >
+> > I strongly suspect this isn't going to be safe unless you always use an
+> > in-place carevout from the linear map (which could be the linear alias
+> > of a static carevout).
+> 
+> That's an excellent point, thank you! Indeed, on arm64, a version with
+> naive static-pool screams with CONFIG_DEBUG_VIRTUAL.
+> 
+> We'll try to put together an arm64 version using a carveout as you suggest.
 
-Actually, kernel_info is currently placed inside .rodata, which is quite
-a ways into the compressed kernel, so an offset from kernel_info would
-end up having to be negative, which would be ugly. I'll see if I can
-come up with some way to avoid this.
+Great, thanks!
 
-> > 
-> > For the MLE header, it could be moved to .head.text in head_64.S, and
-> > initialized with
-> > 	.long rva(sl_stub)
-> > This will also let it be placed at a fixed offset from startup_32, so
-> > that kernel_info can just be populated with a constant.
-> 
-> Thank you for the detailed reply. I am going to start digging into this now.
-> 
-> Ross
-> 
-> > 
-> 
+Just to be clear, the concerns for DMA and virt<->phys conversions also
+apply to x86 (the x86 virt<->phys conversion behaviour is more forgiving
+in the common case, but still has cases that can go wrong).
+
+Other than the code to initialize the page tables for the careveout, I
+think the carevout code can be geenric.
+
+Thanks,
+Mark.
