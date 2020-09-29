@@ -7,45 +7,42 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD26C4742B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:40:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE5CC54F5C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:40:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACEFC2076B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:40:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39CD5208B8
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:40:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GxWZdTII";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CyXJ7UyY"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vRU6BfuH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LEfYKg1x"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729682AbgI2Ujn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:39:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37242 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729442AbgI2Uf7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:35:59 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3B7C0613D0;
-        Tue, 29 Sep 2020 13:35:59 -0700 (PDT)
-Message-Id: <20200929203500.979315007@linutronix.de>
+        id S1729422AbgI2UkD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:40:03 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49316 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729376AbgI2Uf5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:35:57 -0400
+Message-Id: <20200929203500.772444384@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411757;
+        s=2020; t=1601411754;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=p8noynpUYoUVoCA3AcE8IXexBkfCyLsxGEPrAE+AsI4=;
-        b=GxWZdTIIqHgC4sHF/8+MlpMTpyE+Ys7tQM9ClxFYteeOzpdW9CUV+RfZQVpPshQ3Jab8uF
-        VwiNSF1l+v37TyOEY0oLQ1Mg3WesnhOVDP4eOsDsAcBRO1CSdyL+HeQVl2qEEE0ZPmurlk
-        mKSrHiTvvwoUUrs5H3BmGYzLfYENz7JzMWcY7ns6CZKAkEtFM1xIL8z67wRo57YMJHSeEL
-        9foUpmZNYtmQKmUriWGskXls5938ymTN43trd/XooNNNzixOQUY9vxDqYaInxzFmlXyrKF
-        /IpsVlVqLnsucsRLF4dHfWjutANDXz4i/LF4lPR/sjWVffc1CNwwAam73IGyRg==
+        bh=ZU7NcQAsE/kj7cmUnOD5K9JFij/BoI0exU4lajDmnJ4=;
+        b=vRU6BfuHOIAfBrVtu4hT7bOoSqNXK0UJcuUCnpmMR01XxLkNiw61gZAphCtJXKCWE5K1i7
+        IJgQN52kyuidE9vQgzXypCAyr/TpToMGyk9vkHe+DlbJNfFGZSYs/NGwJ9D2ONoM2IU5Zw
+        e+7S0mXG+Q1pyH7obsScTtFz8BiaioaXHn5oAupcsRCsLuGD/BLOGoblxRQGDEX1Q8ApS0
+        CQbP4O88pIhIbkxZySum376e0s3/17XKI+Gu6XgErrMSBBy1fyp3qCjBpD48xFUOUtKKBQ
+        W2NNaEKkJgaL98SY7jwux0HGwK9aR2mFw5NIEs+9NYNIBpgTWAtGu7VZYGiZcw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411757;
+        s=2020e; t=1601411754;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=p8noynpUYoUVoCA3AcE8IXexBkfCyLsxGEPrAE+AsI4=;
-        b=CyXJ7UyYA/JETWPHQnDFpdz/d1SjcViFnqKn1ddsxKPw2C0BkbX2Q7Dvp3KSrmhyLaB6Qq
-        amDNkvL368OqZVAA==
-Date:   Tue, 29 Sep 2020 22:25:24 +0200
+        bh=ZU7NcQAsE/kj7cmUnOD5K9JFij/BoI0exU4lajDmnJ4=;
+        b=LEfYKg1xG9lkdKgkKbBAn3aXuZsx2d/HLM7tuC+OD/dzExOSuTCCuQ+uxV82IUN/TWajPk
+        Ybp+2Mpr+f/6D4Bg==
+Date:   Tue, 29 Sep 2020 22:25:22 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -99,7 +96,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 15/36] net: sfc: Replace in_interrupt() usage
+Subject: [patch V2 13/36] net: mdiobus: Remove WARN_ON_ONCE(in_interrupt())
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -108,136 +105,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Edward Cree <ecree@solarflare.com>
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-efx_ef10_try_update_nic_stats_vf() used in_interrupt() to figure out
-whether it is safe to sleep (for MCDI) or not.
+in_interrupt() is ill defined and does not provide what the name
+suggests. The usage especially in driver code is deprecated and a tree wide
+effort to clean up and consolidate the (ab)usage of in_interrupt() and
+related checks is happening.
 
-The only caller from which it was not is efx_net_stats(), which can be
-invoked under dev_base_lock from net-sysfs::netstat_show().
+In this case the check covers only parts of the contexts in which these
+functions cannot be called. It fails to detect preemption or interrupt
+disabled invocations.
 
-So add a new update_stats_atomic() method to struct efx_nic_type, and call
-it from efx_net_stats(), removing the need for
-efx_ef10_try_update_nic_stats_vf() to behave differently for this case
-(which it wasn't doing correctly anyway).
+As the functions which contain these warnings invoke mutex_lock() which
+contains a broad variety of checks (always enabled or debug option
+dependent) and therefore covers all invalid conditions already, there is no
+point in having inconsistent warnings in those drivers. The conditional
+return is not really valuable in practice either.
 
-For all nic_types other than EF10 VF, this method is NULL so the the
-regular update_stats() methods are invoked , which are happy with being
-called from atomic contexts.
+Just remove them.
 
-Fixes: f00bf2305cab ("sfc: don't update stats on VF when called in atomic context")
-Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Edward Cree <ecree@solarflare.com>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Martin Habets <mhabets@solarflare.com>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
 
 ---
-Only compile-tested so far, because I'm waiting for my kernel to
- finish rebuilding with CONFIG_DEBUG_ATOMIC_SLEEP which I'm hoping
- is the right thing to detect the bug in the existing code.
-I also wasn't quite sure how to give credit to the thorough analysis
- in the commit message of Sebastian's patch.  I don't think we have
- a Whatever-by: tag to cover that, do we?
-And this doesn't include your GFP_KERNEL change, which should
- probably go in separately if you take this.
+ drivers/net/phy/mdio_bus.c |   15 ---------------
+ 1 file changed, 15 deletions(-)
 
- drivers/net/ethernet/sfc/ef10.c       |   22 +++++++++++++---------
- drivers/net/ethernet/sfc/efx_common.c |    2 +-
- drivers/net/ethernet/sfc/net_driver.h |    5 +++++
- drivers/net/ethernet/sfc/nic_common.h |    7 +++++++
- 4 files changed, 26 insertions(+), 10 deletions(-)
-
---- a/drivers/net/ethernet/sfc/ef10.c
-+++ b/drivers/net/ethernet/sfc/ef10.c
-@@ -1871,15 +1871,6 @@ static int efx_ef10_try_update_nic_stats
- 
- 	spin_unlock_bh(&efx->stats_lock);
- 
--	if (in_interrupt()) {
--		/* If in atomic context, cannot update stats.  Just update the
--		 * software stats and return so the caller can continue.
--		 */
--		spin_lock_bh(&efx->stats_lock);
--		efx_update_sw_stats(efx, stats);
--		return 0;
--	}
--
- 	efx_ef10_get_stat_mask(efx, mask);
- 
- 	rc = efx_nic_alloc_buffer(efx, &stats_buf, dma_len, GFP_ATOMIC);
-@@ -1938,6 +1929,18 @@ static size_t efx_ef10_update_stats_vf(s
- 	return efx_ef10_update_stats_common(efx, full_stats, core_stats);
- }
- 
-+static size_t efx_ef10_update_stats_atomic_vf(struct efx_nic *efx, u64 *full_stats,
-+					      struct rtnl_link_stats64 *core_stats)
-+{
-+	struct efx_ef10_nic_data *nic_data = efx->nic_data;
-+
-+	/* In atomic context, cannot update HW stats.  Just update the
-+	 * software stats and return so the caller can continue.
-+	 */
-+	efx_update_sw_stats(efx, nic_data->stats);
-+	return efx_ef10_update_stats_common(efx, full_stats, core_stats);
-+}
-+
- static void efx_ef10_push_irq_moderation(struct efx_channel *channel)
+--- a/drivers/net/phy/mdio_bus.c
++++ b/drivers/net/phy/mdio_bus.c
+@@ -825,9 +825,6 @@ int mdiobus_read_nested(struct mii_bus *
  {
- 	struct efx_nic *efx = channel->efx;
-@@ -3998,6 +4001,7 @@ const struct efx_nic_type efx_hunt_a0_vf
- 	.finish_flr = efx_port_dummy_op_void,
- 	.describe_stats = efx_ef10_describe_stats,
- 	.update_stats = efx_ef10_update_stats_vf,
-+	.update_stats_atomic = efx_ef10_update_stats_atomic_vf,
- 	.start_stats = efx_port_dummy_op_void,
- 	.pull_stats = efx_port_dummy_op_void,
- 	.stop_stats = efx_port_dummy_op_void,
---- a/drivers/net/ethernet/sfc/efx_common.c
-+++ b/drivers/net/ethernet/sfc/efx_common.c
-@@ -602,7 +602,7 @@ void efx_net_stats(struct net_device *ne
- 	struct efx_nic *efx = netdev_priv(net_dev);
+ 	int retval;
  
- 	spin_lock_bh(&efx->stats_lock);
--	efx->type->update_stats(efx, NULL, stats);
-+	efx_nic_update_stats_atomic(efx, NULL, stats);
- 	spin_unlock_bh(&efx->stats_lock);
- }
+-	if (WARN_ON_ONCE(in_interrupt()))
+-		return -EINVAL;
+-
+ 	mutex_lock_nested(&bus->mdio_lock, MDIO_MUTEX_NESTED);
+ 	retval = __mdiobus_read(bus, addr, regnum);
+ 	mutex_unlock(&bus->mdio_lock);
+@@ -850,9 +847,6 @@ int mdiobus_read(struct mii_bus *bus, in
+ {
+ 	int retval;
  
---- a/drivers/net/ethernet/sfc/net_driver.h
-+++ b/drivers/net/ethernet/sfc/net_driver.h
-@@ -1172,6 +1172,9 @@ struct efx_udp_tunnel {
-  * @describe_stats: Describe statistics for ethtool
-  * @update_stats: Update statistics not provided by event handling.
-  *	Either argument may be %NULL.
-+ * @update_stats_atomic: Update statistics while in atomic context, if that
-+ *	is more limiting than @update_stats.  Otherwise, leave %NULL and
-+ *	driver core will call @update_stats.
-  * @start_stats: Start the regular fetching of statistics
-  * @pull_stats: Pull stats from the NIC and wait until they arrive.
-  * @stop_stats: Stop the regular fetching of statistics
-@@ -1316,6 +1319,8 @@ struct efx_nic_type {
- 	size_t (*describe_stats)(struct efx_nic *efx, u8 *names);
- 	size_t (*update_stats)(struct efx_nic *efx, u64 *full_stats,
- 			       struct rtnl_link_stats64 *core_stats);
-+	size_t (*update_stats_atomic)(struct efx_nic *efx, u64 *full_stats,
-+				      struct rtnl_link_stats64 *core_stats);
- 	void (*start_stats)(struct efx_nic *efx);
- 	void (*pull_stats)(struct efx_nic *efx);
- 	void (*stop_stats)(struct efx_nic *efx);
---- a/drivers/net/ethernet/sfc/nic_common.h
-+++ b/drivers/net/ethernet/sfc/nic_common.h
-@@ -244,6 +244,13 @@ void efx_nic_update_stats(const struct e
- 			  const unsigned long *mask, u64 *stats,
- 			  const void *dma_buf, bool accumulate);
- void efx_nic_fix_nodesc_drop_stat(struct efx_nic *efx, u64 *stat);
-+static inline size_t efx_nic_update_stats_atomic(struct efx_nic *efx, u64 *full_stats,
-+						 struct rtnl_link_stats64 *core_stats)
-+{
-+	if (efx->type->update_stats_atomic)
-+		return efx->type->update_stats_atomic(efx, full_stats, core_stats);
-+	return efx->type->update_stats(efx, full_stats, core_stats);
-+}
+-	if (WARN_ON_ONCE(in_interrupt()))
+-		return -EINVAL;
+-
+ 	mutex_lock(&bus->mdio_lock);
+ 	retval = __mdiobus_read(bus, addr, regnum);
+ 	mutex_unlock(&bus->mdio_lock);
+@@ -879,9 +873,6 @@ int mdiobus_write_nested(struct mii_bus
+ {
+ 	int err;
  
- #define EFX_MAX_FLUSH_TIME 5000
+-	if (WARN_ON_ONCE(in_interrupt()))
+-		return -EINVAL;
+-
+ 	mutex_lock_nested(&bus->mdio_lock, MDIO_MUTEX_NESTED);
+ 	err = __mdiobus_write(bus, addr, regnum, val);
+ 	mutex_unlock(&bus->mdio_lock);
+@@ -905,9 +896,6 @@ int mdiobus_write(struct mii_bus *bus, i
+ {
+ 	int err;
  
+-	if (WARN_ON_ONCE(in_interrupt()))
+-		return -EINVAL;
+-
+ 	mutex_lock(&bus->mdio_lock);
+ 	err = __mdiobus_write(bus, addr, regnum, val);
+ 	mutex_unlock(&bus->mdio_lock);
+@@ -929,9 +917,6 @@ int mdiobus_modify(struct mii_bus *bus,
+ {
+ 	int err;
+ 
+-	if (WARN_ON_ONCE(in_interrupt()))
+-		return -EINVAL;
+-
+ 	mutex_lock(&bus->mdio_lock);
+ 	err = __mdiobus_modify_changed(bus, addr, regnum, mask, set);
+ 	mutex_unlock(&bus->mdio_lock);
+
 
