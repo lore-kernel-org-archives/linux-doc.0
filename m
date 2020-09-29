@@ -7,42 +7,45 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16678C54EBF
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D7DC54EEA
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0D202076B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3FA92076B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jnjXIpI3";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oShgwZnI"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EIPi0Lnt";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="X42r9W9i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729193AbgI2UjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:39:07 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:49816 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729490AbgI2UgF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:05 -0400
-Message-Id: <20200929203501.493579905@linutronix.de>
+        id S1729697AbgI2UjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:39:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729478AbgI2UgC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:02 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E1EC0613D2;
+        Tue, 29 Sep 2020 13:36:01 -0700 (PDT)
+Message-Id: <20200929203501.174106828@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411763;
+        s=2020; t=1601411759;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=ReSPk9z+UkyzJFbPFHl4mkK3mIZvHsH9ynI/qMcmX0Y=;
-        b=jnjXIpI3i45YTQ5jT2RcskdnwhVSfkgsfdjX/LnuHZYTRNr2AA+OQvX2uU681RdnssE3JW
-        0n8CckwcTCxsnDGBLzGqhLYPwVVFmd2NpWEkeUZwpyBbRZxAHUe9RKtWlpLpaqh4C2Ye/z
-        ddl/id4Cxj0nLfF6EmtNajXAlS6ZmR3yP7GI+h3KXN53V5UBN7bEm3AUGLarCt30t1z93a
-        /VUE9ksSDsiflGWuNefAclPp/DhtlN9Hj5v1dVTUotJEahmnrSTUZmbTnoAOkdeQ1kRlYF
-        X2oqOXxFc1z6AzmDQVMm+AZpUM8z8m9zydIoWEEREZFLXk5ZgCURGoc9tw3rfA==
+        bh=N9BRw1yz6NFV8std4SkT3Uzzn3VXu0GqYfIKNTG6X5E=;
+        b=EIPi0LntqhK+k+BiAUZDRhJJMmDcnV+kcgrq+bczSg+aGDSssk7Ea3eApBpnVjKGhwoL+n
+        72qsKzhkNehonIJ+8illeSoepKWSxXbg4Cqe5sFdvOC6QaqgCM4ahPin4JASuZdOGvNApz
+        24RaaXBvEejgj8YZw1E+geQD5RX30tIl6sgQMjsIb2ji0+z3EmzkvgGIqDM1jVU4akJkNz
+        YCTrOqpB88fM2lmqVAkBWoI6xAnyYK+o1reKhe1OdLqC789iXzyeN5dOSrJRtgJz/aAiyi
+        xuWrTjxhShzL5soeTTapyamaGIcyMGfGxCjgAhjo8Y/borFi7swOz6cSeA49mg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411763;
+        s=2020e; t=1601411759;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=ReSPk9z+UkyzJFbPFHl4mkK3mIZvHsH9ynI/qMcmX0Y=;
-        b=oShgwZnILxMeutUwkuD/E5nmdUV3E0sjRKc1ck0kMKqm8HQdNgPy9Oh5qh4CFk7QF4Ubs5
-        F+CY7e9LE86PXBBQ==
-Date:   Tue, 29 Sep 2020 22:25:29 +0200
+        bh=N9BRw1yz6NFV8std4SkT3Uzzn3VXu0GqYfIKNTG6X5E=;
+        b=X42r9W9iZllVNjva3r1f0qOSVOALGkcIzlwQM/efS+ROnTSVq2BO4tKuw6c6noyU1EHvkt
+        ZU9zXa3tqQEudFCg==
+Date:   Tue, 29 Sep 2020 22:25:26 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -96,7 +99,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 20/36] net: zd1211rw: Remove ZD_ASSERT(in_interrupt())
+Subject: [patch V2 17/36] net: sunbmac: Replace in_interrupt() usage
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -107,33 +110,107 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-in_interrupt() is ill defined and does not provide what the name
-suggests. The usage especially in driver code is deprecated and
-a tree wide effort to clean up and consolidate the (ab)usage of
-in_interrupt() and related checks is happening.
+bigmac_init_rings() has an argument signaling if it is called from the
+interrupt handler. This is used to decide between GFP_KERNEL and GFP_ATOMIC
+for memory allocations.
 
-handle_regs_int() is always invoked as part of URB callback which is either
-invoked from hard or soft interrupt context.
+But it also checks in_interrupt() to handle invocations which come from the
+timer callback bigmac_timer() via bigmac_hw_init(), which is invoked with
+'in_irq = 0'. While the timer callback is clearly not in hard interrupt
+context it is still not sleepable context.
 
-Remove the magic assertion.
+Rename the argument to `non_blocking' and set it to true if invoked from
+the timer callback or the interrupt handler which allows to remove the
+in_interrupt() check and makes the code consistent.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Acked-by: Kalle Valo <kvalo@codeaurora.org>
+
 
 ---
- drivers/net/wireless/zydas/zd1211rw/zd_usb.c |    1 -
- 1 file changed, 1 deletion(-)
+ drivers/net/ethernet/sun/sunbmac.c |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
---- a/drivers/net/wireless/zydas/zd1211rw/zd_usb.c
-+++ b/drivers/net/wireless/zydas/zd1211rw/zd_usb.c
-@@ -378,7 +378,6 @@ static inline void handle_regs_int(struc
- 	int len;
- 	u16 int_num;
+--- a/drivers/net/ethernet/sun/sunbmac.c
++++ b/drivers/net/ethernet/sun/sunbmac.c
+@@ -209,13 +209,13 @@ static void bigmac_clean_rings(struct bi
+ 	}
+ }
  
--	ZD_ASSERT(in_interrupt());
- 	spin_lock_irqsave(&intr->lock, flags);
+-static void bigmac_init_rings(struct bigmac *bp, int from_irq)
++static void bigmac_init_rings(struct bigmac *bp, bool non_blocking)
+ {
+ 	struct bmac_init_block *bb = bp->bmac_block;
+ 	int i;
+ 	gfp_t gfp_flags = GFP_KERNEL;
  
- 	int_num = le16_to_cpu(*(__le16 *)(urb->transfer_buffer+2));
+-	if (from_irq || in_interrupt())
++	if (non_blocking)
+ 		gfp_flags = GFP_ATOMIC;
+ 
+ 	bp->rx_new = bp->rx_old = bp->tx_new = bp->tx_old = 0;
+@@ -489,7 +489,7 @@ static void bigmac_tcvr_init(struct bigm
+ 	}
+ }
+ 
+-static int bigmac_init_hw(struct bigmac *, int);
++static int bigmac_init_hw(struct bigmac *, bool);
+ 
+ static int try_next_permutation(struct bigmac *bp, void __iomem *tregs)
+ {
+@@ -549,7 +549,7 @@ static void bigmac_timer(struct timer_li
+ 				if (ret == -1) {
+ 					printk(KERN_ERR "%s: Link down, cable problem?\n",
+ 					       bp->dev->name);
+-					ret = bigmac_init_hw(bp, 0);
++					ret = bigmac_init_hw(bp, true);
+ 					if (ret) {
+ 						printk(KERN_ERR "%s: Error, cannot re-init the "
+ 						       "BigMAC.\n", bp->dev->name);
+@@ -617,7 +617,7 @@ static void bigmac_begin_auto_negotiatio
+ 	add_timer(&bp->bigmac_timer);
+ }
+ 
+-static int bigmac_init_hw(struct bigmac *bp, int from_irq)
++static int bigmac_init_hw(struct bigmac *bp, bool non_blocking)
+ {
+ 	void __iomem *gregs        = bp->gregs;
+ 	void __iomem *cregs        = bp->creg;
+@@ -635,7 +635,7 @@ static int bigmac_init_hw(struct bigmac
+ 	qec_init(bp);
+ 
+ 	/* Alloc and reset the tx/rx descriptor chains. */
+-	bigmac_init_rings(bp, from_irq);
++	bigmac_init_rings(bp, non_blocking);
+ 
+ 	/* Initialize the PHY. */
+ 	bigmac_tcvr_init(bp);
+@@ -749,7 +749,7 @@ static void bigmac_is_medium_rare(struct
+ 	}
+ 
+ 	printk(" RESET\n");
+-	bigmac_init_hw(bp, 1);
++	bigmac_init_hw(bp, true);
+ }
+ 
+ /* BigMAC transmit complete service routines. */
+@@ -921,7 +921,7 @@ static int bigmac_open(struct net_device
+ 		return ret;
+ 	}
+ 	timer_setup(&bp->bigmac_timer, bigmac_timer, 0);
+-	ret = bigmac_init_hw(bp, 0);
++	ret = bigmac_init_hw(bp, false);
+ 	if (ret)
+ 		free_irq(dev->irq, bp);
+ 	return ret;
+@@ -945,7 +945,7 @@ static void bigmac_tx_timeout(struct net
+ {
+ 	struct bigmac *bp = netdev_priv(dev);
+ 
+-	bigmac_init_hw(bp, 0);
++	bigmac_init_hw(bp, true);
+ 	netif_wake_queue(dev);
+ }
+ 
 
 
