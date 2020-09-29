@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32194C52D1A
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B33C49EBE
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C68B62076B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A8C52074B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1bYv3DnX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NTn83D4Y"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oiKP0Xh0";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cv7GOQA6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729878AbgI2Uhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729868AbgI2Uhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 29 Sep 2020 16:37:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37318 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729570AbgI2UgX (ORCPT
+        with ESMTP id S1729582AbgI2UgX (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:23 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6014C0613D8;
-        Tue, 29 Sep 2020 13:36:11 -0700 (PDT)
-Message-Id: <20200929203501.990651184@linutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1862C0613DB;
+        Tue, 29 Sep 2020 13:36:15 -0700 (PDT)
+Message-Id: <20200929203502.290194412@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411770;
+        s=2020; t=1601411774;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=nmdfvbBdxc+F4LPbcHtWk8LDo4taGeEsCCFXJ53hMe0=;
-        b=1bYv3DnXkNw/hSM4Nbg1Y9iOR3XrEgyVJxt5WvlsV7LV+bDZR9sXtsXiFtxi/GUL8So33c
-        6JT9kP+vg/vwkU83hFjotL3A5wnGg0MQ67NpMu3g/YNVFzVs9Ju1urHXtldZClm2+PqHDG
-        W3QkFf1mGMK9WtJSTJp3gDruTAqAqjslZMT/CkbQfhFFnjks2VuytpmLaV6f1sbEMKenwA
-        FeKBWF0bZnBtmunfN9FNarsHezWSQcxcDgZRudB8/atxwuIBD1AR8BC/eJDs4u+q3DIY0+
-        37CeMKqTBZchMZKeyT1yQK9yogh4KjCXVo8hnD+tZArWPx281ma3F+P0eZ+W2Q==
+        bh=7Y3JxN63Q/PAehxAHjlctr5zLB/0T1XlCp5sBBJ6ers=;
+        b=oiKP0Xh0hgA+5zrGUYdekn9rQzAC4LdhldgalfF+GD+80VdiZXZKs0d75kx8FgkG4UHHVJ
+        o3rqlCb4K9+JNHIsFIL5WLeFB7ty070G/8LtX60ximHuITgnlH9wpX7tsgz3tkwi44KWwb
+        2HCpK0W6133MFuLdi0x3bknXOXCQKj4vV33vpVcw74G548uIlqDiVhr//B8e1Y70vEooRz
+        FCokcITKwTHomIJfNuDvGD9UcFM++gfJyvxS7AqaLGGogozINtZ+NSuE0Yxm2n6PMhWcpI
+        3xl50c76FhcB18vk4+R5AN/njwD4JesFpZCbRIwbexbhX5MIjp1gUXFbryQa9g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411770;
+        s=2020e; t=1601411774;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=nmdfvbBdxc+F4LPbcHtWk8LDo4taGeEsCCFXJ53hMe0=;
-        b=NTn83D4YH6ysj5p9NgvKY4vhETcAWKaws1Uy8zXoCrhCdKnDt7aF8bdJR3JQ4nIH6kIL2k
-        mn+yFYZvhlq5M+AQ==
-Date:   Tue, 29 Sep 2020 22:25:34 +0200
+        bh=7Y3JxN63Q/PAehxAHjlctr5zLB/0T1XlCp5sBBJ6ers=;
+        b=Cv7GOQA6CjaeBoQZgaP2ugJNvaDW0z8PoRHJHLEmmHHtU9PIoDOnTj0hyjRawikbMf+aw1
+        9TZvSn3S/yPlakBw==
+Date:   Tue, 29 Sep 2020 22:25:37 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -99,7 +99,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 25/36] net: brcmfmac: Replace in_interrupt()
+Subject: [patch V2 28/36] net: ipw2x00,iwlegacy,iwlwifi: Remove in_interrupt()
+ from debug macros
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -110,73 +111,99 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-brcmf_sdio_isr() is using in_interrupt() to distinguish if it is called
-from a interrupt service routine or from a worker thread.
+The usage of in_interrupt() in non-core code is phased out.
 
-Passing such information from the calling context is preferred and
-requested by Linus, so add an argument `in_isr' to brcmf_sdio_isr() and let
-the callers pass the information about the calling context.
+The debugging macros in these drivers use in_interrupt() to print 'I' or
+'U' depending on the return value of in_interrupt(). While 'U' is confusing
+at best and 'I' is not really describing the actual context (hard interupt,
+soft interrupt, bottom half disabled section) these debug macros originate
+from the pre ftrace kernel era and their value today is questionable. They
+probably should be removed completely.
+
+The macros weere added initially for ipw2100 and then spreaded when the
+driver was forked.
+
+Remove the in_interrupt() usage at least..
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
 Acked-by: Kalle Valo <kvalo@codeaurora.org>
----
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c |    4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c   |    4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h   |    2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
 
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
-@@ -73,7 +73,7 @@ static irqreturn_t brcmf_sdiod_oob_irqha
- 		sdiodev->irq_en = false;
- 	}
+---
+ drivers/net/wireless/intel/ipw2x00/ipw2100.c   |    3 +--
+ drivers/net/wireless/intel/ipw2x00/ipw2200.h   |    6 ++----
+ drivers/net/wireless/intel/ipw2x00/libipw.h    |    3 +--
+ drivers/net/wireless/intel/iwlegacy/common.h   |    4 ++--
+ drivers/net/wireless/intel/iwlwifi/iwl-debug.c |    3 +--
+ 5 files changed, 7 insertions(+), 12 deletions(-)
+
+--- a/drivers/net/wireless/intel/ipw2x00/ipw2100.c
++++ b/drivers/net/wireless/intel/ipw2x00/ipw2100.c
+@@ -201,8 +201,7 @@ static u32 ipw2100_debug_level = IPW_DL_
+ #define IPW_DEBUG(level, message...) \
+ do { \
+ 	if (ipw2100_debug_level & (level)) { \
+-		printk(KERN_DEBUG "ipw2100: %c %s ", \
+-                       in_interrupt() ? 'I' : 'U',  __func__); \
++		printk(KERN_DEBUG "ipw2100: %s ", __func__); \
+ 		printk(message); \
+ 	} \
+ } while (0)
+--- a/drivers/net/wireless/intel/ipw2x00/ipw2200.h
++++ b/drivers/net/wireless/intel/ipw2x00/ipw2200.h
+@@ -1382,14 +1382,12 @@ BIT_ARG16(x)
  
--	brcmf_sdio_isr(sdiodev->bus);
-+	brcmf_sdio_isr(sdiodev->bus, true);
+ #define IPW_DEBUG(level, fmt, args...) \
+ do { if (ipw_debug_level & (level)) \
+-  printk(KERN_DEBUG DRV_NAME": %c %s " fmt, \
+-         in_interrupt() ? 'I' : 'U', __func__ , ## args); } while (0)
++  printk(KERN_DEBUG DRV_NAME": %s " fmt, __func__ , ## args); } while (0)
  
- 	return IRQ_HANDLED;
- }
-@@ -85,7 +85,7 @@ static void brcmf_sdiod_ib_irqhandler(st
+ #ifdef CONFIG_IPW2200_DEBUG
+ #define IPW_LL_DEBUG(level, fmt, args...) \
+ do { if (ipw_debug_level & (level)) \
+-  printk(KERN_DEBUG DRV_NAME": %c %s " fmt, \
+-         in_interrupt() ? 'I' : 'U', __func__ , ## args); } while (0)
++  printk(KERN_DEBUG DRV_NAME": %s " fmt, __func__ , ## args); } while (0)
+ #else
+ #define IPW_LL_DEBUG(level, fmt, args...) do {} while (0)
+ #endif				/* CONFIG_IPW2200_DEBUG */
+--- a/drivers/net/wireless/intel/ipw2x00/libipw.h
++++ b/drivers/net/wireless/intel/ipw2x00/libipw.h
+@@ -60,8 +60,7 @@
+ extern u32 libipw_debug_level;
+ #define LIBIPW_DEBUG(level, fmt, args...) \
+ do { if (libipw_debug_level & (level)) \
+-  printk(KERN_DEBUG "libipw: %c %s " fmt, \
+-         in_interrupt() ? 'I' : 'U', __func__ , ## args); } while (0)
++  printk(KERN_DEBUG "libipw: %s " fmt, __func__ , ## args); } while (0)
+ #else
+ #define LIBIPW_DEBUG(level, fmt, args...) do {} while (0)
+ #endif				/* CONFIG_LIBIPW_DEBUG */
+--- a/drivers/net/wireless/intel/iwlegacy/common.h
++++ b/drivers/net/wireless/intel/iwlegacy/common.h
+@@ -2925,8 +2925,8 @@ do {									\
+ #define IL_DBG(level, fmt, args...)					\
+ do {									\
+ 	if (il_get_debug_level(il) & level)				\
+-		dev_err(&il->hw->wiphy->dev, "%c %s " fmt,		\
+-			in_interrupt() ? 'I' : 'U', __func__ , ##args); \
++		dev_err(&il->hw->wiphy->dev, "%s " fmt, __func__,	\
++			 ##args);					\
+ } while (0)
  
- 	brcmf_dbg(INTR, "IB intr triggered\n");
- 
--	brcmf_sdio_isr(sdiodev->bus);
-+	brcmf_sdio_isr(sdiodev->bus, false);
- }
- 
- /* dummy handler for SDIO function 2 interrupt */
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
-@@ -3625,7 +3625,7 @@ void brcmf_sdio_trigger_dpc(struct brcmf
- 	}
- }
- 
--void brcmf_sdio_isr(struct brcmf_sdio *bus)
-+void brcmf_sdio_isr(struct brcmf_sdio *bus, bool in_isr)
- {
- 	brcmf_dbg(TRACE, "Enter\n");
- 
-@@ -3636,7 +3636,7 @@ void brcmf_sdio_isr(struct brcmf_sdio *b
- 
- 	/* Count the interrupt call */
- 	bus->sdcnt.intrcount++;
--	if (in_interrupt())
-+	if (in_isr)
- 		atomic_set(&bus->ipend, 1);
- 	else
- 		if (brcmf_sdio_intr_rstatus(bus)) {
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h
-@@ -372,7 +372,7 @@ int brcmf_sdiod_remove(struct brcmf_sdio
- 
- struct brcmf_sdio *brcmf_sdio_probe(struct brcmf_sdio_dev *sdiodev);
- void brcmf_sdio_remove(struct brcmf_sdio *bus);
--void brcmf_sdio_isr(struct brcmf_sdio *bus);
-+void brcmf_sdio_isr(struct brcmf_sdio *bus, bool in_isr);
- 
- void brcmf_sdio_wd_timer(struct brcmf_sdio *bus, bool active);
- void brcmf_sdio_wowl_config(struct device *dev, bool enabled);
+ #define il_print_hex_dump(il, level, p, len)				\
+--- a/drivers/net/wireless/intel/iwlwifi/iwl-debug.c
++++ b/drivers/net/wireless/intel/iwlwifi/iwl-debug.c
+@@ -121,8 +121,7 @@ void __iwl_dbg(struct device *dev,
+ #ifdef CONFIG_IWLWIFI_DEBUG
+ 	if (iwl_have_debug_level(level) &&
+ 	    (!limit || net_ratelimit()))
+-		dev_printk(KERN_DEBUG, dev, "%c %s %pV",
+-			   in_interrupt() ? 'I' : 'U', function, &vaf);
++		dev_printk(KERN_DEBUG, dev, "%s %pV", function, &vaf);
+ #endif
+ 	trace_iwlwifi_dbg(level, in_interrupt(), function, &vaf);
+ 	va_end(args);
 
 
