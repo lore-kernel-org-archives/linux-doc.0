@@ -2,137 +2,134 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AF9C4346E
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56888C4727F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:51:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74B92208FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:11:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="dYn7ozws"
+	by mail.kernel.org (Postfix) with ESMTP id 1DB4F2158C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:51:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726431AbgI2KLM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 06:11:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727663AbgI2KKR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 06:10:17 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAF51C0613D1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 03:10:16 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id z1so4720880wrt.3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 03:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6Ji8d51UZNthiwaFwQiiDA22tNDSUGquN8QOwnTBLMs=;
-        b=dYn7ozwsu9fg/NjCG2J03XJS8gkymmXk+ZLjMvvFMy5YAsZb7wz4hUSy3iEQiWZQNP
-         RPpxTHq0AyQ5etyPB+k11seysp+LrevA+87AsjBF3FqrCGsmj3s64V0FgPDhy1PKgCYT
-         PTg/9yqwPbDzNxGWjzyaaqR7bGsGdliYQiuT7d2nKEIF6b6LTlgSDShNDZZZtI9Y10OC
-         wrX6We+gzKz3zE5uBusmtL1fvrmkEoYQueI8AqPPHMo81IApcB7Wg2DprCiAJB/jt+eU
-         z3f4tbHfi24RzvVJIJQRJ402fGnxI49OIYXPnDOu7IypL3hhhNnQIwQpo3l23Spad2/T
-         XxAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6Ji8d51UZNthiwaFwQiiDA22tNDSUGquN8QOwnTBLMs=;
-        b=UvdgIxyK3d9UBdhees9KGp8lsl3iTo0G+Y1vLQP/hjblR1+NNvMTQWwYRPyKKvRuxu
-         zO0HnKCO0vj7tL7JjNllLY/XsdiOY6p4D+6/9iUecScoEycWA+bZVs8LGiSYsN8rrq4I
-         Pyxc9wPEdyFfKVCRx6LSY7qi4q3j4EnNmLpHpqEalPiBoAnzvBSC7RCOQEYxMKK7AC4T
-         WU1CIqc16C87jFJymPtPV3asB+N5D401hqEgd3wlkAuOimeneQaW+lUKVd0Uib7eEsLX
-         vaC1x9dBgUg8IrbKzKuzYlU8JMDpb5a1x8WlT5n0zMC2ZyRK7zafI17AeZw6XiyriV/2
-         ux9A==
-X-Gm-Message-State: AOAM5327uOVJxrJT/kEbI4QvQylom5sPNazaEEam2jKhvycmBtT/HSiG
-        rwWJZ90iQwyovWaREbMn2VQ++Q==
-X-Google-Smtp-Source: ABdhPJxMbY4zNLxYSqL/hs2GeeOd4gbGIk3Je7AqtBA5FUlPfloGghminqaN+JIdSsNscq6TH9/Wpw==
-X-Received: by 2002:adf:f34a:: with SMTP id e10mr3315435wrp.91.1601374215541;
-        Tue, 29 Sep 2020 03:10:15 -0700 (PDT)
-Received: from localhost.localdomain (amontpellier-652-1-68-189.w109-210.abo.wanadoo.fr. [109.210.51.189])
-        by smtp.gmail.com with ESMTPSA id x19sm3380680wmj.48.2020.09.29.03.10.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 03:10:14 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        id S1728184AbgI2KvV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 06:51:21 -0400
+Received: from mga06.intel.com ([134.134.136.31]:2315 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727805AbgI2KvU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Sep 2020 06:51:20 -0400
+IronPort-SDR: Aovzsf9EfG5I1Y+5bv4Q8K/vkloJXOWoFNgB8yC08O/LYhcQUff7pp07HT6HtGF16B9IprB35/
+ 0e3fn+Bdhyew==
+X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="223751836"
+X-IronPort-AV: E=Sophos;i="5.77,318,1596524400"; 
+   d="scan'208";a="223751836"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 03:51:18 -0700
+IronPort-SDR: m7YTCmM6M/QGObEMbEHU6QfWwNVc8JeUX0ChNt8Sqt1suczlWWqNkpjKd36p3ztns3mZcm64mE
+ 1uruo9GX0arA==
+X-IronPort-AV: E=Sophos;i="5.77,318,1596524400"; 
+   d="scan'208";a="514632702"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 03:51:16 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kNDDx-002lyH-CE; Tue, 29 Sep 2020 13:51:09 +0300
+Date:   Tue, 29 Sep 2020 13:51:09 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kent Gibson <warthog618@gmail.com>
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 01/10] lib: string_helpers: provide kfree_strarray()
-Date:   Tue, 29 Sep 2020 12:09:55 +0200
-Message-Id: <20200929101004.20288-2-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200929101004.20288-1-brgl@bgdev.pl>
+Subject: Re: [PATCH v3 01/10] lib: string_helpers: provide kfree_strarray()
+Message-ID: <20200929105109.GE3956970@smile.fi.intel.com>
 References: <20200929101004.20288-1-brgl@bgdev.pl>
+ <20200929101004.20288-2-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200929101004.20288-2-brgl@bgdev.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Tue, Sep 29, 2020 at 12:09:55PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> There's a common pattern of dynamically allocating an array of char
+> pointers and then also dynamically allocating each string in this
+> array. Provide a helper for freeing such a string array with one call.
 
-There's a common pattern of dynamically allocating an array of char
-pointers and then also dynamically allocating each string in this
-array. Provide a helper for freeing such a string array with one call.
+Thanks! Below couple of nits you may address during applying phase.
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/string_helpers.h |  2 ++
- lib/string_helpers.c           | 24 ++++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  include/linux/string_helpers.h |  2 ++
+>  lib/string_helpers.c           | 24 ++++++++++++++++++++++++
+>  2 files changed, 26 insertions(+)
+> 
+> diff --git a/include/linux/string_helpers.h b/include/linux/string_helpers.h
+> index 86f150c2a6b6..fa06dcdc481e 100644
+> --- a/include/linux/string_helpers.h
+> +++ b/include/linux/string_helpers.h
+> @@ -94,4 +94,6 @@ char *kstrdup_quotable(const char *src, gfp_t gfp);
+>  char *kstrdup_quotable_cmdline(struct task_struct *task, gfp_t gfp);
+>  char *kstrdup_quotable_file(struct file *file, gfp_t gfp);
+>  
+> +void kfree_strarray(char **array, size_t n);
+> +
+>  #endif
+> diff --git a/lib/string_helpers.c b/lib/string_helpers.c
+> index 963050c0283e..efeee2353613 100644
+> --- a/lib/string_helpers.c
+> +++ b/lib/string_helpers.c
+> @@ -649,3 +649,27 @@ char *kstrdup_quotable_file(struct file *file, gfp_t gfp)
+>  	return pathname;
+>  }
+>  EXPORT_SYMBOL_GPL(kstrdup_quotable_file);
+> +
+> +/**
+> + * kfree_strarray - free a number of dynamically allocated strings contained
+> + *                  in an array and the array itself
 
-diff --git a/include/linux/string_helpers.h b/include/linux/string_helpers.h
-index 86f150c2a6b6..fa06dcdc481e 100644
---- a/include/linux/string_helpers.h
-+++ b/include/linux/string_helpers.h
-@@ -94,4 +94,6 @@ char *kstrdup_quotable(const char *src, gfp_t gfp);
- char *kstrdup_quotable_cmdline(struct task_struct *task, gfp_t gfp);
- char *kstrdup_quotable_file(struct file *file, gfp_t gfp);
- 
-+void kfree_strarray(char **array, size_t n);
-+
- #endif
-diff --git a/lib/string_helpers.c b/lib/string_helpers.c
-index 963050c0283e..efeee2353613 100644
---- a/lib/string_helpers.c
-+++ b/lib/string_helpers.c
-@@ -649,3 +649,27 @@ char *kstrdup_quotable_file(struct file *file, gfp_t gfp)
- 	return pathname;
- }
- EXPORT_SYMBOL_GPL(kstrdup_quotable_file);
-+
-+/**
-+ * kfree_strarray - free a number of dynamically allocated strings contained
-+ *                  in an array and the array itself
-+ *
-+ * @array: Dynamically allocated array of strings to free. If NULL - the
-+ *         function does nothing.
-+ * @n: Number of strings (starting from the beginning of the array) to free.
-+ *
-+ * Passing a non-null @array and @n == 0 as well as NULL @array  are valid
-+ * use-cases.
-+ */
-+void kfree_strarray(char **array, size_t n)
-+{
-+	unsigned int i;
-+
-+	if (!array)
-+		return;
-+
-+	for (i = 0; i < n; i++)
-+		kfree(array[i]);
-+	kfree(array);
-+}
-+EXPORT_SYMBOL_GPL(kfree_strarray);
+> + * @array: Dynamically allocated array of strings to free. If NULL - the
+> + *         function does nothing.
+
+I would rather move second sentence to the description below.
+
+> + * @n: Number of strings (starting from the beginning of the array) to free.
+> + *
+
+> + * Passing a non-null @array and @n == 0 as well as NULL @array  are valid
+
+non-null -> non-NULL, and extra space before 'are'.
+
+> + * use-cases.
+> + */
+> +void kfree_strarray(char **array, size_t n)
+> +{
+> +	unsigned int i;
+> +
+> +	if (!array)
+> +		return;
+> +
+> +	for (i = 0; i < n; i++)
+> +		kfree(array[i]);
+> +	kfree(array);
+> +}
+> +EXPORT_SYMBOL_GPL(kfree_strarray);
+> -- 
+> 2.26.1
+> 
+
 -- 
-2.26.1
+With Best Regards,
+Andy Shevchenko
+
 
