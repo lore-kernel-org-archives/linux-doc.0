@@ -7,61 +7,62 @@ X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0516DC4741F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 13:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA9DC4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 13:49:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 982EE21531
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 13:48:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8B4321924
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 13:49:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bSfQ00UY"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YWvZewRv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729557AbgI2Nsj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 09:48:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58880 "EHLO
+        id S1730387AbgI2Nth (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 09:49:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729208AbgI2Nsj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 09:48:39 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 323AAC0613D0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 06:48:39 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id b17so2693761pji.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 06:48:39 -0700 (PDT)
+        with ESMTP id S1730341AbgI2Nth (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 09:49:37 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE35DC0613D0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 06:49:36 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id u126so5472115oif.13
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 06:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=IPm4tw86pN2WUua3zyIf+UMu5higdStDKbiJez1ULJI=;
-        b=bSfQ00UYm4VoJlquAI7V6jVEQo4rLlwg3aERyFQwm5d2bcD2RuSliJPcyonBtdq/ZN
-         VvtPxIglw3bP70TwMysOCQigvfrpJG5cVvoGzuxUOz7ebd0+R2+WOVxDLfja2EdFIw86
-         oHju9/tu+hGRSe9XSlz1mv37TYzGHHLo4MOIeW6BT9yq9OAOppmMVmVdbr59zPAquJ0Q
-         zIkQ3Jje0wj7eyMksGfm8fCOIsbSb8gjJJqa/fCHSQ1EYhDH+S9HIJvVGKkVpicjB299
-         UPjQVRx2K+46bs+6lG7chdR0y5VBQTLqBCRUr0knfqDC/5w+scyhixQ/3URhOBW5mDq2
-         naWQ==
+        bh=uf55h5Im87Thv0CvH7P0y872ufq4n52JjgwdZSbMlsE=;
+        b=YWvZewRv9EPKGFMnrlX58gFAN4LNRwvpGbFM90qagfwzOhq0xOTQNlNS+0+/UZRUXl
+         Q7O5w9O42x2fVh6uUAi4MXMRUBrKtvPQ47jSBSlQYgk1VuwO5B/SEVy9ORLiy61AlAHw
+         +UzixFrJbSnGdRS8QXuZuySULzOKUs/8R3kIgIbvZ7ebPA5UfZeQv1RFr0FfPnXMg0bL
+         bHxh0w1kGfiqwbe9bqgEIcuhrl3d1BBCkFUWfqeddsGe8Bze8qiCFcdUboFW+w1ha7Ek
+         Y7rSAQOzrp/Pjaj+giqaZMqJIQ8LErSJVTTUhTPFN5cmDq27q8qtmhYOLdO+wydX+nS0
+         zYfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=IPm4tw86pN2WUua3zyIf+UMu5higdStDKbiJez1ULJI=;
-        b=pGRK1+PTFYCuriVMlJxW1mavIvMKcx9UqIhroVXxNvGGsx8vvNkTmgNvHLlxZaopCw
-         L5hbOzrMJGsYnTDJ1b+Z+OUQXkRk4TcPxPd6uqC/+RT5zz2cce9XuKdfAWNztXLDVhLZ
-         AV12UEnvvFabiI+R+ptUDNeV49qQsgOcyEZ8jfsMBN/wWSWuCrnXkAMxEZiBYr6WzLYX
-         ihcaA2/FEXi6s4yUO5ykc+4bnabHNLE9nc2QDUKYNN4NO+nqo8damB/NABrFoZkzgdXu
-         nc5n2NEq0a5QyEOw8r34O9A532zy5DSt9ulElHo8mgoKPDbuOxEWjOIxIlvtVYodXhjH
-         EInw==
-X-Gm-Message-State: AOAM533kjHx/0O+SF23hdllXc0CSfQOpBXz2tl93ZCLQ1vHc95uK3Z1l
-        JzkdN4TRFHK0zzWD3myqNBWakVbIcYieu1cEebAXxw==
-X-Google-Smtp-Source: ABdhPJw47F0+7jUDxETZXpy6HGkN76Pw3ijxd4TL/rithtPlxyOge6EdgdmYyxt2sw1OTCcxptDiCw/No4O/AUpJpcs=
-X-Received: by 2002:a17:90a:81:: with SMTP id a1mr3910753pja.136.1601387318512;
- Tue, 29 Sep 2020 06:48:38 -0700 (PDT)
+        bh=uf55h5Im87Thv0CvH7P0y872ufq4n52JjgwdZSbMlsE=;
+        b=H9FL5UYB6Rj0WK4lP/h0vrWQFejYwZ6KvfB8fI3GWqBe/UQfF2fXMeg2YPCkkaolje
+         7Gv1FBNHhIM7OHoJryBiVKwcJy2c4Z9hdxf29eQISSqxzWy43+1CHJ9kf2kk+3fott1w
+         uSN6jxkac07XgTw6Khye2KfoTtaUVT2Lv2QyJnPETXhUqtSnaJlaeIL6ajXY+hL7MmUp
+         935BwuZ+QjxWvh+HTH48mvme6vm35qPqCfx7mDVdAeyVA196x8KRVumKCrwjzeCU1boS
+         YHPPH1oVd/VABD1WzCVb7+iemvbxh3BeqJczs5QMjF2pbIbcrPZT6bEr39i/tPLDnV0W
+         EtEQ==
+X-Gm-Message-State: AOAM530n0RTA1gAJKvstuddqCKbeWkH6KCBbE3U3MGA6SDYgKG399GLi
+        NypHXCwtzpEYQ+RHzRqqq6jDkhaBRwUWq+COR+dEqg==
+X-Google-Smtp-Source: ABdhPJxiJi8hWBBZVcllFLyB/VLfKmBGpjW01B6eYyc4+D70if0keiWc+WE0jU5wtu+kUc8X4oTDsf54W+9c0iy9kFM=
+X-Received: by 2002:aca:5158:: with SMTP id f85mr2718140oib.121.1601387375957;
+ Tue, 29 Sep 2020 06:49:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-2-elver@google.com>
- <CAAeHK+zYP6xhAEcv75zdSt03V2wAOTed6vNBYReV_U7EsRmUBw@mail.gmail.com> <20200929131135.GA2822082@elver.google.com>
-In-Reply-To: <20200929131135.GA2822082@elver.google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 29 Sep 2020 15:48:27 +0200
-Message-ID: <CAAeHK+y0aPAZ8zheD5vWFDR-9YCTR251i0F1pZ9QfXuiaW0r8w@mail.gmail.com>
+ <CAAeHK+zYP6xhAEcv75zdSt03V2wAOTed6vNBYReV_U7EsRmUBw@mail.gmail.com>
+ <20200929131135.GA2822082@elver.google.com> <CAAeHK+y0aPAZ8zheD5vWFDR-9YCTR251i0F1pZ9QfXuiaW0r8w@mail.gmail.com>
+In-Reply-To: <CAAeHK+y0aPAZ8zheD5vWFDR-9YCTR251i0F1pZ9QfXuiaW0r8w@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 29 Sep 2020 15:49:24 +0200
+Message-ID: <CANpmjNOFpFkrSMFezcBFJODwBK5vRi8sSEzS3AvyFu3Y0ZqgVA@mail.gmail.com>
 Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
-To:     Marco Elver <elver@google.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -78,12 +79,14 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hillf Danton <hdanton@sina.com>,
         Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Kees Cook <keescook@chromium.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
@@ -98,22 +101,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 3:11 PM Marco Elver <elver@google.com> wrote:
->
-> On Tue, Sep 29, 2020 at 02:42PM +0200, Andrey Konovalov wrote:
-> [...]
-> > > +        */
-> > > +       index = (addr - (unsigned long)__kfence_pool) / (PAGE_SIZE * 2) - 1;
+On Tue, 29 Sep 2020 at 15:48, Andrey Konovalov <andreyknvl@google.com> wrote:
+> On Tue, Sep 29, 2020 at 3:11 PM Marco Elver <elver@google.com> wrote:
 > >
-> > Why do we subtract 1 here? We do have the metadata entry reserved for something?
+> > On Tue, Sep 29, 2020 at 02:42PM +0200, Andrey Konovalov wrote:
+> > [...]
+> > > > +        */
+> > > > +       index = (addr - (unsigned long)__kfence_pool) / (PAGE_SIZE * 2) - 1;
+> > >
+> > > Why do we subtract 1 here? We do have the metadata entry reserved for something?
+> >
+> > Above the declaration of __kfence_pool it says:
+> >
+> >         * We allocate an even number of pages, as it simplifies calculations to map
+> >         * address to metadata indices; effectively, the very first page serves as an
+> >         * extended guard page, but otherwise has no special purpose.
+> >
+> > Hopefully that clarifies the `- 1` here.
 >
-> Above the declaration of __kfence_pool it says:
->
->         * We allocate an even number of pages, as it simplifies calculations to map
->         * address to metadata indices; effectively, the very first page serves as an
->         * extended guard page, but otherwise has no special purpose.
->
-> Hopefully that clarifies the `- 1` here.
+> So there are two guard pages at the beginning and only then a page
+> that holds an object?
 
-So there are two guard pages at the beginning and only then a page
-that holds an object?
+Yes, correct.
