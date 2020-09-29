@@ -2,109 +2,119 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB6AC4741F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B943CC47420
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:29:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16A4121548
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:08:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A9BF20848
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:29:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="dJuYu1b4"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="Ce8LTnc8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728521AbgI2TIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 15:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
+        id S1727740AbgI2T3p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 15:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728498AbgI2TIS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 15:08:18 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B36C9C0613D2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 12:08:18 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id 19so4512943qtp.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 12:08:18 -0700 (PDT)
+        with ESMTP id S1728565AbgI2T3p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 15:29:45 -0400
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56EF9C0613D0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 12:29:45 -0700 (PDT)
+Received: by mail-qt1-x842.google.com with SMTP id e7so4564301qtj.11
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 12:29:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ubN7nDZwcIPlTTYHe5FaCTt3Iw6Y7lTVBnmXQgBCqO4=;
-        b=dJuYu1b4GUdaRAFl3BrJoBgZhhuqb3ew4gTbyPaC+SO4QId0/YLmHm+BWdFQNUTHCN
-         L9NQY1+GFtFJqHEKvGnFkC2Dy4IPF5CnhPdGd1fJszGf2ZEQyJm499vH4e8pQEkhZkNe
-         2DA5AGCGBIVaHfJ2KSjtfpAdAoDFhc7KfUehLdrNdZNzp7zM6DG9gKPeZLSAAyv8mDVl
-         6LjPHZfWBe23kDrmbBzukp9kCLteTNknBCHhp/K2k8vAvDlmvu6tVwUL2Z8h3CQsuLPu
-         oVz7EFQEHFCPwkbdjkjpRbqYdjNZc9ospOvLohv3eVaMAiEhwk52DkB8bYh1WLBukhsM
-         YDGg==
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HQjBA9NgyL26LnUuoSDLOqhNdN/FWjyvKU8svYcqWsk=;
+        b=Ce8LTnc8e/zH9MehkioLTQWGUhuleeWSeiMQwntLEhQs92eE59HfRttFq9qE61S2Xw
+         0F5HbktYGoepjGQHGS7dw5Re7zLmU4a0zcP3keEqP51Q0tl44DJdrfoSR7VjDnu3kpk9
+         ZjEmjob35yN1LhZLsOSWox4kpZZGaUYjZZ95Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ubN7nDZwcIPlTTYHe5FaCTt3Iw6Y7lTVBnmXQgBCqO4=;
-        b=OzmcLH9i6wdC2bHinbJcvaulKB1XIBOChpZhuCz1wskSPFhyqpxF3gj0cd4f1wYykp
-         HGMhe/gXVs/0MdKOueCYgA1l2jBv1xzRME/2+dZuEToa28neSgEokRixea2b6qr1kDdN
-         PDTnP07GGvcLu7GuWjmkssSlmXwYdPOxAQfuR4GkDM6ogzMMw7qQ+fD++Ykarx1e/OjL
-         Jn8ZMq8vQJlN9Nzf+tVdBOUttv/dTJElmOej/s54fbqBD6EsQ0q5FEenF6WAccgpQpm/
-         /zqx2zxdxOe5VZtdSy54TPOVIv2eSgkUcqBpPq02i1wGHdBTro5js1aIE56riDSrS5nJ
-         7o6A==
-X-Gm-Message-State: AOAM532K2LMiLPIJjzxaDWhNF6ynPw1hjzeCheGDHakT9T2p9N6VgDaC
-        6riycidvl+HoNyqp7EvZ8WHfjg==
-X-Google-Smtp-Source: ABdhPJycYyIQXPXHmrimJcfRCfX8unjWqtXljPgcHzqOrxl8KM8vlavGzhbBfP33+3I4oV8FDS/vHA==
-X-Received: by 2002:ac8:1763:: with SMTP id u32mr4951171qtk.14.1601406497766;
-        Tue, 29 Sep 2020 12:08:17 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id t20sm5804267qke.79.2020.09.29.12.08.17
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HQjBA9NgyL26LnUuoSDLOqhNdN/FWjyvKU8svYcqWsk=;
+        b=uWxpmIAhENwb1hLePirqHakhADttliCovhrVgdpnto317MSNU3rzaWCKIfbV9gRIK6
+         pWDXmBzIxb4PJSnnd75KIHp3+t0s4Vuv3CUVZOSPIJ5r05OByI5N+i7eVMH5V5PXVeWd
+         FU4wRWbST1Q4XGaysIn2PxSzc51r1exBMkuZlCWw1U176I+Gz4TPX26BW2ywLY8f+Mpr
+         7t4AW7nFxywFfXC+fW2G84oLCW/yZrYB09rJwwkrgqiPNb9GgydtKRJo04AQRJysNmA4
+         crdIz/Yn0m51A84cqkuQpK9yVDPAuULA1VBPVVPmVS6FhyLV/dz/6d2EsAlGUYRuZ5Wy
+         eNMA==
+X-Gm-Message-State: AOAM530r1DMr/rRHpyAFEb4dmtRRZoxjWNS6+C9xksrBTNqh3/AR13Rs
+        BaT3xi3pVAjwvZsZlbFicy1T4g==
+X-Google-Smtp-Source: ABdhPJy25X9n2PF95bcmGXJqCqVjaGo9NuWiG7UnaK6M9X2h10n1bvAtigH8Vr5rL4Np5meBMDld5A==
+X-Received: by 2002:aed:2f61:: with SMTP id l88mr5024636qtd.262.1601407784422;
+        Tue, 29 Sep 2020 12:29:44 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:cad3:ffff:feb3:bd59])
+        by smtp.gmail.com with ESMTPSA id n7sm6892887qtf.27.2020.09.29.12.29.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 12:08:17 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kNKz2-003Exd-Hx; Tue, 29 Sep 2020 16:08:16 -0300
-Date:   Tue, 29 Sep 2020 16:08:16 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Tue, 29 Sep 2020 12:29:43 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <neeraju@codeaurora.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-s390@vger.kernel.org
-Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
-Message-ID: <20200929190816.GY9916@ziepe.ca>
-References: <20200928062159.923212-1-jhubbard@nvidia.com>
- <20200928062159.923212-3-jhubbard@nvidia.com>
- <20200928125739.GP9916@ziepe.ca>
- <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
- <20200929163507.GV9916@ziepe.ca>
- <aab477bf-4353-5e6b-4cc9-9872c9376ed2@nvidia.com>
- <20200929175524.GX9916@ziepe.ca>
- <715c49ec-d2a8-45cb-8ace-c6b1b4b8f978@nvidia.com>
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>
+Subject: [PATCH 1/2] rcu/tree: Add a warning if CPU being onlined did not report QS already
+Date:   Tue, 29 Sep 2020 15:29:27 -0400
+Message-Id: <20200929192928.3749502-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <715c49ec-d2a8-45cb-8ace-c6b1b4b8f978@nvidia.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 11:59:55AM -0700, John Hubbard wrote:
-> On 9/29/20 10:55 AM, Jason Gunthorpe wrote:
-> > On Tue, Sep 29, 2020 at 10:44:31AM -0700, John Hubbard wrote:
-> > > On 9/29/20 9:35 AM, Jason Gunthorpe wrote:
-> > > > On Mon, Sep 28, 2020 at 01:10:24PM -0700, John Hubbard wrote:
-> > > > > On 9/28/20 5:57 AM, Jason Gunthorpe wrote:
-> > > > > > On Sun, Sep 27, 2020 at 11:21:53PM -0700, John Hubbard wrote:
-> ...
-> > > I don't see any "gcc -m" type of dependency generation pass happening
-> > > in this relatively simple Make system.
-> > 
-> > It happens with -MD, all the deps are stored in files like mm/.init-mm.o.cmd
-> > and sucked into the build.
-> 
-> You are thinking of kbuild. This is not kbuild. There are no such artifacts
-> being generated.
+Currently, rcu_cpu_starting() checks to see if the RCU core expects a
+quiescent state from the incoming CPU.  However, the current interaction
+between RCU quiescent-state reporting and CPU-hotplug operations should
+mean that the incoming CPU never needs to report a quiescent state.
+First, the outgoing CPU reports a quiescent state if needed.  Second,
+the race where the CPU is leaving just as RCU is initializing a new
+grace period is handled by an explicit check for this condition.  Third,
+the CPU's leaf rcu_node structure's ->lock serializes these checks.
 
-Oh. Really? That's horrible.
+This means that if rcu_cpu_starting() ever feels the need to report
+a quiescent state, then there is a bug somewhere in the CPU hotplug
+code or the RCU grace-period handling code.  This commit therefore
+adds a WARN_ON_ONCE() to bring that bug to everyone's attention.
 
-Jason
+Cc: Paul E. McKenney <paulmck@kernel.org>
+Cc: Neeraj Upadhyay <neeraju@codeaurora.org>
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ kernel/rcu/tree.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+index 55d3700dd1e7..5efe0a98ea45 100644
+--- a/kernel/rcu/tree.c
++++ b/kernel/rcu/tree.c
+@@ -4119,7 +4119,9 @@ void rcu_cpu_starting(unsigned int cpu)
+ 	rcu_gpnum_ovf(rnp, rdp); /* Offline-induced counter wrap? */
+ 	rdp->rcu_onl_gp_seq = READ_ONCE(rcu_state.gp_seq);
+ 	rdp->rcu_onl_gp_flags = READ_ONCE(rcu_state.gp_flags);
+-	if (rnp->qsmask & mask) { /* RCU waiting on incoming CPU? */
++
++	/* An incoming CPU should never be blocking a grace period. */
++	if (WARN_ON_ONCE(rnp->qsmask & mask)) { /* RCU waiting on incoming CPU? */
+ 		rcu_disable_urgency_upon_qs(rdp);
+ 		/* Report QS -after- changing ->qsmaskinitnext! */
+ 		rcu_report_qs_rnp(mask, rnp, rnp->gp_seq, flags);
+-- 
+2.28.0.709.gb0816b6eb0-goog
+
