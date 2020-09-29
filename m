@@ -2,161 +2,106 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61C02C4727C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F6CC4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:48:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02676208B8
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:32:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0668320848
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 19:48:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="RG93ImRV"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="iqPRvbyf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728362AbgI2Tcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 15:32:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55658 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728244AbgI2Tcv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 15:32:51 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFE7C061755
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 12:32:51 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id s131so5598004qke.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 12:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Zg8iMIsBc8YQg4a8RQTBuYUHUxGslvf65TSd1TPBfWg=;
-        b=RG93ImRVwF+OzQrBZ8j5zTbvCaOPy7Xp/13LbPge6pGaB3bKpqb1rgobFK4hOK3wOU
-         Y4yOvSQ2gSxm9OSBGLGMylRedgr6a9fMhUtOVuviFDxbmpq+8Si0hneHqdEhr/i2jDlN
-         bvi4t/A5P2Z6x6UpLOkYgtvwcedCmUdyOE+EQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Zg8iMIsBc8YQg4a8RQTBuYUHUxGslvf65TSd1TPBfWg=;
-        b=F2inueDNH9cb8ZcF5J3KrtNoVQ32jq2uQt3kfg+z2eOUTWwOuC8/eaOGgw8RlOoN+L
-         il3hzamzc33oQ7lIZYT/6a1Q9BnoG9qFKNdRCn9jVvMiaRk4imuC/UQI/T3tYQ1/hrsg
-         Hs/ok6KiK6p8WZPcOLJ4XwIjxubEoi4xFhOhOvTAh0/Cwq2PdHgul4hsuNdMb0yXU8E8
-         XG4+5bSjRSoZmAAeC/l4a8+fl1cX8R5/gtfD4GHSQL/RhgciuHAg0yCboZ8PPn96hD81
-         VwFsXOBxKZgkxAk0hfu4vWBMypZyVtVgpFJwlwvz1vNiMDYOmuYoR0QjTvIIVFpHNzqG
-         /r/w==
-X-Gm-Message-State: AOAM531T1vBluakAU6wNGy8+Y/5pI/rbpEK05BqYj1EidxUdHLnoZtuL
-        4wwv2N5bseCb2foQT/KQCe7b7ayli7BbWg==
-X-Google-Smtp-Source: ABdhPJyfUHgUE93ygdECSC29BHUx36ErXjMCZRjXaxfPtEiDtPjZOMjPfyzIop/t0T1yoIDD1e6zig==
-X-Received: by 2002:a37:a5c6:: with SMTP id o189mr5748497qke.209.1601407970312;
-        Tue, 29 Sep 2020 12:32:50 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:cad3:ffff:feb3:bd59])
-        by smtp.gmail.com with ESMTPSA id q8sm6062295qkq.57.2020.09.29.12.32.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 12:32:49 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 15:32:48 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Neeraj Upadhyay <neeraju@codeaurora.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 2/2] docs: Update RCU's hotplug requirements with a bit
- about design
-Message-ID: <20200929193248.GA3749988@google.com>
-References: <20200929192928.3749502-1-joel@joelfernandes.org>
- <20200929192928.3749502-2-joel@joelfernandes.org>
+        id S1728771AbgI2Tso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 15:48:44 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14827 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727700AbgI2Tso (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 15:48:44 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f738f8f0001>; Tue, 29 Sep 2020 12:48:31 -0700
+Received: from [10.2.53.30] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 29 Sep
+ 2020 19:48:43 +0000
+Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Shuah Khan <shuah@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>
+References: <20200928062159.923212-1-jhubbard@nvidia.com>
+ <20200928062159.923212-3-jhubbard@nvidia.com>
+ <20200928125739.GP9916@ziepe.ca>
+ <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
+ <20200929163507.GV9916@ziepe.ca>
+ <aab477bf-4353-5e6b-4cc9-9872c9376ed2@nvidia.com>
+ <20200929175524.GX9916@ziepe.ca>
+ <715c49ec-d2a8-45cb-8ace-c6b1b4b8f978@nvidia.com>
+ <20200929190816.GY9916@ziepe.ca>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <3022912c-f11b-f564-3a8a-f516ca259a37@nvidia.com>
+Date:   Tue, 29 Sep 2020 12:48:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200929192928.3749502-2-joel@joelfernandes.org>
+In-Reply-To: <20200929190816.GY9916@ziepe.ca>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601408911; bh=l1M2t5AaCh7Q282ookH1so6zr+gWgGpQ9555vW1BLhM=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=iqPRvbyfsch0MrYEGsHqsW979RKlqiaKx6EVGkaR4G3LY6FTDkj5XSr5RZ0QBRBnW
+         v5p2goSD6wIA509stcKeeb7ggMHIwFqxCph7Todye4Y85Ry/3hZ4wGhAEz3tq/2EWY
+         gIDi8H03y8QBsTw3eZEz+Oe0yLxw5iSNy+fTvI+jJqlt6exlCUGQ21ocFEgmOK4Lhw
+         2rH6elYyKsm3FNui1WhZlhMWSalOBEpbBm8d1NN2llucQhgGoGXZCA6xgl+npBADuI
+         D+lyfsZjbNVvsZ3N9cPOKdaoffdLOIPZji03kkw8WkdKwu7lNW1elDySSaQrVzhkwl
+         Bswjpi+Rjseew==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Paul,
+On 9/29/20 12:08 PM, Jason Gunthorpe wrote:
+> On Tue, Sep 29, 2020 at 11:59:55AM -0700, John Hubbard wrote:
+>> On 9/29/20 10:55 AM, Jason Gunthorpe wrote:
+>>> On Tue, Sep 29, 2020 at 10:44:31AM -0700, John Hubbard wrote:
+>>>> On 9/29/20 9:35 AM, Jason Gunthorpe wrote:
+>>>>> On Mon, Sep 28, 2020 at 01:10:24PM -0700, John Hubbard wrote:
+>>>>>> On 9/28/20 5:57 AM, Jason Gunthorpe wrote:
+>>>>>>> On Sun, Sep 27, 2020 at 11:21:53PM -0700, John Hubbard wrote:
+>> ...
+>>>> I don't see any "gcc -m" type of dependency generation pass happening
+>>>> in this relatively simple Make system.
+>>>
+>>> It happens with -MD, all the deps are stored in files like mm/.init-mm.o.cmd
+>>> and sucked into the build.
+>>
+>> You are thinking of kbuild. This is not kbuild. There are no such artifacts
+>> being generated.
+> 
+> Oh. Really? That's horrible.
+> 
 
-On Tue, Sep 29, 2020 at 03:29:28PM -0400, Joel Fernandes (Google) wrote:
-> RCU's hotplug design will help understand the requirements an RCU
-> implementation needs to fullfill, such as dead-lock avoidance.
-> 
-> The rcu_barrier() section of the "Hotplug CPU" section already talks
-> about deadlocks, however the description of what else can deadlock other
-> than rcu_barrier is rather incomplete.
-> 
-> This commit therefore continues the section by describing how RCU's
-> design handles CPU hotplug in a deadlock-free way.
-> 
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> ---
->  .../RCU/Design/Requirements/Requirements.rst  | 30 +++++++++++++++++--
->  1 file changed, 28 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-> index 1ae79a10a8de..e0413aa989dd 100644
-> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
-> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-> @@ -1929,8 +1929,10 @@ The Linux-kernel CPU-hotplug implementation has notifiers that are used
->  to allow the various kernel subsystems (including RCU) to respond
->  appropriately to a given CPU-hotplug operation. Most RCU operations may
->  be invoked from CPU-hotplug notifiers, including even synchronous
-> -grace-period operations such as ``synchronize_rcu()`` and
-> -``synchronize_rcu_expedited()``.
-> +grace-period operations such as. However, the synchronous variants
-> +(``synchronize_rcu()`` and ``synchronize_rcu_expedited()``) should not
-> +from notifiers that execute via ``stop_machine()`` -- specifically those
+Well, yes, it's not a perfect build system down here in selftests/. Are you saying
+that it is worth upgrading? I'm open to suggestions and ideas for improvements,
+and at the moment, I have the miniature build system here mostly loaded into my
+head. So for a brief shining moment I can probably understand it well enough to
+work on it. :)
 
-The "should not from notifiers" should be "should not be used from
-notifiers" here. Sorry and hope you can fix it up.
 
 thanks,
-
- - Joel
-
-
-
-> +between the ``CPUHP_AP_OFFLINE`` and ``CPUHP_AP_ONLINE`` states.
->  
->  However, all-callback-wait operations such as ``rcu_barrier()`` are also
->  not supported, due to the fact that there are phases of CPU-hotplug
-> @@ -1940,6 +1942,30 @@ deadlock. Furthermore, ``rcu_barrier()`` blocks CPU-hotplug operations
->  during its execution, which results in another type of deadlock when
->  invoked from a CPU-hotplug notifier.
->  
-> +Also, RCU's implementation avoids serious deadlocks which could occur due to
-> +interaction between hotplug, timers and grace period processing. It does so by
-> +maintaining its own books of every CPU's hotplug state, independent of
-> +the existing general-purpose CPU masks and by reporting quiescent states
-> +explictly when an online CPU is going down. Due to this design, the force
-> +quiescent state loop (FQS) is not required to report quiescent states for
-> +offline CPUs, like it does for idle CPUs, but it does splat if offline CPUs are
-> +stalling the RCU grace period for too long.
-> +
-> +For an offline CPU, the quiescent state will be reported in either of:
-> +1. During CPU offlining, using RCU's hotplug notifier (``rcu_report_dead()``).
-> +2. During grace period initialization (``rcu_gp_init()``) if it detected a race
-> +   with CPU offlining, or a race with a task unblocking on a node which
-> +   previously had all of its CPUs offlined.
-> +
-> +The CPU onlining path (``rcu_cpu_starting()``) does not need to report a
-> +quiescent state for an offline CPU; in fact it would trigger a warning if a
-> +quiescent state was not already reported for that CPU.
-> +
-> +During the checking/modification of RCU's hotplug bookkeeping, the
-> +corresponding CPU's leaf node lock is held. This avoids race conditions between
-> +RCU's hotplug notifier hooks, grace period initialization code and the FQS loop
-> +which can concurrently refer to or modify the bookkeeping.
-> +
->  Scheduler and RCU
->  ~~~~~~~~~~~~~~~~~
->  
-> -- 
-> 2.28.0.709.gb0816b6eb0-goog
-> 
+-- 
+John Hubbard
+NVIDIA
