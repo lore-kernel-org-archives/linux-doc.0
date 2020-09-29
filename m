@@ -2,132 +2,247 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB69C4741F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 17:55:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B48CC4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 18:37:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB33F20C09
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 17:55:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="ZpTZHWVv"
+	by mail.kernel.org (Postfix) with ESMTP id F2A1E20754
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 18:37:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726064AbgI2Rz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 13:55:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40644 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbgI2Rz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 13:55:26 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 932F3C0613D0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 10:55:26 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id f142so5194716qke.13
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 10:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7ZNnkzAFolvu6loEFUCNXafFTWzkfs/zAnBvd6ABHu4=;
-        b=ZpTZHWVvwxozfjUlDLnIpEwgeqdqJOUtrAs7iTklXyJsXWIZCE/UCcbieWAuzgy0Xb
-         UlE2fIZWIwUB/1ZuycAItnHPYWfjLcbdHspaMc+oCeIJtx4xhqkwdaKnR3aWXJRHcuPR
-         3+myR0wJOTuJ4zbdcjAR2EYfLImD2FRBurs1gZXzpLFNQBOSXDa8Qb+HqODbUqAkqIe1
-         J7ncyzuDahlWYxtz42s+FYC6hfqNXGFl7KA1fHerNFAPXK0EkD66RlRRAPeakBY8l420
-         DFzD1qmnUpasrmcgpc0Te4FnzOd6pFxnRY1BvdgqEARYAj4MjkRtCDe2TfXgMQjukv81
-         3UjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7ZNnkzAFolvu6loEFUCNXafFTWzkfs/zAnBvd6ABHu4=;
-        b=nfNNOeIDzihi6+MkpnriW4duhrc9liAFlAonG5gUbZsRw8UOMabMht0s+mtMuBO6m+
-         j7deGGIclhhKH1cdo+u4llnwLJnmALOKshUmqsQT7+UT1th6QKTafqJO3HVKdQYNNzC6
-         3YxxMcTQGZgrYBhLqHB2XBLIq8sBRjfR9RqUUQfNIMD0tzDrfaHFQ/vRtuMXfznW3+e0
-         /SgOkJdB7Wi9HqykMfz3gsSrsE4ejdbN+RR+lfTVHZ9uTALzLh7PFlOuynVD2Sa0d5n2
-         od2OAbgFXU0e4y1qHV08Smh7gjJEJYIWkVTL1boVrHM+5q6vpu7pPpK/khMr9CUvOhWs
-         flBA==
-X-Gm-Message-State: AOAM531JMVkdcQCRsmwe1R2ArbjqaJaWVJNhWqlklYj97TWqgns7y8kp
-        jb3Ryi9fxmwlE06+T1TI8YAWPg==
-X-Google-Smtp-Source: ABdhPJzHLX2ByFHv32dS3gnU4tapsxvQAY3sZxaCPbXUtUBQirGrga7lViq5kS/qYAkv5k6qJ2xeeQ==
-X-Received: by 2002:a05:620a:1657:: with SMTP id c23mr5436789qko.382.1601402125757;
-        Tue, 29 Sep 2020 10:55:25 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id a3sm6216379qtp.63.2020.09.29.10.55.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 10:55:25 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kNJqW-003DRg-DU; Tue, 29 Sep 2020 14:55:24 -0300
-Date:   Tue, 29 Sep 2020 14:55:24 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        id S1728166AbgI2ShW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 14:37:22 -0400
+Received: from mga14.intel.com ([192.55.52.115]:40268 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727740AbgI2ShW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Sep 2020 14:37:22 -0400
+IronPort-SDR: YFXuKotdLt7Url2oOI3K4vEt6J+WcS8pmldf61TdKOwxBqqwJ6zw5kbyuKiUGYYTCN3zC1xuoF
+ 2nxDniGXmnOw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="161483164"
+X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; 
+   d="scan'208";a="161483164"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 11:37:22 -0700
+IronPort-SDR: Mj/KOp4W0zQLSYgXIcIgO1KumZzF8lg7j9lzm+HKUzibluw1cpzsR/McLT5193vD4Pv1dhgAc/
+ qF/9GFzXl4KQ==
+X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; 
+   d="scan'208";a="340957279"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.63.108]) ([10.212.63.108])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 11:37:20 -0700
+Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
+ Branch Tracking for vsyscall emulation
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-s390@vger.kernel.org
-Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
-Message-ID: <20200929175524.GX9916@ziepe.ca>
-References: <20200928062159.923212-1-jhubbard@nvidia.com>
- <20200928062159.923212-3-jhubbard@nvidia.com>
- <20200928125739.GP9916@ziepe.ca>
- <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
- <20200929163507.GV9916@ziepe.ca>
- <aab477bf-4353-5e6b-4cc9-9872c9376ed2@nvidia.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
+ <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net>
+ <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
+ <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com>
+Date:   Tue, 29 Sep 2020 11:37:19 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aab477bf-4353-5e6b-4cc9-9872c9376ed2@nvidia.com>
+In-Reply-To: <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 10:44:31AM -0700, John Hubbard wrote:
-> On 9/29/20 9:35 AM, Jason Gunthorpe wrote:
-> > On Mon, Sep 28, 2020 at 01:10:24PM -0700, John Hubbard wrote:
-> > > On 9/28/20 5:57 AM, Jason Gunthorpe wrote:
-> > > > On Sun, Sep 27, 2020 at 11:21:53PM -0700, John Hubbard wrote:
-> > > > > diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-> > > > > index d1ae706d9927..9cc6bc087461 100644
-> > > > > +++ b/tools/testing/selftests/vm/Makefile
-> > > > > @@ -130,3 +130,5 @@ endif
-> > > > >    $(OUTPUT)/userfaultfd: LDLIBS += -lpthread
-> > > > >    $(OUTPUT)/mlock-random-test: LDLIBS += -lcap
-> > > > > +
-> > > > > +$(OUTPUT)/gup_test: ../../../../mm/gup_test.h
-> > > > 
-> > > > There is no reason to do this, the auto depends will pick up header
-> > > > files, and gup_test.h isn't a generated file
-> > > > 
+On 9/28/2020 10:37 AM, Andy Lutomirski wrote:
+> On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+>> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
+>>>> On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+>> +
+>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+>> +               if (!cet) {
+>> +                       /*
+>> +                        * This is an unlikely case where the task is
+>> +                        * CET-enabled, but CET xstate is in INIT.
+>> +                        */
+>> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
 > 
-> Oh, I misread your comment! You were talking about this Makefile
-> dependency that I'm adding, rather than the ../'s in the path.
+> "unlikely" doesn't really cover this.
 > 
-> Well, for that though, it also has to stay as shown in this patch,
-> because of this:
+>> +                       fpregs_unlock();
+>> +                       goto sigsegv;
+>> +               }
+>> +
+>> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
+>> +                       cet->user_ssp += 8;
 > 
-> I don't see any "gcc -m" type of dependency generation pass happening
-> in this relatively simple Make system. 
+> This looks buggy.  The condition should be "if SHSTK is on, then add 8
+> to user_ssp".  If the result is noncanonical, then some appropriate
+> exception should be generated, probably by the FPU restore code -- see
+> below.  You should be checking the SHSTK_EN bit, not SSP.
 
-It happens with -MD, all the deps are stored in files like mm/.init-mm.o.cmd
-and sucked into the build.
+Updated.  Is this OK?  I will resend the whole series later.
 
-> And so, without including an explicit header file dependency (at
-> least, that's the simplest way), changes to gup_test.h are not
-> detected.
+Thanks,
+Yu-cheng
 
-Shouldn't be
+======
 
-> Both the Makefile code and the observed behavior back this up. (I
-> expect that this is because there is less use of header files in
-> this area, because most unit tests are self-contained within a
-> single .c file.)
+ From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
+From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Date: Thu, 29 Nov 2018 14:15:38 -0800
+Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and 
+Indirect Branch
+  Tracking for vsyscall emulation
 
-Something else is very wrong then.
+Vsyscall entry points are effectively branch targets.  Mark them with
+ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
+and reset IBT state machine.
 
-Jason
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+v13:
+- Check shadow stack address is canonical.
+- Change from writing to MSRs to writing to CET xstate.
+
+  arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
+  arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
+  arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
+  3 files changed, 44 insertions(+)
+
+diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c 
+b/arch/x86/entry/vsyscall/vsyscall_64.c
+index 44c33103a955..30b166091d46 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_64.c
++++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+@@ -38,6 +38,9 @@
+  #include <asm/fixmap.h>
+  #include <asm/traps.h>
+  #include <asm/paravirt.h>
++#include <asm/fpu/xstate.h>
++#include <asm/fpu/types.h>
++#include <asm/fpu/internal.h>
+
+  #define CREATE_TRACE_POINTS
+  #include "vsyscall_trace.h"
+@@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
+  	/* Emulate a ret instruction. */
+  	regs->ip = caller;
+  	regs->sp += 8;
++
++#ifdef CONFIG_X86_CET
++	if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
++		struct cet_user_state *cet;
++		struct fpu *fpu;
++
++		fpu = &tsk->thread.fpu;
++		fpregs_lock();
++
++		if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
++			copy_fpregs_to_fpstate(fpu);
++			set_thread_flag(TIF_NEED_FPU_LOAD);
++		}
++
++		cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
++		if (!cet) {
++			/*
++			 * This should not happen.  The task is
++			 * CET-enabled, but CET xstate is in INIT.
++			 */
++			WARN_ONCE(1, "CET is enabled, but no xstates");
++			fpregs_unlock();
++			goto sigsegv;
++		}
++
++		if (cet->user_cet & CET_SHSTK_EN) {
++			if (cet->user_ssp && (cet->user_ssp + 8 < TASK_SIZE_MAX))
++				cet->user_ssp += 8;
++		}
++
++		if (cet->user_cet & CET_ENDBR_EN)
++			cet->user_cet &= ~CET_WAIT_ENDBR;
++
++		__fpu_invalidate_fpregs_state(fpu);
++		fpregs_unlock();
++	}
++#endif
++
+  	return true;
+
+  sigsegv:
+diff --git a/arch/x86/entry/vsyscall/vsyscall_emu_64.S 
+b/arch/x86/entry/vsyscall/vsyscall_emu_64.S
+index 2e203f3a25a7..b2fa92104cdb 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_emu_64.S
++++ b/arch/x86/entry/vsyscall/vsyscall_emu_64.S
+@@ -17,16 +17,25 @@ __PAGE_ALIGNED_DATA
+  	.type __vsyscall_page, @object
+  __vsyscall_page:
+
++#ifdef CONFIG_X86_BRANCH_TRACKING_USER
++	endbr64
++#endif
+  	mov $__NR_gettimeofday, %rax
+  	syscall
+  	ret
+
+  	.balign 1024, 0xcc
++#ifdef CONFIG_X86_BRANCH_TRACKING_USER
++	endbr64
++#endif
+  	mov $__NR_time, %rax
+  	syscall
+  	ret
+
+  	.balign 1024, 0xcc
++#ifdef CONFIG_X86_BRANCH_TRACKING_USER
++	endbr64
++#endif
+  	mov $__NR_getcpu, %rax
+  	syscall
+  	ret
+diff --git a/arch/x86/entry/vsyscall/vsyscall_trace.h 
+b/arch/x86/entry/vsyscall/vsyscall_trace.h
+index 3c3f9765a85c..7aa2101ada44 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_trace.h
++++ b/arch/x86/entry/vsyscall/vsyscall_trace.h
+@@ -25,6 +25,7 @@ TRACE_EVENT(emulate_vsyscall,
+  #endif
+
+  #undef TRACE_INCLUDE_PATH
++#undef TRACE_INCLUDE_FILE
+  #define TRACE_INCLUDE_PATH ../../arch/x86/entry/vsyscall/
+  #define TRACE_INCLUDE_FILE vsyscall_trace
+  #include <trace/define_trace.h>
+-- 
+2.21.0
