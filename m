@@ -7,45 +7,42 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41B7DC52D13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE8FC52D15
 	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA5032074B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98099208B8
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uZt/eUN8";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="G060K35t"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VmCI2D2N";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="e77qSX7G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729477AbgI2Uha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729578AbgI2UgX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:23 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3784EC0613DA;
-        Tue, 29 Sep 2020 13:36:14 -0700 (PDT)
-Message-Id: <20200929203502.180883992@linutronix.de>
+        id S1728899AbgI2Uh3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:37:29 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49774 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729596AbgI2UgZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:25 -0400
+Message-Id: <20200929203502.769744809@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411772;
+        s=2020; t=1601411780;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=hwdF1V4LMxNUL7q9z/lP9cddjWDJRZagT/G6Cdx9lrk=;
-        b=uZt/eUN8OfZhfYu4gZx4bXPXea7lornACIiuoDVJLvHk2H8Q8Zv+kZOUr87g2/UhKiST25
-        V+/5V+y0ru/ey1GSt3YtUGGFonFivlElx2HcMOpJum88Qm4oYIvstjSTEDik2AaMV8e5Io
-        J+QO3V4F0uKsEyaI4fFydfJrzfeINlStfebs97Ve8vMXpFni+74VYRi+3PTFfSf6dv3JNz
-        7+tQKj8T0Nser9o2g7IMsgMJoxIKPBi7cfkxQC2Ymw0kgyaIKQQUdyTFBzUoebRwOyVN2y
-        1jAndEXur5WuP/3T0J0e4fP7iBuID+fkll24K9x2fQGJYBZ1bWsjLH3RXZK3bg==
+        bh=xQW4uASz9uqznLJIj4qcsFxH9Z8YREJkeiGPclI3SY4=;
+        b=VmCI2D2Ny+qH7axYUwaHrPzomt90DEvNPUFa4athxXyOldRwucZi+mpjH9cQpb7UMMgzEb
+        MQs1EqyE2gm/hUycQGdCuv6ym0XqNHpQtDWesd8GQxGa7V/a2/XeRTQeCOi2+yP48VjE0B
+        NWY9OJIr76Z0C2KFu6M+xQTpBcNgw4txtbJ+ATRSRWYBCn8fHrtffIem0LRZiVblqiEbFE
+        Ld7FipKjWWXNWIpDPynM42KDrzIGh5Hvt9lBpsf6tdpH+P8OQc7oPB4dSLkyFIIhwMPO3m
+        Tq+PSzuBOVUV2kJa9paJLjzsTZ+Gr/PqDAll9JLXUTwC2XTmgPcUpoKWi43CcA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411772;
+        s=2020e; t=1601411780;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=hwdF1V4LMxNUL7q9z/lP9cddjWDJRZagT/G6Cdx9lrk=;
-        b=G060K35tQ0idi9JDnp6uPFJ6I678hM/pUygnucHylPIewlMqMLY0K4NAFzL375dZQcwl/H
-        fhMzYNClcuz68CDw==
-Date:   Tue, 29 Sep 2020 22:25:36 +0200
+        bh=xQW4uASz9uqznLJIj4qcsFxH9Z8YREJkeiGPclI3SY4=;
+        b=e77qSX7G44v7lcRfnWC4fJIgUIsPLTFgN73WQthw0m+L1lyZJXW7/Sici4zIQS1FFRHOHC
+        csgNmx1IMIAG72Cg==
+Date:   Tue, 29 Sep 2020 22:25:42 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -99,7 +96,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 27/36] net: brcmfmac: Convey allocation mode as argument
+Subject: [patch V2 33/36] net: libertas: Use netif_rx_any_context()
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -110,125 +107,52 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The usage of in_interrupt() in drivers is phased out and Linus clearly
-requested that code which changes behaviour depending on context should
-either be seperated or the context be conveyed in an argument passed by the
-caller, which usually knows the context.
+The usage of in_interrupt() in non-core code is phased out. Ideally the
+information of the calling context should be passed by the callers or the
+functions be split as appropriate.
 
-brcmf_fweh_process_event() uses in_interrupt() to select the allocation
-mode GFP_KERNEL/GFP_ATOMIC. Aside of the above reasons this check is
-incomplete as it cannot detect contexts which just have preemption or
-interrupts disabled.
+libertas uses in_interupt() to select the netif_rx*() variant which matches
+the calling context. The attempt to consolidate the code by passing an
+arguemnt or by distangling it failed due lack of knowledge about this
+driver and because the call chains are hard to follow.
 
-All callchains leading to brcmf_fweh_process_event() can clearly identify
-the calling context. Convey a 'gfp' argument through the callchains and let
-the callers hand in the appropriate GFP mode.
-
-This has also the advantage that any change of execution context or
-preemption/interrupt state in these callchains will be detected by the
-memory allocator for all GFP_KERNEL allocations.
+As a stop gap use netif_rx_any_context() which invokes the correct code
+path depending on context and confines the in_interrupt() usage to core
+code.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
 ---
-V2: Adopt to the 'inirq' changes
----
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c   |   10 ++++++----
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.c   |    8 ++------
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.h   |    7 ++++---
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c |    2 +-
- 4 files changed, 13 insertions(+), 14 deletions(-)
+ drivers/net/wireless/marvell/libertas/rx.c |   11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c
-@@ -513,10 +513,12 @@ void brcmf_rx_frame(struct device *dev,
- 		brcmf_proto_rxreorder(ifp, skb, inirq);
- 	} else {
- 		/* Process special event packets */
--		if (handle_event)
--			brcmf_fweh_process_skb(ifp->drvr, skb,
--					       BCMILCP_SUBTYPE_VENDOR_LONG);
-+		if (handle_event) {
-+			gfp_t gfp = inirq ? GFP_ATOMIC : GFP_KERNEL;
+--- a/drivers/net/wireless/marvell/libertas/rx.c
++++ b/drivers/net/wireless/marvell/libertas/rx.c
+@@ -147,10 +147,7 @@ int lbs_process_rxed_packet(struct lbs_p
+ 	dev->stats.rx_packets++;
  
-+			brcmf_fweh_process_skb(ifp->drvr, skb,
-+					       BCMILCP_SUBTYPE_VENDOR_LONG, gfp);
-+		}
- 		brcmf_netif_rx(ifp, skb, inirq);
- 	}
- }
-@@ -532,7 +534,7 @@ void brcmf_rx_event(struct device *dev,
- 	if (brcmf_rx_hdrpull(drvr, skb, &ifp))
- 		return;
- 
--	brcmf_fweh_process_skb(ifp->drvr, skb, 0);
-+	brcmf_fweh_process_skb(ifp->drvr, skb, 0, GFP_KERNEL);
- 	brcmu_pkt_buf_free_skb(skb);
- }
- 
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.c
-@@ -388,12 +388,11 @@ int brcmf_fweh_activate_events(struct br
-  */
- void brcmf_fweh_process_event(struct brcmf_pub *drvr,
- 			      struct brcmf_event *event_packet,
--			      u32 packet_len)
-+			      u32 packet_len, gfp_t gfp)
- {
- 	enum brcmf_fweh_event_code code;
- 	struct brcmf_fweh_info *fweh = &drvr->fweh;
- 	struct brcmf_fweh_queue_item *event;
--	gfp_t alloc_flag = GFP_KERNEL;
- 	void *data;
- 	u32 datalen;
- 
-@@ -412,10 +411,7 @@ void brcmf_fweh_process_event(struct brc
- 	    datalen + sizeof(*event_packet) > packet_len)
- 		return;
- 
+ 	skb->protocol = eth_type_trans(skb, dev);
 -	if (in_interrupt())
--		alloc_flag = GFP_ATOMIC;
+-		netif_rx(skb);
+-	else
+-		netif_rx_ni(skb);
++	netif_rx_any_context(skb);
+ 
+ 	ret = 0;
+ done:
+@@ -265,11 +262,7 @@ static int process_rxed_802_11_packet(st
+ 	dev->stats.rx_packets++;
+ 
+ 	skb->protocol = eth_type_trans(skb, priv->dev);
 -
--	event = kzalloc(sizeof(*event) + datalen, alloc_flag);
-+	event = kzalloc(sizeof(*event) + datalen, gfp);
- 	if (!event)
- 		return;
+-	if (in_interrupt())
+-		netif_rx(skb);
+-	else
+-		netif_rx_ni(skb);
++	netif_rx_any_context(skb);
  
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.h
-@@ -319,11 +319,12 @@ void brcmf_fweh_unregister(struct brcmf_
- int brcmf_fweh_activate_events(struct brcmf_if *ifp);
- void brcmf_fweh_process_event(struct brcmf_pub *drvr,
- 			      struct brcmf_event *event_packet,
--			      u32 packet_len);
-+			      u32 packet_len, gfp_t gfp);
- void brcmf_fweh_p2pdev_setup(struct brcmf_if *ifp, bool ongoing);
+ 	ret = 0;
  
- static inline void brcmf_fweh_process_skb(struct brcmf_pub *drvr,
--					  struct sk_buff *skb, u16 stype)
-+					  struct sk_buff *skb, u16 stype,
-+					  gfp_t gfp)
- {
- 	struct brcmf_event *event_packet;
- 	u16 subtype, usr_stype;
-@@ -354,7 +355,7 @@ static inline void brcmf_fweh_process_sk
- 	if (usr_stype != BCMILCP_BCM_SUBTYPE_EVENT)
- 		return;
- 
--	brcmf_fweh_process_event(drvr, event_packet, skb->len + ETH_HLEN);
-+	brcmf_fweh_process_event(drvr, event_packet, skb->len + ETH_HLEN, gfp);
- }
- 
- #endif /* FWEH_H_ */
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-@@ -1129,7 +1129,7 @@ static void brcmf_msgbuf_process_event(s
- 
- 	skb->protocol = eth_type_trans(skb, ifp->ndev);
- 
--	brcmf_fweh_process_skb(ifp->drvr, skb, 0);
-+	brcmf_fweh_process_skb(ifp->drvr, skb, 0, GFP_KERNEL);
- 
- exit:
- 	brcmu_pkt_buf_free_skb(skb);
+
 
