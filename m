@@ -2,151 +2,126 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 489BCC47423
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB92C4727D
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:59:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB21E21548
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:53:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93BFE208B8
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:59:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=laptop-org.20150623.gappssmtp.com header.i=@laptop-org.20150623.gappssmtp.com header.b="E33XYTuK"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EBEs/Ihy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728287AbgI2VxJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 17:53:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728161AbgI2VxI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 17:53:08 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DEFC0613D1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 14:53:08 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id f18so6059958pfa.10
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 14:53:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=laptop-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=f/gWOu1TrRoNXxwTjONo7o5+Ij7ibEG5IfBYm/+HET8=;
-        b=E33XYTuKaxFZeZYJMW6eTtEGrlyGXTkwcx/zyYE4FwwLi+COEW+yWd/+0Cf95/WGtY
-         gA86BU5Drjiy9diRFKDvzElxjUhLaGUOgLxvPHqm4KrxiVokwNDSCtjIpcES/TpEIpc6
-         dVmJeB/tex75y/Bc/sY6UtXa0A77E3dRr5L+1KAoi+AbU1W6Vt9GYfXyFtcOrRf/wp6Q
-         D0a6jDjLfVX1kaG9HLQV63nTT6mPqCav4kqlRwsiC9ZYjBegbY+4NXor8wgJHhd2Y461
-         EpM2ZClNwNHNBuUJ9Q6GRMia0EL2Pv5QHFBk+FzsVmbnGLFb638dkqk6/2raUfpv9cRX
-         /G4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=f/gWOu1TrRoNXxwTjONo7o5+Ij7ibEG5IfBYm/+HET8=;
-        b=kbkOcRudu2PCUG1gkeI6YrCagKkxjojqa3/+vFEkrnSBEMXvIWf3EwQWycuP8GlVaT
-         IfJ9XUUpQYSfHeVDDaS/+fVashF+5kd4ifWCrnY1T9mdMcjXCTSyiTd8XADbfbzxC9HT
-         R+88qUEynqOtXjW261bLblhNLGXDw3ZBbvdGuaA12yAMcM4aVXalsp+64AVBcuO0kLGE
-         IUDInUD+T7Zzvnrsj+jHmH20BAnhuJ9X5XlQmE1T3AkLAwz1VEniB9AOskGtCX7xIBWz
-         1g60WnxTIlWKpj8Y+in6GND9KWRIS7BpdUNETtw5WzXvZlw5UgGACnZfgK0H8k3oXBmz
-         0Zpg==
-X-Gm-Message-State: AOAM532fEz/aH4EglHYJnabhDgO3HMiMUOv2XvI34D9EyWnZps0WvLRf
-        EnLqMgC+EN4eBgULrJjxt/wvbA==
-X-Google-Smtp-Source: ABdhPJzIeNXHHc94ebLFB9qkrPXXAtz33vlk/UqWEatHhLEUSYCsDM/sIDsnSGbSOH4e+0OMNyZK5g==
-X-Received: by 2002:a63:2845:: with SMTP id o66mr4631601pgo.77.1601416387878;
-        Tue, 29 Sep 2020 14:53:07 -0700 (PDT)
-Received: from esk ([1.129.134.212])
-        by smtp.gmail.com with ESMTPSA id l79sm6516011pfd.210.2020.09.29.14.53.06
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 29 Sep 2020 14:53:07 -0700 (PDT)
-Received: from james by esk with local (Exim 4.90_1)
-        (envelope-from <quozl@laptop.org>)
-        id 1kNNYV-0004eb-0z; Wed, 30 Sep 2020 07:53:03 +1000
-Date:   Wed, 30 Sep 2020 07:53:03 +1000
-From:   James Cameron <quozl@laptop.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        Chris Snook <chris.snook@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Christian Benvenuti <benve@cisco.com>,
-        Arend van Spriel <arend.vanspriel@broadcom.com>,
-        Govindarajulu Varadarajan <_govind@gmx.com>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Edward Cree <ecree@solarflare.com>,
-        libertas-dev@lists.infradead.org, brcm80211-dev-list@cypress.com,
-        brcm80211-dev-list.pdl@broadcom.com,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        intel-wired-lan@lists.osuosl.org,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Martin Habets <mhabets@solarflare.com>,
-        Ulrich Kunitz <kune@deine-taler.de>,
-        Jay Cliburn <jcliburn@gmail.com>,
-        Paul McKenney <paulmck@kernel.org>,
-        Stanislaw Gruszka <stf_xl@wp.pl>, Jouni Malinen <j@w1.fi>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Pascal Terjan <pterjan@google.com>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Wright Feng <wright.feng@cypress.com>,
-        Daniel Drake <dsd@gentoo.org>,
-        Pensando Drivers <drivers@pensando.io>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-        Xinming Hu <huxinming820@gmail.com>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
-        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
-        Jon Mason <jdmason@kudzu.us>,
-        Shannon Nelson <snelson@pensando.io>,
-        Dave Miller <davem@davemloft.net>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [patch V2 33/36] net: libertas: Use netif_rx_any_context()
-Message-ID: <20200929215302.GB16571@laptop.org>
-References: <20200929202509.673358734@linutronix.de>
- <20200929203502.769744809@linutronix.de>
+        id S1728142AbgI2V7b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 17:59:31 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:50086 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728074AbgI2V7b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 17:59:31 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08TLt6DF021214;
+        Tue, 29 Sep 2020 21:58:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=0SGyZSx2d5gFu9VCFrnHr0PbdBSEOfYbvoIkFctnKs8=;
+ b=EBEs/IhygzDjI9NzSZTWBL+jlpXdRSkIVKO3BR0PTnYj13j/KT+YnFdpHIyMWwHKtPw6
+ VdeeYVH42begstTcMHrPn7CjtPn3oB/ynSr0w5Xso4ukQstG8tMpGMZHofhFBqIk5P65
+ XrSnIkpFCP0bFO36b8n148hmKqy2HkW7Ily3u/mu1a6x/RaENFBf37j14i6k1gyFLrol
+ Lgp0N1e80RBQvfxng1lADe5bcUmNPgNhjD9zBQz8AYB2VfRQI68pntvE+QMw8Bnfd3sf
+ nJDZS4pMLOkNaFbaKgyEYxhYUeLumTtuNxNn94jWtcRsqN+N5gQPS6tzHUqaJma5csPx HA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 33sx9n5bkt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 29 Sep 2020 21:58:29 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08TLuQ58152440;
+        Tue, 29 Sep 2020 21:58:28 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 33tfhy882g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 29 Sep 2020 21:58:28 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08TLwNJl026376;
+        Tue, 29 Sep 2020 21:58:23 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 29 Sep 2020 14:58:23 -0700
+Subject: Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap pages of hugetlb
+ page
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <31eac1d8-69ba-ed2f-8e47-d957d6bb908c@oracle.com>
+Date:   Tue, 29 Sep 2020 14:58:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200929203502.769744809@linutronix.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200915125947.26204-1-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9759 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ phishscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009290188
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9759 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
+ spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009290188
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 10:25:42PM +0200, Thomas Gleixner wrote:
-> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On 9/15/20 5:59 AM, Muchun Song wrote:
+> Hi all,
 > 
-> The usage of in_interrupt() in non-core code is phased out. Ideally the
-> information of the calling context should be passed by the callers or the
-> functions be split as appropriate.
+> This patch series will free some vmemmap pages(struct page structures)
+> associated with each hugetlbpage when preallocated to save memory.
+...
+> The mapping of the first page(index 0) and the second page(index 1) is
+> unchanged. The remaining 6 pages are all mapped to the same page(index
+> 1). So we only need 2 pages for vmemmap area and free 6 pages to the
+> buddy system to save memory. Why we can do this? Because the content
+> of the remaining 7 pages are usually same except the first page.
 > 
-> libertas uses in_interupt() to select the netif_rx*() variant which matches
-> the calling context. The attempt to consolidate the code by passing an
-> arguemnt or by distangling it failed due lack of knowledge about this
-> driver and because the call chains are hard to follow.
+> When a hugetlbpage is freed to the buddy system, we should allocate 6
+> pages for vmemmap pages and restore the previous mapping relationship.
 > 
-> As a stop gap use netif_rx_any_context() which invokes the correct code
-> path depending on context and confines the in_interrupt() usage to core
-> code.
-> 
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Acked-by: Kalle Valo <kvalo@codeaurora.org>
+> If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
+> substantial gain. On our server, run some SPDK applications which will
+> use 300GB hugetlbpage. With this feature enabled, we can save 4797MB
+> memory.
 
-Reviewed-by: James Cameron <quozl@laptop.org>
+At a high level this seems like a reasonable optimization for hugetlb
+pages.  It is possible because hugetlb pages are 'special' and mostly
+handled differently than pages in normal mm paths.
 
+The majority of the new code is hugetlb specific, so it should not be
+of too much concern for the general mm code paths.  I'll start looking
+closer at the series.  However, if someone has high level concerns please
+let us know.  The only 'potential' conflict I am aware of is discussion
+about support of double mapping hugetlb pages.
+
+https://lists.gnu.org/archive/html/qemu-devel/2017-03/msg02407.html
+
+More care/coordination would be needed to support double mapping with
+this new option.  However, this series provides a boot option to disable
+freeing of unneeded page structs.
 -- 
-James Cameron
-http://quozl.netrek.org/
+Mike Kravetz
