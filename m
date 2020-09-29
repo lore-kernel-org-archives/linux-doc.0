@@ -2,101 +2,109 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B25AC47435
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8514DC4727D
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:19:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B22A6206D9
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:43:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27B9520757
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:19:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=smile-fr.20150623.gappssmtp.com header.i=@smile-fr.20150623.gappssmtp.com header.b="UgbWx+QL"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y7594vIb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728362AbgI2UnB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38352 "EHLO
+        id S1727740AbgI2VTn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 17:19:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726643AbgI2UnA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:43:00 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72071C061755
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 13:43:00 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id j2so6924412wrx.7
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 13:43:00 -0700 (PDT)
+        with ESMTP id S1726643AbgI2VTn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 17:19:43 -0400
+Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD5FC061755
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 14:19:43 -0700 (PDT)
+Received: by mail-pf1-x449.google.com with SMTP id d198so4812371pfd.15
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 14:19:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yxgmFTxkf8Q7snkiRmdFU3li5pqox2TGA0gnwiFInxo=;
-        b=UgbWx+QLzIaXuWGj5Ky/C2Dh/s+6ClhTiU6nRCRCCG20Ucbaw5PclR+ti4GKk1j6hL
-         NofBXmiD6yIiLMFyhMH3RjbPc+RNM/1FW/q6az8FGjQHm3++YOp1Pv+HcKrfVcU9/F2A
-         TF0cltucY5XzKDSvLpA+BNJB7ZmkaYuBI6ihPuSvYpaGZiOYHrhikW9LlzVLUQq/O7rx
-         rwWQZvd0t65zBXomYpYV0yU+Dv+qRr8+/cEAwaGzelE5JwgYRiPhYqJAbVkp3tdl1zz9
-         n2XQeXgqPY+KipSXI1az0+ZSFubPhOWpaAMOiIKE+5UKO6YpC4c+0jZqGGDkj931pc+j
-         oxHA==
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=zLJyFMf9XZVQIy9gnwTsATrEt+DgUwH6ys2B+6ApuhI=;
+        b=Y7594vIbHkXBhApmTedw2NwyrpJX9f2YfI72IgOYLGX/daGmvomA28H71cor7NZwm8
+         rhkEBz7K2u6j3w5klPkBAnppYc0cuCn4RnyLCDfttpT4iDWk/n94iCjGAyKlW2n5HKFv
+         VZD80GgYBFs4kqSlF/45g2NKdo+yFdg4pHUfz8VxC89N+fm2M6pDetzbdZyiv3grIhWa
+         ap5hgRUbvDzc79SpSnPaJ5WA1QmEAg097fIckc35Qc5saTiIWtXSiIAsSZhdZQWhyJIQ
+         3X5tYfFzxQR0xYWMH+W0II9PkT9SbovJ5UMOG1DwLs1ZAzODwQFn/4CsCnMvoeXYBi6y
+         tEEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yxgmFTxkf8Q7snkiRmdFU3li5pqox2TGA0gnwiFInxo=;
-        b=f/FxcLyGA+mf/qqEZUGY7swrxD48ncUDrXgQo0OmbtPdI5MmTI4V1/BSJLj7YMFqlJ
-         53b1kNiP1q/T+v+X7GxQR/YqZHoG+gnEOeTdCgPjPcxboe8xR9AF+r1x2RaffYnBuvME
-         MKX/QmC5b0BYRaL/I++T8imWI/lO2tUy13ksL3vaEKAAR8ssCvPUSnlAcX3HQzZlHyre
-         dwf3zl5F0dGT+yi256h9UuHGu/lenS/OthhzLka33Z5lFIFhOPQdvw3bO5pAdw+naIeg
-         gOyLZmxpxNYBhVUAMI/HfGZ2c/qxUvmoTlO2Y8PZ7wLwC1Rhkqcxy48rLnMNq0SoMNOV
-         vXHw==
-X-Gm-Message-State: AOAM531Ep54nbi2PRi3B9IycXzmtIEX1Au2AT1UWX5nO/qbUtXYSQ+sz
-        gH9JxABXVqr0uZ1H8HZr7CoaJtfd1DTwuQ==
-X-Google-Smtp-Source: ABdhPJw9IC5utvm4ax9rkKU/A7/jQf1cuLDFaUdt5CEfnkoqvrM2W2ynFzUbR7P/w7Jw/uEaYSl2xw==
-X-Received: by 2002:a5d:56cd:: with SMTP id m13mr6120637wrw.261.1601412179072;
-        Tue, 29 Sep 2020 13:42:59 -0700 (PDT)
-Received: from P-ASN-KEVALD.idf.intranet (85-170-108-21.rev.numericable.fr. [85.170.108.21])
-        by smtp.gmail.com with ESMTPSA id a10sm6780755wmj.38.2020.09.29.13.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 13:42:58 -0700 (PDT)
-From:   Yoann Congal <yoann.congal@smile.fr>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] Documentation: PM: Fix a reStructuredText syntax error
-Date:   Tue, 29 Sep 2020 22:41:58 +0200
-Message-Id: <20200929204157.26127-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=zLJyFMf9XZVQIy9gnwTsATrEt+DgUwH6ys2B+6ApuhI=;
+        b=sulZyZ1EA5AJKHIQr0OZ6AubVBEJnqCZpEzEyJuxh3tfzbAA4vGu5SUw6syAVaPaHe
+         RZ70/xmGjzvyr5JWjiPYdBUMuQMMV9ILvX7P5Lqz2QCKcE8aUe1c9ARG/Tc/y/tlUgWc
+         TGkKpKZYgHw8xksorusyKYZhNUliJuDd7KzozAvrAEIqgIiAg9SWHfdhSvp2nZJIwM5F
+         LTDR9mUifZ/KWrY2y2lSpMEmvloKehl8+TeFU9sHbfmkGbBD5fHyfpP+kcmhtFivdGlT
+         y0t1R1qXIqZhJ182By+8GDUhMalXgrCLZnwDCYzIT5zXmU0+BbfbDy7divos3NUQ5wwj
+         GhfQ==
+X-Gm-Message-State: AOAM530/94RE0HSI2PPOkLBcj7WaX8599k+ttmPw+PrLqA3dWqEeWMPF
+        DyY5yeA78CWQBKUuDyKUQbjifJT+J1yw8P8i6+I=
+X-Google-Smtp-Source: ABdhPJxMiJ29B6/aBRGEVbZqKnFd8BQ8IkyftiV8NGjJZ/F47cWFXbYu/vlnLs/c9iNH8M+N1zQ5Jkxd0qSzOpcar/4=
+Sender: "ndesaulniers via sendgmr" 
+        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:aa7:9592:0:b029:13e:d13d:a054 with
+ SMTP id z18-20020aa795920000b029013ed13da054mr5822227pfj.26.1601414382399;
+ Tue, 29 Sep 2020 14:19:42 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 14:19:35 -0700
+Message-Id: <20200929211936.580805-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
+Subject: [PATCH] docs: programming-languages: refresh blurb on clang support
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a reStructuredText syntax error in the cpuidle PM admin-guide
-documentation: the ``...'' quotation marks are parsed as partial ''...''
-reStructuredText markup and break the output formatting.
+Building the kernel with Clang doesn't rely on third party patches, and
+has not for a few years now.
 
-This change them to "...".
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
- Documentation/admin-guide/pm/cpuidle.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/process/programming-language.rst | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
-index e70b365dbc60..191cfa4a450b 100644
---- a/Documentation/admin-guide/pm/cpuidle.rst
-+++ b/Documentation/admin-guide/pm/cpuidle.rst
-@@ -690,7 +690,7 @@ which of the two parameters is added to the kernel command line.  In the
- instruction of the CPUs (which, as a rule, suspends the execution of the program
- and causes the hardware to attempt to enter the shallowest available idle state)
- for this purpose, and if ``idle=poll`` is used, idle CPUs will execute a
--more or less ``lightweight'' sequence of instructions in a tight loop.  [Note
-+more or less "lightweight" sequence of instructions in a tight loop.  [Note
- that using ``idle=poll`` is somewhat drastic in many cases, as preventing idle
- CPUs from saving almost any energy at all may not be the only effect of it.
- For example, on Intel hardware it effectively prevents CPUs from using
+diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
+index e5f5f065dc24..63af142d64ec 100644
+--- a/Documentation/process/programming-language.rst
++++ b/Documentation/process/programming-language.rst
+@@ -6,14 +6,15 @@ Programming Language
+ The kernel is written in the C programming language [c-language]_.
+ More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
+ under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
+-(including some C99 features).
++(including some C99 features). ``clang`` [clang]_ is also supported, see docs
++docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+ 
+ This dialect contains many extensions to the language [gnu-extensions]_,
+ and many of them are used within the kernel as a matter of course.
+ 
+-There is some support for compiling the kernel with ``clang`` [clang]_
+-and ``icc`` [icc]_ for several of the architectures, although at the time
+-of writing it is not completed, requiring third-party patches.
++There is some support for compiling the kernel with ``icc`` [icc]_ for several
++of the architectures, although at the time of writing it is not completed,
++requiring third-party patches.
+ 
+ Attributes
+ ----------
 -- 
-2.20.1
+2.28.0.709.gb0816b6eb0-goog
 
