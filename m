@@ -2,201 +2,126 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E1BC47420
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 15:52:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13443C47420
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 16:35:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F47F20739
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 15:52:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE1C721548
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 16:35:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C1AnuCCs"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fR1L6woB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730006AbgI2PwN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 11:52:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49802 "EHLO
+        id S1728658AbgI2QfM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 12:35:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729361AbgI2PwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 11:52:13 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DB77C061755
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 08:52:11 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id g4so5994581wrs.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 08:52:11 -0700 (PDT)
+        with ESMTP id S1728462AbgI2QfM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 12:35:12 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55411C0613D0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 09:35:10 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id c62so4948171qke.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 09:35:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=waqIMiy+b2Y1XhEMp7lwlO73kRIAH1OEaVKybD+u/ZQ=;
-        b=C1AnuCCs/G/bgA/1YUmJNF1XFBujise6V07eyEJJbbGfWWHPX2GIlFrVyhXkrH37sQ
-         4D4/krQiYT/p7pJRrz3xRrYYUbhyOjtPvSFnorNVoaXsLOa01N5SXKpDjsI5FndLnhRd
-         8nK6h5qWp161tMRwNkkygqbTqyOdPiFESFKY1juuvWxIlXC/k38w8aUaMO24jxlGlnjt
-         8E4fz28XrSpaprVTj00BiuGBXBkyXouN3n7UAFQy42yNhHXd8HqUbkpyNmUq8wON2nT6
-         bR28M/YWkmC1hvdZjdZHvkiQbcWBAX5c7Y1P31soTuUXGQ6B3jh8O1vONpSzsyquRPi5
-         O9Ng==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=AvWrqu4w8v60zfj2vEQkFZY/xpWiyVwwYui+w1mVyjU=;
+        b=fR1L6woBIk8eiQBenugUHgU9eVdCRDD/5atyqGvpoCazfJHmOMjvTeBvJs2Xdjheej
+         jiV6lTQvsxMeEonqGZc2tVOZpqUQspfncpoVfSKFCqpn66Pohu9bIoAjIGrD6UGjMXrL
+         stvCCTBoORB27HXTQOyygRY7pqwDWjZAtQ1unwlRab6EPjDztL+9F9XlqDB86NXlOWAy
+         6LhARGXTHsRe0GBK4OAHZU9uZtcX+WqZ8c3q+cwp0000xZRGkSsdZnIg1RruYiey178l
+         TB34YjYUQaFhc8I7AYm2DnNVKv6vWocOkXlOgdqYUhrn9fSTSXeQcek2kBFyAUa+XXQI
+         aHEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=waqIMiy+b2Y1XhEMp7lwlO73kRIAH1OEaVKybD+u/ZQ=;
-        b=Dy12l+XVn9gf1BAfkTtiSZ4Bt5KvS6tfe5CRvY26Snwy7t6SkzkHvjxey3L0q0xnrl
-         WOQ9c6Rbq25O5GgjpbM9lpXWfyNlcpoLUxkecIBz8n1VKHRo0IVOWNvKZa4CvSF4p+VW
-         RY7OQ29QdO1swZYQmI4Ps/XyKLjTOYEk6o0OmBCaqHf8RTlpppB99MBBMgUH+BsGMYfI
-         E6/BfLGjIboEXqILgEiCmwnesWl4YGjxRyZ0SFLDO+M7D5eEAupqrtgZjWu0ipd+n+kW
-         ELMEpsjwgvj8zR1KkGAE0YrSB9oADWNWap3WuriLrNPihnzad4ocWmhNV5UoXkTEPK1E
-         yBHQ==
-X-Gm-Message-State: AOAM531mP6z1vdBNEOWaXa2sH+1TCK/9PbJNgbSSpS2Mh6Mmfb5qh4tU
-        0vHDi/Dye+bGJ0pEGhFRdFFOLUgXbynM0pR9JeHL7g==
-X-Google-Smtp-Source: ABdhPJyt0n3BFeP7541F+hN//hQOYJ9pNhiIXhLw+JPQvp3FfyuIQnsFqmqLKix89U+C2Ps2OK6T6XilQ90ujF0il+k=
-X-Received: by 2002:adf:e312:: with SMTP id b18mr5418270wrj.372.1601394729790;
- Tue, 29 Sep 2020 08:52:09 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AvWrqu4w8v60zfj2vEQkFZY/xpWiyVwwYui+w1mVyjU=;
+        b=Fm0hzecZD9lzH+8x0OQOyxWz0H0JJVPPpp2ahp5CYr+7jN2zLLhtNOCJ4M520QCbKE
+         BZu8eIz/dBimUXmq9LH7R74Z6XbHXlc5q8CnZB2N9hsFa4tJCM3URBlVLXscUKUGe3ua
+         YTMoAoImC+Dqu8YXclTpU+HdZMmmSwZANrsm/eE3ivLRvf8i1cP1KxsJizn1fZX91gfP
+         6DVFoQevakZMP0k1pKvZA8I5IebdD0Joi4FMMT7zhbwmz54LPoiBNZTVs4YxoS/QmFhH
+         T91+s/afeLGXuwSeb+oCeL/p+c5PRvuakrf398pMcFo2JpWRYb7UDiATTr/YK+mbjIAm
+         nYXA==
+X-Gm-Message-State: AOAM532eRvcymjuQtYYnTnfDaf1WzAmu4qgmHtVhmQyBqHPl+ABU2woc
+        8leBs/W6q2vr//Y/oV2ozYPpTA==
+X-Google-Smtp-Source: ABdhPJyewvSBGSVMwAlEAvWjCrriQubfC+7x0uBqT5YF2razgiDMHSz5KydCKgV0wLG7QOaWdDR93g==
+X-Received: by 2002:a37:a04e:: with SMTP id j75mr5059496qke.400.1601397309354;
+        Tue, 29 Sep 2020 09:35:09 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id z26sm4994871qkj.107.2020.09.29.09.35.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2020 09:35:08 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kNIap-003Aax-P1; Tue, 29 Sep 2020 13:35:07 -0300
+Date:   Tue, 29 Sep 2020 13:35:07 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Shuah Khan <shuah@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
+Message-ID: <20200929163507.GV9916@ziepe.ca>
+References: <20200928062159.923212-1-jhubbard@nvidia.com>
+ <20200928062159.923212-3-jhubbard@nvidia.com>
+ <20200928125739.GP9916@ziepe.ca>
+ <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
 MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-2-elver@google.com>
- <20200929142411.GC53442@C02TD0UTHF1T.local>
-In-Reply-To: <20200929142411.GC53442@C02TD0UTHF1T.local>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Tue, 29 Sep 2020 17:51:58 +0200
-Message-ID: <CAG_fn=UOJARteeqT_+1ORPEP9SB5HR3B3W8830rA9kjZLoN+Ww@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 4:24 PM Mark Rutland <mark.rutland@arm.com> wrote:
->
-> On Mon, Sep 21, 2020 at 03:26:02PM +0200, Marco Elver wrote:
-> > From: Alexander Potapenko <glider@google.com>
-> >
-> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is =
-a
-> > low-overhead sampling-based memory safety error detector of heap
-> > use-after-free, invalid-free, and out-of-bounds access errors.
-> >
-> > KFENCE is designed to be enabled in production kernels, and has near
-> > zero performance overhead. Compared to KASAN, KFENCE trades performance
-> > for precision. The main motivation behind KFENCE's design, is that with
-> > enough total uptime KFENCE will detect bugs in code paths not typically
-> > exercised by non-production test workloads. One way to quickly achieve =
-a
-> > large enough total uptime is when the tool is deployed across a large
-> > fleet of machines.
-> >
-> > KFENCE objects each reside on a dedicated page, at either the left or
-> > right page boundaries. The pages to the left and right of the object
-> > page are "guard pages", whose attributes are changed to a protected
-> > state, and cause page faults on any attempted access to them. Such page
-> > faults are then intercepted by KFENCE, which handles the fault
-> > gracefully by reporting a memory access error. To detect out-of-bounds
-> > writes to memory within the object's page itself, KFENCE also uses
-> > pattern-based redzones. The following figure illustrates the page
-> > layout:
-> >
-> >   ---+-----------+-----------+-----------+-----------+-----------+---
-> >      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
-> >      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
-> >      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
-> >      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
-> >      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
-> >      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
-> >   ---+-----------+-----------+-----------+-----------+-----------+---
-> >
-> > Guarded allocations are set up based on a sample interval (can be set
-> > via kfence.sample_interval). After expiration of the sample interval, a
-> > guarded allocation from the KFENCE object pool is returned to the main
-> > allocator (SLAB or SLUB). At this point, the timer is reset, and the
-> > next allocation is set up after the expiration of the interval.
->
-> From other sub-threads it sounds like these addresses are not part of
-> the linear/direct map.
-For x86 these addresses belong to .bss, i.e. "kernel text mapping"
-section, isn't that the linear map?
-I also don't see lm_alias being used much outside arm64 code.
+On Mon, Sep 28, 2020 at 01:10:24PM -0700, John Hubbard wrote:
+> On 9/28/20 5:57 AM, Jason Gunthorpe wrote:
+> > On Sun, Sep 27, 2020 at 11:21:53PM -0700, John Hubbard wrote:
+> > > diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
+> > > index d1ae706d9927..9cc6bc087461 100644
+> > > +++ b/tools/testing/selftests/vm/Makefile
+> > > @@ -130,3 +130,5 @@ endif
+> > >   $(OUTPUT)/userfaultfd: LDLIBS += -lpthread
+> > >   $(OUTPUT)/mlock-random-test: LDLIBS += -lcap
+> > > +
+> > > +$(OUTPUT)/gup_test: ../../../../mm/gup_test.h
+> > 
+> > There is no reason to do this, the auto depends will pick up header
+> > files, and gup_test.h isn't a generated file
+> > 
+> 
+> It is less capable than you might think. Without the admittedly ugly technique
+> above, it fails to build, and as you can see, the include paths that are fed to
+> gcc are just a single one: usr/include:
+> 
+> $ make
+> make --no-builtin-rules ARCH=x86 -C ../../../.. headers_install
+> gcc -Wall -I ../../../../usr/include     gup_test.c
+> /kernel_work/linux-next-github/tools/testing/selftests/kselftest_harness.h
+> /kernel_work/linux-next-github/tools/testing/selftests/kselftest.h
+> ../../../../mm/gup_test.h -lrt -o
+> /kernel_work/linux-next-github/tools/testing/selftests/vm/gup_test
+> make[1]: Entering directory '/kernel_work/linux-next-github'
+> gup_test.c:10:10: fatal error: gup_test.h: No such file or directory
+>    10 | #include "gup_test.h"
+>       |          ^~~~~~~~~~~~
 
-> Having kmalloc return addresses outside of the
-> linear map is going to break anything that relies on virt<->phys
-> conversions, and is liable to make DMA corrupt memory. There were
-> problems of that sort with VMAP_STACK, and this is why kvmalloc() is
-> separate from kmalloc().
->
-> Have you tested with CONFIG_DEBUG_VIRTUAL? I'd expect that to scream.
+You are supposed to use
 
-Just checked - it doesn't scream on x86.
+  #include "../../../../mm/gup_test.h"
 
-> I strongly suspect this isn't going to be safe unless you always use an
-> in-place carevout from the linear map (which could be the linear alias
-> of a static carevout).
->
-> [...]
->
-> > +static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t=
- size, gfp_t flags)
-> > +{
-> > +     return static_branch_unlikely(&kfence_allocation_key) ? __kfence_=
-alloc(s, size, flags) :
-> > +                                                                   NUL=
-L;
-> > +}
->
-> Minor (unrelated) nit, but this would be easier to read as:
->
-> static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t si=
-ze, gfp_t flags)
-> {
->         if (static_branch_unlikely(&kfence_allocation_key))
->                 return __kfence_alloc(s, size, flags);
->         return NULL;
-> }
->
-> Thanks,
-> Mark.
+I have no idea what weird behavior the makefile is triggering that the
+above include works
 
-
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+Jason
