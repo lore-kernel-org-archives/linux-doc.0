@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E0DC47438
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:36:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0191C4CC62
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:36:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89F5F22204
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:36:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88CAB208B8
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:36:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="flqsN7bh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oCN2qgxm"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pIrJK/4Q";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8qgu4ybn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729544AbgI2UgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:36:22 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:49004 "EHLO
+        id S1729667AbgI2Ugi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:36:38 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:48614 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729337AbgI2Ufw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:35:52 -0400
-Message-Id: <20200929203500.387065111@linutronix.de>
+        with ESMTP id S1729593AbgI2UgZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:25 -0400
+Message-Id: <20200929203502.960332937@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411749;
+        s=2020; t=1601411782;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=PXfmmgnLqJrKbGfM8Rno7TyW/8sPcCBInVY2ghnpy1k=;
-        b=flqsN7bhcZA5Gw8H61esyNKoIuK+eoQXrensTvj/LyVRl43ik4SPulyUAEKMp1yDYLyGDP
-        D9B0Ixm9oRoH8KTg+e+7s2Fn6Lva3dPkWEMLiHhPp1IlfC19hCBf9zb6E9g71fll8PukQD
-        NRJBtmyojfh7kHqy5+QkuRwvrf9C8DSIqvBSt4LzhfjLEnloUE6vyU4B1N8NUA0N3IiCs5
-        VqBUHxBrHMaDhc1URd/tZkWC4I7J98XWC/UfOyCfyvEPTu8BeiYx/XnUdWjH7qPa4poY5x
-        QzprHXM2q2Ybp0p/gTovJvJHX28WMo2/AYNrPo6uEcgYbnyD26FntiZnhw2FCQ==
+        bh=BzNYl/5Di+kyHWokGedFIzx/rP561B9MjZOC0kJ9vSg=;
+        b=pIrJK/4QaWydDe1lhnPEEPW8lUPHEJNhW6tvZd6cuCiHXNtLNxly31CrpWbRWeA1Nqi4ev
+        cHB3rU40dVT0tHBnGgPv/quj3XhHz3bg+yn7amm6pjqCquUOYhArLzM2Vv3ARQsAL6MdFB
+        kEbsIIqhi+nm0tONUXFZ18PIdDHC5Y0/pmkzlXbEhyqpUo8Upq3KsTEXi/65zEMfBNYd7e
+        lkYaULJsxmzQMCYn6PK6FXILSEf5BWP03FLdCEO9HUCeTtyLp4bsnja4XpMRcsxki/z2Ji
+        68ELnBK6wMaaIqG6D6QKXvnjD0xRh2x/hAF83UKqhPWdVnkMtLhcm6Mg9ELhvw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411749;
+        s=2020e; t=1601411782;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=PXfmmgnLqJrKbGfM8Rno7TyW/8sPcCBInVY2ghnpy1k=;
-        b=oCN2qgxmVrimWJDSWDSzOU3Ho3aP5P7+Iri+NSeJMXl19XYF6nwaQsBCpQWTTc2WCbRWS6
-        cY9ORhiBMg/aoFBQ==
-Date:   Tue, 29 Sep 2020 22:25:18 +0200
+        bh=BzNYl/5Di+kyHWokGedFIzx/rP561B9MjZOC0kJ9vSg=;
+        b=8qgu4ybn3DiYWS5CupcAxsENTbKhc+qvsJKQRLzHtLMXb63EA2V97Ykwydzc3ABFl2jstp
+        E3mOFBY4PzuNPpCA==
+Date:   Tue, 29 Sep 2020 22:25:44 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -96,7 +96,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 09/36] net: fec_mpc52xx: Replace in_interrupt() usage
+Subject: [patch V2 35/36] net: rtlwifi: Remove in_interrupt() from debug macro
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -107,70 +107,84 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The usage of in_interrupt() in drivers is phased out and Linus clearly
-requested that code which changes behaviour depending on context should
-either be seperated or the context be conveyed in an argument passed by the
-caller, which usually knows the context.
+The usage of in_interrupt() in drivers in is phased out.
 
-mpc52xx_fec_stop() uses in_interrupt() to check if it is safe to sleep. All
-callers run in well defined contexts.
+rtl_dbg() a printk based debug aid is using in_interrupt() in the
+underlying C function _rtl_dbg_out() which is almost identical to
+_rtl_dbg_print(). The only difference is the printout of in_interrupt().
 
-Pass an argument from the callers indicating whether it is safe to sleep.
+The decoding of in_interrupt() as hexvalue is non-trivial and aside of
+being phased out for driver usage the return value is just by chance the
+masked preempt count value and not a boolean.
+
+These home brewn printk debug aids are tedious to work with and provide
+only minimal context.  They should be replaced by trace_printk() or a debug
+tracepoint which automatically records all context information.
+
+To make progress on the in_interrupt() cleanup, make rtl_dbg() use
+_rtl_dbg_print() and remove _rtl_dbg_out().
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-
-
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
 ---
- drivers/net/ethernet/freescale/fec_mpc52xx.c |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+V2: Adopted to the new names of the same thing.
+---
+ drivers/net/wireless/realtek/rtlwifi/debug.c |   20 --------------------
+ drivers/net/wireless/realtek/rtlwifi/debug.h |    8 ++------
+ 2 files changed, 2 insertions(+), 26 deletions(-)
 
---- a/drivers/net/ethernet/freescale/fec_mpc52xx.c
-+++ b/drivers/net/ethernet/freescale/fec_mpc52xx.c
-@@ -74,7 +74,7 @@ struct mpc52xx_fec_priv {
- static irqreturn_t mpc52xx_fec_interrupt(int, void *);
- static irqreturn_t mpc52xx_fec_rx_interrupt(int, void *);
- static irqreturn_t mpc52xx_fec_tx_interrupt(int, void *);
--static void mpc52xx_fec_stop(struct net_device *dev);
-+static void mpc52xx_fec_stop(struct net_device *dev, bool may_sleep);
- static void mpc52xx_fec_start(struct net_device *dev);
- static void mpc52xx_fec_reset(struct net_device *dev);
+--- a/drivers/net/wireless/realtek/rtlwifi/debug.c
++++ b/drivers/net/wireless/realtek/rtlwifi/debug.c
+@@ -8,26 +8,6 @@
+ #include <linux/vmalloc.h>
  
-@@ -283,7 +283,7 @@ static int mpc52xx_fec_close(struct net_
- 
- 	netif_stop_queue(dev);
- 
--	mpc52xx_fec_stop(dev);
-+	mpc52xx_fec_stop(dev, true);
- 
- 	mpc52xx_fec_free_rx_buffers(dev, priv->rx_dmatsk);
- 
-@@ -693,7 +693,7 @@ static void mpc52xx_fec_start(struct net
-  *
-  * stop all activity on fec and empty dma buffers
-  */
--static void mpc52xx_fec_stop(struct net_device *dev)
-+static void mpc52xx_fec_stop(struct net_device *dev, bool may_sleep)
+ #ifdef CONFIG_RTLWIFI_DEBUG
+-void _rtl_dbg_out(struct rtl_priv *rtlpriv, u64 comp, int level,
+-		  const char *fmt, ...)
+-{
+-	if (unlikely((comp & rtlpriv->cfg->mod_params->debug_mask) &&
+-		     level <= rtlpriv->cfg->mod_params->debug_level)) {
+-		struct va_format vaf;
+-		va_list args;
+-
+-		va_start(args, fmt);
+-
+-		vaf.fmt = fmt;
+-		vaf.va = &args;
+-
+-		pr_info(":<%lx> %pV", in_interrupt(), &vaf);
+-
+-		va_end(args);
+-	}
+-}
+-EXPORT_SYMBOL_GPL(_rtl_dbg_out);
+-
+ void _rtl_dbg_print(struct rtl_priv *rtlpriv, u64 comp, int level,
+ 		    const char *fmt, ...)
  {
- 	struct mpc52xx_fec_priv *priv = netdev_priv(dev);
- 	struct mpc52xx_fec __iomem *fec = priv->fec;
-@@ -706,7 +706,7 @@ static void mpc52xx_fec_stop(struct net_
- 	bcom_disable(priv->rx_dmatsk);
+--- a/drivers/net/wireless/realtek/rtlwifi/debug.h
++++ b/drivers/net/wireless/realtek/rtlwifi/debug.h
+@@ -149,10 +149,6 @@ enum dbgp_flag_e {
+ struct rtl_priv;
  
- 	/* Wait for tx queue to drain, but only if we're in process context */
--	if (!in_interrupt()) {
-+	if (may_sleep) {
- 		timeout = jiffies + msecs_to_jiffies(2000);
- 		while (time_before(jiffies, timeout) &&
- 				!bcom_queue_empty(priv->tx_dmatsk))
-@@ -738,7 +738,7 @@ static void mpc52xx_fec_reset(struct net
- 	struct mpc52xx_fec_priv *priv = netdev_priv(dev);
- 	struct mpc52xx_fec __iomem *fec = priv->fec;
+ __printf(4, 5)
+-void _rtl_dbg_out(struct rtl_priv *rtlpriv, u64 comp, int level,
+-		  const char *fmt, ...);
+-
+-__printf(4, 5)
+ void _rtl_dbg_print(struct rtl_priv *rtlpriv, u64 comp, int level,
+ 		    const char *fmt, ...);
  
--	mpc52xx_fec_stop(dev);
-+	mpc52xx_fec_stop(dev, false);
+@@ -160,8 +156,8 @@ void _rtl_dbg_print_data(struct rtl_priv
+ 			 const char *titlestring,
+ 			 const void *hexdata, int hexdatalen);
  
- 	out_be32(&fec->rfifo_status, in_be32(&fec->rfifo_status));
- 	out_be32(&fec->reset_cntrl, FEC_RESET_CNTRL_RESET_FIFO);
-
+-#define rtl_dbg(rtlpriv, comp, level, fmt, ...)			\
+-	_rtl_dbg_out(rtlpriv, comp, level,				\
++#define rtl_dbg(rtlpriv, comp, level, fmt, ...)				\
++	_rtl_dbg_print(rtlpriv, comp, level,				\
+ 		       fmt, ##__VA_ARGS__)
+ 
+ #define RTPRINT(rtlpriv, dbgtype, dbgflag, fmt, ...)			\
 
