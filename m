@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46118C4727C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAEBC4727F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:10:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFC69208FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:10:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1559A20C09
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 10:10:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="ge2csPM7"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="QfhLhbUT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728100AbgI2KKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 06:10:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52722 "EHLO
+        id S1728054AbgI2KK5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 06:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728033AbgI2KKX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 06:10:23 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD27C0613D1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 03:10:22 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id m6so4733424wrn.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 03:10:22 -0700 (PDT)
+        with ESMTP id S1727983AbgI2KKV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 06:10:21 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3854EC0613D1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 03:10:19 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id l15so6275784wmh.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 03:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1YXp6sKFkcXTnpolw457jZq5A6kI2Z1eojr6/yOZQYQ=;
-        b=ge2csPM7d7wiy+ReKUocCYslodvdh3SSXOALUd8ycsfl0rZtLzeSFE2dUrDD32GwF6
-         vp8RJ+qdV3WQUrAyI/x8+P+De7X8f0sDguglqoR+aH7v1gLVsrW2NHm2NYXvnYRvZV19
-         ypwxsKd7wGuCA9B6xwjLYZvogu6KOdeT6jLO9LfgmjwA7NAV4Cqi61c5S06Glmay/dgz
-         nZhvYzjZKvzHlho6c3VE5bSQm6S8j8IdrPmVqpN8bttA0MYKhwcE50qRuY3ui7DwhuZ8
-         UC3mwppiKSzb19Dr84/F3BTcoc4kg6SyGaZ9sGFVYd0dEYWGdmW/gWyLKn3wSy1Nfb+W
-         n7/A==
+        bh=zg75WLPDLUTD/dO6gE79rZ4YNo3MHudSB6Cl7I/Dq3Q=;
+        b=QfhLhbUTjHIj3Y7HomIRD7VAgcGMp0d2n7WMsx6Q22a3oTDfO6dk05l7urMoiHN3j0
+         V3FfN4skAT9KLDxqtBq6d3dSb32H7Qke+AoW2cytasaKVGrCa65anDtNcHUZqV5EMN7P
+         y77oYrSv2wFtz02+uwletmwVhZG7UXc2XhJ33F3IFhnOuGSWs3MIXRtpDiXz2mwNjPNU
+         RHwugBiCMmn4j6QXz6nGHwmlvE6tsvecoG46385WJqqLdgpHMtFpAT95ynU7KVNAAOjm
+         7JTyTRZItvug/gEmtziOmFJDPm+niFcPOVsv2UAvTQu7KIHDNmJ9zrLpHkGkbbC5SctR
+         YR3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1YXp6sKFkcXTnpolw457jZq5A6kI2Z1eojr6/yOZQYQ=;
-        b=ZmNBgCX1mlXLotON7Ld8yWuXnNCcOPk+UAq6Chb2MU8dLi0tBz4Hg2AtubrvNKb5K5
-         Nc8WNLbpVShjIN/JLWmmdmg2K1lsMT98BiN7wZgSGudXz+t/4Clq3tvOjr/U28bV9ZPB
-         NcgxpQgW4q9XS0Tj1qi/Tk4bJ6Eyav6ZzvdCgKfejDSkZemmqUVloUjMnjiFYpEPqUuj
-         dsD3vlwbkYnDMk7o3VmTHyB/bnYNAPUK2LvzhmG7LZI3ogtWrzBOAhbzOPnQOrq6H/Do
-         IdsDE/WqneVq7yMb1S4ybg0lySqSobI/HgedoA8ci4D+zn3P2GXqOQlUhn4qyIhirAn8
-         C8Pw==
-X-Gm-Message-State: AOAM531GVRJ2FGR1Hc+hM9S+YJVO1HG1TEu29cy9NNaaeQS9d4qkbg+u
-        nABG6HZxuIabsTesr/HCIzQ/cA==
-X-Google-Smtp-Source: ABdhPJzr+SMqMXUVznjXpDoZixQSjynbGp17eZgZW2xiWb7SeLlO4WpMUbvk0t9wdmsawJSm6npr7A==
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr3518386wrp.246.1601374221447;
-        Tue, 29 Sep 2020 03:10:21 -0700 (PDT)
+        bh=zg75WLPDLUTD/dO6gE79rZ4YNo3MHudSB6Cl7I/Dq3Q=;
+        b=chBorcU12ZDz3FdFM9OAvObFqnOescjuGzREiRLHSpFTZ1n1HGgudTNFxnytVKmYHS
+         5XFSOlTYg3NGMnOckFexnZDQi9nijyPrmD8akGMF7MU3brsr2Uw8DAfYdGQ43AA3lQFp
+         XQUF95054pqUZLMcSDtQt8GdiMy1unYQVEr5MyjFma4RBWZwyzuAMHvEHtAV1lLEKhr9
+         uKY7+5wr7hQHlOgsEV2KmY3/3hYT8emxzE4azCuvH1+bkuk1NcCO2U/D9y3JWLDpYJ2p
+         dYcOEqD+6PkYQIgnP9UF1BPv9XxONGzFGdV6D3XcTal8Y5YItOb14GxQbqr+gUrg26hw
+         VjOw==
+X-Gm-Message-State: AOAM531E3tj4hiLF2+KYhpWFo/59uDdTI6zPLMqAw9W+uqHHGXSzd8Yw
+        7A4fCQjDb9h6/JhUMx7B5pfqtQ==
+X-Google-Smtp-Source: ABdhPJzhsHf0g1n07jxfN66y7RG66yrbDXd6Rtj9KiqrOmYuW3ZxG/bURwo9Ua+mGtpFIE5NpFsmkA==
+X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr3843472wms.77.1601374217688;
+        Tue, 29 Sep 2020 03:10:17 -0700 (PDT)
 Received: from localhost.localdomain (amontpellier-652-1-68-189.w109-210.abo.wanadoo.fr. [109.210.51.189])
-        by smtp.gmail.com with ESMTPSA id x19sm3380680wmj.48.2020.09.29.03.10.20
+        by smtp.gmail.com with ESMTPSA id x19sm3380680wmj.48.2020.09.29.03.10.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 03:10:20 -0700 (PDT)
+        Tue, 29 Sep 2020 03:10:17 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -65,9 +65,9 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
 Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 06/10] gpio: mockup: remove unneeded return statement
-Date:   Tue, 29 Sep 2020 12:10:00 +0200
-Message-Id: <20200929101004.20288-7-brgl@bgdev.pl>
+Subject: [PATCH v3 03/10] gpio: mockup: drop unneeded includes
+Date:   Tue, 29 Sep 2020 12:09:57 +0200
+Message-Id: <20200929101004.20288-4-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200929101004.20288-1-brgl@bgdev.pl>
 References: <20200929101004.20288-1-brgl@bgdev.pl>
@@ -79,8 +79,8 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-There's a return; at the end of a void function. This is not needed so
-remove it.
+This module doesn't need gpio/consumer.h - it's a provider. It also
+doesn't use any symbols from init.h so let's remove both includes.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
@@ -89,18 +89,19 @@ Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
  1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpio/gpio-mockup.c b/drivers/gpio/gpio-mockup.c
-index c2b2f7d5ff34..de778b52f355 100644
+index 1652897fdf90..c5092773afd8 100644
 --- a/drivers/gpio/gpio-mockup.c
 +++ b/drivers/gpio/gpio-mockup.c
-@@ -372,8 +372,6 @@ static void gpio_mockup_debugfs_setup(struct device *dev,
- 		debugfs_create_file(name, 0200, chip->dbg_dir, priv,
- 				    &gpio_mockup_debugfs_ops);
- 	}
--
--	return;
- }
+@@ -8,9 +8,7 @@
+  */
  
- static int gpio_mockup_name_lines(struct device *dev,
+ #include <linux/debugfs.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/gpio/driver.h>
+-#include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
+ #include <linux/irq_sim.h>
 -- 
 2.26.1
 
