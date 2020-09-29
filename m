@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA78C54EF2
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A02C54F4F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEFC52076B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE5AD2076B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:39:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lxX+rTT1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jVvPk/ek"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jVCtw2lj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cz/fvbwE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729184AbgI2UjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:39:21 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:49666 "EHLO
+        id S1729616AbgI2Ujm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:39:42 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:48544 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729484AbgI2UgC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:02 -0400
-Message-Id: <20200929203501.286933338@linutronix.de>
+        with ESMTP id S1729389AbgI2Uf6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:35:58 -0400
+Message-Id: <20200929203500.870136509@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411761;
+        s=2020; t=1601411756;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=cza+isFpw3pjruNrzTB8YyTwaqZU0A2/Xz5zP+VRSno=;
-        b=lxX+rTT1pI51rZFZT1JdFT4qOji42w0SzxHblZBXZSm8be+ql14IyJD5IYfetVdCq21kTh
-        bZwpBl60iJzu7ftA31P1I7DHnicK0JZKnT+a2aB/1x6S7HHdwpz4zv/NAD6DwmE0dTKset
-        2Kp9fUPpUDJyR06jN8QNKnSGkRxLDfnIY6Lia2c/qw0dnFpDbEs6hRTNVixJJEU8KY+Nck
-        Mm/6Qeu5+G5Emijx3UAxTPhiJlahyQEtrDa5lqfl6IXteQy9xiCsh1NN9eImAadW4Phyxk
-        EqmCGCq5iClRs7LPRLx49nJuW49IwwR6mGEbHT6ow5gUnowkjiuan9fB97h9rA==
+        bh=z3moHQN6gl51QG697Ig4fcwx454n2NJK4rp8mf5cNuM=;
+        b=jVCtw2ljxAFvqhAGfu6tMOO+k6YrsNVclMOkPke8dvG+YpIVNxH2QBcy0bO04sbuPXYwUw
+        xZrde8ZuN+JyPv2TTYVvIiktfDoyR2T7ZurcH+IieZjs0HigDqt30ptzHdpdtWBukvdhDI
+        15A+imKV1yQ80015acETWy241+VdPwNHT7wGtVOmknIM1heY5YZlS5kDdHn3V1/YxpTj9z
+        uA+iH1qXViLCb14RpMVnHLY16VbqN045hZ4D1VKoO5b1XKcZ0H0EgJazSX7k51qG2fZYSu
+        KvB/j2+KnuKsoN3n7nceS1o28YzQCbFp4VUvjyRG6BujSIVZZFBAtyeBKTL+9w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411761;
+        s=2020e; t=1601411756;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=cza+isFpw3pjruNrzTB8YyTwaqZU0A2/Xz5zP+VRSno=;
-        b=jVvPk/ekodleQluohgeB/CSgyS0z1JUCu+zeuCcBc+VXPVD4aVtIlLcjuNQsP6M1OLn2vE
-        CdUSxMOMzZQ6RECA==
-Date:   Tue, 29 Sep 2020 22:25:27 +0200
+        bh=z3moHQN6gl51QG697Ig4fcwx454n2NJK4rp8mf5cNuM=;
+        b=cz/fvbwEmtU2I7VB5GFxobVdz4+igLoEhz0hFG5h/u9T4PsPi5iWQ70/vcLbBgcyROmgwp
+        Hr2Z0yFyRFjlJqAg==
+Date:   Tue, 29 Sep 2020 22:25:23 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -96,7 +96,7 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 18/36] net: sun3lance: Remove redundant checks in interrupt handler
+Subject: [patch V2 14/36] net: natsemi: Replace in_interrupt() usage.
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -105,53 +105,144 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+From: Thomas Gleixner <tglx@linutronix.de>
 
-lance_interrupt() contains two pointless checks:
+The usage of in_interrupt() in drivers is phased out and Linus clearly
+requested that code which changes behaviour depending on context should
+either be seperated or the context be conveyed in an argument passed by the
+caller, which usually knows the context.
 
- - A check whether the 'dev_id' argument is NULL. 'dev_id' is the pointer
-   which was handed in to request_irq() and the interrupt handler will
-   always be invoked with that pointer as 'dev_id' argument by the core
-   code.
+sonic_quiesce() uses 'in_interrupt() || irqs_disabled()' to chose either
+udelay() or usleep_range() in the wait loop.
 
- - A check for interrupt reentrancy. The core code already guarantees
-   non-reentrancy of interrupt handlers.
+In all callchains leading to it the context is well defined and known.
 
-Remove these check.
+Add a 'may_sleep' argument and pass it through the various callchains
+leading to this function.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
----
- drivers/net/ethernet/amd/sun3lance.c |   11 -----------
- 1 file changed, 11 deletions(-)
 
---- a/drivers/net/ethernet/amd/sun3lance.c
-+++ b/drivers/net/ethernet/amd/sun3lance.c
-@@ -657,16 +657,6 @@ static irqreturn_t lance_interrupt( int
- 	struct net_device *dev = dev_id;
- 	struct lance_private *lp = netdev_priv(dev);
- 	int csr0;
--	static int in_interrupt;
--
--	if (dev == NULL) {
--		DPRINTK( 1, ( "lance_interrupt(): invalid dev_id\n" ));
--		return IRQ_NONE;
--	}
--
--	if (in_interrupt)
--		DPRINTK( 2, ( "%s: Re-entering the interrupt handler.\n", dev->name ));
--	in_interrupt = 1;
+---
+ drivers/net/ethernet/natsemi/sonic.c |   24 ++++++++++++------------
+ drivers/net/ethernet/natsemi/sonic.h |    2 +-
+ 2 files changed, 13 insertions(+), 13 deletions(-)
+
+--- a/drivers/net/ethernet/natsemi/sonic.c
++++ b/drivers/net/ethernet/natsemi/sonic.c
+@@ -143,7 +143,7 @@ static int sonic_open(struct net_device
+ 	/*
+ 	 * Initialize the SONIC
+ 	 */
+-	sonic_init(dev);
++	sonic_init(dev, true);
  
-  still_more:
- 	flush_cache_all();
-@@ -774,7 +764,6 @@ static irqreturn_t lance_interrupt( int
+ 	netif_start_queue(dev);
  
- 	DPRINTK( 2, ( "%s: exiting interrupt, csr0=%#04x.\n",
- 				  dev->name, DREG ));
--	in_interrupt = 0;
- 	return IRQ_HANDLED;
+@@ -153,7 +153,7 @@ static int sonic_open(struct net_device
  }
  
+ /* Wait for the SONIC to become idle. */
+-static void sonic_quiesce(struct net_device *dev, u16 mask)
++static void sonic_quiesce(struct net_device *dev, u16 mask, bool may_sleep)
+ {
+ 	struct sonic_local * __maybe_unused lp = netdev_priv(dev);
+ 	int i;
+@@ -163,7 +163,7 @@ static void sonic_quiesce(struct net_dev
+ 		bits = SONIC_READ(SONIC_CMD) & mask;
+ 		if (!bits)
+ 			return;
+-		if (irqs_disabled() || in_interrupt())
++		if (!may_sleep)
+ 			udelay(20);
+ 		else
+ 			usleep_range(100, 200);
+@@ -187,7 +187,7 @@ static int sonic_close(struct net_device
+ 	 * stop the SONIC, disable interrupts
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS);
+-	sonic_quiesce(dev, SONIC_CR_ALL);
++	sonic_quiesce(dev, SONIC_CR_ALL, true);
+ 
+ 	SONIC_WRITE(SONIC_IMR, 0);
+ 	SONIC_WRITE(SONIC_ISR, 0x7fff);
+@@ -229,7 +229,7 @@ static void sonic_tx_timeout(struct net_
+ 	 * disable all interrupts before releasing DMA buffers
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS);
+-	sonic_quiesce(dev, SONIC_CR_ALL);
++	sonic_quiesce(dev, SONIC_CR_ALL, false);
+ 
+ 	SONIC_WRITE(SONIC_IMR, 0);
+ 	SONIC_WRITE(SONIC_ISR, 0x7fff);
+@@ -246,7 +246,7 @@ static void sonic_tx_timeout(struct net_
+ 		}
+ 	}
+ 	/* Try to restart the adaptor. */
+-	sonic_init(dev);
++	sonic_init(dev, false);
+ 	lp->stats.tx_errors++;
+ 	netif_trans_update(dev); /* prevent tx timeout */
+ 	netif_wake_queue(dev);
+@@ -692,9 +692,9 @@ static void sonic_multicast_list(struct
+ 
+ 			/* LCAM and TXP commands can't be used simultaneously */
+ 			spin_lock_irqsave(&lp->lock, flags);
+-			sonic_quiesce(dev, SONIC_CR_TXP);
++			sonic_quiesce(dev, SONIC_CR_TXP, false);
+ 			SONIC_WRITE(SONIC_CMD, SONIC_CR_LCAM);
+-			sonic_quiesce(dev, SONIC_CR_LCAM);
++			sonic_quiesce(dev, SONIC_CR_LCAM, false);
+ 			spin_unlock_irqrestore(&lp->lock, flags);
+ 		}
+ 	}
+@@ -708,7 +708,7 @@ static void sonic_multicast_list(struct
+ /*
+  * Initialize the SONIC ethernet controller.
+  */
+-static int sonic_init(struct net_device *dev)
++static int sonic_init(struct net_device *dev, bool may_sleep)
+ {
+ 	struct sonic_local *lp = netdev_priv(dev);
+ 	int i;
+@@ -730,7 +730,7 @@ static int sonic_init(struct net_device
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, 0);
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RXDIS | SONIC_CR_STP);
+-	sonic_quiesce(dev, SONIC_CR_ALL);
++	sonic_quiesce(dev, SONIC_CR_ALL, may_sleep);
+ 
+ 	/*
+ 	 * initialize the receive resource area
+@@ -759,7 +759,7 @@ static int sonic_init(struct net_device
+ 	netif_dbg(lp, ifup, dev, "%s: issuing RRRA command\n", __func__);
+ 
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_RRRA);
+-	sonic_quiesce(dev, SONIC_CR_RRRA);
++	sonic_quiesce(dev, SONIC_CR_RRRA, may_sleep);
+ 
+ 	/*
+ 	 * Initialize the receive descriptors so that they
+@@ -834,7 +834,7 @@ static int sonic_init(struct net_device
+ 	 * load the CAM
+ 	 */
+ 	SONIC_WRITE(SONIC_CMD, SONIC_CR_LCAM);
+-	sonic_quiesce(dev, SONIC_CR_LCAM);
++	sonic_quiesce(dev, SONIC_CR_LCAM, may_sleep);
+ 
+ 	/*
+ 	 * enable receiver, disable loopback
+--- a/drivers/net/ethernet/natsemi/sonic.h
++++ b/drivers/net/ethernet/natsemi/sonic.h
+@@ -338,7 +338,7 @@ static void sonic_rx(struct net_device *
+ static int sonic_close(struct net_device *dev);
+ static struct net_device_stats *sonic_get_stats(struct net_device *dev);
+ static void sonic_multicast_list(struct net_device *dev);
+-static int sonic_init(struct net_device *dev);
++static int sonic_init(struct net_device *dev, bool may_sleep);
+ static void sonic_tx_timeout(struct net_device *dev, unsigned int txqueue);
+ static void sonic_msg_init(struct net_device *dev);
+ static int sonic_alloc_descriptors(struct net_device *dev);
 
 
