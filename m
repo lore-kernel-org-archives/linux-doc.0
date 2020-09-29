@@ -2,93 +2,99 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C549C4727C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 01:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2DFC4346E
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 08:11:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39FF2216C4
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 01:53:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kZWT8SqK"
+	by mail.kernel.org (Postfix) with ESMTP id 5523C20897
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 08:11:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727276AbgI2BxO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Sep 2020 21:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32792 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgI2BxO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Sep 2020 21:53:14 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91918C061755;
-        Mon, 28 Sep 2020 18:53:12 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id x16so2550356pgj.3;
-        Mon, 28 Sep 2020 18:53:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=muPavyROLoVVZRpBtwcBY8n2nc+gVoJRAgcTPB/X6ZE=;
-        b=kZWT8SqKokpVld4pvJkGZNeOBwSb95rOoGWG0rc0+4oXZ2RoFfoYWn+wITl1j9Tidz
-         wn8RWKJXdomdGPjaJ9g7DX2cvHImFS7CLc+4XeBZAXsjJE7h/w9doKLuqOu3qOkK6hiP
-         lCBG+GSHYg5XSIZgtjdHvsrOqV+OB2gLv8XjQAJC4XXB7n5WkdYNFJPJ7rX78OuXaFQj
-         4id2ToKQzfkxlvH/3VyBLEQ8EF8PTgobYbHbSL8ExTrroVDk1aIGcBlH6Epu8a4s5vq2
-         JG8eW52GZ7QZmQOq7ZBrrMNt6HmquhiUGSqC/gEaoo0xEtSXsrdrvy8OHUge9kwaynjn
-         ed/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=muPavyROLoVVZRpBtwcBY8n2nc+gVoJRAgcTPB/X6ZE=;
-        b=iVLc9jSIfQ09efEpovkVXi+F0aoLTZN4NLZDbwh3cFhqn4GoB6h249dpioxjKXo0gI
-         ElwIzQk0W6ZwhgcNikvmiAPgLIglEjtPpQLvRG/JUGeSg3W+DZf/SH/RSqmD34k/qtEP
-         +iXn+KVjpOo3/TMXYbtQkMyOqMguFW7Zt/BdlLC2gv3KybaPtbVa5M8pTcXOkgSzXvnJ
-         uq1mJf8QHkC5j86eOJuG/ChTyNPELUxzuVTEn1nYS+dwU5e/uL49L7m0Qa4Yn0pqXXA3
-         +rmzmA5MqJoWlGNFGx5foI0vYac9HzU5SuIYreKdIyH4GgkR7bsifBaRp0H3hgar3YsE
-         IYEQ==
-X-Gm-Message-State: AOAM533Zjw/6qn4v+HnCyd4TZb284zpn4XTvlhXaSocpGQ9feEWptZu3
-        JGqzuqoSTBw5E0lBbohbEqc=
-X-Google-Smtp-Source: ABdhPJySH5jWlyKpCINSKeeLxOGCz1qDXpeHznFZN5cKcil/EGZrWRzINUp4yQnTRPgDPbCndKjS5g==
-X-Received: by 2002:a62:5:0:b029:13e:d13d:a05a with SMTP id 5-20020a6200050000b029013ed13da05amr1931737pfa.32.1601344392114;
-        Mon, 28 Sep 2020 18:53:12 -0700 (PDT)
-Received: from dhcp-12-153.nay.redhat.com ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id i1sm3155742pfk.21.2020.09.28.18.53.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 18:53:11 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 09:53:00 +0800
-From:   Hangbin Liu <liuhangbin@gmail.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Shuah Khan <shuah@kernel.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Tim.Bird@sony.com, lkft-triage@lists.linaro.org,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Justin Cook <justin.cook@linaro.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Extract run_kselftest.sh and generate stand-alone
- test list
-Message-ID: <20200929015300.GF2531@dhcp-12-153.nay.redhat.com>
-References: <20200928202650.2530280-1-keescook@chromium.org>
+        id S1727035AbgI2ILR convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 04:11:17 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:33253 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725826AbgI2ILR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 04:11:17 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-15-klZI1fUZOxCa-iii21fDrA-1; Tue, 29 Sep 2020 09:10:11 +0100
+X-MC-Unique: klZI1fUZOxCa-iii21fDrA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 29 Sep 2020 09:10:10 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 29 Sep 2020 09:10:10 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Joe Perches' <joe@perches.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Kent Gibson" <warthog618@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: RE: [PATCH v2 1/9] lib: string_helpers: provide kfree_strarray()
+Thread-Topic: [PATCH v2 1/9] lib: string_helpers: provide kfree_strarray()
+Thread-Index: AQHWlbFc11/cqHtmU0iaxGR+buHrQql/RFkg
+Date:   Tue, 29 Sep 2020 08:10:10 +0000
+Message-ID: <3ba6779e11684ec8bc32638aa67ab952@AcuMS.aculab.com>
+References: <20200928104155.7385-1-brgl@bgdev.pl>
+         <20200928104155.7385-2-brgl@bgdev.pl>
+         <2fcfd81f62ec87d9b75cca32468d8b9583faec47.camel@perches.com>
+         <CAMRc=Mds0ccYBhRJnCQ0NEPkUpWRGtyX4FKj4+4rxN27_gfobA@mail.gmail.com>
+ <12317bbc7712d96be8f52a3bf574e47628830191.camel@perches.com>
+In-Reply-To: <12317bbc7712d96be8f52a3bf574e47628830191.camel@perches.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200928202650.2530280-1-keescook@chromium.org>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 01:26:47PM -0700, Kees Cook wrote:
-> v2:
-> - update documentation
-> - include SPDX line in extracted script
-> v1: https://lore.kernel.org/linux-kselftest/20200925234527.1885234-1-keescook@chromium.org/
+From: Joe Perches
+> Sent: 28 September 2020 17:07
 > 
+> On Mon, 2020-09-28 at 18:02 +0200, Bartosz Golaszewski wrote:
+> > On Mon, Sep 28, 2020 at 5:59 PM Joe Perches <joe@perches.com> wrote:
+> > > On Mon, 2020-09-28 at 12:41 +0200, Bartosz Golaszewski wrote:
+> > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > >
+> > > > There's a common pattern of dynamically allocating an array of char
+> > > > pointers and then also dynamically allocating each string in this
+> > > > array. Provide a helper for freeing such a string array with one call.
+> > >
+> > > Isn't this also common for things like ring buffers?
+> > > Why limit this to char *[]?
+> > >
+> >
+> > I don't want to add APIs nobody is using. What do you suggest?
+> 
+> Change the argument to void** and call it
+> 
+> void kfree_array(void **array, int count);
 
-I'm not sure if the doc update are all appropriate. Need others help review.
-The script part looks good to me. Thanks for your update.
+Does help, void doesn't work that way.
 
-Regards
-Hangbin
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
