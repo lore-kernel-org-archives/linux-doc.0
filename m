@@ -2,112 +2,407 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37388C4727C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 22:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38754C47420
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 23:07:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD8B420757
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 22:46:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA6A4216C4
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 23:07:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="zc+ED4ev"
+	dkim=pass (2048-bit key) header.d=pensando.io header.i=@pensando.io header.b="u7ctPNw/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728192AbgI2Wqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 18:46:52 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:50422 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728115AbgI2Wqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 18:46:52 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08TMTWb6135669;
-        Tue, 29 Sep 2020 22:46:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=4L4hjQcgguBex9d3H5e7ELEzL5by2MBMQY742lzhLWU=;
- b=zc+ED4evDYOuH9/g9HbbLzAy52RmgdTFRjAEctGbHVOWP3KnwRs4t2WJ0Mk/zCAIZNDx
- x/SILLXci+TPEZd1PatwpY/ExXM6dYnvoxhn85fM4+0CqK6NOFtslkAWmcqaTHHy6pw9
- DsrSoS8pyLmCV9NHtZZwDcIGn6o+9OVusjw1ElpjpWAmZickvLYFso5jmBwDDk4mGhDW
- b9hTV+UMjiQlmNTh98hj9MTtNbQ1ADgw93FEK/OmyTBCXj7QdOz1mKqlAcAQvYkSrC3u
- Fi+rtyLWONTJjhHktk8jo4wfoEWv02YFWn3FdAxFtyh57otB29/Lqu1/iybJgMOr/S5g bQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 33swkkwk9e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 29 Sep 2020 22:46:13 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08TMTjUd017138;
-        Tue, 29 Sep 2020 22:46:13 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 33tfjxmect-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 29 Sep 2020 22:46:13 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08TMk76u025850;
-        Tue, 29 Sep 2020 22:46:08 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 29 Sep 2020 15:46:07 -0700
-Subject: Re: [RFC PATCH 01/24] mm/memory_hotplug: Move bootmem info
- registration API to bootmem_info.c
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20200915125947.26204-1-songmuchun@bytedance.com>
- <20200915125947.26204-2-songmuchun@bytedance.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <c8b8de11-1e50-1e84-d2fb-d81e29fea593@oracle.com>
-Date:   Tue, 29 Sep 2020 15:46:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1728931AbgI2XHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 19:07:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728875AbgI2XHH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 19:07:07 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD6FC0613D2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 16:07:06 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id u24so5229929pgi.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 16:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pensando.io; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=T56W4rlwKM3h0w7+QjGBQRIaXGTOjqoGepwvZvifopA=;
+        b=u7ctPNw/bCJlHLZao4KrUwd8YSTNwu0ScSWSkn38YGsAWZv9zrDlzkmqrUrwD5aLem
+         /w0yuGo+dbSRL1jimX9qU98ulfFvQ3MsEB1I1SUz3NFIS6T8xwWTKPBZL8MqMhx4+j7h
+         XOXdJNg0vgO/7B0eq6AL4pBli99xvTVSeVcCfN1sBsU2KCSlQBq1qpQX93SDqNFk8Riz
+         UMysDx5VYIkhLrI4K10saFmbuZ93NW3LS7O2/s/36I97FP0z7gpZghd1APyIc3fO2Hfm
+         YREFwEWNc570IMUD4jhkE36VZ5py8gvbC0AK+KcPo34NQiNUV3BFr8tB5tehXj2wvMoU
+         1G7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=T56W4rlwKM3h0w7+QjGBQRIaXGTOjqoGepwvZvifopA=;
+        b=TVdG7vTXJ0dI6awQuSQz/FsqKznkXu1YnpoQWmYL5sMywqlAaayVp9SoQ8YOuHzW4c
+         +l1p9W67iuRUKAJ7g+zTYEfhljDwFp/VtuwYzS9L0uk7g+H8m5D9KrsjPm8FVT2CGQdn
+         6s+aTCZDRNhFHMEyR7HRlHH+VH3ZHdDN3SxgT4YpOcSwBlhjWdqQ56rVBORbP+00h3xY
+         2SEqD2Ljr++IgH+d3l60UnsqLPcS+b7hXYmnR7yGJu7OCYgcLsD0M42GgSS8vrLehuQK
+         W53gCNQ3/sQIxkeO4fQcVPKoIi7KonCuCH+gxM3eA3SOm+hu/8orBZNMUs+zXiDwemrk
+         S+PA==
+X-Gm-Message-State: AOAM533BgMidTQ+ono/7LhUY+iqFM4wBb+lqSL+Pjf0I/HpKLgcpgFeC
+        y1kuXTKsioS6bvxpalviONOotw==
+X-Google-Smtp-Source: ABdhPJzpobBeVD0QizR5JNx2IEww3/DSsVZ79uzkw55sMm1JxKZo1kgF0e0ARRsarK31gnzhNU0N1A==
+X-Received: by 2002:a63:df02:: with SMTP id u2mr4908192pgg.270.1601420826006;
+        Tue, 29 Sep 2020 16:07:06 -0700 (PDT)
+Received: from Shannons-MacBook-Pro.local (static-50-53-47-17.bvtn.or.frontiernet.net. [50.53.47.17])
+        by smtp.gmail.com with ESMTPSA id 134sm5798661pgf.55.2020.09.29.16.07.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Sep 2020 16:07:05 -0700 (PDT)
+Subject: Re: [patch V2 11/36] net: ionic: Replace in_interrupt() usage.
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Dave Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        intel-wired-lan@lists.osuosl.org,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+References: <20200929202509.673358734@linutronix.de>
+ <20200929203500.579810110@linutronix.de>
+From:   Shannon Nelson <snelson@pensando.io>
+Message-ID: <04ec3648-9735-b901-6492-606468d47158@pensando.io>
+Date:   Tue, 29 Sep 2020 16:06:59 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200915125947.26204-2-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200929203500.579810110@linutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9759 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 mlxscore=0
- phishscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009290192
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9759 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009290192
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/15/20 5:59 AM, Muchun Song wrote:
-> Move bootmem info registration common API to individual bootmem_info.c
-> for later patch use.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+On 9/29/20 1:25 PM, Thomas Gleixner wrote:
+> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>
+> The in_interrupt() usage in this driver tries to figure out which context
+> may sleep and which context may not sleep. in_interrupt() is not really
+> suitable as it misses both preemption disabled and interrupt disabled
+> invocations from task context.
+>
+> Conditionals like that in driver code are frowned upon in general because
+> invocations of functions from invalid contexts might not be detected
+> as the conditional papers over it.
+>
+> ionic_lif_addr() and _ionoc_lif_rx_mode() can be called from:
+>
+>   1) ->ndo_set_rx_mode() which is under netif_addr_lock_bh()) so it must not
+>      sleep.
+>
+>   2) Init and setup functions which are in fully preemptible task context.
+>
+> ionic_link_status_check_request() has two call paths:
+>
+>   1) NAPI which obviously cannot sleep
+>
+>   2) Setup which is again fully preemptible task context
+>
+> Add arguments which convey the execution context to the affected functions
+> and let the callers provide the context instead of letting the functions
+> deduce it.
+>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> ---
+> V2: Treat _ionoc_lif_rx_mode() correclty (Shannon)
 
-This is just code movement.
-
-Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
--- 
-Mike Kravetz
+Is it fair to poke at the comments?
+s/ionoc/ionic/
+s/correclty/correctly/
 
 > ---
->  arch/x86/mm/init_64.c          |  1 +
->  include/linux/bootmem_info.h   | 27 ++++++++++
->  include/linux/memory_hotplug.h | 23 --------
->  mm/Makefile                    |  1 +
->  mm/bootmem_info.c              | 99 ++++++++++++++++++++++++++++++++++
->  mm/memory_hotplug.c            | 91 +------------------------------
->  6 files changed, 129 insertions(+), 113 deletions(-)
->  create mode 100644 include/linux/bootmem_info.h
->  create mode 100644 mm/bootmem_info.c
+>   drivers/net/ethernet/pensando/ionic/ionic_dev.c |    2
+>   drivers/net/ethernet/pensando/ionic/ionic_lif.c |   64 ++++++++++++++++--------
+>   drivers/net/ethernet/pensando/ionic/ionic_lif.h |    2
+>   3 files changed, 47 insertions(+), 21 deletions(-)
+>
+> --- a/drivers/net/ethernet/pensando/ionic/ionic_dev.c
+> +++ b/drivers/net/ethernet/pensando/ionic/ionic_dev.c
+> @@ -22,7 +22,7 @@ static void ionic_watchdog_cb(struct tim
+>   	hb = ionic_heartbeat_check(ionic);
+>   
+>   	if (hb >= 0 && ionic->lif)
+> -		ionic_link_status_check_request(ionic->lif);
+> +		ionic_link_status_check_request(ionic->lif, false);
+>   }
+>   
+>   void ionic_init_devinfo(struct ionic *ionic)
+> --- a/drivers/net/ethernet/pensando/ionic/ionic_lif.c
+> +++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.c
+> @@ -151,7 +151,7 @@ static void ionic_link_status_check(stru
+>   	clear_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state);
+>   }
+>   
+> -void ionic_link_status_check_request(struct ionic_lif *lif)
+> +void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep)
+>   {
+>   	struct ionic_deferred_work *work;
+>   
+> @@ -159,7 +159,7 @@ void ionic_link_status_check_request(str
+>   	if (test_and_set_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state))
+>   		return;
+>   
+> -	if (in_interrupt()) {
+> +	if (!can_sleep) {
+>   		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+>   		if (!work)
+>   			return;
+> @@ -798,7 +798,7 @@ static bool ionic_notifyq_service(struct
+>   
+>   	switch (le16_to_cpu(comp->event.ecode)) {
+>   	case IONIC_EVENT_LINK_CHANGE:
+> -		ionic_link_status_check_request(lif);
+> +		ionic_link_status_check_request(lif, false);
+>   		break;
+>   	case IONIC_EVENT_RESET:
+>   		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+> @@ -981,7 +981,8 @@ static int ionic_lif_addr_del(struct ion
+>   	return 0;
+>   }
+>   
+> -static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add)
+> +static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add,
+> +			  bool can_sleep)
+>   {
+>   	struct ionic *ionic = lif->ionic;
+>   	struct ionic_deferred_work *work;
+> @@ -1010,7 +1011,7 @@ static int ionic_lif_addr(struct ionic_l
+>   			lif->nucast--;
+>   	}
+>   
+> -	if (in_interrupt()) {
+> +	if (!can_sleep) {
+>   		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+>   		if (!work) {
+>   			netdev_err(lif->netdev, "%s OOM\n", __func__);
+> @@ -1036,12 +1037,22 @@ static int ionic_lif_addr(struct ionic_l
+>   
+>   static int ionic_addr_add(struct net_device *netdev, const u8 *addr)
+>   {
+> -	return ionic_lif_addr(netdev_priv(netdev), addr, true);
+> +	return ionic_lif_addr(netdev_priv(netdev), addr, true, true);
+> +}
+> +
+> +static int ionic_ndo_addr_add(struct net_device *netdev, const u8 *addr)
+> +{
+> +	return ionic_lif_addr(netdev_priv(netdev), addr, true, false);
+>   }
+>   
+>   static int ionic_addr_del(struct net_device *netdev, const u8 *addr)
+>   {
+> -	return ionic_lif_addr(netdev_priv(netdev), addr, false);
+> +	return ionic_lif_addr(netdev_priv(netdev), addr, false, true);
+> +}
+> +
+> +static int ionic_ndo_addr_del(struct net_device *netdev, const u8 *addr)
+> +{
+> +	return ionic_lif_addr(netdev_priv(netdev), addr, false, false);
+>   }
+
+These changes are reasonable, tho' I'm not fond of parameter lists of 
+"true" and "false" with no context.  I'd prefer to have some constants like
+#define can_sleep true
+so the code can be a little more readable.
+
+Yes, I know we have this problem already in the call to 
+ionic_lif_addr(), which I'm annoyed with but haven't addressed yet.
+
+So, if you want to deal with this now, fine, otherwise I'll take care of 
+them both later.
+
+Meanwhile,
+
+Acked-by: Shannon Nelson <snelson@pensando.io>
+
+
+
+
+>   
+>   static void ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode)
+> @@ -1081,11 +1092,12 @@ static void ionic_lif_rx_mode(struct ion
+>   		lif->rx_mode = rx_mode;
+>   }
+>   
+> -static void _ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode)
+> +static void _ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode,
+> +			       bool from_ndo)
+>   {
+>   	struct ionic_deferred_work *work;
+>   
+> -	if (in_interrupt()) {
+> +	if (from_ndo) {
+>   		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+>   		if (!work) {
+>   			netdev_err(lif->netdev, "%s OOM\n", __func__);
+> @@ -1100,7 +1112,16 @@ static void _ionic_lif_rx_mode(struct io
+>   	}
+>   }
+>   
+> -static void ionic_set_rx_mode(struct net_device *netdev)
+> +static void ionic_dev_uc_sync(struct net_device *netdev, bool from_ndo)
+> +{
+> +	if (from_ndo)
+> +		__dev_uc_sync(netdev, ionic_ndo_addr_add, ionic_ndo_addr_del);
+> +	else
+> +		__dev_uc_sync(netdev, ionic_addr_add, ionic_addr_del);
+> +
+> +}
+> +
+> +static void ionic_set_rx_mode(struct net_device *netdev, bool from_ndo)
+>   {
+>   	struct ionic_lif *lif = netdev_priv(netdev);
+>   	struct ionic_identity *ident;
+> @@ -1122,7 +1143,7 @@ static void ionic_set_rx_mode(struct net
+>   	 *       we remove our overflow flag and check the netdev flags
+>   	 *       to see if we can disable NIC PROMISC
+>   	 */
+> -	__dev_uc_sync(netdev, ionic_addr_add, ionic_addr_del);
+> +	ionic_dev_uc_sync(netdev, from_ndo);
+>   	nfilters = le32_to_cpu(ident->lif.eth.max_ucast_filters);
+>   	if (netdev_uc_count(netdev) + 1 > nfilters) {
+>   		rx_mode |= IONIC_RX_MODE_F_PROMISC;
+> @@ -1134,7 +1155,7 @@ static void ionic_set_rx_mode(struct net
+>   	}
+>   
+>   	/* same for multicast */
+> -	__dev_mc_sync(netdev, ionic_addr_add, ionic_addr_del);
+> +	ionic_dev_uc_sync(netdev, from_ndo);
+>   	nfilters = le32_to_cpu(ident->lif.eth.max_mcast_filters);
+>   	if (netdev_mc_count(netdev) > nfilters) {
+>   		rx_mode |= IONIC_RX_MODE_F_ALLMULTI;
+> @@ -1146,7 +1167,12 @@ static void ionic_set_rx_mode(struct net
+>   	}
+>   
+>   	if (lif->rx_mode != rx_mode)
+> -		_ionic_lif_rx_mode(lif, rx_mode);
+> +		_ionic_lif_rx_mode(lif, rx_mode, from_ndo);
+> +}
+> +
+> +static void ionic_ndo_set_rx_mode(struct net_device *netdev)
+> +{
+> +	ionic_set_rx_mode(netdev, true);
+>   }
+>   
+>   static __le64 ionic_netdev_features_to_nic(netdev_features_t features)
+> @@ -1391,7 +1417,7 @@ static int ionic_start_queues_reconfig(s
+>   	 */
+>   	err = ionic_txrx_init(lif);
+>   	mutex_unlock(&lif->queue_lock);
+> -	ionic_link_status_check_request(lif);
+> +	ionic_link_status_check_request(lif, true);
+>   	netif_device_attach(lif->netdev);
+>   
+>   	return err;
+> @@ -1720,7 +1746,7 @@ static int ionic_txrx_init(struct ionic_
+>   	if (lif->netdev->features & NETIF_F_RXHASH)
+>   		ionic_lif_rss_init(lif);
+>   
+> -	ionic_set_rx_mode(lif->netdev);
+> +	ionic_set_rx_mode(lif->netdev, false);
+>   
+>   	return 0;
+>   
+> @@ -2093,7 +2119,7 @@ static const struct net_device_ops ionic
+>   	.ndo_stop               = ionic_stop,
+>   	.ndo_start_xmit		= ionic_start_xmit,
+>   	.ndo_get_stats64	= ionic_get_stats64,
+> -	.ndo_set_rx_mode	= ionic_set_rx_mode,
+> +	.ndo_set_rx_mode	= ionic_ndo_set_rx_mode,
+>   	.ndo_set_features	= ionic_set_features,
+>   	.ndo_set_mac_address	= ionic_set_mac_address,
+>   	.ndo_validate_addr	= eth_validate_addr,
+> @@ -2521,7 +2547,7 @@ static void ionic_lif_handle_fw_up(struc
+>   	}
+>   
+>   	clear_bit(IONIC_LIF_F_FW_RESET, lif->state);
+> -	ionic_link_status_check_request(lif);
+> +	ionic_link_status_check_request(lif, true);
+>   	netif_device_attach(lif->netdev);
+>   	dev_info(ionic->dev, "FW Up: LIFs restarted\n");
+>   
+> @@ -2713,7 +2739,7 @@ static int ionic_station_set(struct ioni
+>   		 */
+>   		if (!ether_addr_equal(ctx.comp.lif_getattr.mac,
+>   				      netdev->dev_addr))
+> -			ionic_lif_addr(lif, netdev->dev_addr, true);
+> +			ionic_lif_addr(lif, netdev->dev_addr, true, true);
+>   	} else {
+>   		/* Update the netdev mac with the device's mac */
+>   		memcpy(addr.sa_data, ctx.comp.lif_getattr.mac, netdev->addr_len);
+> @@ -2730,7 +2756,7 @@ static int ionic_station_set(struct ioni
+>   
+>   	netdev_dbg(lif->netdev, "adding station MAC addr %pM\n",
+>   		   netdev->dev_addr);
+> -	ionic_lif_addr(lif, netdev->dev_addr, true);
+> +	ionic_lif_addr(lif, netdev->dev_addr, true, true);
+>   
+>   	return 0;
+>   }
+> --- a/drivers/net/ethernet/pensando/ionic/ionic_lif.h
+> +++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.h
+> @@ -245,7 +245,7 @@ static inline u32 ionic_coal_usec_to_hw(
+>   
+>   typedef void (*ionic_reset_cb)(struct ionic_lif *lif, void *arg);
+>   
+> -void ionic_link_status_check_request(struct ionic_lif *lif);
+> +void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep);
+>   void ionic_get_stats64(struct net_device *netdev,
+>   		       struct rtnl_link_stats64 *ns);
+>   void ionic_lif_deferred_enqueue(struct ionic_deferred *def,
+>
+
