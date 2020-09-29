@@ -2,124 +2,151 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 360C5C47420
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:28:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 489BCC47423
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:53:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F7422076A
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:28:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB21E21548
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 21:53:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="d2x/yEEN"
+	dkim=pass (2048-bit key) header.d=laptop-org.20150623.gappssmtp.com header.i=@laptop-org.20150623.gappssmtp.com header.b="E33XYTuK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727740AbgI2V2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 17:28:18 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9206 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729480AbgI2V1v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 17:27:51 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f73a6ca0001>; Tue, 29 Sep 2020 14:27:38 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 29 Sep
- 2020 21:27:50 +0000
-Received: from sandstorm.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Tue, 29 Sep 2020 21:27:50 +0000
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>, John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH v2 7/8] selftests/vm: run_vmtest.sh: update and clean up gup_test invocation
-Date:   Tue, 29 Sep 2020 14:27:46 -0700
-Message-ID: <20200929212747.251804-8-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200929212747.251804-1-jhubbard@nvidia.com>
-References: <20200929212747.251804-1-jhubbard@nvidia.com>
+        id S1728287AbgI2VxJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 17:53:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49322 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728161AbgI2VxI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 17:53:08 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DEFC0613D1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 14:53:08 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id f18so6059958pfa.10
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 14:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=laptop-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=f/gWOu1TrRoNXxwTjONo7o5+Ij7ibEG5IfBYm/+HET8=;
+        b=E33XYTuKaxFZeZYJMW6eTtEGrlyGXTkwcx/zyYE4FwwLi+COEW+yWd/+0Cf95/WGtY
+         gA86BU5Drjiy9diRFKDvzElxjUhLaGUOgLxvPHqm4KrxiVokwNDSCtjIpcES/TpEIpc6
+         dVmJeB/tex75y/Bc/sY6UtXa0A77E3dRr5L+1KAoi+AbU1W6Vt9GYfXyFtcOrRf/wp6Q
+         D0a6jDjLfVX1kaG9HLQV63nTT6mPqCav4kqlRwsiC9ZYjBegbY+4NXor8wgJHhd2Y461
+         EpM2ZClNwNHNBuUJ9Q6GRMia0EL2Pv5QHFBk+FzsVmbnGLFb638dkqk6/2raUfpv9cRX
+         /G4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=f/gWOu1TrRoNXxwTjONo7o5+Ij7ibEG5IfBYm/+HET8=;
+        b=kbkOcRudu2PCUG1gkeI6YrCagKkxjojqa3/+vFEkrnSBEMXvIWf3EwQWycuP8GlVaT
+         IfJ9XUUpQYSfHeVDDaS/+fVashF+5kd4ifWCrnY1T9mdMcjXCTSyiTd8XADbfbzxC9HT
+         R+88qUEynqOtXjW261bLblhNLGXDw3ZBbvdGuaA12yAMcM4aVXalsp+64AVBcuO0kLGE
+         IUDInUD+T7Zzvnrsj+jHmH20BAnhuJ9X5XlQmE1T3AkLAwz1VEniB9AOskGtCX7xIBWz
+         1g60WnxTIlWKpj8Y+in6GND9KWRIS7BpdUNETtw5WzXvZlw5UgGACnZfgK0H8k3oXBmz
+         0Zpg==
+X-Gm-Message-State: AOAM532fEz/aH4EglHYJnabhDgO3HMiMUOv2XvI34D9EyWnZps0WvLRf
+        EnLqMgC+EN4eBgULrJjxt/wvbA==
+X-Google-Smtp-Source: ABdhPJzIeNXHHc94ebLFB9qkrPXXAtz33vlk/UqWEatHhLEUSYCsDM/sIDsnSGbSOH4e+0OMNyZK5g==
+X-Received: by 2002:a63:2845:: with SMTP id o66mr4631601pgo.77.1601416387878;
+        Tue, 29 Sep 2020 14:53:07 -0700 (PDT)
+Received: from esk ([1.129.134.212])
+        by smtp.gmail.com with ESMTPSA id l79sm6516011pfd.210.2020.09.29.14.53.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 29 Sep 2020 14:53:07 -0700 (PDT)
+Received: from james by esk with local (Exim 4.90_1)
+        (envelope-from <quozl@laptop.org>)
+        id 1kNNYV-0004eb-0z; Wed, 30 Sep 2020 07:53:03 +1000
+Date:   Wed, 30 Sep 2020 07:53:03 +1000
+From:   James Cameron <quozl@laptop.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+        Chris Snook <chris.snook@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Christian Benvenuti <benve@cisco.com>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Edward Cree <ecree@solarflare.com>,
+        libertas-dev@lists.infradead.org, brcm80211-dev-list@cypress.com,
+        brcm80211-dev-list.pdl@broadcom.com,
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        intel-wired-lan@lists.osuosl.org,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Martin Habets <mhabets@solarflare.com>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Paul McKenney <paulmck@kernel.org>,
+        Stanislaw Gruszka <stf_xl@wp.pl>, Jouni Malinen <j@w1.fi>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Pascal Terjan <pterjan@google.com>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        Daniel Drake <dsd@gentoo.org>,
+        Pensando Drivers <drivers@pensando.io>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Xinming Hu <huxinming820@gmail.com>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Jon Mason <jdmason@kudzu.us>,
+        Shannon Nelson <snelson@pensando.io>,
+        Dave Miller <davem@davemloft.net>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [patch V2 33/36] net: libertas: Use netif_rx_any_context()
+Message-ID: <20200929215302.GB16571@laptop.org>
+References: <20200929202509.673358734@linutronix.de>
+ <20200929203502.769744809@linutronix.de>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1601414858; bh=EnpswkC06SgXdnmXzkGSyHyTa8dHGmVHmbkot3R5EyQ=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-         References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=d2x/yEEN6ZWQm1O5jUde/Maw7aOdc0k/XR+E6ocF29cl1saYGwVkmMSfrEOyi97q/
-         03qNmVjjSTgdT7zvZ14jPxL1zR2SRyIZcTT8B4lhO3a8+zb2AuYwlGumc5V7N2cLpj
-         B6d2zrv+ngdnC1iRGimFC0H8cro1RZQFt8IQUlxF2scZwBgMnjeLhQ5CTAzlHDVyPW
-         JL0MkPrwQiCkBcV1d/R6x08a9RhUopKi96FJ0O/50IoRDnbg0ZFIaegRc1IckZg5ux
-         1b5OjpSdjfq/gX7PJk5a0zuo9772P/CEPboXoGPiupVJ4sV4NyOmROk9XejjYQd/Lf
-         vP3L5k9VUZBEA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200929203502.769744809@linutronix.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Run benchmarks on the _fast variants of gup and pup, as originally
-intended.
+On Tue, Sep 29, 2020 at 10:25:42PM +0200, Thomas Gleixner wrote:
+> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> 
+> The usage of in_interrupt() in non-core code is phased out. Ideally the
+> information of the calling context should be passed by the callers or the
+> functions be split as appropriate.
+> 
+> libertas uses in_interupt() to select the netif_rx*() variant which matches
+> the calling context. The attempt to consolidate the code by passing an
+> arguemnt or by distangling it failed due lack of knowledge about this
+> driver and because the call chains are hard to follow.
+> 
+> As a stop gap use netif_rx_any_context() which invokes the correct code
+> path depending on context and confines the in_interrupt() usage to core
+> code.
+> 
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Acked-by: Kalle Valo <kvalo@codeaurora.org>
 
-Run the new gup_test sub-test: dump pages. In addition to exercising the
-dump_page() call, it also demonstrates the various options you can use
-to specify which pages to dump, and how.
+Reviewed-by: James Cameron <quozl@laptop.org>
 
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
- tools/testing/selftests/vm/run_vmtest.sh | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/tools/testing/selftests/vm/run_vmtest.sh b/tools/testing/selft=
-ests/vm/run_vmtest.sh
-index d1843d5f3c30..e3a8b14d9df6 100755
---- a/tools/testing/selftests/vm/run_vmtest.sh
-+++ b/tools/testing/selftests/vm/run_vmtest.sh
-@@ -124,9 +124,9 @@ else
- fi
-=20
- echo "--------------------------------------------"
--echo "running 'gup_test -U' (normal/slow gup)"
-+echo "running 'gup_test -u' (fast gup benchmark)"
- echo "--------------------------------------------"
--./gup_test -U
-+./gup_test -u
- if [ $? -ne 0 ]; then
- 	echo "[FAIL]"
- 	exitcode=3D1
-@@ -134,10 +134,22 @@ else
- 	echo "[PASS]"
- fi
-=20
--echo "------------------------------------------"
--echo "running gup_test -b (pin_user_pages)"
--echo "------------------------------------------"
--./gup_test -b
-+echo "---------------------------------------------------"
-+echo "running gup_test -a (pin_user_pages_fast benchmark)"
-+echo "---------------------------------------------------"
-+./gup_test -a
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+	exitcode=3D1
-+else
-+	echo "[PASS]"
-+fi
-+
-+echo "--------------------------------------------------------------"
-+echo "running gup_test -ct -F 0x1 0 19 0x1000"
-+echo "   Dumps pages 0, 19, and 4096, using pin_user_pages (-F 0x1)"
-+echo "--------------------------------------------------------------"
-+./gup_test -ct -F 0x1 0 19 0x1000
- if [ $? -ne 0 ]; then
- 	echo "[FAIL]"
- 	exitcode=3D1
---=20
-2.28.0
-
+-- 
+James Cameron
+http://quozl.netrek.org/
