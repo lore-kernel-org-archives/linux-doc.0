@@ -2,88 +2,125 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 329A6C4741F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0FCAC4727C
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:24:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2231206DB
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:22:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="KtSUOtpr"
+	by mail.kernel.org (Postfix) with ESMTP id 4D0A920702
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 14:24:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728378AbgI2OW6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 10:22:58 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:26706 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727659AbgI2OW5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 10:22:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1601389377; x=1632925377;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=JACM4vdUV33y9yliaH0/j1OWR+5VHZd1rr/Na9ivV5M=;
-  b=KtSUOtprq/y0g8LGj5fvZnDJ7nc6gjT/kHEnf664jOqlaDSeanLpa1MZ
-   auVlhleo3pzHby2bAwb/8eV9b1Tj69b07HTCapPEbYxdWM+eWnjjdOccT
-   FzhQtQPqEsaS896yNPwqw7a5bETt2ax/PfWUb9bGh8d9bi8d4LKKarApd
-   c=;
-X-IronPort-AV: E=Sophos;i="5.77,318,1596499200"; 
-   d="scan'208";a="78932031"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-81e76b79.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 29 Sep 2020 14:21:45 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2b-81e76b79.us-west-2.amazon.com (Postfix) with ESMTPS id 20059A17E7;
-        Tue, 29 Sep 2020 14:21:41 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.185) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 29 Sep 2020 14:21:28 +0000
-From:   SeongJae Park <sjpark@amazon.com>
+        id S1728651AbgI2OYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 10:24:20 -0400
+Received: from foss.arm.com ([217.140.110.172]:46102 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727543AbgI2OYT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Sep 2020 10:24:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3E5331B;
+        Tue, 29 Sep 2020 07:24:18 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.51.69])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D59CA3F6CF;
+        Tue, 29 Sep 2020 07:24:13 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 15:24:11 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
 To:     Marco Elver <elver@google.com>
-CC:     <akpm@linux-foundation.org>, <glider@google.com>, <hpa@zytor.com>,
-        <paulmck@kernel.org>, <andreyknvl@google.com>,
-        <aryabinin@virtuozzo.com>, <luto@kernel.org>, <bp@alien8.de>,
-        <catalin.marinas@arm.com>, <cl@linux.com>,
-        <dave.hansen@linux.intel.com>, <rientjes@google.com>,
-        <dvyukov@google.com>, <edumazet@google.com>,
-        <gregkh@linuxfoundation.org>, <hdanton@sina.com>,
-        <mingo@redhat.com>, <jannh@google.com>,
-        <Jonathan.Cameron@huawei.com>, <corbet@lwn.net>,
-        <iamjoonsoo.kim@lge.com>, <keescook@chromium.org>,
-        <mark.rutland@arm.com>, <penberg@kernel.org>,
-        <peterz@infradead.org>, <sjpark@amazon.com>, <tglx@linutronix.de>,
-        <vbabka@suse.cz>, <will@kernel.org>, <x86@kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kasan-dev@googlegroups.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v4 11/11] MAINTAINERS: Add entry for KFENCE
-Date:   Tue, 29 Sep 2020 16:21:13 +0200
-Message-ID: <20200929142113.26993-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200929133814.2834621-12-elver@google.com>
+Cc:     akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
+        paulmck@kernel.org, andreyknvl@google.com, aryabinin@virtuozzo.com,
+        luto@kernel.org, bp@alien8.de, catalin.marinas@arm.com,
+        cl@linux.com, dave.hansen@linux.intel.com, rientjes@google.com,
+        dvyukov@google.com, edumazet@google.com,
+        gregkh@linuxfoundation.org, hdanton@sina.com, mingo@redhat.com,
+        jannh@google.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
+        iamjoonsoo.kim@lge.com, keescook@chromium.org, penberg@kernel.org,
+        peterz@infradead.org, sjpark@amazon.com, tglx@linutronix.de,
+        vbabka@suse.cz, will@kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
+Message-ID: <20200929142411.GC53442@C02TD0UTHF1T.local>
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-2-elver@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.185]
-X-ClientProxiedBy: EX13D19UWA004.ant.amazon.com (10.43.160.102) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200921132611.1700350-2-elver@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Sep 2020 15:38:14 +0200 Marco Elver <elver@google.com> wrote:
-
-> Add entry for KFENCE maintainers.
+On Mon, Sep 21, 2020 at 03:26:02PM +0200, Marco Elver wrote:
+> From: Alexander Potapenko <glider@google.com>
 > 
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Co-developed-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
+> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> low-overhead sampling-based memory safety error detector of heap
+> use-after-free, invalid-free, and out-of-bounds access errors.
+> 
+> KFENCE is designed to be enabled in production kernels, and has near
+> zero performance overhead. Compared to KASAN, KFENCE trades performance
+> for precision. The main motivation behind KFENCE's design, is that with
+> enough total uptime KFENCE will detect bugs in code paths not typically
+> exercised by non-production test workloads. One way to quickly achieve a
+> large enough total uptime is when the tool is deployed across a large
+> fleet of machines.
+> 
+> KFENCE objects each reside on a dedicated page, at either the left or
+> right page boundaries. The pages to the left and right of the object
+> page are "guard pages", whose attributes are changed to a protected
+> state, and cause page faults on any attempted access to them. Such page
+> faults are then intercepted by KFENCE, which handles the fault
+> gracefully by reporting a memory access error. To detect out-of-bounds
+> writes to memory within the object's page itself, KFENCE also uses
+> pattern-based redzones. The following figure illustrates the page
+> layout:
+> 
+>   ---+-----------+-----------+-----------+-----------+-----------+---
+>      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
+>      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
+>      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
+>      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
+>      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
+>      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
+>   ---+-----------+-----------+-----------+-----------+-----------+---
+> 
+> Guarded allocations are set up based on a sample interval (can be set
+> via kfence.sample_interval). After expiration of the sample interval, a
+> guarded allocation from the KFENCE object pool is returned to the main
+> allocator (SLAB or SLUB). At this point, the timer is reset, and the
+> next allocation is set up after the expiration of the interval.
 
-Reviewed-by: SeongJae Park <sjpark@amazon.de>
+From other sub-threads it sounds like these addresses are not part of
+the linear/direct map. Having kmalloc return addresses outside of the
+linear map is going to break anything that relies on virt<->phys
+conversions, and is liable to make DMA corrupt memory. There were
+problems of that sort with VMAP_STACK, and this is why kvmalloc() is
+separate from kmalloc().
 
+Have you tested with CONFIG_DEBUG_VIRTUAL? I'd expect that to scream.
+
+I strongly suspect this isn't going to be safe unless you always use an
+in-place carevout from the linear map (which could be the linear alias
+of a static carevout).
+
+[...]
+
+> +static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+> +{
+> +	return static_branch_unlikely(&kfence_allocation_key) ? __kfence_alloc(s, size, flags) :
+> +								      NULL;
+> +}
+
+Minor (unrelated) nit, but this would be easier to read as:
+
+static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+{
+	if (static_branch_unlikely(&kfence_allocation_key))
+		return __kfence_alloc(s, size, flags);
+	return NULL;
+}
 
 Thanks,
-SeongJae Park
+Mark.
