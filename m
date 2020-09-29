@@ -2,101 +2,162 @@ Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC0CC4742B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19471C47426
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30AC12076B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC8E62076B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:37:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="bVgMFrvC"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vZl3shb7";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pUmcG6WS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728576AbgI2UhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:37:02 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2631 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729557AbgI2Ugc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:32 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f739ac30002>; Tue, 29 Sep 2020 13:36:19 -0700
-Received: from [10.2.53.30] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 29 Sep
- 2020 20:36:31 +0000
-Subject: Re: [PATCH 2/8] selftests/vm: use a common gup_test.h
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
+        id S1728999AbgI2Ugu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:36:50 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49910 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729603AbgI2UgZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:25 -0400
+Message-Id: <20200929203502.576396860@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1601411777;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=UnzuSiCObj+zFPVGaKyuZiIb7D6OLcNGc9ENqe1uVGQ=;
+        b=vZl3shb7lESVoE5rGcsQuHjYQ/fa5cDZrNHIl7MWKprP2nDTxh+UiXoGoNhoyPOG3ZR6Ec
+        OqDVY1cwYOIVHljzUvQ8ltfuwFex6OdvuWoxIWITAirpmYpSUnNRITnTlIqsdJtyQHlNNQ
+        zu3a4RaAqYrIMR1hFA5FwaJbXsMDZPnv41GdNsrCiif4/iF8ti4sgby8VnR3GZepWXJruj
+        cqll3nwhvohnYlRT+EtVODCfO3LpycGffxw3iQSGCE7h/aPSLN1q3sWSbw6WRD+2MGym9O
+        9XIPoHKCBg3DCg1ftunbc0jBG68xHKIFgZcYu++27bgNP9AejAvpAlyoGdlccA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1601411777;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=UnzuSiCObj+zFPVGaKyuZiIb7D6OLcNGc9ENqe1uVGQ=;
+        b=pUmcG6WSjGiBJSD30L5Ts+Rw8ty5B3RFaWadF1x3qr8P3r4h5t4nPP3NVC5tKR/8VdYiTM
+        BQIKbwyc6AytfhCw==
+Date:   Tue, 29 Sep 2020 22:25:40 +0200
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Dave Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>
-References: <20200928062159.923212-1-jhubbard@nvidia.com>
- <20200928062159.923212-3-jhubbard@nvidia.com>
- <20200928125739.GP9916@ziepe.ca>
- <6481e78f-c70d-133a-ff4a-325b5cd8fd5d@nvidia.com>
- <20200929163507.GV9916@ziepe.ca>
- <aab477bf-4353-5e6b-4cc9-9872c9376ed2@nvidia.com>
- <20200929175524.GX9916@ziepe.ca>
- <715c49ec-d2a8-45cb-8ace-c6b1b4b8f978@nvidia.com>
- <20200929190816.GY9916@ziepe.ca>
- <3022912c-f11b-f564-3a8a-f516ca259a37@nvidia.com>
- <20200929195356.GZ9916@ziepe.ca>
- <64bb5ba7-77f7-2f09-44f0-29ee9329b183@linuxfoundation.org>
- <554699c6-cc01-4c3c-3ed5-26d22ac3bac0@nvidia.com>
- <9372727e-1a79-913b-5391-e0c4a85bf5a7@linuxfoundation.org>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <da9047fa-d1f8-9710-04a3-0308606bb1e9@nvidia.com>
-Date:   Tue, 29 Sep 2020 13:36:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        intel-wired-lan@lists.osuosl.org,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+Subject: [patch V2 31/36] net: mwifiex: Use netif_rx_any_context().
+References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <9372727e-1a79-913b-5391-e0c4a85bf5a7@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1601411779; bh=n1mhQyb3EairzkA8SLPi4ID9Etv8RANKs+TlCUc3N/s=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=bVgMFrvChQ8jKDMZFKWE07OUOuPnvJ1XnygiwxMR+P7cfn7CqeOvNC7snuRyxGl9L
-         hKUVZcYvc+GQmpMWeAwnRbTZBjEdCyvznKysMqU5MjLz7fyciAYeutCL4lCmVCcVig
-         PjiVEIpB075drNakFXOJzPBWzJUFtYVy+KI9+5WKwyTjsCuXAwHh+9ZHhp+RpjHQ23
-         TaI26yNFfoNnSvJ1N82K13yqn+bbv/XIEAwqlO7ddkhOi4yJ5C2l89ahva6/8r36gU
-         ai34rj5N978gUpWIyiU0UNXo+Nh2ZAHACQFZobLb6ulODmitUVF5FqRxug1yzdgGQL
-         wAETj0J8xeKFg==
+Content-Type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8-bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/20 1:20 PM, Shuah Khan wrote:
-> On 9/29/20 2:11 PM, John Hubbard wrote:
-...
->> Do you have a link or two for that? Especially about the pushback, and
->> conclusions reached, if any.
->>
-> 
-> Unfortunately no. A I recall it was workflow related issues and ease of
-> running individual subsystem tests and backwards compatibility with
-> stables.
-> 
-> Let's start a new discussion and see where we land.
-> 
-OK, sure. I can take a quick pass at converting just the selftests/vm
-directory to kbuild, and post that as an RFC to start the discussion.
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
+The usage of in_interrupt() in non-core code is phased out. Ideally the
+information of the calling context should be passed by the callers or the
+functions be split as appropriate.
+
+mwifiex uses in_interupt() to select the netif_rx*() variant which matches
+the calling context. The attempt to consolidate the code by passing an
+arguemnt or by distangling it failed due lack of knowledge about this
+driver and because the call chains are hard to follow.
+
+As a stop gap use netif_rx_any_context() which invokes the correct code
+path depending on context and confines the in_interrupt() usage to core
+code.
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
+
+---
+ drivers/net/wireless/marvell/mwifiex/uap_txrx.c |    6 +-----
+ drivers/net/wireless/marvell/mwifiex/util.c     |    6 +-----
+ 2 files changed, 2 insertions(+), 10 deletions(-)
+
+--- a/drivers/net/wireless/marvell/mwifiex/uap_txrx.c
++++ b/drivers/net/wireless/marvell/mwifiex/uap_txrx.c
+@@ -350,11 +350,7 @@ int mwifiex_uap_recv_packet(struct mwifi
+ 		skb->truesize += (skb->len - MWIFIEX_RX_DATA_BUF_SIZE);
+ 
+ 	/* Forward multicast/broadcast packet to upper layer*/
+-	if (in_interrupt())
+-		netif_rx(skb);
+-	else
+-		netif_rx_ni(skb);
+-
++	netif_rx_any_context(skb);
+ 	return 0;
+ }
+ 
+--- a/drivers/net/wireless/marvell/mwifiex/util.c
++++ b/drivers/net/wireless/marvell/mwifiex/util.c
+@@ -488,11 +488,7 @@ int mwifiex_recv_packet(struct mwifiex_p
+ 	    (skb->truesize > MWIFIEX_RX_DATA_BUF_SIZE))
+ 		skb->truesize += (skb->len - MWIFIEX_RX_DATA_BUF_SIZE);
+ 
+-	if (in_interrupt())
+-		netif_rx(skb);
+-	else
+-		netif_rx_ni(skb);
+-
++	netif_rx_any_context(skb);
+ 	return 0;
+ }
+ 
 
 
-thanks,
--- 
-John Hubbard
-NVIDIA
