@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95869C52D6C
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6BADC52D6F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A2932076B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C2EB20774
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 20:38:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="x9VNUjW3";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lIKvBa50"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="W50wQ+Ga";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aYCDVQdM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728938AbgI2UgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 16:36:21 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:49158 "EHLO
+        id S1729561AbgI2UiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 16:38:18 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:50274 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729371AbgI2Ufz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:35:55 -0400
-Message-Id: <20200929203500.579810110@linutronix.de>
+        with ESMTP id S1728729AbgI2UgN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 16:36:13 -0400
+Message-Id: <20200929203502.084703195@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1601411752;
+        s=2020; t=1601411771;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=7A0i41gQJ/jaywFxeyOJx2shJ3OAIzso1ZapJJEzz0I=;
-        b=x9VNUjW3UhjXawHze0N9X7waM046YqAuAEtl+aeXbianGAnhXgFsSqnTYrJ6K+DxH4ZbKQ
-        r4QNlXs9Xna57gIoMMtiQTirPjgrYi8JaRm+mKr7celqmDHBCaVAeaeTdZq0RupXUYQcGV
-        wgV3JKUBE0h4I+FllmpCIGO7H+ygcoxQDSN4PSimL3K+3swSR78hMFJBPuxh61nI0F0hEr
-        ttiZ7tIiugpCb+E9AArqio9M1BrMfzjJfFWCzatnSUY4aRE4742Zskk/37HNbcLM+mqnWX
-        twMuWxi9pqKsJuJCF0ST3rn2SWIKj7FDFgQEtn76YRVOOi+bug7QKFTW46AxJw==
+        bh=LrldQJQw6qypyNQybdI02NG+9/ckddJHjYgk5hlEHHQ=;
+        b=W50wQ+GaNd8R4tSNqTICBdQk/2YIRsw/r76XqikWEnHF2rKl0QKsifKzK/4rpV3JddmiKx
+        5X9q0gc1DwFsx2n5C1lF6JO6j7qwcsl6yNq7fwB7V/6Q3n4KpRPYmTGSv4n00HudhtSxvI
+        fjbk1EPV24IDWvSw+12gnFlG6RBnY4uxWmnrJKPSZdd09LynExhub++x0V0wIKoQTOdcTv
+        vVCFtXASKKnFemHFsTagTjSzQsahMlM34laJrI1RDyJofrTl+M2kz5U+WEWJu5Fu9EURdU
+        9bxJK/Fruu0QWmbEeCkavOHYNgBbhfl4d0nmx0aubAlDJFkABGcbkXcnjeIWqA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1601411752;
+        s=2020e; t=1601411771;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=7A0i41gQJ/jaywFxeyOJx2shJ3OAIzso1ZapJJEzz0I=;
-        b=lIKvBa507QD8w6eBx1eHyxYQdAw7I2lyHTNyDJp9+jiiicKmHN82JbIP/9QMLw36BeSwui
-        rzrxfsKTabcD+0Dw==
-Date:   Tue, 29 Sep 2020 22:25:20 +0200
+        bh=LrldQJQw6qypyNQybdI02NG+9/ckddJHjYgk5hlEHHQ=;
+        b=aYCDVQdMR8R7kgHsLF+gsqoZURiRjoLdvdDdOUWZI6x+sX8Je6Xb+rKLwd0K1HqRODWQKz
+        pZYqigkaNJN28jAA==
+Date:   Tue, 29 Sep 2020 22:25:35 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -96,7 +96,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         libertas-dev@lists.infradead.org,
         Pascal Terjan <pterjan@google.com>,
         Ping-Ke Shih <pkshih@realtek.com>
-Subject: [patch V2 11/36] net: ionic: Replace in_interrupt() usage.
+Subject: [patch V2 26/36] net: brcmfmac: Convey execution context via argument
+ to brcmf_netif_rx()
 References: <20200929202509.673358734@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -105,256 +106,287 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+bcrmgf_netif_rx() uses in_interrupt to chose between netif_rx() and
+netif_rx_ni(). in_interrupt() usage in drivers is phased out.
 
-The in_interrupt() usage in this driver tries to figure out which context
-may sleep and which context may not sleep. in_interrupt() is not really
-suitable as it misses both preemption disabled and interrupt disabled
-invocations from task context.
+Convey the execution mode via an 'inirq' argument through the various
+callchains leading to brcmf_netif_rx():
 
-Conditionals like that in driver code are frowned upon in general because
-invocations of functions from invalid contexts might not be detected
-as the conditional papers over it.
+brcmf_pcie_isr_thread()		    <- Task context
+  brcmf_proto_msgbuf_rx_trigger()
+    brcmf_msgbuf_process_rx()
+      brcmf_msgbuf_process_msgtype()
+        brcmf_msgbuf_process_rx_complete()
+	  brcmf_netif_mon_rx()
+	     brcmf_netif_rx(isirq = false)
+	  brcmf_netif_rx(isirq = false)
 
-ionic_lif_addr() and _ionoc_lif_rx_mode() can be called from:
+brcmf_sdio_readframes()  <- Task context sdio_claim_host() might sleep
+  brcmf_rx_frame(isirq = false)
 
- 1) ->ndo_set_rx_mode() which is under netif_addr_lock_bh()) so it must not
-    sleep.
+brcmf_sdio_rxglom()      <- Task context sdio_claim_host() might sleep
+  brcmf_rx_frame(isirq = false)
 
- 2) Init and setup functions which are in fully preemptible task context.
+brcmf_usb_rx_complete()  <- Interrupt context
+  brcmf_rx_frame(isirq = true)
 
-ionic_link_status_check_request() has two call paths:
+brcmf_rx_frame()
+  brcmf_proto_rxreorder()
+    brcmf_proto_bcdc_rxreorder()
+      brcmf_fws_rxreorder()
+        brcmf_netif_rx()
+      brcmf_netif_rx()
 
- 1) NAPI which obviously cannot sleep
-
- 2) Setup which is again fully preemptible task context
-
-Add arguments which convey the execution context to the affected functions
-and let the callers provide the context instead of letting the functions
-deduce it.
-
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Arend van Spriel <arend.vanspriel@broadcom.com>
+Cc: Kalle Valo <kvalo@codeaurora.org>
 ---
-V2: Treat _ionoc_lif_rx_mode() correclty (Shannon)
+V2: New patch. Using an argument instead of switching to netif_rx_any_context()
 ---
- drivers/net/ethernet/pensando/ionic/ionic_dev.c |    2 
- drivers/net/ethernet/pensando/ionic/ionic_lif.c |   64 ++++++++++++++++--------
- drivers/net/ethernet/pensando/ionic/ionic_lif.h |    2 
- 3 files changed, 47 insertions(+), 21 deletions(-)
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcdc.c     |    4 +--
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/bus.h      |    3 +-
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c     |   16 ++++++------
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.h     |    2 -
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwsignal.c |   10 +++----
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwsignal.h |    2 -
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c   |    5 ++-
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/proto.h    |    6 ++--
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c     |    4 +--
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c      |    2 -
+ 10 files changed, 29 insertions(+), 25 deletions(-)
 
---- a/drivers/net/ethernet/pensando/ionic/ionic_dev.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_dev.c
-@@ -22,7 +22,7 @@ static void ionic_watchdog_cb(struct tim
- 	hb = ionic_heartbeat_check(ionic);
- 
- 	if (hb >= 0 && ionic->lif)
--		ionic_link_status_check_request(ionic->lif);
-+		ionic_link_status_check_request(ionic->lif, false);
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcdc.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcdc.c
+@@ -397,9 +397,9 @@ brcmf_proto_bcdc_add_tdls_peer(struct br
  }
  
- void ionic_init_devinfo(struct ionic *ionic)
---- a/drivers/net/ethernet/pensando/ionic/ionic_lif.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.c
-@@ -151,7 +151,7 @@ static void ionic_link_status_check(stru
- 	clear_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state);
- }
- 
--void ionic_link_status_check_request(struct ionic_lif *lif)
-+void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep)
+ static void brcmf_proto_bcdc_rxreorder(struct brcmf_if *ifp,
+-				       struct sk_buff *skb)
++				       struct sk_buff *skb, bool inirq)
  {
- 	struct ionic_deferred_work *work;
+-	brcmf_fws_rxreorder(ifp, skb);
++	brcmf_fws_rxreorder(ifp, skb, inirq);
+ }
  
-@@ -159,7 +159,7 @@ void ionic_link_status_check_request(str
- 	if (test_and_set_bit(IONIC_LIF_F_LINK_CHECK_REQUESTED, lif->state))
+ static void
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bus.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bus.h
+@@ -249,7 +249,8 @@ int brcmf_bus_reset(struct brcmf_bus *bu
+  */
+ 
+ /* Receive frame for delivery to OS.  Callee disposes of rxp. */
+-void brcmf_rx_frame(struct device *dev, struct sk_buff *rxp, bool handle_event);
++void brcmf_rx_frame(struct device *dev, struct sk_buff *rxp, bool handle_event,
++		    bool inirq);
+ /* Receive async event packet from firmware. Callee disposes of rxp. */
+ void brcmf_rx_event(struct device *dev, struct sk_buff *rxp);
+ 
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c
+@@ -395,7 +395,7 @@ void brcmf_txflowblock_if(struct brcmf_i
+ 	spin_unlock_irqrestore(&ifp->netif_stop_lock, flags);
+ }
+ 
+-void brcmf_netif_rx(struct brcmf_if *ifp, struct sk_buff *skb)
++void brcmf_netif_rx(struct brcmf_if *ifp, struct sk_buff *skb, bool inirq)
+ {
+ 	/* Most of Broadcom's firmwares send 802.11f ADD frame every time a new
+ 	 * STA connects to the AP interface. This is an obsoleted standard most
+@@ -418,14 +418,15 @@ void brcmf_netif_rx(struct brcmf_if *ifp
+ 	ifp->ndev->stats.rx_packets++;
+ 
+ 	brcmf_dbg(DATA, "rx proto=0x%X\n", ntohs(skb->protocol));
+-	if (in_interrupt())
++	if (inirq) {
+ 		netif_rx(skb);
+-	else
++	} else {
+ 		/* If the receive is not processed inside an ISR,
+ 		 * the softirqd must be woken explicitly to service
+ 		 * the NET_RX_SOFTIRQ.  This is handled by netif_rx_ni().
+ 		 */
+ 		netif_rx_ni(skb);
++	}
+ }
+ 
+ void brcmf_netif_mon_rx(struct brcmf_if *ifp, struct sk_buff *skb)
+@@ -474,7 +475,7 @@ void brcmf_netif_mon_rx(struct brcmf_if
+ 	skb->pkt_type = PACKET_OTHERHOST;
+ 	skb->protocol = htons(ETH_P_802_2);
+ 
+-	brcmf_netif_rx(ifp, skb);
++	brcmf_netif_rx(ifp, skb, false);
+ }
+ 
+ static int brcmf_rx_hdrpull(struct brcmf_pub *drvr, struct sk_buff *skb,
+@@ -496,7 +497,8 @@ static int brcmf_rx_hdrpull(struct brcmf
+ 	return 0;
+ }
+ 
+-void brcmf_rx_frame(struct device *dev, struct sk_buff *skb, bool handle_event)
++void brcmf_rx_frame(struct device *dev, struct sk_buff *skb, bool handle_event,
++		    bool inirq)
+ {
+ 	struct brcmf_if *ifp;
+ 	struct brcmf_bus *bus_if = dev_get_drvdata(dev);
+@@ -508,14 +510,14 @@ void brcmf_rx_frame(struct device *dev,
  		return;
  
--	if (in_interrupt()) {
-+	if (!can_sleep) {
- 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
- 		if (!work)
- 			return;
-@@ -798,7 +798,7 @@ static bool ionic_notifyq_service(struct
- 
- 	switch (le16_to_cpu(comp->event.ecode)) {
- 	case IONIC_EVENT_LINK_CHANGE:
--		ionic_link_status_check_request(lif);
-+		ionic_link_status_check_request(lif, false);
- 		break;
- 	case IONIC_EVENT_RESET:
- 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
-@@ -981,7 +981,8 @@ static int ionic_lif_addr_del(struct ion
- 	return 0;
- }
- 
--static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add)
-+static int ionic_lif_addr(struct ionic_lif *lif, const u8 *addr, bool add,
-+			  bool can_sleep)
- {
- 	struct ionic *ionic = lif->ionic;
- 	struct ionic_deferred_work *work;
-@@ -1010,7 +1011,7 @@ static int ionic_lif_addr(struct ionic_l
- 			lif->nucast--;
- 	}
- 
--	if (in_interrupt()) {
-+	if (!can_sleep) {
- 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
- 		if (!work) {
- 			netdev_err(lif->netdev, "%s OOM\n", __func__);
-@@ -1036,12 +1037,22 @@ static int ionic_lif_addr(struct ionic_l
- 
- static int ionic_addr_add(struct net_device *netdev, const u8 *addr)
- {
--	return ionic_lif_addr(netdev_priv(netdev), addr, true);
-+	return ionic_lif_addr(netdev_priv(netdev), addr, true, true);
-+}
-+
-+static int ionic_ndo_addr_add(struct net_device *netdev, const u8 *addr)
-+{
-+	return ionic_lif_addr(netdev_priv(netdev), addr, true, false);
- }
- 
- static int ionic_addr_del(struct net_device *netdev, const u8 *addr)
- {
--	return ionic_lif_addr(netdev_priv(netdev), addr, false);
-+	return ionic_lif_addr(netdev_priv(netdev), addr, false, true);
-+}
-+
-+static int ionic_ndo_addr_del(struct net_device *netdev, const u8 *addr)
-+{
-+	return ionic_lif_addr(netdev_priv(netdev), addr, false, false);
- }
- 
- static void ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode)
-@@ -1081,11 +1092,12 @@ static void ionic_lif_rx_mode(struct ion
- 		lif->rx_mode = rx_mode;
- }
- 
--static void _ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode)
-+static void _ionic_lif_rx_mode(struct ionic_lif *lif, unsigned int rx_mode,
-+			       bool from_ndo)
- {
- 	struct ionic_deferred_work *work;
- 
--	if (in_interrupt()) {
-+	if (from_ndo) {
- 		work = kzalloc(sizeof(*work), GFP_ATOMIC);
- 		if (!work) {
- 			netdev_err(lif->netdev, "%s OOM\n", __func__);
-@@ -1100,7 +1112,16 @@ static void _ionic_lif_rx_mode(struct io
- 	}
- }
- 
--static void ionic_set_rx_mode(struct net_device *netdev)
-+static void ionic_dev_uc_sync(struct net_device *netdev, bool from_ndo)
-+{
-+	if (from_ndo)
-+		__dev_uc_sync(netdev, ionic_ndo_addr_add, ionic_ndo_addr_del);
-+	else
-+		__dev_uc_sync(netdev, ionic_addr_add, ionic_addr_del);
-+
-+}
-+
-+static void ionic_set_rx_mode(struct net_device *netdev, bool from_ndo)
- {
- 	struct ionic_lif *lif = netdev_priv(netdev);
- 	struct ionic_identity *ident;
-@@ -1122,7 +1143,7 @@ static void ionic_set_rx_mode(struct net
- 	 *       we remove our overflow flag and check the netdev flags
- 	 *       to see if we can disable NIC PROMISC
- 	 */
--	__dev_uc_sync(netdev, ionic_addr_add, ionic_addr_del);
-+	ionic_dev_uc_sync(netdev, from_ndo);
- 	nfilters = le32_to_cpu(ident->lif.eth.max_ucast_filters);
- 	if (netdev_uc_count(netdev) + 1 > nfilters) {
- 		rx_mode |= IONIC_RX_MODE_F_PROMISC;
-@@ -1134,7 +1155,7 @@ static void ionic_set_rx_mode(struct net
- 	}
- 
- 	/* same for multicast */
--	__dev_mc_sync(netdev, ionic_addr_add, ionic_addr_del);
-+	ionic_dev_uc_sync(netdev, from_ndo);
- 	nfilters = le32_to_cpu(ident->lif.eth.max_mcast_filters);
- 	if (netdev_mc_count(netdev) > nfilters) {
- 		rx_mode |= IONIC_RX_MODE_F_ALLMULTI;
-@@ -1146,7 +1167,12 @@ static void ionic_set_rx_mode(struct net
- 	}
- 
- 	if (lif->rx_mode != rx_mode)
--		_ionic_lif_rx_mode(lif, rx_mode);
-+		_ionic_lif_rx_mode(lif, rx_mode, from_ndo);
-+}
-+
-+static void ionic_ndo_set_rx_mode(struct net_device *netdev)
-+{
-+	ionic_set_rx_mode(netdev, true);
- }
- 
- static __le64 ionic_netdev_features_to_nic(netdev_features_t features)
-@@ -1391,7 +1417,7 @@ static int ionic_start_queues_reconfig(s
- 	 */
- 	err = ionic_txrx_init(lif);
- 	mutex_unlock(&lif->queue_lock);
--	ionic_link_status_check_request(lif);
-+	ionic_link_status_check_request(lif, true);
- 	netif_device_attach(lif->netdev);
- 
- 	return err;
-@@ -1720,7 +1746,7 @@ static int ionic_txrx_init(struct ionic_
- 	if (lif->netdev->features & NETIF_F_RXHASH)
- 		ionic_lif_rss_init(lif);
- 
--	ionic_set_rx_mode(lif->netdev);
-+	ionic_set_rx_mode(lif->netdev, false);
- 
- 	return 0;
- 
-@@ -2093,7 +2119,7 @@ static const struct net_device_ops ionic
- 	.ndo_stop               = ionic_stop,
- 	.ndo_start_xmit		= ionic_start_xmit,
- 	.ndo_get_stats64	= ionic_get_stats64,
--	.ndo_set_rx_mode	= ionic_set_rx_mode,
-+	.ndo_set_rx_mode	= ionic_ndo_set_rx_mode,
- 	.ndo_set_features	= ionic_set_features,
- 	.ndo_set_mac_address	= ionic_set_mac_address,
- 	.ndo_validate_addr	= eth_validate_addr,
-@@ -2521,7 +2547,7 @@ static void ionic_lif_handle_fw_up(struc
- 	}
- 
- 	clear_bit(IONIC_LIF_F_FW_RESET, lif->state);
--	ionic_link_status_check_request(lif);
-+	ionic_link_status_check_request(lif, true);
- 	netif_device_attach(lif->netdev);
- 	dev_info(ionic->dev, "FW Up: LIFs restarted\n");
- 
-@@ -2713,7 +2739,7 @@ static int ionic_station_set(struct ioni
- 		 */
- 		if (!ether_addr_equal(ctx.comp.lif_getattr.mac,
- 				      netdev->dev_addr))
--			ionic_lif_addr(lif, netdev->dev_addr, true);
-+			ionic_lif_addr(lif, netdev->dev_addr, true, true);
+ 	if (brcmf_proto_is_reorder_skb(skb)) {
+-		brcmf_proto_rxreorder(ifp, skb);
++		brcmf_proto_rxreorder(ifp, skb, inirq);
  	} else {
- 		/* Update the netdev mac with the device's mac */
- 		memcpy(addr.sa_data, ctx.comp.lif_getattr.mac, netdev->addr_len);
-@@ -2730,7 +2756,7 @@ static int ionic_station_set(struct ioni
+ 		/* Process special event packets */
+ 		if (handle_event)
+ 			brcmf_fweh_process_skb(ifp->drvr, skb,
+ 					       BCMILCP_SUBTYPE_VENDOR_LONG);
  
- 	netdev_dbg(lif->netdev, "adding station MAC addr %pM\n",
- 		   netdev->dev_addr);
--	ionic_lif_addr(lif, netdev->dev_addr, true);
-+	ionic_lif_addr(lif, netdev->dev_addr, true, true);
- 
- 	return 0;
+-		brcmf_netif_rx(ifp, skb);
++		brcmf_netif_rx(ifp, skb, inirq);
+ 	}
  }
---- a/drivers/net/ethernet/pensando/ionic/ionic_lif.h
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_lif.h
-@@ -245,7 +245,7 @@ static inline u32 ionic_coal_usec_to_hw(
  
- typedef void (*ionic_reset_cb)(struct ionic_lif *lif, void *arg);
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.h
+@@ -208,7 +208,7 @@ void brcmf_remove_interface(struct brcmf
+ void brcmf_txflowblock_if(struct brcmf_if *ifp,
+ 			  enum brcmf_netif_stop_reason reason, bool state);
+ void brcmf_txfinalize(struct brcmf_if *ifp, struct sk_buff *txp, bool success);
+-void brcmf_netif_rx(struct brcmf_if *ifp, struct sk_buff *skb);
++void brcmf_netif_rx(struct brcmf_if *ifp, struct sk_buff *skb, bool inirq);
+ void brcmf_netif_mon_rx(struct brcmf_if *ifp, struct sk_buff *skb);
+ void brcmf_net_detach(struct net_device *ndev, bool rtnl_locked);
+ int brcmf_net_mon_attach(struct brcmf_if *ifp);
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwsignal.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwsignal.c
+@@ -1664,7 +1664,7 @@ static void brcmf_rxreorder_get_skb_list
+ 	rfi->pend_pkts -= skb_queue_len(skb_list);
+ }
  
--void ionic_link_status_check_request(struct ionic_lif *lif);
-+void ionic_link_status_check_request(struct ionic_lif *lif, bool can_sleep);
- void ionic_get_stats64(struct net_device *netdev,
- 		       struct rtnl_link_stats64 *ns);
- void ionic_lif_deferred_enqueue(struct ionic_deferred *def,
+-void brcmf_fws_rxreorder(struct brcmf_if *ifp, struct sk_buff *pkt)
++void brcmf_fws_rxreorder(struct brcmf_if *ifp, struct sk_buff *pkt, bool inirq)
+ {
+ 	struct brcmf_pub *drvr = ifp->drvr;
+ 	u8 *reorder_data;
+@@ -1682,7 +1682,7 @@ void brcmf_fws_rxreorder(struct brcmf_if
+ 	/* validate flags and flow id */
+ 	if (flags == 0xFF) {
+ 		bphy_err(drvr, "invalid flags...so ignore this packet\n");
+-		brcmf_netif_rx(ifp, pkt);
++		brcmf_netif_rx(ifp, pkt, inirq);
+ 		return;
+ 	}
+ 
+@@ -1694,7 +1694,7 @@ void brcmf_fws_rxreorder(struct brcmf_if
+ 		if (rfi == NULL) {
+ 			brcmf_dbg(INFO, "received flags to cleanup, but no flow (%d) yet\n",
+ 				  flow_id);
+-			brcmf_netif_rx(ifp, pkt);
++			brcmf_netif_rx(ifp, pkt, inirq);
+ 			return;
+ 		}
+ 
+@@ -1719,7 +1719,7 @@ void brcmf_fws_rxreorder(struct brcmf_if
+ 		rfi = kzalloc(buf_size, GFP_ATOMIC);
+ 		if (rfi == NULL) {
+ 			bphy_err(drvr, "failed to alloc buffer\n");
+-			brcmf_netif_rx(ifp, pkt);
++			brcmf_netif_rx(ifp, pkt, inirq);
+ 			return;
+ 		}
+ 
+@@ -1833,7 +1833,7 @@ void brcmf_fws_rxreorder(struct brcmf_if
+ netif_rx:
+ 	skb_queue_walk_safe(&reorder_list, pkt, pnext) {
+ 		__skb_unlink(pkt, &reorder_list);
+-		brcmf_netif_rx(ifp, pkt);
++		brcmf_netif_rx(ifp, pkt, inirq);
+ 	}
+ }
+ 
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwsignal.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwsignal.h
+@@ -42,6 +42,6 @@ void brcmf_fws_add_interface(struct brcm
+ void brcmf_fws_del_interface(struct brcmf_if *ifp);
+ void brcmf_fws_bustxfail(struct brcmf_fws_info *fws, struct sk_buff *skb);
+ void brcmf_fws_bus_blocked(struct brcmf_pub *drvr, bool flow_blocked);
+-void brcmf_fws_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb);
++void brcmf_fws_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb, bool inirq);
+ 
+ #endif /* FWSIGNAL_H_ */
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
+@@ -536,7 +536,8 @@ static int brcmf_msgbuf_hdrpull(struct b
+ 	return -ENODEV;
+ }
+ 
+-static void brcmf_msgbuf_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb)
++static void brcmf_msgbuf_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb,
++				   bool inirq)
+ {
+ }
+ 
+@@ -1190,7 +1191,7 @@ brcmf_msgbuf_process_rx_complete(struct
+ 	}
+ 
+ 	skb->protocol = eth_type_trans(skb, ifp->ndev);
+-	brcmf_netif_rx(ifp, skb);
++	brcmf_netif_rx(ifp, skb, false);
+ }
+ 
+ static void brcmf_msgbuf_process_gen_status(struct brcmf_msgbuf *msgbuf,
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/proto.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/proto.h
+@@ -32,7 +32,7 @@ struct brcmf_proto {
+ 			    u8 peer[ETH_ALEN]);
+ 	void (*add_tdls_peer)(struct brcmf_pub *drvr, int ifidx,
+ 			      u8 peer[ETH_ALEN]);
+-	void (*rxreorder)(struct brcmf_if *ifp, struct sk_buff *skb);
++	void (*rxreorder)(struct brcmf_if *ifp, struct sk_buff *skb, bool inirq);
+ 	void (*add_if)(struct brcmf_if *ifp);
+ 	void (*del_if)(struct brcmf_if *ifp);
+ 	void (*reset_if)(struct brcmf_if *ifp);
+@@ -109,9 +109,9 @@ static inline bool brcmf_proto_is_reorde
+ }
+ 
+ static inline void
+-brcmf_proto_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb)
++brcmf_proto_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb, bool inirq)
+ {
+-	ifp->drvr->proto->rxreorder(ifp, skb);
++	ifp->drvr->proto->rxreorder(ifp, skb, inirq);
+ }
+ 
+ static inline void
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
+@@ -1704,7 +1704,7 @@ static u8 brcmf_sdio_rxglom(struct brcmf
+ 				brcmf_rx_event(bus->sdiodev->dev, pfirst);
+ 			else
+ 				brcmf_rx_frame(bus->sdiodev->dev, pfirst,
+-					       false);
++					       false, false);
+ 			bus->sdcnt.rxglompkts++;
+ 		}
+ 
+@@ -2038,7 +2038,7 @@ static uint brcmf_sdio_readframes(struct
+ 			brcmf_rx_event(bus->sdiodev->dev, pkt);
+ 		else
+ 			brcmf_rx_frame(bus->sdiodev->dev, pkt,
+-				       false);
++				       false, false);
+ 
+ 		/* prepare the descriptor for the next read */
+ 		rd->len = rd->len_nxtfrm << 4;
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c
+@@ -532,7 +532,7 @@ static void brcmf_usb_rx_complete(struct
+ 	if (devinfo->bus_pub.state == BRCMFMAC_USB_STATE_UP ||
+ 	    devinfo->bus_pub.state == BRCMFMAC_USB_STATE_SLEEP) {
+ 		skb_put(skb, urb->actual_length);
+-		brcmf_rx_frame(devinfo->dev, skb, true);
++		brcmf_rx_frame(devinfo->dev, skb, true, true);
+ 		brcmf_usb_rx_refill(devinfo, req);
+ 		usb_mark_last_busy(urb->dev);
+ 	} else {
 
