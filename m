@@ -4,53 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 211CFC4727F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAAAAC47426
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E35D6207FB
+	by mail.kernel.org (Postfix) with ESMTP id 8CB1B2075F
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1601472521;
-	bh=l4ZnRkqZgd8x5ZpSMUuNxg1b7AqKFMTZgq0sXQ4YesA=;
+	bh=KHebwQrhnWQS8kf7lQllhn5MPwCnK0DbjhAhG6LIh/g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=04gbIh904800pN/iVItsKGVGhxuyMNFODm0KovETJpAeD3UnD02PZKFatKh9r7HyE
-	 yDfRoV3xgyqdI47NT+iLZJLRghjTdM28UeqgNd2y6TaGd2NNh17bFu2LzEbyxwPQGk
-	 lsjL5m5vSzCvZM1+hUhfXVivmWPw55QMjWWw9Pys=
+	b=KaJEfGGT4ZNu+q7iT82zQ+SPqqigD8KKvIbMMNBPPzpo9QVRrQqziytnnfCrANs0n
+	 p/Hc6reTG9GiNXSfllUiJoqaQKrIhq3hE/MUNGALnAgXSB5om4KtFEzCx7a3Pzw1sC
+	 Yn3g78iCWijjduL3G9zOALfmaggYVK0B9SXs33ZA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730754AbgI3N2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 09:28:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38992 "EHLO mail.kernel.org"
+        id S1730758AbgI3N2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 09:28:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39004 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730196AbgI3NZV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730197AbgI3NZV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 30 Sep 2020 09:25:21 -0400
 Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6C966221E7;
+        by mail.kernel.org (Postfix) with ESMTPSA id 6D6EC221E8;
         Wed, 30 Sep 2020 13:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601472320;
-        bh=l4ZnRkqZgd8x5ZpSMUuNxg1b7AqKFMTZgq0sXQ4YesA=;
+        bh=KHebwQrhnWQS8kf7lQllhn5MPwCnK0DbjhAhG6LIh/g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IHbW5oI4/RtT4HYSSPeE8X1EzBAUE8t8/JWXbqCOvcxyIyaVyHWr5EFUmIsO7qVZ3
-         8QHoWObwSmDtB0OW83b5GQOAMyHB/H6Ic+naNump2W81Vo82S16HzCQa7NE2yev42h
-         StlL7adO+cQpZCRYWnUAZGsJtC2fBMmYH4AyuhRw=
+        b=jcW1xvTg8PamgevOG/r6HWiQHqhI+xeOe9umZcZ+I8+DY+qLTaaGzHe+hnMH7qbap
+         dnCBS3WLphJXhWCgB1zpuwIGtuwMxnxM1phDkrvuBkBJvdQofXX15iAzweWTZFYIl7
+         P83RlnwuWVC7y66+ZFsE5JjVyDh7QSIzo9K9qc38=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6g-001XJf-IO; Wed, 30 Sep 2020 15:25:18 +0200
+        id 1kNc6g-001XJd-HZ; Wed, 30 Sep 2020 15:25:18 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: [PATCH v4 19/52] memblock: get rid of a :c:type leftover
-Date:   Wed, 30 Sep 2020 15:24:42 +0200
-Message-Id: <0aab04f62bc3dfa82394e20d61c05c6efbfb4859.1601467849.git.mchehab+huawei@kernel.org>
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Chunyan Zhang <chunyan.zhang@unisoc.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 18/52] math64.h: kernel-docs: Convert some markups into normal comments
+Date:   Wed, 30 Sep 2020 15:24:41 +0200
+Message-Id: <97e7afe71713d70c2399a7277a114c071e54a8e0.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -61,41 +64,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-chanseset b3a7bb1851c8 ("docs: get rid of :c:type explicit declarations for structs")
-removed several :c:type: markups, except by one.
+There are several functions at math64.h that are also
+defined at div64.c. As both are included at kernel-api.rst,
+Sphinx 3.x complains about symbol duplication:
 
-Now, Sphinx 3.x complains about it:
+	./lib/math/div64.c:73: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'div_s64_rem'.
+	./lib/math/div64.c:104: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'div64_u64_rem'.
+	./lib/math/div64.c:144: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'div64_u64'.
+	./lib/math/div64.c:172: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'div64_s64'.
 
-	.../Documentation/core-api/boot-time-mm:26: ../mm/memblock.c:51: WARNING: Unparseable C cross-reference: 'struct\nmemblock_type'
-	Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
-	  struct
-	memblock_type
-	  ------^
-
-As, on Sphinx 3.x, the right markup is c:struct:`foo`.
-
-So, let's remove it, relying on automarkup.py to convert it.
+In order to avoid Sphinx warnings about duplication, change the kernel-doc
+markups to just comments at math64.h.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- mm/memblock.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/math64.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 165f40a8a254..326c6b3fec1d 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -50,8 +50,8 @@
-  *
-  * Each region is represented by :c:type:`struct memblock_region` that
-  * defines the region extents, its attributes and NUMA node id on NUMA
-- * systems. Every memory type is described by the :c:type:`struct
-- * memblock_type` which contains an array of memory regions along with
-+ * systems. Every memory type is described by the struct memblock_type
-+ * which contains an array of memory regions along with
-  * the allocator metadata. The "memory" and "reserved" types are nicely
-  * wrapped with :c:type:`struct memblock`. This structure is statically
-  * initialized at build time. The region arrays are initially sized to
+diff --git a/include/linux/math64.h b/include/linux/math64.h
+index 3381d9e33c4e..66deb1fdc2ef 100644
+--- a/include/linux/math64.h
++++ b/include/linux/math64.h
+@@ -28,7 +28,7 @@ static inline u64 div_u64_rem(u64 dividend, u32 divisor, u32 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/**
++/*
+  * div_s64_rem - signed 64bit divide with 32bit divisor with remainder
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 32bit divisor
+@@ -42,7 +42,7 @@ static inline s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/**
++/*
+  * div64_u64_rem - unsigned 64bit divide with 64bit divisor and remainder
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 64bit divisor
+@@ -56,7 +56,7 @@ static inline u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/**
++/*
+  * div64_u64 - unsigned 64bit divide with 64bit divisor
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 64bit divisor
+@@ -68,7 +68,7 @@ static inline u64 div64_u64(u64 dividend, u64 divisor)
+ 	return dividend / divisor;
+ }
+ 
+-/**
++/*
+  * div64_s64 - signed 64bit divide with 64bit divisor
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 64bit divisor
 -- 
 2.26.2
 
