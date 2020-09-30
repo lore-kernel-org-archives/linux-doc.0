@@ -2,235 +2,205 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAE60C47425
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 22:33:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3202CC47420
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 22:43:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76A3A20EDD
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 22:33:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFB112071E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 22:43:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="S+piuall"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730537AbgI3WdK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 18:33:10 -0400
-Received: from mga01.intel.com ([192.55.52.88]:34675 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725799AbgI3WdJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 18:33:09 -0400
-IronPort-SDR: 3GFSjnGSWTfEG1ujI4CdXsFCcx0gzaDdYnI2YvSXdvO/pwx+acyGQwl0e7B+Rgst9GkExh9Iq+
- 0ou+vpYBsthw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9760"; a="180720804"
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; 
-   d="scan'208";a="180720804"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2020 15:33:07 -0700
-IronPort-SDR: LynQB5zDsmodcp7qTjccsh3CjBr5J1MSwpEQwLMX6LGIR6+r6pgxBonSOc081FFuL6V6tJdHxx
- tNF2DuthHuYQ==
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; 
-   d="scan'208";a="312756564"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.248.51]) ([10.212.248.51])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2020 15:33:05 -0700
-Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
- Branch Tracking for vsyscall emulation
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
- <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net>
- <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
- <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
- <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com>
- <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
- <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com>
-Date:   Wed, 30 Sep 2020 15:33:04 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1730178AbgI3WnU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 18:43:20 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:48950 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729980AbgI3WnT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 18:43:19 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UMZTe5075222;
+        Wed, 30 Sep 2020 22:41:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=QxSTjWUBwbndFPhMD0Pu8VbFrWz1EUUHjkxEADBt03w=;
+ b=S+piuall3XH/UJ3/r83kO5qOH6cP1qI5BykZuJekLNJhHQdUEC4mClJ+NrOGOQGoqNGh
+ leeLg93oOLLJbm/6CynaLEHz5fTZvQQXVnXrGgVHYq12utIFOxnMZHWNtenS6axdzI1C
+ vkKqMy7c/mLlEXKMW7XxziHYr40FHtZ7xbRNgbJ+1549qLybUboP38etN/K/4YAaIFDl
+ 1QccPISX63SsGuKhYz9DWvSbVjQDgABb7wUL7ObCme5HhMUN95Vw64rL62DhxRlCytnM
+ xcM0R/c8hhqbU4eMLjdkFR1iAucEtNCQvRD+i6GpUW0z5qKLpsWIEciei66UfQvxOrBQ vw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 33sx9nb1eq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 30 Sep 2020 22:41:39 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UMenIp165255;
+        Wed, 30 Sep 2020 22:41:39 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 33tfdur3ah-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 30 Sep 2020 22:41:39 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08UMfVfS007055;
+        Wed, 30 Sep 2020 22:41:31 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 30 Sep 2020 15:41:31 -0700
+Subject: Re: [RFC PATCH 05/24] mm/hugetlb: Introduce nr_free_vmemmap_pages in
+ the struct hstate
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+ <20200915125947.26204-6-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <b2811679-cd90-4685-2284-64490e7dfb7e@oracle.com>
+Date:   Wed, 30 Sep 2020 15:41:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200915125947.26204-6-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9760 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ adultscore=0 malwarescore=0 spamscore=0 mlxscore=0 bulkscore=0
+ suspectscore=2 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009300182
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9760 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=2
+ phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
+ spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009300181
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/2020 1:00 PM, Andy Lutomirski wrote:
-> On Tue, Sep 29, 2020 at 12:57 PM Andy Lutomirski <luto@kernel.org> wrote:
->>
->> On Tue, Sep 29, 2020 at 11:37 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->>>
->>> On 9/28/2020 10:37 AM, Andy Lutomirski wrote:
->>>> On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>>>>
->>>>> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
->>>>>>> On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->>>>> +
->>>>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
->>>>> +               if (!cet) {
->>>>> +                       /*
->>>>> +                        * This is an unlikely case where the task is
->>>>> +                        * CET-enabled, but CET xstate is in INIT.
->>>>> +                        */
->>>>> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
->>>>
->>>> "unlikely" doesn't really cover this.
->>>>
->>>>> +                       fpregs_unlock();
->>>>> +                       goto sigsegv;
->>>>> +               }
->>>>> +
->>>>> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
->>>>> +                       cet->user_ssp += 8;
->>>>
->>>> This looks buggy.  The condition should be "if SHSTK is on, then add 8
->>>> to user_ssp".  If the result is noncanonical, then some appropriate
->>>> exception should be generated, probably by the FPU restore code -- see
->>>> below.  You should be checking the SHSTK_EN bit, not SSP.
->>>
->>> Updated.  Is this OK?  I will resend the whole series later.
->>>
->>> Thanks,
->>> Yu-cheng
->>>
->>> ======
->>>
->>>   From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
->>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>> Date: Thu, 29 Nov 2018 14:15:38 -0800
->>> Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
->>> Indirect Branch
->>>    Tracking for vsyscall emulation
->>>
->>> Vsyscall entry points are effectively branch targets.  Mark them with
->>> ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
->>> and reset IBT state machine.
->>>
->>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>> ---
->>> v13:
->>> - Check shadow stack address is canonical.
->>> - Change from writing to MSRs to writing to CET xstate.
->>>
->>>    arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
->>>    arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
->>>    arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
->>>    3 files changed, 44 insertions(+)
->>>
->>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
->>> b/arch/x86/entry/vsyscall/vsyscall_64.c
->>> index 44c33103a955..30b166091d46 100644
->>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
->>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
->>> @@ -38,6 +38,9 @@
->>>    #include <asm/fixmap.h>
->>>    #include <asm/traps.h>
->>>    #include <asm/paravirt.h>
->>> +#include <asm/fpu/xstate.h>
->>> +#include <asm/fpu/types.h>
->>> +#include <asm/fpu/internal.h>
->>>
->>>    #define CREATE_TRACE_POINTS
->>>    #include "vsyscall_trace.h"
->>> @@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
->>>          /* Emulate a ret instruction. */
->>>          regs->ip = caller;
->>>          regs->sp += 8;
->>> +
->>> +#ifdef CONFIG_X86_CET
->>> +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
->>> +               struct cet_user_state *cet;
->>> +               struct fpu *fpu;
->>> +
->>> +               fpu = &tsk->thread.fpu;
->>> +               fpregs_lock();
->>> +
->>> +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
->>> +                       copy_fpregs_to_fpstate(fpu);
->>> +                       set_thread_flag(TIF_NEED_FPU_LOAD);
->>> +               }
->>> +
->>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
->>> +               if (!cet) {
->>> +                       /*
->>> +                        * This should not happen.  The task is
->>> +                        * CET-enabled, but CET xstate is in INIT.
->>> +                        */
->>
->> Can the comment explain better, please?  I would say something like:
->>
->> If the kernel thinks this task has CET enabled (because
->> tsk->thread.cet has one of the features enabled), then the
->> corresponding bits must also be set in the CET XSAVES region.  If the
->> CET XSAVES region is in the INIT state, then the kernel's concept of
->> the task's CET state is corrupt.
->>
->>> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
->>> +                       fpregs_unlock();
->>> +                       goto sigsegv;
->>> +               }
->>> +
->>> +               if (cet->user_cet & CET_SHSTK_EN) {
->>> +                       if (cet->user_ssp && (cet->user_ssp + 8 < TASK_SIZE_MAX))
->>> +                               cet->user_ssp += 8;
->>> +               }
->>
->> This makes so sense to me.  Also, the vsyscall emulation code is
->> intended to be as rigid as possible to minimize the chance that it
->> gets used as an exploit gadget.  So we should not silently corrupt
->> anything.  Moreover, this code seems quite dangerous -- you've created
->> a gadget that does RET without actually verifying the SHSTK token.  If
->> SHSTK and some form of strong indirect branch/call CFI is in use, then
->> the existance of a CFI-bypassing return primitive at a fixed address
->> seems quite problematic.
->>
->> So I think you need to write a function that reasonably accurately
->> emulates a usermode RET.
->>
+On 9/15/20 5:59 AM, Muchun Song wrote:
+> If the size of hugetlb page is 2MB, we need 512 struct page structures
+> (8 pages) to be associated with it. As far as I know, we only use the
+> first 3 struct page structures and only read the compound_dtor members
+
+Actually, the first 4 pages can be used if CONFIG_CGROUP_HUGETLB.
+/*
+ * Minimum page order trackable by hugetlb cgroup.
+ * At least 4 pages are necessary for all the tracking information.
+ * The second tail page (hpage[2]) is the fault usage cgroup.
+ * The third tail page (hpage[3]) is the reservation usage cgroup.
+ */
+#define HUGETLB_CGROUP_MIN_ORDER        2
+
+However, this still easily fits within the first page of struct page
+structures.
+
+> of the remaining struct page structures. For tail page, the value of
+> compound_dtor is the same. So we can reuse first tail page. We map the
+> virtual addresses of the remaining 6 tail pages to the first tail page,
+> and then free these 6 pages. Therefore, we need to reserve at least 2
+> pages as vmemmap areas.
+
+I got confused the first time I read the above sentences.  Perhaps it
+should be more explicit with something like:
+
+For tail pages, the value of compound_dtor is the same. So we can reuse
+first page of tail page structs. We map the virtual addresses of the
+remaining 6 pages of tail page structs to the first tail page struct,
+and then free these 6 pages. Therefore, we need to reserve at least 2
+pages as vmemmap areas.
+
+It still does not sound great, but hopefully avoids some confusion.
+-- 
+Mike Kravetz
+
+> So we introduce a new nr_free_vmemmap_pages field in the hstate to
+> indicate how many vmemmap pages associated with a hugetlb page that we
+> can free to buddy system.
 > 
-> For what it's worth, I think there is an alternative.  If you all
-> (userspace people, etc) can come up with a credible way for a user
-> program to statically declare that it doesn't need vsyscalls, then we
-> could make SHSTK depend on *that*, and we could avoid this mess.  This
-> breaks orthogonality, but it's probably a decent outcome.
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  include/linux/hugetlb.h |  3 +++
+>  mm/hugetlb.c            | 35 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+)
 > 
-
-Would an arch_prctl(DISABLE_VSYSCALL) work?  The kernel then sets a 
-thread flag, and in emulate_vsyscall(), checks the flag.
-
-When CET is enabled, ld-linux will do DISABLE_VSYSCALL.
-
-How is that?
-
-Yu-cheng
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index d5cc5f802dd4..eed3dd3bd626 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -492,6 +492,9 @@ struct hstate {
+>  	unsigned int nr_huge_pages_node[MAX_NUMNODES];
+>  	unsigned int free_huge_pages_node[MAX_NUMNODES];
+>  	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +	unsigned int nr_free_vmemmap_pages;
+> +#endif
+>  #ifdef CONFIG_CGROUP_HUGETLB
+>  	/* cgroup control files */
+>  	struct cftype cgroup_files_dfl[7];
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 81a41aa080a5..f1b2b733b49b 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1292,6 +1292,39 @@ static inline void destroy_compound_gigantic_page(struct page *page,
+>  						unsigned int order) { }
+>  #endif
+>  
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +#define RESERVE_VMEMMAP_NR	2U
+> +
+> +static inline unsigned int nr_free_vmemmap(struct hstate *h)
+> +{
+> +	return h->nr_free_vmemmap_pages;
+> +}
+> +
+> +static void __init hugetlb_vmemmap_init(struct hstate *h)
+> +{
+> +	unsigned int order = huge_page_order(h);
+> +	unsigned int vmemmap_pages;
+> +
+> +	vmemmap_pages = ((1 << order) * sizeof(struct page)) >> PAGE_SHIFT;
+> +	/*
+> +	 * The head page and the first tail page not free to buddy system,
+> +	 * the others page will map to the first tail page. So there are
+> +	 * (@vmemmap_pages - RESERVE_VMEMMAP_NR) pages can be freed.
+> +	 */
+> +	if (vmemmap_pages > RESERVE_VMEMMAP_NR)
+> +		h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
+> +	else
+> +		h->nr_free_vmemmap_pages = 0;
+> +
+> +	pr_info("HugeTLB: can free %d vmemmap pages for %s\n",
+> +		h->nr_free_vmemmap_pages, h->name);
+> +}
+> +#else
+> +static inline void hugetlb_vmemmap_init(struct hstate *h)
+> +{
+> +}
+> +#endif
+> +
+>  static void update_and_free_page(struct hstate *h, struct page *page)
+>  {
+>  	int i;
+> @@ -3285,6 +3318,8 @@ void __init hugetlb_add_hstate(unsigned int order)
+>  	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
+>  					huge_page_size(h)/1024);
+>  
+> +	hugetlb_vmemmap_init(h);
+> +
+>  	parsed_hstate = h;
+>  }
+>  
+> 
