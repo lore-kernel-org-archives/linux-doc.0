@@ -2,93 +2,202 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 511CEC4727F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 08:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 208F7C2D0A8
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 08:07:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11D9E2074A
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 08:05:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="elI45khH"
+	by mail.kernel.org (Postfix) with ESMTP id D3E4B20738
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 08:07:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728257AbgI3IFW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 04:05:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728177AbgI3IFW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 04:05:22 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38D8FC0613D1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 01:05:22 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id b17so708773ilr.12
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 01:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pKGcxP9oDE/Scs40mmFV3vtZyRz7YJAiQHhXReHdUHg=;
-        b=elI45khHftDyZJGrZINOJjv8vC4PvcXsRkTbuJQ80zUZqpW9FDSlh2a5WwALyJtwxV
-         k6PeGuIs+lN6IFi25iNzcEmVneBDvSCj63nkftpARbIF9XFgbfn+5HAXBfjo0TZvbKRt
-         YmrsanSewXhaWmu3gfQre7ioS7uQre8n4RmJ/8azB60QGrISpAn8F/AxqWa9vXLYBV0P
-         7mVuJncouenSVLeHbY0swJEBmWew2c+nYKZhXDjmf+ANcTrSMO113kbV8TbqaZpCb2Qj
-         XCydaivL8QGeRvkGJdgUXNnNj7x3PJWV0EILFYAoDAxEs/6s3WbG4kai5HXG9+iplvaw
-         Za+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pKGcxP9oDE/Scs40mmFV3vtZyRz7YJAiQHhXReHdUHg=;
-        b=GD5VyJy61phE/ys1IQH7e78rX7YB9VOmE3fn8CDxs7hF1da9VZqBsjsnH/uHCRc9/9
-         IZmnp8Ocmzb+ZjMcWgjOs/uRuK1qmOk1k2Q6EsxPk+PbdP+TIRCXupUOSRrRf7hhcT0B
-         gRld7hVn3gnWFRIJ6OOMuH+EgqpcE0Hqxdq9E4nV/xScvUMlMJaTMcUF1NbBMP+3Mb6G
-         Bj2HNQ2MwPFdDWHuaQ6i8YZOv0lkbunIYjBTcy13Y8fs4OKh4zLGOAdjq9jYSM5SizFb
-         nJUXtgoUqCuNLtG9x4gODZSigbiIEM8OiQTdDn9xAYyyJ3+Fp0HB7muFMhgZzgI1XFIH
-         PGnQ==
-X-Gm-Message-State: AOAM530L0YzMVmqlnCFQiHYaeDLsqNX37xSxRyu7HOtvffqKYTKIvSeH
-        LhiELfI9MkR4lKFY9GzlV6/CrCwNpx5o/tUszIo/aw==
-X-Google-Smtp-Source: ABdhPJw8sBg7rxDdwXEr7u+Gvud+qzGZmvxlsxJ1JqPSzaw7uvPqJFBpCbkdnEP2+rrm7oJxJ9372EZRAwG+Wa2Ut00=
-X-Received: by 2002:a92:d8c5:: with SMTP id l5mr1009401ilo.287.1601453121514;
- Wed, 30 Sep 2020 01:05:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200929101004.20288-1-brgl@bgdev.pl> <20200929101004.20288-8-brgl@bgdev.pl>
- <20200929105320.GF3956970@smile.fi.intel.com>
-In-Reply-To: <20200929105320.GF3956970@smile.fi.intel.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Wed, 30 Sep 2020 10:05:10 +0200
-Message-ID: <CAMRc=MdfH7Nsq7L7sP0zPdfqcUxFfjn7FEb1_FNLRmng-qVjPA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] gpio: mockup: increase the number of supported
- device properties
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        id S1728149AbgI3IHS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 04:07:18 -0400
+Received: from dispatch1-us1.ppe-hosted.com ([148.163.129.52]:55158 "EHLO
+        dispatch1-us1.ppe-hosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725823AbgI3IHS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 04:07:18 -0400
+X-Greylist: delayed 343 seconds by postgrey-1.27 at vger.kernel.org; Wed, 30 Sep 2020 04:07:17 EDT
+Received: from dispatch1-us1.ppe-hosted.com (localhost.localdomain [127.0.0.1])
+        by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 72F7EAEEF0;
+        Wed, 30 Sep 2020 08:01:35 +0000 (UTC)
+Received: from mx1-us1.ppe-hosted.com (unknown [10.7.65.64])
+        by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 2E5B66005E;
+        Wed, 30 Sep 2020 08:01:32 +0000 (UTC)
+Received: from us4-mdac16-12.ut7.mdlocal (unknown [10.7.65.236])
+        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 2A0FD2009B;
+        Wed, 30 Sep 2020 08:01:32 +0000 (UTC)
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from mx1-us1.ppe-hosted.com (unknown [10.7.65.199])
+        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 8B197220056;
+        Wed, 30 Sep 2020 08:01:31 +0000 (UTC)
+Received: from webmail.solarflare.com (uk.solarflare.com [193.34.186.16])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id DE33618005A;
+        Wed, 30 Sep 2020 08:01:29 +0000 (UTC)
+Received: from mh-desktop (10.17.20.62) by ukex01.SolarFlarecom.com
+ (10.17.10.4) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 30 Sep
+ 2020 09:01:09 +0100
+Date:   Wed, 30 Sep 2020 09:00:59 +0100
+From:   Martin Habets <mhabets@solarflare.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+CC:     LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Benvenuti <benve@cisco.com>,
+        "Govindarajulu Varadarajan" <_govind@gmx.com>,
+        Dave Miller <davem@davemloft.net>,
+        "Jakub Kicinski" <kuba@kernel.org>, <netdev@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kent Gibson <warthog618@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        "Vishal Kulkarni" <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        <intel-wired-lan@lists.osuosl.org>,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        "Heiner Kallweit" <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        "Jon Mason" <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        <linux-wireless@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        "Hante Meuleman" <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        <brcm80211-dev-list.pdl@broadcom.com>,
+        <brcm80211-dev-list@cypress.com>,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        "Intel Linux Wireless" <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        "Amitkumar Karwar" <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        <libertas-dev@lists.infradead.org>,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+Subject: Re: [patch V2 16/36] net: sfc: Use GFP_KERNEL in
+ efx_ef10_try_update_nic_stats()
+Message-ID: <20200930080059.GA759845@mh-desktop>
+Mail-Followup-To: Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Dave Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+        netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        intel-wired-lan@lists.osuosl.org,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>, Jon Mason <jdmason@kudzu.us>,
+        Daniel Drake <dsd@gentoo.org>, Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>, linux-wireless@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com, brcm80211-dev-list@cypress.com,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>, Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+References: <20200929202509.673358734@linutronix.de>
+ <20200929203501.078203643@linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200929203501.078203643@linutronix.de>
+X-Originating-IP: [10.17.20.62]
+X-ClientProxiedBy: ocex03.SolarFlarecom.com (10.20.40.36) To
+ ukex01.SolarFlarecom.com (10.17.10.4)
+X-TM-AS-Product-Ver: SMEX-12.5.0.1300-8.6.1012-25674.003
+X-TM-AS-Result: No-7.055800-8.000000-10
+X-TMASE-MatchedRID: scwq2vQP8OGB3CLPGH9KvB3Pziq4eLUfcabZ5We+Ltbk1kyQDpEj8OLB
+        DcjMHcx7cY+kGWBLq/yUWq3zEclebye/9tnqvgnhalRqQPhHMT4K+4pGZZRa9Bv2iroWthDcakC
+        rXhKzdtmG9zWd04+U3ToQGsWExzeNQrIARMpKwYGolIr4dI9j7+lUxvXGcRIycBqXYDUNCazpVi
+        VUeZmhdJwA7Oe0sQ7+xGosnG/g3+KtiF+p+9BY6Z4CIKY/Hg3AyJ1gFgOMhOn6APa9i04WGCq2r
+        l3dzGQ12iP5mgvODVRaQUD5lj7we1UZlqkyMlpYV+ioo6EPnD+kB99jpcEJJCvslaXspIjpcQ4u
+        3HX+lyoF+PYj6P4xsM/gbmgoU/LhYlIrxAazCupFc1SMC3FJkqE7ZT4hHyDpDA2Nf1xiN0z8VRK
+        OCHTcrEMMprcbiest
+X-TM-AS-User-Approved-Sender: Yes
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--7.055800-8.000000
+X-TMASE-Version: SMEX-12.5.0.1300-8.6.1012-25674.003
+X-MDID: 1601452892-6uUHibGneDxa
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 12:53 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Sep 29, 2020 at 12:10:01PM +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > The driver actually supports 4 properties but we only ever set up up to
-> > three. This will change however in upcoming patches so increase the
-> > number of really (as in: the number the property array can hold)
-> > supported properties to 4.
->
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> Reported-by ? (it does not imply the necessity of Fixes tag)
+On Tue, Sep 29, 2020 at 10:25:25PM +0200, Thomas Gleixner wrote:
+> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> 
+> efx_ef10_try_update_nic_stats_vf() is now only invoked from thread context
+> and can sleep after efx::stats_lock is dropped.
+> 
+> Change the allocation mode from GFP_ATOMIC to GFP_KERNEL.
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
-I'll add it when applying.
+Acked-by: Martin Habets <mhabets@solarflare.com>
 
-Bartosz
+> ---
+> V2: Adjust to Edward's stats update split
+> ---
+>  drivers/net/ethernet/sfc/ef10.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- a/drivers/net/ethernet/sfc/ef10.c
+> +++ b/drivers/net/ethernet/sfc/ef10.c
+> @@ -1873,7 +1873,7 @@ static int efx_ef10_try_update_nic_stats
+>  
+>  	efx_ef10_get_stat_mask(efx, mask);
+>  
+> -	rc = efx_nic_alloc_buffer(efx, &stats_buf, dma_len, GFP_ATOMIC);
+> +	rc = efx_nic_alloc_buffer(efx, &stats_buf, dma_len, GFP_KERNEL);
+>  	if (rc) {
+>  		spin_lock_bh(&efx->stats_lock);
+>  		return rc;
