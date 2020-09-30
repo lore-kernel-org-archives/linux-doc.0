@@ -7,114 +7,131 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B88C4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F8BC47427
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 343192145D
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14BBD2075F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601472463;
-	bh=e7SfKQrnoPiyPXMeWnFCrrMuZKgfoFc+6m9qIBd4Co8=;
+	s=default; t=1601472464;
+	bh=nm9qJomKwVXcljIx0Ng6FM4B6A36zuOApRHbFINo3A4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=axM4U6JD32cbGWVLDazI0MrDkSdcmVEOIhSmL7OSnfxrxizcIBm0Mxyk38+obSCv2
-	 EqBTB5tyJHdf7BHxNgA7QCo5opfsIzwjcVfgmUytV2EmHw7DGqipFuqyIR7mo52aYH
-	 aGSYfNyQHfHZjcloT92NHMACvPE1bydWz4jUBgmU=
+	b=rphau9Pql/CfK6x2COD+g/z8Ou64grEfJ25ue1vs6j6us10sl1tiyCaLjJokD69Me
+	 l7PV6GantqeNJS06Ii2Wc2er82cL17QfBm2cjMYBLNVt+2fhBcqRcMOLHz3YUOdGRF
+	 P0Geac/JNIBYonisLJAZvMBawPE7DqItzzoHvWy0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730605AbgI3N1Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730499AbgI3N1Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 30 Sep 2020 09:27:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39342 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:39018 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730233AbgI3NZW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730240AbgI3NZW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 30 Sep 2020 09:25:22 -0400
 Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 118AF2396E;
+        by mail.kernel.org (Postfix) with ESMTPSA id 5BFCA23A51;
         Wed, 30 Sep 2020 13:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601472321;
-        bh=e7SfKQrnoPiyPXMeWnFCrrMuZKgfoFc+6m9qIBd4Co8=;
+        bh=nm9qJomKwVXcljIx0Ng6FM4B6A36zuOApRHbFINo3A4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0WyNHjVbNbrfOzppAg+kfW64BBPedCDGME0Nvbc01eyD8XRRctg7IDDoT692BJlSu
-         r1CNdI1jnvQADpBjKMeDMKchzpBNTVjynD0oiWEl223pScxWm2B9pRQbnp8Idk1sYS
-         jnzaoueyCTrhz1xIXDunArRnUqSSJsAi7w2eoGTM=
+        b=VYhTrFDMlQ8GXf61TAS9LNhpFwZS+A9+i4k6ZaWE8BkybGFIXvLJZU6A/0wPGqajy
+         2/WMXr1jRiKny7/oGQ+wtMbyDkzocB0gvoxZjl5CUskD609gnqgwvMvt17iBObYEL6
+         pITFyee7P37o+7wRjrjkZ9hnoA8IzN7LCyoz6BJ0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6h-001XKP-5a; Wed, 30 Sep 2020 15:25:19 +0200
+        id 1kNc6h-001XKi-Gb; Wed, 30 Sep 2020 15:25:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 34/52] docs: pstore-blk.rst: fix kernel-doc tags
-Date:   Wed, 30 Sep 2020 15:24:57 +0200
-Message-Id: <cecf37b806ceb3bd53e642fc5437111e29e1c1f3.1601467849.git.mchehab+huawei@kernel.org>
+        Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 40/52] docs: fpga: replace :c:member: macros
+Date:   Wed, 30 Sep 2020 15:25:03 +0200
+Message-Id: <720b01d37a7d6f50721d95988cfd9a9e463f43cd.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is currently a problem with kernel-doc tags from blk.c:
+Those macros are not doing the right thing with Sphinx 3,
+causing parse errors:
 
-	.../Documentation/admin-guide/pstore-blk:239: ./fs/pstore/blk.c:175: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
-	Declaration is 'register_pstore_device'.
-	.../Documentation/admin-guide/pstore-blk:239: ./fs/pstore/blk.c:432: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
-	Declaration is 'register_pstore_blk'.
-	.../Documentation/admin-guide/pstore-blk:242: ./include/linux/pstore_blk.h:43: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
-	Declaration is 'pstore_device_info'.
+	./Documentation/driver-api/fpga/fpga-mgr.rst:104: WARNING: Unparseable C cross-reference: 'fpga_manager->state'
+	Invalid C declaration: Expected end of definition. [error at 12]
+	  fpga_manager->state
+	  ------------^
+	./Documentation/driver-api/fpga/fpga-programming.rst:18: WARNING: Unparseable C cross-reference: 'fpga_region->info'
+	Invalid C declaration: Expected end of definition. [error at 11]
+	  fpga_region->info
+	  -----------^
+	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->bridge_list'
+	Invalid C declaration: Expected end of definition. [error at 11]
+	  fpga_region->bridge_list
+	  -----------^
+	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->get_bridges'
+	Invalid C declaration: Expected end of definition. [error at 11]
+	  fpga_region->get_bridges
+	  -----------^
 
-Basically, the internal parts is shown with :export:, instead
-of :internal:. Yet, there are some other exported docs that
-aren't at the document, because they lack :identifiers:.
-
-So, instead, let's just use :export: at the kAPI part of
-the documentation.
+Replace them by :c:expr:, with does what's desired.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/pstore-blk.rst | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ Documentation/driver-api/fpga/fpga-mgr.rst         | 2 +-
+ Documentation/driver-api/fpga/fpga-programming.rst | 2 +-
+ Documentation/driver-api/fpga/fpga-region.rst      | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/pstore-blk.rst b/Documentation/admin-guide/pstore-blk.rst
-index 296d5027787a..6898aba9fb5c 100644
---- a/Documentation/admin-guide/pstore-blk.rst
-+++ b/Documentation/admin-guide/pstore-blk.rst
-@@ -154,17 +154,11 @@ Configurations for driver
- Only a block device driver cares about these configurations. A block device
- driver uses ``register_pstore_blk`` to register to pstore/blk.
+diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
+index 22f7885b32c9..917ee22db429 100644
+--- a/Documentation/driver-api/fpga/fpga-mgr.rst
++++ b/Documentation/driver-api/fpga/fpga-mgr.rst
+@@ -101,7 +101,7 @@ in state.
+ API for implementing a new FPGA Manager driver
+ ----------------------------------------------
  
--.. kernel-doc:: fs/pstore/blk.c
--   :identifiers: register_pstore_blk
--
- A non-block device driver uses ``register_pstore_device`` with
- ``struct pstore_device_info`` to register to pstore/blk.
+-* ``fpga_mgr_states`` —  Values for :c:member:`fpga_manager->state`.
++* ``fpga_mgr_states`` —  Values for :c:expr:`fpga_manager->state`.
+ * struct fpga_manager —  the FPGA manager struct
+ * struct fpga_manager_ops —  Low level FPGA manager driver ops
+ * devm_fpga_mgr_create() —  Allocate and init a manager struct
+diff --git a/Documentation/driver-api/fpga/fpga-programming.rst b/Documentation/driver-api/fpga/fpga-programming.rst
+index f487ad64dfb9..002392dab04f 100644
+--- a/Documentation/driver-api/fpga/fpga-programming.rst
++++ b/Documentation/driver-api/fpga/fpga-programming.rst
+@@ -15,7 +15,7 @@ the FPGA manager and bridges.  It will:
+  * lock the mutex of the region's FPGA manager
+  * build a list of FPGA bridges if a method has been specified to do so
+  * disable the bridges
+- * program the FPGA using info passed in :c:member:`fpga_region->info`.
++ * program the FPGA using info passed in :c:expr:`fpga_region->info`.
+  * re-enable the bridges
+  * release the locks
  
- .. kernel-doc:: fs/pstore/blk.c
--   :identifiers: register_pstore_device
--
--.. kernel-doc:: include/linux/pstore_blk.h
--   :identifiers: pstore_device_info
-+   :export:
+diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
+index 3e52be7e2968..363a8171ab0a 100644
+--- a/Documentation/driver-api/fpga/fpga-region.rst
++++ b/Documentation/driver-api/fpga/fpga-region.rst
+@@ -61,9 +61,9 @@ during the region's probe function.
  
- Compression and header
- ----------------------
-@@ -237,7 +231,7 @@ For developer reference, here are all the important structures and APIs:
-    :internal:
+ The FPGA region will need to specify which bridges to control while programming
+ the FPGA.  The region driver can build a list of bridges during probe time
+-(:c:member:`fpga_region->bridge_list`) or it can have a function that creates
++(:c:expr:`fpga_region->bridge_list`) or it can have a function that creates
+ the list of bridges to program just before programming
+-(:c:member:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
++(:c:expr:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
+ following APIs to handle building or tearing down that list.
  
- .. kernel-doc:: fs/pstore/blk.c
--   :export:
-+   :internal:
- 
- .. kernel-doc:: include/linux/pstore_blk.h
-    :internal:
+ * fpga_bridge_get_to_list() — Get a ref of an FPGA bridge, add it to a
 -- 
 2.26.2
 
