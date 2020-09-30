@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD0B3C47420
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B88C4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95E5D2075F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 343192145D
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601472445;
-	bh=8l322xMRtGPypOdLbQzXYtchEXuXc9pVzePOtmUf3FQ=;
+	s=default; t=1601472463;
+	bh=e7SfKQrnoPiyPXMeWnFCrrMuZKgfoFc+6m9qIBd4Co8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cojTmwiVeDPXSiA50YJC+ubWM8X40pDRz14vic2XqS2JzuTiYekp8FLwPgWPHm5Qi
-	 A+BbTlPM+oJvRQbKss1aDcOfnMVxyVbDLg8jq8NkFUjYCikjRaFkmX2Dmn9vbdSjFa
-	 Cg3T+lejrTvnfb+Xsiwslv8LYdH2sJBr5nSJwvdo=
+	b=axM4U6JD32cbGWVLDazI0MrDkSdcmVEOIhSmL7OSnfxrxizcIBm0Mxyk38+obSCv2
+	 EqBTB5tyJHdf7BHxNgA7QCo5opfsIzwjcVfgmUytV2EmHw7DGqipFuqyIR7mo52aYH
+	 aGSYfNyQHfHZjcloT92NHMACvPE1bydWz4jUBgmU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730415AbgI3N1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 09:27:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39164 "EHLO mail.kernel.org"
+        id S1730605AbgI3N1Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 09:27:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39342 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730241AbgI3NZW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730233AbgI3NZW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 30 Sep 2020 09:25:22 -0400
 Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3A8E2238A1;
+        by mail.kernel.org (Postfix) with ESMTPSA id 118AF2396E;
         Wed, 30 Sep 2020 13:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601472321;
-        bh=8l322xMRtGPypOdLbQzXYtchEXuXc9pVzePOtmUf3FQ=;
+        bh=e7SfKQrnoPiyPXMeWnFCrrMuZKgfoFc+6m9qIBd4Co8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AKJZmTRT+hK7Pyx5HiEzmMKdLhmoIiszMA75dnqwwBhvNuLppDaU1HEGiy1BaP7ze
-         FyEFrP11yankR345vRxkncEutxjo7bV+PieGa72SarRYTnpZzlO29R6kGDmk58aANa
-         r8w8ZAW+mgO/SOhMoh14PK4uQu7TW8Gyu+AguMxU=
+        b=0WyNHjVbNbrfOzppAg+kfW64BBPedCDGME0Nvbc01eyD8XRRctg7IDDoT692BJlSu
+         r1CNdI1jnvQADpBjKMeDMKchzpBNTVjynD0oiWEl223pScxWm2B9pRQbnp8Idk1sYS
+         jnzaoueyCTrhz1xIXDunArRnUqSSJsAi7w2eoGTM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6h-001XKb-D3; Wed, 30 Sep 2020 15:25:19 +0200
+        id 1kNc6h-001XKP-5a; Wed, 30 Sep 2020 15:25:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 38/52] docs: block: typec_bus.rst: get rid of :c:type
-Date:   Wed, 30 Sep 2020 15:25:01 +0200
-Message-Id: <c54f21c6406b86099b537fdde1b0ab35b0ea770d.1601467849.git.mchehab+huawei@kernel.org>
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 34/52] docs: pstore-blk.rst: fix kernel-doc tags
+Date:   Wed, 30 Sep 2020 15:24:57 +0200
+Message-Id: <cecf37b806ceb3bd53e642fc5437111e29e1c1f3.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -62,39 +62,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The :c:type macros are not used properly there, as reported
-by Sphinx 3:
+There is currently a problem with kernel-doc tags from blk.c:
 
-	./Documentation/block/blk-mq.rst:112: WARNING: Unparseable C cross-reference: 'hctx->dispatch'
-	Invalid C declaration: Expected end of definition. [error at 4]
-	  hctx->dispatch
-	  ----^
+	.../Documentation/admin-guide/pstore-blk:239: ./fs/pstore/blk.c:175: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
+	Declaration is 'register_pstore_device'.
+	.../Documentation/admin-guide/pstore-blk:239: ./fs/pstore/blk.c:432: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
+	Declaration is 'register_pstore_blk'.
+	.../Documentation/admin-guide/pstore-blk:242: ./include/linux/pstore_blk.h:43: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
+	Declaration is 'pstore_device_info'.
 
-Also, they won't be generating any cross references.
+Basically, the internal parts is shown with :export:, instead
+of :internal:. Yet, there are some other exported docs that
+aren't at the document, because they lack :identifiers:.
 
-So, replace them by a literal markup.
+So, instead, let's just use :export: at the kAPI part of
+the documentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/block/blk-mq.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/pstore-blk.rst | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
-index 86a632af02b0..a980d23af48c 100644
---- a/Documentation/block/blk-mq.rst
-+++ b/Documentation/block/blk-mq.rst
-@@ -110,9 +110,9 @@ block layer removes requests from the associated software queues and tries to
- dispatch to the hardware.
+diff --git a/Documentation/admin-guide/pstore-blk.rst b/Documentation/admin-guide/pstore-blk.rst
+index 296d5027787a..6898aba9fb5c 100644
+--- a/Documentation/admin-guide/pstore-blk.rst
++++ b/Documentation/admin-guide/pstore-blk.rst
+@@ -154,17 +154,11 @@ Configurations for driver
+ Only a block device driver cares about these configurations. A block device
+ driver uses ``register_pstore_blk`` to register to pstore/blk.
  
- If it's not possible to send the requests directly to hardware, they will be
--added to a linked list (:c:type:`hctx->dispatch`) of requests. Then,
-+added to a linked list (``hctx->dispatch``) of requests. Then,
- next time the block layer runs a queue, it will send the requests laying at the
--:c:type:`dispatch` list first, to ensure a fairness dispatch with those
-+``dispatch`` list first, to ensure a fairness dispatch with those
- requests that were ready to be sent first. The number of hardware queues
- depends on the number of hardware contexts supported by the hardware and its
- device driver, but it will not be more than the number of cores of the system.
+-.. kernel-doc:: fs/pstore/blk.c
+-   :identifiers: register_pstore_blk
+-
+ A non-block device driver uses ``register_pstore_device`` with
+ ``struct pstore_device_info`` to register to pstore/blk.
+ 
+ .. kernel-doc:: fs/pstore/blk.c
+-   :identifiers: register_pstore_device
+-
+-.. kernel-doc:: include/linux/pstore_blk.h
+-   :identifiers: pstore_device_info
++   :export:
+ 
+ Compression and header
+ ----------------------
+@@ -237,7 +231,7 @@ For developer reference, here are all the important structures and APIs:
+    :internal:
+ 
+ .. kernel-doc:: fs/pstore/blk.c
+-   :export:
++   :internal:
+ 
+ .. kernel-doc:: include/linux/pstore_blk.h
+    :internal:
 -- 
 2.26.2
 
