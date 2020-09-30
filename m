@@ -2,100 +2,127 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C944C2D0A8
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 03:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 760A4C4727C
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 06:23:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21D272076D
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 03:25:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 021B4207C3
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 06:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601446982;
+	bh=EXxvDUn4XGcHD/Ca0uIvwF+PRWacJD69F4bcem0AxSw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=T1GOhZrhjnhoD+HUS2onWIkKrK0vye53cTaWvAf08Kqays50chxkydSUPFrQ4s4WN
+	 apQcb1c/CrEImhV+sGGWsqhmokg8/EXVAZnwXhrMuMUaEbxCbj6gr/KvekguR7aUPU
+	 0q1XzAE8ArCm6nauLRb0Ee20ax2iDrp+apUQNVmA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729859AbgI3DY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 23:24:59 -0400
-Received: from mga11.intel.com ([192.55.52.93]:40737 "EHLO mga11.intel.com"
+        id S1725777AbgI3GWz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 02:22:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47976 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726299AbgI3DY7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Sep 2020 23:24:59 -0400
-IronPort-SDR: wFnj2fDaCCqAAZ4VmeemyRgZQCA0xs2BJmxb3+zG7KVGBEZZSiYSq5DqiL9MLYuc2z8TFcwHiC
- sUuKV0DYSvrA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="159684528"
-X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; 
-   d="scan'208";a="159684528"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 20:24:58 -0700
-IronPort-SDR: GT/qSFOvF4oYuTG2A/9XYSrD3W+UzzTNynL976fGHG/yA2DvfjNSOhO7QDqygJiupSkkx1jS4Y
- THWrgClUOKpQ==
-X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; 
-   d="scan'208";a="495110304"
-Received: from xinpan-mobl.ger.corp.intel.com (HELO localhost) ([10.249.35.239])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 20:24:54 -0700
-Date:   Wed, 30 Sep 2020 06:24:52 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Cc:     Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
-        trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 05/13] x86: Add early TPM1.2/TPM2.0 interface support for
- Secure Launch
-Message-ID: <20200930032452.GA880758@linux.intel.com>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-6-git-send-email-ross.philipson@oracle.com>
- <20200925054313.GB165011@linux.intel.com>
- <bf1d8df9-ec79-2cc6-534f-ce1f0a58f123@apertussolutions.com>
- <20200930031952.GA880396@linux.intel.com>
+        id S1725320AbgI3GWz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 02:22:55 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E6772075A;
+        Wed, 30 Sep 2020 06:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601446974;
+        bh=EXxvDUn4XGcHD/Ca0uIvwF+PRWacJD69F4bcem0AxSw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cehjbcseNzUjHSH9H/NUjRZOIUzHKfq3q9Ty7fj3LwMusdc294CGdNFS7gdzKtiiK
+         WI3Y6zw4SOZB4Y+SdZFlplaofN7HquwtrvQZ+Gb1v7JjPvLnN0MAysxbZB2TYeExGL
+         zOFWw3q77zfFM0MabdV5ksP31I3MmAp6bGMxarjQ=
+Date:   Wed, 30 Sep 2020 08:22:58 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Benvenuti <benve@cisco.com>,
+        Govindarajulu Varadarajan <_govind@gmx.com>,
+        Dave Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jay Cliburn <jcliburn@gmail.com>,
+        Chris Snook <chris.snook@gmail.com>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        intel-wired-lan@lists.osuosl.org,
+        Shannon Nelson <snelson@pensando.io>,
+        Pensando Drivers <drivers@pensando.io>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+        Edward Cree <ecree@solarflare.com>,
+        Martin Habets <mhabets@solarflare.com>,
+        Jon Mason <jdmason@kudzu.us>, Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Jouni Malinen <j@w1.fi>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Ganapathi Bhat <ganapathi.bhat@nxp.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        libertas-dev@lists.infradead.org,
+        Pascal Terjan <pterjan@google.com>,
+        Ping-Ke Shih <pkshih@realtek.com>
+Subject: Re: [patch V2 21/36] net: usb: kaweth: Replace kaweth_control() with
+ usb_control_msg()
+Message-ID: <20200930062258.GA1471881@kroah.com>
+References: <20200929202509.673358734@linutronix.de>
+ <20200929203501.588965483@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200930031952.GA880396@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200929203501.588965483@linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 06:19:57AM +0300, Jarkko Sakkinen wrote:
-> On Tue, Sep 29, 2020 at 07:47:52PM -0400, Daniel P. Smith wrote:
-> > TrenchBoot's AMD Secure Loader (LZ). The former is not well supported
-> > and the latter will be getting maintenance under TB. While this is not
-> > preferred, we had to weigh this versus trying to convince you and the
-> > other TPM driver maintainers on a significant refactoring of the TPM
-> > driver. It was elected for the reuse of a clean implementation that can
-> > be replaced later if/when the TPM driver was refactored. When we
-> > explained this during the RFC and it was not rejected, therefore we
-> > carried it forward into this submission.
+On Tue, Sep 29, 2020 at 10:25:30PM +0200, Thomas Gleixner wrote:
+> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 > 
-> What does it anyway mean when you say "RFC was not rejected"? I don't
-> get the semantics of that sentence. It probably neither was ack'd,
-> right? I do not really care what happened with the RFC. All I can say
-> is that in the current state this totally PoC from top to bottom.
+> kaweth_control() is almost the same as usb_control_msg() except for the
+> memory allocation mode (GFP_ATOMIC vs GFP_NOIO) and the in_interrupt()
+> check.
 > 
-> > > How it is now is never going to fly.
-> > 
-> > We would gladly work with you and the other TPM maintainers on a
-> > refactoring of the TPM driver to separate core logic into standalone
-> > files that both the driver and the compressed kernel can share.
+> All the invocations of kaweth_control() are within the probe function in
+> fully preemtible context so there is no reason to use atomic allocations,
+> GFP_NOIO which is used by usb_control_msg() is perfectly fine.
 > 
-> Yes, exactly. You have to refactor out the common parts. This is way too
-> big patch to spend time on giving any more specific advice. Should be in
-> way smaller chunks. For (almost) any possible, this is of unacceptable
-                                               ^ " patch"
-> size.
+> Replace kaweth_control() invocations from probe with usb_control_msg().
 > 
-> I think that it'd be best first to keep the common files in
-> drivers/char/tpm and include them your code with relative paths in the
-> Makefile. At least up until we have clear view what are the common
-> parts.
-> 
-> You might also want to refactor drivers/char/tpm/tpm.h and include/linux
-> TPM headers to move more stuff into include/linux.
-> 
-> If you are expecting a quick upstreaming process, please do not. This
-> will take considerable amount of time to get right.
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
-/Jarkko
+Note, the usb_control_msg_send/recv() new functions that will show up in
+5.10-rc1 will help a bit with this logic, but for what you have now,
+this is fine, nice cleanups.
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
