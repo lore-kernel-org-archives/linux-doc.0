@@ -2,64 +2,64 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E7CC4727C
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:35:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14398C4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:47:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 906692072E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:35:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C83522076B
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725823AbgI3Qfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 12:35:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34644 "EHLO mail.kernel.org"
+        id S1725837AbgI3QrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 12:47:24 -0400
+Received: from ms.lwn.net ([45.79.88.28]:56366 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725355AbgI3Qfi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 12:35:38 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1725823AbgI3QrY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 12:47:24 -0400
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 890BC206DC;
-        Wed, 30 Sep 2020 16:35:37 +0000 (UTC)
-Date:   Wed, 30 Sep 2020 12:35:35 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 23/52] docs: trace-uses.rst: remove bogus c-domain
- tags
-Message-ID: <20200930123535.43d7a957@gandalf.local.home>
-In-Reply-To: <f1d8fc4bb976f8c25c6fb444b0b675d9a849ba06.1601467849.git.mchehab+huawei@kernel.org>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <f1d8fc4bb976f8c25c6fb444b0b675d9a849ba06.1601467849.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by ms.lwn.net (Postfix) with ESMTPSA id A51FC60C;
+        Wed, 30 Sep 2020 16:47:23 +0000 (UTC)
+Date:   Wed, 30 Sep 2020 10:47:22 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [RFC][PATCH] docs: process: Submitting a patch for a single git
+ commit.
+Message-ID: <20200930104722.54c06f6f@lwn.net>
+In-Reply-To: <20200930180238.1c25692e@ingpc3.intern.lauterbach.com>
+References: <20191011163358.17667-1-ingo.rohloff@lauterbach.com>
+        <20191011112357.7c3863cd@lwn.net>
+        <20200930180238.1c25692e@ingpc3.intern.lauterbach.com>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Sep 2020 15:24:46 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Wed, 30 Sep 2020 18:02:38 +0200
+Ingo Rohloff <ingo.rohloff@lauterbach.com> wrote:
 
-> There are some c-domain tags that are wrong. While this won't
-> cause problems with Sphinx < 3.0, this cause troubles with
-> newer versions, as the C parser won't recognize the contents
-> of the tag, and will drop it from the output.
+> it's been quite a long time, but I really want to try again,
+> because the last 5 times I tried to send in a patch,
+> the information I wrote down here is EXACTLY what I needed (5 times...)
 > 
-> Let's just place them at literal blocks.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> I cleaned up the patch a little bit (only very minor modifications),
+> but before I send this again, let me try to comment on the original
+> critique.
 
-Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+I'm sorry, but this is far from useful...you're referencing a year-old
+discussion that has long since been pushed out of my brain.
 
--- Steve
+If you have a patch, please send it.  If, however, you choose to ignore
+the feedback you got last time, you're likely to run into the same issues
+this time around.
+
+Thanks,
+
+jon
