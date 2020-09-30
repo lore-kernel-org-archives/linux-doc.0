@@ -6,37 +6,53 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3993FC4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:00:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187A8C4727F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:01:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E78E6206FC
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:00:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD92E2085B
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:01:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728149AbgI3PAB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 11:00:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57232 "EHLO mx2.suse.de"
+        id S1730592AbgI3PBZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 11:01:25 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35026 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725872AbgI3PAB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:00:01 -0400
+        id S1725799AbgI3PBZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 11:01:25 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7E873AFA0;
-        Wed, 30 Sep 2020 14:59:59 +0000 (UTC)
-Date:   Wed, 30 Sep 2020 16:59:59 +0200
-Message-ID: <s5h8scrgvio.wl-tiwai@suse.de>
+        by mx2.suse.de (Postfix) with ESMTP id 6426AAB92;
+        Wed, 30 Sep 2020 15:01:23 +0000 (UTC)
+Date:   Wed, 30 Sep 2020 17:01:21 +0200
+Message-ID: <s5h7dsbgvge.wl-tiwai@suse.de>
 From:   Takashi Iwai <tiwai@suse.de>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 37/52] docs: sound: writing-an-alsa-driver.rst: get rid of :c:type
-In-Reply-To: <00f330aabda084ede41ceb1932d0d687c42266c3.1601467849.git.mchehab+huawei@kernel.org>
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Moritz Fischer <mdf@kernel.org>,
+        Puranjay Mohan <puranjay12@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Satya Tangirala <satyat@google.com>,
+        Takashi Iwai <tiwai@suse.com>, Tom Rix <trix@redhat.com>,
+        alsa-devel@alsa-project.org, linux-fpga@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v4 22/52] docs: get rid of :c:type explicit declarations for structs
+In-Reply-To: <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <00f330aabda084ede41ceb1932d0d687c42266c3.1601467849.git.mchehab+huawei@kernel.org>
+        <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
  FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
  (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -46,36 +62,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Sep 2020 15:25:00 +0200,
+On Wed, 30 Sep 2020 15:24:45 +0200,
 Mauro Carvalho Chehab wrote:
 > 
-> the :c:type shouldn't be used with structs with Sphinx 3,
-> as the C domain there uses .. c:struct for structs.
+> The :c:type:`foo` only works properly with structs before
+> Sphinx 3.x.
 > 
-> As we have the automarkup extension, let's just get rid of
-> all :c:type as a hole, as those will be automagically
-                   whole?
-
-> marked as such.
+> On Sphinx 3.x, structs should now be declared using the
+> .. c:struct, and referenced via :c:struct tag.
 > 
-> This solves a bunch of warnings with Sphinx 3, like those:
+> As we now have the automarkup.py macro, that automatically
+> convert:
+> 	struct foo
 > 
-> 	.../Documentation/sound/kernel-api/writing-an-alsa-driver.rst:490: WARNING: Unparseable C cross-reference: 'calling snd_card_free'
-> 	Invalid C declaration: Expected end of definition. [error at 8]
-> 	  calling snd_card_free
-> 	  --------^
-> 	.../Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3328: WARNING: Unparseable C cross-reference: 'snd_rawmidi_transmit*'
-> 	Invalid C declaration: Expected end of definition. [error at 20]
-> 	  snd_rawmidi_transmit*
-> 	  --------------------^
-> 	.../Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3928: WARNING: Unparseable C cross-reference: 'copy_from/to_user'
-> 	Invalid C declaration: Expected end of definition. [error at 9]
-> 	  copy_from/to_user
-> 	  ---------^
+> into cross-references, let's get rid of that, solving
+> several warnings when building docs with Sphinx 3.x.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
+For the sound part:
+  Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
 
 thanks,
