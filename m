@@ -2,85 +2,100 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA67EC4363D
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 21:23:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A00C8C4363D
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 21:39:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CECB2075F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 21:23:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C61E20739
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 21:39:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730544AbgI3VXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 17:23:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40622 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725814AbgI3VXQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 17:23:16 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBCABC061755;
-        Wed, 30 Sep 2020 14:23:15 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id CAF8F13C6ADBB;
-        Wed, 30 Sep 2020 14:06:27 -0700 (PDT)
-Date:   Wed, 30 Sep 2020 14:23:14 -0700 (PDT)
-Message-Id: <20200930.142314.43454679428749261.davem@davemloft.net>
-To:     mchehab+huawei@kernel.org
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, alex.aring@gmail.com,
-        kuba@kernel.org, stefan@datenfreihafen.org,
-        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH v4 25/52] docs: net: ieee802154.rst: fix C expressions
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <e1ef9c58d2aa10e3487dab6798706f48029d7dee.1601467849.git.mchehab+huawei@kernel.org>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <e1ef9c58d2aa10e3487dab6798706f48029d7dee.1601467849.git.mchehab+huawei@kernel.org>
-X-Mailer: Mew version 6.8 on Emacs 27.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [2620:137:e000::1:9]); Wed, 30 Sep 2020 14:06:28 -0700 (PDT)
+        id S1730031AbgI3Vjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 17:39:31 -0400
+Received: from [157.25.102.26] ([157.25.102.26]:36334 "EHLO orcam.me.uk"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725814AbgI3Vjb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 17:39:31 -0400
+X-Greylist: delayed 589 seconds by postgrey-1.27 at vger.kernel.org; Wed, 30 Sep 2020 17:39:30 EDT
+Received: from bugs.linux-mips.org (eddie.linux-mips.org [IPv6:2a01:4f8:201:92aa::3])
+        by orcam.me.uk (Postfix) with ESMTPS id ED5F42BE086;
+        Wed, 30 Sep 2020 22:29:39 +0100 (BST)
+Date:   Wed, 30 Sep 2020 22:29:36 +0100 (BST)
+From:   "Maciej W. Rozycki" <macro@linux-mips.org>
+To:     Adam Borowski <kilobyte@angband.pl>
+cc:     Pavel Machek <pavel@ucw.cz>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Yuan Ming <yuanmingbuaa@gmail.com>, Willy Tarreau <w@1wt.eu>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        NopNop Nop <nopitydays@gmail.com>,
+        =?UTF-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>,
+        Andy Lutomirski <luto@amacapital.net>
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+In-Reply-To: <20200918102750.GA27828@angband.pl>
+Message-ID: <alpine.LFD.2.21.2009302216230.333514@eddie.linux-mips.org>
+References: <git-mailbomb-linux-master-50145474f6ef4a9c19205b173da6264a644c7489@kernel.org> <c9cd22ec-60dc-d761-b488-d3a1392708c0@infradead.org> <CAHk-=wiNTWpqUF0HgzoyPGEaaAjxD-Bor+EE3DbJ52S30cfCWg@mail.gmail.com> <20200916205434.GA10389@duo.ucw.cz>
+ <20200918102750.GA27828@angband.pl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date: Wed, 30 Sep 2020 15:24:48 +0200
+On Fri, 18 Sep 2020, Adam Borowski wrote:
 
-> There are some warnings produced with Sphinx 3.x:
+> > > Note that scrollback hasn't actually gone away entirely - the original
+> > > scrollback supported by _hardware_ still exists.
+> > > 
+> > > Of course, that's really just the old-fashioned text VGA console, but
+> > > that one actually scrolls not by moving any bytes around, but by
+> > > moving the screen start address. And the scrollback similarly isn't
+> > > about any software buffering, but about the ability of moving back
+> > > that screen start address.
 > 
-> 	Documentation/networking/ieee802154.rst:29: WARNING: Error in declarator or parameters
-> 	Invalid C declaration: Expecting "(" in parameters. [error at 7]
-> 	  int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
-> 	  -------^
-> 	Documentation/networking/ieee802154.rst:134: WARNING: Invalid C declaration: Expected end of definition. [error at 81]
-> 	  void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
-> 	  ---------------------------------------------------------------------------------^
-> 	Documentation/networking/ieee802154.rst:139: WARNING: Invalid C declaration: Expected end of definition. [error at 95]
-> 	  void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
-> 	  -----------------------------------------------------------------------------------------------^
-> 	Documentation/networking/ieee802154.rst:158: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
-> 	  int start(struct ieee802154_hw *hw):
-> 	  -----------------------------------^
-> 	Documentation/networking/ieee802154.rst:162: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
-> 	  void stop(struct ieee802154_hw *hw):
-> 	  -----------------------------------^
-> 	Documentation/networking/ieee802154.rst:166: WARNING: Invalid C declaration: Expected end of definition. [error at 61]
-> 	  int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
-> 	  -------------------------------------------------------------^
-> 	Documentation/networking/ieee802154.rst:171: WARNING: Invalid C declaration: Expected end of definition. [error at 43]
-> 	  int ed(struct ieee802154_hw *hw, u8 *level):
-> 	  -------------------------------------------^
-> 	Documentation/networking/ieee802154.rst:176: WARNING: Invalid C declaration: Expected end of definition. [error at 62]
-> 	  int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
-> 	  --------------------------------------------------------------^
+> > Could we pause this madness? Scrollback is still useful. I needed it
+> > today... it was too small, so command results I was looking for
+> > already scrolled away, but... life will be really painful with 0 scrollback.
+> > 
+> > You'll need it, too... as soon as you get oops and will want to see
+> > errors just prior to that oops.
 > 
-> Caused by some bad c:function: prototypes. Fix them.
+> I concur -- this a serious usability regression for regular users.  Linus:
+> you have a serial cable on your main dev machine, so do I, but hardly any
+> regular people do -- that's restricted to mostly IPMI and such.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> And without some kind of scrollback, there's no way of knowing why eg.
+> your rootfs failed to mount (there was some oops, but its reason was at
+> the beginning...).  Or, any other problem the user would be able to solve,
+> or pass the error messages to someone more knowledgeable.
+> 
+> I also wonder why did you choose to remove softscrollback which is actually
+> useful, yet leave hardscrollback which doesn't come to use on any
+> non-ancient hardware:
+> * on !x86 there's no vgacon at all
+> * on x86, in-tree drivers for GPUs by Intel, nVidia and AMD (others are
+>   dead) default to switching away from vgacon
+> * EFI wants its own earlycon
+> ... thus, the only niche left is nVidia proprietary drivers which, the last
+> time I looked, still used CGA text mode.
 
-Acked-by: David S. Miller <davem@davemloft.net>
+ For the record I keep using the console scrollback all the time, and FWIW 
+I have gone through all the hoops required to keep using VGA hardware 
+emulation and its console text mode with my most recent laptop, which is a 
+ThinkPad P51; no longer manufactured, but still hardly an obsolete device 
+by today's standards I believe.  Sadly this video adapter setup has its 
+shortcomings which used not to be there with my older hardware, which I 
+find a functional regression to be blamed on the manufacturer, but I have 
+learnt to live with that as I found no alternative I would find 
+comfortable to work with.
+
+ So no, it's not that nobody uses that stuff anymore, and not with 
+obsolete hardware either.
+
+  Maciej
