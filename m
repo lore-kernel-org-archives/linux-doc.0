@@ -4,249 +4,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A184C47425
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 23:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 411B7C4363D
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 23:47:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA71121481
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 23:44:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1C6C20C09
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 23:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601509497;
-	bh=SSqSVJUZq5m2CFytxoaIhalJNHYAEM0gt/cv9d1YWNU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=2EBAJbUIVb83Tij9X0ycq6ShD9+LYSS1gODi3WYD9zAk/oDz1XpOr1snyiSWPdCU9
-	 6/XkFVt/LHTeGEqpXpRSBG2ctwmd6uTji/vdCKQwz0vEgJxVm1VhIz9ePXl/+SZx5t
-	 EOUpCI7+7J/QMf1zckKOyZGyoUGSdGBjMQTD/62I=
+	s=default; t=1601509622;
+	bh=r5jAmnGBOdKDjSLkU7t35GiJfqRLf6yWoWmsOg+Qmas=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=2gj92sCe4sXo74ZpOZfa9QXzYiMBYQ5dbMFNZCL+1JCq4OPit/33rfpBBXeJFQ3aj
+	 VxjTl03vNunbb6OaPrg337Ejue06mkwwZe/VGni0UUMQnSV+HJ39s3PHJ29aKv3FiN
+	 xWdDl1OR8lIzblKryiehI7MGpnNo88QwelqYmjt0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731571AbgI3Xoy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 19:44:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41518 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731871AbgI3Xoy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 19:44:54 -0400
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 302042184D
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 23:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601509493;
-        bh=SSqSVJUZq5m2CFytxoaIhalJNHYAEM0gt/cv9d1YWNU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zKh5u/vQ4DHmmkQhSWp+wdV0skJheTi2Ff/1SoaNF1ZoLo3R9XRZgCJDc9uIIZ9qm
-         1PpdnxTGA1gFcjoSNicwPMLd24HvAwjLbqL2J1EeJuCR3zFck9U5kGKKHardh6gyRs
-         4QiSjs2FaHFOuqYC9WQ/xKIKuse5MaZog1dPpeOw=
-Received: by mail-wm1-f52.google.com with SMTP id v12so1153410wmh.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 16:44:53 -0700 (PDT)
-X-Gm-Message-State: AOAM531cXOFyuEH2xpW5wwzlW8ASzO3p65jYystzOrm0vDjjfzFSnAbz
-        60s4vIR4/PXITGJCzujEoJ5bo3Uf3szHEa6/OK4Faw==
-X-Google-Smtp-Source: ABdhPJyMRLhY+lYah0ZMRcHOsRvGLLMnGNegO49w3/xDIxX2DcDbv8Z7wMY4A1dUcTaUYFV25yfdu9/ydBCNezB8fvU=
-X-Received: by 2002:a1c:f70b:: with SMTP id v11mr4785295wmh.21.1601509491674;
- Wed, 30 Sep 2020 16:44:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
- <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net> <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
- <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
- <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com> <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
- <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com> <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com>
-In-Reply-To: <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 30 Sep 2020 16:44:40 -0700
-X-Gmail-Original-Message-ID: <CALCETrXgde6yHTKw1Njnxp9cANp6Ee8bmG9C2X4e-Fz0ZZCuBw@mail.gmail.com>
-Message-ID: <CALCETrXgde6yHTKw1Njnxp9cANp6Ee8bmG9C2X4e-Fz0ZZCuBw@mail.gmail.com>
-Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
- Branch Tracking for vsyscall emulation
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1731489AbgI3Xq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 19:46:59 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45649 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725800AbgI3Xq7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 19:46:59 -0400
+Received: by mail-pg1-f194.google.com with SMTP id y14so2325273pgf.12;
+        Wed, 30 Sep 2020 16:46:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=5Sdq+uzDcVltZSM04qjX6MPWefRTcwpF7O+JWRb8xZQ=;
+        b=qRf40PBrg6vPGxpUjnZOU2QSYdV+aZNlUCKVjj1CEoLyFtShL/P33Z0OnCaMJ4w1F5
+         GNbo7cyWgpfbsyHoweqTGc0mb5eBExo9k2WP9eYwRHvcD4VlZ6JP9kQbLC7Ff1uemrgm
+         LsyYou05HOcoKLrlfGsbtNh9ZnDiiiel1Eyp3f7mv/dRkUkjw2qK3006HqSnRWwvye0g
+         zUSVsWEpCWD7G1LgTjOusEsk1Te9ckB7FEu4r9fb3zI034A2YDrb0Aw0uJZdXXc+xyX5
+         vlSJMToAvJD44a3DG4wZNn1or0jlWGWMuILZj/hVM5HpUnSNjMx+xCMdbUvYCtaPgAPq
+         T5Qg==
+X-Gm-Message-State: AOAM533M+cfGx9ikNaYJQwKh1q62yE3bf4TFSAWsLhKUsk1WzFuvU1L7
+        UXbIiH5reGzYtyKrdqUPVME=
+X-Google-Smtp-Source: ABdhPJxJbgI18kg6TJGHsRuypGTbddXLkTe/KwmjJjKXfuSUG1F51+Jhba//y/EywtCJSIP5KeYCYA==
+X-Received: by 2002:aa7:9518:0:b029:142:2501:35e3 with SMTP id b24-20020aa795180000b0290142250135e3mr4669251pfp.67.1601509618092;
+        Wed, 30 Sep 2020 16:46:58 -0700 (PDT)
+Received: from localhost ([2601:647:5b00:1162:1ac0:17a6:4cc6:d1ef])
+        by smtp.gmail.com with ESMTPSA id s8sm3643995pjm.7.2020.09.30.16.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2020 16:46:57 -0700 (PDT)
+Date:   Wed, 30 Sep 2020 16:46:56 -0700
+From:   Moritz Fischer <mdf@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 40/52] docs: fpga: replace :c:member: macros
+Message-ID: <20200930234656.GB121420@archbook>
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
+ <720b01d37a7d6f50721d95988cfd9a9e463f43cd.1601467849.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <720b01d37a7d6f50721d95988cfd9a9e463f43cd.1601467849.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 3:33 PM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->
-> On 9/29/2020 1:00 PM, Andy Lutomirski wrote:
-> > On Tue, Sep 29, 2020 at 12:57 PM Andy Lutomirski <luto@kernel.org> wrote:
-> >>
-> >> On Tue, Sep 29, 2020 at 11:37 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> >>>
-> >>> On 9/28/2020 10:37 AM, Andy Lutomirski wrote:
-> >>>> On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> >>>>>
-> >>>>> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
-> >>>>>>> On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> >>>>> +
-> >>>>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> >>>>> +               if (!cet) {
-> >>>>> +                       /*
-> >>>>> +                        * This is an unlikely case where the task is
-> >>>>> +                        * CET-enabled, but CET xstate is in INIT.
-> >>>>> +                        */
-> >>>>> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
-> >>>>
-> >>>> "unlikely" doesn't really cover this.
-> >>>>
-> >>>>> +                       fpregs_unlock();
-> >>>>> +                       goto sigsegv;
-> >>>>> +               }
-> >>>>> +
-> >>>>> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
-> >>>>> +                       cet->user_ssp += 8;
-> >>>>
-> >>>> This looks buggy.  The condition should be "if SHSTK is on, then add 8
-> >>>> to user_ssp".  If the result is noncanonical, then some appropriate
-> >>>> exception should be generated, probably by the FPU restore code -- see
-> >>>> below.  You should be checking the SHSTK_EN bit, not SSP.
-> >>>
-> >>> Updated.  Is this OK?  I will resend the whole series later.
-> >>>
-> >>> Thanks,
-> >>> Yu-cheng
-> >>>
-> >>> ======
-> >>>
-> >>>   From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
-> >>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> >>> Date: Thu, 29 Nov 2018 14:15:38 -0800
-> >>> Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
-> >>> Indirect Branch
-> >>>    Tracking for vsyscall emulation
-> >>>
-> >>> Vsyscall entry points are effectively branch targets.  Mark them with
-> >>> ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
-> >>> and reset IBT state machine.
-> >>>
-> >>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> >>> ---
-> >>> v13:
-> >>> - Check shadow stack address is canonical.
-> >>> - Change from writing to MSRs to writing to CET xstate.
-> >>>
-> >>>    arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
-> >>>    arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
-> >>>    arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
-> >>>    3 files changed, 44 insertions(+)
-> >>>
-> >>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>> b/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>> index 44c33103a955..30b166091d46 100644
-> >>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>> @@ -38,6 +38,9 @@
-> >>>    #include <asm/fixmap.h>
-> >>>    #include <asm/traps.h>
-> >>>    #include <asm/paravirt.h>
-> >>> +#include <asm/fpu/xstate.h>
-> >>> +#include <asm/fpu/types.h>
-> >>> +#include <asm/fpu/internal.h>
-> >>>
-> >>>    #define CREATE_TRACE_POINTS
-> >>>    #include "vsyscall_trace.h"
-> >>> @@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
-> >>>          /* Emulate a ret instruction. */
-> >>>          regs->ip = caller;
-> >>>          regs->sp += 8;
-> >>> +
-> >>> +#ifdef CONFIG_X86_CET
-> >>> +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
-> >>> +               struct cet_user_state *cet;
-> >>> +               struct fpu *fpu;
-> >>> +
-> >>> +               fpu = &tsk->thread.fpu;
-> >>> +               fpregs_lock();
-> >>> +
-> >>> +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
-> >>> +                       copy_fpregs_to_fpstate(fpu);
-> >>> +                       set_thread_flag(TIF_NEED_FPU_LOAD);
-> >>> +               }
-> >>> +
-> >>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> >>> +               if (!cet) {
-> >>> +                       /*
-> >>> +                        * This should not happen.  The task is
-> >>> +                        * CET-enabled, but CET xstate is in INIT.
-> >>> +                        */
-> >>
-> >> Can the comment explain better, please?  I would say something like:
-> >>
-> >> If the kernel thinks this task has CET enabled (because
-> >> tsk->thread.cet has one of the features enabled), then the
-> >> corresponding bits must also be set in the CET XSAVES region.  If the
-> >> CET XSAVES region is in the INIT state, then the kernel's concept of
-> >> the task's CET state is corrupt.
-> >>
-> >>> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
-> >>> +                       fpregs_unlock();
-> >>> +                       goto sigsegv;
-> >>> +               }
-> >>> +
-> >>> +               if (cet->user_cet & CET_SHSTK_EN) {
-> >>> +                       if (cet->user_ssp && (cet->user_ssp + 8 < TASK_SIZE_MAX))
-> >>> +                               cet->user_ssp += 8;
-> >>> +               }
-> >>
-> >> This makes so sense to me.  Also, the vsyscall emulation code is
-> >> intended to be as rigid as possible to minimize the chance that it
-> >> gets used as an exploit gadget.  So we should not silently corrupt
-> >> anything.  Moreover, this code seems quite dangerous -- you've created
-> >> a gadget that does RET without actually verifying the SHSTK token.  If
-> >> SHSTK and some form of strong indirect branch/call CFI is in use, then
-> >> the existance of a CFI-bypassing return primitive at a fixed address
-> >> seems quite problematic.
-> >>
-> >> So I think you need to write a function that reasonably accurately
-> >> emulates a usermode RET.
-> >>
-> >
-> > For what it's worth, I think there is an alternative.  If you all
-> > (userspace people, etc) can come up with a credible way for a user
-> > program to statically declare that it doesn't need vsyscalls, then we
-> > could make SHSTK depend on *that*, and we could avoid this mess.  This
-> > breaks orthogonality, but it's probably a decent outcome.
-> >
->
-> Would an arch_prctl(DISABLE_VSYSCALL) work?  The kernel then sets a
-> thread flag, and in emulate_vsyscall(), checks the flag.
->
-> When CET is enabled, ld-linux will do DISABLE_VSYSCALL.
->
-> How is that?
-
-Backwards, no?  Presumably vsyscall needs to be disabled before or
-concurrently with CET being enabled, not after.
-
-I think the solution of making vsyscall emulation work correctly with
-CET is going to be better and possibly more straightforward.
-
->
-> Yu-cheng
+On Wed, Sep 30, 2020 at 03:25:03PM +0200, Mauro Carvalho Chehab wrote:
+> Those macros are not doing the right thing with Sphinx 3,
+> causing parse errors:
+> 
+> 	./Documentation/driver-api/fpga/fpga-mgr.rst:104: WARNING: Unparseable C cross-reference: 'fpga_manager->state'
+> 	Invalid C declaration: Expected end of definition. [error at 12]
+> 	  fpga_manager->state
+> 	  ------------^
+> 	./Documentation/driver-api/fpga/fpga-programming.rst:18: WARNING: Unparseable C cross-reference: 'fpga_region->info'
+> 	Invalid C declaration: Expected end of definition. [error at 11]
+> 	  fpga_region->info
+> 	  -----------^
+> 	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->bridge_list'
+> 	Invalid C declaration: Expected end of definition. [error at 11]
+> 	  fpga_region->bridge_list
+> 	  -----------^
+> 	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->get_bridges'
+> 	Invalid C declaration: Expected end of definition. [error at 11]
+> 	  fpga_region->get_bridges
+> 	  -----------^
+> 
+> Replace them by :c:expr:, with does what's desired.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Moritz Fischer <mdf@kernel.org>
+> ---
+>  Documentation/driver-api/fpga/fpga-mgr.rst         | 2 +-
+>  Documentation/driver-api/fpga/fpga-programming.rst | 2 +-
+>  Documentation/driver-api/fpga/fpga-region.rst      | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
+> index 22f7885b32c9..917ee22db429 100644
+> --- a/Documentation/driver-api/fpga/fpga-mgr.rst
+> +++ b/Documentation/driver-api/fpga/fpga-mgr.rst
+> @@ -101,7 +101,7 @@ in state.
+>  API for implementing a new FPGA Manager driver
+>  ----------------------------------------------
+>  
+> -* ``fpga_mgr_states`` —  Values for :c:member:`fpga_manager->state`.
+> +* ``fpga_mgr_states`` —  Values for :c:expr:`fpga_manager->state`.
+>  * struct fpga_manager —  the FPGA manager struct
+>  * struct fpga_manager_ops —  Low level FPGA manager driver ops
+>  * devm_fpga_mgr_create() —  Allocate and init a manager struct
+> diff --git a/Documentation/driver-api/fpga/fpga-programming.rst b/Documentation/driver-api/fpga/fpga-programming.rst
+> index f487ad64dfb9..002392dab04f 100644
+> --- a/Documentation/driver-api/fpga/fpga-programming.rst
+> +++ b/Documentation/driver-api/fpga/fpga-programming.rst
+> @@ -15,7 +15,7 @@ the FPGA manager and bridges.  It will:
+>   * lock the mutex of the region's FPGA manager
+>   * build a list of FPGA bridges if a method has been specified to do so
+>   * disable the bridges
+> - * program the FPGA using info passed in :c:member:`fpga_region->info`.
+> + * program the FPGA using info passed in :c:expr:`fpga_region->info`.
+>   * re-enable the bridges
+>   * release the locks
+>  
+> diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
+> index 3e52be7e2968..363a8171ab0a 100644
+> --- a/Documentation/driver-api/fpga/fpga-region.rst
+> +++ b/Documentation/driver-api/fpga/fpga-region.rst
+> @@ -61,9 +61,9 @@ during the region's probe function.
+>  
+>  The FPGA region will need to specify which bridges to control while programming
+>  the FPGA.  The region driver can build a list of bridges during probe time
+> -(:c:member:`fpga_region->bridge_list`) or it can have a function that creates
+> +(:c:expr:`fpga_region->bridge_list`) or it can have a function that creates
+>  the list of bridges to program just before programming
+> -(:c:member:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
+> +(:c:expr:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
+>  following APIs to handle building or tearing down that list.
+>  
+>  * fpga_bridge_get_to_list() — Get a ref of an FPGA bridge, add it to a
+> -- 
+> 2.26.2
+> 
+Thanks!
