@@ -6,46 +6,37 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B700FC4727C
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F51C4727C
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:58:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8266220789
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:57:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CC4E2085B
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:58:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730611AbgI3O5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 10:57:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50476 "EHLO mx2.suse.de"
+        id S1728793AbgI3O6X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 10:58:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53844 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727426AbgI3O5Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 10:57:16 -0400
+        id S1728729AbgI3O6X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 10:58:23 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 36E98AB8F;
-        Wed, 30 Sep 2020 14:57:15 +0000 (UTC)
-Date:   Wed, 30 Sep 2020 16:57:14 +0200
-Message-ID: <s5hblhngvn9.wl-tiwai@suse.de>
+        by mx2.suse.de (Postfix) with ESMTP id D5AA4B2DC;
+        Wed, 30 Sep 2020 14:58:20 +0000 (UTC)
+Date:   Wed, 30 Sep 2020 16:58:20 +0200
+Message-ID: <s5ha6x7gvlf.wl-tiwai@suse.de>
 From:   Takashi Iwai <tiwai@suse.de>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
-        "rd.dunlab@gmail.com" <rd.dunlab@gmail.com>,
-        Harald Seiler <hws@denx.de>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Jaroslav Kysela <perex@perex.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Pragat Pandya <pragat.pandya@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
         Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 28/52] docs: remove sound API duplication
-In-Reply-To: <3556fe29bfa0e71c8da26e2d228a021a10ba62e1.1601467849.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v4 39/52] docs: writing-an-alsa-driver.rst: fix some bad c:func: markups
+In-Reply-To: <9c68c182ae5aa978d68b64695b1e3292fcf58e76.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <3556fe29bfa0e71c8da26e2d228a021a10ba62e1.1601467849.git.mchehab+huawei@kernel.org>
+        <9c68c182ae5aa978d68b64695b1e3292fcf58e76.1601467849.git.mchehab+huawei@kernel.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
  FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
  (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -55,18 +46,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Sep 2020 15:24:51 +0200,
+On Wed, 30 Sep 2020 15:25:02 +0200,
 Mauro Carvalho Chehab wrote:
 > 
-> The sound API is documented on two different parts:
-> under Documentation/driver-api/sound.rst and under
-> Documentation/sound/kernel-api/alsa-driver-api.rst.
+> Some such markups are invalid, as reported by Sphinx:
 > 
-> The alsa-driver-api.rst seems more complete, and APIs
-> are split per type. There's just one missing kernel-doc
-> markup there.
+> 	./Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3317: WARNING: Unparseable C cross-reference: 'snd_rawmidi_transmit*'
+> 	Invalid C declaration: Expected end of definition. [error at 20]
+> 	  snd_rawmidi_transmit*
+> 	  --------------------^
+> 	./Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3917: WARNING: Unparseable C cross-reference: 'copy_from/to_user'
+> 	Invalid C declaration: Expected end of definition. [error at 9]
+> 	  copy_from/to_user
+> 	  ---------^
 > 
-> Add it and drop the duplicated one.
+> The first case seems to be better replaced by a literal.
+> 
+> For the second one, let's generate cross-references, by
+> spliting it in two.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
