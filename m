@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E431C4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34BE9C4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21ABE2075F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC51320754
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601472532;
-	bh=pjtLSShGVJ4I7BmxpKk6Me+K3EVo/+mLjtcA7g+j7Yc=;
+	s=default; t=1601472536;
+	bh=8Wg4J7Lyd/Va8b7XV8z9jXdPVZ/IrSKHVEYF1TFbuSY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BbkC2sAmy68R8aFZP+8RVYQynvSB3aAQBCMoxEI487Xri/YLVM3TpbSXOsS1Gd9zy
-	 lvoVKCBcwJMjZvmqamd4fl92G1zX0fDXSKKCfNu6iPXqFJc1GVM4uDAvLqYkIhb9/0
-	 mC6x9WaK/No7A45a3kuCmXxs89ludaQj+lMp5vXo=
+	b=IwxtrJEVNn/AZnqXNMAQ/EoSa5D/9ts//fSIc29Iev1bh5olNShEr64g6kwEILV/N
+	 N4jUm4+lXsRSjKEoKTovr+cZ1bMqSFBIdbGWwQO//ey65vRaLAo7joEIre2SrLva1v
+	 O9ch9tiWj8ifSVdRIznqbSQ4P417fot8lVM0OSss=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730168AbgI3N2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 09:28:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38572 "EHLO mail.kernel.org"
+        id S1730227AbgI3N2z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 09:28:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38556 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728232AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1725776AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 30 Sep 2020 09:25:20 -0400
 Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A311520759;
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F11820754;
         Wed, 30 Sep 2020 13:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601472319;
-        bh=pjtLSShGVJ4I7BmxpKk6Me+K3EVo/+mLjtcA7g+j7Yc=;
+        bh=8Wg4J7Lyd/Va8b7XV8z9jXdPVZ/IrSKHVEYF1TFbuSY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=R57g7AaMmZxV6Fk3hYcYEse3OV9eItrHtNoG9aZ5fDR4iTcb9cErZBfCFuE4kVSZk
-         lmnPuIWDtzpGvN4PcCqtf3exxIl7sIcfnDHJuWOnPQRqw4eh+Dp5/+GrD7LGCajG9R
-         DnMIAxyvDMZLDUW9zYXOplQw9ooS2MQporC0zbdc=
+        b=BCanuSxcc/ikhDINlc/qIR5yo//gtqQ9HzjwgCwXQL6qh0AfRSxsvigycZJjze5Lr
+         GXpGNcfSscthQWopSwJhjAe6Dny3BuMInbntwdE2b0usTgae7mv8zbDdzvVvWpAaI7
+         gyrITZNcOYca1eBLAPYjXR1LRoiz71bSPWz1UFqI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6f-001XJ8-Q2; Wed, 30 Sep 2020 15:25:17 +0200
+        id 1kNc6f-001XIu-KS; Wed, 30 Sep 2020 15:25:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 08/52] scripts: kernel-doc: fix typedef identification
-Date:   Wed, 30 Sep 2020 15:24:31 +0200
-Message-Id: <f74e49b8eb75b9b20da2710f861d3f84fe1ece56.1601467849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 02/52] docs: cdomain.py: extend it to handle new Sphinx 3.x tags
+Date:   Wed, 30 Sep 2020 15:24:25 +0200
+Message-Id: <9c56ddb12976ec0f5a04cb3ce5e1e28ed22ff88c.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -59,93 +59,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some typedef expressions are output as normal functions.
+While most of the C domain parsing is done via kernel-doc,
+some RST files use C domain tags directly.
 
-As we need to be clearer about the type with Sphinx 3.x,
-detect such cases.
+While several of them can be removed for Sphinx < 3.0, due
+to automarkup.py, and several others that could be
+converted into kernel-doc markups, changes like that are
+time-consuming, and may not fit all cases.
 
-While here, fix a wrongly-indented block.
+As we already have the cdomain.py for handing backward
+compatibility with Sphinx versions below 3.0, let's
+make it more complete, in order to cover any usage of the
+newer tags outside kernel-doc.
+
+This way, it should be feasible to use the new tags inside
+the Kernel tree, without losing backward compatibility.
+
+This should allow fixing the remaining warnings with
+the Kernel tags.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 62 ++++++++++++++++++++++++++++++----------------
- 1 file changed, 40 insertions(+), 22 deletions(-)
+ Documentation/sphinx/cdomain.py | 40 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 6588a0d27fe4..a0344c78c641 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1741,30 +1741,48 @@ sub dump_function($$) {
- 	return;
+diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+index 35805c44a4fc..014a5229e57a 100644
+--- a/Documentation/sphinx/cdomain.py
++++ b/Documentation/sphinx/cdomain.py
+@@ -54,7 +54,7 @@ namespace = None
+ #
+ # Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
+ # - Store the namespace if ".. c:namespace::" tag is found
+-
++#
+ RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
+ 
+ def markup_namespace(match):
+@@ -64,10 +64,48 @@ def markup_namespace(match):
+ 
+     return ""
+ 
++#
++# Handle c:macro for function-style declaration
++#
++RE_macro = re.compile(r'^\s*..\s*c:macro::\s*(\S+)\s+(\S.*)\s*$')
++def markup_macro(match):
++    return ".. c:function:: " + match.group(1) + ' ' + match.group(2)
++
++#
++# Handle newer c domain tags that are evaluated as .. c:type: for
++# backward-compatibility with Sphinx < 3.0
++#
++RE_ctype = re.compile(r'^\s*..\s*c:(struct|union|enum|enumerator|alias)::\s*(.*)$')
++
++def markup_ctype(match):
++    return ".. c:type:: " + match.group(2)
++
++#
++# Handle newer c domain tags that are evaluated as :c:type: for
++# backward-compatibility with Sphinx < 3.0
++#
++RE_ctype_refs = re.compile(r':c:(var|struct|union|enum|enumerator)::`([^\`]+)`')
++def markup_ctype_refs(match):
++    return ":c:type:`" + match.group(2) + '`'
++
++#
++# Simply convert :c:expr: and :c:texpr: into a literal block.
++#
++RE_expr = re.compile(r':c:(expr|texpr):`([^\`]+)`')
++def markup_c_expr(match):
++    return '\ ``' + match.group(2) + '``\ '
++
++#
++# Parse Sphinx 3.x C markups, replacing them by backward-compatible ones
++#
+ def c_markups(app, docname, source):
+     result = ""
+     markup_func = {
+         RE_namespace: markup_namespace,
++        RE_expr: markup_c_expr,
++        RE_macro: markup_macro,
++        RE_ctype: markup_ctype,
++        RE_ctype_refs: markup_ctype_refs,
      }
  
--	my $prms = join " ", @parameterlist;
--	check_sections($file, $declaration_name, "function", $sectcheck, $prms);
-+    my $prms = join " ", @parameterlist;
-+    check_sections($file, $declaration_name, "function", $sectcheck, $prms);
- 
--        # This check emits a lot of warnings at the moment, because many
--        # functions don't have a 'Return' doc section. So until the number
--        # of warnings goes sufficiently down, the check is only performed in
--        # verbose mode.
--        # TODO: always perform the check.
--        if ($verbose && !$noret) {
--                check_return_section($file, $declaration_name, $return_type);
--        }
-+    # This check emits a lot of warnings at the moment, because many
-+    # functions don't have a 'Return' doc section. So until the number
-+    # of warnings goes sufficiently down, the check is only performed in
-+    # verbose mode.
-+    # TODO: always perform the check.
-+    if ($verbose && !$noret) {
-+	    check_return_section($file, $declaration_name, $return_type);
-+    }
- 
--    output_declaration($declaration_name,
--		       'function',
--		       {'function' => $declaration_name,
--			'module' => $modulename,
--			'functiontype' => $return_type,
--			'parameterlist' => \@parameterlist,
--			'parameterdescs' => \%parameterdescs,
--			'parametertypes' => \%parametertypes,
--			'sectionlist' => \@sectionlist,
--			'sections' => \%sections,
--			'purpose' => $declaration_purpose
--		       });
-+    # The function parser can be called with a typedef parameter.
-+    # Handle it.
-+    if ($return_type =~ /typedef/) {
-+	output_declaration($declaration_name,
-+			   'function',
-+			   {'function' => $declaration_name,
-+			    'typedef' => 1,
-+			    'module' => $modulename,
-+			    'functiontype' => $return_type,
-+			    'parameterlist' => \@parameterlist,
-+			    'parameterdescs' => \%parameterdescs,
-+			    'parametertypes' => \%parametertypes,
-+			    'sectionlist' => \@sectionlist,
-+			    'sections' => \%sections,
-+			    'purpose' => $declaration_purpose
-+			   });
-+    } else {
-+	output_declaration($declaration_name,
-+			   'function',
-+			   {'function' => $declaration_name,
-+			    'module' => $modulename,
-+			    'functiontype' => $return_type,
-+			    'parameterlist' => \@parameterlist,
-+			    'parameterdescs' => \%parameterdescs,
-+			    'parametertypes' => \%parametertypes,
-+			    'sectionlist' => \@sectionlist,
-+			    'sections' => \%sections,
-+			    'purpose' => $declaration_purpose
-+			   });
-+    }
- }
- 
- sub reset_state {
+     lines = iter(source[0].splitlines(True))
 -- 
 2.26.2
 
