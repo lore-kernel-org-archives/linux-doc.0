@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88837C47425
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6338DC47420
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5159E2085B
+	by mail.kernel.org (Postfix) with ESMTP id 30FAC2075F
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1601472520;
-	bh=UuSvHIrjXapwTN7/66N79LxGkjMN45/6gz2URmCBrYg=;
+	bh=0+EnP3ZDT+KyhPuJqAeV8ARJRg4AwySdCsA/hCoxFaU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xuX3elOQWhEmUsKftwe0XnPOIao+vwJAFK/2bQNZ5ruIIKiK+fchnc97u9M9FAL5H
-	 LAayfCPEpbrLq20BPceQgfoe+f2+uvPW4fVgmscD2YhMkVa2EaGxBnNX+SugaRCsvV
-	 4QOTF+vbob1SwcMZdKkeSgfVkY9t58EeSxuRa21E=
+	b=T0RIFxXbyZvhOxp+xiwnM2yZghQeH+BVYpHlbCoyak5zNjqSETVnhU57AJvg/V8iM
+	 FK1v5Wy/Ph22o92/jODcQj/lqSUqqgkEtSB08duChW5/AJTFuY+ESfszljG0hD/xO4
+	 sNVZf219HXdvSSx71sI1XEzAGeacG3lrvkLv3Fw0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730761AbgI3N2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730218AbgI3N2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 30 Sep 2020 09:28:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38716 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:38752 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730057AbgI3NZV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730104AbgI3NZV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 30 Sep 2020 09:25:21 -0400
 Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C29832076E;
+        by mail.kernel.org (Postfix) with ESMTPSA id CC9522085B;
         Wed, 30 Sep 2020 13:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601472319;
-        bh=UuSvHIrjXapwTN7/66N79LxGkjMN45/6gz2URmCBrYg=;
+        s=default; t=1601472320;
+        bh=0+EnP3ZDT+KyhPuJqAeV8ARJRg4AwySdCsA/hCoxFaU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aIQaWR4pratNb+dozOdawGxzCRPPr6mtSg5AyWf9zZtCw8qxC5neAbzWf/jJlZR+M
-         AnpHEtXVFZvmODVzNVDsx1mtwliAokeNsOIuhP1dJnVY+PrMuAfTa83hF4VYWH/eKz
-         bechOVlNwX+Apr82cF3IGFUm8NVtd186iz+/rx5g=
+        b=FWF0j2dndVvWbHwfw9+pgQI2o3ygiMwAtVE7Xj0Jp5FEkxTZyiyfbRZd0aI1BxSSL
+         G7SQPdipCr017pjyVThLeh/rcLfPl6qw3nFbJpwlkeb++RfyT/qmeB9vYAsoaN4rur
+         1MTrZOHUYdJN+ZfhjYIENZsp1U/rjGh0pK62sNEs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6f-001XJ6-P5; Wed, 30 Sep 2020 15:25:17 +0200
+        id 1kNc6f-001XJB-Qu; Wed, 30 Sep 2020 15:25:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 07/52] scripts: kernel-doc: reimplement -nofunction argument
-Date:   Wed, 30 Sep 2020 15:24:30 +0200
-Message-Id: <38b2fc38452e47d87168800f174a150ffab64740.1601467849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 09/52] scripts: kernel-doc: don't mangle with parameter list
+Date:   Wed, 30 Sep 2020 15:24:32 +0200
+Message-Id: <7fcbd109b395c0f31031257a52dcd508850e15a6.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -59,147 +59,130 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, the build system doesn't use -nofunction, as
-it is pretty much useless, because it doesn't consider
-the other output modes (extern, internal), working only
-with all.
+While kernel-doc needs to parse parameters in order to
+identify its name, it shouldn't be touching the type,
+as parsing it is very difficult, and errors happen.
 
-Also, it is limited to exclude functions.
+One current error is when parsing this parameter:
 
-Re-implement it in order to allow excluding any symbols from
-the document output, no matter what mode is used.
+	const u32 (*tab)[256]
 
-The parameter was also renamed to "-nosymbol", as it express
-better its meaning.
+Found at ./lib/crc32.c, on this function:
+
+	u32 __pure crc32_be_generic (u32 crc, unsigned char const *p, size_t len, const u32 (*tab)[256], u32 polynomial);
+
+The current logic mangles it, producing this output:
+
+	const u32 ( *tab
+
+That's something that it is not recognizeable.
+
+So, instead, let's push the argument as-is, and use it
+when printing the function prototype and when describing
+each argument.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 44 +++++++++++++++++++++-----------------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ scripts/kernel-doc | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 07b1073b0bc0..6588a0d27fe4 100755
+index a0344c78c641..f549837d874d 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -66,9 +66,8 @@ Output selection (mutually exclusive):
-   -function NAME	Only output documentation for the given function(s)
- 			or DOC: section title(s). All other functions and DOC:
- 			sections are ignored. May be specified multiple times.
--  -nofunction NAME	Do NOT output documentation for the given function(s);
--			only output documentation for the other functions and
--			DOC: sections. May be specified multiple times.
-+  -nosymbol NAME	Exclude the specified symbols from the output
-+		        documentation. May be specified multiple times.
- 
- Output selection modifiers:
-   -no-doc-sections	Do not output DOC: sections.
-@@ -288,9 +287,8 @@ my $modulename = "Kernel API";
- use constant {
-     OUTPUT_ALL          => 0, # output all symbols and doc sections
-     OUTPUT_INCLUDE      => 1, # output only specified symbols
--    OUTPUT_EXCLUDE      => 2, # output everything except specified symbols
--    OUTPUT_EXPORTED     => 3, # output exported symbols
--    OUTPUT_INTERNAL     => 4, # output non-exported symbols
-+    OUTPUT_EXPORTED     => 2, # output exported symbols
-+    OUTPUT_INTERNAL     => 3, # output non-exported symbols
- };
- my $output_selection = OUTPUT_ALL;
- my $show_not_found = 0;	# No longer used
-@@ -315,6 +313,7 @@ my $man_date = ('January', 'February', 'March', 'April', 'May', 'June',
- # CAVEAT EMPTOR!  Some of the others I localised may not want to be, which
- # could cause "use of undefined value" or other bugs.
- my ($function, %function_table, %parametertypes, $declaration_purpose);
-+my %nosymbol_table = ();
- my $declaration_start_line;
- my ($type, $declaration_name, $return_type);
- my ($newsection, $newcontents, $prototype, $brcount, %source_map);
-@@ -434,10 +433,9 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	$output_selection = OUTPUT_INCLUDE;
- 	$function = shift @ARGV;
- 	$function_table{$function} = 1;
--    } elsif ($cmd eq "nofunction") { # output all except specific functions
--	$output_selection = OUTPUT_EXCLUDE;
--	$function = shift @ARGV;
--	$function_table{$function} = 1;
-+    } elsif ($cmd eq "nosymbol") { # Exclude specific symbols
-+	my $symbol = shift @ARGV;
-+	$nosymbol_table{$symbol} = 1;
-     } elsif ($cmd eq "export") { # only exported symbols
- 	$output_selection = OUTPUT_EXPORTED;
- 	%function_table = ();
-@@ -570,11 +568,11 @@ sub dump_doc_section {
-         return;
+@@ -655,10 +655,10 @@ sub output_function_man(%) {
+ 	$type = $args{'parametertypes'}{$parameter};
+ 	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
+ 	    # pointer-to-function
+-	    print ".BI \"" . $parenth . $1 . "\" " . $parameter . " \") (" . $2 . ")" . $post . "\"\n";
++	    print ".BI \"" . $parenth . $1 . "\" " . " \") (" . $2 . ")" . $post . "\"\n";
+ 	} else {
+ 	    $type =~ s/([^\*])$/$1 /;
+-	    print ".BI \"" . $parenth . $type . "\" " . $parameter . " \"" . $post . "\"\n";
++	    print ".BI \"" . $parenth . $type . "\" " . " \"" . $post . "\"\n";
+ 	}
+ 	$count++;
+ 	$parenth = "";
+@@ -929,7 +929,7 @@ sub output_function_rst(%) {
+ 	    # pointer-to-function
+ 	    print $1 . $parameter . ") (" . $2 . ")";
+ 	} else {
+-	    print $type . " " . $parameter;
++	    print $type;
+ 	}
      }
+     if ($args{'typedef'}) {
+@@ -954,7 +954,7 @@ sub output_function_rst(%) {
+ 	$type = $args{'parametertypes'}{$parameter};
  
-+    return if (defined($nosymbol_table{$name}));
-+
-     if (($output_selection == OUTPUT_ALL) ||
--	($output_selection == OUTPUT_INCLUDE &&
--	 defined($function_table{$name})) ||
--	($output_selection == OUTPUT_EXCLUDE &&
--	 !defined($function_table{$name})))
-+	(($output_selection == OUTPUT_INCLUDE) &&
-+	 defined($function_table{$name})))
-     {
- 	dump_section($file, $name, $contents);
- 	output_blockhead({'sectionlist' => \@sectionlist,
-@@ -800,6 +798,8 @@ sub output_blockhead_rst(%) {
-     my ($parameter, $section);
- 
-     foreach $section (@{$args{'sectionlist'}}) {
-+	next if (defined($nosymbol_table{$section}));
-+
- 	if ($output_selection != OUTPUT_INCLUDE) {
- 	    print "**$section**\n\n";
+ 	if ($type ne "") {
+-	    print "``$type $parameter``\n";
++	    print "``$type``\n";
+ 	} else {
+ 	    print "``$parameter``\n";
  	}
-@@ -1115,12 +1115,14 @@ sub output_declaration {
-     my $name = shift;
-     my $functype = shift;
-     my $func = "output_${functype}_$output_mode";
+@@ -1472,7 +1472,7 @@ sub create_parameterlist($$$$) {
+ 	    # Treat preprocessor directive as a typeless variable just to fill
+ 	    # corresponding data structures "correctly". Catch it later in
+ 	    # output_* subs.
+-	    push_parameter($arg, "", $file);
++	    push_parameter($arg, "", "", $file);
+ 	} elsif ($arg =~ m/\(.+\)\s*\(/) {
+ 	    # pointer-to-function
+ 	    $arg =~ tr/#/,/;
+@@ -1481,7 +1481,7 @@ sub create_parameterlist($$$$) {
+ 	    $type = $arg;
+ 	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+ 	    save_struct_actual($param);
+-	    push_parameter($param, $type, $file, $declaration_name);
++	    push_parameter($param, $type, $arg, $file, $declaration_name);
+ 	} elsif ($arg) {
+ 	    $arg =~ s/\s*:\s*/:/g;
+ 	    $arg =~ s/\s*\[/\[/g;
+@@ -1506,26 +1506,28 @@ sub create_parameterlist($$$$) {
+ 	    foreach $param (@args) {
+ 		if ($param =~ m/^(\*+)\s*(.*)/) {
+ 		    save_struct_actual($2);
+-		    push_parameter($2, "$type $1", $file, $declaration_name);
 +
-+    return if (defined($nosymbol_table{$name}));
-+
-     if (($output_selection == OUTPUT_ALL) ||
- 	(($output_selection == OUTPUT_INCLUDE ||
- 	  $output_selection == OUTPUT_EXPORTED) &&
- 	 defined($function_table{$name})) ||
--	(($output_selection == OUTPUT_EXCLUDE ||
--	  $output_selection == OUTPUT_INTERNAL) &&
-+	($output_selection == OUTPUT_INTERNAL &&
- 	 !($functype eq "function" && defined($function_table{$name}))))
-     {
- 	&$func(@_);
-@@ -1301,6 +1303,8 @@ sub show_warnings($$) {
- 	my $functype = shift;
- 	my $name = shift;
- 
-+	return 0 if (defined($nosymbol_table{$name}));
-+
- 	return 1 if ($output_selection == OUTPUT_ALL);
- 
- 	if ($output_selection == OUTPUT_EXPORTED) {
-@@ -1324,13 +1328,6 @@ sub show_warnings($$) {
- 			return 0;
++		    push_parameter($2, "$type $1", $arg, $file, $declaration_name);
  		}
+ 		elsif ($param =~ m/(.*?):(\d+)/) {
+ 		    if ($type ne "") { # skip unnamed bit-fields
+ 			save_struct_actual($1);
+-			push_parameter($1, "$type:$2", $file, $declaration_name)
++			push_parameter($1, "$type:$2", $arg, $file, $declaration_name)
+ 		    }
+ 		}
+ 		else {
+ 		    save_struct_actual($param);
+-		    push_parameter($param, $type, $file, $declaration_name);
++		    push_parameter($param, $type, $arg, $file, $declaration_name);
+ 		}
+ 	    }
  	}
--	if ($output_selection == OUTPUT_EXCLUDE) {
--		if (!defined($function_table{$name})) {
--			return 1;
--		} else {
--			return 0;
--		}
--	}
- 	die("Please add the new output type at show_warnings()");
+     }
  }
  
-@@ -1945,6 +1942,7 @@ sub process_export_file($) {
+-sub push_parameter($$$$) {
++sub push_parameter($$$$$) {
+ 	my $param = shift;
+ 	my $type = shift;
++	my $org_arg = shift;
+ 	my $file = shift;
+ 	my $declaration_name = shift;
  
-     while (<IN>) {
- 	if (/$export_symbol/) {
-+	    next if (defined($nosymbol_table{$2}));
- 	    $function_table{$2} = 1;
- 	}
-     }
+@@ -1589,8 +1591,8 @@ sub push_parameter($$$$) {
+ 	# "[blah" in a parameter string;
+ 	###$param =~ s/\s*//g;
+ 	push @parameterlist, $param;
+-	$type =~ s/\s\s+/ /g;
+-	$parametertypes{$param} = $type;
++	$org_arg =~ s/\s\s+/ /g;
++	$parametertypes{$param} = $org_arg;
+ }
+ 
+ sub check_sections($$$$$) {
 -- 
 2.26.2
 
