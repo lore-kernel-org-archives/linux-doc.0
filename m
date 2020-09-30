@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D4BC47426
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E431C4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 253632076B
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 21ABE2075F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601472531;
-	bh=nppqgRkE8NET8Mnmupu4lt6l5W2Mb0AlILegNl2tCpQ=;
+	s=default; t=1601472532;
+	bh=pjtLSShGVJ4I7BmxpKk6Me+K3EVo/+mLjtcA7g+j7Yc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=YF1wro58h/jrSWMcDi4mPQF7YYLg1rDy9waYwQ/TTkfnZr1EjDQlWo4uyK+TC8KC7
-	 D1i1WJobGFZI4qEWtsej1DSZ5ThA5bsAzDNmp8OW0Xm7KusFbegoKbuXfqcP7kwHcj
-	 gBJLXADpoAeLYpiEGmT0wvVe0h2YOPEdB2nB1G4A=
+	b=BbkC2sAmy68R8aFZP+8RVYQynvSB3aAQBCMoxEI487Xri/YLVM3TpbSXOsS1Gd9zy
+	 lvoVKCBcwJMjZvmqamd4fl92G1zX0fDXSKKCfNu6iPXqFJc1GVM4uDAvLqYkIhb9/0
+	 mC6x9WaK/No7A45a3kuCmXxs89ludaQj+lMp5vXo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730188AbgI3NZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 09:25:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38602 "EHLO mail.kernel.org"
+        id S1730168AbgI3N2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 09:28:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38572 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729767AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728232AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 30 Sep 2020 09:25:20 -0400
-Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
+Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C5936207FB;
+        by mail.kernel.org (Postfix) with ESMTPSA id A311520759;
         Wed, 30 Sep 2020 13:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601472319;
-        bh=nppqgRkE8NET8Mnmupu4lt6l5W2Mb0AlILegNl2tCpQ=;
+        bh=pjtLSShGVJ4I7BmxpKk6Me+K3EVo/+mLjtcA7g+j7Yc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E6AJRS3pazKAZ6k1PD15locUkS+I2QNy9GN2VPKltnLHYdmALSI68rjvcN2CE4HTJ
-         6zWyiiW8b5imxgzSkC/uPy/I551p3fblRzXJjxQrNQexvRAq7i7GAaIWOy/5RktB1B
-         M1CcwnkJ5HkJIKeXSLM7F/bRMzsiexNLBz00Y9Pc=
+        b=R57g7AaMmZxV6Fk3hYcYEse3OV9eItrHtNoG9aZ5fDR4iTcb9cErZBfCFuE4kVSZk
+         lmnPuIWDtzpGvN4PcCqtf3exxIl7sIcfnDHJuWOnPQRqw4eh+Dp5/+GrD7LGCajG9R
+         DnMIAxyvDMZLDUW9zYXOplQw9ooS2MQporC0zbdc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6f-001XIw-LQ; Wed, 30 Sep 2020 15:25:17 +0200
+        id 1kNc6f-001XJ8-Q2; Wed, 30 Sep 2020 15:25:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 03/52] docs: conf.py: disable automarkup for Sphinx 3.x
-Date:   Wed, 30 Sep 2020 15:24:26 +0200
-Message-Id: <5d07d0f9cf3e354c28e9e83956121738a6e71280.1601467849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 08/52] scripts: kernel-doc: fix typedef identification
+Date:   Wed, 30 Sep 2020 15:24:31 +0200
+Message-Id: <f74e49b8eb75b9b20da2710f861d3f84fe1ece56.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -59,37 +59,93 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The class types changed after the C domain rewrite on
-Sphinx 3.x. Due to that, the automarkup extension is just
-generating additional noise when trying to convert structs
-and other markups into cross references.
+Some typedef expressions are output as normal functions.
+
+As we need to be clearer about the type with Sphinx 3.x,
+detect such cases.
+
+While here, fix a wrongly-indented block.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/kernel-doc | 62 ++++++++++++++++++++++++++++++----------------
+ 1 file changed, 40 insertions(+), 22 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 0a102d57437d..3875401486de 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -37,7 +37,7 @@ needs_sphinx = '1.3'
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
--              'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-+              'kfigure', 'sphinx.ext.ifconfig',
-               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 6588a0d27fe4..a0344c78c641 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1741,30 +1741,48 @@ sub dump_function($$) {
+ 	return;
+     }
  
- #
-@@ -52,6 +52,7 @@ if major >= 3:
- 	''')
- else:
-     extensions.append('cdomain')
-+    extensions.append('automarkup')
+-	my $prms = join " ", @parameterlist;
+-	check_sections($file, $declaration_name, "function", $sectcheck, $prms);
++    my $prms = join " ", @parameterlist;
++    check_sections($file, $declaration_name, "function", $sectcheck, $prms);
  
- # Ensure that autosectionlabel will produce unique names
- autosectionlabel_prefix_document = True
+-        # This check emits a lot of warnings at the moment, because many
+-        # functions don't have a 'Return' doc section. So until the number
+-        # of warnings goes sufficiently down, the check is only performed in
+-        # verbose mode.
+-        # TODO: always perform the check.
+-        if ($verbose && !$noret) {
+-                check_return_section($file, $declaration_name, $return_type);
+-        }
++    # This check emits a lot of warnings at the moment, because many
++    # functions don't have a 'Return' doc section. So until the number
++    # of warnings goes sufficiently down, the check is only performed in
++    # verbose mode.
++    # TODO: always perform the check.
++    if ($verbose && !$noret) {
++	    check_return_section($file, $declaration_name, $return_type);
++    }
+ 
+-    output_declaration($declaration_name,
+-		       'function',
+-		       {'function' => $declaration_name,
+-			'module' => $modulename,
+-			'functiontype' => $return_type,
+-			'parameterlist' => \@parameterlist,
+-			'parameterdescs' => \%parameterdescs,
+-			'parametertypes' => \%parametertypes,
+-			'sectionlist' => \@sectionlist,
+-			'sections' => \%sections,
+-			'purpose' => $declaration_purpose
+-		       });
++    # The function parser can be called with a typedef parameter.
++    # Handle it.
++    if ($return_type =~ /typedef/) {
++	output_declaration($declaration_name,
++			   'function',
++			   {'function' => $declaration_name,
++			    'typedef' => 1,
++			    'module' => $modulename,
++			    'functiontype' => $return_type,
++			    'parameterlist' => \@parameterlist,
++			    'parameterdescs' => \%parameterdescs,
++			    'parametertypes' => \%parametertypes,
++			    'sectionlist' => \@sectionlist,
++			    'sections' => \%sections,
++			    'purpose' => $declaration_purpose
++			   });
++    } else {
++	output_declaration($declaration_name,
++			   'function',
++			   {'function' => $declaration_name,
++			    'module' => $modulename,
++			    'functiontype' => $return_type,
++			    'parameterlist' => \@parameterlist,
++			    'parameterdescs' => \%parameterdescs,
++			    'parametertypes' => \%parametertypes,
++			    'sectionlist' => \@sectionlist,
++			    'sections' => \%sections,
++			    'purpose' => $declaration_purpose
++			   });
++    }
+ }
+ 
+ sub reset_state {
 -- 
 2.26.2
 
