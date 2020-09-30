@@ -2,156 +2,198 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51D3EC4727C
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:13:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D11A0C4727C
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:35:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC0DD20657
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:13:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601478827;
-	bh=tu8ftrC/0bjq3PeLZIRfKTlpvOojwl1EwbHoEDNIvgQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=Ww+Azxi3S5hsfbpv679F134/EQ7QFycfHKdEEpcgda2ypLqi+O9fhjv7YJHJPkLU0
-	 Kw+qB/5xVukTKndIcQkxsSqOobG3/1wFlOFhSCBZay72hLCsOacWDX8LEtWTNOHs+z
-	 jmTDPz/zisvE2IIWYG/q+Xa6ACd8sKWI6EKAtwCc=
+	by mail.kernel.org (Postfix) with ESMTP id 686082071E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:35:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="EQDLDjAV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728329AbgI3PNf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 11:13:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37642 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725823AbgI3PNc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:13:32 -0400
-Received: from coco.lan (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 90CAE20657;
-        Wed, 30 Sep 2020 15:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601478811;
-        bh=tu8ftrC/0bjq3PeLZIRfKTlpvOojwl1EwbHoEDNIvgQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=zSART5+VxnaxSywTcYKJlwI5Q7jOjrzdig/Ri5UB6XV0cGLTo/PQ2wQ3Pvkfu5Q8N
-         WxHXppc1DC+2Z7ZSlyG5UFS6o/AU24cfIcuz7+wKywKwaRNQIumKEV2w9trVeEK90V
-         uxQ+K2wn3gRH32bIrLWXe6E0ItLA8gLyEEQiI05Q=
-Date:   Wed, 30 Sep 2020 17:13:27 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1727749AbgI3Pfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 11:35:42 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:56854 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725823AbgI3Pfm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 11:35:42 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08UFZSWG043433;
+        Wed, 30 Sep 2020 10:35:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1601480128;
+        bh=Ha0TyEbot1I7jz4gfFATAE7RfhJINYxlN88YUqG3+64=;
+        h=From:To:CC:Subject:Date;
+        b=EQDLDjAV5j8KXdcEW8cfzGk3R32rG8rclDNcEBrOagpL/UCkPVFp/D+PiqQD+8Blo
+         s/HamfnMaJMKlfWQkIDClLHMUnSlEJTYT5M12kbOIIhqIcLgwXcwiCYx0H9KA7laOB
+         3NaODIITsbbfDow7wDjiF0zV/N2NZUjjvanu5Uu4=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08UFZSSU029667;
+        Wed, 30 Sep 2020 10:35:28 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 30
+ Sep 2020 10:35:28 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 30 Sep 2020 10:35:28 -0500
+Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08UFZLZP033254;
+        Wed, 30 Sep 2020 10:35:22 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v4 19/52] memblock: get rid of a :c:type leftover
-Message-ID: <20200930171327.509ee344@coco.lan>
-In-Reply-To: <20200930142323.GL2142832@kernel.org>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <0aab04f62bc3dfa82394e20d61c05c6efbfb4859.1601467849.git.mchehab+huawei@kernel.org>
-        <20200930142323.GL2142832@kernel.org>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
+Subject: [PATCH v7 00/18] Implement NTB Controller using multiple PCI EP
+Date:   Wed, 30 Sep 2020 21:05:01 +0530
+Message-ID: <20200930153519.7282-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 30 Sep 2020 17:23:23 +0300
-Mike Rapoport <rppt@kernel.org> escreveu:
+This series is about implementing SW defined Non-Transparent Bridge (NTB)
+using multiple endpoint (EP) instances. This series has been tested using
+2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
+on the other end. However there is nothing platform specific for the NTB
+functionality.
 
-> Hello Mauro,
-> 
-> On Wed, Sep 30, 2020 at 03:24:42PM +0200, Mauro Carvalho Chehab wrote:
-> > chanseset b3a7bb1851c8 ("docs: get rid of :c:type explicit declarations for structs")
-> > removed several :c:type: markups, except by one.
-> > 
-> > Now, Sphinx 3.x complains about it:
-> > 
-> > 	.../Documentation/core-api/boot-time-mm:26: ../mm/memblock.c:51: WARNING: Unparseable C cross-reference: 'struct\nmemblock_type'
-> > 	Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
-> > 	  struct
-> > 	memblock_type
-> > 	  ------^  
-> 
-> Maybe this warning is caused by '\n' between struct and memblock_type?
-> There are two more occurences of :c:type: around and they do not seem to
-> cause warnings.
+This was presented in Linux Plumbers Conference. Link to presentation
+and video can be found @ [1]
 
-Yeah, maybe. Yet, according with:
+RFC patch series can be found @ [2]
+v1 patch series can be found @ [3]
+v2 patch series can be found @ [4]
+v3 patch series can be found @ [5]
+v4 patch series can be found @ [6]
+v5 patch series can be found @ [7]
+v6 patch series can be found @ [8]
 
-	https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#c-roles
+Changes from v6:
+1) Fixed issues when multiple NTB devices are creating using multiple
+   functions
+2) Fixed issue with writing scratchpad register
+3) Created a video demo @ [9]
 
-c:type: should only be used together with ".. c:type", and this
-doesn't work anymore for declaring structs, as the only valid
-ways of using it after Sphinx 3.0 are:
+Changes from v5:
+1) Fixed a formatting issue in Kconfig pointed out by Randy
+2) Checked for Error or Null in pci_epc_add_epf()
 
-	.. c:type:: typedef-like declaration
-	.. c:type:: name
+Changes from v4:
+1) Fixed error condition checks in pci_epc_add_epf()
 
-So, the old syntax generated by kernel doc:
+Changes from v3:
+1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
 
-	.. c:type:: struct foo
+Changes from v2:
+1) Add support for the user to create sub-directory of 'EPF Device'
+   directory (for endpoint function specific configuration using
+   configfs).
+2) Add documentation for NTB specific attributes in configfs
+3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
+   driver
+4) Other documentation fixes
 
-Doesn't work anymore. Kernel-doc now uses, instead:
+Changes from v1:
+1) As per Rob's comment, removed support for creating NTB function
+   device from DT
+2) Add support to create NTB EPF device using configfs (added support in
+   configfs to associate primary and secondary EPC with EPF.
 
-	.. c:struct:: foo
+Changes from RFC:
+1) Converted the DT binding patches to YAML schema and merged the
+   DT binding patches together
+2) NTB documentation is converted to .rst
+3) One HOST can now interrupt the other HOST using MSI-X interrupts
+4) Added support for teardown of memory window and doorbell
+   configuration
+5) Add support to provide support 64-bit memory window size from
+   DT
 
-(if version >= 3.0)
+[1] -> https://linuxplumbersconf.org/event/4/contributions/395/
+[2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
+[3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
+[5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
+[6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
+[7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
+[8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
+[9] -> https://youtu.be/dLKKxrg5-rY
 
-So, the right tag would be: :c:struct`foo`, if Sphinx > 3
-or c:type:`foo` for older versions.
+Kishon Vijay Abraham I (18):
+  Documentation: PCI: Add specification for the *PCI NTB* function
+    device
+  PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+    BAR
+  PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+  PCI: endpoint: Make *_free_bar() to return error codes on failure
+  PCI: endpoint: Remove unused pci_epf_match_device()
+  PCI: endpoint: Add support to associate secondary EPC with EPF
+  PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+  PCI: endpoint: Add pci_epc_ops to map MSI irq
+  PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
+    specific attrs
+  PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
+    directory
+  PCI: cadence: Implement ->msi_map_irq() ops
+  PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
+  PCI: endpoint: Add EP function driver to provide NTB functionality
+  PCI: Add TI J721E device to pci ids
+  NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+  NTB: tool: Enable the NTB/PCIe link on the local or remote side of
+    bridge
+  Documentation: PCI: Add configfs binding documentation for pci-ntb
+    endpoint function
+  Documentation: PCI: Add userguide for PCI endpoint NTB function
 
-Better to rely on having the automarkup solving this for
-us.
+ .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
+ Documentation/PCI/endpoint/index.rst          |    3 +
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
+ .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
+ Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
+ drivers/misc/pci_endpoint_test.c              |    1 -
+ drivers/ntb/hw/Kconfig                        |    1 +
+ drivers/ntb/hw/Makefile                       |    1 +
+ drivers/ntb/hw/epf/Kconfig                    |    6 +
+ drivers/ntb/hw/epf/Makefile                   |    1 +
+ drivers/ntb/hw/epf/ntb_hw_epf.c               |  755 ++++++
+ drivers/ntb/test/ntb_tool.c                   |    1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
+ drivers/pci/endpoint/functions/Kconfig        |   12 +
+ drivers/pci/endpoint/functions/Makefile       |    1 +
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
+ drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
+ drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
+ drivers/pci/endpoint/pci-epc-core.c           |  130 +-
+ drivers/pci/endpoint/pci-epf-core.c           |  105 +-
+ include/linux/pci-epc.h                       |   39 +-
+ include/linux/pci-epf.h                       |   28 +-
+ include/linux/pci_ids.h                       |    1 +
+ 23 files changed, 3934 insertions(+), 73 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
+ create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
+ create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+ create mode 100644 drivers/ntb/hw/epf/Kconfig
+ create mode 100644 drivers/ntb/hw/epf/Makefile
+ create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+ create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
 
--
+-- 
+2.17.1
 
-> 
-> > As, on Sphinx 3.x, the right markup is c:struct:`foo`.
-> > 
-> > So, let's remove it, relying on automarkup.py to convert it.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  mm/memblock.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/mm/memblock.c b/mm/memblock.c
-> > index 165f40a8a254..326c6b3fec1d 100644
-> > --- a/mm/memblock.c
-> > +++ b/mm/memblock.c
-> > @@ -50,8 +50,8 @@
-> >   *
-> >   * Each region is represented by :c:type:`struct memblock_region` that  
-> 
-> Can you please also convert this one?
-> 
-> >   * defines the region extents, its attributes and NUMA node id on NUMA
-> > - * systems. Every memory type is described by the :c:type:`struct
-> > - * memblock_type` which contains an array of memory regions along with
-> > + * systems. Every memory type is described by the struct memblock_type
-> > + * which contains an array of memory regions along with
-> >   * the allocator metadata. The "memory" and "reserved" types are nicely
-> >   * wrapped with :c:type:`struct memblock`. This structure is statically  
-> 
-> And this?
-
-Good point.
-
-I'll change those too for the next version.
-
-
-> 
-> >   * initialized at build time. The region arrays are initially sized to
-> > -- 
-> > 2.26.2
-> >   
-> 
-
-
-
-Thanks,
-Mauro
