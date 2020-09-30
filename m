@@ -1,121 +1,141 @@
-Return-Path: <SRS0=tD+q=DG=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4435FC4727D
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 23:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B518C4727C
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 02:57:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE9CC20691
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Sep 2020 23:53:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33817207C3
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 02:57:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iI8aT1Wp"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="st7S9SNA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729499AbgI2Xx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Sep 2020 19:53:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39658 "EHLO
+        id S1729774AbgI3C5T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Sep 2020 22:57:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729691AbgI2Xx2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 19:53:28 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E703C0613D3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 16:53:28 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id n7so1596vkq.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 16:53:28 -0700 (PDT)
+        with ESMTP id S1729708AbgI3C5T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Sep 2020 22:57:19 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511FCC0613D0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 19:57:19 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id f1so129553plo.13
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 19:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GOMvpJf6jnH+JyF4Og6jExEF8H9zHVHC1Jf6qwYVtbM=;
-        b=iI8aT1Wp1Gb1k5+bUZubbPKESeO6IaGvH04eyr/FlKisSVUJrSN7sxDr7ZHh6ykQ/k
-         p7cNKRYxDABzhCKvmHmHPKiowzooCDlBaAZvhSAf2IiRXIGwzXrOzYmprGqkR3t5zyME
-         2T3KDDuBxMrpVIi6xezEVmNob5wdPQLidqukU=
+        bh=CdiVN4MoIYXNti+D+K08kG5fvyK/5dVLiPfaQfAKwuc=;
+        b=st7S9SNAhg2fIivqpQzhvrmcfW5mzGTGWG1LtzKvUjHGTdp9KEpCjllhjbUkwx8WMn
+         p+cm1bIZEbYMfWgnoa4eAa+w8rrpDyy6EioF5U9eOyqidEfxrmln7sdWs2yOwSMV3nO/
+         Pay10GF4e4N7hV0bKa6EAtxlwraP7NZsceZJljRUjsjHPwwAe2sMnECuiu4rO9lbmXQ7
+         /w5bVInm5XamYfffGzqU1JfC/KFvZBOXUYsy+0bmp1AGwShCNSodR80vnTfEYSwkh8VB
+         j07h44UWD3b/JibpXDuqHYCJgEh7xtwuiZfR5xl7OPdxhe5PT9k493K2YrBfb/zTdEi3
+         IhSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GOMvpJf6jnH+JyF4Og6jExEF8H9zHVHC1Jf6qwYVtbM=;
-        b=VOaZjcKGRznh8Jt+TFJiNOEbW7uT0P8N86EI9HhlBDUD8oNjAC1YsYHE1IQ/mP2Qga
-         u2lZxsMe1T2e1ucKk6LPdwR7yb0L1LAE9FTT4ui2puIUna0CY4VudV1CsTpgmtcUB4s+
-         LQ8OcJghE6Gi340YAZRK8tspPHHIJh8RwoxNFswAiO9PGgYciPMnvr4na0ki4ErAow9K
-         y7NJ5tR4ZXV1yUOba8ILc/5GF/JLBYMcZ/Ui6SkBj/1W9Bi/JMnNKwrfKNfbQ4yqSiBR
-         Jwom7L24sVYp6bMjMBjw1wlcntSBCOZhVLwsnXZJOUQG3wt4Rla6Q5bILZj7q8G/lJiv
-         rk7Q==
-X-Gm-Message-State: AOAM531g9lS6xPnjbYfVmaLxMTw6I8tCni4KeRImEjYvg5w53Quu+Myj
-        cpztoCNCh/UEfoBJupTFmCbxv+eoW4fvlw==
-X-Google-Smtp-Source: ABdhPJwtRaG1fYuHUFPPSLIVcz6X/SO2GYZ5RA6vS4Na+9f5ETvIyEuEDTFkjlX03U7RzEsLPT93VA==
-X-Received: by 2002:a1f:43d0:: with SMTP id q199mr12177vka.9.1601423606798;
-        Tue, 29 Sep 2020 16:53:26 -0700 (PDT)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
-        by smtp.gmail.com with ESMTPSA id b30sm556486uad.18.2020.09.29.16.53.24
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2020 16:53:25 -0700 (PDT)
-Received: by mail-ua1-f52.google.com with SMTP id q26so4069250uaa.12
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2020 16:53:24 -0700 (PDT)
-X-Received: by 2002:ab0:29d7:: with SMTP id i23mr2207uaq.121.1601423604458;
- Tue, 29 Sep 2020 16:53:24 -0700 (PDT)
+        bh=CdiVN4MoIYXNti+D+K08kG5fvyK/5dVLiPfaQfAKwuc=;
+        b=MLpgxPr+yvOJF83OoFgn1V6wJIvA/INjZYRmVBbJX9U4mIanfMzXyTeh6M0EOo8ogf
+         glD211fNpcLzNYgESWv2b/DLkHQiIOffGKmuEZ6iurnO7KeVOIxEcAxRul3ekgVZ/+IN
+         ZUFfR1bqW5lnsQhOeWPWaJC493zIfilp2m/Zy71iwAiu/kSrYoDpI+SjcOK8hJXiDy8H
+         nxGYfC6bePqQO0PRUEJkmwLNYoeCc+jiSAAN/k/FX9BVqIxOTdOTYccj7IjC3s9nvJT0
+         UzrIK7Ql2jetgAIUF1pq4ZiDNZUaiKiKJv4VzvvNO2MSHjrhe9opYTI+Nhz65ROV6mm/
+         ef/w==
+X-Gm-Message-State: AOAM531p2z6S1JzPuVg/E9xsnE53SzOZ29h8FKeICOPnaw6zLaAvdHj4
+        ge4NFBuC/grNWsF7EJpLF3fEJla/AiVR1Gs7O6ay4g==
+X-Google-Smtp-Source: ABdhPJzX8idHqOKVy8umpqeXFwxgXNk3IKXSzqUAsXAqoXS95sel9yV5OAk2sSs+jMNGas6VmwSpjHHlG7L1C4y7lw4=
+X-Received: by 2002:a17:90a:bc8d:: with SMTP id x13mr550726pjr.229.1601434638340;
+ Tue, 29 Sep 2020 19:57:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200929121610.16060-1-lukasz.luba@arm.com>
-In-Reply-To: <20200929121610.16060-1-lukasz.luba@arm.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 29 Sep 2020 16:53:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UnNkjMiOc0DZE7+OM3-Kr1ZRynxSerdA=ifbyGiRa2Zw@mail.gmail.com>
-Message-ID: <CAD=FV=UnNkjMiOc0DZE7+OM3-Kr1ZRynxSerdA=ifbyGiRa2Zw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs: Clarify abstract scale usage for power values
- in Energy Model
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rajendra Nayak <rnayak@codeaurora.org>
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+ <20200915125947.26204-4-songmuchun@bytedance.com> <07e7d497-e800-be28-dfea-047579c3b27d@oracle.com>
+In-Reply-To: <07e7d497-e800-be28-dfea-047579c3b27d@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 30 Sep 2020 10:56:42 +0800
+Message-ID: <CAMZfGtWZ739Qd+9WZYtBTbQLjEqJa2BRa=5NBP9QMJQjsJS0mg@mail.gmail.com>
+Subject: Re: [External] Re: [RFC PATCH 03/24] mm/hugetlb: Introduce a new
+ config HUGETLB_PAGE_FREE_VMEMMAP
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Tue, Sep 29, 2020 at 5:16 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+On Wed, Sep 30, 2020 at 7:41 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
 >
-> The Energy Model (EM) can store power values in milli-Watts or in abstract
-> scale. This might cause issues in the subsystems which use the EM for
-> estimating the device power, such as:
-> - mixing of different scales in a subsystem which uses multiple
->   (cooling) devices (e.g. thermal Intelligent Power Allocation (IPA))
-> - assuming that energy [milli-Joules] can be derived from the EM power
->   values which might not be possible since the power scale doesn't have to
->   be in milli-Watts
+> On 9/15/20 5:59 AM, Muchun Song wrote:
+> > The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
+> > whether to enable the feature of freeing unused vmemmap associated
+> > with HugeTLB pages.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  fs/Kconfig | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >
+> > diff --git a/fs/Kconfig b/fs/Kconfig
+> > index 976e8b9033c4..61e9c08096ca 100644
+> > --- a/fs/Kconfig
+> > +++ b/fs/Kconfig
+> > @@ -245,6 +245,21 @@ config HUGETLBFS
+> >  config HUGETLB_PAGE
+> >       def_bool HUGETLBFS
+> >
+> > +config HUGETLB_PAGE_FREE_VMEMMAP
+> > +     bool "Free unused vmemmap associated with HugeTLB pages"
+> > +     default n
+> > +     depends on HUGETLB_PAGE
+> > +     depends on SPARSEMEM_VMEMMAP
+> > +     depends on HAVE_BOOTMEM_INFO_NODE
+> > +     help
+> > +       There are many struct page structure associated with each HugeTLB
+> > +       page. But we only use a few struct page structure. In this case,
+> > +       it waste some memory. It is better to free the unused struct page
+> > +       structures to buddy system which can save some memory. For
+> > +       architectures that support it, say Y here.
+> > +
+> > +       If unsure, say N.
+> > +
 >
-> To avoid misconfiguration add the needed documentation to the EM and
-> related subsystems: EAS and IPA.
+> I could be wrong, but I believe the convention is introduce the config
+> option at the same time code which depends on the option is introduced.
+> Therefore, it might be better to combine with the next patch.
+
+Yeah, great. Will do that. Thanks.
+
 >
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
-> ---
->  .../driver-api/thermal/power_allocator.rst          |  8 ++++++++
->  Documentation/power/energy-model.rst                | 13 +++++++++++++
->  Documentation/scheduler/sched-energy.rst            |  5 +++++
->  3 files changed, 26 insertions(+)
+> Also, it looks like most of your development was done on x86.  Should
+> this option be limited to x86 only for now?
 
-I haven't read through these files in massive detail, but the quick
-skim makes me believe that your additions seem sane.  In general, I'm
-happy with documenting reality, thus:
+Now only the x86 has the HAVE_BOOTMEM_INFO_NODE option. So
+maybe this is enough :)
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> --
+> Mike Kravetz
 
-I will note: you haven't actually updated the device tree bindings.
-Thus, presumably, anyone who is specifying these numbers in the device
-tree is still supposed to specify them in a way that mW can be
-recovered, right?  Said another way: nothing about your patches makes
-it OK to specify numbers in device trees using an "abstract scale",
-right?
 
--Doug
+
+-- 
+Yours,
+Muchun
