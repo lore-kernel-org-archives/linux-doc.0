@@ -4,51 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E42C4727F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3003CC47426
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E367207C3
+	by mail.kernel.org (Postfix) with ESMTP id E3E572075F
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1601472427;
-	bh=F/igWQMYF60TqMCX77EDE30gK86DARBWqysFY8IO6a8=;
+	bh=CX3rlxdQVc3k6PHOkJt8dLdN+qjZ7dGnsrqnBqtVq9E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=QWzd+40qwoVoH13ts7DOJgK2IPpY+fK6q5V5S0XXog3xBEF9bWxQwsSeDLYOsqcnH
-	 bXJaYtZXE1LhMOI+D0xyzaKblSxXyGefm+jL/aMncWSnz+VTYh/toJgGVZ/OqPIM4R
-	 07wRLLrSKjQzgxPf4Dm7Ro2pyNWJs4k70QfIElAE=
+	b=FLgRo5TPbUPHZ6ElxbsBxb5Uy1IUR/abUuyt7+03a1l4Jm2sCTLBAIK8yYx0QdTYf
+	 A+f1L7UJobLkNt7YFgXDc82uvGquXpMUqnsoq8/dTGHgeyqjzzfk8gMB85wfOFihec
+	 +oPXt+AoPQTr7XUg9SHPuPpo44rAtbvl66uW8/TY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730267AbgI3NZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 09:25:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39018 "EHLO mail.kernel.org"
+        id S1730232AbgI3N1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 09:27:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39472 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730230AbgI3NZV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 09:25:21 -0400
+        id S1730245AbgI3NZW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 09:25:22 -0400
 Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C7EA523718;
-        Wed, 30 Sep 2020 13:25:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 685BC23A5B;
+        Wed, 30 Sep 2020 13:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601472321;
-        bh=F/igWQMYF60TqMCX77EDE30gK86DARBWqysFY8IO6a8=;
+        bh=CX3rlxdQVc3k6PHOkJt8dLdN+qjZ7dGnsrqnBqtVq9E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZcVVJt/nEsBa/5LBsgNF5olfu+YdlXPLexRzo6RRafdfznDtj1gpf64DTioKb1KlG
-         5UoWKzcFAHFmgcKVxnuf1XTXRScHTSHKSyr6bhOs6GmmqZyUzjCxPxgEU/0zOgQTb8
-         mBNN64WI/u2aDt8yZeYIpD7DS5kpYh6sa27d4wbQ=
+        b=tXZ0JlA+5l6WXjxT0rX5uKx812jdRwpNLqli5zLUc6w+2rvIuHuQKbpJGJmUqqeFo
+         eYu4Dvu8cB+SAvXr9gS/kT6kN99NW4LWsouoeDTXWTtFaM76Sbisg/C5YK7Kbj/5bc
+         kPDdT8qSKpWUfcbTJHZly2lXTiYnGI5oJMeHXZ84=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6g-001XKB-VY; Wed, 30 Sep 2020 15:25:18 +0200
+        id 1kNc6h-001XKl-IO; Wed, 30 Sep 2020 15:25:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 30/52] docs: scsi: target.rst: remove iSCSI transport class kernel-doc markup
-Date:   Wed, 30 Sep 2020 15:24:53 +0200
-Message-Id: <b79edb39d920b4cd13e0ca2baed20480bc70e501.1601467849.git.mchehab+huawei@kernel.org>
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Jason Wessel <jason.wessel@windriver.com>,
+        kgdb-bugreport@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 41/52] docs: kgdb.rst: fix :c:type: usages
+Date:   Wed, 30 Sep 2020 15:25:04 +0200
+Message-Id: <556f72684846c3cc30eb2f0a1e064183d4e1bdc9.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -59,37 +62,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is already included at scsi.rst. So, remove the duplication,
-in order to avoid Sphinx warnings.
+Which Sphinx 3, :c:type:  can't be used anymore for structs,
+as this should be used only for typedefs.
+
+Rely on automarkup.py for struct references.
+
+This file has an special case, though: it uses the tag also
+to point to an array. Let's use, instead, :c:expr: for such
+purpose, as it should do the right thing.
+
+This should fix this warning:
+
+	./Documentation/dev-tools/kgdb.rst:875: WARNING: Unparseable C cross-reference: 'kdb_poll_funcs[]'
+	Invalid C declaration: Expected end of definition. [error at 14]
+	  kdb_poll_funcs[]
+	  --------------^
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/target.rst | 12 ------------
- 1 file changed, 12 deletions(-)
+ Documentation/dev-tools/kgdb.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/driver-api/target.rst b/Documentation/driver-api/target.rst
-index 620ec6173a93..c70ca25171c0 100644
---- a/Documentation/driver-api/target.rst
-+++ b/Documentation/driver-api/target.rst
-@@ -41,18 +41,6 @@ iSCSI boot information
- .. kernel-doc:: drivers/scsi/iscsi_boot_sysfs.c
-    :export:
+diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
+index c908ef4d3f04..77b688e6a254 100644
+--- a/Documentation/dev-tools/kgdb.rst
++++ b/Documentation/dev-tools/kgdb.rst
+@@ -726,7 +726,7 @@ The kernel debugger is organized into a number of components:
+    -  contains an arch-specific trap catcher which invokes
+       kgdb_handle_exception() to start kgdb about doing its work
  
--
--iSCSI transport class
--=====================
--
--The file drivers/scsi/scsi_transport_iscsi.c defines transport
--attributes for the iSCSI class, which sends SCSI packets over TCP/IP
--connections.
--
--.. kernel-doc:: drivers/scsi/scsi_transport_iscsi.c
--   :export:
--
--
- iSCSI TCP interfaces
- ====================
+-   -  translation to and from gdb specific packet format to :c:type:`pt_regs`
++   -  translation to and from gdb specific packet format to struct pt_regs
  
+    -  Registration and unregistration of architecture specific trap
+       hooks
+@@ -846,7 +846,7 @@ invokes a callback in the serial core which in turn uses the callback in
+ the UART driver.
+ 
+ When using kgdboc with a UART, the UART driver must implement two
+-callbacks in the :c:type:`struct uart_ops <uart_ops>`.
++callbacks in the struct uart_ops.
+ Example from ``drivers/8250.c``::
+ 
+ 
+@@ -875,7 +875,7 @@ kernel when ``CONFIG_KDB_KEYBOARD=y`` is set in the kernel configuration.
+ The core polled keyboard driver for PS/2 type keyboards is in
+ ``drivers/char/kdb_keyboard.c``. This driver is hooked into the debug core
+ when kgdboc populates the callback in the array called
+-:c:type:`kdb_poll_funcs[]`. The kdb_get_kbd_char() is the top-level
++:c:expr:`kdb_poll_funcs[]`. The kdb_get_kbd_char() is the top-level
+ function which polls hardware for single character input.
+ 
+ kgdboc and kms
 -- 
 2.26.2
 
