@@ -2,69 +2,171 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EDAAC4727F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFBCC4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:04:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0F9B2071E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:58:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A38720759
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730195AbgI3N67 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 09:58:59 -0400
-Received: from smtprelay0218.hostedemail.com ([216.40.44.218]:44606 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729903AbgI3N67 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 09:58:59 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 5D77A100E7B48;
-        Wed, 30 Sep 2020 13:58:56 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: brass29_5e1495327193
-X-Filterd-Recvd-Size: 1774
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf09.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 30 Sep 2020 13:58:54 +0000 (UTC)
-Message-ID: <1a9cac491e1813b94cde3bed67d642f52cd81e7d.camel@perches.com>
-Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to
- format sysfs output
-From:   Joe Perches <joe@perches.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-Cc:     Denis Efremov <efremov@linux.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Date:   Wed, 30 Sep 2020 06:58:53 -0700
-In-Reply-To: <20200930115740.GA1611809@kroah.com>
-References: <cover.1600285923.git.joe@perches.com>
-         <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
-         <20200930115740.GA1611809@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1730235AbgI3OEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 10:04:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:36946 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730104AbgI3OEF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 10:04:05 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01F2F30E;
+        Wed, 30 Sep 2020 07:04:05 -0700 (PDT)
+Received: from [10.57.54.5] (unknown [10.57.54.5])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 801673F6CF;
+        Wed, 30 Sep 2020 07:04:02 -0700 (PDT)
+Subject: Re: [PATCH 1/2] docs: Clarify abstract scale usage for power values
+ in Energy Model
+To:     Rajendra Nayak <rnayak@codeaurora.org>,
+        Doug Anderson <dianders@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+References: <20200929121610.16060-1-lukasz.luba@arm.com>
+ <CAD=FV=UnNkjMiOc0DZE7+OM3-Kr1ZRynxSerdA=ifbyGiRa2Zw@mail.gmail.com>
+ <a1d1fe2a-485f-a21e-2f91-9b609223aa5a@arm.com>
+ <62540312-65a2-b6d9-86ce-b4deaaa913c1@codeaurora.org>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <1f713ff6-32f6-4ea6-b7f7-4c61f097cf2a@arm.com>
+Date:   Wed, 30 Sep 2020 15:04:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <62540312-65a2-b6d9-86ce-b4deaaa913c1@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-09-30 at 13:57 +0200, Greg Kroah-Hartman wrote:
-> Kees, and Rafael, I don't know if you saw this proposal from Joe for
-> sysfs files, questions below:
-
-https://lore.kernel.org/linux-pm/5d606519698ce4c8f1203a2b35797d8254c6050a.1600285923.git.joe@perches.com/T/
-
-> So I guess I'm asking for another developer to at least agree that this
-> feels like the right way forward here.  I don't want to start down this
-> path, only to roll them all back as it feels like pointless churn.
-
-https://lore.kernel.org/lkml/c256eba42a564c01a8e470320475d46f@AcuMS.aculab.com/T/#mb40d265bc1dabb8bb64b0dfa29dd8eda44be056e
 
 
+On 9/30/20 11:55 AM, Rajendra Nayak wrote:
+> 
+> On 9/30/2020 1:55 PM, Lukasz Luba wrote:
+>> Hi Douglas,
+>>
+>> On 9/30/20 12:53 AM, Doug Anderson wrote:
+>>> Hi,
+>>>
+>>> On Tue, Sep 29, 2020 at 5:16 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>>>>
+>>>> The Energy Model (EM) can store power values in milli-Watts or in 
+>>>> abstract
+>>>> scale. This might cause issues in the subsystems which use the EM for
+>>>> estimating the device power, such as:
+>>>> - mixing of different scales in a subsystem which uses multiple
+>>>>    (cooling) devices (e.g. thermal Intelligent Power Allocation (IPA))
+>>>> - assuming that energy [milli-Joules] can be derived from the EM power
+>>>>    values which might not be possible since the power scale doesn't 
+>>>> have to
+>>>>    be in milli-Watts
+>>>>
+>>>> To avoid misconfiguration add the needed documentation to the EM and
+>>>> related subsystems: EAS and IPA.
+>>>>
+>>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>>>> ---
+>>>>   .../driver-api/thermal/power_allocator.rst          |  8 ++++++++
+>>>>   Documentation/power/energy-model.rst                | 13 
+>>>> +++++++++++++
+>>>>   Documentation/scheduler/sched-energy.rst            |  5 +++++
+>>>>   3 files changed, 26 insertions(+)
+>>>
+>>> I haven't read through these files in massive detail, but the quick
+>>> skim makes me believe that your additions seem sane.  In general, I'm
+>>> happy with documenting reality, thus:
+>>>
+>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>
+>> Thank you for the review.
+>>
+>>>
+>>> I will note: you haven't actually updated the device tree bindings.
+>>> Thus, presumably, anyone who is specifying these numbers in the device
+>>> tree is still supposed to specify them in a way that mW can be
+>>> recovered, right?  Said another way: nothing about your patches makes
+>>> it OK to specify numbers in device trees using an "abstract scale",
+>>> right?
+>>
+>> For completeness, we are talking here about the binding from:
+>> Documentation/devicetree/bindings/arm/cpus.yaml
+>> which is 'dynamic-power-coefficient'. Yes, it stays untouched, also the
+>> unit (uW/MHz/V^2) which then allows to have mW in the power
+>> values in the EM.
+> 
+> So for platforms where 'dynamic-power-coefficient' is specified in 
+> device tree,
+> its always expected to be derived from 'real' power numbers on these 
+> platforms in
+> 'real' mW?
 
+Yes, the purpose and the name of that binding was only for 'real'
+power in mW.
 
+> 
+> Atleast on Qualcomm platforms we have these numbers scaled, so in 
+> essence it
+> can't be used to derive 'real' mW values. That said we also do not have 
+> any of
+> the 'platform might face potential issue of mixing devices in one 
+> thermal zone
+> of two scales' problem.
+
+If you have these numbers scaled, then it's probably documented
+somewhere in your docs for your OEMs, because they might assume it's in
+uW/MHz/V^2 (according to the bindings doc). If not, they probably
+realized it during the measurements and comparison (that the power in
+EM is not what they see on the power meter).
+This binding actually helps those developers who take the experiments
+and based on measured power values, store derived coefficient.
+Everyone can just measure in local setup and compare the results
+easily, speaking the same language (proposing maybe a patch adjusting
+the value in DT).
+
+> 
+> So the question is, can such platforms still use 
+> 'dynamic-power-coefficient'
+> in device tree and create an abstract scale? The other way of doing this 
+> would
+> be to *not* specify this value in device tree and have these values 
+> stored in the
+> cpufreq driver and register a custom callback to do the math.
+
+But then we would also have to change the name of that binding.
+
+I'd recommend you the second way that you've described. It will avoid
+your OEMs confusion. In your cpufreq driver you can simply register
+to EM using the em_dev_register_perf_domain(). In your local
+callback you can do whatever you need (read driver array, firmware,
+DT, scale or not, etc).
+The helper code in dev_pm_opp_of_register_em() is probably not suited
+for your use case (when you don't want to share the real power of the
+SoC).
+
+> 
+> It just feels like jumping through hoops just to deal with the fact that 
+> the
+> device tree bindings say its expected to be in mW and can't be abstract.
+> 
+
+I don't want to add more confusion into the EM power values topic.
+Overloading the meaning of that binding would create more mess.
+
+Regards,
+Lukasz
