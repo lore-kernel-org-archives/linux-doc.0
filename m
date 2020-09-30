@@ -2,40 +2,41 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC68C4727C
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:09:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CBDC4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:09:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C94B20BED
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:09:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7126D2085B
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:09:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Lz8YfiSs"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P3xuRpLp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728674AbgI3QJa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 12:09:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48550 "EHLO
+        id S1731092AbgI3QJi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 12:09:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725372AbgI3QJa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 12:09:30 -0400
+        with ESMTP id S1731074AbgI3QJh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 12:09:37 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4CC7C061755;
-        Wed, 30 Sep 2020 09:09:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 241E9C0613D0;
+        Wed, 30 Sep 2020 09:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=Bg6UAf5GmAebEK7LE0iET3qIkeB8RGO2JOGQCLfw5AE=; b=Lz8YfiSsW36fA+/kt+aQbTMK4P
-        K6o/6VxFcPIVfzsF7/V5PFlSQAKkt6d4r+ZOirMOoIRjFKB9lqo8WhU0Hng+I8LDD973uUBpOMAGx
-        aQMwUwC3BRYimqDyMZM2dY6a4XbNBQdmmocZs4mVYjF2+pbn6XFHehXz/ZnTPH3K8iP34Z0nfywAt
-        da+F4VpYkHW+B5fhZq6JvsQfEtHhrJ2CvaupP0jjgjLWxXMKo9+TGT6tRu2GfP8v6RZew9VPaEwJ1
-        j5smZJMasHuQ4SPX2i8LZyAYwhy8CDbLI54uncAOeXzaWjMPyILN2qmiwmq12V7bm5fj2KLNxLCs4
-        iB8QVggg==;
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=jLVH2ETUcna4vnSJJM6qywpgQCBtyE661AcFkWsPNQc=; b=P3xuRpLpWkE6u3BGD3WvuVniKG
+        aCLFBV/3BO8MRlfymLp6EYoYWaJKOi3sDy8xSAcdLIQon++6H2oEFkBJl22oNVEG5rJXr5NabZFML
+        LSxzhjXq9CzGRjzdKjCMmbnQsoq7H4C1AQYThJOjWCPwVE/W7YOgEiYUk7jb8QDaxiKmM4pkI2JDN
+        gVlveu0fpxAFqCweZzvqmpgA0yGT3KP+lz0wbFbyVAFtoLHlFRxa6v7SF8bV4FVGvXeEawkjaI1r0
+        uCQy4mWJlE9d4k6Lv/wNJMHdNhtEyW9NBA1XvdjHzweDMC+sFSChe+gxXfai2OeNX9yi2YKN07Ea5
+        qVyfOXGQ==;
 Received: from [2001:4bb8:180:7b62:c70:4a89:bc61:4] (helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kNefP-0003CH-NZ; Wed, 30 Sep 2020 16:09:21 +0000
+        id 1kNefb-0003E1-2j; Wed, 30 Sep 2020 16:09:31 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -43,10 +44,12 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         iommu@lists.linux-foundation.org
 Cc:     Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: dma_alloc_pages / dma_alloc_noncoherent fixups
-Date:   Wed, 30 Sep 2020 18:09:09 +0200
-Message-Id: <20200930160917.1234225-1-hch@lst.de>
+Subject: [PATCH 7/8] dma-iommu: remove __iommu_dma_mmap
+Date:   Wed, 30 Sep 2020 18:09:16 +0200
+Message-Id: <20200930160917.1234225-8-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200930160917.1234225-1-hch@lst.de>
+References: <20200930160917.1234225-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -54,23 +57,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+The function has a single caller, so open code it there and take
+advantage of the precalculated page count variable.
 
-this series has a bunch of fixups for the noncoherent DMA allocator
-rework that recently landed in linux-next.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/iommu/dma-iommu.c | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
-I think the most important part is that the idea of vmap()ing
-non-contiguous allocations in dma_alloc_noncoherent doesn't work very
-well after all.  It means we can't just rely on virt_to_page to get
-the page and just use remap_pfn_range or stuff it into other APIs,
-but on the other hand it also isn't really generic enought for what
-the media APIs seems to want.
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index b363b20a9f41ce..7922f545cd5eef 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -656,21 +656,6 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+ 	return NULL;
+ }
+ 
+-/**
+- * __iommu_dma_mmap - Map a buffer into provided user VMA
+- * @pages: Array representing buffer from __iommu_dma_alloc()
+- * @size: Size of buffer in bytes
+- * @vma: VMA describing requested userspace mapping
+- *
+- * Maps the pages of the buffer in @pages into @vma. The caller is responsible
+- * for verifying the correct size and protection of @vma beforehand.
+- */
+-static int __iommu_dma_mmap(struct page **pages, size_t size,
+-		struct vm_area_struct *vma)
+-{
+-	return vm_map_pages(vma, pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+-}
+-
+ static void iommu_dma_sync_single_for_cpu(struct device *dev,
+ 		dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
+ {
+@@ -1075,7 +1060,7 @@ static int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+ 		struct page **pages = dma_common_find_pages(cpu_addr);
+ 
+ 		if (pages)
+-			return __iommu_dma_mmap(pages, size, vma);
++			return vm_map_pages(vma, pages, nr_pages);
+ 		pfn = vmalloc_to_pfn(cpu_addr);
+ 	} else {
+ 		pfn = page_to_pfn(virt_to_page(cpu_addr));
+-- 
+2.28.0
 
-So the first patch reverts that change, and the last patch suggests
-a different lower level API which should allow the media code to do
-all it wants.
-
-I'd suggest all but the last patch for the current merge window, and
-we should have a discussion on how well the last one suits the media
-subsystem, and probably merge it together with any media changes to
-use the required API.
