@@ -2,113 +2,103 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8923AC4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D64DBC4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:26:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4335D20789
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:23:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 996CC207FB
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 14:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601475812;
-	bh=pINutTAllKNrOxvh9eBLUiQGJF57WCSpPIcKD+TgvwE=;
+	s=default; t=1601476000;
+	bh=Fl0gWvmfXmejHi4EkMTsQTZGLiXma9CtfTHw7weRdJQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ae0EpsZ0aPH6hoIHz5ycJ3WXqf2jg068Y6fpH0jSCNtHfXt34beF5QvhP1JpHxkW6
-	 oa4xzgJhuWBVZB2suRXX0kuxxIbI+gZei8Nd+8mHNy8UIpUDx9fKWDYaiTsgE7BKry
-	 147XwBSIVxcUIbMaG+Wh3bgCPZ3hlse7fYjasUnI=
+	b=b6aFbej+Ksn3veUIuDeSMiyun0U6/KKwQRV/BErXSuLFBd9jDqoggH0Yk1pIwFVuC
+	 5Hia3qRKWvFMbl6ZbCxWHmVQH3f8FLFiiy3gjfzV/ZU+SLzj53UCk9eaFOqRDW4cO+
+	 u5WAc0mpWnE578Qnm0gMnAR2SjCcd6Rru5xYWpIA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729903AbgI3OXb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 10:23:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38400 "EHLO mail.kernel.org"
+        id S1730548AbgI3O0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 10:26:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39358 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726680AbgI3OXb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 10:23:31 -0400
+        id S1730231AbgI3O0g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 10:26:36 -0400
 Received: from kernel.org (unknown [87.71.73.56])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BACBF20709;
-        Wed, 30 Sep 2020 14:23:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4FE0F20754;
+        Wed, 30 Sep 2020 14:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601475811;
-        bh=pINutTAllKNrOxvh9eBLUiQGJF57WCSpPIcKD+TgvwE=;
+        s=default; t=1601475995;
+        bh=Fl0gWvmfXmejHi4EkMTsQTZGLiXma9CtfTHw7weRdJQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wOm9XY7G3LjDR5NbyAZSpMyQTH90xpvpkBDGnvJwQnf/RxvZYo0bMTUf/nW4Vwm27
-         LxBapNA1DwycI7LbvZq7qob63IVAXsD9KgiH1ypaCP06FGYlrhmAj4YRuEarwZ20PU
-         /8RNSeDgkcebLR1ofrZf4ACH3DVpPZ/Nd+lbPD1M=
-Date:   Wed, 30 Sep 2020 17:23:23 +0300
+        b=KjiTNGFe5eTBdlXhF/NHplwtol5FYNLNxilPqKQv6JM7qzFpC1oscmHw8w7JZ6bPS
+         DMKgScFLDkfuKtoCeOjffSJqprhEpbZkmUsXsiby6BhkBtcft1Fr0y1KDRK6Jmh86a
+         QzcATOFg5nZHWWzlf7PwQmBO1ehMJBH5Itwvqrpk=
+Date:   Wed, 30 Sep 2020 17:26:24 +0300
 From:   Mike Rapoport <rppt@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v4 19/52] memblock: get rid of a :c:type leftover
-Message-ID: <20200930142323.GL2142832@kernel.org>
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Moritz Fischer <mdf@kernel.org>,
+        Puranjay Mohan <puranjay12@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Satya Tangirala <satyat@google.com>,
+        Takashi Iwai <tiwai@suse.com>, Tom Rix <trix@redhat.com>,
+        alsa-devel@alsa-project.org, linux-fpga@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v4 22/52] docs: get rid of :c:type explicit declarations
+ for structs
+Message-ID: <20200930142624.GM2142832@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
- <0aab04f62bc3dfa82394e20d61c05c6efbfb4859.1601467849.git.mchehab+huawei@kernel.org>
+ <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0aab04f62bc3dfa82394e20d61c05c6efbfb4859.1601467849.git.mchehab+huawei@kernel.org>
+In-Reply-To: <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Mauro,
-
-On Wed, Sep 30, 2020 at 03:24:42PM +0200, Mauro Carvalho Chehab wrote:
-> chanseset b3a7bb1851c8 ("docs: get rid of :c:type explicit declarations for structs")
-> removed several :c:type: markups, except by one.
+On Wed, Sep 30, 2020 at 03:24:45PM +0200, Mauro Carvalho Chehab wrote:
+> The :c:type:`foo` only works properly with structs before
+> Sphinx 3.x.
 > 
-> Now, Sphinx 3.x complains about it:
+> On Sphinx 3.x, structs should now be declared using the
+> .. c:struct, and referenced via :c:struct tag.
 > 
-> 	.../Documentation/core-api/boot-time-mm:26: ../mm/memblock.c:51: WARNING: Unparseable C cross-reference: 'struct\nmemblock_type'
-> 	Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
-> 	  struct
-> 	memblock_type
-> 	  ------^
-
-Maybe this warning is caused by '\n' between struct and memblock_type?
-There are two more occurences of :c:type: around and they do not seem to
-cause warnings.
-
-> As, on Sphinx 3.x, the right markup is c:struct:`foo`.
+> As we now have the automarkup.py macro, that automatically
+> convert:
+> 	struct foo
 > 
-> So, let's remove it, relying on automarkup.py to convert it.
+> into cross-references, let's get rid of that, solving
+> several warnings when building docs with Sphinx 3.x.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  mm/memblock.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+...
+>  Documentation/vm/ksm.rst                      |  2 +-
+>  Documentation/vm/memory-model.rst             |  6 ++---
+>  mm/ksm.c                                      |  2 +-
+>  mm/memblock.c                                 |  4 ++--
+
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+
+>  30 files changed, 93 insertions(+), 93 deletions(-)
 > 
-> diff --git a/mm/memblock.c b/mm/memblock.c
-> index 165f40a8a254..326c6b3fec1d 100644
-> --- a/mm/memblock.c
-> +++ b/mm/memblock.c
-> @@ -50,8 +50,8 @@
->   *
->   * Each region is represented by :c:type:`struct memblock_region` that
-
-Can you please also convert this one?
-
->   * defines the region extents, its attributes and NUMA node id on NUMA
-> - * systems. Every memory type is described by the :c:type:`struct
-> - * memblock_type` which contains an array of memory regions along with
-> + * systems. Every memory type is described by the struct memblock_type
-> + * which contains an array of memory regions along with
->   * the allocator metadata. The "memory" and "reserved" types are nicely
->   * wrapped with :c:type:`struct memblock`. This structure is statically
-
-And this?
-
->   * initialized at build time. The region arrays are initially sized to
-> -- 
-> 2.26.2
-> 
-
--- 
-Sincerely yours,
-Mike.
