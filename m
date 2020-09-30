@@ -5,50 +5,52 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5788CC47420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 802BFC47425
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E03F207C3
+	by mail.kernel.org (Postfix) with ESMTP id 4710E20754
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1601472536;
-	bh=8Ugy8JtQBg0iQvd2yN/ML4tDaHJflxT3n0hmWb/m5F8=;
+	bh=Rn7zJJ3ZS9RPVx8dkqXQwAQflBR7NMWGCPQ1PdLSg4M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RSIg798EFpgUvq9QWByLM2uxlCFfqsY1RRSYsKRzWJsJ3h0OUoPBXRD7SuoP+tDAI
-	 0cbkTgBvb6njfprXd/fn8XjTPsSAQAJ0xCXVC0GfGO8b097RovTZbgQMLj6vAYpvvS
-	 +FE2XPTmW4rWA77vyiTnSCE9Dvay8sGLv1uIlpJY=
+	b=zxp2JNBohwL45BGOki2MDfafLv28zR4UA+Im5KKOuN5o7FGvaWcWFafPazvZXAef5
+	 1C5mUFkfMEXf6sg5fsxDA7SKw+DK30X0S7Ka6LM9ttzh1XtpBsG5oITTD0tVIFcWWh
+	 WpnORC42Jv1op/hbFB9GFmj9zgSpMSMXb2vko5TY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730181AbgI3NZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 09:25:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38590 "EHLO mail.kernel.org"
+        id S1730430AbgI3N2z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 09:28:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729663AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730098AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 30 Sep 2020 09:25:20 -0400
-Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
+Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C1BFD2076B;
+        by mail.kernel.org (Postfix) with ESMTPSA id C3024207C3;
         Wed, 30 Sep 2020 13:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601472319;
-        bh=8Ugy8JtQBg0iQvd2yN/ML4tDaHJflxT3n0hmWb/m5F8=;
+        bh=Rn7zJJ3ZS9RPVx8dkqXQwAQflBR7NMWGCPQ1PdLSg4M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oqIeJxyQYobjA5o7g3G9SDFWz971KWMTcxHzPCWwW7ApDhE+lN+PLnqUq3fpuYnTn
-         tLSOQKBGU8SvKcbwFqt2D7i8hX/JHZqyybDF/aGYMpkTwLHXRIW87VUI/tcl1b4LOf
-         N+dp548vOMQtLgcKlJbRIvvxH8FfiViOPwm0DiU0=
+        b=pzsrPi24Ig2jYz9uBi/LepfZWrzZ+z2XmRhXP8DlARLdfGUuekn4zWwl9OhbUdfAH
+         01oqvKaBikCFZVyS0D+QvLWcviP6iUAYgOkojFz5x28QdXXCZ5CCfwZJj29+m3xspL
+         8Z0PBOsvY/y1N+LSjsyVXiJAXliwdSihHH3YnwWg=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6f-001XIs-JN; Wed, 30 Sep 2020 15:25:17 +0200
+        id 1kNc6f-001XJH-Sb; Wed, 30 Sep 2020 15:25:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@protonmail.com>, Changbin Du <changbin.du@intel.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 01/52] docs: cdomain.py: add support for a new Sphinx 3.1+ tag
-Date:   Wed, 30 Sep 2020 15:24:24 +0200
-Message-Id: <afd4c5d96e52c9d27abe0184af25add02d9ad9f6.1601467849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 11/52] docs: kerneldoc.py: add support for kerneldoc -nosymbol
+Date:   Wed, 30 Sep 2020 15:24:34 +0200
+Message-Id: <6a783af454048eb1f421f0400f986248e7d53eb1.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -59,128 +61,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since Sphinx 3.0, the C domain code was rewritten, but only
-after version 3.1 it got support for setting namespaces on
-C domains, with is something that it is required, in order to
-document system calls, like ioctl() and others.
-
-As part of changing the documentation subsystem to properly
-build with Sphinx 3.1+, add support for such new tag:
-
-	.. c:namespace::"
-
-Such tag optionally replaces the optional "name" tag for functions,
-setting a single namespace domain for all C references found
-at the file.
-
-With that, it should be possible to convert existing
-documentation to be compatible with both Sphinx 1.x/2.x and
-3.1+.
+Currently, there's no way to exclude identifiers from
+a kernel-doc markup. Add support for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/cdomain.py | 55 ++++++++++++++++++++++++++++++++-
- 1 file changed, 54 insertions(+), 1 deletion(-)
+ Documentation/doc-guide/kernel-doc.rst | 8 ++++++++
+ Documentation/sphinx/kerneldoc.py      | 7 +++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-index cbac8e608dc4..35805c44a4fc 100644
---- a/Documentation/sphinx/cdomain.py
-+++ b/Documentation/sphinx/cdomain.py
-@@ -40,14 +40,56 @@ from sphinx import addnodes
- from sphinx.domains.c import c_funcptr_sig_re, c_sig_re
- from sphinx.domains.c import CObject as Base_CObject
- from sphinx.domains.c import CDomain as Base_CDomain
-+from itertools import chain
-+import re
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 4fd86c21397b..52a87ab4c99f 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -490,6 +490,14 @@ identifiers: *[ function/type ...]*
+     .. kernel-doc:: lib/idr.c
+        :identifiers:
  
--__version__  = '1.0'
-+__version__  = '1.1'
++no-identifiers: *[ function/type ...]*
++  Exclude documentation for each *function* and *type* in *source*.
++
++  Example::
++
++    .. kernel-doc:: lib/bitmap.c
++       :no-identifiers: bitmap_parselist
++
+ functions: *[ function/type ...]*
+   This is an alias of the 'identifiers' directive and deprecated.
  
- # Get Sphinx version
- major, minor, patch = sphinx.version_info[:3]
- 
-+# Namespace to be prepended to the full name
-+namespace = None
-+
-+#
-+# Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
-+# - Store the namespace if ".. c:namespace::" tag is found
-+
-+RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
-+
-+def markup_namespace(match):
-+    global namespace
-+
-+    namespace = match.group(1)
-+
-+    return ""
-+
-+def c_markups(app, docname, source):
-+    result = ""
-+    markup_func = {
-+        RE_namespace: markup_namespace,
-+    }
-+
-+    lines = iter(source[0].splitlines(True))
-+    for n in lines:
-+        match_iterators = [regex.finditer(n) for regex in markup_func]
-+        matches = sorted(chain(*match_iterators), key=lambda m: m.start())
-+        for m in matches:
-+            n = n[:m.start()] + markup_func[m.re](m) + n[m.end():]
-+
-+        result = result + n
-+
-+    source[0] = result
-+
-+#
-+# Now implements support for the cdomain namespacing logic
-+#
-+
- def setup(app):
- 
-+    # Handle easy Sphinx 3.1+ simple new tags: :c:expr and .. c:namespace::
-+    app.connect('source-read', c_markups)
-+
-     if (major == 1 and minor < 8):
-         app.override_domain(CDomain)
-     else:
-@@ -75,6 +117,8 @@ class CObject(Base_CObject):
-         function-like macro, the name of the macro is returned. Otherwise
-         ``False`` is returned.  """
- 
-+        global namespace
-+
-         if not self.objtype == 'function':
-             return False
- 
-@@ -107,11 +151,16 @@ class CObject(Base_CObject):
-             param += nodes.emphasis(argname, argname)
-             paramlist += param
- 
-+        if namespace:
-+            fullname = namespace + "." + fullname
-+
-         return fullname
- 
-     def handle_signature(self, sig, signode):
-         """Transform a C signature into RST nodes."""
- 
-+        global namespace
-+
-         fullname = self.handle_func_like_macro(sig, signode)
-         if not fullname:
-             fullname = super(CObject, self).handle_signature(sig, signode)
-@@ -122,6 +171,10 @@ class CObject(Base_CObject):
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index 6686955d1def..233f610539f0 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -62,6 +62,7 @@ class KernelDocDirective(Directive):
+         'export': directives.unchanged,
+         'internal': directives.unchanged,
+         'identifiers': directives.unchanged,
++        'no-identifiers': directives.unchanged,
+         'functions': directives.unchanged,
+     }
+     has_content = False
+@@ -99,6 +100,12 @@ class KernelDocDirective(Directive):
              else:
-                 # FIXME: handle :name: value of other declaration types?
-                 pass
-+        else:
-+            if namespace:
-+                fullname = namespace + "." + fullname
-+
-         return fullname
+                 cmd += ['-no-doc-sections']
  
-     def add_target_and_index(self, name, sig, signode):
++        if 'no-identifiers' in self.options:
++            no_identifiers = self.options.get('no-identifiers').split()
++            if no_identifiers:
++                for i in no_identifiers:
++                    cmd += ['-nosymbol', i]
++
+         for pattern in export_file_patterns:
+             for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
+                 env.note_dependency(os.path.abspath(f))
 -- 
 2.26.2
 
