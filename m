@@ -2,116 +2,64 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16836C4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E7CC4727C
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:35:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD57120759
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:22:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQEUbrCq"
+	by mail.kernel.org (Postfix) with ESMTP id 906692072E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 16:35:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726335AbgI3QWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 12:22:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50536 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbgI3QWA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 12:22:00 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12999C061755;
-        Wed, 30 Sep 2020 09:22:00 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id d23so1329933pll.7;
-        Wed, 30 Sep 2020 09:22:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XgJ15fC621DrnHIQ5oj1JA6FQX1Stjqg9GgjlEH66cQ=;
-        b=DQEUbrCq8FqMK3blYCbs60fKcnel9hXASFerSfhD5sv4lvf2A8lXsG1XeuA15MppVD
-         srm1oOG31OoqcF0P0/dLfFG79TMiBgHzI5jTcU1WFyPzHMyjmVKy6JBfu4a83fDRGA5w
-         ZP9l01bGaiRSu9Y34vVPXDz44Z/fkfU00yyV5ZtAeBxzcom/54kNKjPCr+vZxaorvKaM
-         8PzwWIDSEv8Pq3QUbHGSLuyVa9JBK0035cQma5n0nKeNU1recG9B3j8C0s3f+gsGXsFR
-         VNF1p4eWjnIcWdIcYC+zutm0I26bxpaijomIxAHtZzu4uulkJ8vLmB3R8GITl1x8oS5L
-         pw+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XgJ15fC621DrnHIQ5oj1JA6FQX1Stjqg9GgjlEH66cQ=;
-        b=hL8HBHLwx5M/1pylwDG9eom73Cq4Qsa9e5a705nSxkDetHxrfAdAUNjBDSWpKepFh9
-         XaUV7DU9E6EtwSSsv2C2aVBxpsKE7/khBudQAUvuvOG1UgpR0uCeald/00V7Dx6zir/5
-         sXtQIXTW38hKKHIVATzD7qhxWGWP/8hhkS69YhDMHDJxFMXru/zZM3roCHWyhBCV42tm
-         E9moMulQkXgYIZXJtnpO1HaBu7FvEGxorH+Nbu47p3qE+QD7Kba9VlAZh2jslDOFJL6j
-         rNNtlLpF13RnG8zt+8HuypOwLi6jnOWx3St669287xeY+EZS6LUuyV4QTZ0jRnVGE8mv
-         5oPQ==
-X-Gm-Message-State: AOAM530s+K+2u8RUzjR12bVWiNu7EM72KR2mAd/S/4SQJuoUvKWZVYUJ
-        oeJ92Fq4+fgiahFooTdg9nA=
-X-Google-Smtp-Source: ABdhPJw+SqUXNtC6oBvfgjRZsj4LSOB5DNRL8L0BAwEXk49cwXY0A2sRjztxjLnMZ4T+gwBuxOTg3A==
-X-Received: by 2002:a17:902:eb03:b029:d1:8c50:aafb with SMTP id l3-20020a170902eb03b02900d18c50aafbmr371147plb.29.1601482919393;
-        Wed, 30 Sep 2020 09:21:59 -0700 (PDT)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45e1:2200::1])
-        by smtp.gmail.com with ESMTPSA id ca6sm2852452pjb.53.2020.09.30.09.21.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 09:21:58 -0700 (PDT)
-Date:   Wed, 30 Sep 2020 09:21:57 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] docs: programming-languages: refresh blurb on clang
- support
-Message-ID: <20200930162157.GA236767@ubuntu-m3-large-x86>
-References: <20200929211936.580805-1-ndesaulniers@google.com>
+        id S1725823AbgI3Qfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 12:35:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34644 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725355AbgI3Qfi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 12:35:38 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 890BC206DC;
+        Wed, 30 Sep 2020 16:35:37 +0000 (UTC)
+Date:   Wed, 30 Sep 2020 12:35:35 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 23/52] docs: trace-uses.rst: remove bogus c-domain
+ tags
+Message-ID: <20200930123535.43d7a957@gandalf.local.home>
+In-Reply-To: <f1d8fc4bb976f8c25c6fb444b0b675d9a849ba06.1601467849.git.mchehab+huawei@kernel.org>
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
+        <f1d8fc4bb976f8c25c6fb444b0b675d9a849ba06.1601467849.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200929211936.580805-1-ndesaulniers@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 02:19:35PM -0700, Nick Desaulniers wrote:
-> Building the kernel with Clang doesn't rely on third party patches, and
-> has not for a few years now.
-> 
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
+On Wed, 30 Sep 2020 15:24:46 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Modulo Randy's nit:
-
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-
->  Documentation/process/programming-language.rst | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+> There are some c-domain tags that are wrong. While this won't
+> cause problems with Sphinx < 3.0, this cause troubles with
+> newer versions, as the C parser won't recognize the contents
+> of the tag, and will drop it from the output.
 > 
-> diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-> index e5f5f065dc24..63af142d64ec 100644
-> --- a/Documentation/process/programming-language.rst
-> +++ b/Documentation/process/programming-language.rst
-> @@ -6,14 +6,15 @@ Programming Language
->  The kernel is written in the C programming language [c-language]_.
->  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
->  under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
-> -(including some C99 features).
-> +(including some C99 features). ``clang`` [clang]_ is also supported, see docs
-> +docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
->  
->  This dialect contains many extensions to the language [gnu-extensions]_,
->  and many of them are used within the kernel as a matter of course.
->  
-> -There is some support for compiling the kernel with ``clang`` [clang]_
-> -and ``icc`` [icc]_ for several of the architectures, although at the time
-> -of writing it is not completed, requiring third-party patches.
-> +There is some support for compiling the kernel with ``icc`` [icc]_ for several
-> +of the architectures, although at the time of writing it is not completed,
-> +requiring third-party patches.
->  
->  Attributes
->  ----------
-> -- 
-> 2.28.0.709.gb0816b6eb0-goog
+> Let's just place them at literal blocks.
 > 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+-- Steve
