@@ -2,93 +2,181 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 680E8C4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C9FDC4727F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:48:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 162F620789
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:41:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601480513;
-	bh=zQv9vaKKC5bv01p/7fwt8eQnZ6OHQ9Uxe4wV/8stoWw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=yjuAx/KyCROCFZI+x+tnAZ9xaH+m5DnrQFkNFFgiVh5i409R/Nhmfl7wJmINuQk16
-	 MOb3v+hludlcNrtROlipDKBowOiVZJABa8wkClOjVKV1m+uYmO7Wpzql+C4TZR6NFN
-	 5I70seFrEqNxfl8Wztbg4Iw9F4ST+tpQg+EuPrV0=
+	by mail.kernel.org (Postfix) with ESMTP id 91B2220754
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 15:48:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="B5pcyh4u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728385AbgI3Plw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 11:41:52 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40641 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725468AbgI3Plw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 11:41:52 -0400
-Received: by mail-oi1-f195.google.com with SMTP id t76so2152547oif.7;
-        Wed, 30 Sep 2020 08:41:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1boUtBUBLzQPw5c/Bp/DpOn4m94EkQSBe7ntlAkUbpc=;
-        b=eBxUkvSK/LH2qsEUUrl7N6kzNcNMEGN3++4eP24oB6XU6tiYomcnhpHhhlJoJzVgTA
-         4D78wt1HSNALVtzNz03kGoNCJvFdbAr8oy2Cgcjx2UZe9wmqjWKM3n6o5n83jfBuIiw7
-         KvsaBCFdfnJnxZKJ9DM3sQu1dm4kh2IxBR0LoaXp/RW0HTZ5Es3PD5lwooSXniP2fNfg
-         4OBudKd3bjYGesCK5zYTaso5qinLZLDKVPvpZ3VQ/LttiLZXtm4fKD8u5z8GzAARc4oB
-         gDrrd//ilI8+xM3ao0ovp5Vi31FEEEPKi1OTc8ZsNNRjfbWt6OmJgqxcfFO+Iw6iKRyB
-         Jo3g==
-X-Gm-Message-State: AOAM5339ti5LDvC2G6RJkxlW1LEsyiSbBsiZOuX3g8vbyan9NDKpYsAF
-        YTc4tCaO5mUL4b+PfFnWKQHYMxFWQYOCWXQJkZU=
-X-Google-Smtp-Source: ABdhPJwO8Zwm2P/HdWE4ZaRyDRWRm98cReLmsfm15FI09hCLMOcfxwQoewDPg0eRsuAM+RE0tTlRapJKHKbdOBdHW+M=
-X-Received: by 2002:aca:5b09:: with SMTP id p9mr1673233oib.68.1601480511860;
- Wed, 30 Sep 2020 08:41:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200929204157.26127-1-yoann.congal@smile.fr>
-In-Reply-To: <20200929204157.26127-1-yoann.congal@smile.fr>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 30 Sep 2020 17:41:40 +0200
-Message-ID: <CAJZ5v0h9Qkn8ymFjOVBR+WU1vDmb7CyDRsWT_Yo4yc8xVEn23A@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: PM: Fix a reStructuredText syntax error
-To:     Yoann Congal <yoann.congal@smile.fr>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        id S1725800AbgI3Ps0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 11:48:26 -0400
+Received: from z5.mailgun.us ([104.130.96.5]:31668 "EHLO z5.mailgun.us"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725799AbgI3PsZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 11:48:25 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1601480904; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=YWeQIL8fxk/H6GlCrRVI/PVv6gN/aHmAPprkx25W8cE=; b=B5pcyh4uGymW8WcAniE2pjmXuuiGeZ4o+3BaS4wka39HFWy4pM0DsFVkNTwhHGQekzTpYZ3N
+ 5PC6Ko7gy9JMhFBRpqPZKnrfsW9cx8H7W4I/K4o53q0AVIImQx6TXJX1Del4IZgNfYPYPBAD
+ jfMfzQ8YeU9Qi4p0/wP9TiHohQ8=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 5f74a8c79025c3a797474d3b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Sep 2020 15:48:23
+ GMT
+Sender: rnayak=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id B98CBC433CB; Wed, 30 Sep 2020 15:48:23 +0000 (UTC)
+Received: from [192.168.0.118] (unknown [49.207.198.93])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 824FFC433C8;
+        Wed, 30 Sep 2020 15:48:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 824FFC433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=rnayak@codeaurora.org
+Subject: Re: [PATCH 1/2] docs: Clarify abstract scale usage for power values
+ in Energy Model
+To:     Lukasz Luba <lukasz.luba@arm.com>,
+        Doug Anderson <dianders@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+References: <20200929121610.16060-1-lukasz.luba@arm.com>
+ <CAD=FV=UnNkjMiOc0DZE7+OM3-Kr1ZRynxSerdA=ifbyGiRa2Zw@mail.gmail.com>
+ <a1d1fe2a-485f-a21e-2f91-9b609223aa5a@arm.com>
+ <62540312-65a2-b6d9-86ce-b4deaaa913c1@codeaurora.org>
+ <1f713ff6-32f6-4ea6-b7f7-4c61f097cf2a@arm.com>
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+Message-ID: <b74a5907-47dc-6c3c-3da8-94959af07ea8@codeaurora.org>
+Date:   Wed, 30 Sep 2020 21:18:17 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <1f713ff6-32f6-4ea6-b7f7-4c61f097cf2a@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 10:43 PM Yoann Congal <yoann.congal@smile.fr> wrote:
->
-> Fix a reStructuredText syntax error in the cpuidle PM admin-guide
-> documentation: the ``...'' quotation marks are parsed as partial ''...''
-> reStructuredText markup and break the output formatting.
->
-> This change them to "...".
->
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> ---
->  Documentation/admin-guide/pm/cpuidle.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
-> index e70b365dbc60..191cfa4a450b 100644
-> --- a/Documentation/admin-guide/pm/cpuidle.rst
-> +++ b/Documentation/admin-guide/pm/cpuidle.rst
-> @@ -690,7 +690,7 @@ which of the two parameters is added to the kernel command line.  In the
->  instruction of the CPUs (which, as a rule, suspends the execution of the program
->  and causes the hardware to attempt to enter the shallowest available idle state)
->  for this purpose, and if ``idle=poll`` is used, idle CPUs will execute a
-> -more or less ``lightweight'' sequence of instructions in a tight loop.  [Note
-> +more or less "lightweight" sequence of instructions in a tight loop.  [Note
->  that using ``idle=poll`` is somewhat drastic in many cases, as preventing idle
->  CPUs from saving almost any energy at all may not be the only effect of it.
->  For example, on Intel hardware it effectively prevents CPUs from using
-> --
 
-Applied as 5.9-rc8 material, thanks!
+On 9/30/2020 7:34 PM, Lukasz Luba wrote:
+> 
+> 
+> On 9/30/20 11:55 AM, Rajendra Nayak wrote:
+>>
+>> On 9/30/2020 1:55 PM, Lukasz Luba wrote:
+>>> Hi Douglas,
+>>>
+>>> On 9/30/20 12:53 AM, Doug Anderson wrote:
+>>>> Hi,
+>>>>
+>>>> On Tue, Sep 29, 2020 at 5:16 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>>>>>
+>>>>> The Energy Model (EM) can store power values in milli-Watts or in abstract
+>>>>> scale. This might cause issues in the subsystems which use the EM for
+>>>>> estimating the device power, such as:
+>>>>> - mixing of different scales in a subsystem which uses multiple
+>>>>>    (cooling) devices (e.g. thermal Intelligent Power Allocation (IPA))
+>>>>> - assuming that energy [milli-Joules] can be derived from the EM power
+>>>>>    values which might not be possible since the power scale doesn't have to
+>>>>>    be in milli-Watts
+>>>>>
+>>>>> To avoid misconfiguration add the needed documentation to the EM and
+>>>>> related subsystems: EAS and IPA.
+>>>>>
+>>>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>>>>> ---
+>>>>>   .../driver-api/thermal/power_allocator.rst          |  8 ++++++++
+>>>>>   Documentation/power/energy-model.rst                | 13 +++++++++++++
+>>>>>   Documentation/scheduler/sched-energy.rst            |  5 +++++
+>>>>>   3 files changed, 26 insertions(+)
+>>>>
+>>>> I haven't read through these files in massive detail, but the quick
+>>>> skim makes me believe that your additions seem sane.  In general, I'm
+>>>> happy with documenting reality, thus:
+>>>>
+>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>>
+>>> Thank you for the review.
+>>>
+>>>>
+>>>> I will note: you haven't actually updated the device tree bindings.
+>>>> Thus, presumably, anyone who is specifying these numbers in the device
+>>>> tree is still supposed to specify them in a way that mW can be
+>>>> recovered, right?  Said another way: nothing about your patches makes
+>>>> it OK to specify numbers in device trees using an "abstract scale",
+>>>> right?
+>>>
+>>> For completeness, we are talking here about the binding from:
+>>> Documentation/devicetree/bindings/arm/cpus.yaml
+>>> which is 'dynamic-power-coefficient'. Yes, it stays untouched, also the
+>>> unit (uW/MHz/V^2) which then allows to have mW in the power
+>>> values in the EM.
+>>
+>> So for platforms where 'dynamic-power-coefficient' is specified in device tree,
+>> its always expected to be derived from 'real' power numbers on these platforms in
+>> 'real' mW?
+> 
+> Yes, the purpose and the name of that binding was only for 'real'
+> power in mW.
+> 
+>>
+>> Atleast on Qualcomm platforms we have these numbers scaled, so in essence it
+>> can't be used to derive 'real' mW values. That said we also do not have any of
+>> the 'platform might face potential issue of mixing devices in one thermal zone
+>> of two scales' problem.
+> 
+> If you have these numbers scaled, then it's probably documented
+> somewhere in your docs for your OEMs, because they might assume it's in
+> uW/MHz/V^2 (according to the bindings doc). If not, they probably
+> realized it during the measurements and comparison (that the power in
+> EM is not what they see on the power meter).
+> This binding actually helps those developers who take the experiments
+> and based on measured power values, store derived coefficient.
+> Everyone can just measure in local setup and compare the results
+> easily, speaking the same language (proposing maybe a patch adjusting
+> the value in DT).
+> 
+>>
+>> So the question is, can such platforms still use 'dynamic-power-coefficient'
+>> in device tree and create an abstract scale? The other way of doing this would
+>> be to *not* specify this value in device tree and have these values stored in the
+>> cpufreq driver and register a custom callback to do the math.
+> 
+> But then we would also have to change the name of that binding.
+> 
+> I'd recommend you the second way that you've described. It will avoid
+> your OEMs confusion. In your cpufreq driver you can simply register
+> to EM using the em_dev_register_perf_domain(). In your local
+> callback you can do whatever you need (read driver array, firmware,
+> DT, scale or not, etc).
+> The helper code in dev_pm_opp_of_register_em() is probably not suited
+> for your use case (when you don't want to share the real power of the
+> SoC).
+
+Got it, thanks for the clarification. I will get the cpufreq driver updated
+to use em_dev_register_perf_domain() with a custom callback and get rid of these
+values from device tree.
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
