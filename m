@@ -2,146 +2,198 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB99C4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 10:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2596DC4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 11:57:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F2F22076B
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 10:56:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="kCjyY7x+"
+	by mail.kernel.org (Postfix) with ESMTP id C7319207FB
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 11:57:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601467058;
+	bh=jTIPj0hDxe4dQiOvFbebYyAKYwFyXODykvNjRZ/EYfo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=SurbXX9SitAvI393pZo5GDy0xKGFGEBz+CG+T87iXNCGuTg/QM4pl2aq2DRE4g8Qt
+	 ARZT7A5gnJS/Pq/lOiQ/uhlODpI5mEJEyj33zY3rc+P9oBIQbDGHkuYqUMWk+GyLhm
+	 fHfUgLL6Wot0XKAkLa/quVYVUj2BlftK6vFKPM4k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728500AbgI3K4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 06:56:05 -0400
-Received: from m42-4.mailgun.net ([69.72.42.4]:16421 "EHLO m42-4.mailgun.net"
+        id S1729356AbgI3L5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 07:57:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46038 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728149AbgI3K4C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 06:56:02 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1601463361; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=23IxMnrq2Jp59pR7Ft4ivJfH7caZwKcP3O3ByLp+9OU=; b=kCjyY7x+3aUP73/EcL+h+1uHiNyvh8OXjsT+MKSglbX2kUmSh0x9LYFBRlJ7Bxa72zErOjUe
- BKlVFi19fDzB5Kdi/+T1pIQ+t4gEUFLLT7dF7QmxZAhFZyNQ3V4ErAremuCRGH8f3sgYzcdg
- ErpgWBoOK/PeHUpV7rYz0uTG9L8=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5f74642919fe605f254d928a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Sep 2020 10:55:37
- GMT
-Sender: rnayak=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id B2836C433F1; Wed, 30 Sep 2020 10:55:37 +0000 (UTC)
-Received: from [192.168.0.118] (unknown [49.207.198.93])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725776AbgI3L5i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 07:57:38 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7F36EC433CA;
-        Wed, 30 Sep 2020 10:55:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7F36EC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH 1/2] docs: Clarify abstract scale usage for power values
- in Energy Model
-To:     Lukasz Luba <lukasz.luba@arm.com>,
-        Doug Anderson <dianders@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-References: <20200929121610.16060-1-lukasz.luba@arm.com>
- <CAD=FV=UnNkjMiOc0DZE7+OM3-Kr1ZRynxSerdA=ifbyGiRa2Zw@mail.gmail.com>
- <a1d1fe2a-485f-a21e-2f91-9b609223aa5a@arm.com>
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <62540312-65a2-b6d9-86ce-b4deaaa913c1@codeaurora.org>
-Date:   Wed, 30 Sep 2020 16:25:30 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        by mail.kernel.org (Postfix) with ESMTPSA id 94C962075F;
+        Wed, 30 Sep 2020 11:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601467057;
+        bh=jTIPj0hDxe4dQiOvFbebYyAKYwFyXODykvNjRZ/EYfo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BPm4lfm7efSRjxS7P4PqAemAG+Hd5iwQzN+jXJ26OpB0Z5nygh3nJ6/3VN4KSJ0mM
+         T7nBJNyJqEI+lWY/v1AhBku2qi3F8Yple32MpMTW/nq5pRlMqLmQasFq/rQ5OayNHS
+         uK0jvxXt2iEMqm8at1LTWqTbB0c85UddUoxYLBSk=
+Date:   Wed, 30 Sep 2020 13:57:40 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Kees Cook <keescook@chromium.org>, Joe Perches <joe@perches.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>
+Cc:     Denis Efremov <efremov@linux.com>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to format
+ sysfs output
+Message-ID: <20200930115740.GA1611809@kroah.com>
+References: <cover.1600285923.git.joe@perches.com>
+ <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
 MIME-Version: 1.0
-In-Reply-To: <a1d1fe2a-485f-a21e-2f91-9b609223aa5a@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Kees, and Rafael, I don't know if you saw this proposal from Joe for
+sysfs files, questions below:
 
-On 9/30/2020 1:55 PM, Lukasz Luba wrote:
-> Hi Douglas,
+On Wed, Sep 16, 2020 at 01:40:38PM -0700, Joe Perches wrote:
+> Output defects can exist in sysfs content using sprintf and snprintf.
 > 
-> On 9/30/20 12:53 AM, Doug Anderson wrote:
->> Hi,
->>
->> On Tue, Sep 29, 2020 at 5:16 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->>>
->>> The Energy Model (EM) can store power values in milli-Watts or in abstract
->>> scale. This might cause issues in the subsystems which use the EM for
->>> estimating the device power, such as:
->>> - mixing of different scales in a subsystem which uses multiple
->>>    (cooling) devices (e.g. thermal Intelligent Power Allocation (IPA))
->>> - assuming that energy [milli-Joules] can be derived from the EM power
->>>    values which might not be possible since the power scale doesn't have to
->>>    be in milli-Watts
->>>
->>> To avoid misconfiguration add the needed documentation to the EM and
->>> related subsystems: EAS and IPA.
->>>
->>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
->>> ---
->>>   .../driver-api/thermal/power_allocator.rst          |  8 ++++++++
->>>   Documentation/power/energy-model.rst                | 13 +++++++++++++
->>>   Documentation/scheduler/sched-energy.rst            |  5 +++++
->>>   3 files changed, 26 insertions(+)
->>
->> I haven't read through these files in massive detail, but the quick
->> skim makes me believe that your additions seem sane.  In general, I'm
->> happy with documenting reality, thus:
->>
->> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> sprintf does not know the PAGE_SIZE maximum of the temporary buffer
+> used for outputting sysfs content and it's possible to overrun the
+> PAGE_SIZE buffer length.
 > 
-> Thank you for the review.
+> Add a generic sysfs_emit function that knows that the size of the
+> temporary buffer and ensures that no overrun is done.
 > 
->>
->> I will note: you haven't actually updated the device tree bindings.
->> Thus, presumably, anyone who is specifying these numbers in the device
->> tree is still supposed to specify them in a way that mW can be
->> recovered, right?  Said another way: nothing about your patches makes
->> it OK to specify numbers in device trees using an "abstract scale",
->> right?
+> Add a generic sysfs_emit_at function that can be used in multiple
+> call situations that also ensures that no overrun is done.
 > 
-> For completeness, we are talking here about the binding from:
-> Documentation/devicetree/bindings/arm/cpus.yaml
-> which is 'dynamic-power-coefficient'. Yes, it stays untouched, also the
-> unit (uW/MHz/V^2) which then allows to have mW in the power
-> values in the EM.
+> Validate the output buffer argument to be page aligned.
+> Validate the offset len argument to be within the PAGE_SIZE buf.
+> 
+> Signed-off-by: Joe Perches <joe@perches.com>
+> ---
+>  Documentation/filesystems/sysfs.rst |  8 ++---
+>  fs/sysfs/file.c                     | 55 +++++++++++++++++++++++++++++
+>  include/linux/sysfs.h               | 15 ++++++++
+>  3 files changed, 73 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
+> index 5a3209a4cebf..004d490179f3 100644
+> --- a/Documentation/filesystems/sysfs.rst
+> +++ b/Documentation/filesystems/sysfs.rst
+> @@ -241,12 +241,10 @@ Other notes:
+>    is 4096.
+>  
+>  - show() methods should return the number of bytes printed into the
+> -  buffer. This is the return value of scnprintf().
+> +  buffer.
+>  
+> -- show() must not use snprintf() when formatting the value to be
+> -  returned to user space. If you can guarantee that an overflow
+> -  will never happen you can use sprintf() otherwise you must use
+> -  scnprintf().
+> +- show() should only use sysfs_emit() or sysfs_emit_at() when formatting
+> +  the value to be returned to user space.
+>  
+>  - store() should return the number of bytes used from the buffer. If the
+>    entire buffer has been used, just return the count argument.
+> diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
+> index eb6897ab78e7..96d0da65e088 100644
+> --- a/fs/sysfs/file.c
+> +++ b/fs/sysfs/file.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+>  #include <linux/seq_file.h>
+> +#include <linux/mm.h>
+>  
+>  #include "sysfs.h"
+>  
+> @@ -707,3 +708,57 @@ int sysfs_change_owner(struct kobject *kobj, kuid_t kuid, kgid_t kgid)
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(sysfs_change_owner);
+> +
+> +/**
+> + *	sysfs_emit - scnprintf equivalent, aware of PAGE_SIZE buffer.
+> + *	@buf:	start of PAGE_SIZE buffer.
+> + *	@fmt:	format
+> + *	@...:	optional arguments to @format
+> + *
+> + *
+> + * Returns number of characters written to @buf.
+> + */
+> +int sysfs_emit(char *buf, const char *fmt, ...)
+> +{
+> +	va_list args;
+> +	int len;
+> +
+> +	if (WARN(!buf || offset_in_page(buf),
+> +		 "invalid sysfs_emit: buf:%p\n", buf))
+> +		return 0;
+> +
+> +	va_start(args, fmt);
+> +	len = vscnprintf(buf, PAGE_SIZE, fmt, args);
+> +	va_end(args);
+> +
+> +	return len;
+> +}
+> +EXPORT_SYMBOL_GPL(sysfs_emit);
+> +
+> +/**
+> + *	sysfs_emit_at - scnprintf equivalent, aware of PAGE_SIZE buffer.
+> + *	@buf:	start of PAGE_SIZE buffer.
+> + *	@at:	offset in @buf to start write in bytes
+> + *		@at must be >= 0 && < PAGE_SIZE
+> + *	@fmt:	format
+> + *	@...:	optional arguments to @fmt
+> + *
+> + *
+> + * Returns number of characters written starting at &@buf[@at].
+> + */
+> +int sysfs_emit_at(char *buf, int at, const char *fmt, ...)
+> +{
+> +	va_list args;
+> +	int len;
+> +
+> +	if (WARN(!buf || offset_in_page(buf) || at < 0 || at >= PAGE_SIZE,
+> +		 "invalid sysfs_emit_at: buf:%p at:%d\n", buf, at))
+> +		return 0;
+> +
+> +	va_start(args, fmt);
+> +	len = vscnprintf(buf + at, PAGE_SIZE - at, fmt, args);
+> +	va_end(args);
+> +
+> +	return len;
+> +}
+> +EXPORT_SYMBOL_GPL(sysfs_emit_at);
 
-So for platforms where 'dynamic-power-coefficient' is specified in device tree,
-its always expected to be derived from 'real' power numbers on these platforms in
-'real' mW?
+These feel sane, but I'm loath to have a ton of churn for no good
+reason.
 
-Atleast on Qualcomm platforms we have these numbers scaled, so in essence it
-can't be used to derive 'real' mW values. That said we also do not have any of
-the 'platform might face potential issue of mixing devices in one thermal zone
-of two scales' problem.
+If we make all sysfs show/store functions use these calls instead of
+sprintf(), it "feels" like that might address the objections that people
+have had in the past where they are nervous about "bare" sprintf()
+calls, right?
 
-So the question is, can such platforms still use 'dynamic-power-coefficient'
-in device tree and create an abstract scale? The other way of doing this would
-be to *not* specify this value in device tree and have these values stored in the
-cpufreq driver and register a custom callback to do the math.
+It also might make things easier to audit where we can see much easier
+where sysfs files are doing "foolish" things by calling sysfs_emit_at()
+a bunch of times they shouldn't be, and maybe automate the documentation
+of sysfs files in a better way.
 
-It just feels like jumping through hoops just to deal with the fact that the
-device tree bindings say its expected to be in mW and can't be abstract.
+So I guess I'm asking for another developer to at least agree that this
+feels like the right way forward here.  I don't want to start down this
+path, only to roll them all back as it feels like pointless churn.
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+thanks,
+
+greg k-h
