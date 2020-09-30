@@ -2,53 +2,53 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EA8C4727F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88837C47425
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7251A2075F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5159E2085B
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601472498;
-	bh=dvscQSQ3r76uf25CRGEczXRFWyqPHOnByQGLKLyfwNw=;
+	s=default; t=1601472520;
+	bh=UuSvHIrjXapwTN7/66N79LxGkjMN45/6gz2URmCBrYg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=QINeQU2OZG/4gnIrs20aCj8CXCsgEs3qgIq5v8On5bWDX/dk/+K/0ibYhWB1pX0QW
-	 04vKw0CbQVGWLtmTMJAM4v+6hIU0TiihKdPz/op401WtlkT9eSW+mo+6DDYMjAbk1G
-	 aru6TUNU0WJ1BWTrstgIKOZ//XmewJNK8+WQVDcU=
+	b=xuX3elOQWhEmUsKftwe0XnPOIao+vwJAFK/2bQNZ5ruIIKiK+fchnc97u9M9FAL5H
+	 LAayfCPEpbrLq20BPceQgfoe+f2+uvPW4fVgmscD2YhMkVa2EaGxBnNX+SugaRCsvV
+	 4QOTF+vbob1SwcMZdKkeSgfVkY9t58EeSxuRa21E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730766AbgI3N2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730761AbgI3N2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 30 Sep 2020 09:28:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38786 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:38716 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730173AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 09:25:20 -0400
+        id S1730057AbgI3NZV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 09:25:21 -0400
 Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF21520BED;
+        by mail.kernel.org (Postfix) with ESMTPSA id C29832076E;
         Wed, 30 Sep 2020 13:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601472320;
-        bh=dvscQSQ3r76uf25CRGEczXRFWyqPHOnByQGLKLyfwNw=;
+        s=default; t=1601472319;
+        bh=UuSvHIrjXapwTN7/66N79LxGkjMN45/6gz2URmCBrYg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ri5iEeYHdlLH6ctBLppZjoXcudnE3yGnfa/Z/p3XUmmkhN8zsPhku1y4nvp+gYN+4
-         0ezxfKrWbuhTdB7DT4LniGUx/7TqLr7LVDP5fetV7AyscLocyupQln+mkTjpxGwA5F
-         0YyG8jCwmOARWJH+dQn0ZSt5SPTnfH8Y3IJB6Fhc=
+        b=aIQaWR4pratNb+dozOdawGxzCRPPr6mtSg5AyWf9zZtCw8qxC5neAbzWf/jJlZR+M
+         AnpHEtXVFZvmODVzNVDsx1mtwliAokeNsOIuhP1dJnVY+PrMuAfTa83hF4VYWH/eKz
+         bechOVlNwX+Apr82cF3IGFUm8NVtd186iz+/rx5g=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNc6f-001XJ0-NM; Wed, 30 Sep 2020 15:25:17 +0200
+        id 1kNc6f-001XJ6-P5; Wed, 30 Sep 2020 15:25:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 05/52] scripts: kernel-doc: use a less pedantic markup for funcs on Sphinx 3.x
-Date:   Wed, 30 Sep 2020 15:24:28 +0200
-Message-Id: <65003bc1c62d1e6108961fba18e3e734e23d5c86.1601467849.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 07/52] scripts: kernel-doc: reimplement -nofunction argument
+Date:   Wed, 30 Sep 2020 15:24:30 +0200
+Message-Id: <38b2fc38452e47d87168800f174a150ffab64740.1601467849.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
 References: <cover.1601467849.git.mchehab+huawei@kernel.org>
@@ -59,81 +59,147 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Unfortunately, Sphinx 3.x parser for c functions is too pedantic:
+Right now, the build system doesn't use -nofunction, as
+it is pretty much useless, because it doesn't consider
+the other output modes (extern, internal), working only
+with all.
 
-	https://github.com/sphinx-doc/sphinx/issues/8241
+Also, it is limited to exclude functions.
 
-While it could be relaxed with some configurations, there are
-several corner cases that it would make it hard to maintain,
-and will require teaching conf.py about several macros.
+Re-implement it in order to allow excluding any symbols from
+the document output, no matter what mode is used.
 
-So, let's instead use the :c:macro notation. This will
-produce an output that it is not as nice as currently, but it
-should still be acceptable, and will provide cross-references,
-removing thousands of warnings when building with newer
-versions of Sphinx.
+The parameter was also renamed to "-nosymbol", as it express
+better its meaning.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 34 ++++++++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 10 deletions(-)
+ scripts/kernel-doc | 44 +++++++++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 3efc06d6f82d..e1140869b889 100755
+index 07b1073b0bc0..6588a0d27fe4 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -886,19 +886,29 @@ sub output_function_rst(%) {
-     my $oldprefix = $lineprefix;
-     my $start = "";
+@@ -66,9 +66,8 @@ Output selection (mutually exclusive):
+   -function NAME	Only output documentation for the given function(s)
+ 			or DOC: section title(s). All other functions and DOC:
+ 			sections are ignored. May be specified multiple times.
+-  -nofunction NAME	Do NOT output documentation for the given function(s);
+-			only output documentation for the other functions and
+-			DOC: sections. May be specified multiple times.
++  -nosymbol NAME	Exclude the specified symbols from the output
++		        documentation. May be specified multiple times.
  
--    if ($args{'typedef'}) {
--	if ($sphinx_major < 3) {
-+    if ($sphinx_major < 3) {
-+	if ($args{'typedef'}) {
- 	    print ".. c:type:: ". $args{'function'} . "\n\n";
-+	    print_lineno($declaration_start_line);
-+	    print "   **Typedef**: ";
-+	    $lineprefix = "";
-+	    output_highlight_rst($args{'purpose'});
-+	    $start = "\n\n**Syntax**\n\n  ``";
- 	} else {
--	    print ".. c:function:: ". $args{'function'} . "\n\n";
-+	    print ".. c:function:: ";
- 	}
--	print_lineno($declaration_start_line);
--	print "   **Typedef**: ";
--	$lineprefix = "";
--	output_highlight_rst($args{'purpose'});
--	$start = "\n\n**Syntax**\n\n  ``";
-     } else {
--	print ".. c:function:: ";
-+	print ".. c:macro:: ". $args{'function'} . "\n\n";
-+
-+	if ($args{'typedef'}) {
-+	    print_lineno($declaration_start_line);
-+	    print "   **Typedef**: ";
-+	    $lineprefix = "";
-+	    output_highlight_rst($args{'purpose'});
-+	    $start = "\n\n**Syntax**\n\n  ``";
-+	} else {
-+	    print "``";
-+	}
+ Output selection modifiers:
+   -no-doc-sections	Do not output DOC: sections.
+@@ -288,9 +287,8 @@ my $modulename = "Kernel API";
+ use constant {
+     OUTPUT_ALL          => 0, # output all symbols and doc sections
+     OUTPUT_INCLUDE      => 1, # output only specified symbols
+-    OUTPUT_EXCLUDE      => 2, # output everything except specified symbols
+-    OUTPUT_EXPORTED     => 3, # output exported symbols
+-    OUTPUT_INTERNAL     => 4, # output non-exported symbols
++    OUTPUT_EXPORTED     => 2, # output exported symbols
++    OUTPUT_INTERNAL     => 3, # output non-exported symbols
+ };
+ my $output_selection = OUTPUT_ALL;
+ my $show_not_found = 0;	# No longer used
+@@ -315,6 +313,7 @@ my $man_date = ('January', 'February', 'March', 'April', 'May', 'June',
+ # CAVEAT EMPTOR!  Some of the others I localised may not want to be, which
+ # could cause "use of undefined value" or other bugs.
+ my ($function, %function_table, %parametertypes, $declaration_purpose);
++my %nosymbol_table = ();
+ my $declaration_start_line;
+ my ($type, $declaration_name, $return_type);
+ my ($newsection, $newcontents, $prototype, $brcount, %source_map);
+@@ -434,10 +433,9 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	$output_selection = OUTPUT_INCLUDE;
+ 	$function = shift @ARGV;
+ 	$function_table{$function} = 1;
+-    } elsif ($cmd eq "nofunction") { # output all except specific functions
+-	$output_selection = OUTPUT_EXCLUDE;
+-	$function = shift @ARGV;
+-	$function_table{$function} = 1;
++    } elsif ($cmd eq "nosymbol") { # Exclude specific symbols
++	my $symbol = shift @ARGV;
++	$nosymbol_table{$symbol} = 1;
+     } elsif ($cmd eq "export") { # only exported symbols
+ 	$output_selection = OUTPUT_EXPORTED;
+ 	%function_table = ();
+@@ -570,11 +568,11 @@ sub dump_doc_section {
+         return;
      }
-     if ($args{'functiontype'} ne "") {
- 	$start .= $args{'functiontype'} . " " . $args{'function'} . " (";
-@@ -925,7 +935,11 @@ sub output_function_rst(%) {
-     if ($args{'typedef'}) {
- 	print ");``\n\n";
-     } else {
--	print ")\n\n";
-+	if ($sphinx_major < 3) {
-+	    print ")\n\n";
-+	} else {
-+	    print ")``\n";
-+	}
- 	print_lineno($declaration_start_line);
- 	$lineprefix = "   ";
- 	output_highlight_rst($args{'purpose'});
+ 
++    return if (defined($nosymbol_table{$name}));
++
+     if (($output_selection == OUTPUT_ALL) ||
+-	($output_selection == OUTPUT_INCLUDE &&
+-	 defined($function_table{$name})) ||
+-	($output_selection == OUTPUT_EXCLUDE &&
+-	 !defined($function_table{$name})))
++	(($output_selection == OUTPUT_INCLUDE) &&
++	 defined($function_table{$name})))
+     {
+ 	dump_section($file, $name, $contents);
+ 	output_blockhead({'sectionlist' => \@sectionlist,
+@@ -800,6 +798,8 @@ sub output_blockhead_rst(%) {
+     my ($parameter, $section);
+ 
+     foreach $section (@{$args{'sectionlist'}}) {
++	next if (defined($nosymbol_table{$section}));
++
+ 	if ($output_selection != OUTPUT_INCLUDE) {
+ 	    print "**$section**\n\n";
+ 	}
+@@ -1115,12 +1115,14 @@ sub output_declaration {
+     my $name = shift;
+     my $functype = shift;
+     my $func = "output_${functype}_$output_mode";
++
++    return if (defined($nosymbol_table{$name}));
++
+     if (($output_selection == OUTPUT_ALL) ||
+ 	(($output_selection == OUTPUT_INCLUDE ||
+ 	  $output_selection == OUTPUT_EXPORTED) &&
+ 	 defined($function_table{$name})) ||
+-	(($output_selection == OUTPUT_EXCLUDE ||
+-	  $output_selection == OUTPUT_INTERNAL) &&
++	($output_selection == OUTPUT_INTERNAL &&
+ 	 !($functype eq "function" && defined($function_table{$name}))))
+     {
+ 	&$func(@_);
+@@ -1301,6 +1303,8 @@ sub show_warnings($$) {
+ 	my $functype = shift;
+ 	my $name = shift;
+ 
++	return 0 if (defined($nosymbol_table{$name}));
++
+ 	return 1 if ($output_selection == OUTPUT_ALL);
+ 
+ 	if ($output_selection == OUTPUT_EXPORTED) {
+@@ -1324,13 +1328,6 @@ sub show_warnings($$) {
+ 			return 0;
+ 		}
+ 	}
+-	if ($output_selection == OUTPUT_EXCLUDE) {
+-		if (!defined($function_table{$name})) {
+-			return 1;
+-		} else {
+-			return 0;
+-		}
+-	}
+ 	die("Please add the new output type at show_warnings()");
+ }
+ 
+@@ -1945,6 +1942,7 @@ sub process_export_file($) {
+ 
+     while (<IN>) {
+ 	if (/$export_symbol/) {
++	    next if (defined($nosymbol_table{$2}));
+ 	    $function_table{$2} = 1;
+ 	}
+     }
 -- 
 2.26.2
 
