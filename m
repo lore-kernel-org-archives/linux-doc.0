@@ -2,198 +2,133 @@ Return-Path: <SRS0=Pt5A=DH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2596DC4727E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 11:57:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69215C4727E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:25:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7319207FB
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 11:57:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F331221D41
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Sep 2020 13:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601467058;
-	bh=jTIPj0hDxe4dQiOvFbebYyAKYwFyXODykvNjRZ/EYfo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=SurbXX9SitAvI393pZo5GDy0xKGFGEBz+CG+T87iXNCGuTg/QM4pl2aq2DRE4g8Qt
-	 ARZT7A5gnJS/Pq/lOiQ/uhlODpI5mEJEyj33zY3rc+P9oBIQbDGHkuYqUMWk+GyLhm
-	 fHfUgLL6Wot0XKAkLa/quVYVUj2BlftK6vFKPM4k=
+	s=default; t=1601472321;
+	bh=zXf5IdVsjv02CToXaGl0U+R8uIJox+Ax0tMq2ZJvFgU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=0CrHlD7H0Hv4hVLIImnMd7F9VPNZvKXxbEip101BWZ0h5VrtAAIdpqEj1uOvyaXv9
+	 XH2dhBrk5fg5sxmhO26fEwypSVhOB0pUqh32JZCUQN5wuTcDuNgOylWjEvkHffbuhR
+	 BLp6XHFDfK73L/eW8hET9Oe2dekhqzTE109yO+b4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729356AbgI3L5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 07:57:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46038 "EHLO mail.kernel.org"
+        id S1729859AbgI3NZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 09:25:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725776AbgI3L5i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Sep 2020 07:57:38 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        id S1729205AbgI3NZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Sep 2020 09:25:20 -0400
+Received: from mail.kernel.org (unknown [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 94C962075F;
-        Wed, 30 Sep 2020 11:57:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B4D472075F;
+        Wed, 30 Sep 2020 13:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601467057;
-        bh=jTIPj0hDxe4dQiOvFbebYyAKYwFyXODykvNjRZ/EYfo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BPm4lfm7efSRjxS7P4PqAemAG+Hd5iwQzN+jXJ26OpB0Z5nygh3nJ6/3VN4KSJ0mM
-         T7nBJNyJqEI+lWY/v1AhBku2qi3F8Yple32MpMTW/nq5pRlMqLmQasFq/rQ5OayNHS
-         uK0jvxXt2iEMqm8at1LTWqTbB0c85UddUoxYLBSk=
-Date:   Wed, 30 Sep 2020 13:57:40 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kees Cook <keescook@chromium.org>, Joe Perches <joe@perches.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-Cc:     Denis Efremov <efremov@linux.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to format
- sysfs output
-Message-ID: <20200930115740.GA1611809@kroah.com>
-References: <cover.1600285923.git.joe@perches.com>
- <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
+        s=default; t=1601472319;
+        bh=zXf5IdVsjv02CToXaGl0U+R8uIJox+Ax0tMq2ZJvFgU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=wq9DiuS7coeK0Mv84TbR5q4Tr9FckZkb/644XnL/0ybkwLmsNQ+d4zW+2kxHKmOOA
+         jz2MujdIjAXe+so7aKov0dMDHO/74k2Htd8Cb2ZRI7FbiIXR9JAl82xyV6/vx16aOt
+         S+pHBBQye8FF99RaxH5txXLcPrPU1ciM9pCdqI4I=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kNc6f-001XJ3-OD; Wed, 30 Sep 2020 15:25:17 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 06/52] scripts: kernel-doc: fix troubles with line counts
+Date:   Wed, 30 Sep 2020 15:24:29 +0200
+Message-Id: <c3aa73d08083a3584aaaa87adc45ea7368b187d3.1601467849.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kees, and Rafael, I don't know if you saw this proposal from Joe for
-sysfs files, questions below:
+There's currently a bug with the way kernel-doc script
+counts line numbers that can be seen with:
 
-On Wed, Sep 16, 2020 at 01:40:38PM -0700, Joe Perches wrote:
-> Output defects can exist in sysfs content using sprintf and snprintf.
-> 
-> sprintf does not know the PAGE_SIZE maximum of the temporary buffer
-> used for outputting sysfs content and it's possible to overrun the
-> PAGE_SIZE buffer length.
-> 
-> Add a generic sysfs_emit function that knows that the size of the
-> temporary buffer and ensures that no overrun is done.
-> 
-> Add a generic sysfs_emit_at function that can be used in multiple
-> call situations that also ensures that no overrun is done.
-> 
-> Validate the output buffer argument to be page aligned.
-> Validate the offset len argument to be within the PAGE_SIZE buf.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  Documentation/filesystems/sysfs.rst |  8 ++---
->  fs/sysfs/file.c                     | 55 +++++++++++++++++++++++++++++
->  include/linux/sysfs.h               | 15 ++++++++
->  3 files changed, 73 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
-> index 5a3209a4cebf..004d490179f3 100644
-> --- a/Documentation/filesystems/sysfs.rst
-> +++ b/Documentation/filesystems/sysfs.rst
-> @@ -241,12 +241,10 @@ Other notes:
->    is 4096.
->  
->  - show() methods should return the number of bytes printed into the
-> -  buffer. This is the return value of scnprintf().
-> +  buffer.
->  
-> -- show() must not use snprintf() when formatting the value to be
-> -  returned to user space. If you can guarantee that an overflow
-> -  will never happen you can use sprintf() otherwise you must use
-> -  scnprintf().
-> +- show() should only use sysfs_emit() or sysfs_emit_at() when formatting
-> +  the value to be returned to user space.
->  
->  - store() should return the number of bytes used from the buffer. If the
->    entire buffer has been used, just return the count argument.
-> diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
-> index eb6897ab78e7..96d0da65e088 100644
-> --- a/fs/sysfs/file.c
-> +++ b/fs/sysfs/file.c
-> @@ -15,6 +15,7 @@
->  #include <linux/list.h>
->  #include <linux/mutex.h>
->  #include <linux/seq_file.h>
-> +#include <linux/mm.h>
->  
->  #include "sysfs.h"
->  
-> @@ -707,3 +708,57 @@ int sysfs_change_owner(struct kobject *kobj, kuid_t kuid, kgid_t kgid)
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(sysfs_change_owner);
-> +
-> +/**
-> + *	sysfs_emit - scnprintf equivalent, aware of PAGE_SIZE buffer.
-> + *	@buf:	start of PAGE_SIZE buffer.
-> + *	@fmt:	format
-> + *	@...:	optional arguments to @format
-> + *
-> + *
-> + * Returns number of characters written to @buf.
-> + */
-> +int sysfs_emit(char *buf, const char *fmt, ...)
-> +{
-> +	va_list args;
-> +	int len;
-> +
-> +	if (WARN(!buf || offset_in_page(buf),
-> +		 "invalid sysfs_emit: buf:%p\n", buf))
-> +		return 0;
-> +
-> +	va_start(args, fmt);
-> +	len = vscnprintf(buf, PAGE_SIZE, fmt, args);
-> +	va_end(args);
-> +
-> +	return len;
-> +}
-> +EXPORT_SYMBOL_GPL(sysfs_emit);
-> +
-> +/**
-> + *	sysfs_emit_at - scnprintf equivalent, aware of PAGE_SIZE buffer.
-> + *	@buf:	start of PAGE_SIZE buffer.
-> + *	@at:	offset in @buf to start write in bytes
-> + *		@at must be >= 0 && < PAGE_SIZE
-> + *	@fmt:	format
-> + *	@...:	optional arguments to @fmt
-> + *
-> + *
-> + * Returns number of characters written starting at &@buf[@at].
-> + */
-> +int sysfs_emit_at(char *buf, int at, const char *fmt, ...)
-> +{
-> +	va_list args;
-> +	int len;
-> +
-> +	if (WARN(!buf || offset_in_page(buf) || at < 0 || at >= PAGE_SIZE,
-> +		 "invalid sysfs_emit_at: buf:%p at:%d\n", buf, at))
-> +		return 0;
-> +
-> +	va_start(args, fmt);
-> +	len = vscnprintf(buf + at, PAGE_SIZE - at, fmt, args);
-> +	va_end(args);
-> +
-> +	return len;
-> +}
-> +EXPORT_SYMBOL_GPL(sysfs_emit_at);
+	$ ./scripts/kernel-doc -rst  -enable-lineno include/linux/math64.h >all && ./scripts/kernel-doc -rst -internal -enable-lineno include/linux/math64.h >int && diff -U0 int all
 
-These feel sane, but I'm loath to have a ton of churn for no good
-reason.
+	--- int	2020-09-28 12:58:08.927486808 +0200
+	+++ all	2020-09-28 12:58:08.905486845 +0200
+	@@ -1 +1 @@
+	-#define LINENO 27
+	+#define LINENO 26
+	@@ -3 +3 @@
+	-#define LINENO 16
+	+#define LINENO 15
+	@@ -9 +9 @@
+	-#define LINENO 17
+	+#define LINENO 16
+	...
 
-If we make all sysfs show/store functions use these calls instead of
-sprintf(), it "feels" like that might address the objections that people
-have had in the past where they are nervous about "bare" sprintf()
-calls, right?
+This is happening with perl version 5.30.3, but I'm not
+so sure if this is a perl bug, or if this is due to something
+else.
 
-It also might make things easier to audit where we can see much easier
-where sysfs files are doing "foolish" things by calling sysfs_emit_at()
-a bunch of times they shouldn't be, and maybe automate the documentation
-of sysfs files in a better way.
+In any case, fixing it is easy. Basically, when "-internal"
+parameter is used, the process_export_file() function opens the
+handle "IN". This makes the line number to be incremented, as the
+handler for the main open is also "IN".
 
-So I guess I'm asking for another developer to at least agree that this
-feels like the right way forward here.  I don't want to start down this
-path, only to roll them all back as it feels like pointless churn.
+Fix the problem by using a different handler for the
+main open().
 
-thanks,
+While here, add a missing close for it.
 
-greg k-h
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index e1140869b889..07b1073b0bc0 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -2261,7 +2261,7 @@ sub process_file($) {
+ 
+     $file = map_filename($orig_file);
+ 
+-    if (!open(IN,"<$file")) {
++    if (!open(IN_FILE,"<$file")) {
+ 	print STDERR "Error: Cannot open file $file\n";
+ 	++$errors;
+ 	return;
+@@ -2270,9 +2270,9 @@ sub process_file($) {
+     $. = 1;
+ 
+     $section_counter = 0;
+-    while (<IN>) {
++    while (<IN_FILE>) {
+ 	while (s/\\\s*$//) {
+-	    $_ .= <IN>;
++	    $_ .= <IN_FILE>;
+ 	}
+ 	# Replace tabs by spaces
+         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
+@@ -2304,6 +2304,7 @@ sub process_file($) {
+ 	    print STDERR "${file}:1: warning: no structured comments found\n";
+ 	}
+     }
++    close IN_FILE;
+ }
+ 
+ 
+-- 
+2.26.2
+
