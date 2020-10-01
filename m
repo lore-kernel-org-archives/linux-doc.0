@@ -2,262 +2,209 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A228C4727E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 17:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D69C4727E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 17:58:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0E5A221F0
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 17:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601573202;
-	bh=ZeucOxEGwYAwOisFa15yd0vUgz9q8YmfYAwL5fw3YaY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=Yth9YuxUPaV+X7Uq5U3FfgVCu5WBeKq0gXmqZLV/Y8IlSxgqumb0qrFhWdBSdCfBn
-	 3vS8QucqlsAjvVePRQ7vh0iV/Bz3Meq+UadccocbFRWFvo9C00qhnwoFkTw7+0vjpu
-	 pt040p7+4plzm1wgu1X47BFTxvZul9RlCVwmMgVQ=
+	by mail.kernel.org (Postfix) with ESMTP id 1F5DF21707
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 17:58:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732830AbgJAR0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 13:26:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53844 "EHLO mail.kernel.org"
+        id S1732925AbgJAR6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 13:58:02 -0400
+Received: from foss.arm.com ([217.140.110.172]:41792 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732213AbgJAR0m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Oct 2020 13:26:42 -0400
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B53FD20B1F
-        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 17:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601573201;
-        bh=ZeucOxEGwYAwOisFa15yd0vUgz9q8YmfYAwL5fw3YaY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0DoMHNw3NEBGDy+zyfTNx4WucL0t18JLri9m/nPIS7Nfby1AOn3ObVnpBj7m/fVyX
-         VleadcapZkbv5SJori6McqCdpJ7XL3JyK1yh5kBMBTddPMQSV3eYe7/JRT/MO8Nrxz
-         VTNBpDK+94LNjx3yvLbFTcRtOW9/2ZDBEK99T8wY=
-Received: by mail-wm1-f45.google.com with SMTP id y15so4008909wmi.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2020 10:26:40 -0700 (PDT)
-X-Gm-Message-State: AOAM531JJINT5xSSuTxgoXW4BwkblG4gNds8F6CGE05t9nWID1GjdarF
-        R95EJ3HKsYdM0ivVyTazzg2QmW8Zgx0AqyVYp6SjlA==
-X-Google-Smtp-Source: ABdhPJzsDHc4cgbeqbrVUch9Umv63EOwhe6DxGcuS92ZNYw+C2Bn57ahMoGL2VU45fCJ3LrAwL1irG/U+dQg1/42e5c=
-X-Received: by 2002:a1c:63c1:: with SMTP id x184mr1111951wmb.138.1601573199240;
- Thu, 01 Oct 2020 10:26:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
- <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net> <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
- <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
- <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com> <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
- <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
- <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com> <CALCETrXgde6yHTKw1Njnxp9cANp6Ee8bmG9C2X4e-Fz0ZZCuBw@mail.gmail.com>
- <CAMe9rOonjX-b46sJ3AYSJZV84d=oU6-KhScnk5vksVqoLgQ90A@mail.gmail.com>
- <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com> <79d1e67d-2394-1ce6-3bad-cce24ba792bd@intel.com>
-In-Reply-To: <79d1e67d-2394-1ce6-3bad-cce24ba792bd@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 1 Oct 2020 10:26:27 -0700
-X-Gmail-Original-Message-ID: <CALCETrU-pjSFBGBROukA8dtSUmft9E1j86oS16Lw0Oz1yzv8Gw@mail.gmail.com>
-Message-ID: <CALCETrU-pjSFBGBROukA8dtSUmft9E1j86oS16Lw0Oz1yzv8Gw@mail.gmail.com>
-Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
- Branch Tracking for vsyscall emulation
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
+        id S1732842AbgJAR6C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Oct 2020 13:58:02 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78BE31042;
+        Thu,  1 Oct 2020 10:58:01 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.51.119])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 604693F6CF;
+        Thu,  1 Oct 2020 10:57:54 -0700 (PDT)
+Date:   Thu, 1 Oct 2020 18:57:45 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Alexander Potapenko <glider@google.com>
+Cc:     Will Deacon <will@kernel.org>, Marco Elver <elver@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        David Rientjes <rientjes@google.com>,
+        Dmitriy Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Pekka Enberg <penberg@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
+Message-ID: <20201001175716.GA89689@C02TD0UTHF1T.local>
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-4-elver@google.com>
+ <20200921143059.GO2139@willie-the-truck>
+ <CAG_fn=WXknUnNmyniy_UE7daivSNmy0Da2KzNmX4wcmXC2Z_Mg@mail.gmail.com>
+ <20200929140226.GB53442@C02TD0UTHF1T.local>
+ <CAG_fn=VOR-3LgmLY-T2Fy6K_VYFgCHK0Hv+Y-atrvrVZ4mQE=Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG_fn=VOR-3LgmLY-T2Fy6K_VYFgCHK0Hv+Y-atrvrVZ4mQE=Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 1, 2020 at 9:51 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->
-> On 9/30/2020 6:10 PM, Andy Lutomirski wrote:
-> > On Wed, Sep 30, 2020 at 6:01 PM H.J. Lu <hjl.tools@gmail.com> wrote:
-> >>
-> >> On Wed, Sep 30, 2020 at 4:44 PM Andy Lutomirski <luto@kernel.org> wrote:
->
-> [...]
->
-> >>>>>>>    From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
-> >>>>>>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> >>>>>>> Date: Thu, 29 Nov 2018 14:15:38 -0800
-> >>>>>>> Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
-> >>>>>>> Indirect Branch
-> >>>>>>>     Tracking for vsyscall emulation
-> >>>>>>>
-> >>>>>>> Vsyscall entry points are effectively branch targets.  Mark them with
-> >>>>>>> ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
-> >>>>>>> and reset IBT state machine.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> >>>>>>> ---
-> >>>>>>> v13:
-> >>>>>>> - Check shadow stack address is canonical.
-> >>>>>>> - Change from writing to MSRs to writing to CET xstate.
-> >>>>>>>
-> >>>>>>>     arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
-> >>>>>>>     arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
-> >>>>>>>     arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
-> >>>>>>>     3 files changed, 44 insertions(+)
-> >>>>>>>
-> >>>>>>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>>>>>> b/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>>>>>> index 44c33103a955..30b166091d46 100644
-> >>>>>>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>>>>>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> >>>>>>> @@ -38,6 +38,9 @@
-> >>>>>>>     #include <asm/fixmap.h>
-> >>>>>>>     #include <asm/traps.h>
-> >>>>>>>     #include <asm/paravirt.h>
-> >>>>>>> +#include <asm/fpu/xstate.h>
-> >>>>>>> +#include <asm/fpu/types.h>
-> >>>>>>> +#include <asm/fpu/internal.h>
-> >>>>>>>
-> >>>>>>>     #define CREATE_TRACE_POINTS
-> >>>>>>>     #include "vsyscall_trace.h"
-> >>>>>>> @@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
-> >>>>>>>           /* Emulate a ret instruction. */
-> >>>>>>>           regs->ip = caller;
-> >>>>>>>           regs->sp += 8;
-> >>>>>>> +
-> >>>>>>> +#ifdef CONFIG_X86_CET
-> >>>>>>> +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
-> >>>>>>> +               struct cet_user_state *cet;
-> >>>>>>> +               struct fpu *fpu;
-> >>>>>>> +
-> >>>>>>> +               fpu = &tsk->thread.fpu;
-> >>>>>>> +               fpregs_lock();
-> >>>>>>> +
-> >>>>>>> +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
-> >>>>>>> +                       copy_fpregs_to_fpstate(fpu);
-> >>>>>>> +                       set_thread_flag(TIF_NEED_FPU_LOAD);
-> >>>>>>> +               }
-> >>>>>>> +
-> >>>>>>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> >>>>>>> +               if (!cet) {
-> >>>>>>> +                       /*
-> >>>>>>> +                        * This should not happen.  The task is
-> >>>>>>> +                        * CET-enabled, but CET xstate is in INIT.
-> >>>>>>> +                        */
-> >>>>>>
-> [...]
-> >>>>>>
-> >>>>>
-> >>>>> For what it's worth, I think there is an alternative.  If you all
-> >>>>> (userspace people, etc) can come up with a credible way for a user
-> >>>>> program to statically declare that it doesn't need vsyscalls, then we
-> >>>>> could make SHSTK depend on *that*, and we could avoid this mess.  This
-> >>>>> breaks orthogonality, but it's probably a decent outcome.
-> >>>>>
-> >>>>
-> >>>> Would an arch_prctl(DISABLE_VSYSCALL) work?  The kernel then sets a
-> >>>> thread flag, and in emulate_vsyscall(), checks the flag.
-> >>>>
-> >>>> When CET is enabled, ld-linux will do DISABLE_VSYSCALL.
-> >>>>
-> >>>> How is that?
-> >>>
-> >>> Backwards, no?  Presumably vsyscall needs to be disabled before or
-> >>> concurrently with CET being enabled, not after.
-> >>>
-> >>> I think the solution of making vsyscall emulation work correctly with
-> >>> CET is going to be better and possibly more straightforward.
-> >>>
-> >>
-> >> We can do
-> >>
-> >> 1. Add ARCH_X86_DISABLE_VSYSCALL to disable the vsyscall page.
-> >> 2. If CPU supports CET and the program is CET enabled:
-> >>      a. Disable the vsyscall page.
-> >>      b. Pass control to user.
-> >>      c. Enable the vsyscall page when ARCH_X86_CET_DISABLE is called.
-> >>
-> >> So when control is passed from kernel to user, the vsyscall page is
-> >> disabled if the program
-> >> is CET enabled.
+On Thu, Oct 01, 2020 at 01:24:49PM +0200, Alexander Potapenko wrote:
+> Mark,
+> 
+> > If you need virt_to_page() to work, the address has to be part of the
+> > linear/direct map.
 > >
-> > Let me say this one more time:
+> > If you need to find the struct page for something that's part of the
+> > kernel image you can use virt_to_page(lm_alias(x)).
 > >
-> > If we have a per-process vsyscall disable control and a per-process
-> > CET control, we are going to keep those settings orthogonal.  I'm
-> > willing to entertain an option in which enabling SHSTK without also
-> > disabling vsyscalls is disallowed, We are *not* going to have any CET
-> > flags magically disable vsyscalls, though, and we are not going to
-> > have a situation where disabling vsyscalls on process startup requires
-> > enabling SHSTK.
+> > > Looks like filling page table entries (similarly to what's being done
+> > > in arch/arm64/mm/kasan_init.c) is not enough.
+> > > I thought maybe vmemmap_populate() would do the job, but it didn't
+> > > (virt_to_pfn() still returns invalid PFNs).
 > >
-> > Any possible static vsyscall controls (and CET controls, for that
-> > matter) also need to come with some explanation of whether they are
-> > properties set on the ELF loader, the ELF program being loaded, or
-> > both.  And this explanation needs to cover what happens when old
-> > binaries link against new libc versions and vice versa.  A new
-> > CET-enabled binary linked against old libc running on a new kernel
-> > that is expected to work on a non-CET CPU MUST work on a CET CPU, too.
-> >
-> > Right now, literally the only thing preventing vsyscall emulation from
-> > coexisting with SHSTK is that the implementation eeds work.
-> >
-> > So your proposal is rejected.  Sorry.
-> >
-> I think, even with shadow stack/ibt enabled, we can still allow XONLY
-> without too much mess.
->
-> What about this?
->
-> Thanks,
-> Yu-cheng
->
-> ======
->
-> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
-> b/arch/x86/entry/vsyscall/vsyscall_64.c
-> index 8b0b32ac7791..d39da0a15521 100644
-> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> @@ -48,16 +48,16 @@
->   static enum { EMULATE, XONLY, NONE } vsyscall_mode __ro_after_init =
->   #ifdef CONFIG_LEGACY_VSYSCALL_NONE
->          NONE;
-> -#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY)
-> +#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY) || defined(CONFIG_X86_CET)
->          XONLY;
-> -#else
-> +#else
->          EMULATE;
->   #endif
+> > As above, I think lm_alias() will solve the problem here. Please see
+> > that and CONFIG_DEBUG_VIRTUAL.
+> 
+> The approach you suggest works to some extent, but there are some caveats.
+> 
+> To reiterate, we are trying to allocate the pool (2Mb by default, but
+> users may want a bigger one, up to, say, 64 Mb) in a way that:
+> (1) The underlying page tables support 4K granularity.
+> (2) is_kfence_address() (checks that __kfence_pool <= addr <=
+> __kfence_pool + KFENCE_POOL_SIZE) does not reference memory
 
-I don't get it.
+What's the underlying requirement here? Is this a performance concern,
+codegen/codesize, or something else?
 
-First, you can't do any of this based on config -- it must be runtime.
+> (3) For addresses belonging to that pool virt_addr_valid() is true
+> (SLAB/SLUB rely on that)
 
-Second, and more importantly, I don't see how XONLY helps at all.  The
-(non-executable) text that's exposed to user code in EMULATE mode is
-trivial to get right with CET -- your code already handles it.  It's
-the emulation code (that runs identically in EMULATE and XONLY mode)
-that's tricky.
+As I hinted at before, there's a reasonable amount of code which relies
+on being able to round-trip convert (va->{pa,page}->va) allocations from
+SLUB, e.g. phys = virt_to_page(addr); ... ; phys = page_to_virt(phys).
+Usually this is because the phys addr is stored in some HW register, or
+in-memory structure shared with HW.
+
+I'm fairly certain KFENCE will need to support this in order to be
+deployable in production, and arm64 is the canary in the coalmine.
+
+I added tests for this back when tag-based KASAN broke this property.
+See commit:
+
+  b92a953cb7f727c4 ("lib/test_kasan.c: add roundtrip tests")
+
+... for which IIUC the kfree_via_phys() test would be broken by KFENCE,
+even on x86:
+
+| static noinline void __init kfree_via_phys(void)
+| {
+|        char *ptr;
+|        size_t size = 8;
+|        phys_addr_t phys;
+| 
+|        pr_info("invalid-free false positive (via phys)\n");
+|        ptr = kmalloc(size, GFP_KERNEL);
+|        if (!ptr) {
+|                pr_err("Allocation failed\n");
+|                return;
+|        }
+| 
+|        phys = virt_to_phys(ptr);
+|        kfree(phys_to_virt(phys));
+| }
+
+... since the code will pass the linear map alias of the KFENCE VA into
+kfree().
+
+To avoid random breakage we either need to:
+
+* Have KFENCE retain this property (which effectively requires
+  allocation VAs to fall within the linear/direct map)
+
+* Decide that round-trips are forbidden, and go modify that code
+  somehow, which was deemed to be impractical in the past
+
+... and I would strongly prefer the former as it's less liable to break any
+existing code.
+
+> On x86 we achieve (2) by making our pool a .bss array, so that its
+> address is known statically. Aligning that array on 4K and calling
+> set_memory_4k() ensures that (1) is also fulfilled. (3) seems to just
+> happen automagically without any address translations.
+> 
+> Now, what we are seeing on arm64 is different.
+> My understanding (please correct me if I'm wrong) is that on arm64
+> only the memory range at 0xffff000000000000 has valid struct pages,
+> and the size of that range depends on the amount of memory on the
+> system.
+
+The way virt_to_page() works is based on there being a constant (at
+runtime) offset between a linear map address and the corresponding
+physical page. That makes it easy to get the PA with a subtraction, then
+the PFN with a shift, then to index the vmemmap array with that to get
+the page. The x86 version of virt_to_page() automatically fixes up an
+image address to its linear map alias internally.
+
+> This probably means we cannot just pick a fixed address for our pool
+> in that range, unless it is very close to 0xffff000000000000.
+
+It would have to be part of the linear map, or we'd have to apply the
+same fixup as x86 does. But as above, I'm reluctant to do that as it
+only encourages writing fragile code. The only sensible way to detect
+that is to disallow virt_to_*() on image addresses, since that's the
+only time we can distinguish the source.
+
+> If we allocate the pool statically in the way x86 does (assuming we
+> somehow resolve (1)), we can apply lm_alias() to addresses returned by
+> the KFENCE allocator, making kmalloc() always return addresses from
+> the linear map and satisfying (3).
+> But in that case is_kfence_address() will also need to be updated to
+> compare the addresses to lm_alias(__kfence_pool), and this becomes
+> more heavyweight than just reading the address from memory.
+
+We can calculate the lm_alias(__kfence_pool) at boot time, so it's only
+a read from memory in the fast-path.
+
+> So looks like it's still more preferable to allocate the pool
+> dynamically on ARM64, unless there's a clever trick to allocate a
+> fixed address in the linear map (DTS maybe?)
+
+I'm not too worried about allocating this dynamically, but:
+
+* The arch code needs to set up the translation tables for this, as we
+  cannot safely change the mapping granularity live.
+
+* As above I'm fairly certain x86 needs to use a carevout from the
+  linear map to function correctly anyhow, so we should follow the same
+  approach for both arm64 and x86. That might be a static carevout that
+  we figure out the aliasing for, or something entirely dynamic.
+
+Thanks,
+Mark.
