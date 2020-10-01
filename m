@@ -2,314 +2,212 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98CB1C4363D
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 01:21:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21626C4363D
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 02:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47CD22072E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 01:21:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8CDB21D7D
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 02:58:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rki8Euv3"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="zgOeDmpJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730223AbgJABVk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 21:21:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49628 "EHLO
+        id S1730245AbgJAC6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Sep 2020 22:58:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725823AbgJABVk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 21:21:40 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFEFC061755;
-        Wed, 30 Sep 2020 18:21:40 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id q4so4832419iop.5;
-        Wed, 30 Sep 2020 18:21:40 -0700 (PDT)
+        with ESMTP id S1725372AbgJAC6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 22:58:16 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4077FC0613D0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 19:58:15 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id o20so3024549pfp.11
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 19:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=54iHhJMK/SNC9ktANAwvldX1cXgXfuz3FUniXTmBHM0=;
-        b=Rki8Euv3pMVMQ6WYoAUAWYELgEQzfLy/ImK8YR890zrQEprxICsrezv6lJQdaJhSuZ
-         A8VWTRv1tSoJqXYADOSFn9JWv2+GX1hHiQxYM3OQXdCPC5ehQTwdcel5j1QqkTtvKYiv
-         tn73YmdaOUGX1oZbqlRXoWIhqrfniSaNxzodw1iVwAAEvUogwy2rGSyvBl3ETFLX1idk
-         Ts5+D95LkKJpsKmUp6N3xzUhFcN3TWE1eTFIk+xc1+sDB3Bxm0aGjh8hBcLBlyIZabXH
-         CwJ0Bnine7OOTlDpcqFcNoQxyHlcd+vktkKVSft4xTubPUORFEgb9JZtektkkiEnPwxO
-         DClg==
+        bh=mwzDXzGzheFaLtfSgxu27esE2z5Zeui3HFQefTnFb8g=;
+        b=zgOeDmpJuU6J+m/pXdHtw3CZdp3/+XRjOtE4QzOo5btYMi5CLEyMdYXP4kSuNLz0eJ
+         TFwUKsIYwfUQUmtI+2qMLoVZYgC7w7vkFssPY0ClvBK10qm7/mmR+KOvvl74hI+k/bB/
+         1Fn6MN/yuQdtO3KDGy+7pAlMNut7JupiZLTCM25c9gbmkHd3h5qXV1x4slS9nd7QdC72
+         Dse4DbSqwOSlALxNQ+/L/J27u5yzgeCl4uE/08Z0Z8ByPYub7ETutOqST4m2+qsy60+j
+         uD8cO44bxV1JAX4MTkAqxwFpazo/MUwoaL01/QQ/iBZy7NVW7x5qhZin16ywUexEwRsu
+         CdTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=54iHhJMK/SNC9ktANAwvldX1cXgXfuz3FUniXTmBHM0=;
-        b=YcFJNe/OvVK/lEVRfnAeZqz5j9mRHMdUGmg7q+52PYRO7/sLFybp7vd2JvjNEMkR2e
-         xm3RTU+9UiYwXrOz6TVut2XjFRIuc4e40bO21OwITGI8zBWcrb3vhrz8YUiVKJg6EPhd
-         vILVmKcGsPHahnAT3fdRuAjlN2Xid6oOiu4qPbMdfA9765GtX63QvjqrS5GPW7m+i0GY
-         CVw5tL/p9I0BgiMtwq3iZxssqZSXuhf1JHU+At671674PFWm7kEmCYu5MXGqr9zzNHlj
-         XJSq+UQuC+HcU0cihVbz7phonwDoHIH7BAOOeJ4J80sx2TFS+eGBT3rrxVwXPeJvDdjt
-         0Faw==
-X-Gm-Message-State: AOAM530AgSnDf/vBkOu+BuV3jEI+F2v0rVM6omJfQxisL2t2AfBQeNX7
-        vUDX571xViIRzpfdLfMSwP+zmHTCnFO0trSQwzM=
-X-Google-Smtp-Source: ABdhPJz2m+0eHkdcX7Hi2YPy9RrjAVezWtf0JZGujruOtKh0OAxHP91Ra/Y5Vt+UtZOFCpd3wkrdk5rl8BWFKlm0I/c=
-X-Received: by 2002:a05:6602:2b03:: with SMTP id p3mr3720338iov.28.1601515299847;
- Wed, 30 Sep 2020 18:21:39 -0700 (PDT)
+        bh=mwzDXzGzheFaLtfSgxu27esE2z5Zeui3HFQefTnFb8g=;
+        b=Re1I6h871NHu/TZxkNX7Ae4rBWNA5ZTfGNROpMUb/M4b7mtHuHy/iM35L769fnIXdA
+         o2/yB5XV6d62iAxzvbLio9FmGrnUSLyXETrSI+GXtAZQHXLaox4wvzcH+fpbu+6x+5rM
+         eWYDyGTmijQTLmxBUnWWywTy4a74wHz4wt5L4L57LMYlyTG5i/+HP4pd2FUYA3U/f+kP
+         vdFYyyidj/ST9p3vqo1j7a0hWHMQ+lHvW0W11DyhqcB8ZWf0QErfCxZKGqHJVKzmul5o
+         EjOFIKlOtMwuTYJOPPjnHeETX5QzHwddqu7QpHKa7ylQIIzKebCo4dhX8hV5EnRzLakp
+         bNSA==
+X-Gm-Message-State: AOAM533od4+9j1v0rF8ECFETZpKC1tu9DEWAU6uzYFx2qX5neQVctQS4
+        npLNRQT37UJFRlzHI5P4v5q8N/h9bTRij2Pr2Hor7g==
+X-Google-Smtp-Source: ABdhPJw54fMhnUTblVABuAoszldUwSDkq8h8waLyxfnj4UMJiylKdptjrq1mXx8p4IpIh0PDd6kd4W1ynwcS/DGmTZU=
+X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id
+ s7-20020aa782870000b0290142250139ecmr4965310pfm.59.1601521094544; Wed, 30 Sep
+ 2020 19:58:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
- <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net> <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
- <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
- <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com> <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
- <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
- <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com> <CALCETrXgde6yHTKw1Njnxp9cANp6Ee8bmG9C2X4e-Fz0ZZCuBw@mail.gmail.com>
- <CAMe9rOonjX-b46sJ3AYSJZV84d=oU6-KhScnk5vksVqoLgQ90A@mail.gmail.com> <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com>
-In-Reply-To: <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Wed, 30 Sep 2020 18:21:04 -0700
-Message-ID: <CAMe9rOoy2wC-wzRNipsRgP8A8D19q-ckS-zt9ixdKwWu1+Up-A@mail.gmail.com>
-Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
- Branch Tracking for vsyscall emulation
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+ <20200915125947.26204-6-songmuchun@bytedance.com> <b2811679-cd90-4685-2284-64490e7dfb7e@oracle.com>
+In-Reply-To: <b2811679-cd90-4685-2284-64490e7dfb7e@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 1 Oct 2020 10:57:38 +0800
+Message-ID: <CAMZfGtV99X7TbkortsFaUYQC-Zvq53ggwB_PBzqUBFyQ2Hkvpg@mail.gmail.com>
+Subject: Re: [External] Re: [RFC PATCH 05/24] mm/hugetlb: Introduce
+ nr_free_vmemmap_pages in the struct hstate
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 6:10 PM Andy Lutomirski <luto@kernel.org> wrote:
+On Thu, Oct 1, 2020 at 6:41 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
 >
-> On Wed, Sep 30, 2020 at 6:01 PM H.J. Lu <hjl.tools@gmail.com> wrote:
-> >
-> > On Wed, Sep 30, 2020 at 4:44 PM Andy Lutomirski <luto@kernel.org> wrote:
-> > >
-> > > On Wed, Sep 30, 2020 at 3:33 PM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> > > >
-> > > > On 9/29/2020 1:00 PM, Andy Lutomirski wrote:
-> > > > > On Tue, Sep 29, 2020 at 12:57 PM Andy Lutomirski <luto@kernel.org> wrote:
-> > > > >>
-> > > > >> On Tue, Sep 29, 2020 at 11:37 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> > > > >>>
-> > > > >>> On 9/28/2020 10:37 AM, Andy Lutomirski wrote:
-> > > > >>>> On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > > > >>>>>
-> > > > >>>>> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
-> > > > >>>>>>> On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> > > > >>>>> +
-> > > > >>>>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> > > > >>>>> +               if (!cet) {
-> > > > >>>>> +                       /*
-> > > > >>>>> +                        * This is an unlikely case where the task is
-> > > > >>>>> +                        * CET-enabled, but CET xstate is in INIT.
-> > > > >>>>> +                        */
-> > > > >>>>> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
-> > > > >>>>
-> > > > >>>> "unlikely" doesn't really cover this.
-> > > > >>>>
-> > > > >>>>> +                       fpregs_unlock();
-> > > > >>>>> +                       goto sigsegv;
-> > > > >>>>> +               }
-> > > > >>>>> +
-> > > > >>>>> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
-> > > > >>>>> +                       cet->user_ssp += 8;
-> > > > >>>>
-> > > > >>>> This looks buggy.  The condition should be "if SHSTK is on, then add 8
-> > > > >>>> to user_ssp".  If the result is noncanonical, then some appropriate
-> > > > >>>> exception should be generated, probably by the FPU restore code -- see
-> > > > >>>> below.  You should be checking the SHSTK_EN bit, not SSP.
-> > > > >>>
-> > > > >>> Updated.  Is this OK?  I will resend the whole series later.
-> > > > >>>
-> > > > >>> Thanks,
-> > > > >>> Yu-cheng
-> > > > >>>
-> > > > >>> ======
-> > > > >>>
-> > > > >>>   From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
-> > > > >>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > > >>> Date: Thu, 29 Nov 2018 14:15:38 -0800
-> > > > >>> Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
-> > > > >>> Indirect Branch
-> > > > >>>    Tracking for vsyscall emulation
-> > > > >>>
-> > > > >>> Vsyscall entry points are effectively branch targets.  Mark them with
-> > > > >>> ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
-> > > > >>> and reset IBT state machine.
-> > > > >>>
-> > > > >>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > > >>> ---
-> > > > >>> v13:
-> > > > >>> - Check shadow stack address is canonical.
-> > > > >>> - Change from writing to MSRs to writing to CET xstate.
-> > > > >>>
-> > > > >>>    arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
-> > > > >>>    arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
-> > > > >>>    arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
-> > > > >>>    3 files changed, 44 insertions(+)
-> > > > >>>
-> > > > >>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
-> > > > >>> b/arch/x86/entry/vsyscall/vsyscall_64.c
-> > > > >>> index 44c33103a955..30b166091d46 100644
-> > > > >>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> > > > >>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> > > > >>> @@ -38,6 +38,9 @@
-> > > > >>>    #include <asm/fixmap.h>
-> > > > >>>    #include <asm/traps.h>
-> > > > >>>    #include <asm/paravirt.h>
-> > > > >>> +#include <asm/fpu/xstate.h>
-> > > > >>> +#include <asm/fpu/types.h>
-> > > > >>> +#include <asm/fpu/internal.h>
-> > > > >>>
-> > > > >>>    #define CREATE_TRACE_POINTS
-> > > > >>>    #include "vsyscall_trace.h"
-> > > > >>> @@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
-> > > > >>>          /* Emulate a ret instruction. */
-> > > > >>>          regs->ip = caller;
-> > > > >>>          regs->sp += 8;
-> > > > >>> +
-> > > > >>> +#ifdef CONFIG_X86_CET
-> > > > >>> +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
-> > > > >>> +               struct cet_user_state *cet;
-> > > > >>> +               struct fpu *fpu;
-> > > > >>> +
-> > > > >>> +               fpu = &tsk->thread.fpu;
-> > > > >>> +               fpregs_lock();
-> > > > >>> +
-> > > > >>> +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
-> > > > >>> +                       copy_fpregs_to_fpstate(fpu);
-> > > > >>> +                       set_thread_flag(TIF_NEED_FPU_LOAD);
-> > > > >>> +               }
-> > > > >>> +
-> > > > >>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> > > > >>> +               if (!cet) {
-> > > > >>> +                       /*
-> > > > >>> +                        * This should not happen.  The task is
-> > > > >>> +                        * CET-enabled, but CET xstate is in INIT.
-> > > > >>> +                        */
-> > > > >>
-> > > > >> Can the comment explain better, please?  I would say something like:
-> > > > >>
-> > > > >> If the kernel thinks this task has CET enabled (because
-> > > > >> tsk->thread.cet has one of the features enabled), then the
-> > > > >> corresponding bits must also be set in the CET XSAVES region.  If the
-> > > > >> CET XSAVES region is in the INIT state, then the kernel's concept of
-> > > > >> the task's CET state is corrupt.
-> > > > >>
-> > > > >>> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
-> > > > >>> +                       fpregs_unlock();
-> > > > >>> +                       goto sigsegv;
-> > > > >>> +               }
-> > > > >>> +
-> > > > >>> +               if (cet->user_cet & CET_SHSTK_EN) {
-> > > > >>> +                       if (cet->user_ssp && (cet->user_ssp + 8 < TASK_SIZE_MAX))
-> > > > >>> +                               cet->user_ssp += 8;
-> > > > >>> +               }
-> > > > >>
-> > > > >> This makes so sense to me.  Also, the vsyscall emulation code is
-> > > > >> intended to be as rigid as possible to minimize the chance that it
-> > > > >> gets used as an exploit gadget.  So we should not silently corrupt
-> > > > >> anything.  Moreover, this code seems quite dangerous -- you've created
-> > > > >> a gadget that does RET without actually verifying the SHSTK token.  If
-> > > > >> SHSTK and some form of strong indirect branch/call CFI is in use, then
-> > > > >> the existance of a CFI-bypassing return primitive at a fixed address
-> > > > >> seems quite problematic.
-> > > > >>
-> > > > >> So I think you need to write a function that reasonably accurately
-> > > > >> emulates a usermode RET.
-> > > > >>
-> > > > >
-> > > > > For what it's worth, I think there is an alternative.  If you all
-> > > > > (userspace people, etc) can come up with a credible way for a user
-> > > > > program to statically declare that it doesn't need vsyscalls, then we
-> > > > > could make SHSTK depend on *that*, and we could avoid this mess.  This
-> > > > > breaks orthogonality, but it's probably a decent outcome.
-> > > > >
-> > > >
-> > > > Would an arch_prctl(DISABLE_VSYSCALL) work?  The kernel then sets a
-> > > > thread flag, and in emulate_vsyscall(), checks the flag.
-> > > >
-> > > > When CET is enabled, ld-linux will do DISABLE_VSYSCALL.
-> > > >
-> > > > How is that?
-> > >
-> > > Backwards, no?  Presumably vsyscall needs to be disabled before or
-> > > concurrently with CET being enabled, not after.
-> > >
-> > > I think the solution of making vsyscall emulation work correctly with
-> > > CET is going to be better and possibly more straightforward.
-> > >
-> >
-> > We can do
-> >
-> > 1. Add ARCH_X86_DISABLE_VSYSCALL to disable the vsyscall page.
-> > 2. If CPU supports CET and the program is CET enabled:
-> >     a. Disable the vsyscall page.
-> >     b. Pass control to user.
-> >     c. Enable the vsyscall page when ARCH_X86_CET_DISABLE is called.
-> >
-> > So when control is passed from kernel to user, the vsyscall page is
-> > disabled if the program
-> > is CET enabled.
+> On 9/15/20 5:59 AM, Muchun Song wrote:
+> > If the size of hugetlb page is 2MB, we need 512 struct page structures
+> > (8 pages) to be associated with it. As far as I know, we only use the
+> > first 3 struct page structures and only read the compound_dtor members
 >
-> Let me say this one more time:
->
-> If we have a per-process vsyscall disable control and a per-process
-> CET control, we are going to keep those settings orthogonal.  I'm
-> willing to entertain an option in which enabling SHSTK without also
-> disabling vsyscalls is disallowed, We are *not* going to have any CET
-> flags magically disable vsyscalls, though, and we are not going to
-> have a situation where disabling vsyscalls on process startup requires
-> enabling SHSTK.
->
-> Any possible static vsyscall controls (and CET controls, for that
-> matter) also need to come with some explanation of whether they are
-> properties set on the ELF loader, the ELF program being loaded, or
+> Actually, the first 4 pages can be used if CONFIG_CGROUP_HUGETLB.
 
-Kernel enables CET on CET processors only if ld.so is CET enabled.
-Kernel passes control to CET enabled ld.so with CET enabled and
-ld.so will check if CET should be disabled because of legacy program
-or dependency libraries.
+Right, thanks.
 
-> both.  And this explanation needs to cover what happens when old
-> binaries link against new libc versions and vice versa.  A new
-> CET-enabled binary linked against old libc running on a new kernel
-> that is expected to work on a non-CET CPU MUST work on a CET CPU, too.
-
-Since kernel doesn't enable CET on ld.so from the old libc, the new
-CET-enabled binary will start with CET disabled regardless whatever the
-processor the binary runs on.
-
-> Right now, literally the only thing preventing vsyscall emulation from
-> coexisting with SHSTK is that the implementation eeds work.
+> /*
+>  * Minimum page order trackable by hugetlb cgroup.
+>  * At least 4 pages are necessary for all the tracking information.
+>  * The second tail page (hpage[2]) is the fault usage cgroup.
+>  * The third tail page (hpage[3]) is the reservation usage cgroup.
+>  */
+> #define HUGETLB_CGROUP_MIN_ORDER        2
 >
-> So your proposal is rejected.  Sorry.
+> However, this still easily fits within the first page of struct page
+> structures.
+>
+> > of the remaining struct page structures. For tail page, the value of
+> > compound_dtor is the same. So we can reuse first tail page. We map the
+> > virtual addresses of the remaining 6 tail pages to the first tail page,
+> > and then free these 6 pages. Therefore, we need to reserve at least 2
+> > pages as vmemmap areas.
+>
+> I got confused the first time I read the above sentences.  Perhaps it
+> should be more explicit with something like:
+>
+> For tail pages, the value of compound_dtor is the same. So we can reuse
+> first page of tail page structs. We map the virtual addresses of the
+> remaining 6 pages of tail page structs to the first tail page struct,
+> and then free these 6 pages. Therefore, we need to reserve at least 2
+> pages as vmemmap areas.
+
+Sorry for my poor English. Thanks for your suggestions. I can apply this.
+
+>
+> It still does not sound great, but hopefully avoids some confusion.
+> --
+> Mike Kravetz
+>
+> > So we introduce a new nr_free_vmemmap_pages field in the hstate to
+> > indicate how many vmemmap pages associated with a hugetlb page that we
+> > can free to buddy system.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  include/linux/hugetlb.h |  3 +++
+> >  mm/hugetlb.c            | 35 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 38 insertions(+)
+> >
+> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> > index d5cc5f802dd4..eed3dd3bd626 100644
+> > --- a/include/linux/hugetlb.h
+> > +++ b/include/linux/hugetlb.h
+> > @@ -492,6 +492,9 @@ struct hstate {
+> >       unsigned int nr_huge_pages_node[MAX_NUMNODES];
+> >       unsigned int free_huge_pages_node[MAX_NUMNODES];
+> >       unsigned int surplus_huge_pages_node[MAX_NUMNODES];
+> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> > +     unsigned int nr_free_vmemmap_pages;
+> > +#endif
+> >  #ifdef CONFIG_CGROUP_HUGETLB
+> >       /* cgroup control files */
+> >       struct cftype cgroup_files_dfl[7];
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > index 81a41aa080a5..f1b2b733b49b 100644
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> > @@ -1292,6 +1292,39 @@ static inline void destroy_compound_gigantic_page(struct page *page,
+> >                                               unsigned int order) { }
+> >  #endif
+> >
+> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> > +#define RESERVE_VMEMMAP_NR   2U
+> > +
+> > +static inline unsigned int nr_free_vmemmap(struct hstate *h)
+> > +{
+> > +     return h->nr_free_vmemmap_pages;
+> > +}
+> > +
+> > +static void __init hugetlb_vmemmap_init(struct hstate *h)
+> > +{
+> > +     unsigned int order = huge_page_order(h);
+> > +     unsigned int vmemmap_pages;
+> > +
+> > +     vmemmap_pages = ((1 << order) * sizeof(struct page)) >> PAGE_SHIFT;
+> > +     /*
+> > +      * The head page and the first tail page not free to buddy system,
+> > +      * the others page will map to the first tail page. So there are
+> > +      * (@vmemmap_pages - RESERVE_VMEMMAP_NR) pages can be freed.
+> > +      */
+> > +     if (vmemmap_pages > RESERVE_VMEMMAP_NR)
+> > +             h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
+> > +     else
+> > +             h->nr_free_vmemmap_pages = 0;
+> > +
+> > +     pr_info("HugeTLB: can free %d vmemmap pages for %s\n",
+> > +             h->nr_free_vmemmap_pages, h->name);
+> > +}
+> > +#else
+> > +static inline void hugetlb_vmemmap_init(struct hstate *h)
+> > +{
+> > +}
+> > +#endif
+> > +
+> >  static void update_and_free_page(struct hstate *h, struct page *page)
+> >  {
+> >       int i;
+> > @@ -3285,6 +3318,8 @@ void __init hugetlb_add_hstate(unsigned int order)
+> >       snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
+> >                                       huge_page_size(h)/1024);
+> >
+> > +     hugetlb_vmemmap_init(h);
+> > +
+> >       parsed_hstate = h;
+> >  }
+> >
+> >
 
 
 
 -- 
-H.J.
+Yours,
+Muchun
