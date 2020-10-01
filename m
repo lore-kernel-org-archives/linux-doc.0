@@ -2,54 +2,86 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 319ABC4727C
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 14:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68006C4727E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 16:51:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C07B820B1F
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 14:09:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E5E82075F
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 16:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732319AbgJAOJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 10:09:43 -0400
-Received: from foss.arm.com ([217.140.110.172]:35318 "EHLO foss.arm.com"
+        id S1732380AbgJAQvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 12:51:41 -0400
+Received: from mga01.intel.com ([192.55.52.88]:59840 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732147AbgJAOJn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Oct 2020 10:09:43 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22681D6E;
-        Thu,  1 Oct 2020 07:09:42 -0700 (PDT)
-Received: from [10.57.50.177] (unknown [10.57.50.177])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB99A3F6CF;
-        Thu,  1 Oct 2020 07:09:39 -0700 (PDT)
-Subject: Re: [PATCH 1/2] docs: Clarify abstract scale usage for power values
- in Energy Model
-To:     Doug Anderson <dianders@chromium.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-References: <20200929121610.16060-1-lukasz.luba@arm.com>
- <CAD=FV=UnNkjMiOc0DZE7+OM3-Kr1ZRynxSerdA=ifbyGiRa2Zw@mail.gmail.com>
- <a1d1fe2a-485f-a21e-2f91-9b609223aa5a@arm.com>
- <62540312-65a2-b6d9-86ce-b4deaaa913c1@codeaurora.org>
- <1f713ff6-32f6-4ea6-b7f7-4c61f097cf2a@arm.com>
- <b74a5907-47dc-6c3c-3da8-94959af07ea8@codeaurora.org>
- <CAD=FV=V84RmTpKN50Rz-BJqccSme3T3yw=hT5KvYerx=X7aEsA@mail.gmail.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <e878bfe8-7224-5395-4632-4bb985fb306b@arm.com>
-Date:   Thu, 1 Oct 2020 15:09:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1732016AbgJAQvl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Oct 2020 12:51:41 -0400
+IronPort-SDR: jgp66Icb9SwbB6eEHv6R1yhBmm+K2sToWhrceCkSOhX1EkToiMCa1iRc4pE2mt+K3Sys9OcYJb
+ g5FQxk1SXxkA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="180933792"
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; 
+   d="scan'208";a="180933792"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2020 09:51:38 -0700
+IronPort-SDR: MI//hR/qDfigJQ/WhDVCXIhf6/vl8bAvbmWqe3dt+FZvFbfeHbaqAKVc7xnQKoOak2hvZBeZho
+ A8V7kczDvZog==
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; 
+   d="scan'208";a="346148630"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.213.183.12]) ([10.213.183.12])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2020 09:51:35 -0700
+Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
+ Branch Tracking for vsyscall emulation
+To:     Andy Lutomirski <luto@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
+ <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net>
+ <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
+ <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+ <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com>
+ <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
+ <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
+ <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com>
+ <CALCETrXgde6yHTKw1Njnxp9cANp6Ee8bmG9C2X4e-Fz0ZZCuBw@mail.gmail.com>
+ <CAMe9rOonjX-b46sJ3AYSJZV84d=oU6-KhScnk5vksVqoLgQ90A@mail.gmail.com>
+ <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <79d1e67d-2394-1ce6-3bad-cce24ba792bd@intel.com>
+Date:   Thu, 1 Oct 2020 09:51:35 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=V84RmTpKN50Rz-BJqccSme3T3yw=hT5KvYerx=X7aEsA@mail.gmail.com>
+In-Reply-To: <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -57,128 +89,166 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Douglas
+On 9/30/2020 6:10 PM, Andy Lutomirski wrote:
+> On Wed, Sep 30, 2020 at 6:01 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+>>
+>> On Wed, Sep 30, 2020 at 4:44 PM Andy Lutomirski <luto@kernel.org> wrote:
 
-On 9/30/20 6:24 PM, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Sep 30, 2020 at 8:48 AM Rajendra Nayak <rnayak@codeaurora.org> wrote:
->>
->>
->> On 9/30/2020 7:34 PM, Lukasz Luba wrote:
->>>
->>>
->>> On 9/30/20 11:55 AM, Rajendra Nayak wrote:
->>>>
->>>> On 9/30/2020 1:55 PM, Lukasz Luba wrote:
->>>>> Hi Douglas,
->>>>>
->>>>> On 9/30/20 12:53 AM, Doug Anderson wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On Tue, Sep 29, 2020 at 5:16 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+[...]
+
+>>>>>>>    From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
+>>>>>>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>>>>>>> Date: Thu, 29 Nov 2018 14:15:38 -0800
+>>>>>>> Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
+>>>>>>> Indirect Branch
+>>>>>>>     Tracking for vsyscall emulation
 >>>>>>>
->>>>>>> The Energy Model (EM) can store power values in milli-Watts or in abstract
->>>>>>> scale. This might cause issues in the subsystems which use the EM for
->>>>>>> estimating the device power, such as:
->>>>>>> - mixing of different scales in a subsystem which uses multiple
->>>>>>>     (cooling) devices (e.g. thermal Intelligent Power Allocation (IPA))
->>>>>>> - assuming that energy [milli-Joules] can be derived from the EM power
->>>>>>>     values which might not be possible since the power scale doesn't have to
->>>>>>>     be in milli-Watts
+>>>>>>> Vsyscall entry points are effectively branch targets.  Mark them with
+>>>>>>> ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
+>>>>>>> and reset IBT state machine.
 >>>>>>>
->>>>>>> To avoid misconfiguration add the needed documentation to the EM and
->>>>>>> related subsystems: EAS and IPA.
->>>>>>>
->>>>>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>>>>>>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 >>>>>>> ---
->>>>>>>    .../driver-api/thermal/power_allocator.rst          |  8 ++++++++
->>>>>>>    Documentation/power/energy-model.rst                | 13 +++++++++++++
->>>>>>>    Documentation/scheduler/sched-energy.rst            |  5 +++++
->>>>>>>    3 files changed, 26 insertions(+)
+>>>>>>> v13:
+>>>>>>> - Check shadow stack address is canonical.
+>>>>>>> - Change from writing to MSRs to writing to CET xstate.
+>>>>>>>
+>>>>>>>     arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
+>>>>>>>     arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
+>>>>>>>     arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
+>>>>>>>     3 files changed, 44 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
+>>>>>>> b/arch/x86/entry/vsyscall/vsyscall_64.c
+>>>>>>> index 44c33103a955..30b166091d46 100644
+>>>>>>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
+>>>>>>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+>>>>>>> @@ -38,6 +38,9 @@
+>>>>>>>     #include <asm/fixmap.h>
+>>>>>>>     #include <asm/traps.h>
+>>>>>>>     #include <asm/paravirt.h>
+>>>>>>> +#include <asm/fpu/xstate.h>
+>>>>>>> +#include <asm/fpu/types.h>
+>>>>>>> +#include <asm/fpu/internal.h>
+>>>>>>>
+>>>>>>>     #define CREATE_TRACE_POINTS
+>>>>>>>     #include "vsyscall_trace.h"
+>>>>>>> @@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
+>>>>>>>           /* Emulate a ret instruction. */
+>>>>>>>           regs->ip = caller;
+>>>>>>>           regs->sp += 8;
+>>>>>>> +
+>>>>>>> +#ifdef CONFIG_X86_CET
+>>>>>>> +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
+>>>>>>> +               struct cet_user_state *cet;
+>>>>>>> +               struct fpu *fpu;
+>>>>>>> +
+>>>>>>> +               fpu = &tsk->thread.fpu;
+>>>>>>> +               fpregs_lock();
+>>>>>>> +
+>>>>>>> +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
+>>>>>>> +                       copy_fpregs_to_fpstate(fpu);
+>>>>>>> +                       set_thread_flag(TIF_NEED_FPU_LOAD);
+>>>>>>> +               }
+>>>>>>> +
+>>>>>>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+>>>>>>> +               if (!cet) {
+>>>>>>> +                       /*
+>>>>>>> +                        * This should not happen.  The task is
+>>>>>>> +                        * CET-enabled, but CET xstate is in INIT.
+>>>>>>> +                        */
 >>>>>>
->>>>>> I haven't read through these files in massive detail, but the quick
->>>>>> skim makes me believe that your additions seem sane.  In general, I'm
->>>>>> happy with documenting reality, thus:
+[...]
 >>>>>>
->>>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 >>>>>
->>>>> Thank you for the review.
+>>>>> For what it's worth, I think there is an alternative.  If you all
+>>>>> (userspace people, etc) can come up with a credible way for a user
+>>>>> program to statically declare that it doesn't need vsyscalls, then we
+>>>>> could make SHSTK depend on *that*, and we could avoid this mess.  This
+>>>>> breaks orthogonality, but it's probably a decent outcome.
 >>>>>
->>>>>>
->>>>>> I will note: you haven't actually updated the device tree bindings.
->>>>>> Thus, presumably, anyone who is specifying these numbers in the device
->>>>>> tree is still supposed to specify them in a way that mW can be
->>>>>> recovered, right?  Said another way: nothing about your patches makes
->>>>>> it OK to specify numbers in device trees using an "abstract scale",
->>>>>> right?
->>>>>
->>>>> For completeness, we are talking here about the binding from:
->>>>> Documentation/devicetree/bindings/arm/cpus.yaml
->>>>> which is 'dynamic-power-coefficient'. Yes, it stays untouched, also the
->>>>> unit (uW/MHz/V^2) which then allows to have mW in the power
->>>>> values in the EM.
 >>>>
->>>> So for platforms where 'dynamic-power-coefficient' is specified in device tree,
->>>> its always expected to be derived from 'real' power numbers on these platforms in
->>>> 'real' mW?
->>>
->>> Yes, the purpose and the name of that binding was only for 'real'
->>> power in mW.
->>>
+>>>> Would an arch_prctl(DISABLE_VSYSCALL) work?  The kernel then sets a
+>>>> thread flag, and in emulate_vsyscall(), checks the flag.
 >>>>
->>>> Atleast on Qualcomm platforms we have these numbers scaled, so in essence it
->>>> can't be used to derive 'real' mW values. That said we also do not have any of
->>>> the 'platform might face potential issue of mixing devices in one thermal zone
->>>> of two scales' problem.
->>>
->>> If you have these numbers scaled, then it's probably documented
->>> somewhere in your docs for your OEMs, because they might assume it's in
->>> uW/MHz/V^2 (according to the bindings doc). If not, they probably
->>> realized it during the measurements and comparison (that the power in
->>> EM is not what they see on the power meter).
->>> This binding actually helps those developers who take the experiments
->>> and based on measured power values, store derived coefficient.
->>> Everyone can just measure in local setup and compare the results
->>> easily, speaking the same language (proposing maybe a patch adjusting
->>> the value in DT).
->>>
+>>>> When CET is enabled, ld-linux will do DISABLE_VSYSCALL.
 >>>>
->>>> So the question is, can such platforms still use 'dynamic-power-coefficient'
->>>> in device tree and create an abstract scale? The other way of doing this would
->>>> be to *not* specify this value in device tree and have these values stored in the
->>>> cpufreq driver and register a custom callback to do the math.
+>>>> How is that?
 >>>
->>> But then we would also have to change the name of that binding.
+>>> Backwards, no?  Presumably vsyscall needs to be disabled before or
+>>> concurrently with CET being enabled, not after.
 >>>
->>> I'd recommend you the second way that you've described. It will avoid
->>> your OEMs confusion. In your cpufreq driver you can simply register
->>> to EM using the em_dev_register_perf_domain(). In your local
->>> callback you can do whatever you need (read driver array, firmware,
->>> DT, scale or not, etc).
->>> The helper code in dev_pm_opp_of_register_em() is probably not suited
->>> for your use case (when you don't want to share the real power of the
->>> SoC).
+>>> I think the solution of making vsyscall emulation work correctly with
+>>> CET is going to be better and possibly more straightforward.
+>>>
 >>
->> Got it, thanks for the clarification. I will get the cpufreq driver updated
->> to use em_dev_register_perf_domain() with a custom callback and get rid of these
->> values from device tree.
+>> We can do
+>>
+>> 1. Add ARCH_X86_DISABLE_VSYSCALL to disable the vsyscall page.
+>> 2. If CPU supports CET and the program is CET enabled:
+>>      a. Disable the vsyscall page.
+>>      b. Pass control to user.
+>>      c. Enable the vsyscall page when ARCH_X86_CET_DISABLE is called.
+>>
+>> So when control is passed from kernel to user, the vsyscall page is
+>> disabled if the program
+>> is CET enabled.
 > 
-> This sounds good.  ...except...
+> Let me say this one more time:
 > 
-> How exactly are boards supposed to provide their "sustainable-power"
-> number in this model?  As far as I'm aware, there's no place to
-> specify this board-specific file other than in device tree, and the
-> bindings [1] say that this value has to be in mW.  Lukasz: how do you
-> envision boards can provide "sustainable-power" in cases where the
-> energy model is in "abstract scale"?
+> If we have a per-process vsyscall disable control and a per-process
+> CET control, we are going to keep those settings orthogonal.  I'm
+> willing to entertain an option in which enabling SHSTK without also
+> disabling vsyscalls is disallowed, We are *not* going to have any CET
+> flags magically disable vsyscalls, though, and we are not going to
+> have a situation where disabling vsyscalls on process startup requires
+> enabling SHSTK.
 > 
-> [1] Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> Any possible static vsyscall controls (and CET controls, for that
+> matter) also need to come with some explanation of whether they are
+> properties set on the ELF loader, the ELF program being loaded, or
+> both.  And this explanation needs to cover what happens when old
+> binaries link against new libc versions and vice versa.  A new
+> CET-enabled binary linked against old libc running on a new kernel
+> that is expected to work on a non-CET CPU MUST work on a CET CPU, too.
 > 
+> Right now, literally the only thing preventing vsyscall emulation from
+> coexisting with SHSTK is that the implementation eeds work.
+> 
+> So your proposal is rejected.  Sorry.
+>
+I think, even with shadow stack/ibt enabled, we can still allow XONLY 
+without too much mess.
 
+What about this?
 
-I am currently investigating this issue. I will keep you in CC list
-when I send some patches.
+Thanks,
+Yu-cheng
 
-Regards,
-Lukasz
+======
+
+diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c 
+b/arch/x86/entry/vsyscall/vsyscall_64.c
+index 8b0b32ac7791..d39da0a15521 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_64.c
++++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+@@ -48,16 +48,16 @@
+  static enum { EMULATE, XONLY, NONE } vsyscall_mode __ro_after_init =
+  #ifdef CONFIG_LEGACY_VSYSCALL_NONE
+         NONE;
+-#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY)
++#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY) || defined(CONFIG_X86_CET)
+         XONLY;
+-#else
++#else
+         EMULATE;
+  #endif
+
+  static int __init vsyscall_setup(char *str)
+  {
+         if (str) {
+-               if (!strcmp("emulate", str))
++               if (!strcmp("emulate", str) && !IS_ENABLED(CONFIG_X86_CET))
+                         vsyscall_mode = EMULATE;
+                 else if (!strcmp("xonly", str))
+                         vsyscall_mode = XONLY;
