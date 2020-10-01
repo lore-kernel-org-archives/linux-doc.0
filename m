@@ -2,147 +2,200 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 801ACC47426
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 18:11:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A93C4727E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 20:43:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C4F62145D
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 18:11:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94D1920848
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 20:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732995AbgJASLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 14:11:30 -0400
-Received: from foss.arm.com ([217.140.110.172]:42122 "EHLO foss.arm.com"
+        id S1733180AbgJAUnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 16:43:35 -0400
+Received: from mga11.intel.com ([192.55.52.93]:58726 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730070AbgJASLa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Oct 2020 14:11:30 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A6BD1042;
-        Thu,  1 Oct 2020 11:11:29 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.51.119])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 218163F6CF;
-        Thu,  1 Oct 2020 11:11:21 -0700 (PDT)
-Date:   Thu, 1 Oct 2020 19:11:19 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Alexander Potapenko <glider@google.com>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
-Message-ID: <20201001181119.GB89689@C02TD0UTHF1T.local>
-References: <20200921132611.1700350-1-elver@google.com>
- <20200921132611.1700350-2-elver@google.com>
- <20200929142411.GC53442@C02TD0UTHF1T.local>
- <CAG_fn=UOJARteeqT_+1ORPEP9SB5HR3B3W8830rA9kjZLoN+Ww@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG_fn=UOJARteeqT_+1ORPEP9SB5HR3B3W8830rA9kjZLoN+Ww@mail.gmail.com>
+        id S2387410AbgJAUnT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Oct 2020 16:43:19 -0400
+IronPort-SDR: NlxWvX8ti38395TC9J+5Q64tBduPh5iqvnxjy3QjoeGeFcVHXPiIsjFzjQMISDJxxaidS2Ocsc
+ 8h0fHKnX2KoQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="160170747"
+X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; 
+   d="scan'208";a="160170747"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2020 13:42:53 -0700
+IronPort-SDR: I800DeHN9sk9r4cQqta11en9u/NfITwZ7C+4drbRimfAi0JEEYm7HAixoEOq+r214wnqfTQMZ0
+ R5qPeVtt6y6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; 
+   d="scan'208";a="351297093"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2020 13:42:53 -0700
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     tglx@linutronix.de, mingo@kernel.org, bp@suse.de, luto@kernel.org,
+        x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
+        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
+        chang.seok.bae@intel.com, linux-doc@vger.kernel.org
+Subject: [RFC PATCH 22/22] x86/fpu/xstate: Introduce boot-parameters for control some state component support
+Date:   Thu,  1 Oct 2020 13:39:13 -0700
+Message-Id: <20201001203913.9125-23-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201001203913.9125-1-chang.seok.bae@intel.com>
+References: <20201001203913.9125-1-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 05:51:58PM +0200, Alexander Potapenko wrote:
-> On Tue, Sep 29, 2020 at 4:24 PM Mark Rutland <mark.rutland@arm.com> wrote:
-> >
-> > On Mon, Sep 21, 2020 at 03:26:02PM +0200, Marco Elver wrote:
-> > > From: Alexander Potapenko <glider@google.com>
-> > >
-> > > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> > > low-overhead sampling-based memory safety error detector of heap
-> > > use-after-free, invalid-free, and out-of-bounds access errors.
-> > >
-> > > KFENCE is designed to be enabled in production kernels, and has near
-> > > zero performance overhead. Compared to KASAN, KFENCE trades performance
-> > > for precision. The main motivation behind KFENCE's design, is that with
-> > > enough total uptime KFENCE will detect bugs in code paths not typically
-> > > exercised by non-production test workloads. One way to quickly achieve a
-> > > large enough total uptime is when the tool is deployed across a large
-> > > fleet of machines.
-> > >
-> > > KFENCE objects each reside on a dedicated page, at either the left or
-> > > right page boundaries. The pages to the left and right of the object
-> > > page are "guard pages", whose attributes are changed to a protected
-> > > state, and cause page faults on any attempted access to them. Such page
-> > > faults are then intercepted by KFENCE, which handles the fault
-> > > gracefully by reporting a memory access error. To detect out-of-bounds
-> > > writes to memory within the object's page itself, KFENCE also uses
-> > > pattern-based redzones. The following figure illustrates the page
-> > > layout:
-> > >
-> > >   ---+-----------+-----------+-----------+-----------+-----------+---
-> > >      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
-> > >      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
-> > >      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
-> > >      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
-> > >      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
-> > >      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
-> > >   ---+-----------+-----------+-----------+-----------+-----------+---
-> > >
-> > > Guarded allocations are set up based on a sample interval (can be set
-> > > via kfence.sample_interval). After expiration of the sample interval, a
-> > > guarded allocation from the KFENCE object pool is returned to the main
-> > > allocator (SLAB or SLUB). At this point, the timer is reset, and the
-> > > next allocation is set up after the expiration of the interval.
-> >
-> > From other sub-threads it sounds like these addresses are not part of
-> > the linear/direct map.
-> For x86 these addresses belong to .bss, i.e. "kernel text mapping"
-> section, isn't that the linear map?
+"xstate.disable=0x6000" will disable AMX on a system that has AMX compiled
+into XFEATURE_MASK_USER_SUPPORTED.
 
-No; the "linear map" is the "direct mapping" on x86, and the "image" or
-"kernel text mapping" is a distinct VA region. The image mapping aliases
-(i.e. uses the same physical pages as) a portion of the linear map, and
-every page in the linear map has a struct page.
+"xstate.enable=0x6000" will enable AMX on a system that does NOT have AMX
+compiled into XFEATURE_MASK_USER_SUPPORTED (assuming the kernel is new
+enough to support this feature).
 
-Fon the x86_64 ivirtual memory layout, see:
+While this cmdline is currently enabled only for AMX, it is intended to be
+easily enabled to be useful for future XSAVE-enabled features.
 
-https://www.kernel.org/doc/html/latest/x86/x86_64/mm.html
+Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+Reviewed-by: Len Brown <len.brown@intel.com>
+Cc: x86@kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ .../admin-guide/kernel-parameters.txt         | 15 ++++++
+ arch/x86/include/asm/fpu/types.h              |  6 +++
+ arch/x86/kernel/fpu/init.c                    | 52 +++++++++++++++++--
+ 3 files changed, 70 insertions(+), 3 deletions(-)
 
-Originally, the kernel image lived in the linear map, but it was split
-out into a distinct VA range (among other things) to permit KASLR.  When
-that split was made, the x86 virt_to_*() helpers were updated to detect
-when they were passed a kernel image address, and automatically fix that
-up as-if they'd been handed the linear map alias of that address.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a1068742a6df..742167c6f789 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5838,6 +5838,21 @@
+ 			which allow the hypervisor to 'idle' the guest on lock
+ 			contention.
+ 
++	xstate.enable=	[X86-64]
++	xstate.disable=	[X86-64]
++			The kernel is compiled with a default xstate bitmask --
++			enabling it to use the XSAVE hardware to efficiently
++			save and restore thread states on context switch.
++			xstate.enable allows adding to that default mask at
++			boot-time without recompiling the kernel just to support
++			the new thread state. (Note that the kernel will ignore
++			any bits in the mask that do not correspond to features
++			that are actually available in CPUID)  xstate.disable
++			allows clearing bits in the default mask, forcing the
++			kernel to forget that it supports the specified thread
++			state. When a bit set for both, the kernel takes
++			xstate.disable in a priority.
++
+ 	xirc2ps_cs=	[NET,PCMCIA]
+ 			Format:
+ 			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
+diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
+index 002248dba6dc..2a944e8903bb 100644
+--- a/arch/x86/include/asm/fpu/types.h
++++ b/arch/x86/include/asm/fpu/types.h
+@@ -148,6 +148,12 @@ enum xfeature {
+ #define XFEATURE_MASK_XTILE		(XFEATURE_MASK_XTILE_DATA \
+ 					 | XFEATURE_MASK_XTILE_CFG)
+ 
++#define XFEATURE_REGION_MASK(max_bit, min_bit) \
++	((BIT_ULL((max_bit) - (min_bit) + 1) - 1) << (min_bit))
++
++#define XFEATURE_MASK_CONFIGURABLE \
++	XFEATURE_REGION_MASK(XFEATURE_XTILE_DATA, XFEATURE_XTILE_CFG)
++
+ #define FIRST_EXTENDED_XFEATURE	XFEATURE_YMM
+ 
+ struct reg_128_bit {
+diff --git a/arch/x86/kernel/fpu/init.c b/arch/x86/kernel/fpu/init.c
+index 8e2a77bc1782..a354286e7c90 100644
+--- a/arch/x86/kernel/fpu/init.c
++++ b/arch/x86/kernel/fpu/init.c
+@@ -227,13 +227,42 @@ static void __init fpu__init_system_xstate_size_legacy(void)
+  * This must be called after fpu__init_parse_early_param() is called and
+  * xfeatures_mask is enumerated.
+  */
++
++static u64 xstate_enable;
++static u64 xstate_disable;
++
+ u64 __init fpu__get_supported_xfeatures_mask(void)
+ {
+ 	u64 mask = XFEATURE_MASK_USER_SUPPORTED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
+ 
+-	if (!IS_ENABLED(CONFIG_X86_64))
+-		mask &= ~(XFEATURE_MASK_XTILE);
+-
++	if (!IS_ENABLED(CONFIG_X86_64)) {
++		mask  &= ~(XFEATURE_MASK_XTILE);
++	} else if (xstate_enable || xstate_disable) {
++		u64 custom = mask;
++		u64 unknown;
++
++		custom |= xstate_enable;
++		custom &= ~xstate_disable;
++
++		unknown = custom & ~mask;
++		if (unknown) {
++			/*
++			 * User should fully understand the result of using undocumented
++			 * xstate component
++			 */
++			pr_warn("x86/fpu: Attempt to enable unknown xstate features 0x%llx\n",
++				unknown);
++			WARN_ON_FPU(1);
++		}
++
++		if ((custom & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE) {
++			pr_warn("x86/fpu: Disable 0x%x components due to incorrect setup\n",
++				XFEATURE_MASK_XTILE);
++			custom &= ~(XFEATURE_MASK_XTILE);
++		}
++
++		mask = custom;
++	}
+ 	return mask;
+ }
+ 
+@@ -254,6 +283,7 @@ static void __init fpu__init_parse_early_param(void)
+ {
+ 	char arg[32];
+ 	char *argptr = arg;
++	u64 mask;
+ 	int bit;
+ 
+ #ifdef CONFIG_X86_32
+@@ -283,6 +313,22 @@ static void __init fpu__init_parse_early_param(void)
+ 	    bit >= 0 &&
+ 	    bit < NCAPINTS * 32)
+ 		setup_clear_cpu_cap(bit);
++
++	if (cmdline_find_option(boot_command_line, "xstate.enable", arg,
++				sizeof(arg)) &&
++	    !kstrtoull(arg, 16, &mask) &&
++	    (mask &= XFEATURE_MASK_CONFIGURABLE))
++		xstate_enable = mask;
++	else
++		xstate_enable = 0;
++
++	if (cmdline_find_option(boot_command_line, "xstate.disable", arg,
++				sizeof(arg)) &&
++	    !kstrtoull(arg, 16, &mask) &&
++	    (mask &= XFEATURE_MASK_CONFIGURABLE))
++		xstate_disable = mask;
++	else
++		xstate_disable = 0;
+ }
+ 
+ /*
+-- 
+2.17.1
 
-For going one-way from virt->{phys,page} that works ok, but it doesn't
-survive the round-trip, and introduces redundant work into each
-virt_to_*() call.
-
-As it was largely arch code that was using image addresses, we didn't
-bother with the fixup on arm64, as we preferred the stronger warning. At
-the time I was also under the impression that on x86 they wanted to get
-rid of the automatic fixup, but that doesn't seem to have happened.
-
-Thanks,
-Mark.
