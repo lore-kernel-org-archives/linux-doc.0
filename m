@@ -2,80 +2,94 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAAAC47423
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 04:22:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E24C4727C
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 05:09:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEB2521D92
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 04:22:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E514F221E8
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 05:09:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cm3qXwMN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgJAEWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 00:22:23 -0400
-Received: from smtprelay0025.hostedemail.com ([216.40.44.25]:53216 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725800AbgJAEWX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 00:22:23 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 60A7C182CED34;
-        Thu,  1 Oct 2020 04:22:22 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: owl02_1c06edc27198
-X-Filterd-Recvd-Size: 2148
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf04.hostedemail.com (Postfix) with ESMTPA;
-        Thu,  1 Oct 2020 04:22:20 +0000 (UTC)
-Message-ID: <9b57d0d4896a91debc330a70a20ae0f240afbd3b.camel@perches.com>
-Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to
- format sysfs output
-From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Denis Efremov <efremov@linux.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Date:   Wed, 30 Sep 2020 21:22:19 -0700
-In-Reply-To: <202009302108.18B05CA38@keescook>
-References: <cover.1600285923.git.joe@perches.com>
-         <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
-         <20200930115740.GA1611809@kroah.com> <202009302108.18B05CA38@keescook>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1725938AbgJAFJi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 01:09:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56296 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725935AbgJAFJi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 01:09:38 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47632C0613D0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 22:09:38 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id m13so4165672otl.9
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 22:09:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q6KOBJvHBicR0VoRRtmGhxc4kN/+VGebNPC7Evs4tF4=;
+        b=cm3qXwMNswUF/liZPf5zMwhmh8GyH5J8ViJ70KxfUs7yhhVYXbCaon/m0ixBKyvtaA
+         DHW1hKffN8HrskAwfnGEMN8iPg4MKLhY9VVD+L21T1W6x9VljZ7yudIj8AproT57ytv9
+         gHSNS89B9H4W5REGOxuK7w9WGMo5OPkLpZBy6fqX6aa6b7TzZEEMaJK9UZc0c889QEbE
+         0M1rpi9cmeeCTsaBNuizNXKVZBksVhtff5r7dAUNUaj5VFfi+fpzV1z6WFj659rdZIaC
+         QzKCc9z09at1Sj8sWPvD524hGLrD79PDvpP02W4IOLLALVL3QcoJdeH27iHhx5vsGwGH
+         EDEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q6KOBJvHBicR0VoRRtmGhxc4kN/+VGebNPC7Evs4tF4=;
+        b=FNaTR9TGEba48wBbNN496wWE7UIjWibS/cH42WBrlFxKZY/ktpV0DL6BIolKTDWyrr
+         CKvLjudjoCzopvlJ/T12fORXoFQ72sjo1qJY4De81ZxN6o1qNPBwqB2RWr5L9l3Bc3QS
+         zftIm9artuOKTegk0cbXfZsoLEwxzAgwqTIrbubIWWHVmzHc/OOYxzjA9Y7EIf2OEiws
+         DBFvwRRsIKJx0vmlQXv2jwnWbIThL0Sugs7ZX/9QGX+fV4vS1Aw03I79XvrODhSqgscY
+         knu2SWNPS60vuoO75GdElC7GUtbc6I6jMJZ7tXaCYBMHgIM06W/u7BLvJwLFiqReRbow
+         tRvw==
+X-Gm-Message-State: AOAM533wtUgni12gkdVSlFNyFooWgAMdD3Ec2vbX5NsESuVT+i0h6Vj7
+        DxUMQ/uDQX6TJ1eB48/rfj/MNa+ysIqeGEM9U2Zseg==
+X-Google-Smtp-Source: ABdhPJyiR313uHTtIPf7OufasmFIaSMpBW4yu1rpoIB4XegXsDLsrEUYH3jEZhxSCK1w300SRNjGUNOE3soN7DimF7Q=
+X-Received: by 2002:a05:6830:22ce:: with SMTP id q14mr3666913otc.72.1601528976723;
+ Wed, 30 Sep 2020 22:09:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20200928202650.2530280-1-keescook@chromium.org> <20200928202650.2530280-2-keescook@chromium.org>
+In-Reply-To: <20200928202650.2530280-2-keescook@chromium.org>
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Thu, 1 Oct 2020 10:39:25 +0530
+Message-ID: <CA+G9fYvwJM20+0Td24H9reeiQPkak+uq7TL1cugufkUxFthWFA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] selftests: Extract run_kselftest.sh and generate
+ stand-alone test list
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Shuah Khan <shuah@kernel.org>, Hangbin Liu <liuhangbin@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Tim.Bird@sony.com, lkft-triage@lists.linaro.org,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Justin Cook <justin.cook@linaro.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-09-30 at 21:17 -0700, Kees Cook wrote:
-> On Wed, Sep 30, 2020 at 01:57:40PM +0200, Greg Kroah-Hartman wrote:
-> > Kees, and Rafael, I don't know if you saw this proposal from Joe for
-> > sysfs files, questions below:
-> 
-> I'm a fan. I think the use of sprintf() in sysfs might have been one of
-> my earliest complaints about unsafe code patterns in the kernel. ;)
-[]
-> > > +	if (WARN(!buf || offset_in_page(buf),
-> > > +		 "invalid sysfs_emit: buf:%p\n", buf))
+On Tue, 29 Sep 2020 at 01:56, Kees Cook <keescook@chromium.org> wrote:
+>
+> Instead of building a script on the fly (which just repeats the same
+> thing for each test collection), move the script out of the Makefile and
+> into run_kselftest.sh, which reads kselftest-list.txt.
+>
+> Adjust the emit_tests target to report each test on a separate line so
+> that test running tools (e.g. LAVA) can easily remove individual
+> tests (for example, as seen in [1]).
+>
+> [1] https://github.com/Linaro/test-definitions/pull/208/commits/2e7b62155e4998e54ac0587704932484d4ff84c8
+>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-The dump_stack() is also going to emit pointers
-so I don't see how it does anything but help
-show where the buffer was.  It is hashed...
+Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
 
-> I don't want the %p here, but otherwise, sure. I'd also make it a _ONCE
-> variant:
-> 
-> 	if (WARN_ONCE(!buf || offset_in_page(buf),
-> 		 "invalid sysfs_emit: offset_in_page(buf):%zd\n",
-> 		  buf ? offset_in_page(buf) : 0))
-
-I don't think that helps as multiple defects can easily
-exist.  Log spam in this case isn't horrible either.
-
-
+- Naresh
