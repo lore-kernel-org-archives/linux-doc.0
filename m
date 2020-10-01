@@ -2,111 +2,109 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BD0CC4727E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 21:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CAFC4727E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 22:15:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0561D20848
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 21:49:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CD6620738
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 22:15:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726741AbgJAVtA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 17:49:00 -0400
-Received: from ms.lwn.net ([45.79.88.28]:39408 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726626AbgJAVtA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Oct 2020 17:49:00 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DA37E60C;
-        Thu,  1 Oct 2020 21:48:56 +0000 (UTC)
-Date:   Thu, 1 Oct 2020 15:48:54 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Kees Cook <keescook@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Moritz Fischer <mdf@kernel.org>, Sean Young <sean@mess.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Takashi Iwai <tiwai@suse.com>, Tejun Heo <tj@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v4 00/52] Fix html build with Sphinx  3.1 and above
-Message-ID: <20201001154854.4311d46a@lwn.net>
-In-Reply-To: <cover.1601467849.git.mchehab+huawei@kernel.org>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1727124AbgJAWPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 18:15:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727053AbgJAWPs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 18:15:48 -0400
+X-Greylist: delayed 1490 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 01 Oct 2020 15:15:48 PDT
+Received: from dazzle.geroedel.de (unknown [IPv6:2a02:180:2:aa:1::b3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B284C0613D0
+        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 15:15:48 -0700 (PDT)
+Received: from [192.168.15.2] (helo=feeble.bln.roederer.dhs.org)
+        by dazzle.geroedel.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <devel-sven@geroedel.de>)
+        id 1kO6TP-0008A0-Jc
+        for linux-doc@vger.kernel.org; Thu, 01 Oct 2020 23:50:56 +0200
+Received: from strike.bln.roederer.dhs.org ([192.168.8.36])
+        by feeble.bln.roederer.dhs.org with smtp (Exim 4.92)
+        (envelope-from <devel-sven@geroedel.de>)
+        id 1kO6TP-0003uQ-6D
+        for linux-doc@vger.kernel.org; Thu, 01 Oct 2020 23:50:47 +0200
+Received: (nullmailer pid 30721 invoked by uid 10000);
+        Thu, 01 Oct 2020 21:50:47 -0000
+From:   Sven Roederer <devel-sven@geroedel.de>
+To:     linux-doc@vger.kernel.org
+Date:   Thu,  1 Oct 2020 23:50:29 +0200
+Message-Id: <20201001215029.30583-1-devel-sven@geroedel.de>
+X-Mailer: git-send-email 2.17.1
+X-Spam_score: -2.9
+X-Spam_score_int: -28
+X-Spam_bar: --
+X-Spam_report: Spam detection software, running on the system "dazzle",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ @@CONTACT_ADDRESS@@ for details.
+ Content preview:  Since 5.3 (59b2bd05f5f4dc) the 'make headers_install' call
+    depends on rsync to deploy the files system wide. Signed-off-by: Sven Roederer
+    <devel-sven@geroedel.de> --- Documentation/process/changes.rst | 8 ++++++++
+    1 file changed, 8 insertions(+) 
+ Content analysis details:   (-2.9 points, 5.0 required)
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+ -1.9 BAYES_00               BODY: Bayes spam probability is 0 to 1%
+                             [score: 0.0000]
+X-SA-Exim-Connect-IP: 192.168.15.2
+X-SA-Exim-Mail-From: devel-sven@geroedel.de
+Subject: [PATCH] docs: changes.rst: add rsync to the list of required tools
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on dazzle.geroedel.de)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Sep 2020 15:24:23 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Since 5.3 (59b2bd05f5f4dc) the 'make headers_install' call depends on
+rsync to deploy the files system wide.
 
-> This series add proper support for Sphinx 3.1 and above for building the html docs.
-> 
-> This series comes after the one I wrote fixing the warnings. 
-> 
-> With this series applied on the top of next-20200922, there are just 12
-> warnings:
-> 	- 2 of them happens also on Sphinx 2.4.4
-> 	 (both seem easy to fix: I'll send later fixes for those);
-> 	- 10 happens only on Sphinx 3.2.1.
-> 
-> The new warnings are all due to duplicated C domain cross-reference symbols. 
-> 
-> Basically, the C domain on Sphinx doesn't allow to have an struct and
-> a function with the same name. I opened an issue on Sphinx.:
-> 
->     https://github.com/sphinx-doc/sphinx/issues/8241
-> 
-> Hopefully, some newer version may have it fixed.
-> 
-> There is still one thing that requires a fix: the automarkup.py. The
-> way cross-references are stored with Sphinx 3 are different.
-> I didn't try yet to address it, but I suspect that it shouldn't be
-> hard to address it.
+Signed-off-by: Sven Roederer <devel-sven@geroedel.de>
+---
+ Documentation/process/changes.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Modulo my comment on part 4, I think this is what we want.  It's kind of
-unfortunate that it's all necessary, but that's the way things are these
-days, I guess.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index ee741763a3fc..94f22368a2af 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -55,9 +55,11 @@ iptables               1.4.2            iptables -V
+ openssl & libcrypto    1.0.0            openssl version
+ bc                     1.06.95          bc --version
+ Sphinx\ [#f1]_	       1.3		sphinx-build --version
++rsync\ [#f2]_          3.0              rsync --version
+ ====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx is needed only to build the Kernel documentation
++.. [#f2] rsync is needed only during final install of kernel-headers
+ 
+ Kernel compilation
+ ******************
+@@ -161,6 +163,12 @@ is not build with ``CONFIG_KALLSYMS`` and you have no way to rebuild and
+ reproduce the Oops with that option, then you can still decode that Oops
+ with ksymoops.
+ 
++rsync
++-----
++
++rsync is used to instal the kernel-headers system wide with administarative
++permissions. This was added in v5.3.
++
+ Mkinitrd
+ --------
+ 
+-- 
+2.17.1
 
-This part is a bit intimidating, though:
-
->  288 files changed, 1709 insertions(+), 2183 deletions(-)
-
-Should we maybe position this as an end-of-merge-window blast, once other
-stuff has hopefully mostly settled?  I can certainly warn Linus that it's
-coming when I send the main docs pull.
-
-I wonder how soon we could pull our minimum version forward to 3.1 and
-drop a bunch of stuff?  I fear it may not be for a while, alas...
-
-Thanks for doing all this work,
-
-jon
