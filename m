@@ -2,137 +2,147 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C95E4C4727E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 18:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 801ACC47426
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 18:11:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7DFEB208B6
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 18:09:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wzssz5fT"
+	by mail.kernel.org (Postfix) with ESMTP id 4C4F62145D
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 18:11:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730103AbgJASJI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 14:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730045AbgJASJH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 14:09:07 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6AFC0613E3
-        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 11:09:07 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id z13so7812501iom.8
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2020 11:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yYyLL8/5sTCIqw3c2AOtgstQUUljt/etSnN5D+fO0uY=;
-        b=Wzssz5fTJS9vvZ2ypkoGhiI+koyTl7pvaRONIvAdV8ZIhy+2BNj4z+zfiNA1glezsm
-         C50ZoyCscM7qSZNF3Qmr5ISeX2ZXcW2185mYm/U/eBlt/DMZBI+UaWN16f+ba76jbPYL
-         q4VexChWOdrzYr4OLseC0ogYE9VaeS9VByVPyB5SWU8autJFBrdRP0X0Pg2gHpXGE9LL
-         8+659IorxM/GxV8Ynytoio0HZJjAeMEbpo37KGkPgYe4Yw9L/5Z86JnAAWs4jn9etwaO
-         /AoCizLXBbHaI511apTYq/YFE6miXPetCawdl4gRiwRT0ABPLfASVpyQjDNICK1ifpYE
-         iKCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yYyLL8/5sTCIqw3c2AOtgstQUUljt/etSnN5D+fO0uY=;
-        b=A/tYZ63Y9WeVmCXOwfRwzJ/k76hb9feCh3m1LNGdzNWyGsNvI0w2vwST2fbmrhIQ7C
-         OE79efpoenewU3NR7DjxqchL9fKf9Is6BIbMMmLl42sR3Dd5gz53LpKVjNlFzDPDYN2W
-         fMCxYd9bKf9bfveF6lUXqMBZ3O/ItFRF3kTX1S1mBTVnjHO8QJ799tom7E5FBxW+dc1m
-         xdSOhLu6U3RAyiFQa6uVzA6TMvZe0JOEc74iOXv5lHtZTQ5FOxj2V0RDBTTIIl9BvVr7
-         +zRAxZew3uC7xoSdEXbLOnWtzOJJ2Hv8S41xEwhcLmrBEG/ZAf1Ycln2vaD3wOnVqMqR
-         q4wg==
-X-Gm-Message-State: AOAM531FVedA3bB4X0CQBxzzsNiEOKTNgwrG1aBwpGwqX+id7zW+QT0o
-        720NaUbRi3oCjTblwXqqZLtbNL6XR3kKDjxsYmGReA==
-X-Google-Smtp-Source: ABdhPJxvHgh4I8y6d8KgrIpb3bycChN66g8zti9jALO364IlRnc6OjCOSgFqu7DNUn0tqHzUl0VobVjNTevVq7c19L4=
-X-Received: by 2002:a05:6638:210f:: with SMTP id n15mr6948049jaj.41.1601575746451;
- Thu, 01 Oct 2020 11:09:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200922004024.3699923-1-vipinsh@google.com> <20200922014836.GA26507@linux.intel.com>
- <20200922211404.GA4141897@google.com> <20200924192116.GC9649@linux.intel.com> <cb592c59-a50e-5901-71fe-19e43bc9e37e@amd.com>
-In-Reply-To: <cb592c59-a50e-5901-71fe-19e43bc9e37e@amd.com>
-From:   Peter Gonda <pgonda@google.com>
-Date:   Thu, 1 Oct 2020 12:08:55 -0600
-Message-ID: <CAMkAt6oX+18cZy_t3hm0zo-sLmTGeGs5H9YAWvj7WBU7_uwU5Q@mail.gmail.com>
-Subject: Re: [RFC Patch 0/2] KVM: SVM: Cgroup support for SVM SEV ASIDs
-To:     Tom Lendacky <thomas.lendacky@amd.com>
-Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, tj@kernel.org,
-        lizefan@huawei.com, Joerg Roedel <joro@8bytes.org>, corbet@lwn.net,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Grimm, Jon" <jon.grimm@amd.com>, eric.vantassell@amd.com,
-        Matt Gingell <gingell@google.com>,
+        id S1732995AbgJASLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 14:11:30 -0400
+Received: from foss.arm.com ([217.140.110.172]:42122 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730070AbgJASLa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Oct 2020 14:11:30 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A6BD1042;
+        Thu,  1 Oct 2020 11:11:29 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.51.119])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 218163F6CF;
+        Thu,  1 Oct 2020 11:11:21 -0700 (PDT)
+Date:   Thu, 1 Oct 2020 19:11:19 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Alexander Potapenko <glider@google.com>
+Cc:     Marco Elver <elver@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         David Rientjes <rientjes@google.com>,
-        kvm list <kvm@vger.kernel.org>, x86@kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Dmitriy Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
+Message-ID: <20201001181119.GB89689@C02TD0UTHF1T.local>
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-2-elver@google.com>
+ <20200929142411.GC53442@C02TD0UTHF1T.local>
+ <CAG_fn=UOJARteeqT_+1ORPEP9SB5HR3B3W8830rA9kjZLoN+Ww@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG_fn=UOJARteeqT_+1ORPEP9SB5HR3B3W8830rA9kjZLoN+Ww@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 1:55 PM Tom Lendacky <thomas.lendacky@amd.com> wrote:
->
-> On 9/24/20 2:21 PM, Sean Christopherson wrote:
-> > On Tue, Sep 22, 2020 at 02:14:04PM -0700, Vipin Sharma wrote:
-> >> On Mon, Sep 21, 2020 at 06:48:38PM -0700, Sean Christopherson wrote:
-> >>> On Mon, Sep 21, 2020 at 05:40:22PM -0700, Vipin Sharma wrote:
-> >>>> Hello,
-> >>>>
-> >>>> This patch series adds a new SEV controller for tracking and limiting
-> >>>> the usage of SEV ASIDs on the AMD SVM platform.
-> >>>>
-> >>>> SEV ASIDs are used in creating encrypted VM and lightweight sandboxes
-> >>>> but this resource is in very limited quantity on a host.
-> >>>>
-> >>>> This limited quantity creates issues like SEV ASID starvation and
-> >>>> unoptimized scheduling in the cloud infrastructure.
-> >>>>
-> >>>> SEV controller provides SEV ASID tracking and resource control
-> >>>> mechanisms.
-> >>>
-> >>> This should be genericized to not be SEV specific.  TDX has a similar
-> >>> scarcity issue in the form of key IDs, which IIUC are analogous to SEV ASIDs
-> >>> (gave myself a quick crash course on SEV ASIDs).  Functionally, I doubt it
-> >>> would change anything, I think it'd just be a bunch of renaming.  The hardest
-> >>> part would probably be figuring out a name :-).
-> >>>
-> >>> Another idea would be to go even more generic and implement a KVM cgroup
-> >>> that accounts the number of VMs of a particular type, e.g. legacy, SEV,
-> >>> SEV-ES?, and TDX.  That has potential future problems though as it falls
-> >>> apart if hardware every supports 1:MANY VMs:KEYS, or if there is a need to
-> >>> account keys outside of KVM, e.g. if MKTME for non-KVM cases ever sees the
-> >>> light of day.
-> >>
-> >> I read about the TDX and its use of the KeyID for encrypting VMs. TDX
-> >> has two kinds of KeyIDs private and shared.
+On Tue, Sep 29, 2020 at 05:51:58PM +0200, Alexander Potapenko wrote:
+> On Tue, Sep 29, 2020 at 4:24 PM Mark Rutland <mark.rutland@arm.com> wrote:
 > >
-> > To clarify, "shared" KeyIDs are simply legacy MKTME KeyIDs.  This is relevant
-> > because those KeyIDs can be used without TDX or KVM in the picture.
+> > On Mon, Sep 21, 2020 at 03:26:02PM +0200, Marco Elver wrote:
+> > > From: Alexander Potapenko <glider@google.com>
+> > >
+> > > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> > > low-overhead sampling-based memory safety error detector of heap
+> > > use-after-free, invalid-free, and out-of-bounds access errors.
+> > >
+> > > KFENCE is designed to be enabled in production kernels, and has near
+> > > zero performance overhead. Compared to KASAN, KFENCE trades performance
+> > > for precision. The main motivation behind KFENCE's design, is that with
+> > > enough total uptime KFENCE will detect bugs in code paths not typically
+> > > exercised by non-production test workloads. One way to quickly achieve a
+> > > large enough total uptime is when the tool is deployed across a large
+> > > fleet of machines.
+> > >
+> > > KFENCE objects each reside on a dedicated page, at either the left or
+> > > right page boundaries. The pages to the left and right of the object
+> > > page are "guard pages", whose attributes are changed to a protected
+> > > state, and cause page faults on any attempted access to them. Such page
+> > > faults are then intercepted by KFENCE, which handles the fault
+> > > gracefully by reporting a memory access error. To detect out-of-bounds
+> > > writes to memory within the object's page itself, KFENCE also uses
+> > > pattern-based redzones. The following figure illustrates the page
+> > > layout:
+> > >
+> > >   ---+-----------+-----------+-----------+-----------+-----------+---
+> > >      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
+> > >      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
+> > >      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
+> > >      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
+> > >      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
+> > >      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
+> > >   ---+-----------+-----------+-----------+-----------+-----------+---
+> > >
+> > > Guarded allocations are set up based on a sample interval (can be set
+> > > via kfence.sample_interval). After expiration of the sample interval, a
+> > > guarded allocation from the KFENCE object pool is returned to the main
+> > > allocator (SLAB or SLUB). At this point, the timer is reset, and the
+> > > next allocation is set up after the expiration of the interval.
 > >
-> >> On AMD platform there are two types of ASIDs for encryption.
-> >> 1. SEV ASID - Normal runtime guest memory encryption.
-> >> 2. SEV-ES ASID - Extends SEV ASID by adding register state encryption with
-> >>               integrity.
-> >>
-> >> Both types of ASIDs have their own maximum value which is provisioned in
-> >> the firmware
-> >
-> > Ugh, I missed that detail in the SEV-ES RFC.  Does SNP add another ASID type,
-> > or does it reuse SEV-ES ASIDs?  If it does add another type, is that trend
-> > expected to continue, i.e. will SEV end up with SEV, SEV-ES, SEV-ES-SNP,
-> > SEV-ES-SNP-X, SEV-ES-SNP-X-Y, etc...?
->
-> SEV-SNP and SEV-ES share the same ASID range.
+> > From other sub-threads it sounds like these addresses are not part of
+> > the linear/direct map.
+> For x86 these addresses belong to .bss, i.e. "kernel text mapping"
+> section, isn't that the linear map?
 
-Where is this documented? From the SEV-SNP FW ABI Spec 0.8 "The
-firmware checks that ASID is an encryption capable ASID. If not, the
-firmware returns INVALID_ASID." that doesn't seem clear that an SEV-ES
-ASID is required. Should this document be more clear?
+No; the "linear map" is the "direct mapping" on x86, and the "image" or
+"kernel text mapping" is a distinct VA region. The image mapping aliases
+(i.e. uses the same physical pages as) a portion of the linear map, and
+every page in the linear map has a struct page.
+
+Fon the x86_64 ivirtual memory layout, see:
+
+https://www.kernel.org/doc/html/latest/x86/x86_64/mm.html
+
+Originally, the kernel image lived in the linear map, but it was split
+out into a distinct VA range (among other things) to permit KASLR.  When
+that split was made, the x86 virt_to_*() helpers were updated to detect
+when they were passed a kernel image address, and automatically fix that
+up as-if they'd been handed the linear map alias of that address.
+
+For going one-way from virt->{phys,page} that works ok, but it doesn't
+survive the round-trip, and introduces redundant work into each
+virt_to_*() call.
+
+As it was largely arch code that was using image addresses, we didn't
+bother with the fixup on arm64, as we preferred the stronger warning. At
+the time I was also under the impression that on x86 they wanted to get
+rid of the automatic fixup, but that doesn't seem to have happened.
+
+Thanks,
+Mark.
