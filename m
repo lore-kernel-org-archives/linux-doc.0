@@ -2,212 +2,186 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21626C4363D
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 02:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5104BC47423
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 04:17:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8CDB21D7D
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 02:58:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BCC4221E8
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 04:17:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="zgOeDmpJ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Tom7LI02"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730245AbgJAC6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Sep 2020 22:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
+        id S1725918AbgJAERI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 00:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725372AbgJAC6Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Sep 2020 22:58:16 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4077FC0613D0
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 19:58:15 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id o20so3024549pfp.11
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 19:58:15 -0700 (PDT)
+        with ESMTP id S1725800AbgJAERI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 00:17:08 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0F2FC0613D0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 21:17:06 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id b124so3213913pfg.13
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 21:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mwzDXzGzheFaLtfSgxu27esE2z5Zeui3HFQefTnFb8g=;
-        b=zgOeDmpJuU6J+m/pXdHtw3CZdp3/+XRjOtE4QzOo5btYMi5CLEyMdYXP4kSuNLz0eJ
-         TFwUKsIYwfUQUmtI+2qMLoVZYgC7w7vkFssPY0ClvBK10qm7/mmR+KOvvl74hI+k/bB/
-         1Fn6MN/yuQdtO3KDGy+7pAlMNut7JupiZLTCM25c9gbmkHd3h5qXV1x4slS9nd7QdC72
-         Dse4DbSqwOSlALxNQ+/L/J27u5yzgeCl4uE/08Z0Z8ByPYub7ETutOqST4m2+qsy60+j
-         uD8cO44bxV1JAX4MTkAqxwFpazo/MUwoaL01/QQ/iBZy7NVW7x5qhZin16ywUexEwRsu
-         CdTQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=s4XehrwkF2DDQMEswJuHfeDvX5s+FgOsxfZuPhSMT5k=;
+        b=Tom7LI02NqYpO+tQuLV1w/lqCE9jjmNlpkDkhQcSB9F4YIqGAC6CpLc1Nql2KpSHIO
+         AGglpdoP+b3TJn7MpDQMlu7zUwWosHoH/OJsuelb5sH123bSvbWoiCiCBLgjmW9WJcRm
+         EbmXfTr2RAaGuhvbuuun5uKwv7wR14F9HxBhU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mwzDXzGzheFaLtfSgxu27esE2z5Zeui3HFQefTnFb8g=;
-        b=Re1I6h871NHu/TZxkNX7Ae4rBWNA5ZTfGNROpMUb/M4b7mtHuHy/iM35L769fnIXdA
-         o2/yB5XV6d62iAxzvbLio9FmGrnUSLyXETrSI+GXtAZQHXLaox4wvzcH+fpbu+6x+5rM
-         eWYDyGTmijQTLmxBUnWWywTy4a74wHz4wt5L4L57LMYlyTG5i/+HP4pd2FUYA3U/f+kP
-         vdFYyyidj/ST9p3vqo1j7a0hWHMQ+lHvW0W11DyhqcB8ZWf0QErfCxZKGqHJVKzmul5o
-         EjOFIKlOtMwuTYJOPPjnHeETX5QzHwddqu7QpHKa7ylQIIzKebCo4dhX8hV5EnRzLakp
-         bNSA==
-X-Gm-Message-State: AOAM533od4+9j1v0rF8ECFETZpKC1tu9DEWAU6uzYFx2qX5neQVctQS4
-        npLNRQT37UJFRlzHI5P4v5q8N/h9bTRij2Pr2Hor7g==
-X-Google-Smtp-Source: ABdhPJw54fMhnUTblVABuAoszldUwSDkq8h8waLyxfnj4UMJiylKdptjrq1mXx8p4IpIh0PDd6kd4W1ynwcS/DGmTZU=
-X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id
- s7-20020aa782870000b0290142250139ecmr4965310pfm.59.1601521094544; Wed, 30 Sep
- 2020 19:58:14 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=s4XehrwkF2DDQMEswJuHfeDvX5s+FgOsxfZuPhSMT5k=;
+        b=np2T3Vcz6OjRIjhb/s5vETk/HRSJU4SCicQKqLg3CE7mk6UTvKId/deuwLGvmOebw+
+         WsbYKnISEhnoUK6EMBo6FuxLUscg8EHnkdYzZK6e3QZhl0hIShONgUWx/p8PJDlkQ5/8
+         rdqGypOZx2d/3b8rYRtQVQiixm5kjbziHD5mFe9r76MTZVRL/rD7i7QaF3lb412a6k2l
+         nKG3GNhmfIRlNQWuB9ThqmCKre4/IpucXUIIDDk4eGo+ea9UGrn+XRW9vp2DmJAxYY9U
+         Tdm5eP57Gr2XAJWVwDFQlHIKolHJzddX/zfT9/AB/rsOePowE7DepBMDqoEs+08MKLpt
+         k1Xw==
+X-Gm-Message-State: AOAM5330nUhmxpR6MZ6KfZi2rn0WTU23PaBK5VBRJJe+0t1gr89OQDcy
+        7gLHU1FdNLS7CWUdCATeDtY1ovD1JoB2tBD4
+X-Google-Smtp-Source: ABdhPJzV/r2DVoiyI84z9iiqknwLRtq3vjEzAjlhj2nmeWV3fxw1H+sBUIEurQkPsPEpR9OB8Exx5g==
+X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id s7-20020aa782870000b0290142250139ecmr5194026pfm.59.1601525825768;
+        Wed, 30 Sep 2020 21:17:05 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a13sm4412632pfi.139.2020.09.30.21.17.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2020 21:17:04 -0700 (PDT)
+Date:   Wed, 30 Sep 2020 21:17:03 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Joe Perches <joe@perches.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Denis Efremov <efremov@linux.com>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to format
+ sysfs output
+Message-ID: <202009302108.18B05CA38@keescook>
+References: <cover.1600285923.git.joe@perches.com>
+ <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
+ <20200930115740.GA1611809@kroah.com>
 MIME-Version: 1.0
-References: <20200915125947.26204-1-songmuchun@bytedance.com>
- <20200915125947.26204-6-songmuchun@bytedance.com> <b2811679-cd90-4685-2284-64490e7dfb7e@oracle.com>
-In-Reply-To: <b2811679-cd90-4685-2284-64490e7dfb7e@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 1 Oct 2020 10:57:38 +0800
-Message-ID: <CAMZfGtV99X7TbkortsFaUYQC-Zvq53ggwB_PBzqUBFyQ2Hkvpg@mail.gmail.com>
-Subject: Re: [External] Re: [RFC PATCH 05/24] mm/hugetlb: Introduce
- nr_free_vmemmap_pages in the struct hstate
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200930115740.GA1611809@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 1, 2020 at 6:41 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 9/15/20 5:59 AM, Muchun Song wrote:
-> > If the size of hugetlb page is 2MB, we need 512 struct page structures
-> > (8 pages) to be associated with it. As far as I know, we only use the
-> > first 3 struct page structures and only read the compound_dtor members
->
-> Actually, the first 4 pages can be used if CONFIG_CGROUP_HUGETLB.
+On Wed, Sep 30, 2020 at 01:57:40PM +0200, Greg Kroah-Hartman wrote:
+> Kees, and Rafael, I don't know if you saw this proposal from Joe for
+> sysfs files, questions below:
 
-Right, thanks.
+I'm a fan. I think the use of sprintf() in sysfs might have been one of
+my earliest complaints about unsafe code patterns in the kernel. ;)
 
-> /*
->  * Minimum page order trackable by hugetlb cgroup.
->  * At least 4 pages are necessary for all the tracking information.
->  * The second tail page (hpage[2]) is the fault usage cgroup.
->  * The third tail page (hpage[3]) is the reservation usage cgroup.
->  */
-> #define HUGETLB_CGROUP_MIN_ORDER        2
->
-> However, this still easily fits within the first page of struct page
-> structures.
->
-> > of the remaining struct page structures. For tail page, the value of
-> > compound_dtor is the same. So we can reuse first tail page. We map the
-> > virtual addresses of the remaining 6 tail pages to the first tail page,
-> > and then free these 6 pages. Therefore, we need to reserve at least 2
-> > pages as vmemmap areas.
->
-> I got confused the first time I read the above sentences.  Perhaps it
-> should be more explicit with something like:
->
-> For tail pages, the value of compound_dtor is the same. So we can reuse
-> first page of tail page structs. We map the virtual addresses of the
-> remaining 6 pages of tail page structs to the first tail page struct,
-> and then free these 6 pages. Therefore, we need to reserve at least 2
-> pages as vmemmap areas.
-
-Sorry for my poor English. Thanks for your suggestions. I can apply this.
-
->
-> It still does not sound great, but hopefully avoids some confusion.
-> --
-> Mike Kravetz
->
-> > So we introduce a new nr_free_vmemmap_pages field in the hstate to
-> > indicate how many vmemmap pages associated with a hugetlb page that we
-> > can free to buddy system.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  include/linux/hugetlb.h |  3 +++
-> >  mm/hugetlb.c            | 35 +++++++++++++++++++++++++++++++++++
-> >  2 files changed, 38 insertions(+)
-> >
-> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> > index d5cc5f802dd4..eed3dd3bd626 100644
-> > --- a/include/linux/hugetlb.h
-> > +++ b/include/linux/hugetlb.h
-> > @@ -492,6 +492,9 @@ struct hstate {
-> >       unsigned int nr_huge_pages_node[MAX_NUMNODES];
-> >       unsigned int free_huge_pages_node[MAX_NUMNODES];
-> >       unsigned int surplus_huge_pages_node[MAX_NUMNODES];
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +     unsigned int nr_free_vmemmap_pages;
-> > +#endif
-> >  #ifdef CONFIG_CGROUP_HUGETLB
-> >       /* cgroup control files */
-> >       struct cftype cgroup_files_dfl[7];
-> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> > index 81a41aa080a5..f1b2b733b49b 100644
-> > --- a/mm/hugetlb.c
-> > +++ b/mm/hugetlb.c
-> > @@ -1292,6 +1292,39 @@ static inline void destroy_compound_gigantic_page(struct page *page,
-> >                                               unsigned int order) { }
-> >  #endif
-> >
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +#define RESERVE_VMEMMAP_NR   2U
-> > +
-> > +static inline unsigned int nr_free_vmemmap(struct hstate *h)
+> > +/**
+> > + *	sysfs_emit - scnprintf equivalent, aware of PAGE_SIZE buffer.
+> > + *	@buf:	start of PAGE_SIZE buffer.
+> > + *	@fmt:	format
+> > + *	@...:	optional arguments to @format
+> > + *
+> > + *
+> > + * Returns number of characters written to @buf.
+> > + */
+> > +int sysfs_emit(char *buf, const char *fmt, ...)
 > > +{
-> > +     return h->nr_free_vmemmap_pages;
-> > +}
+> > +	va_list args;
+> > +	int len;
 > > +
-> > +static void __init hugetlb_vmemmap_init(struct hstate *h)
-> > +{
-> > +     unsigned int order = huge_page_order(h);
-> > +     unsigned int vmemmap_pages;
-> > +
-> > +     vmemmap_pages = ((1 << order) * sizeof(struct page)) >> PAGE_SHIFT;
-> > +     /*
-> > +      * The head page and the first tail page not free to buddy system,
-> > +      * the others page will map to the first tail page. So there are
-> > +      * (@vmemmap_pages - RESERVE_VMEMMAP_NR) pages can be freed.
-> > +      */
-> > +     if (vmemmap_pages > RESERVE_VMEMMAP_NR)
-> > +             h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
-> > +     else
-> > +             h->nr_free_vmemmap_pages = 0;
-> > +
-> > +     pr_info("HugeTLB: can free %d vmemmap pages for %s\n",
-> > +             h->nr_free_vmemmap_pages, h->name);
-> > +}
-> > +#else
-> > +static inline void hugetlb_vmemmap_init(struct hstate *h)
-> > +{
-> > +}
-> > +#endif
-> > +
-> >  static void update_and_free_page(struct hstate *h, struct page *page)
-> >  {
-> >       int i;
-> > @@ -3285,6 +3318,8 @@ void __init hugetlb_add_hstate(unsigned int order)
-> >       snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
-> >                                       huge_page_size(h)/1024);
-> >
-> > +     hugetlb_vmemmap_init(h);
-> > +
-> >       parsed_hstate = h;
-> >  }
-> >
-> >
+> > +	if (WARN(!buf || offset_in_page(buf),
+> > +		 "invalid sysfs_emit: buf:%p\n", buf))
 
+I don't want the %p here, but otherwise, sure. I'd also make it a _ONCE
+variant:
 
+	if (WARN_ONCE(!buf || offset_in_page(buf),
+		 "invalid sysfs_emit: offset_in_page(buf):%zd\n",
+		  buf ? offset_in_page(buf) : 0))
+
+> > +		return 0;
+> > +
+> > +	va_start(args, fmt);
+> > +	len = vscnprintf(buf, PAGE_SIZE, fmt, args);
+> > +	va_end(args);
+> > +
+> > +	return len;
+> > +}
+> > +EXPORT_SYMBOL_GPL(sysfs_emit);
+> > +
+> > +/**
+> > + *	sysfs_emit_at - scnprintf equivalent, aware of PAGE_SIZE buffer.
+> > + *	@buf:	start of PAGE_SIZE buffer.
+> > + *	@at:	offset in @buf to start write in bytes
+> > + *		@at must be >= 0 && < PAGE_SIZE
+> > + *	@fmt:	format
+> > + *	@...:	optional arguments to @fmt
+> > + *
+> > + *
+> > + * Returns number of characters written starting at &@buf[@at].
+> > + */
+> > +int sysfs_emit_at(char *buf, int at, const char *fmt, ...)
+> > +{
+> > +	va_list args;
+> > +	int len;
+> > +
+> > +	if (WARN(!buf || offset_in_page(buf) || at < 0 || at >= PAGE_SIZE,
+> > +		 "invalid sysfs_emit_at: buf:%p at:%d\n", buf, at))
+
+Same:
+
+	if (WARN_ONCE(!buf || offset_in_page(buf) || at < 0 || at >= PAGE_SIZE,
+		 "invalid sysfs_emit_at: offset_in_page(buf):%zd at:%d\n",
+		  buf ? offset_in_page(buf) : 0, at))
+
+> > +		return 0;
+> > +
+> > +	va_start(args, fmt);
+> > +	len = vscnprintf(buf + at, PAGE_SIZE - at, fmt, args);
+> > +	va_end(args);
+> > +
+> > +	return len;
+> > +}
+> > +EXPORT_SYMBOL_GPL(sysfs_emit_at);
+> 
+> These feel sane, but I'm loath to have a ton of churn for no good
+> reason.
+
+I think the churn is worth it if we remove "seemingly wrong" code
+patterns from the kernel. It's especially useful, IMO, for when there
+are future mutations/refactorings and we don't end up with a bare
+sprintf somewhere else.
+
+> If we make all sysfs show/store functions use these calls instead of
+> sprintf(), it "feels" like that might address the objections that people
+> have had in the past where they are nervous about "bare" sprintf()
+> calls, right?
+
+I would think so. This is the kind of thing we did for %n in seq_file:
+remove potential foot-gun API in favor of subsystem-specific safe API.
+
+> It also might make things easier to audit where we can see much easier
+> where sysfs files are doing "foolish" things by calling sysfs_emit_at()
+> a bunch of times they shouldn't be, and maybe automate the documentation
+> of sysfs files in a better way.
+
+Indeed!
+
+> So I guess I'm asking for another developer to at least agree that this
+> feels like the right way forward here.  I don't want to start down this
+> path, only to roll them all back as it feels like pointless churn.
+
+With the changes above, I'd Ack it. :)
 
 -- 
-Yours,
-Muchun
+Kees Cook
