@@ -4,96 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7628C4727C
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:41:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4371C47423
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:41:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9970720B1F
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:41:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A64120B1F
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731676AbgJAIlB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 04:41:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60652 "EHLO
+        id S1731696AbgJAIlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 04:41:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731671AbgJAIlB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 04:41:01 -0400
+        with ESMTP id S1731663AbgJAIlA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 04:41:00 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45CEC0613E2;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44D11C0613D0;
         Thu,  1 Oct 2020 01:41:00 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kNu95-0000mi-GO; Thu, 01 Oct 2020 10:40:59 +0200
+        id 1kNu94-0000mi-Qw; Thu, 01 Oct 2020 10:40:59 +0200
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v1 19/26] docs: reporting-bugs: decode failure messages [need help]
-Date:   Thu,  1 Oct 2020 10:39:40 +0200
-Message-Id: <fc63c021e58106559717fe1ecbbd24163e1c152d.1601541165.git.linux@leemhuis.info>
+Subject: [RFC PATCH v1 17/26] docs: reporting-bugs: explain options if reproducing on mainline fails
+Date:   Thu,  1 Oct 2020 10:39:38 +0200
+Message-Id: <9c0ab407bcbecca3c039d6d836368011d4a4097f.1601541165.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601541165.git.linux@leemhuis.info>
 References: <cover.1601541165.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601541660;7dc8d30b;
-X-HE-SMSGID: 1kNu95-0000mi-GO
+X-HE-SMSGID: 1kNu94-0000mi-Qw
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This part is quite similar to the old text and just a placeholder for
-now. It and the referenced document afaics need to be revisited, as they
-seem outdated to me. But I'm not really familiar with the current state
-of things in that area and thus didn't feel qualified to write down
-anything better quickly.
-
-So consider this a request for help for those that know this area. Could
-you maybe write something that would fit in here? Or outline the current
-situation roughly in a reply, as that will make it easier for me or
-others to write something? It should answer questions like "when is this
-actually needed", "what .config options to ideally set to make this step
-easy or unnecessary?"
+Explicitly lay out the remaining options if the user can't reproduce the
+issue with a mainline kernel. Especially send those that are interested
+in seeing it fixed in stable and longterm kernels to a section dedicated
+to it (added in a later patch), as the process would get hard to follow
+if all of it was explained here; especially as there is a back reference
+to this process for regressions that are specific to stable and longterm
+and were never present in mainline.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/admin-guide/reporting-bugs.rst | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/reporting-bugs.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index c9a3491bf4db..e1219e56979f 100644
+index 02f846f4a324..2a7d13562905 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -780,6 +780,18 @@ issue you face. Use this knowledge and search again for existing reports
- instead you can join.
+@@ -744,6 +744,22 @@ for it before you reporting issues that occur with it. See the section above for
+ details how to do that.
  
  
-+Decode failure messages
-+-----------------------
++Reproduce issue with the fresh kernel
++-------------------------------------
 +
-+    *If the failure includes a stack dump, like an Oops does, consider decoding
-+    it to find the offending line of code.*
++    *Reproduce the issue with the kernel you just installed. If it doesn't show
++    up there, head over to the instructions for issues only happening with
++    stable and longterm kernels if you want to see it fixed there.*
 +
-+When the kernel detects an error, it will print a stack dump that allows to
-+identify the exact line of code where the issue happens. But that information
-+sometimes needs to get decoded to be readable, which is explained in
-+admin-guide/bug-hunting.rst.
++Check if the issue occurs with the Linux kernel you just installed. If it was
++fixed there already, consider sticking with this version line and canceling
++your plan to report the issue. But keep in mind that other users might be
++plagued by it, as long as it's not fixed in either stable and longterm version
++from kernel.org (and thus vendor kernels derived from those). If you prefer to
++use one of those and help their users, head over to the section "Details about
++reporting issues only occurring in older kernel version lines" below.
 +
 +
  .. ############################################################################
  .. Temporary marker added while this document is rewritten. Sections above
  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
-@@ -811,9 +823,7 @@ step-by-step instructions for how a user can trigger the bug.
- 
- If the failure includes an "OOPS:", take a picture of the screen, capture
- a netconsole trace, or type the message from your screen into the bug
--report.  Please read "Documentation/admin-guide/bug-hunting.rst" before posting your
--bug report. This explains what you should do with the "Oops" information
--to make it useful to the recipient.
-+report.
- 
- This is a suggested format for a bug report sent via email or bugzilla.
- Having a standardized bug report form makes it easier for you not to
 -- 
 2.26.2
 
