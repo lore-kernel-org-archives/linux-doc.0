@@ -2,112 +2,115 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F097C47426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71026C4727E
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:39:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65BB5208B6
+	by mail.kernel.org (Postfix) with ESMTP id 4535121707
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730862AbgJAIjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 04:39:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
+        id S1730785AbgJAIjv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 04:39:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726647AbgJAIjv (ORCPT
+        with ESMTP id S1730862AbgJAIjv (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 04:39:51 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04592C0613E3
-        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 01:39:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC4EC0613E5
+        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 01:39:51 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kNu7w-0006b9-F2; Thu, 01 Oct 2020 10:39:48 +0200
+        id 1kNu7x-0006b9-LH; Thu, 01 Oct 2020 10:39:49 +0200
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v1 02/26] docs: reporting-bugs: Create a TLDR how to report issues
-Date:   Thu,  1 Oct 2020 10:39:23 +0200
-Message-Id: <dc293f6d4f71ea827c861c64e88dfa0316f1d934.1601541165.git.linux@leemhuis.info>
+Subject: [RFC PATCH v1 04/26] docs: reporting-bugs: step-by-step guide for issues in stable & longterm
+Date:   Thu,  1 Oct 2020 10:39:25 +0200
+Message-Id: <b81c54734a767f7da9ec68fae6b82ea0a8c96011.1601541165.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601541165.git.linux@leemhuis.info>
 References: <cover.1601541165.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601541591;15880b4a;
-X-HE-SMSGID: 1kNu7w-0006b9-F2
+X-HE-SMSGID: 1kNu7x-0006b9-LH
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Get straight to the point in a few paragraphs instead of forcing users
-to read quite a bit of text, like the old approach did.
+Handle stable and longterm kernels in a subsection, as dealing with them
+directly in the main part of the step-by-step guide turned out to make
+it messy and hard to follow: it looked a bit like code with a large
+amount of if-then-else section to handle special cases, which made the
+default code-flow hard to understand.
 
-All normally needed fits into the first two paragraphs. The third is
-dedicated to issues only happening in stable and longterm kernels, as
-things otherwise get hard to follow. At the end explicitly spell out
-that some issues need to be handled slightly different.
-
-This TLDR naturally leaves lots of details out. But it will be good
-enough in some situations, for example for users that recently reported
-an issue or are familiar with reporting issues to FLOSS projects.
+Yet again each step will later be repeated in a reference section and
+described in more detail.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/admin-guide/reporting-bugs.rst | 43 ++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ Documentation/admin-guide/reporting-bugs.rst | 49 ++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index 4bbb9132782b..7bde6f32ff72 100644
+index 203df36af55f..e0a6f4328e87 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -10,6 +10,49 @@ Reporting bugs
- .. inconsistent/not make sense before all patches of the rewrite got applied.
- .. ###########################################################################
+@@ -156,6 +156,55 @@ After these preparations you'll now enter the main part:
+    yourself, if you don't get any help or if it is unsatisfying.
  
+ 
++Reporting issues only occurring in older kernel version lines
++-------------------------------------------------------------
 +
-+The short guide (aka TL;DR)
-+===========================
++This section is for you, if you tried the latest mainline kernel as outlined
++above, but failed to reproduce your issue there; at the same time you want to
++see the issue fixed in older version lines or a vendor kernel that's regularly
++rebased on new stable or longterm releases. If that case follow these steps:
 +
-+This is how you report issues with the Linux kernel to its developers:
++ * Prepare yourself for the possibility that going through the next few steps
++   might not get the issue solved in older releases: the fix might be too big or
++   risky to get backported there.
 +
-+If you deal with multiple issues at once, process each of them separately. Try
-+your best guess which area of the kernel might be responsible for your issue.
-+Check the `MAINTAINERS file
-+<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/MAINTAINERS>`_
-+how developers of that particular area expect to be told about issues; note,
-+it's rarely `bugzilla.kernel.org <https://bugzilla.kernel.org/>`_, as most
-+subsystems expect reports by mail sent to their maintainers and their public
-+mailing list!
++ * Check if the kernel developers still maintain the Linux kernel version line
++   you care about: go to `the front-page of kernel.org <https://kernel.org>`_
++   and make sure it mentions the latest release of the particular version line
++   without an '[EOL]' tag.
 +
-+Check the archives of the determined destination thoroughly for existing
-+reports; also search the LKML archives and the internet as a whole. If you can't
-+find any, install the `latest Linux mainline version <https://kernel.org/>`_.
-+Make sure to use a vanilla kernel and avert any add-on kernel modules externally
-+developed; also ensure the kernel is running in a healthy environment and does
-+not 'taint' itself before the issue occurs. If you can reproduce it, write a
-+report to the destination you determined earlier. Afterwards keep the ball
-+rolling by proactive testing, a status update now and then, and helping where
-+you can.
++ * Check the `archives of the Linux stable mailing list
++   <https://lore.kernel.org/stable/>`_  for existing reports.
 +
-+You can't reproduce an issue with mainline you want to see fixed in older
-+version lines? Then make sure the line you care about still gets support.
-+Install its latest release as vanilla kernel. If you can reproduce the issue
-+there, try to find the commit that fixed it in mainline or any discussion
-+preceding it: those will often mention if backporting is planed or impossible;
-+if not, ask for it. In case you don't find anything, check if it's a regression
-+specific to the version line that need to be bisected and report just like a
-+problem in mainline with the stable mailing list CCed. If you reached this point
-+without a solution, ask for advice by mailing the subsystem maintainer with the
-+subsystem and stable mailing list in CC.
++ * Install the latest release from the particular version line as a vanilla
++   kernel. Ensure this kernel is not tainted and still shows the problem, as the
++   issue might have already been fixed there.
 +
-+If you deal with a regression, bisect it to find the culprit and CC or forward
-+your report to its developers.
++ * Search the Linux kernel version control system for the change that fixed
++   the issue in mainline, as its commit message might tell you if the fix is
++   scheduled for backporting already. If you don't find anything that way,
++   search the appropriate mailing lists for posts that discuss such an issue or
++   peer-review possible fixes. That might lead you to the commit with the fix
++   or tell you if it's unsuitable for backporting. If backporting was not
++   considered at all, join the newest discussion, asking if its in the cards.
 +
-+Security issues are typically best report privately; also CC the security team
-+or forward your report there.
++ * Check if you're dealing with a regression that was never present in
++   mainline by installing the first release of the version line you care about.
++   If the issue doesn't show up with it, you basically need to report the issue
++   with this version like you would report a problem with mainline (see above).
++   This ideally includes a bisection followed by a search for existing reports
++   on the net; with the help of the subject and the two relevant commit-ids. If
++   that doesn't turn up anything, write the report; CC or forward the report to
++   the stable maintainers, the stable mailing list, and those that authored the
++   change. Include the shortened commit-id if you found the change that causes
++   it.
++
++ * One of the former steps should lead to a solution. If that doesn't work out,
++   ask the maintainers for the subsystem that seems to be causing the issue for
++   advice; CC the mailing list for the particular subsystem as well as the
++   stable mailing list.
 +
 +
  .. ############################################################################
