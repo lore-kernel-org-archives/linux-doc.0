@@ -2,163 +2,109 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D80C4727C
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 05:14:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0742EC4727C
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 06:07:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20F89221EC
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 05:14:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76F9421D7D
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 06:07:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kymtirw2"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="UYm8nJEf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725929AbgJAFOH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 01:14:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbgJAFOH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 01:14:07 -0400
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69586C061755
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 22:14:07 -0700 (PDT)
-Received: by mail-oo1-xc43.google.com with SMTP id y25so1136428oog.4
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2020 22:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vhERQZh6diFhV3SJ8DG5mSXhB50dMWp+CwSZp5o02Lo=;
-        b=kymtirw2PgNXq8PIVui+ydpCSZaECut8qe5YGYcdMDANnh6OKLtQ4kHQb0Rz2ZMkhP
-         F/F6w5rqN265K1y600K9iBTU+MxH/JOyM6msApRrqwtC5aXL1mnqyOurmrK1OUjv5Gm3
-         nu6TFABC51h/P4XTo/ey+NgN+n94ASYgjMf16JrNlR8xrBmCnh0kMJU0k+jKbcJFBwJL
-         hnf/dikruR3VKsuBKjw2pUuuK/daIsYkHpH4u8ZLAA8tIki1rl2MvoeNAjUMwrTHyzKm
-         V2IukplsHjTQHc5wwHE7W7k5Uey2YWVmudwp2AcjTBz4U8QmvgdHYOwr2BxrTgRMKthe
-         TPnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vhERQZh6diFhV3SJ8DG5mSXhB50dMWp+CwSZp5o02Lo=;
-        b=HvS9XkZdOfLx6Ag6l7HNioxea+l/X0CFoENQXvuFO2zrpSISl/qMcuXz233T1B0kZR
-         +ZJXq1wPx/DOseAAT+VvfyrepnsVBlVwhs8Vpwp0F2WBzzlaqh4aQheTSkrcM+NOY3So
-         pnglLQS/mUSBfViV5c2Nbtl40z3D7hqZ7tBGV8a9gdpJETRdEDyAAeC62c6u2BaXyYpt
-         h472NShOb8nxf1uVjO70L3nf3WJEnato6EI7/aTx24nP/N/6wZkxG1e9F95RHZQEOYcR
-         HlrdVq1Z9XmDYpHgpm+Ft8YM8U+b1TKMuIgSNxRjXr2+CJFR21i3f4Cbkd9hLdlZGZq/
-         nuvA==
-X-Gm-Message-State: AOAM531X+M6+OBZKP02x8iokNu8yJeQQfRxXqu4peSYOZq/z0H/0XEI+
-        eZHMv8+ijd++OM4xEKTLg5Pwsi5SGa5vLwdoZVpntg==
-X-Google-Smtp-Source: ABdhPJx+IDn3sYkvcPvZmlD9Kp9hsWRRiJTst2phVq+L2CAy9g+5kmxW+ag+gf6CjMUZzwpSxRpC2sec1qhZnbs777M=
-X-Received: by 2002:a4a:5d84:: with SMTP id w126mr4389788ooa.1.1601529246600;
- Wed, 30 Sep 2020 22:14:06 -0700 (PDT)
+        id S1725883AbgJAGHj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 02:07:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57986 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725878AbgJAGHj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 02:07:39 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09160wbL016873;
+        Thu, 1 Oct 2020 02:07:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=uA5mowoeweD99tZDuEShnULMMefM1qLpUThlt+WjlLI=;
+ b=UYm8nJEffXl7u32roo8/XkrBvf4HSackwN08ihu/FrL4gAwWOvECV0pwFPEDOorsrpcS
+ bfGTdUno+re+OhtcJiL+PRV782hcPgIFMqkfu8uuNs2+bWULMVf4/vXbTq4Zw9tiy3JL
+ fH1oxgf0Cgu6m2gnaaTVgf+dhPRIkGe68s33e5Ox+3u43Ny2RZ5TqEpO7rl8J7Ay/Rj1
+ TCTKgKSDdp/vqqCv1Dn+rKG01dTC51lQ1rGuAVTUXRmij0YrP6rtfH0Z4CZ6SgHeEpkO
+ evkAPfqYwZnvRILoXc1QF0R6iykO16ZrelnCPnJHsX+EAqyuTvVFSbTWV9+BH7LkV1SW 3Q== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 33w4f0769t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 01 Oct 2020 02:07:02 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 091670x8017580;
+        Thu, 1 Oct 2020 06:07:00 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma04ams.nl.ibm.com with ESMTP id 33sw97w6f8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 01 Oct 2020 06:07:00 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 09166wcm34472322
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 1 Oct 2020 06:06:58 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 29349AE057;
+        Thu,  1 Oct 2020 06:06:58 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 68B60AE051;
+        Thu,  1 Oct 2020 06:06:56 +0000 (GMT)
+Received: from JAVRIS.in.ibm.com (unknown [9.85.92.124])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Thu,  1 Oct 2020 06:06:56 +0000 (GMT)
+Subject: Re: [PATCH v4 23/52] docs: trace-uses.rst: remove bogus c-domain tags
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
+ <f1d8fc4bb976f8c25c6fb444b0b675d9a849ba06.1601467849.git.mchehab+huawei@kernel.org>
+From:   Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>
+Message-ID: <5e19b1d5-8015-c41d-788d-00b121599c6b@linux.vnet.ibm.com>
+Date:   Thu, 1 Oct 2020 11:36:53 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200928202650.2530280-1-keescook@chromium.org> <20200928202650.2530280-4-keescook@chromium.org>
-In-Reply-To: <20200928202650.2530280-4-keescook@chromium.org>
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Thu, 1 Oct 2020 10:43:55 +0530
-Message-ID: <CA+G9fYumUQ5Dr2Sbv=cAB0=cpvi4QA-=pDvLnt5t2Df4KYwMJw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] doc: dev-tools: kselftest.rst: Update examples and paths
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Shuah Khan <shuah@kernel.org>, Hangbin Liu <liuhangbin@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Tim.Bird@sony.com, lkft-triage@lists.linaro.org,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Justin Cook <justin.cook@linaro.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <f1d8fc4bb976f8c25c6fb444b0b675d9a849ba06.1601467849.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-10-01_02:2020-10-01,2020-10-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ phishscore=0 clxscore=1011 mlxlogscore=974 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2010010050
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Sep 2020 at 01:56, Kees Cook <keescook@chromium.org> wrote:
->
-> Update the installation commands and path details, detail the new
-> options available in the run_kselftests.sh script.
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+On 30/09/20 6:54 pm, Mauro Carvalho Chehab wrote:
+> There are some c-domain tags that are wrong. While this won't
+> cause problems with Sphinx < 3.0, this cause troubles with
+> newer versions, as the C parser won't recognize the contents
+> of the tag, and will drop it from the output.
+> 
+> Let's just place them at literal blocks.
+> 
 
-Reviewed-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+tired with Sphinx v3.2.1, invalid C declaration warnings are not
+seen with the patch.
 
-> ---
->  Documentation/dev-tools/kselftest.rst | 35 +++++++++++++++++----------
->  1 file changed, 22 insertions(+), 13 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index 469d115a95f1..a901def730d9 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -125,32 +125,41 @@ Note that some tests will require root privileges.
->  Install selftests
->  =================
->
-> -You can use the kselftest_install.sh tool to install selftests in the
-> -default location, which is tools/testing/selftests/kselftest, or in a
-> -user specified location.
-> +You can use the "install" target of "make" (which calls the `kselftest_install.sh`
-> +tool) to install selftests in the default location (`tools/testing/selftests/kselftest_install`),
-> +or in a user specified location via the `INSTALL_PATH` "make" variable.
->
->  To install selftests in default location::
->
-> -   $ cd tools/testing/selftests
-> -   $ ./kselftest_install.sh
-> +   $ make -C tools/testing/selftests install
->
->  To install selftests in a user specified location::
->
-> -   $ cd tools/testing/selftests
-> -   $ ./kselftest_install.sh install_dir
-> +   $ make -C tools/testing/selftests install INSTALL_PATH=/some/other/path
->
->  Running installed selftests
->  ===========================
->
-> -Kselftest install as well as the Kselftest tarball provide a script
-> -named "run_kselftest.sh" to run the tests.
-> +Found in the install directory, as well as in the Kselftest tarball,
-> +is a script named `run_kselftest.sh` to run the tests.
->
->  You can simply do the following to run the installed Kselftests. Please
->  note some tests will require root privileges::
->
-> -   $ cd kselftest
-> +   $ cd kselftest_install
->     $ ./run_kselftest.sh
->
-> +To see the list of available tests, the `-l` option can be used::
-> +
-> +   $ ./run_kselftest.sh -l
-> +
-> +The `-c` option can be used to run all the tests from a test collection, or
-> +the `-t` option for specific single tests. Either can be used multiple times::
-> +
-> +   $ ./run_kselftest.sh -c bpf -c seccomp -t timers:posix_timers -t timer:nanosleep
-> +
-> +For other features see the script usage output, seen with the `-h` option.
-> +
->  Packaging selftests
->  ===================
->
-> @@ -160,9 +169,9 @@ different system. To package selftests, run::
->     $ make -C tools/testing/selftests gen_tar
->
->  This generates a tarball in the `INSTALL_PATH/kselftest-packages` directory. By
-> -default, `.gz` format is used. The tar format can be overridden by specifying
-> -a `FORMAT` make variable. Any value recognized by `tar's auto-compress`_ option
-> -is supported, such as::
-> +default, `.gz` format is used. The tar compression format can be overridden by
-> +specifying a `FORMAT` make variable. Any value recognized by `tar's auto-compress`_
-> +option is supported, such as::
->
->      $ make -C tools/testing/selftests gen_tar FORMAT=.xz
->
-> --
-> 2.25.1
->
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-- Naresh
+Reviewed-by: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>
+
+-- 
+Kamalesh
