@@ -7,89 +7,70 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23740C47423
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 064FDC4727E
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:40:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9AF720780
+	by mail.kernel.org (Postfix) with ESMTP id C02D320B1F
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:40:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbgJAIke (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1731649AbgJAIke (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 1 Oct 2020 04:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60572 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgJAIke (ORCPT
+        with ESMTP id S1731067AbgJAIke (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 04:40:34 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAFBC0613D0
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F8BC0613E2
         for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 01:40:33 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kNu8e-0000gU-Ju; Thu, 01 Oct 2020 10:40:32 +0200
+        id 1kNu8e-0000gU-7g; Thu, 01 Oct 2020 10:40:32 +0200
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v1 13/26] docs: reporting-bugs: point out the environment might be causing issue
-Date:   Thu,  1 Oct 2020 10:39:34 +0200
-Message-Id: <6dab906efb915c6cd6733df525b1f3da3753c4b4.1601541165.git.linux@leemhuis.info>
+Subject: [RFC PATCH v1 11/26] docs: reporting-bugs: remind people to back up their data
+Date:   Thu,  1 Oct 2020 10:39:32 +0200
+Message-Id: <9dab33e548f62cd3916f68c51629a6cd92b31ab9.1601541165.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601541165.git.linux@leemhuis.info>
 References: <cover.1601541165.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601541634;20d0f7c0;
-X-HE-SMSGID: 1kNu8e-0000gU-Ju
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601541633;cbdb7f0a;
+X-HE-SMSGID: 1kNu8e-0000gU-7g
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Help users to avoid a few pitfalls, as they might be the real reason why
-the kernel is acting up somehow.
+Add a small reminder that users are best of preparing for emergencies.
+Doesn't cost us much and might prevent data-loss for a few people, as
+disabling DKMS, installing mainline and other tasks this guide suggest
+can break the system in you're unlucky.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/admin-guide/reporting-bugs.rst | 34 ++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ Documentation/admin-guide/reporting-bugs.rst | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index d96b21512c03..2292b79cf462 100644
+index 4828e8924136..05de4e0259cb 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -583,6 +583,40 @@ not part of the Linux kernel. Your package manager might thus force you to
- remove those, too.
+@@ -549,6 +549,19 @@ See the section 'Duties after the report went out' for details how to get
+ properly involved.
  
  
-+Ensure a healthy environment
-+----------------------------
++Prepare for emergencies
++-----------------------
 +
-+    *Make sure it's not the kernels surroundings that are causing the issue you
-+    face.*
++    *Create a fresh backup and put system repair and restore tools at hand.*
 +
-+Problems that look a lot like a kernel issue are sometimes caused by build
-+or runtime environment. It's hard to rule out that problem completely, but you
-+should minimize it:
-+
-+ * Use proven tools when building your kernel, as bugs in the compiler or the
-+   binutils can cause the resulting kernel to misbehave.
-+
-+ * Ensure your computer components runs within their design specifications;
-+   that's especially important for the main processor, the main memory, and the
-+   motherboard. Therefore, stop overclocking when facing a potential kernel
-+   issue.
-+
-+ * Try to make sure it's not faulty hardware that is causing your issue. Bad
-+   main memory for example can result in a multitude of issues that will
-+   manifest itself in problems looking like kernel issues.
-+
-+ * If you're dealing with a filesystem issue, you might want to check the file
-+   system in question with ``fsck`` before trying to reproduce it again.
-+
-+ * When dealing with a regression, make sure it's not something else that
-+   changed in parallel to updating the kernel. The problem for example might be
-+   caused by another software that was updated at the same time. It can also
-+   happen that a hardware component coincidentally just broke when you rebooted
-+   into a new kernel for the first time. Updating the systems BIOS or changing
-+   something in the BIOS Setup can also lead to problems that on the first sight
-+   look like a regression.
++Reminder, you are dealing with computers, and they sometimes do unexpected
++things, especially if you fiddle with crucial parts like the kernel of its
++operating system. That's what you are about to do in this process. Thus, make
++sure to create a fresh backup; also ensure you have all tools at hand to repair
++or reinstall the operating system as well as everything you need to restore the
++backup.
 +
 +
  .. ############################################################################
