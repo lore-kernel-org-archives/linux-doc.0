@@ -2,117 +2,183 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAFDAC4727F
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 12:14:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 319ABC4727C
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 14:09:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89B7B20B1F
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 12:14:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C07B820B1F
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 14:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731846AbgJAMOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 08:14:30 -0400
-Received: from mx.kolabnow.com ([95.128.36.40]:54652 "EHLO mx.kolabnow.com"
+        id S1732319AbgJAOJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 10:09:43 -0400
+Received: from foss.arm.com ([217.140.110.172]:35318 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731767AbgJAMOa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Oct 2020 08:14:30 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 9008E1173;
-        Thu,  1 Oct 2020 14:04:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1601553893; x=1603368294; bh=WFOjaPFWFwLKOkzrLUcwcJl+MLRDfD7UTAK
-        zZgQfLro=; b=F4+ZJeHH9nHc8Zw7Hr5Ftfv6O2qzvm6N9hN/8UFN2of/jzbii35
-        ggWgB2BvS8zgplPWe2KOzuC1puOHP7MRalxvlYz5rq9ReP0CuFEMH1knXBeQki0A
-        Z85dRleDpYZN3CBrDtTYhrz+PtEcDbdKqs9KU9EtS4hYqo5Z/PMkTfher9IOxQC2
-        7uhVyWK3zJMT9k1DORtPwpFfyST7QkTmAvDZGEYOEGlmcFTXAuIVNFFX8KZ2veY2
-        lJAowxpV8vF9Kfgd7h3X4nB0v5nqge2hpRM4Crg9wSQ/cfkfmWsqLUi4tuQ8UVGu
-        2HM9jUVVFsSARmmRYcXXVFVBTlXE/E2AyOPnWQbbLxeeo3hzCpjDQfvd8/3WaiPL
-        ElL+iDBegM6LRzVrVN221MiapJDMy0zZoJGJpGOmVd5GxCsdFM5I83l7kEajx5JR
-        YCFsCL38R7howfS1oG5qM86Omq962HOq0O9LjNFhWfdPN4XNleVp+V8jNrU8TRhw
-        qYOmRT62LCn9fOBOLWy9pPzDoRNjQ3jHKjHbGxxKUCD0GbmYz9ULLzOp7eRfOdQN
-        aV9gSS9vfUleoZy2uvCjVbKa5Alf5A8MrBcg+J9crD7RG2cOU4IUeJuktADB6qW8
-        tboYJU/BsFqrzXrSfDRqz+NKsDz/kxnlW/V29VWt9DLsa9zPqxTqSZIY=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id evJ1W7hYVqBA; Thu,  1 Oct 2020 14:04:53 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 7B63D1093;
-        Thu,  1 Oct 2020 14:04:53 +0200 (CEST)
-Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 0D0FF2005;
-        Thu,  1 Oct 2020 14:04:52 +0200 (CEST)
+        id S1732147AbgJAOJn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Oct 2020 10:09:43 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22681D6E;
+        Thu,  1 Oct 2020 07:09:42 -0700 (PDT)
+Received: from [10.57.50.177] (unknown [10.57.50.177])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB99A3F6CF;
+        Thu,  1 Oct 2020 07:09:39 -0700 (PDT)
+Subject: Re: [PATCH 1/2] docs: Clarify abstract scale usage for power values
+ in Energy Model
+To:     Doug Anderson <dianders@chromium.org>,
+        Rajendra Nayak <rnayak@codeaurora.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+References: <20200929121610.16060-1-lukasz.luba@arm.com>
+ <CAD=FV=UnNkjMiOc0DZE7+OM3-Kr1ZRynxSerdA=ifbyGiRa2Zw@mail.gmail.com>
+ <a1d1fe2a-485f-a21e-2f91-9b609223aa5a@arm.com>
+ <62540312-65a2-b6d9-86ce-b4deaaa913c1@codeaurora.org>
+ <1f713ff6-32f6-4ea6-b7f7-4c61f097cf2a@arm.com>
+ <b74a5907-47dc-6c3c-3da8-94959af07ea8@codeaurora.org>
+ <CAD=FV=V84RmTpKN50Rz-BJqccSme3T3yw=hT5KvYerx=X7aEsA@mail.gmail.com>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <e878bfe8-7224-5395-4632-4bb985fb306b@arm.com>
+Date:   Thu, 1 Oct 2020 15:09:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <CAD=FV=V84RmTpKN50Rz-BJqccSme3T3yw=hT5KvYerx=X7aEsA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Thu, 01 Oct 2020 14:04:51 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 24/52] docs: it_IT: fix namespace collisions at
- locking.rst
-In-Reply-To: <d5931981f4534075a044177811292fb182f7a468.1601467849.git.mchehab+huawei@kernel.org>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
- <d5931981f4534075a044177811292fb182f7a468.1601467849.git.mchehab+huawei@kernel.org>
-Message-ID: <742872e5458dcad09471bae36464633f@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-09-30 15:24, Mauro Carvalho Chehab wrote:
-> The C domain functions there collide with the English ones,
-> due to namespace collision, generating lots of warnings with
-> Sphinx 3.x:
-> 
-> 	./include/linux/mutex.h:121: WARNING: Duplicate C declaration, also
-> defined in 'translations/it_IT/kernel-hacking/locking'.
-> 	Declaration is 'mutex_init'.
-> 	./include/linux/mutex.h:152: WARNING: Duplicate C declaration, also
-> defined in 'translations/it_IT/kernel-hacking/locking'.
-> 	Declaration is 'mutex_is_locked'.
-> 	./include/linux/mutex.h:226: WARNING: Duplicate C declaration, also
-> defined in 'translations/it_IT/kernel-hacking/locking'.
-> 	Declaration is 'mutex_trylock_recursive'.
-> 	./kernel/locking/mutex.c:281: WARNING: Duplicate C declaration, also
-> defined in 'translations/it_IT/kernel-hacking/locking'.
-> 	Declaration is 'mutex_lock'.
-> 	...
-> 
-> Add a namespace tag there, in order to prevent that.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Hi Douglas
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
-
-
-> ---
->  Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 ++
->  1 file changed, 2 insertions(+)
+On 9/30/20 6:24 PM, Doug Anderson wrote:
+> Hi,
 > 
-> diff --git
-> a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-> b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-> index 4615df5723fb..bf1acd6204ef 100644
-> --- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-> +++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-> @@ -1,5 +1,7 @@
->  .. include:: ../disclaimer-ita.rst
+> On Wed, Sep 30, 2020 at 8:48 AM Rajendra Nayak <rnayak@codeaurora.org> wrote:
+>>
+>>
+>> On 9/30/2020 7:34 PM, Lukasz Luba wrote:
+>>>
+>>>
+>>> On 9/30/20 11:55 AM, Rajendra Nayak wrote:
+>>>>
+>>>> On 9/30/2020 1:55 PM, Lukasz Luba wrote:
+>>>>> Hi Douglas,
+>>>>>
+>>>>> On 9/30/20 12:53 AM, Doug Anderson wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On Tue, Sep 29, 2020 at 5:16 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>>>>>>>
+>>>>>>> The Energy Model (EM) can store power values in milli-Watts or in abstract
+>>>>>>> scale. This might cause issues in the subsystems which use the EM for
+>>>>>>> estimating the device power, such as:
+>>>>>>> - mixing of different scales in a subsystem which uses multiple
+>>>>>>>     (cooling) devices (e.g. thermal Intelligent Power Allocation (IPA))
+>>>>>>> - assuming that energy [milli-Joules] can be derived from the EM power
+>>>>>>>     values which might not be possible since the power scale doesn't have to
+>>>>>>>     be in milli-Watts
+>>>>>>>
+>>>>>>> To avoid misconfiguration add the needed documentation to the EM and
+>>>>>>> related subsystems: EAS and IPA.
+>>>>>>>
+>>>>>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>>>>>>> ---
+>>>>>>>    .../driver-api/thermal/power_allocator.rst          |  8 ++++++++
+>>>>>>>    Documentation/power/energy-model.rst                | 13 +++++++++++++
+>>>>>>>    Documentation/scheduler/sched-energy.rst            |  5 +++++
+>>>>>>>    3 files changed, 26 insertions(+)
+>>>>>>
+>>>>>> I haven't read through these files in massive detail, but the quick
+>>>>>> skim makes me believe that your additions seem sane.  In general, I'm
+>>>>>> happy with documenting reality, thus:
+>>>>>>
+>>>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>>>>
+>>>>> Thank you for the review.
+>>>>>
+>>>>>>
+>>>>>> I will note: you haven't actually updated the device tree bindings.
+>>>>>> Thus, presumably, anyone who is specifying these numbers in the device
+>>>>>> tree is still supposed to specify them in a way that mW can be
+>>>>>> recovered, right?  Said another way: nothing about your patches makes
+>>>>>> it OK to specify numbers in device trees using an "abstract scale",
+>>>>>> right?
+>>>>>
+>>>>> For completeness, we are talking here about the binding from:
+>>>>> Documentation/devicetree/bindings/arm/cpus.yaml
+>>>>> which is 'dynamic-power-coefficient'. Yes, it stays untouched, also the
+>>>>> unit (uW/MHz/V^2) which then allows to have mW in the power
+>>>>> values in the EM.
+>>>>
+>>>> So for platforms where 'dynamic-power-coefficient' is specified in device tree,
+>>>> its always expected to be derived from 'real' power numbers on these platforms in
+>>>> 'real' mW?
+>>>
+>>> Yes, the purpose and the name of that binding was only for 'real'
+>>> power in mW.
+>>>
+>>>>
+>>>> Atleast on Qualcomm platforms we have these numbers scaled, so in essence it
+>>>> can't be used to derive 'real' mW values. That said we also do not have any of
+>>>> the 'platform might face potential issue of mixing devices in one thermal zone
+>>>> of two scales' problem.
+>>>
+>>> If you have these numbers scaled, then it's probably documented
+>>> somewhere in your docs for your OEMs, because they might assume it's in
+>>> uW/MHz/V^2 (according to the bindings doc). If not, they probably
+>>> realized it during the measurements and comparison (that the power in
+>>> EM is not what they see on the power meter).
+>>> This binding actually helps those developers who take the experiments
+>>> and based on measured power values, store derived coefficient.
+>>> Everyone can just measure in local setup and compare the results
+>>> easily, speaking the same language (proposing maybe a patch adjusting
+>>> the value in DT).
+>>>
+>>>>
+>>>> So the question is, can such platforms still use 'dynamic-power-coefficient'
+>>>> in device tree and create an abstract scale? The other way of doing this would
+>>>> be to *not* specify this value in device tree and have these values stored in the
+>>>> cpufreq driver and register a custom callback to do the math.
+>>>
+>>> But then we would also have to change the name of that binding.
+>>>
+>>> I'd recommend you the second way that you've described. It will avoid
+>>> your OEMs confusion. In your cpufreq driver you can simply register
+>>> to EM using the em_dev_register_perf_domain(). In your local
+>>> callback you can do whatever you need (read driver array, firmware,
+>>> DT, scale or not, etc).
+>>> The helper code in dev_pm_opp_of_register_em() is probably not suited
+>>> for your use case (when you don't want to share the real power of the
+>>> SoC).
+>>
+>> Got it, thanks for the clarification. I will get the cpufreq driver updated
+>> to use em_dev_register_perf_domain() with a custom callback and get rid of these
+>> values from device tree.
 > 
-> +.. c:namespace:: it_IT
-> +
->  :Original: :ref:`Documentation/kernel-hacking/locking.rst
-> <kernel_hacking_lock>`
->  :Translator: Federico Vaga <federico.vaga@vaga.pv.it>
+> This sounds good.  ...except...
+> 
+> How exactly are boards supposed to provide their "sustainable-power"
+> number in this model?  As far as I'm aware, there's no place to
+> specify this board-specific file other than in device tree, and the
+> bindings [1] say that this value has to be in mW.  Lukasz: how do you
+> envision boards can provide "sustainable-power" in cases where the
+> energy model is in "abstract scale"?
+> 
+> [1] Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> 
 
--- 
-Federico Vaga
-http://www.federicovaga.it/
+
+I am currently investigating this issue. I will keep you in CC list
+when I send some patches.
+
+Regards,
+Lukasz
