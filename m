@@ -2,200 +2,103 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A93C4727E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 20:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A30C4727E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 20:50:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94D1920848
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 20:43:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B75D207FB
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 20:50:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601585429;
+	bh=tkftAJJw4eHQVipuxbLGrDEWsKQk8VPMXCHg34fOM/Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=B6yEEtKmS3uJ+LptMqTPUXBThqf/+fcJGk9i0xixLu4Tf8ichLKeExeFfjLbw36LM
+	 S2uKUTL8WfeKwyYU30hkIVuKI5AEQi4INYWcMN/49JdJ620B8QPmy5cLZkGVxSheKQ
+	 tbxgEBf0gqmucz9zOvHADuu/yrDscyGM2ptpS+80=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733180AbgJAUnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 16:43:35 -0400
-Received: from mga11.intel.com ([192.55.52.93]:58726 "EHLO mga11.intel.com"
+        id S1727143AbgJAUu2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 16:50:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387410AbgJAUnT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Oct 2020 16:43:19 -0400
-IronPort-SDR: NlxWvX8ti38395TC9J+5Q64tBduPh5iqvnxjy3QjoeGeFcVHXPiIsjFzjQMISDJxxaidS2Ocsc
- 8h0fHKnX2KoQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="160170747"
-X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; 
-   d="scan'208";a="160170747"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2020 13:42:53 -0700
-IronPort-SDR: I800DeHN9sk9r4cQqta11en9u/NfITwZ7C+4drbRimfAi0JEEYm7HAixoEOq+r214wnqfTQMZ0
- R5qPeVtt6y6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; 
-   d="scan'208";a="351297093"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2020 13:42:53 -0700
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     tglx@linutronix.de, mingo@kernel.org, bp@suse.de, luto@kernel.org,
-        x86@kernel.org
-Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
-        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
-        chang.seok.bae@intel.com, linux-doc@vger.kernel.org
-Subject: [RFC PATCH 22/22] x86/fpu/xstate: Introduce boot-parameters for control some state component support
-Date:   Thu,  1 Oct 2020 13:39:13 -0700
-Message-Id: <20201001203913.9125-23-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201001203913.9125-1-chang.seok.bae@intel.com>
-References: <20201001203913.9125-1-chang.seok.bae@intel.com>
+        id S1726581AbgJAUu2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Oct 2020 16:50:28 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A47A120738;
+        Thu,  1 Oct 2020 20:50:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601585428;
+        bh=tkftAJJw4eHQVipuxbLGrDEWsKQk8VPMXCHg34fOM/Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sUQDBWR994orJZ2Ogvh5Bk7s23V9UNKAk1A+SY9j0ShN2y/O9UsXUCbkEvs1Xoch9
+         6Oswz/7CHuDRVysLAp2KmaWnsG3IUyg64nTdGNGhnitZDeluy0TQ7+AMZ0IVZeR2Po
+         k04krle85Z2vFyUmi9GduHDe1tlwNg7Z3/FJIv1s=
+Date:   Thu, 1 Oct 2020 22:50:29 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Joe Perches <joe@perches.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Denis Efremov <efremov@linux.com>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to format
+ sysfs output
+Message-ID: <20201001205029.GC915579@kroah.com>
+References: <cover.1600285923.git.joe@perches.com>
+ <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
+ <20200930115740.GA1611809@kroah.com>
+ <202009302108.18B05CA38@keescook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202009302108.18B05CA38@keescook>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"xstate.disable=0x6000" will disable AMX on a system that has AMX compiled
-into XFEATURE_MASK_USER_SUPPORTED.
+On Wed, Sep 30, 2020 at 09:17:03PM -0700, Kees Cook wrote:
+> On Wed, Sep 30, 2020 at 01:57:40PM +0200, Greg Kroah-Hartman wrote:
+> > Kees, and Rafael, I don't know if you saw this proposal from Joe for
+> > sysfs files, questions below:
+> 
+> I'm a fan. I think the use of sprintf() in sysfs might have been one of
+> my earliest complaints about unsafe code patterns in the kernel. ;)
 
-"xstate.enable=0x6000" will enable AMX on a system that does NOT have AMX
-compiled into XFEATURE_MASK_USER_SUPPORTED (assuming the kernel is new
-enough to support this feature).
+Ok, great.
 
-While this cmdline is currently enabled only for AMX, it is intended to be
-easily enabled to be useful for future XSAVE-enabled features.
+> > > +/**
+> > > + *	sysfs_emit - scnprintf equivalent, aware of PAGE_SIZE buffer.
+> > > + *	@buf:	start of PAGE_SIZE buffer.
+> > > + *	@fmt:	format
+> > > + *	@...:	optional arguments to @format
+> > > + *
+> > > + *
+> > > + * Returns number of characters written to @buf.
+> > > + */
+> > > +int sysfs_emit(char *buf, const char *fmt, ...)
+> > > +{
+> > > +	va_list args;
+> > > +	int len;
+> > > +
+> > > +	if (WARN(!buf || offset_in_page(buf),
+> > > +		 "invalid sysfs_emit: buf:%p\n", buf))
+> 
+> I don't want the %p here, but otherwise, sure. I'd also make it a _ONCE
+> variant:
+> 
+> 	if (WARN_ONCE(!buf || offset_in_page(buf),
+> 		 "invalid sysfs_emit: offset_in_page(buf):%zd\n",
+> 		  buf ? offset_in_page(buf) : 0))
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Len Brown <len.brown@intel.com>
-Cc: x86@kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- .../admin-guide/kernel-parameters.txt         | 15 ++++++
- arch/x86/include/asm/fpu/types.h              |  6 +++
- arch/x86/kernel/fpu/init.c                    | 52 +++++++++++++++++--
- 3 files changed, 70 insertions(+), 3 deletions(-)
+As Joe points out, _ONCE doesn't work because this happens from all
+sysfs files, not just one.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a1068742a6df..742167c6f789 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5838,6 +5838,21 @@
- 			which allow the hypervisor to 'idle' the guest on lock
- 			contention.
- 
-+	xstate.enable=	[X86-64]
-+	xstate.disable=	[X86-64]
-+			The kernel is compiled with a default xstate bitmask --
-+			enabling it to use the XSAVE hardware to efficiently
-+			save and restore thread states on context switch.
-+			xstate.enable allows adding to that default mask at
-+			boot-time without recompiling the kernel just to support
-+			the new thread state. (Note that the kernel will ignore
-+			any bits in the mask that do not correspond to features
-+			that are actually available in CPUID)  xstate.disable
-+			allows clearing bits in the default mask, forcing the
-+			kernel to forget that it supports the specified thread
-+			state. When a bit set for both, the kernel takes
-+			xstate.disable in a priority.
-+
- 	xirc2ps_cs=	[NET,PCMCIA]
- 			Format:
- 			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index 002248dba6dc..2a944e8903bb 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -148,6 +148,12 @@ enum xfeature {
- #define XFEATURE_MASK_XTILE		(XFEATURE_MASK_XTILE_DATA \
- 					 | XFEATURE_MASK_XTILE_CFG)
- 
-+#define XFEATURE_REGION_MASK(max_bit, min_bit) \
-+	((BIT_ULL((max_bit) - (min_bit) + 1) - 1) << (min_bit))
-+
-+#define XFEATURE_MASK_CONFIGURABLE \
-+	XFEATURE_REGION_MASK(XFEATURE_XTILE_DATA, XFEATURE_XTILE_CFG)
-+
- #define FIRST_EXTENDED_XFEATURE	XFEATURE_YMM
- 
- struct reg_128_bit {
-diff --git a/arch/x86/kernel/fpu/init.c b/arch/x86/kernel/fpu/init.c
-index 8e2a77bc1782..a354286e7c90 100644
---- a/arch/x86/kernel/fpu/init.c
-+++ b/arch/x86/kernel/fpu/init.c
-@@ -227,13 +227,42 @@ static void __init fpu__init_system_xstate_size_legacy(void)
-  * This must be called after fpu__init_parse_early_param() is called and
-  * xfeatures_mask is enumerated.
-  */
-+
-+static u64 xstate_enable;
-+static u64 xstate_disable;
-+
- u64 __init fpu__get_supported_xfeatures_mask(void)
- {
- 	u64 mask = XFEATURE_MASK_USER_SUPPORTED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
- 
--	if (!IS_ENABLED(CONFIG_X86_64))
--		mask &= ~(XFEATURE_MASK_XTILE);
--
-+	if (!IS_ENABLED(CONFIG_X86_64)) {
-+		mask  &= ~(XFEATURE_MASK_XTILE);
-+	} else if (xstate_enable || xstate_disable) {
-+		u64 custom = mask;
-+		u64 unknown;
-+
-+		custom |= xstate_enable;
-+		custom &= ~xstate_disable;
-+
-+		unknown = custom & ~mask;
-+		if (unknown) {
-+			/*
-+			 * User should fully understand the result of using undocumented
-+			 * xstate component
-+			 */
-+			pr_warn("x86/fpu: Attempt to enable unknown xstate features 0x%llx\n",
-+				unknown);
-+			WARN_ON_FPU(1);
-+		}
-+
-+		if ((custom & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE) {
-+			pr_warn("x86/fpu: Disable 0x%x components due to incorrect setup\n",
-+				XFEATURE_MASK_XTILE);
-+			custom &= ~(XFEATURE_MASK_XTILE);
-+		}
-+
-+		mask = custom;
-+	}
- 	return mask;
- }
- 
-@@ -254,6 +283,7 @@ static void __init fpu__init_parse_early_param(void)
- {
- 	char arg[32];
- 	char *argptr = arg;
-+	u64 mask;
- 	int bit;
- 
- #ifdef CONFIG_X86_32
-@@ -283,6 +313,22 @@ static void __init fpu__init_parse_early_param(void)
- 	    bit >= 0 &&
- 	    bit < NCAPINTS * 32)
- 		setup_clear_cpu_cap(bit);
-+
-+	if (cmdline_find_option(boot_command_line, "xstate.enable", arg,
-+				sizeof(arg)) &&
-+	    !kstrtoull(arg, 16, &mask) &&
-+	    (mask &= XFEATURE_MASK_CONFIGURABLE))
-+		xstate_enable = mask;
-+	else
-+		xstate_enable = 0;
-+
-+	if (cmdline_find_option(boot_command_line, "xstate.disable", arg,
-+				sizeof(arg)) &&
-+	    !kstrtoull(arg, 16, &mask) &&
-+	    (mask &= XFEATURE_MASK_CONFIGURABLE))
-+		xstate_disable = mask;
-+	else
-+		xstate_disable = 0;
- }
- 
- /*
--- 
-2.17.1
+thanks,
 
+greg k-h
