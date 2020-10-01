@@ -2,183 +2,117 @@ Return-Path: <SRS0=1/lM=DI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21EDBC4727C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F097C47426
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:39:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E4BA7208B6
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:39:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65BB5208B6
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Oct 2020 08:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731243AbgJAIjv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 04:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60440 "EHLO
+        id S1730862AbgJAIjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 04:39:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbgJAIjv (ORCPT
+        with ESMTP id S1726647AbgJAIjv (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 04:39:51 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA61C0613E2
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04592C0613E3
         for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 01:39:50 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kNu7v-0006b9-K1; Thu, 01 Oct 2020 10:39:47 +0200
+        id 1kNu7w-0006b9-F2; Thu, 01 Oct 2020 10:39:48 +0200
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v1 00/26] Make reporting-bugs easier to grasp and yet more detailed
-Date:   Thu,  1 Oct 2020 10:39:21 +0200
-Message-Id: <cover.1601541165.git.linux@leemhuis.info>
+Subject: [RFC PATCH v1 02/26] docs: reporting-bugs: Create a TLDR how to report issues
+Date:   Thu,  1 Oct 2020 10:39:23 +0200
+Message-Id: <dc293f6d4f71ea827c861c64e88dfa0316f1d934.1601541165.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1601541165.git.linux@leemhuis.info>
+References: <cover.1601541165.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601541591;15880b4a;
-X-HE-SMSGID: 1kNu7v-0006b9-K1
+X-HE-SMSGID: 1kNu7w-0006b9-F2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series rewrites the "how to report bugs to the Linux kernel maintainers"
-document to make it more straight forward and the essence easier to grasp. At
-the same time make the text provide a lot more details about the process in form
-of a reference section, so users that want or need to know them have them at
-hand.
+Get straight to the point in a few paragraphs instead of forcing users
+to read quite a bit of text, like the old approach did.
 
-The goal of this rewrite: improve the quality of the bug reports and reduce the
-number of reports that get ignored. This was motivated by many reports of poor
-quality the main author of the rewrite stumped upon when he was tracking
-regressions.
+All normally needed fits into the first two paragraphs. The third is
+dedicated to issues only happening in stable and longterm kernels, as
+things otherwise get hard to follow. At the end explicitly spell out
+that some issues need to be handled slightly different.
 
-For the curious, this is how the text looks in the end:
-https://gitlab.com/knurd42/linux/-/raw/reporting-bugs-rfc/Documentation/admin-guide/reporting-bugs.rst
+This TLDR naturally leaves lots of details out. But it will be good
+enough in some situations, for example for users that recently reported
+an issue or are familiar with reporting issues to FLOSS projects.
 
-For comparison, here you can find the old text and the commits to it and its
-predecessor:
-https://www.kernel.org/doc/html/latest/admin-guide/reporting-bugs.html
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-bugs.rst
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/Documentation/admin-guide/reporting-bugs.rst
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/REPORTING-BUGS
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+ Documentation/admin-guide/reporting-bugs.rst | 43 ++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-This is an early RFC and likely has some spelling and grammatical mistakes.
-Sorry for that, the main author is not a native English speaker and makes too
-many of those mistakes even in his mother tongue. He used hunspell and
-LanguageTool to find errors, but noticed those tools miss quite a few mistakes.
-Hopefully it's not too bad.
-
-The main author of the rewrite is also fully aware the text got quite long in
-the end. That happened as he tried to make users avoid many of the problem he
-noticed in bug report, which needed quite a bit of space to describe.
-Nevertheless, he tried to make sure the text uses a structure where only those
-that want to know all the details have to read it. That's mainly realized with
-the help of the TL;DR and the short guide at the top of the document. Those
-should be good enough for a lot of situations.
-
-There are a few points that will need to be discussed. The comment in the
-individual patches will point some of those out; that for example includes
-things like "dual licensing under CC-BY 4.0", "are we asking too much from users
-when telling them to test mainline?", and "CC LKML or something else on all
-reports?". But a few points are best raised here:
-
- * The old and the new reporting-bugs text take a totally different approach to
-bugzilla.kernel.org. The old mentions it as the place to file your issue if
-you don't know where to go. The new one mentions it rarely and most of the
-time warn users that it's often the wrong place to go. This approach was
-chosen as the main author noticed quite a few users (or even a lot?) get no
-reply to the bugs they file in bugzilla. That's kind of expected, as quite a
-few (many? most?) of the maintainers don't even get notified when reports for
-their subsystem get filed there. Anyway: not getting a reply is something
-that is just annoying for users and might make them angry. Improving bugzilla
-would be an option, but on the kernel and maintainers summit 2017 (sorry it
-took so long) it was agreed on to first go this route, as it's easier to
-reach and less controversial, as many maintainers likely are unwilling to
-deal with bugzilla.
-
- * The text states "see above" or "see below" in a few places. Should those be
-proper links? But then some anchors will need to be placed manually in a few
-places, which slightly hurt readability of the plain text. Could RST or
-autosectionlabel help here somewhat (without changing the line
-"autosectionlabel_maxdepth = 2" in Documentation/conf.py, which likely is
-unwanted)?
-
- * The new text avoids the word "bug" and uses "issues" instead, as users face
-issues which might or might not be caused by bugs. Due to this approach it
-might make sense to rename the document to "reporting-issues". But for now
-everything is left as it is, as changing the name of a well known file has
-downsides; but maybe at least the documents headline should get the
-s/bugs/issues/ treatment.
-
- * How to make sure everybody that cares get a chance to review this? As this is
-an early RFC, the author chose to sent it only to the docs maintainer,
-linux-docs and LKML, to see how well this approach is received in general.
-Once it is agreed that this is the route forward, a lot of other people need
-to be CCed to review it; the stable maintainers for example should check if
-the section on handling issues with stable and longterm kernels is acceptable
-for them. In the end it's something a lot of maintainers might want to take
-at least a quick look at, as they will be dealing with the reports. But there
-is no easy way to contact all of them (apart from CCing all of them), as most
-of them likely don't read LKML anymore. Should the author maybe abuse
-ksummit-discuss, as this likely will reach all the major stakeholders Side
-note: maybe it would be good to have a list for things like this on vger...
-
-The patch series is against docs-next and can also be found on gitlab:
-git://git@gitlab.com:knurd42/linux.git reporting-bugs-rfc
-
-Strictly speaking this series is not bisectable, as the old text it left in
-place and removed slowly by the patches in the series when they add new text
-that covers the same aspect. Thus, both old and new text are incomplete or
-inconsistent (and thus would not build, if we'd talked about code). But that is
-only relevant for those that read the text before the series is fully applied.
-That seemed like an acceptable downside in this case, as this makes it easier to
-compare the old and new approach.
-
-Note: The main autor is not a developer, so he will have gotten a few things in
-the procedure wrong. Let him know if you spot something where things are off.
-
-Thorsten Leemhuis (26):
-  docs: reporting-bugs: temporary markers for licensing and diff reasons
-  docs: reporting-bugs: Create a TLDR how to report issues
-  docs: reporting-bugs: step-by-step guide on how to report issues
-  docs: reporting-bugs: step-by-step guide for issues in stable &
-    longterm
-  docs: reporting-bugs: begin reference section providing details
-  docs: reporting-bugs: point out we only care about fresh vanilla
-    kernels
-  docs: reporting-bugs: let users classify their issue
-  docs: reporting-bugs: make readers check the taint flag
-  docs: reporting-bugs: help users find the proper place for their
-    report
-  docs: reporting-bugs: remind people to look for existing reports
-  docs: reporting-bugs: remind people to back up their data
-  docs: reporting-bugs: tell users to disable DKMS et al.
-  docs: reporting-bugs: point out the environment might be causing issue
-  docs: reporting-bugs: make users write notes, one for each issue
-  docs: reporting-bugs: make readers test mainline, but leave a loophole
-  docs: reporting-bugs: let users check taint status again
-  docs: reporting-bugs: explain options if reproducing on mainline fails
-  docs: reporting-bugs: let users optimize their notes
-  docs: reporting-bugs: decode failure messages [need help]
-  docs: reporting-bugs: instructions for handling regressions
-  docs: reporting-bugs: details on writing and sending the report
-  docs: reporting-bugs: explain what users should do once the report got
-    out
-  docs: reporting-bugs: details for issues specific to stable and
-    longterm
-  docs: reporting-bugs: explain why users might get neither reply nor
-    fix
-  docs: reporting-bugs: explain things could be easier
-  docs: reporting-bugs: add SPDX tag and license hint, remove markers
-
- Documentation/admin-guide/bug-bisect.rst      |    2 +
- Documentation/admin-guide/reporting-bugs.rst  | 1586 +++++++++++++++--
- Documentation/admin-guide/tainted-kernels.rst |    2 +
- scripts/ver_linux                             |   81 -
- 4 files changed, 1441 insertions(+), 230 deletions(-)
- delete mode 100755 scripts/ver_linux
-
-
-base-commit: e0bc9cf0a7d527ff140f851f6f1a815cc5c48fea
+diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
+index 4bbb9132782b..7bde6f32ff72 100644
+--- a/Documentation/admin-guide/reporting-bugs.rst
++++ b/Documentation/admin-guide/reporting-bugs.rst
+@@ -10,6 +10,49 @@ Reporting bugs
+ .. inconsistent/not make sense before all patches of the rewrite got applied.
+ .. ###########################################################################
+ 
++
++The short guide (aka TL;DR)
++===========================
++
++This is how you report issues with the Linux kernel to its developers:
++
++If you deal with multiple issues at once, process each of them separately. Try
++your best guess which area of the kernel might be responsible for your issue.
++Check the `MAINTAINERS file
++<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/MAINTAINERS>`_
++how developers of that particular area expect to be told about issues; note,
++it's rarely `bugzilla.kernel.org <https://bugzilla.kernel.org/>`_, as most
++subsystems expect reports by mail sent to their maintainers and their public
++mailing list!
++
++Check the archives of the determined destination thoroughly for existing
++reports; also search the LKML archives and the internet as a whole. If you can't
++find any, install the `latest Linux mainline version <https://kernel.org/>`_.
++Make sure to use a vanilla kernel and avert any add-on kernel modules externally
++developed; also ensure the kernel is running in a healthy environment and does
++not 'taint' itself before the issue occurs. If you can reproduce it, write a
++report to the destination you determined earlier. Afterwards keep the ball
++rolling by proactive testing, a status update now and then, and helping where
++you can.
++
++You can't reproduce an issue with mainline you want to see fixed in older
++version lines? Then make sure the line you care about still gets support.
++Install its latest release as vanilla kernel. If you can reproduce the issue
++there, try to find the commit that fixed it in mainline or any discussion
++preceding it: those will often mention if backporting is planed or impossible;
++if not, ask for it. In case you don't find anything, check if it's a regression
++specific to the version line that need to be bisected and report just like a
++problem in mainline with the stable mailing list CCed. If you reached this point
++without a solution, ask for advice by mailing the subsystem maintainer with the
++subsystem and stable mailing list in CC.
++
++If you deal with a regression, bisect it to find the culprit and CC or forward
++your report to its developers.
++
++Security issues are typically best report privately; also CC the security team
++or forward your report there.
++
++
+ .. ############################################################################
+ .. Temporary marker added while this document is rewritten. Sections above
+ .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
 -- 
 2.26.2
 
