@@ -2,176 +2,137 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D606BC4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:52:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F335C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 07:07:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A12C206E3
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601621552;
-	bh=OYE4neEmcnDmyK0VSWrSOAouZXEMA5Ng0ApSlAHl+SQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=A9ayK2ovCCMqP6uNvB3REGViqmkUmEUE0hqD55PE+eq9gBc7U8IgRfvtdySAgtAu9
-	 FtAJcO6hFHqlZhMGLWFmj/3Ii4X5NIFhZsenfg0r+wd5vIAtF0uiN7D9cjymFo3ro4
-	 OG5phP+x4aSOUCHiWrR5vD1zbpSRjpWG5YbKv1o4=
+	by mail.kernel.org (Postfix) with ESMTP id E1A532072E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 07:07:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lGd6dHat"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725968AbgJBGwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 02:52:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47722 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725948AbgJBGwc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 02:52:32 -0400
-Received: from coco.lan (ip5f5ad59f.dynamic.kabel-deutschland.de [95.90.213.159])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5A60C206DD;
-        Fri,  2 Oct 2020 06:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601621551;
-        bh=OYE4neEmcnDmyK0VSWrSOAouZXEMA5Ng0ApSlAHl+SQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jRTCA2oiVlRpgfLrF8PgSaYm7SfTC1PK70AhjNNIepjudU16iU2YZgmC/4ozp+eIk
-         abFcod0sjoqspKH0DNl9ZkEhNnddW8nFc+9W0WytHKwhJRMfQhxhFYSxzv+lk/E857
-         09oyOEyQRPGqAXzzQ5FtmcrcOOhX2F6zMGjpbMFU=
-Date:   Fri, 2 Oct 2020 08:52:22 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Kees Cook <keescook@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Moritz Fischer <mdf@kernel.org>, Sean Young <sean@mess.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Takashi Iwai <tiwai@suse.com>, Tejun Heo <tj@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v4 00/52] Fix html build with Sphinx  3.1 and above
-Message-ID: <20201002085222.41543304@coco.lan>
-In-Reply-To: <20201001154854.4311d46a@lwn.net>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <20201001154854.4311d46a@lwn.net>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726238AbgJBHHl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 03:07:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725948AbgJBHHi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 03:07:38 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AF62C0613D0
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 00:07:38 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id w1so606811edr.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 00:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ye/s+D4VgMKbfo7kHtFUxt4Yo6siN0GRSwJxDl1BL+I=;
+        b=lGd6dHatt84jG23C4UbyRVcWWz0xn0Qrfij2A3wZfpYYjg9fPxAAd7grU5d8oUMsDT
+         7i3mC0uZujFHrRo5Kn7Ud1Eqj+wbu56Oi9N9sZdoAI4yvulybbON8fDDp7ueDbYsAJu8
+         K9HpYk48IbvvgxtQtjpQ+sDnTndH6h5h27ukC6sI3FlQpdE1xafysZbwQYl/d6AiQxhr
+         3cSCz3a9HVxJDlpGlxlK5xpA4oiHDi+nGtJvd+rDTIi8z5xCrPthNReLCeCZyWYox62T
+         AKraMFe1S6O12Elu7j8RB9iXjo4zADGodhyx0ZgiTER3GmnSP48NewOSn33riX4PKmTQ
+         1COw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ye/s+D4VgMKbfo7kHtFUxt4Yo6siN0GRSwJxDl1BL+I=;
+        b=VPwtwYyrFblY/Z6UxlElSbV60iZDrHZm3rrL5CPIAc4Kmd4J3H9dRfvIIiwIp8HEo7
+         gY3hPcB2oaRSLWPmaPHXOnRXS+kpy2WPEJ0vfkvvv3uhdFHqx43JnHRFUl2Pp0vLAD3f
+         VbKiH1SIlcc2Bl6DXCn3mf94bl2rhHiXIecgoY/18eeRb3UhjFReVpG1IdTNWEIvfxpa
+         Mru7XCChAopNumdWv//+iQZ/8R9v1gSuvyZGJf07oRdCxCWRquxBdBetkJu7moJKcpqY
+         fLGr4jpv8nW7idbAGgtFX1+kV82R8iEx4iqKfywkgPj7bw/q+c9npTqZVcwuPLM5hsF8
+         d5Jg==
+X-Gm-Message-State: AOAM5314rpIcOMFGJZfySzchABTgLm7QV6xY8aPqfhEjkpQpEodxvy1B
+        S1CoSZlmxidHCLANymaD10RkBaZjCnMjT8tGMwBbpw==
+X-Google-Smtp-Source: ABdhPJzgVIGLadHTIUq/65YztskB32r0plXShVqth5zW5ceX8yhFiQj5pLoO1PgEF7cgm0dwaKz6WJ+SAn/4YSsANOY=
+X-Received: by 2002:a05:6402:b0e:: with SMTP id bm14mr892264edb.259.1601622454831;
+ Fri, 02 Oct 2020 00:07:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-6-elver@google.com>
+In-Reply-To: <20200929133814.2834621-6-elver@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 2 Oct 2020 09:07:08 +0200
+Message-ID: <CAG48ez3X4dqXAEa7NFf6Vm3kq6Rk+z0scWqK6TV6jTo5+Pu+aA@mail.gmail.com>
+Subject: Re: [PATCH v4 05/11] mm, kfence: insert KFENCE hooks for SLUB
+To:     Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jonathan.Cameron@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 1 Oct 2020 15:48:54 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> Inserts KFENCE hooks into the SLUB allocator.
+[...]
+> diff --git a/mm/slub.c b/mm/slub.c
+[...]
+> @@ -3290,8 +3314,14 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+>         c = this_cpu_ptr(s->cpu_slab);
+>
+>         for (i = 0; i < size; i++) {
+> -               void *object = c->freelist;
+> +               void *object = kfence_alloc(s, s->object_size, flags);
 
-> On Wed, 30 Sep 2020 15:24:23 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > This series add proper support for Sphinx 3.1 and above for building the html docs.
-> > 
-> > This series comes after the one I wrote fixing the warnings. 
-> > 
-> > With this series applied on the top of next-20200922, there are just 12
-> > warnings:
-> > 	- 2 of them happens also on Sphinx 2.4.4
-> > 	 (both seem easy to fix: I'll send later fixes for those);
-> > 	- 10 happens only on Sphinx 3.2.1.
-> > 
-> > The new warnings are all due to duplicated C domain cross-reference symbols. 
-> > 
-> > Basically, the C domain on Sphinx doesn't allow to have an struct and
-> > a function with the same name. I opened an issue on Sphinx.:
-> > 
-> >     https://github.com/sphinx-doc/sphinx/issues/8241
-> > 
-> > Hopefully, some newer version may have it fixed.
-> > 
-> > There is still one thing that requires a fix: the automarkup.py. The
-> > way cross-references are stored with Sphinx 3 are different.
-> > I didn't try yet to address it, but I suspect that it shouldn't be
-> > hard to address it.  
-> 
-> Modulo my comment on part 4, I think this is what we want.  It's kind of
-> unfortunate that it's all necessary, but that's the way things are these
-> days, I guess.
+kfence_alloc() will invoke ->ctor() callbacks if the current slab has
+them. Is it fine to invoke such callbacks from here, where we're in
+the middle of a section that disables interrupts to protect against
+concurrent freelist changes? If someone decides to be extra smart and
+uses a kmem_cache with a ->ctor that can allocate memory from the same
+kmem_cache, or something along those lines, this could lead to
+corruption of the SLUB freelist. But I'm not sure whether that can
+happen in practice.
 
-Yes, it is unfortunate. Yet, my feeling is that this approach provides
-us a good way to transition to the new C domain parser, which has some
-advantages over the older code.
+Still, it might be nicer if you could code this to behave like a
+fastpath miss: Update c->tid, turn interrupts back on (___slab_alloc()
+will also do that if it has to call into the page allocator), then let
+kfence do the actual allocation in a more normal context, then turn
+interrupts back off and go on. If that's not too complicated?
 
-> This part is a bit intimidating, though:
-> 
-> >  288 files changed, 1709 insertions(+), 2183 deletions(-)  
+Maybe Christoph Lameter has opinions on whether this is necessary...
+it admittedly is fairly theoretical.
 
-Yes. Yet, the media userspace API is responsible for most of it:
-
- 224 files changed, 1076 insertions(+), 1716 deletions(-)
-
-As most of the uAPI documentation doesn't rely on kernel-doc
-(mostly due to historic reasons).
-
-To be fair, most of the other changes outside the building system
-are due to already-existing issues at the documentation. There are
-several kernel-doc tags creating duplicated C references.
-
-While Sphinx < 3 C domain parser were able to detect them, such
-warnings are disabled by default.
-
-> Should we maybe position this as an end-of-merge-window blast, once other
-> stuff has hopefully mostly settled?  I can certainly warn Linus that it's
-> coming when I send the main docs pull.
-
-Yeah, adding this series, together with the remaining patches fixing
-all warnings with Sphinx < 3 at the end of the merge window seems
-the right thing to do, IMO.
-
-> I wonder how soon we could pull our minimum version forward to 3.1 and
-> drop a bunch of stuff?  I fear it may not be for a while, alas...
-
-I guess it may take some time. In any case, for the next minimal
-version, I would set for the upcoming one that will fix those
-issue reported here:
-
-	https://github.com/sphinx-doc/sphinx/issues/7819
-	https://github.com/sphinx-doc/sphinx/issues/8241
-
-One such example is this warning:
-
-	.../Documentation/driver-api/miscellaneous:48: ../drivers/pwm/core.c:669: WARNING: Duplicate C declaration, also defined in 'driver-api/miscellaneous'.
-	Declaration is 'int pwm_capture (struct pwm_device *pwm, struct pwm_capture *result, unsigned long timeout)'.
-
-	(See: we have a function pwm_capture and a struct with the
-	 same name. Both have kernel-doc tags at drivers/pwm/core.c)
-
-Without fixing it, there's no way to produce a zero-warning
-docs building[1] with Sphinx versions above 2.4.x.
-
-[1] Well, it could be possible to rename such kAPI symbols to
-    make Sphinx happy, but IMO, the C domain there should be able
-    to fully support the C language.
-
-> Thanks for doing all this work,
-
-Anytime.
-
-Thanks,
-Mauro
+> +               if (unlikely(object)) {
+> +                       p[i] = object;
+> +                       continue;
+> +               }
+> +
+> +               object = c->freelist;
+>                 if (unlikely(!object)) {
+>                         /*
+>                          * We may have removed an object from c->freelist using
