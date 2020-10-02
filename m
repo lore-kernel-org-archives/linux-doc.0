@@ -2,268 +2,144 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A24C4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B536BC4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:10:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2839A2074B
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:58:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DB7920758
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:10:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IwPpPrdN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387966AbgJBP6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 11:58:19 -0400
-Received: from mga12.intel.com ([192.55.52.136]:3614 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726017AbgJBP6T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 11:58:19 -0400
-IronPort-SDR: 1DFwx49py7rA88vLihJtYVFF5EPGV2+2smjlW8PBnOdYYBAa2B4igq/Ct83wI5zI7GCE+hqSxm
- b+802xx1DxgQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="142406480"
-X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
-   d="scan'208";a="142406480"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 08:58:17 -0700
-IronPort-SDR: UIER8ztpir42d+P/skPtUqpAth+NDcVX4em72Mfu0y5X2uWzRo8um/fUiNf+rZfjUGFriSSsaT
- qxiCFOSZqR+w==
-X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
-   d="scan'208";a="295390005"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.143.131]) ([10.212.143.131])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 08:58:15 -0700
-Subject: Re: [PATCH v13 19/26] mm: Re-introduce do_mmap_pgoff()
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20200925145649.5438-1-yu-cheng.yu@intel.com>
- <20200925145649.5438-20-yu-cheng.yu@intel.com>
- <CAMn1gO4cxSt8-8qVbAei0jPErTtARdsEY4js6Fi=kzozAuE3yQ@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <00a409f0-1e2e-0bd7-83e7-f21a47878916@intel.com>
-Date:   Fri, 2 Oct 2020 08:58:14 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S2388118AbgJBQKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 12:10:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726386AbgJBQKq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 12:10:46 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29F27C0613D0
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 09:10:46 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id g4so2224441edk.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 09:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TKrnU8OMrTP2HnfeDQ36W4jlkOILiDTjG4Jt9zQv/MU=;
+        b=IwPpPrdNsnu5FlD1OobJFZzCKqafUWQ2s30+vLINDfRq3i2kHN3JPuk792i6I+hxFV
+         ppJtNzpaq2Cyq6riihUjk4eQqNIMm2lNSgD8CghVcRL52lvCfcA//XhoaZmtkPagobKq
+         HCOdykTKtGQhET9fzgpMmoZTDgMd4WrfE/JxVJQpF/4lFDcN7XepWB5YL/3Pf0auVNXk
+         KZrJc6PPwixBYO+cxDLI3DeOJ3ahyyEk4BWSc2EKTkjlRoB+Hw0tLXJtech+Dexow3/q
+         eghOfkOJigf4cnjYXMzGakOnokbBwexTzgZXEAEVFTpz1djWvjOhfbTp7zQs67XINkSU
+         9qnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TKrnU8OMrTP2HnfeDQ36W4jlkOILiDTjG4Jt9zQv/MU=;
+        b=DdUOafFdMdO4XbDc3HkBRmlYrAY+a4XwMylLw3doq7qujSeE0lFolOMWaYUYH2Fhp5
+         cvIShNWDdQsw7KuV+71rqm9N3bjCSswJoLEZXrAklE0bw1WTt3ssvT+vV+gy4w+FziFy
+         VDKou33rc6PYTfT4mrPVgU5tdef88OeA5TJORuDSa4gcDCIUmVMyLDa6fb/LYS52Dr0l
+         y5LEDbTsl7Ym+hRffsjc3RwPnjY+mgHGmLL70xE+c7+LSGO+FrYeFdBFlPo7ktSfOBKr
+         U7Zb3+LSsmeRUfVsSJ8MetvzVeHsBJttaalFRKWPymOrDVN/iOWPllCkmmaj0qsCnaZ+
+         7r9w==
+X-Gm-Message-State: AOAM533K7bBZXMDjQXQdmVHpsjIFubUrzCL0o+8i2n/IpGpUd6CbPw08
+        qiYvBxYEDdMMQjrLbsH+v/gxYYlHzYQN2P1Ljcr9ZQ==
+X-Google-Smtp-Source: ABdhPJxLy7vg7Hji+HMyUSROdJEDLd+lE2ee6OVvCPRAEz3XaYpLc31KjN/VPPgbMoqSSYcuD6bOTMFH3k2TEj8w4JM=
+X-Received: by 2002:a05:6402:b0e:: with SMTP id bm14mr3217947edb.259.1601655044643;
+ Fri, 02 Oct 2020 09:10:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMn1gO4cxSt8-8qVbAei0jPErTtARdsEY4js6Fi=kzozAuE3yQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-4-elver@google.com>
+ <CAG48ez1VNQo2HZSDDxUqtM4w63MmQsDc4SH0xLw92E6vXaPWrg@mail.gmail.com> <CANpmjNMcdM2MSL5J6ewChovxZbe-rKncU4LekQiXwKoVY0xDnQ@mail.gmail.com>
+In-Reply-To: <CANpmjNMcdM2MSL5J6ewChovxZbe-rKncU4LekQiXwKoVY0xDnQ@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 2 Oct 2020 18:10:18 +0200
+Message-ID: <CAG48ez37Mi+4rRY7v3P9uTgV+35oTT+dpb4Xe=V_Nb=pdMosbA@mail.gmail.com>
+Subject: Re: [PATCH v4 03/11] arm64, kfence: enable KFENCE for ARM64
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/1/2020 7:06 PM, Peter Collingbourne wrote:
-> On Fri, Sep 25, 2020 at 7:57 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> There was no more caller passing vm_flags to do_mmap(), and vm_flags was
->> removed from the function's input by:
->>
->>      commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap_pgoff()").
->>
->> There is a new user now.  Shadow stack allocation passes VM_SHSTK to
->> do_mmap().  Re-introduce the vm_flags and do_mmap_pgoff().
-> 
-> I would prefer to change the callers to pass the additional 0 argument
-> instead of bringing the wrapper function back, but if we're going to
-> bring it back then we should fix the naming (both functions take a
-> pgoff argument, so the previous name do_mmap_pgoff() was just plain
-> confusing).
-> 
-> Peter
-> 
+On Fri, Oct 2, 2020 at 4:19 PM Marco Elver <elver@google.com> wrote:
+>
+> On Fri, 2 Oct 2020 at 08:48, Jann Horn <jannh@google.com> wrote:
+> >
+> > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > > Add architecture specific implementation details for KFENCE and enable
+> > > KFENCE for the arm64 architecture. In particular, this implements the
+> > > required interface in <asm/kfence.h>. Currently, the arm64 version does
+> > > not yet use a statically allocated memory pool, at the cost of a pointer
+> > > load for each is_kfence_address().
+> > [...]
+> > > diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
+> > [...]
+> > > +static inline bool arch_kfence_initialize_pool(void)
+> > > +{
+> > > +       const unsigned int num_pages = ilog2(roundup_pow_of_two(KFENCE_POOL_SIZE / PAGE_SIZE));
+> > > +       struct page *pages = alloc_pages(GFP_KERNEL, num_pages);
+> > > +
+> > > +       if (!pages)
+> > > +               return false;
+> > > +
+> > > +       __kfence_pool = page_address(pages);
+> > > +       return true;
+> > > +}
+> >
+> > If you're going to do "virt_to_page(meta->addr)->slab_cache = cache;"
+> > on these pages in kfence_guarded_alloc(), and pass them into kfree(),
+> > you'd better mark these pages as non-compound - something like
+> > alloc_pages_exact() or split_page() may help. Otherwise, I think when
+> > SLUB's kfree() does virt_to_head_page() right at the start, that will
+> > return a pointer to the first page of the entire __kfence_pool, and
+> > then when it loads page->slab_cache, it gets some random cache and
+> > stuff blows up. Kinda surprising that you haven't run into that during
+> > your testing, maybe I'm missing something...
+>
+> I added a WARN_ON() check in kfence_initialize_pool() to check if our
+> pages are compound or not; they are not.
+>
+> In slub.c, __GFP_COMP is passed to alloc_pages(), which causes them to
+> have a compound head I believe.
 
-Thanks for your feedback.  Here is the updated patch.  I will re-send 
-the whole series later.
-
-Yu-cheng
-
-======
-
- From 6a9f1e6bcdb6e599a44d5f58cf4cebd28c4634a2 Mon Sep 17 00:00:00 2001
-From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Date: Wed, 12 Aug 2020 14:01:58 -0700
-Subject: [PATCH 19/26] mm: Re-introduce do_mmap_pgoff()
-
-There was no more caller passing vm_flags to do_mmap(), and vm_flags was
-removed from the function's input by:
-
-     commit 45e55300f114 ("mm: remove unnecessary wrapper function 
-do_mmap_pgoff()").
-
-There is a new user now.  Shadow stack allocation passes VM_SHSTK to
-do_mmap().  Re-introduce vm_flags to do_mmap(), but without the old wrapper
-do_mmap_pgoff().  Instead, fix all callers of the wrapper by passing a zero
-vm_flags to do_mmap().
-
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Peter Collingbourne <pcc@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: linux-mm@kvack.org
----
-  fs/aio.c           |  2 +-
-  include/linux/mm.h |  3 ++-
-  ipc/shm.c          |  2 +-
-  mm/mmap.c          | 10 +++++-----
-  mm/nommu.c         |  4 ++--
-  mm/util.c          |  2 +-
-  6 files changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/fs/aio.c b/fs/aio.c
-index d5ec30385566..ca8c11665eea 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -527,7 +527,7 @@ static int aio_setup_ring(struct kioctx *ctx, 
-unsigned int nr_events)
-
-  	ctx->mmap_base = do_mmap(ctx->aio_ring_file, 0, ctx->mmap_size,
-  				 PROT_READ | PROT_WRITE,
--				 MAP_SHARED, 0, &unused, NULL);
-+				 MAP_SHARED, 0, 0, &unused, NULL);
-  	mmap_write_unlock(mm);
-  	if (IS_ERR((void *)ctx->mmap_base)) {
-  		ctx->mmap_size = 0;
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index e09d13699bbe..e020eea33138 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2560,7 +2560,8 @@ extern unsigned long mmap_region(struct file 
-*file, unsigned long addr,
-  	struct list_head *uf);
-  extern unsigned long do_mmap(struct file *file, unsigned long addr,
-  	unsigned long len, unsigned long prot, unsigned long flags,
--	unsigned long pgoff, unsigned long *populate, struct list_head *uf);
-+	vm_flags_t vm_flags, unsigned long pgoff, unsigned long *populate,
-+	struct list_head *uf);
-  extern int __do_munmap(struct mm_struct *, unsigned long, size_t,
-  		       struct list_head *uf, bool downgrade);
-  extern int do_munmap(struct mm_struct *, unsigned long, size_t,
-diff --git a/ipc/shm.c b/ipc/shm.c
-index e25c7c6106bc..91474258933d 100644
---- a/ipc/shm.c
-+++ b/ipc/shm.c
-@@ -1556,7 +1556,7 @@ long do_shmat(int shmid, char __user *shmaddr, int 
-shmflg,
-  			goto invalid;
-  	}
-
--	addr = do_mmap(file, addr, size, prot, flags, 0, &populate, NULL);
-+	addr = do_mmap(file, addr, size, prot, flags, 0, 0, &populate, NULL);
-  	*raddr = addr;
-  	err = 0;
-  	if (IS_ERR_VALUE(addr))
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 574b3f273462..fc04184d2eae 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1365,11 +1365,11 @@ static inline bool file_mmap_ok(struct file 
-*file, struct inode *inode,
-   */
-  unsigned long do_mmap(struct file *file, unsigned long addr,
-  			unsigned long len, unsigned long prot,
--			unsigned long flags, unsigned long pgoff,
--			unsigned long *populate, struct list_head *uf)
-+			unsigned long flags, vm_flags_t vm_flags,
-+			unsigned long pgoff, unsigned long *populate,
-+			struct list_head *uf)
-  {
-  	struct mm_struct *mm = current->mm;
--	vm_flags_t vm_flags;
-  	int pkey = 0;
-
-  	*populate = 0;
-@@ -1431,7 +1431,7 @@ unsigned long do_mmap(struct file *file, unsigned 
-long addr,
-  	 * to. we assume access permissions have been handled by the open
-  	 * of the memory object, so we don't do any here.
-  	 */
--	vm_flags = calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
-+	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
-  			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
-
-  	if (flags & MAP_LOCKED)
-@@ -3007,7 +3007,7 @@ SYSCALL_DEFINE5(remap_file_pages, unsigned long, 
-start, unsigned long, size,
-
-  	file = get_file(vma->vm_file);
-  	ret = do_mmap(vma->vm_file, start, size,
--			prot, flags, pgoff, &populate, NULL);
-+			prot, flags, 0, pgoff, &populate, NULL);
-  	fput(file);
-  out:
-  	mmap_write_unlock(mm);
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 75a327149af1..f67d6bcdfc9f 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -1078,6 +1078,7 @@ unsigned long do_mmap(struct file *file,
-  			unsigned long len,
-  			unsigned long prot,
-  			unsigned long flags,
-+			vm_flags_t vm_flags,
-  			unsigned long pgoff,
-  			unsigned long *populate,
-  			struct list_head *uf)
-@@ -1085,7 +1086,6 @@ unsigned long do_mmap(struct file *file,
-  	struct vm_area_struct *vma;
-  	struct vm_region *region;
-  	struct rb_node *rb;
--	vm_flags_t vm_flags;
-  	unsigned long capabilities, result;
-  	int ret;
-
-@@ -1104,7 +1104,7 @@ unsigned long do_mmap(struct file *file,
-
-  	/* we've determined that we can make the mapping, now translate what we
-  	 * now know into VMA flags */
--	vm_flags = determine_vm_flags(file, prot, flags, capabilities);
-+	vm_flags |= determine_vm_flags(file, prot, flags, capabilities);
-
-  	/* we're going to need to record the mapping */
-  	region = kmem_cache_zalloc(vm_region_jar, GFP_KERNEL);
-diff --git a/mm/util.c b/mm/util.c
-index 5ef378a2a038..beb8b881c080 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -503,7 +503,7 @@ unsigned long vm_mmap_pgoff(struct file *file, 
-unsigned long addr,
-  	if (!ret) {
-  		if (mmap_write_lock_killable(mm))
-  			return -EINTR;
--		ret = do_mmap(file, addr, len, prot, flag, pgoff, &populate,
-+		ret = do_mmap(file, addr, len, prot, flag, 0, pgoff, &populate,
-  			      &uf);
-  		mmap_write_unlock(mm);
-  		userfaultfd_unmap_complete(mm, &uf);
--- 
-2.21.0
-
+Aah, I mixed up high-order pages and compound pages. Sorry for the noise.
