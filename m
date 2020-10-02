@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB21C4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F96C4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:08:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0073E20758
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:59:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FECB2085B
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:08:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AYJaH86w"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Uy7vywT3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbgJBQ7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 12:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49584 "EHLO
+        id S2387789AbgJBRIY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 13:08:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgJBQ7z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 12:59:55 -0400
+        with ESMTP id S1733260AbgJBRIY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 13:08:24 -0400
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0858DC0613D0;
-        Fri,  2 Oct 2020 09:59:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1726C0613D0;
+        Fri,  2 Oct 2020 10:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
         In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
         :Reply-To:Content-ID:Content-Description;
-        bh=D1Z6zDq9Svnq7K1KUkOaNB83eAQx8W6cXMTOYb39NaM=; b=AYJaH86wofYwH5G51WnTXr92d5
-        cfxrkK4xHS3aFioUQj1miXl12ZQOVW0XHvQKmJpDpxKFJ2g+KndPIZUuoKfwu+3J7TLlpd/fqdrnJ
-        ++vXqbraSN99bdimg2o1V1N5YN21+Vn2frQj7UWJ66ngfyWmCb1vz+qqPVsiubkekEuZQ45wSwHLv
-        5bDF6LyJGJ/ybJxoYFUo7VhNTCC3UKc8Q0IqGYxFrHyhFOjO2uwBEYtp5z96v/DT6RBF2nlSf0ztA
-        5orOD4d6WtsJHsj+7URjd+8e5Eqg4ZZd7Jeaxh0EiIUu9Ce4hOMEP6ayp4FkQeWL9MJdpe+ObnSDD
-        /aW0EccA==;
+        bh=Ca8sKDCw0GHjZBhcGIIj3L8CqwOb97DQ3AjGP71wsRg=; b=Uy7vywT3YdKEfwIHdRjlWzGj8r
+        5acepEv+e/R3YyxjVPM//7PqryrPI5ejKkQIruJYL6PNzNMck0cMhbu+Ain7vJPMNlBhbhhMUb3e2
+        X7xE5v9+lQin7WW5HME2RJqjE/1cVO3iSstIQ156iUcsEjfQeHrTWWGbv++5ZoagWV43rjWuoosWe
+        vUqgkEXAo9/40kbLE+qm22yUN8GIiZyxNvHVnLvM5oNtt5X82TzhdWfwimL/H3b22ryh4e+TsDgmU
+        z/d5rwTY/SEqGxJ34NQUNh1myHxa9uCwaPFruOgIFZAqF8lfbbg57USNXTe4qe5D9lX+rrVcOpjC9
+        LjyMnNZA==;
 Received: from [2601:1c0:6280:3f0::2c9a]
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kOOPQ-0002aV-4F; Fri, 02 Oct 2020 16:59:52 +0000
-Subject: Re: [RFC PATCH v1 07/26] docs: reporting-bugs: let users classify
- their issue
+        id 1kOOXd-0003Pa-4g; Fri, 02 Oct 2020 17:08:21 +0000
+Subject: Re: [RFC PATCH v1 08/26] docs: reporting-bugs: make readers check the
+ taint flag
 To:     Thorsten Leemhuis <linux@leemhuis.info>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <d9917c1f15a965f75f20ca9f0db4ca3ae24c9e98.1601541165.git.linux@leemhuis.info>
+ <eed27c4faa31d98bd37db18ba2ae90f1767c7102.1601541165.git.linux@leemhuis.info>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <9a6e344f-71ca-209f-c540-3a03949a3a94@infradead.org>
-Date:   Fri, 2 Oct 2020 09:59:48 -0700
+Message-ID: <8129d3a7-3649-b9cc-1615-402f12ee370a@infradead.org>
+Date:   Fri, 2 Oct 2020 10:08:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <d9917c1f15a965f75f20ca9f0db4ca3ae24c9e98.1601541165.git.linux@leemhuis.info>
+In-Reply-To: <eed27c4faa31d98bd37db18ba2ae90f1767c7102.1601541165.git.linux@leemhuis.info>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -59,93 +59,138 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
-> Explicitly outline that some issues are more important than others and
-> thus need to be handled differently in some steps that are about to
-> follow. This makes things explicit and easy to find if you need to look
-> up what issues actually qualify as "regression" or a "severe problem".
+> Tell users early in the process to check the taint flag, as that will
+> prevent them from investing time into a report that might be worthless.
+> That way users for example will notice that the issue they face is in
+> fact caused by an add-on kernel module or and Oops that happened
+> earlier.
 > 
-> The alternative would have been: explain each of the three types in the
-> place where it requires special handling for the first time. But that
-> makes it quite easy to miss and harder to find when you need to look it
-> up.
+> This approach has a downside: users will later have to check the flag
+> again with the mainline kernel the guide tells them to install. But that
+> is an acceptable trade-off here, as checking only takes a few seconds
+> and can easily prevent wasting time in useless testing and debugging.
 > 
 > Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 > ---
->  Documentation/admin-guide/reporting-bugs.rst | 39 ++++++++++++++++++++
->  1 file changed, 39 insertions(+)
+> 
+> = RFC =
+> 
+> Should "disable DKMS" come before this step? But then the backup step right
+> before that one would need to be moved as well, as disabling DKMS can mix things
+> up.
+> ---
+>  Documentation/admin-guide/reporting-bugs.rst  | 59 +++++++++++++++++++
+>  Documentation/admin-guide/tainted-kernels.rst |  2 +
+>  2 files changed, 61 insertions(+)
 > 
 > diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-> index 434e1a890dfe..430a0c3ee0ad 100644
+> index 430a0c3ee0ad..61b6592ddf74 100644
 > --- a/Documentation/admin-guide/reporting-bugs.rst
 > +++ b/Documentation/admin-guide/reporting-bugs.rst
-> @@ -272,6 +272,45 @@ you want to circumvent it consider installing the mainline kernel yourself; just
->  make sure it's the latest one (see below).
+> @@ -311,6 +311,65 @@ fatal error where the kernels stop itself) with a 'Oops' (a recoverable error),
+>  as the kernel remains running after an 'Oops'.
 >  
 >  
-> +Issue of high priority?
-> +-----------------------
+> +Check 'taint' flag
+> +------------------
 > +
-> +    *See if the issue you are dealing with qualifies as regression, security
-> +    issue, or a really severe problem: those are 'issues of high priority' that
-> +    need special handling in some steps that are about to follow.*
+> +    *Check if your kernel was 'tainted' when the issue occurred, as the event
+> +    that made the kernel set this flag might be causing the issue you face.*
 > +
-> +Linus Torvalds and the leading Linux kernel developers want to see some issues
-> +fixed as soon as possible, hence these 'issues of high priority' get handled
-> +slightly different in the reporting process. Three type of cases qualify:
-
-            differently
-at least that's what I would say. :)
-
-> +regressions, security issues, and really severe problems.
+> +The kernel marks itself with a 'taint' flag when something happens that might
+> +lead to follow-up errors that look totally unrelated. The issue you face might
+> +be such an error if your kernel is tainted. That's why it's in your interest to
+> +rule this out early before investing more time into this process. This is the
+> +only reason why this step is here, as this process later will tell you to
+> +install the latest mainline kernel and check its taint flag, as that's the
+> +kernel the report will be mainly about.
 > +
-> +You deal with a 'regression' if something that worked with an older version of
-> +the Linux kernel does not work with a newer one or somehow works worse with it.
-> +It thus is a regression when a Wi-Fi driver that did a fine job with Linux 5.7
-> +somehow misbehaves with 5.8 or doesn't work at all. It's also a regression if
-> +an application shows erratic behavior with a newer kernel, which might happen
-> +due to incompatible changes in the interface between the kernel and the
-> +userland (like procfs and sysfs). Significantly reduced performance or
-> +increased power consumption also qualify as regression. But keep in mind: the
-> +new kernel needs to be build with a configuration that is similar to the one
+> +On a running system is easy to check if the kernel tainted itself: it's not
+> +tainted if ``cat /proc/sys/kernel/tainted`` returns '0'. Checking that file is
+> +impossible in some situations, that's why the kernel also mentions the taint
 
-                          built
+                      situations;
 
-> +from the old kernel (see below how to archive that). That's because
-
-                                         achieve
-
-> +process is sometimes only possible by doing incompatible changes; but to avoid
-
-eh?  That's because ... ???
-
-> +regression such changes have to be enabled explicitly during build time
-> +configuration.
+> +status when it reports an internal problem (a 'kernel bug'), a recoverable
+> +error (a 'kernel Oops') or a non-recoverable error before halting operation (a
+> +'kernel panic'). Look near the top of the error messages printed when one of
+> +these occurs and search for a line starting with 'CPU:'. It should end with
+> +'Not tainted' if the kernel was not tainted beforehand; it was tainted if you
+> +see 'Tainted:' followed by a few spaces and some letters.
 > +
-> +What qualifies as security issue is left to your judgment. Consider reading
-> +:ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>` before
-> +proceeding.
+> +If your kernel is tainted study
+
+                     tainted, study
+
+> +:ref:`Documentation/admin-guide/tainted-kernels.rst <taintedkernels>` to find
+> +out why and try to eliminate the reason. Often it's because a recoverable error
+> +(a 'kernel Oops') occurred and the kernel tainted itself, as the kernel knows
+> +it might misbehave in strange ways after that point. In that case check your
+> +kernel or system log and look for a section that starts with this::
 > +
-> +An issue is a 'really severe problem' when something totally unacceptable bad
+> +       Oops: 0000 [#1] SMP
+> +
+> +That's the first Oops since boot-up, as the '#1' between the brackets shows.
+> +Every Oops and any other problem that happen after that point might be a
+> +follow-up problem to that first Oops, even if they look totally unrelated. Try
+> +to rule this out by getting rid of that Oops and reproducing the issue
+> +afterwards. Sometimes simply restarting will be enough, sometimes a change to
+> +the configuration followed by a reboot can eliminate the Oops. But don't invest
+> +too much time into this at this point of the process, as the cause for the Oops
+> +might already be fixed in the newer Linux kernel version you are going to
+> +install later in this process.
+> +
+> +Quite a few kernels are also tainted because an unsuitable kernel modules was
 
-                                                                unacceptably
+                                                                     module
 
-> +happens. That's for example the case when a Linux kernel corrupts the data it's
-> +handling or damages hardware it's running on. You're also dealing with a severe
-> +issue when the kernel suddenly stops working with an error message ('kernel
-> +panic') or without any farewell note at all. Note: do not confused a 'panic' (a
+> +loaded. This for example is the case if you use Nvidias proprietary graphics
 
-                                                             confuse
+                                                   Nvidia's
 
-> +fatal error where the kernels stop itself) with a 'Oops' (a recoverable error),
-> +as the kernel remains running after an 'Oops'.
+> +driver, VirtualBox, or other software that installs its own kernel modules: you
+> +will have to remove these modules and reboot the system, as they might in fact
+> +be causing the issue you face.
+
+You will need to reboot the system and try to reproduce the issue without loading
+any of these proprietary modules.
+
+> +
+> +The kernel also taints itself when it's loading a module that resists in the
+
+                                                                 resides
+
+> +staging tree of the Linux kernel source. That's a special area for code (mostly
+> +drivers) that does not yet fulfill the normal Linux kernel quality standards.
+> +When you report an issue with such a module it's obviously okay if the kernel is
+> +tainted, just make sure the module in question is the only reason for the taint.
+
+   tainted;
+
+> +If the issue happens in an unrelated area reboot and temporary block the module
+
+                                                        temporarily
+
+> +from being loaded by specifying ``foo.blacklist=1`` as kernel parameter (replace
+> +'foo' with the name of the module in question).
 > +
 > +
 >  .. ############################################################################
 >  .. Temporary marker added while this document is rewritten. Sections above
 >  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+> index abf804719890..2900f477f42f 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -1,3 +1,5 @@
+> +.. _taintedkernels:
+> +
+>  Tainted kernels
+>  ---------------
+>  
 > 
 
 
 -- 
 ~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+
