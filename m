@@ -2,94 +2,118 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C3BC4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 05:50:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0724EC4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CAAD2145D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 05:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601617831;
-	bh=d9jAg3Nj6JZLFhzRqkSiYIiTdyrjfTNgd8OfBC8Nm6U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ehKzeUxsLOqFcEAv0pHYOkfkoTZtrZmG46RGGTuuEEwdH2bkj9xx1tfMJkwicuvTz
-	 cJkDRIzVmkPikaZqQyoQG9m0kpMJDE4d6PgmiRVGP2V1VDDV0vIvi3gARvnYXEykqw
-	 f/p3vJq6CGKhhH/y6dUbOAlD79L0KHeT04Gcj4CU=
+	by mail.kernel.org (Postfix) with ESMTP id A79A1206DC
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:09:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rBhLzpe9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726207AbgJBFuW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 01:50:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59754 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725957AbgJBFt7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 01:49:59 -0400
-Received: from mail.kernel.org (ip5f5ad59f.dynamic.kabel-deutschland.de [95.90.213.159])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 68FA720719;
-        Fri,  2 Oct 2020 05:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601617798;
-        bh=d9jAg3Nj6JZLFhzRqkSiYIiTdyrjfTNgd8OfBC8Nm6U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=H0Ro11/CcD0alduc+ONpMk906bG5pFT+6qM5O7ZlF1B9LD0HDhtNtQy+qLsFy+H9w
-         AO+sLiQEJZismTALlCG/Djke1Rrbe1OGjF3p2W5lGvow4V6nIwgJVHEgrE9JyIR6J3
-         WKJ4q2F2gEm7/9KuhqBKzlUPmZ/XDWVz18FvW9is=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kODx6-006hil-8a; Fri, 02 Oct 2020 07:49:56 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Taehee Yoo <ap420073@gmail.com>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 1/6] net: core: document two new elements of struct net_device
-Date:   Fri,  2 Oct 2020 07:49:45 +0200
-Message-Id: <1c6293ffd174d0301c0acb85f0e60e9edf5e4a27.1601616399.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1601616399.git.mchehab+huawei@kernel.org>
-References: <cover.1601616399.git.mchehab+huawei@kernel.org>
+        id S1725985AbgJBGJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 02:09:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725968AbgJBGJV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 02:09:21 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71561C0613D0
+        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 23:09:21 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id j11so345175ejk.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2020 23:09:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ErDIuUWMtALu7PV5gTspIOaPecBO2jLlFmry3dq1eBo=;
+        b=rBhLzpe9AaLtN/2VQTeF4ZLBJk0wEwLO1iXW7SFdIMCovz/n+bZLB7IAveG1e9ur8g
+         YRDBg+0/O3HVIFt9+77VO4vz1qRhWN0N5JLUJkLHeKN0Fq2FV1sS8zieRMheOhUf5bVF
+         9qAS9mTkKdzWHR4dJan0mJZrLW9vG6XzX1iipaUrffpCB3CFAGIdFAOD70DlWd/BV/00
+         YeempllyPkiOQYQTjPfz7FvV8Zq35XFb+EARWaMiaC9negdQ9wmS4SToBah7FpromM0/
+         j46OcFr+y/fWE9HUSVM5XGUXZ/ifypV3vicbNueD/Gkh591QW2pcf6xwTpu/Kqy1srWq
+         wZGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ErDIuUWMtALu7PV5gTspIOaPecBO2jLlFmry3dq1eBo=;
+        b=kotND67hfiDMECYbhw6dCAPfqBPfklK80W0fKt2u/WHmtOmasmglRbtMEmxUaNRnjK
+         zq8siuS5dBphhTn/tBoJzCBaoovOjSa0DN10eCIb8Wpna3Y0YI5yMGj9lWDdko97YR2w
+         leKxUf/vSBj5HFHDgTU+ic9SVLRbp1a+Ps2Tr4dw4N8vdmiIlHk07tZmmzTixgEvqfHR
+         +3SI1XEuEwGqAFNzbwVqVce9WDeY7d9EbHqFRtnpYkYSLILDE2BMJvg8BWrZR/2zL5hQ
+         7h1od3/rzWx9VnFud1ier6PQ0jHygwPJOhdTMxCQnpL9evtdhmI305lcYTVLxH8ziAg3
+         3s8Q==
+X-Gm-Message-State: AOAM533HL3dfWVxK/Q3aXRWID88VKn8q6gRqR2bzwGwJg+GEUQoF0loz
+        DfHITB3r+KcQx/BlOiuWo7rNP4uvOCysa2Kvu5OOTw==
+X-Google-Smtp-Source: ABdhPJyX8T+V5wOYpGANjLoJVq9hy+yf3n4BHwp6BilkYq6bai5LeCuRrBuF1aQ5IgShwbEHdu8lTpaX6/0OCPdGKR4=
+X-Received: by 2002:a17:906:394:: with SMTP id b20mr570705eja.513.1601618959814;
+ Thu, 01 Oct 2020 23:09:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
+In-Reply-To: <20200929133814.2834621-3-elver@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 2 Oct 2020 08:08:53 +0200
+Message-ID: <CAG48ez2yH+9jX40YdzkeiGk2vdwquw3U=GZY8S6WXrCEH+73Sw@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jonathan.Cameron@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As warned by "make htmldocs", there are two new struct elements
-that aren't documented:
+On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> Add architecture specific implementation details for KFENCE and enable
+> KFENCE for the x86 architecture. In particular, this implements the
+> required interface in <asm/kfence.h> for setting up the pool and
+> providing helper functions for protecting and unprotecting pages.
+[...]
+> diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
+[...]
+> +/* Protect the given page and flush TLBs. */
+> +static inline bool kfence_protect_page(unsigned long addr, bool protect)
+> +{
+[...]
+> +       flush_tlb_one_kernel(addr);
 
-	../include/linux/netdevice.h:2159: warning: Function parameter or member 'unlink_list' not described in 'net_device'
-	../include/linux/netdevice.h:2159: warning: Function parameter or member 'nested_level' not described in 'net_device'
-
-Fixes: 1fc70edb7d7b ("net: core: add nested_level variable in net_device")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- include/linux/netdevice.h | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 78880047907e..7852921480da 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1843,6 +1843,11 @@ enum netdev_priv_flags {
-  *	@udp_tunnel_nic:	UDP tunnel offload state
-  *	@xdp_state:		stores info on attached XDP BPF programs
-  *
-+ *	@nested_level:	Used as as a parameter of spin_lock_nested() of
-+ *			dev->addr_list_lock.
-+ *	@unlink_list:	As netif_addr_lock() can be called recursively,
-+ *			keep a list of interfaces to be deleted.
-+ *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-  */
--- 
-2.26.2
-
+flush_tlb_one_kernel() -> flush_tlb_one_user() ->
+__flush_tlb_one_user() -> native_flush_tlb_one_user() only flushes on
+the local CPU core, not on others. If you want to leave it this way, I
+think this needs a comment explaining why we're not doing a global
+flush (locking context / performance overhead / ... ?).
