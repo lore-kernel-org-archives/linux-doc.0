@@ -2,83 +2,76 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 306D8C4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 11:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FEC1C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 11:44:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED10A206E3
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 11:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601637908;
-	bh=GdW7nIffpaI3CS7jtRMkfkeh+9fDoZ9uqoJtsNYHSdQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Hc0CR4VYJFExJ58r/iNk6TuGeH6AprBTIIIptl2Btkv7frt7naVhJrr/8Mr6bTAv2
-	 ZeRHSCT72bnMagzZ3OQvyY8yFfqhdH+hyIztWN6d5cI64sBT5gnSmcJ7FINNeLBn9T
-	 gVwryfQYnttOfmOBfzMYaHU5FjJJd9FvYDv/B5Ek=
+	by mail.kernel.org (Postfix) with ESMTP id 33F94206FA
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 11:44:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387491AbgJBLZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 07:25:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60000 "EHLO mail.kernel.org"
+        id S2387738AbgJBLoy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 07:44:54 -0400
+Received: from foss.arm.com ([217.140.110.172]:33354 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725953AbgJBLZH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 07:25:07 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 66850206DC;
-        Fri,  2 Oct 2020 11:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601637907;
-        bh=GdW7nIffpaI3CS7jtRMkfkeh+9fDoZ9uqoJtsNYHSdQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qlH+EWoLrOC6rokmhaDB3LuZf05FihFdWLXAYRe0M06o+L9xzi7Z1XPllOg6bfM/l
-         mKtmOAO0cf7d9/JkZ/n3zAPrdjlm1i9VhAXWiKN9MyHTVSrEeS+Zy31aZl6TS/BdH2
-         WUQas3SgTkwiYjvmrrVtujhjdDCzKlAQOZhubfKo=
-Date:   Fri, 2 Oct 2020 13:25:06 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Denis Efremov <efremov@linux.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to format
- sysfs output
-Message-ID: <20201002112506.GA3273699@kroah.com>
-References: <cover.1600285923.git.joe@perches.com>
- <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
- <20200930115740.GA1611809@kroah.com>
- <1a9cac491e1813b94cde3bed67d642f52cd81e7d.camel@perches.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1a9cac491e1813b94cde3bed67d642f52cd81e7d.camel@perches.com>
+        id S1725964AbgJBLoy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 07:44:54 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFBDB1063;
+        Fri,  2 Oct 2020 04:44:53 -0700 (PDT)
+Received: from e123648.arm.com (unknown [10.57.50.3])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1C1813F73B;
+        Fri,  2 Oct 2020 04:44:49 -0700 (PDT)
+From:   Lukasz Luba <lukasz.luba@arm.com>
+To:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     robh+dt@kernel.org, amitk@kernel.org, corbet@lwn.net,
+        daniel.lezcano@linaro.org, lukasz.luba@arm.com,
+        Dietmar.Eggemann@arm.com, qperret@google.com,
+        dianders@chromium.org, mka@chromium.org, rnayak@codeaurora.org,
+        rjw@rjwysocki.net
+Subject: [PATCH v2 0/3] Clarify abstract scale usage for power values in Energy Model, EAS and IPA
+Date:   Fri,  2 Oct 2020 12:44:23 +0100
+Message-Id: <20201002114426.31277-1-lukasz.luba@arm.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 06:58:53AM -0700, Joe Perches wrote:
-> On Wed, 2020-09-30 at 13:57 +0200, Greg Kroah-Hartman wrote:
-> > Kees, and Rafael, I don't know if you saw this proposal from Joe for
-> > sysfs files, questions below:
-> 
-> https://lore.kernel.org/linux-pm/5d606519698ce4c8f1203a2b35797d8254c6050a.1600285923.git.joe@perches.com/T/
-> 
-> > So I guess I'm asking for another developer to at least agree that this
-> > feels like the right way forward here.  I don't want to start down this
-> > path, only to roll them all back as it feels like pointless churn.
-> 
-> https://lore.kernel.org/lkml/c256eba42a564c01a8e470320475d46f@AcuMS.aculab.com/T/#mb40d265bc1dabb8bb64b0dfa29dd8eda44be056e
-> 
-> 
-> 
-> 
+Hi all,
 
-All now queued up, thanks!
+The Energy Model supports power values expressed in an abstract scale.
+This has an impact on Intelligent Power Allocation (IPA) and should be
+documented properly. There is also a need to update the DT binding for the
+'sustainable-power' and allow it to have abstract scale as well.
 
-greg k-h
+Changes:
+v2:
+- updated sustainable power section in IPA documentation
+- updated DT binding for the 'sustainable-power'
+
+The v1 of the patch set and related discussion can be found in [1].
+
+Regards,
+Lukasz Luba
+
+[1] https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
+
+Lukasz Luba (3):
+  docs: Clarify abstract scale usage for power values in Energy Model
+  PM / EM: update the comments related to power scale
+  dt-bindings: thermal: update sustainable-power with abstract scale
+
+ .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
+ .../driver-api/thermal/power_allocator.rst          | 13 ++++++++++++-
+ Documentation/power/energy-model.rst                | 13 +++++++++++++
+ Documentation/scheduler/sched-energy.rst            |  5 +++++
+ include/linux/energy_model.h                        | 11 +++++------
+ kernel/power/energy_model.c                         |  2 +-
+ 6 files changed, 45 insertions(+), 12 deletions(-)
+
+-- 
+2.17.1
+
