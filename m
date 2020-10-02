@@ -2,191 +2,371 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DFFC4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 19:21:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E1F4C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 19:32:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3A47206DD
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 19:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601666512;
-	bh=L4m1QJWBqKGzyrw/xVJmG3tj2xwKO6e7HGpDzISiC74=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=IbjTBcAQKJhVvtiVXXKH4CljdGe7AWy/ifiP5D3v0PiGcIrMm+UP+v+CdKKfua1gZ
-	 sWmolTrNQ09uov4EaiKtq8IzpG7Gq2XO5T1YwviUTFtdie3djWb573Pzln0jOdmkYa
-	 BVbzsDGGTnsHau5FMf8KB5AzV4M//LG/VS1lApuY=
+	by mail.kernel.org (Postfix) with ESMTP id 22F32208A9
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 19:32:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uJ8KWfv+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388358AbgJBTVw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 15:21:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37146 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388351AbgJBTVw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 15:21:52 -0400
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 22362206DD;
-        Fri,  2 Oct 2020 19:21:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601666511;
-        bh=L4m1QJWBqKGzyrw/xVJmG3tj2xwKO6e7HGpDzISiC74=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BbILnrR4o3jxGxwLlp/CfPGAV1vMdoFLx0WtSwsaJAdnQ6a6HyTbNvVrZFjsQkwA1
-         r83xWrA44SgQ3OzDPHJk/beEVGrH5x2Kv0YGutYJ9CM1eWUKewIxUyGGTdtQEjrEiX
-         Z2q9P5yIXBpXvLx8ow7xWZbKUT/8rB6UZK0lsOws=
-Received: by mail-ot1-f53.google.com with SMTP id c2so2459053otp.7;
-        Fri, 02 Oct 2020 12:21:51 -0700 (PDT)
-X-Gm-Message-State: AOAM532drHdCQak6d3iAdlhUc3nCgXnY64Hf+ZbRnRhotkgqG7/pb2C4
-        qr2bZupdDmZk7d0e4H/fPmhGF9bLdN4Bhb3AEZw=
-X-Google-Smtp-Source: ABdhPJwPTuuKRRs/1VwnEQiU3DRy6PM2jXlhvsHksNAjczi2LGkB2x4u0P+7zSB7fV7ebzj/Iq+1SJ3c4T8wtSFFSqc=
-X-Received: by 2002:a9d:335:: with SMTP id 50mr2674457otv.90.1601666510446;
- Fri, 02 Oct 2020 12:21:50 -0700 (PDT)
+        id S1726813AbgJBTcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 15:32:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725991AbgJBTcP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 15:32:15 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068CFC0613D0
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 12:32:14 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id t21so121602eds.6
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 12:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8Zinz0oexRJUeJTiDko3PiAzAmypZjIdFBb1syJchnI=;
+        b=uJ8KWfv+25/FG+XhuLL9aqspmzS4/2ksgNCGHjHxaCBoLjfA3voTF8dNND7znhAFte
+         RND86at63+caTXf5/qxlcjXjX3Hd4SIGO6hm6YeZqjcQTrTIGMcsctoeaWTDAeObT4BW
+         vsX813XHucyeRuTg1yLA3x5VbQcnEcxnXh2Gux+cgAx72FVAuSVhveS7iV+k88KwOMeS
+         6Jyxt31yUeyD+zkGYrtMxoNbSVYUI4ne7d6F+9fwtBrMOSM5mDi/r9yzVpfxx1n88hAP
+         wpQREvV9i9w9Pe8NcpO1syisshnCznq0JQgT200RzpizBDyN/PbeCXH0NEzYKqVx7eG9
+         ZdSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8Zinz0oexRJUeJTiDko3PiAzAmypZjIdFBb1syJchnI=;
+        b=Ops9g7ka6i9Zy8vdZ2L5OQNUnaLyTb0O+FwtZ0vS3ncTGL1ByBQcu4ygNRP0XaVq7S
+         vieGQY2SqGafqJx28JT7KDmohB5Z2BjadKYJxJEUSMBIOSsYMnF7ZFABxqjPRxcP0s++
+         AQ0jnujvCvkBwLNIVNzoEpRgjZ6L6YQLDgj8P8uqW9Fw8Bpf3L6WBXUmhV+ZjI5vU/7X
+         ypS89kxtGyKgaVkDxTTRQ/Hzttv04LMrOrdbAwG/ujNqP4uNAqswK+bwSeXhQo/t5/Wz
+         90LfAFvSpFxu5mLkiU7cf4YrAjA2gNokSYxnGmM4Iz9MiudaV37A0fnAowwpvkZ3Yr0f
+         kL6g==
+X-Gm-Message-State: AOAM53055n8MZ6x3TXmwVJ79VOw9XS88eCmaVFdIqA3xIAXRwPshbIMQ
+        1y856kmbIzmeUDssJnc2jCP9nm75kERIqpwqybAIEg==
+X-Google-Smtp-Source: ABdhPJxOFlam9et89MlcMDXUZq1630DXkjSr6DyRad2cG5j+S7fc2Qz/Ps2GYaEohMCpwCOwMOSzFBsJF/tj+KJCJ90=
+X-Received: by 2002:a50:e807:: with SMTP id e7mr4232314edn.84.1601667133289;
+ Fri, 02 Oct 2020 12:32:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201002171112.22738-1-xypron.glpk@gmx.de> <CAMj1kXHsGcAX-DqfcpgxzZY3M+JzY-Ef9OdJ+JdysNnx1fK6zg@mail.gmail.com>
- <9899cc58-c856-38ca-3a89-4b545c973a4f@gmx.de>
-In-Reply-To: <9899cc58-c856-38ca-3a89-4b545c973a4f@gmx.de>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Fri, 2 Oct 2020 21:21:39 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGBGb5yU0XH3oBJfTUDiFzhqa8ihyYo=n_qyj1VcCs5zA@mail.gmail.com>
-Message-ID: <CAMj1kXGBGb5yU0XH3oBJfTUDiFzhqa8ihyYo=n_qyj1VcCs5zA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: admin-guide: fdt and initrd load in EFI stub
-To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-2-elver@google.com>
+ <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com> <20201002171959.GA986344@elver.google.com>
+In-Reply-To: <20201002171959.GA986344@elver.google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 2 Oct 2020 21:31:46 +0200
+Message-ID: <CAG48ez0D1+hStZaDOigwbqNqFHJAJtXK+8Nadeuiu1Byv+xp5A@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2 Oct 2020 at 21:14, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
->
-> On 10/2/20 7:21 PM, Ard Biesheuvel wrote:
-> > Hi Heinrich,
+On Fri, Oct 2, 2020 at 7:20 PM Marco Elver <elver@google.com> wrote:
+> On Fri, Oct 02, 2020 at 08:33AM +0200, Jann Horn wrote:
+> > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> > > low-overhead sampling-based memory safety error detector of heap
+> > > use-after-free, invalid-free, and out-of-bounds access errors.
+> > >
+> > > KFENCE is designed to be enabled in production kernels, and has near
+> > > zero performance overhead. Compared to KASAN, KFENCE trades performance
+> > > for precision. The main motivation behind KFENCE's design, is that with
+> > > enough total uptime KFENCE will detect bugs in code paths not typically
+> > > exercised by non-production test workloads. One way to quickly achieve a
+> > > large enough total uptime is when the tool is deployed across a large
+> > > fleet of machines.
+> > >
+> > > KFENCE objects each reside on a dedicated page, at either the left or
+> > > right page boundaries.
 > >
-> > Thanks for documenting this.
-> >
-> >
-> > On Fri, 2 Oct 2020 at 19:11, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
-> >>
-> >> Describe how a device tree and an initial RAM disk can be passed to the EFI
-> >> Boot Stub.
-> >>
-> >> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-> >> ---
-> >>  Documentation/admin-guide/efi-stub.rst | 35 ++++++++++++++++++++++++++
-> >>  1 file changed, 35 insertions(+)
-> >>
-> >> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
-> >> index 833edb0d0bc4..86f50a33884c 100644
-> >> --- a/Documentation/admin-guide/efi-stub.rst
-> >> +++ b/Documentation/admin-guide/efi-stub.rst
-> >> @@ -38,6 +38,34 @@ arch/arm/boot/zImage should be copied to the system partition, and it
-> >>  may not need to be renamed. Similarly for arm64, arch/arm64/boot/Image
-> >>  should be copied but not necessarily renamed.
-> >>
-> >> +Passing an initial RAM disk to the EFI Boot Stub
-> >> +------------------------------------------------
-> >> +
-> >> +The following means sorted by decreasing priority can be used to provide an
-> >> +initial RAM disk to the EFI Boot Stub:
-> >> +
-> >> +* The firmware may provide a UEFI Load File 2 Protocol. The stub will try to
-> >> +  load the RAM disk by calling the LoadFile() service of the protocol using
-> >> +  a vendor device path with the vendor GUID
-> >> +  5568e427-0x68fc-4f3d-ac74-ca555231cc68.
-> >> +* Next the EFI stub will try to load the file indicated by the "initrd=" command
-> >> +  line parameter.
-> >> +* The prior boot stage may pass the location of the initial RAM disk via the
-> >> +  "linux,initrd-start" and "linux,initrd-end" properties of the "/chosen" node
-> >> +  of the device-tree.
-> >> +
-> >
-> > On x86, the boot_params struct is used to pass the address and size of
-> > the initrd in memory. Maybe include that for completeness?
+> > (modulo slab alignment)
 >
-> On x86 boot_params is set in function efi_pe_entry() after loading the
-> file indicated by the initrd= command line.
->
-> boot_params is not accessible by a caller of the EFI stub but is a
-> structure used at the interface between EFI stub and main kernel. This
-> interface is not in the scope of the admin-guide.
->
+> There are a bunch more details missing; this is just a high-level
+> summary. Because as soon as we mention "modulo slab alignment" one may
+> wonder about missed OOBs, which we solve with redzones. We should not
+> replicate Documentation/dev-tools/kfence.rst; we do refer to it instead.
+> ;-)
 
- I don't see the difference between dt for arm and boot_params for
-x86. Both can be provided by the bootloader, and will be created from
-scratch by the efi stub if not. They both carry the command line and
-address and size of the initrd, and the efi stub will load  the initrd
-and update this Information, or pass it on unmodified if the
-bootloader already loaded the initrd into memory.
+Heh, fair.
+
+> > > The pages to the left and right of the object
+> > > page are "guard pages", whose attributes are changed to a protected
+> > > state, and cause page faults on any attempted access to them. Such page
+> > > faults are then intercepted by KFENCE, which handles the fault
+> > > gracefully by reporting a memory access error. To detect out-of-bounds
+> > > writes to memory within the object's page itself, KFENCE also uses
+> > > pattern-based redzones. The following figure illustrates the page
+> > > layout:
+> > [...]
+> > > diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+> > [...]
+> > > +/**
+> > > + * is_kfence_address() - check if an address belongs to KFENCE pool
+> > > + * @addr: address to check
+> > > + *
+> > > + * Return: true or false depending on whether the address is within the KFENCE
+> > > + * object range.
+> > > + *
+> > > + * KFENCE objects live in a separate page range and are not to be intermixed
+> > > + * with regular heap objects (e.g. KFENCE objects must never be added to the
+> > > + * allocator freelists). Failing to do so may and will result in heap
+> > > + * corruptions, therefore is_kfence_address() must be used to check whether
+> > > + * an object requires specific handling.
+> > > + */
+> > > +static __always_inline bool is_kfence_address(const void *addr)
+> > > +{
+> > > +       return unlikely((char *)addr >= __kfence_pool &&
+> > > +                       (char *)addr < __kfence_pool + KFENCE_POOL_SIZE);
+> > > +}
+> >
+> > If !CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL, this should probably always
+> > return false if __kfence_pool is NULL, right?
+>
+> That's another check; we don't want to make this more expensive.
+
+Ah, right, I missed that this is the one piece of KFENCE that is
+actually really hot code until Dmitry pointed that out.
+
+But actually, can't you reduce how hot this is for SLUB by moving
+is_kfence_address() down into the freeing slowpath? At the moment you
+use it in slab_free_freelist_hook(), which is in the super-hot
+fastpath, but you should be able to at least move it down into
+__slab_free()...
+
+Actually, you already have hooked into __slab_free(), so can't you
+just get rid of the check in the slab_free_freelist_hook()?
+
+Also, you could do the NULL *after* the range check said "true". That
+way the NULL check would be on the slowpath and have basically no
+performance impact.
+
+> This should never receive a NULL, given the places it's used from, which
+> should only be allocator internals where we already know we have a
+> non-NULL object. If it did receive a NULL, I think something else is
+> wrong. Or did we miss a place where it can legally receive a NULL?
+
+Well... not exactly "legally", but e.g. a kernel NULL deref (landing
+in kfence_handle_page_fault()) might get weird.
+
+[...]
+> > > +         access, use-after-free, and invalid-free errors. KFENCE is designed
+> > > +         to have negligible cost to permit enabling it in production
+> > > +         environments.
+> > [...]
+> > > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> > [...]
+> > > +module_param_named(sample_interval, kfence_sample_interval, ulong, 0600);
+> >
+> > This is a writable module parameter, but if the sample interval was 0
+> > or a very large value, changing this value at runtime won't actually
+> > change the effective interval because the work item will never get
+> > kicked off again, right?
+>
+> When KFENCE has been enabled, setting this to 0 actually reschedules the
+> work immediately; we do not disable KFENCE once it has been enabled.
+
+Those are weird semantics. One value should IMO unambiguously mean one
+thing, independent of when it was set. In particular, I think that if
+someone decides to read the current value of kfence_sample_interval
+through sysfs, and sees the value "0", that should not ambiguously
+mean "either kfence triggers all the time or it is completely off".
+
+If you don't want to support runtime disabling, can you maybe make the
+handler refuse to write 0 if kfence has already been initialized?
+
+[...]
+> > > +#endif
+> > [...]
+> > > +/* Freelist with available objects. */
+> > > +static struct list_head kfence_freelist = LIST_HEAD_INIT(kfence_freelist);
+> > > +static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freelist. */
+> > [...]
+> > > +/* Gates the allocation, ensuring only one succeeds in a given period. */
+> > > +static atomic_t allocation_gate = ATOMIC_INIT(1);
+> >
+> > I don't think you need to initialize this to anything?
+> > toggle_allocation_gate() will set it to zero before enabling the
+> > static key, so I don't think anyone will ever see this value.
+>
+> Sure. But does it hurt anyone? At least this way we don't need to think
+> about yet another state that only exists on initialization; who knows
+> what we'll change in future.
+
+Well, no, it doesn't hurt. But I see this as equivalent to writing code like:
+
+int ret = 0;
+ret = -EINVAL;
+if (...)
+  return ret;
+
+where a write can never have any effect because a second write will
+clobber the value before it can be read, which is IMO an antipattern.
+But it admittedly is less clear here, so if you like it better your
+way, I don't really have a problem with that.
+
+> > [...]
+> > > +/* Check canary byte at @addr. */
+> > > +static inline bool check_canary_byte(u8 *addr)
+> > > +{
+> > > +       if (*addr == KFENCE_CANARY_PATTERN(addr))
+> >
+> > You could maybe add a likely() hint here if you want.
+>
+> Added; but none of this is in a hot path.
+
+Yeah, but when we do hit the kfence alloc/free paths, we should
+probably still try to be reasonably fast to reduce jitter?
+
+[...]
+> > > +{
+> > > +       unsigned long addr;
+> > > +
+> > > +       lockdep_assert_held(&meta->lock);
+> > > +
+> > > +       for (addr = ALIGN_DOWN(meta->addr, PAGE_SIZE); addr < meta->addr; addr++) {
+> > > +               if (!fn((u8 *)addr))
+> > > +                       break;
+> > > +       }
+> > > +
+> > > +       for (addr = meta->addr + meta->size; addr < PAGE_ALIGN(meta->addr); addr++) {
+> >
+> > Hmm... if the object is on the left side (meaning meta->addr is
+> > page-aligned) and the padding is on the right side, won't
+> > PAGE_ALIGN(meta->addr)==meta->addr , and therefore none of the padding
+> > will be checked?
+>
+> No, you're thinking of ALIGN_DOWN. PAGE_ALIGN gives us the next page.
+
+Hm, really? Let me go through those macros...
 
 
+#define __AC(X,Y) (X##Y)
+#define _AC(X,Y) __AC(X,Y)
+#define PAGE_SHIFT 12
+#define PAGE_SIZE (_AC(1,UL) << PAGE_SHIFT)
 
-> The main Linux entry point is already described in
-> Documentation/x86/boot.rst and ./Documentation/x86/zero-page.rst.
+so:
+PAGE_SIZE == (1UL << 12) == 0x1000UL
+
+#define __ALIGN_KERNEL_MASK(x, mask) (((x) + (mask)) & ~(mask))
+#define __ALIGN_KERNEL(x, a) __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+#define ALIGN(x, a) __ALIGN_KERNEL((x), (a))
+
+so (omitting casts):
+ALIGN(x, a) == ((x + (a - 1)) & ~(a - 1))
+
+#define PAGE_ALIGN(addr) ALIGN(addr, PAGE_SIZE)
+
+so (omitting casts):
+PAGE_ALIGN(addr) == ((addr + (0x1000UL - 1)) & ~(0x1000UL - 1))
+  == ((addr + 0xfffUL) & 0xfffffffffffff000UL)
+
+meaning that if we e.g. pass in 0x5000, we get:
+
+PAGE_ALIGN(0x5000) == ((0x5000 + 0xfffUL) & 0xfffffffffffff000UL)
+ == 0x5fffUL & 0xfffffffffffff000UL == 0x5000UL
+
+So if the object is on the left side (meaning meta->addr is
+page-aligned), we won't check padding.
+
+
+ALIGN_DOWN rounds down, while PAGE_ALIGN rounds up, but both leave the
+value as-is if it is already page-aligned.
+
+
+> > > +               if (!fn((u8 *)addr))
+> > > +                       break;
+> > > +       }
+> > > +}
+> > > +
+> > > +static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp)
+> > > +{
+> > > +       struct kfence_metadata *meta = NULL;
+> > > +       unsigned long flags;
+> > > +       void *addr;
+> > > +
+> > > +       /* Try to obtain a free object. */
+> > > +       raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
+> > > +       if (!list_empty(&kfence_freelist)) {
+> > > +               meta = list_entry(kfence_freelist.next, struct kfence_metadata, list);
+> > > +               list_del_init(&meta->list);
+> > > +       }
+> > > +       raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
+> > > +       if (!meta)
+> > > +               return NULL;
+> >
+> > Should this use pr_warn_once(), or something like that, to inform the
+> > user that kfence might be stuck with all allocations used by
+> > long-living objects and therefore no longer doing anything?
 >
-> We can add Sphinx style documentation for function efi_pe_entry()
-> mentioning that it fills in boot_params.
-> drivers/firmware/efi/libstub/x86-stub.c then can be added to
-> Documentation/driver-api/firmware/efi/index.rst in an x86 chapter. But
-> these will be separate patches.
+> I don't think so; it might as well recover, and seeing this message once
+> is no indication that we're stuck. Instead, we should (and plan to)
+> monitor /sys/kernel/debug/kfence/stats.
+
+Ah, I guess that's reasonable.
+
+[...]
+> > > +}
+> > > +static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
+> > > +
+> > > +/* === Public interface ===================================================== */
+> > > +
+> > > +void __init kfence_init(void)
+> > > +{
+> > > +       /* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
+> > > +       if (!kfence_sample_interval)
+> > > +               return;
+> > > +
+> > > +       if (!kfence_initialize_pool()) {
+> > > +               pr_err("%s failed\n", __func__);
+> > > +               return;
+> > > +       }
+> > > +
+> > > +       WRITE_ONCE(kfence_enabled, true);
+> > > +       schedule_delayed_work(&kfence_timer, 0);
+> >
+> > This is schedule_work(&kfence_timer).
 >
-> Best regards
->
-> Heinrich
->
-> >
-> >> +The first two items are inhibited by the "noinitrd" command line parameter.
-> >> +
-> >
-> > Interesting. Are you saying noinitrd is ignored by the kernel itself?
-> >
-> > Looking at the code, it might only work for preventing the load of old
-> > style initrd ramdisks, whereas initramfs images are handled
-> > separately.
-> >
-> > This is something that we should probably fix one way or the other.
-> >
-> >
-> >> +Passing a device-tree to the EFI Boot Stub
-> >> +------------------------------------------
-> >> +
-> >> +A device-tree can be passed to the EFI Boot Stub in decreasing priority using
-> >> +
-> >> +* command line option dtb=
-> >> +* a UEFI configuration table with GUID b1b621d5-f19c-41a5-830b-d9152c69aae0.
-> >> +
-> >> +The command line option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=y
-> >> +and secure boot is disabled.
-> >>
-> >>  Passing kernel parameters from the EFI shell
-> >>  --------------------------------------------
-> >> @@ -46,6 +74,10 @@ Arguments to the kernel can be passed after bzImage.efi, e.g.::
-> >>
-> >>         fs0:> bzImage.efi console=ttyS0 root=/dev/sda4
-> >>
-> >> +The "noinitrd" option
-> >> +---------------------
-> >> +
-> >> +The "noinitrd" option stops the EFI stub from loading an initial RAM disk.
-> >>
-> >>  The "initrd=" option
-> >>  --------------------
-> >> @@ -98,3 +130,6 @@ CONFIGURATION TABLE.
-> >>
-> >>  "dtb=" is processed in the same manner as the "initrd=" option that is
-> >>  described above.
-> >> +
-> >> +This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=y and secure
-> >> +boot is disabled.
-> >> --
-> >> 2.28.0
-> >>
->
+> No, schedule_work() is not generic and does not take a struct delayed_work.
+
+Ah, of course. Never mind.
