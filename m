@@ -7,201 +7,271 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3337CC35257
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 23:15:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE55C35257
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 23:26:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D45D1206FA
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 23:15:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FBA12074B
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 23:26:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="saZdfCSz"
+	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="eCa/98FC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725554AbgJBXPD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 19:15:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
+        id S1725446AbgJBX0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 19:26:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725283AbgJBXPD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 19:15:03 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206D4C0613D0
-        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 16:15:03 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id d197so3317333iof.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 16:15:03 -0700 (PDT)
+        with ESMTP id S1725379AbgJBX0y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 19:26:54 -0400
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36088C0613E3
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 16:26:54 -0700 (PDT)
+Received: by mail-il1-x142.google.com with SMTP id o18so2763815ilg.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 16:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
+        d=atishpatra.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YfdsfR+vxnsAijYLXa6tOfA8KqdB4WmlnZuQhX/Ct4U=;
-        b=saZdfCSzMzpYeJMISnJ7OJgpgSkR3+dgqgr4x7aqFlkgmCFEB5WQMLMXbvty5IZrfL
-         oGcm1OkS3ioUuJSCsT6K3mKOgLMbujc0eMb/GgU34MS2ynpi0gTY74sS2EGavQ4LW9sv
-         hS7nfUFrE/cHESWXEEih7Al6VHHM86PkPAX/Y=
+         :cc:content-transfer-encoding;
+        bh=Fv3qdMRDaLBfogWRJHhoCXkOBnI4/36vTO6sbBXAcnw=;
+        b=eCa/98FCnp4UTR3aXlWZjL/eg4dh+N+ts98vxLiuv2sPK4mJUCce0x/JU5ChW0a/Oy
+         mwNP5uFItwXsMvCUwBEjoi4tOhFrA9EqH518+sPZceUxeWmIbqz4/Z792BXmDne4ugT+
+         GRHOHscqijBnPBF+TDWQqFJoCCuFsIzAo1E6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YfdsfR+vxnsAijYLXa6tOfA8KqdB4WmlnZuQhX/Ct4U=;
-        b=pc5E3NaD+tnhtAIQqWdGdygTH24oqU/WfjVRu19GgYPjQ/KUC2WpXafGdNd94y24mH
-         erEoRFek8XEqkvFfJUyDwBmDCb5mWUcPg0KRHWVgK0mJfKzyLkNY8Yh2X3ND62G8/0wf
-         H4yMlrb0FmlgGY5YT4cp3OmXJfkrw/TZ2lZpjcRaLb64pNW+HwUHCgfGPsZ/dn/FWcz7
-         tLDx90B/q+Co3u433B8GvC0zXDLPDEKceqXCxWAa4iZB8LBp3Jhu479/QoQi8XI2p5KC
-         0MADoECMI55JxmCOm8kENFltB6CwVXEE1PPcxH4yZhmBwVxfgh5DGHmVc1aPaXd4Z0xx
-         vCvw==
-X-Gm-Message-State: AOAM531Ze+I3qSyUeXV/3kbByNDxacG5qzcXucCzKCj3U2z9aRgPUVro
-        gdxoxivYiJHLikB0Nj3tziBcvlXPc00nd4QXGlEre4+a5XU=
-X-Google-Smtp-Source: ABdhPJzI3tVlu8aSdAJm7W9AygkHAmLMflTi68aK8h4yRkfUXN/4nhsLC04yylzq/scPxqwON/RaPiy4CQkoxK+Fepw=
-X-Received: by 2002:a5d:80d6:: with SMTP id h22mr3677082ior.154.1601680502289;
- Fri, 02 Oct 2020 16:15:02 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Fv3qdMRDaLBfogWRJHhoCXkOBnI4/36vTO6sbBXAcnw=;
+        b=odJCGCpJh2MuyzOXs32AVgv/tkkvtmtCQ3dUCHKfR4c6nNprJtJrimhoeTbu2y90nv
+         0LO7i+dhvFewuv8Bwci16mqYIr9Utd3+ngrA+btP+rMz93HW6nGQYdCfbyeX5RUb+m+y
+         2QV3T8QR0u0y1tqrZLBYOmHoc8IYKd3HjLKLNxFawDdeu2IRcuQRqthRZx+4/oumuR3k
+         MKcHeORObuaGOMlai2Bviqil2NvhNJPLHgXa+SxmDxDVGqVkvuMcKdy3uC9POx4i6nQU
+         64n7SONbCqRd/MhnLz2B7D+Kabcf2Zbui30WK+rKhPBVr2S4EneulHvFReGI1sLsM1Dt
+         vsGQ==
+X-Gm-Message-State: AOAM530hfkMQbmlXNj5JZ+PEy56l60pKTw6+AzbPisxeqBuSdBEvZLfz
+        PMrWj839rFd9wrX3m99XaVL3+9+MhW6rAl289tED
+X-Google-Smtp-Source: ABdhPJyDR2maUdIOnSOJWap/wYHYT+2zF9fyvJxRajeKbF/5ZCkey9h7TlhoaCXDUZOT/jc0S6kNr0TPct4RQVS58ow=
+X-Received: by 2002:a92:512:: with SMTP id q18mr3453000ile.147.1601681213180;
+ Fri, 02 Oct 2020 16:26:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200929192928.3749502-1-joel@joelfernandes.org>
- <20200929192928.3749502-2-joel@joelfernandes.org> <20200929193248.GA3749988@google.com>
- <20201002193412.GJ29330@paulmck-ThinkPad-P72>
-In-Reply-To: <20201002193412.GJ29330@paulmck-ThinkPad-P72>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Fri, 2 Oct 2020 19:14:49 -0400
-Message-ID: <CAEXW_YR=2K_E24k9BNXwEhuNCawaH8kQUPtMrx-xkmd+hjVzMA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs: Update RCU's hotplug requirements with a bit
- about design
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Neeraj Upadhyay <neeraju@codeaurora.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        rcu <rcu@vger.kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>
+References: <20201002171112.22738-1-xypron.glpk@gmx.de> <CAMj1kXHsGcAX-DqfcpgxzZY3M+JzY-Ef9OdJ+JdysNnx1fK6zg@mail.gmail.com>
+ <9899cc58-c856-38ca-3a89-4b545c973a4f@gmx.de> <CAMj1kXGBGb5yU0XH3oBJfTUDiFzhqa8ihyYo=n_qyj1VcCs5zA@mail.gmail.com>
+ <5c9370aa-aaba-bc2b-1924-2c691164ff69@gmx.de>
+In-Reply-To: <5c9370aa-aaba-bc2b-1924-2c691164ff69@gmx.de>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Fri, 2 Oct 2020 16:26:42 -0700
+Message-ID: <CAOnJCU+Sr2v4po98RrEC2=HyaxnmRzZy9Xka6aYjr1WZtBiCVw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] docs: admin-guide: fdt and initrd load in EFI stub
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 2, 2020 at 3:34 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+On Fri, Oct 2, 2020 at 1:04 PM Heinrich Schuchardt <xypron.glpk@gmx.de> wro=
+te:
 >
-> On Tue, Sep 29, 2020 at 03:32:48PM -0400, Joel Fernandes wrote:
-> > Hi Paul,
+> On 10/2/20 9:21 PM, Ard Biesheuvel wrote:
+> > On Fri, 2 Oct 2020 at 21:14, Heinrich Schuchardt <xypron.glpk@gmx.de> w=
+rote:
+> >>
+> >> On 10/2/20 7:21 PM, Ard Biesheuvel wrote:
+> >>> Hi Heinrich,
+> >>>
+> >>> Thanks for documenting this.
+> >>>
+> >>>
+> >>> On Fri, 2 Oct 2020 at 19:11, Heinrich Schuchardt <xypron.glpk@gmx.de>=
+ wrote:
+> >>>>
+> >>>> Describe how a device tree and an initial RAM disk can be passed to =
+the EFI
+> >>>> Boot Stub.
+> >>>>
+> >>>> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> >>>> ---
+> >>>>  Documentation/admin-guide/efi-stub.rst | 35 +++++++++++++++++++++++=
++++
+> >>>>  1 file changed, 35 insertions(+)
+> >>>>
+> >>>> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/=
+admin-guide/efi-stub.rst
+> >>>> index 833edb0d0bc4..86f50a33884c 100644
+> >>>> --- a/Documentation/admin-guide/efi-stub.rst
+> >>>> +++ b/Documentation/admin-guide/efi-stub.rst
+> >>>> @@ -38,6 +38,34 @@ arch/arm/boot/zImage should be copied to the syst=
+em partition, and it
+> >>>>  may not need to be renamed. Similarly for arm64, arch/arm64/boot/Im=
+age
+> >>>>  should be copied but not necessarily renamed.
+> >>>>
+> >>>> +Passing an initial RAM disk to the EFI Boot Stub
+> >>>> +------------------------------------------------
+> >>>> +
+> >>>> +The following means sorted by decreasing priority can be used to pr=
+ovide an
+> >>>> +initial RAM disk to the EFI Boot Stub:
+> >>>> +
+> >>>> +* The firmware may provide a UEFI Load File 2 Protocol. The stub wi=
+ll try to
+> >>>> +  load the RAM disk by calling the LoadFile() service of the protoc=
+ol using
+> >>>> +  a vendor device path with the vendor GUID
+> >>>> +  5568e427-0x68fc-4f3d-ac74-ca555231cc68.
+> >>>> +* Next the EFI stub will try to load the file indicated by the "ini=
+trd=3D" command
+> >>>> +  line parameter.
+
+This is only applicable if EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER is enable=
+d.
+Should we specify that as well?
+
+> >>>> +* The prior boot stage may pass the location of the initial RAM dis=
+k via the
+> >>>> +  "linux,initrd-start" and "linux,initrd-end" properties of the "/c=
+hosen" node
+> >>>> +  of the device-tree.
+> >>>> +
+> >>>
+> >>> On x86, the boot_params struct is used to pass the address and size o=
+f
+> >>> the initrd in memory. Maybe include that for completeness?
+> >>
+> >> On x86 boot_params is set in function efi_pe_entry() after loading the
+> >> file indicated by the initrd=3D command line.
+> >>
+> >> boot_params is not accessible by a caller of the EFI stub but is a
+> >> structure used at the interface between EFI stub and main kernel. This
+> >> interface is not in the scope of the admin-guide.
+> >>
 > >
-> > On Tue, Sep 29, 2020 at 03:29:28PM -0400, Joel Fernandes (Google) wrote:
-> > > RCU's hotplug design will help understand the requirements an RCU
-> > > implementation needs to fullfill, such as dead-lock avoidance.
-> > >
-> > > The rcu_barrier() section of the "Hotplug CPU" section already talks
-> > > about deadlocks, however the description of what else can deadlock other
-> > > than rcu_barrier is rather incomplete.
-> > >
-> > > This commit therefore continues the section by describing how RCU's
-> > > design handles CPU hotplug in a deadlock-free way.
-> > >
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > ---
-> > >  .../RCU/Design/Requirements/Requirements.rst  | 30 +++++++++++++++++--
-> > >  1 file changed, 28 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-> > > index 1ae79a10a8de..e0413aa989dd 100644
-> > > --- a/Documentation/RCU/Design/Requirements/Requirements.rst
-> > > +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-> > > @@ -1929,8 +1929,10 @@ The Linux-kernel CPU-hotplug implementation has notifiers that are used
-> > >  to allow the various kernel subsystems (including RCU) to respond
-> > >  appropriately to a given CPU-hotplug operation. Most RCU operations may
-> > >  be invoked from CPU-hotplug notifiers, including even synchronous
-> > > -grace-period operations such as ``synchronize_rcu()`` and
-> > > -``synchronize_rcu_expedited()``.
-> > > +grace-period operations such as. However, the synchronous variants
-> > > +(``synchronize_rcu()`` and ``synchronize_rcu_expedited()``) should not
-> > > +from notifiers that execute via ``stop_machine()`` -- specifically those
+> >  I don't see the difference between dt for arm and boot_params for
+> > x86. Both can be provided by the bootloader, and will be created from
+> > scratch by the efi stub if not. They both carry the command line and
+> > address and size of the initrd, and the efi stub will load  the initrd
+> > and update this Information, or pass it on unmodified if the
+> > bootloader already loaded the initrd into memory.
+>
+> "The Linux kernel user=E2=80=99s and administrator=E2=80=99s guide" is no=
+t targeted for
+> developers.
+>
+> All I have described in this patch are interfaces between Linux and the
+> prior boot stage when using the EFI stub. It does not cover how the EFI
+> stub communicates with main Linux.
+>
+> I may already have put too much technical detail here considering the
+> audience.
+>
+> To my knowledge boot_params is not an inbound interface parameter of the
+> EFI stub.
+>
+> Is it of interests for administrators and users to know that the EFI
+> stub calls the legacy entry point of Linux? If yes, we should point to
+> the documentation of the legacy entry point for all architectures:
+>
+> https://www.kernel.org/doc/html/latest/x86/boot.html#bit-boot-protocol
+> https://www.kernel.org/doc/html/latest/x86/boot.html#id1
+> https://www.kernel.org/doc/html/latest/arm/booting.html
+> https://www.kernel.org/doc/html/latest/arm64/booting.html
+>
+> I could not find an appropriate chapter for RISC-V in
+> https://www.kernel.org/doc/html/latest/riscv/index.html.
+>
+
+Unfortunately, there is no booting document for RISC-V yet. It has
+been discussed many times but no patch yet.
+If you want to take a stab at it, that would be great.
+
+
+> As the interface between the EFI stub and main Linux is not exposed to
+> the outside world and may rightfully change without notice I suggest to
+> not mention it in the admin guide.
+>
+> Best regards
+>
+> Heinrich
+>
 > >
-> > The "should not from notifiers" should be "should not be used from
-> > notifiers" here. Sorry and hope you can fix it up.
+> >
+> >
+> >> The main Linux entry point is already described in
+> >> Documentation/x86/boot.rst and ./Documentation/x86/zero-page.rst.
+> >>
+> >> We can add Sphinx style documentation for function efi_pe_entry()
+> >> mentioning that it fills in boot_params.
+> >> drivers/firmware/efi/libstub/x86-stub.c then can be added to
+> >> Documentation/driver-api/firmware/efi/index.rst in an x86 chapter. But
+> >> these will be separate patches.
+> >>
+> >> Best regards
+> >>
+> >> Heinrich
+> >>
+> >>>
+> >>>> +The first two items are inhibited by the "noinitrd" command line pa=
+rameter.
+> >>>> +
+> >>>
+> >>> Interesting. Are you saying noinitrd is ignored by the kernel itself?
+> >>>
+> >>> Looking at the code, it might only work for preventing the load of ol=
+d
+> >>> style initrd ramdisks, whereas initramfs images are handled
+> >>> separately.
+> >>>
+> >>> This is something that we should probably fix one way or the other.
+> >>>
+> >>>
+> >>>> +Passing a device-tree to the EFI Boot Stub
+> >>>> +------------------------------------------
+> >>>> +
+> >>>> +A device-tree can be passed to the EFI Boot Stub in decreasing prio=
+rity using
+> >>>> +
+> >>>> +* command line option dtb=3D
+> >>>> +* a UEFI configuration table with GUID b1b621d5-f19c-41a5-830b-d915=
+2c69aae0.
+> >>>> +
+> >>>> +The command line option is only available if CONFIG_EFI_ARMSTUB_DTB=
+_LOADER=3Dy
+> >>>> +and secure boot is disabled.
+> >>>>
+> >>>>  Passing kernel parameters from the EFI shell
+> >>>>  --------------------------------------------
+> >>>> @@ -46,6 +74,10 @@ Arguments to the kernel can be passed after bzIma=
+ge.efi, e.g.::
+> >>>>
+> >>>>         fs0:> bzImage.efi console=3DttyS0 root=3D/dev/sda4
+> >>>>
+> >>>> +The "noinitrd" option
+> >>>> +---------------------
+> >>>> +
+> >>>> +The "noinitrd" option stops the EFI stub from loading an initial RA=
+M disk.
+> >>>>
+> >>>>  The "initrd=3D" option
+> >>>>  --------------------
+> >>>> @@ -98,3 +130,6 @@ CONFIGURATION TABLE.
+> >>>>
+> >>>>  "dtb=3D" is processed in the same manner as the "initrd=3D" option =
+that is
+> >>>>  described above.
+> >>>> +
+> >>>> +This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=3Dy =
+and secure
+> >>>> +boot is disabled.
+> >>>> --
+> >>>> 2.28.0
+> >>>>
+> >>
 >
-> Thank you, and queued for further review.  How does the below look
-> for a general fixup?
 
-Looks great, thanks!
 
- -Joel
-
-
-
->
->                                                 Thanx, Paul
->
-> ------------------------------------------------------------------------
->
-> commit a93716177eeac726037828b28e6b1a45e828688a
-> Author: Joel Fernandes (Google) <joel@joelfernandes.org>
-> Date:   Tue Sep 29 15:29:28 2020 -0400
->
->     docs: Update RCU's hotplug requirements with a bit about design
->
->     The rcu_barrier() section of the "Hotplug CPU" section discusses
->     deadlocks, however the description of deadlocks other than those involving
->     rcu_barrier() is rather incomplete.
->
->     This commit therefore continues the section by describing how RCU's
->     design handles CPU hotplug in a deadlock-free way.
->
->     Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
->
-> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-> index 1ae79a1..98557fe 100644
-> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
-> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-> @@ -1929,16 +1929,45 @@ The Linux-kernel CPU-hotplug implementation has notifiers that are used
->  to allow the various kernel subsystems (including RCU) to respond
->  appropriately to a given CPU-hotplug operation. Most RCU operations may
->  be invoked from CPU-hotplug notifiers, including even synchronous
-> -grace-period operations such as ``synchronize_rcu()`` and
-> -``synchronize_rcu_expedited()``.
-> -
-> -However, all-callback-wait operations such as ``rcu_barrier()`` are also
-> -not supported, due to the fact that there are phases of CPU-hotplug
-> -operations where the outgoing CPU's callbacks will not be invoked until
-> -after the CPU-hotplug operation ends, which could also result in
-> -deadlock. Furthermore, ``rcu_barrier()`` blocks CPU-hotplug operations
-> -during its execution, which results in another type of deadlock when
-> -invoked from a CPU-hotplug notifier.
-> +grace-period operations such as (``synchronize_rcu()`` and
-> +``synchronize_rcu_expedited()``).  However, these synchronous operations
-> +do block and therefore cannot be invoked from notifiers that execute via
-> +``stop_machine()``, specifically those between the ``CPUHP_AP_OFFLINE``
-> +and ``CPUHP_AP_ONLINE`` states.
-> +
-> +In addition, all-callback-wait operations such as ``rcu_barrier()`` may
-> +not be invoked from any CPU-hotplug notifier.  This restriction is due
-> +to the fact that there are phases of CPU-hotplug operations where the
-> +outgoing CPU's callbacks will not be invoked until after the CPU-hotplug
-> +operation ends, which could also result in deadlock. Furthermore,
-> +``rcu_barrier()`` blocks CPU-hotplug operations during its execution,
-> +which results in another type of deadlock when invoked from a CPU-hotplug
-> +notifier.
-> +
-> +Finally, RCU must avoid deadlocks due to interaction between hotplug,
-> +timers and grace period processing. It does so by maintaining its own set
-> +of books that duplicate the centrally maintained ``cpu_online_mask``,
-> +and also by reporting quiescent states explictly when a CPU goes
-> +offline.  This explicit reporting of quiescent states avoids any need
-> +for the force-quiescent-state loop (FQS) to report quiescent states for
-> +offline CPUs.  However, as a debugging measure, the FQS loop does splat
-> +if offline CPUs block an RCU grace period for too long.
-> +
-> +An offline CPU's quiescent state will be reported either:
-> +1.  As the CPU goes offline using RCU's hotplug notifier (``rcu_report_dead()``).
-> +2.  When grace period initialization (``rcu_gp_init()``) detects a
-> +    race either with CPU offlining or with a task unblocking on a leaf
-> +    ``rcu_node`` structure whose CPUs are all offline.
-> +
-> +The CPU-online path (``rcu_cpu_starting()``) should never need to report
-> +a quiescent state for an offline CPU.  However, as a debugging measure,
-> +it does emit a warning if a quiescent state was not already reported
-> +for that CPU.
-> +
-> +During the checking/modification of RCU's hotplug bookkeeping, the
-> +corresponding CPU's leaf node lock is held. This avoids race conditions
-> +between RCU's hotplug notifier hooks, the grace period initialization
-> +code, and the FQS loop, all of which refer to or modify this bookkeeping.
->
->  Scheduler and RCU
->  ~~~~~~~~~~~~~~~~~
+--
+Regards,
+Atish
