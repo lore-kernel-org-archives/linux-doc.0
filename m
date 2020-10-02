@@ -2,116 +2,224 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2581C4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 04:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F52C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 05:45:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9515F20796
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 04:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601613592;
-	bh=zbG2iEh9bQFGJLHd+0KwxDAW/5RszvjdWnLdbMOPS7o=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=Ya0wsC116sWWb7MERBUVHkgsUZmKUOnMBURfzJ79gejX1Ndd6bQM9eP5U6DRnTN5g
-	 jNKKgO9hwFB0uGOk9nEdYapI2lZEPuxgTCMlDb620WRddnnFY14nhM+8hIkTjBOEli
-	 U3hnvvc6JVybYUF/HTRzvuPh3LpEMdCAGL7Z363o=
+	by mail.kernel.org (Postfix) with ESMTP id 0C5C420708
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 05:45:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nEcpsbTx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbgJBEjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 00:39:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54682 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725948AbgJBEjv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 00:39:51 -0400
-Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A4022072E;
-        Fri,  2 Oct 2020 04:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601613591;
-        bh=zbG2iEh9bQFGJLHd+0KwxDAW/5RszvjdWnLdbMOPS7o=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=YY/1Lv2sEiR77Cwbq80MBqwJ1oLz+9XHTJB0/Z7dwL9dRgnFHcV41OurKT/kmmV0q
-         9adRNOXPEqCj5i8U/lxS7UtQvma7cZH0fJ/2/6g7Xv/YxkA5etImdpCSiuKcOX3wKT
-         +mIhj1qqlt2JTWzSPB/r7HqERwFZ0cTdGLuO7r28=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id D67563522B33; Thu,  1 Oct 2020 21:39:50 -0700 (PDT)
-Date:   Thu, 1 Oct 2020 21:39:50 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Neeraj Upadhyay <neeraju@codeaurora.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 1/2] rcu/tree: Add a warning if CPU being onlined did not
- report QS already
-Message-ID: <20201002043950.GG29330@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200929192928.3749502-1-joel@joelfernandes.org>
+        id S1725965AbgJBFpt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 01:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58746 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725926AbgJBFpt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 01:45:49 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD7BC0613D0
+        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 22:45:48 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id z23so233542ejr.13
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2020 22:45:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=X/Mw4dhIBbKvuicToqPryCf8ZS6JkibVyJYbIfuE7Gs=;
+        b=nEcpsbTxpqqR71sX3y9AeMu/5IDZjBWpyv3LTWExEnlMfdABMkG6DRWo06vinq90ka
+         v0yKY98+cFdnzQaGPNqgP67Qi9jy40ePsimddpuPZK6/8+YptTg00PoI6JI+R6+xHlM7
+         7IIh84MVJc1TIsQGsF0COrkSpLSXnQuttWl3oCsAFb/86eFiRu8LMpBI62BrvWHqYDCt
+         igLUiBNCWVCc82jzMx1R4TEruzIymmgeSBaPaguSMN8pUkQYZNLXXkP4V51VdUdj5w19
+         7NpXjxLmPtWTYGqVPqKTlrhupfuKQklo6bXJHXlJsBt1W9xk1SGNWZqoa8SM/vrMPR8I
+         TOXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X/Mw4dhIBbKvuicToqPryCf8ZS6JkibVyJYbIfuE7Gs=;
+        b=Tg7DL+RzEySaoA4CBO37PoO6ctgwsLCfS8aoLdq+be7XBB0Fv6yE1FWeo8UffcZoa4
+         bcuKmp3mQffoUU2xT7FbDQu67ovCx8qxaZkixWphtdJZ4dj5Dca69G4bMBVJfitvPJHx
+         XDtcBTPMcsWcs4X+Ht4ow3biuhPFptwOFq+MGDDMXZkviUn8GJ+ybohr2ZvR2lrg+A9u
+         v/3pw/2mIHQNOQ60WTWSLHh2N9kYPMKC2w3Y6gbFQk2q+9jEdxeGZwuoGimjVB1VurnY
+         awll6pFTgnxMTHAI3F92yNN2Tca39QjdwyCm7AMzMa9Y8gWD0NgfCy+S7MWB2RD4PiMO
+         huLA==
+X-Gm-Message-State: AOAM531J1hdT2SF7tIXKl9FcTFsv9wpoUriQG1X20FNjIQKbxdCIfTfl
+        ZCVz3euIitCcpMcgNZ1dPJiyvMVnzobZrQQ9ikZnLw==
+X-Google-Smtp-Source: ABdhPJzXOQ4q/0XNF+hH7IjC+tsOfmsFCnx+oA/SC0g0BOQxITnnOLwyjE9pbF+CiN/9VUfkrD72NheY/yFuiHP5P8s=
+X-Received: by 2002:a17:906:9156:: with SMTP id y22mr174829ejw.184.1601617547226;
+ Thu, 01 Oct 2020 22:45:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200929192928.3749502-1-joel@joelfernandes.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
+In-Reply-To: <20200929133814.2834621-3-elver@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 2 Oct 2020 07:45:20 +0200
+Message-ID: <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jonathan.Cameron@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 03:29:27PM -0400, Joel Fernandes (Google) wrote:
-> Currently, rcu_cpu_starting() checks to see if the RCU core expects a
-> quiescent state from the incoming CPU.  However, the current interaction
-> between RCU quiescent-state reporting and CPU-hotplug operations should
-> mean that the incoming CPU never needs to report a quiescent state.
-> First, the outgoing CPU reports a quiescent state if needed.  Second,
-> the race where the CPU is leaving just as RCU is initializing a new
-> grace period is handled by an explicit check for this condition.  Third,
-> the CPU's leaf rcu_node structure's ->lock serializes these checks.
-> 
-> This means that if rcu_cpu_starting() ever feels the need to report
-> a quiescent state, then there is a bug somewhere in the CPU hotplug
-> code or the RCU grace-period handling code.  This commit therefore
-> adds a WARN_ON_ONCE() to bring that bug to everyone's attention.
-> 
-> Cc: Paul E. McKenney <paulmck@kernel.org>
-> Cc: Neeraj Upadhyay <neeraju@codeaurora.org>
-> Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-
-Queued for testing and further review, thank you!
-
-							Thanx, Paul
-
-> ---
->  kernel/rcu/tree.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index 55d3700dd1e7..5efe0a98ea45 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -4119,7 +4119,9 @@ void rcu_cpu_starting(unsigned int cpu)
->  	rcu_gpnum_ovf(rnp, rdp); /* Offline-induced counter wrap? */
->  	rdp->rcu_onl_gp_seq = READ_ONCE(rcu_state.gp_seq);
->  	rdp->rcu_onl_gp_flags = READ_ONCE(rcu_state.gp_flags);
-> -	if (rnp->qsmask & mask) { /* RCU waiting on incoming CPU? */
+On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> Add architecture specific implementation details for KFENCE and enable
+> KFENCE for the x86 architecture. In particular, this implements the
+> required interface in <asm/kfence.h> for setting up the pool and
+> providing helper functions for protecting and unprotecting pages.
+>
+> For x86, we need to ensure that the pool uses 4K pages, which is done
+> using the set_memory_4k() helper function.
+[...]
+> diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
+[...]
+> +/* Protect the given page and flush TLBs. */
+> +static inline bool kfence_protect_page(unsigned long addr, bool protect)
+> +{
+> +       unsigned int level;
+> +       pte_t *pte = lookup_address(addr, &level);
 > +
-> +	/* An incoming CPU should never be blocking a grace period. */
-> +	if (WARN_ON_ONCE(rnp->qsmask & mask)) { /* RCU waiting on incoming CPU? */
->  		rcu_disable_urgency_upon_qs(rdp);
->  		/* Report QS -after- changing ->qsmaskinitnext! */
->  		rcu_report_qs_rnp(mask, rnp, rnp->gp_seq, flags);
-> -- 
-> 2.28.0.709.gb0816b6eb0-goog
-> 
+> +       if (!pte || level != PG_LEVEL_4K)
+
+Do we actually expect this to happen, or is this just a "robustness"
+check? If we don't expect this to happen, there should be a WARN_ON()
+around the condition.
+
+> +               return false;
+> +
+> +       if (protect)
+> +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> +       else
+> +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+
+Hmm... do we have this helper (instead of using the existing helpers
+for modifying memory permissions) to work around the allocation out of
+the data section?
+
+> +       flush_tlb_one_kernel(addr);
+> +       return true;
+> +}
+> +
+> +#endif /* _ASM_X86_KFENCE_H */
+> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+[...]
+> @@ -701,6 +702,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
+>         }
+>  #endif
+>
+> +       if (kfence_handle_page_fault(address))
+> +               return;
+> +
+>         /*
+>          * 32-bit:
+>          *
+
+The standard 5 lines of diff context don't really make it obvious
+what's going on here. Here's a diff with more context:
+
+
+        /*
+         * Stack overflow?  During boot, we can fault near the initial
+         * stack in the direct map, but that's not an overflow -- check
+         * that we're in vmalloc space to avoid this.
+         */
+        if (is_vmalloc_addr((void *)address) &&
+            (((unsigned long)tsk->stack - 1 - address < PAGE_SIZE) ||
+             address - ((unsigned long)tsk->stack + THREAD_SIZE) < PAGE_SIZE)) {
+                unsigned long stack = __this_cpu_ist_top_va(DF) -
+sizeof(void *);
+                /*
+                 * We're likely to be running with very little stack space
+                 * left.  It's plausible that we'd hit this condition but
+                 * double-fault even before we get this far, in which case
+                 * we're fine: the double-fault handler will deal with it.
+                 *
+                 * We don't want to make it all the way into the oops code
+                 * and then double-fault, though, because we're likely to
+                 * break the console driver and lose most of the stack dump.
+                 */
+                asm volatile ("movq %[stack], %%rsp\n\t"
+                              "call handle_stack_overflow\n\t"
+                              "1: jmp 1b"
+                              : ASM_CALL_CONSTRAINT
+                              : "D" ("kernel stack overflow (page fault)"),
+                                "S" (regs), "d" (address),
+                                [stack] "rm" (stack));
+                unreachable();
+        }
+ #endif
+
++       if (kfence_handle_page_fault(address))
++               return;
++
+        /*
+         * 32-bit:
+         *
+         *   Valid to do another page fault here, because if this fault
+         *   had been triggered by is_prefetch fixup_exception would have
+         *   handled it.
+         *
+         * 64-bit:
+         *
+         *   Hall of shame of CPU/BIOS bugs.
+         */
+        if (is_prefetch(regs, error_code, address))
+                return;
+
+        if (is_errata93(regs, address))
+                return;
+
+        /*
+         * Buggy firmware could access regions which might page fault, try to
+         * recover from such faults.
+         */
+        if (IS_ENABLED(CONFIG_EFI))
+                efi_recover_from_page_fault(address);
+
+ oops:
+        /*
+         * Oops. The kernel tried to access some bad page. We'll have to
+         * terminate things with extreme prejudice:
+         */
+        flags = oops_begin();
+
+
+
+Shouldn't kfence_handle_page_fault() happen after prefetch handling,
+at least? Maybe directly above the "oops" label?
