@@ -2,159 +2,88 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BB3C4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91DF8C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:15:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 191E620758
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:11:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="AHIBOjdQ"
+	by mail.kernel.org (Postfix) with ESMTP id 5579C21789
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:15:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601658927;
+	bh=s7udygt1CSVMxxOampKOALpJgvQrS3aEcCihXqlqlcg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=M8YNvlz5DDKF5SseUodjXB8vVZnn6YY6+kCc4QYuNndvnvrGUGgHgF1hDNJkcs6PU
+	 RNpNpIKk8QpaETsxcaH2/nZvhUJLgNCJ1s3ivqfPAW5XrBISHAUc17revEDzzHmaFJ
+	 zLt1wbtpWo2RdD3xvel1oO31Jm0ZRNMBSeXGgmCk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726813AbgJBRL2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 13:11:28 -0400
-Received: from mout.gmx.net ([212.227.17.22]:38737 "EHLO mout.gmx.net"
+        id S2388263AbgJBRPS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 13:15:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60992 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725991AbgJBRL2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 13:11:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1601658680;
-        bh=63H9pOiH0+7afFaplsAsPhAJR6vHQUiql917hmAqUC4=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=AHIBOjdQrMnUSdVEpEelxmJ0npV7i+cfWWBZpd6MXVvFQY+HVm4duv1WSEclNWJrW
-         na5XrKkpugfVIrDGvUE4f/dLVJnT5g153nRdkc9WPZhxCff8fUaMHymb4hwcAa+MCD
-         jF9sK+FPAfQIc6VfM/EoTqalSl5zwCrAI0eleQmQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from workstation4.fritz.box ([178.202.41.107]) by mail.gmx.com
- (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MWAOQ-1jvBXx43li-00XgCU; Fri, 02 Oct 2020 19:11:20 +0200
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-efi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Fran=C3=A7ois=20Ozog?= <francois.ozog@linaro.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [PATCH 1/1] docs: admin-guide: fdt and initrd load in EFI stub
-Date:   Fri,  2 Oct 2020 19:11:12 +0200
-Message-Id: <20201002171112.22738-1-xypron.glpk@gmx.de>
-X-Mailer: git-send-email 2.28.0
+        id S2388244AbgJBRPR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 13:15:17 -0400
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DB23621D92
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 17:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601658917;
+        bh=s7udygt1CSVMxxOampKOALpJgvQrS3aEcCihXqlqlcg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=M7B7nr137Eex0sRlGHrGJJFThN1B5IyaQ6ET1EP7ZtS91XZGiJNdNMt14KsWvrDdl
+         K60GAhwlBXIExhcKu8R0+NLS7NGp34MBqWidENJ2AobYPb1KOjpJ3W3g2afuwT0gUt
+         OOdYuI0Yv6T/2QIPymFU+wNqZWfB7RQPCQLiGI+I=
+Received: by mail-wr1-f52.google.com with SMTP id z1so2621408wrt.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 10:15:16 -0700 (PDT)
+X-Gm-Message-State: AOAM533VFH8x8F+GAJu3SFDFIpnt/XsB+kIg647bSPJ7mAQaHuzYpUnp
+        MoL6qLNaVAzhCeLEgrPQ7Q8CVc7RPE1u7m0jce03VA==
+X-Google-Smtp-Source: ABdhPJxSeT1LG5BuIfj2lWUE/FaaIuRdO3qUd0fuuANd5iiyQhbNOnYWg2scwTOk6LtbOLBq8Wzv1BUhyOpC64hZLmM=
+X-Received: by 2002:a5d:6a47:: with SMTP id t7mr4104651wrw.75.1601658915437;
+ Fri, 02 Oct 2020 10:15:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9fZxmnWDuYGgQgNcRpM+wK+ePCFLSvRfmJIcmYW0YkFQZN49Tsg
- yaKZn5ZsBMZQ5LRjl//11nXeogKaa2pU5bf/SogphX0yOLPONPcEdGytZxFXXjna8RU7Hyh
- 0WFxYbNbsN5hE8khpQgI+Tb8CgrX0uDxkfS6eao8jsA1ToID86fjUTVe9TVxa7LdtOqGlOr
- 8gljEF1Tn6HkC1hkYERBw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4lfLB/DNw+M=:GCTPZBTTs4ZmwZ+lZr0j9j
- uScruu1n/2XPrZWcdyK2iG/MY5HrVtJ7wznHNHAyuKUfsVGuz7cVePf8d7authL+lu2Xh7T4q
- sR17or3373rFET5LBE87NmpiK2sjAaFmpDxsABqYhTvLg0lLaJf4bs7eDQRoAp+PrMtsp5rdz
- M/g4Mt6TDxVPeooKpYrytcK3dgW/AWgBK46GMXm0nTX7OsUNPbDDJH3zMlDHHdWe7azuwTWTe
- 2N0jvi4uvALkHjyCb1QRYETxh5PcUkwPaWN344tQQqHq2PVLCTbXuQjmfAenvY0w83TbVLS0g
- f7rX9SABHptl03s90sj3OtF3pUZp5u2pV0cFWmjPyK+QzTBbtGGfMX0BfZ+WcobvV/rlH7zB6
- 2dZ6tTR6vn/d+579yvY8YgjpKiiEplWRJ5o+VzRUXfXaKh3wum4CwLibf2r9370pZAgV6zr4H
- 5jm5qQWcKpT4BWL8FMHmd1JCGGuYWtvT5NnuA66zFXPKvAeMu45+qJa8cLvRemvNJeIv2xx16
- anqVHu2uqVcK+9m8V/Jvp+CSXcEGMs06wiGqbMfFuJSV1pWtCFx+cv5e9AE8rXQCAGWuLH25h
- 0V3SC4AtBibpv+AkB8Td8QKDxR0y8tOXmINIzQN7wgvZa/0XPtuE6Uv8xK+wwn89XAvLiujFb
- W2HoXUK4jR9KNS2Loj2UReX9Agvc/hRWY5NZ2cKNklKL/PeGIBbhw1YvB4NMnN3Bh1bhMdefQ
- GOVTXiev0ez6NYeh3tiQIHW/L8GSb0b18FS79s2wbMUGu8YQcRZdI3jZjtQM90MYIVbWlTjeB
- 3SwRigV8QoT3dscHeKs3Wd5Cd4GmeIvT0U5/DXKUqBKHdX1p1pllmK0dIfHM3GbSAcDD6DgC8
- ACLbK86XXI34bR0MIStUrmU34RHZsjjz4UbzeBbQ4eYvzSaSR2elvQja10Tl3D3VPddTZ3d6/
- F+VzjZTNpkgn6i8OoxTi6BhE0N7T60FYhIcIy+sB+G9TzVyGP0deeRvXUDlSHP7fTSFZzLlRd
- iNUSV8OZ/h3RphYGYkT0Fuw8naeehrIWDC6VQnGA7oSdvjssZI2Iimhds9MMQTLKcaxwJ8Sx8
- goXwuwL7BgGpHjWzT69RE8niHnn4Bx6eWuyoMajW1h8J1h7+UfE65E6vs/6C+4SK/xTA1PlK3
- Ju7pcBpGkdpG76SAZNrDkin7R+1+Jt87d1G+Qx0rUQtFdiXnXVHP+x5ikixF8aB9IXnA3rydG
- L+VxNDn/79m5OiZJjcNylfpGeF5ZjELEXKjeRPQ==
+References: <20201001203913.9125-1-chang.seok.bae@intel.com> <20201001203913.9125-23-chang.seok.bae@intel.com>
+In-Reply-To: <20201001203913.9125-23-chang.seok.bae@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 2 Oct 2020 10:15:04 -0700
+X-Gmail-Original-Message-ID: <CALCETrVToTrLQEbmXugja_Aif8LcZ7kX8Shu0Gg-FOx6w0p48A@mail.gmail.com>
+Message-ID: <CALCETrVToTrLQEbmXugja_Aif8LcZ7kX8Shu0Gg-FOx6w0p48A@mail.gmail.com>
+Subject: Re: [RFC PATCH 22/22] x86/fpu/xstate: Introduce boot-parameters for
+ control some state component support
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
+        Andrew Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>, jing2.liu@intel.com,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describe how a device tree and an initial RAM disk can be passed to the EF=
-I
-Boot Stub.
+On Thu, Oct 1, 2020 at 1:43 PM Chang S. Bae <chang.seok.bae@intel.com> wrote:
+>
+> "xstate.disable=0x6000" will disable AMX on a system that has AMX compiled
+> into XFEATURE_MASK_USER_SUPPORTED.
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-=2D--
- Documentation/admin-guide/efi-stub.rst | 35 ++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+Can we please use words for this?  Perhaps:
 
-diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-=
-guide/efi-stub.rst
-index 833edb0d0bc4..86f50a33884c 100644
-=2D-- a/Documentation/admin-guide/efi-stub.rst
-+++ b/Documentation/admin-guide/efi-stub.rst
-@@ -38,6 +38,34 @@ arch/arm/boot/zImage should be copied to the system par=
-tition, and it
- may not need to be renamed. Similarly for arm64, arch/arm64/boot/Image
- should be copied but not necessarily renamed.
+xstate.disable=amx,zmm
 
-+Passing an initial RAM disk to the EFI Boot Stub
-+------------------------------------------------
-+
-+The following means sorted by decreasing priority can be used to provide =
-an
-+initial RAM disk to the EFI Boot Stub:
-+
-+* The firmware may provide a UEFI Load File 2 Protocol. The stub will try=
- to
-+  load the RAM disk by calling the LoadFile() service of the protocol usi=
-ng
-+  a vendor device path with the vendor GUID
-+  5568e427-0x68fc-4f3d-ac74-ca555231cc68.
-+* Next the EFI stub will try to load the file indicated by the "initrd=3D=
-" command
-+  line parameter.
-+* The prior boot stage may pass the location of the initial RAM disk via =
-the
-+  "linux,initrd-start" and "linux,initrd-end" properties of the "/chosen"=
- node
-+  of the device-tree.
-+
-+The first two items are inhibited by the "noinitrd" command line paramete=
-r.
-+
-+Passing a device-tree to the EFI Boot Stub
-+------------------------------------------
-+
-+A device-tree can be passed to the EFI Boot Stub in decreasing priority u=
-sing
-+
-+* command line option dtb=3D
-+* a UEFI configuration table with GUID b1b621d5-f19c-41a5-830b-d9152c69aa=
-e0.
-+
-+The command line option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADE=
-R=3Dy
-+and secure boot is disabled.
+and maybe add a list in /proc/cpuinfo or somewhere in /proc or /sys
+that shows all the currently enabled xsave states.
 
- Passing kernel parameters from the EFI shell
- --------------------------------------------
-@@ -46,6 +74,10 @@ Arguments to the kernel can be passed after bzImage.efi=
-, e.g.::
+>
+> "xstate.enable=0x6000" will enable AMX on a system that does NOT have AMX
+> compiled into XFEATURE_MASK_USER_SUPPORTED (assuming the kernel is new
+> enough to support this feature).
 
- 	fs0:> bzImage.efi console=3DttyS0 root=3D/dev/sda4
-
-+The "noinitrd" option
-+---------------------
-+
-+The "noinitrd" option stops the EFI stub from loading an initial RAM disk=
-.
-
- The "initrd=3D" option
- --------------------
-@@ -98,3 +130,6 @@ CONFIGURATION TABLE.
-
- "dtb=3D" is processed in the same manner as the "initrd=3D" option that i=
-s
- described above.
-+
-+This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=3Dy and se=
-cure
-+boot is disabled.
-=2D-
-2.28.0
-
+This sounds like it will be quite confusing to anyone reading the
+kernel code to discover that a feature that is not "SUPPORTED" is
+nonetheless enabled.
