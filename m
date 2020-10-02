@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B783C4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB21C4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:59:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A97320719
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:49:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0073E20758
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 16:59:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ABDpe/D2"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AYJaH86w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbgJBQty (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 12:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48046 "EHLO
+        id S1726224AbgJBQ7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 12:59:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbgJBQty (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 12:49:54 -0400
+        with ESMTP id S1725995AbgJBQ7z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 12:59:55 -0400
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3A9C0613D0;
-        Fri,  2 Oct 2020 09:49:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0858DC0613D0;
+        Fri,  2 Oct 2020 09:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
         In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
         :Reply-To:Content-ID:Content-Description;
-        bh=LTn/ASGqXGVfozcQ2KbyHKqeALKDKvpZHhAJrGUqeM8=; b=ABDpe/D2yMGPDW24nqAgBnyZUj
-        aYEJw9Vg/dRqj7Dr2SLKp41pO/saWS8ji8KFV23TeqMisqCRUWpycHveU7l/nBz1U7Nx+E2jEPiqi
-        YnfNSxNlNI6DZTaJAc3nF12qbsuRa0EvG+XKN7QTs0iItJuG5TjPWPr75ROqrlyefQce3IAlVKIQH
-        URv6ZyWhQuK0UWhn1i6V5wqsPzpGpXrYs88QGCG7Qor9pRvjVRbY5MfW90/L+tAO7vbpMYnAXYDqy
-        xN3a+SqsQEFeRSbOFd/RWnA35taH/0tvNVslCTP7bF0z/pPTR+59Ge/MZyEMTxItMN9Qvc9hiKaeH
-        q9Hjt7Kg==;
+        bh=D1Z6zDq9Svnq7K1KUkOaNB83eAQx8W6cXMTOYb39NaM=; b=AYJaH86wofYwH5G51WnTXr92d5
+        cfxrkK4xHS3aFioUQj1miXl12ZQOVW0XHvQKmJpDpxKFJ2g+KndPIZUuoKfwu+3J7TLlpd/fqdrnJ
+        ++vXqbraSN99bdimg2o1V1N5YN21+Vn2frQj7UWJ66ngfyWmCb1vz+qqPVsiubkekEuZQ45wSwHLv
+        5bDF6LyJGJ/ybJxoYFUo7VhNTCC3UKc8Q0IqGYxFrHyhFOjO2uwBEYtp5z96v/DT6RBF2nlSf0ztA
+        5orOD4d6WtsJHsj+7URjd+8e5Eqg4ZZd7Jeaxh0EiIUu9Ce4hOMEP6ayp4FkQeWL9MJdpe+ObnSDD
+        /aW0EccA==;
 Received: from [2601:1c0:6280:3f0::2c9a]
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kOOFj-0001EC-5w; Fri, 02 Oct 2020 16:49:51 +0000
-Subject: Re: [RFC PATCH v1 05/26] docs: reporting-bugs: begin reference
- section providing details
+        id 1kOOPQ-0002aV-4F; Fri, 02 Oct 2020 16:59:52 +0000
+Subject: Re: [RFC PATCH v1 07/26] docs: reporting-bugs: let users classify
+ their issue
 To:     Thorsten Leemhuis <linux@leemhuis.info>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <cd3e2465fec04e83d55ec6821fd6f111709eaf8e.1601541165.git.linux@leemhuis.info>
+ <d9917c1f15a965f75f20ca9f0db4ca3ae24c9e98.1601541165.git.linux@leemhuis.info>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0c188514-0cf2-7201-004f-5a78398eef6c@infradead.org>
-Date:   Fri, 2 Oct 2020 09:49:48 -0700
+Message-ID: <9a6e344f-71ca-209f-c540-3a03949a3a94@infradead.org>
+Date:   Fri, 2 Oct 2020 09:59:48 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <cd3e2465fec04e83d55ec6821fd6f111709eaf8e.1601541165.git.linux@leemhuis.info>
+In-Reply-To: <d9917c1f15a965f75f20ca9f0db4ca3ae24c9e98.1601541165.git.linux@leemhuis.info>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -58,109 +58,94 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
 On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
-> Provide an introduction to the reference section that will provide more
-> details how to report an issue. Mention a few general things here. Those
-> are not strictly needed, but likely wise to write down somewhere.
+> Explicitly outline that some issues are more important than others and
+> thus need to be handled differently in some steps that are about to
+> follow. This makes things explicit and easy to find if you need to look
+> up what issues actually qualify as "regression" or a "severe problem".
+> 
+> The alternative would have been: explain each of the three types in the
+> place where it requires special handling for the first time. But that
+> makes it quite easy to miss and harder to find when you need to look it
+> up.
 > 
 > Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 > ---
-> 
-> = RFC =
-> 
-> Should we keep the links to
-> https://www.chiark.greenend.org.uk/~sgtatham/bugs.html and
-> http://www.catb.org/esr/faqs/smart-questions.html? Are they worth it? Or is
-> there anything similar or better that's a bit fresher and ideally still
-> maintained?
-
-Dunno. They are interesting but outdated.
-
-> ---
->  Documentation/admin-guide/reporting-bugs.rst | 46 +++++++++++++++++---
->  1 file changed, 40 insertions(+), 6 deletions(-)
+>  Documentation/admin-guide/reporting-bugs.rst | 39 ++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
 > 
 > diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-> index e0a6f4328e87..be1bce8d43aa 100644
+> index 434e1a890dfe..430a0c3ee0ad 100644
 > --- a/Documentation/admin-guide/reporting-bugs.rst
 > +++ b/Documentation/admin-guide/reporting-bugs.rst
-> @@ -205,6 +205,46 @@ rebased on new stable or longterm releases. If that case follow these steps:
->     stable mailing list.
+> @@ -272,6 +272,45 @@ you want to circumvent it consider installing the mainline kernel yourself; just
+>  make sure it's the latest one (see below).
 >  
 >  
-> +Reference section: Reporting issues to the kernel maintainers
-> +=============================================================
+> +Issue of high priority?
+> +-----------------------
 > +
-> +The detailed guides above outlines all the mayor steps in brief fashion, which
-
-                             outline          major
-
-> +should be enough for most people. But sometimes there are situations where even
-> +experienced users might wonder how to actually do one of those steps. That's
-> +what this section is for, as it will provide a lot more details on each of the
-> +steps. Consider this a reference documentation: it's possible to read it from
-
-                        as
-
-> +top to bottom, but more meant to skim over and a place to look up details in
-> +case you need them.
+> +    *See if the issue you are dealing with qualifies as regression, security
+> +    issue, or a really severe problem: those are 'issues of high priority' that
+> +    need special handling in some steps that are about to follow.*
 > +
-> +A few words of general advice before digging into the details:
-> +
-> + * The Linux kernel developers are well aware this process is complicated and
-> +   demands more than other FLOSS projects. We'd love to make it simpler, but
-> +   that would require work in various places as well as infrastructure that
-> +   would need constant maintenance; nobody has stepped up to do that work, so
-> +   that's just how things are for now.
-> +
-> + * A warranty or support contract with some vendor doesn't entitle you to
-> +   request fixes from developers in the upstream Linux kernel community: such
-> +   contracts are completely outside the scope of the Linux kernel, its
-> +   development community, and this document. That's why you can't demand
-> +   anything such a contract guarantees in this context, not even if the
-> +   developer handling the issue works for the vendor in question. If you want to
-> +   claim your rights, use the vendors support channel instead. When doing so,
+> +Linus Torvalds and the leading Linux kernel developers want to see some issues
+> +fixed as soon as possible, hence these 'issues of high priority' get handled
+> +slightly different in the reporting process. Three type of cases qualify:
 
-                                 vendor's
+            differently
+at least that's what I would say. :)
 
-> +   you might want to mention you'd like to see the issue fixed in the upstream
-> +   Linux kernel; motivate them by saying it's the only way to ensure the fix in
-> +   the end will get incorporated in all Linux distributions.
+> +regressions, security issues, and really severe problems.
 > +
-> + * If you never reported an issue to a FLOSS project before you should consider
-> +   reading `How to Report Bugs Effectively
-> +   <https://www.chiark.greenend.org.uk/~sgtatham/bugs.html>`_
-> +   and `How To Ask Questions The Smart Way
-> +   <http://www.catb.org/esr/faqs/smart-questions.html>`_.
+> +You deal with a 'regression' if something that worked with an older version of
+> +the Linux kernel does not work with a newer one or somehow works worse with it.
+> +It thus is a regression when a Wi-Fi driver that did a fine job with Linux 5.7
+> +somehow misbehaves with 5.8 or doesn't work at all. It's also a regression if
+> +an application shows erratic behavior with a newer kernel, which might happen
+> +due to incompatible changes in the interface between the kernel and the
+> +userland (like procfs and sysfs). Significantly reduced performance or
+> +increased power consumption also qualify as regression. But keep in mind: the
+> +new kernel needs to be build with a configuration that is similar to the one
+
+                          built
+
+> +from the old kernel (see below how to archive that). That's because
+
+                                         achieve
+
+> +process is sometimes only possible by doing incompatible changes; but to avoid
+
+eh?  That's because ... ???
+
+> +regression such changes have to be enabled explicitly during build time
+> +configuration.
 > +
-> +With that of the table, find below the details on how to properly report issues
+> +What qualifies as security issue is left to your judgment. Consider reading
+> +:ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>` before
+> +proceeding.
+> +
+> +An issue is a 'really severe problem' when something totally unacceptable bad
 
-             off
+                                                                unacceptably
 
-> +to the Linux kernel developers.
+> +happens. That's for example the case when a Linux kernel corrupts the data it's
+> +handling or damages hardware it's running on. You're also dealing with a severe
+> +issue when the kernel suddenly stops working with an error message ('kernel
+> +panic') or without any farewell note at all. Note: do not confused a 'panic' (a
+
+                                                             confuse
+
+> +fatal error where the kernels stop itself) with a 'Oops' (a recoverable error),
+> +as the kernel remains running after an 'Oops'.
 > +
 > +
 >  .. ############################################################################
 >  .. Temporary marker added while this document is rewritten. Sections above
 >  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
-> @@ -281,12 +321,6 @@ http://vger.kernel.org/lkml/).
->  Tips for reporting bugs
->  -----------------------
->  
-> -If you haven't reported a bug before, please read:
-> -
-> -	https://www.chiark.greenend.org.uk/~sgtatham/bugs.html
-> -
-> -	http://www.catb.org/esr/faqs/smart-questions.html
-> -
->  It's REALLY important to report bugs that seem unrelated as separate email
->  threads or separate bugzilla entries.  If you report several unrelated
->  bugs at once, it's difficult for maintainers to tease apart the relevant
 > 
 
 
 -- 
 ~Randy
-
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
