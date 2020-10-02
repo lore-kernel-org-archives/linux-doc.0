@@ -2,172 +2,511 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEA5AC46466
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:18:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF653C4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:20:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83E8F20795
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:18:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABDE1208A9
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:20:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lB1dODyt"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TB7iBsky"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388181AbgJBRSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 13:18:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
+        id S2388258AbgJBRUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 13:20:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726017AbgJBRSB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 13:18:01 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A610DC0613D0;
-        Fri,  2 Oct 2020 10:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=qkr1WYXSjxy46n4RZR9Wr5P/yXKe7+Ih5EwxJcET+b0=; b=lB1dODytWUuttXxwNQuj4Ee6Q6
-        Aem6yQmbo+S2ADigRrBRY1mI0ssu48AzTcIJDlYzOB87b3XgIGyqZEbULoJTHvVYSwluaiG/tuF0J
-        O9IdNb5Edj93+K3SNic9PfMONf0mNfGtexPTXtIFE8iAqi5RmulNv43VgubphbY/H5gOELC+hxyZe
-        xOFXCKn+jBujMpGcvgRPn7nS8NW0dlRClZplNBw17XhTjY0yLDxhMV3Uk87+crOPih6V/ZpTkKMSP
-        P2MDMQJ3M/Gxc5Hk4IZw7di8aGCL9MuWc2PJdH8pRhbOw8ntVHTaLLYPP2sAqY0+cTZQvsz+woq66
-        HrWYUU8w==;
-Received: from [2601:1c0:6280:3f0::2c9a]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kOOgv-0003u7-Ct; Fri, 02 Oct 2020 17:17:57 +0000
-Subject: Re: [RFC PATCH v1 10/26] docs: reporting-bugs: remind people to look
- for existing reports
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <e445ed892324469219638e7b546bbfe5265b1e93.1601541165.git.linux@leemhuis.info>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f7925522-cb19-bc4f-77e2-0246dde9b1c3@infradead.org>
-Date:   Fri, 2 Oct 2020 10:17:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        with ESMTP id S2388008AbgJBRUI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 13:20:08 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B98C0613D0
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 10:20:07 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id k15so2627502wrn.10
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 10:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=v/hEFFtQ+0xxAg96E+/6Cxc0JK2K443dm/brFX78osE=;
+        b=TB7iBskyHmBs6VotNA/y0rmxjpyyixzVulmFRSi9jNkFzvQsQvYLmp5sC2YQKm9wui
+         +XPAfFdvNpMsH4/E9FstzCfr8YbOcduYLgECGC5f0c+UNov+wxIxTQR09q0DQ6JOcyV1
+         uLfdBV/W2DJxp/+Dux4LegP/NgmIclf8q4c2G5ACf7Os3fForu5NSexeA4e+0ThJ0IQY
+         weQZ+IqJasaybdmRyMWPMsWIUh0e7XeIqmluKScHaWH4ZV2EtByFIV/RZBj0egr/YjB+
+         Bl1qgC/Y74zB+1s61J9gIijRlAWyY34FZcbkxnA/qucsFd+0z/H2Y5h1vEcOVmu9Ngp6
+         GYtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=v/hEFFtQ+0xxAg96E+/6Cxc0JK2K443dm/brFX78osE=;
+        b=J2ukKClBTjWwBeYbsOUO0gPaK1JYQGFzqJwVZRSPTs2Zv0E869aVngRiH820cRJmGv
+         0+0qmqnQbc8noD6KlsTFcdLKj/z/rOVMiHhlTNQrV4oZW/mK//GF4grHIyxk+0OGyQkm
+         HT21nh2Lu9tkzOEZoPUJ4NwJM+LJTjxkycXQTsaDdNcx2EiNNZBu2CSkA9Rtm3Qwxrpt
+         VNUYc8aZRwy8Lam00ZofFdHUGY/tjgKCzGrAkk06IPAvuyq0jgSoZb98hWnypD5dS6CP
+         vX8oXP15lykfyOmxhsd+V76nyWWgXQe+G8kQQLyddzlJsM1w69YWYtitEIq7y+WFTzfS
+         A2cA==
+X-Gm-Message-State: AOAM533Rf5m83yDqksM/GZPeXS6dLAe6ubUykK90rHG1ODm5qzZ4wCh9
+        NLfdHAjZXHseNpGaM6rYlK1DWw==
+X-Google-Smtp-Source: ABdhPJy2KpCV4zJzmIvbaU/OgRKx09JYuQ1w3drJE604tC1XtWA/orZCbgSKhdrYIDooyZ1lMf/KUA==
+X-Received: by 2002:adf:fed1:: with SMTP id q17mr4073978wrs.85.1601659206022;
+        Fri, 02 Oct 2020 10:20:06 -0700 (PDT)
+Received: from elver.google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id f14sm2634897wme.22.2020.10.02.10.20.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 10:20:05 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 19:19:59 +0200
+From:   Marco Elver <elver@google.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jonathan.Cameron@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
+Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
+Message-ID: <20201002171959.GA986344@elver.google.com>
+References: <20200929133814.2834621-1-elver@google.com>
+ <20200929133814.2834621-2-elver@google.com>
+ <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <e445ed892324469219638e7b546bbfe5265b1e93.1601541165.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
-> Tells users to search for existing reports, as not reporting them a
-> second time is in their own interest. Tel them where to look and provide
-> a few hints how to search properly, as that is easy to get wrong. That
-> seems to be especially true when it comes to things like graphics cards
-> or wifi modules: mentioning the model name often is not much help, but
-> mentioning its main chip often leads to the results you are looking for.
-> This might be obvious to kernel developers, but for many users it's not.
-> 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
-> 
-> = RFC =
-> 
-> Have I gone to far in describing how to find good search terms? I got the
-> impression quite a few users to it poorly.
-> ---
->  Documentation/admin-guide/reporting-bugs.rst | 58 ++++++++++++++++++++
->  1 file changed, 58 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-> index 3e9923c9650e..4828e8924136 100644
-> --- a/Documentation/admin-guide/reporting-bugs.rst
-> +++ b/Documentation/admin-guide/reporting-bugs.rst
-> @@ -491,6 +491,64 @@ sometimes modified during tree-wide cleanups by developers that do not care
->  about the particular code at all. Hence, use this option with care.
->  
->  
-> +Search for existing reports
-> +---------------------------
-> +
-> +    *Search the archives of the bug tracker or mailing list in question
-> +    thoroughly for reports that might match your issue. Also check if you find
-> +    something with your favorite internet search engine or in the Linux Kernel
-> +    Mailing List (LKML) archives. If you find anything, join the discussion
-> +    instead of sending a new report.*
-> +
-> +Reporting an issue that someone else already brought forward is often a waste of
-> +time for everyone involved, especially you as the reporter. So it's in your own
-> +interest to thoroughly check if somebody reported the issue already. Thus do not
-> +hurry with this step of the reporting process, spending 30 to 60 minutes or even
+Hi Jann,
 
-                                         process. Spending
+Thanks for your comments!!
 
-> +more time can save you and others quite a lot of time and trouble.
-> +
-> +The best place to search is the bug tracker or the mailing list where your
-> +report needs to be filed. You'll find quite a few of those lists on
-> +`lore.kernel.org/ <https://lore.kernel.org/>`_, but some are hosted in different
-> +places. That for example is the case for the ath10k Wi-Fi driver used as example
-> +in the previous step. But you'll often find the archives for these lists easily
-> +on the net. Searching for 'archive ath10k@lists.infradead.org' for example
-> +will quickly lead you to the `Info page for the ath10k mailing list
-> +<https://lists.infradead.org/mailman/listinfo/ath10k>`_, which at the top links
-> +to its `list archives <https://lists.infradead.org/pipermail/ath10k/>`_.
-> +
-> +Sadly this and quite a few other lists miss a way to search the archives. In
-> +those cases use a regular internet search engine and add something like
-> +'site:lists.infradead.org/pipermail/ath10k/' to your search terms, which limits
-> +the results to the archives at that URL.
-> +
-> +Additionally, search the internet and the `Linux Kernel Mailing List (LKML)
-> +archives <https://lore.kernel.org/lkml/>`_, as maybe the real culprit might be
-> +in some other subsystem. Searching in `bugzilla.kernel.org
-> +<https://bugzilla.kernel.org/>`_ might also be a good idea, but if you find
-> +anything there keep in mind: it's not the official place to file reports, hence
-> +the reports you find there might have not even reached the people responsible
-> +for the subsystem in question.
-> +
-> +If you get flooded with results consider telling your search engine to limit the
-> +results to posts from the past month or year. And wherever you search, make sure
-> +to use good search terms; vary them a few times, too. While doing so try to look
-> +at the issue from perspective of someone else: that will help you to come up
+On Fri, Oct 02, 2020 at 08:33AM +0200, Jann Horn wrote:
+> On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> > low-overhead sampling-based memory safety error detector of heap
+> > use-after-free, invalid-free, and out-of-bounds access errors.
+> >
+> > KFENCE is designed to be enabled in production kernels, and has near
+> > zero performance overhead. Compared to KASAN, KFENCE trades performance
+> > for precision. The main motivation behind KFENCE's design, is that with
+> > enough total uptime KFENCE will detect bugs in code paths not typically
+> > exercised by non-production test workloads. One way to quickly achieve a
+> > large enough total uptime is when the tool is deployed across a large
+> > fleet of machines.
+> >
+> > KFENCE objects each reside on a dedicated page, at either the left or
+> > right page boundaries.
+>=20
+> (modulo slab alignment)
 
-                from the perspective
+There are a bunch more details missing; this is just a high-level
+summary. Because as soon as we mention "modulo slab alignment" one may
+wonder about missed OOBs, which we solve with redzones. We should not
+replicate Documentation/dev-tools/kfence.rst; we do refer to it instead.
+;-)
 
-> +with other words to use as search terms. Also make sure to not use too many
+> > The pages to the left and right of the object
+> > page are "guard pages", whose attributes are changed to a protected
+> > state, and cause page faults on any attempted access to them. Such page
+> > faults are then intercepted by KFENCE, which handles the fault
+> > gracefully by reporting a memory access error. To detect out-of-bounds
+> > writes to memory within the object's page itself, KFENCE also uses
+> > pattern-based redzones. The following figure illustrates the page
+> > layout:
+> [...]
+> > diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+> [...]
+> > +/**
+> > + * is_kfence_address() - check if an address belongs to KFENCE pool
+> > + * @addr: address to check
+> > + *
+> > + * Return: true or false depending on whether the address is within th=
+e KFENCE
+> > + * object range.
+> > + *
+> > + * KFENCE objects live in a separate page range and are not to be inte=
+rmixed
+> > + * with regular heap objects (e.g. KFENCE objects must never be added =
+to the
+> > + * allocator freelists). Failing to do so may and will result in heap
+> > + * corruptions, therefore is_kfence_address() must be used to check wh=
+ether
+> > + * an object requires specific handling.
+> > + */
+> > +static __always_inline bool is_kfence_address(const void *addr)
+> > +{
+> > +       return unlikely((char *)addr >=3D __kfence_pool &&
+> > +                       (char *)addr < __kfence_pool + KFENCE_POOL_SIZE=
+);
+> > +}
+>=20
+> If !CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL, this should probably always
+> return false if __kfence_pool is NULL, right?
 
-                                                           not to use
-?
+That's another check; we don't want to make this more expensive.
 
-> +search terms at once. Remember to search with and without information like the
-> +name of the kernel driver or the name of the affected hardware component. But
-> +its exact brand name (say 'ASUS Red Devil Radeon RX 5700 XT Gaming OC') often is
-> +not much helpful, better use the name of the model line (Radeon 5700), the code
-> +name of the main chip ('Navi' or 'Navi10'), its manufacturer ('AMD'), and things
-> +like that.
-> +
-> +In case you find an existing report consider joining the discussion, as you
+This should never receive a NULL, given the places it's used from, which
+should only be allocator internals where we already know we have a
+non-NULL object. If it did receive a NULL, I think something else is
+wrong. Or did we miss a place where it can legally receive a NULL?
 
-                                report,
+> [...]
+> > diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> [...]
+> > +menuconfig KFENCE
+> > +       bool "KFENCE: low-overhead sampling-based memory safety error d=
+etector"
+> > +       depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
+> > +       depends on JUMP_LABEL # To ensure performance, require jump lab=
+els
+> > +       select STACKTRACE
+> > +       help
+> > +         KFENCE is low-overhead sampling-based detector for heap out-o=
+f-bounds
+>=20
+> nit: "is a"
 
-> +might be able to provide valuable additional information. That can be important
-> +even when a fix is prepared or in its final stages already, as developers might
-> +look for people that can provide additional information or test a proposed fix.
-> +See the section 'Duties after the report went out' for details how to get
+Done.
 
-                                                      for details on how to get
-I must like more prepostions...
+> > +         access, use-after-free, and invalid-free errors. KFENCE is de=
+signed
+> > +         to have negligible cost to permit enabling it in production
+> > +         environments.
+> [...]
+> > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> [...]
+> > +module_param_named(sample_interval, kfence_sample_interval, ulong, 060=
+0);
+>=20
+> This is a writable module parameter, but if the sample interval was 0
+> or a very large value, changing this value at runtime won't actually
+> change the effective interval because the work item will never get
+> kicked off again, right?
 
-> +properly involved.
-> +
-> +
->  .. ############################################################################
->  .. Temporary marker added while this document is rewritten. Sections above
->  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
-> 
+When KFENCE has been enabled, setting this to 0 actually reschedules the
+work immediately; we do not disable KFENCE once it has been enabled.
 
+Conversely, if KFENCE has been disabled at boot (this param is 0),
+changing this to anything else will not enable KFENCE.
 
--- 
-~Randy
+This simplifies a lot of things, in particular, if KFENCE was disabled
+we do not want to run initialization code and also do not want to kick
+off KFENCE initialization code were we to allow dynamically turning
+KFENCE on/off (it complicates a bunch of things, e.g. the various
+arch-specific initialization would need to be able to deal with all
+this).
 
+> Should this maybe use module_param_cb() instead, with a "set" callback
+> that not only changes the value, but also schedules the work item?
+
+Whether or not we want to reschedule the work if the value was changed
+=66rom a huge value to a smaller one is another question. Probably...
+we'll consider it.
+
+> [...]
+> > +/*
+> > + * The pool of pages used for guard pages and objects. If supported, a=
+llocated
+> > + * statically, so that is_kfence_address() avoids a pointer load, and =
+simply
+> > + * compares against a constant address. Assume that if KFENCE is compi=
+led into
+> > + * the kernel, it is usually enabled, and the space is to be allocated=
+ one way
+> > + * or another.
+> > + */
+>=20
+> If this actually brings a performance win, the proper way to do this
+> would probably be to implement this as generic kernel infrastructure
+> that makes the compiler emit large-offset relocations (either through
+> compiler support or using inline asm statements that move an immediate
+> into a register output and register the location in a special section,
+> kinda like how e.g. static keys work) and patches them at boot time,
+> or something like that - there are other places in the kernel where
+> very hot code uses global pointers that are only ever written once
+> during boot, e.g. the dentry cache of the VFS and the futex hash
+> table. Those are probably far hotter than the kfence code.
+>=20
+> While I understand that that goes beyond the scope of this project, it
+> might be something to work on going forward - this kind of
+> special-case logic that turns the kernel data section into heap memory
+> would not be needed if we had that kind of infrastructure.
+>=20
+> > +#ifdef CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL
+> > +char __kfence_pool[KFENCE_POOL_SIZE] __kfence_pool_attrs;
+> > +#else
+> > +char *__kfence_pool __read_mostly;
+>=20
+> not __ro_after_init ?
+
+Changed, thanks.
+
+> > +#endif
+> [...]
+> > +/* Freelist with available objects. */
+> > +static struct list_head kfence_freelist =3D LIST_HEAD_INIT(kfence_free=
+list);
+> > +static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting f=
+reelist. */
+> [...]
+> > +/* Gates the allocation, ensuring only one succeeds in a given period.=
+ */
+> > +static atomic_t allocation_gate =3D ATOMIC_INIT(1);
+>=20
+> I don't think you need to initialize this to anything?
+> toggle_allocation_gate() will set it to zero before enabling the
+> static key, so I don't think anyone will ever see this value.
+
+Sure. But does it hurt anyone? At least this way we don't need to think
+about yet another state that only exists on initialization; who knows
+what we'll change in future.
+
+> [...]
+> > +/* Check canary byte at @addr. */
+> > +static inline bool check_canary_byte(u8 *addr)
+> > +{
+> > +       if (*addr =3D=3D KFENCE_CANARY_PATTERN(addr))
+>=20
+> You could maybe add a likely() hint here if you want.
+
+Added; but none of this is in a hot path.
+
+> > +               return true;
+> > +
+> > +       atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
+> > +       kfence_report_error((unsigned long)addr, addr_to_metadata((unsi=
+gned long)addr),
+> > +                           KFENCE_ERROR_CORRUPTION);
+> > +       return false;
+> > +}
+> > +
+> > +static inline void for_each_canary(const struct kfence_metadata *meta,=
+ bool (*fn)(u8 *))
+>=20
+> Given how horrendously slow this would be if the compiler decided to
+> disregard the "inline" hint and did an indirect call for every byte,
+> you may want to use __always_inline here.
+
+Done.
+
+> > +{
+> > +       unsigned long addr;
+> > +
+> > +       lockdep_assert_held(&meta->lock);
+> > +
+> > +       for (addr =3D ALIGN_DOWN(meta->addr, PAGE_SIZE); addr < meta->a=
+ddr; addr++) {
+> > +               if (!fn((u8 *)addr))
+> > +                       break;
+> > +       }
+> > +
+> > +       for (addr =3D meta->addr + meta->size; addr < PAGE_ALIGN(meta->=
+addr); addr++) {
+>=20
+> Hmm... if the object is on the left side (meaning meta->addr is
+> page-aligned) and the padding is on the right side, won't
+> PAGE_ALIGN(meta->addr)=3D=3Dmeta->addr , and therefore none of the padding
+> will be checked?
+
+No, you're thinking of ALIGN_DOWN. PAGE_ALIGN gives us the next page.
+
+> > +               if (!fn((u8 *)addr))
+> > +                       break;
+> > +       }
+> > +}
+> > +
+> > +static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t siz=
+e, gfp_t gfp)
+> > +{
+> > +       struct kfence_metadata *meta =3D NULL;
+> > +       unsigned long flags;
+> > +       void *addr;
+> > +
+> > +       /* Try to obtain a free object. */
+> > +       raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
+> > +       if (!list_empty(&kfence_freelist)) {
+> > +               meta =3D list_entry(kfence_freelist.next, struct kfence=
+_metadata, list);
+> > +               list_del_init(&meta->list);
+> > +       }
+> > +       raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
+> > +       if (!meta)
+> > +               return NULL;
+>=20
+> Should this use pr_warn_once(), or something like that, to inform the
+> user that kfence might be stuck with all allocations used by
+> long-living objects and therefore no longer doing anything?
+
+I don't think so; it might as well recover, and seeing this message once
+is no indication that we're stuck. Instead, we should (and plan to)
+monitor /sys/kernel/debug/kfence/stats.
+
+> [...]
+> > +}
+> [...]
+> > +/* =3D=3D=3D Allocation Gate Timer =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+> > +
+> > +/*
+> > + * Set up delayed work, which will enable and disable the static key. =
+We need to
+> > + * use a work queue (rather than a simple timer), since enabling and d=
+isabling a
+> > + * static key cannot be done from an interrupt.
+> > + */
+> > +static struct delayed_work kfence_timer;
+> > +static void toggle_allocation_gate(struct work_struct *work)
+> > +{
+> > +       if (!READ_ONCE(kfence_enabled))
+> > +               return;
+> > +
+> > +       /* Enable static key, and await allocation to happen. */
+> > +       atomic_set(&allocation_gate, 0);
+> > +       static_branch_enable(&kfence_allocation_key);
+> > +       wait_event(allocation_wait, atomic_read(&allocation_gate) !=3D =
+0);
+> > +
+> > +       /* Disable static key and reset timer. */
+> > +       static_branch_disable(&kfence_allocation_key);
+> > +       schedule_delayed_work(&kfence_timer, msecs_to_jiffies(kfence_sa=
+mple_interval));
+>=20
+> We end up doing two IPIs to all CPU cores for each kfence allocation
+> because of those static branch calls, right? Might be worth adding a
+> comment to point that out, or something like that. (And if it ends up
+> being a problem in the future, we could probably get away with using
+> some variant that avoids the IPI, but flushes the instruction pipeline
+> if we observe the allocation_gate being nonzero, or something like
+> that. At the cost of not immediately capturing new allocations if the
+> relevant instructions are cached. But the current version is
+> definitely fine for an initial implementation, and for now, you should
+> probably *not* implement what I just described.)
+
+Thanks, yeah, this is a good point, and I wondered if we could optimize
+this along these lines. We'll add a comment. Maybe somebody wants to
+optimize this in future. :-)
+
+> > +}
+> > +static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
+> > +
+> > +/* =3D=3D=3D Public interface =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+> > +
+> > +void __init kfence_init(void)
+> > +{
+> > +       /* Setting kfence_sample_interval to 0 on boot disables KFENCE.=
+ */
+> > +       if (!kfence_sample_interval)
+> > +               return;
+> > +
+> > +       if (!kfence_initialize_pool()) {
+> > +               pr_err("%s failed\n", __func__);
+> > +               return;
+> > +       }
+> > +
+> > +       WRITE_ONCE(kfence_enabled, true);
+> > +       schedule_delayed_work(&kfence_timer, 0);
+>=20
+> This is schedule_work(&kfence_timer).
+
+No, schedule_work() is not generic and does not take a struct delayed_work.
+
+> [...]
+> > +}
+> [...]
+> > diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+> [...]
+> > +/* KFENCE metadata per guarded allocation. */
+> > +struct kfence_metadata {
+> [...]
+> > +       /*
+> > +        * In case of an invalid access, the page that was unprotected;=
+ we
+> > +        * optimistically only store address.
+>=20
+> Is this supposed to say something like "only store one address"?
+
+Done.
+
+> > +        */
+> > +       unsigned long unprotected_page;
+> > +};
+> [...]
+> > +#endif /* MM_KFENCE_KFENCE_H */
+> > diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+> [...]
+> > +void kfence_report_error(unsigned long address, const struct kfence_me=
+tadata *meta,
+> > +                        enum kfence_error_type type)
+> > +{
+> [...]
+> > +       pr_err("=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n");
+> > +       /* Print report header. */
+> > +       switch (type) {
+> [...]
+> > +       case KFENCE_ERROR_INVALID_FREE:
+> > +               pr_err("BUG: KFENCE: invalid free in %pS\n\n", (void *)=
+stack_entries[skipnr]);
+> > +               pr_err("Invalid free of 0x" PTR_FMT " (in kfence-#%zd):=
+\n", (void *)address,
+> > +                      object_index);
+> > +               break;
+> > +       }
+> > +
+> > +       /* Print stack trace and object info. */
+> > +       stack_trace_print(stack_entries + skipnr, num_stack_entries - s=
+kipnr, 0);
+> > +
+> > +       if (meta) {
+> > +               pr_err("\n");
+> > +               kfence_print_object(NULL, meta);
+> > +       }
+> > +
+> > +       /* Print report footer. */
+> > +       pr_err("\n");
+> > +       dump_stack_print_info(KERN_DEFAULT);
+>=20
+> Shouldn't this be KERN_ERR, to keep the loglevel consistent with the
+> previous messages?
+
+Done.
+
+Thanks,
+-- Marco
