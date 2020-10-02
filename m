@@ -2,155 +2,111 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B862EC35257
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:22:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB3DC4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:25:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FEB920679
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601659327;
-	bh=8B3ajfrrr/Rm5NpX3zNhjHSB7gg5E+Rs6FLpsOjO7i4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=WXQl3R3mxNi8oaTzIGvrK/XBNtWs6uHeanAuPGZv+aZD9OouikIq4NHw/1S+F2nXk
-	 2oJyGYMhyt40cBNCbFgwxPzSS4vWNd4DoYscQVcEzFg1qEbm6n+fW0Veb6STD7IXry
-	 Vh+XQl6fGgv7lv+MeYmoXPLFet1JDBXqIGV+hZuM=
+	by mail.kernel.org (Postfix) with ESMTP id 43D1B20795
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:25:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387602AbgJBRWG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 13:22:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36330 "EHLO mail.kernel.org"
+        id S2388169AbgJBRZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 13:25:15 -0400
+Received: from mga18.intel.com ([134.134.136.126]:24397 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726175AbgJBRWG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 13:22:06 -0400
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0847020679;
-        Fri,  2 Oct 2020 17:22:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601659326;
-        bh=8B3ajfrrr/Rm5NpX3zNhjHSB7gg5E+Rs6FLpsOjO7i4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lWZyzOJpapjQpA455YXsIZVL7VqaXMbB/A2IqiEutsdg98DBHFjMpTSTw2TkXaG3H
-         pORFQt+baBV+E6jK5QUiWsRroyRBYIGPTsDYUi89B7Ld1yFod0e5MKxjNG3ngBwsqO
-         7rvys/97/D/WV0YPu4gQUgMn3DQbrTDO2VIospe0=
-Received: by mail-ot1-f44.google.com with SMTP id 60so2098486otw.3;
-        Fri, 02 Oct 2020 10:22:06 -0700 (PDT)
-X-Gm-Message-State: AOAM531LPb8j0iBMggxMunQOxLAsojH9m1eeRP6UABhYREdxoJpnGM4G
-        DDlfeQCV/I4i1ZGEvf+owvEa5Pn/EC/gHQwPg4w=
-X-Google-Smtp-Source: ABdhPJzGwYam8D7RzG6/2OxiOvDt5Rogji+L7HVZMzs+te3CDO0AywQrFo8JqpB2vzN3MK8VypeeMuyxliVhhB+QE5A=
-X-Received: by 2002:a9d:335:: with SMTP id 50mr2353365otv.90.1601659325331;
- Fri, 02 Oct 2020 10:22:05 -0700 (PDT)
+        id S2387908AbgJBRZO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 13:25:14 -0400
+IronPort-SDR: E6x0IsYRvHh8C9Zu2q+ILwXR4AA/AOhVhWXoGc7NQAYfrD6Y+qbKAgMLsBa+WADb9dBFxu9nhL
+ tbrI5zl3IjxA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="150821320"
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="150821320"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:25:10 -0700
+IronPort-SDR: e93i4pwIcZe1gK2NkkYptPG2tZYFvx3QtVyNfyaGPZR4QI/CGA50vk1KPc6ZiZTVVznQsp/tMd
+ 3tBggHKjJs2A==
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="351652036"
+Received: from blbiskey-mobl.amr.corp.intel.com (HELO [10.212.50.43]) ([10.212.50.43])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:25:09 -0700
+Subject: Re: [RFC PATCH 22/22] x86/fpu/xstate: Introduce boot-parameters for
+ control some state component support
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>, tglx@linutronix.de,
+        mingo@kernel.org, bp@suse.de, luto@kernel.org, x86@kernel.org
+Cc:     len.brown@intel.com, jing2.liu@intel.com, ravi.v.shankar@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20201001203913.9125-1-chang.seok.bae@intel.com>
+ <20201001203913.9125-23-chang.seok.bae@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <2497634d-162e-98d0-d51b-15265616d036@intel.com>
+Date:   Fri, 2 Oct 2020 10:25:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201002171112.22738-1-xypron.glpk@gmx.de>
-In-Reply-To: <20201002171112.22738-1-xypron.glpk@gmx.de>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Fri, 2 Oct 2020 19:21:54 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHsGcAX-DqfcpgxzZY3M+JzY-Ef9OdJ+JdysNnx1fK6zg@mail.gmail.com>
-Message-ID: <CAMj1kXHsGcAX-DqfcpgxzZY3M+JzY-Ef9OdJ+JdysNnx1fK6zg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: admin-guide: fdt and initrd load in EFI stub
-To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201001203913.9125-23-chang.seok.bae@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Heinrich,
+On 10/1/20 1:39 PM, Chang S. Bae wrote:
+> +		if ((custom & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE) {
+> +			pr_warn("x86/fpu: Disable 0x%x components due to incorrect setup\n",
+> +				XFEATURE_MASK_XTILE);
+> +			custom &= ~(XFEATURE_MASK_XTILE);
+> +		}
 
-Thanks for documenting this.
+Saying "incorrect setup" is pretty much just wasting the bytes.  We
+might as well just say "disabling due to random error", or "disabling
+due to the easter bunny".  Each are equally actionable.  How about:
 
-
-On Fri, 2 Oct 2020 at 19:11, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
->
-> Describe how a device tree and an initial RAM disk can be passed to the EFI
-> Boot Stub.
->
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-> ---
->  Documentation/admin-guide/efi-stub.rst | 35 ++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
->
-> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
-> index 833edb0d0bc4..86f50a33884c 100644
-> --- a/Documentation/admin-guide/efi-stub.rst
-> +++ b/Documentation/admin-guide/efi-stub.rst
-> @@ -38,6 +38,34 @@ arch/arm/boot/zImage should be copied to the system partition, and it
->  may not need to be renamed. Similarly for arm64, arch/arm64/boot/Image
->  should be copied but not necessarily renamed.
->
-> +Passing an initial RAM disk to the EFI Boot Stub
-> +------------------------------------------------
-> +
-> +The following means sorted by decreasing priority can be used to provide an
-> +initial RAM disk to the EFI Boot Stub:
-> +
-> +* The firmware may provide a UEFI Load File 2 Protocol. The stub will try to
-> +  load the RAM disk by calling the LoadFile() service of the protocol using
-> +  a vendor device path with the vendor GUID
-> +  5568e427-0x68fc-4f3d-ac74-ca555231cc68.
-> +* Next the EFI stub will try to load the file indicated by the "initrd=" command
-> +  line parameter.
-> +* The prior boot stage may pass the location of the initial RAM disk via the
-> +  "linux,initrd-start" and "linux,initrd-end" properties of the "/chosen" node
-> +  of the device-tree.
-> +
-
-On x86, the boot_params struct is used to pass the address and size of
-the initrd in memory. Maybe include that for completeness?
-
-> +The first two items are inhibited by the "noinitrd" command line parameter.
-> +
-
-Interesting. Are you saying noinitrd is ignored by the kernel itself?
-
-Looking at the code, it might only work for preventing the load of old
-style initrd ramdisks, whereas initramfs images are handled
-separately.
-
-This is something that we should probably fix one way or the other.
-
-
-> +Passing a device-tree to the EFI Boot Stub
-> +------------------------------------------
-> +
-> +A device-tree can be passed to the EFI Boot Stub in decreasing priority using
-> +
-> +* command line option dtb=
-> +* a UEFI configuration table with GUID b1b621d5-f19c-41a5-830b-d9152c69aae0.
-> +
-> +The command line option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=y
-> +and secure boot is disabled.
->
->  Passing kernel parameters from the EFI shell
->  --------------------------------------------
-> @@ -46,6 +74,10 @@ Arguments to the kernel can be passed after bzImage.efi, e.g.::
->
->         fs0:> bzImage.efi console=ttyS0 root=/dev/sda4
->
-> +The "noinitrd" option
-> +---------------------
-> +
-> +The "noinitrd" option stops the EFI stub from loading an initial RAM disk.
->
->  The "initrd=" option
->  --------------------
-> @@ -98,3 +130,6 @@ CONFIGURATION TABLE.
->
->  "dtb=" is processed in the same manner as the "initrd=" option that is
->  described above.
-> +
-> +This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=y and secure
-> +boot is disabled.
-> --
-> 2.28.0
->
+"error in xstate.disable parameter.  Additionally disabling '%s'".
