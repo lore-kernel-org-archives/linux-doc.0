@@ -2,59 +2,75 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B16BEC4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 05:50:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19AF8C47423
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 05:50:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67360208A9
+	by mail.kernel.org (Postfix) with ESMTP id D2E6A208A9
 	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 05:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1601617806;
-	bh=erD5Z14zGvV3vkBYk2EuYkPYBxMtW1Zib+FfBt1zqFE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=wlLzhN42bfjkzDKbhAAnC2ENmkvEDXnQqb5UekZky8mdSQxiMAmTJpmchsqb3CuYZ
-	 rqLAxmbCWiYZWuQc5yYYqOYYnIHuKygkpXoFHj6Zm8hfFjMw7xGSOFIrI2gghnp0VN
-	 DkFqTrcbpYReKTN99Xa7rEOAxbLwusWF6NWeQzcU=
+	bh=FBPwZnSsMqIWKQkD2zCJOP8xtefKz0VFKlRBsQSz4YE=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=B04d/H/WfEyLuQ9iYn91oE1jx4vY3Ybd4lnvC4Z5hoqSdTV6ODPYA37V/Qq/9jFLT
+	 6rKMR8T3kB8AJNoRJpDzLnpYqEtO2hqCgSzgiXciQ4fXLjR6jNNBj4qsAuyZlcwKvF
+	 tEGzTmi2KflRhHIp4k40WDIHYG8qtXxN4lOpCv7o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbgJBFt7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 01:49:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59770 "EHLO mail.kernel.org"
+        id S1726075AbgJBFuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 01:50:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59822 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725968AbgJBFt7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1725971AbgJBFt7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 2 Oct 2020 01:49:59 -0400
 Received: from mail.kernel.org (ip5f5ad59f.dynamic.kabel-deutschland.de [95.90.213.159])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 808EE208A9;
+        by mail.kernel.org (Postfix) with ESMTPSA id 85847208C7;
         Fri,  2 Oct 2020 05:49:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601617798;
-        bh=erD5Z14zGvV3vkBYk2EuYkPYBxMtW1Zib+FfBt1zqFE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EcyzQkTA2UsBq9CMHMDFFtYqeeOaGGxXrtM23Bs7QkiMxyWKbc1tUTcGFhdAXIYPy
-         N3ZlIB6NKJ8omnqmXxTq5Jn5eoa/Xwh5caK9wQp9zl5Tyk/zp5wfy2yimtnzjbjxRn
-         8fRszpDRbeBL5FzAHS3Sf13nSM/J0bSf6yIBjrwI=
+        bh=FBPwZnSsMqIWKQkD2zCJOP8xtefKz0VFKlRBsQSz4YE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ejgMZ/l6FXxzU+YdRTwMxdT0f1Q+4gbrj+84EBxH2JN9yIe9vDe8W07jPvUyVE/UW
+         pwqbFJ9yYWMl5Ms1dxYbPS7KEwa6ATt81MqjfNpvhhwgtMSJSrT18+F2izm1Y7rpLF
+         3mFQ7DT+0UPX36PDklpu0eXa1Raxyyql02Wb8Kf4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kODx6-006hir-BD; Fri, 02 Oct 2020 07:49:56 +0200
+        id 1kODx6-006hij-79; Fri, 02 Oct 2020 07:49:56 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alexandru Elisei <alexandru.elisei@arm.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Balbir Singh <sblbir@amazon.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jeff Dike <jdike@addtoit.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Richard Weinberger <richard@nod.at>,
+        Taehee Yoo <ap420073@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] docs: i2c: index.rst: add slave-testunit-backend.rst
-Date:   Fri,  2 Oct 2020 07:49:48 +0200
-Message-Id: <2ac6bd9d96cc4ff248d1c2e26a99f51a785eb271.1601616399.git.mchehab+huawei@kernel.org>
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Wolfram Sang <wsa@kernel.org>, kvm@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-um@lists.infradead.org, netdev@vger.kernel.org
+Subject: [PATCH 0/6] Fix new html build warnings from next-20201001
+Date:   Fri,  2 Oct 2020 07:49:44 +0200
+Message-Id: <cover.1601616399.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1601616399.git.mchehab+huawei@kernel.org>
-References: <cover.1601616399.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -62,45 +78,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As warned by Sphinx:
+There are some new warnings when building the documentation from
+yesterday's linux next. This small series fix them.
 
-	.../Documentation/i2c/slave-testunit-backend.rst: WARNING: document isn't included in any toctree
+- patch 1 documents two new kernel-doc parameters on a net core file.
+  I used the commit log in order to help documenting them;
+- patch 2 fixes some tags at UMLv2 howto;
+- patches 3 and 5 add some new documents at the corresponding
+  index file.
+- patch 4 changes kernel-doc script for it to recognize typedef enums.
 
-This document is not included anywhere.
+Patch 4 should probably be merged via docs tree, but the others
+are against stuff recently added at linux-next. So, the better is to
+merge them directly at the trees which introduced the issue.
 
-Fixes: a8335c64c5f0 ("i2c: add slave testunit driver")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/admin-guide/hw-vuln/l1d_flush.rst | 3 +--
- Documentation/i2c/index.rst                     | 1 +
- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
 
-diff --git a/Documentation/admin-guide/hw-vuln/l1d_flush.rst b/Documentation/admin-guide/hw-vuln/l1d_flush.rst
-index adc4ecc72361..f794e2b1096c 100644
---- a/Documentation/admin-guide/hw-vuln/l1d_flush.rst
-+++ b/Documentation/admin-guide/hw-vuln/l1d_flush.rst
-@@ -22,8 +22,7 @@ mechanism
- Usage Guidelines
- ----------------
- 
--Please see document: :ref:`Documentation/userspace-api/spec_ctrl.rst` for
--details.
-+Please see document: :doc:`/userspace-api/spec_ctrl` for details.
- 
- **NOTE**: The feature is disabled by default, applications need to
- specifically opt into the feature to enable it.
-diff --git a/Documentation/i2c/index.rst b/Documentation/i2c/index.rst
-index 8a2ad3845191..9b8df313902c 100644
---- a/Documentation/i2c/index.rst
-+++ b/Documentation/i2c/index.rst
-@@ -38,6 +38,7 @@ Debugging
- 
-    gpio-fault-injection
-    i2c-stub
-+   slave-testunit-backend
- 
- Slave I2C
- =========
+As a reference, the patches fixing all html build warnings are at:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=sphinx3-fixes-v3
+
+Such series also adds support for Sphinx versions 3.1 and above.
+
+It should be noticed that, with Sphinx version 3 and above, there
+are a few new warnings, because currently Sphinx assumes a
+that names are unique for all C symbols. There are a few cases
+where we have the same name for a function and for a struct at
+the Kernel. Upstream is already working on a solution for that.
+
+So, for now, I recomend doing html builds with version < 3.
+
+
+Mauro Carvalho Chehab (6):
+  net: core: document two new elements of struct net_device
+  docs: vcpu.rst: fix some build warnings
+  docs: virt: user_mode_linux_howto_v2.rst: fix a literal block markup
+  docs: i2c: index.rst: add slave-testunit-backend.rst
+  scripts: kernel-doc: add support for typedef enum
+  docs: gpio: add a new document to its index.rst
+
+ Documentation/admin-guide/gpio/index.rst      |  1 +
+ .../admin-guide/hw-vuln/l1d_flush.rst         |  3 +--
+ Documentation/i2c/index.rst                   |  1 +
+ Documentation/virt/kvm/devices/vcpu.rst       | 26 +++++++++----------
+ .../virt/uml/user_mode_linux_howto_v2.rst     |  1 +
+ include/linux/netdevice.h                     |  5 ++++
+ scripts/kernel-doc                            | 15 ++++++++---
+ 7 files changed, 33 insertions(+), 19 deletions(-)
+
 -- 
 2.26.2
+
 
