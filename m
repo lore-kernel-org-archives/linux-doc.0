@@ -2,323 +2,81 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE2CC35257
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 18:28:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AF31C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 19:10:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45CD4208A9
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 18:28:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iyd0xHn4"
+	by mail.kernel.org (Postfix) with ESMTP id DBC4620795
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 19:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388347AbgJBS2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 14:28:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35336 "EHLO
+        id S2387768AbgJBTKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 15:10:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726017AbgJBS23 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 14:28:29 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BA92C0613E2
-        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 11:28:27 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id q13so3246156ejo.9
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 11:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BsYux+2mDidOv01anJDY4ry73gJii56cZfxQL8DhjP4=;
-        b=iyd0xHn4pqAUWDMGwczEUFCBJENEtyZtyKCMJHta/ydXRMM9/B99IrtUiiRN+s5bOF
-         TTtr781sbHxsOWsEU5+byp+ROmF9ODhkPJHBOslK1Y9ry1Ji08z/rLjC3CK+391Yba5B
-         VFeGBNOweTd+OzOFQHgzSldQFVLX+tbjgtZyz1hMEmIUFFs7GecCx0rxlPaNYodd7ER4
-         zyIOJci5vzTKf6Z224hXvN2ABvNft70rqsw9MsbdNEXQWu3Dl5OdAYJOfQLpwgDtgvkt
-         rQqnq41eu2st0HnmbRX+mvmKbKEJRkEkmjMvSVq0dHXpdwNET9/wZZzdNahlc1LYPg6F
-         WAew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BsYux+2mDidOv01anJDY4ry73gJii56cZfxQL8DhjP4=;
-        b=XpDkhjoEckHJQf8sPDCrsvnG5gIj4/90fgLkFJ6XCr+x0rUnQN4Vrd75+RaIvu7QIh
-         S8iJ+FNXvibypkhC9prfBokGqirvAIJu3pR5+B5nMCIf0+gEsKSxd1I4C7rhM6IPfauP
-         m45d/JTsuseA4vOMnykyy2GNFZ//6tKNP0BD0vMcB3xz8pcfuWr0Py5EC1PnmfiEAgZp
-         FnbJkSSF7mRimEkD4OUUNlDhaNgP+VZQ66ooF9xmFGXt9ZVfCJcD06lYqC/PjiDayZwS
-         B8PK3Q2nYwxdGM/yG0oZBtkods6rNjxRrT/LamlX+2s5vd3x78+koNhMNXSWDzaEngXF
-         KIxA==
-X-Gm-Message-State: AOAM531CTJ5sFGfbZZO96Wz0eYJMSpQXFSaQjcTJ6VC8MvmdS8e+spQG
-        EKg3Ymu60XHBug7hmywJ2+rqLq3nq8S0+x6pbMzbkw==
-X-Google-Smtp-Source: ABdhPJzgKrliXRN5QPqAAT9OPrizyhjQuMQ0C89osYzNNCBB+hq/RPtF3G0uUVP4RgyWMHeWl01Rv7KBt75igmVc/08=
-X-Received: by 2002:a17:906:394:: with SMTP id b20mr3465227eja.513.1601663305597;
- Fri, 02 Oct 2020 11:28:25 -0700 (PDT)
+        with ESMTP id S1726215AbgJBTKX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 15:10:23 -0400
+Received: from dazzle.geroedel.de (unknown [IPv6:2a02:180:2:aa:1::b3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26649C0613D0
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 12:10:23 -0700 (PDT)
+Received: from [192.168.15.2] (helo=feeble.bln.roederer.dhs.org)
+        by dazzle.geroedel.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <devel-sven@geroedel.de>)
+        id 1kOQRg-0005Ss-5y; Fri, 02 Oct 2020 21:10:20 +0200
+Received: from strike.bln.roederer.dhs.org ([192.168.8.36] helo=strike.localnet)
+        by feeble.bln.roederer.dhs.org with esmtp (Exim 4.92)
+        (envelope-from <devel-sven@geroedel.de>)
+        id 1kOQRf-0004aj-Q1; Fri, 02 Oct 2020 21:10:19 +0200
+From:   Sven Roederer <devel-sven@geroedel.de>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-doc@vger.kernel.org
+Date:   Fri, 02 Oct 2020 21:10:19 +0200
+Message-ID: <1660456.qV5v0P9cVl@strike>
+In-Reply-To: <20201001222023.GV20115@casper.infradead.org>
+References: <20201001215029.30583-1-devel-sven@geroedel.de> <20201001222023.GV20115@casper.infradead.org>
 MIME-Version: 1.0
-References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-2-elver@google.com>
- <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
- <CAG48ez1MQks2na23g_q4=ADrjMYjRjiw+9k_Wp9hwGovFzZ01A@mail.gmail.com> <CACT4Y+a3hLF1ph1fw7xVz1bQDNKL8W0s6pXe7aKm9wTNrJH3=w@mail.gmail.com>
-In-Reply-To: <CACT4Y+a3hLF1ph1fw7xVz1bQDNKL8W0s6pXe7aKm9wTNrJH3=w@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 2 Oct 2020 20:27:59 +0200
-Message-ID: <CAG48ez1RYbpMFbGFB6=9Y3vVCGrMgLS3LbDdxzBfmxH6Kxddmw@mail.gmail.com>
-Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam_score: -2.9
+X-Spam_score_int: -28
+X-Spam_bar: --
+X-Spam_report: Spam detection software, running on the system "dazzle",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ @@CONTACT_ADDRESS@@ for details.
+ Content preview:  Am Freitag, 2. Oktober 2020, 00:20:23 CEST schrieb Matthew
+    Wilcox: > On Thu, Oct 01, 2020 at 11:50:29PM +0200, Sven Roederer wrote:
+   > > +rsync is used to instal the kernel-headers system wide with > > [...]
+ Content analysis details:   (-2.9 points, 5.0 required)
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+ -1.9 BAYES_00               BODY: Bayes spam probability is 0 to 1%
+                             [score: 0.0000]
+X-SA-Exim-Connect-IP: 192.168.15.2
+X-SA-Exim-Mail-From: devel-sven@geroedel.de
+Subject: Re: [PATCH] docs: changes.rst: add rsync to the list of required tools
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on dazzle.geroedel.de)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 2, 2020 at 4:23 PM Dmitry Vyukov <dvyukov@google.com> wrote:
-> On Fri, Oct 2, 2020 at 9:54 AM Jann Horn <jannh@google.com> wrote:
-> > On Fri, Oct 2, 2020 at 8:33 AM Jann Horn <jannh@google.com> wrote:
-> > > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
-> > > > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> > > > low-overhead sampling-based memory safety error detector of heap
-> > > > use-after-free, invalid-free, and out-of-bounds access errors.
-> > > >
-> > > > KFENCE is designed to be enabled in production kernels, and has near
-> > > > zero performance overhead. Compared to KASAN, KFENCE trades performance
-> > > > for precision. The main motivation behind KFENCE's design, is that with
-> > > > enough total uptime KFENCE will detect bugs in code paths not typically
-> > > > exercised by non-production test workloads. One way to quickly achieve a
-> > > > large enough total uptime is when the tool is deployed across a large
-> > > > fleet of machines.
-> > [...]
-> > > > +/*
-> > > > + * The pool of pages used for guard pages and objects. If supported, allocated
-> > > > + * statically, so that is_kfence_address() avoids a pointer load, and simply
-> > > > + * compares against a constant address. Assume that if KFENCE is compiled into
-> > > > + * the kernel, it is usually enabled, and the space is to be allocated one way
-> > > > + * or another.
-> > > > + */
-> > >
-> > > If this actually brings a performance win, the proper way to do this
-> > > would probably be to implement this as generic kernel infrastructure
-> > > that makes the compiler emit large-offset relocations (either through
-> > > compiler support or using inline asm statements that move an immediate
-> > > into a register output and register the location in a special section,
-> > > kinda like how e.g. static keys work) and patches them at boot time,
-> > > or something like that - there are other places in the kernel where
-> > > very hot code uses global pointers that are only ever written once
-> > > during boot, e.g. the dentry cache of the VFS and the futex hash
-> > > table. Those are probably far hotter than the kfence code.
-> > >
-> > > While I understand that that goes beyond the scope of this project, it
-> > > might be something to work on going forward - this kind of
-> > > special-case logic that turns the kernel data section into heap memory
-> > > would not be needed if we had that kind of infrastructure.
-> >
-> > After thinking about it a bit more, I'm not even convinced that this
-> > is a net positive in terms of overall performance - while it allows
-> > you to avoid one level of indirection in some parts of kfence, that
-> > kfence code by design only runs pretty infrequently. And to enable
-> > this indirection avoidance, your x86 arch_kfence_initialize_pool() is
-> > shattering potentially unrelated hugepages in the kernel data section,
-> > which might increase the TLB pressure (and therefore the number of
-> > memory loads that have to fall back to slow page walks) in code that
-> > is much hotter than yours.
-> >
-> > And if this indirection is a real performance problem, that problem
-> > would be many times worse in the VFS and the futex subsystem, so
-> > developing a more generic framework for doing this cleanly would be
-> > far more important than designing special-case code to allow kfence to
-> > do this.
-> >
-> > And from what I've seen, a non-trivial chunk of the code in this
-> > series, especially the arch/ parts, is only necessary to enable this
-> > microoptimization.
-> >
-> > Do you have performance numbers or a description of why you believe
-> > that this part of kfence is exceptionally performance-sensitive? If
-> > not, it might be a good idea to remove this optimization, at least for
-> > the initial version of this code. (And even if the optimization is
-> > worthwhile, it might be a better idea to go for the generic version
-> > immediately.)
->
-> This check is very hot, it happens on every free. For every freed
-> object we need to understand if it belongs to KFENCE or not.
+Am Freitag, 2. Oktober 2020, 00:20:23 CEST schrieb Matthew Wilcox:
+> On Thu, Oct 01, 2020 at 11:50:29PM +0200, Sven Roederer wrote:
+> > +rsync is used to instal the kernel-headers system wide with
+> > administarative
+> "install", "administrative" (or just "admin" or even "root"?)
+> 
+Depending on the system-layout, as special group might have the permissions to 
+update the files. So root is not strictly needed, even it's the common case.
+So I would perfer to stay with "administrative permissions".
 
-Ah, so the path you care about does not dereference __kfence_pool, it
-just compares it to the supplied pointer?
-
-
-First off: The way you've written is_kfence_address(), GCC 10.2 at -O3
-seems to generate *utterly* *terrible* code (and the newest clang
-release isn't any better); something like this:
-
-kfree_inefficient:
-  mov rax, QWORD PTR __kfence_pool[rip]
-  cmp rax, rdi
-  jbe .L4
-.L2:
-  jmp kfree_not_kfence
-.L4:
-  add rax, 0x200000
-  cmp rax, rdi
-  jbe .L2
-  jmp kfree_kfence
-
-So pointers to the left of the region and pointers to the right of the
-region will take different branches, and so if you have a mix of
-objects on both sides of the kfence region, you'll get tons of branch
-mispredictions for no good reason. You'll want to rewrite that check
-as "unlikely(ptr - base <= SIZE)" instead of "unlikely(ptr >= base &&
-ptr < base + SIZE" unless you know that all the objects will be on one
-side. This would also reduce the performance impact of loading
-__kfence_pool from the data section, because the branch prediction can
-then speculate the branch that depends on the load properly and
-doesn't have to go roll back everything that happened when the object
-turns out to be on the opposite side of the kfence memory region - the
-latency of the load will hopefully become almost irrelevant.
+Sven
 
 
 
-So in x86 intel assembly (assuming that we want to ensure that we only
-do a single branch on the object type), the straightforward and
-non-terrible version would be:
-
-
-kfree_unoptimized:
-  mov rax, rdi
-  sub rax, QWORD PTR __kfence_pool[rip]
-  cmp rax, 0x200000
-  jbe 1f
-  /* non-kfence case goes here */
-1:
-  /* kfence case goes here */
-
-
-while the version you want is:
-
-
-kfree_static:
-  mov rax, rdi
-  sub rax, OFFSET FLAT:__kfence_pool
-  cmp rax, 0x200000
-  jbe 1f
-  jmp kfree_not_kfence
-1:
-  jmp kfree_kfence
-
-
-If we instead use something like
-
-#define STATIC_VARIABLE_LOAD(variable) \
-({ \
-  typeof(variable) value; \
-  BUILD_BUG_ON(sizeof(variable) != sizeof(unsigned long)); \
-  asm( \
-    ".pushsection .static_variable_users\n\t" \
-    ".long "  #variable " - .\n\t" \
-    ".long 123f - .\n\t" /* offset to end of constant */ \
-    ".popsection\n\t" \
-    "movabs $0x0123456789abcdef, %0" \
-    "123:\n\t" \
-    :"=r"(value) \
-  ); \
-  value; \
-})
-static __always_inline bool is_kfence_address(const void *addr)
-{
-  return unlikely((char*)addr - STATIC_VARIABLE_LOAD(__kfence_pool) <
-KFENCE_POOL_SIZE);
-}
-
-to locate the pool (which could again be normally allocated with
-alloc_pages()), we'd get code like this, which is like the previous
-except that we need an extra "movabs" because x86's "sub" can only use
-immediates up to 32 bits:
-
-kfree_hotpatchable_bigreloc:
-  mov rax, rdi
-  movabs rdx, 0x0123456789abcdef
-  sub rax, rdx
-  cmp rax, 0x200000
-  jbe .1f
-  jmp kfree_not_kfence
-1:
-  jmp kfree_kfence
-
-The arch-specific part of this could probably be packaged up pretty
-nicely into a generic interface. If it actually turns out to have a
-performance benefit, that is.
-
-If that one extra "movabs" is actually a problem, it would
-*theoretically* be possible to get rid of that by using module_alloc()
-to allocate virtual memory to which offsets from kernel text are 32
-bits, and using special-cased inline asm, but we probably shouldn't do
-that, because as Mark pointed out, we'd then risk getting extremely
-infrequent extra bugs when drivers use phys_to_virt() on allocations
-that were done through kfence. Adding new, extremely infrequent and
-sporadically occurring bugs to the kernel seems like the exact
-opposite of the goal of KFENCE. :P
-
-Overall my expectation would be that the MOVABS version should
-probably at worst be something like one cycle slower - it adds 5
-instruction bytes (and we pay 1 cycle in the frontend per 16 bytes of
-instructions, I think?) and 1 backend cycle (for the MOVABS - Agner
-Fog's tables seem to say that at least on Skylake, MOVABS is 1 cycle).
-But that backend cycle shouldn't even be on the critical path (and it
-has a wider choice of ports than e.g. a load, and I think typical
-kernel code isn't exactly highly parallelizable, so we can probably
-schedule on a port that would've been free otherwise?), and I think
-typical kernel code should be fairly light on the backend, so with the
-MOVABS version, compared to the version with __kfence_pool in the data
-section, we probably overall just pay a fraction of a cycle in
-execution cost? I'm not a professional performance engineer, but this
-sounds to me like the MOVABS version should probably perform roughly
-as well as your version.
-
-Anyway, I guess this is all pretty vague without actually having
-concrete benchmark results. :P
-
-See <https://godbolt.org/z/Kev9dc> for examples of actual code
-generation for different options of writing this check.
-
-> The generic framework for this already exists -- you simply create a
-> global variable ;)
-
-Yeah, except for all the arch-specific bits you then need to twiddle
-with because nobody expects heap memory inside the data section...
-
-> KFENCE needs the range to be covered by struct page's and that's what
-> creates problems for arm64. But I would assume most other users don't
-> need that.
-
-Things like the big VFS dentry cache and the futex hashtable have
-their size chosen at boot time, so they also can't be placed in the
-data/bss section.
