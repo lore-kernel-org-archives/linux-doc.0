@@ -2,195 +2,159 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F96C4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:08:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BB3C4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:11:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FECB2085B
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:08:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 191E620758
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:11:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Uy7vywT3"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="AHIBOjdQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387789AbgJBRIY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 13:08:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51020 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733260AbgJBRIY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 13:08:24 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1726C0613D0;
-        Fri,  2 Oct 2020 10:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=Ca8sKDCw0GHjZBhcGIIj3L8CqwOb97DQ3AjGP71wsRg=; b=Uy7vywT3YdKEfwIHdRjlWzGj8r
-        5acepEv+e/R3YyxjVPM//7PqryrPI5ejKkQIruJYL6PNzNMck0cMhbu+Ain7vJPMNlBhbhhMUb3e2
-        X7xE5v9+lQin7WW5HME2RJqjE/1cVO3iSstIQ156iUcsEjfQeHrTWWGbv++5ZoagWV43rjWuoosWe
-        vUqgkEXAo9/40kbLE+qm22yUN8GIiZyxNvHVnLvM5oNtt5X82TzhdWfwimL/H3b22ryh4e+TsDgmU
-        z/d5rwTY/SEqGxJ34NQUNh1myHxa9uCwaPFruOgIFZAqF8lfbbg57USNXTe4qe5D9lX+rrVcOpjC9
-        LjyMnNZA==;
-Received: from [2601:1c0:6280:3f0::2c9a]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kOOXd-0003Pa-4g; Fri, 02 Oct 2020 17:08:21 +0000
-Subject: Re: [RFC PATCH v1 08/26] docs: reporting-bugs: make readers check the
- taint flag
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <eed27c4faa31d98bd37db18ba2ae90f1767c7102.1601541165.git.linux@leemhuis.info>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8129d3a7-3649-b9cc-1615-402f12ee370a@infradead.org>
-Date:   Fri, 2 Oct 2020 10:08:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726813AbgJBRL2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 13:11:28 -0400
+Received: from mout.gmx.net ([212.227.17.22]:38737 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725991AbgJBRL2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 13:11:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1601658680;
+        bh=63H9pOiH0+7afFaplsAsPhAJR6vHQUiql917hmAqUC4=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=AHIBOjdQrMnUSdVEpEelxmJ0npV7i+cfWWBZpd6MXVvFQY+HVm4duv1WSEclNWJrW
+         na5XrKkpugfVIrDGvUE4f/dLVJnT5g153nRdkc9WPZhxCff8fUaMHymb4hwcAa+MCD
+         jF9sK+FPAfQIc6VfM/EoTqalSl5zwCrAI0eleQmQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from workstation4.fritz.box ([178.202.41.107]) by mail.gmx.com
+ (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1MWAOQ-1jvBXx43li-00XgCU; Fri, 02 Oct 2020 19:11:20 +0200
+From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-efi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Fran=C3=A7ois=20Ozog?= <francois.ozog@linaro.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: [PATCH 1/1] docs: admin-guide: fdt and initrd load in EFI stub
+Date:   Fri,  2 Oct 2020 19:11:12 +0200
+Message-Id: <20201002171112.22738-1-xypron.glpk@gmx.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <eed27c4faa31d98bd37db18ba2ae90f1767c7102.1601541165.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:9fZxmnWDuYGgQgNcRpM+wK+ePCFLSvRfmJIcmYW0YkFQZN49Tsg
+ yaKZn5ZsBMZQ5LRjl//11nXeogKaa2pU5bf/SogphX0yOLPONPcEdGytZxFXXjna8RU7Hyh
+ 0WFxYbNbsN5hE8khpQgI+Tb8CgrX0uDxkfS6eao8jsA1ToID86fjUTVe9TVxa7LdtOqGlOr
+ 8gljEF1Tn6HkC1hkYERBw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4lfLB/DNw+M=:GCTPZBTTs4ZmwZ+lZr0j9j
+ uScruu1n/2XPrZWcdyK2iG/MY5HrVtJ7wznHNHAyuKUfsVGuz7cVePf8d7authL+lu2Xh7T4q
+ sR17or3373rFET5LBE87NmpiK2sjAaFmpDxsABqYhTvLg0lLaJf4bs7eDQRoAp+PrMtsp5rdz
+ M/g4Mt6TDxVPeooKpYrytcK3dgW/AWgBK46GMXm0nTX7OsUNPbDDJH3zMlDHHdWe7azuwTWTe
+ 2N0jvi4uvALkHjyCb1QRYETxh5PcUkwPaWN344tQQqHq2PVLCTbXuQjmfAenvY0w83TbVLS0g
+ f7rX9SABHptl03s90sj3OtF3pUZp5u2pV0cFWmjPyK+QzTBbtGGfMX0BfZ+WcobvV/rlH7zB6
+ 2dZ6tTR6vn/d+579yvY8YgjpKiiEplWRJ5o+VzRUXfXaKh3wum4CwLibf2r9370pZAgV6zr4H
+ 5jm5qQWcKpT4BWL8FMHmd1JCGGuYWtvT5NnuA66zFXPKvAeMu45+qJa8cLvRemvNJeIv2xx16
+ anqVHu2uqVcK+9m8V/Jvp+CSXcEGMs06wiGqbMfFuJSV1pWtCFx+cv5e9AE8rXQCAGWuLH25h
+ 0V3SC4AtBibpv+AkB8Td8QKDxR0y8tOXmINIzQN7wgvZa/0XPtuE6Uv8xK+wwn89XAvLiujFb
+ W2HoXUK4jR9KNS2Loj2UReX9Agvc/hRWY5NZ2cKNklKL/PeGIBbhw1YvB4NMnN3Bh1bhMdefQ
+ GOVTXiev0ez6NYeh3tiQIHW/L8GSb0b18FS79s2wbMUGu8YQcRZdI3jZjtQM90MYIVbWlTjeB
+ 3SwRigV8QoT3dscHeKs3Wd5Cd4GmeIvT0U5/DXKUqBKHdX1p1pllmK0dIfHM3GbSAcDD6DgC8
+ ACLbK86XXI34bR0MIStUrmU34RHZsjjz4UbzeBbQ4eYvzSaSR2elvQja10Tl3D3VPddTZ3d6/
+ F+VzjZTNpkgn6i8OoxTi6BhE0N7T60FYhIcIy+sB+G9TzVyGP0deeRvXUDlSHP7fTSFZzLlRd
+ iNUSV8OZ/h3RphYGYkT0Fuw8naeehrIWDC6VQnGA7oSdvjssZI2Iimhds9MMQTLKcaxwJ8Sx8
+ goXwuwL7BgGpHjWzT69RE8niHnn4Bx6eWuyoMajW1h8J1h7+UfE65E6vs/6C+4SK/xTA1PlK3
+ Ju7pcBpGkdpG76SAZNrDkin7R+1+Jt87d1G+Qx0rUQtFdiXnXVHP+x5ikixF8aB9IXnA3rydG
+ L+VxNDn/79m5OiZJjcNylfpGeF5ZjELEXKjeRPQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
-> Tell users early in the process to check the taint flag, as that will
-> prevent them from investing time into a report that might be worthless.
-> That way users for example will notice that the issue they face is in
-> fact caused by an add-on kernel module or and Oops that happened
-> earlier.
-> 
-> This approach has a downside: users will later have to check the flag
-> again with the mainline kernel the guide tells them to install. But that
-> is an acceptable trade-off here, as checking only takes a few seconds
-> and can easily prevent wasting time in useless testing and debugging.
-> 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
-> 
-> = RFC =
-> 
-> Should "disable DKMS" come before this step? But then the backup step right
-> before that one would need to be moved as well, as disabling DKMS can mix things
-> up.
-> ---
->  Documentation/admin-guide/reporting-bugs.rst  | 59 +++++++++++++++++++
->  Documentation/admin-guide/tainted-kernels.rst |  2 +
->  2 files changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-> index 430a0c3ee0ad..61b6592ddf74 100644
-> --- a/Documentation/admin-guide/reporting-bugs.rst
-> +++ b/Documentation/admin-guide/reporting-bugs.rst
-> @@ -311,6 +311,65 @@ fatal error where the kernels stop itself) with a 'Oops' (a recoverable error),
->  as the kernel remains running after an 'Oops'.
->  
->  
-> +Check 'taint' flag
-> +------------------
-> +
-> +    *Check if your kernel was 'tainted' when the issue occurred, as the event
-> +    that made the kernel set this flag might be causing the issue you face.*
-> +
-> +The kernel marks itself with a 'taint' flag when something happens that might
-> +lead to follow-up errors that look totally unrelated. The issue you face might
-> +be such an error if your kernel is tainted. That's why it's in your interest to
-> +rule this out early before investing more time into this process. This is the
-> +only reason why this step is here, as this process later will tell you to
-> +install the latest mainline kernel and check its taint flag, as that's the
-> +kernel the report will be mainly about.
-> +
-> +On a running system is easy to check if the kernel tainted itself: it's not
-> +tainted if ``cat /proc/sys/kernel/tainted`` returns '0'. Checking that file is
-> +impossible in some situations, that's why the kernel also mentions the taint
+Describe how a device tree and an initial RAM disk can be passed to the EF=
+I
+Boot Stub.
 
-                      situations;
+Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+=2D--
+ Documentation/admin-guide/efi-stub.rst | 35 ++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-> +status when it reports an internal problem (a 'kernel bug'), a recoverable
-> +error (a 'kernel Oops') or a non-recoverable error before halting operation (a
-> +'kernel panic'). Look near the top of the error messages printed when one of
-> +these occurs and search for a line starting with 'CPU:'. It should end with
-> +'Not tainted' if the kernel was not tainted beforehand; it was tainted if you
-> +see 'Tainted:' followed by a few spaces and some letters.
-> +
-> +If your kernel is tainted study
+diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-=
+guide/efi-stub.rst
+index 833edb0d0bc4..86f50a33884c 100644
+=2D-- a/Documentation/admin-guide/efi-stub.rst
++++ b/Documentation/admin-guide/efi-stub.rst
+@@ -38,6 +38,34 @@ arch/arm/boot/zImage should be copied to the system par=
+tition, and it
+ may not need to be renamed. Similarly for arm64, arch/arm64/boot/Image
+ should be copied but not necessarily renamed.
 
-                     tainted, study
++Passing an initial RAM disk to the EFI Boot Stub
++------------------------------------------------
++
++The following means sorted by decreasing priority can be used to provide =
+an
++initial RAM disk to the EFI Boot Stub:
++
++* The firmware may provide a UEFI Load File 2 Protocol. The stub will try=
+ to
++  load the RAM disk by calling the LoadFile() service of the protocol usi=
+ng
++  a vendor device path with the vendor GUID
++  5568e427-0x68fc-4f3d-ac74-ca555231cc68.
++* Next the EFI stub will try to load the file indicated by the "initrd=3D=
+" command
++  line parameter.
++* The prior boot stage may pass the location of the initial RAM disk via =
+the
++  "linux,initrd-start" and "linux,initrd-end" properties of the "/chosen"=
+ node
++  of the device-tree.
++
++The first two items are inhibited by the "noinitrd" command line paramete=
+r.
++
++Passing a device-tree to the EFI Boot Stub
++------------------------------------------
++
++A device-tree can be passed to the EFI Boot Stub in decreasing priority u=
+sing
++
++* command line option dtb=3D
++* a UEFI configuration table with GUID b1b621d5-f19c-41a5-830b-d9152c69aa=
+e0.
++
++The command line option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADE=
+R=3Dy
++and secure boot is disabled.
 
-> +:ref:`Documentation/admin-guide/tainted-kernels.rst <taintedkernels>` to find
-> +out why and try to eliminate the reason. Often it's because a recoverable error
-> +(a 'kernel Oops') occurred and the kernel tainted itself, as the kernel knows
-> +it might misbehave in strange ways after that point. In that case check your
-> +kernel or system log and look for a section that starts with this::
-> +
-> +       Oops: 0000 [#1] SMP
-> +
-> +That's the first Oops since boot-up, as the '#1' between the brackets shows.
-> +Every Oops and any other problem that happen after that point might be a
-> +follow-up problem to that first Oops, even if they look totally unrelated. Try
-> +to rule this out by getting rid of that Oops and reproducing the issue
-> +afterwards. Sometimes simply restarting will be enough, sometimes a change to
-> +the configuration followed by a reboot can eliminate the Oops. But don't invest
-> +too much time into this at this point of the process, as the cause for the Oops
-> +might already be fixed in the newer Linux kernel version you are going to
-> +install later in this process.
-> +
-> +Quite a few kernels are also tainted because an unsuitable kernel modules was
+ Passing kernel parameters from the EFI shell
+ --------------------------------------------
+@@ -46,6 +74,10 @@ Arguments to the kernel can be passed after bzImage.efi=
+, e.g.::
 
-                                                                     module
+ 	fs0:> bzImage.efi console=3DttyS0 root=3D/dev/sda4
 
-> +loaded. This for example is the case if you use Nvidias proprietary graphics
++The "noinitrd" option
++---------------------
++
++The "noinitrd" option stops the EFI stub from loading an initial RAM disk=
+.
 
-                                                   Nvidia's
+ The "initrd=3D" option
+ --------------------
+@@ -98,3 +130,6 @@ CONFIGURATION TABLE.
 
-> +driver, VirtualBox, or other software that installs its own kernel modules: you
-> +will have to remove these modules and reboot the system, as they might in fact
-> +be causing the issue you face.
-
-You will need to reboot the system and try to reproduce the issue without loading
-any of these proprietary modules.
-
-> +
-> +The kernel also taints itself when it's loading a module that resists in the
-
-                                                                 resides
-
-> +staging tree of the Linux kernel source. That's a special area for code (mostly
-> +drivers) that does not yet fulfill the normal Linux kernel quality standards.
-> +When you report an issue with such a module it's obviously okay if the kernel is
-> +tainted, just make sure the module in question is the only reason for the taint.
-
-   tainted;
-
-> +If the issue happens in an unrelated area reboot and temporary block the module
-
-                                                        temporarily
-
-> +from being loaded by specifying ``foo.blacklist=1`` as kernel parameter (replace
-> +'foo' with the name of the module in question).
-> +
-> +
->  .. ############################################################################
->  .. Temporary marker added while this document is rewritten. Sections above
->  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
-> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-> index abf804719890..2900f477f42f 100644
-> --- a/Documentation/admin-guide/tainted-kernels.rst
-> +++ b/Documentation/admin-guide/tainted-kernels.rst
-> @@ -1,3 +1,5 @@
-> +.. _taintedkernels:
-> +
->  Tainted kernels
->  ---------------
->  
-> 
-
-
--- 
-~Randy
+ "dtb=3D" is processed in the same manner as the "initrd=3D" option that i=
+s
+ described above.
++
++This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=3Dy and se=
+cure
++boot is disabled.
+=2D-
+2.28.0
 
