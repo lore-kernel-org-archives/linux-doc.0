@@ -2,126 +2,395 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4968C4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D93BCC4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:34:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 58503206E3
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:22:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601619747;
-	bh=Fm3wF63UnVpjp+czzLRNKA2N8EiUUiZinULEHueyAbQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=yvGWNQu7825WylDes1g3yt/k0AJHvViEonHTGYppAyBKyW0jFYXV8QW54WxteX8oK
-	 H5pd+UmoyOGoupk9kDP+sVbEhIxlntYUS3q2IZUTc8td+0L4rP9iNWmjI1dBwBnCuj
-	 IK9HLwQdUBs6fgAQPED8krSSR+rWW/wvYjFQs5a0=
+	by mail.kernel.org (Postfix) with ESMTP id 8934F2074B
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:34:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W4cmDp1w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725993AbgJBGW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 02:22:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39442 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725948AbgJBGWZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 02:22:25 -0400
-Received: from coco.lan (ip5f5ad59f.dynamic.kabel-deutschland.de [95.90.213.159])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 86FCC206DD;
-        Fri,  2 Oct 2020 06:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601619745;
-        bh=Fm3wF63UnVpjp+czzLRNKA2N8EiUUiZinULEHueyAbQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DG1CqBpfSykW1DDZaTaf0cKsorDz5skja30jv0E1nZUMfUiJi8GUg3Wh3JCgX3fc0
-         7fFCVjYNm5DGwpDf0sZQhXEJBqTZNZAv+5cauqqpLqqFZPnSoc3YcWre82wM+wFUVw
-         HdAukYgzZE9eVgVArq0H8FwVQ+TLkrdYR/9Zbac0=
-Date:   Fri, 2 Oct 2020 08:22:21 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 04/52] scripts: kernel-doc: make it more compatible
- with Sphinx 3.x
-Message-ID: <20201002082221.1df7d39b@coco.lan>
-In-Reply-To: <20201001154100.2f7e89b8@lwn.net>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <c7b04d8f20f44d4d2eb797d8694bd7546f95ac05.1601467849.git.mchehab+huawei@kernel.org>
-        <20201001154100.2f7e89b8@lwn.net>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726029AbgJBGeC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 02:34:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725971AbgJBGeC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 02:34:02 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A550FC0613D0
+        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 23:34:01 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id g3so517429edu.6
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2020 23:34:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7BDuU6sXeGKigaXtfOae0G/hnHiDrPaHNVHyy0KSsRs=;
+        b=W4cmDp1w8qq1vIMaUhMz2mwvLMqpRNdnmF2tvhmQ7e84k0P1taIbBaQPsEN4hsD19B
+         AU8vm1qH3umKPPVA1MK0T3ADzWgYUqgySANCLJxywkpsmHVnEUDJe9JFXQhrV0lVmFaS
+         ft6xD9OtkPraoEGzzQ53j7WyrYdgUNntq01yL6DjMzXjEdklRkXL/FLawBK99mEFbj+g
+         GplVRL8a6kqe07BPFifJCrq5l/fQ0SIn854ODUGxgRM/f38pthOVxuuSDu+vm+VBWVBe
+         u3cbGJEfU96ZJdGjKZYEniSiiYwSWY4RixT6yXE4eY8dfDbB3Ug0pgJkE1aKjt7HRYsY
+         1zxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7BDuU6sXeGKigaXtfOae0G/hnHiDrPaHNVHyy0KSsRs=;
+        b=m0hbM4KjbggbWRb4MvwMtAOQ3BuTuDp9dF23NIWlNAehzpS7UIZSk3bKAh6YAgzGm9
+         5aiWqRyyK5xkv3LA8wHuDd/GWh496ytElbhtmFvPEUuwjXB0gDJF1LyMRP8T6/f0CrjB
+         wmFxqGqUG2YzHYEiZ/QdmfWJCAndX9uyddG8WR36a09R7zABsfQFDPXxFd/BCHBpTmtR
+         /es5enXYXums3iBzynWQT79aLVVciRw9EiD6vTGReRYmmVLQpChA2sX+VaGaN7TW7o05
+         8ImLlMhWDW6d4ESAfYumcpD2peqhLSLGbSosNY17k4CqgmOLEgDv02rvZQGPuiDyzhJp
+         Mqwg==
+X-Gm-Message-State: AOAM5304risbtCLamm4sDKlODgBpSYTMy3kKYJ9DLV6QbTbla+Gtx5Fy
+        56mCxvJfz871j/jH4mUCV7WsE4ewJUgtN5Fr5c4cgw==
+X-Google-Smtp-Source: ABdhPJxtkAz6DvXzPFoMwIAy2afWvGz2ppCrq5JnQILdfrhyMgT/pz2do+1qL5Nusj/THBOyPpWZ7q+rAkkmJvahHWo=
+X-Received: by 2002:a05:6402:cba:: with SMTP id cn26mr758061edb.230.1601620439936;
+ Thu, 01 Oct 2020 23:33:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-2-elver@google.com>
+In-Reply-To: <20200929133814.2834621-2-elver@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 2 Oct 2020 08:33:33 +0200
+Message-ID: <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jonathan.Cameron@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 1 Oct 2020 15:41:00 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> low-overhead sampling-based memory safety error detector of heap
+> use-after-free, invalid-free, and out-of-bounds access errors.
+>
+> KFENCE is designed to be enabled in production kernels, and has near
+> zero performance overhead. Compared to KASAN, KFENCE trades performance
+> for precision. The main motivation behind KFENCE's design, is that with
+> enough total uptime KFENCE will detect bugs in code paths not typically
+> exercised by non-production test workloads. One way to quickly achieve a
+> large enough total uptime is when the tool is deployed across a large
+> fleet of machines.
+>
+> KFENCE objects each reside on a dedicated page, at either the left or
+> right page boundaries.
 
-> On Wed, 30 Sep 2020 15:24:27 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > With Sphinx 3.x, the ".. c:type:" tag was changed to accept either:
-> > 
-> > 	.. c:type:: typedef-like declaration
-> > 	.. c:type:: name
-> > 
-> > Using it for other types (including functions) don't work anymore.
-> > 
-> > So, there are newer tags for macro, enum, struct, union, and others,
-> > which doesn't exist on older versions.
-> > 
-> > Add a check for the Sphinx version and change the produced tags
-> > accordingly.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  scripts/kernel-doc | 71 ++++++++++++++++++++++++++++++++++++++++++----
-> >  1 file changed, 65 insertions(+), 6 deletions(-)  
-> 
-> So this seems generally good, but I do wonder if we shouldn't just pass
-> the sphinx version into kernel-doc as a parameter?  We're already doing a
-> version check in the makefile, we should be able to capture the result and
-> pass it in, maybe?  
+(modulo slab alignment)
 
-My plan is to work later on a patch adding support for it ;)
+> The pages to the left and right of the object
+> page are "guard pages", whose attributes are changed to a protected
+> state, and cause page faults on any attempted access to them. Such page
+> faults are then intercepted by KFENCE, which handles the fault
+> gracefully by reporting a memory access error. To detect out-of-bounds
+> writes to memory within the object's page itself, KFENCE also uses
+> pattern-based redzones. The following figure illustrates the page
+> layout:
+[...]
+> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+[...]
+> +/**
+> + * is_kfence_address() - check if an address belongs to KFENCE pool
+> + * @addr: address to check
+> + *
+> + * Return: true or false depending on whether the address is within the KFENCE
+> + * object range.
+> + *
+> + * KFENCE objects live in a separate page range and are not to be intermixed
+> + * with regular heap objects (e.g. KFENCE objects must never be added to the
+> + * allocator freelists). Failing to do so may and will result in heap
+> + * corruptions, therefore is_kfence_address() must be used to check whether
+> + * an object requires specific handling.
+> + */
+> +static __always_inline bool is_kfence_address(const void *addr)
+> +{
+> +       return unlikely((char *)addr >= __kfence_pool &&
+> +                       (char *)addr < __kfence_pool + KFENCE_POOL_SIZE);
+> +}
 
-Yet, there's something to consider: troubleshooting.
+If !CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL, this should probably always
+return false if __kfence_pool is NULL, right?
 
-I mean, if a warning is produced during "make htmldocs", as part
-of troubleshooting, people do:
+[...]
+> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+[...]
+> +menuconfig KFENCE
+> +       bool "KFENCE: low-overhead sampling-based memory safety error detector"
+> +       depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
+> +       depends on JUMP_LABEL # To ensure performance, require jump labels
+> +       select STACKTRACE
+> +       help
+> +         KFENCE is low-overhead sampling-based detector for heap out-of-bounds
 
-	./scripts/kernel-doc <some file>
+nit: "is a"
 
-It sounds more natural that, by default, it will output the same
-output as the one generated via "make htmldocs".
+> +         access, use-after-free, and invalid-free errors. KFENCE is designed
+> +         to have negligible cost to permit enabling it in production
+> +         environments.
+[...]
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+[...]
+> +module_param_named(sample_interval, kfence_sample_interval, ulong, 0600);
 
-So, the version detection code there sounds the right way for
-doing it.
+This is a writable module parameter, but if the sample interval was 0
+or a very large value, changing this value at runtime won't actually
+change the effective interval because the work item will never get
+kicked off again, right?
 
-Yet, as you pointed, as kerneldoc.py knows the Sphinx version,
-it should be easy for it to pass an argument and avoid version
-detection, by calling kernel-doc as:
+Should this maybe use module_param_cb() instead, with a "set" callback
+that not only changes the value, but also schedules the work item?
 
-	./scripts/kernel-doc --sphinx3 <somefile>
+[...]
+> +/*
+> + * The pool of pages used for guard pages and objects. If supported, allocated
+> + * statically, so that is_kfence_address() avoids a pointer load, and simply
+> + * compares against a constant address. Assume that if KFENCE is compiled into
+> + * the kernel, it is usually enabled, and the space is to be allocated one way
+> + * or another.
+> + */
 
-or
+If this actually brings a performance win, the proper way to do this
+would probably be to implement this as generic kernel infrastructure
+that makes the compiler emit large-offset relocations (either through
+compiler support or using inline asm statements that move an immediate
+into a register output and register the location in a special section,
+kinda like how e.g. static keys work) and patches them at boot time,
+or something like that - there are other places in the kernel where
+very hot code uses global pointers that are only ever written once
+during boot, e.g. the dentry cache of the VFS and the futex hash
+table. Those are probably far hotter than the kfence code.
 
-	./scripts/kernel-doc --sphinx-version 3 <somefile>
+While I understand that that goes beyond the scope of this project, it
+might be something to work on going forward - this kind of
+special-case logic that turns the kernel data section into heap memory
+would not be needed if we had that kind of infrastructure.
 
-(not sure yet about how to name such arguments ;-) )
+> +#ifdef CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL
+> +char __kfence_pool[KFENCE_POOL_SIZE] __kfence_pool_attrs;
+> +#else
+> +char *__kfence_pool __read_mostly;
 
-That might give some performance gain.
+not __ro_after_init ?
 
-Btw, with regards to performance, I have a few other ideas that
-might help how to improve kernel-doc (yet to be verified).
+> +#endif
+[...]
+> +/* Freelist with available objects. */
+> +static struct list_head kfence_freelist = LIST_HEAD_INIT(kfence_freelist);
+> +static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freelist. */
+[...]
+> +/* Gates the allocation, ensuring only one succeeds in a given period. */
+> +static atomic_t allocation_gate = ATOMIC_INIT(1);
 
-At least for now, I opted to keep it more straight without
-adding more complexity. My plan is to work on those
-things after the merge window.
+I don't think you need to initialize this to anything?
+toggle_allocation_gate() will set it to zero before enabling the
+static key, so I don't think anyone will ever see this value.
 
-Thanks,
-Mauro
+[...]
+> +/* Check canary byte at @addr. */
+> +static inline bool check_canary_byte(u8 *addr)
+> +{
+> +       if (*addr == KFENCE_CANARY_PATTERN(addr))
+
+You could maybe add a likely() hint here if you want.
+
+> +               return true;
+> +
+> +       atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
+> +       kfence_report_error((unsigned long)addr, addr_to_metadata((unsigned long)addr),
+> +                           KFENCE_ERROR_CORRUPTION);
+> +       return false;
+> +}
+> +
+> +static inline void for_each_canary(const struct kfence_metadata *meta, bool (*fn)(u8 *))
+
+Given how horrendously slow this would be if the compiler decided to
+disregard the "inline" hint and did an indirect call for every byte,
+you may want to use __always_inline here.
+
+> +{
+> +       unsigned long addr;
+> +
+> +       lockdep_assert_held(&meta->lock);
+> +
+> +       for (addr = ALIGN_DOWN(meta->addr, PAGE_SIZE); addr < meta->addr; addr++) {
+> +               if (!fn((u8 *)addr))
+> +                       break;
+> +       }
+> +
+> +       for (addr = meta->addr + meta->size; addr < PAGE_ALIGN(meta->addr); addr++) {
+
+Hmm... if the object is on the left side (meaning meta->addr is
+page-aligned) and the padding is on the right side, won't
+PAGE_ALIGN(meta->addr)==meta->addr , and therefore none of the padding
+will be checked?
+
+> +               if (!fn((u8 *)addr))
+> +                       break;
+> +       }
+> +}
+> +
+> +static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp)
+> +{
+> +       struct kfence_metadata *meta = NULL;
+> +       unsigned long flags;
+> +       void *addr;
+> +
+> +       /* Try to obtain a free object. */
+> +       raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
+> +       if (!list_empty(&kfence_freelist)) {
+> +               meta = list_entry(kfence_freelist.next, struct kfence_metadata, list);
+> +               list_del_init(&meta->list);
+> +       }
+> +       raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
+> +       if (!meta)
+> +               return NULL;
+
+Should this use pr_warn_once(), or something like that, to inform the
+user that kfence might be stuck with all allocations used by
+long-living objects and therefore no longer doing anything?
+
+[...]
+> +}
+[...]
+> +/* === Allocation Gate Timer ================================================ */
+> +
+> +/*
+> + * Set up delayed work, which will enable and disable the static key. We need to
+> + * use a work queue (rather than a simple timer), since enabling and disabling a
+> + * static key cannot be done from an interrupt.
+> + */
+> +static struct delayed_work kfence_timer;
+> +static void toggle_allocation_gate(struct work_struct *work)
+> +{
+> +       if (!READ_ONCE(kfence_enabled))
+> +               return;
+> +
+> +       /* Enable static key, and await allocation to happen. */
+> +       atomic_set(&allocation_gate, 0);
+> +       static_branch_enable(&kfence_allocation_key);
+> +       wait_event(allocation_wait, atomic_read(&allocation_gate) != 0);
+> +
+> +       /* Disable static key and reset timer. */
+> +       static_branch_disable(&kfence_allocation_key);
+> +       schedule_delayed_work(&kfence_timer, msecs_to_jiffies(kfence_sample_interval));
+
+We end up doing two IPIs to all CPU cores for each kfence allocation
+because of those static branch calls, right? Might be worth adding a
+comment to point that out, or something like that. (And if it ends up
+being a problem in the future, we could probably get away with using
+some variant that avoids the IPI, but flushes the instruction pipeline
+if we observe the allocation_gate being nonzero, or something like
+that. At the cost of not immediately capturing new allocations if the
+relevant instructions are cached. But the current version is
+definitely fine for an initial implementation, and for now, you should
+probably *not* implement what I just described.)
+
+> +}
+> +static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
+> +
+> +/* === Public interface ===================================================== */
+> +
+> +void __init kfence_init(void)
+> +{
+> +       /* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
+> +       if (!kfence_sample_interval)
+> +               return;
+> +
+> +       if (!kfence_initialize_pool()) {
+> +               pr_err("%s failed\n", __func__);
+> +               return;
+> +       }
+> +
+> +       WRITE_ONCE(kfence_enabled, true);
+> +       schedule_delayed_work(&kfence_timer, 0);
+
+This is schedule_work(&kfence_timer).
+
+[...]
+> +}
+[...]
+> diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+[...]
+> +/* KFENCE metadata per guarded allocation. */
+> +struct kfence_metadata {
+[...]
+> +       /*
+> +        * In case of an invalid access, the page that was unprotected; we
+> +        * optimistically only store address.
+
+Is this supposed to say something like "only store one address"?
+
+> +        */
+> +       unsigned long unprotected_page;
+> +};
+[...]
+> +#endif /* MM_KFENCE_KFENCE_H */
+> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+[...]
+> +void kfence_report_error(unsigned long address, const struct kfence_metadata *meta,
+> +                        enum kfence_error_type type)
+> +{
+[...]
+> +       pr_err("==================================================================\n");
+> +       /* Print report header. */
+> +       switch (type) {
+[...]
+> +       case KFENCE_ERROR_INVALID_FREE:
+> +               pr_err("BUG: KFENCE: invalid free in %pS\n\n", (void *)stack_entries[skipnr]);
+> +               pr_err("Invalid free of 0x" PTR_FMT " (in kfence-#%zd):\n", (void *)address,
+> +                      object_index);
+> +               break;
+> +       }
+> +
+> +       /* Print stack trace and object info. */
+> +       stack_trace_print(stack_entries + skipnr, num_stack_entries - skipnr, 0);
+> +
+> +       if (meta) {
+> +               pr_err("\n");
+> +               kfence_print_object(NULL, meta);
+> +       }
+> +
+> +       /* Print report footer. */
+> +       pr_err("\n");
+> +       dump_stack_print_info(KERN_DEFAULT);
+
+Shouldn't this be KERN_ERR, to keep the loglevel consistent with the
+previous messages?
