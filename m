@@ -2,114 +2,86 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D55D9C47423
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 08:20:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4532AC4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 09:02:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85A292074B
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 08:20:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB2DC20758
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 09:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601626833;
-	bh=eCXSiU2FIhwyMUdAzE/HQoSwO9e7c1WQEH8tvyiMQns=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=mRJyhcsgqQ+l5XKOn5RU+I4Ha013foltbci615I/Q4TFliXWRtM7ogboMUhn5GkO2
-	 PJ+sFHSeuKUwJ0Zl7aEwla20f9Q04IbN93BRlasAhT4AGtSx0g00rCY6avXzaTKO0t
-	 Q342OnP1KyT6fELNKoPzPLPXRBxnxEt3w/Ya1bCg=
+	s=default; t=1601629377;
+	bh=q3ZsyOwYHRvtoOzzzbVMlQ7DB4n703Yb+gNdOEACMic=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=IXFNg+RaDl6mZeiy13sPCN6STknoHDK0WQ/LrVgj5Nt0bVmRs8+NkMlD+curWxJJK
+	 8czzmcFhxR70rv1jmw1G4imFbmulGaz/WvZz0apODZyzIXdh1FcqnBFJXguJGW0qYQ
+	 RdZLy8adjPDNDkyiU4eIINkcqif/mzFmlvtPPbGE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730433AbgJBIUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 04:20:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56880 "EHLO mail.kernel.org"
+        id S1726090AbgJBJC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 05:02:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37336 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725961AbgJBIUN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 04:20:13 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        id S1725993AbgJBJC5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 05:02:57 -0400
+Received: from coco.lan (ip5f5ad59f.dynamic.kabel-deutschland.de [95.90.213.159])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B55420719;
-        Fri,  2 Oct 2020 08:20:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3D703205F4;
+        Fri,  2 Oct 2020 09:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601626812;
-        bh=eCXSiU2FIhwyMUdAzE/HQoSwO9e7c1WQEH8tvyiMQns=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=01oagkzbJzHnhjV2zf9J7vsHUTejgJ/cLcBOFBC4wrj7b06/ce6VUwjqoJKa3ScTy
-         1CQlS3SP/MqGvCIhyFVjDz6/4pZfMM5aJgDUKGB7Wh3oxLHAhHq2Dl0/Dxlr9uPwJx
-         aAO/Wp2r1hBVGU4D0kVg+mRrSDqAuWNAtXGDeZ0Q=
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=hot-poop.lan)
-        by disco-boy.misterjones.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <maz@kernel.org>)
-        id 1kOGIU-00GeG7-Q0; Fri, 02 Oct 2020 09:20:10 +0100
-From:   Marc Zyngier <maz@kernel.org>
-To:     kvmarm@lists.cs.columbia.edu, David Brazdil <dbrazdil@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Dennis Zhou <dennis@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Tejun Heo <tj@kernel.org>,
-        kernel-team@android.com, Christoph Lameter <cl@linux.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        kvm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Andrew Lunn <andrew@lunn.ch>, linux-gpio@vger.kernel.org,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jeff Dike <jdike@addtoit.com>, Taehee Yoo <ap420073@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Richard Weinberger <richard@nod.at>,
-        Andrew Jones <drjones@redhat.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-um@lists.infradead.org,
-        Alexandru Elisei <alexandru.elisei@arm.com>,
-        Balbir Singh <sblbir@amazon.com>,
+        s=default; t=1601629376;
+        bh=q3ZsyOwYHRvtoOzzzbVMlQ7DB4n703Yb+gNdOEACMic=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Qq4zBYg0uK3s8DoZcHdoH9NLeMYyAS1MUm+kxQTtOtTXhN7QRjkqdnmko/XCdtvZB
+         ALjLw0Z1kxqu6YX+PMMrVk4pLU0hqFt1WO2S/aUUFWX2M6pJDqcoeRUqcFn/9JAuRL
+         VXObPs4Hr0IQ79uNsUBDDn8XewA39Cvq0B2ye3uc=
+Date:   Fri, 2 Oct 2020 11:02:51 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: Re: [PATCH 0/6] Fix new html build warnings from next-20201001
-Date:   Fri,  2 Oct 2020 09:19:59 +0100
-Message-Id: <160162675379.1930042.15447480570555160964.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1601616399.git.mchehab+huawei@kernel.org>
+        Balbir Singh <sblbir@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] docs: i2c: index.rst: add
+ slave-testunit-backend.rst
+Message-ID: <20201002110251.26265b0d@coco.lan>
+In-Reply-To: <20201002075404.GA2495@ninjato>
 References: <cover.1601616399.git.mchehab+huawei@kernel.org>
+        <2ac6bd9d96cc4ff248d1c2e26a99f51a785eb271.1601616399.git.mchehab+huawei@kernel.org>
+        <20201002075404.GA2495@ninjato>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: kvmarm@lists.cs.columbia.edu, dbrazdil@google.com, linux-doc@vger.kernel.org, mchehab+huawei@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, dennis@kernel.org, catalin.marinas@arm.com, will@kernel.org, tj@kernel.org, kernel-team@android.com, cl@linux.com, pbonzini@redhat.com, kuba@kernel.org, netdev@vger.kernel.org, geert+renesas@glider.be, kvm@vger.kernel.org, linux-i2c@vger.kernel.org, andrew@lunn.ch, linux-gpio@vger.kernel.org, anton.ivanov@cambridgegreys.com, davem@davemloft.net, bgolaszewski@baylibre.com, jdike@addtoit.com, ap420073@gmail.com, erosca@de.adit-jv.com, richard@nod.at, drjones@redhat.com, wsa@kernel.org, linus.walleij@linaro.org, tglx@linutronix.de, linux-um@lists.infradead.org, alexandru.elisei@arm.com, sblbir@amazon.com, corbet@lwn.net, mathieu.poirier@linaro.org, uli+renesas@fpond.eu
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2 Oct 2020 07:49:44 +0200, Mauro Carvalho Chehab wrote:
-> There are some new warnings when building the documentation from
-> yesterday's linux next. This small series fix them.
+Em Fri, 2 Oct 2020 09:54:04 +0200
+Wolfram Sang <wsa@kernel.org> escreveu:
+
+> Hi Mauro,
 > 
-> - patch 1 documents two new kernel-doc parameters on a net core file.
->   I used the commit log in order to help documenting them;
-> - patch 2 fixes some tags at UMLv2 howto;
-> - patches 3 and 5 add some new documents at the corresponding
->   index file.
-> - patch 4 changes kernel-doc script for it to recognize typedef enums.
+> > index 8a2ad3845191..9b8df313902c 100644
+> > --- a/Documentation/i2c/index.rst
+> > +++ b/Documentation/i2c/index.rst
+> > @@ -38,6 +38,7 @@ Debugging
+> >  
+> >     gpio-fault-injection
+> >     i2c-stub
+> > +   slave-testunit-backend  
 > 
-> [...]
+> Yeah, it is missing, but this is the wrong paragraph to add it. For
+> consistency, I'd like to create a seperate patch to fix it and merge it
+> via I2C. Do you mind dropping this hunk?
 
-Applied to next, thanks!
+Yeah, sure!
 
-[2/6] KVM: arm64: Fix some documentation build warnings
-      commit: 030bdf3698b7c3af190dd1fe714f0545f23441d0
+> I'd credit you with
+> Reported-by, of course.
 
-Cheers,
-
-	M.
--- 
-Without deviation from the norm, progress is not possible.
-
-
+Thanks,
+Mauro
