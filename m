@@ -6,41 +6,46 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB3DC4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:25:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 412EBC4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:26:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43D1B20795
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:25:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D0AC20679
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:26:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388169AbgJBRZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 13:25:15 -0400
-Received: from mga18.intel.com ([134.134.136.126]:24397 "EHLO mga18.intel.com"
+        id S2388213AbgJBR0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 13:26:33 -0400
+Received: from mga14.intel.com ([192.55.52.115]:49157 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387908AbgJBRZO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 13:25:14 -0400
-IronPort-SDR: E6x0IsYRvHh8C9Zu2q+ILwXR4AA/AOhVhWXoGc7NQAYfrD6Y+qbKAgMLsBa+WADb9dBFxu9nhL
- tbrI5zl3IjxA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="150821320"
+        id S2388173AbgJBR0d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 13:26:33 -0400
+IronPort-SDR: BVYTU9jp8wQEWtaCowfa8P3Yi4sxl777HV0SgrFPOfkRSSCYHZuff4zFef1wB+zOgSrQCrrDJX
+ B9Ioewe1PYVw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="162272250"
 X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
-   d="scan'208";a="150821320"
+   d="scan'208";a="162272250"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:25:10 -0700
-IronPort-SDR: e93i4pwIcZe1gK2NkkYptPG2tZYFvx3QtVyNfyaGPZR4QI/CGA50vk1KPc6ZiZTVVznQsp/tMd
- 3tBggHKjJs2A==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:26:32 -0700
+IronPort-SDR: XB9EeagXpchxl4vacNpD/2hvplKHfdxC5fNoQVN7F0raAIOF7tzuN02zrv/K1Tw1Dw3kYT3MY5
+ pxM8ffVLMYsg==
 X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
-   d="scan'208";a="351652036"
+   d="scan'208";a="351652317"
 Received: from blbiskey-mobl.amr.corp.intel.com (HELO [10.212.50.43]) ([10.212.50.43])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:25:09 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:26:32 -0700
 Subject: Re: [RFC PATCH 22/22] x86/fpu/xstate: Introduce boot-parameters for
  control some state component support
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>, tglx@linutronix.de,
-        mingo@kernel.org, bp@suse.de, luto@kernel.org, x86@kernel.org
-Cc:     len.brown@intel.com, jing2.liu@intel.com, ravi.v.shankar@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+To:     Andy Lutomirski <luto@kernel.org>,
+        "Chang S. Bae" <chang.seok.bae@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
+        X86 ML <x86@kernel.org>, Len Brown <len.brown@intel.com>,
+        jing2.liu@intel.com, "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 References: <20201001203913.9125-1-chang.seok.bae@intel.com>
  <20201001203913.9125-23-chang.seok.bae@intel.com>
+ <CALCETrVToTrLQEbmXugja_Aif8LcZ7kX8Shu0Gg-FOx6w0p48A@mail.gmail.com>
 From:   Dave Hansen <dave.hansen@intel.com>
 Autocrypt: addr=dave.hansen@intel.com; keydata=
  xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
@@ -85,12 +90,12 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <2497634d-162e-98d0-d51b-15265616d036@intel.com>
-Date:   Fri, 2 Oct 2020 10:25:09 -0700
+Message-ID: <cd1c42b1-dbb2-4f8a-7398-8359163adcc2@intel.com>
+Date:   Fri, 2 Oct 2020 10:26:31 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201001203913.9125-23-chang.seok.bae@intel.com>
+In-Reply-To: <CALCETrVToTrLQEbmXugja_Aif8LcZ7kX8Shu0Gg-FOx6w0p48A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -98,15 +103,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/1/20 1:39 PM, Chang S. Bae wrote:
-> +		if ((custom & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE) {
-> +			pr_warn("x86/fpu: Disable 0x%x components due to incorrect setup\n",
-> +				XFEATURE_MASK_XTILE);
-> +			custom &= ~(XFEATURE_MASK_XTILE);
-> +		}
+On 10/2/20 10:15 AM, Andy Lutomirski wrote:
+>> "xstate.enable=0x6000" will enable AMX on a system that does NOT have AMX
+>> compiled into XFEATURE_MASK_USER_SUPPORTED (assuming the kernel is new
+>> enough to support this feature).
+> This sounds like it will be quite confusing to anyone reading the
+> kernel code to discover that a feature that is not "SUPPORTED" is
+> nonetheless enabled.
+Yeah, if we do this, XFEATURE_MASK_USER_SUPPORTED needs a name change
+for sure.
 
-Saying "incorrect setup" is pretty much just wasting the bytes.  We
-might as well just say "disabling due to random error", or "disabling
-due to the easter bunny".  Each are equally actionable.  How about:
-
-"error in xstate.disable parameter.  Additionally disabling '%s'".
