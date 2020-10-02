@@ -2,118 +2,126 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0724EC4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4968C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:22:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A79A1206DC
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:09:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rBhLzpe9"
+	by mail.kernel.org (Postfix) with ESMTP id 58503206E3
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 06:22:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601619747;
+	bh=Fm3wF63UnVpjp+czzLRNKA2N8EiUUiZinULEHueyAbQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=yvGWNQu7825WylDes1g3yt/k0AJHvViEonHTGYppAyBKyW0jFYXV8QW54WxteX8oK
+	 H5pd+UmoyOGoupk9kDP+sVbEhIxlntYUS3q2IZUTc8td+0L4rP9iNWmjI1dBwBnCuj
+	 IK9HLwQdUBs6fgAQPED8krSSR+rWW/wvYjFQs5a0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725985AbgJBGJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 02:09:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725968AbgJBGJV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 02:09:21 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71561C0613D0
-        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 23:09:21 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id j11so345175ejk.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2020 23:09:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ErDIuUWMtALu7PV5gTspIOaPecBO2jLlFmry3dq1eBo=;
-        b=rBhLzpe9AaLtN/2VQTeF4ZLBJk0wEwLO1iXW7SFdIMCovz/n+bZLB7IAveG1e9ur8g
-         YRDBg+0/O3HVIFt9+77VO4vz1qRhWN0N5JLUJkLHeKN0Fq2FV1sS8zieRMheOhUf5bVF
-         9qAS9mTkKdzWHR4dJan0mJZrLW9vG6XzX1iipaUrffpCB3CFAGIdFAOD70DlWd/BV/00
-         YeempllyPkiOQYQTjPfz7FvV8Zq35XFb+EARWaMiaC9negdQ9wmS4SToBah7FpromM0/
-         j46OcFr+y/fWE9HUSVM5XGUXZ/ifypV3vicbNueD/Gkh591QW2pcf6xwTpu/Kqy1srWq
-         wZGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ErDIuUWMtALu7PV5gTspIOaPecBO2jLlFmry3dq1eBo=;
-        b=kotND67hfiDMECYbhw6dCAPfqBPfklK80W0fKt2u/WHmtOmasmglRbtMEmxUaNRnjK
-         zq8siuS5dBphhTn/tBoJzCBaoovOjSa0DN10eCIb8Wpna3Y0YI5yMGj9lWDdko97YR2w
-         leKxUf/vSBj5HFHDgTU+ic9SVLRbp1a+Ps2Tr4dw4N8vdmiIlHk07tZmmzTixgEvqfHR
-         +3SI1XEuEwGqAFNzbwVqVce9WDeY7d9EbHqFRtnpYkYSLILDE2BMJvg8BWrZR/2zL5hQ
-         7h1od3/rzWx9VnFud1ier6PQ0jHygwPJOhdTMxCQnpL9evtdhmI305lcYTVLxH8ziAg3
-         3s8Q==
-X-Gm-Message-State: AOAM533HL3dfWVxK/Q3aXRWID88VKn8q6gRqR2bzwGwJg+GEUQoF0loz
-        DfHITB3r+KcQx/BlOiuWo7rNP4uvOCysa2Kvu5OOTw==
-X-Google-Smtp-Source: ABdhPJyX8T+V5wOYpGANjLoJVq9hy+yf3n4BHwp6BilkYq6bai5LeCuRrBuF1aQ5IgShwbEHdu8lTpaX6/0OCPdGKR4=
-X-Received: by 2002:a17:906:394:: with SMTP id b20mr570705eja.513.1601618959814;
- Thu, 01 Oct 2020 23:09:19 -0700 (PDT)
+        id S1725993AbgJBGW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 02:22:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39442 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725948AbgJBGWZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 02:22:25 -0400
+Received: from coco.lan (ip5f5ad59f.dynamic.kabel-deutschland.de [95.90.213.159])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 86FCC206DD;
+        Fri,  2 Oct 2020 06:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601619745;
+        bh=Fm3wF63UnVpjp+czzLRNKA2N8EiUUiZinULEHueyAbQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DG1CqBpfSykW1DDZaTaf0cKsorDz5skja30jv0E1nZUMfUiJi8GUg3Wh3JCgX3fc0
+         7fFCVjYNm5DGwpDf0sZQhXEJBqTZNZAv+5cauqqpLqqFZPnSoc3YcWre82wM+wFUVw
+         HdAukYgzZE9eVgVArq0H8FwVQ+TLkrdYR/9Zbac0=
+Date:   Fri, 2 Oct 2020 08:22:21 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 04/52] scripts: kernel-doc: make it more compatible
+ with Sphinx 3.x
+Message-ID: <20201002082221.1df7d39b@coco.lan>
+In-Reply-To: <20201001154100.2f7e89b8@lwn.net>
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
+        <c7b04d8f20f44d4d2eb797d8694bd7546f95ac05.1601467849.git.mchehab+huawei@kernel.org>
+        <20201001154100.2f7e89b8@lwn.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
-In-Reply-To: <20200929133814.2834621-3-elver@google.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 2 Oct 2020 08:08:53 +0200
-Message-ID: <CAG48ez2yH+9jX40YdzkeiGk2vdwquw3U=GZY8S6WXrCEH+73Sw@mail.gmail.com>
-Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
-To:     Marco Elver <elver@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jonathan.Cameron@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
-> Add architecture specific implementation details for KFENCE and enable
-> KFENCE for the x86 architecture. In particular, this implements the
-> required interface in <asm/kfence.h> for setting up the pool and
-> providing helper functions for protecting and unprotecting pages.
-[...]
-> diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
-[...]
-> +/* Protect the given page and flush TLBs. */
-> +static inline bool kfence_protect_page(unsigned long addr, bool protect)
-> +{
-[...]
-> +       flush_tlb_one_kernel(addr);
+Em Thu, 1 Oct 2020 15:41:00 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-flush_tlb_one_kernel() -> flush_tlb_one_user() ->
-__flush_tlb_one_user() -> native_flush_tlb_one_user() only flushes on
-the local CPU core, not on others. If you want to leave it this way, I
-think this needs a comment explaining why we're not doing a global
-flush (locking context / performance overhead / ... ?).
+> On Wed, 30 Sep 2020 15:24:27 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > With Sphinx 3.x, the ".. c:type:" tag was changed to accept either:
+> > 
+> > 	.. c:type:: typedef-like declaration
+> > 	.. c:type:: name
+> > 
+> > Using it for other types (including functions) don't work anymore.
+> > 
+> > So, there are newer tags for macro, enum, struct, union, and others,
+> > which doesn't exist on older versions.
+> > 
+> > Add a check for the Sphinx version and change the produced tags
+> > accordingly.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  scripts/kernel-doc | 71 ++++++++++++++++++++++++++++++++++++++++++----
+> >  1 file changed, 65 insertions(+), 6 deletions(-)  
+> 
+> So this seems generally good, but I do wonder if we shouldn't just pass
+> the sphinx version into kernel-doc as a parameter?  We're already doing a
+> version check in the makefile, we should be able to capture the result and
+> pass it in, maybe?  
+
+My plan is to work later on a patch adding support for it ;)
+
+Yet, there's something to consider: troubleshooting.
+
+I mean, if a warning is produced during "make htmldocs", as part
+of troubleshooting, people do:
+
+	./scripts/kernel-doc <some file>
+
+It sounds more natural that, by default, it will output the same
+output as the one generated via "make htmldocs".
+
+So, the version detection code there sounds the right way for
+doing it.
+
+Yet, as you pointed, as kerneldoc.py knows the Sphinx version,
+it should be easy for it to pass an argument and avoid version
+detection, by calling kernel-doc as:
+
+	./scripts/kernel-doc --sphinx3 <somefile>
+
+or
+
+	./scripts/kernel-doc --sphinx-version 3 <somefile>
+
+(not sure yet about how to name such arguments ;-) )
+
+That might give some performance gain.
+
+Btw, with regards to performance, I have a few other ideas that
+might help how to improve kernel-doc (yet to be verified).
+
+At least for now, I opted to keep it more straight without
+adding more complexity. My plan is to work on those
+things after the merge window.
+
+Thanks,
+Mauro
