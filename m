@@ -2,141 +2,76 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E48C4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:13:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 494A5C4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:20:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A297A2074B
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:13:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C481020708
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:20:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="IRbhaL9q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388187AbgJBPNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 11:13:02 -0400
-Received: from foss.arm.com ([217.140.110.172]:38760 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388176AbgJBPNB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 11:13:01 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD3B41396;
-        Fri,  2 Oct 2020 08:13:00 -0700 (PDT)
-Received: from [10.57.50.3] (unknown [10.57.50.3])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9ABC3F73B;
-        Fri,  2 Oct 2020 08:12:57 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] dt-bindings: thermal: update sustainable-power
- with abstract scale
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        amitk@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-References: <20201002114426.31277-1-lukasz.luba@arm.com>
- <20201002114426.31277-4-lukasz.luba@arm.com>
- <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <e9b6fc5a-45d3-168d-db38-6c068da26f6b@arm.com>
-Date:   Fri, 2 Oct 2020 16:12:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2387807AbgJBPUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 11:20:18 -0400
+Received: from mail-m971.mail.163.com ([123.126.97.1]:60612 "EHLO
+        mail-m971.mail.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726017AbgJBPUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 11:20:18 -0400
+X-Greylist: delayed 936 seconds by postgrey-1.27 at vger.kernel.org; Fri, 02 Oct 2020 11:20:17 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=vw4BK
+        ZeWGdQzXY4U/kB8MPQGDeBG0VY8mfLs5IuUnEc=; b=IRbhaL9qdd03/iJRVZV5Q
+        sc1LgpbRKiUp4csPMr25gqa08PXi0JHD2fzdlwakwMcaZq4Tyx+agHCJWM0q3vQd
+        5yqUH4uaXJreTfFNm0jwIqGK2nB5wfqjrf43deTikXkTW6UvNOGCQwRL5Z07G7J/
+        O4G+uLgEwrMeKRGHskP8ps=
+Received: from ubuntu.localdomain (unknown [125.120.102.69])
+        by smtp1 (Coremail) with SMTP id GdxpCgB3Scp5QXdfpcjqAg--.3258S4;
+        Fri, 02 Oct 2020 23:04:26 +0800 (CST)
+From:   Li Qiang <liq3ea@163.com>
+To:     pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     liq3ea@gmail.com, Li Qiang <liq3ea@163.com>
+Subject: [PATCH] Documentation: kvm: fix a typo
+Date:   Fri,  2 Oct 2020 08:04:22 -0700
+Message-Id: <20201002150422.6267-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GdxpCgB3Scp5QXdfpcjqAg--.3258S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZr4UXw1kuFyxXFy5tFW3GFg_yoW3WrgEvw
+        1UJFsYyr1xtryIvw4UWFZ5XF1fXa1ruFW8Cws7JrZ5Aay3AwsY9F97A3s0kw1UWFsxur4r
+        JFZxZrW5Gr1S9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRRTa0PUUUUU==
+X-Originating-IP: [125.120.102.69]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBZhqxbVaD6Ear8gAAsC
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Doug,
+Fixes: 9824c83f92bc8 ("Documentation: kvm: document CPUID bit for MSR_KVM_POLL_CONTROL")
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ Documentation/virt/kvm/cpuid.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10/2/20 3:31 PM, Doug Anderson wrote:
-> Hi,
-> 
-> On Fri, Oct 2, 2020 at 4:45 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->>
->> Update the documentation for the binding 'sustainable-power' and allow
->> to provide values in an abstract scale. It is required when the cooling
->> devices use an abstract scale for their power values.
->>
->> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
->> ---
->>   .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
->>   1 file changed, 9 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
->> index 3ec9cc87ec50..4d8f2e37d1e6 100644
->> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
->> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
->> @@ -99,10 +99,15 @@ patternProperties:
->>         sustainable-power:
->>           $ref: /schemas/types.yaml#/definitions/uint32
->>           description:
->> -          An estimate of the sustainable power (in mW) that this thermal zone
->> -          can dissipate at the desired control temperature. For reference, the
->> -          sustainable power of a 4-inch phone is typically 2000mW, while on a
->> -          10-inch tablet is around 4500mW.
->> +          An estimate of the sustainable power (in mW or in an abstract scale)
->> +         that this thermal zone can dissipate at the desired control
->> +         temperature. For reference, the sustainable power of a 4-inch phone
->> +         is typically 2000mW, while on a 10-inch tablet is around 4500mW.
->> +
->> +         It is possible to express the sustainable power in an abstract
->> +         scale. This is the case when the related cooling devices use also
->> +         abstract scale to express their power usage. The scale must be
->> +         consistent.
-> 
-> Two thoughts:
-> 
-> 1. If we're going to allow "sustainable-power" to be in abstract
-> scale, why not allow "dynamic-power-coefficient" to be in abstract
-> scale too?  I assume that the whole reason against that originally was
-> the idea of device tree purity, but if we're allowing the abstract
-> scale here then there seems no reason not to allow it for
-> "dynamic-power-coefficient".
+diff --git a/Documentation/virt/kvm/cpuid.rst b/Documentation/virt/kvm/cpuid.rst
+index a7dff9186bed..9150e9d1c39b 100644
+--- a/Documentation/virt/kvm/cpuid.rst
++++ b/Documentation/virt/kvm/cpuid.rst
+@@ -78,7 +78,7 @@ KVM_FEATURE_PV_SEND_IPI           11          guest checks this feature bit
+                                               before enabling paravirtualized
+                                               sebd IPIs
+ 
+-KVM_FEATURE_PV_POLL_CONTROL       12          host-side polling on HLT can
++KVM_FEATURE_POLL_CONTROL          12          host-side polling on HLT can
+                                               be disabled by writing
+                                               to msr 0x4b564d05.
+ 
+-- 
+2.25.1
 
-With this binding it's a bit more tricky.
-I also have to discuss a few things internally. This requirement of
-uW/MHz/V^2 makes the code easier also for potential drivers
-like GPU (which are going to register the devfreq cooling with EM).
-
-Let me think about it, but for now I would just update these bits.
-These are required to proper IPA operation, the dyn.-pow.-coef. is a
-nice to have and possible next step.
-
-> 
-> 2. Is it worth adding some type of indication of what type of units
-> "sustainable-power" is represented in?  Maybe even a made up unit so
-> that you could tell the difference between made up units in the same
-> system?  I'd envision something like:
-> 
-> sustainable-power-units = "qualcomm,sc7180-bogoWatts"
-> 
-> ...and on the dynamic-power-coefficient side, the same:
-> 
-> dynamic-power-coefficient-units = "qualcomm,sc7180-bogoWatts"
-> 
-> One could imagine someone even later (after devices are widely
-> distributed) figuring out translations between these bogoWatts numbers
-> and real Watts if someone could come up with a case where it matters.
-
-To figure this out we don't need a new binding.
-I think a simple comment in the DT would be enough for this, even e.g.:
-
-sustainable-power = <100> /* bogoWatts */
-
-
-Thank you for your comments.
-BTW, I haven't put your 'Reviewed-by' because I have added this
-sustainable-power new stuff in patch 1/3. I will grateful if you
-have a look on that.
-
-Regards,
-Lukasz
