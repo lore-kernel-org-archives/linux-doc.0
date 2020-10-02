@@ -2,150 +2,116 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C016CC4727E
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 03:26:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2581C4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 04:39:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 150672137B
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 03:26:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JXLNg/m8"
+	by mail.kernel.org (Postfix) with ESMTP id 9515F20796
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 04:39:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601613592;
+	bh=zbG2iEh9bQFGJLHd+0KwxDAW/5RszvjdWnLdbMOPS7o=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=Ya0wsC116sWWb7MERBUVHkgsUZmKUOnMBURfzJ79gejX1Ndd6bQM9eP5U6DRnTN5g
+	 jNKKgO9hwFB0uGOk9nEdYapI2lZEPuxgTCMlDb620WRddnnFY14nhM+8hIkTjBOEli
+	 U3hnvvc6JVybYUF/HTRzvuPh3LpEMdCAGL7Z363o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387485AbgJBD0E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 23:26:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37458 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727780AbgJBD0E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 23:26:04 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26952C0613D0;
-        Thu,  1 Oct 2020 20:26:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=yrCLPRBOEJ1Uv5fdSBy9H8UF8mXbPMcG1AE17Ac18tE=; b=JXLNg/m8lV6iDH65Me/ezi7/V1
-        fbWghPoc/HpPOk0BIsciUaWWDHvxGCoCnXC8y0my7eT0VrSA0JOBfrHSQQ3k/zablB94udRANDC1w
-        91upBfGeasebvd4c1ViPq0XAj+2I7kRh1LE3JGFObEsqXOlR9MNHaFA+1dJFgF607MJ0Q9j4ENdKe
-        sYVKPwe8B72Ry0qma98VB5eBPauTlBmSUkACQXQ5fd85qKgpd1dtyBtxd5onRl7T+EZ1aWmD4te/i
-        bRiGHty6J6GIZ+zHGNcQvDq3A/8ujutCz65qm5nuBcIARp0dttGjUwcNt1hzG/Y105VolSf+cBxnn
-        DsUv+oDg==;
-Received: from [2601:1c0:6280:3f0::863]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kOBhn-00078j-Tt; Fri, 02 Oct 2020 03:26:00 +0000
-Subject: Re: [RFC PATCH v1 04/26] docs: reporting-bugs: step-by-step guide for
- issues in stable & longterm
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <b81c54734a767f7da9ec68fae6b82ea0a8c96011.1601541165.git.linux@leemhuis.info>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b7ab110b-3f4d-382c-5802-5dd4291ea118@infradead.org>
-Date:   Thu, 1 Oct 2020 20:25:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1725951AbgJBEjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 00:39:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54682 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725948AbgJBEjv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 00:39:51 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1A4022072E;
+        Fri,  2 Oct 2020 04:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601613591;
+        bh=zbG2iEh9bQFGJLHd+0KwxDAW/5RszvjdWnLdbMOPS7o=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=YY/1Lv2sEiR77Cwbq80MBqwJ1oLz+9XHTJB0/Z7dwL9dRgnFHcV41OurKT/kmmV0q
+         9adRNOXPEqCj5i8U/lxS7UtQvma7cZH0fJ/2/6g7Xv/YxkA5etImdpCSiuKcOX3wKT
+         +mIhj1qqlt2JTWzSPB/r7HqERwFZ0cTdGLuO7r28=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id D67563522B33; Thu,  1 Oct 2020 21:39:50 -0700 (PDT)
+Date:   Thu, 1 Oct 2020 21:39:50 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Neeraj Upadhyay <neeraju@codeaurora.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 1/2] rcu/tree: Add a warning if CPU being onlined did not
+ report QS already
+Message-ID: <20201002043950.GG29330@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200929192928.3749502-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-In-Reply-To: <b81c54734a767f7da9ec68fae6b82ea0a8c96011.1601541165.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200929192928.3749502-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
-> Handle stable and longterm kernels in a subsection, as dealing with them
-> directly in the main part of the step-by-step guide turned out to make
-> it messy and hard to follow: it looked a bit like code with a large
-> amount of if-then-else section to handle special cases, which made the
-> default code-flow hard to understand.
+On Tue, Sep 29, 2020 at 03:29:27PM -0400, Joel Fernandes (Google) wrote:
+> Currently, rcu_cpu_starting() checks to see if the RCU core expects a
+> quiescent state from the incoming CPU.  However, the current interaction
+> between RCU quiescent-state reporting and CPU-hotplug operations should
+> mean that the incoming CPU never needs to report a quiescent state.
+> First, the outgoing CPU reports a quiescent state if needed.  Second,
+> the race where the CPU is leaving just as RCU is initializing a new
+> grace period is handled by an explicit check for this condition.  Third,
+> the CPU's leaf rcu_node structure's ->lock serializes these checks.
 > 
-> Yet again each step will later be repeated in a reference section and
-> described in more detail.
+> This means that if rcu_cpu_starting() ever feels the need to report
+> a quiescent state, then there is a bug somewhere in the CPU hotplug
+> code or the RCU grace-period handling code.  This commit therefore
+> adds a WARN_ON_ONCE() to bring that bug to everyone's attention.
 > 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> Cc: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Neeraj Upadhyay <neeraju@codeaurora.org>
+> Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+Queued for testing and further review, thank you!
+
+							Thanx, Paul
+
 > ---
->  Documentation/admin-guide/reporting-bugs.rst | 49 ++++++++++++++++++++
->  1 file changed, 49 insertions(+)
+>  kernel/rcu/tree.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-> index 203df36af55f..e0a6f4328e87 100644
-> --- a/Documentation/admin-guide/reporting-bugs.rst
-> +++ b/Documentation/admin-guide/reporting-bugs.rst
-> @@ -156,6 +156,55 @@ After these preparations you'll now enter the main part:
->     yourself, if you don't get any help or if it is unsatisfying.
->  
->  
-> +Reporting issues only occurring in older kernel version lines
-> +-------------------------------------------------------------
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 55d3700dd1e7..5efe0a98ea45 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -4119,7 +4119,9 @@ void rcu_cpu_starting(unsigned int cpu)
+>  	rcu_gpnum_ovf(rnp, rdp); /* Offline-induced counter wrap? */
+>  	rdp->rcu_onl_gp_seq = READ_ONCE(rcu_state.gp_seq);
+>  	rdp->rcu_onl_gp_flags = READ_ONCE(rcu_state.gp_flags);
+> -	if (rnp->qsmask & mask) { /* RCU waiting on incoming CPU? */
 > +
-> +This section is for you, if you tried the latest mainline kernel as outlined
-> +above, but failed to reproduce your issue there; at the same time you want to
-> +see the issue fixed in older version lines or a vendor kernel that's regularly
-> +rebased on new stable or longterm releases. If that case follow these steps:
-> +
-> + * Prepare yourself for the possibility that going through the next few steps
-> +   might not get the issue solved in older releases: the fix might be too big or
-> +   risky to get backported there.
-> +
-> + * Check if the kernel developers still maintain the Linux kernel version line
-> +   you care about: go to `the front-page of kernel.org <https://kernel.org>`_
-> +   and make sure it mentions the latest release of the particular version line
-> +   without an '[EOL]' tag.
-
-Explain somewhere that EOL = End Of Life (in parens).
-
-> +
-> + * Check the `archives of the Linux stable mailing list
-> +   <https://lore.kernel.org/stable/>`_  for existing reports.
-> +
-> + * Install the latest release from the particular version line as a vanilla
-> +   kernel. Ensure this kernel is not tainted and still shows the problem, as the
-> +   issue might have already been fixed there.
-> +
-> + * Search the Linux kernel version control system for the change that fixed
-> +   the issue in mainline, as its commit message might tell you if the fix is
-> +   scheduled for backporting already. If you don't find anything that way,
-> +   search the appropriate mailing lists for posts that discuss such an issue or
-> +   peer-review possible fixes. That might lead you to the commit with the fix
-> +   or tell you if it's unsuitable for backporting. If backporting was not
-> +   considered at all, join the newest discussion, asking if its in the cards.
-
-                                                               it's
-
-> +
-> + * Check if you're dealing with a regression that was never present in
-> +   mainline by installing the first release of the version line you care about.
-> +   If the issue doesn't show up with it, you basically need to report the issue
-> +   with this version like you would report a problem with mainline (see above).
-> +   This ideally includes a bisection followed by a search for existing reports
-> +   on the net; with the help of the subject and the two relevant commit-ids. If
-> +   that doesn't turn up anything, write the report; CC or forward the report to
-> +   the stable maintainers, the stable mailing list, and those that authored the
-
-                                                           those who (?)
-
-> +   change. Include the shortened commit-id if you found the change that causes
-> +   it.
-> +
-> + * One of the former steps should lead to a solution. If that doesn't work out,
-> +   ask the maintainers for the subsystem that seems to be causing the issue for
-> +   advice; CC the mailing list for the particular subsystem as well as the
-> +   stable mailing list.
-> +
-> +
->  .. ############################################################################
->  .. Temporary marker added while this document is rewritten. Sections above
->  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+> +	/* An incoming CPU should never be blocking a grace period. */
+> +	if (WARN_ON_ONCE(rnp->qsmask & mask)) { /* RCU waiting on incoming CPU? */
+>  		rcu_disable_urgency_upon_qs(rdp);
+>  		/* Report QS -after- changing ->qsmaskinitnext! */
+>  		rcu_report_qs_rnp(mask, rnp, rnp->gp_seq, flags);
+> -- 
+> 2.28.0.709.gb0816b6eb0-goog
 > 
-
-
--- 
-~Randy
-
