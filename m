@@ -2,142 +2,254 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE24C4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:35:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 288F5C4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:39:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D39E920795
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:35:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1C2220795
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 17:39:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZIdMrhlb"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dfvoSI1U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbgJBRfl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 13:35:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55298 "EHLO
+        id S2388517AbgJBRjl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 13:39:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726017AbgJBRfl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 13:35:41 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F42C0613D0;
-        Fri,  2 Oct 2020 10:35:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=Plv1q4RaDS3LKbq6PyPtmyTZBfCxGANkmEqdyjsbB7o=; b=ZIdMrhlbvZXE2MzezSS6h8wl5M
-        atfijwW2e8f/McQfa+q1jLWado4pjb85NucnP4lG2CIv5Drx3GLeiLr3/ZJQBKDEthAMMFNJeQgm+
-        J32UhLPqaFgklW0D4WxTG5jwZkoKlGlOQvPY9zuI7e8+HF+qBFpHJTBLvjskdviSGWgtAncaKWAFy
-        8aTpvKqhBwP+DyOevu4eDvhMrrLcG8N6msrK2gIt9tnVwW5gwlBMqKgzSTdv6zP6Lg8uG2cfImdzX
-        z3pka9Crm0iIHsi2xCldIHzBdHpb6iAZuN2FrL7nQvryk2dJxFJrl4JZciUd2qnfxyOoFJx8gPG/u
-        DYX1lreA==;
-Received: from [2601:1c0:6280:3f0::2c9a]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kOOy2-0005P8-Ib; Fri, 02 Oct 2020 17:35:38 +0000
-Subject: Re: [RFC PATCH v1 14/26] docs: reporting-bugs: make users write
- notes, one for each issue
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <bf99a4e5af05e7076795e33beb6d48f95571328e.1601541165.git.linux@leemhuis.info>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <3b035746-909c-a65f-470c-ce34a9b71306@infradead.org>
-Date:   Fri, 2 Oct 2020 10:35:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        with ESMTP id S2388268AbgJBRjc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 13:39:32 -0400
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7224C0613E2
+        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 10:39:32 -0700 (PDT)
+Received: by mail-vk1-xa44.google.com with SMTP id c25so452965vkm.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 10:39:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4yhMH5PEf+rCZZkZGdh40aYy4T1Wm9iOOW+zJXjnuHk=;
+        b=dfvoSI1Uq+qVVIYibol1p3/Reagu21mMHqIADjWFIOsoUGyn+8szMRTS8DnDgxQmLD
+         NSw61VJCHeyy6Jud7s8ZIWx22pLBVFjDABiv74XtNri+Kb1auGwlI0D1j/YYY6QPRiKP
+         cAkckBuqIFDhYMVi7qq9Fmnzs8h57IsYNEZyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4yhMH5PEf+rCZZkZGdh40aYy4T1Wm9iOOW+zJXjnuHk=;
+        b=YxdKnaXUrJnZZjzSc/Wla1Euek+g7mkLRyiViLwp922lDnQZnuJzDjVTxkYLBD4VFw
+         UZrjc09Dxb98MU+Z/O6KfBkNOgTiHxJMx5u6lv6oHwj30R1rrG7ySfSKKI4Kkrp4Q0YL
+         dr3gJTlFes8U5rN1oQYZqlTJoC16YpxKN+nRg7Enw6dT9SbSWujSSp+Rlf4PBiLWs6/0
+         bGgtmRC+3ksnrWt5O2vFCEnBvkJW2Q+A/dm7y6Gq6OTZdf0vAaMm5HDZaYZr99VnOpPG
+         MtNYIQYDtg2M+gDIepjJ8AtCsWyjL4wMIMhlcqk0pOQMQCGstqIEK48YPBJmUB2e+Aps
+         cj9Q==
+X-Gm-Message-State: AOAM53343rviuuKvt9kdJKRsaeOKyj9K5DI3JkONChjAUIhGrA9T4xXI
+        W6Eoq3T4xyxEONgcL1jZpqdIl5cdkJTGng==
+X-Google-Smtp-Source: ABdhPJxjXhBhmZ7VNorrbk/7NVoulpcXQhvmQ/mNnt/prupNCW6ZVgo0Sv0LxGRlEixo3vKRx/DHNA==
+X-Received: by 2002:a1f:9a4f:: with SMTP id c76mr1991272vke.13.1601660371359;
+        Fri, 02 Oct 2020 10:39:31 -0700 (PDT)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id d125sm348895vkd.36.2020.10.02.10.39.30
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2020 10:39:30 -0700 (PDT)
+Received: by mail-ua1-f53.google.com with SMTP id h15so606414uab.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 10:39:30 -0700 (PDT)
+X-Received: by 2002:ab0:4542:: with SMTP id r60mr1965910uar.90.1601660369709;
+ Fri, 02 Oct 2020 10:39:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <bf99a4e5af05e7076795e33beb6d48f95571328e.1601541165.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201002114426.31277-1-lukasz.luba@arm.com> <20201002114426.31277-4-lukasz.luba@arm.com>
+ <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com>
+ <e9b6fc5a-45d3-168d-db38-6c068da26f6b@arm.com> <CAD=FV=Xkg1zpsMW5rERbibnjrgY6opZi8Z9DUFkWebb7NHtU5w@mail.gmail.com>
+ <bc5d21c1-ea84-9132-2e52-ae84fbb0515a@arm.com>
+In-Reply-To: <bc5d21c1-ea84-9132-2e52-ae84fbb0515a@arm.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Fri, 2 Oct 2020 10:39:17 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VfA8AB3BZk8Ykkhigv9eGijzu4zuA6KdXk0K5UG0yCCQ@mail.gmail.com>
+Message-ID: <CAD=FV=VfA8AB3BZk8Ykkhigv9eGijzu4zuA6KdXk0K5UG0yCCQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] dt-bindings: thermal: update sustainable-power
+ with abstract scale
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        amitk@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
-> Tell users to write some rough notes how to reproduce the issue. They
-> will need those notes soon once they have to reproduce the issue with
-> the latest mainline kernel. At the same time they can serve as basis for
-> the report later.
-> 
-> While at it point out that each report should focus on one issue, as
-> that is a good time for it: it will make the notes more straight forward
-> if the reader deal with multiple issues at once.
-> 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  Documentation/admin-guide/reporting-bugs.rst | 35 +++++++++++++++-----
->  1 file changed, 26 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-> index 2292b79cf462..f99d92a05bca 100644
-> --- a/Documentation/admin-guide/reporting-bugs.rst
-> +++ b/Documentation/admin-guide/reporting-bugs.rst
-> @@ -617,6 +617,32 @@ should minimize it:
->     look like a regression.
->  
->  
-> +Document how to reproduce issue
-> +-------------------------------
-> +
-> +    *Write down coarsely how to reproduce the issue. If you deal with multiple
-> +    issue at once, create separate notes for each of them and make sure they
+Hi,
 
-       issues
+On Fri, Oct 2, 2020 at 9:40 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>
+> On 10/2/20 4:47 PM, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Fri, Oct 2, 2020 at 8:13 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+> >>
+> >> Hi Doug,
+> >>
+> >> On 10/2/20 3:31 PM, Doug Anderson wrote:
+> >>> Hi,
+> >>>
+> >>> On Fri, Oct 2, 2020 at 4:45 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+> >>>>
+> >>>> Update the documentation for the binding 'sustainable-power' and allow
+> >>>> to provide values in an abstract scale. It is required when the cooling
+> >>>> devices use an abstract scale for their power values.
+> >>>>
+> >>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> >>>> ---
+> >>>>    .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
+> >>>>    1 file changed, 9 insertions(+), 4 deletions(-)
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> >>>> index 3ec9cc87ec50..4d8f2e37d1e6 100644
+> >>>> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> >>>> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> >>>> @@ -99,10 +99,15 @@ patternProperties:
+> >>>>          sustainable-power:
+> >>>>            $ref: /schemas/types.yaml#/definitions/uint32
+> >>>>            description:
+> >>>> -          An estimate of the sustainable power (in mW) that this thermal zone
+> >>>> -          can dissipate at the desired control temperature. For reference, the
+> >>>> -          sustainable power of a 4-inch phone is typically 2000mW, while on a
+> >>>> -          10-inch tablet is around 4500mW.
+> >>>> +          An estimate of the sustainable power (in mW or in an abstract scale)
+> >>>> +         that this thermal zone can dissipate at the desired control
+> >>>> +         temperature. For reference, the sustainable power of a 4-inch phone
+> >>>> +         is typically 2000mW, while on a 10-inch tablet is around 4500mW.
+> >>>> +
+> >>>> +         It is possible to express the sustainable power in an abstract
+> >>>> +         scale. This is the case when the related cooling devices use also
+> >>>> +         abstract scale to express their power usage. The scale must be
+> >>>> +         consistent.
+> >>>
+> >>> Two thoughts:
+> >>>
+> >>> 1. If we're going to allow "sustainable-power" to be in abstract
+> >>> scale, why not allow "dynamic-power-coefficient" to be in abstract
+> >>> scale too?  I assume that the whole reason against that originally was
+> >>> the idea of device tree purity, but if we're allowing the abstract
+> >>> scale here then there seems no reason not to allow it for
+> >>> "dynamic-power-coefficient".
+> >>
+> >> With this binding it's a bit more tricky.
+> >> I also have to discuss a few things internally. This requirement of
+> >> uW/MHz/V^2 makes the code easier also for potential drivers
+> >> like GPU (which are going to register the devfreq cooling with EM).
+> >>
+> >> Let me think about it, but for now I would just update these bits.
+> >> These are required to proper IPA operation, the dyn.-pow.-coef. is a
+> >> nice to have and possible next step.
+> >
+> > I guess the problem is that Rajendra is currently planning to remove
+> > all the "dynamic-power-coefficient" values from device tree right now
+> > and move them to the source code because the numbers we currently have
+> > in the device tree _are_ in abstract scale and thus violate the
+> > bindings.  Moving this to source code won't help us get to more real
+> > power numbers (since it'll still be abstract scale), it'll just be
+> > pure churn.  If we're OK with the abstract scale in general then we
+> > should allow it everywhere and not add churn for no reason.
+>
+> IIUC he is still going to use the Energy Model, but with different
+> registration function. We have such a driver: scmi-cpufreq.c, which
+> uses em_dev_register_perf_domain(). He can still use EM, EAS, IPA
+> not violating anything.
 
-> +    work independently on a freshly booted system. That's needed, as each issue
-> +    needs to get reported to the kernel developers separately, unless they are
-> +    strongly entangled.*
-> +
-> +If you deal with multiple issue at once, you'll have to report each of them
-
-                             issues
-
-> +separately, as they might be handled by different developers. Describing various
-> +issues in one report also makes it quite difficult for others to tear it apart.
-> +Hence, only combine issues in one report if they are strongly entangled.
-> +
-> +Additionally, during the reporting process you will have to test if the issue
-> +happens with other kernel versions. Therefore, it will make your work easier if
-> +you know exactly how to reproduce it quickly on a freshly booted system.
-> +
-> +Note: it's often fruitless to debug issues that only happened once, as they
-> +might be caused by a bit flip due to cosmic radiation. That's why you should try
-> +to rule that out by reproducing the issue before going further. Feed free to
-
-                                                                   Feel
-
-> +ignore this if you are experienced enough to tell a one-time error due to faulty
-> +hardware apart from a kernel issue that rarely happens and thus is hard to
-> +reproduce.
-> +
-> +
->  .. ############################################################################
->  .. Temporary marker added while this document is rewritten. Sections above
->  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
-> @@ -639,15 +665,6 @@ How to report Linux kernel bugs
->  ===============================
->  
->  
-> -Tips for reporting bugs
-> ------------------------
-> -
-> -It's REALLY important to report bugs that seem unrelated as separate email
-> -threads or separate bugzilla entries.  If you report several unrelated
-> -bugs at once, it's difficult for maintainers to tease apart the relevant
-> -data.
-> -
-> -
->  Gather information
->  ------------------
->  
-> 
+Right.  He's going to take the exact same "abstract scale" numbers
+that he has today and take them out of device tree and put them in the
+cpufreq driver.  Doing so magically makes it so that he's not
+violating anything since "abstract scale" is not currently allowed in
+device tree but is allowed in the cpufreq driver.  I'm not saying that
+he's doing anything wrong, I'm just saying that it's pointless churn.
+If we're OK with "abstract scale" in one place in the device tree we
+should be OK with it everywhere in the device tree.  Then Rajendra
+wouldn't need his patch at all and he could leave his numbers in the
+device tree.
 
 
--- 
-~Randy
+> The real problem that we want to address is with sustainable-power in
+> IPA. It is used in power budget calculation and if the devices operate
+> in abstract scale, then there is an issue.
+> There are two options to get that value:
+> 1. from DT, which can have optimized value, stored by OEM engineer
+> 2. from IPA estimation code, which just calculates it as a sum of
+> minimum OPP power for each cooling device.
+>
+> The 2nd option might not be the best for a platform, so vendor/OEM
+> engineer might want to provide a better value in DT -> 1st option.
+> This is currently against the binding description and I have to fix it.
 
+Right, things are already broken today because a SoC vendor could
+(without violating any rules) provide their SoC core
+"dynamic-power-coefficient" in "abstract scale" in code and there
+would be no way to for a board to (without violating DT bindings)
+specify a "sustainable-power".  ...so, in that sense, your patch does
+provide a benefit even if we don't make any changes to the rules for
+"sustainable-power".  All I'm saying is that if these new rules for
+allowing an abstract scale for "sustainable-power" in the device tree
+are OK that it should _also_ be OK to add new rules to allow an
+abstract scale for "dynamic-power-coefficient".
+
+
+> >>> 2. Is it worth adding some type of indication of what type of units
+> >>> "sustainable-power" is represented in?  Maybe even a made up unit so
+> >>> that you could tell the difference between made up units in the same
+> >>> system?  I'd envision something like:
+> >>>
+> >>> sustainable-power-units = "qualcomm,sc7180-bogoWatts"
+> >>>
+> >>> ...and on the dynamic-power-coefficient side, the same:
+> >>>
+> >>> dynamic-power-coefficient-units = "qualcomm,sc7180-bogoWatts"
+> >>>
+> >>> One could imagine someone even later (after devices are widely
+> >>> distributed) figuring out translations between these bogoWatts numbers
+> >>> and real Watts if someone could come up with a case where it matters.
+> >>
+> >> To figure this out we don't need a new binding.
+> >> I think a simple comment in the DT would be enough for this, even e.g.:
+> >>
+> >> sustainable-power = <100> /* bogoWatts */
+> >
+> > There are some important differences:
+> >
+> > a) Your comment is gone when the device tree is compiled.  If we
+> > actually add a string to the device tree then, in theory, we can add
+> > conversions in code (without touching the device tree) down the road.
+>
+> We don't need code and binding with a bogoscale. It is up to the
+> platform integrator to make sure the scale in consistent in all devices.
+> Comment in DT is good enough.
+
+One other nice thing about having the units is that the device tree is
+supposed to be more of a "pure" thing, less sullied about what's
+convenient and more about a real description of a thing.  Presumably
+that's why "abstract scale" wasn't allowed originally?  In any case,
+giving quantifiable units to the number somehow makes it feel less
+made up because it's possible to come up with a way to convert it back
+to real units.
+
+
+> > b) I believe there can be more than one abstract scale present in a
+> > single device tree, at least in theory.  Adding a string allows you to
+> > know if you're comparing apples to apples or apples to organges.
+>
+> IMHO DT is not the place for such abstractions, but Rob might correct me
+> here.
+
+Yup, seems like we're blocked waiting for Rob to chime in unless
+someone else has the authority to make the call about how to deal with
+"abstract scale" numbers in the device tree.
+
+-Doug
