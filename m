@@ -2,112 +2,101 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE375C4741F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 02:07:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 550E8C4727E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 02:10:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DC48207FB
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 02:07:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF9E720719
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 02:10:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SyWPxJQj"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GNY/Zo6c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733275AbgJBCHB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Oct 2020 22:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
+        id S2387518AbgJBCKA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Oct 2020 22:10:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387496AbgJBCHB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 22:07:01 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9390C0613E4
-        for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2020 19:07:00 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id 7so358770vsp.6
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2020 19:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vT94c58c5RJpPi7b9HKxloC1mNQH0vp26xTTILK9X5s=;
-        b=SyWPxJQjF1pyN0tV9nljtIiQi7IAU4ykxGKYZ+Ngd0KIBmRApBv8Lys4YpoYU593S3
-         R/81CTJRQli3fwWhMot/+N4MW2z9TutEevFLsPxdQT04VEDJf3EcDb7TxTqPw16raYmL
-         O185M4iVi+3hsx1y5CvCknDPjkmzzw/9oxohxNKfqhyfWVgIu2chMpy4PROp5XBAYtfw
-         FhfullWI5DsudxJwmWVhfm3K5WnYqpDGnYdwOeDSZPIpIYNezYXrtPq++798LoUDLvAf
-         jsLd/mLSMkpNOeJC2ZXc4XqQD5T+2H2J74a1Im5Bjz83C+9BqVudzCgo4FUKJFYPsFIw
-         L07w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vT94c58c5RJpPi7b9HKxloC1mNQH0vp26xTTILK9X5s=;
-        b=WDBqsBjTKRQiUef265addqx0hHMeGWTp6jVyx2f02GLVRM42Sssjl4BRV5ltpNGYHp
-         U35geyP5aSs/y2zZyz7zlr8/BLQs+IK5bvhmFMtGUIJKZwKuXu2szY+GvAA79o1sbA3D
-         k5b1ak5MjoxEkgpeh76nAWyxIU03iV/AV2wAyss8s8nyWBEBin/uYcI5G4P0rOmp2hD/
-         Czss9vWqlApbe4DHnTAXIN8eXA31SeqZE3T/MuVPEIyQwAHQce/uLgGzkVv9TzV9rrl3
-         h658TB+aoniMVNmI9+ehm6kxJd182+F+x7IxidAhu57rT/Mty3shaZLGdUd8CYysBzzL
-         WGIA==
-X-Gm-Message-State: AOAM532QloCxBRWOXcDZ9U6wIXX8LEDXK1bvKEM36vJrFE1Ci1uC6u7b
-        GxrINF5uT7IxgXvsrmmXfTE/nwrFvZMOFx272ElACw==
-X-Google-Smtp-Source: ABdhPJxoSqWOWqkgye3JYdbsMetKDhjeqdmku/0TOcCNaVVCZlRIiJXTsWsPQC2qA8YecqG4ck2fb88Uv71SNqE97IM=
-X-Received: by 2002:a67:e83:: with SMTP id 125mr124303vso.22.1601604419476;
- Thu, 01 Oct 2020 19:06:59 -0700 (PDT)
+        with ESMTP id S1727780AbgJBCKA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Oct 2020 22:10:00 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B057C0613D0;
+        Thu,  1 Oct 2020 19:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=DjZ6KH2U/+LNCtogWNgL4pG51gI1w5nX9k7CBApXxjM=; b=GNY/Zo6cI+hacSgxQ80QujX0VQ
+        evmOJENebQ/fowVeGzDXWZQp/3Q6UsJTTx/NgVg9k8z9DefIWFIetSRjmNnXPH5//5+U/e955Q0/e
+        /q2ucEmTwRMkXACt0DtqCu6dokzlx+lhv3t/pNqhAkXYI5WVtJb+hA1ZOxCzWeLK3oR18PjzKsbRR
+        u/CNUritmqZSlOiHWm53mjAA1NVOfS74QukndJk7EtSLILsXI01vuBbioS2qf2I7YbKoe33B0AJ29
+        lh82zK6aMBpZrY3tf6N1nSGrPxmD3n1BvmKXWR+P9skqsYTf7eqYp+ufYEnIr7cO7MfyEccU7hvWz
+        UGbvhl2w==;
+Received: from [2601:1c0:6280:3f0::863]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kOAWB-0003ge-27; Fri, 02 Oct 2020 02:09:55 +0000
+Subject: Re: [RFC PATCH 22/22] x86/fpu/xstate: Introduce boot-parameters for
+ control some state component support
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>, tglx@linutronix.de,
+        mingo@kernel.org, bp@suse.de, luto@kernel.org, x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
+        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20201001203913.9125-1-chang.seok.bae@intel.com>
+ <20201001203913.9125-23-chang.seok.bae@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5e9b73bf-5334-189e-753e-f1f766375024@infradead.org>
+Date:   Thu, 1 Oct 2020 19:09:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200925145649.5438-1-yu-cheng.yu@intel.com> <20200925145649.5438-20-yu-cheng.yu@intel.com>
-In-Reply-To: <20200925145649.5438-20-yu-cheng.yu@intel.com>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Thu, 1 Oct 2020 19:06:48 -0700
-Message-ID: <CAMn1gO4cxSt8-8qVbAei0jPErTtARdsEY4js6Fi=kzozAuE3yQ@mail.gmail.com>
-Subject: Re: [PATCH v13 19/26] mm: Re-introduce do_mmap_pgoff()
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201001203913.9125-23-chang.seok.bae@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 7:57 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> There was no more caller passing vm_flags to do_mmap(), and vm_flags was
-> removed from the function's input by:
->
->     commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap_pgoff()").
->
-> There is a new user now.  Shadow stack allocation passes VM_SHSTK to
-> do_mmap().  Re-introduce the vm_flags and do_mmap_pgoff().
+Hi--
 
-I would prefer to change the callers to pass the additional 0 argument
-instead of bringing the wrapper function back, but if we're going to
-bring it back then we should fix the naming (both functions take a
-pgoff argument, so the previous name do_mmap_pgoff() was just plain
-confusing).
+On 10/1/20 1:39 PM, Chang S. Bae wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a1068742a6df..742167c6f789 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5838,6 +5838,21 @@
+>  			which allow the hypervisor to 'idle' the guest on lock
+>  			contention.
+>  
+> +	xstate.enable=	[X86-64]
+> +	xstate.disable=	[X86-64]
+> +			The kernel is compiled with a default xstate bitmask --
+> +			enabling it to use the XSAVE hardware to efficiently
+> +			save and restore thread states on context switch.
+> +			xstate.enable allows adding to that default mask at
+> +			boot-time without recompiling the kernel just to support
+> +			the new thread state. (Note that the kernel will ignore
+> +			any bits in the mask that do not correspond to features
+> +			that are actually available in CPUID)  xstate.disable
 
-Peter
+			                             in CPUID.)
+
+> +			allows clearing bits in the default mask, forcing the
+> +			kernel to forget that it supports the specified thread
+> +			state. When a bit set for both, the kernel takes
+> +			xstate.disable in a priority.
+
+			               as a priority.
+
+
+What do these bitmasks look like?  what do the bits mean?
+Where does a user find this info?
+
+
+thanks.
+-- 
+~Randy
+
