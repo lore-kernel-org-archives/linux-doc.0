@@ -2,55 +2,241 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 301ADC4363D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 12:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35758C47423
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 12:33:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 039A9206B2
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 12:07:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05F1420719
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 12:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387738AbgJBMHi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 08:07:38 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:40108 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725964AbgJBMHi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Oct 2020 08:07:38 -0400
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1kOJqS-00HD8r-7k; Fri, 02 Oct 2020 14:07:28 +0200
-Date:   Fri, 2 Oct 2020 14:07:28 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] scripts: kernel-doc: add support for typedef enum
-Message-ID: <20201002120728.GH4067422@lunn.ch>
-References: <cover.1601616399.git.mchehab+huawei@kernel.org>
- <f381c13667d8794a941457f5ef771fe34788e831.1601616399.git.mchehab+huawei@kernel.org>
+        id S1726282AbgJBMdA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 08:33:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725964AbgJBMdA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 08:33:00 -0400
+Received: from smtp1.goneo.de (smtp1.goneo.de [IPv6:2001:1640:5::8:30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9738C0613D0;
+        Fri,  2 Oct 2020 05:32:59 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 747C723F20F;
+        Fri,  2 Oct 2020 14:32:58 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id D26-kqQQJXtG; Fri,  2 Oct 2020 14:32:56 +0200 (CEST)
+Received: from lem-wkst-02.lemonage.de. (hq.lemonage.de [87.138.178.34])
+        by smtp1.goneo.de (Postfix) with ESMTPA id 6D0BE23F087;
+        Fri,  2 Oct 2020 14:32:56 +0200 (CEST)
+From:   poeschel@lemonage.de
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "GitAuthor: Lars Poeschel" <poeschel@lemonage.de>,
+        linux-kernel@vger.kernel.org (open list),
+        linux-pwm@vger.kernel.org (open list:PWM SUBSYSTEM),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 2/2] Documentation: Reflect the changes to pwm sysfs
+Date:   Fri,  2 Oct 2020 14:32:44 +0200
+Message-Id: <20201002123247.3073352-1-poeschel@lemonage.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201002123048.3073128-1-poeschel@lemonage.de>
+References: <20201002123048.3073128-1-poeschel@lemonage.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f381c13667d8794a941457f5ef771fe34788e831.1601616399.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 02, 2020 at 07:49:49AM +0200, Mauro Carvalho Chehab wrote:
-> The PHY kernel-doc markup has gained support for documenting
-> a typedef enum.
-> 
-> However, right now the parser was not prepared for it.
+From: Lars Poeschel <poeschel@lemonage.de>
 
-Hi Mauro
+This is an update to the documentation to reflect the change to pwm
+sysfs.
 
-Thanks for this. I'm using Sphinx 3.2.1, since that is what my Debian
-box has. So it can be hard to see the new warnings amongst the old.
+/sys/class/pwm/pwmchipN/pwmX style exports are marked as deprecated.
+They are still available as symlinks to the new interface.
+New exports are available as /sys/class/pwm/pwm-N-X
 
-Will this patch get merged via Jonathan Corbet's tree?
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Lars Poeschel <poeschel@lemonage.de>
+---
+ Documentation/ABI/obsolete/sysfs-class-pwm | 52 +++++++++++++++++++
+ Documentation/ABI/testing/sysfs-class-pwm  | 60 ++++++++++++----------
+ Documentation/driver-api/pwm.rst           |  7 +--
+ 3 files changed, 90 insertions(+), 29 deletions(-)
+ create mode 100644 Documentation/ABI/obsolete/sysfs-class-pwm
 
-Thanks
-	Andrew
+diff --git a/Documentation/ABI/obsolete/sysfs-class-pwm b/Documentation/ABI/obsolete/sysfs-class-pwm
+new file mode 100644
+index 000000000000..92ba4f3586e9
+--- /dev/null
++++ b/Documentation/ABI/obsolete/sysfs-class-pwm
+@@ -0,0 +1,52 @@
++What:		/sys/class/pwm/pwmchipN/pwmX
++Date:		May 2013
++KernelVersion:	3.11
++Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++Description:
++		A /sys/class/pwm/pwmchipN/pwmX directory is created for
++		each exported PWM channel where X is the exported PWM
++		channel number.
++
++What:		/sys/class/pwm/pwmchipN/pwmX/period
++Date:		May 2013
++KernelVersion:	3.11
++Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++Description:
++		Sets the PWM signal period in nanoseconds.
++
++What:		/sys/class/pwm/pwmchipN/pwmX/duty_cycle
++Date:		May 2013
++KernelVersion:	3.11
++Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++Description:
++		Sets the PWM signal duty cycle in nanoseconds.
++
++What:		/sys/class/pwm/pwmchipN/pwmX/polarity
++Date:		May 2013
++KernelVersion:	3.11
++Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++Description:
++		Sets the output polarity of the PWM signal to "normal" or
++		"inversed".
++
++What:		/sys/class/pwm/pwmchipN/pwmX/enable
++Date:		May 2013
++KernelVersion:	3.11
++Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++Description:
++		Enable/disable the PWM signal.
++		0 is disabled
++		1 is enabled
++
++What:		/sys/class/pwm/pwmchipN/pwmX/capture
++Date:		June 2016
++KernelVersion:	4.8
++Contact:	Lee Jones <lee.jones@linaro.org>
++Description:
++		Capture information about a PWM signal. The output format is a
++		pair unsigned integers (period and duty cycle), separated by a
++		single space.
++
++  This ABI is deprecated and will be removed after 2025. It is replaced by
++  another sysfs ABI documented in Documentation/ABI/testing/sysfs-class-pwm
++
+diff --git a/Documentation/ABI/testing/sysfs-class-pwm b/Documentation/ABI/testing/sysfs-class-pwm
+index c20e61354561..87582dea1027 100644
+--- a/Documentation/ABI/testing/sysfs-class-pwm
++++ b/Documentation/ABI/testing/sysfs-class-pwm
+@@ -38,50 +38,58 @@ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+ Description:
+ 		Unexports a PWM channel.
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX
+-Date:		May 2013
+-KernelVersion:	3.11
+-Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++What:		/sys/class/pwm/pwm-N-X
++		/sys/class/pwm/pwmchipN/pwm-N-X
++Date:		October 2020
++KernelVersion:	5.9
++Contact:	Lars Poeschel <poeschel@lemonage.de>
+ Description:
+-		A /sys/class/pwm/pwmchipN/pwmX directory is created for
++		A /sys/class/pwm/pwm-N-X directory is created for
+ 		each exported PWM channel where X is the exported PWM
+-		channel number.
++		channel number and N is the number of the pwmchip
++		that this pwm belongs to.
++		/sys/class/pwm/pwmchipN/pwm-N-X is the same
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX/period
+-Date:		May 2013
+-KernelVersion:	3.11
+-Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++What:		/sys/class/pwm/pwm-N-X/period
++		/sys/class/pwm/pwmchipN/pwm-N-X/period
++Date:		October 2020
++KernelVersion:	5.9
++Contact:	Lars Poeschel <poeschel@lemonage.de>
+ Description:
+ 		Sets the PWM signal period in nanoseconds.
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX/duty_cycle
+-Date:		May 2013
+-KernelVersion:	3.11
+-Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++What:		/sys/class/pwm/pwm-N-X/duty_cycle
++		/sys/class/pwm/pwmchipN/pwm-N-X/duty_cycle
++Date:		October 2020
++KernelVersion:	5.9
++Contact:	Lars Poeschel <poeschel@lemonage.de>
+ Description:
+ 		Sets the PWM signal duty cycle in nanoseconds.
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX/polarity
+-Date:		May 2013
+-KernelVersion:	3.11
+-Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++What:		/sys/class/pwm/pwm-N-X/polarity
++		/sys/class/pwm/pwmchipN/pwm-N-X/polarity
++Date:		October 2020
++KernelVersion:	5.9
++Contact:	Lars Poeschel <poeschel@lemonage.de>
+ Description:
+ 		Sets the output polarity of the PWM signal to "normal" or
+ 		"inversed".
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX/enable
+-Date:		May 2013
+-KernelVersion:	3.11
+-Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
++What:		/sys/class/pwm/pwm-N-X/enable
++		/sys/class/pwm/pwmchipN/pwm-N-X/enable
++Date:		October 2020
++KernelVersion:	5.9
++Contact:	Lars Poeschel <poeschel@lemonage.de>
+ Description:
+ 		Enable/disable the PWM signal.
+ 		0 is disabled
+ 		1 is enabled
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX/capture
+-Date:		June 2016
+-KernelVersion:	4.8
+-Contact:	Lee Jones <lee.jones@linaro.org>
++What:		/sys/class/pwm/pwm-N-X/capture
++		/sys/class/pwm/pwmchipN/pwm-N-X/capture
++Date:		October 2020
++KernelVersion:	5.9
++Contact:	Lars Poeschel <poeschel@lemonage.de>
+ Description:
+ 		Capture information about a PWM signal. The output format is a
+ 		pair unsigned integers (period and duty cycle), separated by a
+diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+index ab62f1bb0366..9361cd9b136c 100644
+--- a/Documentation/driver-api/pwm.rst
++++ b/Documentation/driver-api/pwm.rst
+@@ -89,9 +89,10 @@ will find:
+ 
+ The PWM channels are numbered using a per-chip index from 0 to npwm-1.
+ 
+-When a PWM channel is exported a pwmX directory will be created in the
+-pwmchipN directory it is associated with, where X is the number of the
+-channel that was exported. The following properties will then be available:
++When a PWM channel is exported a pwm-N-X directory will be created in the
++/sys/class/pwm/ directory. N is number of the PWM chip this pwm is associated
++with and X is the number of the channel that was exported. The following
++properties will then be available:
+ 
+   period
+     The total period of the PWM signal (read/write).
+-- 
+2.28.0
+
