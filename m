@@ -2,197 +2,268 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE11C4363C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:48:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A24C4363C
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:58:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31A6C208C7
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:48:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NOBFHu51"
+	by mail.kernel.org (Postfix) with ESMTP id 2839A2074B
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:58:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387938AbgJBPsK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 11:48:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387692AbgJBPsK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 11:48:10 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095BDC0613D0
-        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 08:48:10 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id g11so842797vsp.13
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 08:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T1VBeMl6lnk6uGVYC4UMbcUFzllZv34qpogDPSQOP7M=;
-        b=NOBFHu51EDHrcub6xy7AvFiSRurn1fHm20p6heYCzLvQA4DiSWLmItq04o64PqKZJL
-         ON7UOtMwm7wOsHDwKznnfPF3yO5akXtBqmhN2CLd4iY6ZkbJCnZj4n4pPLQQJutstBul
-         NQGnGObIukRPoeNo1cN9Buh0HQPiZDPQomocE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T1VBeMl6lnk6uGVYC4UMbcUFzllZv34qpogDPSQOP7M=;
-        b=XfkPZf/aa5ecaD4BF+Y2UQ4NzN45ak3Yuna9O5littHaEKvM0Yy8U5ttv0EqiIVS+X
-         F1q9PjB3OIRfL3ll01REd4S0dXLfnA4f4Yg0c+Lbb1F2zlr/nMY0nIpQF5bVhZzSoKzu
-         EAXQubUNb3IfseIbc13C3t+aVx/Su0ImivFEXEk+lqI9bFrgOAR1zWI2asqJg9ngMZpD
-         Z2h89YwaZ0g5bpgQ9HGpV/UdntBbbN23pseOCAIpLCrpyODavPgOnNGb07GqnSXVgrHq
-         20CripeO8c0ZxDTKbc9BB07IYq3/BkF7ekzQkFHVhiS21eZtKaoZgaU1KjjQzcCh/ar3
-         F48A==
-X-Gm-Message-State: AOAM532VnIvFKn5Lcia/KV3xHzpwBgiEG5nvT7W4955oXJ43ChE0e5Ym
-        epD0WduaUTAk8a67KS7NEmaMoCr0k2wxYw==
-X-Google-Smtp-Source: ABdhPJxdwozJViic6RjMclMcHX/5upobYgJ3qmuqgPgXLOWx69rGx+pgwv4PhM7M5Iegc9OVTsRd7Q==
-X-Received: by 2002:a05:6102:2f7:: with SMTP id j23mr1601632vsj.35.1601653688828;
-        Fri, 02 Oct 2020 08:48:08 -0700 (PDT)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id o83sm298894vko.29.2020.10.02.08.48.07
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2020 08:48:08 -0700 (PDT)
-Received: by mail-vk1-f171.google.com with SMTP id a16so388993vke.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 08:48:07 -0700 (PDT)
-X-Received: by 2002:a1f:a905:: with SMTP id s5mr1631052vke.9.1601653687217;
- Fri, 02 Oct 2020 08:48:07 -0700 (PDT)
+        id S2387966AbgJBP6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 11:58:19 -0400
+Received: from mga12.intel.com ([192.55.52.136]:3614 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726017AbgJBP6T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 11:58:19 -0400
+IronPort-SDR: 1DFwx49py7rA88vLihJtYVFF5EPGV2+2smjlW8PBnOdYYBAa2B4igq/Ct83wI5zI7GCE+hqSxm
+ b+802xx1DxgQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="142406480"
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="142406480"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 08:58:17 -0700
+IronPort-SDR: UIER8ztpir42d+P/skPtUqpAth+NDcVX4em72Mfu0y5X2uWzRo8um/fUiNf+rZfjUGFriSSsaT
+ qxiCFOSZqR+w==
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="295390005"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.143.131]) ([10.212.143.131])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 08:58:15 -0700
+Subject: Re: [PATCH v13 19/26] mm: Re-introduce do_mmap_pgoff()
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200925145649.5438-1-yu-cheng.yu@intel.com>
+ <20200925145649.5438-20-yu-cheng.yu@intel.com>
+ <CAMn1gO4cxSt8-8qVbAei0jPErTtARdsEY4js6Fi=kzozAuE3yQ@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <00a409f0-1e2e-0bd7-83e7-f21a47878916@intel.com>
+Date:   Fri, 2 Oct 2020 08:58:14 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20201002114426.31277-1-lukasz.luba@arm.com> <20201002114426.31277-4-lukasz.luba@arm.com>
- <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com> <e9b6fc5a-45d3-168d-db38-6c068da26f6b@arm.com>
-In-Reply-To: <e9b6fc5a-45d3-168d-db38-6c068da26f6b@arm.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 2 Oct 2020 08:47:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xkg1zpsMW5rERbibnjrgY6opZi8Z9DUFkWebb7NHtU5w@mail.gmail.com>
-Message-ID: <CAD=FV=Xkg1zpsMW5rERbibnjrgY6opZi8Z9DUFkWebb7NHtU5w@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: thermal: update sustainable-power
- with abstract scale
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        amitk@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMn1gO4cxSt8-8qVbAei0jPErTtARdsEY4js6Fi=kzozAuE3yQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 10/1/2020 7:06 PM, Peter Collingbourne wrote:
+> On Fri, Sep 25, 2020 at 7:57 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+>> There was no more caller passing vm_flags to do_mmap(), and vm_flags was
+>> removed from the function's input by:
+>>
+>>      commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap_pgoff()").
+>>
+>> There is a new user now.  Shadow stack allocation passes VM_SHSTK to
+>> do_mmap().  Re-introduce the vm_flags and do_mmap_pgoff().
+> 
+> I would prefer to change the callers to pass the additional 0 argument
+> instead of bringing the wrapper function back, but if we're going to
+> bring it back then we should fix the naming (both functions take a
+> pgoff argument, so the previous name do_mmap_pgoff() was just plain
+> confusing).
+> 
+> Peter
+> 
 
-On Fri, Oct 2, 2020 at 8:13 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->
-> Hi Doug,
->
-> On 10/2/20 3:31 PM, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Fri, Oct 2, 2020 at 4:45 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
-> >>
-> >> Update the documentation for the binding 'sustainable-power' and allow
-> >> to provide values in an abstract scale. It is required when the cooling
-> >> devices use an abstract scale for their power values.
-> >>
-> >> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
-> >> ---
-> >>   .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
-> >>   1 file changed, 9 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> >> index 3ec9cc87ec50..4d8f2e37d1e6 100644
-> >> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> >> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> >> @@ -99,10 +99,15 @@ patternProperties:
-> >>         sustainable-power:
-> >>           $ref: /schemas/types.yaml#/definitions/uint32
-> >>           description:
-> >> -          An estimate of the sustainable power (in mW) that this thermal zone
-> >> -          can dissipate at the desired control temperature. For reference, the
-> >> -          sustainable power of a 4-inch phone is typically 2000mW, while on a
-> >> -          10-inch tablet is around 4500mW.
-> >> +          An estimate of the sustainable power (in mW or in an abstract scale)
-> >> +         that this thermal zone can dissipate at the desired control
-> >> +         temperature. For reference, the sustainable power of a 4-inch phone
-> >> +         is typically 2000mW, while on a 10-inch tablet is around 4500mW.
-> >> +
-> >> +         It is possible to express the sustainable power in an abstract
-> >> +         scale. This is the case when the related cooling devices use also
-> >> +         abstract scale to express their power usage. The scale must be
-> >> +         consistent.
-> >
-> > Two thoughts:
-> >
-> > 1. If we're going to allow "sustainable-power" to be in abstract
-> > scale, why not allow "dynamic-power-coefficient" to be in abstract
-> > scale too?  I assume that the whole reason against that originally was
-> > the idea of device tree purity, but if we're allowing the abstract
-> > scale here then there seems no reason not to allow it for
-> > "dynamic-power-coefficient".
->
-> With this binding it's a bit more tricky.
-> I also have to discuss a few things internally. This requirement of
-> uW/MHz/V^2 makes the code easier also for potential drivers
-> like GPU (which are going to register the devfreq cooling with EM).
->
-> Let me think about it, but for now I would just update these bits.
-> These are required to proper IPA operation, the dyn.-pow.-coef. is a
-> nice to have and possible next step.
+Thanks for your feedback.  Here is the updated patch.  I will re-send 
+the whole series later.
 
-I guess the problem is that Rajendra is currently planning to remove
-all the "dynamic-power-coefficient" values from device tree right now
-and move them to the source code because the numbers we currently have
-in the device tree _are_ in abstract scale and thus violate the
-bindings.  Moving this to source code won't help us get to more real
-power numbers (since it'll still be abstract scale), it'll just be
-pure churn.  If we're OK with the abstract scale in general then we
-should allow it everywhere and not add churn for no reason.
+Yu-cheng
 
+======
 
-> > 2. Is it worth adding some type of indication of what type of units
-> > "sustainable-power" is represented in?  Maybe even a made up unit so
-> > that you could tell the difference between made up units in the same
-> > system?  I'd envision something like:
-> >
-> > sustainable-power-units = "qualcomm,sc7180-bogoWatts"
-> >
-> > ...and on the dynamic-power-coefficient side, the same:
-> >
-> > dynamic-power-coefficient-units = "qualcomm,sc7180-bogoWatts"
-> >
-> > One could imagine someone even later (after devices are widely
-> > distributed) figuring out translations between these bogoWatts numbers
-> > and real Watts if someone could come up with a case where it matters.
->
-> To figure this out we don't need a new binding.
-> I think a simple comment in the DT would be enough for this, even e.g.:
->
-> sustainable-power = <100> /* bogoWatts */
+ From 6a9f1e6bcdb6e599a44d5f58cf4cebd28c4634a2 Mon Sep 17 00:00:00 2001
+From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Date: Wed, 12 Aug 2020 14:01:58 -0700
+Subject: [PATCH 19/26] mm: Re-introduce do_mmap_pgoff()
 
-There are some important differences:
+There was no more caller passing vm_flags to do_mmap(), and vm_flags was
+removed from the function's input by:
 
-a) Your comment is gone when the device tree is compiled.  If we
-actually add a string to the device tree then, in theory, we can add
-conversions in code (without touching the device tree) down the road.
+     commit 45e55300f114 ("mm: remove unnecessary wrapper function 
+do_mmap_pgoff()").
 
-b) I believe there can be more than one abstract scale present in a
-single device tree, at least in theory.  Adding a string allows you to
-know if you're comparing apples to apples or apples to organges.
+There is a new user now.  Shadow stack allocation passes VM_SHSTK to
+do_mmap().  Re-introduce vm_flags to do_mmap(), but without the old wrapper
+do_mmap_pgoff().  Instead, fix all callers of the wrapper by passing a zero
+vm_flags to do_mmap().
 
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc: Peter Collingbourne <pcc@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: linux-mm@kvack.org
+---
+  fs/aio.c           |  2 +-
+  include/linux/mm.h |  3 ++-
+  ipc/shm.c          |  2 +-
+  mm/mmap.c          | 10 +++++-----
+  mm/nommu.c         |  4 ++--
+  mm/util.c          |  2 +-
+  6 files changed, 12 insertions(+), 11 deletions(-)
 
-> Thank you for your comments.
-> BTW, I haven't put your 'Reviewed-by' because I have added this
-> sustainable-power new stuff in patch 1/3. I will grateful if you
-> have a look on that.
+diff --git a/fs/aio.c b/fs/aio.c
+index d5ec30385566..ca8c11665eea 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -527,7 +527,7 @@ static int aio_setup_ring(struct kioctx *ctx, 
+unsigned int nr_events)
 
-I can if needed, but I'd kinda like to get the above resolved first
-since it feels like it could have an effect on the other patches?
+  	ctx->mmap_base = do_mmap(ctx->aio_ring_file, 0, ctx->mmap_size,
+  				 PROT_READ | PROT_WRITE,
+-				 MAP_SHARED, 0, &unused, NULL);
++				 MAP_SHARED, 0, 0, &unused, NULL);
+  	mmap_write_unlock(mm);
+  	if (IS_ERR((void *)ctx->mmap_base)) {
+  		ctx->mmap_size = 0;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index e09d13699bbe..e020eea33138 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2560,7 +2560,8 @@ extern unsigned long mmap_region(struct file 
+*file, unsigned long addr,
+  	struct list_head *uf);
+  extern unsigned long do_mmap(struct file *file, unsigned long addr,
+  	unsigned long len, unsigned long prot, unsigned long flags,
+-	unsigned long pgoff, unsigned long *populate, struct list_head *uf);
++	vm_flags_t vm_flags, unsigned long pgoff, unsigned long *populate,
++	struct list_head *uf);
+  extern int __do_munmap(struct mm_struct *, unsigned long, size_t,
+  		       struct list_head *uf, bool downgrade);
+  extern int do_munmap(struct mm_struct *, unsigned long, size_t,
+diff --git a/ipc/shm.c b/ipc/shm.c
+index e25c7c6106bc..91474258933d 100644
+--- a/ipc/shm.c
++++ b/ipc/shm.c
+@@ -1556,7 +1556,7 @@ long do_shmat(int shmid, char __user *shmaddr, int 
+shmflg,
+  			goto invalid;
+  	}
 
+-	addr = do_mmap(file, addr, size, prot, flags, 0, &populate, NULL);
++	addr = do_mmap(file, addr, size, prot, flags, 0, 0, &populate, NULL);
+  	*raddr = addr;
+  	err = 0;
+  	if (IS_ERR_VALUE(addr))
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 574b3f273462..fc04184d2eae 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1365,11 +1365,11 @@ static inline bool file_mmap_ok(struct file 
+*file, struct inode *inode,
+   */
+  unsigned long do_mmap(struct file *file, unsigned long addr,
+  			unsigned long len, unsigned long prot,
+-			unsigned long flags, unsigned long pgoff,
+-			unsigned long *populate, struct list_head *uf)
++			unsigned long flags, vm_flags_t vm_flags,
++			unsigned long pgoff, unsigned long *populate,
++			struct list_head *uf)
+  {
+  	struct mm_struct *mm = current->mm;
+-	vm_flags_t vm_flags;
+  	int pkey = 0;
 
--Doug
+  	*populate = 0;
+@@ -1431,7 +1431,7 @@ unsigned long do_mmap(struct file *file, unsigned 
+long addr,
+  	 * to. we assume access permissions have been handled by the open
+  	 * of the memory object, so we don't do any here.
+  	 */
+-	vm_flags = calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
++	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
+  			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
+
+  	if (flags & MAP_LOCKED)
+@@ -3007,7 +3007,7 @@ SYSCALL_DEFINE5(remap_file_pages, unsigned long, 
+start, unsigned long, size,
+
+  	file = get_file(vma->vm_file);
+  	ret = do_mmap(vma->vm_file, start, size,
+-			prot, flags, pgoff, &populate, NULL);
++			prot, flags, 0, pgoff, &populate, NULL);
+  	fput(file);
+  out:
+  	mmap_write_unlock(mm);
+diff --git a/mm/nommu.c b/mm/nommu.c
+index 75a327149af1..f67d6bcdfc9f 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -1078,6 +1078,7 @@ unsigned long do_mmap(struct file *file,
+  			unsigned long len,
+  			unsigned long prot,
+  			unsigned long flags,
++			vm_flags_t vm_flags,
+  			unsigned long pgoff,
+  			unsigned long *populate,
+  			struct list_head *uf)
+@@ -1085,7 +1086,6 @@ unsigned long do_mmap(struct file *file,
+  	struct vm_area_struct *vma;
+  	struct vm_region *region;
+  	struct rb_node *rb;
+-	vm_flags_t vm_flags;
+  	unsigned long capabilities, result;
+  	int ret;
+
+@@ -1104,7 +1104,7 @@ unsigned long do_mmap(struct file *file,
+
+  	/* we've determined that we can make the mapping, now translate what we
+  	 * now know into VMA flags */
+-	vm_flags = determine_vm_flags(file, prot, flags, capabilities);
++	vm_flags |= determine_vm_flags(file, prot, flags, capabilities);
+
+  	/* we're going to need to record the mapping */
+  	region = kmem_cache_zalloc(vm_region_jar, GFP_KERNEL);
+diff --git a/mm/util.c b/mm/util.c
+index 5ef378a2a038..beb8b881c080 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -503,7 +503,7 @@ unsigned long vm_mmap_pgoff(struct file *file, 
+unsigned long addr,
+  	if (!ret) {
+  		if (mmap_write_lock_killable(mm))
+  			return -EINTR;
+-		ret = do_mmap(file, addr, len, prot, flag, pgoff, &populate,
++		ret = do_mmap(file, addr, len, prot, flag, 0, pgoff, &populate,
+  			      &uf);
+  		mmap_write_unlock(mm);
+  		userfaultfd_unmap_complete(mm, &uf);
+-- 
+2.21.0
+
