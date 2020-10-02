@@ -2,146 +2,131 @@ Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A4A8C4727D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 14:31:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8150EC4363D
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:06:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9F3C206DB
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 14:31:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A5cXXjzF"
+	by mail.kernel.org (Postfix) with ESMTP id 490852074B
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 15:06:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388056AbgJBObc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 10:31:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54798 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726386AbgJBObc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 10:31:32 -0400
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15615C0613D0
-        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 07:31:32 -0700 (PDT)
-Received: by mail-ua1-x943.google.com with SMTP id z46so450147uac.13
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 07:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cnU95a4B/lopWn7PJb9EKa9/N6eV+gD0Xs8KJ/fY4rM=;
-        b=A5cXXjzFewYmWbzazwRS0/VaBU2zMwnx+gFsMz74IU9GsLD3USy5XdWUJzxT39eCc7
-         lnBzqESdtLpD0XCCYhvmegsVhtPZJmgxrgt5ttIqBvgDpGo/QdTT6fGyWy8toyId5OSE
-         FWLvaBXHHL3dljVDcvJ7tOLPA1Na5BenHsg6Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cnU95a4B/lopWn7PJb9EKa9/N6eV+gD0Xs8KJ/fY4rM=;
-        b=FBY9FRm23anaf2xAc85Nw13gqWxyinQT/zNYG4craFWKL3fZs1j1K5UayhKsuBoxgx
-         Se7HvoH8kyxGHnNovPzR8pweU9ss8dYhwVeyUYSu2qD4vvQK0ovwY3l6zMQ05JZl/uYf
-         SbrKYCJqv57Z5KPaPrTLMgZtpG3/xDhowZF+tCJzvGU00KQT3lw808fbu2cuaWShMDmn
-         1Ch+wzaFJG6PTgbL0TW9IRFk9wbmTp5Y7hYp2cgDiJX4TwEz1iHNdrEBZaasfKiJpddQ
-         Cnfbm9ehlHhPCZDD8ajrwsNBC/kXb8pgnS7WMJ+5KtKqfMxBNGw+EyDN1J7LhB+LmHm0
-         2QjQ==
-X-Gm-Message-State: AOAM530d1ujAxZkb8pLZmoIqz/69BCcSeqmRDjzzBOdntCUIBH91fvH6
-        OO24Vg/38bpF/erx4bBgSBRdvBi8f+pnUQ==
-X-Google-Smtp-Source: ABdhPJxtsvcjlEDeurkSAZ5HSqvA6HgyFDJAxADCvEI6D/ZZkBQZtQm5dDrSxAUXO9ZaXoI4cJQiiQ==
-X-Received: by 2002:ab0:5e8:: with SMTP id e95mr1221065uae.57.1601649090915;
-        Fri, 02 Oct 2020 07:31:30 -0700 (PDT)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id o145sm267555vkd.13.2020.10.02.07.31.29
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2020 07:31:30 -0700 (PDT)
-Received: by mail-vs1-f52.google.com with SMTP id j3so747075vsm.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 07:31:29 -0700 (PDT)
-X-Received: by 2002:a67:f4c2:: with SMTP id s2mr1288376vsn.4.1601649088871;
- Fri, 02 Oct 2020 07:31:28 -0700 (PDT)
+        id S2387974AbgJBPG5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 11:06:57 -0400
+Received: from foss.arm.com ([217.140.110.172]:38574 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387939AbgJBPG5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Oct 2020 11:06:57 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B12B41396;
+        Fri,  2 Oct 2020 08:06:56 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.49.154])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45F5C3F73B;
+        Fri,  2 Oct 2020 08:06:50 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 16:06:43 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Jann Horn <jannh@google.com>, Marco Elver <elver@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>, Jonathan.Cameron@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
+Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
+Message-ID: <20201002150643.GA5601@C02TD0UTHF1T.local>
+References: <20200929133814.2834621-1-elver@google.com>
+ <20200929133814.2834621-2-elver@google.com>
+ <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
+ <CAG48ez1MQks2na23g_q4=ADrjMYjRjiw+9k_Wp9hwGovFzZ01A@mail.gmail.com>
+ <CACT4Y+a3hLF1ph1fw7xVz1bQDNKL8W0s6pXe7aKm9wTNrJH3=w@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201002114426.31277-1-lukasz.luba@arm.com> <20201002114426.31277-4-lukasz.luba@arm.com>
-In-Reply-To: <20201002114426.31277-4-lukasz.luba@arm.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 2 Oct 2020 07:31:17 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com>
-Message-ID: <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: thermal: update sustainable-power
- with abstract scale
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        amitk@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+a3hLF1ph1fw7xVz1bQDNKL8W0s6pXe7aKm9wTNrJH3=w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Fri, Oct 02, 2020 at 04:22:59PM +0200, Dmitry Vyukov wrote:
+> On Fri, Oct 2, 2020 at 9:54 AM Jann Horn <jannh@google.com> wrote:
+> >
+> > On Fri, Oct 2, 2020 at 8:33 AM Jann Horn <jannh@google.com> wrote:
+> > > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > > > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> > > > low-overhead sampling-based memory safety error detector of heap
+> > > > use-after-free, invalid-free, and out-of-bounds access errors.
+> > > >
+> > > > KFENCE is designed to be enabled in production kernels, and has near
+> > > > zero performance overhead. Compared to KASAN, KFENCE trades performance
+> > > > for precision. The main motivation behind KFENCE's design, is that with
+> > > > enough total uptime KFENCE will detect bugs in code paths not typically
+> > > > exercised by non-production test workloads. One way to quickly achieve a
+> > > > large enough total uptime is when the tool is deployed across a large
+> > > > fleet of machines.
+> > [...]
+> > > > +/*
+> > > > + * The pool of pages used for guard pages and objects. If supported, allocated
+> > > > + * statically, so that is_kfence_address() avoids a pointer load, and simply
+> > > > + * compares against a constant address. Assume that if KFENCE is compiled into
+> > > > + * the kernel, it is usually enabled, and the space is to be allocated one way
+> > > > + * or another.
+> > > > + */
 
-On Fri, Oct 2, 2020 at 4:45 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->
-> Update the documentation for the binding 'sustainable-power' and allow
-> to provide values in an abstract scale. It is required when the cooling
-> devices use an abstract scale for their power values.
->
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
-> ---
->  .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> index 3ec9cc87ec50..4d8f2e37d1e6 100644
-> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> @@ -99,10 +99,15 @@ patternProperties:
->        sustainable-power:
->          $ref: /schemas/types.yaml#/definitions/uint32
->          description:
-> -          An estimate of the sustainable power (in mW) that this thermal zone
-> -          can dissipate at the desired control temperature. For reference, the
-> -          sustainable power of a 4-inch phone is typically 2000mW, while on a
-> -          10-inch tablet is around 4500mW.
-> +          An estimate of the sustainable power (in mW or in an abstract scale)
-> +         that this thermal zone can dissipate at the desired control
-> +         temperature. For reference, the sustainable power of a 4-inch phone
-> +         is typically 2000mW, while on a 10-inch tablet is around 4500mW.
-> +
-> +         It is possible to express the sustainable power in an abstract
-> +         scale. This is the case when the related cooling devices use also
-> +         abstract scale to express their power usage. The scale must be
-> +         consistent.
+> KFENCE needs the range to be covered by struct page's and that's what
+> creates problems for arm64. But I would assume most other users don't
+> need that.
 
-Two thoughts:
+I've said this in a few other sub-threads, but the issue being
+attributed to arm64 is a red herring, and indicates a more fundamental
+issue that also applies to x86, which will introduce a regression for
+existing correctly-written code. I don't think that's acceptable for a
+feature expected to be deployed in production kernels, especially given
+that the failures are going to be non-deterministic and hard to debug.
 
-1. If we're going to allow "sustainable-power" to be in abstract
-scale, why not allow "dynamic-power-coefficient" to be in abstract
-scale too?  I assume that the whole reason against that originally was
-the idea of device tree purity, but if we're allowing the abstract
-scale here then there seems no reason not to allow it for
-"dynamic-power-coefficient".
+The code in question is mostly going to be in drivers, and it's very
+likely you may not hit it in local testing.
 
-2. Is it worth adding some type of indication of what type of units
-"sustainable-power" is represented in?  Maybe even a made up unit so
-that you could tell the difference between made up units in the same
-system?  I'd envision something like:
+If it is critical to avoid a pointer load here, then we need to either:
 
-sustainable-power-units = "qualcomm,sc7180-bogoWatts"
+* Build some infrastructure for patching constants. The x86 static_call
+  work is vaguely the right shape for this. Then we can place the KFENCE
+  region anywhere (e.g. within the linear/direct map), and potentially
+  dynamically allocate it.
 
-...and on the dynamic-power-coefficient side, the same:
+* Go audit usage of {page,phys}_to_virt() to find any va->{page,pa}->va
+  round-trips, and go modify that code to do something else which avoids
+  a round-trip. When I last looked at this it didn't seem viable in
+  general since in many cases the physcial address was the only piece of
+  information which was retained.
 
-dynamic-power-coefficient-units = "qualcomm,sc7180-bogoWatts"
+I'd be really curious to see how using an immediate compares to loading
+an __ro_after_init pointer value.
 
-One could imagine someone even later (after devices are widely
-distributed) figuring out translations between these bogoWatts numbers
-and real Watts if someone could come up with a case where it matters.
-
-
--Doug
+Thanks,
+Mark.
