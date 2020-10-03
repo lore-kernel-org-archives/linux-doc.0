@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCD2C4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:56:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 820A4C4363D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:58:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A99BF206CA
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:56:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F4F1206CD
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:58:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725765AbgJCJ4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 05:56:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36596 "EHLO
+        id S1725790AbgJCJ6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 05:58:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725681AbgJCJ4S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 05:56:18 -0400
+        with ESMTP id S1725681AbgJCJ6c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 05:58:32 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A406C0613D0;
-        Sat,  3 Oct 2020 02:56:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91C0CC0613D0;
+        Sat,  3 Oct 2020 02:58:32 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kOeH0-00018t-5g; Sat, 03 Oct 2020 11:56:14 +0200
+        id 1kOeJ8-0004Or-9c; Sat, 03 Oct 2020 11:58:26 +0200
 To:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <eed27c4faa31d98bd37db18ba2ae90f1767c7102.1601541165.git.linux@leemhuis.info>
- <8129d3a7-3649-b9cc-1615-402f12ee370a@infradead.org>
+ <e445ed892324469219638e7b546bbfe5265b1e93.1601541165.git.linux@leemhuis.info>
+ <f7925522-cb19-bc4f-77e2-0246dde9b1c3@infradead.org>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  mQINBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
@@ -74,49 +74,28 @@ Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  yc+mP1ya8uxIFEwcp6C1h4TTisVFC2DXxDi7pqUd9oTuI4Hg19/i07cdYUHDiraDXSXW5zH9
  5ZDV+rSqDU3ercoRd2qjGUOIXWOytHTeJhVOWqM0vOmXDUwwYHuEb0HFn3d/tz+idSrXUSXZ
  5iv6NKaV29GWHbY=
-Subject: Re: [RFC PATCH v1 08/26] docs: reporting-bugs: make readers check the
- taint flag
-Message-ID: <f7f0b065-b022-7178-f9ba-f05c961ff57e@leemhuis.info>
-Date:   Sat, 3 Oct 2020 11:56:13 +0200
+Subject: Re: [RFC PATCH v1 10/26] docs: reporting-bugs: remind people to look
+ for existing reports
+Message-ID: <3a8b0a5a-4a2b-7195-eba6-8f8b69addfc7@leemhuis.info>
+Date:   Sat, 3 Oct 2020 11:58:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <8129d3a7-3649-b9cc-1615-402f12ee370a@infradead.org>
+In-Reply-To: <f7925522-cb19-bc4f-77e2-0246dde9b1c3@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601718977;16dfc5e0;
-X-HE-SMSGID: 1kOeH0-00018t-5g
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601719112;455aa30d;
+X-HE-SMSGID: 1kOeJ8-0004Or-9c
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Many thx for you comments. Consider all the obvious spelling and
-grammatical mistakes you pointed out fixed, I won't mention all of them
-in this reply to keep things easier to follow.
-
-Am 02.10.20 um 19:08 schrieb Randy Dunlap:
+Am 02.10.20 um 19:17 schrieb Randy Dunlap:
 > On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
 
->> +driver, VirtualBox, or other software that installs its own kernel modules: you
->> +will have to remove these modules and reboot the system, as they might in fact
->> +be causing the issue you face.
-> You will need to reboot the system and try to reproduce the issue without loading
-> any of these proprietary modules.
+Many thx for you comments, all suggestions implemented.
 
-Hmmm. Preventing the Nvidia module from loading without disabling or
-uninstalling the other parts of the graphics driver can easily to a
-situation where the GUI is not starting. And blacklisting all modules
-that VirtualBox needs on the host requires quite a bit of tying at the
-boot loader iirc. So how about this:
 
-Quite a few kernels are also tainted because an unsuitable kernel module
-was loaded. This for example is the case if you use Nvidia's proprietary
-graphics driver, VirtualBox, or other software that installs its own
-kernel modules, as they might be causing the issue you face. You thus
-have to prevent those modules from loading for the reporting process.
-Most of the time the easiest way to do that is: temporarily uninstall
-such software including any modules they might have installed.
-Afterwards reboot.
 
 Ciao, Thorsten
