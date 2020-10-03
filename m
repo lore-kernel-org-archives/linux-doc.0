@@ -2,116 +2,94 @@ Return-Path: <SRS0=Dt6R=DK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68946C4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 06:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 693EDC4363D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 07:24:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34CEA206F8
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 06:38:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="g55jZzqA"
+	by mail.kernel.org (Postfix) with ESMTP id 0FEE2206DB
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 07:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601709869;
+	bh=NZ6KVXDvtsl0xw2xgZYRbiM9tDJ/L3boO8rrLkSjWe8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=TZZSH3xv+4pSLnsW1T/3wJ3yfTmJCw8gCt2J08OBteKlkEamE5RPNV5oRGBEPLvh8
+	 JU/q++9sNDqIi+c2abCLMVZFqVRozy0xnkRdDcV/dfr2ZcN+Wv1SzgSJ7wgwH/0SRD
+	 +msqINd99NtaFebq2MpKVVT0Kqoh3/MyMk2rQrn8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725763AbgJCGiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 02:38:14 -0400
-Received: from mout.gmx.net ([212.227.17.21]:41065 "EHLO mout.gmx.net"
+        id S1725681AbgJCHY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 03:24:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50290 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725446AbgJCGiO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Oct 2020 02:38:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1601707075;
-        bh=XRD1G/FKH5P14Qoexkz4KABtNAoyURyyM07p9s6A2yA=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=g55jZzqAXpsVo9RbgbGMro15/KEK4AFcMWrdbwImz473pZtOmJaiJwbz//1jX4CW9
-         Qij0VWSkZKiofX6EHL6No0kxRzRb+qu94tofYJs0DxbjcYBEA9LyNd8pIuFiNfEl6V
-         Stzs5swGlR/ESB2/krromLiah2I3ihqbn0ADvd4s=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from LT02.fritz.box ([178.202.41.107]) by mail.gmx.com (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MvbG2-1ki3Gu4AmU-00seKf; Sat, 03
- Oct 2020 08:37:55 +0200
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-efi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Atish Patra <atishp@atishpatra.org>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [PATCH v2 2/2] docs: admin-guide: EFI stub to main Linux handoff
-Date:   Sat,  3 Oct 2020 08:37:25 +0200
-Message-Id: <20201003063725.8698-3-xypron.glpk@gmx.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201003063725.8698-1-xypron.glpk@gmx.de>
-References: <20201003063725.8698-1-xypron.glpk@gmx.de>
+        id S1725446AbgJCHY2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 3 Oct 2020 03:24:28 -0400
+Received: from coco.lan (ip5f5ad5cf.dynamic.kabel-deutschland.de [95.90.213.207])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96C35206CA;
+        Sat,  3 Oct 2020 07:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601709868;
+        bh=NZ6KVXDvtsl0xw2xgZYRbiM9tDJ/L3boO8rrLkSjWe8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=IEqDXOwJ+I6IXij6hwslUvG/tGtVkX4GcY5G8+t06cjNqxm6QX5cR67c8GZNXybqQ
+         gwZKUyccW8KDnma5ikhbqFED3iwZP7r8Ydsrvfg2qttHz/BbhPGB4PkveUB2VukePy
+         pExBX17D9eqHopITcfUL4Lo/XIkpI3N8iVsi6Tmg=
+Date:   Sat, 3 Oct 2020 09:24:23 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/6] scripts: kernel-doc: add support for typedef enum
+Message-ID: <20201003092423.58e25910@coco.lan>
+In-Reply-To: <20201002120728.GH4067422@lunn.ch>
+References: <cover.1601616399.git.mchehab+huawei@kernel.org>
+        <f381c13667d8794a941457f5ef771fe34788e831.1601616399.git.mchehab+huawei@kernel.org>
+        <20201002120728.GH4067422@lunn.ch>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:i+31IZulvm+Hkm7Jgc9slA5QQmVL8UwmQXplGyx3R1TkJGbBspR
- XPqhfjvk+xyIKZzg6xGtnym6LYGj2X/c3mml0ZtXvQELo7AglFu2XZuDPIWWAitvE8yDNgw
- 84P5xxAjcRL80fFpZUmqUIxVt9IYKZSBnVteu54lr298LBb2oa7er5OvcTaVUgSnPMADJGo
- MA9ILHeYiCfEo47WlVY5g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yRmdQYnLlKc=:Bgo/dGOvyZPkoTfpEazkt9
- Mq8GzYXyQz+Oy0m3rCNm0b5Z8Yx9ctatfa8KzVu1YxGvr/7lLGg88dxNX7ksWz/SOHvZ4o6xw
- Cqbf715H1RvmSXr/O5IWQV0PpQEfe5Y111J085ZTRVqZBKqQghpXxyNe0cnr6VKunrePa0ZJY
- 3hgb+oZl4joxQnHP1xBXhjuQi1AbNqZg130i9dDLz/eu4IiPxvdr6wvgqywEP1ZQMg9DB081P
- Ici7eRvEX/MrAnbYUqKu7/bycqRs4WTGZ+xueMmd2TJDJFLOKYLog/p8Dqy9Z8hGyTVIhnnyW
- PylafJUW3WcjSIrVb97waWsUdlZxjz7NDxvThFLhsqUT+Pvd54onHnwCmMpuLupgahC2JPN/o
- lLp8Yju2LqoeoRPjpNCVzZyiDFjTwe41+i2hE4QMmVt/7plCq407JxIqdS7RR4c5GaAN4D1JJ
- zrTQtTjj01+62+WHDF9wXjMjnVw15yaLemD/7X+jvCNg6mm46/CYQz8KRZS+Mv88nFXTqRALF
- 9JlT9vW51bn9Nvj8L2HMdTv3CFv4y+9VYA8OcDhWwIwIcueks3dibaMRituDGzvwhriSXDgJw
- fqhQsYEeXHfTcImiz0+V99+3yePKcIPSj6YDH0iYOEcdNGfhBgiOTirG1QKl1yzXyoc6LC51l
- zF2ppOiS65pd0/Z9HTrtEs+DWdUe5labAI0T86H3/gQkcs6B6DIZBPfC8F1cIsqEsfRoKn+gg
- ooPXVx0s/vY8XHBMDFVydea77mvPCicDCb5eZzXi3VP5fqOmObJBeJ5tg3TLYhZyrQZgwbb/l
- 3q6FcKRAV9PIp4Ammt2N8UQqI+5XqGrVSZZb904c17/6AwiAbhv0Ql7nKjOQ+aM5OBwAnf0Cg
- EHO84YCGdx1ccKy3EHnvtfLwpHxxBEiR2veTQgz+KOxjj2adkUvxkcFuUiwQ+C3APUhMCx1R2
- +r0YIjMTEQ8fdGXi7DRr2U5dKzj42MuvuAUBryBx0VolVg88+uFYPQsCMBVdLWpn1OKHNhUOr
- iQjYnMEIYv6DYGn6uaZUpKb/LwpcHvIHxW4cI/AKK8wfKASPts3ytwC5PRirceBStfhYPriYz
- sjbjt86kxYQePZGEIbHU97ghXOhwNtUl/JgIBL4VLwzD4cn1P2MILACsW6k4gX2MFa/m4TIyQ
- RqKtzI5HN9D9NIOLnYwodw09fBMmv0VPrne6BDi0DK6H8AQRxUFmTgx+qEJq8OrxFi+8CnTzR
- bdm3EpoI15W6Up1/dCwYXGh/BIDeNLYwYfe0cnw==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describe the handoff from the EFI stub to the main Linux kernel.
+Hi Andrew,
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-=2D--
-v2:
-	new patch
-=2D--
- Documentation/admin-guide/efi-stub.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Em Fri, 2 Oct 2020 14:07:28 +0200
+Andrew Lunn <andrew@lunn.ch> escreveu:
 
-diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-=
-guide/efi-stub.rst
-index 4965dec48af4..669602ff4515 100644
-=2D-- a/Documentation/admin-guide/efi-stub.rst
-+++ b/Documentation/admin-guide/efi-stub.rst
-@@ -133,3 +133,15 @@ described above.
+> On Fri, Oct 02, 2020 at 07:49:49AM +0200, Mauro Carvalho Chehab wrote:
+> > The PHY kernel-doc markup has gained support for documenting
+> > a typedef enum.
+> > 
+> > However, right now the parser was not prepared for it.  
+> 
+> Hi Mauro
+> 
+> Thanks for this. I'm using Sphinx 3.2.1, since that is what my Debian
+> box has. So it can be hard to see the new warnings amongst the old.
 
- This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=3Dy and se=
-cure
- boot is disabled.
-+
-+Handoff to main Linux kernel
-+----------------------------
-+
-+Currently the EFI stub enters the main Linux kernel via the same entry po=
-ints
-+that are used when booting without UEFI. This might change in future vers=
-ions.
-+For a description of these entry points see:
-+
-+* for arm :doc:`/arm/booting`
-+* for arm64 :doc:`/arm64/booting`
-+* for riscv :doc:`/riscv/index`
-+* for x86 :doc:`/x86/boot`
-=2D-
-2.28.0
+Yeah, there were simply too much warnings with docs, and 3.2.1 is
+even worse.
 
+Things will improve a lot after merging my set of patches fixing
+the issues for it. Yet, there are some warnings that can't currently
+be fixed on Sphinx 3.2 (~10 warnings). Fixing those will require
+some internal changes in Sphinx itself.
+
+So, except if you need Sphinx 3 for some reason, I would suggest you
+to uninstall it, and then use venv with Sphinx 2.4.4. The Kernel build
+system should be able to provide you the commands for installing it,
+once you remove the one from your PATH.
+
+> Will this patch get merged via Jonathan Corbet's tree?
+
+Yes, that's the plan.
+
+Thanks,
+Mauro
