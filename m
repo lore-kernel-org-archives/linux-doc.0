@@ -1,277 +1,114 @@
-Return-Path: <SRS0=qRT1=DJ=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=Dt6R=DK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE55C35257
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 23:26:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B5EDC4363C
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 00:03:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FBA12074B
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Oct 2020 23:26:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CACDF206DC
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 00:03:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="eCa/98FC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CX4FzF5H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725446AbgJBX0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Oct 2020 19:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53430 "EHLO
+        id S1725550AbgJCADH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Oct 2020 20:03:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725379AbgJBX0y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 19:26:54 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36088C0613E3
-        for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2020 16:26:54 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id o18so2763815ilg.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2020 16:26:54 -0700 (PDT)
+        with ESMTP id S1725283AbgJCADH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Oct 2020 20:03:07 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A30C0613D0;
+        Fri,  2 Oct 2020 17:03:06 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id b17so1883659pji.1;
+        Fri, 02 Oct 2020 17:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Fv3qdMRDaLBfogWRJHhoCXkOBnI4/36vTO6sbBXAcnw=;
-        b=eCa/98FCnp4UTR3aXlWZjL/eg4dh+N+ts98vxLiuv2sPK4mJUCce0x/JU5ChW0a/Oy
-         mwNP5uFItwXsMvCUwBEjoi4tOhFrA9EqH518+sPZceUxeWmIbqz4/Z792BXmDne4ugT+
-         GRHOHscqijBnPBF+TDWQqFJoCCuFsIzAo1E6U=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4wadPL5eRQ8Hbv2G79TEpM4KGWCbAz6BIZrfCkhvXS4=;
+        b=CX4FzF5HQo4aWMpOFQeBvEIGgwmdmfw6z4UFMbpOr4+Yli8BuDlsgSCyJF6bbIhK8N
+         VHRf4mfrwHm37t9Pj7SljZf5XiZdimtHl/6qWWt0YfzA/Xg/inK2dV2+qm5fbvnnzJsf
+         kJc6Oj6fBl3ABeZ+torudGhywLeQa8emLGVNVVcTVGKGpTQCvN7EUreJVjHlqvjaRe2h
+         ACeNJVPKyP0Y4WRvYjZiYClbZHVkad0yp2VhClN/dqhqoXKmmD2gvOZVUOMZ215QzQrw
+         43L1zT4DIr0mHCAv8T6k1ZFggbaHkJQoSe9jLWJVAZCCHQO3BD2FnKeNqmMN0zMFhKTm
+         Gwng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Fv3qdMRDaLBfogWRJHhoCXkOBnI4/36vTO6sbBXAcnw=;
-        b=odJCGCpJh2MuyzOXs32AVgv/tkkvtmtCQ3dUCHKfR4c6nNprJtJrimhoeTbu2y90nv
-         0LO7i+dhvFewuv8Bwci16mqYIr9Utd3+ngrA+btP+rMz93HW6nGQYdCfbyeX5RUb+m+y
-         2QV3T8QR0u0y1tqrZLBYOmHoc8IYKd3HjLKLNxFawDdeu2IRcuQRqthRZx+4/oumuR3k
-         MKcHeORObuaGOMlai2Bviqil2NvhNJPLHgXa+SxmDxDVGqVkvuMcKdy3uC9POx4i6nQU
-         64n7SONbCqRd/MhnLz2B7D+Kabcf2Zbui30WK+rKhPBVr2S4EneulHvFReGI1sLsM1Dt
-         vsGQ==
-X-Gm-Message-State: AOAM530hfkMQbmlXNj5JZ+PEy56l60pKTw6+AzbPisxeqBuSdBEvZLfz
-        PMrWj839rFd9wrX3m99XaVL3+9+MhW6rAl289tED
-X-Google-Smtp-Source: ABdhPJyDR2maUdIOnSOJWap/wYHYT+2zF9fyvJxRajeKbF/5ZCkey9h7TlhoaCXDUZOT/jc0S6kNr0TPct4RQVS58ow=
-X-Received: by 2002:a92:512:: with SMTP id q18mr3453000ile.147.1601681213180;
- Fri, 02 Oct 2020 16:26:53 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4wadPL5eRQ8Hbv2G79TEpM4KGWCbAz6BIZrfCkhvXS4=;
+        b=p9A/djUV2RD175V/g8wl5+QkOJ+NkfZistTS557gfI6tsP6MWrzzT8n5kqDGD/Ivax
+         S3QExtdhOkjWzl/dPZvZ5loBIM51aA28bdEzpITJ5S+T34yDJkGLpQmZpw8i7LIoiA/s
+         RW1KQphmAjK1CZ9cOChcAjYB3U1tpInex2KfGIx46KXjmX4ZsCj26waY02V/2NsscxSq
+         444MGH62pmaocdq6iw8CDTPmFouVaqlkpG0YB7dsGInMIo95ZpyH+XtD5GG9pwyc4BAg
+         e4Y1UWBHxRl5JcdHVh2poZPZb1+oqnUT49PDF+chMCZXOBjmC2lXlnX9LLcoDhxrfs5R
+         8l3g==
+X-Gm-Message-State: AOAM531PPMHeSN3flmR9vOUbPcnek5VsOIHsUUd3Wgul7pRG7rHxyQjC
+        /FZMkSBoNBU/cSTwP+J5cJw=
+X-Google-Smtp-Source: ABdhPJy6aDucl8FLM8J70ZSmYRA259SOdEdYonn852vYH80Q/GKrkairB+m/ReHBi3u1R0VQ+/Qamg==
+X-Received: by 2002:a17:90a:b293:: with SMTP id c19mr3434480pjr.122.1601683386425;
+        Fri, 02 Oct 2020 17:03:06 -0700 (PDT)
+Received: from sol (106-69-171-132.dyn.iinet.net.au. [106.69.171.132])
+        by smtp.gmail.com with ESMTPSA id r14sm2877142pgm.7.2020.10.02.17.03.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 17:03:05 -0700 (PDT)
+Date:   Sat, 3 Oct 2020 08:02:59 +0800
+From:   Kent Gibson <warthog618@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/6] docs: gpio: add a new document to its index.rst
+Message-ID: <20201003000259.GA6321@sol>
+References: <cover.1601616399.git.mchehab+huawei@kernel.org>
+ <bad4d85c218d59c1bf69157df8e1012577680d88.1601616399.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20201002171112.22738-1-xypron.glpk@gmx.de> <CAMj1kXHsGcAX-DqfcpgxzZY3M+JzY-Ef9OdJ+JdysNnx1fK6zg@mail.gmail.com>
- <9899cc58-c856-38ca-3a89-4b545c973a4f@gmx.de> <CAMj1kXGBGb5yU0XH3oBJfTUDiFzhqa8ihyYo=n_qyj1VcCs5zA@mail.gmail.com>
- <5c9370aa-aaba-bc2b-1924-2c691164ff69@gmx.de>
-In-Reply-To: <5c9370aa-aaba-bc2b-1924-2c691164ff69@gmx.de>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Fri, 2 Oct 2020 16:26:42 -0700
-Message-ID: <CAOnJCU+Sr2v4po98RrEC2=HyaxnmRzZy9Xka6aYjr1WZtBiCVw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: admin-guide: fdt and initrd load in EFI stub
-To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc:     Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bad4d85c218d59c1bf69157df8e1012577680d88.1601616399.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 2, 2020 at 1:04 PM Heinrich Schuchardt <xypron.glpk@gmx.de> wro=
-te:
->
-> On 10/2/20 9:21 PM, Ard Biesheuvel wrote:
-> > On Fri, 2 Oct 2020 at 21:14, Heinrich Schuchardt <xypron.glpk@gmx.de> w=
-rote:
-> >>
-> >> On 10/2/20 7:21 PM, Ard Biesheuvel wrote:
-> >>> Hi Heinrich,
-> >>>
-> >>> Thanks for documenting this.
-> >>>
-> >>>
-> >>> On Fri, 2 Oct 2020 at 19:11, Heinrich Schuchardt <xypron.glpk@gmx.de>=
- wrote:
-> >>>>
-> >>>> Describe how a device tree and an initial RAM disk can be passed to =
-the EFI
-> >>>> Boot Stub.
-> >>>>
-> >>>> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-> >>>> ---
-> >>>>  Documentation/admin-guide/efi-stub.rst | 35 +++++++++++++++++++++++=
-+++
-> >>>>  1 file changed, 35 insertions(+)
-> >>>>
-> >>>> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/=
-admin-guide/efi-stub.rst
-> >>>> index 833edb0d0bc4..86f50a33884c 100644
-> >>>> --- a/Documentation/admin-guide/efi-stub.rst
-> >>>> +++ b/Documentation/admin-guide/efi-stub.rst
-> >>>> @@ -38,6 +38,34 @@ arch/arm/boot/zImage should be copied to the syst=
-em partition, and it
-> >>>>  may not need to be renamed. Similarly for arm64, arch/arm64/boot/Im=
-age
-> >>>>  should be copied but not necessarily renamed.
-> >>>>
-> >>>> +Passing an initial RAM disk to the EFI Boot Stub
-> >>>> +------------------------------------------------
-> >>>> +
-> >>>> +The following means sorted by decreasing priority can be used to pr=
-ovide an
-> >>>> +initial RAM disk to the EFI Boot Stub:
-> >>>> +
-> >>>> +* The firmware may provide a UEFI Load File 2 Protocol. The stub wi=
-ll try to
-> >>>> +  load the RAM disk by calling the LoadFile() service of the protoc=
-ol using
-> >>>> +  a vendor device path with the vendor GUID
-> >>>> +  5568e427-0x68fc-4f3d-ac74-ca555231cc68.
-> >>>> +* Next the EFI stub will try to load the file indicated by the "ini=
-trd=3D" command
-> >>>> +  line parameter.
+On Fri, Oct 02, 2020 at 07:49:50AM +0200, Mauro Carvalho Chehab wrote:
+> There's now a new ReST file. Add it to the index.rst file.
+> 
+> Fixes: ce7a2f77f976 ("docs: gpio: Add GPIO Aggregator documentation")
 
-This is only applicable if EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER is enable=
-d.
-Should we specify that as well?
+Shouldn't that be:
 
-> >>>> +* The prior boot stage may pass the location of the initial RAM dis=
-k via the
-> >>>> +  "linux,initrd-start" and "linux,initrd-end" properties of the "/c=
-hosen" node
-> >>>> +  of the device-tree.
-> >>>> +
-> >>>
-> >>> On x86, the boot_params struct is used to pass the address and size o=
-f
-> >>> the initrd in memory. Maybe include that for completeness?
-> >>
-> >> On x86 boot_params is set in function efi_pe_entry() after loading the
-> >> file indicated by the initrd=3D command line.
-> >>
-> >> boot_params is not accessible by a caller of the EFI stub but is a
-> >> structure used at the interface between EFI stub and main kernel. This
-> >> interface is not in the scope of the admin-guide.
-> >>
-> >
-> >  I don't see the difference between dt for arm and boot_params for
-> > x86. Both can be provided by the bootloader, and will be created from
-> > scratch by the efi stub if not. They both carry the command line and
-> > address and size of the initrd, and the efi stub will load  the initrd
-> > and update this Information, or pass it on unmodified if the
-> > bootloader already loaded the initrd into memory.
->
-> "The Linux kernel user=E2=80=99s and administrator=E2=80=99s guide" is no=
-t targeted for
-> developers.
->
-> All I have described in this patch are interfaces between Linux and the
-> prior boot stage when using the EFI stub. It does not cover how the EFI
-> stub communicates with main Linux.
->
-> I may already have put too much technical detail here considering the
-> audience.
->
-> To my knowledge boot_params is not an inbound interface parameter of the
-> EFI stub.
->
-> Is it of interests for administrators and users to know that the EFI
-> stub calls the legacy entry point of Linux? If yes, we should point to
-> the documentation of the legacy entry point for all architectures:
->
-> https://www.kernel.org/doc/html/latest/x86/boot.html#bit-boot-protocol
-> https://www.kernel.org/doc/html/latest/x86/boot.html#id1
-> https://www.kernel.org/doc/html/latest/arm/booting.html
-> https://www.kernel.org/doc/html/latest/arm64/booting.html
->
-> I could not find an appropriate chapter for RISC-V in
-> https://www.kernel.org/doc/html/latest/riscv/index.html.
->
+Fixes: fd1abe99e5fb ("Documentation: gpio: add documentation for gpio-mockup")
 
-Unfortunately, there is no booting document for RISC-V yet. It has
-been discussed many times but no patch yet.
-If you want to take a stab at it, that would be great.
+Cheers,
+Kent.
 
-
-> As the interface between the EFI stub and main Linux is not exposed to
-> the outside world and may rightfully change without notice I suggest to
-> not mention it in the admin guide.
->
-> Best regards
->
-> Heinrich
->
-> >
-> >
-> >
-> >> The main Linux entry point is already described in
-> >> Documentation/x86/boot.rst and ./Documentation/x86/zero-page.rst.
-> >>
-> >> We can add Sphinx style documentation for function efi_pe_entry()
-> >> mentioning that it fills in boot_params.
-> >> drivers/firmware/efi/libstub/x86-stub.c then can be added to
-> >> Documentation/driver-api/firmware/efi/index.rst in an x86 chapter. But
-> >> these will be separate patches.
-> >>
-> >> Best regards
-> >>
-> >> Heinrich
-> >>
-> >>>
-> >>>> +The first two items are inhibited by the "noinitrd" command line pa=
-rameter.
-> >>>> +
-> >>>
-> >>> Interesting. Are you saying noinitrd is ignored by the kernel itself?
-> >>>
-> >>> Looking at the code, it might only work for preventing the load of ol=
-d
-> >>> style initrd ramdisks, whereas initramfs images are handled
-> >>> separately.
-> >>>
-> >>> This is something that we should probably fix one way or the other.
-> >>>
-> >>>
-> >>>> +Passing a device-tree to the EFI Boot Stub
-> >>>> +------------------------------------------
-> >>>> +
-> >>>> +A device-tree can be passed to the EFI Boot Stub in decreasing prio=
-rity using
-> >>>> +
-> >>>> +* command line option dtb=3D
-> >>>> +* a UEFI configuration table with GUID b1b621d5-f19c-41a5-830b-d915=
-2c69aae0.
-> >>>> +
-> >>>> +The command line option is only available if CONFIG_EFI_ARMSTUB_DTB=
-_LOADER=3Dy
-> >>>> +and secure boot is disabled.
-> >>>>
-> >>>>  Passing kernel parameters from the EFI shell
-> >>>>  --------------------------------------------
-> >>>> @@ -46,6 +74,10 @@ Arguments to the kernel can be passed after bzIma=
-ge.efi, e.g.::
-> >>>>
-> >>>>         fs0:> bzImage.efi console=3DttyS0 root=3D/dev/sda4
-> >>>>
-> >>>> +The "noinitrd" option
-> >>>> +---------------------
-> >>>> +
-> >>>> +The "noinitrd" option stops the EFI stub from loading an initial RA=
-M disk.
-> >>>>
-> >>>>  The "initrd=3D" option
-> >>>>  --------------------
-> >>>> @@ -98,3 +130,6 @@ CONFIGURATION TABLE.
-> >>>>
-> >>>>  "dtb=3D" is processed in the same manner as the "initrd=3D" option =
-that is
-> >>>>  described above.
-> >>>> +
-> >>>> +This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=3Dy =
-and secure
-> >>>> +boot is disabled.
-> >>>> --
-> >>>> 2.28.0
-> >>>>
-> >>
->
-
-
---
-Regards,
-Atish
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/admin-guide/gpio/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/admin-guide/gpio/index.rst b/Documentation/admin-guide/gpio/index.rst
+> index ef2838638e96..7db367572f30 100644
+> --- a/Documentation/admin-guide/gpio/index.rst
+> +++ b/Documentation/admin-guide/gpio/index.rst
+> @@ -9,6 +9,7 @@ gpio
+>  
+>      gpio-aggregator
+>      sysfs
+> +    gpio-mockup
+>  
+>  .. only::  subproject and html
+>  
+> -- 
+> 2.26.2
+> 
