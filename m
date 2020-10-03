@@ -2,126 +2,136 @@ Return-Path: <SRS0=Dt6R=DK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41AF7C4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:42:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A5CEC41604
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:53:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F4161206C9
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:42:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2957F206CD
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:53:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="YgyxAo9i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725765AbgJCJmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 05:42:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725764AbgJCJmF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 05:42:05 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF28C0613D0;
-        Sat,  3 Oct 2020 02:42:05 -0700 (PDT)
-Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kOe3F-0007eN-20; Sat, 03 Oct 2020 11:42:01 +0200
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <d9917c1f15a965f75f20ca9f0db4ca3ae24c9e98.1601541165.git.linux@leemhuis.info>
- <9a6e344f-71ca-209f-c540-3a03949a3a94@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
- 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
- 5iv6NKaV29GWHbY=
-Subject: Re: [RFC PATCH v1 07/26] docs: reporting-bugs: let users classify
- their issue
-Message-ID: <62356152-a332-692d-ee96-7aba47a666e8@leemhuis.info>
-Date:   Sat, 3 Oct 2020 11:42:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1725777AbgJCJxo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 05:53:44 -0400
+Received: from mout.gmx.net ([212.227.15.18]:55189 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725775AbgJCJxo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 3 Oct 2020 05:53:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1601718746;
+        bh=+J10i8bNFrOqOG+3GURM3R/KC2tKxHk7bbB91+yozrE=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=YgyxAo9ipXCQEdwyhONQS+h1PTqn+hieEUf2kcfmMKmC2iYTGHN7xL2TmTFzp0TtB
+         mf5ffJupFNvyQJoKYlHbI2fMpjGIMKdHsig7UZZDDhhNc/MOlDRh66QmtxQASKpHsh
+         uBc2ARI0Bt9UPKGOIeW6rbl2UzdAcJDvpo0/4NVg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MSKyI-1jw0SA1wlc-00Sft4; Sat, 03
+ Oct 2020 11:52:26 +0200
+Date:   Sat, 3 Oct 2020 11:52:12 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        kernel-hardening@lists.openwall.com, John Wood <john.wood@gmx.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH 3/6] security/fbfam: Use the api to manage statistics
+Message-ID: <20201003095212.GA2911@ubuntu>
+References: <20200910202107.3799376-1-keescook@chromium.org>
+ <20200910202107.3799376-4-keescook@chromium.org>
+ <202009101625.0E3B6242@keescook>
+ <20200929194712.541c860c@oasis.local.home>
+ <20200929194924.31640617@oasis.local.home>
 MIME-Version: 1.0
-In-Reply-To: <9a6e344f-71ca-209f-c540-3a03949a3a94@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601718125;8435c7c3;
-X-HE-SMSGID: 1kOe3F-0007eN-20
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200929194924.31640617@oasis.local.home>
+X-Provags-ID: V03:K1:ggAP+Xm36kOZKXGb8H7ns8txs5t75Yr2LN5k1wKKGh7OrSyP4rv
+ hABdr9ji9QjJMvdKJxa0Bo3pYk88oKRhyy8fuCUgx+hQKixmUvHbc1MDhKrV5cNsE+bxTP2
+ Dk9PDaf2LUhtvdfHI+c0tcesCUkPkqHAYbnqWHE26/KCx1PlkWnubZnT6EbHkaMsMgXGyuU
+ xlSBDE65qQDt9mTbJg9QA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3i4hMYig/Sg=:QgDlo3Fo4OAuy7Zosj84zw
+ ldZ6Q2QLZiTRCIufr3bSmOYnjwZ1lFU18uEMJkn+4Fr8NbsA9s42eEVDlMksDspaRsYMexdGO
+ 45XVRt/IoXnOVWdrg2jyNDsQsFsDT+3H1Ktx5oT8R9JIL9uxREu+JqSjEwscQEoNmE+2FDWK9
+ w3ENzD6ACmNPB7bStYhkzZXhtS3OlXIMeRHFBKaPl4LjgliDTwfcZ42K2KSfJaV2ut3iyunwk
+ OvrkZsHIHx2N+CC45RRk+zAse5/4ZmTd2llFRdGacvZyVD5G5Amt5tmbhEK8Io7fSkxqtQMTb
+ yDTVfCdXw9Ou2YjoTZGdc29O3NWP9ksSQr2s0Jm4KF+PSAIFY0MVvQ3tkz9QEGZeCTNiJl24t
+ AYWmCP8MFQunYK+/7KQUkV4syjZfKQsOGhWoBeGCogNxTVGAl7eau5NWc506r8MwznKGP0E7X
+ 5H/soS8iQ9tGJsbrQW2bi4Cr9aI+n9aKj8QSpG9Gyg+tJSh7pnxX7nDG0r5KOYZIavMNAoJTm
+ 7O1XtZagVphvyo8BF5X4B0nqUuRwvWiHSa0j31be255+FxswtdXj4AGteOxTeHdryUNcC2N4c
+ IXfBlvZOOtceo/mv8+KomewuYW8ZJyA2FiOXYI98B17Ox7ywOnqeJ33erC301YOEqIhKqpSUB
+ +SnDwitQk+63gfTYzwTfBb6WyjfY0SG+ko9aDzqPTtrRgQU9k9GDC50hN0+lTY6UcxuKz2GWx
+ 3rsTrH4I5k+HD4pxZRyybfx9ezKoAeC+CW17blJUyroVYsqcc7BoaOllFwrrHUqHL8MY4U8Wn
+ gaaOtEm4hIEfgxa4uztTg0NUDg7O7ioBZqC/x+IvNEswdLiS1uYlqTYNUvFhyO49Is7036EVX
+ LiR8BLxqRq3Q+T9OXQQzLOe1RMa2iZjvWxCHq0e9nKAq/mZxo+ZeNv24yNDjQ4pafCASpkTl5
+ 70/RcD2tUgsEg2XVTTpfBuOCUXF3pJr8FyW26PMeJ87GMMR/QCJWUzw4O7E/hT95AP5/rpNIL
+ VaoQENCp6HmFy1Y4ufI99vRrKQHUYIhaGbVh8XMbtSsb9LUS0MtfJUWhVAO0d1T9xywLoHp/e
+ ZgQE09w+RUrtSAEjD6tj+aj/MuFI7e4IMmAqlimOSAnwzxIyC44HiVHojeYn6G4FKtK74g6sC
+ NtpHowXAs6E12LUUobi0vXwNrCdz1IgyUGcpsfaU6OcKS4f50Pb61rPs/b3S5+WDqCnUgcMhI
+ US28q0ydgG9GDKNrO6/GL+5MNwwcCb3XfMxjC9g==
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Many thx for you comments. Consider all the obvious spelling and
-grammatical mistakes you pointed out fixed, I won't mention all of them
-in this reply to keep things easier to follow.
+Hi Steven,
 
-Am 02.10.20 um 18:59 schrieb Randy Dunlap:
-> On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
+On Tue, Sep 29, 2020 at 07:49:24PM -0400, Steven Rostedt wrote:
+> On Tue, 29 Sep 2020 19:47:12 -0400
+> Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> > On Thu, 10 Sep 2020 16:33:38 -0700
+> > Kees Cook <keescook@chromium.org> wrote:
+> >
+> > > > @@ -1940,6 +1941,7 @@ static int bprm_execve(struct linux_binprm *=
+bprm,
+> > > >  	task_numa_free(current, false);
+> > > >  	if (displaced)
+> > > >  		put_files_struct(displaced);
+> > > > +	fbfam_execve();
+> > >
+> > > As mentioned in the other emails, I think this could trivially be
+> > > converted into an LSM: all the hooks are available AFAICT. If you on=
+ly
+> > > want to introspect execve _happening_, you can use bprm_creds_for_ex=
+ec
+> > > which is called a few lines above. Otherwise, my prior suggestion ("=
+the
+> > > exec has happened" hook via brpm_cred_committing, etc).
+> >
+> > And if its information only, you could just register a callback to the
+> > trace_sched_process_exec() tracepoint and do whatever you want then.
+> >
+> > The tracepoints are available for anyone to attach to. Not just tracin=
+g.
+> >
+> And there's also trace_sched_process_fork() and
+> trace_sched_process_exit().
 
->> +Linus Torvalds and the leading Linux kernel developers want to see some issues
->> +fixed as soon as possible, hence these 'issues of high priority' get handled
->> +slightly different in the reporting process. Three type of cases qualify:
-> 
->             differently
-> at least that's what I would say. :)
+Since this feature requires a pointer to the statistical data in the
+task_struct structure, and the LSM allows this using the security blobs,
+I think that the best for now is convert all the code to an LSM. Anyway,
+thanks for the suggestion.
 
-/me googles
+> -- Steve
 
-Yeah, seems you are right, thx.
+Thanks,
+John Wood
 
->> +from the old kernel (see below how to archive that). That's because
->                                         achieve
->> +process is sometimes only possible by doing incompatible changes; but to avoid
-> eh?  That's because ... ???
-
-Argh, that was a last minute change :-/ Now reads:
-
-That's because incompatible changes sometimes can not be avoided when
-implementing big improvements are implemented; but to avoid
-
->> +regression such changes have to be enabled explicitly during build time
-    regressions
->> +configuration.
->> +
-
-Ciao, Thorsten
