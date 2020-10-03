@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FDF0C4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BCF0C4363D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:00:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1B46206CA
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 09:59:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5134206CA
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:00:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725681AbgJCJ7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 05:59:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37134 "EHLO
+        id S1725772AbgJCKAo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 06:00:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgJCJ7t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 05:59:49 -0400
+        with ESMTP id S1725601AbgJCKAo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 06:00:44 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C22C0613D0;
-        Sat,  3 Oct 2020 02:59:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44CD8C0613D0;
+        Sat,  3 Oct 2020 03:00:44 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kOeKR-0004sN-9b; Sat, 03 Oct 2020 11:59:47 +0200
-Subject: Re: [RFC PATCH v1 12/26] docs: reporting-bugs: tell users to disable
- DKMS et al.
+        id 1kOeLK-0005H8-NG; Sat, 03 Oct 2020 12:00:42 +0200
+Subject: Re: [RFC PATCH v1 13/26] docs: reporting-bugs: point out the
+ environment might be causing issue
 To:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <51574b968a9b78a5ce1056acdfa871d4a03d60c7.1601541165.git.linux@leemhuis.info>
- <c34bb102-613b-5713-4e96-aa99a3e3c6d2@infradead.org>
+ <6dab906efb915c6cd6733df525b1f3da3753c4b4.1601541165.git.linux@leemhuis.info>
+ <a226274e-7bda-bd27-a0a5-1f1bb165fcd1@infradead.org>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  mQINBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
@@ -76,29 +76,27 @@ Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  yc+mP1ya8uxIFEwcp6C1h4TTisVFC2DXxDi7pqUd9oTuI4Hg19/i07cdYUHDiraDXSXW5zH9
  5ZDV+rSqDU3ercoRd2qjGUOIXWOytHTeJhVOWqM0vOmXDUwwYHuEb0HFn3d/tz+idSrXUSXZ
  5iv6NKaV29GWHbY=
-Message-ID: <0b7de1f2-07de-f83a-9a50-fc4f739ee3bd@leemhuis.info>
-Date:   Sat, 3 Oct 2020 11:59:46 +0200
+Message-ID: <b90957bf-d032-abef-3d60-da46e4f82be3@leemhuis.info>
+Date:   Sat, 3 Oct 2020 12:00:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <c34bb102-613b-5713-4e96-aa99a3e3c6d2@infradead.org>
+In-Reply-To: <a226274e-7bda-bd27-a0a5-1f1bb165fcd1@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601719188;ab054e9d;
-X-HE-SMSGID: 1kOeKR-0004sN-9b
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601719244;ecc2ca38;
+X-HE-SMSGID: 1kOeLK-0005H8-NG
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-Am 02.10.20 um 19:28 schrieb Randy Dunlap:
+Am 02.10.20 um 19:32 schrieb Randy Dunlap:
 > On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
->> Tell users to disable solutions like DKMS to make sure the mainline
 
 Many thx for you comments, all suggestions implemented.
 
 
 
 Ciao, Thorsten
+
