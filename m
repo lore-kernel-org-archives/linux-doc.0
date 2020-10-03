@@ -2,34 +2,34 @@ Return-Path: <SRS0=Dt6R=DK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4863BC4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:05:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CF1C4363D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 091BE206DD
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:05:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D1C4206DD
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:24:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725765AbgJCIF1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 04:05:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
+        id S1725681AbgJCIYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 04:24:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgJCIF1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 04:05:27 -0400
+        with ESMTP id S1725648AbgJCIYs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 04:24:48 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A0BDC0613D0;
-        Sat,  3 Oct 2020 01:05:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B7CBC0613D0;
+        Sat,  3 Oct 2020 01:24:47 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kOcXl-0001ZJ-0l; Sat, 03 Oct 2020 10:05:25 +0200
+        id 1kOcqT-0001cP-WF; Sat, 03 Oct 2020 10:24:46 +0200
 To:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <0c647add40e56b403bc17e9de1430917aa88bacb.1601541165.git.linux@leemhuis.info>
- <3f8a3a67-9e04-80a6-e540-c4c511dc4546@infradead.org>
+ <b81c54734a767f7da9ec68fae6b82ea0a8c96011.1601541165.git.linux@leemhuis.info>
+ <b7ab110b-3f4d-382c-5802-5dd4291ea118@infradead.org>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  mQINBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
@@ -74,119 +74,38 @@ Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  yc+mP1ya8uxIFEwcp6C1h4TTisVFC2DXxDi7pqUd9oTuI4Hg19/i07cdYUHDiraDXSXW5zH9
  5ZDV+rSqDU3ercoRd2qjGUOIXWOytHTeJhVOWqM0vOmXDUwwYHuEb0HFn3d/tz+idSrXUSXZ
  5iv6NKaV29GWHbY=
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH v1 03/26] docs: reporting-bugs: step-by-step guide on
- how to report issues
-Message-ID: <6ae431a8-f181-6de9-b5cb-bbab80c0566a@leemhuis.info>
-Date:   Sat, 3 Oct 2020 10:05:24 +0200
+Subject: Re: [RFC PATCH v1 04/26] docs: reporting-bugs: step-by-step guide for
+ issues in stable & longterm
+Message-ID: <bb7adae8-25ae-9057-717e-c95bad30be6d@leemhuis.info>
+Date:   Sat, 3 Oct 2020 10:24:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <3f8a3a67-9e04-80a6-e540-c4c511dc4546@infradead.org>
+In-Reply-To: <b7ab110b-3f4d-382c-5802-5dd4291ea118@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601712327;934a7a25;
-X-HE-SMSGID: 1kOcXl-0001ZJ-0l
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601713487;f747b745;
+X-HE-SMSGID: 1kOcqT-0001cP-WF
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Many thx for you comments. Consider all the obvious spelling and
-grammatical mistakes you pointed out fixed, I won't mention all of them
-in this reply to keep things easier to follow.
+grammatical mistakes you pointed out fixed, I won't mention them in this
+reply to keep things easier to follow.
 
-Am 02.10.20 um 05:02 schrieb Randy Dunlap:
+Am 02.10.20 um 05:25 schrieb Randy Dunlap:
 > On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
-> […]
->> +brief for you, look up the details in the reference section below, where each
->> +of the steps is explained in more detail.
->> +
->> +Note, this section covers a few more aspects than the TL;DR and does things in a
->    Note:
 
-Ohh, really? LanguageTool suggested to use the comma once when I forgot
-a colon, so I assumed it was okay. Uhhps.
+>> + * Check if the kernel developers still maintain the Linux kernel version line
+>> +   you care about: go to `the front-page of kernel.org <https://kernel.org>`_
+>> +   and make sure it mentions the latest release of the particular version line
+>> +   without an '[EOL]' tag.
+> Explain somewhere that EOL = End Of Life (in parens).
 
-
->> + * Reproduce the issue with the kernel you just installed. If it doesn't show up
->> +   there, head over to the instructions for issues only happening with stable
->> +   and longterm kernels if you want to see it fixed there.
-> Can you link (reference) to that section?
-
-I raised that problem in the cover letter, as this is not the only place
-where it would make sense. Hoping for input from Jonathan here how to do
-that without adding lots of anchors...
-
->> + * Optimize your notes: try to find and write the most straightforward way to
->> +   reproduce your issue. Make sure the end result has all the important details,
->> +   and at the same time is easy to read and understand for others that hear
->> +   about it for the first time. And if you learned something in this process,
->> +   consider searching again for existing reports about the issue.
->> +
->> + * If the failure includes a stack dump, like an Oops does, consider decoding it
->> +   to find the offending line of code.
-> Refer to scripts/decodecode ?
-> or is that done elsewhere?
-
-Elsewhere and this step and that document likely needs to be heavily
-updated anyway, as pointed out in a later patch :-/
-
->> +
->> + * If your problem is a regression, try to narrow down when the issue was
->> +   introduced as much as possible.
->> +
->> + * Start to compile the report by writing a detailed description about the
->> +   issue. Always mentions a few things: the latest kernel version you installed
->> +   for reproducing, the Linux Distribution used, and your notes how to
-> 
-> I would say:                                                 notes on how to
-> Maybe it's just me.
-
-Googled a bit and to me as a non-native English speaker looks like
-you're correct.
-
->> +   reproduce the issue. Ideally, make the kernels build configuration (.config)
->                                              kernel's
-
-Uggh, sorry, this mistake will show up a few more times, looks like I
-applied German grammar rules to English. :-/
-
->> +   the issue and the impact quickly. On top of this add one sentence that
->> +   briefly describes the problem and gets people to read on. Now give the thing
->> +   a descriptive title or subject that yet again is shorter. Then you're ready
->> +   to send or file the report like the `MAINTAINERS file
->> +   <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/MAINTAINERS>`_
->> +   told you, unless you are dealing with one of those 'issues of high priority':
->       tells you,
-> OK, I like present tense as much as possible.
-
-Hmmm. Normally I'd agree, but I used past tense here because it refers
-to something the reader did in an earlier step.
-
->> + * Wait for reactions and keep the thing rolling until you can accept the
->> +   outcome in one way or the other. Thus react publicly and in a timely manner
->> +   to any inquiries. Test proposed fixes. Do proactive testing when a new rc1
->                                                                   when a new -rc
-> (release candidate) is released. Send
-
-I only meant "rc1" here, not every rc. More about this in a later patch.
-
-Regarding explaining "rc" as "release candidate": my stupid brain has a
-really hard time following that suggestion, as it still remembers some
-words someone named Linus Torvalds wrote many many years ago:
-```
-I'll just use "-rc", and we can all agree that it stands for "Ridiculous
-Count" rather than "Release Candidate".
-```
-https://lore.kernel.org/lkml/Pine.LNX.4.58.0410221821030.2101@ppc970.osdl.org/
-
-
-I'll go and try to find some pills to force my brain into compliance.
-;-) Once they start to work it hopefully can agree to this:
-
-Do proactive testing: retest with at least every first release candidate
-(RC) of a new mainline version and report your results.
+The section that describes this step in more detail explains the
+acronym. To keep this section short I'd like to omit the explanation
+here, as it's a pretty well known term anyway. Hope that's okay for you.
 
 Ciao, Thorsten
