@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CF1C4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:24:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28FD2C4363D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:27:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D1C4206DD
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:24:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBB51206CA
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 08:27:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725681AbgJCIYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 04:24:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
+        id S1725648AbgJCI1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 04:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725648AbgJCIYs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 04:24:48 -0400
+        with ESMTP id S1725601AbgJCI1h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 04:27:37 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B7CBC0613D0;
-        Sat,  3 Oct 2020 01:24:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C48CC0613D0;
+        Sat,  3 Oct 2020 01:27:36 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kOcqT-0001cP-WF; Sat, 03 Oct 2020 10:24:46 +0200
+        id 1kOctB-0003qx-Be; Sat, 03 Oct 2020 10:27:33 +0200
 To:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <b81c54734a767f7da9ec68fae6b82ea0a8c96011.1601541165.git.linux@leemhuis.info>
- <b7ab110b-3f4d-382c-5802-5dd4291ea118@infradead.org>
+ <cd3e2465fec04e83d55ec6821fd6f111709eaf8e.1601541165.git.linux@leemhuis.info>
+ <0c188514-0cf2-7201-004f-5a78398eef6c@infradead.org>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  mQINBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
@@ -74,38 +74,26 @@ Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  yc+mP1ya8uxIFEwcp6C1h4TTisVFC2DXxDi7pqUd9oTuI4Hg19/i07cdYUHDiraDXSXW5zH9
  5ZDV+rSqDU3ercoRd2qjGUOIXWOytHTeJhVOWqM0vOmXDUwwYHuEb0HFn3d/tz+idSrXUSXZ
  5iv6NKaV29GWHbY=
-Subject: Re: [RFC PATCH v1 04/26] docs: reporting-bugs: step-by-step guide for
- issues in stable & longterm
-Message-ID: <bb7adae8-25ae-9057-717e-c95bad30be6d@leemhuis.info>
-Date:   Sat, 3 Oct 2020 10:24:45 +0200
+Subject: Re: [RFC PATCH v1 05/26] docs: reporting-bugs: begin reference
+ section providing details
+Message-ID: <0991f825-85a5-0b30-fbc6-2d20e818e0ec@leemhuis.info>
+Date:   Sat, 3 Oct 2020 10:27:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <b7ab110b-3f4d-382c-5802-5dd4291ea118@infradead.org>
+In-Reply-To: <0c188514-0cf2-7201-004f-5a78398eef6c@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601713487;f747b745;
-X-HE-SMSGID: 1kOcqT-0001cP-WF
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601713657;d4a83525;
+X-HE-SMSGID: 1kOctB-0003qx-Be
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Many thx for you comments. Consider all the obvious spelling and
-grammatical mistakes you pointed out fixed, I won't mention them in this
-reply to keep things easier to follow.
-
-Am 02.10.20 um 05:25 schrieb Randy Dunlap:
+Am 02.10.20 um 18:49 schrieb Randy Dunlap:
 > On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
 
->> + * Check if the kernel developers still maintain the Linux kernel version line
->> +   you care about: go to `the front-page of kernel.org <https://kernel.org>`_
->> +   and make sure it mentions the latest release of the particular version line
->> +   without an '[EOL]' tag.
-> Explain somewhere that EOL = End Of Life (in parens).
-
-The section that describes this step in more detail explains the
-acronym. To keep this section short I'd like to omit the explanation
-here, as it's a pretty well known term anyway. Hope that's okay for you.
+Many thx for you comments, all suggestions implemented.
 
 Ciao, Thorsten
