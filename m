@@ -2,122 +2,93 @@ Return-Path: <SRS0=Dt6R=DK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF34DC4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:11:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C65C41604
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 13:55:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94A62206CA
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:11:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 911B6206F8
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 13:55:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601733307;
+	bh=HZNzoGoSmYeOMNKt7vgl2VklCMtnKO2vUAr8OGrAQ9o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=OPyUomZ1oD9qpnCsF+dUD7zgLZOJLwQkkpkbIgRAl/YnYtGS2ZwI4XvYTQlpAzk9s
+	 h+UBbJh+h+CC9NTub1Tp9VN8idk0nqmMZSeum6VB9lwGwZ0P4yNBpfC1lS9U3dYZt3
+	 xgyjkLFtYV0pY/Eb46L7BJTAn11+DcLGX38X4kIQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725765AbgJCKL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 06:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38936 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgJCKL0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 06:11:26 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A7CC0613D0;
-        Sat,  3 Oct 2020 03:11:25 -0700 (PDT)
-Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kOeVg-0003S9-3R; Sat, 03 Oct 2020 12:11:24 +0200
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <e9166fcbb777e9b7685745e572ab7c7322596ec2.1601541165.git.linux@leemhuis.info>
- <275187e0-92b5-d0a6-0bf7-76c827e2c808@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
- 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
- 5iv6NKaV29GWHbY=
-Subject: Re: [RFC PATCH v1 15/26] docs: reporting-bugs: make readers test
- mainline, but leave a loophole
-Message-ID: <a08d1012-78bf-5f84-26d2-4f596bc3b59d@leemhuis.info>
-Date:   Sat, 3 Oct 2020 12:11:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1725817AbgJCNzH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 09:55:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42230 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725781AbgJCNzG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 3 Oct 2020 09:55:06 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C02FD206CD;
+        Sat,  3 Oct 2020 13:55:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601733306;
+        bh=HZNzoGoSmYeOMNKt7vgl2VklCMtnKO2vUAr8OGrAQ9o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WahdQsG6Unek/PESQaVmpQcMhJpAGwIMr3QVFniywzS2MjXtltrkMUQPChxh3QHHP
+         0VpG3j75lULjJ4OOp352SWMgEQgS/uf0O+KH0TQhYmZQQvS0sSq+lST/fUsMi+x8/n
+         kRZUqkI7mkmeAikia4UoJ79Uz70uE/uL1pDeUU9M=
+Date:   Sat, 3 Oct 2020 15:55:51 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Joe Perches <joe@perches.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Denis Efremov <efremov@linux.com>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to format
+ sysfs output
+Message-ID: <20201003135551.GA3187@kroah.com>
+References: <cover.1600285923.git.joe@perches.com>
+ <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
+ <20200930115740.GA1611809@kroah.com>
+ <202009302108.18B05CA38@keescook>
+ <9b57d0d4896a91debc330a70a20ae0f240afbd3b.camel@perches.com>
+ <202010021527.DF20CE0@keescook>
 MIME-Version: 1.0
-In-Reply-To: <275187e0-92b5-d0a6-0bf7-76c827e2c808@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601719885;9082f3d0;
-X-HE-SMSGID: 1kOeVg-0003S9-3R
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202010021527.DF20CE0@keescook>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Many thx for you comments. Consider all the obvious spelling and
-grammatical mistakes you pointed out fixed, I won't mention all of them
-in this reply to keep things easier to follow.
-
-Am 02.10.20 um 19:51 schrieb Randy Dunlap:
-> On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
->> = RFC =
->>
->> Am I asking for too much from users by telling them to test mainline? But most
->> will likely have an outdated and heavily patched vendor kernel anyway, so they
->> have to install a vanilla kernel if they want to report something upstream;
->> that's why I thought "well, then let's go all in and make them test mainline.
+On Fri, Oct 02, 2020 at 03:30:30PM -0700, Kees Cook wrote:
+> On Wed, Sep 30, 2020 at 09:22:19PM -0700, Joe Perches wrote:
+> > On Wed, 2020-09-30 at 21:17 -0700, Kees Cook wrote:
+> > > On Wed, Sep 30, 2020 at 01:57:40PM +0200, Greg Kroah-Hartman wrote:
+> > > > Kees, and Rafael, I don't know if you saw this proposal from Joe for
+> > > > sysfs files, questions below:
+> > > 
+> > > I'm a fan. I think the use of sprintf() in sysfs might have been one of
+> > > my earliest complaints about unsafe code patterns in the kernel. ;)
+> > []
+> > > > > +	if (WARN(!buf || offset_in_page(buf),
+> > > > > +		 "invalid sysfs_emit: buf:%p\n", buf))
+> > 
+> > The dump_stack() is also going to emit pointers
+> > so I don't see how it does anything but help
+> > show where the buffer was.  It is hashed...
 > 
-> That is appropriate IMO.
-
-Yeah, but finding the the right tone in the text seem important to me,
-as some people might see it as "hey, the kernel develpers are putting
-the bar really really high". That's why I pointed it out explicitly.
->> +Instead, look a little lower for a table for a line with the description
+> dump_stack() is going to report symbols and register contents.
 > 
->                                             with a line with the description
-> 
->> +'mainline', which you'll find at the top of that table.
+> I was just pointing out that %p has no value here[1]. The interesting
+> states are: "was it NULL?" "how offset was it?". Its actual content
+> won't matter.
 
-Rewrote this sentence:
+Ok, suggestions for a better error message are always welcome :)
 
-Instead, look at the table below for a line starting with 'mainline',
-which you'll find at the top of that table.
+thanks,
 
-Ciao, Thorsten
+greg k-h
