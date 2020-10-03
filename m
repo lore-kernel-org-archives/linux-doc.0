@@ -6,32 +6,30 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC18C4363D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:01:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF34DC4363D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:11:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 362272068D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:01:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94A62206CA
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 10:11:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725791AbgJCKBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 06:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37446 "EHLO
+        id S1725765AbgJCKL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 06:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgJCKBs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 06:01:48 -0400
+        with ESMTP id S1725601AbgJCKL0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 06:11:26 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B68C0613D0;
-        Sat,  3 Oct 2020 03:01:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A7CC0613D0;
+        Sat,  3 Oct 2020 03:11:25 -0700 (PDT)
 Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kOeMM-0007zv-MJ; Sat, 03 Oct 2020 12:01:46 +0200
-Subject: Re: [RFC PATCH v1 14/26] docs: reporting-bugs: make users write
- notes, one for each issue
+        id 1kOeVg-0003S9-3R; Sat, 03 Oct 2020 12:11:24 +0200
 To:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <bf99a4e5af05e7076795e33beb6d48f95571328e.1601541165.git.linux@leemhuis.info>
- <3b035746-909c-a65f-470c-ce34a9b71306@infradead.org>
+ <e9166fcbb777e9b7685745e572ab7c7322596ec2.1601541165.git.linux@leemhuis.info>
+ <275187e0-92b5-d0a6-0bf7-76c827e2c808@infradead.org>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  mQINBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
@@ -76,26 +74,50 @@ Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
  yc+mP1ya8uxIFEwcp6C1h4TTisVFC2DXxDi7pqUd9oTuI4Hg19/i07cdYUHDiraDXSXW5zH9
  5ZDV+rSqDU3ercoRd2qjGUOIXWOytHTeJhVOWqM0vOmXDUwwYHuEb0HFn3d/tz+idSrXUSXZ
  5iv6NKaV29GWHbY=
-Message-ID: <158aeaf8-9ffc-d174-6c0a-16fe3032c787@leemhuis.info>
-Date:   Sat, 3 Oct 2020 12:01:46 +0200
+Subject: Re: [RFC PATCH v1 15/26] docs: reporting-bugs: make readers test
+ mainline, but leave a loophole
+Message-ID: <a08d1012-78bf-5f84-26d2-4f596bc3b59d@leemhuis.info>
+Date:   Sat, 3 Oct 2020 12:11:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <3b035746-909c-a65f-470c-ce34a9b71306@infradead.org>
+In-Reply-To: <275187e0-92b5-d0a6-0bf7-76c827e2c808@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601719308;319172ea;
-X-HE-SMSGID: 1kOeMM-0007zv-MJ
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1601719885;9082f3d0;
+X-HE-SMSGID: 1kOeVg-0003S9-3R
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 02.10.20 um 19:35 schrieb Randy Dunlap:
+Many thx for you comments. Consider all the obvious spelling and
+grammatical mistakes you pointed out fixed, I won't mention all of them
+in this reply to keep things easier to follow.
+
+Am 02.10.20 um 19:51 schrieb Randy Dunlap:
 > On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
+>> = RFC =
+>>
+>> Am I asking for too much from users by telling them to test mainline? But most
+>> will likely have an outdated and heavily patched vendor kernel anyway, so they
+>> have to install a vanilla kernel if they want to report something upstream;
+>> that's why I thought "well, then let's go all in and make them test mainline.
+> 
+> That is appropriate IMO.
 
-Many thx for you comments, all suggestions implemented.
+Yeah, but finding the the right tone in the text seem important to me,
+as some people might see it as "hey, the kernel develpers are putting
+the bar really really high". That's why I pointed it out explicitly.
+>> +Instead, look a little lower for a table for a line with the description
+> 
+>                                             with a line with the description
+> 
+>> +'mainline', which you'll find at the top of that table.
 
+Rewrote this sentence:
 
+Instead, look at the table below for a line starting with 'mainline',
+which you'll find at the top of that table.
 
 Ciao, Thorsten
