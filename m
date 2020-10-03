@@ -2,90 +2,229 @@ Return-Path: <SRS0=Dt6R=DK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEBAC41604
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 14:59:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66EFFC4727E
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 17:16:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86DF8206C3
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 14:59:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 239A220738
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 17:16:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="eIQ2T+P6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725766AbgJCO7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 10:59:50 -0400
-Received: from smtprelay0117.hostedemail.com ([216.40.44.117]:35260 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725747AbgJCO7u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 10:59:50 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 1D589181D3026;
-        Sat,  3 Oct 2020 14:59:49 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: songs04_3112f22271ad
-X-Filterd-Recvd-Size: 2739
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf08.hostedemail.com (Postfix) with ESMTPA;
-        Sat,  3 Oct 2020 14:59:47 +0000 (UTC)
-Message-ID: <b53b75451c7610ec74d15aaec65fb4959d9483b0.camel@perches.com>
-Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to
- format sysfs output
-From:   Joe Perches <joe@perches.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>
-Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Denis Efremov <efremov@linux.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Date:   Sat, 03 Oct 2020 07:59:46 -0700
-In-Reply-To: <20201003135551.GA3187@kroah.com>
-References: <cover.1600285923.git.joe@perches.com>
-         <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
-         <20200930115740.GA1611809@kroah.com> <202009302108.18B05CA38@keescook>
-         <9b57d0d4896a91debc330a70a20ae0f240afbd3b.camel@perches.com>
-         <202010021527.DF20CE0@keescook> <20201003135551.GA3187@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1725808AbgJCRQ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Oct 2020 13:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47490 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725803AbgJCRQ5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 13:16:57 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 335A9C0613E8
+        for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2020 10:16:56 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id m17so4881692ioo.1
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2020 10:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=atishpatra.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8XrZQLqnNMpD94S1G4sNZjRBettAl+4T8HbFLiItGrM=;
+        b=eIQ2T+P6x2QPcxs1/JG3GsHnHMYI/bX1FzFRKyAKsYiwwbsyWTEZkpzIEiO4+6gL2y
+         WAJlRooHf26F3JF2p9IYXC9Cs7nt5COQRcBYhJJRBHIW7Ap6QDsjGm7aFjkXzfmk6jp3
+         0yftHf4IDDNCqkPXtgxTYjWX5S6bSvzH5SXgI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8XrZQLqnNMpD94S1G4sNZjRBettAl+4T8HbFLiItGrM=;
+        b=b/NaNxvg4p6F/TAqRka5YmGtD/vXR24Ru3YmztEzA48zWCm8oKd+Gc4OtJTZEy3B7w
+         vNbiJEop/M/rjk5+kLeveDjlUmR4TOv8ziV69Zxeou+93+/utTh6tLkDHjyUb88Y6Sax
+         klYZfEjN1nsthcISTzli8af6vciQrsDBrL7xSM4dmLseXfz7nHAq/AH9VTv0Fev+7xrK
+         BeM6LgQl6hvqj12lWKGLqYVhtzSjYxdA89BV/zZARc75yj3/CTnTpoQrulC6vq7CU/59
+         qJzac5+j46oMUvvdbBFStp50MzXVOes8/24XPnJ1ly6Kzw8DLGFcoeJM9KGQ7hwaJFlP
+         D94Q==
+X-Gm-Message-State: AOAM532TkXfuniF4lpFN2PN1kygGD7J8rII6CBTVbxMyWge/E6uIyj48
+        7m6eIV9IssSFL35lMuDWK9h3EFSprE4THhZHQWyu
+X-Google-Smtp-Source: ABdhPJw08RqpDULJ2XMeNRLoZk91UBhQgs+FPEYURdxrpoIj5OTTH9GFtO38kLkwuVFd5mZ+O05/5mnyG4xmbEqI/k0=
+X-Received: by 2002:a05:6602:18a:: with SMTP id m10mr5793676ioo.174.1601745415299;
+ Sat, 03 Oct 2020 10:16:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20201003063725.8698-1-xypron.glpk@gmx.de> <20201003063725.8698-2-xypron.glpk@gmx.de>
+ <CAOnJCU+kit2dHihTad9UPYUmN0+EAdVN9m97ibs=Jnu44Qe_LQ@mail.gmail.com> <0c654506-9bb9-9aee-876e-8c1b8619eb67@gmx.de>
+In-Reply-To: <0c654506-9bb9-9aee-876e-8c1b8619eb67@gmx.de>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Sat, 3 Oct 2020 10:16:44 -0700
+Message-ID: <CAOnJCU+1vOk3AkGPBah8gPzwf1V1PXUfdxq9+Y17P=F_rOp9hg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] docs: admin-guide: fdt and initrd load in EFI stub
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2020-10-03 at 15:55 +0200, Greg Kroah-Hartman wrote:
-> On Fri, Oct 02, 2020 at 03:30:30PM -0700, Kees Cook wrote:
-> > On Wed, Sep 30, 2020 at 09:22:19PM -0700, Joe Perches wrote:
-> > > On Wed, 2020-09-30 at 21:17 -0700, Kees Cook wrote:
-> > > > On Wed, Sep 30, 2020 at 01:57:40PM +0200, Greg Kroah-Hartman wrote:
-> > > > > Kees, and Rafael, I don't know if you saw this proposal from Joe for
-> > > > > sysfs files, questions below:
-> > > > 
-> > > > I'm a fan. I think the use of sprintf() in sysfs might have been one of
-> > > > my earliest complaints about unsafe code patterns in the kernel. ;)
-> > > []
-> > > > > > +	if (WARN(!buf || offset_in_page(buf),
-> > > > > > +		 "invalid sysfs_emit: buf:%p\n", buf))
-> > > 
-> > > The dump_stack() is also going to emit pointers
-> > > so I don't see how it does anything but help
-> > > show where the buffer was.  It is hashed...
-> > 
-> > dump_stack() is going to report symbols and register contents.
-> > 
-> > I was just pointing out that %p has no value here[1]. The interesting
-> > states are: "was it NULL?" "how offset was it?". Its actual content
-> > won't matter.
-> 
-> Ok, suggestions for a better error message are always welcome :)
+On Sat, Oct 3, 2020 at 1:29 AM Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+>
+> On 03.10.20 09:34, Atish Patra wrote:
+> > On Fri, Oct 2, 2020 at 11:38 PM Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+> >>
+> >> Describe how a device tree and an initial RAM disk can be passed to the EFI
+> >> Boot Stub.
+> >>
+> >> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> >> ---
+> >> v2:
+> >>         mention EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER (thx Atish)
+> >> ---
+> >>  Documentation/admin-guide/efi-stub.rst | 35 ++++++++++++++++++++++++++
+> >>  1 file changed, 35 insertions(+)
+> >>
+> >> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+> >> index 833edb0d0bc4..4965dec48af4 100644
+> >> --- a/Documentation/admin-guide/efi-stub.rst
+> >> +++ b/Documentation/admin-guide/efi-stub.rst
+> >> @@ -38,6 +38,34 @@ arch/arm/boot/zImage should be copied to the system partition, and it
+> >>  may not need to be renamed. Similarly for arm64, arch/arm64/boot/Image
+> >>  should be copied but not necessarily renamed.
+> >>
+> >> +Passing an initial RAM disk to the EFI Boot Stub
+> >> +------------------------------------------------
+> >> +
+> >> +The following means sorted by decreasing priority can be used to provide an
+> >> +initial RAM disk to the EFI Boot Stub:
+> >> +
+> >> +* The firmware may provide a UEFI Load File 2 Protocol. The stub will try to
+> >> +  load the RAM disk by calling the LoadFile() service of the protocol using
+> >> +  a vendor device path with the vendor GUID
+> >> +  5568e427-0x68fc-4f3d-ac74-ca555231cc68.
+> >> +* Next the EFI stub will try to load the file indicated by the "initrd=" command
+> >> +  line parameter if CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER is enabled.
+> >> +* The prior boot stage may pass the location of the initial RAM disk via the
+> >> +  "linux,initrd-start" and "linux,initrd-end" properties of the "/chosen" node
+> >> +  of the device-tree.
+> >> +
+> >
+> > Should we also specify which method is enabled by default for which
+> > ARCH and recommended methods?
+>
+> The user relevant configuration is not the Linux' defconfig but what the
+> distribution maintainer has baked. I doubt mentioning Linux' defaults is
+> meaningful here.
+>
 
-For sysfs_emit, the offset_in_buf test also
-effectively checks if buf not PAGE_SIZE so
-it helps identify if it is being called from
-a non _show function.
+Yes. But some distribution admin may think that one of these two configs
+(initrd or dtb) are not enabled for RISC-V by mistake and enable it in
+the distro config.
+Ard had suggested that it is best if RISC-V doesn't inherit the legacy options.
 
-That's actually why %p can be somewhat valuable.
+> >
+> > For example, It's recommended to use the LoadFile method for RISC-V
+> > and new ARM systems.
+>
+> GRUB does not implement the LoadFile2 protocol yet. In U-Boot it is only
+> good for testing. I am not aware of usability with unmodified EDK II.
+> Why should we recommend anything before building the ecosystem that
+> makes it useful?
+>
+> What is best may depend on the use case. There is nothing insecure in
+> passing the initrd via "linux,initrd-start" and "linux,initrd-end" if
+> you control the load options.
+>
+> The EBBR (https://github.com/arm-software/ebbr) might be a better place
+> for a recommendation.
+>
+
+Agreed.
+
+> > Existing ARM ones will continue to use the initrd argument as that's
+> > the method enabled by default.
+>
+> Only if if the LoadFile2 protocol is not available because that has a
+> higher priority for ARM, x86, and RISC-V.
+>
+> Should I consider my i.mx6 Wandboard Quad bought in 2013 "old" while it
+> is running the U-Boot v2020.10-rc5, Linux v5.9-rc7, and Debian testing?
+> A distinction between "old" and "new" systems seems irrelevant here. All
+> are treated equal by the EFI stub.
+>
+> >
+> >> +The first two items are inhibited by the "noinitrd" command line parameter.
+> >> +
+> >> +Passing a device-tree to the EFI Boot Stub
+> >> +------------------------------------------
+> >> +
+> >> +A device-tree can be passed to the EFI Boot Stub in decreasing priority using
+> >> +
+> >> +* command line option dtb=
+> >> +* a UEFI configuration table with GUID b1b621d5-f19c-41a5-830b-d9152c69aae0.
+> >> +
+> >
+> > I am just curious. Is there any specific reason why efistub tries to
+> > load the dtb from the command line first
+> > and loads from the config table only if it fails from the first approach ?
+>
+> As we disable dtb= in secure boot it would make sense to turn the
+> priorities around for non-secure boot too.
+>
+> But this is beyond the scope of a documentation patch.
+>
+
+Yes. I was just using the context to ask the question. I will send a
+separate patch
+for that.
+
+> Best regards
+>
+> Heinrich
+>
+> >
+> >> +The command line option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=y
+> >> +and secure boot is disabled.
+> >>
+> >>  Passing kernel parameters from the EFI shell
+> >>  --------------------------------------------
+> >> @@ -46,6 +74,10 @@ Arguments to the kernel can be passed after bzImage.efi, e.g.::
+> >>
+> >>         fs0:> bzImage.efi console=ttyS0 root=/dev/sda4
+> >>
+> >> +The "noinitrd" option
+> >> +---------------------
+> >> +
+> >> +The "noinitrd" option stops the EFI stub from loading an initial RAM disk.
+> >>
+> >>  The "initrd=" option
+> >>  --------------------
+> >> @@ -98,3 +130,6 @@ CONFIGURATION TABLE.
+> >>
+> >>  "dtb=" is processed in the same manner as the "initrd=" option that is
+> >>  described above.
+> >> +
+> >> +This option is only available if CONFIG_EFI_ARMSTUB_DTB_LOADER=y and secure
+> >> +boot is disabled.
+> >> --
+> >> 2.28.0
+> >>
+> >>
+> >> _______________________________________________
+> >> linux-riscv mailing list
+> >> linux-riscv@lists.infradead.org
+> >> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> >
+> >
+> >
+>
 
 
+-- 
+Regards,
+Atish
