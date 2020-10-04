@@ -1,120 +1,176 @@
-Return-Path: <SRS0=Dt6R=DK=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=0YnM=DL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C878CC41604
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 22:15:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3BA9C4363D
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Oct 2020 04:03:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72EB1206C9
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Oct 2020 22:15:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A470F206DB
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Oct 2020 04:03:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OWf8W/ak"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zQNUmIwx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725980AbgJCWPZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Oct 2020 18:15:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
+        id S1726023AbgJDEDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Oct 2020 00:03:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbgJCWPZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Oct 2020 18:15:25 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7464FC0613E7
-        for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2020 15:15:25 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id a17so2580243pju.1
-        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2020 15:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=M4HF7g1d0vJnY9H0PTtn0Kn7BvX/4ucoesfW9cqR2nI=;
-        b=OWf8W/akknscbZ1L7tVZ+uusj+60T2f01UlnU2oUNwWPNeMYGKKZi4Q2d4E5hp2yE6
-         pt/C3AXTYTXSExWDRuWyVECJ+9FQWKMH9/nGOwR5ihgMO25uiSzSHNSY9kEdnZnIOwzn
-         /6YwGs5AQxCoovuHztbtLl746j7yPZkl9UKAc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=M4HF7g1d0vJnY9H0PTtn0Kn7BvX/4ucoesfW9cqR2nI=;
-        b=h7kDZKg7SztPE/U6leyeXYASxYL0rbhjCHAIHujuZOdWKdXwyfGbyXjD9Lu03uPnvv
-         2611iAMIxqjWEtkqeNTr0LOSgr66SZkXpX7iUY6j00dOUq5+Ur2cAD5jCV+7XNacaV60
-         ZjCrvD0XEbtriHaXv2LZFgMv7DGPdx39Tz1ePXwgUSRDhRK1YMu3GAyt1ahrtRcL7acP
-         OIM2lcUsShtalXmn+EizXpmywqKL9LGKNvzRJqqwuFk7/wzHfuLVsTkanpqD0ESeYBzm
-         jnGciiZAGFmrcxtTWp2UJ3nf5S2PBXFgL165NG+QnOMZB6CcPTHYkBNGVZanYBvNqSG0
-         BLXQ==
-X-Gm-Message-State: AOAM530xuTPAh84bF4XXXYAgR3z3ScGMTpGY2Y20bfAeyRlfBjgpG1vS
-        hu2SrfsO+SfXZqg8Zw6A7jtpZA==
-X-Google-Smtp-Source: ABdhPJwG0j09i2Gjxfhz8UVAnFLxcWNUBIxl37Tk2NE/qmJLANVy9sRbgzcmjQrTIeWcbGSsQa3Saw==
-X-Received: by 2002:a17:90b:198:: with SMTP id t24mr9413193pjs.107.1601763324908;
-        Sat, 03 Oct 2020 15:15:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id gl17sm5577505pjb.49.2020.10.03.15.15.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2020 15:15:23 -0700 (PDT)
-Date:   Sat, 3 Oct 2020 15:15:22 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Joe Perches <joe@perches.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Denis Efremov <efremov@linux.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 1/8] sysfs: Add sysfs_emit and sysfs_emit_at to format
- sysfs output
-Message-ID: <202010031513.60B9BF7557@keescook>
-References: <cover.1600285923.git.joe@perches.com>
- <884235202216d464d61ee975f7465332c86f76b2.1600285923.git.joe@perches.com>
- <20200930115740.GA1611809@kroah.com>
- <202009302108.18B05CA38@keescook>
- <9b57d0d4896a91debc330a70a20ae0f240afbd3b.camel@perches.com>
- <202010021527.DF20CE0@keescook>
- <20201003135551.GA3187@kroah.com>
+        with ESMTP id S1725840AbgJDEDH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Oct 2020 00:03:07 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A63C0613CE;
+        Sat,  3 Oct 2020 21:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:Subject:From:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=eVh3e7AfStrrTBvDoNAkIk/GhPVsgabPyX7WZ1hyuo0=; b=zQNUmIwxewnBI4vSOjy4AcQ4Wh
+        HE5P/lDakCLoGH3+n0LgblCZw8GwYkRDFutBaTovnYZwgJvK8QwgPP+YWrtrxSG4/98fZleuI7MMG
+        gTXzdqy/1OSCyfWIGVjpaiw7jvKGmMDlQz/FKnR/cHmn4gR8TU2Z1i6Y975c+4FUcWJVXM4ErgPSd
+        cPbjzahIyDAHTmkTrpA6fK2YjOLln0/BlLRCPbj4ChQdgIsxUEUNGD46Oa+FEv1roQ5T2V4ImsLbI
+        VXTzqUUfLPcFbiBF6J84EvRMb5D3n4xaK4RzMfoF+ubQV92kwEdnJrQ2Na7gMQs1c9Cwn1ALxN8C5
+        16zkd2tA==;
+Received: from [2601:1c0:6280:3f0::2c9a]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kOvEm-00054b-CY; Sun, 04 Oct 2020 04:03:04 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [RFC PATCH v1 20/26] docs: reporting-bugs: instructions for
+ handling regressions
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1601541165.git.linux@leemhuis.info>
+ <7071ace5086f39ceaa2b1ffcc3bc774f362b4aa7.1601541165.git.linux@leemhuis.info>
+Message-ID: <06589a41-94c8-dc94-247f-71390a5d99c9@infradead.org>
+Date:   Sat, 3 Oct 2020 21:03:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201003135551.GA3187@kroah.com>
+In-Reply-To: <7071ace5086f39ceaa2b1ffcc3bc774f362b4aa7.1601541165.git.linux@leemhuis.info>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 03, 2020 at 03:55:51PM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Oct 02, 2020 at 03:30:30PM -0700, Kees Cook wrote:
-> > On Wed, Sep 30, 2020 at 09:22:19PM -0700, Joe Perches wrote:
-> > > On Wed, 2020-09-30 at 21:17 -0700, Kees Cook wrote:
-> > > > On Wed, Sep 30, 2020 at 01:57:40PM +0200, Greg Kroah-Hartman wrote:
-> > > > > Kees, and Rafael, I don't know if you saw this proposal from Joe for
-> > > > > sysfs files, questions below:
-> > > > 
-> > > > I'm a fan. I think the use of sprintf() in sysfs might have been one of
-> > > > my earliest complaints about unsafe code patterns in the kernel. ;)
-> > > []
-> > > > > > +	if (WARN(!buf || offset_in_page(buf),
-> > > > > > +		 "invalid sysfs_emit: buf:%p\n", buf))
-> > > 
-> > > The dump_stack() is also going to emit pointers
-> > > so I don't see how it does anything but help
-> > > show where the buffer was.  It is hashed...
-> > 
-> > dump_stack() is going to report symbols and register contents.
-> > 
-> > I was just pointing out that %p has no value here[1]. The interesting
-> > states are: "was it NULL?" "how offset was it?". Its actual content
-> > won't matter.
+On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
+> Describe what users will have to do if they deal with a regression.
+> Point out that bisection is really important.
 > 
-> Ok, suggestions for a better error message are always welcome :)
+> While at it explicitly mention the .config files for the newer kernel
+> needs to be similar to the old kernel, as that's an important detail
+> quite a few people seem to miss sometimes.
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>  Documentation/admin-guide/bug-bisect.rst     |  2 +
+>  Documentation/admin-guide/reporting-bugs.rst | 53 ++++++++++++++++++++
+>  2 files changed, 55 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
+> index 59567da344e8..38d9dbe7177d 100644
+> --- a/Documentation/admin-guide/bug-bisect.rst
+> +++ b/Documentation/admin-guide/bug-bisect.rst
+> @@ -1,3 +1,5 @@
+> +.. _bugbisect:
+> +
+>  Bisecting a bug
+>  +++++++++++++++
+>  
+> diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
+> index e1219e56979f..71c49347c544 100644
+> --- a/Documentation/admin-guide/reporting-bugs.rst
+> +++ b/Documentation/admin-guide/reporting-bugs.rst
+> @@ -792,6 +792,59 @@ sometimes needs to get decoded to be readable, which is explained in
+>  admin-guide/bug-hunting.rst.
+>  
+>  
+> +Special care for regressions
+> +----------------------------
+> +
+> +    *If your problem is a regression, try to narrow down when the issue was
+> +    introduced as much as possible.*
+> +
+> +Linux lead developer Linus Torvalds insists that the Linux kernel never
+> +worsens, that's why he deems regressions as unacceptable and wants to see them
+> +fixed quickly. That's why changes that introduced a regression are often
+> +promptly reverted if the issue they cause can't get solved quickly any other
+> +way. Reporting a regression is thus a bit like playing a kind of trump card to
+> +get something quickly fixed. But for that to happen the culprit needs to be
+> +known. Normally it's up to the reporter to track down the change that's causing
+> +the regression, as maintainers often won't have the time or setup at hand to
+> +reproduce it themselves.
+> +
+> +To find the culprit there is a process called 'bisection' which the document
+> +:ref:`Documentation/admin-guide/bug-bisect.rst <bugbisect>` describes in detail.
+> +That process will often require you to build about ten to twenty kernel images
+> +and test each of them for the issue. Yes, that takes some time, but 't worry,
 
-... I did. :P
+                                                                   but don't worry,
 
-https://lore.kernel.org/lkml/202009302108.18B05CA38@keescook/
+> +it works a lot quicker than most people assume. Thanks to a 'binary search' this
+> +will lead you to the one commit in the source code management system that's
+> +causing the regression. Once you found it, serch the net for the subject of the
 
-But it doesn't need to hold up the series; %p is hashed, so I don't
-care. It's just that the mandate from Linus was to not add new %p uses.
-:P
+                                    find it, search
+
+Often it can find the bad commit, but sometimes it fails. It's not always perfect.
+
+> +change, its commit id and the shortened commit id (the first 12 characters of
+> +the commit id). This will lead you to exisiting reports about it, if there are
+
+                                         existing
+
+> +any.
+> +
+> +Note, a bisection needs a bit of know-how, which not everyone has, and quite a
+> +bit of effort, which not everyone is willing to invest. Nevertheless, it's
+> +highly recommended performing a bisection yourself. If you really can't or don't
+
+I would say:
+   highly recommended to perform a bisection yourself.
+
+> +want to go down that route at least find out which mainline kernel introduced
+> +the regression. If something for example breaks when switching from 5.5.15 to
+> +5.8.4, then try at least all the mainline releases in that area (5.6, 5.7 and
+> +5.8) to check when it first showed up. Unless you're trying to find a regression
+> +in a stable or longterm kernel, avoid testing versions which number has three
+> +sections (5.6.12, 5.7.8), as that can lead to confusion and might make your
+> +testing useless. Then feel free to go further in the reporting process. But
+> +keep in mind: if the developers will be able to help depend on the issue at
+
+                                                        depends
+
+> +hand. Sometimes the developers from the report will be able to recognize want
+> +went wrong and fix it; other times they might be unable to help unless the
+> +reporter performs a bisection.
+> +
+> +When dealing with regressions make sure the issue you face is really caused by
+> +the kernel and not by something else, as outlined above already.
+> +
+> +In the whole process keep in mind: an issue only qualifies as regression if the
+> +older and the newer kernel got build with a similar configuration. The best way
+
+                                  built
+
+> +to archive this: copy the configuration file (``.config``) from the old kernel
+> +freshly to each newer kernel version you try. Afterwards run
+> +``make oldnoconfig`` to adjust it for the needs of the new version without
+> +enabling any new feature, as those are allowed to cause regressions.
+> +
+> +
+>  .. ############################################################################
+>  .. Temporary marker added while this document is rewritten. Sections above
+>  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+> 
+
 
 -- 
-Kees Cook
+~Randy
+
