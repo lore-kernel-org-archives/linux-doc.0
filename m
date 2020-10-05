@@ -1,118 +1,252 @@
-Return-Path: <SRS0=0YnM=DL=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52276C4363D
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Oct 2020 17:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5533BC4727D
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 02:27:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FA30206C1
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Oct 2020 17:46:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03FD12078E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 02:27:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="a1lT+kIT"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="IEOmWtJa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726136AbgJDRq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Oct 2020 13:46:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46068 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726081AbgJDRq5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Oct 2020 13:46:57 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C78AC0613D0
-        for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2020 10:46:55 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id e2so6536522wme.1
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2020 10:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xZb9ZPx925o3OtV1iHv7jgcfUYkClsADhGTqG4VVBZQ=;
-        b=a1lT+kITTxZoMYdlrn0a8YZ3eYwhdfwvsNwzaM5mcrFlgcCQLKHacFtLl/AO7nxwo6
-         ZUhHhyOFJc0byw3/WZvqOtnfHy08gpGybBDq2bdzhiPsyL2sYugYTPqcTdfaZYeMA2/Y
-         I2NuCbM5zP1rUMOr0c5CiPBIk8Q58rv8gbuW8CUGCAozutPVsRMHvY8rAsAtlPF35zsW
-         89uRb2tPzTanOqpoBOiNHSFHtbY2z9DfibF9RVKHW2OYVi0dfdCWT7E22UVxNaOK1Trv
-         X9NJxwdHQGPfE117H+M0EV5MzLlA+GhDstlV+cuVaGVfl7A/DZjDgl7RFG4l5DaWIwmT
-         P/Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xZb9ZPx925o3OtV1iHv7jgcfUYkClsADhGTqG4VVBZQ=;
-        b=XK8o6g2yZyXICf3EU5qDn0XmtaPcrVfM1S2RVL2IxfQkk6VZnHPdDYCdt0ysKTdngC
-         F8IGGL4nSnmQ7DpjvrHMxu+heywTfB6o6j0HO0J/a7ko8IDr7XWajesNXClcS6EPxOh4
-         vNbioTquafN+EbUUAtmTFj+xxSQ/Eop/yf9Efd/RdVQh0dTTQwqKB0Hzxqc6NXUaWLF5
-         l1N4Ib1F/405oPMZdE2hsHa3j/cs2Cys5n9lXKojlfHgzQUUnGcCf3vrUj4n98Bg6HFE
-         BQxeJPZbcRNpxZCv+A6uOt8NT5lceGpIy5Hbd8LpcPCCjDV6lL9mx3+dhPCAzKMmmB3H
-         JIeg==
-X-Gm-Message-State: AOAM532U27vcmC/IWGKEGDlASV+Ae5Zx6bMoOrl7RbEMvRIXZc8XAuvj
-        tiHpyc7/KphYUTaPffxdw+wGug==
-X-Google-Smtp-Source: ABdhPJybmll9TQHS7y1+8M8alBfioU4eEPKn3U3aBe/VWg01Vh0UPrN1YKNOb9nvmW4dZhhLG9O4fA==
-X-Received: by 2002:a1c:6004:: with SMTP id u4mr5348656wmb.44.1601833614456;
-        Sun, 04 Oct 2020 10:46:54 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id y23sm6259129wra.55.2020.10.04.10.46.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2020 10:46:53 -0700 (PDT)
-Date:   Sun, 4 Oct 2020 19:46:51 +0200
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 1/4] media: zoran: move documentation file to the right
- place
-Message-ID: <20201004174651.GA28143@Red>
-References: <6b90346919d42ffc7c3ad283bfca2825b238147a.1601714147.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
+        id S1725848AbgJEC1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Oct 2020 22:27:07 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([51.163.158.102]:39718 "EHLO
+        de-smtp-delivery-102.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725845AbgJEC1H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Oct 2020 22:27:07 -0400
+X-Greylist: delayed 383 seconds by postgrey-1.27 at vger.kernel.org; Sun, 04 Oct 2020 22:27:04 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
+        t=1601864823;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4xHR2HS7nW0UYmT5nX+2J9YrUCch3fVgPCRKjZBNvpo=;
+        b=IEOmWtJau/rixyhIT7SLIPHhBH9qw+/sy0V94s8zLh8DSXr3eF7kW9Q7HW/3xA9grO6do+
+        nrX1/nxDm33g6w7LJfeXnWOjobWyjDBz0xlSpBtuoAMTjr19Dcdqqvf7NB/slMRvjvTXzR
+        FihcgHprBTO5oX2vVw7KjVHY/COKCj8=
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur03lp2051.outbound.protection.outlook.com [104.47.10.51]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ de-mta-35-FVpnR7V0N_qGwqm3mY-9ew-1; Mon, 05 Oct 2020 04:20:36 +0200
+X-MC-Unique: FVpnR7V0N_qGwqm3mY-9ew-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IkORIC68jeX7qNZ6wdfoqohgVvhAH3gvm3IHAe4aHBAuerGPeXGY8M/tmbxbl5NRfRGNDFyqhO1w5bvDfhToV/6VvAm9pI4e2rPiJmpBVPPr1BbNNGGV1/VipAp5NezSzO80TaK20TmgFfeQG7js4YNWZ/rAHyVJcCACMwfLuRMbEAAsQXsDYxJ3jopvzQdGn+Pjmlx1Xy/vCaS6FMRAoeI57vt+qfVmNTVwV3LyI0dg4sx0mykHpbYg5uOUrhc2DIT3vVEoNkUETYh/yIIux2Z7AZWlXyT11J80/P6HMFY2NeAPpTOlDMjJP2AaG6q/D+p7xgbMmVJnKVl8FjDDng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4xHR2HS7nW0UYmT5nX+2J9YrUCch3fVgPCRKjZBNvpo=;
+ b=Z0mRxtJVcANkaznyCQyYeJeG+NXuXSPdsyxtp2fC1oCtifmU41yP6qvW9VbvNBgZXWm3DSDXtH8h6C7S5wzimMYuN2b5hwm3cW7hBZPbt+kfQ9/rOE08Rq8lxHYlP7Xr6HzUJYJQEfPssRDDWXAwcPWv9dwnQ12tx7CyHAVcIhLCy78yK4aRrOTuuZEFb50/US+lCb5HV27jP4Swgxq21R+HCfVbVcEK5aY/rB7VWceznqrWzO8ZSy/7Bz2nOfdPJ0YVCmD/SfUn+UUhx8YQtAxd/r+PUhUw/UXKBjTraqGgI+3ulCmr+oqdc8sMNxcXdGy3HSro+ZgQk+l5tKXeog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=suse.com;
+Received: from AM6PR04MB4919.eurprd04.prod.outlook.com (2603:10a6:20b:c::23)
+ by AM6PR04MB6166.eurprd04.prod.outlook.com (2603:10a6:20b:b6::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35; Mon, 5 Oct
+ 2020 02:20:34 +0000
+Received: from AM6PR04MB4919.eurprd04.prod.outlook.com
+ ([fe80::6418:c465:b47f:96c6]) by AM6PR04MB4919.eurprd04.prod.outlook.com
+ ([fe80::6418:c465:b47f:96c6%4]) with mapi id 15.20.3433.044; Mon, 5 Oct 2020
+ 02:20:34 +0000
+Date:   Mon, 5 Oct 2020 10:20:14 +0800
+From:   Chester Lin <clin@suse.com>
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, zohar@linux.ibm.com,
+        dmitry.kasatkin@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Lee, Chun-Yi" <jlee@suse.com>
+Subject: Re: [PATCH 1/6] efistub: pass uefi secureboot flag via fdt params
+Message-ID: <20201005022014.GA5112@linux-8mug>
+References: <20200904072905.25332-1-clin@suse.com>
+ <20200904072905.25332-2-clin@suse.com>
+ <CAMj1kXEXvmO5mrTcKpqYUASBAQB-1=xLa0vg7KwmvOHMjaQ34w@mail.gmail.com>
+ <20200914080522.GA26718@linux-8mug>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6b90346919d42ffc7c3ad283bfca2825b238147a.1601714147.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20200914080522.GA26718@linux-8mug>
+X-Originating-IP: [114.24.11.63]
+X-ClientProxiedBy: HK2PR0302CA0007.apcprd03.prod.outlook.com
+ (2603:1096:202::17) To AM6PR04MB4919.eurprd04.prod.outlook.com
+ (2603:10a6:20b:c::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from linux-8mug (114.24.11.63) by HK2PR0302CA0007.apcprd03.prod.outlook.com (2603:1096:202::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.15 via Frontend Transport; Mon, 5 Oct 2020 02:20:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3b0fc099-18ef-4d46-0184-08d868d53d48
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6166:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR04MB6166C901789BA8143BC07157AD0C0@AM6PR04MB6166.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WEkdn77Z4WqfzCeeXWQk3TAC91bkwDeuMRL6WYkqOALEpPC/TrLH/4f0N+j5fmyK3ULbUR9EZEQWQGl4S3B2x67pcnRAEqOMUH3ZmLHKFrqJaSb3tFWQmYpItpHuTr8YjIjFElTDuge4Z+EGPqVWz2cJFxemtRyd/nER/DiLJRGSh3BahTArvLqZtUwCYOXKIOo+OB616AnehhaDbPouIjh7E8bBMamsVoZTiVs5RrLxREoHzLmGsyfIuAN/rbtD/hcYJlHbm2E4m4A8oGv7caXksryhwZ+894ewWvhkd4ng/QvIOOblWChNb5WG/VBouWnXs/FXRL3hFSTS9e72ZQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4919.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(136003)(366004)(39860400002)(396003)(346002)(54906003)(107886003)(33656002)(33716001)(83380400001)(5660300002)(186003)(478600001)(16526019)(316002)(55016002)(52116002)(1076003)(4326008)(9686003)(6496006)(956004)(6916009)(86362001)(7416002)(8936002)(2906002)(8676002)(66476007)(66946007)(66556008)(26005)(6666004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: PUngHEfPwh1LB9LMlYBYock+PXpzTfuNg2+ZZRaBT04e6j0oK49YDIyFCRBkUGk8LjfWMn3zwrJvvNhs1KCmtnfhIABqyn6zFDeOiocw/M8a0oohGzqoTu0LS5IhQvqCG5/UdVSC9PyGd3u1WQtldQtRrmHJze03mDX135PoVhA3RgdMlF3e8GohAQsxB80MUE1HwNA+x5V638XrqUBjXKb7zIZkRxX60ZOy/3wuGR6WW4LYtJ5StvRnRM+1RVXxtLN1z7xEWRzMK1PNzBRRxNbMgfXVCdTEQM7mZSR962V8oa7d/3RZXSFKEoqIUlserigMsYGu2xWC4n7ZhGT230CZMZ7abHgDW5Q3124ZLj7Z54Acf3JbRdhefI0S9Bm9A0YvyGJLzDU/6zPx89M0MpJq05IvsYSjs7zm1TdQ10O10OYNxchEiPMBhGWZb17ic1CfLrBLcldOitXxkLJlnX6IuUM9Uv44b5MloZUaidJt8Nwj2I9R7HvX+zTCcOEvyCoeIaqerQ2a5C3K7PVOeaUoE753gXGZ7cT2xQJ5Y/SMMBdD3rGUwax46ajdWM8WXVa7Ce1gOPO9/rJTDLS6LgguQsOKz0Fohu2CZNWd7B5Xt1A9OUnwRZJB0mgmmXGYXSJbZaAmw0ZLMk9FBEkaYA==
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b0fc099-18ef-4d46-0184-08d868d53d48
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4919.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2020 02:20:34.2095
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xf87m7glF5JlnEaLrX6eZCro2G/PGFcmpRczOvx9DtFBAA8GygcnuwrZCVeIwemL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB6166
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 03, 2020 at 10:41:54AM +0200, Mauro Carvalho Chehab wrote:
-> The zoran revert patch misplaced the Zoran doc file. Move it to
-> the right place.
+On Mon, Sep 14, 2020 at 04:05:22PM +0800, Chester Lin wrote:
+> Hi Ard,
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/driver-api/media/drivers/index.rst                 | 1 +
->  .../{media => driver-api/media/drivers}/v4l-drivers/zoran.rst    | 0
->  2 files changed, 1 insertion(+)
->  rename Documentation/{media => driver-api/media/drivers}/v4l-drivers/zoran.rst (100%)
+> On Fri, Sep 11, 2020 at 06:01:09PM +0300, Ard Biesheuvel wrote:
+> > On Fri, 4 Sep 2020 at 10:29, Chester Lin <clin@suse.com> wrote:
+> > >
+> > > Add a new UEFI parameter: "linux,uefi-secure-boot" in fdt boot params
+> > > as other architectures have done in their own boot data. For example,
+> > > the boot_params->secure_boot in x86.
+> > >
+> > > Signed-off-by: Chester Lin <clin@suse.com>
+> > 
+> > Why do we need this flag? Can't the OS simply check the variable directly?
+> > 
 > 
-> diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
-> index 5f340cfdb4cc..eb7011782863 100644
-> --- a/Documentation/driver-api/media/drivers/index.rst
-> +++ b/Documentation/driver-api/media/drivers/index.rst
-> @@ -25,6 +25,7 @@ Video4Linux (V4L) drivers
->  	sh_mobile_ceu_camera
->  	tuners
->  	vimc-devel
-> +	zoran
->  
->  
->  Digital TV drivers
-> diff --git a/Documentation/media/v4l-drivers/zoran.rst b/Documentation/driver-api/media/drivers/v4l-drivers/zoran.rst
-> similarity index 100%
-> rename from Documentation/media/v4l-drivers/zoran.rst
-> rename to Documentation/driver-api/media/drivers/v4l-drivers/zoran.rst
-> -- 
-> 2.26.2
+> In fact, there's a difficulty to achieve this.
 > 
+> When linux kernel is booting on ARM, the runtime services are enabled later on.
+> It's done by arm_enable_runtime_services(), which is registered as an early_initcall.
+> Before it calls efi_native_runtime_setup(), all EFI runtime callbacks are still
+> NULL so calling efi.get_variable() will cause NULL pointer dereference.
+> 
+> There's a case that arch_ima_get_secureboot() can be called in early boot stage.
+> For example, when you try to set "ima_appraise=off" in kernel command line, it's
+> actually handled early:
+> 
+> [    0.000000] Kernel command line: BOOT_IMAGE=/boot/Image-5.9.0-rc3-9.gdd61cda-
+> vanilla root=UUID=a88bfb80-8abb-425c-a0f3-ad317465c28b splash=silent mitigations
+> =auto ignore_loglevel earlycon=pl011,mmio,0x9000000 console=ttyAMA0 ima_appraise=off
+> [    0.000000] ima: Secure boot enabled: ignoring ima_appraise=off boot parameter option
+> [    0.000000] Dentry cache hash table entries: 1048576 (order: 11, 8388608 bytes, linear)
+> 
+> However EFI services are remapped and enabled afterwards.
+> 
+> [    0.082286] rcu: Hierarchical SRCU implementation.
+> [    0.089592] Remapping and enabling EFI services.
+> [    0.097509] smp: Bringing up secondary CPUs ...
+> 
+> Another problem is that efi_rts_wq is created in subsys_initcall so we have to
+> wait for both EFI services mapping and the workqueue get initiated before calling
+> efi.get_variable() on ARM.
+> 
+> The only way I can think of is to put a flag via fdt params. May I have your
+> suggestions? I will appreciate if there's any better approach.
+> 
+> Thanks,
+> Chester
 
-Hello
+Ping. May I have some suggestions here?
 
-Acked-by: Corentin Labbe <clabbe@baylibre.com>
+Thanks,
+Chester
 
-Thanks
+> 
+> > > ---
+> > >  drivers/firmware/efi/libstub/fdt.c | 39 +++++++++++++++++++++++++++++-
+> > >  1 file changed, 38 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/firmware/efi/libstub/fdt.c b/drivers/firmware/efi/libstub/fdt.c
+> > > index 11ecf3c4640e..c9a341e4715f 100644
+> > > --- a/drivers/firmware/efi/libstub/fdt.c
+> > > +++ b/drivers/firmware/efi/libstub/fdt.c
+> > > @@ -136,6 +136,10 @@ static efi_status_t update_fdt(void *orig_fdt, unsigned long orig_fdt_size,
+> > >         if (status)
+> > >                 goto fdt_set_fail;
+> > >
+> > > +       status = fdt_setprop_var(fdt, node, "linux,uefi-secure-boot", fdt_val32);
+> > > +       if (status)
+> > > +               goto fdt_set_fail;
+> > > +
+> > >         if (IS_ENABLED(CONFIG_RANDOMIZE_BASE)) {
+> > >                 efi_status_t efi_status;
+> > >
+> > > @@ -199,6 +203,24 @@ static efi_status_t update_fdt_memmap(void *fdt, struct efi_boot_memmap *map)
+> > >         return EFI_SUCCESS;
+> > >  }
+> > >
+> > > +static efi_status_t update_fdt_secboot(void *fdt, u32 secboot)
+> > > +{
+> > > +       int node = fdt_path_offset(fdt, "/chosen");
+> > > +       u32 fdt_val32;
+> > > +       int err;
+> > > +
+> > > +       if (node < 0)
+> > > +               return EFI_LOAD_ERROR;
+> > > +
+> > > +       fdt_val32 = cpu_to_fdt32(secboot);
+> > > +
+> > > +       err = fdt_setprop_inplace_var(fdt, node, "linux,uefi-secure-boot", fdt_val32);
+> > > +       if (err)
+> > > +               return EFI_LOAD_ERROR;
+> > > +
+> > > +       return EFI_SUCCESS;
+> > > +}
+> > > +
+> > >  struct exit_boot_struct {
+> > >         efi_memory_desc_t       *runtime_map;
+> > >         int                     *runtime_entry_count;
+> > > @@ -208,6 +230,9 @@ struct exit_boot_struct {
+> > >  static efi_status_t exit_boot_func(struct efi_boot_memmap *map,
+> > >                                    void *priv)
+> > >  {
+> > > +       efi_status_t status;
+> > > +       enum efi_secureboot_mode secboot_status;
+> > > +       u32 secboot_var = 0;
+> > >         struct exit_boot_struct *p = priv;
+> > >         /*
+> > >          * Update the memory map with virtual addresses. The function will also
+> > > @@ -217,7 +242,19 @@ static efi_status_t exit_boot_func(struct efi_boot_memmap *map,
+> > >         efi_get_virtmap(*map->map, *map->map_size, *map->desc_size,
+> > >                         p->runtime_map, p->runtime_entry_count);
+> > >
+> > > -       return update_fdt_memmap(p->new_fdt_addr, map);
+> > > +       status = update_fdt_memmap(p->new_fdt_addr, map);
+> > > +
+> > > +       if (status != EFI_SUCCESS)
+> > > +               return status;
+> > > +
+> > > +       secboot_status = efi_get_secureboot();
+> > > +
+> > > +       if (secboot_status == efi_secureboot_mode_enabled)
+> > > +               secboot_var = 1;
+> > > +
+> > > +       status = update_fdt_secboot(p->new_fdt_addr, secboot_var);
+> > > +
+> > > +       return status;
+> > >  }
+> > >
+> > >  #ifndef MAX_FDT_SIZE
+> > > --
+> > > 2.26.1
+> > >
+> > 
+
