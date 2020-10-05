@@ -2,174 +2,941 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B0EC4363D
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 09:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7942C4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 09:38:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3A2220796
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 09:29:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RD6Sa7SS"
+	by mail.kernel.org (Postfix) with ESMTP id 6366020795
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 09:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601890724;
+	bh=0K+5x0GSJgzNJNXHAEZhbUSUqc0zPBCk8o4FgS5ygPE=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=P773S3Si9DeQgZ5xJNDMkIhrrbgDDtKFMolrzN2GFngV6Z3RgTJRwjpucg2gxg/GK
+	 evQeHCloQARnZ+SThWZGeRIPZzLHB90449K2+3bDkpG90BApzqZQtj26VI6f6yX3n5
+	 ttDQZKt0YgPfUseKv1cjpBDMdFYAjfslrQJRlcQM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725901AbgJEJ3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 05:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725895AbgJEJ3b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 05:29:31 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26135C0613A7
-        for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2020 02:29:31 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id v12so8032227wmh.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 02:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NkkZ0AZItfPzXXyiWUs3wdbhFkdEuozzWE5YN7fX2Ds=;
-        b=RD6Sa7SS02XMmSEITYc+16rUxDLnGebQGiPycqS2AHIUGt1HKXcbyFJO2j0zhLR3ZV
-         MYcG6n/KPVssa/d74T6uHaLPmzw2YIJ1RxZv5UH86MyTQlbgSGwcY3lCojdvHOvoyLYr
-         3InQKiPVQXm4doK9Npsgmpq0pyMNNUx9LU9zwy/R4Ti81NIxZHdTsUYc32lFcxjUghCM
-         zJUY/Iu5ON7FYBKZ9+lmmO5Sk7FYh54C7wOC7bqTUUXmPugywv4W1v8BMeNvxBdNZqK5
-         TkRXl7IBaL10uym0Pw2B4bUGB1dniXKZJs8Nz3qozzlnsaxB/V2jYceXHMtovB6Oemp3
-         S4+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NkkZ0AZItfPzXXyiWUs3wdbhFkdEuozzWE5YN7fX2Ds=;
-        b=MNOV7tfFV5swRHKhqaVrBFAHxqDjfUDUWfXfKzWRAt2bNPCr21tEIekbgENs+cLnMl
-         Kgt0TSodJ0Ftnh/lbND9pANSYZK4DUD9edizVtGDBhjzPgUmwN5nKorGUy1XTv/96+MB
-         vhf7JvMDTAWNVdTQZu6ObEg01lgSdbgeaMbLxeWbM7b4S61m7ZzcS5bmH7e8sx5r8Tyl
-         ipg/paiiuyMaXHNvjHtC4kzcV25IxHGh4c2M4eRY6ox8cft5vTeKWNkEidaQbOEwnBnA
-         nOmq/f3Avpa+eO8/xEDLqHJF3KnZgYjsWhTjfUioGc3FjGr0fuB3T5dk39dAxIkJDoM1
-         rKKg==
-X-Gm-Message-State: AOAM5312LYvJS8V47iBnWuWyB30a3gg1ITW03Q51OlTbsBcfBXNvD7pe
-        YXxTE00kw08cv/Q72MunAiJ2EXpFaSofdi6q52sCpw==
-X-Google-Smtp-Source: ABdhPJzdTHCSzPEmyky+jVTYpmIeNA4gwh4eafVoKki6ciFaZTe6pNy41Z81p02iQGgR8m4sm1feM4sG9bAxg7oIc+Q=
-X-Received: by 2002:a7b:cd93:: with SMTP id y19mr15306469wmj.112.1601890169505;
- Mon, 05 Oct 2020 02:29:29 -0700 (PDT)
+        id S1725905AbgJEJio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 05:38:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41362 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725931AbgJEJin (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 05:38:43 -0400
+Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3A65E20774;
+        Mon,  5 Oct 2020 09:38:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601890722;
+        bh=0K+5x0GSJgzNJNXHAEZhbUSUqc0zPBCk8o4FgS5ygPE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dzSl0dD2aPg/exFlPWR7zBahC1B8Maqm1P9RsnekELV09yaIAebsCIwAo/gnILlLQ
+         B5wNKPJ/lrFlbbpc2AoV5V12sLLGMDKdkR3/XkOtfv6yZLKLeXHwNlxL5Cj0MjwaLN
+         iM3mdfV6I84MXtXkmlQTs3pCqL2y+KixtKDzbcBw=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kPMx5-000TfM-OD; Mon, 05 Oct 2020 11:38:39 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Jonathan Corbet" <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org
+Subject: [PATCH] docs: net: 80211: reduce docs build time
+Date:   Mon,  5 Oct 2020 11:38:37 +0200
+Message-Id: <f0085721d85ebc3a77164b457ed948eee48b55df.1601890703.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-6-elver@google.com>
- <CAG48ez3X4dqXAEa7NFf6Vm3kq6Rk+z0scWqK6TV6jTo5+Pu+aA@mail.gmail.com>
-In-Reply-To: <CAG48ez3X4dqXAEa7NFf6Vm3kq6Rk+z0scWqK6TV6jTo5+Pu+aA@mail.gmail.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Mon, 5 Oct 2020 11:29:18 +0200
-Message-ID: <CAG_fn=Wsxd+7COTzkqg-h82EzZgHq_bAM+u3u2rMh6VOmVQTdg@mail.gmail.com>
-Subject: Re: [PATCH v4 05/11] mm, kfence: insert KFENCE hooks for SLUB
-To:     Jann Horn <jannh@google.com>
-Cc:     Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 2, 2020 at 9:07 AM Jann Horn <jannh@google.com> wrote:
->
-> On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
-> > Inserts KFENCE hooks into the SLUB allocator.
-> [...]
-> > diff --git a/mm/slub.c b/mm/slub.c
-> [...]
-> > @@ -3290,8 +3314,14 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, =
-gfp_t flags, size_t size,
-> >         c =3D this_cpu_ptr(s->cpu_slab);
-> >
-> >         for (i =3D 0; i < size; i++) {
-> > -               void *object =3D c->freelist;
-> > +               void *object =3D kfence_alloc(s, s->object_size, flags)=
-;
->
-> kfence_alloc() will invoke ->ctor() callbacks if the current slab has
-> them. Is it fine to invoke such callbacks from here, where we're in
-> the middle of a section that disables interrupts to protect against
-> concurrent freelist changes? If someone decides to be extra smart and
-> uses a kmem_cache with a ->ctor that can allocate memory from the same
-> kmem_cache, or something along those lines, this could lead to
-> corruption of the SLUB freelist. But I'm not sure whether that can
-> happen in practice.
+the files under /80211 calls kernel-doc script 207 times, one for each
+single function and doc chapter. Due to that, it takes a lot of time
+handling it:
 
-From cache_init_objs_debug() in mm/slab.c:
+	$ touch Documentation/driver-api/80211/*rst && time make SPHINXDIRS=driver-api/80211 htmldocs
+...
+	real	0m22,928s
+	user	0m21,644s
+	sys	0m1,334s
 
-                /*
-                 * Constructors are not allowed to allocate memory from the=
- same
-                 * cache which they are a constructor for.  Otherwise, dead=
-lock.
-                 * They must also be threaded.
-                 */
+Reduce the build time by doing only one kernel-doc call
+per functions that belong to the same group. With that, there's now
+50 calls to kernel-doc, which makes the build time for those docs
+62% faster:
 
-So, no, it is not allowed to allocate from the same cache in the constructo=
-r.
+	$ touch Documentation/driver-api/80211/*rst && time make SPHINXDIRS=driver-api/80211 htmldocs
+...
+	real	0m8,666s
+	user	0m8,084s
+	sys	0m0,642s
 
+As a side effect, it should now be easier to add newer
+functions, as there's no need to repeat the kernel-doc
+pattern.
 
-> Still, it might be nicer if you could code this to behave like a
-> fastpath miss: Update c->tid, turn interrupts back on (___slab_alloc()
-> will also do that if it has to call into the page allocator), then let
-> kfence do the actual allocation in a more normal context, then turn
-> interrupts back off and go on. If that's not too complicated?
->
-> Maybe Christoph Lameter has opinions on whether this is necessary...
-> it admittedly is fairly theoretical.
->
-> > +               if (unlikely(object)) {
-> > +                       p[i] =3D object;
-> > +                       continue;
-> > +               }
-> > +
-> > +               object =3D c->freelist;
-> >                 if (unlikely(!object)) {
-> >                         /*
-> >                          * We may have removed an object from c->freeli=
-st using
+Measurements made on a NUC8i7HNK machine with lots of ram
+and a fast SSD disk with Sphinx 3.2.1.
 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/driver-api/80211/cfg80211.rst   | 392 +++++-------------
+ .../driver-api/80211/mac80211-advanced.rst    | 151 +++----
+ Documentation/driver-api/80211/mac80211.rst   | 148 ++-----
+ 3 files changed, 199 insertions(+), 492 deletions(-)
 
+diff --git a/Documentation/driver-api/80211/cfg80211.rst b/Documentation/driver-api/80211/cfg80211.rst
+index eeab91b59457..836f609c3f75 100644
+--- a/Documentation/driver-api/80211/cfg80211.rst
++++ b/Documentation/driver-api/80211/cfg80211.rst
+@@ -12,79 +12,32 @@ Device registration
+    :doc: Device registration
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_channel_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_channel
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_rate_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_rate
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_sta_ht_cap
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_supported_band
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_signal_type
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_params_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wireless_dev
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_new
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_read_of_freq_limits
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_register
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_unregister
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_free
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_name
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_dev
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_priv
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: priv_to_wiphy
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: set_wiphy_dev
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wdev_priv
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_iface_limit
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_iface_combination
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_check_combinations
++   :functions:
++	ieee80211_channel_flags
++	ieee80211_channel
++	ieee80211_rate_flags
++	ieee80211_rate
++	ieee80211_sta_ht_cap
++	ieee80211_supported_band
++	cfg80211_signal_type
++	wiphy_params_flags
++	wiphy_flags
++	wiphy
++	wireless_dev
++	wiphy_new
++	wiphy_read_of_freq_limits
++	wiphy_register
++	wiphy_unregister
++	wiphy_free
++	wiphy_name
++	wiphy_dev
++	wiphy_priv
++	priv_to_wiphy
++	set_wiphy_dev
++	wdev_priv
++	ieee80211_iface_limit
++	ieee80211_iface_combination
++	cfg80211_check_combinations
+ 
+ Actions and configuration
+ =========================
+@@ -93,139 +46,52 @@ Actions and configuration
+    :doc: Actions and configuration
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_ops
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: vif_params
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: key_params
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: survey_info_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: survey_info
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_beacon_data
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_ap_settings
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: station_parameters
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: rate_info_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: rate_info
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: station_info
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: monitor_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: mpath_info_flags
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: mpath_info
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: bss_parameters
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_txq_params
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_crypto_settings
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_auth_request
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_assoc_request
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_deauth_request
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_disassoc_request
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_ibss_params
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_connect_params
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_pmksa
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_rx_mlme_mgmt
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_auth_timeout
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_rx_assoc_resp
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_assoc_timeout
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_tx_mlme_mgmt
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_ibss_joined
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_connect_resp_params
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_connect_done
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_connect_result
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_connect_bss
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_connect_timeout
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_roamed
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_disconnected
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_ready_on_channel
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_remain_on_channel_expired
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_new_sta
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_rx_mgmt
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_mgmt_tx_status
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_cqm_rssi_notify
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_cqm_pktloss_notify
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_michael_mic_failure
++   :functions:
++	cfg80211_ops
++	vif_params
++	key_params
++	survey_info_flags
++	survey_info
++	cfg80211_beacon_data
++	cfg80211_ap_settings
++	station_parameters
++	rate_info_flags
++	rate_info
++	station_info
++	monitor_flags
++	mpath_info_flags
++	mpath_info
++	bss_parameters
++	ieee80211_txq_params
++	cfg80211_crypto_settings
++	cfg80211_auth_request
++	cfg80211_assoc_request
++	cfg80211_deauth_request
++	cfg80211_disassoc_request
++	cfg80211_ibss_params
++	cfg80211_connect_params
++	cfg80211_pmksa
++	cfg80211_rx_mlme_mgmt
++	cfg80211_auth_timeout
++	cfg80211_rx_assoc_resp
++	cfg80211_assoc_timeout
++	cfg80211_tx_mlme_mgmt
++	cfg80211_ibss_joined
++	cfg80211_connect_resp_params
++	cfg80211_connect_done
++	cfg80211_connect_result
++	cfg80211_connect_bss
++	cfg80211_connect_timeout
++	cfg80211_roamed
++	cfg80211_disconnected
++	cfg80211_ready_on_channel
++	cfg80211_remain_on_channel_expired
++	cfg80211_new_sta
++	cfg80211_rx_mgmt
++	cfg80211_mgmt_tx_status
++	cfg80211_cqm_rssi_notify
++	cfg80211_cqm_pktloss_notify
++	cfg80211_michael_mic_failure
+ 
+ Scanning and BSS list handling
+ ==============================
+@@ -234,34 +100,17 @@ Scanning and BSS list handling
+    :doc: Scanning and BSS list handling
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_ssid
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_scan_request
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_scan_done
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_bss
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_inform_bss
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_inform_bss_frame_data
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_inform_bss_data
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_unlink_bss
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_find_ie
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_bss_get_ie
++   :functions:
++	cfg80211_ssid
++	cfg80211_scan_request
++	cfg80211_scan_done
++	cfg80211_bss
++	cfg80211_inform_bss
++	cfg80211_inform_bss_frame_data
++	cfg80211_inform_bss_data
++	cfg80211_unlink_bss
++	cfg80211_find_ie
++	ieee80211_bss_get_ie
+ 
+ Utility functions
+ =================
+@@ -270,25 +119,14 @@ Utility functions
+    :doc: Utility functions
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_channel_to_frequency
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_frequency_to_channel
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_get_channel
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_get_response_rate
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_hdrlen
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_get_hdrlen_from_skb
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_radiotap_iterator
++   :functions:
++	ieee80211_channel_to_frequency
++	ieee80211_frequency_to_channel
++	ieee80211_get_channel
++	ieee80211_get_response_rate
++	ieee80211_hdrlen
++	ieee80211_get_hdrlen_from_skb
++	ieee80211_radiotap_iterator
+ 
+ Data path helpers
+ =================
+@@ -297,13 +135,10 @@ Data path helpers
+    :doc: Data path helpers
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_data_to_8023
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: ieee80211_amsdu_to_8023s
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_classify8021d
++   :functions:
++	ieee80211_data_to_8023
++	ieee80211_amsdu_to_8023s
++	cfg80211_classify8021d
+ 
+ Regulatory enforcement infrastructure
+ =====================================
+@@ -312,13 +147,10 @@ Regulatory enforcement infrastructure
+    :doc: Regulatory enforcement infrastructure
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: regulatory_hint
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_apply_custom_regulatory
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: freq_reg_info
++   :functions:
++	regulatory_hint
++	wiphy_apply_custom_regulatory
++	freq_reg_info
+ 
+ RFkill integration
+ ==================
+@@ -327,13 +159,10 @@ RFkill integration
+    :doc: RFkill integration
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_rfkill_set_hw_state
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_rfkill_start_polling
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: wiphy_rfkill_stop_polling
++   :functions:
++	wiphy_rfkill_set_hw_state
++	wiphy_rfkill_start_polling
++	wiphy_rfkill_stop_polling
+ 
+ Test mode
+ =========
+@@ -342,13 +171,8 @@ Test mode
+    :doc: Test mode
+ 
+ .. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_testmode_alloc_reply_skb
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_testmode_reply
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_testmode_alloc_event_skb
+-
+-.. kernel-doc:: include/net/cfg80211.h
+-   :functions: cfg80211_testmode_event
++   :functions:
++	cfg80211_testmode_alloc_reply_skb
++	cfg80211_testmode_reply
++	cfg80211_testmode_alloc_event_skb
++	cfg80211_testmode_event
+diff --git a/Documentation/driver-api/80211/mac80211-advanced.rst b/Documentation/driver-api/80211/mac80211-advanced.rst
+index 24cb64b3b715..f8df7b3af8f5 100644
+--- a/Documentation/driver-api/80211/mac80211-advanced.rst
++++ b/Documentation/driver-api/80211/mac80211-advanced.rst
+@@ -15,25 +15,14 @@ appropriate trigger, which will then be triggered appropriately by
+ mac80211.
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_tx_led_name
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_rx_led_name
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_assoc_led_name
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_radio_led_name
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tpt_blink
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tpt_led_trigger_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_create_tpt_led_trigger
++   :functions:
++	ieee80211_get_tx_led_name
++	ieee80211_get_rx_led_name
++	ieee80211_get_assoc_led_name
++	ieee80211_get_radio_led_name
++	ieee80211_tpt_blink
++	ieee80211_tpt_led_trigger_flags
++	ieee80211_create_tpt_led_trigger
+ 
+ Hardware crypto acceleration
+ ============================
+@@ -42,22 +31,13 @@ Hardware crypto acceleration
+    :doc: Hardware crypto acceleration
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: set_key_cmd
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_key_conf
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_key_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_tkip_p1k
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_tkip_p1k_iv
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_tkip_p2k
++   :functions:
++	set_key_cmd
++	ieee80211_key_conf
++	ieee80211_key_flags
++	ieee80211_get_tkip_p1k
++	ieee80211_get_tkip_p1k_iv
++	ieee80211_get_tkip_p2k
+ 
+ Powersave support
+ =================
+@@ -99,28 +79,15 @@ support for powersaving clients
+    :doc: AP support for powersaving clients
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_get_buffered_bc
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_beacon_get
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_sta_eosp
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_frame_release_type
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_sta_ps_transition
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_sta_ps_transition_ni
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_sta_set_buffered
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_sta_block_awake
++   :functions:
++	ieee80211_get_buffered_bc
++	ieee80211_beacon_get
++	ieee80211_sta_eosp
++	ieee80211_frame_release_type
++	ieee80211_sta_ps_transition
++	ieee80211_sta_ps_transition_ni
++	ieee80211_sta_set_buffered
++	ieee80211_sta_block_awake
+ 
+ Supporting multiple virtual interfaces
+ ======================================
+@@ -134,10 +101,9 @@ addresses here, note which configurations are supported by mac80211, add
+ notes about supporting hw crypto with it.
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_iterate_active_interfaces
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_iterate_active_interfaces_atomic
++   :functions:
++	ieee80211_iterate_active_interfaces
++	ieee80211_iterate_active_interfaces_atomic
+ 
+ Station handling
+ ================
+@@ -145,16 +111,11 @@ Station handling
+ TODO
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_sta
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: sta_notify_cmd
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_find_sta
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_find_sta_by_ifaddr
++   :functions:
++	ieee80211_sta
++	sta_notify_cmd
++	ieee80211_find_sta
++	ieee80211_find_sta_by_ifaddr
+ 
+ Hardware scan offload
+ =====================
+@@ -193,10 +154,9 @@ Spatial Multiplexing Powersave (SMPS)
+    :doc: Spatial multiplexing power save
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_request_smps
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_smps_mode
++   :functions:
++	ieee80211_request_smps
++	ieee80211_smps_mode
+ 
+ TBD
+ 
+@@ -209,22 +169,13 @@ Rate Control API
+ TBD
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_start_tx_ba_session
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_start_tx_ba_cb_irqsafe
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_stop_tx_ba_session
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_stop_tx_ba_cb_irqsafe
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_rate_control_changed
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tx_rate_control
++   :functions:
++	ieee80211_start_tx_ba_session
++	ieee80211_start_tx_ba_cb_irqsafe
++	ieee80211_stop_tx_ba_session
++	ieee80211_stop_tx_ba_cb_irqsafe
++	ieee80211_rate_control_changed
++	ieee80211_tx_rate_control
+ 
+ TBD
+ 
+@@ -261,10 +212,9 @@ Programming information
+ -----------------------
+ 
+ .. kernel-doc:: net/mac80211/sta_info.h
+-   :functions: sta_info
+-
+-.. kernel-doc:: net/mac80211/sta_info.h
+-   :functions: ieee80211_sta_info_flags
++   :functions:
++	sta_info
++	ieee80211_sta_info_flags
+ 
+ STA information lifetime rules
+ ------------------------------
+@@ -276,13 +226,10 @@ Aggregation Functions
+ =====================
+ 
+ .. kernel-doc:: net/mac80211/sta_info.h
+-   :functions: sta_ampdu_mlme
+-
+-.. kernel-doc:: net/mac80211/sta_info.h
+-   :functions: tid_ampdu_tx
+-
+-.. kernel-doc:: net/mac80211/sta_info.h
+-   :functions: tid_ampdu_rx
++   :functions:
++	sta_ampdu_mlme
++	tid_ampdu_tx
++	tid_ampdu_rx
+ 
+ Synchronisation Functions
+ =========================
+diff --git a/Documentation/driver-api/80211/mac80211.rst b/Documentation/driver-api/80211/mac80211.rst
+index eab40bcf3987..67d2e58b45e4 100644
+--- a/Documentation/driver-api/80211/mac80211.rst
++++ b/Documentation/driver-api/80211/mac80211.rst
+@@ -30,31 +30,16 @@ Finally, a discussion of hardware capabilities should be done with
+ references to other parts of the book.
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_hw
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_hw_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: SET_IEEE80211_DEV
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: SET_IEEE80211_PERM_ADDR
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_ops
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_alloc_hw
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_register_hw
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_unregister_hw
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_free_hw
++   :functions:
++	ieee80211_hw
++	ieee80211_hw_flags
++	SET_IEEE80211_DEV
++	SET_IEEE80211_PERM_ADDR
++	ieee80211_ops
++	ieee80211_alloc_hw
++	ieee80211_register_hw
++	ieee80211_unregister_hw
++	ieee80211_free_hw
+ 
+ PHY configuration
+ =================
+@@ -65,10 +50,9 @@ This chapter should describe PHY handling including start/stop callbacks
+ and the various structures used.
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_conf
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_conf_flags
++   :functions:
++	ieee80211_conf
++	ieee80211_conf_flags
+ 
+ Virtual interfaces
+ ==================
+@@ -123,79 +107,32 @@ functions/definitions
+ ---------------------
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_rx_status
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: mac80211_rx_encoding_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: mac80211_rx_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: mac80211_tx_info_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: mac80211_tx_control_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: mac80211_rate_control_flags
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tx_rate
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tx_info
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tx_info_clear_status
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_rx
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_rx_ni
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_rx_irqsafe
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tx_status
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tx_status_ni
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_tx_status_irqsafe
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_rts_get
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_rts_duration
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_ctstoself_get
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_ctstoself_duration
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_generic_frame_duration
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_wake_queue
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_stop_queue
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_wake_queues
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_stop_queues
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_queue_stopped
++   :functions:
++	ieee80211_rx_status
++	mac80211_rx_encoding_flags
++	mac80211_rx_flags
++	mac80211_tx_info_flags
++	mac80211_tx_control_flags
++	mac80211_rate_control_flags
++	ieee80211_tx_rate
++	ieee80211_tx_info
++	ieee80211_tx_info_clear_status
++	ieee80211_rx
++	ieee80211_rx_ni
++	ieee80211_rx_irqsafe
++	ieee80211_tx_status
++	ieee80211_tx_status_ni
++	ieee80211_tx_status_irqsafe
++	ieee80211_rts_get
++	ieee80211_rts_duration
++	ieee80211_ctstoself_get
++	ieee80211_ctstoself_duration
++	ieee80211_generic_frame_duration
++	ieee80211_wake_queue
++	ieee80211_stop_queue
++	ieee80211_wake_queues
++	ieee80211_stop_queues
++	ieee80211_queue_stopped
+ 
+ Frame filtering
+ ===============
+@@ -213,7 +150,6 @@ The mac80211 workqueue
+    :doc: mac80211 workqueue
+ 
+ .. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_queue_work
+-
+-.. kernel-doc:: include/net/mac80211.h
+-   :functions: ieee80211_queue_delayed_work
++   :functions:
++	ieee80211_queue_work
++	ieee80211_queue_delayed_work
+-- 
+2.26.2
 
---
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
