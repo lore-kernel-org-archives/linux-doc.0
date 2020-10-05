@@ -2,251 +2,218 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5533BC4727D
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 02:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD3DC4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 05:57:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03FD12078E
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 02:27:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3DAA20796
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 05:57:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="IEOmWtJa"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="qOaSwHlP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725848AbgJEC1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Oct 2020 22:27:07 -0400
-Received: from de-smtp-delivery-102.mimecast.com ([51.163.158.102]:39718 "EHLO
-        de-smtp-delivery-102.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725845AbgJEC1H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Oct 2020 22:27:07 -0400
-X-Greylist: delayed 383 seconds by postgrey-1.27 at vger.kernel.org; Sun, 04 Oct 2020 22:27:04 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
-        t=1601864823;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4xHR2HS7nW0UYmT5nX+2J9YrUCch3fVgPCRKjZBNvpo=;
-        b=IEOmWtJau/rixyhIT7SLIPHhBH9qw+/sy0V94s8zLh8DSXr3eF7kW9Q7HW/3xA9grO6do+
-        nrX1/nxDm33g6w7LJfeXnWOjobWyjDBz0xlSpBtuoAMTjr19Dcdqqvf7NB/slMRvjvTXzR
-        FihcgHprBTO5oX2vVw7KjVHY/COKCj8=
-Received: from EUR03-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur03lp2051.outbound.protection.outlook.com [104.47.10.51]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- de-mta-35-FVpnR7V0N_qGwqm3mY-9ew-1; Mon, 05 Oct 2020 04:20:36 +0200
-X-MC-Unique: FVpnR7V0N_qGwqm3mY-9ew-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IkORIC68jeX7qNZ6wdfoqohgVvhAH3gvm3IHAe4aHBAuerGPeXGY8M/tmbxbl5NRfRGNDFyqhO1w5bvDfhToV/6VvAm9pI4e2rPiJmpBVPPr1BbNNGGV1/VipAp5NezSzO80TaK20TmgFfeQG7js4YNWZ/rAHyVJcCACMwfLuRMbEAAsQXsDYxJ3jopvzQdGn+Pjmlx1Xy/vCaS6FMRAoeI57vt+qfVmNTVwV3LyI0dg4sx0mykHpbYg5uOUrhc2DIT3vVEoNkUETYh/yIIux2Z7AZWlXyT11J80/P6HMFY2NeAPpTOlDMjJP2AaG6q/D+p7xgbMmVJnKVl8FjDDng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4xHR2HS7nW0UYmT5nX+2J9YrUCch3fVgPCRKjZBNvpo=;
- b=Z0mRxtJVcANkaznyCQyYeJeG+NXuXSPdsyxtp2fC1oCtifmU41yP6qvW9VbvNBgZXWm3DSDXtH8h6C7S5wzimMYuN2b5hwm3cW7hBZPbt+kfQ9/rOE08Rq8lxHYlP7Xr6HzUJYJQEfPssRDDWXAwcPWv9dwnQ12tx7CyHAVcIhLCy78yK4aRrOTuuZEFb50/US+lCb5HV27jP4Swgxq21R+HCfVbVcEK5aY/rB7VWceznqrWzO8ZSy/7Bz2nOfdPJ0YVCmD/SfUn+UUhx8YQtAxd/r+PUhUw/UXKBjTraqGgI+3ulCmr+oqdc8sMNxcXdGy3HSro+ZgQk+l5tKXeog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=suse.com;
-Received: from AM6PR04MB4919.eurprd04.prod.outlook.com (2603:10a6:20b:c::23)
- by AM6PR04MB6166.eurprd04.prod.outlook.com (2603:10a6:20b:b6::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35; Mon, 5 Oct
- 2020 02:20:34 +0000
-Received: from AM6PR04MB4919.eurprd04.prod.outlook.com
- ([fe80::6418:c465:b47f:96c6]) by AM6PR04MB4919.eurprd04.prod.outlook.com
- ([fe80::6418:c465:b47f:96c6%4]) with mapi id 15.20.3433.044; Mon, 5 Oct 2020
- 02:20:34 +0000
-Date:   Mon, 5 Oct 2020 10:20:14 +0800
-From:   Chester Lin <clin@suse.com>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, zohar@linux.ibm.com,
-        dmitry.kasatkin@gmail.com, Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Lee, Chun-Yi" <jlee@suse.com>
-Subject: Re: [PATCH 1/6] efistub: pass uefi secureboot flag via fdt params
-Message-ID: <20201005022014.GA5112@linux-8mug>
-References: <20200904072905.25332-1-clin@suse.com>
- <20200904072905.25332-2-clin@suse.com>
- <CAMj1kXEXvmO5mrTcKpqYUASBAQB-1=xLa0vg7KwmvOHMjaQ34w@mail.gmail.com>
- <20200914080522.GA26718@linux-8mug>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200914080522.GA26718@linux-8mug>
-X-Originating-IP: [114.24.11.63]
-X-ClientProxiedBy: HK2PR0302CA0007.apcprd03.prod.outlook.com
- (2603:1096:202::17) To AM6PR04MB4919.eurprd04.prod.outlook.com
- (2603:10a6:20b:c::23)
+        id S1725853AbgJEF52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 01:57:28 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:53356 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbgJEF52 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 01:57:28 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0955vCtN006791;
+        Mon, 5 Oct 2020 00:57:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1601877432;
+        bh=t9OMGlp7rkoiR6oDnlL4Rs+l3hwb3dsjR2HKGdfIFCc=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=qOaSwHlPmZuiPiVdtGQrWtiaNrG4zhiGfDhcPGESw+rj5iichz+lYwg+vsEW2sjzq
+         6wqE+04s9ktpHW8wf7HJ9/kjD0Wkma4We1hecfKwKd2Re99MwpRcwz6uuXliyUBp1l
+         FDKsqd6cESmFCRjdOEp6JAH1AJu9xhdSoIlb3L4E=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0955vB9I052649
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 5 Oct 2020 00:57:11 -0500
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 5 Oct
+ 2020 00:57:11 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 5 Oct 2020 00:57:11 -0500
+Received: from [10.250.232.108] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0955v5Be041773;
+        Mon, 5 Oct 2020 00:57:06 -0500
+Subject: Re: [PATCH v7 00/18] Implement NTB Controller using multiple PCI EP
+To:     Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>
+CC:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
+References: <20200930153519.7282-1-kishon@ti.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <fe2db298-2116-7f52-80bd-a3d01a9a1521@ti.com>
+Date:   Mon, 5 Oct 2020 11:27:05 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from linux-8mug (114.24.11.63) by HK2PR0302CA0007.apcprd03.prod.outlook.com (2603:1096:202::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.15 via Frontend Transport; Mon, 5 Oct 2020 02:20:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3b0fc099-18ef-4d46-0184-08d868d53d48
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6166:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB6166C901789BA8143BC07157AD0C0@AM6PR04MB6166.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WEkdn77Z4WqfzCeeXWQk3TAC91bkwDeuMRL6WYkqOALEpPC/TrLH/4f0N+j5fmyK3ULbUR9EZEQWQGl4S3B2x67pcnRAEqOMUH3ZmLHKFrqJaSb3tFWQmYpItpHuTr8YjIjFElTDuge4Z+EGPqVWz2cJFxemtRyd/nER/DiLJRGSh3BahTArvLqZtUwCYOXKIOo+OB616AnehhaDbPouIjh7E8bBMamsVoZTiVs5RrLxREoHzLmGsyfIuAN/rbtD/hcYJlHbm2E4m4A8oGv7caXksryhwZ+894ewWvhkd4ng/QvIOOblWChNb5WG/VBouWnXs/FXRL3hFSTS9e72ZQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4919.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(136003)(366004)(39860400002)(396003)(346002)(54906003)(107886003)(33656002)(33716001)(83380400001)(5660300002)(186003)(478600001)(16526019)(316002)(55016002)(52116002)(1076003)(4326008)(9686003)(6496006)(956004)(6916009)(86362001)(7416002)(8936002)(2906002)(8676002)(66476007)(66946007)(66556008)(26005)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: PUngHEfPwh1LB9LMlYBYock+PXpzTfuNg2+ZZRaBT04e6j0oK49YDIyFCRBkUGk8LjfWMn3zwrJvvNhs1KCmtnfhIABqyn6zFDeOiocw/M8a0oohGzqoTu0LS5IhQvqCG5/UdVSC9PyGd3u1WQtldQtRrmHJze03mDX135PoVhA3RgdMlF3e8GohAQsxB80MUE1HwNA+x5V638XrqUBjXKb7zIZkRxX60ZOy/3wuGR6WW4LYtJ5StvRnRM+1RVXxtLN1z7xEWRzMK1PNzBRRxNbMgfXVCdTEQM7mZSR962V8oa7d/3RZXSFKEoqIUlserigMsYGu2xWC4n7ZhGT230CZMZ7abHgDW5Q3124ZLj7Z54Acf3JbRdhefI0S9Bm9A0YvyGJLzDU/6zPx89M0MpJq05IvsYSjs7zm1TdQ10O10OYNxchEiPMBhGWZb17ic1CfLrBLcldOitXxkLJlnX6IuUM9Uv44b5MloZUaidJt8Nwj2I9R7HvX+zTCcOEvyCoeIaqerQ2a5C3K7PVOeaUoE753gXGZ7cT2xQJ5Y/SMMBdD3rGUwax46ajdWM8WXVa7Ce1gOPO9/rJTDLS6LgguQsOKz0Fohu2CZNWd7B5Xt1A9OUnwRZJB0mgmmXGYXSJbZaAmw0ZLMk9FBEkaYA==
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b0fc099-18ef-4d46-0184-08d868d53d48
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4919.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2020 02:20:34.2095
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xf87m7glF5JlnEaLrX6eZCro2G/PGFcmpRczOvx9DtFBAA8GygcnuwrZCVeIwemL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB6166
+In-Reply-To: <20200930153519.7282-1-kishon@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 04:05:22PM +0800, Chester Lin wrote:
-> Hi Ard,
-> 
-> On Fri, Sep 11, 2020 at 06:01:09PM +0300, Ard Biesheuvel wrote:
-> > On Fri, 4 Sep 2020 at 10:29, Chester Lin <clin@suse.com> wrote:
-> > >
-> > > Add a new UEFI parameter: "linux,uefi-secure-boot" in fdt boot params
-> > > as other architectures have done in their own boot data. For example,
-> > > the boot_params->secure_boot in x86.
-> > >
-> > > Signed-off-by: Chester Lin <clin@suse.com>
-> > 
-> > Why do we need this flag? Can't the OS simply check the variable directly?
-> > 
-> 
-> In fact, there's a difficulty to achieve this.
-> 
-> When linux kernel is booting on ARM, the runtime services are enabled later on.
-> It's done by arm_enable_runtime_services(), which is registered as an early_initcall.
-> Before it calls efi_native_runtime_setup(), all EFI runtime callbacks are still
-> NULL so calling efi.get_variable() will cause NULL pointer dereference.
-> 
-> There's a case that arch_ima_get_secureboot() can be called in early boot stage.
-> For example, when you try to set "ima_appraise=off" in kernel command line, it's
-> actually handled early:
-> 
-> [    0.000000] Kernel command line: BOOT_IMAGE=/boot/Image-5.9.0-rc3-9.gdd61cda-
-> vanilla root=UUID=a88bfb80-8abb-425c-a0f3-ad317465c28b splash=silent mitigations
-> =auto ignore_loglevel earlycon=pl011,mmio,0x9000000 console=ttyAMA0 ima_appraise=off
-> [    0.000000] ima: Secure boot enabled: ignoring ima_appraise=off boot parameter option
-> [    0.000000] Dentry cache hash table entries: 1048576 (order: 11, 8388608 bytes, linear)
-> 
-> However EFI services are remapped and enabled afterwards.
-> 
-> [    0.082286] rcu: Hierarchical SRCU implementation.
-> [    0.089592] Remapping and enabling EFI services.
-> [    0.097509] smp: Bringing up secondary CPUs ...
-> 
-> Another problem is that efi_rts_wq is created in subsys_initcall so we have to
-> wait for both EFI services mapping and the workqueue get initiated before calling
-> efi.get_variable() on ARM.
-> 
-> The only way I can think of is to put a flag via fdt params. May I have your
-> suggestions? I will appreciate if there's any better approach.
-> 
-> Thanks,
-> Chester
+Hi Jon Mason, Allen Hubbe, Dave Jiang,
 
-Ping. May I have some suggestions here?
+On 30/09/20 9:05 pm, Kishon Vijay Abraham I wrote:
+> This series is about implementing SW defined Non-Transparent Bridge (NTB)
+> using multiple endpoint (EP) instances. This series has been tested using
+> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
+> on the other end. However there is nothing platform specific for the NTB
+> functionality.
 
-Thanks,
-Chester
+This series has two patches that adds to drivers/ntb/ directory.
+[PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-Transparent
+Bridge and [PATCH v7 16/18] NTB: tool: Enable the NTB/PCIe link on the
+local or remote side of bridge.
+
+If you can review and Ack the above patches, Lorenzo can queue it along
+with the rest of the series.
+
+Thanks for your help in advance.
+
+Best Regards,
+Kishon
 
 > 
-> > > ---
-> > >  drivers/firmware/efi/libstub/fdt.c | 39 +++++++++++++++++++++++++++++-
-> > >  1 file changed, 38 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/firmware/efi/libstub/fdt.c b/drivers/firmware/efi/libstub/fdt.c
-> > > index 11ecf3c4640e..c9a341e4715f 100644
-> > > --- a/drivers/firmware/efi/libstub/fdt.c
-> > > +++ b/drivers/firmware/efi/libstub/fdt.c
-> > > @@ -136,6 +136,10 @@ static efi_status_t update_fdt(void *orig_fdt, unsigned long orig_fdt_size,
-> > >         if (status)
-> > >                 goto fdt_set_fail;
-> > >
-> > > +       status = fdt_setprop_var(fdt, node, "linux,uefi-secure-boot", fdt_val32);
-> > > +       if (status)
-> > > +               goto fdt_set_fail;
-> > > +
-> > >         if (IS_ENABLED(CONFIG_RANDOMIZE_BASE)) {
-> > >                 efi_status_t efi_status;
-> > >
-> > > @@ -199,6 +203,24 @@ static efi_status_t update_fdt_memmap(void *fdt, struct efi_boot_memmap *map)
-> > >         return EFI_SUCCESS;
-> > >  }
-> > >
-> > > +static efi_status_t update_fdt_secboot(void *fdt, u32 secboot)
-> > > +{
-> > > +       int node = fdt_path_offset(fdt, "/chosen");
-> > > +       u32 fdt_val32;
-> > > +       int err;
-> > > +
-> > > +       if (node < 0)
-> > > +               return EFI_LOAD_ERROR;
-> > > +
-> > > +       fdt_val32 = cpu_to_fdt32(secboot);
-> > > +
-> > > +       err = fdt_setprop_inplace_var(fdt, node, "linux,uefi-secure-boot", fdt_val32);
-> > > +       if (err)
-> > > +               return EFI_LOAD_ERROR;
-> > > +
-> > > +       return EFI_SUCCESS;
-> > > +}
-> > > +
-> > >  struct exit_boot_struct {
-> > >         efi_memory_desc_t       *runtime_map;
-> > >         int                     *runtime_entry_count;
-> > > @@ -208,6 +230,9 @@ struct exit_boot_struct {
-> > >  static efi_status_t exit_boot_func(struct efi_boot_memmap *map,
-> > >                                    void *priv)
-> > >  {
-> > > +       efi_status_t status;
-> > > +       enum efi_secureboot_mode secboot_status;
-> > > +       u32 secboot_var = 0;
-> > >         struct exit_boot_struct *p = priv;
-> > >         /*
-> > >          * Update the memory map with virtual addresses. The function will also
-> > > @@ -217,7 +242,19 @@ static efi_status_t exit_boot_func(struct efi_boot_memmap *map,
-> > >         efi_get_virtmap(*map->map, *map->map_size, *map->desc_size,
-> > >                         p->runtime_map, p->runtime_entry_count);
-> > >
-> > > -       return update_fdt_memmap(p->new_fdt_addr, map);
-> > > +       status = update_fdt_memmap(p->new_fdt_addr, map);
-> > > +
-> > > +       if (status != EFI_SUCCESS)
-> > > +               return status;
-> > > +
-> > > +       secboot_status = efi_get_secureboot();
-> > > +
-> > > +       if (secboot_status == efi_secureboot_mode_enabled)
-> > > +               secboot_var = 1;
-> > > +
-> > > +       status = update_fdt_secboot(p->new_fdt_addr, secboot_var);
-> > > +
-> > > +       return status;
-> > >  }
-> > >
-> > >  #ifndef MAX_FDT_SIZE
-> > > --
-> > > 2.26.1
-> > >
-> > 
-
+> This was presented in Linux Plumbers Conference. Link to presentation
+> and video can be found @ [1]
+> 
+> RFC patch series can be found @ [2]
+> v1 patch series can be found @ [3]
+> v2 patch series can be found @ [4]
+> v3 patch series can be found @ [5]
+> v4 patch series can be found @ [6]
+> v5 patch series can be found @ [7]
+> v6 patch series can be found @ [8]
+> 
+> Changes from v6:
+> 1) Fixed issues when multiple NTB devices are creating using multiple
+>    functions
+> 2) Fixed issue with writing scratchpad register
+> 3) Created a video demo @ [9]
+> 
+> Changes from v5:
+> 1) Fixed a formatting issue in Kconfig pointed out by Randy
+> 2) Checked for Error or Null in pci_epc_add_epf()
+> 
+> Changes from v4:
+> 1) Fixed error condition checks in pci_epc_add_epf()
+> 
+> Changes from v3:
+> 1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
+> 
+> Changes from v2:
+> 1) Add support for the user to create sub-directory of 'EPF Device'
+>    directory (for endpoint function specific configuration using
+>    configfs).
+> 2) Add documentation for NTB specific attributes in configfs
+> 3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
+>    driver
+> 4) Other documentation fixes
+> 
+> Changes from v1:
+> 1) As per Rob's comment, removed support for creating NTB function
+>    device from DT
+> 2) Add support to create NTB EPF device using configfs (added support in
+>    configfs to associate primary and secondary EPC with EPF.
+> 
+> Changes from RFC:
+> 1) Converted the DT binding patches to YAML schema and merged the
+>    DT binding patches together
+> 2) NTB documentation is converted to .rst
+> 3) One HOST can now interrupt the other HOST using MSI-X interrupts
+> 4) Added support for teardown of memory window and doorbell
+>    configuration
+> 5) Add support to provide support 64-bit memory window size from
+>    DT
+> 
+> [1] -> https://linuxplumbersconf.org/event/4/contributions/395/
+> [2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
+> [3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
+> [4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
+> [5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
+> [6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
+> [7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
+> [8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
+> [9] -> https://youtu.be/dLKKxrg5-rY
+> 
+> Kishon Vijay Abraham I (18):
+>   Documentation: PCI: Add specification for the *PCI NTB* function
+>     device
+>   PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+>     BAR
+>   PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+>   PCI: endpoint: Make *_free_bar() to return error codes on failure
+>   PCI: endpoint: Remove unused pci_epf_match_device()
+>   PCI: endpoint: Add support to associate secondary EPC with EPF
+>   PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+>   PCI: endpoint: Add pci_epc_ops to map MSI irq
+>   PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
+>     specific attrs
+>   PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
+>     directory
+>   PCI: cadence: Implement ->msi_map_irq() ops
+>   PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
+>   PCI: endpoint: Add EP function driver to provide NTB functionality
+>   PCI: Add TI J721E device to pci ids
+>   NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+>   NTB: tool: Enable the NTB/PCIe link on the local or remote side of
+>     bridge
+>   Documentation: PCI: Add configfs binding documentation for pci-ntb
+>     endpoint function
+>   Documentation: PCI: Add userguide for PCI endpoint NTB function
+> 
+>  .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
+>  Documentation/PCI/endpoint/index.rst          |    3 +
+>  .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
+>  .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
+>  Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
+>  drivers/misc/pci_endpoint_test.c              |    1 -
+>  drivers/ntb/hw/Kconfig                        |    1 +
+>  drivers/ntb/hw/Makefile                       |    1 +
+>  drivers/ntb/hw/epf/Kconfig                    |    6 +
+>  drivers/ntb/hw/epf/Makefile                   |    1 +
+>  drivers/ntb/hw/epf/ntb_hw_epf.c               |  755 ++++++
+>  drivers/ntb/test/ntb_tool.c                   |    1 +
+>  .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
+>  drivers/pci/endpoint/functions/Kconfig        |   12 +
+>  drivers/pci/endpoint/functions/Makefile       |    1 +
+>  drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
+>  drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
+>  drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
+>  drivers/pci/endpoint/pci-epc-core.c           |  130 +-
+>  drivers/pci/endpoint/pci-epf-core.c           |  105 +-
+>  include/linux/pci-epc.h                       |   39 +-
+>  include/linux/pci-epf.h                       |   28 +-
+>  include/linux/pci_ids.h                       |    1 +
+>  23 files changed, 3934 insertions(+), 73 deletions(-)
+>  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
+>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
+>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+>  create mode 100644 drivers/ntb/hw/epf/Kconfig
+>  create mode 100644 drivers/ntb/hw/epf/Makefile
+>  create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
+> 
