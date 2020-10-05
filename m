@@ -5,42 +5,42 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31341C4727D
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 10:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D6A6C4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 10:57:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E33F220795
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 10:57:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C79820774
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 10:57:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="L27Kvshf"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ZDbrk5X2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbgJEK5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 06:57:18 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:37641 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbgJEK5S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 06:57:18 -0400
+        id S1725914AbgJEK5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 06:57:38 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:7011 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725843AbgJEK5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 06:57:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1601895436; x=1633431436;
+  t=1601895457; x=1633431457;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=w/JSqe9EhMqEdSn91HD19xQaMzZawG3lkv7krg0C2Ow=;
-  b=L27KvshfBMH3ySZKJXCDU1bBxH3I2mmNG/+cMzeCaEgqLGfLczGzk2eL
-   GRoKbVnupyTwiF6JQuDtebHYAJRPo/XSvwEVslMO0E3EncsNbajgMDd/z
-   Ia1x1M8puzAg0mz0H/FNuC0gxiA/owZ7HOkAaUha1tQ7JphVJEOxNJpLV
-   g=;
+  bh=l5NtKKXh8lnaVbSOqEWKn09KUGXWIIHHku7wHzntlJw=;
+  b=ZDbrk5X2QziRUILzoyZeDcJN30kO78h2kxuP+AWPhJ7/mINlKZrk6i0R
+   /R4QhUR20oWLWdWoH+aBQLo5asFUHK1TLRQkOQkpmmazmjjBRodYEjUPH
+   6ASkerrc8VcEMOMnTJYXDtSYpnRzgK8tEC2aXCB/u05k0zDpYIfMB/OjL
+   I=;
 X-IronPort-AV: E=Sophos;i="5.77,338,1596499200"; 
-   d="scan'208";a="58022366"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-42f764a0.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 05 Oct 2020 10:57:00 +0000
+   d="scan'208";a="57790269"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1d-74cf8b49.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 05 Oct 2020 10:57:35 +0000
 Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1e-42f764a0.us-east-1.amazon.com (Postfix) with ESMTPS id 4BD3FAB647;
-        Mon,  5 Oct 2020 10:56:47 +0000 (UTC)
+        by email-inbound-relay-1d-74cf8b49.us-east-1.amazon.com (Postfix) with ESMTPS id 353F3C062F;
+        Mon,  5 Oct 2020 10:57:22 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.146) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 5 Oct 2020 10:56:31 +0000
+ id 15.0.1497.2; Mon, 5 Oct 2020 10:57:06 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -62,9 +62,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v21 03/18] mm/damon: Adaptively adjust regions
-Date:   Mon, 5 Oct 2020 12:55:07 +0200
-Message-ID: <20201005105522.23841-4-sjpark@amazon.com>
+Subject: [PATCH v21 05/18] mm/idle_page_tracking: Make PG_(idle|young) reusable
+Date:   Mon, 5 Oct 2020 12:55:09 +0200
+Message-ID: <20201005105522.23841-6-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201005105522.23841-1-sjpark@amazon.com>
 References: <20201005105522.23841-1-sjpark@amazon.com>
@@ -79,333 +79,189 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-Even somehow the initial monitoring target regions are well constructed
-to fulfill the assumption (pages in same region have similar access
-frequencies), the data access pattern can be dynamically changed.  This
-will result in low monitoring quality.  To keep the assumption as much
-as possible, DAMON adaptively merges and splits each region based on
-their access frequency.
+PG_idle and PG_young allows the two PTE Accessed bit users,
+IDLE_PAGE_TRACKING and the reclaim logic concurrently work while don't
+interfere each other.  That is, when they need to clear the Accessed
+bit, they set PG_young and PG_idle to represent the previous state of
+the bit, respectively.  And when they need to read the bit, if the bit
+is cleared, they further read the PG_young and PG_idle, respectively, to
+know whether the other has cleared the bit meanwhile or not.
 
-For each ``aggregation interval``, it compares the access frequencies of
-adjacent regions and merges those if the frequency difference is small.
-Then, after it reports and clears the aggregated access frequency of
-each region, it splits each region into two or three regions if the
-total number of regions will not exceed the user-specified maximum
-number of regions after the split.
+We could add another page flag and extend the mechanism to use the flag
+if we need to add another concurrent PTE Accessed bit user subsystem.
+However, it would be only waste the space.  Instead, if the new
+subsystem is mutually exclusive with IDLE_PAGE_TRACKING, it could simply
+reuse the PG_idle flag.  However, it's impossible because the flags are
+dependent on IDLE_PAGE_TRACKING.
 
-In this way, DAMON provides its best-effort quality and minimal overhead
-while keeping the upper-bound overhead that users set.
+To allow such reuse of the flags, this commit separates the PG_young and
+PG_idle flag logic from IDLE_PAGE_TRACKING and introduces new kernel
+config, 'PAGE_IDLE_FLAG'.  Hence, if !IDLE_PAGE_TRACKING and
+IDLE_PAGE_FLAG, a new subsystem would be able to reuse PG_idle.
+
+In the next commit, DAMON's reference implementation of the virtual
+memory address space monitoring primitives will use it.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 ---
- include/linux/damon.h |  11 ++-
- mm/damon/core.c       | 196 ++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 195 insertions(+), 12 deletions(-)
+ include/linux/page-flags.h     |  4 ++--
+ include/linux/page_ext.h       |  2 +-
+ include/linux/page_idle.h      |  6 +++---
+ include/trace/events/mmflags.h |  2 +-
+ mm/Kconfig                     |  8 ++++++++
+ mm/page_ext.c                  | 12 +++++++++++-
+ mm/page_idle.c                 | 10 ----------
+ 7 files changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 1f7b095646c2..0797bdfbfc24 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -132,7 +132,8 @@ struct damon_callback {
-  *
-  * @sample_interval:		The time between access samplings.
-  * @aggr_interval:		The time between monitor results aggregations.
-- * @nr_regions:			The number of monitoring regions.
-+ * @min_nr_regions:		The minimum number of monitoring regions.
-+ * @max_nr_regions:		The maximum number of monitoring regions.
-  *
-  * For each @sample_interval, DAMON checks whether each region is accessed or
-  * not.  It aggregates and keeps the access information (number of accesses to
-@@ -166,7 +167,8 @@ struct damon_callback {
- struct damon_ctx {
- 	unsigned long sample_interval;
- 	unsigned long aggr_interval;
--	unsigned long nr_regions;
-+	unsigned long min_nr_regions;
-+	unsigned long max_nr_regions;
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 6be1aa559b1e..7736d290bb61 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -132,7 +132,7 @@ enum pageflags {
+ #ifdef CONFIG_MEMORY_FAILURE
+ 	PG_hwpoison,		/* hardware poisoned page. Don't touch */
+ #endif
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ 	PG_young,
+ 	PG_idle,
+ #endif
+@@ -432,7 +432,7 @@ static inline bool set_hwpoison_free_buddy_page(struct page *page)
+ #define __PG_HWPOISON 0
+ #endif
  
- 	struct timespec64 last_aggregation;
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ TESTPAGEFLAG(Young, young, PF_ANY)
+ SETPAGEFLAG(Young, young, PF_ANY)
+ TESTCLEARFLAG(Young, young, PF_ANY)
+diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+index cfce186f0c4e..c9cbc9756011 100644
+--- a/include/linux/page_ext.h
++++ b/include/linux/page_ext.h
+@@ -19,7 +19,7 @@ struct page_ext_operations {
+ enum page_ext_flags {
+ 	PAGE_EXT_OWNER,
+ 	PAGE_EXT_OWNER_ALLOCATED,
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
+ 	PAGE_EXT_YOUNG,
+ 	PAGE_EXT_IDLE,
+ #endif
+diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
+index 1e894d34bdce..d8a6aecf99cb 100644
+--- a/include/linux/page_idle.h
++++ b/include/linux/page_idle.h
+@@ -6,7 +6,7 @@
+ #include <linux/page-flags.h>
+ #include <linux/page_ext.h>
  
-@@ -214,8 +216,9 @@ unsigned int damon_nr_regions(struct damon_target *t);
+-#ifdef CONFIG_IDLE_PAGE_TRACKING
++#ifdef CONFIG_PAGE_IDLE_FLAG
  
- int damon_set_targets(struct damon_ctx *ctx,
- 		unsigned long *ids, ssize_t nr_ids);
--int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
--		unsigned long aggr_int, unsigned long nr_reg);
-+int damon_set_attrs(struct damon_ctx *ctx,
-+		unsigned long sample_int, unsigned long aggr_int,
-+		unsigned long min_nr_reg, unsigned long max_nr_reg);
+ #ifdef CONFIG_64BIT
+ static inline bool page_is_young(struct page *page)
+@@ -106,7 +106,7 @@ static inline void clear_page_idle(struct page *page)
+ }
+ #endif /* CONFIG_64BIT */
  
- int damon_nr_running_ctxs(void);
- int damon_start(struct damon_ctx **ctxs, int nr_ctxs);
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index eb4ebeaa064d..ed364b42721d 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -10,6 +10,7 @@
- #include <linux/damon.h>
- #include <linux/delay.h>
- #include <linux/kthread.h>
-+#include <linux/random.h>
- #include <linux/slab.h>
+-#else /* !CONFIG_IDLE_PAGE_TRACKING */
++#else /* !CONFIG_PAGE_IDLE_FLAG */
  
- /* Minimal region size.  Every damon_region is aligned by this. */
-@@ -19,6 +20,9 @@
-  * Functions and macros for DAMON data structures
-  */
- 
-+/* Get a random number in [l, r) */
-+#define damon_rand(l, r) (l + prandom_u32_max(r - l))
-+
- static DEFINE_MUTEX(damon_lock);
- static int nr_running_ctxs;
- 
-@@ -164,29 +168,57 @@ int damon_set_targets(struct damon_ctx *ctx,
-  * @ctx:		monitoring context
-  * @sample_int:		time interval between samplings
-  * @aggr_int:		time interval between aggregations
-- * @nr_reg:		number of regions
-+ * @min_nr_reg:		minimal number of regions
-+ * @max_nr_reg:		maximum number of regions
-  *
-  * This function should not be called while the kdamond is running.
-  * Every time interval is in micro-seconds.
-  *
-  * Return: 0 on success, negative error code otherwise.
-  */
--int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
--		    unsigned long aggr_int, unsigned long nr_reg)
-+int damon_set_attrs(struct damon_ctx *ctx,
-+		    unsigned long sample_int, unsigned long aggr_int,
-+		    unsigned long min_nr_reg, unsigned long max_nr_reg)
+ static inline bool page_is_young(struct page *page)
  {
--	if (nr_reg < 3) {
--		pr_err("nr_regions (%lu) must be at least 3\n",
--				nr_reg);
-+	if (min_nr_reg < 3) {
-+		pr_err("min_nr_regions (%lu) must be at least 3\n",
-+				min_nr_reg);
-+		return -EINVAL;
-+	}
-+	if (min_nr_reg > max_nr_reg) {
-+		pr_err("invalid nr_regions.  min (%lu) > max (%lu)\n",
-+				min_nr_reg, max_nr_reg);
- 		return -EINVAL;
- 	}
- 
- 	ctx->sample_interval = sample_int;
- 	ctx->aggr_interval = aggr_int;
--	ctx->nr_regions = nr_reg;
-+	ctx->min_nr_regions = min_nr_reg;
-+	ctx->max_nr_regions = max_nr_reg;
- 
- 	return 0;
+@@ -135,6 +135,6 @@ static inline void clear_page_idle(struct page *page)
+ {
  }
  
-+/* Returns the size upper limit for each monitoring region */
-+static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
+-#endif /* CONFIG_IDLE_PAGE_TRACKING */
++#endif /* CONFIG_PAGE_IDLE_FLAG */
+ 
+ #endif /* _LINUX_MM_PAGE_IDLE_H */
+diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+index 5fb752034386..4d182c32071b 100644
+--- a/include/trace/events/mmflags.h
++++ b/include/trace/events/mmflags.h
+@@ -73,7 +73,7 @@
+ #define IF_HAVE_PG_HWPOISON(flag,string)
+ #endif
+ 
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ #define IF_HAVE_PG_IDLE(flag,string) ,{1UL << flag, string}
+ #else
+ #define IF_HAVE_PG_IDLE(flag,string)
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 7ae7f3fbce64..c43e1092099e 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -765,10 +765,18 @@ config DEFERRED_STRUCT_PAGE_INIT
+ 	  lifetime of the system until these kthreads finish the
+ 	  initialisation.
+ 
++config PAGE_IDLE_FLAG
++	bool "Add PG_idle and PG_young flags"
++	help
++	  This feature adds PG_idle and PG_young flags in 'struct page'.  PTE
++	  Accessed bit writers can set the state of the bit in the flags to let
++	  other PTE Accessed bit readers don't disturbed.
++
+ config IDLE_PAGE_TRACKING
+ 	bool "Enable idle page tracking"
+ 	depends on SYSFS && MMU
+ 	select PAGE_EXTENSION if !64BIT
++	select PAGE_IDLE_FLAG
+ 	help
+ 	  This feature allows to estimate the amount of user pages that have
+ 	  not been touched during a given period of time. This information can
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index a3616f7a0e9e..f9a6ff65ac0a 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -58,11 +58,21 @@
+  * can utilize this callback to initialize the state of it correctly.
+  */
+ 
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
++static bool need_page_idle(void)
 +{
-+	struct damon_target *t;
-+	struct damon_region *r;
-+	unsigned long sz = 0;
-+
-+	damon_for_each_target(t, ctx) {
-+		damon_for_each_region(r, t)
-+			sz += r->ar.end - r->ar.start;
-+	}
-+
-+	if (ctx->min_nr_regions)
-+		sz /= ctx->min_nr_regions;
-+	if (sz < MIN_REGION)
-+		sz = MIN_REGION;
-+
-+	return sz;
++	return true;
 +}
++struct page_ext_operations page_idle_ops = {
++	.need = need_page_idle,
++};
++#endif
 +
- static bool damon_kdamond_running(struct damon_ctx *ctx)
+ static struct page_ext_operations *page_ext_ops[] = {
+ #ifdef CONFIG_PAGE_OWNER
+ 	&page_owner_ops,
+ #endif
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
+ 	&page_idle_ops,
+ #endif
+ };
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 057c61df12db..144fb4ed961d 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -211,16 +211,6 @@ static const struct attribute_group page_idle_attr_group = {
+ 	.name = "page_idle",
+ };
+ 
+-#ifndef CONFIG_64BIT
+-static bool need_page_idle(void)
+-{
+-	return true;
+-}
+-struct page_ext_operations page_idle_ops = {
+-	.need = need_page_idle,
+-};
+-#endif
+-
+ static int __init page_idle_init(void)
  {
- 	bool running;
-@@ -357,6 +389,146 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
- 	}
- }
- 
-+#define sz_damon_region(r) (r->ar.end - r->ar.start)
-+
-+/*
-+ * Merge two adjacent regions into one region
-+ */
-+static void damon_merge_two_regions(struct damon_region *l,
-+				struct damon_region *r)
-+{
-+	unsigned long sz_l = sz_damon_region(l), sz_r = sz_damon_region(r);
-+
-+	l->nr_accesses = (l->nr_accesses * sz_l + r->nr_accesses * sz_r) /
-+			(sz_l + sz_r);
-+	l->ar.end = r->ar.end;
-+	damon_destroy_region(r);
-+}
-+
-+#define diff_of(a, b) (a > b ? a - b : b - a)
-+
-+/*
-+ * Merge adjacent regions having similar access frequencies
-+ *
-+ * t		target affected by this merge operation
-+ * thres	'->nr_accesses' diff threshold for the merge
-+ * sz_limit	size upper limit of each region
-+ */
-+static void damon_merge_regions_of(struct damon_target *t, unsigned int thres,
-+				   unsigned long sz_limit)
-+{
-+	struct damon_region *r, *prev = NULL, *next;
-+
-+	damon_for_each_region_safe(r, next, t) {
-+		if (prev && prev->ar.end == r->ar.start &&
-+		    diff_of(prev->nr_accesses, r->nr_accesses) <= thres &&
-+		    sz_damon_region(prev) + sz_damon_region(r) <= sz_limit)
-+			damon_merge_two_regions(prev, r);
-+		else
-+			prev = r;
-+	}
-+}
-+
-+/*
-+ * Merge adjacent regions having similar access frequencies
-+ *
-+ * threshold	'->nr_accesses' diff threshold for the merge
-+ * sz_limit	size upper limit of each region
-+ *
-+ * This function merges monitoring target regions which are adjacent and their
-+ * access frequencies are similar.  This is for minimizing the monitoring
-+ * overhead under the dynamically changeable access pattern.  If a merge was
-+ * unnecessarily made, later 'kdamond_split_regions()' will revert it.
-+ */
-+static void kdamond_merge_regions(struct damon_ctx *c, unsigned int threshold,
-+				  unsigned long sz_limit)
-+{
-+	struct damon_target *t;
-+
-+	damon_for_each_target(t, c)
-+		damon_merge_regions_of(t, threshold, sz_limit);
-+}
-+
-+/*
-+ * Split a region in two smaller regions
-+ *
-+ * r		the region to be split
-+ * sz_r		size of the first sub-region that will be made
-+ */
-+static void damon_split_region_at(struct damon_ctx *ctx,
-+				  struct damon_region *r, unsigned long sz_r)
-+{
-+	struct damon_region *new;
-+
-+	new = damon_new_region(r->ar.start + sz_r, r->ar.end);
-+	r->ar.end = new->ar.start;
-+
-+	damon_insert_region(new, r, damon_next_region(r));
-+}
-+
-+/* Split every region in the given target into 'nr_subs' regions */
-+static void damon_split_regions_of(struct damon_ctx *ctx,
-+				     struct damon_target *t, int nr_subs)
-+{
-+	struct damon_region *r, *next;
-+	unsigned long sz_region, sz_sub = 0;
-+	int i;
-+
-+	damon_for_each_region_safe(r, next, t) {
-+		sz_region = r->ar.end - r->ar.start;
-+
-+		for (i = 0; i < nr_subs - 1 &&
-+				sz_region > 2 * MIN_REGION; i++) {
-+			/*
-+			 * Randomly select size of left sub-region to be at
-+			 * least 10 percent and at most 90% of original region
-+			 */
-+			sz_sub = ALIGN_DOWN(damon_rand(1, 10) *
-+					sz_region / 10, MIN_REGION);
-+			/* Do not allow blank region */
-+			if (sz_sub == 0 || sz_sub >= sz_region)
-+				continue;
-+
-+			damon_split_region_at(ctx, r, sz_sub);
-+			sz_region = sz_sub;
-+		}
-+	}
-+}
-+
-+/*
-+ * Split every target region into randomly-sized small regions
-+ *
-+ * This function splits every target region into random-sized small regions if
-+ * current total number of the regions is equal or smaller than half of the
-+ * user-specified maximum number of regions.  This is for maximizing the
-+ * monitoring accuracy under the dynamically changeable access patterns.  If a
-+ * split was unnecessarily made, later 'kdamond_merge_regions()' will revert
-+ * it.
-+ */
-+static void kdamond_split_regions(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	unsigned int nr_regions = 0;
-+	static unsigned int last_nr_regions;
-+	int nr_subregions = 2;
-+
-+	damon_for_each_target(t, ctx)
-+		nr_regions += damon_nr_regions(t);
-+
-+	if (nr_regions > ctx->max_nr_regions / 2)
-+		return;
-+
-+	/* Maybe the middle of the region has different access frequency */
-+	if (last_nr_regions == nr_regions &&
-+			nr_regions < ctx->max_nr_regions / 3)
-+		nr_subregions = 3;
-+
-+	damon_for_each_target(t, ctx)
-+		damon_split_regions_of(ctx, t, nr_subregions);
-+
-+	last_nr_regions = nr_regions;
-+}
-+
- /*
-  * Check whether current monitoring should be stopped
-  *
-@@ -414,23 +586,31 @@ static int kdamond_fn(void *data)
- 	struct damon_ctx *ctx = (struct damon_ctx *)data;
- 	struct damon_target *t;
- 	struct damon_region *r, *next;
-+	unsigned int max_nr_accesses = 0;
-+	unsigned long sz_limit = 0;
- 
- 	pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
- 
- 	kdamond_call_prmt(ctx, init_target_regions);
- 	kdamond_callback(ctx, before_start);
- 
-+	sz_limit = damon_region_sz_limit(ctx);
-+
- 	while (!kdamond_need_stop(ctx)) {
- 		kdamond_call_prmt(ctx, prepare_access_checks);
- 		kdamond_callback(ctx, after_sampling);
- 
- 		usleep_range(ctx->sample_interval, ctx->sample_interval + 1);
- 
--		kdamond_call_prmt(ctx, check_accesses);
-+		if (ctx->primitive.check_accesses)
-+			max_nr_accesses = ctx->primitive.check_accesses(ctx);
- 
- 		if (kdamond_aggregate_interval_passed(ctx)) {
-+			kdamond_merge_regions(ctx, max_nr_accesses / 10,
-+					sz_limit);
- 			kdamond_callback(ctx, after_aggregation);
- 			kdamond_reset_aggregated(ctx);
-+			kdamond_split_regions(ctx);
- 		}
- 	}
- 	damon_for_each_target(t, ctx) {
+ 	int err;
 -- 
 2.17.1
 
