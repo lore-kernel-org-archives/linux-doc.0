@@ -2,107 +2,174 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C11C9C4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 11:26:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E3AC4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 12:06:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 861E820776
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 11:26:17 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="JosLptL0"
+	by mail.kernel.org (Postfix) with ESMTP id DD0372075A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 12:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601899589;
+	bh=calSC86nxnRZayzM+fSWlEyXNmfxDUtQSyrvMVMYC0s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=tG382J/90Nt9JzU7aPmJ5esMvtH71nYn0szR0QqXYSE/S4hMonS4a0g0Y46sOMS5g
+	 AL4/Bk15QrsEuknc5cqWFegE7mpkm3k6beN0yFEsgIcQVBsnU2iTE/3smlxkeejVcT
+	 mANWwLVSf1wymC5sON1Q4mYB/f6b/ZjOGJQh4IZk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726018AbgJEL0P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 07:26:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbgJEL0D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 07:26:03 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B09D1C0613AB
-        for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2020 04:25:57 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id b12so8855347edz.11
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 04:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dPmPVQgoIn6sm4yJEL6Gt5bZe3D8XUPMyhu5lemsH1w=;
-        b=JosLptL0NIYq+WTt2D0GcnMU8aGMTGaKjauLfSJh/SVg8Fre3RjwOL+f/2Qg5zcYBt
-         yycq3AmSW1jW+/cKoAFeJBtiQ2pPJYKD7TsXrW+AvAeW/VThIIijdDj3eD7cuBZOKPpE
-         FEeXT4yrqri3+HgiZxDuKbeQZwMpctrogyfI4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dPmPVQgoIn6sm4yJEL6Gt5bZe3D8XUPMyhu5lemsH1w=;
-        b=gYDDboPEHUSUmpLoXr5tDInUCT3eogn8BDvdXd17hWLWOfjYMR0rFM4O2cYU4LQHPJ
-         w/JsnYjN1+zP5/h8j0xRu+l1NGjCYhbtKkqtGK5wl5b4sRACVZxnX6CkqgO0IwOjyX2/
-         0QQ3BQ13+RuwKlmFu+1FNrOWzo6oIRYYS0ysI8Jn5Bwsm/bhZvgM4KEkoOkLSjxpE3GA
-         ey46uKB4vf+20JpMSyrlQS5IV2KGCvqgID7uAw8MxAvpx0BxLJ3DSvbhE+oVrERaTK3I
-         HTJ9o5/vI2R1MUh6rB9rcg7h7Et4mCniNDodgNWtOKhxkNtBjW/J7onjsFsd6mrbuP2U
-         WCdw==
-X-Gm-Message-State: AOAM530KqRY4rPLu+azsNmTEaPXWNFM5tQWxl3LgpgR1oJF0diGailGg
-        j1oFQqbCwE2AiNkJVVbypaqpcw==
-X-Google-Smtp-Source: ABdhPJwEUfB3faVj/+aqL4T2iZayUJerxEobuZPlfEhjF4pUatcxjdChp6vol2nisp1EgAYCOwThVw==
-X-Received: by 2002:a50:9a86:: with SMTP id p6mr16361020edb.96.1601897156284;
-        Mon, 05 Oct 2020 04:25:56 -0700 (PDT)
-Received: from localhost ([2620:10d:c093:400::5:b1f1])
-        by smtp.gmail.com with ESMTPSA id p17sm8712908edw.10.2020.10.05.04.25.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 04:25:55 -0700 (PDT)
-Date:   Mon, 5 Oct 2020 12:25:55 +0100
-From:   Chris Down <chris@chrisdown.name>
-To:     Andrea Righi <andrea.righi@canonical.com>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Li Zefan <lizefan@huawei.com>, Tejun Heo <tj@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Luigi Semenzato <semenzato@google.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>, cgroups@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v2] Opportunistic memory reclaim
-Message-ID: <20201005112555.GA108347@chrisdown.name>
-References: <20201005081313.732745-1-andrea.righi@canonical.com>
+        id S1725934AbgJEMG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 08:06:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57450 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725930AbgJEMG2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 08:06:28 -0400
+Received: from coco.lan (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E7882075A;
+        Mon,  5 Oct 2020 12:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601899587;
+        bh=calSC86nxnRZayzM+fSWlEyXNmfxDUtQSyrvMVMYC0s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=aUn6iRTgb/p6UI+FI1CHDbAIH+GO8Q6/p7Ud9d43JOk3wFlM3AbPpopAFjI3jICyk
+         UBm1Ms6O4vK3FzHKJlZv5Sp/mowa7y3J3dFW3w/OPY+xOhABJhnuJ7LoM6f9l3Fu6G
+         9yIm//0Xy3ZCB6wKgxmJrspYBQF3zYITOw4TCtYc=
+Date:   Mon, 5 Oct 2020 14:06:22 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 35/52] docs: fs: fscrypt.rst: get rid of :c:type:
+ tags
+Message-ID: <20201005140622.50693933@coco.lan>
+In-Reply-To: <20200930170637.GB9698@sol.localdomain>
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
+        <689d790237b64fc7d81fcf97ac303cc1dbdd33d4.1601467849.git.mchehab+huawei@kernel.org>
+        <20200930162144.GA9698@sol.localdomain>
+        <20200930185333.66dacbc6@coco.lan>
+        <20200930170637.GB9698@sol.localdomain>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20201005081313.732745-1-andrea.righi@canonical.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrea Righi writes:
->This feature has been successfully used to improve hibernation time of
->cloud computing instances.
->
->Certain cloud providers allow to run "spot instances": low-priority
->instances that run when there are spare resources available and can be
->stopped at any time to prioritize other more privileged instances [2].
->
->Hibernation can be used to stop these low-priority instances nicely,
->rather than losing state when the instance is shut down. Being able to
->quickly stop low-priority instances can be critical to provide a better
->quality of service in the overall cloud infrastructure [1].
->
->The main bottleneck of hibernation is represented by the I/O generated
->to write all the main memory (hibernation image) to a persistent
->storage.
->
->Opportunistic memory reclaimed can be used to reduce the size of the
->hibernation image in advance, for example if the system is idle for a
->certain amount of time, so if an hibernation request happens, the kernel
->has already saved most of the memory to the swap device (caches have
->been dropped, etc.) and hibernation can complete quickly.
+Hi Eric,
 
-Hmm, why does this need to be implemented in kernelspace? We already have 
-userspace shrinkers using memory pressure information as part of PID control 
-already (eg. senpai). Using memory.high and pressure information looks a lot 
-easier to reason about than having to choose an absolute number ahead of time 
-and hoping it works.
+Em Wed, 30 Sep 2020 10:06:37 -0700
+Eric Biggers <ebiggers@kernel.org> escreveu:
+
+> > I double checked: it is against next-20200922. The reason of
+> > not being today's next is that I didn't want any new warnings
+> > to be introduced before I finish this patch series.
+> > 
+> > Anyway, I'm planning to do a rebase tomorrow on the top of the 
+> > latest -next.
+> >   
+> 
+> Doesn't work.  Here's what I did:
+
+...
+
+> Cover: ./v4_20200930_mchehab_huawei_fix_html_build_with_sphinx_3_1_and_above.cover
+>  Link: https://lore.kernel.org/r/cover.1601467849.git.mchehab+huawei@kernel.org
+>  Base: not found
+>        git am ./v4_20200930_mchehab_huawei_fix_html_build_with_sphinx_3_1_and_above.mbx
+> 
+> e@sol ~/linux $ git am ./v4_20200930_mchehab_huawei_fix_html_build_with_sphinx_3_1_and_above.mbx
+> Applying: docs: cdomain.py: add support for a new Sphinx 3.1+ tag
+> Applying: docs: cdomain.py: extend it to handle new Sphinx 3.x tags
+> Applying: docs: conf.py: disable automarkup for Sphinx 3.x
+> Applying: scripts: kernel-doc: make it more compatible with Sphinx 3.x
+> Applying: scripts: kernel-doc: use a less pedantic markup for funcs on Sphinx 3.x
+> Applying: scripts: kernel-doc: fix troubles with line counts
+> Applying: scripts: kernel-doc: reimplement -nofunction argument
+> Applying: scripts: kernel-doc: fix typedef identification
+> Applying: scripts: kernel-doc: don't mangle with parameter list
+> Applying: docs: kerneldoc.py: append the name of the parsed doc file
+> Applying: docs: kerneldoc.py: add support for kerneldoc -nosymbol
+> Applying: media: docs: make CEC documents compatible with Sphinx 3.1+
+> Applying: media: docs: make V4L documents more compatible with Sphinx 3.1+
+> error: patch failed: Documentation/userspace-api/media/v4l/hist-v4l2.rst:202
+> error: Documentation/userspace-api/media/v4l/hist-v4l2.rst: patch does not apply
+> error: patch failed: Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst:227
+> error: Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst: patch does not apply
+> Patch failed at 0013 media: docs: make V4L documents more compatible with Sphinx 3.1+
+> hint: Use 'git am --show-current-patch=diff' to see the failed patch
+> When you have resolved this problem, run "git am --continue".
+> If you prefer to skip this patch, run "git am --skip" instead.
+> To restore the original branch and stop patching, run "git am --abort".
+
+Well, the media patches were indeed based at the media upstream tree.
+As I maintain the media tree, and the changes for it are huge, I opted
+to merge from media before applying this series. Btw, the series
+is also after the other fix patches for the warnings with Sphinx 2.x 
+that I sent previously. It might eventually conflict with the Sphinx 3.x
+patch series.
+
+At the current version, there are 101 patches against next-20201002, being
+about half of them fixing all doc warnings on Sphinx 2.x, and the other 
+ones fixing almost all Sphinx 3.x warnings.
+
+The latest version at:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=sphinx3-fixes-v4
+
+In the specific case of fscript.rst, there are only two patches on my
+series affecting it, both as part of this /52 series:
+
+	$ git log next-20200922..devel/sphinx3-fixes-v4 Documentation/filesystems/fscrypt.rst
+	commit ee4af6dd20dd6d2ac7f5d970abac960a36679e13
+	Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+	Date:   Tue Sep 29 09:13:18 2020 +0200
+
+	    docs: fs: fscrypt.rst: get rid of :c:type: tags
+    
+	    The :c:type: tag has problems with Sphinx 3.x, as structs
+	    there should be declared with c:struct.
+    
+	    So, remove them, relying at automarkup.py extension to
+	    convert them into cross-references.
+    
+	    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+	commit 0945e3961d006e210e374b6d3224d9108c1dfa25
+	Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+	Date:   Fri Sep 25 12:01:25 2020 +0200
+
+	    docs: get rid of :c:type explicit declarations for structs
+    
+	    The :c:type:`foo` only works properly with structs before
+	    Sphinx 3.x.
+    
+	    On Sphinx 3.x, structs should now be declared using the
+	    .. c:struct, and referenced via :c:struct tag.
+    
+	    As we now have the automarkup.py macro, that automatically
+	    convert:
+        	    struct foo
+    
+	    into cross-references, let's get rid of that, solving
+	    several warnings when building docs with Sphinx 3.x.
+    
+	    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Anyway, I'm waiting for the today's next, in order to do another
+rebase, fixing any new warning that might be added, and to post the
+patches that weren't merged yet via other trees.
+
+The end goal is to have zero warnings with Sphinx 2.x, and the minimal
+number of warnings with 3.x (right now, there's just 6 warnings
+with 3.x - fixing those require fixes at Sphinx C domain parser).
+
+Thanks,
+Mauro
