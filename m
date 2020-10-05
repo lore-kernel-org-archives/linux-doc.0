@@ -2,90 +2,134 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C231FC4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF29C4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:41:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 745BA212CC
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:08:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601924906;
-	bh=9z6ZaTxBLhsA1wnVdNrw7GMX0svcJnly+OPiK3hDWyo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=C7Ohfa1mrN7raxK7SKqkrwmFS4kd4lvzSNPMwcUEKFdHHUkkOxZNQbVdcBJlko3ip
-	 dp1ACFscUxGJ94IGzpSrWVjOfvxl+AqBdmFEoL42DEf9Muo5dhDMJ+hm1zlaJYzYfl
-	 GAHykgetPI28dqrF9+mtBqIn2obTB4cJ0WukShH8=
+	by mail.kernel.org (Postfix) with ESMTP id 337652100A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:41:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727247AbgJETI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 15:08:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35046 "EHLO mail.kernel.org"
+        id S1729476AbgJETlN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 15:41:13 -0400
+Received: from mga17.intel.com ([192.55.52.151]:19752 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726657AbgJETI0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Oct 2020 15:08:26 -0400
-Received: from gmail.com (unknown [104.132.1.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5527520644;
-        Mon,  5 Oct 2020 19:08:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601924905;
-        bh=9z6ZaTxBLhsA1wnVdNrw7GMX0svcJnly+OPiK3hDWyo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ndm4eZjeatJk7b2vzoN/fInslO6xJ9Fvo+Pfhbsr56QRHVmP4DkrIVBh1EXA9u6nK
-         56+YHOdrC3JYI6rqLD2nW6E8we9P4bZsLNytKLfpSuKi1lS6a0DiHYDLz+edR0e1k9
-         oK3p6pxyswjBS1wf6M8jWg3xHSYFm+H/VoPOYmeE=
-Date:   Mon, 5 Oct 2020 12:08:23 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1729302AbgJETlN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 15:41:13 -0400
+IronPort-SDR: Bdw+cKsjTJ//04f6oh3Zxhgc3NQT9tb006m0ZwF7n152IAfu36hBoiNhk5O9q3DJ5F160QPfg0
+ ZQ3O4ZJiEfrQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="143832465"
+X-IronPort-AV: E=Sophos;i="5.77,340,1596524400"; 
+   d="scan'208";a="143832465"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP; 05 Oct 2020 12:26:06 -0700
+IronPort-SDR: lxF6D25Y207qlLNXScXhxkLPsDRbK1kc/MVlkM2tgjHEmEqB9WNJ8MI7ZEXXSbfyiX3amIf/dz
+ tc0QX9Ic3oBg==
+X-IronPort-AV: E=Sophos;i="5.77,340,1596524400"; 
+   d="scan'208";a="517163416"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.160])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 11:43:35 -0700
+Date:   Mon, 5 Oct 2020 11:43:20 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alexander Graf <graf@amazon.com>, kvm list <kvm@vger.kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 35/52] docs: fs: fscrypt.rst: get rid of :c:type: tags
-Message-ID: <20201005190823.GB3128920@gmail.com>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
- <689d790237b64fc7d81fcf97ac303cc1dbdd33d4.1601467849.git.mchehab+huawei@kernel.org>
- <20200930162144.GA9698@sol.localdomain>
- <20200930185333.66dacbc6@coco.lan>
- <20200930170637.GB9698@sol.localdomain>
- <20201005140622.50693933@coco.lan>
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 6/8] KVM: x86: VMX: Prevent MSR passthrough when MSR
+ access is denied
+Message-ID: <20201005184320.GA15803@linux.intel.com>
+References: <20200925143422.21718-1-graf@amazon.com>
+ <20200925143422.21718-7-graf@amazon.com>
+ <20201002011139.GA5473@xz-x1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201005140622.50693933@coco.lan>
+In-Reply-To: <20201002011139.GA5473@xz-x1>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 05, 2020 at 02:06:22PM +0200, Mauro Carvalho Chehab wrote:
-> The latest version at:
+On Thu, Oct 01, 2020 at 09:11:39PM -0400, Peter Xu wrote:
+> Hi,
 > 
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=sphinx3-fixes-v4
+> I reported in the v13 cover letter of kvm dirty ring series that this patch
+> seems to have been broken.  Today I tried to reproduce with a simplest vm, and
+> after a closer look...
+> 
+> On Fri, Sep 25, 2020 at 04:34:20PM +0200, Alexander Graf wrote:
+> > @@ -3764,15 +3859,14 @@ static u8 vmx_msr_bitmap_mode(struct kvm_vcpu *vcpu)
+> >  	return mode;
+> >  }
+> >  
+> > -static void vmx_update_msr_bitmap_x2apic(struct kvm_vcpu *vcpu,
+> > -					 unsigned long *msr_bitmap, u8 mode)
+> > +static void vmx_update_msr_bitmap_x2apic(struct kvm_vcpu *vcpu, u8 mode)
+> >  {
+> >  	int msr;
+> >  
+> > -	for (msr = 0x800; msr <= 0x8ff; msr += BITS_PER_LONG) {
+> > -		unsigned word = msr / BITS_PER_LONG;
+> > -		msr_bitmap[word] = (mode & MSR_BITMAP_MODE_X2APIC_APICV) ? 0 : ~0;
+> > -		msr_bitmap[word + (0x800 / sizeof(long))] = ~0;
+> > +	for (msr = 0x800; msr <= 0x8ff; msr++) {
+> > +		bool intercepted = !!(mode & MSR_BITMAP_MODE_X2APIC_APICV);
+> > +
+> > +		vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_RW, intercepted);
 
-Doesn't work either.
+Yeah, this is busted.
 
-$ git remote add mchehab https://git.linuxtv.org/mchehab/experimental.git
-$ git fetch mchehab
-warning: alternate disabled by http.followRedirects: https://git.linuxtv.org/git/linux.git/
-warning: alternate disabled by http.followRedirects: https://git.linuxtv.org/git/media_tree.git/
-warning: alternate disabled by http.followRedirects: https://git.linuxtv.org/git/linux.git/
-error: Unable to find 4d9f4b7b8bf7af2d8deb4435833a7e165b9bdd21 under https://git.linuxtv.org/mchehab/experimental.git
-Fetching objects: 286, done.
-Cannot obtain needed object 4d9f4b7b8bf7af2d8deb4435833a7e165b9bdd21
-while processing commit 0a0cde580853340e1a585a1959eaaf055b7cff9a.
-error: fetch failed.
+> >  	}
+> >  
+> >  	if (mode & MSR_BITMAP_MODE_X2APIC) {
+> 
+> ... I think we may want below change to be squashed:
+> 
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index d160aad59697..7d3f2815b04d 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -3781,9 +3781,10 @@ static void vmx_update_msr_bitmap_x2apic(struct kvm_vcpu *vcpu, u8 mode)
+>         int msr;
+>  
+>         for (msr = 0x800; msr <= 0x8ff; msr++) {
+> -               bool intercepted = !!(mode & MSR_BITMAP_MODE_X2APIC_APICV);
+> +               bool apicv = mode & MSR_BITMAP_MODE_X2APIC_APICV;
+>  
+> -               vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_RW, intercepted);
+> +               vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_R, !apicv);
+> +               vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_W, true);
 
-> In the specific case of fscript.rst, there are only two patches on my
-> series affecting it, both as part of this /52 series:
+I would prefer a full revert of sorts.  Allowing userspace to intercept reads
+to x2APIC MSRs when APICV is fully enabled for the guest simply can't work.
+The LAPIC and thus virtual APIC is in-kernel and cannot be directly accessed
+by userspace.  I doubt it actually affects real world performance, but
+resetting each MSR one-by-one bugs me.
 
-But those two patches don't apply because they also change other files.
+Intercepting writes to TPR, EOI and SELF_IPI are somewhat plausible, but I
+just don't see how intercepting reads when APICV is active is a sane setup.
 
-I need to apply patches to do a proper review.  Reviewers shouldn't have to
-waste time trying to figure out how to apply your patches.
+I'll send a patch and we can go from there.
 
-- Eric
+>         }
+>  
+>         if (mode & MSR_BITMAP_MODE_X2APIC) {
+> 
+> This fixes my problem the same as having this patch reverted.
+> 
+> -- 
+> Peter Xu
+> 
