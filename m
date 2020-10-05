@@ -2,151 +2,81 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3204C4727D
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 16:49:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46C05C4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:09:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8681420E65
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 16:49:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YVj4GC3J"
+	by mail.kernel.org (Postfix) with ESMTP id 13E3520796
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:09:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbgJEQtv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 12:49:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33088 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727269AbgJEQtv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 12:49:51 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F6DC0613A8
-        for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2020 09:49:51 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id l16so2935374eds.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 09:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e75sgfE0gBHuZ+sQh5xSznZKqRTfepXZ5BM13ORNfbc=;
-        b=YVj4GC3JL8go1+BQzjpqRqC+/HErXCrcVSbeTGXkmGNDW0inx8fYasntI3xi6q8VOM
-         hJVNYfqKZPCzxROaMECiKmwLcdalUc1GdONuilK01tVtKa891PSDahBolGt9vJKkkSOL
-         B0hyh8ssSuuwmiS2dIotXfe6KCbVlfk7jvA1blxGgHgJbdflFwobWNcvSrGx058Q/beR
-         KU4kN/C5m3lc95eHwZLfKb3lf2wCsj5934cQIzfTnG9+JSUg0kYxuitggcx40qWKFVgI
-         77FMQRT8Q4W2BepuQvyuFCNaAX2Na1W5CNqAiuR2rDWjdrpuNHqtkwhLe9xKwKVBWEBG
-         M3gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e75sgfE0gBHuZ+sQh5xSznZKqRTfepXZ5BM13ORNfbc=;
-        b=HzWtmHwHtX9965XBIKK72mjnVpBhZCGS3UeDwc6FRYROYNXjMJoNZvzjVajKIc/QEx
-         B6k/4scYCUpKXVVQFtQioOKzsEfImmQo3lcYJUEcAd9K8UEJ96kibL9xfjpFhv+Vrn41
-         asJUwi2ACQt3ack+Hngu1F9Rh7xRmXX99HYNUHx8pivY7hYj7u7ap60YqDaIAmETpgmL
-         h6CVGaMGTomFza7RfYrfylAl0tr6vNsaIvvFr1C3e3tXMJLqU0NZrYEHTewAgT5eVvk3
-         UPSNIn6HsyAUwx3OpMYx9NYrWqzB4HtHXp8Xq/z69t2GPsN85U+5dO8B3QVLTt2LCEYq
-         poUw==
-X-Gm-Message-State: AOAM5338x1pJX9rxngMx2uhRCj3yLFJZA33G95yw+WYrIbZFMm30hkBQ
-        +tyMKQRQ14/PTiwgAgqvLcmeLelYB1on1G4prTaWdg==
-X-Google-Smtp-Source: ABdhPJzebiK7XGTTGSesU9XZZts7MY9QebXYMDbKFDRw9FyOaSzmZF06erodX8ExTD8H4foe9ncp1NqIIGZDvVpWzfo=
-X-Received: by 2002:a50:ccd2:: with SMTP id b18mr555817edj.51.1601916589473;
- Mon, 05 Oct 2020 09:49:49 -0700 (PDT)
+        id S1727895AbgJERJp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 13:09:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39844 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726615AbgJERJp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 13:09:45 -0400
+Received: from gaia (unknown [95.149.105.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3241E2078E;
+        Mon,  5 Oct 2020 17:09:41 +0000 (UTC)
+Date:   Mon, 5 Oct 2020 18:09:38 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     John Donnelly <john.p.donnelly@oracle.com>
+Cc:     Chen Zhou <chenzhou10@huawei.com>, will@kernel.org,
+        james.morse@arm.com, tglx@linutronix.de, mingo@redhat.com,
+        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
+        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
+        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com
+Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
+ kdump
+Message-ID: <20201005170937.GA14576@gaia>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
 MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-2-elver@google.com>
- <20200929142411.GC53442@C02TD0UTHF1T.local> <CANpmjNNQGrpq+fBh4OypP9aK+-548vbCbKYiWQnSHESM0SLVzw@mail.gmail.com>
- <20200929150549.GE53442@C02TD0UTHF1T.local> <CAG_fn=WKEtVSRLASSZV1A9dnPGoaZM_DgJeH5Q1WcLcFBqH00g@mail.gmail.com>
-In-Reply-To: <CAG_fn=WKEtVSRLASSZV1A9dnPGoaZM_DgJeH5Q1WcLcFBqH00g@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 5 Oct 2020 18:49:23 +0200
-Message-ID: <CAG48ez3kmvvymiCemX_U1=CoRrn2Ayx1fbwAzPQ2jNE-qfj4MA@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
-To:     Alexander Potapenko <glider@google.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 5, 2020 at 6:01 PM Alexander Potapenko <glider@google.com> wrote:
->
-> On Tue, Sep 29, 2020 at 5:06 PM Mark Rutland <mark.rutland@arm.com> wrote:
-> >
-> > On Tue, Sep 29, 2020 at 04:51:29PM +0200, Marco Elver wrote:
-> > > On Tue, 29 Sep 2020 at 16:24, Mark Rutland <mark.rutland@arm.com> wrote:
-> > > [...]
-> > > >
-> > > > From other sub-threads it sounds like these addresses are not part of
-> > > > the linear/direct map. Having kmalloc return addresses outside of the
-> > > > linear map is going to break anything that relies on virt<->phys
-> > > > conversions, and is liable to make DMA corrupt memory. There were
-> > > > problems of that sort with VMAP_STACK, and this is why kvmalloc() is
-> > > > separate from kmalloc().
-> > > >
-> > > > Have you tested with CONFIG_DEBUG_VIRTUAL? I'd expect that to scream.
-> > > >
-> > > > I strongly suspect this isn't going to be safe unless you always use an
-> > > > in-place carevout from the linear map (which could be the linear alias
-> > > > of a static carevout).
-> > >
-> > > That's an excellent point, thank you! Indeed, on arm64, a version with
-> > > naive static-pool screams with CONFIG_DEBUG_VIRTUAL.
-> > >
-> > > We'll try to put together an arm64 version using a carveout as you suggest.
-> >
-> > Great, thanks!
-> >
-> > Just to be clear, the concerns for DMA and virt<->phys conversions also
-> > apply to x86 (the x86 virt<->phys conversion behaviour is more forgiving
-> > in the common case, but still has cases that can go wrong).
->
-> To clarify, shouldn't kmalloc/kmem_cache allocations used with DMA be
-> allocated with explicit GFP_DMA?
-> If so, how practical would it be to just skip such allocations in
-> KFENCE allocator?
+On Sat, Sep 12, 2020 at 06:44:29AM -0500, John Donnelly wrote:
+> On 9/7/20 8:47 AM, Chen Zhou wrote:
+> > Chen Zhou (9):
+> >    x86: kdump: move CRASH_ALIGN to 2M
+> >    x86: kdump: make the lower bound of crash kernel reservation
+> >      consistent
+> >    x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
+> >      reserve_crashkernel[_low]()
+> >    x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
+> >    arm64: kdump: introduce some macroes for crash kernel reservation
+> >    arm64: kdump: reimplement crashkernel=X
+> >    kdump: add threshold for the required memory
+> >    arm64: kdump: add memory for devices by DT property
+> >      linux,usable-memory-range
+> >    kdump: update Documentation about crashkernel
+[...]
+> I did a brief unit-test on 5.9-rc4.
+> 
+> Please add:
+> 
+> Tested-by:  John Donnelly <John.p.donnelly@oracle.com>
 
-AFAIK GFP_DMA doesn't really mean "I will use this allocation for
-DMA"; it means "I will use this allocation for DMA using some ancient
-hardware (e.g. stuff on the ISA bus?) that only supports 16-bit
-physical addresses (or maybe different limits on other
-architectures)".
-There's also GFP_DMA32, which means the same thing, except with 32-bit
-physical addresses.
+Thanks for testing.
 
-You can see in e.g. __dma_direct_alloc_pages() that the GFP_DMA32 and
-GFP_DMA flags are only used if the hardware can't address the full
-physical address space supported by the CPU.
+> This activity is over a year old. It needs accepted.
+
+It's getting there, hopefully in 5.11. There are some minor tweaks to
+address.
+
+-- 
+Catalin
