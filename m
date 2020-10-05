@@ -2,54 +2,54 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B46C4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:14:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EFDC4727E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:14:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD8842080C
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:14:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B56FF2078D
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:14:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725978AbgJEIOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 04:14:30 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:57849 "EHLO
+        id S1726147AbgJEIOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 04:14:37 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:57881 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725895AbgJEIOa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 04:14:30 -0400
-Received: from mail-wr1-f70.google.com ([209.85.221.70])
+        with ESMTP id S1726164AbgJEIOd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 04:14:33 -0400
+Received: from mail-wr1-f71.google.com ([209.85.221.71])
         by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <andrea.righi@canonical.com>)
-        id 1kPLdb-0001H6-8n
-        for linux-doc@vger.kernel.org; Mon, 05 Oct 2020 08:14:27 +0000
-Received: by mail-wr1-f70.google.com with SMTP id d13so3669328wrr.23
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 01:14:27 -0700 (PDT)
+        id 1kPLde-0001Ix-IB
+        for linux-doc@vger.kernel.org; Mon, 05 Oct 2020 08:14:30 +0000
+Received: by mail-wr1-f71.google.com with SMTP id d9so3687781wrv.16
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 01:14:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=04NfvqcE293cqSxzmzA7UDEenFQaTMOEO1JaCZLQgms=;
-        b=TU9CoiFypIduCQl4mr0WDiWtfzvd57M2gdS6DGKokW8IKeZjJ9NxcIO0vJqqpQ6Sco
-         6WWYr+9GSsofQC3IV3kLmb/KX6yFd9hoAFnkkrW3svLixb+I4wwdYockhV6bH9OkDSrU
-         yx3fKjwj+13xH/s/fC6gOpAhqHdTtsQcddm/aeqg0BnWBkx1hmTBgX8SMRS7KdKt4y1a
-         cHiNI3bZs6D3oT+uvBjckq+GbJQlXbi2aUwBRXzDkIncVZVzAreB54nxWWDY9IbfU1AU
-         UtvapoewP+CKMN9IEMMachWiKHyDfw+8efArexSzFVHWgZbAi3Gq3+/EvS/DOGNxJqob
-         WQsw==
-X-Gm-Message-State: AOAM533jgjQpyVIKd+HcfrFfYO2eYSGuUOMl/tmIO84PPFfFTXldV9Th
-        jbLowBzKdkc1+tfJfmFTQZ+5VE6k6fhoI74ntp0jLSz8Hs3NoegQJ6Q8dk5I+wVptCSNdANFTTX
-        +r4URIRBNMP/wJ7GTbQ3N1mstcM3hVX/+XloJmg==
-X-Received: by 2002:adf:c3c2:: with SMTP id d2mr1763590wrg.191.1601885666767;
-        Mon, 05 Oct 2020 01:14:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/vSx89vE5EQY/p7M5JNzqT6l1/+ZcZKgMzOZLy7zCPdPEe+yrwl2TQ5atBaon8TgjIaK/tQ==
-X-Received: by 2002:adf:c3c2:: with SMTP id d2mr1763556wrg.191.1601885666376;
-        Mon, 05 Oct 2020 01:14:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=a3RK306ViIXSDm7E/OHB8KsWv3MXYnGA8qRg0vSmwRg=;
+        b=J37rm3jNl/S19GtdqRQKWfBWDPQfFEzt4xuaR8yJP90d7AgKpB9M7s7T1tNzvYNM6q
+         LB3082cl7ZCfMa3FSaHJOTnNiK8q1CudLDHcumYK0zZmnSbm/e4T4v7CM0dStXCUg7A6
+         CqAwZD1ObPEppa8dX292HZCREBnAk9K9tdUOhYXz8iZv9r0V1Bafaq5gKmAU+w0aGC4K
+         u1EroE/SPK4KmL1Q6++utjhoaO2/Vjsvtek/ORrdmHnprk/2eUZIVSta6SoNgx8oU7yY
+         RbIExfrFNfx7gkvdyfGBZ7eklIW7QnR6W03+YC814wHjRLrKc8e+oBgEtvKo8XWcDuEX
+         amfw==
+X-Gm-Message-State: AOAM532+3kTU2SYmUOZBWEd/ZGEsoZL3vFy+6gcvwFAagJMxkI6mXT9y
+        xafLYorQnhXCpcR5lBQyyjqkhCD2EKgruYAKTv0XychCeyAe37F6W8gNfGUrd2qJeoTKrCrP1VD
+        9DV74ZcNeK59ULrXs2UUhECR2DYWtXdJHNtNAdQ==
+X-Received: by 2002:a7b:c111:: with SMTP id w17mr16169204wmi.28.1601885669728;
+        Mon, 05 Oct 2020 01:14:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxK2e5XsCLt9z+P6jBHXXdu+RZxdp5xEs60J4eTYgbaA18QOia0wcIZVKu26ncPtxuUD2XYNA==
+X-Received: by 2002:a7b:c111:: with SMTP id w17mr16169172wmi.28.1601885669454;
+        Mon, 05 Oct 2020 01:14:29 -0700 (PDT)
 Received: from xps-13-7390.homenet.telecomitalia.it (host-79-36-133-218.retail.telecomitalia.it. [79.36.133.218])
-        by smtp.gmail.com with ESMTPSA id a15sm13168855wrn.3.2020.10.05.01.14.25
+        by smtp.gmail.com with ESMTPSA id a15sm13168855wrn.3.2020.10.05.01.14.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 01:14:25 -0700 (PDT)
+        Mon, 05 Oct 2020 01:14:28 -0700 (PDT)
 From:   Andrea Righi <andrea.righi@canonical.com>
 To:     Michal Hocko <mhocko@kernel.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>
@@ -60,39 +60,21 @@ Cc:     Li Zefan <lizefan@huawei.com>, Tejun Heo <tj@kernel.org>,
         "Rafael J . Wysocki" <rafael@kernel.org>, cgroups@vger.kernel.org,
         linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH RFC v2] Opportunistic memory reclaim
-Date:   Mon,  5 Oct 2020 10:13:11 +0200
-Message-Id: <20201005081313.732745-1-andrea.righi@canonical.com>
+Subject: [PATCH RFC v2 2/2] mm: memcontrol: introduce opportunistic memory reclaim
+Date:   Mon,  5 Oct 2020 10:13:13 +0200
+Message-Id: <20201005081313.732745-3-andrea.righi@canonical.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201005081313.732745-1-andrea.righi@canonical.com>
+References: <20201005081313.732745-1-andrea.righi@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-## Overview
-
-Opportunistic memory reclaim aims to introduce a new interface that
-allows user-space to trigger an artificial memory pressure condition and
-force the kernel to reclaim memory (dropping page cache pages, swapping
-out anonymous memory, etc.).
-
-### Motivation
-
-Reclaiming memory in advance to prepare the system to be more responsive
-when needed.
-
-### Use cases
-
- - Reduce system memory footprint
- - Speed up hibernation time
- - Speed up VM migration time
- - Prioritize responsiveness of foreground applications vs background
-   applications
- - Prepare the system to be more responsiveness during large allocation
-   bursts
-
-## Interface
+Opportunistic memory reclaim allows user-space to trigger an artificial
+memory pressure condition and force the system to reclaim memory (drop
+caches, swap out anonymous memory, etc.).
 
 This feature is provided by adding a new file to each memcg:
 memory.swap.reclaim.
@@ -106,116 +88,134 @@ Memory reclaim can be interrupted sending a signal to the process that
 is writing to memory.swap.reclaim (i.e., to set a timeout for the whole
 memory reclaim run).
 
-## Example usage
+Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 18 ++++++++
+ include/linux/memcontrol.h              |  4 ++
+ mm/memcontrol.c                         | 59 +++++++++++++++++++++++++
+ 3 files changed, 81 insertions(+)
 
-This feature has been successfully used to improve hibernation time of
-cloud computing instances.
-
-Certain cloud providers allow to run "spot instances": low-priority
-instances that run when there are spare resources available and can be
-stopped at any time to prioritize other more privileged instances [2].
-
-Hibernation can be used to stop these low-priority instances nicely,
-rather than losing state when the instance is shut down. Being able to
-quickly stop low-priority instances can be critical to provide a better
-quality of service in the overall cloud infrastructure [1].
-
-The main bottleneck of hibernation is represented by the I/O generated
-to write all the main memory (hibernation image) to a persistent
-storage.
-
-Opportunistic memory reclaimed can be used to reduce the size of the
-hibernation image in advance, for example if the system is idle for a
-certain amount of time, so if an hibernation request happens, the kernel
-has already saved most of the memory to the swap device (caches have
-been dropped, etc.) and hibernation can complete quickly.
-
-## Testing and results
-
-Here is a simple test case to show the effectiveness of this feature.
-
-Environment:
-```
-   - VM (kvm):
-     8GB of RAM
-     disk speed: 100 MB/s
-     8GB swap file on ext4 (/swapfile)
-```
-
-Test case:
-```
-  - allocate 85% of memory
-  - wait for 60s almost in idle
-  - hibernate and resume the system (measuring the time)
-```
-
-Result:
-  - average of 10 runs tested with `/sys/power/image_size=default` and
-    `/sys/power/image_size=0`:
-```
-                                 5.9-vanilla   5.9-mm_reclaim
-                                 -----------   --------------
-  [hibernate] image_size=default      49.07s            3.40s
-     [resume] image_size=default      18.35s            7.13s
-
-  [hibernate] image_size=0            71.55s            4.72s
-     [resume] image_size=0             7.49s            7.41s
-```
-
-NOTE #1: in the `5.9-mm_reclaim` case a simple user-space daemon detects
-when the system is idle for a certain amount of time and triggers the
-opportunistic memory reclaim.
-
-NOTE #2: `/sys/power/image_size=0` can be used with `5.9-vanilla` to
-speed up resume time (because it shrinks even more the hibernation
-image) at the cost of increasing hibernation time; with `5.9-mm_reclaim`
-performance are pretty much identical in both cases, because the
-hibernation image is already reduced to the minimum when the hibernation
-request happens.
-
-## Conclusion
-
-Being able to trigger memory reclaim from user-space allows to prepare
-the system in advance to be more responsive when needed.
-
-This feature has been used with positive test results to speed up
-hibernation time of cloud computing instances, but it can also provide
-benefits to other use cases, for example:
-
- - prioritize responsiveness of foreground applications vs background
-   applications
-
- - improve system responsiveness during large allocation bursts
-   (preparing system by reclaiming memory in advance, e.g. using some
-   idle cycles)
-
- - reduce overall system memory footprint (especially in VM / cloud
-   computing environments)
-
-## See also
-
- - [1] https://lwn.net/Articles/821158/
- - [2] https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html
- - [3] user-space tools/scripts: https://github.com/arighi/opportunistic-memory-reclaim
- - [4] previous version: https://lore.kernel.org/lkml/20200601160636.148346-1-andrea.righi@canonical.com/
-
-## Changes in v2:
- - move ABI from hibernation to memcg (since this feature can be used
-   also in other contexts and it's not hibernation-specific)
- - drop memory release functionality (to re-load swapped out pages,
-   since it ended being not very useful)
- - added the possibility to show the number of memory reclaimed in the
-   last attempt (per-memcg)
-
-----------------------------------------------------------------
-Andrea Righi (2):
-      mm: memcontrol: make shrink_all_memory() memcg aware
-      mm: memcontrol: introduce opportunistic memory reclaim
-
- Documentation/admin-guide/cgroup-v2.rst | 18 ++++++++++
- include/linux/memcontrol.h              |  4 +++
- include/linux/swap.h                    |  9 ++++-
- mm/memcontrol.c                         | 59 +++++++++++++++++++++++++++++++++
- mm/vmscan.c                             |  6 ++--
- 5 files changed, 92 insertions(+), 4 deletions(-)
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index baa07b30845e..2850a5cb4b1e 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1409,6 +1409,24 @@ PAGE_SIZE multiple when read back.
+ 	Swap usage hard limit.  If a cgroup's swap usage reaches this
+ 	limit, anonymous memory of the cgroup will not be swapped out.
+ 
++  memory.swap.reclaim
++        A read-write single value file that can be used to trigger
++        opportunistic memory reclaim.
++
++        The string written to this file represents the amount of memory to be
++        reclaimed (special value "max" means "as much memory as possible").
++
++        When opportunistic memory reclaim is started the system will be put
++        into an artificial memory pressure condition and memory will be
++        reclaimed by dropping clean page cache pages, swapping out anonymous
++        pages, etc.
++
++        NOTE: it is possible to interrupt the memory reclaim sending a signal
++        to the writer of this file.
++
++        Reading from memory.swap.reclaim returns the amount of bytes reclaimed
++        in the last attempt.
++
+   memory.swap.events
+ 	A read-only flat-keyed file which exists on non-root cgroups.
+ 	The following entries are defined.  Unless specified
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index d0b036123c6a..0c90d989bdc1 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -306,6 +306,10 @@ struct mem_cgroup {
+ 	bool			tcpmem_active;
+ 	int			tcpmem_pressure;
+ 
++#ifdef CONFIG_MEMCG_SWAP
++	unsigned long		nr_swap_reclaimed;
++#endif
++
+ #ifdef CONFIG_MEMCG_KMEM
+         /* Index in the kmem_cache->memcg_params.memcg_caches array */
+ 	int kmemcg_id;
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 6877c765b8d0..b98e9bbd61b0 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -7346,6 +7346,60 @@ static int swap_events_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
++/*
++ * Try to reclaim some memory in the system, stop when one of the following
++ * conditions occurs:
++ *  - at least "nr_pages" have been reclaimed
++ *  - no more pages can be reclaimed
++ *  - current task explicitly interrupted by a signal (e.g., user space
++ *    timeout)
++ *
++ *  @nr_pages - amount of pages to be reclaimed (0 means "as many pages as
++ *  possible").
++ */
++static unsigned long
++do_mm_reclaim(struct mem_cgroup *memcg, unsigned long nr_pages)
++{
++	unsigned long nr_reclaimed = 0;
++
++	while (nr_pages > 0) {
++		unsigned long reclaimed;
++
++		if (signal_pending(current))
++			break;
++		reclaimed = __shrink_all_memory(nr_pages, memcg);
++		if (!reclaimed)
++			break;
++		nr_reclaimed += reclaimed;
++		nr_pages -= min_t(unsigned long, reclaimed, nr_pages);
++	}
++	return nr_reclaimed;
++}
++
++static ssize_t swap_reclaim_write(struct kernfs_open_file *of,
++				  char *buf, size_t nbytes, loff_t off)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
++	unsigned long nr_to_reclaim;
++	int err;
++
++	buf = strstrip(buf);
++	err = page_counter_memparse(buf, "max", &nr_to_reclaim);
++	if (err)
++		return err;
++	memcg->nr_swap_reclaimed = do_mm_reclaim(memcg, nr_to_reclaim);
++
++	return nbytes;
++}
++
++static u64 swap_reclaim_read(struct cgroup_subsys_state *css,
++			     struct cftype *cft)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
++
++	return memcg->nr_swap_reclaimed << PAGE_SHIFT;
++}
++
+ static struct cftype swap_files[] = {
+ 	{
+ 		.name = "swap.current",
+@@ -7370,6 +7424,11 @@ static struct cftype swap_files[] = {
+ 		.file_offset = offsetof(struct mem_cgroup, swap_events_file),
+ 		.seq_show = swap_events_show,
+ 	},
++	{
++		.name = "swap.reclaim",
++		.write = swap_reclaim_write,
++		.read_u64 = swap_reclaim_read,
++	},
+ 	{ }	/* terminate */
+ };
+ 
+-- 
+2.27.0
 
