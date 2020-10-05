@@ -2,83 +2,64 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E109C4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:26:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D03BC4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:35:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D57E62075A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:26:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAA1E20795
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:35:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="S4gB3z/m"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725917AbgJEI0c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 04:26:32 -0400
-Received: from verein.lst.de ([213.95.11.211]:58080 "EHLO verein.lst.de"
+        id S1725885AbgJEIfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 04:35:19 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46786 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725885AbgJEI0c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Oct 2020 04:26:32 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 5D8DD67373; Mon,  5 Oct 2020 10:26:29 +0200 (CEST)
-Date:   Mon, 5 Oct 2020 10:26:29 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        iommu@lists.linux-foundation.org,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-Message-ID: <20201005082629.GA13850@lst.de>
-References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de> <20201002175040.GA1131147@chromium.org>
+        id S1725880AbgJEIfT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 04:35:19 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1601886918;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=M/qp0fLfgx7dAgjinAVpQgpni2765Ce4IvEm/FFiEZc=;
+        b=S4gB3z/m1iDjvIhYuT/Oo9vTHKPrQfJbETOKd/f0q+M1Gq8paxKVZyhiEMZ+d3AvilmJuh
+        EjOy5bC2Yw8QLsGNk6ALURk/VXqScBH3RkkZNVfmsh8DAkfUFn+IjMfS8nbx4hKnHXI+8Z
+        OFuU3MK8JEqA8XRoDkvwdjcDxq9ZDxM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E393AAF7F;
+        Mon,  5 Oct 2020 08:35:17 +0000 (UTC)
+Date:   Mon, 5 Oct 2020 10:35:16 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Andrea Righi <andrea.righi@canonical.com>
+Cc:     Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Li Zefan <lizefan@huawei.com>, Tejun Heo <tj@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luigi Semenzato <semenzato@google.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>, cgroups@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v2] Opportunistic memory reclaim
+Message-ID: <20201005083516.GR4555@dhcp22.suse.cz>
+References: <20201005081313.732745-1-andrea.righi@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201002175040.GA1131147@chromium.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20201005081313.732745-1-andrea.righi@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 02, 2020 at 05:50:40PM +0000, Tomasz Figa wrote:
-> Hi Christoph,
-> 
-> On Wed, Sep 30, 2020 at 06:09:17PM +0200, Christoph Hellwig wrote:
-> > Add a new API that returns a virtually non-contigous array of pages
-> > and dma address.  This API is only implemented for dma-iommu and will
-> > not be implemented for non-iommu DMA API instances that have to allocate
-> > contiguous memory.  It is up to the caller to check if the API is
-> > available.
-> 
-> Would you mind scheding some more light on what made the previous attempt
-> not work well? I liked the previous API because it was more consistent with
-> the regular dma_alloc_coherent().
-
-The problem is that with a dma_alloc_noncoherent that can return pages
-not in the kernel mapping we can't just use virt_to_page to fill in
-scatterlists or mmap the buffer to userspace, but would need new helpers
-and another two methods.
-
-> >  - no kernel mapping or only temporary kernel mappings are required.
-> >    That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
-> >  - a kernel mapping is required for cached and DMA mapped pages, but
-> >    the driver also needs the pages to e.g. map them to userspace.
-> >    In that sense it is a replacement for some aspects of the recently
-> >    removed and never fully implemented DMA_ATTR_NON_CONSISTENT
-> 
-> What's the expected allocation and mapping flow with the latter? Would that be
-> 
-> pages = dma_alloc_noncoherent(...)
-> vaddr = vmap(pages, ...);
-> 
-> ?
-
-Yes.  Witht the vmap step optional for replacements of
-DMA_ATTR_NO_KERNEL_MAPPING, which is another nightmare to deal with.
-
-> Would one just use the usual dma_sync_for_{cpu,device}() for cache
-> invallidate/clean, while keeping the mapping in place?
-
-Yes.  And make sure the API isn't implemented when VIVT caches are
-used, but that isn't really different from the current interface.
+A similar thing has been proposed recently by Shakeel
+http://lkml.kernel.org/r/20200909215752.1725525-1-shakeelb@google.com
+Please have a look at the follow up discussion.
+-- 
+Michal Hocko
+SUSE Labs
