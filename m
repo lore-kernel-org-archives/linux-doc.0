@@ -2,82 +2,60 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D67C47095
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:44:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B069EC47095
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:56:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 408BE20796
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:44:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AD6B2078E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726031AbgJEIoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 04:44:17 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:58530 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725915AbgJEIoR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 04:44:17 -0400
-Received: from mail-wr1-f72.google.com ([209.85.221.72])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <andrea.righi@canonical.com>)
-        id 1kPM6R-0003GE-1A
-        for linux-doc@vger.kernel.org; Mon, 05 Oct 2020 08:44:15 +0000
-Received: by mail-wr1-f72.google.com with SMTP id g6so3737646wrv.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 01:44:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dZFx1GeJTo2ZK4IcFjyCCesPDlIGbBOPYfFpSWVIbpo=;
-        b=e8WpzpeWo38b4GjPMxihCJcV/MBzwKEXCaCrHQIJQwtmWEvDKIkZaUO4U6wJHOWl8x
-         flWC+oFXtsIjV4RxjVlbCevw4QUuTmz0xpMoUxwoEaszP7IocTfqCkk+p3VDLD7pHEAB
-         FbsrfgU7j2hxLgSIh+YBgtKivVlIm0toLMZhlxBmMpPvqJrGC3lWVbumQTRZOzVKkKik
-         BGTFfnRZYeWezzvX6VJYZM4YZkKD2s6QxnFYhSqV6KlO2KuZGkrQrrcXcKPZ7IKBmKTk
-         /Qv0ajNYIl3R/f3JSCBNRBN3te/TdNmOAi5V6NxoqYvxMUA+Fc7OGvXX893/llCUVxlh
-         N/mQ==
-X-Gm-Message-State: AOAM532PWx3trnvrBrZVzW/pHjtcL+Qt5TYVb00lRgJWBQhbOav9+gnQ
-        qqF190ChrJDuTNseHdymc0+2eWaN7Dn6IdozK4ySZCdc7Hwnd1cA1WEgYUUJHv0qIJYroL9ZM4e
-        6ynwTI3/KEBEzKzFH05x8Czkl90bNe7ssKEcHjQ==
-X-Received: by 2002:a7b:cc02:: with SMTP id f2mr15260336wmh.1.1601887454688;
-        Mon, 05 Oct 2020 01:44:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGutvomMW+ZkXDkOPcBrLdaEr1nkvazEGt7P+cRzR/ommpl2rxO5gLvSjXflb6uzW3HKjHwA==
-X-Received: by 2002:a7b:cc02:: with SMTP id f2mr15260308wmh.1.1601887454379;
-        Mon, 05 Oct 2020 01:44:14 -0700 (PDT)
-Received: from localhost (host-79-36-133-218.retail.telecomitalia.it. [79.36.133.218])
-        by smtp.gmail.com with ESMTPSA id 63sm12440058wrh.71.2020.10.05.01.44.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 01:44:13 -0700 (PDT)
-Date:   Mon, 5 Oct 2020 10:44:12 +0200
-From:   Andrea Righi <andrea.righi@canonical.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Li Zefan <lizefan@huawei.com>, Tejun Heo <tj@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Luigi Semenzato <semenzato@google.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>, cgroups@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v2] Opportunistic memory reclaim
-Message-ID: <20201005084412.GA735812@xps-13-7390>
-References: <20201005081313.732745-1-andrea.righi@canonical.com>
- <20201005083516.GR4555@dhcp22.suse.cz>
+        id S1726004AbgJEI4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 04:56:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725891AbgJEI4W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 04:56:22 -0400
+Received: from gaia (unknown [95.149.105.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F17892064C;
+        Mon,  5 Oct 2020 08:56:19 +0000 (UTC)
+Date:   Mon, 5 Oct 2020 09:56:17 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Hui Su <sh_def@163.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org,
+        mchehab+huawei@kernel.org, davem@davemloft.net, robh@kernel.org,
+        yamada.masahiro@socionext.com, sam@ravnborg.org,
+        jpoimboe@redhat.com, rostedt@goodmis.org,
+        miguel.ojeda.sandonis@gmail.com, divya.indi@oracle.com,
+        tomas.winkler@intel.com, dhowells@redhat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH] mm,kmemleak-test.c: move kmemleak-test.c to samples dir
+Message-ID: <20201005085617.GA3774@gaia>
+References: <20200925183729.GA172837@rlk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201005083516.GR4555@dhcp22.suse.cz>
+In-Reply-To: <20200925183729.GA172837@rlk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 05, 2020 at 10:35:16AM +0200, Michal Hocko wrote:
-> A similar thing has been proposed recently by Shakeel
-> http://lkml.kernel.org/r/20200909215752.1725525-1-shakeelb@google.com
-> Please have a look at the follow up discussion.
+On Sat, Sep 26, 2020 at 02:37:29AM +0800, Hui Su wrote:
+> kmemleak-test.c is just a kmemleak test module, which
+> also can not be used as a built-in kernel module.
+> Thus, i think it may should not be in mm dir, and move
+> the kmemleak-test.c to samples/kmemleak/kmemleak-test.c.
+> Fix the spelling of built-in by the way.
+> 
+> Signed-off-by: Hui Su <sh_def@163.com>
 
-Thanks for pointing this out, I wasn't aware of that patch and yes, it's
-definitely similar. I'll follow up on that.
+Moving the test is fine by me.
 
--Andrea
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
