@@ -2,103 +2,96 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8864BC4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 15:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8343FC4363D
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 15:37:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A1AF2078A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 15:11:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rmMncILe"
+	by mail.kernel.org (Postfix) with ESMTP id 516182085B
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 15:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727113AbgJEPLK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 11:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45952 "EHLO
+        id S1727974AbgJEPh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 11:37:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726701AbgJEPLF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 11:11:05 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2C2C0613CE;
-        Mon,  5 Oct 2020 08:11:04 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id c13so9018594oiy.6;
-        Mon, 05 Oct 2020 08:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RwW+3cgQRN9esWDY48Mrwamv0LGOoedzUjjGGELb9gw=;
-        b=rmMncILe7hEypTqUh7SZl4WTgcv0Rnfl62dFWpviSzScI5eQnjCq5qWK8aASjpMCH/
-         pIvyyrU1/Y3t+9S/+uhPNlRkn1HmeL4k5TuQ0t28t1ZDuBPuZcklIUA1OdyPUpv+Of5b
-         vAdAPdbk4G0EBui6CPf/jjYqj+ZVRQlVI5+4gov9bj0a04cVdaTgw2TnOc2M8HfGU3jW
-         ktBxfQAuwUg5u/57y740MJvL6LqardNYv/z3CJf4T60Dq/t8Ia6Hmhzn3HzDUm3Vtw3e
-         c4+FVoJgs0BvCjzhkPbqGr6d84k7K563NtL+hmbrNorUFsdvvZo/Fmp39reqmvV7u4bd
-         BCTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RwW+3cgQRN9esWDY48Mrwamv0LGOoedzUjjGGELb9gw=;
-        b=rOsZWmFCJmRu/r1IBJ58gNj5fgXgG2+gW2RLerOlnQlq2t5SnEWxT1/IhgQCQyA+yX
-         riKxjT4MgeZ82S2H5i4/X/KmM6S3dS5TPx3LGAbh3Xg0cPmKbpAf7nV0LLb6vbUTpYTE
-         b0I+4aKEIpkhdDNsH0JUG3Smrs5jO5TfgDDtTjtNqyCB+suPuWcrtTeYE6QnMAEbuZBu
-         8bPjtZz21Yqugh3p0onW8hwb+BFCviNFSctY4owYxzlYtmGM43vsPYfM+K1B1vGaUc9j
-         +1vx38X06pJ+opL/QFuKy9ig439POuu7W3e59xw243k41l6Hp0voGSRnFgW267iyYHOs
-         M23A==
-X-Gm-Message-State: AOAM5321xRZDXVEkjPc2+nMGkOhip8vUwh0il7zipYNVROBfaouWBuW7
-        Rujuwg8LmBPlbwoGh8Mqpes=
-X-Google-Smtp-Source: ABdhPJzxsNc/BZAute7amLsLZyrqTZQK32QsK0Ua7GECgwCRR2zZLNx+9d84Aal7Q80u83gdYAT+4A==
-X-Received: by 2002:aca:c485:: with SMTP id u127mr49637oif.92.1601910664371;
-        Mon, 05 Oct 2020 08:11:04 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s32sm2933260otb.68.2020.10.05.08.11.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 05 Oct 2020 08:11:03 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Mon, 5 Oct 2020 08:11:02 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jdelvare@suse.com, corbet@lwn.net
-Subject: Re: [PATCH] docs: hwmon: (ltc2945): update datasheet link
-Message-ID: <20201005151102.GA44294@roeck-us.net>
-References: <20201005131226.1774081-1-alexandru.ardelean@analog.com>
+        with ESMTP id S1728501AbgJEPhH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 11:37:07 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26DFC0613CE
+        for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2020 08:37:07 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9935A2B7;
+        Mon,  5 Oct 2020 15:37:06 +0000 (UTC)
+Date:   Mon, 5 Oct 2020 09:37:04 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     =?UTF-8?B?R2HDq3Rhbg==?= Harter <hartergaetan@gmail.com>
+Cc:     linux-doc@vger.kernel.org, federico.vaga@vaga.pv.it,
+        harryxiyou@gmail.com
+Subject: Re: [PATCH 1/1] docs: fix kernel-driver-statement rendering
+Message-ID: <20201005093704.32dd98ec@lwn.net>
+In-Reply-To: <20201005130213.74624-2-hartergaetan@gmail.com>
+References: <20201005130213.74624-1-hartergaetan@gmail.com>
+        <20201005130213.74624-2-hartergaetan@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201005131226.1774081-1-alexandru.ardelean@analog.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 05, 2020 at 04:12:26PM +0300, Alexandru Ardelean wrote:
-> Old one isn't working anymore. Update to the latest datasheet link.
-> 
-> Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+On Mon,  5 Oct 2020 15:02:13 +0200
+Gaëtan Harter <hartergaetan@gmail.com> wrote:
 
-Applied.
+> Remove the extra newline and indentation after `J. Bruce Fields` in the
+> rendered html, and extra indentation in the rendered pdf.
+> 
+> The `J.` sequence was interpreted by sphinx as a letter ordered list
+> starting at letter `J`.  It produced a sub ordered list as item of the
+> main item list.
+> 
+>     <li><ol class="first upperalpha" start="10">
+>     <li>Bruce Fields</li>
+>     </ol>
+>     </li>
+> 
+> The escaping is done before the name and not between the `J` and `.` to
+> keep the name writing intact.
+> 
+> Signed-off-by: Gaëtan Harter <hartergaetan@gmail.com>
+> ---
+>  Documentation/process/kernel-driver-statement.rst               | 2 +-
+>  .../translations/it_IT/process/kernel-driver-statement.rst      | 2 +-
+>  .../translations/zh_CN/process/kernel-driver-statement.rst      | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/process/kernel-driver-statement.rst b/Documentation/process/kernel-driver-statement.rst
+> index a849790a68bc..3a89fec1882e 100644
+> --- a/Documentation/process/kernel-driver-statement.rst
+> +++ b/Documentation/process/kernel-driver-statement.rst
+> @@ -67,7 +67,7 @@ today, have in the past, or will in the future.
+>   - Pekka Enberg
+>   - Jan Engelhardt
+>   - Mark Fasheh
+> - - J. Bruce Fields
+> + - \ J. Bruce Fields
+>   - Larry Finger
+
+Thanks for figuring this out and explaining it so well.  This is a sad
+ambiguity in the RST syntax, I guess.
+
+In this case, though, I'm not convinced that the cure isn't worse than the
+disease.  We've traded a blank line in the HTML output for some ugly
+markup in the original text; I'm not sure we want to do that.
+
+For this particular file, perhaps the best solution is just to put the
+list of signatures into a literal block.  The fix for other occurrences
+may be different.
 
 Thanks,
-Guenter
 
-> ---
->  Documentation/hwmon/ltc2945.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/ltc2945.rst b/Documentation/hwmon/ltc2945.rst
-> index 20c884985367..8d65c141ce2b 100644
-> --- a/Documentation/hwmon/ltc2945.rst
-> +++ b/Documentation/hwmon/ltc2945.rst
-> @@ -11,7 +11,7 @@ Supported chips:
->  
->      Datasheet:
->  
-> -	http://cds.linear.com/docs/en/datasheet/2945fa.pdf
-> +	https://www.analog.com/media/en/technical-documentation/data-sheets/2945fb.pdf
->  
->  Author: Guenter Roeck <linux@roeck-us.net>
->  
+jon
