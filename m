@@ -2,218 +2,220 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD3DC4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 05:57:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B46C4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:14:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3DAA20796
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 05:57:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="qOaSwHlP"
+	by mail.kernel.org (Postfix) with ESMTP id BD8842080C
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 08:14:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725853AbgJEF52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 01:57:28 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:53356 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725267AbgJEF52 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 01:57:28 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0955vCtN006791;
-        Mon, 5 Oct 2020 00:57:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1601877432;
-        bh=t9OMGlp7rkoiR6oDnlL4Rs+l3hwb3dsjR2HKGdfIFCc=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=qOaSwHlPmZuiPiVdtGQrWtiaNrG4zhiGfDhcPGESw+rj5iichz+lYwg+vsEW2sjzq
-         6wqE+04s9ktpHW8wf7HJ9/kjD0Wkma4We1hecfKwKd2Re99MwpRcwz6uuXliyUBp1l
-         FDKsqd6cESmFCRjdOEp6JAH1AJu9xhdSoIlb3L4E=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0955vB9I052649
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 5 Oct 2020 00:57:11 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 5 Oct
- 2020 00:57:11 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 5 Oct 2020 00:57:11 -0500
-Received: from [10.250.232.108] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0955v5Be041773;
-        Mon, 5 Oct 2020 00:57:06 -0500
-Subject: Re: [PATCH v7 00/18] Implement NTB Controller using multiple PCI EP
-To:     Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>
-CC:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
-References: <20200930153519.7282-1-kishon@ti.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <fe2db298-2116-7f52-80bd-a3d01a9a1521@ti.com>
-Date:   Mon, 5 Oct 2020 11:27:05 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1725978AbgJEIOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 04:14:30 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:57849 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725895AbgJEIOa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 04:14:30 -0400
+Received: from mail-wr1-f70.google.com ([209.85.221.70])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <andrea.righi@canonical.com>)
+        id 1kPLdb-0001H6-8n
+        for linux-doc@vger.kernel.org; Mon, 05 Oct 2020 08:14:27 +0000
+Received: by mail-wr1-f70.google.com with SMTP id d13so3669328wrr.23
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 01:14:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=04NfvqcE293cqSxzmzA7UDEenFQaTMOEO1JaCZLQgms=;
+        b=TU9CoiFypIduCQl4mr0WDiWtfzvd57M2gdS6DGKokW8IKeZjJ9NxcIO0vJqqpQ6Sco
+         6WWYr+9GSsofQC3IV3kLmb/KX6yFd9hoAFnkkrW3svLixb+I4wwdYockhV6bH9OkDSrU
+         yx3fKjwj+13xH/s/fC6gOpAhqHdTtsQcddm/aeqg0BnWBkx1hmTBgX8SMRS7KdKt4y1a
+         cHiNI3bZs6D3oT+uvBjckq+GbJQlXbi2aUwBRXzDkIncVZVzAreB54nxWWDY9IbfU1AU
+         UtvapoewP+CKMN9IEMMachWiKHyDfw+8efArexSzFVHWgZbAi3Gq3+/EvS/DOGNxJqob
+         WQsw==
+X-Gm-Message-State: AOAM533jgjQpyVIKd+HcfrFfYO2eYSGuUOMl/tmIO84PPFfFTXldV9Th
+        jbLowBzKdkc1+tfJfmFTQZ+5VE6k6fhoI74ntp0jLSz8Hs3NoegQJ6Q8dk5I+wVptCSNdANFTTX
+        +r4URIRBNMP/wJ7GTbQ3N1mstcM3hVX/+XloJmg==
+X-Received: by 2002:adf:c3c2:: with SMTP id d2mr1763590wrg.191.1601885666767;
+        Mon, 05 Oct 2020 01:14:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/vSx89vE5EQY/p7M5JNzqT6l1/+ZcZKgMzOZLy7zCPdPEe+yrwl2TQ5atBaon8TgjIaK/tQ==
+X-Received: by 2002:adf:c3c2:: with SMTP id d2mr1763556wrg.191.1601885666376;
+        Mon, 05 Oct 2020 01:14:26 -0700 (PDT)
+Received: from xps-13-7390.homenet.telecomitalia.it (host-79-36-133-218.retail.telecomitalia.it. [79.36.133.218])
+        by smtp.gmail.com with ESMTPSA id a15sm13168855wrn.3.2020.10.05.01.14.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2020 01:14:25 -0700 (PDT)
+From:   Andrea Righi <andrea.righi@canonical.com>
+To:     Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>
+Cc:     Li Zefan <lizefan@huawei.com>, Tejun Heo <tj@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luigi Semenzato <semenzato@google.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>, cgroups@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH RFC v2] Opportunistic memory reclaim
+Date:   Mon,  5 Oct 2020 10:13:11 +0200
+Message-Id: <20201005081313.732745-1-andrea.righi@canonical.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200930153519.7282-1-kishon@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon Mason, Allen Hubbe, Dave Jiang,
+## Overview
 
-On 30/09/20 9:05 pm, Kishon Vijay Abraham I wrote:
-> This series is about implementing SW defined Non-Transparent Bridge (NTB)
-> using multiple endpoint (EP) instances. This series has been tested using
-> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
-> on the other end. However there is nothing platform specific for the NTB
-> functionality.
+Opportunistic memory reclaim aims to introduce a new interface that
+allows user-space to trigger an artificial memory pressure condition and
+force the kernel to reclaim memory (dropping page cache pages, swapping
+out anonymous memory, etc.).
 
-This series has two patches that adds to drivers/ntb/ directory.
-[PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-Transparent
-Bridge and [PATCH v7 16/18] NTB: tool: Enable the NTB/PCIe link on the
-local or remote side of bridge.
+### Motivation
 
-If you can review and Ack the above patches, Lorenzo can queue it along
-with the rest of the series.
+Reclaiming memory in advance to prepare the system to be more responsive
+when needed.
 
-Thanks for your help in advance.
+### Use cases
 
-Best Regards,
-Kishon
+ - Reduce system memory footprint
+ - Speed up hibernation time
+ - Speed up VM migration time
+ - Prioritize responsiveness of foreground applications vs background
+   applications
+ - Prepare the system to be more responsiveness during large allocation
+   bursts
 
-> 
-> This was presented in Linux Plumbers Conference. Link to presentation
-> and video can be found @ [1]
-> 
-> RFC patch series can be found @ [2]
-> v1 patch series can be found @ [3]
-> v2 patch series can be found @ [4]
-> v3 patch series can be found @ [5]
-> v4 patch series can be found @ [6]
-> v5 patch series can be found @ [7]
-> v6 patch series can be found @ [8]
-> 
-> Changes from v6:
-> 1) Fixed issues when multiple NTB devices are creating using multiple
->    functions
-> 2) Fixed issue with writing scratchpad register
-> 3) Created a video demo @ [9]
-> 
-> Changes from v5:
-> 1) Fixed a formatting issue in Kconfig pointed out by Randy
-> 2) Checked for Error or Null in pci_epc_add_epf()
-> 
-> Changes from v4:
-> 1) Fixed error condition checks in pci_epc_add_epf()
-> 
-> Changes from v3:
-> 1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
-> 
-> Changes from v2:
-> 1) Add support for the user to create sub-directory of 'EPF Device'
->    directory (for endpoint function specific configuration using
->    configfs).
-> 2) Add documentation for NTB specific attributes in configfs
-> 3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
->    driver
-> 4) Other documentation fixes
-> 
-> Changes from v1:
-> 1) As per Rob's comment, removed support for creating NTB function
->    device from DT
-> 2) Add support to create NTB EPF device using configfs (added support in
->    configfs to associate primary and secondary EPC with EPF.
-> 
-> Changes from RFC:
-> 1) Converted the DT binding patches to YAML schema and merged the
->    DT binding patches together
-> 2) NTB documentation is converted to .rst
-> 3) One HOST can now interrupt the other HOST using MSI-X interrupts
-> 4) Added support for teardown of memory window and doorbell
->    configuration
-> 5) Add support to provide support 64-bit memory window size from
->    DT
-> 
-> [1] -> https://linuxplumbersconf.org/event/4/contributions/395/
-> [2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
-> [3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
-> [4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
-> [5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
-> [6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
-> [7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
-> [8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
-> [9] -> https://youtu.be/dLKKxrg5-rY
-> 
-> Kishon Vijay Abraham I (18):
->   Documentation: PCI: Add specification for the *PCI NTB* function
->     device
->   PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
->     BAR
->   PCI: endpoint: Add helper API to get the 'next' unreserved BAR
->   PCI: endpoint: Make *_free_bar() to return error codes on failure
->   PCI: endpoint: Remove unused pci_epf_match_device()
->   PCI: endpoint: Add support to associate secondary EPC with EPF
->   PCI: endpoint: Add support in configfs to associate two EPCs with EPF
->   PCI: endpoint: Add pci_epc_ops to map MSI irq
->   PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
->     specific attrs
->   PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
->     directory
->   PCI: cadence: Implement ->msi_map_irq() ops
->   PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
->   PCI: endpoint: Add EP function driver to provide NTB functionality
->   PCI: Add TI J721E device to pci ids
->   NTB: Add support for EPF PCI-Express Non-Transparent Bridge
->   NTB: tool: Enable the NTB/PCIe link on the local or remote side of
->     bridge
->   Documentation: PCI: Add configfs binding documentation for pci-ntb
->     endpoint function
->   Documentation: PCI: Add userguide for PCI endpoint NTB function
-> 
->  .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
->  Documentation/PCI/endpoint/index.rst          |    3 +
->  .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
->  .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
->  Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
->  drivers/misc/pci_endpoint_test.c              |    1 -
->  drivers/ntb/hw/Kconfig                        |    1 +
->  drivers/ntb/hw/Makefile                       |    1 +
->  drivers/ntb/hw/epf/Kconfig                    |    6 +
->  drivers/ntb/hw/epf/Makefile                   |    1 +
->  drivers/ntb/hw/epf/ntb_hw_epf.c               |  755 ++++++
->  drivers/ntb/test/ntb_tool.c                   |    1 +
->  .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
->  drivers/pci/endpoint/functions/Kconfig        |   12 +
->  drivers/pci/endpoint/functions/Makefile       |    1 +
->  drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
->  drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
->  drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
->  drivers/pci/endpoint/pci-epc-core.c           |  130 +-
->  drivers/pci/endpoint/pci-epf-core.c           |  105 +-
->  include/linux/pci-epc.h                       |   39 +-
->  include/linux/pci-epf.h                       |   28 +-
->  include/linux/pci_ids.h                       |    1 +
->  23 files changed, 3934 insertions(+), 73 deletions(-)
->  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
->  create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
->  create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
->  create mode 100644 drivers/ntb/hw/epf/Kconfig
->  create mode 100644 drivers/ntb/hw/epf/Makefile
->  create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
->  create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
-> 
+## Interface
+
+This feature is provided by adding a new file to each memcg:
+memory.swap.reclaim.
+
+Writing a number to this file forces a memcg to reclaim memory up to
+that number of bytes ("max" means as much memory as possible). Reading
+from the this file returns the amount of bytes reclaimed in the last
+opportunistic memory reclaim attempt.
+
+Memory reclaim can be interrupted sending a signal to the process that
+is writing to memory.swap.reclaim (i.e., to set a timeout for the whole
+memory reclaim run).
+
+## Example usage
+
+This feature has been successfully used to improve hibernation time of
+cloud computing instances.
+
+Certain cloud providers allow to run "spot instances": low-priority
+instances that run when there are spare resources available and can be
+stopped at any time to prioritize other more privileged instances [2].
+
+Hibernation can be used to stop these low-priority instances nicely,
+rather than losing state when the instance is shut down. Being able to
+quickly stop low-priority instances can be critical to provide a better
+quality of service in the overall cloud infrastructure [1].
+
+The main bottleneck of hibernation is represented by the I/O generated
+to write all the main memory (hibernation image) to a persistent
+storage.
+
+Opportunistic memory reclaimed can be used to reduce the size of the
+hibernation image in advance, for example if the system is idle for a
+certain amount of time, so if an hibernation request happens, the kernel
+has already saved most of the memory to the swap device (caches have
+been dropped, etc.) and hibernation can complete quickly.
+
+## Testing and results
+
+Here is a simple test case to show the effectiveness of this feature.
+
+Environment:
+```
+   - VM (kvm):
+     8GB of RAM
+     disk speed: 100 MB/s
+     8GB swap file on ext4 (/swapfile)
+```
+
+Test case:
+```
+  - allocate 85% of memory
+  - wait for 60s almost in idle
+  - hibernate and resume the system (measuring the time)
+```
+
+Result:
+  - average of 10 runs tested with `/sys/power/image_size=default` and
+    `/sys/power/image_size=0`:
+```
+                                 5.9-vanilla   5.9-mm_reclaim
+                                 -----------   --------------
+  [hibernate] image_size=default      49.07s            3.40s
+     [resume] image_size=default      18.35s            7.13s
+
+  [hibernate] image_size=0            71.55s            4.72s
+     [resume] image_size=0             7.49s            7.41s
+```
+
+NOTE #1: in the `5.9-mm_reclaim` case a simple user-space daemon detects
+when the system is idle for a certain amount of time and triggers the
+opportunistic memory reclaim.
+
+NOTE #2: `/sys/power/image_size=0` can be used with `5.9-vanilla` to
+speed up resume time (because it shrinks even more the hibernation
+image) at the cost of increasing hibernation time; with `5.9-mm_reclaim`
+performance are pretty much identical in both cases, because the
+hibernation image is already reduced to the minimum when the hibernation
+request happens.
+
+## Conclusion
+
+Being able to trigger memory reclaim from user-space allows to prepare
+the system in advance to be more responsive when needed.
+
+This feature has been used with positive test results to speed up
+hibernation time of cloud computing instances, but it can also provide
+benefits to other use cases, for example:
+
+ - prioritize responsiveness of foreground applications vs background
+   applications
+
+ - improve system responsiveness during large allocation bursts
+   (preparing system by reclaiming memory in advance, e.g. using some
+   idle cycles)
+
+ - reduce overall system memory footprint (especially in VM / cloud
+   computing environments)
+
+## See also
+
+ - [1] https://lwn.net/Articles/821158/
+ - [2] https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html
+ - [3] user-space tools/scripts: https://github.com/arighi/opportunistic-memory-reclaim
+ - [4] previous version: https://lore.kernel.org/lkml/20200601160636.148346-1-andrea.righi@canonical.com/
+
+## Changes in v2:
+ - move ABI from hibernation to memcg (since this feature can be used
+   also in other contexts and it's not hibernation-specific)
+ - drop memory release functionality (to re-load swapped out pages,
+   since it ended being not very useful)
+ - added the possibility to show the number of memory reclaimed in the
+   last attempt (per-memcg)
+
+----------------------------------------------------------------
+Andrea Righi (2):
+      mm: memcontrol: make shrink_all_memory() memcg aware
+      mm: memcontrol: introduce opportunistic memory reclaim
+
+ Documentation/admin-guide/cgroup-v2.rst | 18 ++++++++++
+ include/linux/memcontrol.h              |  4 +++
+ include/linux/swap.h                    |  9 ++++-
+ mm/memcontrol.c                         | 59 +++++++++++++++++++++++++++++++++
+ mm/vmscan.c                             |  6 ++--
+ 5 files changed, 92 insertions(+), 4 deletions(-)
+
