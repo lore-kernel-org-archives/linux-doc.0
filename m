@@ -2,28 +2,29 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A275C4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:12:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B88CAC4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:16:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB55820853
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:12:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F1322083B
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:16:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725973AbgJERM6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 13:12:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41002 "EHLO mail.kernel.org"
+        id S1726248AbgJERQP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 13:16:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43270 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725815AbgJERM6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Oct 2020 13:12:58 -0400
+        id S1725973AbgJERQP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 13:16:15 -0400
 Received: from gaia (unknown [95.149.105.49])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A099B207EA;
-        Mon,  5 Oct 2020 17:12:52 +0000 (UTC)
-Date:   Mon, 5 Oct 2020 18:12:49 +0100
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E614207EA;
+        Mon,  5 Oct 2020 17:16:11 +0000 (UTC)
+Date:   Mon, 5 Oct 2020 18:16:08 +0100
 From:   Catalin Marinas <catalin.marinas@arm.com>
 To:     Chen Zhou <chenzhou10@huawei.com>
 Cc:     will@kernel.org, james.morse@arm.com, tglx@linutronix.de,
@@ -35,60 +36,45 @@ Cc:     will@kernel.org, james.morse@arm.com, tglx@linutronix.de,
         kexec@lists.infradead.org, linux-doc@vger.kernel.org,
         guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
         wangkefeng.wang@huawei.com
-Subject: Re: [PATCH v12 7/9] kdump: add threshold for the required memory
-Message-ID: <20201005171248.GB14576@gaia>
+Subject: Re: [PATCH v12 6/9] arm64: kdump: reimplement crashkernel=X
+Message-ID: <20201005171608.GC14576@gaia>
 References: <20200907134745.25732-1-chenzhou10@huawei.com>
- <20200907134745.25732-8-chenzhou10@huawei.com>
+ <20200907134745.25732-7-chenzhou10@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200907134745.25732-8-chenzhou10@huawei.com>
+In-Reply-To: <20200907134745.25732-7-chenzhou10@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 07, 2020 at 09:47:43PM +0800, Chen Zhou wrote:
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 3f735cb37ace..d11d597a470d 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -378,6 +378,15 @@ int __init reserve_crashkernel_low(void)
->  }
->  
->  #if defined(CONFIG_X86) || defined(CONFIG_ARM64)
-> +
-> +/*
-> + * Add a threshold for required memory size of crashkernel. If required memory
-> + * size is greater than threshold, just go for high allocation directly. The
-> + * value of threshold is set as half of the total low memory.
-> + */
-> +#define REQUIRED_MEMORY_THRESHOLD	(memblock_mem_size(CRASH_ADDR_LOW_MAX >> \
-> +			PAGE_SHIFT) >> 1)
-> +
+On Mon, Sep 07, 2020 at 09:47:42PM +0800, Chen Zhou wrote:
+> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+> index 53acbeca4f57..1b24072f2bae 100644
+> --- a/arch/arm64/kernel/setup.c
+> +++ b/arch/arm64/kernel/setup.c
+> @@ -238,7 +238,18 @@ static void __init request_standard_resources(void)
+>  		    kernel_data.end <= res->end)
+>  			request_resource(res, &kernel_data);
 >  #ifdef CONFIG_KEXEC_CORE
->  /*
->   * reserve_crashkernel() - reserves memory for crash kernel
-> @@ -422,7 +431,7 @@ void __init reserve_crashkernel(void)
->  		 * So try low memory first and fall back to high memory
->  		 * unless "crashkernel=size[KMG],high" is specified.
->  		 */
-> -		if (!high)
-> +		if (!high && crash_size <= REQUIRED_MEMORY_THRESHOLD)
->  			crash_base = memblock_find_in_range(CRASH_ALIGN,
->  						CRASH_ADDR_LOW_MAX,
->  						crash_size, CRASH_ALIGN);
+> -		/* Userspace will find "Crash kernel" region in /proc/iomem. */
+> +		/*
+> +		 * Userspace will find "Crash kernel" or "Crash kernel (low)"
+> +		 * region in /proc/iomem.
+> +		 * In order to distinct from the high region and make no effect
+> +		 * to the use of existing kexec-tools, rename the low region as
+> +		 * "Crash kernel (low)".
+> +		 */
+> +		if (crashk_low_res.end && crashk_low_res.start >= res->start &&
+> +				crashk_low_res.end <= res->end) {
+> +			crashk_low_res.name = "Crash kernel (low)";
+> +			request_resource(res, &crashk_low_res);
+> +		}
 
-Since any change now is affecting the x86 semantics slightly, I'd
-suggest you drop this patch. We can add it later if needed, once the
-core changes are in.
-
-Thinking about this, if one requires a crashkernel reservation that
-allocates all of the ZONE_DMA, it would probably be noticed and explicit
-,high/,low options can be used.
-
-Note that we are also trying to make ZONE_DMA full 32-bit on non-RPi4
-hardware.
+With the changes in this series (including the above), how do the
+current kexec-tools behave? Do they pick just the high region and the
+loaded kernel will subsequently fail to boot?
 
 -- 
 Catalin
