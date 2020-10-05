@@ -2,112 +2,268 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8958C4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DC7C4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:00:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7DAD32080A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 17:44:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4F6320E65
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:00:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Bjhy7mLE"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ky1b95z9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728142AbgJERoN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 13:44:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41534 "EHLO
+        id S1728357AbgJETAC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 15:00:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728027AbgJERoM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 13:44:12 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9FFCC0613A7
-        for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2020 10:44:12 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id r78so1938402vke.11
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 10:44:12 -0700 (PDT)
+        with ESMTP id S1727714AbgJETAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 15:00:01 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2117C0613A7
+        for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2020 12:00:01 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id 26so9776676ois.5
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 12:00:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=T0SUN6EKstVpoqlENVYkDpfxgRN2mhcM+hd8aVgx82Y=;
-        b=Bjhy7mLEf3dMbcB301h2+hrEGKwW0Lztpw8VQTUMYjrf5E1N0OvXzBbiN7Nm22aCGw
-         9lKqHBSMuJczFFO2SHFwXrme+RSj2XbTPmbMh7WBl7D7F4LgcymOwFioF5/PDyoF94sI
-         03dR3zYUPifD8/ZTSvWCz2HfMihd2oVmvihvE=
+        bh=bgyVeWM2KFwaEKtxvi0k5vnLHgxboX9dQWrAwhLZ6sM=;
+        b=Ky1b95z9ctxi5Up6vlAjc2Sxv+MR7UCALpWjrjeUBeeemtaEGwZe9ejzUJSjnqtClo
+         ReUuS+LFV7Pk5Bhi9vXooH6kJAtdsj5SAxpT4b1SzN5FmVmWgnVZZ+gmZiGkbBF/xvdc
+         LbxZkShlVJragtp+g5FcfCbiM65I7so+1l5boJRu6oBARjnlFR2MwpIQaLXEsO8SsQfv
+         j39YatgwTx9rnBMhn+MZSrM82o5/g1sAniUNwPFHZ/5upL26RXXMGgSklQnyM9vGF9tc
+         fDxyE2Oc/XlaPyAd4iSslCujS84buEYweStGARsnJMW56Mcgdn721RtOuSFuvo/A0maq
+         Inmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=T0SUN6EKstVpoqlENVYkDpfxgRN2mhcM+hd8aVgx82Y=;
-        b=W40j5uBmSlTllES7/sjt0rHLgklgpDAUoA/TEcDbwnNkBbiQEwGdR/r+u5mveEwwWe
-         QV4ArizrkQULcDkdBxYcCwAa+At8Zn12n5HE/Mcc26pGIKRg1N2iy9B90sUmPeURgwwm
-         tgs9XgIwVON63/TpK7ghYGMcDX3tO7ziT6/knLrOQxi87iiIV6OECsaDr40wIxTRtxp+
-         bJRihkqPZPvDQV/vzdplf7O0z9CIo1vSBR/IiwQwuP/PyOWDAqzp2jklrpKYq6hoCWok
-         dGImxqiB3AXMzWgRLHdC9qYke4DQu82fW5H67UUYeY65JAWdowRJ+V5SnrKJOBxdJUCC
-         envg==
-X-Gm-Message-State: AOAM5302VuZbCaxujzatEJzhRIiGxTjydCDUZuGMocoPKQ0CpKdO2u1c
-        Tl2+/ugG/JAarz/ORT9yd0P+e/z2lK8TRg==
-X-Google-Smtp-Source: ABdhPJzBiBSMfbxIC3efu+kauVj/hEtOqKRXCSeQxhXdNDJV7dVdpjS9OMIroFvKf9BrvVt9GkPCZQ==
-X-Received: by 2002:a1f:a905:: with SMTP id s5mr584699vke.9.1601919851996;
-        Mon, 05 Oct 2020 10:44:11 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id d1sm101073vsk.4.2020.10.05.10.44.10
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Oct 2020 10:44:11 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id f8so2375209vsl.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 10:44:10 -0700 (PDT)
-X-Received: by 2002:a67:f4c2:: with SMTP id s2mr992567vsn.4.1601919849846;
- Mon, 05 Oct 2020 10:44:09 -0700 (PDT)
+        bh=bgyVeWM2KFwaEKtxvi0k5vnLHgxboX9dQWrAwhLZ6sM=;
+        b=Ve1JHa2bWLQFbqJmhmtOxX2cNHgunMQPBRnt/beBDlPdY+KqYzOi0VbdcoNHHBPoy0
+         IF3xe5fxfkdeLfxb58fAqDnV6uJs0bSJrmxqHH1DsmkeSeEzMAAGEPz2jFvI+De3w8n+
+         VLlF3+93lulLOp6upWlNIWEL4iIoduNV7lFx2rkb518AqL+yxVZYIZFHLQWl5zsp40Cm
+         9Jgp9lBp7ng0abL9TYjWA5YN/JpGcQ3I8OiagIOl/UnzphoGNue8XTcqWpShSSGDohHq
+         eCNvM8CQoBGDARIM2pLXwS2Q0z39Fb/4vNJL8EOQ+jxxQUCE9BzQ0ibNPr4uPg6IQAxT
+         rzEQ==
+X-Gm-Message-State: AOAM531QpKPnDNOEOY+fBUE63FeEVOu9n0dEI+lDIrym9NjeMKFIfUBJ
+        XmrzqWvQislChbLUBKE73MpWz45A17ZCoypiZmYgZQ==
+X-Google-Smtp-Source: ABdhPJyzVuth4CKP/Ne+wOuwyABlhcWUIOPRj8t4qy87nTBlOmB6Th6J+bzOAcqymPkEx9q7xzjLSwJPeD+YCnkxBi4=
+X-Received: by 2002:a54:468f:: with SMTP id k15mr488388oic.121.1601924400739;
+ Mon, 05 Oct 2020 12:00:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201005163016.13650-1-lukasz.luba@arm.com>
-In-Reply-To: <20201005163016.13650-1-lukasz.luba@arm.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 5 Oct 2020 10:43:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W70OPB=ufEfqAJEeZBNwr5yPOCmkM7R2uLKnEj6tZ1qA@mail.gmail.com>
-Message-ID: <CAD=FV=W70OPB=ufEfqAJEeZBNwr5yPOCmkM7R2uLKnEj6tZ1qA@mail.gmail.com>
-Subject: Re: [RESEND][PATCH v2 3/3] dt-bindings: thermal: update
- sustainable-power with abstract scale
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        amitk@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-2-elver@google.com>
+ <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
+ <CAG48ez1MQks2na23g_q4=ADrjMYjRjiw+9k_Wp9hwGovFzZ01A@mail.gmail.com>
+ <CACT4Y+a3hLF1ph1fw7xVz1bQDNKL8W0s6pXe7aKm9wTNrJH3=w@mail.gmail.com> <CAG48ez1RYbpMFbGFB6=9Y3vVCGrMgLS3LbDdxzBfmxH6Kxddmw@mail.gmail.com>
+In-Reply-To: <CAG48ez1RYbpMFbGFB6=9Y3vVCGrMgLS3LbDdxzBfmxH6Kxddmw@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 5 Oct 2020 20:59:49 +0200
+Message-ID: <CANpmjNPZxvWXTnJvkuwUifM5EjPetKxTJ7ectbw_7JFoBLB4EA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
+To:     Jann Horn <jannh@google.com>
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Fri, 2 Oct 2020 at 20:28, Jann Horn <jannh@google.com> wrote:
+[...]
+> > >
+> > > Do you have performance numbers or a description of why you believe
+> > > that this part of kfence is exceptionally performance-sensitive? If
+> > > not, it might be a good idea to remove this optimization, at least for
+> > > the initial version of this code. (And even if the optimization is
+> > > worthwhile, it might be a better idea to go for the generic version
+> > > immediately.)
+> >
+> > This check is very hot, it happens on every free. For every freed
+> > object we need to understand if it belongs to KFENCE or not.
+>
+> Ah, so the path you care about does not dereference __kfence_pool, it
+> just compares it to the supplied pointer?
+>
+>
+> First off: The way you've written is_kfence_address(), GCC 10.2 at -O3
+> seems to generate *utterly* *terrible* code (and the newest clang
+> release isn't any better); something like this:
+>
+> kfree_inefficient:
+>   mov rax, QWORD PTR __kfence_pool[rip]
+>   cmp rax, rdi
+>   jbe .L4
+> .L2:
+>   jmp kfree_not_kfence
+> .L4:
+>   add rax, 0x200000
+>   cmp rax, rdi
+>   jbe .L2
+>   jmp kfree_kfence
+>
+> So pointers to the left of the region and pointers to the right of the
+> region will take different branches, and so if you have a mix of
+> objects on both sides of the kfence region, you'll get tons of branch
+> mispredictions for no good reason. You'll want to rewrite that check
+> as "unlikely(ptr - base <= SIZE)" instead of "unlikely(ptr >= base &&
+> ptr < base + SIZE" unless you know that all the objects will be on one
+> side. This would also reduce the performance impact of loading
+> __kfence_pool from the data section, because the branch prediction can
+> then speculate the branch that depends on the load properly and
+> doesn't have to go roll back everything that happened when the object
+> turns out to be on the opposite side of the kfence memory region - the
+> latency of the load will hopefully become almost irrelevant.
 
-On Mon, Oct 5, 2020 at 9:30 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->
-> Update the documentation for the binding 'sustainable-power' and allow
-> to provide values in an abstract scale. It is required when the cooling
-> devices use an abstract scale for their power values.
->
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
-> ---
->
-> Hi Rob,
->
-> This is a fixed patch for DT binding, which now passes the
-> make dt_binding_check (I have changed tabs into spaces).
-> The former patch error that I have received is here [1].
->
-> Regards,
-> Lukasz
->
-> [1] https://lore.kernel.org/linux-pm/20201002114426.31277-1-lukasz.luba@arm.com/T/#md4b02a3ada592df67446566180643ba56788c159
+Good point, implemented that. (It's "ptr - base < SIZE" I take it.)
 
-...and because I suspect you might not look at any patches that fail
-your auto-checker, I'd appreciate it if you could comment on the
-discussion on the previous version of the patch.  Thanks!  :-)
+> So in x86 intel assembly (assuming that we want to ensure that we only
+> do a single branch on the object type), the straightforward and
+> non-terrible version would be:
+>
+>
+> kfree_unoptimized:
+>   mov rax, rdi
+>   sub rax, QWORD PTR __kfence_pool[rip]
+>   cmp rax, 0x200000
+>   jbe 1f
+>   /* non-kfence case goes here */
+> 1:
+>   /* kfence case goes here */
+>
+>
+> while the version you want is:
+>
+>
+> kfree_static:
+>   mov rax, rdi
+>   sub rax, OFFSET FLAT:__kfence_pool
+>   cmp rax, 0x200000
+>   jbe 1f
+>   jmp kfree_not_kfence
+> 1:
+>   jmp kfree_kfence
+>
+>
+> If we instead use something like
+>
+> #define STATIC_VARIABLE_LOAD(variable) \
+> ({ \
+>   typeof(variable) value; \
+>   BUILD_BUG_ON(sizeof(variable) != sizeof(unsigned long)); \
+>   asm( \
+>     ".pushsection .static_variable_users\n\t" \
+>     ".long "  #variable " - .\n\t" \
+>     ".long 123f - .\n\t" /* offset to end of constant */ \
+>     ".popsection\n\t" \
+>     "movabs $0x0123456789abcdef, %0" \
+>     "123:\n\t" \
+>     :"=r"(value) \
+>   ); \
+>   value; \
+> })
+> static __always_inline bool is_kfence_address(const void *addr)
+> {
+>   return unlikely((char*)addr - STATIC_VARIABLE_LOAD(__kfence_pool) <
+> KFENCE_POOL_SIZE);
+> }
+>
+> to locate the pool (which could again be normally allocated with
+> alloc_pages()), we'd get code like this, which is like the previous
+> except that we need an extra "movabs" because x86's "sub" can only use
+> immediates up to 32 bits:
+>
+> kfree_hotpatchable_bigreloc:
+>   mov rax, rdi
+>   movabs rdx, 0x0123456789abcdef
+>   sub rax, rdx
+>   cmp rax, 0x200000
+>   jbe .1f
+>   jmp kfree_not_kfence
+> 1:
+>   jmp kfree_kfence
+>
+> The arch-specific part of this could probably be packaged up pretty
+> nicely into a generic interface. If it actually turns out to have a
+> performance benefit, that is.
 
--Doug
+Something like this would certainly be nice, but we'll do the due
+diligence and see if it's even worth it.
+
+> If that one extra "movabs" is actually a problem, it would
+> *theoretically* be possible to get rid of that by using module_alloc()
+> to allocate virtual memory to which offsets from kernel text are 32
+> bits, and using special-cased inline asm, but we probably shouldn't do
+> that, because as Mark pointed out, we'd then risk getting extremely
+> infrequent extra bugs when drivers use phys_to_virt() on allocations
+> that were done through kfence. Adding new, extremely infrequent and
+> sporadically occurring bugs to the kernel seems like the exact
+> opposite of the goal of KFENCE. :P
+>
+> Overall my expectation would be that the MOVABS version should
+> probably at worst be something like one cycle slower - it adds 5
+> instruction bytes (and we pay 1 cycle in the frontend per 16 bytes of
+> instructions, I think?) and 1 backend cycle (for the MOVABS - Agner
+> Fog's tables seem to say that at least on Skylake, MOVABS is 1 cycle).
+> But that backend cycle shouldn't even be on the critical path (and it
+> has a wider choice of ports than e.g. a load, and I think typical
+> kernel code isn't exactly highly parallelizable, so we can probably
+> schedule on a port that would've been free otherwise?), and I think
+> typical kernel code should be fairly light on the backend, so with the
+> MOVABS version, compared to the version with __kfence_pool in the data
+> section, we probably overall just pay a fraction of a cycle in
+> execution cost? I'm not a professional performance engineer, but this
+> sounds to me like the MOVABS version should probably perform roughly
+> as well as your version.
+>
+> Anyway, I guess this is all pretty vague without actually having
+> concrete benchmark results. :P
+>
+> See <https://godbolt.org/z/Kev9dc> for examples of actual code
+> generation for different options of writing this check.
+
+Thanks for the analysis!  There is also some (11 year old) prior art,
+that seems to never have made it into the kernel:
+https://lore.kernel.org/lkml/20090924132626.485545323@polymtl.ca/
+
+Maybe we need to understand why that never made it.
+
+But I think, even if we drop the static pool, a first version of
+KFENCE should not depend on it.
+
+Thanks,
+-- Marco
