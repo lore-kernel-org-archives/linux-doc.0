@@ -2,88 +2,120 @@ Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A57D7C4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 13:12:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA10CC4363A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 13:51:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 761AC20848
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 13:12:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B050520674
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 13:51:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725954AbgJENMx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 09:12:53 -0400
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:39656 "EHLO
-        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725891AbgJENMx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 09:12:53 -0400
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 095DCRvw029620;
-        Mon, 5 Oct 2020 09:12:37 -0400
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-        by mx0a-00128a01.pphosted.com with ESMTP id 33xp74m3jc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 05 Oct 2020 09:12:36 -0400
-Received: from SCSQMBX10.ad.analog.com (scsqmbx10.ad.analog.com [10.77.17.5])
-        by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 095DCZ2t019542
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-        Mon, 5 Oct 2020 09:12:35 -0400
-Received: from SCSQMBX11.ad.analog.com (10.77.17.10) by
- SCSQMBX10.ad.analog.com (10.77.17.5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Mon, 5 Oct 2020 06:12:21 -0700
-Received: from zeus.spd.analog.com (10.66.68.11) by SCSQMBX11.ad.analog.com
- (10.77.17.10) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
- Transport; Mon, 5 Oct 2020 06:12:20 -0700
-Received: from saturn.ad.analog.com ([10.48.65.110])
-        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 095DCT0b004599;
-        Mon, 5 Oct 2020 09:12:30 -0400
-From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
-To:     <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <jdelvare@suse.com>, <linux@roeck-us.net>, <corbet@lwn.net>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>
-Subject: [PATCH] docs: hwmon: (ltc2945): update datasheet link
-Date:   Mon, 5 Oct 2020 16:12:26 +0300
-Message-ID: <20201005131226.1774081-1-alexandru.ardelean@analog.com>
-X-Mailer: git-send-email 2.25.1
+        id S1725960AbgJENvn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 09:51:43 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:39992 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725911AbgJENvf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Oct 2020 09:51:35 -0400
+Received: from mail-wm1-f71.google.com ([209.85.128.71])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <andrea.righi@canonical.com>)
+        id 1kPQto-0000xJ-Pa
+        for linux-doc@vger.kernel.org; Mon, 05 Oct 2020 13:51:32 +0000
+Received: by mail-wm1-f71.google.com with SMTP id l15so1734277wmh.9
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2020 06:51:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bQQp2PNEq0FY7Hqco5htUGBXM0/SRgDQIUWJr9BdqaM=;
+        b=TbmdPHJhZJ0gXV8yDvNIWXjqRgel1yga5HRhnJx0wC01QuItUoMDEp1MFvHnhAlP6Q
+         jQZW7ejAECPhjAeB0ZQQoLr+FkIAejFjh8GrivEXhqnaVvPg6UfVJca7AIP/z2iBBcyr
+         XePNrss/s1FMEkR2jBk/N4d6KN4sITGTuYA3dBy9CF72zW3aOOU0tK7nNIu4DlMZsgUY
+         J59iOk+IdY/d2O24YM2PjZFOj1oIJr0a49ND+6sM5fUfqG249oMDkKkN48oscqkkqIOO
+         lEQll8kbrEvgaVztI54yzoS0j85r6ITu5x1heDxknggX6+DdsuG8PNlNXrW+f/eq5+UV
+         bRSg==
+X-Gm-Message-State: AOAM532leKfpZ4/BftFSmeIFpniEtDjvBHoGTTAMZSXwUjiYwR4aGFQ7
+        iVcyi51h7XayPqwRzWhMsmAWEzQEo+aQmxlJhNGLOlb9TsGSjAWEhaA5nv8qcSiREpA+N9PW953
+        AoB0UtTcXdmoZ+MqMb6JlTDsWm5dPrMCDTuGWJg==
+X-Received: by 2002:a1c:28a:: with SMTP id 132mr17121823wmc.9.1601905892394;
+        Mon, 05 Oct 2020 06:51:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwofc6USifXN7h+C0hcGmEQa4n+RfAxxI8ZWg7rnK634gMSN9Wa915TnRbfzQlf/I65n7VhQw==
+X-Received: by 2002:a1c:28a:: with SMTP id 132mr17121788wmc.9.1601905892065;
+        Mon, 05 Oct 2020 06:51:32 -0700 (PDT)
+Received: from localhost (host-79-36-133-218.retail.telecomitalia.it. [79.36.133.218])
+        by smtp.gmail.com with ESMTPSA id t202sm13779805wmt.14.2020.10.05.06.51.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2020 06:51:31 -0700 (PDT)
+Date:   Mon, 5 Oct 2020 15:51:30 +0200
+From:   Andrea Righi <andrea.righi@canonical.com>
+To:     Chris Down <chris@chrisdown.name>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Li Zefan <lizefan@huawei.com>, Tejun Heo <tj@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luigi Semenzato <semenzato@google.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>, cgroups@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v2] Opportunistic memory reclaim
+Message-ID: <20201005135130.GA850459@xps-13-7390>
+References: <20201005081313.732745-1-andrea.righi@canonical.com>
+ <20201005112555.GA108347@chrisdown.name>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-ADIRoutedOnPrem: True
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-10-05_07:2020-10-05,2020-10-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 clxscore=1011 spamscore=0 bulkscore=0
- adultscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010050099
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201005112555.GA108347@chrisdown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Old one isn't working anymore. Update to the latest datasheet link.
+On Mon, Oct 05, 2020 at 12:25:55PM +0100, Chris Down wrote:
+> Andrea Righi writes:
+> > This feature has been successfully used to improve hibernation time of
+> > cloud computing instances.
+> > 
+> > Certain cloud providers allow to run "spot instances": low-priority
+> > instances that run when there are spare resources available and can be
+> > stopped at any time to prioritize other more privileged instances [2].
+> > 
+> > Hibernation can be used to stop these low-priority instances nicely,
+> > rather than losing state when the instance is shut down. Being able to
+> > quickly stop low-priority instances can be critical to provide a better
+> > quality of service in the overall cloud infrastructure [1].
+> > 
+> > The main bottleneck of hibernation is represented by the I/O generated
+> > to write all the main memory (hibernation image) to a persistent
+> > storage.
+> > 
+> > Opportunistic memory reclaimed can be used to reduce the size of the
+> > hibernation image in advance, for example if the system is idle for a
+> > certain amount of time, so if an hibernation request happens, the kernel
+> > has already saved most of the memory to the swap device (caches have
+> > been dropped, etc.) and hibernation can complete quickly.
+> 
+> Hmm, why does this need to be implemented in kernelspace? We already have
+> userspace shrinkers using memory pressure information as part of PID control
+> already (eg. senpai). Using memory.high and pressure information looks a lot
+> easier to reason about than having to choose an absolute number ahead of
+> time and hoping it works.
 
-Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
----
- Documentation/hwmon/ltc2945.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+senpai is focused at estimating the ideal memory requirements without
+affecting performance. And this covers the use case about reducing
+memory footprint.
 
-diff --git a/Documentation/hwmon/ltc2945.rst b/Documentation/hwmon/ltc2945.rst
-index 20c884985367..8d65c141ce2b 100644
---- a/Documentation/hwmon/ltc2945.rst
-+++ b/Documentation/hwmon/ltc2945.rst
-@@ -11,7 +11,7 @@ Supported chips:
- 
-     Datasheet:
- 
--	http://cds.linear.com/docs/en/datasheet/2945fa.pdf
-+	https://www.analog.com/media/en/technical-documentation/data-sheets/2945fb.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
--- 
-2.25.1
+In my specific use-case (hibernation) I would let the system use as much
+memory as possible if it's doing any activity (reclaiming memory only
+when the kernel decides that it needs to reclaim memory) and apply a
+more aggressive memory reclaiming policy when the system is mostly idle.
 
+I could probably implement this behavior adjusting memory.high
+dynamically, like senpai, but I'm worried about potential sudden large
+allocations that may require to respond faster at increasing
+memory.high. I think the user-space triggered memory reclaim approach is
+a safer solution from this perspective.
+
+-Andrea
