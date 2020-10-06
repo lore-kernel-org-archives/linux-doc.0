@@ -4,55 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3DEDC4727D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC336C4727E
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8029220782
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8BD1207EA
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993146;
-	bh=gircHDTmaOYdmAjX4GqQkC9md45Fenmq59SXCI2xF+A=;
+	s=default; t=1601993156;
+	bh=uDMrTXZvCi3GqbsSk6IY/HaOXXwfMR0GCoAdcBK7a+w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cyiANP7BJxb59EiSeYNTI0tLc1iDfSdlypLkb9Mknh/V38dK7wPpyN4IWt2Ib6LlJ
-	 cVJ0VCEJpyeMiZ5NZMYHKH3NTT1Sv4/Lfr+Bs9vMAfoG6+Z/sHht3+gwDIUhQEDyeq
-	 jEoCquEvRyPTOHBmtaUnhytl8QZQhC/kxMVnP/bU=
+	b=v4m1NrL18wnNOILll0uvmq1kF42X0sdcETxukPMwHZGRC3LXsEHyQVgJ+x1bJv8sU
+	 LxPqCYjvZoelUoZKMNnROvCd1A5rgDH5j9R6Fvssa4ik1Sz0IJNLZkv1xxCm3Kq2o2
+	 t9LYEVEKBmtOc9W1wd9YRc5c9KKICQsnOlPFrGgw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726890AbgJFOFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:05:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33604 "EHLO mail.kernel.org"
+        id S1726934AbgJFOFy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:05:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726469AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726391AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:56 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9B06220782;
+        by mail.kernel.org (Postfix) with ESMTPSA id 1E8FD217BA;
         Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601993034;
-        bh=gircHDTmaOYdmAjX4GqQkC9md45Fenmq59SXCI2xF+A=;
+        bh=uDMrTXZvCi3GqbsSk6IY/HaOXXwfMR0GCoAdcBK7a+w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P43rC0oxS07LbUeeQmaLgln41Qmgp89dgMe/2hM2ZjJfDoyj9F92TVJXAmGcdPzi4
-         9f+HsAFWPmgxXo7547lVVP/7Zd4Ky9+QS83yHN+TQcBgs8GTrG5Zv/rlSsxmjBVo8i
-         HjjRef17FP76W3CqOeTgYffO6jz7nkOsaRik+kOU=
+        b=18wpBe5djH8EJumjqT3LUFE94OWwgaSTBerABYaeKjL5l2pPvZSalU72VsVotl/Qc
+         ZTSbQI6AkwowML/IFAkbFTO5QMMG4v4dMIlR5PYrpdbhC0vT+btj2NbM5Lz39eArX+
+         LyaXrG/loFQjv3YAOOY2gEw2EXaLFach4csVBJSc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZI-0019G5-I3; Tue, 06 Oct 2020 16:03:52 +0200
+        id 1kPnZI-0019FR-1F; Tue, 06 Oct 2020 16:03:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 36/52] docs: devices.rst: get rid of :c:type macros
-Date:   Tue,  6 Oct 2020 16:03:33 +0200
-Message-Id: <3e4b8d8c35dd2c0f3104d1ccd76b9b9698b31084.1601992016.git.mchehab+huawei@kernel.org>
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: [PATCH v5 21/52] docs: remove some replace macros like |struct foo|
+Date:   Tue,  6 Oct 2020 16:03:18 +0200
+Message-Id: <4d4614f02f71ca7ee21eb611b56868bb616d122a.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -63,89 +62,292 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's no need to use macros to use :c:type on this file,
-as automarkup.py should do this automatically.
+There are three files with replace macros for structs,
+mapping them into Sphinx 2.x C domain references.
 
-Also, this breaks compatibility with Sphinx 3.x, as there,
-structs should be declared using .. c:struct.
+Well, this is broken on Sphinx 3.x. Also, for Sphinx 2.x,
+the automarkup macro should be able to take care of them.
 
-So, get rid of them.
+So, let's just drop those.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/pm/devices.rst | 24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ Documentation/admin-guide/pm/cpufreq.rst | 11 ++--
+ Documentation/driver-api/device_link.rst | 10 ++--
+ Documentation/driver-api/pm/cpuidle.rst  | 65 +++++++++++-------------
+ 3 files changed, 38 insertions(+), 48 deletions(-)
 
-diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-index 946ad0b94e31..4bda8a21f5d1 100644
---- a/Documentation/driver-api/pm/devices.rst
-+++ b/Documentation/driver-api/pm/devices.rst
-@@ -1,14 +1,6 @@
+diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+index 368e612145d2..6adb7988e0eb 100644
+--- a/Documentation/admin-guide/pm/cpufreq.rst
++++ b/Documentation/admin-guide/pm/cpufreq.rst
+@@ -1,7 +1,6 @@
  .. SPDX-License-Identifier: GPL-2.0
  .. include:: <isonum.txt>
  
--.. |struct dev_pm_ops| replace:: :c:type:`struct dev_pm_ops <dev_pm_ops>`
+-.. |struct cpufreq_policy| replace:: :c:type:`struct cpufreq_policy <cpufreq_policy>`
+ .. |intel_pstate| replace:: :doc:`intel_pstate <intel_pstate>`
+ 
+ =======================
+@@ -92,16 +91,16 @@ control the P-state of multiple CPUs at the same time and writing to it affects
+ all of those CPUs simultaneously.
+ 
+ Sets of CPUs sharing hardware P-state control interfaces are represented by
+-``CPUFreq`` as |struct cpufreq_policy| objects.  For consistency,
+-|struct cpufreq_policy| is also used when there is only one CPU in the given
++``CPUFreq`` as struct cpufreq_policy objects.  For consistency,
++struct cpufreq_policy is also used when there is only one CPU in the given
+ set.
+ 
+-The ``CPUFreq`` core maintains a pointer to a |struct cpufreq_policy| object for
++The ``CPUFreq`` core maintains a pointer to a struct cpufreq_policy object for
+ every CPU in the system, including CPUs that are currently offline.  If multiple
+ CPUs share the same hardware P-state control interface, all of the pointers
+-corresponding to them point to the same |struct cpufreq_policy| object.
++corresponding to them point to the same struct cpufreq_policy object.
+ 
+-``CPUFreq`` uses |struct cpufreq_policy| as its basic data type and the design
++``CPUFreq`` uses struct cpufreq_policy as its basic data type and the design
+ of its user space interface is based on the policy concept.
+ 
+ 
+diff --git a/Documentation/driver-api/device_link.rst b/Documentation/driver-api/device_link.rst
+index bc2d89af88ce..76950d061632 100644
+--- a/Documentation/driver-api/device_link.rst
++++ b/Documentation/driver-api/device_link.rst
+@@ -1,7 +1,3 @@
 -.. |struct dev_pm_domain| replace:: :c:type:`struct dev_pm_domain <dev_pm_domain>`
--.. |struct bus_type| replace:: :c:type:`struct bus_type <bus_type>`
--.. |struct device_type| replace:: :c:type:`struct device_type <device_type>`
--.. |struct class| replace:: :c:type:`struct class <class>`
--.. |struct wakeup_source| replace:: :c:type:`struct wakeup_source <wakeup_source>`
--.. |struct device| replace:: :c:type:`struct device <device>`
+-.. |struct generic_pm_domain| replace:: :c:type:`struct generic_pm_domain <generic_pm_domain>`
 -
- .. _driverapi_pm_devices:
+-
+ .. _device_link:
  
- ==============================
-@@ -107,7 +99,7 @@ Device Power Management Operations
+ ============
+@@ -166,7 +162,7 @@ Examples
+   is the same as if the MMU was the parent of the master device.
  
- Device power management operations, at the subsystem level as well as at the
- device driver level, are implemented by defining and populating objects of type
--|struct dev_pm_ops| defined in :file:`include/linux/pm.h`.  The roles of the
-+struct dev_pm_ops defined in :file:`include/linux/pm.h`.  The roles of the
- methods included in it will be explained in what follows.  For now, it should be
- sufficient to remember that the last three methods are specific to runtime power
- management while the remaining ones are used during system-wide power
-@@ -115,7 +107,7 @@ transitions.
+   The fact that both devices share the same power domain would normally
+-  suggest usage of a |struct dev_pm_domain| or |struct generic_pm_domain|,
++  suggest usage of a struct dev_pm_domain or struct generic_pm_domain,
+   however these are not independent devices that happen to share a power
+   switch, but rather the MMU device serves the busmaster device and is
+   useless without it.  A device link creates a synthetic hierarchical
+@@ -202,7 +198,7 @@ Examples
+ Alternatives
+ ============
  
- There also is a deprecated "old" or "legacy" interface for power management
- operations available at least for some subsystems.  This approach does not use
--|struct dev_pm_ops| objects and it is suitable only for implementing system
-+struct dev_pm_ops objects and it is suitable only for implementing system
- sleep power management methods in a limited way.  Therefore it is not described
- in this document, so please refer directly to the source code for more
- information about it.
-@@ -125,9 +117,9 @@ Subsystem-Level Methods
- -----------------------
+-* A |struct dev_pm_domain| can be used to override the bus,
++* A struct dev_pm_domain can be used to override the bus,
+   class or device type callbacks.  It is intended for devices sharing
+   a single on/off switch, however it does not guarantee a specific
+   suspend/resume ordering, this needs to be implemented separately.
+@@ -211,7 +207,7 @@ Alternatives
+   suspended.  Furthermore it cannot be used to enforce a specific shutdown
+   ordering or a driver presence dependency.
  
- The core methods to suspend and resume devices reside in
--|struct dev_pm_ops| pointed to by the :c:member:`ops` member of
--|struct dev_pm_domain|, or by the :c:member:`pm` member of |struct bus_type|,
--|struct device_type| and |struct class|.  They are mostly of interest to the
-+struct dev_pm_ops pointed to by the :c:member:`ops` member of
-+struct dev_pm_domain, or by the :c:member:`pm` member of struct bus_type,
-+struct device_type and struct class.  They are mostly of interest to the
- people writing infrastructure for platforms and buses, like PCI or USB, or
- device type and device class drivers.  They also are relevant to the writers of
- device drivers whose subsystems (PM domains, device types, device classes and
-@@ -156,7 +148,7 @@ The :c:member:`power.can_wakeup` flag just records whether the device (and its
- driver) can physically support wakeup events.  The
- :c:func:`device_set_wakeup_capable()` routine affects this flag.  The
- :c:member:`power.wakeup` field is a pointer to an object of type
--|struct wakeup_source| used for controlling whether or not the device should use
-+struct wakeup_source used for controlling whether or not the device should use
- its system wakeup mechanism and for notifying the PM core of system wakeup
- events signaled by the device.  This object is only present for wakeup-capable
- devices (i.e. devices whose :c:member:`can_wakeup` flags are set) and is created
-@@ -713,8 +705,8 @@ nested inside another power domain. The nested domain is referred to as the
- sub-domain of the parent domain.
+-* A |struct generic_pm_domain| is a lot more heavyweight than a
++* A struct generic_pm_domain is a lot more heavyweight than a
+   device link and does not allow for shutdown ordering or driver presence
+   dependencies.  It also cannot be used on ACPI systems.
  
- Support for power domains is provided through the :c:member:`pm_domain` field of
--|struct device|.  This field is a pointer to an object of type
--|struct dev_pm_domain|, defined in :file:`include/linux/pm.h`, providing a set
-+struct device.  This field is a pointer to an object of type
-+struct dev_pm_domain, defined in :file:`include/linux/pm.h`, providing a set
- of power management callbacks analogous to the subsystem-level and device driver
- callbacks that are executed for the given device during all power transitions,
- instead of the respective subsystem-level callbacks.  Specifically, if a
+diff --git a/Documentation/driver-api/pm/cpuidle.rst b/Documentation/driver-api/pm/cpuidle.rst
+index 3588bf078566..d477208604b8 100644
+--- a/Documentation/driver-api/pm/cpuidle.rst
++++ b/Documentation/driver-api/pm/cpuidle.rst
+@@ -1,11 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ .. include:: <isonum.txt>
+ 
+-.. |struct cpuidle_governor| replace:: :c:type:`struct cpuidle_governor <cpuidle_governor>`
+-.. |struct cpuidle_device| replace:: :c:type:`struct cpuidle_device <cpuidle_device>`
+-.. |struct cpuidle_driver| replace:: :c:type:`struct cpuidle_driver <cpuidle_driver>`
+-.. |struct cpuidle_state| replace:: :c:type:`struct cpuidle_state <cpuidle_state>`
+-
+ ========================
+ CPU Idle Time Management
+ ========================
+@@ -54,7 +49,7 @@ platform that the Linux kernel can run on.  For this reason, data structures
+ operated on by them cannot depend on any hardware architecture or platform
+ design details as well.
+ 
+-The governor itself is represented by a |struct cpuidle_governor| object
++The governor itself is represented by a struct cpuidle_governor object
+ containing four callback pointers, :c:member:`enable`, :c:member:`disable`,
+ :c:member:`select`, :c:member:`reflect`, a :c:member:`rating` field described
+ below, and a name (string) used for identifying it.
+@@ -83,11 +78,11 @@ callbacks:
+ 	  int (*enable) (struct cpuidle_driver *drv, struct cpuidle_device *dev);
+ 
+ 	The role of this callback is to prepare the governor for handling the
+-	(logical) CPU represented by the |struct cpuidle_device| object	pointed
+-	to by the ``dev`` argument.  The |struct cpuidle_driver| object pointed
++	(logical) CPU represented by the struct cpuidle_device object	pointed
++	to by the ``dev`` argument.  The struct cpuidle_driver object pointed
+ 	to by the ``drv`` argument represents the ``CPUIdle`` driver to be used
+ 	with that CPU (among other things, it should contain the list of
+-	|struct cpuidle_state| objects representing idle states that the
++	struct cpuidle_state objects representing idle states that the
+ 	processor holding the given CPU can be asked to enter).
+ 
+ 	It may fail, in which case it is expected to return a negative error
+@@ -102,7 +97,7 @@ callbacks:
+ 	  void (*disable) (struct cpuidle_driver *drv, struct cpuidle_device *dev);
+ 
+ 	Called to make the governor stop handling the (logical) CPU represented
+-	by the |struct cpuidle_device| object pointed to by the ``dev``
++	by the struct cpuidle_device object pointed to by the ``dev``
+ 	argument.
+ 
+ 	It is expected to reverse any changes made by the ``->enable()``
+@@ -116,12 +111,12 @@ callbacks:
+ 	                 bool *stop_tick);
+ 
+ 	Called to select an idle state for the processor holding the (logical)
+-	CPU represented by the |struct cpuidle_device| object pointed to by the
++	CPU represented by the struct cpuidle_device object pointed to by the
+ 	``dev`` argument.
+ 
+ 	The list of idle states to take into consideration is represented by the
+-	:c:member:`states` array of |struct cpuidle_state| objects held by the
+-	|struct cpuidle_driver| object pointed to by the ``drv`` argument (which
++	:c:member:`states` array of struct cpuidle_state objects held by the
++	struct cpuidle_driver object pointed to by the ``drv`` argument (which
+ 	represents the ``CPUIdle`` driver to be used with the CPU at hand).  The
+ 	value returned by this callback is interpreted as an index into that
+ 	array (unless it is a negative error code).
+@@ -136,7 +131,7 @@ callbacks:
+ 	asking the processor to enter the idle state).
+ 
+ 	This callback is mandatory (i.e. the :c:member:`select` callback pointer
+-	in |struct cpuidle_governor| must not be ``NULL`` for the registration
++	in struct cpuidle_governor must not be ``NULL`` for the registration
+ 	of the governor to succeed).
+ 
+ :c:member:`reflect`
+@@ -167,21 +162,21 @@ CPU idle time management (``CPUIdle``) drivers provide an interface between the
+ other parts of ``CPUIdle`` and the hardware.
+ 
+ First of all, a ``CPUIdle`` driver has to populate the :c:member:`states` array
+-of |struct cpuidle_state| objects included in the |struct cpuidle_driver| object
++of struct cpuidle_state objects included in the struct cpuidle_driver object
+ representing it.  Going forward this array will represent the list of available
+ idle states that the processor hardware can be asked to enter shared by all of
+ the logical CPUs handled by the given driver.
+ 
+ The entries in the :c:member:`states` array are expected to be sorted by the
+-value of the :c:member:`target_residency` field in |struct cpuidle_state| in
++value of the :c:member:`target_residency` field in struct cpuidle_state in
+ the ascending order (that is, index 0 should correspond to the idle state with
+ the minimum value of :c:member:`target_residency`).  [Since the
+ :c:member:`target_residency` value is expected to reflect the "depth" of the
+-idle state represented by the |struct cpuidle_state| object holding it, this
++idle state represented by the struct cpuidle_state object holding it, this
+ sorting order should be the same as the ascending sorting order by the idle
+ state "depth".]
+ 
+-Three fields in |struct cpuidle_state| are used by the existing ``CPUIdle``
++Three fields in struct cpuidle_state are used by the existing ``CPUIdle``
+ governors for computations related to idle state selection:
+ 
+ :c:member:`target_residency`
+@@ -203,7 +198,7 @@ governors for computations related to idle state selection:
+ 	any idle state at all.  [There are other flags used by the ``CPUIdle``
+ 	core in special situations.]
+ 
+-The :c:member:`enter` callback pointer in |struct cpuidle_state|, which must not
++The :c:member:`enter` callback pointer in struct cpuidle_state, which must not
+ be ``NULL``, points to the routine to execute in order to ask the processor to
+ enter this particular idle state:
+ 
+@@ -212,14 +207,14 @@ enter this particular idle state:
+   void (*enter) (struct cpuidle_device *dev, struct cpuidle_driver *drv,
+                  int index);
+ 
+-The first two arguments of it point to the |struct cpuidle_device| object
++The first two arguments of it point to the struct cpuidle_device object
+ representing the logical CPU running this callback and the
+-|struct cpuidle_driver| object representing the driver itself, respectively,
+-and the last one is an index of the |struct cpuidle_state| entry in the driver's
++struct cpuidle_driver object representing the driver itself, respectively,
++and the last one is an index of the struct cpuidle_state entry in the driver's
+ :c:member:`states` array representing the idle state to ask the processor to
+ enter.
+ 
+-The analogous ``->enter_s2idle()`` callback in |struct cpuidle_state| is used
++The analogous ``->enter_s2idle()`` callback in struct cpuidle_state is used
+ only for implementing the suspend-to-idle system-wide power management feature.
+ The difference between in and ``->enter()`` is that it must not re-enable
+ interrupts at any point (even temporarily) or attempt to change the states of
+@@ -227,48 +222,48 @@ clock event devices, which the ``->enter()`` callback may do sometimes.
+ 
+ Once the :c:member:`states` array has been populated, the number of valid
+ entries in it has to be stored in the :c:member:`state_count` field of the
+-|struct cpuidle_driver| object representing the driver.  Moreover, if any
++struct cpuidle_driver object representing the driver.  Moreover, if any
+ entries in the :c:member:`states` array represent "coupled" idle states (that
+ is, idle states that can only be asked for if multiple related logical CPUs are
+-idle), the :c:member:`safe_state_index` field in |struct cpuidle_driver| needs
++idle), the :c:member:`safe_state_index` field in struct cpuidle_driver needs
+ to be the index of an idle state that is not "coupled" (that is, one that can be
+ asked for if only one logical CPU is idle).
+ 
+ In addition to that, if the given ``CPUIdle`` driver is only going to handle a
+ subset of logical CPUs in the system, the :c:member:`cpumask` field in its
+-|struct cpuidle_driver| object must point to the set (mask) of CPUs that will be
++struct cpuidle_driver object must point to the set (mask) of CPUs that will be
+ handled by it.
+ 
+ A ``CPUIdle`` driver can only be used after it has been registered.  If there
+ are no "coupled" idle state entries in the driver's :c:member:`states` array,
+-that can be accomplished by passing the driver's |struct cpuidle_driver| object
++that can be accomplished by passing the driver's struct cpuidle_driver object
+ to :c:func:`cpuidle_register_driver()`.  Otherwise, :c:func:`cpuidle_register()`
+ should be used for this purpose.
+ 
+-However, it also is necessary to register |struct cpuidle_device| objects for
++However, it also is necessary to register struct cpuidle_device objects for
+ all of the logical CPUs to be handled by the given ``CPUIdle`` driver with the
+ help of :c:func:`cpuidle_register_device()` after the driver has been registered
+ and :c:func:`cpuidle_register_driver()`, unlike :c:func:`cpuidle_register()`,
+ does not do that automatically.  For this reason, the drivers that use
+ :c:func:`cpuidle_register_driver()` to register themselves must also take care
+-of registering the |struct cpuidle_device| objects as needed, so it is generally
++of registering the struct cpuidle_device objects as needed, so it is generally
+ recommended to use :c:func:`cpuidle_register()` for ``CPUIdle`` driver
+ registration in all cases.
+ 
+-The registration of a |struct cpuidle_device| object causes the ``CPUIdle``
++The registration of a struct cpuidle_device object causes the ``CPUIdle``
+ ``sysfs`` interface to be created and the governor's ``->enable()`` callback to
+ be invoked for the logical CPU represented by it, so it must take place after
+ registering the driver that will handle the CPU in question.
+ 
+-``CPUIdle`` drivers and |struct cpuidle_device| objects can be unregistered
++``CPUIdle`` drivers and struct cpuidle_device objects can be unregistered
+ when they are not necessary any more which allows some resources associated with
+ them to be released.  Due to dependencies between them, all of the
+-|struct cpuidle_device| objects representing CPUs handled by the given
++struct cpuidle_device objects representing CPUs handled by the given
+ ``CPUIdle`` driver must be unregistered, with the help of
+ :c:func:`cpuidle_unregister_device()`, before calling
+ :c:func:`cpuidle_unregister_driver()` to unregister the driver.  Alternatively,
+ :c:func:`cpuidle_unregister()` can be called to unregister a ``CPUIdle`` driver
+-along with all of the |struct cpuidle_device| objects representing CPUs handled
++along with all of the struct cpuidle_device objects representing CPUs handled
+ by it.
+ 
+ ``CPUIdle`` drivers can respond to runtime system configuration changes that
+@@ -277,8 +272,8 @@ happen, for example, when the system's power source is switched from AC to
+ battery or the other way around).  Upon a notification of such a change,
+ a ``CPUIdle`` driver is expected to call :c:func:`cpuidle_pause_and_lock()` to
+ turn ``CPUIdle`` off temporarily and then :c:func:`cpuidle_disable_device()` for
+-all of the |struct cpuidle_device| objects representing CPUs affected by that
++all of the struct cpuidle_device objects representing CPUs affected by that
+ change.  Next, it can update its :c:member:`states` array in accordance with
+ the new configuration of the system, call :c:func:`cpuidle_enable_device()` for
+-all of the relevant |struct cpuidle_device| objects and invoke
++all of the relevant struct cpuidle_device objects and invoke
+ :c:func:`cpuidle_resume_and_unlock()` to allow ``CPUIdle`` to be used again.
 -- 
 2.26.2
 
