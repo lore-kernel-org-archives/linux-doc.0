@@ -2,53 +2,53 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D5AC4363D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C9A9C41604
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AB9A2078E
+	by mail.kernel.org (Postfix) with ESMTP id C13072078E
 	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1601993268;
-	bh=8Wg4J7Lyd/Va8b7XV8z9jXdPVZ/IrSKHVEYF1TFbuSY=;
+	bh=u0Ejw1NVIXMtPdidzb9uDuQjyovU4BtMfQmfTFTMrZU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ddNZ2HLG+XNA3Jwxmr6oPFmJh2VJGbCIvgzwNLJKbKrgq0L0Gw8trjLC/cp9fr7Po
-	 Xasdr/9xDPYJnkc5YeUa5mWCN4Jjv7SjII+wMJQT50qFTTB7885fq0XZnzjej34W/5
-	 dPmrCHgCnAv8uFNbxAbN/LNwWZypj1/tCjBSeRaU=
+	b=ZMhBhmSz4hld3sTsfa0fe+QlV8zq/LpdCjWlaXFoyMgx6y3T51pfMEWUvK8EaTud1
+	 KeMWy0HgDjayEujkKH3EHHfnAc2a9fvy2147zNDviIegoo2f7OWgarIktC67nd2mtQ
+	 IJBXOiygwsAZ18L4TkQwM4yfeJbkDPqME1Hfq6fU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727123AbgJFOHe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:07:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33144 "EHLO mail.kernel.org"
+        id S1726830AbgJFOHd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:07:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33130 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726214AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726182AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:54 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 69D2E2083B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 6882F207EA;
         Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601993033;
-        bh=8Wg4J7Lyd/Va8b7XV8z9jXdPVZ/IrSKHVEYF1TFbuSY=;
+        bh=u0Ejw1NVIXMtPdidzb9uDuQjyovU4BtMfQmfTFTMrZU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RYHQ7En3Ne/fphOiy+cchyN4h4mSWBgSxqgaRhgcnyF7Ukd6GKSO9Xj/StyeXXWMB
-         +ZhjAbIdShSe//ARODaSgryqWpgJkozTyXZkJINiAhFDaoEnUmC7ZgUZeQAGtNiJlP
-         XNSXmhvTkLVlrrULlX6mAz5lKTBDxedUi6Xsmbls=
+        b=ztrQBk1GT4cz/v2OncBiplVlQfmgzUnDzcrAE5Sza0Yb+09ewjXtYRK/kYMjl0ALU
+         PmQUhFnBNf22mo9mLavIjt2L/njmjj91ntVIIrLbIo0xQp+Hjkk0Nc7EAPP/6KX8sH
+         2AyHDM6KPHtHxbAUgKlXeSqXj8d1HW8cm7E+Sek8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZH-0019Ea-2W; Tue, 06 Oct 2020 16:03:51 +0200
+        id 1kPnZH-0019Eg-5d; Tue, 06 Oct 2020 16:03:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v5 02/52] docs: cdomain.py: extend it to handle new Sphinx 3.x tags
-Date:   Tue,  6 Oct 2020 16:02:59 +0200
-Message-Id: <baadb994094af8b7de31622aae6ec95ccf55a35a.1601992016.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 05/52] scripts: kernel-doc: use a less pedantic markup for funcs on Sphinx 3.x
+Date:   Tue,  6 Oct 2020 16:03:02 +0200
+Message-Id: <f3bee471d451281f954958f0546dcd56c67f5a35.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -59,92 +59,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While most of the C domain parsing is done via kernel-doc,
-some RST files use C domain tags directly.
+Unfortunately, Sphinx 3.x parser for c functions is too pedantic:
 
-While several of them can be removed for Sphinx < 3.0, due
-to automarkup.py, and several others that could be
-converted into kernel-doc markups, changes like that are
-time-consuming, and may not fit all cases.
+	https://github.com/sphinx-doc/sphinx/issues/8241
 
-As we already have the cdomain.py for handing backward
-compatibility with Sphinx versions below 3.0, let's
-make it more complete, in order to cover any usage of the
-newer tags outside kernel-doc.
+While it could be relaxed with some configurations, there are
+several corner cases that it would make it hard to maintain,
+and will require teaching conf.py about several macros.
 
-This way, it should be feasible to use the new tags inside
-the Kernel tree, without losing backward compatibility.
-
-This should allow fixing the remaining warnings with
-the Kernel tags.
+So, let's instead use the :c:macro notation. This will
+produce an output that it is not as nice as currently, but it
+should still be acceptable, and will provide cross-references,
+removing thousands of warnings when building with newer
+versions of Sphinx.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/cdomain.py | 40 ++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+ scripts/kernel-doc | 34 ++++++++++++++++++++++++----------
+ 1 file changed, 24 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-index 35805c44a4fc..014a5229e57a 100644
---- a/Documentation/sphinx/cdomain.py
-+++ b/Documentation/sphinx/cdomain.py
-@@ -54,7 +54,7 @@ namespace = None
- #
- # Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
- # - Store the namespace if ".. c:namespace::" tag is found
--
-+#
- RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 096317ef2e97..d9783c98f33b 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -886,19 +886,29 @@ sub output_function_rst(%) {
+     my $oldprefix = $lineprefix;
+     my $start = "";
  
- def markup_namespace(match):
-@@ -64,10 +64,48 @@ def markup_namespace(match):
- 
-     return ""
- 
-+#
-+# Handle c:macro for function-style declaration
-+#
-+RE_macro = re.compile(r'^\s*..\s*c:macro::\s*(\S+)\s+(\S.*)\s*$')
-+def markup_macro(match):
-+    return ".. c:function:: " + match.group(1) + ' ' + match.group(2)
+-    if ($args{'typedef'}) {
+-	if ($sphinx_major < 3) {
++    if ($sphinx_major < 3) {
++	if ($args{'typedef'}) {
+ 	    print ".. c:type:: ". $args{'function'} . "\n\n";
++	    print_lineno($declaration_start_line);
++	    print "   **Typedef**: ";
++	    $lineprefix = "";
++	    output_highlight_rst($args{'purpose'});
++	    $start = "\n\n**Syntax**\n\n  ``";
+ 	} else {
+-	    print ".. c:function:: ". $args{'function'} . "\n\n";
++	    print ".. c:function:: ";
+ 	}
+-	print_lineno($declaration_start_line);
+-	print "   **Typedef**: ";
+-	$lineprefix = "";
+-	output_highlight_rst($args{'purpose'});
+-	$start = "\n\n**Syntax**\n\n  ``";
+     } else {
+-	print ".. c:function:: ";
++	print ".. c:macro:: ". $args{'function'} . "\n\n";
 +
-+#
-+# Handle newer c domain tags that are evaluated as .. c:type: for
-+# backward-compatibility with Sphinx < 3.0
-+#
-+RE_ctype = re.compile(r'^\s*..\s*c:(struct|union|enum|enumerator|alias)::\s*(.*)$')
-+
-+def markup_ctype(match):
-+    return ".. c:type:: " + match.group(2)
-+
-+#
-+# Handle newer c domain tags that are evaluated as :c:type: for
-+# backward-compatibility with Sphinx < 3.0
-+#
-+RE_ctype_refs = re.compile(r':c:(var|struct|union|enum|enumerator)::`([^\`]+)`')
-+def markup_ctype_refs(match):
-+    return ":c:type:`" + match.group(2) + '`'
-+
-+#
-+# Simply convert :c:expr: and :c:texpr: into a literal block.
-+#
-+RE_expr = re.compile(r':c:(expr|texpr):`([^\`]+)`')
-+def markup_c_expr(match):
-+    return '\ ``' + match.group(2) + '``\ '
-+
-+#
-+# Parse Sphinx 3.x C markups, replacing them by backward-compatible ones
-+#
- def c_markups(app, docname, source):
-     result = ""
-     markup_func = {
-         RE_namespace: markup_namespace,
-+        RE_expr: markup_c_expr,
-+        RE_macro: markup_macro,
-+        RE_ctype: markup_ctype,
-+        RE_ctype_refs: markup_ctype_refs,
++	if ($args{'typedef'}) {
++	    print_lineno($declaration_start_line);
++	    print "   **Typedef**: ";
++	    $lineprefix = "";
++	    output_highlight_rst($args{'purpose'});
++	    $start = "\n\n**Syntax**\n\n  ``";
++	} else {
++	    print "``";
++	}
      }
- 
-     lines = iter(source[0].splitlines(True))
+     if ($args{'functiontype'} ne "") {
+ 	$start .= $args{'functiontype'} . " " . $args{'function'} . " (";
+@@ -925,7 +935,11 @@ sub output_function_rst(%) {
+     if ($args{'typedef'}) {
+ 	print ");``\n\n";
+     } else {
+-	print ")\n\n";
++	if ($sphinx_major < 3) {
++	    print ")\n\n";
++	} else {
++	    print ")``\n";
++	}
+ 	print_lineno($declaration_start_line);
+ 	$lineprefix = "   ";
+ 	output_highlight_rst($args{'purpose'});
 -- 
 2.26.2
 
