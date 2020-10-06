@@ -2,101 +2,73 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 134ADC4727D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D83AC41604
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:53:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B75CA20789
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:41:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602002472;
-	bh=rDLLCAfcpbKWcjiDraDDSN94bLOF55Woeg1qUpEpZss=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=aJCw10djASlSV0uGZVmidEjo4UxJEreoItVxBmRAIAVpCO5Yx6itVXI/bJeuk+nZB
-	 JTSzy7hItN+4NQfF99VTez2YaiNZiKpWMkpo4g1Bj11y8fFTDk3icSp2aSGCQazrSv
-	 eRj/ARNtC+cGKHaUVlwQOB5Svx666jbJxpq5YXFU=
+	by mail.kernel.org (Postfix) with ESMTP id D6C492075A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:53:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbgJFQlI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 12:41:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57132 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725902AbgJFQlI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 12:41:08 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 18F01206D4;
-        Tue,  6 Oct 2020 16:41:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602002466;
-        bh=rDLLCAfcpbKWcjiDraDDSN94bLOF55Woeg1qUpEpZss=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1XMM2DnEL0suZYEsKoQ4gvHK221+DNjzTkhDb/jC68bGBPrpJ47KmZGY2Dhmaz9XA
-         FTLdSzUXsJbqwg5/8kCi8kMUuiG2QmvADxuduTSykB/Dd179CGtmxw8jo2YYzEa+GA
-         608bhe780TJ8H8CeosB+67BzvasTbDhIVpDDq1Oc=
-Date:   Tue, 6 Oct 2020 18:41:52 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S1725925AbgJFQxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 12:53:35 -0400
+Received: from smtprelay0108.hostedemail.com ([216.40.44.108]:40662 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725769AbgJFQxf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Oct 2020 12:53:35 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 6FF63180A7FCF;
+        Tue,  6 Oct 2020 16:53:34 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: money83_04146bc271c8
+X-Filterd-Recvd-Size: 1801
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf19.hostedemail.com (Postfix) with ESMTPA;
+        Tue,  6 Oct 2020 16:53:33 +0000 (UTC)
+Message-ID: <81ca9b814e3c7f9bac1198e8c6adb29537a5813a.camel@perches.com>
+Subject: Re: [PATCH] scripts: kernel-doc: allow passing desired Sphinx C
+ domain dialect
+From:   Joe Perches <joe@perches.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Moritz Fischer <mdf@kernel.org>,
-        Puranjay Mohan <puranjay12@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Satya Tangirala <satyat@google.com>,
-        Takashi Iwai <tiwai@suse.com>, Tom Rix <trix@redhat.com>,
-        alsa-devel@alsa-project.org, linux-fpga@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        Takashi Iwai <tiwai@suse.de>,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v5 22/52] docs: get rid of :c:type explicit declarations
- for structs
-Message-ID: <20201006164152.GB36638@kroah.com>
-References: <cover.1601992016.git.mchehab+huawei@kernel.org>
- <1f9d7dfd5e8557b55218af01045331939f1add28.1601992016.git.mchehab+huawei@kernel.org>
+        Changbin Du <changbin.du@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Markus Heiser <markus.heiser@darmarit.de>
+Date:   Tue, 06 Oct 2020 09:53:32 -0700
+In-Reply-To: <20201006080134.07d94d26@lwn.net>
+References: <ee1f16453ad40eae2603adfde5f6dda3ab1befc7.1601798520.git.mchehab+huawei@kernel.org>
+         <20201005101736.7adf4f46@lwn.net> <20201006084207.125c88d5@coco.lan>
+         <20201006080134.07d94d26@lwn.net>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1f9d7dfd5e8557b55218af01045331939f1add28.1601992016.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 06, 2020 at 04:03:19PM +0200, Mauro Carvalho Chehab wrote:
-> The :c:type:`foo` only works properly with structs before
-> Sphinx 3.x.
+On Tue, 2020-10-06 at 08:01 -0600, Jonathan Corbet wrote:
+> On Tue, 6 Oct 2020 08:42:07 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> On Sphinx 3.x, structs should now be declared using the
-> .. c:struct, and referenced via :c:struct tag.
+> > As right now we don't support Sphinx version 3.0[1], we're actually using just
+> > $sphinx_major. So, I'm wonder if it would make sense to also make <minor>
+> > optional.
 > 
-> As we now have the automarkup.py macro, that automatically
-> convert:
-> 	struct foo
+> Maybe...someday we may need it, knowing how the Sphinx folks approach
+> compatibility, but I guess we can always add it then if so.
 > 
-> into cross-references, let's get rid of that, solving
-> several warnings when building docs with Sphinx 3.x.
+> > The change would be trivial, although the regex will become even more
+> > harder to read ;-)
 > 
-> Reviewed-by: André Almeida <andrealmeid@collabora.com> # blk-mq.rst
-> Reviewed-by: Takashi Iwai <tiwai@suse.de> # sound
-> Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
+> 	^(\d+)(\.(\d+)){,2}
+> 
+> ?  (untested, of course)
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+This doesn't work as capture groups don't nest using {m, n}
+
+
