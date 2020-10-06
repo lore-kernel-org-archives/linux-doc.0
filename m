@@ -7,48 +7,52 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1416C4727D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:06:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCDEC41604
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:06:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A5D020760
+	by mail.kernel.org (Postfix) with ESMTP id 00A0720782
 	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:06:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993177;
-	bh=nppqgRkE8NET8Mnmupu4lt6l5W2Mb0AlILegNl2tCpQ=;
+	s=default; t=1601993178;
+	bh=78BG9Iu2yAlND/COH/HKK6//gm3h8RbYRE58LCuOyj4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=aPZ+j2JDYqccGsweEgRiY3Usb9F6op+DxysVIWAy5aAhOZ0uEAcjQqmHvUzJrpvMo
-	 G7ZnJ6wEmVasyhHbqCL5sRntS9JpZINkiAfv2tzlXARwsW3j8UxYkwopRL8O001j2F
-	 RwQTzrAS84quqD3kFpdesS5A0KAcjOg/xeMnpAzg=
+	b=vHHGvXg0U3S2jr/rzyao9KGPyYeGuDKtUZvmE0qqyKIws9Oi6lA/S7Z/sC1nD+aM4
+	 2PdKSkUYEdp7IiQ8xY72xA7jHTOKgOtkUXofPYs3Dq45fvrkmyHAWmIG/DXJ0ZSvcf
+	 558pK9nX8wpKI5QJg0lUwDEdnnRE9mCY86ERmZcg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726519AbgJFODz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:03:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33542 "EHLO mail.kernel.org"
+        id S1726131AbgJFOGR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:06:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33530 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726431AbgJFODz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 10:03:55 -0400
+        id S1726497AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 10:03:56 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 57E4721D43;
+        by mail.kernel.org (Postfix) with ESMTPSA id BD53B2226A;
         Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993034;
-        bh=nppqgRkE8NET8Mnmupu4lt6l5W2Mb0AlILegNl2tCpQ=;
+        s=default; t=1601993035;
+        bh=78BG9Iu2yAlND/COH/HKK6//gm3h8RbYRE58LCuOyj4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JET2+YDRrNiTy0OxuZn8DOqPkre3kcCJE2sCIsetGyLQzzEzHm5xRqLHjfnfg5Zre
-         UVh5IgpAboNWo1f4w7xcLX36BF0jU9mHYw0PD4mLPVJjTFoMTNc+hGW/Q4eeYUzEyx
-         pUy2fYXZapdixI6VlBS+qY/x3HGlVWQWenCRzdls=
+        b=svhfwihAjLuruTbK6MWBRvuq1rTft/Sm7MfsmPdLu7gQJ+qO5Lv3oXZrSPnPSlEOb
+         XSUh3Ov79m7rjubijWfJ/7oarjQXa4WiytH4/QVgnl3Of2fDI+UxewPvgFLWSsJLZ4
+         N9vTVwNGT75Y8cWIvBzqYNTYv+9+rybrPdG8b47o=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZH-0019Ec-3J; Tue, 06 Oct 2020 16:03:51 +0200
+        id 1kPnZI-0019GH-L7; Tue, 06 Oct 2020 16:03:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 03/52] docs: conf.py: disable automarkup for Sphinx 3.x
-Date:   Tue,  6 Oct 2020 16:03:00 +0200
-Message-Id: <2421e089d493604712838b21309ebbc808e612df.1601992016.git.mchehab+huawei@kernel.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v5 39/52] docs: writing-an-alsa-driver.rst: fix some bad c:func: markups
+Date:   Tue,  6 Oct 2020 16:03:36 +0200
+Message-Id: <185686ba69268d7c9fa1996b7a42f9f860757ff2.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -59,37 +63,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The class types changed after the C domain rewrite on
-Sphinx 3.x. Due to that, the automarkup extension is just
-generating additional noise when trying to convert structs
-and other markups into cross references.
+Some such markups are invalid, as reported by Sphinx:
 
+	./Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3317: WARNING: Unparseable C cross-reference: 'snd_rawmidi_transmit*'
+	Invalid C declaration: Expected end of definition. [error at 20]
+	  snd_rawmidi_transmit*
+	  --------------------^
+	./Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3917: WARNING: Unparseable C cross-reference: 'copy_from/to_user'
+	Invalid C declaration: Expected end of definition. [error at 9]
+	  copy_from/to_user
+	  ---------^
+
+The first case seems to be better replaced by a literal.
+
+For the second one, let's generate cross-references, by
+spliting it in two.
+
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/sound/kernel-api/writing-an-alsa-driver.rst | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 0a102d57437d..3875401486de 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -37,7 +37,7 @@ needs_sphinx = '1.3'
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
--              'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-+              'kfigure', 'sphinx.ext.ifconfig',
-               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
+diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+index 85d6e9c643ef..73bbd59afc33 100644
+--- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
++++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+@@ -3315,8 +3315,7 @@ data and removes them from the buffer at once:
+   }
  
- #
-@@ -52,6 +52,7 @@ if major >= 3:
- 	''')
- else:
-     extensions.append('cdomain')
-+    extensions.append('automarkup')
+ If you know beforehand how many bytes you can accept, you can use a
+-buffer size greater than one with the
+-:c:func:`snd_rawmidi_transmit\*()` functions.
++buffer size greater than one with the ``snd_rawmidi_transmit*()`` functions.
  
- # Ensure that autosectionlabel will produce unique names
- autosectionlabel_prefix_document = True
+ The ``trigger`` callback must not sleep. If the hardware FIFO is full
+ before the substream buffer has been emptied, you have to continue
+@@ -3916,7 +3915,7 @@ the maximum size of the proc file access.
+ 
+ The read/write callbacks of raw mode are more direct than the text mode.
+ You need to use a low-level I/O functions such as
+-:c:func:`copy_from/to_user()` to transfer the data.
++:c:func:`copy_from_user()` and :c:func:`copy_to_user()` to transfer the data.
+ 
+ ::
+ 
 -- 
 2.26.2
 
