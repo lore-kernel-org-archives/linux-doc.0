@@ -2,142 +2,156 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE4D1C4363A
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 02:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4820CC41604
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 06:42:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BA2B2076B
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 02:11:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C468E20797
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 06:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601966533;
+	bh=IEl0kKuVJ/RD+zUKJf/fDMYwBEIERa3g9HxZNp7xstU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=W2efUuakfwkgnHGVXCU4N8InVXW8wsDLqBIpVkK5E5VxeO7kbVuVjMraQ70Eoh7ka
+	 Z+ktzQrJvLK4kJMcdEwXXPxB5T0bwQXnsnYC9E1zMrnBKlYHAaTfP9bh1QYjlXeVtM
+	 e9j5RctVqrgrSTii5TXyU4QHMIsRx29qrcLMCD7M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbgJFCLH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 22:11:07 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:14803 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725901AbgJFCLG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Oct 2020 22:11:06 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 879D627ED37AAE9DC2C4;
-        Tue,  6 Oct 2020 10:11:04 +0800 (CST)
-Received: from [10.174.176.61] (10.174.176.61) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 6 Oct 2020 10:10:55 +0800
-Subject: Re: [PATCH v12 9/9] kdump: update Documentation about crashkernel
-To:     Catalin Marinas <catalin.marinas@arm.com>
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
- <20200907134745.25732-10-chenzhou10@huawei.com> <20201005171936.GD14576@gaia>
-CC:     <will@kernel.org>, <james.morse@arm.com>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <dyoung@redhat.com>, <bhe@redhat.com>,
-        <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
-        <prabhakar.pkin@gmail.com>, <bhsharma@redhat.com>,
-        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
-        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
-        <wangkefeng.wang@huawei.com>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <8644712d-1331-1efc-1cd2-6da8640145b7@huawei.com>
-Date:   Tue, 6 Oct 2020 10:10:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1726761AbgJFGmN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 02:42:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55454 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726769AbgJFGmN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 02:42:13 -0400
+Received: from coco.lan (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C055320757;
+        Tue,  6 Oct 2020 06:42:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601966532;
+        bh=IEl0kKuVJ/RD+zUKJf/fDMYwBEIERa3g9HxZNp7xstU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MRCX853GuJjy9gYrG+JBO6vBt1Um5qvYezrgSpCTHfT2EyUD1hRdzBi1xFh8anm2A
+         9M/WEk4v3R6XrmexZi3AvM5vZkV/cVh6nQ1cR711vsDo6N9SuzWJw0FpYYJTmHKwR+
+         IKfuVMeer6XJ4ucr+Se01Q4Gj5iYIH7DvgI/evp8=
+Date:   Tue, 6 Oct 2020 08:42:07 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Changbin Du <changbin.du@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Markus Heiser <markus.heiser@darmarit.de>
+Subject: Re: [PATCH] scripts: kernel-doc: allow passing desired Sphinx C
+ domain dialect
+Message-ID: <20201006084207.125c88d5@coco.lan>
+In-Reply-To: <20201005101736.7adf4f46@lwn.net>
+References: <ee1f16453ad40eae2603adfde5f6dda3ab1befc7.1601798520.git.mchehab+huawei@kernel.org>
+        <20201005101736.7adf4f46@lwn.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201005171936.GD14576@gaia>
-Content-Type: text/plain; charset="windows-1252"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.176.61]
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Catalin,
+Em Mon, 5 Oct 2020 10:17:36 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
+> On Sun,  4 Oct 2020 10:02:03 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > When kernel-doc is called via kerneldoc.py, there's no need to
+> > auto-detect the Sphinx version, as the Sphinx module already
+> > knows it. So, add an optional parameter to allow changing the
+> > Sphinx dialect.
+> > 
+> > As kernel-doc can also be manually called, keep the auto-detection
+> > logic if the parameter was not specified. On such case, emit
+> > a warning if sphinx-build can't be found at PATH.
+> > 
+> > Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/sphinx/kerneldoc.py |  5 ++++
+> >  scripts/kernel-doc                | 40 ++++++++++++++++++++++++-------
+> >  2 files changed, 37 insertions(+), 8 deletions(-)  
+> 
+> So I'm glad to see this.  Still not fully sold on the autodetection, but if
+> we don't actually use it, maybe I can live with it :)
+> 
+> One little nit:
+> 
+> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+> > index 233f610539f0..e9857ab904f1 100644
+> > --- a/Documentation/sphinx/kerneldoc.py
+> > +++ b/Documentation/sphinx/kerneldoc.py
+> > +    } elsif ($cmd eq "sphinx-version") {
+> > +	my $ver_string = shift @ARGV;
+> > +	if ($ver_string =~ m/^(\d+)\.(\d+)\.(\d+)/) {
+> > +	    $sphinx_major = $1;
+> > +	    $sphinx_minor = $2;
+> > +	    $sphinx_patch = $3;
+> > +	} else {
+> > +	    die "Sphinx version should be at major.minor.patch format\n";
+> > +	}  
+> 
+> Can we allow just major.minor, with patch defaulting to zero?  People
+> passing this by hand may not want to look up their patch version every
+> time, and I doubt it will ever matter...
 
-On 2020/10/6 1:19, Catalin Marinas wrote:
-> On Mon, Sep 07, 2020 at 09:47:45PM +0800, Chen Zhou wrote:
->> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
->> index 2da65fef2a1c..549611abc581 100644
->> --- a/Documentation/admin-guide/kdump/kdump.rst
->> +++ b/Documentation/admin-guide/kdump/kdump.rst
-> [...]
->> @@ -316,8 +325,18 @@ Boot into System Kernel
->>     kernel will automatically locate the crash kernel image within the
->>     first 512MB of RAM if X is not given.
->>  
->> -   On arm64, use "crashkernel=Y[@X]".  Note that the start address of
->> -   the kernel, X if explicitly specified, must be aligned to 2MiB (0x200000).
->> +   On arm64, use "crashkernel=X" to try low allocation in DMA zone, and
->> +   fall back to high allocation if it fails. And go for high allocation
->> +   directly if the required size is too large.
->> +   We can also use "crashkernel=X,high" to select a high region above
->> +   DMA zone, which also tries to allocate at least 256M low memory in
->> +   DMA zone automatically.
->> +   "crashkernel=Y,low" can be used to allocate specified size low memory
->> +   in DMA zone.
->> +   For non-RPi4 platforms, change DMA zone memtioned above to DMA32 zone.
-> I don't think we should mention non-RPi4 explicitly here. I don't even
-> understand what the suggestion is since the only way is to disable
-> ZONE_DMA in the kernel config. I'd just stick to ZONE_DMA description
-> here.
-How about like this:
-If the kernel config ZONE_DMA is disabled, just try low allocation in DMA32 zone
-and high allocation above DMA32 zone.
+Sure. It should be easy to make the third argument optional, although
+the regex will be a little more harder to understand.
+
+Something like this should do the trick:
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 01efb0afb8c2..104d79949a8a 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -466,12 +466,16 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	$show_not_found = 1;  # A no-op but don't fail
+     } elsif ($cmd eq "sphinx-version") {
+ 	my $ver_string = shift @ARGV;
+-	if ($ver_string =~ m/^(\d+)\.(\d+)\.(\d+)/) {
++	if ($ver_string =~ m/^(\d+)\.(\d+)(?:\.?(\d+)?)/) {
+ 	    $sphinx_major = $1;
+ 	    $sphinx_minor = $2;
+-	    $sphinx_patch = $3;
++	    if ($3) {
++		$sphinx_patch = $3;
++	    } else {
++		$sphinx_patch = 0;
++	    }
+ 	} else {
+-	    die "Sphinx version should be at major.minor.patch format\n";
++	    die "Sphinx version should either major.minor or major.minor.patch format\n";
+ 	}
+     } else {
+ 	# Unknown argument
+
+As right now we don't support Sphinx version 3.0[1], we're actually using just
+$sphinx_major. So, I'm wonder if it would make sense to also make <minor>
+optional.
+
+The change would be trivial, although the regex will become even more
+harder to read ;-)
+
+[1] not sure how valuable would be adding support for Sphinx 3.0. While
+I didn't make any tests, I'm strongly suspecting that, with the approach
+we took for backward/forward compatibility, adding support for it
+would mean to just do a trivial change at cdomain.py by applying a
+patch that Markus did replacing a regex function that doesn't exist
+anymore at Sphinx API and emulating C namespace with the logic I
+already implemented. 
+
+I guess I'll give it a try anyway, as it seems weird to have a gap
+in the middle of the supported versions.
+
 
 Thanks,
-Chen Zhou
->
->> +   Use "crashkernel=Y@X" if you really have to reserve memory from
->> +   specified start address X. Note that the start address of the kernel,
->> +   X if explicitly specified, must be aligned to 2MiB (0x200000).
->>  
->>  Load the Dump-capture Kernel
->>  ============================
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index a1068742a6df..f7df572d8f64 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -727,6 +727,10 @@
->>  			[KNL, X86-64] Select a region under 4G first, and
->>  			fall back to reserve region above 4G when '@offset'
->>  			hasn't been specified.
->> +			[KNL, arm64] Try low allocation in DMA zone, fall back
->> +			to high allocation if it fails when '@offset' hasn't been
->> +			specified. For non-RPi4 platforms, change DMA zone to
->> +			DMA32 zone.
-> Same here, unclear what "change DMA zone to DMA32 zone" means.
->
->>  			See Documentation/admin-guide/kdump/kdump.rst for further details.
->>  
->>  	crashkernel=range1:size1[,range2:size2,...][@offset]
->> @@ -743,6 +747,8 @@
->>  			Otherwise memory region will be allocated below 4G, if
->>  			available.
->>  			It will be ignored if crashkernel=X is specified.
->> +			[KNL, arm64] range in high memory.
->> +			Allow kernel to allocate physical memory region from top.
->>  	crashkernel=size[KMG],low
->>  			[KNL, X86-64] range under 4G. When crashkernel=X,high
->>  			is passed, kernel could allocate physical memory region
->> @@ -751,13 +757,16 @@
->>  			requires at least 64M+32K low memory, also enough extra
->>  			low memory is needed to make sure DMA buffers for 32-bit
->>  			devices won't run out. Kernel would try to allocate at
->> -			at least 256M below 4G automatically.
->> +			least 256M below 4G automatically.
->>  			This one let user to specify own low range under 4G
->>  			for second kernel instead.
->>  			0: to disable low allocation.
->>  			It will be ignored when crashkernel=X,high is not used
->>  			or memory reserved is below 4G.
->> -
->> +			[KNL, arm64] range in low memory.
->> +			This one let user to specify a low range in DMA zone for
->> +			crash dump kernel. For non-RPi4 platforms, change DMA zone
->> +			to DMA32 zone.
-> And again here.
->
-
+Mauro
