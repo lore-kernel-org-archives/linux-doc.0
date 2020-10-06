@@ -4,53 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5CECC4727E
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C369C4363D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BB0420782
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E70682087E
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993251;
-	bh=l4ZnRkqZgd8x5ZpSMUuNxg1b7AqKFMTZgq0sXQ4YesA=;
+	s=default; t=1601993253;
+	bh=V+7OC5N01urmt6Emf3gt8+IiL5ChKdmodgxNP6tpU1g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=quGHJhr1SuNkuRhRNwEcWcNgFtnmewcdgTrroUofitgusO3XuY9awxE4vH+f2b5+F
-	 qM2QBDNpiDxp3oqQNQWrcelksAzwAOharvgKEzxDaQwbD305PwJbboFUhunPkgsRTF
-	 0iGyFnimRqQbD04ysJASRYKgtFsr/bDTqwkMFz9g=
+	b=GpTUwoO2oNKmJbxCyOakrNURvTAfSlko0YKC/ssp5OFv0JLUl04DynUHg4aja88qw
+	 6SmT/ObTMwPvqShDO962IOk6aZSmH2HpND9eKGIoSpASgFmIf6mJpUcaB1OYxrSqxF
+	 kJIZYlUX3g5wcYg+qWyklGAVSTqiABKLs9DkQmjE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbgJFOHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:07:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33310 "EHLO mail.kernel.org"
+        id S1726348AbgJFODy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:03:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32848 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726319AbgJFODz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 10:03:55 -0400
+        id S1726032AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 10:03:54 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1159E2177B;
-        Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 63BC320789;
+        Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993034;
-        bh=l4ZnRkqZgd8x5ZpSMUuNxg1b7AqKFMTZgq0sXQ4YesA=;
+        s=default; t=1601993033;
+        bh=V+7OC5N01urmt6Emf3gt8+IiL5ChKdmodgxNP6tpU1g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wP6bAD6xEOcw5oTTYqFoj6kuDr6q1/99hFiEUXQHbYTGTvUc+h3G9o+BHemRMhv43
-         k2Ae4CBNHvLKGtpymuRnVCsB5yx2AL8U6PYR/qtXGfltBYsoHdhUsfNCIfwDXetEed
-         rdRBmaP6iPmteK2Y4dVzmNmq6uqaC7KNcuXvNEd4=
+        b=eLuEOLDhgJru/2MqTOq+mWUhR74ro1RzoVS4kqE/ZDkMucCe4Y7EBdqkxdQv4BwGa
+         pVfjdXrBkmp6lqNJNSjeP6/+EDNSh6x75FDlXdYoWZ++MEkkvw1rJB0/hoHbCJ7M0K
+         81QBYSZ242JhXHFCVKRGHxEYManDEVe/0hRhJSpc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZH-0019FP-W0; Tue, 06 Oct 2020 16:03:52 +0200
+        id 1kPnZH-0019Ee-43; Tue, 06 Oct 2020 16:03:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: [PATCH v5 20/52] memblock: get rid of a :c:type leftover
-Date:   Tue,  6 Oct 2020 16:03:17 +0200
-Message-Id: <79ad9b97a945f48620b200cd9866d2c5bcd44fb7.1601992016.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v5 04/52] scripts: kernel-doc: make it more compatible with Sphinx 3.x
+Date:   Tue,  6 Oct 2020 16:03:01 +0200
+Message-Id: <7899c3a94730298a2e2ffa0ce37c1cb046242b58.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -61,41 +59,151 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-chanseset b3a7bb1851c8 ("docs: get rid of :c:type explicit declarations for structs")
-removed several :c:type: markups, except by one.
+With Sphinx 3.x, the ".. c:type:" tag was changed to accept either:
 
-Now, Sphinx 3.x complains about it:
+	.. c:type:: typedef-like declaration
+	.. c:type:: name
 
-	.../Documentation/core-api/boot-time-mm:26: ../mm/memblock.c:51: WARNING: Unparseable C cross-reference: 'struct\nmemblock_type'
-	Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
-	  struct
-	memblock_type
-	  ------^
+Using it for other types (including functions) don't work anymore.
 
-As, on Sphinx 3.x, the right markup is c:struct:`foo`.
+So, there are newer tags for macro, enum, struct, union, and others,
+which doesn't exist on older versions.
 
-So, let's remove it, relying on automarkup.py to convert it.
+Add a check for the Sphinx version and change the produced tags
+accordingly.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- mm/memblock.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 71 ++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 65 insertions(+), 6 deletions(-)
 
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 165f40a8a254..326c6b3fec1d 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -50,8 +50,8 @@
-  *
-  * Each region is represented by :c:type:`struct memblock_region` that
-  * defines the region extents, its attributes and NUMA node id on NUMA
-- * systems. Every memory type is described by the :c:type:`struct
-- * memblock_type` which contains an array of memory regions along with
-+ * systems. Every memory type is described by the struct memblock_type
-+ * which contains an array of memory regions along with
-  * the allocator metadata. The "memory" and "reserved" types are nicely
-  * wrapped with :c:type:`struct memblock`. This structure is statically
-  * initialized at build time. The region arrays are initially sized to
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index adc05406c68e..096317ef2e97 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -271,6 +271,8 @@ if ($#ARGV == -1) {
+ }
+ 
+ my $kernelversion;
++my $sphinx_major;
++
+ my $dohighlight = "";
+ 
+ my $verbose = 0;
+@@ -465,6 +467,43 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 
+ # continue execution near EOF;
+ 
++# The C domain dialect changed on Sphinx 3. So, we need to check the
++# version in order to produce the right tags.
++sub findprog($)
++{
++	foreach(split(/:/, $ENV{PATH})) {
++		return "$_/$_[0]" if(-x "$_/$_[0]");
++	}
++}
++
++sub get_sphinx_version()
++{
++	my $ver;
++	my $major = 1;
++
++	my $cmd = "sphinx-build";
++	if (!findprog($cmd)) {
++		my $cmd = "sphinx-build3";
++		return $major if (!findprog($cmd));
++	}
++
++	open IN, "$cmd --version 2>&1 |";
++	while (<IN>) {
++		if (m/^\s*sphinx-build\s+([\d]+)\.([\d\.]+)(\+\/[\da-f]+)?$/) {
++			$major=$1;
++			last;
++		}
++		# Sphinx 1.2.x uses a different format
++		if (m/^\s*Sphinx.*\s+([\d]+)\.([\d\.]+)$/) {
++			$major=$1;
++			last;
++		}
++	}
++	close IN;
++
++	return $major;
++}
++
+ # get kernel version from env
+ sub get_kernel_version() {
+     my $version = 'unknown kernel version';
+@@ -848,7 +887,11 @@ sub output_function_rst(%) {
+     my $start = "";
+ 
+     if ($args{'typedef'}) {
+-	print ".. c:type:: ". $args{'function'} . "\n\n";
++	if ($sphinx_major < 3) {
++	    print ".. c:type:: ". $args{'function'} . "\n\n";
++	} else {
++	    print ".. c:function:: ". $args{'function'} . "\n\n";
++	}
+ 	print_lineno($declaration_start_line);
+ 	print "   **Typedef**: ";
+ 	$lineprefix = "";
+@@ -938,9 +981,14 @@ sub output_enum_rst(%) {
+     my ($parameter);
+     my $oldprefix = $lineprefix;
+     my $count;
+-    my $name = "enum " . $args{'enum'};
+ 
+-    print "\n\n.. c:type:: " . $name . "\n\n";
++    if ($sphinx_major < 3) {
++	my $name = "enum " . $args{'enum'};
++	print "\n\n.. c:type:: " . $name . "\n\n";
++    } else {
++	my $name = $args{'enum'};
++	print "\n\n.. c:enum:: " . $name . "\n\n";
++    }
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
+     output_highlight_rst($args{'purpose'});
+@@ -966,8 +1014,13 @@ sub output_typedef_rst(%) {
+     my %args = %{$_[0]};
+     my ($parameter);
+     my $oldprefix = $lineprefix;
+-    my $name = "typedef " . $args{'typedef'};
++    my $name;
+ 
++    if ($sphinx_major < 3) {
++	$name = "typedef " . $args{'typedef'};
++    } else {
++	$name = $args{'typedef'};
++    }
+     print "\n\n.. c:type:: " . $name . "\n\n";
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
+@@ -982,9 +1035,14 @@ sub output_struct_rst(%) {
+     my %args = %{$_[0]};
+     my ($parameter);
+     my $oldprefix = $lineprefix;
+-    my $name = $args{'type'} . " " . $args{'struct'};
+ 
+-    print "\n\n.. c:type:: " . $name . "\n\n";
++    if ($sphinx_major < 3) {
++	my $name = $args{'type'} . " " . $args{'struct'};
++	print "\n\n.. c:type:: " . $name . "\n\n";
++    } else {
++	my $name = $args{'struct'};
++	print "\n\n.. c:struct:: " . $name . "\n\n";
++    }
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
+     output_highlight_rst($args{'purpose'});
+@@ -2242,6 +2300,7 @@ sub process_file($) {
+ }
+ 
+ 
++$sphinx_major = get_sphinx_version();
+ $kernelversion = get_kernel_version();
+ 
+ # generate a sequence of code that will splice in highlighting information
 -- 
 2.26.2
 
