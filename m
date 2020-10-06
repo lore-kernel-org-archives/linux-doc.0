@@ -2,132 +2,212 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 728CAC46466
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 08:23:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C71C4727D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 11:53:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44AB220853
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 08:23:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 444752087E
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 11:53:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601972590;
-	bh=aUjnNOobAIUP4yMNBV8z5ZaoFW5PaJzxv4cfACCT6yw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=eD1jqvnKEw10oxTFXvDrBZBnzbZvrWAytgzWqs5hdONTYCW+a2X+0Z2ELj5GnnRKq
-	 N5MTMn1XqBdajjYGzIMQIJqaUbI7kkxPeIZV89wQMGdW8d6uAqtCcjBjZ4MX7c0zxQ
-	 7asTDYLXfo5cq0m2poa/gfKdXuMCbDbrlDEzbOu8=
+	s=default; t=1601985221;
+	bh=xj3DKmTx+xt1aiabZV+/vLYvUVuonNKpv+Ct1aH1EHE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=XsBlX5kp5e/pSOel+os6mL1ftCzoTY9KzcdEFVr4kQdesXc4EZT3LJL2WlgIq0WWD
+	 8wuky9kFYpZv/leYXMh+PX7WlK7An6OLAq8Wco/hL+Na2Pb5K9BvqKHlezESZQJkZH
+	 Vd6KBDUF4hFpeJqbeF/uQbshZCBOZ9dhK1HkWwXs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgJFIXJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 04:23:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39486 "EHLO mail.kernel.org"
+        id S1726182AbgJFLxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 07:53:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48006 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725972AbgJFIXI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 04:23:08 -0400
-Received: from coco.lan (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
+        id S1726032AbgJFLxk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 07:53:40 -0400
+Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA95F20866;
-        Tue,  6 Oct 2020 08:23:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 864AD2080A;
+        Tue,  6 Oct 2020 11:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601972587;
-        bh=aUjnNOobAIUP4yMNBV8z5ZaoFW5PaJzxv4cfACCT6yw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=osWuobD8IUB7+qfnWOqsvp/hUw2/tiMt1APrcuxKI/Pez1x6fhh90ocp6VXRw/a5k
-         rJQcbVkhHcA11v2195gjwKq9hlJj3mDQX1AWtWxuq38xVb6DOrOZY77Uc6+d19Tnoe
-         klo+5Aeq9F22QHse91/HIdPwiNn/zCsQ4jFsFZjk=
-Date:   Tue, 6 Oct 2020 10:23:01 +0200
+        s=default; t=1601985219;
+        bh=xj3DKmTx+xt1aiabZV+/vLYvUVuonNKpv+Ct1aH1EHE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=D5yyin2NOr4oSD50jB8ARYD+XBa8anpaThKEZxh48wy4EEVp4KVAutI6fdGCZeM+N
+         LCb8S6HQ8plDyG7JYeaYYVkxgIGlN1hu1hiMow2opK9csBI39ul7UR4qX53KH23X+Z
+         9/OMvCv2SusraPLjD1pwXSWLIFl9dWS7e0X1I/us=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kPlXF-0015t5-2w; Tue, 06 Oct 2020 13:53:37 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 35/52] docs: fs: fscrypt.rst: get rid of :c:type:
- tags
-Message-ID: <20201006102301.67649c4d@coco.lan>
-In-Reply-To: <20201005190823.GB3128920@gmail.com>
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
-        <689d790237b64fc7d81fcf97ac303cc1dbdd33d4.1601467849.git.mchehab+huawei@kernel.org>
-        <20200930162144.GA9698@sol.localdomain>
-        <20200930185333.66dacbc6@coco.lan>
-        <20200930170637.GB9698@sol.localdomain>
-        <20201005140622.50693933@coco.lan>
-        <20201005190823.GB3128920@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Matthew Wilcox" <willy@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH RFC] script: add a script for checking doc problems with external functions
+Date:   Tue,  6 Oct 2020 13:53:34 +0200
+Message-Id: <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201005125920.27a7768d@coco.lan>
+References: <20201005125920.27a7768d@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 5 Oct 2020 12:08:23 -0700
-Eric Biggers <ebiggers@kernel.org> escreveu:
+While not all EXPORT_SYMBOL*() symbols should be documented,
+it seems useful to have a tool which would help to check what
+symbols aren't documented.
 
-> On Mon, Oct 05, 2020 at 02:06:22PM +0200, Mauro Carvalho Chehab wrote:
-> > The latest version at:
-> > 
-> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=sphinx3-fixes-v4  
-> 
-> Doesn't work either.
-> 
-> $ git remote add mchehab https://git.linuxtv.org/mchehab/experimental.git
-> $ git fetch mchehab
-> warning: alternate disabled by http.followRedirects: https://git.linuxtv.org/git/linux.git/
-> warning: alternate disabled by http.followRedirects: https://git.linuxtv.org/git/media_tree.git/
-> warning: alternate disabled by http.followRedirects: https://git.linuxtv.org/git/linux.git/
-> error: Unable to find 4d9f4b7b8bf7af2d8deb4435833a7e165b9bdd21 under https://git.linuxtv.org/mchehab/experimental.git
-> Fetching objects: 286, done.
-> Cannot obtain needed object 4d9f4b7b8bf7af2d8deb4435833a7e165b9bdd21
-> while processing commit 0a0cde580853340e1a585a1959eaaf055b7cff9a.
-> error: fetch failed.
+This is a first step on this direction. The tool has some
+limitations. Yet, it could be useful for maintainers to check
+about missing documents on their subsystems.
 
-Well, support for https was broken at linuxtv.org. Not many media
-developers use https instead of git.
+Suggested-by: Matthew Wilcox <willy@infradead.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/check_docs_external_symbols | 127 ++++++++++++++++++++++++++++
+ 1 file changed, 127 insertions(+)
+ create mode 100755 scripts/check_docs_external_symbols
 
-The main issue is that we heavily use alternates there, in order
-to minimize disk space usage. After some server upgrade, https
-stopped working properly.
+diff --git a/scripts/check_docs_external_symbols b/scripts/check_docs_external_symbols
+new file mode 100755
+index 000000000000..cc12562e6cd6
+--- /dev/null
++++ b/scripts/check_docs_external_symbols
+@@ -0,0 +1,127 @@
++#!/usr/bin/perl
++# SPDX-License-Identifier: GPL-2.0
++
++#
++# Copyright (c) 2020, Huawei Tech. Co., Ltd.
++# Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org
++#
++# This script helps to check if exported functions are documented at either
++# a file, on at the included headers.
++#
++# The script is not perfect and may produce some false negatives, as
++# currently it doesn't handle Makefile "-I" directives that might be inside
++# a Kernel directory.
++#
++# So, use it with caution.
++#
++# Usage:
++#	scripts/check_external docs
++# or:
++#	scripts/check_external docs <files and/or directories>
++
++use warnings;
++use strict;
++use File::Find;
++
++sub check_file($) {
++	my $file = shift;
++	my (@files, @exports, @doc, @doc_refs);
++	my $content = "\n";
++
++	return 0 if (!($file =~ /\.[ch]$/));
++
++	my $dir = $file;
++	$dir =~ s,[^\/]+$,,;
++
++	open IN, $file or return 0;
++	while (<IN>) {
++		push @exports, $1 if (m/^EXPORT_SYMBOL.*\(\s*(\S+)\s*\)/);
++
++		if (m/^\s*#\s*include\s+[\<](\S+)[\>]/) {
++			if (-e "include/$1") {
++				push @files, "include/$1";
++			} else {
++				# Currently, can't check if include is elsewhere
++				return 0;
++			}
++		}
++		if (m/^\s*#\s*include\s+[\"](\S+)[\"]/) {
++			if (-e "$dir/$1") {
++				push @files, "$dir/$1";
++			} else {
++				# Currently, can't check if include is elsewhere
++				return 0;
++			}
++		}
++		$content .= $_;
++	}
++	close IN;
++
++	return 0 if ($content eq "\n");
++
++
++	push @files, $file;
++	for (my $i = 0; $i < scalar(@files); $i++) {
++		$doc_refs[$i] = 0;
++		$doc[$i] = qx(./scripts/kernel-doc --sphinx-version 3.2.1 $files[$i] 2>/dev/null);
++	}
++
++	my @missing_exports;
++	my $found = -1;
++	foreach my $e (@exports) {
++		# Check if the symbol is a function
++		if (!($content =~ (m/\n\s*(?:\w+\s+){0,}\*?\s*\b\Q$e\E\b\s*\(/))) {
++			next;
++		}
++		for (my $i = 0; $i < scalar(@files); $i++) {
++			if ($doc[$i] =~ m/\b\Q$e\E\b/) {
++				$found = $i;
++				$doc_refs[$i]++;
++				last;
++			}
++		}
++
++		push @missing_exports, $e if ($found < 0);
++	}
++
++	if (@missing_exports) {
++		print "warning: $file: missing documentation for @missing_exports\n";
++	}
++
++	for (my $i = 0; $i < scalar(@files); $i++) {
++		next if (!$doc_refs[$i]);
++		my $includes = qx(git grep -l "kernel-doc::\\s*$files[$i]" Documentation/);
++
++		printf "warning: %s: file not included at Documentation/\n", $files[$i] if ($includes eq "");
++	}
++	return 1;
++}
++
++sub parse_dir {
++	check_file $File::Find::name;
++}
++
++#
++# main
++#
++
++my $file;
++
++if (@ARGV) {
++	while (@ARGV) {
++		my $file = shift;
++
++		if (-d $file) {
++			find({wanted => \&parse_dir, no_chdir => 1}, $file);
++		} else {
++			check_file $file;
++		}
++	}
++	exit;
++} else {
++	my @files = qx(git grep -l EXPORT_SYMBOL);
++	foreach $file (@files) {
++		$file =~ s/\s+$//;
++		check_file $file;
++	}
++}
+-- 
+2.26.2
 
-I just fixed it, by adding some new rewrite rules that will call
-git http-backend in order to solve alternates.
-
-Thanks for reporting it.
-
-> > In the specific case of fscript.rst, there are only two patches on my
-> > series affecting it, both as part of this /52 series:  
-> 
-> But those two patches don't apply because they also change other files.
-> 
-> I need to apply patches to do a proper review.  Reviewers shouldn't have to
-> waste time trying to figure out how to apply your patches.
-
-Yeah, agreed. Sorry for that. 
-
-Not sure what would be the best way to minimize the issues, though.
-
-I mean, I might place those documentation patches on my linux-next
-branch, making them visible at tomorrow's linux-next, but that
-doesn't sound a good idea, as this will be a source of conflicts,
-since several patches from my tree are based on patches applied
-via someone's else's tree.
-
-Hopefully, after getting this series merged upstream, the
-docs build for html will finally went into a clean state. Any new
-warnings that might sleep though maintainer's reviews could
-easily be fixed without depending on a 100+ patch series.
-
--
-
-Btw, there was no new linux-next tag yesterday. The last one is
-still next-20201002.
-
-I'll wait for a while a today's linux-next. After rebasing on the
-top of that, I'll submit a v5 of this series.
-
-Thanks,
-Mauro
