@@ -7,52 +7,50 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE38C4741F
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:04:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA590C47420
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:04:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4FB7220782
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:04:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74EC620782
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:04:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993092;
-	bh=hqvyr8lXdvIBi2UNaGPW4l3iT7ddrdyd24TzQLuChpU=;
+	s=default; t=1601993093;
+	bh=LwOArSpTP20nI9G50WhOo2j8DQQMKkmQjlArryB8tsI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=eHmm11ncF6jHS6XlzP4Eicm5J1tL9Nb1drUxI3e9zsr0K6rLfEHG5LOQPzVClctZx
-	 ggsNULNj3ICRox761PvA8hCzg4+n52QVz/P3dbF5yMyohcJ8HOwoisvlE5Dz723ODf
-	 Jws3hCZenMv6PsVZwde8Aj89lNmajdRVucX81eV0=
+	b=J+vHlBemWa+AjnL6pwdd3N2iTTP9NXPUtmd0L9E4ORTap8PLUsxZ2GYSX6feAmARc
+	 ZGhA0nhEdOCpgKWH4A3HbLQmau9yrFMLxegb30R1lBRgRkjzDXM2xsMNyVuYF0UceP
+	 GjnHHAiqHuIOzDsYGbas5lMMdsPFdHcO4yIeM2RY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgJFOEv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:04:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33356 "EHLO mail.kernel.org"
+        id S1726759AbgJFOEw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:04:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726068AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726260AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:56 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9D299221EF;
-        Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 86030208C7;
+        Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993035;
-        bh=hqvyr8lXdvIBi2UNaGPW4l3iT7ddrdyd24TzQLuChpU=;
+        s=default; t=1601993033;
+        bh=LwOArSpTP20nI9G50WhOo2j8DQQMKkmQjlArryB8tsI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UlOwNkdg9lk73cHokQU2d+Lvn+LLea5d1dC2llzBKuRI56Ztm0vO5k6PJ8jHAWZv6
-         ioVeyIkdpwgsgOfnwDhBStNtQvMAOPiGeSJW1yKcJ64Y3t0mfm7Ynaioq/vQKDAlgM
-         +IbiH8P8vAtsHbhOGme+Fz10TMGdvIxTu6KpckU0=
+        b=VN/FY6L+Tdz4yJ7v4ouQJ63wktgyQi5w8OnoWRic+g3yd4GqLpJokLpz+THWzMIqF
+         lLHhJtGJuf8xWQ+zAEni2stEfqibReL3ksntrcqGZoXs1GAa8ExjKnDpBv6rahkKi7
+         c1ffB6xaNwArLIrtuRKUvtTe7a8AUFwkwJsjw99w=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZI-0019G9-JB; Tue, 06 Oct 2020 16:03:52 +0200
+        id 1kPnZH-0019F2-Ev; Tue, 06 Oct 2020 16:03:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v5 37/52] docs: sound: writing-an-alsa-driver.rst: get rid of :c:type
-Date:   Tue,  6 Oct 2020 16:03:34 +0200
-Message-Id: <1776a48e52bd6db74a6eaba8839eecba4c7c55fc.1601992016.git.mchehab+huawei@kernel.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v5 13/52] media: docs: make CEC documents compatible with Sphinx 3.1+
+Date:   Tue,  6 Oct 2020 16:03:10 +0200
+Message-Id: <7edb4d00d6db27e7e8c18d2b5a25f2120c6d4fa0.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -63,298 +61,657 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-the :c:type shouldn't be used with structs with Sphinx 3,
-as the C domain there uses .. c:struct for structs.
+Sphinx 3.x broke support for the cdomain.py extension, as the
+c domain code was rewritten. Due to that, the c tags need to
+be re-written, in order to use the new c domain notation.
 
-As we have the automarkup extension, let's just get rid of
-all :c:type as a whole, as those will be automagically
-marked as such.
-
-This solves a bunch of warnings with Sphinx 3, like those:
-
-	.../Documentation/sound/kernel-api/writing-an-alsa-driver.rst:490: WARNING: Unparseable C cross-reference: 'calling snd_card_free'
-	Invalid C declaration: Expected end of definition. [error at 8]
-	  calling snd_card_free
-	  --------^
-	.../Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3328: WARNING: Unparseable C cross-reference: 'snd_rawmidi_transmit*'
-	Invalid C declaration: Expected end of definition. [error at 20]
-	  snd_rawmidi_transmit*
-	  --------------------^
-	.../Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3928: WARNING: Unparseable C cross-reference: 'copy_from/to_user'
-	Invalid C declaration: Expected end of definition. [error at 9]
-	  copy_from/to_user
-	  ---------^
-
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../kernel-api/writing-an-alsa-driver.rst     | 105 ++++++++----------
- 1 file changed, 47 insertions(+), 58 deletions(-)
+ .../media/cec/cec-func-close.rst              | 10 +++-------
+ .../media/cec/cec-func-ioctl.rst              | 11 ++++------
+ .../userspace-api/media/cec/cec-func-open.rst | 10 +++-------
+ .../userspace-api/media/cec/cec-func-poll.rst | 14 +++++--------
+ .../media/cec/cec-ioc-adap-g-caps.rst         | 10 +++++-----
+ .../media/cec/cec-ioc-adap-g-conn-info.rst    | 11 +++++-----
+ .../media/cec/cec-ioc-adap-g-log-addrs.rst    | 20 ++++++++-----------
+ .../media/cec/cec-ioc-adap-g-phys-addr.rst    | 15 +++++++-------
+ .../media/cec/cec-ioc-dqevent.rst             | 15 +++++---------
+ .../media/cec/cec-ioc-g-mode.rst              | 16 +++++++--------
+ .../media/cec/cec-ioc-receive.rst             | 18 ++++++++---------
+ 11 files changed, 63 insertions(+), 87 deletions(-)
 
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index aa9d5ab183d2..85d6e9c643ef 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -194,7 +194,7 @@ The minimum flow for PCI soundcards is as follows:
+diff --git a/Documentation/userspace-api/media/cec/cec-func-close.rst b/Documentation/userspace-api/media/cec/cec-func-close.rst
+index 33c563f414a8..409e70a5f80f 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-close.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-close.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
  
- -  create ``remove`` callback.
+ .. _cec-func-close:
  
---  create a :c:type:`struct pci_driver <pci_driver>` structure
-+-  create a struct pci_driver structure
-    containing the three pointers above.
+@@ -11,7 +12,6 @@ Name
  
- -  create an ``init`` function just calling the
-@@ -487,7 +487,7 @@ The destructor, remove callback, simply releases the card instance. Then
- the ALSA middle layer will release all the attached components
- automatically.
+ cec-close - Close a cec device
  
--It would be typically just :c:func:`calling snd_card_free()`:
-+It would be typically just calling :c:func:`snd_card_free()`:
+-
+ Synopsis
+ ========
  
- ::
+@@ -19,16 +19,13 @@ Synopsis
  
-@@ -560,16 +560,15 @@ return the card instance. The extra_size argument is used to allocate
- card->private_data for the chip-specific data. Note that these data are
- allocated by :c:func:`snd_card_new()`.
+     #include <unistd.h>
  
--The first argument, the pointer of struct :c:type:`struct device
--<device>`, specifies the parent device. For PCI devices, typically
--``&pci->`` is passed there.
-+The first argument, the pointer of struct device, specifies the parent
-+device. For PCI devices, typically ``&pci->`` is passed there.
+-
+ .. c:function:: int close( int fd )
+-    :name: cec-close
  
- Components
- ----------
+ Arguments
+ =========
  
- After the card is created, you can attach the components (devices) to
- the card instance. In an ALSA driver, a component is represented as a
--:c:type:`struct snd_device <snd_device>` object. A component
-+struct snd_device object. A component
- can be a PCM instance, a control interface, a raw MIDI interface, etc.
- Each such instance has one component entry.
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
+-
++    File descriptor returned by :c:func:`open()`.
  
-@@ -628,7 +627,7 @@ argument of :c:func:`snd_card_new()`, i.e.
-   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                      sizeof(struct mychip), &card);
+ Description
+ ===========
+@@ -36,11 +33,10 @@ Description
+ Closes the cec device. Resources associated with the file descriptor are
+ freed. The device configuration remain unchanged.
  
--:c:type:`struct mychip <mychip>` is the type of the chip record.
-+struct mychip is the type of the chip record.
+-
+ Return Value
+ ============
  
- In return, the allocated record can be accessed as
+-:c:func:`close() <cec-close>` returns 0 on success. On error, -1 is returned, and
++:c:func:`close()` returns 0 on success. On error, -1 is returned, and
+ ``errno`` is set appropriately. Possible error codes are:
  
-@@ -890,7 +889,7 @@ functions.  These resources must be released in the destructor
- function (see below).
+ ``EBADF``
+diff --git a/Documentation/userspace-api/media/cec/cec-func-ioctl.rst b/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
+index 3b88230fad80..7c93f86de6cc 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
  
- Now assume that the PCI device has an I/O port with 8 bytes and an
--interrupt. Then :c:type:`struct mychip <mychip>` will have the
-+interrupt. Then struct mychip will have the
- following fields:
+ .. _cec-func-ioctl:
  
- ::
-@@ -1094,7 +1093,7 @@ PCI Entries
- -----------
+@@ -18,15 +19,13 @@ Synopsis
  
- So far, so good. Let's finish the missing PCI stuff. At first, we need a
--:c:type:`struct pci_device_id <pci_device_id>` table for
-+struct pci_device_id table for
- this chipset. It's a table of PCI vendor/device ID number, and some
- masks.
+     #include <sys/ioctl.h>
  
-@@ -1110,19 +1109,17 @@ For example,
-   };
-   MODULE_DEVICE_TABLE(pci, snd_mychip_ids);
+-
+-.. c:function:: int ioctl( int fd, int request, void *argp )
+-   :name: cec-ioctl
++``int ioctl(int fd, int request, void *argp)``
  
--The first and second fields of the :c:type:`struct pci_device_id
--<pci_device_id>` structure are the vendor and device IDs. If you
--have no reason to filter the matching devices, you can leave the
--remaining fields as above. The last field of the :c:type:`struct
--pci_device_id <pci_device_id>` struct contains private data
--for this entry. You can specify any value here, for example, to define
--specific operations for supported device IDs. Such an example is found
--in the intel8x0 driver.
-+The first and second fields of the struct pci_device_id are the vendor
-+and device IDs. If you have no reason to filter the matching devices, you can
-+leave the remaining fields as above. The last field of the
-+struct pci_device_id contains private data for this entry. You can specify
-+any value here, for example, to define specific operations for supported
-+device IDs. Such an example is found in the intel8x0 driver.
+ Arguments
+ =========
  
- The last entry of this list is the terminator. You must specify this
- all-zero entry.
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
  
--Then, prepare the :c:type:`struct pci_driver <pci_driver>`
-+Then, prepare the struct pci_driver
- record:
+ ``request``
+     CEC ioctl request code as defined in the cec.h header file, for
+@@ -35,11 +34,10 @@ Arguments
+ ``argp``
+     Pointer to a request-specific structure.
  
- ::
-@@ -1439,8 +1436,8 @@ corresponding argument.
- If a chip supports multiple playbacks or captures, you can specify more
- numbers, but they must be handled properly in open/close, etc.
- callbacks. When you need to know which substream you are referring to,
--then it can be obtained from :c:type:`struct snd_pcm_substream
--<snd_pcm_substream>` data passed to each callback as follows:
-+then it can be obtained from struct snd_pcm_substream data passed to each
-+callback as follows:
+-
+ Description
+ ===========
  
- ::
+-The :c:func:`ioctl() <cec-ioctl>` function manipulates cec device parameters. The
++The :c:func:`ioctl()` function manipulates cec device parameters. The
+ argument ``fd`` must be an open file descriptor.
  
-@@ -1639,10 +1636,9 @@ In the sections below, important records are explained.
- Hardware Description
- ~~~~~~~~~~~~~~~~~~~~
+ The ioctl ``request`` code specifies the cec function to be called. It
+@@ -51,7 +49,6 @@ their parameters are located in the cec.h header file. All cec ioctl
+ requests, their respective function and parameters are specified in
+ :ref:`cec-user-func`.
  
--The hardware descriptor (:c:type:`struct snd_pcm_hardware
--<snd_pcm_hardware>`) contains the definitions of the fundamental
--hardware configuration. Above all, you'll need to define this in the
--`PCM open callback`_. Note that the runtime instance holds the copy of
-+The hardware descriptor (struct snd_pcm_hardware) contains the definitions of
-+the fundamental hardware configuration. Above all, you'll need to define this
-+in the `PCM open callback`_. Note that the runtime instance holds the copy of
- the descriptor, not the pointer to the existing descriptor. That is,
- in the open callback, you can modify the copied descriptor
- (``runtime->hw``) as you need. For example, if the maximum number of
-@@ -1800,14 +1796,13 @@ Running Status
- ~~~~~~~~~~~~~~
+-
+ Return Value
+ ============
  
- The running status can be referred via ``runtime->status``. This is
--the pointer to the :c:type:`struct snd_pcm_mmap_status
--<snd_pcm_mmap_status>` record. For example, you can get the current
-+the pointer to the struct snd_pcm_mmap_status record.
-+For example, you can get the current
- DMA hardware pointer via ``runtime->status->hw_ptr``.
+diff --git a/Documentation/userspace-api/media/cec/cec-func-open.rst b/Documentation/userspace-api/media/cec/cec-func-open.rst
+index 887bfd2a755e..d86563a34b9e 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-open.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-open.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
  
- The DMA application pointer can be referred via ``runtime->control``,
--which points to the :c:type:`struct snd_pcm_mmap_control
--<snd_pcm_mmap_control>` record. However, accessing directly to
--this value is not recommended.
-+which points to the struct snd_pcm_mmap_control record.
-+However, accessing directly to this value is not recommended.
+ .. _cec-func-open:
  
- Private Data
- ~~~~~~~~~~~~
-@@ -1843,8 +1838,8 @@ error number such as ``-EINVAL``. To choose an appropriate error
- number, it is advised to check what value other parts of the kernel
- return when the same kind of request fails.
+@@ -18,10 +19,7 @@ Synopsis
  
--The callback function takes at least the argument with :c:type:`struct
--snd_pcm_substream <snd_pcm_substream>` pointer. To retrieve the chip
-+The callback function takes at least the argument with
-+struct snd_pcm_substream pointer. To retrieve the chip
- record from the given substream instance, you can use the following
- macro.
+     #include <fcntl.h>
  
-@@ -2313,10 +2308,10 @@ non-atomic contexts. For example, the function
- :c:func:`snd_pcm_period_elapsed()` is called typically from the
- interrupt handler. But, if you set up the driver to use a threaded
- interrupt handler, this call can be in non-atomic context, too. In such
--a case, you can set ``nonatomic`` filed of :c:type:`struct snd_pcm
--<snd_pcm>` object after creating it. When this flag is set, mutex
--and rwsem are used internally in the PCM core instead of spin and
--rwlocks, so that you can call all PCM functions safely in a non-atomic
-+a case, you can set ``nonatomic`` filed of struct snd_pcm object
-+after creating it. When this flag is set, mutex and rwsem are used internally
-+in the PCM core instead of spin and rwlocks, so that you can call all PCM
-+functions safely in a non-atomic
- context.
+-
+ .. c:function:: int open( const char *device_name, int flags )
+-   :name: cec-open
+-
  
- Constraints
-@@ -2357,8 +2352,7 @@ There are many different constraints. Look at ``sound/pcm.h`` for a
- complete list. You can even define your own constraint rules. For
- example, let's suppose my_chip can manage a substream of 1 channel if
- and only if the format is ``S16_LE``, otherwise it supports any format
--specified in the :c:type:`struct snd_pcm_hardware
--<snd_pcm_hardware>` structure (or in any other
-+specified in struct snd_pcm_hardware> (or in any other
- constraint_list). You can build a rule like this:
+ Arguments
+ =========
+@@ -42,11 +40,10 @@ Arguments
  
- ::
-@@ -2467,7 +2461,7 @@ Definition of Controls
+     Other flags have no effect.
  
- To create a new control, you need to define the following three
- callbacks: ``info``, ``get`` and ``put``. Then, define a
--:c:type:`struct snd_kcontrol_new <snd_kcontrol_new>` record, such as:
-+struct snd_kcontrol_new record, such as:
+-
+ Description
+ ===========
  
- ::
+-To open a cec device applications call :c:func:`open() <cec-open>` with the
++To open a cec device applications call :c:func:`open()` with the
+ desired device name. The function has no side effects; the device
+ configuration remain unchanged.
  
-@@ -2602,8 +2596,8 @@ info callback
- ~~~~~~~~~~~~~
+@@ -54,11 +51,10 @@ When the device is opened in read-only mode, attempts to modify its
+ configuration will result in an error, and ``errno`` will be set to
+ EBADF.
  
- The ``info`` callback is used to get detailed information on this
--control. This must store the values of the given :c:type:`struct
--snd_ctl_elem_info <snd_ctl_elem_info>` object. For example,
-+control. This must store the values of the given
-+struct snd_ctl_elem_info object. For example,
- for a boolean control with a single element:
+-
+ Return Value
+ ============
  
- ::
-@@ -2774,13 +2768,11 @@ In the simplest way, you can do like this:
-   if (err < 0)
-           return err;
+-:c:func:`open() <cec-open>` returns the new file descriptor on success. On error,
++:c:func:`open()` returns the new file descriptor on success. On error,
+ -1 is returned, and ``errno`` is set appropriately. Possible error codes
+ include:
  
--where ``my_control`` is the :c:type:`struct snd_kcontrol_new
--<snd_kcontrol_new>` object defined above, and chip is the object
--pointer to be passed to kcontrol->private_data which can be referred
--to in callbacks.
-+where ``my_control`` is the struct snd_kcontrol_new object defined above,
-+and chip is the object pointer to be passed to kcontrol->private_data which
-+can be referred to in callbacks.
+diff --git a/Documentation/userspace-api/media/cec/cec-func-poll.rst b/Documentation/userspace-api/media/cec/cec-func-poll.rst
+index 2d87136e9a3f..980bbfc0bcce 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-poll.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-poll.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
  
--:c:func:`snd_ctl_new1()` allocates a new :c:type:`struct
--snd_kcontrol <snd_kcontrol>` instance, and
-+:c:func:`snd_ctl_new1()` allocates a new struct snd_kcontrol instance, and
- :c:func:`snd_ctl_add()` assigns the given control component to the
- card.
+ .. _cec-func-poll:
  
-@@ -2797,10 +2789,9 @@ can call :c:func:`snd_ctl_notify()`. For example,
- This function takes the card pointer, the event-mask, and the control id
- pointer for the notification. The event-mask specifies the types of
- notification, for example, in the above example, the change of control
--values is notified. The id pointer is the pointer of :c:type:`struct
--snd_ctl_elem_id <snd_ctl_elem_id>` to be notified. You can
--find some examples in ``es1938.c`` or ``es1968.c`` for hardware volume
--interrupts.
-+values is notified. The id pointer is the pointer of struct snd_ctl_elem_id
-+to be notified. You can find some examples in ``es1938.c`` or ``es1968.c``
-+for hardware volume interrupts.
+@@ -11,7 +12,6 @@ Name
  
- Metadata
- --------
-@@ -2915,9 +2906,8 @@ with an ``ac97_bus_ops_t`` record with callback functions.
+ cec-poll - Wait for some event on a file descriptor
  
- The bus record is shared among all belonging ac97 instances.
+-
+ Synopsis
+ ========
  
--And then call :c:func:`snd_ac97_mixer()` with an :c:type:`struct
--snd_ac97_template <snd_ac97_template>` record together with
--the bus pointer created above.
-+And then call :c:func:`snd_ac97_mixer()` with an struct snd_ac97_template
-+record together with the bus pointer created above.
+@@ -19,9 +19,7 @@ Synopsis
  
- ::
+     #include <sys/poll.h>
  
-@@ -3118,11 +3108,10 @@ devices on the card, set ``MPU401_INFO_IRQ_HOOK`` (see
+-
+ .. c:function:: int poll( struct pollfd *ufds, unsigned int nfds, int timeout )
+-   :name: cec-poll
  
- Usually, the port address corresponds to the command port and port + 1
- corresponds to the data port. If not, you may change the ``cport``
--field of :c:type:`struct snd_mpu401 <snd_mpu401>` manually afterward.
--However, :c:type:`struct snd_mpu401 <snd_mpu401>` pointer is
-+field of struct snd_mpu401 manually afterward.
-+However, struct snd_mpu401 pointer is
- not returned explicitly by :c:func:`snd_mpu401_uart_new()`. You
--need to cast ``rmidi->private_data`` to :c:type:`struct snd_mpu401
--<snd_mpu401>` explicitly,
-+need to cast ``rmidi->private_data`` to struct snd_mpu401 explicitly,
+ Arguments
+ =========
+@@ -35,14 +33,13 @@ Arguments
+ ``timeout``
+    Timeout to wait for events
  
- ::
+-
+ Description
+ ===========
  
-@@ -3772,7 +3761,7 @@ For creating the SG-buffer handler, call
- :c:func:`snd_pcm_set_managed_buffer_all()` with
- ``SNDRV_DMA_TYPE_DEV_SG`` in the PCM constructor like other PCI
- pre-allocator. You need to pass ``&pci->dev``, where pci is
--the :c:type:`struct pci_dev <pci_dev>` pointer of the chip as
-+the struct pci_dev pointer of the chip as
- well.
+-With the :c:func:`poll() <cec-poll>` function applications can wait for CEC
++With the :c:func:`poll()` function applications can wait for CEC
+ events.
  
- ::
+-On success :c:func:`poll() <cec-poll>` returns the number of file descriptors
++On success :c:func:`poll()` returns the number of file descriptors
+ that have been selected (that is, file descriptors for which the
+ ``revents`` field of the respective struct :c:type:`pollfd`
+ is non-zero). CEC devices set the ``POLLIN`` and ``POLLRDNORM`` flags in
+@@ -53,13 +50,12 @@ then the ``POLLPRI`` flag is set. When the function times out it returns
+ a value of zero, on failure it returns -1 and the ``errno`` variable is
+ set appropriately.
+ 
+-For more details see the :c:func:`poll() <cec-poll>` manual page.
+-
++For more details see the :c:func:`poll()` manual page.
+ 
+ Return Value
+ ============
+ 
+-On success, :c:func:`poll() <cec-poll>` returns the number structures which have
++On success, :c:func:`poll()` returns the number structures which have
+ non-zero ``revents`` fields, or zero if the call timed out. On error -1
+ is returned, and the ``errno`` variable is set appropriately:
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
+index 7f25365ce0fb..c7309a2fcbce 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_ADAP_G_CAPS:
+ 
+@@ -14,18 +15,18 @@ CEC_ADAP_G_CAPS - Query device capabilities
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_CAPS, struct cec_caps *argp )
+-    :name: CEC_ADAP_G_CAPS
++.. c:macro:: CEC_ADAP_G_CAPS
++
++``int ioctl(int fd, CEC_ADAP_G_CAPS, struct cec_caps *argp)``
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+ 
+-
+ Description
+ ===========
+ 
+@@ -62,7 +63,6 @@ returns the information to the application. The ioctl never fails.
+       - CEC Framework API version, formatted with the ``KERNEL_VERSION()``
+ 	macro.
+ 
+-
+ .. tabularcolumns:: |p{4.4cm}|p{2.5cm}|p{10.6cm}|
+ 
+ .. _cec-capabilities:
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
+index 6818ddf1495c..13116b0b5c17 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
+@@ -2,6 +2,8 @@
+ ..
+ .. Copyright 2019 Google LLC
+ ..
++.. c:namespace:: CEC
++
+ .. _CEC_ADAP_G_CONNECTOR_INFO:
+ 
+ *******************************
+@@ -16,18 +18,18 @@ CEC_ADAP_G_CONNECTOR_INFO - Query HDMI connector information
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_CONNECTOR_INFO, struct cec_connector_info *argp )
+-    :name: CEC_ADAP_G_CONNECTOR_INFO
++.. c:macro:: CEC_ADAP_G_CONNECTOR_INFO
++
++``int ioctl(int fd, CEC_ADAP_G_CONNECTOR_INFO, struct cec_connector_info *argp)``
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+ 
+-
+ Description
+ ===========
+ 
+@@ -57,7 +59,6 @@ is only available if the ``CEC_CAP_CONNECTOR_INFO`` capability is set.
+     * - }
+       -
+ 
+-
+ .. tabularcolumns:: |p{4.4cm}|p{2.5cm}|p{10.6cm}|
+ 
+ .. _connector-type:
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+index 1ca893270ae9..c760c07b6b3f 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_ADAP_LOG_ADDRS:
+ .. _CEC_ADAP_G_LOG_ADDRS:
+@@ -13,21 +14,22 @@ Name
+ 
+ CEC_ADAP_G_LOG_ADDRS, CEC_ADAP_S_LOG_ADDRS - Get or set the logical addresses
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_LOG_ADDRS, struct cec_log_addrs *argp )
+-   :name: CEC_ADAP_G_LOG_ADDRS
++.. c:macro:: CEC_ADAP_G_LOG_ADDRS
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_S_LOG_ADDRS, struct cec_log_addrs *argp )
+-   :name: CEC_ADAP_S_LOG_ADDRS
++``int ioctl(int fd, CEC_ADAP_G_LOG_ADDRS, struct cec_log_addrs *argp)``
++
++.. c:macro:: CEC_ADAP_S_LOG_ADDRS
++
++``int ioctl(int fd, CEC_ADAP_S_LOG_ADDRS, struct cec_log_addrs *argp)``
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to struct :c:type:`cec_log_addrs`.
+@@ -148,7 +150,6 @@ logical address types are already defined will return with error ``EBUSY``.
+         give the CEC framework more information about the device type, even
+         though the framework won't use it directly in the CEC message.
+ 
+-
+ .. tabularcolumns:: |p{7.8cm}|p{1.0cm}|p{8.7cm}|
+ 
+ .. _cec-log-addrs-flags:
+@@ -185,7 +186,6 @@ logical address types are already defined will return with error ``EBUSY``.
+ 
+ 	All other messages are ignored.
+ 
+-
+ .. tabularcolumns:: |p{7.8cm}|p{1.0cm}|p{8.7cm}|
+ 
+ .. _cec-versions:
+@@ -211,7 +211,6 @@ logical address types are already defined will return with error ``EBUSY``.
+       - 6
+       - CEC version according to the HDMI 2.0 standard.
+ 
+-
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+ 
+ .. _cec-prim-dev-types:
+@@ -257,7 +256,6 @@ logical address types are already defined will return with error ``EBUSY``.
+       - 7
+       - Use for a video processor device.
+ 
+-
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+ 
+ .. _cec-log-addr-types:
+@@ -306,7 +304,6 @@ logical address types are already defined will return with error ``EBUSY``.
+ 	Control).
+ 
+ 
+-
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+ 
+ .. _cec-all-dev-types-flags:
+@@ -348,7 +345,6 @@ logical address types are already defined will return with error ``EBUSY``.
+       - This supports the CEC Switch or Video Processing type.
+ 
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
+index a10443be1b26..fb22f6894f26 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_ADAP_PHYS_ADDR:
+ .. _CEC_ADAP_G_PHYS_ADDR:
+@@ -13,21 +14,22 @@ Name
+ 
+ CEC_ADAP_G_PHYS_ADDR, CEC_ADAP_S_PHYS_ADDR - Get or set the physical address
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_PHYS_ADDR, __u16 *argp )
+-    :name: CEC_ADAP_G_PHYS_ADDR
++.. c:macro:: CEC_ADAP_G_PHYS_ADDR
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_S_PHYS_ADDR, __u16 *argp )
+-    :name: CEC_ADAP_S_PHYS_ADDR
++``int ioctl(int fd, CEC_ADAP_G_PHYS_ADDR, __u16 *argp)``
++
++.. c:macro:: CEC_ADAP_S_PHYS_ADDR
++
++``int ioctl(int fd, CEC_ADAP_S_PHYS_ADDR, __u16 *argp)``
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to the CEC address.
+@@ -71,7 +73,6 @@ For example, the EDID for each HDMI input of the TV will have a
+ different physical address of the form a.0.0.0 that the sources will
+ read out and use as their physical address.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst b/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
+index 3bc81fc5a73f..736fda5ad73d 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_DQEVENT:
+ 
+@@ -11,22 +12,21 @@ Name
+ 
+ CEC_DQEVENT - Dequeue a CEC event
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_DQEVENT, struct cec_event *argp )
+-    :name: CEC_DQEVENT
++.. c:macro:: CEC_DQEVENT
++
++``int ioctl(int fd, CEC_DQEVENT, struct cec_event *argp)``
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+ 
+-
+ Description
+ ===========
+ 
+@@ -72,7 +72,6 @@ it is guaranteed that the state did change in between the two events.
+         the HDMI driver is still configuring the device or because the HDMI
+         device was unbound.
+ 
+-
+ .. c:type:: cec_event_lost_msgs
+ 
+ .. tabularcolumns:: |p{1.0cm}|p{2.0cm}|p{14.5cm}|
+@@ -94,7 +93,6 @@ it is guaranteed that the state did change in between the two events.
+ 	replied to within a second according to the CEC specification,
+ 	this is more than enough.
+ 
+-
+ .. tabularcolumns:: |p{1.0cm}|p{4.4cm}|p{2.5cm}|p{9.6cm}|
+ 
+ .. c:type:: cec_event
+@@ -130,7 +128,6 @@ it is guaranteed that the state did change in between the two events.
+     * - }
+       -
+ 
+-
+ .. tabularcolumns:: |p{5.6cm}|p{0.9cm}|p{11.0cm}|
+ 
+ .. _cec-events:
+@@ -204,7 +201,6 @@ it is guaranteed that the state did change in between the two events.
+ 	if the 5V is high, then an initial event will be generated for that
+ 	filehandle.
+ 
+-
+ .. tabularcolumns:: |p{6.0cm}|p{0.6cm}|p{10.9cm}|
+ 
+ .. _cec-event-flags:
+@@ -230,7 +226,6 @@ it is guaranteed that the state did change in between the two events.
+         This is an indication that the application cannot keep up.
+ 
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst b/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
+index 2093e373c93c..d3387b1fa7c5 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_MODE:
+ .. _CEC_G_MODE:
+@@ -13,17 +14,19 @@ CEC_G_MODE, CEC_S_MODE - Get or set exclusive use of the CEC adapter
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_G_MODE, __u32 *argp )
+-   :name: CEC_G_MODE
++.. c:macro:: CEC_G_MODE
+ 
+-.. c:function:: int ioctl( int fd, CEC_S_MODE, __u32 *argp )
+-   :name: CEC_S_MODE
++``int ioctl(int fd, CEC_G_MODE, __u32 *argp)``
++
++.. c:macro:: CEC_S_MODE
++
++``int ioctl(int fd, CEC_S_MODE, __u32 *argp)``
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to CEC mode.
+@@ -101,7 +104,6 @@ Available initiator modes are:
+ 	then an attempt to become one will return the ``EBUSY`` error code
+ 	error.
+ 
+-
+ Available follower modes are:
+ 
+ .. tabularcolumns:: |p{6.6cm}|p{0.9cm}|p{10.0cm}|
+@@ -193,7 +195,6 @@ Available follower modes are:
+ 	the process has the ``CAP_NET_ADMIN`` capability. If that is not
+ 	set, then the ``EPERM`` error code is returned.
+ 
+-
+ Core message processing details:
+ 
+ .. tabularcolumns:: |p{6.6cm}|p{10.9cm}|
+@@ -272,7 +273,6 @@ Core message processing details:
+ 	and then just pass the message on to the follower(s).
+ 
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-receive.rst b/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
+index 9d629d46973c..b2fc051e99f4 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_TRANSMIT:
+ .. _CEC_RECEIVE:
+@@ -12,21 +13,22 @@ Name
+ 
+ CEC_RECEIVE, CEC_TRANSMIT - Receive or transmit a CEC message
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_RECEIVE, struct cec_msg \*argp )
+-    :name: CEC_RECEIVE
++.. c:macro:: CEC_RECEIVE
+ 
+-.. c:function:: int ioctl( int fd, CEC_TRANSMIT, struct cec_msg \*argp )
+-    :name: CEC_TRANSMIT
++``int ioctl(int fd, CEC_RECEIVE, struct cec_msg *argp)``
++
++.. c:macro:: CEC_TRANSMIT
++
++``int ioctl(int fd, CEC_TRANSMIT, struct cec_msg *argp)``
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to struct cec_msg.
+@@ -194,7 +196,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+ 	supports this, otherwise it is always 0. This counter is only
+ 	valid if the :ref:`CEC_TX_STATUS_ERROR <CEC-TX-STATUS-ERROR>` status bit is set.
+ 
+-
+ .. tabularcolumns:: |p{6.2cm}|p{1.0cm}|p{10.3cm}|
+ 
+ .. _cec-msg-flags:
+@@ -228,7 +229,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+ 	capability. If that is not set, then the ``EPERM`` error code is
+ 	returned.
+ 
+-
+ .. tabularcolumns:: |p{5.6cm}|p{0.9cm}|p{11.0cm}|
+ 
+ .. _cec-tx-status:
+@@ -298,7 +298,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+       - The transmit timed out. This should not normally happen and this
+ 	indicates a driver problem.
+ 
+-
+ .. tabularcolumns:: |p{5.6cm}|p{0.9cm}|p{11.0cm}|
+ 
+ .. _cec-rx-status:
+@@ -335,7 +334,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+ 	reply was interrupted.
+ 
+ 
+-
+ Return Value
+ ============
+ 
 -- 
 2.26.2
 
