@@ -2,185 +2,100 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B1EC4363D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AED73C4363D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:21:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 159A720760
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993275;
-	bh=8Ugy8JtQBg0iQvd2yN/ML4tDaHJflxT3n0hmWb/m5F8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Vi4PeJu4qTK/lt5n6hVA7pk3aVsvpF+Bw4gl5GM3JesnGKS9IUdd01baxRs6vm89b
-	 0zyDLYef3Z76f7JOfKJiTiXR69E/HRP5L1OHdYF6tpem8a+eh4+WTgssOjBRR5tNJd
-	 sTeAqgH3x0qXkJAMjs3TSF8/Bgz78hRK50+C4M54=
+	by mail.kernel.org (Postfix) with ESMTP id 691E72078E
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:21:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbgJFOHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:07:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32846 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725902AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 10:03:54 -0400
-Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726147AbgJFOVA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:21:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725946AbgJFOVA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Oct 2020 10:21:00 -0400
+Received: from proxima.lasnet.de (proxima.lasnet.de [IPv6:2a01:4f8:121:31eb:3::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DE03C0613D1;
+        Tue,  6 Oct 2020 07:21:00 -0700 (PDT)
+Received: from localhost.localdomain (p200300e9d72c3c4353f06c511a49ff67.dip0.t-ipconnect.de [IPv6:2003:e9:d72c:3c43:53f0:6c51:1a49:ff67])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 577AC20782;
-        Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993033;
-        bh=8Ugy8JtQBg0iQvd2yN/ML4tDaHJflxT3n0hmWb/m5F8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FYRax+YqyD52SDk0aYQqvvFDZ1mtyKOGVrs73tWyc54mtRBlrC35HiKlffeSF9FNX
-         QoEY2XUTNjFyteulqX2glPPWfHPrqo937CsWGoY64Pjn5RwssZ4apNg5hMfu8Np+Cw
-         7VECNZRDOQ+aGR1PC7+rSFSL9aYAjAtFrZ9HuGOA=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kPnZH-0019EY-1f; Tue, 06 Oct 2020 16:03:51 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 01E43C257F;
+        Tue,  6 Oct 2020 16:14:14 +0200 (CEST)
+Subject: Re: [PATCH v5 25/52] docs: net: ieee802154.rst: fix C expressions
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 01/52] docs: cdomain.py: add support for a new Sphinx 3.1+ tag
-Date:   Tue,  6 Oct 2020 16:02:58 +0200
-Message-Id: <f84573321f88b059b8040bd5fd0f2962ee505985.1601992016.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
+ <6ba1d137516e4a144a4fd398934d62b94d31446d.1601992016.git.mchehab+huawei@kernel.org>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+Message-ID: <797b0cbc-5586-ae4a-6967-ec99b6554879@datenfreihafen.org>
+Date:   Tue, 6 Oct 2020 16:14:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <6ba1d137516e4a144a4fd398934d62b94d31446d.1601992016.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since Sphinx 3.0, the C domain code was rewritten, but only
-after version 3.1 it got support for setting namespaces on
-C domains, with is something that it is required, in order to
-document system calls, like ioctl() and others.
+Hello.
 
-As part of changing the documentation subsystem to properly
-build with Sphinx 3.1+, add support for such new tag:
+[Sorry for the earlier empty mail]
 
-	.. c:namespace::"
+On 06.10.20 16:03, Mauro Carvalho Chehab wrote:
+> There are some warnings produced with Sphinx 3.x:
+> 
+> 	Documentation/networking/ieee802154.rst:29: WARNING: Error in declarator or parameters
+> 	Invalid C declaration: Expecting "(" in parameters. [error at 7]
+> 	  int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
+> 	  -------^
+> 	Documentation/networking/ieee802154.rst:134: WARNING: Invalid C declaration: Expected end of definition. [error at 81]
+> 	  void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
+> 	  ---------------------------------------------------------------------------------^
+> 	Documentation/networking/ieee802154.rst:139: WARNING: Invalid C declaration: Expected end of definition. [error at 95]
+> 	  void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
+> 	  -----------------------------------------------------------------------------------------------^
+> 	Documentation/networking/ieee802154.rst:158: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
+> 	  int start(struct ieee802154_hw *hw):
+> 	  -----------------------------------^
+> 	Documentation/networking/ieee802154.rst:162: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
+> 	  void stop(struct ieee802154_hw *hw):
+> 	  -----------------------------------^
+> 	Documentation/networking/ieee802154.rst:166: WARNING: Invalid C declaration: Expected end of definition. [error at 61]
+> 	  int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
+> 	  -------------------------------------------------------------^
+> 	Documentation/networking/ieee802154.rst:171: WARNING: Invalid C declaration: Expected end of definition. [error at 43]
+> 	  int ed(struct ieee802154_hw *hw, u8 *level):
+> 	  -------------------------------------------^
+> 	Documentation/networking/ieee802154.rst:176: WARNING: Invalid C declaration: Expected end of definition. [error at 62]
+> 	  int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
+> 	  --------------------------------------------------------------^
+> 
+> Caused by some bad c:function: prototypes. Fix them.
+> 
+> Acked-by: David S. Miller <davem@davemloft.net>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>   Documentation/networking/ieee802154.rst | 18 ++++++++++--------
+>   1 file changed, 10 insertions(+), 8 deletions(-)
 
-Such tag optionally replaces the optional "name" tag for functions,
-setting a single namespace domain for all C references found
-at the file.
 
-With that, it should be possible to convert existing
-documentation to be compatible with both Sphinx 1.x/2.x and
-3.1+.
+Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/sphinx/cdomain.py | 55 ++++++++++++++++++++++++++++++++-
- 1 file changed, 54 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-index cbac8e608dc4..35805c44a4fc 100644
---- a/Documentation/sphinx/cdomain.py
-+++ b/Documentation/sphinx/cdomain.py
-@@ -40,14 +40,56 @@ from sphinx import addnodes
- from sphinx.domains.c import c_funcptr_sig_re, c_sig_re
- from sphinx.domains.c import CObject as Base_CObject
- from sphinx.domains.c import CDomain as Base_CDomain
-+from itertools import chain
-+import re
- 
--__version__  = '1.0'
-+__version__  = '1.1'
- 
- # Get Sphinx version
- major, minor, patch = sphinx.version_info[:3]
- 
-+# Namespace to be prepended to the full name
-+namespace = None
-+
-+#
-+# Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
-+# - Store the namespace if ".. c:namespace::" tag is found
-+
-+RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
-+
-+def markup_namespace(match):
-+    global namespace
-+
-+    namespace = match.group(1)
-+
-+    return ""
-+
-+def c_markups(app, docname, source):
-+    result = ""
-+    markup_func = {
-+        RE_namespace: markup_namespace,
-+    }
-+
-+    lines = iter(source[0].splitlines(True))
-+    for n in lines:
-+        match_iterators = [regex.finditer(n) for regex in markup_func]
-+        matches = sorted(chain(*match_iterators), key=lambda m: m.start())
-+        for m in matches:
-+            n = n[:m.start()] + markup_func[m.re](m) + n[m.end():]
-+
-+        result = result + n
-+
-+    source[0] = result
-+
-+#
-+# Now implements support for the cdomain namespacing logic
-+#
-+
- def setup(app):
- 
-+    # Handle easy Sphinx 3.1+ simple new tags: :c:expr and .. c:namespace::
-+    app.connect('source-read', c_markups)
-+
-     if (major == 1 and minor < 8):
-         app.override_domain(CDomain)
-     else:
-@@ -75,6 +117,8 @@ class CObject(Base_CObject):
-         function-like macro, the name of the macro is returned. Otherwise
-         ``False`` is returned.  """
- 
-+        global namespace
-+
-         if not self.objtype == 'function':
-             return False
- 
-@@ -107,11 +151,16 @@ class CObject(Base_CObject):
-             param += nodes.emphasis(argname, argname)
-             paramlist += param
- 
-+        if namespace:
-+            fullname = namespace + "." + fullname
-+
-         return fullname
- 
-     def handle_signature(self, sig, signode):
-         """Transform a C signature into RST nodes."""
- 
-+        global namespace
-+
-         fullname = self.handle_func_like_macro(sig, signode)
-         if not fullname:
-             fullname = super(CObject, self).handle_signature(sig, signode)
-@@ -122,6 +171,10 @@ class CObject(Base_CObject):
-             else:
-                 # FIXME: handle :name: value of other declaration types?
-                 pass
-+        else:
-+            if namespace:
-+                fullname = namespace + "." + fullname
-+
-         return fullname
- 
-     def add_target_and_index(self, name, sig, signode):
--- 
-2.26.2
-
+regards
+Stefan Schmidt
