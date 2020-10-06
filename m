@@ -5,50 +5,53 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB6EC4727E
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0B3C47420
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F15E320782
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:04:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E44520760
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993094;
-	bh=7ozHOFOhTxOMv4Cj9/DZtWCYE/TGvOymYMA5/4LPf1I=;
+	s=default; t=1601993110;
+	bh=VDfOGlsJYZesR9L6Qb+5QlSLDI9X9oF0Ascq4FkKHDo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=KmBTkJXjLyg0lMNwo2fVZEzf77b2OegHQZRedQy4o6NCxSHRhrDeumGMrx4kKys7h
-	 c7dg1z5FIjN8rBxNwIBlBMLQVa0UxkmlBsPaxHWwctne9I0PGV37bNs67s+lzaRfGy
-	 u7Ih36+JcLrKhTysvYOeFoTO24LIvzze3xDZk348=
+	b=k2FWSUJlxf5+PR7HOUoIMTeKZ/0zalR8DN5hiCdO8oxP5vpc3nvyL/75uUcGJlNOa
+	 BwXV3YVRhbM6GgNc+Yq+1XxaTTIEVMIMwJMUhS3jwxVpr7jIA1CuLgZWtb5TnkP7tI
+	 FXyy0dhzWrNBOLB4infT7+ZmYC2j6mNsDBTsXU30=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726762AbgJFOEw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:04:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33530 "EHLO mail.kernel.org"
+        id S1726753AbgJFOEv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:04:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33610 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726551AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726476AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:56 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1633723718;
-        Tue,  6 Oct 2020 14:03:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99E5B20760;
+        Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993035;
-        bh=7ozHOFOhTxOMv4Cj9/DZtWCYE/TGvOymYMA5/4LPf1I=;
+        s=default; t=1601993034;
+        bh=VDfOGlsJYZesR9L6Qb+5QlSLDI9X9oF0Ascq4FkKHDo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xWRKtIRnoocJiQuPQHdXVrCZFsRQNlsXOK+3gA1/CL056+twRe3RNIm9C8UcEV6uU
-         Vz/i7OXMNkHOHgR3NK6LsK5zPpU9F7s8EZg+cAAZtFgKHhaLlRdpsSu+RTbFt43VH2
-         1m25ovxatq77D5qvYbM1cG0pGu3uiBd9LPZ581ec=
+        b=YaTNefLs870gQhLKc7Cakny9yscg9/lP1hK4KC4D6jatlvs4NWA6IMFCfBDEGf5Jo
+         mPOfajCSmGpRH9GqGOPcNaNdwSbZh6Z8FkBNo+UVk4mmVAunLO8pk+uPHczdm2cvS/
+         dyKqmp3tvIMfo1ETfBTmUk7wxh5UrUXc97nkNPUU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZJ-0019Gq-6l; Tue, 06 Oct 2020 16:03:53 +0200
+        id 1kPnZI-0019G3-GN; Tue, 06 Oct 2020 16:03:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 51/52] docs: conf.py: fix c:function support with Sphinx 3.x
-Date:   Tue,  6 Oct 2020 16:03:48 +0200
-Message-Id: <b65681df9ca14d046f5c90fc9e40546705b48388.1601992016.git.mchehab+huawei@kernel.org>
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 35/52] docs: fs: fscrypt.rst: get rid of :c:type: tags
+Date:   Tue,  6 Oct 2020 16:03:32 +0200
+Message-Id: <81cd5da550e06de8e85dcadef4909ff5f1d23319.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -59,95 +62,135 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx C parser for the C domain is now more pedantic when
-trying to identify the function types. That prevents scope
-macros to be used as type defines.
+The :c:type: tag has problems with Sphinx 3.x, as structs
+there should be declared with c:struct.
 
-Yet, since 3.0.2, it is possible to provide it a list of
-such macros. Add them, in order to solve several Sphinx 3.x
-warnings.
+So, remove them, relying at automarkup.py extension to
+convert them into cross-references.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 65 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 62 insertions(+), 3 deletions(-)
+ Documentation/filesystems/fscrypt.rst | 51 ++++++++++++---------------
+ 1 file changed, 23 insertions(+), 28 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 3875401486de..b402bd8f6f71 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -47,9 +47,68 @@ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
- #
- if major >= 3:
-     sys.stderr.write('''WARNING: The kernel documentation build process
--	does not work correctly with Sphinx v3.0 and above.  Expect errors
--	in the generated output.
--	''')
-+        does not work correctly with Sphinx v3.0 and above.  Expect errors
-+        in the generated output.
-+        ''')
-+    if minor > 0 or patch >= 2:
-+        # Sphinx c function parser is more pedantic with regards to type
-+        # checking. Due to that, having macros at c:function cause problems.
-+        # Those needed to be scaped by using c_id_attributes[] array
-+        c_id_attributes = [
-+            # GCC Compiler types not parsed by Sphinx:
-+            "__restrict__",
-+
-+            # include/linux/compiler_types.h:
-+            "__iomem",
-+            "__kernel",
-+            "noinstr",
-+            "notrace",
-+            "__percpu",
-+            "__rcu",
-+            "__user",
-+
-+            # include/linux/compiler_attributes.h:
-+            "__alias",
-+            "__aligned",
-+            "__aligned_largest",
-+            "__always_inline",
-+            "__assume_aligned",
-+            "__cold",
-+            "__attribute_const__",
-+            "__copy",
-+            "__pure",
-+            "__designated_init",
-+            "__visible",
-+            "__printf",
-+            "__scanf",
-+            "__gnu_inline",
-+            "__malloc",
-+            "__mode",
-+            "__no_caller_saved_registers",
-+            "__noclone",
-+            "__nonstring",
-+            "__noreturn",
-+            "__packed",
-+            "__pure",
-+            "__section",
-+            "__always_unused",
-+            "__maybe_unused",
-+            "__used",
-+            "__weak",
-+            "noinline",
-+
-+            # include/linux/memblock.h:
-+            "__init_memblock",
-+            "__meminit",
-+
-+            # include/linux/init.h:
-+            "__init",
-+            "__ref",
-+
-+            # include/linux/linkage.h:
-+            "asmlinkage",
-+        ]
-+
- else:
-     extensions.append('cdomain')
-     extensions.append('automarkup')
+diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
+index 4f858b38a412..46a9d1bd2ab5 100644
+--- a/Documentation/filesystems/fscrypt.rst
++++ b/Documentation/filesystems/fscrypt.rst
+@@ -437,8 +437,7 @@ FS_IOC_SET_ENCRYPTION_POLICY
+ The FS_IOC_SET_ENCRYPTION_POLICY ioctl sets an encryption policy on an
+ empty directory or verifies that a directory or regular file already
+ has the specified encryption policy.  It takes in a pointer to a
+-struct fscrypt_policy_v1 or a :c:type:`struct
+-fscrypt_policy_v2`, defined as follows::
++struct fscrypt_policy_v1 or a struct fscrypt_policy_v2, defined as follows::
+ 
+     #define FSCRYPT_POLICY_V1               0
+     #define FSCRYPT_KEY_DESCRIPTOR_SIZE     8
+@@ -464,11 +463,10 @@ fscrypt_policy_v2`, defined as follows::
+ 
+ This structure must be initialized as follows:
+ 
+-- ``version`` must be FSCRYPT_POLICY_V1 (0) if the struct is
+-  :c:type:`fscrypt_policy_v1` or FSCRYPT_POLICY_V2 (2) if the struct
+-  is :c:type:`fscrypt_policy_v2`.  (Note: we refer to the original
+-  policy version as "v1", though its version code is really 0.)  For
+-  new encrypted directories, use v2 policies.
++- ``version`` must be FSCRYPT_POLICY_V1 (0) if struct fscrypt_policy_v1
++  is used or FSCRYPT_POLICY_V2 (2) if struct fscrypt_policy_v2 is used.
++  (Note: we refer to the original policy version as "v1", though its
++  version code is really 0.)  For new encrypted directories, use v2 policies.
+ 
+ - ``contents_encryption_mode`` and ``filenames_encryption_mode`` must
+   be set to constants from ``<linux/fscrypt.h>`` which identify the
+@@ -509,8 +507,7 @@ This structure must be initialized as follows:
+   be arbitrarily chosen.  Instead, the key must first be added using
+   `FS_IOC_ADD_ENCRYPTION_KEY`_.  Then, the ``key_spec.u.identifier``
+   the kernel returned in the struct fscrypt_add_key_arg must
+-  be used as the ``master_key_identifier`` in the :c:type:`struct
+-  fscrypt_policy_v2`.
++  be used as the ``master_key_identifier`` in struct fscrypt_policy_v2.
+ 
+ If the file is not yet encrypted, then FS_IOC_SET_ENCRYPTION_POLICY
+ verifies that the file is an empty directory.  If so, the specified
+@@ -637,9 +634,8 @@ The FS_IOC_GET_ENCRYPTION_POLICY ioctl can also retrieve the
+ encryption policy, if any, for a directory or regular file.  However,
+ unlike `FS_IOC_GET_ENCRYPTION_POLICY_EX`_,
+ FS_IOC_GET_ENCRYPTION_POLICY only supports the original policy
+-version.  It takes in a pointer directly to a :c:type:`struct
+-fscrypt_policy_v1` rather than a :c:type:`struct
+-fscrypt_get_policy_ex_arg`.
++version.  It takes in a pointer directly to struct fscrypt_policy_v1
++rather than struct fscrypt_get_policy_ex_arg.
+ 
+ The error codes for FS_IOC_GET_ENCRYPTION_POLICY are the same as those
+ for FS_IOC_GET_ENCRYPTION_POLICY_EX, except that
+@@ -717,10 +713,9 @@ as follows:
+   ``key_spec.type`` must contain FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR, and
+   ``key_spec.u.descriptor`` must contain the descriptor of the key
+   being added, corresponding to the value in the
+-  ``master_key_descriptor`` field of :c:type:`struct
+-  fscrypt_policy_v1`.  To add this type of key, the calling process
+-  must have the CAP_SYS_ADMIN capability in the initial user
+-  namespace.
++  ``master_key_descriptor`` field of struct fscrypt_policy_v1.
++  To add this type of key, the calling process must have the
++  CAP_SYS_ADMIN capability in the initial user namespace.
+ 
+   Alternatively, if the key is being added for use by v2 encryption
+   policies, then ``key_spec.type`` must contain
+@@ -737,8 +732,8 @@ as follows:
+ 
+ - ``key_id`` is 0 if the raw key is given directly in the ``raw``
+   field.  Otherwise ``key_id`` is the ID of a Linux keyring key of
+-  type "fscrypt-provisioning" whose payload is a :c:type:`struct
+-  fscrypt_provisioning_key_payload` whose ``raw`` field contains the
++  type "fscrypt-provisioning" whose payload is
++  struct fscrypt_provisioning_key_payload whose ``raw`` field contains the
+   raw key and whose ``type`` field matches ``key_spec.type``.  Since
+   ``raw`` is variable-length, the total size of this key's payload
+   must be ``sizeof(struct fscrypt_provisioning_key_payload)`` plus the
+@@ -956,8 +951,8 @@ FS_IOC_GET_ENCRYPTION_KEY_STATUS
+ The FS_IOC_GET_ENCRYPTION_KEY_STATUS ioctl retrieves the status of a
+ master encryption key.  It can be executed on any file or directory on
+ the target filesystem, but using the filesystem's root directory is
+-recommended.  It takes in a pointer to a :c:type:`struct
+-fscrypt_get_key_status_arg`, defined as follows::
++recommended.  It takes in a pointer to struct fscrypt_get_key_status_arg,
++defined as follows::
+ 
+     struct fscrypt_get_key_status_arg {
+             /* input */
+@@ -1148,12 +1143,12 @@ Implementation details
+ Encryption context
+ ------------------
+ 
+-An encryption policy is represented on-disk by a :c:type:`struct
+-fscrypt_context_v1` or a struct fscrypt_context_v2.  It is
+-up to individual filesystems to decide where to store it, but normally
+-it would be stored in a hidden extended attribute.  It should *not* be
+-exposed by the xattr-related system calls such as getxattr() and
+-setxattr() because of the special semantics of the encryption xattr.
++An encryption policy is represented on-disk by struct fscrypt_context_v1
++or struct fscrypt_context_v2.  It is up to individual filesystems to decide
++where to store it, but normally it would be stored in a hidden extended
++attribute.  It should *not* be exposed by the xattr-related system calls
++such as getxattr() and setxattr() because of the special semantics of the
++encryption xattr.
+ (In particular, there would be much confusion if an encryption policy
+ were to be added to or removed from anything other than an empty
+ directory.)  These structs are defined as follows::
+@@ -1249,8 +1244,8 @@ a strong "hash" of the ciphertext filename, along with the optional
+ filesystem-specific hash(es) needed for directory lookups.  This
+ allows the filesystem to still, with a high degree of confidence, map
+ the filename given in ->lookup() back to a particular directory entry
+-that was previously listed by readdir().  See :c:type:`struct
+-fscrypt_nokey_name` in the source for more details.
++that was previously listed by readdir().  See struct fscrypt_nokey_name
++in the source for more details.
+ 
+ Note that the precise way that filenames are presented to userspace
+ without the key is subject to change in the future.  It is only meant
 -- 
 2.26.2
 
