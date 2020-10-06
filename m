@@ -2,92 +2,98 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3155CC4727D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA4BC4727D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:22:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D48D92087E
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:21:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC35820866
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601990518;
-	bh=2r6oOY4xsG1EB6Z1iMtvKymMAv8zcB6pr2HFpKVhvXU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=AyD/NGaZJ3OfTU7+NSou25amGz8zTS5IPtvrlHE65R/Pm81T8LsVMUNT1zo50mLmc
-	 aQc+BgvONeZ710D/sCuf0UGAEcw0dpzUt5ZB9Cz5dKUoMZQLTR6D8GlTrzf2YS0le8
-	 exPbz8A02207u5/PgFjr30BvNHq0PYFZwiNYLrsI=
+	s=default; t=1601990526;
+	bh=LHGrdkmby5BA4t4N23HL7SkHHxZy7yqooZ3dMT3aY2s=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=U1FkAf7GkQAPlop2rG4ILL5L9EIVnA+w8u0tQaqQHdKhGu0/sXlA7zV40e977MyIi
+	 QaF7KEVYayNsw1fdc7FVOaYVGqWbBDjJAjKe+FOPj8UaOJVfa0V5p+L2lVIenZSpbT
+	 kJ6C5iaCpOt4WOe9ILkx6IYBezTwUZP/PxurDqrk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726137AbgJFNV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 09:21:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57644 "EHLO mail.kernel.org"
+        id S1726319AbgJFNWG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 09:22:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57894 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726078AbgJFNVz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 09:21:55 -0400
+        id S1726078AbgJFNWF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 09:22:05 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A634F208C7;
-        Tue,  6 Oct 2020 13:21:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B25142078E;
+        Tue,  6 Oct 2020 13:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601990514;
-        bh=2r6oOY4xsG1EB6Z1iMtvKymMAv8zcB6pr2HFpKVhvXU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wnceM+Pi7yJwn8uNxrah+qJ4fj4k8S+EEGvhqVGYbi5l/bgNOtr4bicFo96ILeSMb
-         gKfEkVvHAjf+d4s0dPfXWOMwhtouBvFup4aV4PNGBzEcpCdX/rJVCN2o9PmTRf4l0b
-         JN6FOBPbRp6zThS1wSwnA6yLxQW/CVnlrUKVCo8s=
+        s=default; t=1601990525;
+        bh=LHGrdkmby5BA4t4N23HL7SkHHxZy7yqooZ3dMT3aY2s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UfPGt9w4ExaWlstmmTjNUtHH93y5mElanmrggfILcMKUt4abJ+zea61rxv3QlNqS8
+         i/x4J8NZcOijylogzbLZIa9aYcy1hSw0kZxVfDwfQjAktPxCxt7f0jZjH3ypf2jdQy
+         1vwZVDXuv8tOjyEFsAEFi204UxM1TCTTA6JRNdZQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPmuM-0018Kl-6l; Tue, 06 Oct 2020 15:21:34 +0200
+        id 1kPmuM-0018Kh-4g; Tue, 06 Oct 2020 15:21:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
         Alex Shi <alex.shi@linux.alibaba.com>,
         Bailu Lin <bailu.lin@vivo.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] docs: zh_CN: amu.rst: fix document title markup
-Date:   Tue,  6 Oct 2020 15:21:31 +0200
-Message-Id: <403816bb44e06049299e5df9f15a3a691fe7f8e6.1601990386.git.mchehab+huawei@kernel.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Scott Branden <scott.branden@broadcom.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>, rcu@vger.kernel.org
+Subject: [PATCH 0/4] linu-next next-20201006 document build fixes
+Date:   Tue,  6 Oct 2020 15:21:29 +0200
+Message-Id: <cover.1601990386.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1601990386.git.mchehab+huawei@kernel.org>
-References: <cover.1601990386.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As warned by Sphinx 2.4.4:
-	.../Documentation/translations/zh_CN/arm64/amu.rst:7: WARNING: Title overline too short.
+This small series fix new warnings introduced on today's linux-next.
 
-Increase its size.
+Feel free to add the patches on this series at the same tree
+as the warning was introduced at the first place.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/translations/zh_CN/arm64/amu.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks!
+Mauro
 
-diff --git a/Documentation/translations/zh_CN/arm64/amu.rst b/Documentation/translations/zh_CN/arm64/amu.rst
-index bd875f221330..ab7180f91394 100644
---- a/Documentation/translations/zh_CN/arm64/amu.rst
-+++ b/Documentation/translations/zh_CN/arm64/amu.rst
-@@ -4,9 +4,9 @@
- 
- Translator: Bailu Lin <bailu.lin@vivo.com>
- 
--=================================
-+==================================
- AArch64 Linux 中扩展的活动监控单元
--=================================
-+==================================
- 
- 作者: Ionela Voinescu <ionela.voinescu@arm.com>
- 
+
+Mauro Carvalho Chehab (4):
+  docs: infrastructure.rst: exclude device_link_state from device.h
+  docs: zh_CN: amu.rst: fix document title markup
+  docs: RCU: Requirements.rst: fix a list block
+  firmware_loader: fix a kernel-doc markup
+
+ Documentation/RCU/Design/Requirements/Requirements.rst | 1 +
+ Documentation/driver-api/infrastructure.rst            | 1 +
+ Documentation/translations/zh_CN/arm64/amu.rst         | 4 ++--
+ drivers/base/firmware_loader/fallback.c                | 2 ++
+ 4 files changed, 6 insertions(+), 2 deletions(-)
+
 -- 
 2.26.2
+
 
