@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFF2C4727D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EAF9C4363D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFB9720782
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF94420782
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993250;
-	bh=0pyzte4nOruiOG+lT9yn7ghxCXfyNWzJBTAY2OTjNYk=;
+	s=default; t=1601993251;
+	bh=KNCXzYh/acJnJFeYKV6JscUEBLkELaNTa2VvLuVSoNs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yEkESBEagi+l/ZKEfOg7QJAGIEZvmTftD/txiQw8NqJH0TZ1jOASk4jAUGWbMBZRl
-	 LsWVpG8BKdzUHCtTccPBvk8Ngtg7te1gX9Ex3/heJa+vfR/Q/OBf4nBbQuA0JobnQ8
-	 R32szETxcmJD6jTpWJ5PHfQujGF6zn8t/MpZM00A=
+	b=exmJfGTIyBIHhtmAdv8rCJSXbICwrDQGMWSiaXqKZBMbwykvO1UjNy+3OkTQ0kJX+
+	 pTj0dfj2uNpXO7B7U0+Srzg/FvwxA924VAAvcRsb0bJN0gGYSo+w0ERhzShKXK0IQP
+	 OSWzr8O/TaMtb6FgT8ko4wpfKdvKAS4KV9w7O7CA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727092AbgJFOHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:07:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33440 "EHLO mail.kernel.org"
+        id S1726602AbgJFOHL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:07:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33164 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726356AbgJFODz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726241AbgJFODz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:55 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 297202184D;
-        Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7FEDA2087E;
+        Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993034;
-        bh=0pyzte4nOruiOG+lT9yn7ghxCXfyNWzJBTAY2OTjNYk=;
+        s=default; t=1601993033;
+        bh=KNCXzYh/acJnJFeYKV6JscUEBLkELaNTa2VvLuVSoNs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=h69BQwwk/2XJO6ybKr+sOSwtJEH0nkPjKJUkS/shs3pwRMxhrhSShSynMpAZpZc5m
-         YG/fFl9sCGAmLERIObOvKr1s6Dq9P2lZFXQKvK2HFj1w9+hr9Py7nEySo2oAb7oFFt
-         LTJLBd2Fh85I0LhT34Dh0G67/08M7G6LO6iN5FHk=
+        b=Ibb5VP+rgYK3FD13BMcSxiNut08JYy/i3E+lgrykCTnoh9u9nJc38m7OcByhCM+Uc
+         KjeSQAb9xrMHRtN3STIPpEqbsz6oie4LIuNphPAQ0qW35q383bsvHHu1rsNXAlwO2b
+         NbBxdrq6jbWv4COEVi+R6FZddTEpod/TUhNV6ePs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZI-0019FZ-5t; Tue, 06 Oct 2020 16:03:52 +0200
+        id 1kPnZH-0019Et-BP; Tue, 06 Oct 2020 16:03:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Changbin Du <changbin.du@intel.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v5 24/52] docs: it_IT: fix namespace collisions at locking.rst
-Date:   Tue,  6 Oct 2020 16:03:21 +0200
-Message-Id: <a37cec113fcbcb496570f1f4ae87da17e452875a.1601992016.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 10/52] scripts: kernel-doc: allow passing desired Sphinx C domain dialect
+Date:   Tue,  6 Oct 2020 16:03:07 +0200
+Message-Id: <9e9301fadc02986b9c2709db50a4d6b98db3d9fa.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -60,40 +60,146 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The C domain functions there collide with the English ones,
-due to namespace collision, generating lots of warnings with
-Sphinx 3.x:
+When kernel-doc is called via kerneldoc.py, there's no need to
+auto-detect the Sphinx version, as the Sphinx module already
+knows it. So, add an optional parameter to allow changing the
+Sphinx dialect.
 
-	./include/linux/mutex.h:121: WARNING: Duplicate C declaration, also defined in 'translations/it_IT/kernel-hacking/locking'.
-	Declaration is 'mutex_init'.
-	./include/linux/mutex.h:152: WARNING: Duplicate C declaration, also defined in 'translations/it_IT/kernel-hacking/locking'.
-	Declaration is 'mutex_is_locked'.
-	./include/linux/mutex.h:226: WARNING: Duplicate C declaration, also defined in 'translations/it_IT/kernel-hacking/locking'.
-	Declaration is 'mutex_trylock_recursive'.
-	./kernel/locking/mutex.c:281: WARNING: Duplicate C declaration, also defined in 'translations/it_IT/kernel-hacking/locking'.
-	Declaration is 'mutex_lock'.
-	...
+As kernel-doc can also be manually called, keep the auto-detection
+logic if the parameter was not specified. On such case, emit
+a warning if sphinx-build can't be found at PATH.
 
-Add a namespace tag there, in order to prevent that.
+I ended using a suggestion from Joe for using a more readable
+regex, instead of using a complex one with a hidden group like:
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+	m/^(\d+)\.(\d+)(?:\.?(\d+)?)/
+
+in order to get the optional <patch> argument.
+
+Thanks-to: Joe Perches <joe@perches.com>
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/sphinx/kerneldoc.py |  5 ++++
+ scripts/kernel-doc                | 44 +++++++++++++++++++++++++------
+ 2 files changed, 41 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 4615df5723fb..bf1acd6204ef 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -1,5 +1,7 @@
- .. include:: ../disclaimer-ita.rst
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index 4bcbd6ae01cd..1a1b12242a45 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -70,6 +70,11 @@ class KernelDocDirective(Directive):
+         env = self.state.document.settings.env
+         cmd = [env.config.kerneldoc_bin, '-rst', '-enable-lineno']
  
-+.. c:namespace:: it_IT
++	# Pass the version string to kernel-doc, as it needs to use a different
++	# dialect, depending what the C domain supports for each specific
++	# Sphinx versions
++        cmd += ['-sphinx-version', sphinx.__version__]
 +
- :Original: :ref:`Documentation/kernel-hacking/locking.rst <kernel_hacking_lock>`
- :Translator: Federico Vaga <federico.vaga@vaga.pv.it>
+         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
+         export_file_patterns = []
  
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 09e3e78b9723..9881f08cf75c 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -56,6 +56,13 @@ Output format selection (mutually exclusive):
+   -rst			Output reStructuredText format.
+   -none			Do not output documentation, only warnings.
+ 
++Output format selection modifier (affects only ReST output):
++
++  -sphinx-version	Use the ReST C domain dialect compatible with an
++			specific Sphinx Version.
++			If not specified, kernel-doc will auto-detect using
++			the sphinx-build version found on PATH.
++
+ Output selection (mutually exclusive):
+   -export		Only output documentation for symbols that have been
+ 			exported using EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
+@@ -270,7 +277,7 @@ if ($#ARGV == -1) {
+ }
+ 
+ my $kernelversion;
+-my $sphinx_major;
++my ($sphinx_major, $sphinx_minor, $sphinx_patch);
+ 
+ my $dohighlight = "";
+ 
+@@ -457,6 +464,19 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	    $enable_lineno = 1;
+     } elsif ($cmd eq 'show-not-found') {
+ 	$show_not_found = 1;  # A no-op but don't fail
++    } elsif ($cmd eq "sphinx-version") {
++	my $ver_string = shift @ARGV;
++	if ($ver_string =~ m/^(\d+)\.(\d+)(\.\d+)?/) {
++	    $sphinx_major = $1;
++	    $sphinx_minor = $2;
++	    if (defined($3)) {
++		$sphinx_patch = substr($3,1);
++	    } else {
++		$sphinx_patch = 0;
++	    }
++	} else {
++	    die "Sphinx version should either major.minor or major.minor.patch format\n";
++	}
+     } else {
+ 	# Unknown argument
+         usage();
+@@ -477,29 +497,37 @@ sub findprog($)
+ sub get_sphinx_version()
+ {
+ 	my $ver;
+-	my $major = 1;
+ 
+ 	my $cmd = "sphinx-build";
+ 	if (!findprog($cmd)) {
+ 		my $cmd = "sphinx-build3";
+-		return $major if (!findprog($cmd));
++		if (!findprog($cmd)) {
++			$sphinx_major = 1;
++			$sphinx_minor = 2;
++			$sphinx_patch = 0;
++			printf STDERR "Warning: Sphinx version not found. Using default (Sphinx version %d.%d.%d)\n",
++			       $sphinx_major, $sphinx_minor, $sphinx_patch;
++			return;
++		}
+ 	}
+ 
+ 	open IN, "$cmd --version 2>&1 |";
+ 	while (<IN>) {
+ 		if (m/^\s*sphinx-build\s+([\d]+)\.([\d\.]+)(\+\/[\da-f]+)?$/) {
+-			$major=$1;
++			$sphinx_major = $1;
++			$sphinx_minor = $2;
++			$sphinx_patch = $3;
+ 			last;
+ 		}
+ 		# Sphinx 1.2.x uses a different format
+ 		if (m/^\s*Sphinx.*\s+([\d]+)\.([\d\.]+)$/) {
+-			$major=$1;
++			$sphinx_major = $1;
++			$sphinx_minor = $2;
++			$sphinx_patch = $3;
+ 			last;
+ 		}
+ 	}
+ 	close IN;
+-
+-	return $major;
+ }
+ 
+ # get kernel version from env
+@@ -2333,7 +2361,7 @@ sub process_file($) {
+ }
+ 
+ 
+-$sphinx_major = get_sphinx_version();
++get_sphinx_version() if (!$sphinx_major);
+ $kernelversion = get_kernel_version();
+ 
+ # generate a sequence of code that will splice in highlighting information
 -- 
 2.26.2
 
