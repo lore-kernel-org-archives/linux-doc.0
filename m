@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C369C4363D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFA5C4727F
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E70682087E
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0B4620782
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993253;
-	bh=V+7OC5N01urmt6Emf3gt8+IiL5ChKdmodgxNP6tpU1g=;
+	s=default; t=1601993254;
+	bh=EjhsXt2TTbz27tflwp0Res4uq/4Y2qjajetlKiJB0vY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=GpTUwoO2oNKmJbxCyOakrNURvTAfSlko0YKC/ssp5OFv0JLUl04DynUHg4aja88qw
-	 6SmT/ObTMwPvqShDO962IOk6aZSmH2HpND9eKGIoSpASgFmIf6mJpUcaB1OYxrSqxF
-	 kJIZYlUX3g5wcYg+qWyklGAVSTqiABKLs9DkQmjE=
+	b=jjwt028OM4lTNfrPP9vcsEH6po+vQe2/2mEBF1aGkPomoQz6uKM+/JSdpcJisMhJ7
+	 OUDh8fB1tCbN316FDJGb8lDaIPrpXD6SPN0jRkxm6BdosfzYZsIAnLPqOYZ4WfQjlJ
+	 B78qiEkT6trqmboXoYx+bewEvrWoU8Dtl1xygpZ0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726348AbgJFODy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:03:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32848 "EHLO mail.kernel.org"
+        id S1726356AbgJFOHd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:07:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33166 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726032AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726248AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:54 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63BC320789;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7D90520866;
         Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601993033;
-        bh=V+7OC5N01urmt6Emf3gt8+IiL5ChKdmodgxNP6tpU1g=;
+        bh=EjhsXt2TTbz27tflwp0Res4uq/4Y2qjajetlKiJB0vY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eLuEOLDhgJru/2MqTOq+mWUhR74ro1RzoVS4kqE/ZDkMucCe4Y7EBdqkxdQv4BwGa
-         pVfjdXrBkmp6lqNJNSjeP6/+EDNSh6x75FDlXdYoWZ++MEkkvw1rJB0/hoHbCJ7M0K
-         81QBYSZ242JhXHFCVKRGHxEYManDEVe/0hRhJSpc=
+        b=uPOjF+ZuirQrUepxlSc6eBRdiupHaztCg9mvcGMklbMIIFuUjx2Bbz15APQnreFJJ
+         p8kl7Ag07ueiQXWJpyHx/czOecY/0ZuZA6ST0WJLZMWNT6iPlE8nevS43ksPU6oNJK
+         OZK3emxbOtKAyPn0QKzVSc2J7VVteXlmfWctsqgU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZH-0019Ee-43; Tue, 06 Oct 2020 16:03:51 +0200
+        id 1kPnZH-0019Ei-6h; Tue, 06 Oct 2020 16:03:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v5 04/52] scripts: kernel-doc: make it more compatible with Sphinx 3.x
-Date:   Tue,  6 Oct 2020 16:03:01 +0200
-Message-Id: <7899c3a94730298a2e2ffa0ce37c1cb046242b58.1601992016.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 06/52] scripts: kernel-doc: fix troubles with line counts
+Date:   Tue,  6 Oct 2020 16:03:03 +0200
+Message-Id: <72bc6fc82d0416b468d5b3004249805565e092cf.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -59,151 +59,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With Sphinx 3.x, the ".. c:type:" tag was changed to accept either:
+There's currently a bug with the way kernel-doc script
+counts line numbers that can be seen with:
 
-	.. c:type:: typedef-like declaration
-	.. c:type:: name
+	$ ./scripts/kernel-doc -rst  -enable-lineno include/linux/math64.h >all && ./scripts/kernel-doc -rst -internal -enable-lineno include/linux/math64.h >int && diff -U0 int all
 
-Using it for other types (including functions) don't work anymore.
+	--- int	2020-09-28 12:58:08.927486808 +0200
+	+++ all	2020-09-28 12:58:08.905486845 +0200
+	@@ -1 +1 @@
+	-#define LINENO 27
+	+#define LINENO 26
+	@@ -3 +3 @@
+	-#define LINENO 16
+	+#define LINENO 15
+	@@ -9 +9 @@
+	-#define LINENO 17
+	+#define LINENO 16
+	...
 
-So, there are newer tags for macro, enum, struct, union, and others,
-which doesn't exist on older versions.
+This is happening with perl version 5.30.3, but I'm not
+so sure if this is a perl bug, or if this is due to something
+else.
 
-Add a check for the Sphinx version and change the produced tags
-accordingly.
+In any case, fixing it is easy. Basically, when "-internal"
+parameter is used, the process_export_file() function opens the
+handle "IN". This makes the line number to be incremented, as the
+handler for the main open is also "IN".
+
+Fix the problem by using a different handler for the
+main open().
+
+While here, add a missing close for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 71 ++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 65 insertions(+), 6 deletions(-)
+ scripts/kernel-doc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index adc05406c68e..096317ef2e97 100755
+index d9783c98f33b..bdd2ebb4ac41 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -271,6 +271,8 @@ if ($#ARGV == -1) {
- }
+@@ -2268,7 +2268,7 @@ sub process_file($) {
  
- my $kernelversion;
-+my $sphinx_major;
-+
- my $dohighlight = "";
+     $file = map_filename($orig_file);
  
- my $verbose = 0;
-@@ -465,6 +467,43 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+-    if (!open(IN,"<$file")) {
++    if (!open(IN_FILE,"<$file")) {
+ 	print STDERR "Error: Cannot open file $file\n";
+ 	++$errors;
+ 	return;
+@@ -2277,9 +2277,9 @@ sub process_file($) {
+     $. = 1;
  
- # continue execution near EOF;
- 
-+# The C domain dialect changed on Sphinx 3. So, we need to check the
-+# version in order to produce the right tags.
-+sub findprog($)
-+{
-+	foreach(split(/:/, $ENV{PATH})) {
-+		return "$_/$_[0]" if(-x "$_/$_[0]");
-+	}
-+}
-+
-+sub get_sphinx_version()
-+{
-+	my $ver;
-+	my $major = 1;
-+
-+	my $cmd = "sphinx-build";
-+	if (!findprog($cmd)) {
-+		my $cmd = "sphinx-build3";
-+		return $major if (!findprog($cmd));
-+	}
-+
-+	open IN, "$cmd --version 2>&1 |";
-+	while (<IN>) {
-+		if (m/^\s*sphinx-build\s+([\d]+)\.([\d\.]+)(\+\/[\da-f]+)?$/) {
-+			$major=$1;
-+			last;
-+		}
-+		# Sphinx 1.2.x uses a different format
-+		if (m/^\s*Sphinx.*\s+([\d]+)\.([\d\.]+)$/) {
-+			$major=$1;
-+			last;
-+		}
-+	}
-+	close IN;
-+
-+	return $major;
-+}
-+
- # get kernel version from env
- sub get_kernel_version() {
-     my $version = 'unknown kernel version';
-@@ -848,7 +887,11 @@ sub output_function_rst(%) {
-     my $start = "";
- 
-     if ($args{'typedef'}) {
--	print ".. c:type:: ". $args{'function'} . "\n\n";
-+	if ($sphinx_major < 3) {
-+	    print ".. c:type:: ". $args{'function'} . "\n\n";
-+	} else {
-+	    print ".. c:function:: ". $args{'function'} . "\n\n";
-+	}
- 	print_lineno($declaration_start_line);
- 	print "   **Typedef**: ";
- 	$lineprefix = "";
-@@ -938,9 +981,14 @@ sub output_enum_rst(%) {
-     my ($parameter);
-     my $oldprefix = $lineprefix;
-     my $count;
--    my $name = "enum " . $args{'enum'};
- 
--    print "\n\n.. c:type:: " . $name . "\n\n";
-+    if ($sphinx_major < 3) {
-+	my $name = "enum " . $args{'enum'};
-+	print "\n\n.. c:type:: " . $name . "\n\n";
-+    } else {
-+	my $name = $args{'enum'};
-+	print "\n\n.. c:enum:: " . $name . "\n\n";
-+    }
-     print_lineno($declaration_start_line);
-     $lineprefix = "   ";
-     output_highlight_rst($args{'purpose'});
-@@ -966,8 +1014,13 @@ sub output_typedef_rst(%) {
-     my %args = %{$_[0]};
-     my ($parameter);
-     my $oldprefix = $lineprefix;
--    my $name = "typedef " . $args{'typedef'};
-+    my $name;
- 
-+    if ($sphinx_major < 3) {
-+	$name = "typedef " . $args{'typedef'};
-+    } else {
-+	$name = $args{'typedef'};
-+    }
-     print "\n\n.. c:type:: " . $name . "\n\n";
-     print_lineno($declaration_start_line);
-     $lineprefix = "   ";
-@@ -982,9 +1035,14 @@ sub output_struct_rst(%) {
-     my %args = %{$_[0]};
-     my ($parameter);
-     my $oldprefix = $lineprefix;
--    my $name = $args{'type'} . " " . $args{'struct'};
- 
--    print "\n\n.. c:type:: " . $name . "\n\n";
-+    if ($sphinx_major < 3) {
-+	my $name = $args{'type'} . " " . $args{'struct'};
-+	print "\n\n.. c:type:: " . $name . "\n\n";
-+    } else {
-+	my $name = $args{'struct'};
-+	print "\n\n.. c:struct:: " . $name . "\n\n";
-+    }
-     print_lineno($declaration_start_line);
-     $lineprefix = "   ";
-     output_highlight_rst($args{'purpose'});
-@@ -2242,6 +2300,7 @@ sub process_file($) {
+     $section_counter = 0;
+-    while (<IN>) {
++    while (<IN_FILE>) {
+ 	while (s/\\\s*$//) {
+-	    $_ .= <IN>;
++	    $_ .= <IN_FILE>;
+ 	}
+ 	# Replace tabs by spaces
+         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
+@@ -2311,6 +2311,7 @@ sub process_file($) {
+ 	    print STDERR "${file}:1: warning: no structured comments found\n";
+ 	}
+     }
++    close IN_FILE;
  }
  
  
-+$sphinx_major = get_sphinx_version();
- $kernelversion = get_kernel_version();
- 
- # generate a sequence of code that will splice in highlighting information
 -- 
 2.26.2
 
