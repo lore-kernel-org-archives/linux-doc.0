@@ -4,51 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFA5C4727F
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34390C4363D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0B4620782
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF3EC20782
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:07:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993254;
-	bh=EjhsXt2TTbz27tflwp0Res4uq/4Y2qjajetlKiJB0vY=;
+	s=default; t=1601993256;
+	bh=L11eOxvDowjwlPTvkbhyZpdA60k6ulJgvpYz2/X3w3M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jjwt028OM4lTNfrPP9vcsEH6po+vQe2/2mEBF1aGkPomoQz6uKM+/JSdpcJisMhJ7
-	 OUDh8fB1tCbN316FDJGb8lDaIPrpXD6SPN0jRkxm6BdosfzYZsIAnLPqOYZ4WfQjlJ
-	 B78qiEkT6trqmboXoYx+bewEvrWoU8Dtl1xygpZ0=
+	b=oy5bHZaatg0TZ8G8IyKDn1KVQf4jvplb9CDwozjAQrUlBQuXYpMn1ag03mIxhHIFk
+	 NoKj86Cw8LWQmc9zWRNhytR+JkBru2M1BZZc82QbT++WWL6VGOmWZGVLIz7Oo0Hj6E
+	 T+9gCDWl7LEai8CxraEXfuktSbpw0e4PggTYxwgo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726356AbgJFOHd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:07:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33166 "EHLO mail.kernel.org"
+        id S1727128AbgJFOHe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:07:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726248AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726317AbgJFODy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:54 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7D90520866;
+        by mail.kernel.org (Postfix) with ESMTPSA id F308321531;
         Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993033;
-        bh=EjhsXt2TTbz27tflwp0Res4uq/4Y2qjajetlKiJB0vY=;
+        s=default; t=1601993034;
+        bh=L11eOxvDowjwlPTvkbhyZpdA60k6ulJgvpYz2/X3w3M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uPOjF+ZuirQrUepxlSc6eBRdiupHaztCg9mvcGMklbMIIFuUjx2Bbz15APQnreFJJ
-         p8kl7Ag07ueiQXWJpyHx/czOecY/0ZuZA6ST0WJLZMWNT6iPlE8nevS43ksPU6oNJK
-         OZK3emxbOtKAyPn0QKzVSc2J7VVteXlmfWctsqgU=
+        b=utzVEZ+I6yEOXDk0tKJru+kpjYdPrAAs6HyCj9XqyGUND+1/nIq/1peYVdIoPDIpn
+         4H6CzH7CR0L18UdaFNVAVztO8exdnCWFx/aR7jOOqTBjy/G6zhKY51Kml9MjE31GUp
+         ORZNgsaVsoPeiWGGwrX6iCkdT3gsR6douoHGuEGE=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZH-0019Ei-6h; Tue, 06 Oct 2020 16:03:51 +0200
+        id 1kPnZH-0019FL-Tu; Tue, 06 Oct 2020 16:03:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 06/52] scripts: kernel-doc: fix troubles with line counts
-Date:   Tue,  6 Oct 2020 16:03:03 +0200
-Message-Id: <72bc6fc82d0416b468d5b3004249805565e092cf.1601992016.git.mchehab+huawei@kernel.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v5 18/52] media: cec-core.rst: don't use c:type for structs
+Date:   Tue,  6 Oct 2020 16:03:15 +0200
+Message-Id: <0485962b41feb825f22c8bd1635481b5829904b3.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -59,75 +61,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's currently a bug with the way kernel-doc script
-counts line numbers that can be seen with:
+The new C domain code on Sphinx 3 doesn't allow anymore
+to use c:type:: for structs.
 
-	$ ./scripts/kernel-doc -rst  -enable-lineno include/linux/math64.h >all && ./scripts/kernel-doc -rst -internal -enable-lineno include/linux/math64.h >int && diff -U0 int all
-
-	--- int	2020-09-28 12:58:08.927486808 +0200
-	+++ all	2020-09-28 12:58:08.905486845 +0200
-	@@ -1 +1 @@
-	-#define LINENO 27
-	+#define LINENO 26
-	@@ -3 +3 @@
-	-#define LINENO 16
-	+#define LINENO 15
-	@@ -9 +9 @@
-	-#define LINENO 17
-	+#define LINENO 16
-	...
-
-This is happening with perl version 5.30.3, but I'm not
-so sure if this is a perl bug, or if this is due to something
-else.
-
-In any case, fixing it is easy. Basically, when "-internal"
-parameter is used, the process_export_file() function opens the
-handle "IN". This makes the line number to be incremented, as the
-handler for the main open is also "IN".
-
-Fix the problem by using a different handler for the
-main open().
-
-While here, add a missing close for it.
+Now that cdomain.py has backward support, let's use
+c:struct:: instead.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ Documentation/driver-api/media/cec-core.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d9783c98f33b..bdd2ebb4ac41 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -2268,7 +2268,7 @@ sub process_file($) {
+diff --git a/Documentation/driver-api/media/cec-core.rst b/Documentation/driver-api/media/cec-core.rst
+index 03016eeaf8f4..bc42982ac21e 100644
+--- a/Documentation/driver-api/media/cec-core.rst
++++ b/Documentation/driver-api/media/cec-core.rst
+@@ -98,7 +98,7 @@ Implementing the Low-Level CEC Adapter
+ The following low-level adapter operations have to be implemented in
+ your driver:
  
-     $file = map_filename($orig_file);
+-.. c:type:: struct cec_adap_ops
++.. c:struct:: cec_adap_ops
  
--    if (!open(IN,"<$file")) {
-+    if (!open(IN_FILE,"<$file")) {
- 	print STDERR "Error: Cannot open file $file\n";
- 	++$errors;
- 	return;
-@@ -2277,9 +2277,9 @@ sub process_file($) {
-     $. = 1;
- 
-     $section_counter = 0;
--    while (<IN>) {
-+    while (<IN_FILE>) {
- 	while (s/\\\s*$//) {
--	    $_ .= <IN>;
-+	    $_ .= <IN_FILE>;
- 	}
- 	# Replace tabs by spaces
-         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
-@@ -2311,6 +2311,7 @@ sub process_file($) {
- 	    print STDERR "${file}:1: warning: no structured comments found\n";
- 	}
-     }
-+    close IN_FILE;
- }
- 
+ .. code-block:: none
  
 -- 
 2.26.2
