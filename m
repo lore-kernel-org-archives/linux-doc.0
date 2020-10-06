@@ -4,90 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02926C4363D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3155CC4727D
 	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:21:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FEB12078E
+	by mail.kernel.org (Postfix) with ESMTP id D48D92087E
 	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:21:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1601990518;
-	bh=dtA4Q7LXNjn5KiwhX+ZJk8faHWh8s1NtZiwfVEm6iBQ=;
+	bh=2r6oOY4xsG1EB6Z1iMtvKymMAv8zcB6pr2HFpKVhvXU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ABJpJo5a3gzOGL+wWiZh+fRdr4uLcovtYqcDwwk4/IxLwLs6CQwvqfVSHwNOOqg7x
-	 mdPg/udJC9JPsRPSW3o2X8BsaOC38wWunbp1E9KolVsf34JBHN5zD6ImLSJGmnC7EU
-	 KwCz4QLYjFARGho5NIlaz85V2D0iyJhx4MEebi8w=
+	b=AyD/NGaZJ3OfTU7+NSou25amGz8zTS5IPtvrlHE65R/Pm81T8LsVMUNT1zo50mLmc
+	 aQc+BgvONeZ710D/sCuf0UGAEcw0dpzUt5ZB9Cz5dKUoMZQLTR6D8GlTrzf2YS0le8
+	 exPbz8A02207u5/PgFjr30BvNHq0PYFZwiNYLrsI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbgJFNV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726137AbgJFNV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 6 Oct 2020 09:21:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57606 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:57644 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725902AbgJFNVz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726078AbgJFNVz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 09:21:55 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4E99F2087E;
+        by mail.kernel.org (Postfix) with ESMTPSA id A634F208C7;
         Tue,  6 Oct 2020 13:21:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601990514;
-        bh=dtA4Q7LXNjn5KiwhX+ZJk8faHWh8s1NtZiwfVEm6iBQ=;
+        bh=2r6oOY4xsG1EB6Z1iMtvKymMAv8zcB6pr2HFpKVhvXU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pOMyZYE8jzlDLNTTwWU4nLZZp4wqkK5Wg7gtRxHtiTUU69lxaaNn3FVtLbohSQH9u
-         /mFeoTI5Di3ftBcBOURN46Db/SAyFUhK0kOIU/VZ2EH5bWE+dB7ardfiK0nlzh7z9y
-         C1Oq1kXYoeOb6J1FljSoKRe7djvnI5Tl9iq575DY=
+        b=wnceM+Pi7yJwn8uNxrah+qJ4fj4k8S+EEGvhqVGYbi5l/bgNOtr4bicFo96ILeSMb
+         gKfEkVvHAjf+d4s0dPfXWOMwhtouBvFup4aV4PNGBzEcpCdX/rJVCN2o9PmTRf4l0b
+         JN6FOBPbRp6zThS1wSwnA6yLxQW/CVnlrUKVCo8s=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPmuM-0018Kp-9F; Tue, 06 Oct 2020 15:21:34 +0200
+        id 1kPmuM-0018Kl-6l; Tue, 06 Oct 2020 15:21:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Scott Branden <scott.branden@broadcom.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] firmware_loader: fix a kernel-doc markup
-Date:   Tue,  6 Oct 2020 15:21:33 +0200
-Message-Id: <23ec441bb9c206f5899b5d64d34e5c9f6add5fd9.1601990386.git.mchehab+huawei@kernel.org>
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Bailu Lin <bailu.lin@vivo.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/4] docs: zh_CN: amu.rst: fix document title markup
+Date:   Tue,  6 Oct 2020 15:21:31 +0200
+Message-Id: <403816bb44e06049299e5df9f15a3a691fe7f8e6.1601990386.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601990386.git.mchehab+huawei@kernel.org>
 References: <cover.1601990386.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The firmware_fallback_sysfs had some changes at their
-parameters. Those ended by dropping a documentation for
-such parameter. Re-add it.
+As warned by Sphinx 2.4.4:
+	.../Documentation/translations/zh_CN/arm64/amu.rst:7: WARNING: Title overline too short.
 
-Fixes: 89287c169f8f ("firmware: Store opt_flags in fw_priv")
-Fixes: c2c076166b58 ("firmware_loader: change enum fw_opt to u32")
+Increase its size.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/base/firmware_loader/fallback.c | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/translations/zh_CN/arm64/amu.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/base/firmware_loader/fallback.c b/drivers/base/firmware_loader/fallback.c
-index ac09aea3d797..4dec4b79ae06 100644
---- a/drivers/base/firmware_loader/fallback.c
-+++ b/drivers/base/firmware_loader/fallback.c
-@@ -623,6 +623,8 @@ static bool fw_run_sysfs_fallback(u32 opt_flags)
-  * @fw: pointer to firmware image
-  * @name: name of firmware file to look for
-  * @device: device for which firmware is being loaded
-+ * @opt_flags: options to control firmware loading behaviour, as defined by
-+ *	       &enum fw_opt
-  * @ret: return value from direct lookup which triggered the fallback mechanism
-  *
-  * This function is called if direct lookup for the firmware failed, it enables
+diff --git a/Documentation/translations/zh_CN/arm64/amu.rst b/Documentation/translations/zh_CN/arm64/amu.rst
+index bd875f221330..ab7180f91394 100644
+--- a/Documentation/translations/zh_CN/arm64/amu.rst
++++ b/Documentation/translations/zh_CN/arm64/amu.rst
+@@ -4,9 +4,9 @@
+ 
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+ 
+-=================================
++==================================
+ AArch64 Linux 中扩展的活动监控单元
+-=================================
++==================================
+ 
+ 作者: Ionela Voinescu <ionela.voinescu@arm.com>
+ 
 -- 
 2.26.2
 
