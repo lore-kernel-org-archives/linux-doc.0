@@ -2,103 +2,101 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DAF2C41604
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:36:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 134ADC4727D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:41:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E10A22075A
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:36:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B75CA20789
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 16:41:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602002179;
-	bh=+CB8jjMst8zzdLXuxv7WzYg9JvfJ4Ew3REwkQs+PixE=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=hnZHd+CKZrkQ2t4WTdkTL0WIJ1isK9WuHM2gBNHUv5+1g0ibfW33dmi2flxgt8FZL
-	 VNFQ33ohrawYRF00szLk9hZryj0z3rMcDJDRhd3vSDYXp44b0xXQy+Pvf6Rf1eeqTO
-	 eIuOKhaufok+NfsiotDHwrWm5SxH48WYIT2RRB4s=
+	s=default; t=1602002472;
+	bh=rDLLCAfcpbKWcjiDraDDSN94bLOF55Woeg1qUpEpZss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=aJCw10djASlSV0uGZVmidEjo4UxJEreoItVxBmRAIAVpCO5Yx6itVXI/bJeuk+nZB
+	 JTSzy7hItN+4NQfF99VTez2YaiNZiKpWMkpo4g1Bj11y8fFTDk3icSp2aSGCQazrSv
+	 eRj/ARNtC+cGKHaUVlwQOB5Svx666jbJxpq5YXFU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbgJFQgQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 12:36:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55102 "EHLO mail.kernel.org"
+        id S1725995AbgJFQlI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 12:41:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57132 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725906AbgJFQgQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 12:36:16 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-104-11.bvtn.or.frontiernet.net [50.39.104.11])
+        id S1725902AbgJFQlI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 12:41:08 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 61E77206F7;
-        Tue,  6 Oct 2020 16:36:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 18F01206D4;
+        Tue,  6 Oct 2020 16:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602002175;
-        bh=+CB8jjMst8zzdLXuxv7WzYg9JvfJ4Ew3REwkQs+PixE=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=CFefulwnACxWtiRop2t5IpgD8jLNnu2F+9ovGVNZgl5pYpfGBu+m6GGVF3emU3D/T
-         3A8qY4qMJb0BJfK8JvghLHZqakujmBI4h9Zza2q2iciT/0hgSRJk/HHZLGQFT/2B3T
-         qC00C+rQ49KsEvikaOQEoJPAkr6mKbpndBhcqc3Q=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 198FB3520A8C; Tue,  6 Oct 2020 09:36:15 -0700 (PDT)
-Date:   Tue, 6 Oct 2020 09:36:15 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
+        s=default; t=1602002466;
+        bh=rDLLCAfcpbKWcjiDraDDSN94bLOF55Woeg1qUpEpZss=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1XMM2DnEL0suZYEsKoQ4gvHK221+DNjzTkhDb/jC68bGBPrpJ47KmZGY2Dhmaz9XA
+         FTLdSzUXsJbqwg5/8kCi8kMUuiG2QmvADxuduTSykB/Dd179CGtmxw8jo2YYzEa+GA
+         608bhe780TJ8H8CeosB+67BzvasTbDhIVpDDq1Oc=
+Date:   Tue, 6 Oct 2020 18:41:52 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Moritz Fischer <mdf@kernel.org>,
+        Puranjay Mohan <puranjay12@gmail.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
-        rcu@vger.kernel.org
-Subject: Re: [PATCH 3/4] docs: RCU: Requirements.rst: fix a list block
-Message-ID: <20201006163615.GL29330@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <cover.1601990386.git.mchehab+huawei@kernel.org>
- <9f666389cd803b392bf422d31e50c5f9f8c9474c.1601990386.git.mchehab+huawei@kernel.org>
+        Satya Tangirala <satyat@google.com>,
+        Takashi Iwai <tiwai@suse.com>, Tom Rix <trix@redhat.com>,
+        alsa-devel@alsa-project.org, linux-fpga@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        Takashi Iwai <tiwai@suse.de>,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH v5 22/52] docs: get rid of :c:type explicit declarations
+ for structs
+Message-ID: <20201006164152.GB36638@kroah.com>
+References: <cover.1601992016.git.mchehab+huawei@kernel.org>
+ <1f9d7dfd5e8557b55218af01045331939f1add28.1601992016.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <9f666389cd803b392bf422d31e50c5f9f8c9474c.1601990386.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1f9d7dfd5e8557b55218af01045331939f1add28.1601992016.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 06, 2020 at 03:21:32PM +0200, Mauro Carvalho Chehab wrote:
-> As warned by Sphinx:
-> 	.../Documentation/RCU/Design/Requirements/Requirements.rst:1959: WARNING: Unexpected indentation.
+On Tue, Oct 06, 2020 at 04:03:19PM +0200, Mauro Carvalho Chehab wrote:
+> The :c:type:`foo` only works properly with structs before
+> Sphinx 3.x.
 > 
-> The list block is missing a space before it, making Sphinx
-> to get it wrong.
+> On Sphinx 3.x, structs should now be declared using the
+> .. c:struct, and referenced via :c:struct tag.
 > 
-> Fixes: 2a721e5f0b2c ("docs: Update RCU's hotplug requirements with a bit about design")
+> As we now have the automarkup.py macro, that automatically
+> convert:
+> 	struct foo
+> 
+> into cross-references, let's get rid of that, solving
+> several warnings when building docs with Sphinx 3.x.
+> 
+> Reviewed-by: André Almeida <andrealmeid@collabora.com> # blk-mq.rst
+> Reviewed-by: Takashi Iwai <tiwai@suse.de> # sound
+> Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Applied, thank you!
-
-							Thanx, Paul
-
 > ---
->  Documentation/RCU/Design/Requirements/Requirements.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-> index 98557fee90cc..9f362827133a 100644
-> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
-> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-> @@ -1954,6 +1954,7 @@ offline CPUs.  However, as a debugging measure, the FQS loop does splat
->  if offline CPUs block an RCU grace period for too long.
->  
->  An offline CPU's quiescent state will be reported either:
-> +
->  1.  As the CPU goes offline using RCU's hotplug notifier (``rcu_report_dead()``).
->  2.  When grace period initialization (``rcu_gp_init()``) detects a
->      race either with CPU offlining or with a task unblocking on a leaf
-> -- 
-> 2.26.2
-> 
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
