@@ -4,135 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC9ADC47427
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21314C41604
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B39120789
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5F322083B
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993112;
-	bh=i1ehfJ5a+ArhUT+7IpeOP77r+VemFZ1XPuELZc8RizM=;
+	s=default; t=1601993123;
+	bh=/yU7lDdXaYHcK+bMjDe7N+/1v4CnA3kWBBNj3sy6md0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0yLRF+RUKsKGwErnD5dU0OXx3anNdPFaW2lLUvQY8Qa6xkxMjhRp/bNhDVQb2IQph
-	 c2EspMt/21YX6y5IOLeeRZ70dpI79qf1kNiLTQcshz+0PbQz/f8XvlrHhJRtywaTtN
-	 P1MRKgM7l/fDQxIgnRkJZ3BixUCxrHt4Ook0JS9M=
+	b=04DDoNzeQbYIC15LPOCmInBu9OQyxrzhA/DPHj94rsdJWfGbDxX7LX8SLXZUjv8I8
+	 qMGlkINXWQiKC1aqPiTH4e1qil//MywkyL6vHUA6mTgOU1ay9B/jwPgAjxFtnl8M6L
+	 7Pdrc2yPz/SO/yUUI9M0sNPVqIjJX/n1MoTvlJSk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726796AbgJFOFL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:05:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33532 "EHLO mail.kernel.org"
+        id S1726793AbgJFOFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:05:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33692 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726536AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726517AbgJFOD4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:56 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1048F208FE;
-        Tue,  6 Oct 2020 14:03:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EDB66235F8;
+        Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601993036;
-        bh=i1ehfJ5a+ArhUT+7IpeOP77r+VemFZ1XPuELZc8RizM=;
+        s=default; t=1601993035;
+        bh=/yU7lDdXaYHcK+bMjDe7N+/1v4CnA3kWBBNj3sy6md0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GbK6BxyeQIeAqD4ut5Cmfa04waJ9DVyqRpsYzVb9nWxb1wPc1jcYk5MmUc9eIXSjD
-         t+Zmjb3PMhCCdDZsB44Yqj4yxSqTgYKjCluYCSXukebFi4DmjDWIOz3GXQFE+HJIgC
-         MFG09PpHYw4Tjss+5smPSQ4clv5oyYaw2my4vPwk=
+        b=SdDegMP0mkdehRnjZZa15TtzOWud3y76vwTrkmnZ2bRB6gPCaCBKFK5k6E6GI/oi+
+         H0mlwtmMlNOxU4RMWAHBB1Qb/6AtnX3lnTizJucgimTmURHztpOedoeUuWQW3TaajP
+         N0+nKdmfGSiZdjZbAlovBSZxTgzzyE8IsA0uE0Ew=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZI-0019GK-MY; Tue, 06 Oct 2020 16:03:52 +0200
+        id 1kPnZI-0019GY-TA; Tue, 06 Oct 2020 16:03:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 40/52] docs: fpga: replace :c:member: macros
-Date:   Tue,  6 Oct 2020 16:03:37 +0200
-Message-Id: <89beed7f70ae8ae388fe25b004bd1afd4dccc425.1601992016.git.mchehab+huawei@kernel.org>
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v5 45/52] docs: devices.rst: fix a C reference markup
+Date:   Tue,  6 Oct 2020 16:03:42 +0200
+Message-Id: <1e8e06cf23a519116a882888475d37dfc5ab49b2.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those macros are not doing the right thing with Sphinx 3,
-causing parse errors:
+The C domain parser of Sphinx3 expects just function names
+for :c:func: markups:
 
-	./Documentation/driver-api/fpga/fpga-mgr.rst:104: WARNING: Unparseable C cross-reference: 'fpga_manager->state'
-	Invalid C declaration: Expected end of definition. [error at 12]
-	  fpga_manager->state
-	  ------------^
-	./Documentation/driver-api/fpga/fpga-programming.rst:18: WARNING: Unparseable C cross-reference: 'fpga_region->info'
-	Invalid C declaration: Expected end of definition. [error at 11]
-	  fpga_region->info
-	  -----------^
-	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->bridge_list'
-	Invalid C declaration: Expected end of definition. [error at 11]
-	  fpga_region->bridge_list
-	  -----------^
-	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->get_bridges'
-	Invalid C declaration: Expected end of definition. [error at 11]
-	  fpga_region->get_bridges
-	  -----------^
+	./Documentation/driver-api/pm/devices.rst:413: WARNING: Unparseable C cross-reference: 'device_may_wakeup(dev)'
+	Invalid C declaration: Expected end of definition. [error at 17]
+	  device_may_wakeup(dev)
+	  -----------------^
 
-Replace them by :c:expr:, with does what's desired.
-
-Reviewed-by: Moritz Fischer <mdf@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/fpga/fpga-mgr.rst         | 2 +-
- Documentation/driver-api/fpga/fpga-programming.rst | 2 +-
- Documentation/driver-api/fpga/fpga-region.rst      | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/driver-api/pm/devices.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
-index 22f7885b32c9..917ee22db429 100644
---- a/Documentation/driver-api/fpga/fpga-mgr.rst
-+++ b/Documentation/driver-api/fpga/fpga-mgr.rst
-@@ -101,7 +101,7 @@ in state.
- API for implementing a new FPGA Manager driver
- ----------------------------------------------
+diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
+index 4bda8a21f5d1..6b3bfd29fd84 100644
+--- a/Documentation/driver-api/pm/devices.rst
++++ b/Documentation/driver-api/pm/devices.rst
+@@ -410,7 +410,7 @@ On many platforms they will gate off one or more clock sources; sometimes they
+ will also switch off power supplies or reduce voltages.  [Drivers supporting
+ runtime PM may already have performed some or all of these steps.]
  
--* ``fpga_mgr_states`` —  Values for :c:member:`fpga_manager->state`.
-+* ``fpga_mgr_states`` —  Values for :c:expr:`fpga_manager->state`.
- * struct fpga_manager —  the FPGA manager struct
- * struct fpga_manager_ops —  Low level FPGA manager driver ops
- * devm_fpga_mgr_create() —  Allocate and init a manager struct
-diff --git a/Documentation/driver-api/fpga/fpga-programming.rst b/Documentation/driver-api/fpga/fpga-programming.rst
-index f487ad64dfb9..002392dab04f 100644
---- a/Documentation/driver-api/fpga/fpga-programming.rst
-+++ b/Documentation/driver-api/fpga/fpga-programming.rst
-@@ -15,7 +15,7 @@ the FPGA manager and bridges.  It will:
-  * lock the mutex of the region's FPGA manager
-  * build a list of FPGA bridges if a method has been specified to do so
-  * disable the bridges
-- * program the FPGA using info passed in :c:member:`fpga_region->info`.
-+ * program the FPGA using info passed in :c:expr:`fpga_region->info`.
-  * re-enable the bridges
-  * release the locks
- 
-diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
-index 3e52be7e2968..363a8171ab0a 100644
---- a/Documentation/driver-api/fpga/fpga-region.rst
-+++ b/Documentation/driver-api/fpga/fpga-region.rst
-@@ -61,9 +61,9 @@ during the region's probe function.
- 
- The FPGA region will need to specify which bridges to control while programming
- the FPGA.  The region driver can build a list of bridges during probe time
--(:c:member:`fpga_region->bridge_list`) or it can have a function that creates
-+(:c:expr:`fpga_region->bridge_list`) or it can have a function that creates
- the list of bridges to program just before programming
--(:c:member:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
-+(:c:expr:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
- following APIs to handle building or tearing down that list.
- 
- * fpga_bridge_get_to_list() — Get a ref of an FPGA bridge, add it to a
+-If :c:func:`device_may_wakeup(dev)` returns ``true``, the device should be
++If :c:func:`device_may_wakeup()` returns ``true``, the device should be
+ prepared for generating hardware wakeup signals to trigger a system wakeup event
+ when the system is in the sleep state.  For example, :c:func:`enable_irq_wake()`
+ might identify GPIO signals hooked up to a switch or other external hardware,
 -- 
 2.26.2
 
