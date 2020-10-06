@@ -2,114 +2,262 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA72C4363D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 12:13:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB62DC4727D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 12:40:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B96320782
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 12:13:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601986433;
-	bh=5N1sB0RTYC4S5uCLZ5Ub0O/RMBumfJWMKP5+urqBL+k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=IgdcrpHVJgIgHwIv0jaVLsBvG287OSP+45xk54XlbHyqv90pSSrj8x99Y0IAJ0Bzm
-	 lnVQUT/xQsdC/vJe4M/gZ7Ugo6h3yJAcNjf1Vr75UqlktMsUnmhoNlV++eFoNy2Aet
-	 XHmgIS/cLPBBh9caz4KqmBACcQtzyx1OYPQdFVi4=
+	by mail.kernel.org (Postfix) with ESMTP id 7354F2075A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 12:40:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="KC79sn3k"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbgJFMNw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 08:13:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33922 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726182AbgJFMNw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 08:13:52 -0400
-Received: from coco.lan (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4760E20663;
-        Tue,  6 Oct 2020 12:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601986431;
-        bh=5N1sB0RTYC4S5uCLZ5Ub0O/RMBumfJWMKP5+urqBL+k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZbOSVj459Jb21PThxbVW5rGNSnI5aMlk5GCNTghfKjj/ULAIk1AAB3G+9pEtSmQYe
-         oo8G51N1ddfo2J2LgYuappfgeYfnDU+DSP4JX67x0yYCKTyD6XCR487Avzz5pNBEHy
-         N7dR0z4dBokJQKxRhY/0xw2j6QFo0+RpO8u0fSJw=
-Date:   Tue, 6 Oct 2020 14:13:46 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "Matthew Wilcox" <willy@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] script: add a script for checking doc problems with
- external functions
-Message-ID: <20201006141346.68074cff@coco.lan>
-In-Reply-To: <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
-References: <20201005125920.27a7768d@coco.lan>
-        <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726431AbgJFMkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 08:40:40 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:65069 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726362AbgJFMkj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Oct 2020 08:40:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1601988037; x=1633524037;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gieoERz6OSpe9+PGX9t2VgspjS9k3ZJTD8jbul5Junc=;
+  b=KC79sn3kdl0/YR3eJnl7NsJJlu0A3lzsAsn/HoLBW2j2gLpRp2IYQ8bm
+   NgpqRUE9kPXUwohdwDNhvzymDXuqZhyQzDpHfv1ryZa+T7MZN3bOvExbl
+   KhEaPGNjaT4k81nU9Z888hGG/sVFklPxuBpS0sFRcLiN3aZ21trp6CSL2
+   o=;
+X-IronPort-AV: E=Sophos;i="5.77,343,1596499200"; 
+   d="scan'208";a="58084298"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2b-55156cd4.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 06 Oct 2020 12:40:32 +0000
+Received: from EX13D31EUA004.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2b-55156cd4.us-west-2.amazon.com (Postfix) with ESMTPS id 0507CA1D98;
+        Tue,  6 Oct 2020 12:40:29 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 6 Oct 2020 12:40:11 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [RFC v15 0/8] Implement Data Access Monitoring-based Memory Operation Schemes
+Date:   Tue, 6 Oct 2020 14:39:23 +0200
+Message-ID: <20201006123931.5847-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.43.161.237]
+X-ClientProxiedBy: EX13D18UWA002.ant.amazon.com (10.43.160.199) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matthew/Jon,
+From: SeongJae Park <sjpark@amazon.de>
 
-Em Tue,  6 Oct 2020 13:53:34 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Changes from Previous Version
+=============================
 
-> While not all EXPORT_SYMBOL*() symbols should be documented,
-> it seems useful to have a tool which would help to check what
-> symbols aren't documented.
-> 
-> This is a first step on this direction. The tool has some
-> limitations. Yet, it could be useful for maintainers to check
-> about missing documents on their subsystems.
-> 
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+- s/snprintf()/scnprintf() (Marco Elver)
+- Place three parts of DAMON (core, primitives, and dbgfs) in different files
 
-As suggested, I improved the script for it to provide some hints
-about what documentation is missing:
+Introduction
+============
 
-	$ ./scripts/check_docs_external_symbols drivers/media/v4l2-core/
-	warning: drivers/media/v4l2-core/videobuf-dma-contig.c: missing documentation for videobuf_queue_dma_contig_init videobuf_to_dma_contig videobuf_dma_contig_free
-	warning: drivers/media/v4l2-core/v4l2-clk.c: missing documentation for v4l2_clk_get v4l2_clk_put v4l2_clk_enable v4l2_clk_disable v4l2_clk_get_rate v4l2_clk_set_rate	v4l2_clk_register v4l2_clk_unregister __v4l2_clk_register_fixed v4l2_clk_unregister_fixed
-	warning: include/media/v4l2-h264.h: file not included at Documentation/
-	warning: drivers/media/v4l2-core/v4l2-h264.c: file not included at Documentation/
-	warning: drivers/media/v4l2-core/videobuf-core.c: missing documentation for videobuf_alloc_vb videobuf_waiton videobuf_iolock videobuf_queue_to_vaddr videobuf_queue_core_init videobuf_queue_is_busy videobuf_queue_cancel videobuf_next_field videobuf_mmap_free __videobuf_mmap_setup videobuf_mmap_setup videobuf_reqbufs videobuf_querybuf videobuf_qbuf videobuf_dqbuf videobuf_streamon videobuf_streamoff videobuf_read_one videobuf_read_start videobuf_read_stop videobuf_stop videobuf_read_stream videobuf_poll_stream videobuf_mmap_mapper
-	warning: drivers/media/v4l2-core/v4l2-mem2mem.c: file not included at Documentation/
-	warning: drivers/media/v4l2-core/v4l2-dev.c: missing documentation for video_device_alloc video_device_release video_device_release_empty video_devdata v4l2_prio_init v4l2_prio_change v4l2_prio_open v4l2_prio_close v4l2_prio_max v4l2_prio_check __video_register_device
-	warning: drivers/media/v4l2-core/v4l2-dev.c: file not included at Documentation/
+DAMON[1] can be used as a primitive for data access aware memory management
+optimizations.  For that, users who want such optimizations should run DAMON,
+read the monitoring results, analyze it, plan a new memory management scheme,
+and apply the new scheme by themselves.  Such efforts will be inevitable for
+some complicated optimizations.
 
-It also report things that shouldn't be documented, like those:
+However, in many other cases, the users would simply want the system to apply a
+memory management action to a memory region of a specific size having a
+specific access frequency for a specific time.  For example, "page out a memory
+region larger than 100 MiB keeping only rare accesses more than 2 minutes", or
+"Do not use THP for a memory region larger than 2 MiB rarely accessed for more
+than 1 seconds".
 
-	$ ./scripts/check_docs_external_symbols drivers/media/pci/saa7134
-	warning: drivers/media/pci/saa7134/saa7134-video.c: missing documentation for saa7134_vb2_buffer_queue saa7134_enum_input saa7134_g_input saa7134_s_input saa7134_querycap saa7134_s_std saa7134_g_std saa7134_querystd saa7134_g_tuner saa7134_s_tuner saa7134_g_frequency saa7134_s_frequency
-	warning: drivers/media/pci/saa7134/saa7134-core.c: missing documentation for saa7134_stop_streaming saa7134_ts_register saa7134_ts_unregister saa7134_set_gpio saa7134_dmasound_init saa7134_dmasound_exit saa7134_pgtable_free saa7134_pgtable_build saa7134_pgtable_alloc saa7134_set_dmabits
-	warning: drivers/media/pci/saa7134/saa7134-ts.c: missing documentation for saa7134_ts_buffer_init saa7134_ts_buffer_prepare saa7134_ts_queue_setup saa7134_ts_start_streaming saa7134_ts_stop_streaming
+This RFC patchset makes DAMON to handle such data access monitoring-based
+Operation Schemes (DAMOS).  With this change, users can do the data access
+aware optimizations by simply specifying their schemes.
 
-On this specific case, the saa7134 driver was split into multiple
-drivers, depending on the PCI sub-interfaces found on some complex
-media devices. IMO, it doesn't make any sense to document such
-symbols, as they aren't meant to be used outside saa7134 sub-drivers.
+[1] https://lore.kernel.org/linux-doc/20201005105522.23841-1-sjpark@amazon.com/
 
--
+Evaluations
+===========
 
-As noticed on its comments, this script is not perfect. It tries to
-avoid reporting false-positives by not processing files that it
-can't find all includes and by skipping non-functions.
+We evaluated DAMON's overhead, monitoring quality and usefulness using 25
+realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+v12 of this patchset is applied.
 
-Yet, it can take a long time for it to parse the entire Kernel
-tree. So, at least on its current state, I don't think it would
-be a good idea to add it to the default build.
+An experimental DAMON-based operation scheme for THP, ‘ethp’, removes 31.29% of
+THP memory overheads while preserving 60.64% of THP speedup. Another
+experimental DAMON-based ‘proactive reclamation’ implementation, ‘prcl’,
+reduces 87.95% of residential sets and 29.52% of system memory footprint while
+incurring only 2.15% runtime overhead in the best case (parsec3/freqmine).
 
-Feel free to either take it as-is, to improve it, or to ignore ;-)
+NOTE that the experimentail THP optimization and proactive reclamation are not
+for production, just only for proof of concepts.
 
-Thanks,
-Mauro
+Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+a document for DAMON" patch in the latest DAMON patchset for detailed
+evaluation setup and results.
+
+[1] https://damonitor.github.io/doc/html/latest-damos
+
+More Information
+================
+
+We prepared a showcase web site[1] that you can get more information.  There
+are
+
+- the official documentations[2],
+- the heatmap format dynamic access pattern of various realistic workloads for
+  heap area[3], mmap()-ed area[4], and stack[5] area,
+- the dynamic working set size distribution[6] and chronological working set
+  size changes[7], and
+- the latest performance test results[8].
+
+[1] https://damonitor.github.io/_index
+[2] https://damonitor.github.io/doc/html/latest-damos
+[3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.0.html
+[4] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.html
+[5] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.2.html
+[6] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.html
+[7] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.html
+[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
+
+Baseline and Complete Git Tree
+==============================
+
+The patches are based on the v5.8 plus v21 DAMON patchset[1] and Minchan's
+``do_madvise()`` patch[2], which retrieved from the -next tree.  You can also
+clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b damos/rfc/v15
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damos/rfc/v15
+
+There are a couple of trees for entire DAMON patchset series that future
+features are included.  The first one[3] contains the changes for latest
+release, while the other one[4] contains the changes for next release.
+
+[1] https://lore.kernel.org/linux-doc/20201005105522.23841-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20200302193630.68771-2-minchan@kernel.org/
+[3] https://github.com/sjp38/linux/tree/damon/master
+[4] https://github.com/sjp38/linux/tree/damon/next
+
+Sequence Of Patches
+===================
+
+The 1st patch accounts age of each region.  The 2nd patch implements the
+handling of the schemes in DAMON core.  The 3rd patch makes 'damon-primitives',
+the default primitives for the virtual address spaces monitoring to support the
+schemes.  From this point, the kernel space users can use DAMOS.  The 4th patch
+implements a debugfs interface for the privileged people and user programs.
+The 5th patch implements schemes statistics feature for easier tuning of the
+schemes and runtime access pattern analysis.  The 6th patche adds selftests for
+these changes, and the 7th patch adds human friendly schemes support to the
+user space tool for DAMON.  Finally, the 8th patch documents this new feature.
+
+Patch History
+=============
+
+Changes from RFC v14
+(https://lore.kernel.org/linux-mm/20200804142430.15384-1-sjpark@amazon.com/)
+- s/snprintf()/scnprintf() (Marco Elver)
+- Place three parts of DAMON (core, primitives, and dbgfs) in different files
+
+Changes from RFC v13
+(https://lore.kernel.org/linux-mm/20200707093805.4775-1-sjpark@amazon.com/)
+- Drop loadable module support
+- Use dedicated valid action checker function
+- Rebase on v5.8 plus v19 DAMON
+
+Changes from RFC v12
+(https://lore.kernel.org/linux-mm/20200616073828.16509-1-sjpark@amazon.com/)
+ - Wordsmith the document, comment, commit messages
+ - Support a scheme of max access count 0
+ - Use 'unsigned long' for (min|max)_sz_region
+
+Changes from RFC v11
+(https://lore.kernel.org/linux-mm/20200609065320.12941-1-sjpark@amazon.com/)
+ - Refine the commit messages (David Hildenbrand)
+ - Clean up debugfs code
+
+Changes from RFC v10
+(https://lore.kernel.org/linux-mm/20200603071138.8152-1-sjpark@amazon.com/)
+ - Fix the wrong error handling for schemes debugfs file
+ - Handle the schemes stats from the user space tool
+ - Remove the schemes implementation plan from the document
+
+Changes from RFC v9
+(https://lore.kernel.org/linux-mm/20200526075702.27339-1-sjpark@amazon.com/)
+ - Rebase on v5.7
+ - Fix wrong comments and documents for schemes apply conditions
+
+Changes from RFC v8
+(https://lore.kernel.org/linux-mm/20200512115343.27699-1-sjpark@amazon.com/)
+ - Rewrite the document (Stefan Nuernberger)
+ - Make 'damon_for_each_*' argument order consistent (Leonard Foerster)
+ - Implement statistics for schemes
+ - Avoid races between debugfs readers and writers
+ - Reset age for only significant access frequency changes
+ - Add kernel-doc comments in damon.h
+
+Please refer to RFC v8 for previous history
+
+SeongJae Park (8):
+  mm/damon/core: Account age of target regions
+  mm/damon/core: Implement DAMON-based Operation Schemes (DAMOS)
+  mm/damon/primitives: Support DAMON-based Operation Schemes
+  mm/damon/dbgfs: Support DAMON-based Operation Schemes
+  mm/damon/schemes: Implement statistics feature
+  selftests/damon: Add 'schemes' debugfs tests
+  tools/damon: Support more human friendly 'schemes' control
+  Docs/admin-guide/mm/damon: Document DAMON-based Operation Schemes
+
+ Documentation/admin-guide/mm/damon/guide.rst  |  41 ++++-
+ Documentation/admin-guide/mm/damon/start.rst  |  11 ++
+ Documentation/admin-guide/mm/damon/usage.rst  | 109 ++++++++++-
+ Documentation/vm/damon/index.rst              |   1 -
+ include/linux/damon.h                         |  90 +++++++++-
+ mm/damon/core.c                               | 127 ++++++++++++-
+ mm/damon/dbgfs.c                              | 170 +++++++++++++++++-
+ mm/damon/primitives.c                         |  64 +++++++
+ tools/damon/_convert_damos.py                 | 141 +++++++++++++++
+ tools/damon/_damon.py                         |  28 ++-
+ tools/damon/damo                              |   7 +
+ tools/damon/schemes.py                        | 110 ++++++++++++
+ .../testing/selftests/damon/debugfs_attrs.sh  |  29 +++
+ 13 files changed, 908 insertions(+), 20 deletions(-)
+ create mode 100755 tools/damon/_convert_damos.py
+ create mode 100644 tools/damon/schemes.py
+
+-- 
+2.17.1
+
