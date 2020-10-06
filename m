@@ -4,56 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87BF8C4727D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C888FC4727E
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:06:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A9A42083B
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:06:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BEB920782
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 14:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601993190;
-	bh=uyw81/CIQor1pw1d+F+O72/KMytUqBcsX5jPSTgoByE=;
+	s=default; t=1601993209;
+	bh=A7lLnKa6YyaQtK0OX9oslHuXqmGCRzRwzf23PGqcyNU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=gjdii0nEefEsKKVp8cc2ufC8P6PEUcWthsP6eQVdevl99N2mRZzSyDscdS4DCVYAD
-	 +xXnBIMJ2Sbc/eqnQIrOv1S2NnzevUhzYz+rPz241tXOQ7grEOyaa+9dkmuOjk0stj
-	 zK86BFbTOI2bEkSycBcQmLAw7KUs1YKtZEhUx9Tc=
+	b=GD/6+bZUBUa/U/rt8h4VRbQ6kOg0PaMmOfYwg5PER6FIBLTckArTvuoZ1nGcGY1WL
+	 h2Xw2hpWMtrSvftAA1TOTjUshqCcXHc9i6HLmMrTi0Q2OHN9xbJ/jXl0pLxC2ewN/j
+	 Opuf3NDzL4tFnY/N3RXrJUTJuwj7fHXbeSOG0CaM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726323AbgJFOG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 10:06:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33130 "EHLO mail.kernel.org"
+        id S1727031AbgJFOGa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 10:06:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33310 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726442AbgJFODz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726447AbgJFODz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 6 Oct 2020 10:03:55 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64ABF2176B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 88DB1221E8;
         Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601993034;
-        bh=uyw81/CIQor1pw1d+F+O72/KMytUqBcsX5jPSTgoByE=;
+        bh=A7lLnKa6YyaQtK0OX9oslHuXqmGCRzRwzf23PGqcyNU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=07u6uLr4K2/jmMzuPigBhxJvEZBMCPMFCJjkl08Xe9JEkoi1TOE/YuLvDsFgqMhnE
-         i2jDBa5Ov195yQcV72Sd4gyEbj3+20S3TVoMjQnxJo60szGTJwjYePAInrRI5DadeX
-         rlL96RCb+a3byDHxtyujBnqNFuRhhTbYxpd9vpQo=
+        b=FLIJBHjXP4tQqLH8f7Zx0MdCgakBfymVE62vPKezw23ZYMLqSvdTnTpAT8BiAsNWd
+         UF3v3zRYCYXZguxRqaA5VUQw6gVYk5qS/F9vz4b3xt84u7QuvyNf9Lem7NtDebCIrc
+         qodtyltH15IfX8geX+AIVPVHv4ivOy2cBQGVAOfs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZI-0019Fd-79; Tue, 06 Oct 2020 16:03:52 +0200
+        id 1kPnZI-0019G0-FU; Tue, 06 Oct 2020 16:03:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v5 25/52] docs: net: ieee802154.rst: fix C expressions
-Date:   Tue,  6 Oct 2020 16:03:22 +0200
-Message-Id: <6ba1d137516e4a144a4fd398934d62b94d31446d.1601992016.git.mchehab+huawei@kernel.org>
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 34/52] docs: pstore-blk.rst: fix kernel-doc tags
+Date:   Tue,  6 Oct 2020 16:03:31 +0200
+Message-Id: <47312ffe217bdb4d77f03889a360addb48fffd22.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -64,103 +62,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some warnings produced with Sphinx 3.x:
+There is currently a problem with kernel-doc tags from blk.c:
 
-	Documentation/networking/ieee802154.rst:29: WARNING: Error in declarator or parameters
-	Invalid C declaration: Expecting "(" in parameters. [error at 7]
-	  int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
-	  -------^
-	Documentation/networking/ieee802154.rst:134: WARNING: Invalid C declaration: Expected end of definition. [error at 81]
-	  void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
-	  ---------------------------------------------------------------------------------^
-	Documentation/networking/ieee802154.rst:139: WARNING: Invalid C declaration: Expected end of definition. [error at 95]
-	  void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
-	  -----------------------------------------------------------------------------------------------^
-	Documentation/networking/ieee802154.rst:158: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
-	  int start(struct ieee802154_hw *hw):
-	  -----------------------------------^
-	Documentation/networking/ieee802154.rst:162: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
-	  void stop(struct ieee802154_hw *hw):
-	  -----------------------------------^
-	Documentation/networking/ieee802154.rst:166: WARNING: Invalid C declaration: Expected end of definition. [error at 61]
-	  int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
-	  -------------------------------------------------------------^
-	Documentation/networking/ieee802154.rst:171: WARNING: Invalid C declaration: Expected end of definition. [error at 43]
-	  int ed(struct ieee802154_hw *hw, u8 *level):
-	  -------------------------------------------^
-	Documentation/networking/ieee802154.rst:176: WARNING: Invalid C declaration: Expected end of definition. [error at 62]
-	  int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
-	  --------------------------------------------------------------^
+	.../Documentation/admin-guide/pstore-blk:239: ./fs/pstore/blk.c:175: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
+	Declaration is 'register_pstore_device'.
+	.../Documentation/admin-guide/pstore-blk:239: ./fs/pstore/blk.c:432: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
+	Declaration is 'register_pstore_blk'.
+	.../Documentation/admin-guide/pstore-blk:242: ./include/linux/pstore_blk.h:43: WARNING: Duplicate C declaration, also defined in 'admin-guide/pstore-blk'.
+	Declaration is 'pstore_device_info'.
 
-Caused by some bad c:function: prototypes. Fix them.
+Basically, the internal parts is shown with :export:, instead
+of :internal:. Yet, there are some other exported docs that
+aren't at the document, because they lack :identifiers:.
 
-Acked-by: David S. Miller <davem@davemloft.net>
+So, instead, let's just use :export: at the kAPI part of
+the documentation.
+
+Acked-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/ieee802154.rst | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ Documentation/admin-guide/pstore-blk.rst | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/networking/ieee802154.rst b/Documentation/networking/ieee802154.rst
-index 6f4bf8447a21..f27856d77c8b 100644
---- a/Documentation/networking/ieee802154.rst
-+++ b/Documentation/networking/ieee802154.rst
-@@ -26,7 +26,9 @@ The stack is composed of three main parts:
- Socket API
- ==========
+diff --git a/Documentation/admin-guide/pstore-blk.rst b/Documentation/admin-guide/pstore-blk.rst
+index 296d5027787a..6898aba9fb5c 100644
+--- a/Documentation/admin-guide/pstore-blk.rst
++++ b/Documentation/admin-guide/pstore-blk.rst
+@@ -154,17 +154,11 @@ Configurations for driver
+ Only a block device driver cares about these configurations. A block device
+ driver uses ``register_pstore_blk`` to register to pstore/blk.
  
--.. c:function:: int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
-+::
-+
-+    int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
+-.. kernel-doc:: fs/pstore/blk.c
+-   :identifiers: register_pstore_blk
+-
+ A non-block device driver uses ``register_pstore_device`` with
+ ``struct pstore_device_info`` to register to pstore/blk.
  
- The address family, socket addresses etc. are defined in the
- include/net/af_ieee802154.h header or in the special header
-@@ -131,12 +133,12 @@ Register PHY in the system.
+ .. kernel-doc:: fs/pstore/blk.c
+-   :identifiers: register_pstore_device
+-
+-.. kernel-doc:: include/linux/pstore_blk.h
+-   :identifiers: pstore_device_info
++   :export:
  
- Freeing registered PHY.
+ Compression and header
+ ----------------------
+@@ -237,7 +231,7 @@ For developer reference, here are all the important structures and APIs:
+    :internal:
  
--.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
-+.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi)
+ .. kernel-doc:: fs/pstore/blk.c
+-   :export:
++   :internal:
  
- Telling 802.15.4 module there is a new received frame in the skb with
- the RF Link Quality Indicator (LQI) from the hardware device.
- 
--.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
-+.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling)
- 
- Telling 802.15.4 module the frame in the skb is or going to be
- transmitted through the hardware device
-@@ -155,25 +157,25 @@ operations structure at least::
-         ...
-    };
- 
--.. c:function:: int start(struct ieee802154_hw *hw):
-+.. c:function:: int start(struct ieee802154_hw *hw)
- 
- Handler that 802.15.4 module calls for the hardware device initialization.
- 
--.. c:function:: void stop(struct ieee802154_hw *hw):
-+.. c:function:: void stop(struct ieee802154_hw *hw)
- 
- Handler that 802.15.4 module calls for the hardware device cleanup.
- 
--.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
-+.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb)
- 
- Handler that 802.15.4 module calls for each frame in the skb going to be
- transmitted through the hardware device.
- 
--.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level):
-+.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level)
- 
- Handler that 802.15.4 module calls for Energy Detection from the hardware
- device.
- 
--.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
-+.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel)
- 
- Set radio for listening on specific channel of the hardware device.
- 
+ .. kernel-doc:: include/linux/pstore_blk.h
+    :internal:
 -- 
 2.26.2
 
