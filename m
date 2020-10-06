@@ -1,135 +1,90 @@
-Return-Path: <SRS0=vG9z=DM=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF29C4363A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:41:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 356ECC4363A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 01:30:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 337652100A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Oct 2020 19:41:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9029207F7
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 01:30:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729476AbgJETlN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Oct 2020 15:41:13 -0400
-Received: from mga17.intel.com ([192.55.52.151]:19752 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729302AbgJETlN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Oct 2020 15:41:13 -0400
-IronPort-SDR: Bdw+cKsjTJ//04f6oh3Zxhgc3NQT9tb006m0ZwF7n152IAfu36hBoiNhk5O9q3DJ5F160QPfg0
- ZQ3O4ZJiEfrQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="143832465"
-X-IronPort-AV: E=Sophos;i="5.77,340,1596524400"; 
-   d="scan'208";a="143832465"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP; 05 Oct 2020 12:26:06 -0700
-IronPort-SDR: lxF6D25Y207qlLNXScXhxkLPsDRbK1kc/MVlkM2tgjHEmEqB9WNJ8MI7ZEXXSbfyiX3amIf/dz
- tc0QX9Ic3oBg==
-X-IronPort-AV: E=Sophos;i="5.77,340,1596524400"; 
-   d="scan'208";a="517163416"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.160])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 11:43:35 -0700
-Date:   Mon, 5 Oct 2020 11:43:20 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Peter Xu <peterx@redhat.com>
-Cc:     Alexander Graf <graf@amazon.com>, kvm list <kvm@vger.kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        KarimAllah Raslan <karahmed@amazon.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 6/8] KVM: x86: VMX: Prevent MSR passthrough when MSR
- access is denied
-Message-ID: <20201005184320.GA15803@linux.intel.com>
-References: <20200925143422.21718-1-graf@amazon.com>
- <20200925143422.21718-7-graf@amazon.com>
- <20201002011139.GA5473@xz-x1>
+        id S1725901AbgJFBas (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Oct 2020 21:30:48 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:14744 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725872AbgJFBas (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Oct 2020 21:30:48 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 2BAC246219A57EC69507;
+        Tue,  6 Oct 2020 09:30:45 +0800 (CST)
+Received: from [10.174.176.61] (10.174.176.61) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 6 Oct 2020 09:30:39 +0800
+Subject: Re: [PATCH v12 6/9] arm64: kdump: reimplement crashkernel=X
+To:     Catalin Marinas <catalin.marinas@arm.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <20200907134745.25732-7-chenzhou10@huawei.com> <20201005171608.GC14576@gaia>
+CC:     <will@kernel.org>, <james.morse@arm.com>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <dyoung@redhat.com>, <bhe@redhat.com>,
+        <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
+        <prabhakar.pkin@gmail.com>, <bhsharma@redhat.com>,
+        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
+        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <65ce0086-b041-8ae4-60df-e29bd2bd985b@huawei.com>
+Date:   Tue, 6 Oct 2020 09:30:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201002011139.GA5473@xz-x1>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20201005171608.GC14576@gaia>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.176.61]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 01, 2020 at 09:11:39PM -0400, Peter Xu wrote:
-> Hi,
-> 
-> I reported in the v13 cover letter of kvm dirty ring series that this patch
-> seems to have been broken.  Today I tried to reproduce with a simplest vm, and
-> after a closer look...
-> 
-> On Fri, Sep 25, 2020 at 04:34:20PM +0200, Alexander Graf wrote:
-> > @@ -3764,15 +3859,14 @@ static u8 vmx_msr_bitmap_mode(struct kvm_vcpu *vcpu)
-> >  	return mode;
-> >  }
-> >  
-> > -static void vmx_update_msr_bitmap_x2apic(struct kvm_vcpu *vcpu,
-> > -					 unsigned long *msr_bitmap, u8 mode)
-> > +static void vmx_update_msr_bitmap_x2apic(struct kvm_vcpu *vcpu, u8 mode)
-> >  {
-> >  	int msr;
-> >  
-> > -	for (msr = 0x800; msr <= 0x8ff; msr += BITS_PER_LONG) {
-> > -		unsigned word = msr / BITS_PER_LONG;
-> > -		msr_bitmap[word] = (mode & MSR_BITMAP_MODE_X2APIC_APICV) ? 0 : ~0;
-> > -		msr_bitmap[word + (0x800 / sizeof(long))] = ~0;
-> > +	for (msr = 0x800; msr <= 0x8ff; msr++) {
-> > +		bool intercepted = !!(mode & MSR_BITMAP_MODE_X2APIC_APICV);
-> > +
-> > +		vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_RW, intercepted);
 
-Yeah, this is busted.
 
-> >  	}
-> >  
-> >  	if (mode & MSR_BITMAP_MODE_X2APIC) {
-> 
-> ... I think we may want below change to be squashed:
-> 
-> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index d160aad59697..7d3f2815b04d 100644
-> --- a/arch/x86/kvm/vmx/vmx.c
-> +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -3781,9 +3781,10 @@ static void vmx_update_msr_bitmap_x2apic(struct kvm_vcpu *vcpu, u8 mode)
->         int msr;
->  
->         for (msr = 0x800; msr <= 0x8ff; msr++) {
-> -               bool intercepted = !!(mode & MSR_BITMAP_MODE_X2APIC_APICV);
-> +               bool apicv = mode & MSR_BITMAP_MODE_X2APIC_APICV;
->  
-> -               vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_RW, intercepted);
-> +               vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_R, !apicv);
-> +               vmx_set_intercept_for_msr(vcpu, msr, MSR_TYPE_W, true);
+On 2020/10/6 1:16, Catalin Marinas wrote:
+> On Mon, Sep 07, 2020 at 09:47:42PM +0800, Chen Zhou wrote:
+>> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+>> index 53acbeca4f57..1b24072f2bae 100644
+>> --- a/arch/arm64/kernel/setup.c
+>> +++ b/arch/arm64/kernel/setup.c
+>> @@ -238,7 +238,18 @@ static void __init request_standard_resources(void)
+>>  		    kernel_data.end <= res->end)
+>>  			request_resource(res, &kernel_data);
+>>  #ifdef CONFIG_KEXEC_CORE
+>> -		/* Userspace will find "Crash kernel" region in /proc/iomem. */
+>> +		/*
+>> +		 * Userspace will find "Crash kernel" or "Crash kernel (low)"
+>> +		 * region in /proc/iomem.
+>> +		 * In order to distinct from the high region and make no effect
+>> +		 * to the use of existing kexec-tools, rename the low region as
+>> +		 * "Crash kernel (low)".
+>> +		 */
+>> +		if (crashk_low_res.end && crashk_low_res.start >= res->start &&
+>> +				crashk_low_res.end <= res->end) {
+>> +			crashk_low_res.name = "Crash kernel (low)";
+>> +			request_resource(res, &crashk_low_res);
+>> +		}
+> With the changes in this series (including the above), how do the
+> current kexec-tools behave? Do they pick just the high region and the
+> loaded kernel will subsequently fail to boot?
+Yes，just pick the high region and will boot fail if low memory is needed.
 
-I would prefer a full revert of sorts.  Allowing userspace to intercept reads
-to x2APIC MSRs when APICV is fully enabled for the guest simply can't work.
-The LAPIC and thus virtual APIC is in-kernel and cannot be directly accessed
-by userspace.  I doubt it actually affects real world performance, but
-resetting each MSR one-by-one bugs me.
+Thanks,
+Chen Zhou
+>
 
-Intercepting writes to TPR, EOI and SELF_IPI are somewhat plausible, but I
-just don't see how intercepting reads when APICV is active is a sane setup.
-
-I'll send a patch and we can go from there.
-
->         }
->  
->         if (mode & MSR_BITMAP_MODE_X2APIC) {
-> 
-> This fixes my problem the same as having this patch reverted.
-> 
-> -- 
-> Peter Xu
-> 
