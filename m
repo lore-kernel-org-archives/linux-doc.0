@@ -2,212 +2,114 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C71C4727D
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 11:53:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA72C4363D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 12:13:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 444752087E
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 11:53:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B96320782
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 12:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601985221;
-	bh=xj3DKmTx+xt1aiabZV+/vLYvUVuonNKpv+Ct1aH1EHE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XsBlX5kp5e/pSOel+os6mL1ftCzoTY9KzcdEFVr4kQdesXc4EZT3LJL2WlgIq0WWD
-	 8wuky9kFYpZv/leYXMh+PX7WlK7An6OLAq8Wco/hL+Na2Pb5K9BvqKHlezESZQJkZH
-	 Vd6KBDUF4hFpeJqbeF/uQbshZCBOZ9dhK1HkWwXs=
+	s=default; t=1601986433;
+	bh=5N1sB0RTYC4S5uCLZ5Ub0O/RMBumfJWMKP5+urqBL+k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=IgdcrpHVJgIgHwIv0jaVLsBvG287OSP+45xk54XlbHyqv90pSSrj8x99Y0IAJ0Bzm
+	 lnVQUT/xQsdC/vJe4M/gZ7Ugo6h3yJAcNjf1Vr75UqlktMsUnmhoNlV++eFoNy2Aet
+	 XHmgIS/cLPBBh9caz4KqmBACcQtzyx1OYPQdFVi4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726182AbgJFLxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 07:53:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48006 "EHLO mail.kernel.org"
+        id S1726362AbgJFMNw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 08:13:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33922 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726032AbgJFLxk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 07:53:40 -0400
-Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
+        id S1726182AbgJFMNw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 08:13:52 -0400
+Received: from coco.lan (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 864AD2080A;
-        Tue,  6 Oct 2020 11:53:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4760E20663;
+        Tue,  6 Oct 2020 12:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601985219;
-        bh=xj3DKmTx+xt1aiabZV+/vLYvUVuonNKpv+Ct1aH1EHE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D5yyin2NOr4oSD50jB8ARYD+XBa8anpaThKEZxh48wy4EEVp4KVAutI6fdGCZeM+N
-         LCb8S6HQ8plDyG7JYeaYYVkxgIGlN1hu1hiMow2opK9csBI39ul7UR4qX53KH23X+Z
-         9/OMvCv2SusraPLjD1pwXSWLIFl9dWS7e0X1I/us=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kPlXF-0015t5-2w; Tue, 06 Oct 2020 13:53:37 +0200
+        s=default; t=1601986431;
+        bh=5N1sB0RTYC4S5uCLZ5Ub0O/RMBumfJWMKP5+urqBL+k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ZbOSVj459Jb21PThxbVW5rGNSnI5aMlk5GCNTghfKjj/ULAIk1AAB3G+9pEtSmQYe
+         oo8G51N1ddfo2J2LgYuappfgeYfnDU+DSP4JX67x0yYCKTyD6XCR487Avzz5pNBEHy
+         N7dR0z4dBokJQKxRhY/0xw2j6QFo0+RpO8u0fSJw=
+Date:   Tue, 6 Oct 2020 14:13:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Matthew Wilcox" <willy@infradead.org>,
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "Matthew Wilcox" <willy@infradead.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH RFC] script: add a script for checking doc problems with external functions
-Date:   Tue,  6 Oct 2020 13:53:34 +0200
-Message-Id: <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201005125920.27a7768d@coco.lan>
+Subject: Re: [PATCH RFC] script: add a script for checking doc problems with
+ external functions
+Message-ID: <20201006141346.68074cff@coco.lan>
+In-Reply-To: <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
 References: <20201005125920.27a7768d@coco.lan>
+        <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While not all EXPORT_SYMBOL*() symbols should be documented,
-it seems useful to have a tool which would help to check what
-symbols aren't documented.
+Hi Matthew/Jon,
 
-This is a first step on this direction. The tool has some
-limitations. Yet, it could be useful for maintainers to check
-about missing documents on their subsystems.
+Em Tue,  6 Oct 2020 13:53:34 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/check_docs_external_symbols | 127 ++++++++++++++++++++++++++++
- 1 file changed, 127 insertions(+)
- create mode 100755 scripts/check_docs_external_symbols
+> While not all EXPORT_SYMBOL*() symbols should be documented,
+> it seems useful to have a tool which would help to check what
+> symbols aren't documented.
+> 
+> This is a first step on this direction. The tool has some
+> limitations. Yet, it could be useful for maintainers to check
+> about missing documents on their subsystems.
+> 
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-diff --git a/scripts/check_docs_external_symbols b/scripts/check_docs_external_symbols
-new file mode 100755
-index 000000000000..cc12562e6cd6
---- /dev/null
-+++ b/scripts/check_docs_external_symbols
-@@ -0,0 +1,127 @@
-+#!/usr/bin/perl
-+# SPDX-License-Identifier: GPL-2.0
-+
-+#
-+# Copyright (c) 2020, Huawei Tech. Co., Ltd.
-+# Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org
-+#
-+# This script helps to check if exported functions are documented at either
-+# a file, on at the included headers.
-+#
-+# The script is not perfect and may produce some false negatives, as
-+# currently it doesn't handle Makefile "-I" directives that might be inside
-+# a Kernel directory.
-+#
-+# So, use it with caution.
-+#
-+# Usage:
-+#	scripts/check_external docs
-+# or:
-+#	scripts/check_external docs <files and/or directories>
-+
-+use warnings;
-+use strict;
-+use File::Find;
-+
-+sub check_file($) {
-+	my $file = shift;
-+	my (@files, @exports, @doc, @doc_refs);
-+	my $content = "\n";
-+
-+	return 0 if (!($file =~ /\.[ch]$/));
-+
-+	my $dir = $file;
-+	$dir =~ s,[^\/]+$,,;
-+
-+	open IN, $file or return 0;
-+	while (<IN>) {
-+		push @exports, $1 if (m/^EXPORT_SYMBOL.*\(\s*(\S+)\s*\)/);
-+
-+		if (m/^\s*#\s*include\s+[\<](\S+)[\>]/) {
-+			if (-e "include/$1") {
-+				push @files, "include/$1";
-+			} else {
-+				# Currently, can't check if include is elsewhere
-+				return 0;
-+			}
-+		}
-+		if (m/^\s*#\s*include\s+[\"](\S+)[\"]/) {
-+			if (-e "$dir/$1") {
-+				push @files, "$dir/$1";
-+			} else {
-+				# Currently, can't check if include is elsewhere
-+				return 0;
-+			}
-+		}
-+		$content .= $_;
-+	}
-+	close IN;
-+
-+	return 0 if ($content eq "\n");
-+
-+
-+	push @files, $file;
-+	for (my $i = 0; $i < scalar(@files); $i++) {
-+		$doc_refs[$i] = 0;
-+		$doc[$i] = qx(./scripts/kernel-doc --sphinx-version 3.2.1 $files[$i] 2>/dev/null);
-+	}
-+
-+	my @missing_exports;
-+	my $found = -1;
-+	foreach my $e (@exports) {
-+		# Check if the symbol is a function
-+		if (!($content =~ (m/\n\s*(?:\w+\s+){0,}\*?\s*\b\Q$e\E\b\s*\(/))) {
-+			next;
-+		}
-+		for (my $i = 0; $i < scalar(@files); $i++) {
-+			if ($doc[$i] =~ m/\b\Q$e\E\b/) {
-+				$found = $i;
-+				$doc_refs[$i]++;
-+				last;
-+			}
-+		}
-+
-+		push @missing_exports, $e if ($found < 0);
-+	}
-+
-+	if (@missing_exports) {
-+		print "warning: $file: missing documentation for @missing_exports\n";
-+	}
-+
-+	for (my $i = 0; $i < scalar(@files); $i++) {
-+		next if (!$doc_refs[$i]);
-+		my $includes = qx(git grep -l "kernel-doc::\\s*$files[$i]" Documentation/);
-+
-+		printf "warning: %s: file not included at Documentation/\n", $files[$i] if ($includes eq "");
-+	}
-+	return 1;
-+}
-+
-+sub parse_dir {
-+	check_file $File::Find::name;
-+}
-+
-+#
-+# main
-+#
-+
-+my $file;
-+
-+if (@ARGV) {
-+	while (@ARGV) {
-+		my $file = shift;
-+
-+		if (-d $file) {
-+			find({wanted => \&parse_dir, no_chdir => 1}, $file);
-+		} else {
-+			check_file $file;
-+		}
-+	}
-+	exit;
-+} else {
-+	my @files = qx(git grep -l EXPORT_SYMBOL);
-+	foreach $file (@files) {
-+		$file =~ s/\s+$//;
-+		check_file $file;
-+	}
-+}
--- 
-2.26.2
+As suggested, I improved the script for it to provide some hints
+about what documentation is missing:
 
+	$ ./scripts/check_docs_external_symbols drivers/media/v4l2-core/
+	warning: drivers/media/v4l2-core/videobuf-dma-contig.c: missing documentation for videobuf_queue_dma_contig_init videobuf_to_dma_contig videobuf_dma_contig_free
+	warning: drivers/media/v4l2-core/v4l2-clk.c: missing documentation for v4l2_clk_get v4l2_clk_put v4l2_clk_enable v4l2_clk_disable v4l2_clk_get_rate v4l2_clk_set_rate	v4l2_clk_register v4l2_clk_unregister __v4l2_clk_register_fixed v4l2_clk_unregister_fixed
+	warning: include/media/v4l2-h264.h: file not included at Documentation/
+	warning: drivers/media/v4l2-core/v4l2-h264.c: file not included at Documentation/
+	warning: drivers/media/v4l2-core/videobuf-core.c: missing documentation for videobuf_alloc_vb videobuf_waiton videobuf_iolock videobuf_queue_to_vaddr videobuf_queue_core_init videobuf_queue_is_busy videobuf_queue_cancel videobuf_next_field videobuf_mmap_free __videobuf_mmap_setup videobuf_mmap_setup videobuf_reqbufs videobuf_querybuf videobuf_qbuf videobuf_dqbuf videobuf_streamon videobuf_streamoff videobuf_read_one videobuf_read_start videobuf_read_stop videobuf_stop videobuf_read_stream videobuf_poll_stream videobuf_mmap_mapper
+	warning: drivers/media/v4l2-core/v4l2-mem2mem.c: file not included at Documentation/
+	warning: drivers/media/v4l2-core/v4l2-dev.c: missing documentation for video_device_alloc video_device_release video_device_release_empty video_devdata v4l2_prio_init v4l2_prio_change v4l2_prio_open v4l2_prio_close v4l2_prio_max v4l2_prio_check __video_register_device
+	warning: drivers/media/v4l2-core/v4l2-dev.c: file not included at Documentation/
+
+It also report things that shouldn't be documented, like those:
+
+	$ ./scripts/check_docs_external_symbols drivers/media/pci/saa7134
+	warning: drivers/media/pci/saa7134/saa7134-video.c: missing documentation for saa7134_vb2_buffer_queue saa7134_enum_input saa7134_g_input saa7134_s_input saa7134_querycap saa7134_s_std saa7134_g_std saa7134_querystd saa7134_g_tuner saa7134_s_tuner saa7134_g_frequency saa7134_s_frequency
+	warning: drivers/media/pci/saa7134/saa7134-core.c: missing documentation for saa7134_stop_streaming saa7134_ts_register saa7134_ts_unregister saa7134_set_gpio saa7134_dmasound_init saa7134_dmasound_exit saa7134_pgtable_free saa7134_pgtable_build saa7134_pgtable_alloc saa7134_set_dmabits
+	warning: drivers/media/pci/saa7134/saa7134-ts.c: missing documentation for saa7134_ts_buffer_init saa7134_ts_buffer_prepare saa7134_ts_queue_setup saa7134_ts_start_streaming saa7134_ts_stop_streaming
+
+On this specific case, the saa7134 driver was split into multiple
+drivers, depending on the PCI sub-interfaces found on some complex
+media devices. IMO, it doesn't make any sense to document such
+symbols, as they aren't meant to be used outside saa7134 sub-drivers.
+
+-
+
+As noticed on its comments, this script is not perfect. It tries to
+avoid reporting false-positives by not processing files that it
+can't find all includes and by skipping non-functions.
+
+Yet, it can take a long time for it to parse the entire Kernel
+tree. So, at least on its current state, I don't think it would
+be a good idea to add it to the default build.
+
+Feel free to either take it as-is, to improve it, or to ignore ;-)
+
+Thanks,
+Mauro
