@@ -2,91 +2,85 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B051C41604
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:19:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D06EC4363D
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:21:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBE6720866
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:19:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E48222078E
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 13:21:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601990362;
-	bh=rhzEg93RmiL/9w7FXsjEbHmJfiXwGx7Q4TpUevh6Ol4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=mfAveig4spvAVoh3diPzzxZ+WPyEa0F0GGn9oYTsN8Ltiax6pZsBHzqEyPZYQC1nW
-	 LsWQCn2ASJiu1gPMHHl5XE5PwFxU33rIqHb/3aifGSvtHhkdDB5SeCPXWD18MHF8CE
-	 uQXru/oRaZZB0oMk8sn3Ea+hEAwR0BqRDYNHRUk8=
+	s=default; t=1601990514;
+	bh=EqfKWAQVNPOktMi714ODIttN8rNb+ZlSR96IH/A99vY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=MDPXcHbEXwXQKg7u9RCrQxjvdhpQhKjJWpe89WryOawntfIRUSuNPnO2S8+l5KSoT
+	 rgBgeQp4p9PFav3MQBTBXdJguk0e5/+VpFx96NQmC75V4nKgyDC5yaii86UfhgCjVe
+	 1elrqqOkDlulGyIHPXA6ayvOpe7p91M1GWozBG40=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725973AbgJFNTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 09:19:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55150 "EHLO mail.kernel.org"
+        id S1725962AbgJFNVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 09:21:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57560 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725891AbgJFNTW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 09:19:22 -0400
-Received: from coco.lan (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
+        id S1725902AbgJFNVx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Oct 2020 09:21:53 -0400
+Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1AEEE2078E;
-        Tue,  6 Oct 2020 13:19:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 795AF2078E;
+        Tue,  6 Oct 2020 13:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601990361;
-        bh=rhzEg93RmiL/9w7FXsjEbHmJfiXwGx7Q4TpUevh6Ol4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=j12QtR/d3cElZV0sIOkrI6AEhL4P73NtQY4j8J1Cyxv62Sk4Wkjp60MdI620gNiUU
-         5YHtzFvmnqRxhIz1iwvj2qxk1HtvTqZclFmcfIvpTCS9CKcrinv+FJmYHONs1T05G4
-         Os4IZ2/yw9vHl4SMa/CXVylTfDBRBVL0OidcPijA=
-Date:   Tue, 6 Oct 2020 15:19:15 +0200
+        s=default; t=1601990512;
+        bh=EqfKWAQVNPOktMi714ODIttN8rNb+ZlSR96IH/A99vY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GjcVFmnnyZNhVDozl9IUjUEzfZea1CI+AKKkpi1s4p04mOi49oygAOnpGUwe10wPJ
+         b1U+qsEunzCcoGvstToAnv8JIH18HWAWU6DH2cQp1W8HDrojEcUQE5H6wsZZ8PgQga
+         naea445ssPaFt4VY/ViQkLi7tmD+bGKMEZ0WRwf4=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kPmuM-0018Kj-5o; Tue, 06 Oct 2020 15:21:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
-Cc:     Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Evgeny Boger <boger@wirenboard.com>
-Subject: Re: [PATCH 2/2] w1: w1_therm: Add support for GXCAS GX20MH01
- device.
-Message-ID: <20201006151915.77d044a4@coco.lan>
-In-Reply-To: <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
-References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
-        <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] docs: infrastructure.rst: exclude device_link_state from device.h
+Date:   Tue,  6 Oct 2020 15:21:30 +0200
+Message-Id: <cacdd9cb5094c33435a8663ee151f39ab8b5721d.1601990386.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1601990386.git.mchehab+huawei@kernel.org>
+References: <cover.1601990386.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri,  4 Sep 2020 19:00:04 +0300
-Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
+This is already documented at device_link.rst, causing this
+warning, due to a broken cross-reference:
 
-> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
-> index f1148181f53e..00376501a5ef 100644
-> --- a/Documentation/w1/slaves/w1_therm.rst
-> +++ b/Documentation/w1/slaves/w1_therm.rst
+	.../Documentation/driver-api/device_link.rst: WARNING: Duplicate C declaration, also defined in 'driver-api/infrastructure'.
+	Declaration is 'device_link_state'.
 
->  
-> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
->  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
->  conversion completion (normal power only) by generating read cycles on the bus
->  after conversion starts. In parasite power mode this feature is not available.
-> -Feature bit masks may be combined (OR).
-> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
-> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
-> +
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/driver-api/infrastructure.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-As warned by Sphinx, this cross-reference is broken:
+diff --git a/Documentation/driver-api/infrastructure.rst b/Documentation/driver-api/infrastructure.rst
+index e38d79be4e16..683bd460e222 100644
+--- a/Documentation/driver-api/infrastructure.rst
++++ b/Documentation/driver-api/infrastructure.rst
+@@ -6,6 +6,7 @@ The Basic Device Driver-Model Structures
+ 
+ .. kernel-doc:: include/linux/device.h
+    :internal:
++   :no-identifiers: device_link_state
+ 
+ Device Drivers Base
+ -------------------
+-- 
+2.26.2
 
-	.../Documentation/w1/slaves/w1_therm.rst:125: WARNING: undefined label: w1_therm (if the link has no caption the label must precede a section header)
-
-Not sure what you wanted to point here.
-
-
-Thanks,
-Mauro
