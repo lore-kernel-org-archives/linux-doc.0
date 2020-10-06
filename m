@@ -2,107 +2,89 @@ Return-Path: <SRS0=3O92=DN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8284CC41604
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 18:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7194C41604
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 19:05:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25990206F7
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 18:00:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66B1A206B5
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Oct 2020 19:05:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J9sFhc+1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726624AbgJFSAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Oct 2020 14:00:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34946 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725925AbgJFSAY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Oct 2020 14:00:24 -0400
-Received: from C02TF0J2HF1T.local (unknown [95.149.105.49])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6194B206D4;
-        Tue,  6 Oct 2020 18:00:16 +0000 (UTC)
-Date:   Tue, 6 Oct 2020 19:00:12 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Bhupesh Sharma <bhsharma@redhat.com>
-Cc:     John Donnelly <john.p.donnelly@oracle.com>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        RuiRui Yang <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, nsaenzjulienne@suse.de,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com
-Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
- kdump
-Message-ID: <20201006180012.GB31946@C02TF0J2HF1T.local>
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
- <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
- <20201005170937.GA14576@gaia>
- <CACi5LpMWUmP1df8fB8psJY_cNGHF9MNn+TNK4B4edaRHvOXxGQ@mail.gmail.com>
+        id S1726791AbgJFTFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Oct 2020 15:05:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49952 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726760AbgJFTFE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Oct 2020 15:05:04 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B84C061755;
+        Tue,  6 Oct 2020 12:05:03 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id e10so9020148pfj.1;
+        Tue, 06 Oct 2020 12:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=0Yw4y12mYXqqzBAefSKmQPErnuJA8Bd/3bClQhft1f4=;
+        b=J9sFhc+1KcqbpLQ7ekiat8iAZKtmnnrkH4W2rtwSKcoBnqWye7OXmkWmVFTIzIrF64
+         95oHtrlypE1jdVQrzKddZSnaTMd8mmVZcR5aWKDer3JR/AHJ6RVz6fVaHYJL25G6owJV
+         grag7y4YkMTjqNAQoXtGNQ40dXREPsToFLFJfdRiTAocUgEgrGcsdFvWKuY7IKEkEM3F
+         I9XeTXM7rA+5I5HcJe8NoCL/nndWYFgIOVLb8Uyvifp7MUieznep8mIHzJ8fwuS5Y1+j
+         ugUF0UOnN2yMZ4l1bp5WfbWv3UsBj56FoQFOs5X3yN+ozLTLzYcRX1Yv09UgKQIebypF
+         Rqbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=0Yw4y12mYXqqzBAefSKmQPErnuJA8Bd/3bClQhft1f4=;
+        b=fceUkiEK/6b3uTZyFJbs6R1V4Yy3/zFethNcypW3mV+oGUVF626yshfIAPDRqZviZj
+         PBXFJ3mfQ3gERGrn2esacLT0mUcCKjBuhHiQxsa1Z+jVRtN+7LHDaOCAg1hr5a6Ps/JA
+         ei9QNaV8lVo7A+ETyRJEf8ZyyoDtmIsAEfsT+rwZtZJ7CZvg3SZ+9bZmGx3A8Ic6/NH+
+         bj18JHkTCmOFsiNRd/PAFXHN8BlmmK6gp9EcXl0WPuTWJZNCAlp0ZnRfcli2Bl4bhxAd
+         Fe+geHr5pl+OBLQUB5m0WPpLL9v3tB0pKf+j9B0bhTiLQMZoFw/+f4k0fP3WK0Vey/y7
+         CvSw==
+X-Gm-Message-State: AOAM530lIIWoNX2KOS/bfOv/UQ7AxYxyOZqqIupoDmUBIIG7eIMrSoYQ
+        wPkq6onRngJJ3Nj1UDm7q2GGJ0bQAomO9Ll0XSQ=
+X-Google-Smtp-Source: ABdhPJwcQ61R1577YVbspYVyB7F5RVUxCM47PqwOQFHeyVaG+sJacA66GKFM4l9CoXNElUhnhfb8Hg==
+X-Received: by 2002:a63:ef4f:: with SMTP id c15mr5349356pgk.140.1602011102920;
+        Tue, 06 Oct 2020 12:05:02 -0700 (PDT)
+Received: from adolin ([49.207.211.213])
+        by smtp.gmail.com with ESMTPSA id q6sm4640246pfn.10.2020.10.06.12.04.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2020 12:05:02 -0700 (PDT)
+Date:   Wed, 7 Oct 2020 00:34:57 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     Julia.Lawall@lip6.fr
+Cc:     corbet@lwn.net, Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, cocci@systeme.lip6.fr,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH 0/2 v2] Improve Coccinelle Parallelisation
+Message-ID: <cover.1602010816.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACi5LpMWUmP1df8fB8psJY_cNGHF9MNn+TNK4B4edaRHvOXxGQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 05, 2020 at 11:12:10PM +0530, Bhupesh Sharma wrote:
-> I think my earlier email with the test results on this series bounced
-> off the mailing list server (for some weird reason), but I still see
-> several issues with this patchset. I will add specific issues in the
-> review comments for each patch again, but overall, with a crashkernel
-> size of say 786M, I see the following issue:
-> 
-> # cat /proc/cmdline
-> BOOT_IMAGE=(hd7,gpt2)/vmlinuz-5.9.0-rc7+ root=<..snip..> rd.lvm.lv=<..snip..> crashkernel=786M
-> 
-> I see two regions of size 786M and 256M reserved in low and high
-> regions respectively, So we reserve a total of 1042M of memory, which
-> is an incorrect behaviour:
-> 
-> # dmesg | grep -i crash
-> [    0.000000] Reserving 256MB of low memory at 2816MB for crashkernel (System low RAM: 768MB)
-> [    0.000000] Reserving 786MB of memory at 654158MB for crashkernel (System RAM: 130816MB)
-> [    0.000000] Kernel command line: BOOT_IMAGE=(hd2,gpt2)/vmlinuz-5.9.0-rc7+ root=/dev/mapper/rhel_ampere--hr330a--03-root ro rd.lvm.lv=rhel_ampere-hr330a-03/root rd.lvm.lv=rhel_ampere-hr330a-03/swap crashkernel=786M cma=1024M
-> 
-> # cat /proc/iomem | grep -i crash
->   b0000000-bfffffff : Crash kernel (low)
->   bfcbe00000-bffcffffff : Crash kernel
+Coccinelle utilises all available threads to implement parallelisation.
+However, this results in a decrease in performance.
 
-As Chen said, that's the intended behaviour and how x86 works. The
-requested 768M goes in the high range if there's not enough low memory
-and an additional buffer for swiotlb is allocated, hence the low 256M.
+This patchset aims to improve performance by modifying cocciccheck to
+use at most one thread per core by default.
 
-We could (as an additional patch), subtract the 256M from the high
-allocation so that you'd get a low 256M and a high 512M, not sure it's
-worth it. Note that with a "crashkernel=768M,high" option, you still get
-the additional low 256M, otherwise the crashkernel won't be able to
-boot as there's no memory in ZONE_DMA. In the explicit ",high" request
-case, I'm not sure subtracted the 256M is more intuitive.
+Sumera Priyadarsini (2):
+  scripts: coccicheck: Change default value for parallelism
+  Documentation: Coccinelle: Modify parallelisation information in docs
 
-In 5.11, we also hope to fix the ZONE_DMA layout for non-RPi4 platforms
-to cover the entire 32-bit address space (i.e. identical to the current
-ZONE_DMA32).
-
-> IMO, we should test this feature more before including this in 5.11
-
-Definitely. That's one of the reasons we haven't queued it yet. So any
-help with testing here is appreciated.
-
-Thanks.
+ Documentation/dev-tools/coccinelle.rst | 4 ++--
+ scripts/coccicheck                     | 5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
 -- 
-Catalin
+2.25.1
+
