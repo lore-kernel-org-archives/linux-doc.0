@@ -2,157 +2,284 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98056C4363D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 11:59:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B3B8C4363D
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 12:06:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4327920789
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 11:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602071981;
-	bh=9bf1lUl/RI13I65CyzWhTm9xfS0ZoW88igz6z6D5x0U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=Zo0ebeP+WQpxOLfOBRlifLlgEJVcxHB217MoiWPFkdzujjSAT5aXkJg86hqAsMQsI
-	 uIYSy9dsue1dRVMQr9W+lr6HU048xZdwIznREBl7bP6ZgeA0mxSDOLP3s/DceCALUq
-	 dD5ndoChE42+pXM1qx1yQ2Sy5DDbQSE1Koee/KhU=
+	by mail.kernel.org (Postfix) with ESMTP id 4262820789
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 12:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727932AbgJGL7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 07:59:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37286 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727884AbgJGL7k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 07:59:40 -0400
-Received: from coco.lan (ip5f5ad5a2.dynamic.kabel-deutschland.de [95.90.213.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5F7C620782;
-        Wed,  7 Oct 2020 11:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602071979;
-        bh=9bf1lUl/RI13I65CyzWhTm9xfS0ZoW88igz6z6D5x0U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FnP0wIRDk7WazriyIFsmbdt1u76A71ElD7jAxneZPFj1kE6QYh4GHsLdnpAAi4sPB
-         EizBUdqRMnldOxRd4Lrd12ZMD6OccHWbh6I0cPkT9obKMFDAbjCPLEooWQvY2LEsO8
-         rIFzmJJfuDmbKQ2ZbugZOjD2RQwQIKmI42+ITmao=
-Date:   Wed, 7 Oct 2020 13:59:34 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Evgeny Boger <boger@wirenboard.com>
-Subject: Re: [PATCH 2/2] w1: w1_therm: Add support for GXCAS GX20MH01
- device.
-Message-ID: <20201007135934.4b6e598e@coco.lan>
-In-Reply-To: <20201007114359.GA2167293@kroah.com>
-References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
-        <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
-        <20201006151915.77d044a4@coco.lan>
-        <1561045277.20201007103227@wirenboard.ru>
-        <20201007105702.67988846@coco.lan>
-        <20201007090619.GA613204@kroah.com>
-        <20201007130549.6ca57af0@coco.lan>
-        <20201007114359.GA2167293@kroah.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728069AbgJGMF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 08:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37626 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727253AbgJGMF7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 08:05:59 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AF2C061755;
+        Wed,  7 Oct 2020 05:05:59 -0700 (PDT)
+Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kQ8Cc-0001rT-Bz; Wed, 07 Oct 2020 14:05:50 +0200
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1601541165.git.linux@leemhuis.info>
+ <d612f512f2e4eb00e1e80674783c1ffb5e463f82.1601541165.git.linux@leemhuis.info>
+ <24dfc4c3-5c53-be63-4768-a3c8b5a42706@infradead.org>
+Subject: [RFC PATCH v1 09/26] docs: reporting-bugs: help users find the proper
+ place for their report
+Message-ID: <b4072a18-d446-b487-ea0f-d75cdd8a7842@leemhuis.info>
+Date:   Wed, 7 Oct 2020 14:05:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <24dfc4c3-5c53-be63-4768-a3c8b5a42706@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1602072359;b94fa1ed;
+X-HE-SMSGID: 1kQ8Cc-0001rT-Bz
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 7 Oct 2020 13:43:59 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+Many thx for you comments. Consider all the obvious spelling and
 
-> On Wed, Oct 07, 2020 at 01:05:49PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 7 Oct 2020 11:06:19 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> >   
-> > > On Wed, Oct 07, 2020 at 10:57:02AM +0200, Mauro Carvalho Chehab wrote:  
-> > > > Em Wed, 7 Oct 2020 10:32:27 +0300
-> > > > Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
-> > > >     
-> > > > > Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
-> > > > >     
-> > > > > >> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
-> > > > > >> index f1148181f53e..00376501a5ef 100644
-> > > > > >> --- a/Documentation/w1/slaves/w1_therm.rst
-> > > > > >> +++ b/Documentation/w1/slaves/w1_therm.rst      
-> > > > >     
-> > > > > >>  
-> > > > > >> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
-> > > > > >>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
-> > > > > >>  conversion completion (normal power only) by generating read cycles on the bus
-> > > > > >>  after conversion starts. In parasite power mode this feature is not available.
-> > > > > >> -Feature bit masks may be combined (OR).
-> > > > > >> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
-> > > > > >> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
-> > > > > >> +      
-> > > > >     
-> > > > > > As warned by Sphinx, this cross-reference is broken:      
-> > > > >     
-> > > > > >         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
-> > > > > > undefined label: w1_therm (if the link has no caption the label must precede a section header)      
-> > > > > 
-> > > > > Would this be ok?    
-> > > > 
-> > > > Yeah, sure!
-> > > >     
-> > > > > 
-> > > > > "More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
-> > > > >     
-> > > > > > Not sure what you wanted to point here.      
-> > > > > 
-> > > > > A link to a driver's sysfs interface, but sysfs docs are text
-> > > > > files and seem to not be included in Sphynx Docs.    
-> > > > 
-> > > > I sent upstream sometime ago a patch series adding ABI to Sphinx, but I 
-> > > > was not merged, not sure why:
-> > > > 
-> > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v5.6    
-> > > 
-> > > I think the raft of different patches floating around at the time made
-> > > me totally confused as to what was, and was not, the latest versions.  
-> > 
-> > Yeah, there were lots of patches floating around that time.
-> > 
-> > I also recall that someone (Jeni?) asked if the best wouldn't be to
-> > just convert the ABI files to ReST directly.
-> >   
-> > > I'll be glad to look at them again, if you want to rebase after 5.10-rc1
-> > > is out and resend them, as I think this should be showing up in the
-> > > documentation.  
-> > 
-> > Surely. I'll rebase them after 5.10-rc1 and re-submit. 
-> > 
-> > What strategy do you prefer? Keep the files with the same format as
-> > today (allowing them to optionally have ReST markups) or to convert
-> > them to .rst directly?
-> > 
-> > In the latter case, the best would be to apply it as early as possible
-> > after 5.10-rc1, as it may cause conflicts with other patches being
-> > submitted for 5.11.  
+grammatical mistakes you pointed out fixed, I won't mention all of them
+
+in this reply to keep things easier to follow.
+
+Am 04.10.20 um 06:03 schrieb Randy Dunlap:
+> On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
+>
+>> = RFC =
+>>
+>> This section tells users to always CC LKML. I placed this in the text here for
+>> now as a way to force a general discussion about this, as it would be way easier
+>> if users had one place where they could search for existing reports; maybe it
+>> should be the same place where fixes are sent to, as then the single search
+>> would find those, too.
+>>
+>> That might mean "LKML", which these days afaics is a kind of "catch-all" ml
+>> anyway (which nearly nobody reads). So it might make sense to go "all in" and
+>> make people send their reports here, too. But TBH I'm a bit unsure myself if
+>> that's the right approach. Maybe creating a mailing list like
+>> 'linux-issues@vger.kernel.org' would be best (and while at it maybe also
+>> linux-regressions@vger.kernel.org).
+> Yes, LKML has become an archival list for almost everything. However, bug reports
+> should still be sent to their more specific list when possible, e.g., USB to
+> linux-usb, ACPI to linux-acpi, networking to netdev, wireless to linux-wireless,
+> SCSI to linux-scsi, etc.
+
+Definitely, that "always CC LKML" above was meant as "in addition" ;-)
+
+> I might be OK with one additional bug/issues/regressions mailing list but I
+> wouldn't care to see that split into more than one list.
+
+Yeah, but we care more about regression and having no way to tell them
+apart from bugs might make things hard.
+
+>> +Problem is: the Linux kernel lacks a central bug tracker that all maintainers
+>> +use, so you have to find the right way and place to report issues yourself. One
+>> +way to do that: look at the `MAINTAINERS file in the Linux kernel sources
+>> +<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/MAINTAINERS>`_,
+> The MAINTAINERS list is also available via html at
+> https://www.kernel.org/doc/html/latest/process/maintainers.html
+
+Ahh, wasn't aware of that, thx for the pointer. I switched over to that 
+one and use a "ref:" link. This and these comments…
+
+> but since a reporter might need to use scripts/get_maintainer.pl, maybe the html
+> doesn't help so much.
+ > [...]
+>> +To illustrate how to use the file lets assume the Wi-Fi in your Laptop suddenly
+>> +misbehaves after updating the kernel. In that case it's likely an issue in the
+>> +Wi-Fi driver; it could also be some code it builds upon: the Wi-Fi subsystem,
+>> +the TCP/IP stack, which are all part of the Network subsystem. But unless you
+>> +suspect the culprit lies there stick to the driver. Thus run the command
+>> +``lspci -k`` to tell which kernel driver manages a particular hardware::
 > 
-> The existing format if at all possible, doing wholesale changes is a
-> mess and wouldn't be recommended.
+> Other times it might be 'lsusb' or 'lsscsi' or this might not be applicable at all
+> to LED drivers or pinctrl drivers or W1 or I2C or GPIO (?).
+ > [...]
+>> +the person has a spare minute. If it states 'Obsolete' then you are using some
+>> +outdated code and should switch to the newer approach the kernel offers. If it
+>> +says 'Orphan' you are out of luck: nobody takes care of the code anymore, hence
+>> +there is nobody to send a report to. You need to fix this yourself or look
+>> +somewhere else to find someone that is willing to help.
+> or discard that particular hardware.
+ > [...]
+> Personally I would CC all M: people but not R: (reviewers).
 
-Yeah, merging it would indeed be a mess. At long term, though, it could 
-be easier to maintain.
+…made me revisit the whole section and rewrite a few bits. This is how 
+it looks like now (sorry, please ignore the long quoted lines that got 
+wrapped, sending this with thunderbird instead of git-send-email):
 
-> I think you already fixed up the entries that had problems being parsed
-> in the past, if not, we can resolve those as well.
+```
 
-Yes. The series start with fixes. I suspect several of them
-(if not all) were already merged, but if anything is missing, I can fix 
-at the upcoming rebased series.
+Locate kernel area that causes the issue
+----------------------------------------
 
-Thanks,
-Mauro
+     *Locate the driver or kernel subsystem that seems to be causing the 
+issue. Find out how and where its developers expect reports. Note: most 
+of the time this won't be bugzilla.kernel.org, as issues typically need 
+to be sent by mail to a maintainer and a public mailing list.*
+
+It's crucial to send your report to the right people, as the Linux 
+kernel is a big project and most of its developers are only familiar 
+with a small subset of it. Quite a few programmers for example only care 
+for just one driver, for example one for a WiFi chip; its developer 
+likely will only have small or no knowledge about the internals of more 
+remote "subsystems", like the TCP stack, the PCIe/PCI subsystem, memory 
+management or some other part the driver might be using.
+
+Problem is: the Linux kernel lacks a central bug tracker where you can 
+simply file your issue to reach the developers that need to know about 
+it. That's why you have to find the right place and way to report issues 
+yourself. You can do that with the help of a script, but it mainly 
+targets kernel developers and experts. For everybody else the 
+MAINTAINERS file is the better place.
+
+How to read the MAINTAINERS file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To illustrate how to use the ref:`MAINTAINERS <maintainers>`_ file, lets 
+assume the WiFi in your Laptop suddenly misbehaves after updating the 
+kernel. In that case it's likely an issue in the WiFi driver. Obviously 
+it could also be some code it builds upon, but unless you suspect 
+something like that stick to the driver, as its developers will get the 
+right people involved if it's really something else.
+
+Sadly, there is no way to check which code is driving a particular 
+hardware component that is both universal and easy. In the case of a 
+WiFi driver problem there are multiple approaches to find the
+
+You for example might want to look at the output of ``lspci -k``, as it 
+lists devices on the PCI/PCIe bus and the kernel module driving it::
+
+        [user@something ~]$ lspci -k
+        [...]
+        3a:00.0 Network controller: Qualcomm Atheros QCA6174 802.11ac 
+Wireless Network Adapter (rev 32)
+          Subsystem: Bigfoot Networks, Inc. Device 1535
+          Kernel driver in use: ath10k_pci
+          Kernel modules: ath10k_pci
+        [...]
+
+But this approach won't work if your WiFi chip is connected over USB or 
+some other internal bus. In those cases you might want to check your 
+WiFi manager or the output of ``ip link``. Look for the name of the 
+problematic network interface, which might be something like 'wlp58s0'. 
+This name can be used like this to find the module driving it::
+
+        [user@something ~]$ realpath --relative-to=/sys/module/ 
+/sys/class/net/wlp58s0/device/driver/module
+        ath10k_pci
+
+In case tricks like these don't bring you any further, try to search the 
+internet on how to narrow down the driver or subsystem in question. And 
+if you are unsure which it is: just try your best guess, somebody will 
+help you if you guess poorly.
+
+Once you know the driver or subsystem you want to search for it in the 
+MAINTAINERS file. In the case of 'ath10k_pci' you won't find anything, 
+as the name is too specific. Sometimes you will need to search on the 
+net then; but before doing so, try to search for a somewhat shorted or 
+modified name, as then you might find something like this::
+
+        QUALCOMM ATHEROS ATH10K WIRELESS DRIVER
+        Mail:          A. Some Human <shuman@example.com>
+        Mailing list:  ath10k@lists.infradead.org
+        Status:        Supported
+        Web-page: 
+https://wireless.wiki.kernel.org/en/users/Drivers/ath10k
+        SCM:           git 
+git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git
+        Files:         drivers/net/wireless/ath/ath10k/
+
+Note: the line description will be abbreviations, if you read the plain 
+MAINTAINERS file found in the root of the Linux source tree. 'Mail:' for 
+example will be 'M:', 'Mailing list:' will be 'L', and 'Status:' will be 
+'S:'. These and other abbreviations are explained near the top of the file.
+
+First look at the line 'Status', to make sure the code is 'Supported', 
+'Maintained', or at least has someone who provides 'Odd Fixes' when 
+feeling motivated. If it states 'Obsolete' then you are using some 
+outdated approach that was replaced by a newer solution you need to 
+switch to. With 'Orphan' you are out of luck, as nobody takes care of 
+the code anymore, which only leaves these options: stop trying to do 
+what you want, live with the issue, fix it yourself, or find a 
+programmer somewhere willing to fix it.
+
+After checking the status, look for a line starting with 'bugs:': it 
+will tell you where to find a subsystem specific bug tracker to file 
+your issue. The example above does not have such a line; that is the 
+case for most sections, as Linux kernel development is completely driven 
+by mail and only very few subsystems use a bug tracker.
+
+In this in many other cases you thus have to look for lines starting 
+with 'Mail:' instead. Those mention the name and the email addresses for 
+the maintainers of the particular code. Also look for a line starting 
+with 'Mailing list:', which tells you the public mailing list where the 
+code is developed. Your report later needs to go by mail to those 
+addresses. Additionally, for all issue reports sent by email, make sure 
+to add the Linux Kernel Mailing List (LKML) 
+<linux-kernel@vger.kernel.org> to CC. Don't omit either of the mailing 
+lists when sending your issue report by mail later! Maintainers are busy 
+people and might leave some work for other developers on the subsystem 
+specific list; and LKML is important to have one place where all issue 
+reports can be found.
+
+
+Finding the maintainers with the help of a script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For people that have the Linux sources at hand there is a second option 
+to find the proper place to report: a script that tries to find all 
+people to contact. This script is called 'get_maintainer.pl' and located 
+in the scripts/ directory and relies on the MAINTAINERS file. It needs 
+to be called with a path to the source code in question. For drivers 
+compiled as module if often can be found with a command like this::
+
+        $ modinfo ath10k_pci | grep filename | sed 
+'s!/lib/modules/.*/kernel/!!; s!filename:!!; s!\.ko\(\|\.xz\)!!'
+        drivers/net/wireless/ath/ath10k/ath10k_pci.ko
+
+Pass parts of this to the script::
+
+        $ ./scripts/get_maintainer.pl -f drivers/net/wireless/ath/ath10k*
+        Some Human <shuman@example.com> (supporter:QUALCOMM ATHEROS 
+ATH10K WIRELESS DRIVER)
+        Another S. Human <asomehuman@example.com> (maintainer:NETWORKING 
+DRIVERS)
+        ath10k@lists.infradead.org (open list:QUALCOMM ATHEROS ATH10K 
+WIRELESS DRIVER)
+        linux-wireless@vger.kernel.org (open list:NETWORKING DRIVERS 
+(WIRELESS))
+        netdev@vger.kernel.org (open list:NETWORKING DRIVERS)
+        linux-kernel@vger.kernel.org (open list)
+
+Don't sent your report to all of them. Sent it to the maintainers, which 
+the script calls "supporter:"; additionally CC the most specific mailing 
+list for the code as well as Linux Kernel Mailing List (LKML). In this 
+case you thus would need to send the report to 'Some Human 
+<shuman@example.com>' with 'ath10k@lists.infradead.org' and 
+'linux-kernel@vger.kernel.org' in CC.
+
+Note: in case you cloned the Linux sources with git you might want to 
+call ``get_maintainer.pl`` a second time with ``--git``. The script then 
+will look at the commit history to find which people recently worked on 
+the code in question, as they might be able to help. But use such 
+results with care, as it can easily send you in a wrong direction. That 
+for example happens quickly with areas that are rarely changed (like old 
+or unmaintained drivers): this code is sometimes modified during 
+tree-wide cleanups by developers that do not care about the particular 
+part of the kernel at all.
+```
+
+Ciao, Thorsten
