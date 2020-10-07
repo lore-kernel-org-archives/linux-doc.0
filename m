@@ -2,99 +2,187 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1E7C4363D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 433EEC41604
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 14:15:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 485782087D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602077944;
-	bh=eHBZM3e+OsoNoiBsGa6VPI5CvFUAkYu3cfJMwsq7vzQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=SWSGrPV78+ZGQP9AWg49VXkoOHQclcRHjZlsDQiH54xVkiaWgRco8xiQQv8jGJesF
-	 UWQrgUMKDm0qmoP9WrMAIx+7NxZcx2zmiTv1QEjjmQz4eWKE5kV3LgZ17jwoCDltpu
-	 JiglqOGHIyoXF38VCM8WdNtb2fOBinImIpUkS60M=
+	by mail.kernel.org (Postfix) with ESMTP id D9F52212CC
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 14:15:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WCPWazuY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728271AbgJGNjD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 09:39:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45684 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728177AbgJGNjD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 09:39:03 -0400
-Received: from coco.lan (ip5f5ad5a2.dynamic.kabel-deutschland.de [95.90.213.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5E4A3206DD;
-        Wed,  7 Oct 2020 13:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602077942;
-        bh=eHBZM3e+OsoNoiBsGa6VPI5CvFUAkYu3cfJMwsq7vzQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=zdXD+EwJrcZznzdEW4k/95S8eSi5VbPkfk6IlgMaG9eI0WQPedJvKli6QOzbCEEDb
-         joT1qm/JSIrTbcISfaYk7fYTQ/xHICosBOoVPQONHXNIcie0kcSUaCOcrTt1I1lkND
-         ivFzujgBk0hbaUlvIToke+M91eWVpMzTjqHGM0oM=
-Date:   Wed, 7 Oct 2020 15:38:54 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] script: add a script for checking doc problems with
- external functions
-Message-ID: <20201007153854.17712cd3@coco.lan>
-In-Reply-To: <0b3f06aca033deb1fe3b1635ff3932e7b3f4127a.camel@perches.com>
-References: <20201005125920.27a7768d@coco.lan>
-        <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
-        <87tuv6igwg.fsf@intel.com>
-        <0b3f06aca033deb1fe3b1635ff3932e7b3f4127a.camel@perches.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728310AbgJGOPD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 10:15:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57700 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728265AbgJGOPD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 10:15:03 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A49C0613D2
+        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 07:15:02 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id o18so2347829edq.4
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 07:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MIy1jMlxCOJ0Y5mtMw96kWf8MP2ZqHwIF09OmCxHd/s=;
+        b=WCPWazuYKodAut6Dvw8x3qNRztwfkOsar0G2liazhPuQzvDvjg7Jukxi9uz54DhGNr
+         Sf7OZr+4DI1+Tkas8S2Bif5F8O4CRhY4MehqWbqnsq3bOrD4HTjd/kb1acw5Tqguoqtv
+         Rllh5USbqhULrd8U2UrO1YzU9hBKuL+LRjrkNln91SE0GleTS8gS/v2OlBk2x+kARzLU
+         wB8a+PXnZkS5+d9nkv6+TUW5EH+GjQb1mCBjM/+WA55NTw6KPCP5yQvlsnCQ5UlPIr30
+         jZl7ZGzHonK7hTlTbseBMPmmbTE23a89djvc1Z00KXGwgfUCf7c3uztATm1ENiA0CjV1
+         m8Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MIy1jMlxCOJ0Y5mtMw96kWf8MP2ZqHwIF09OmCxHd/s=;
+        b=MS0bFir8odR+0V34hhAdeOv+S6BSpjL2tJgVmQ7XB3d/SsM40GAzNJjHNfZ2KCxjQM
+         ZIOiXx5eBfJf9IVpAYSTsdwEqpgMpA6Wr6kQPVVCuBeTkcueCpo5C168/tdd4EOMp0jG
+         kJltVggVcUnrTGd6eFSTRy1u0gBcVEB7Ahvz6BHM4fFDE2qUOEbujC44mUYSnuULmQ/c
+         Ug4Tkl66D940N3buCtiDBzceb5UHo6Ca8smapRxN/khtKbKOilM0zLZod7M5FnrUK1Vz
+         IYVfNC5QGhCD7+UgcGZRAVef5sb6Jzu83ofI3rhW20no0eBPuKqaKvGviUaaeQSdE734
+         LFAw==
+X-Gm-Message-State: AOAM530XzJoEnBysXTcy1QlK5XAJ60pRw9iWRlDOCOQ6CIU4NJnOMiPO
+        NOvPiVkmkKPYbfDmjVDnKATgrTCtNbyBHDacRBqEdA==
+X-Google-Smtp-Source: ABdhPJwR/EYROZuqARz6G7n4XpMFS+ALLZjqv14b7utyykG9ti0A+TvzrhTUupRkmJLlxrAGOJoyhi7AI4L2KuqW7xA=
+X-Received: by 2002:a05:6402:b0e:: with SMTP id bm14mr3934250edb.259.1602080101068;
+ Wed, 07 Oct 2020 07:15:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
+ <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com> <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com>
+In-Reply-To: <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 7 Oct 2020 16:14:34 +0200
+Message-ID: <CAG48ez0sYZof_PDdNrqPUnNOCz1wcauma+zWJbF+VdUuO6x31w@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 07 Oct 2020 01:32:31 -0700
-Joe Perches <joe@perches.com> escreveu:
+On Wed, Oct 7, 2020 at 3:09 PM Marco Elver <elver@google.com> wrote:
+> On Fri, 2 Oct 2020 at 07:45, Jann Horn <jannh@google.com> wrote:
+> > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > > Add architecture specific implementation details for KFENCE and enable
+> > > KFENCE for the x86 architecture. In particular, this implements the
+> > > required interface in <asm/kfence.h> for setting up the pool and
+> > > providing helper functions for protecting and unprotecting pages.
+> > >
+> > > For x86, we need to ensure that the pool uses 4K pages, which is done
+> > > using the set_memory_4k() helper function.
+> > [...]
+> > > diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
+> > [...]
+> > > +/* Protect the given page and flush TLBs. */
+> > > +static inline bool kfence_protect_page(unsigned long addr, bool protect)
+> > > +{
+> > > +       unsigned int level;
+> > > +       pte_t *pte = lookup_address(addr, &level);
+> > > +
+> > > +       if (!pte || level != PG_LEVEL_4K)
+> >
+> > Do we actually expect this to happen, or is this just a "robustness"
+> > check? If we don't expect this to happen, there should be a WARN_ON()
+> > around the condition.
+>
+> It's not obvious here, but we already have this covered with a WARN:
+> the core.c code has a KFENCE_WARN_ON, which disables KFENCE on a
+> warning.
 
-> On Wed, 2020-10-07 at 11:23 +0300, Jani Nikula wrote:
-> > On Tue, 06 Oct 2020, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:  
-> > > While not all EXPORT_SYMBOL*() symbols should be documented,
-> > > it seems useful to have a tool which would help to check what
-> > > symbols aren't documented.
-> > > 
-> > > This is a first step on this direction. The tool has some
-> > > limitations. Yet, it could be useful for maintainers to check
-> > > about missing documents on their subsystems.  
-> > 
-> > Seems like this should be part of checkpatch.pl somehow.  
-> 
-> I don't see how.
+So for this specific branch: Can it ever happen? If not, please either
+remove it or add WARN_ON(). That serves two functions: It ensures that
+if something unexpected happens, we see a warning, and it hints to
+people reading the code "this isn't actually expected to happen, you
+don't have to wrack your brain trying to figure out for which scenario
+this branch is intended".
 
-Just sent a third version of the script. It should now be able to check
-if the RST files have the exported symbols as well:
+> > > +               return false;
+> > > +
+> > > +       if (protect)
+> > > +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> > > +       else
+> > > +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+> >
+> > Hmm... do we have this helper (instead of using the existing helpers
+> > for modifying memory permissions) to work around the allocation out of
+> > the data section?
+>
+> I just played around with using the set_memory.c functions, to remind
+> myself why this didn't work. I experimented with using
+> set_memory_{np,p}() functions; set_memory_p() isn't implemented, but
+> is easily added (which I did for below experiment). However, this
+> didn't quite work:
+[...]
+> For one, smp_call_function_many_cond() doesn't want to be called with
+> interrupts disabled, and we may very well get a KFENCE allocation or
+> page fault with interrupts disabled / within interrupts.
+>
+> Therefore, to be safe, we should avoid IPIs.
 
-<snip>
-$ scripts/check_docs_external_symbols lib/debugobjects.c
-lib/debugobjects.c: export symbol debug_object_active_state not documented at: Documentation/core-api/debug-objects.rst
-</snip>
+set_direct_map_invalid_noflush() does that, too, I think? And that's
+already implemented for both arm64 and x86.
 
-It also checks if an exported symbol has duplicated entries at
-kernel-doc as well.
+> It follows that setting
+> the page attribute is best-effort, and we can tolerate some
+> inaccuracy. Lazy fault handling should take care of faults after we
+> set the page as PRESENT.
+[...]
+> > Shouldn't kfence_handle_page_fault() happen after prefetch handling,
+> > at least? Maybe directly above the "oops" label?
+>
+> Good question. AFAIK it doesn't matter, as is_kfence_address() should
+> never apply for any of those that follow, right? In any case, it
+> shouldn't hurt to move it down.
 
-The check logic for it is somewhat complex. so, I won't doubt that
-there are some other hidden bugs.
-
-Also, as right now, the script is slow, if one wants to run it
-for the entire Kernel.
-
-Thanks,
-Mauro
+is_prefetch() ignores any #PF not caused by instruction fetch if it
+comes from kernel mode and the faulting instruction is one of the
+PREFETCH* instructions. (Which is not supposed to happen - the
+processor should just be ignoring the fault for PREFETCH instead of
+generating an exception AFAIK. But the comments say that this is about
+CPU bugs and stuff.) While this is probably not a big deal anymore
+partly because the kernel doesn't use software prefetching in many
+places anymore, it seems to me like, in principle, this could also
+cause page faults that should be ignored in KFENCE regions if someone
+tries to do PREFETCH on an out-of-bounds array element or a dangling
+pointer or something.
