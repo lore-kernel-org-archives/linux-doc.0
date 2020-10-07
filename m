@@ -2,362 +2,224 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EFDC4727F
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 21:41:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86AE0C4363D
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 23:12:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C262920872
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 21:41:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D33322083B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 23:12:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lwsJVNk4"
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="DsmYwPxb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728593AbgJGVlO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 17:41:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42562 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728600AbgJGVlO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 17:41:14 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D349C0613D3
-        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 14:41:14 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id u7so1946677vsq.11
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 14:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5fI+BSDiPUzdDWNigSKIYcVMENINjKY03JtZ4eNNu0U=;
-        b=lwsJVNk4ai0CPM/0nT0neaWxfng2AAkpJgdtTL3Cob2zCQnaLinGTaEcJ/7emJYi6G
-         oHW9+mRhgTpu+VsSI4l/7t3A9792V3HUOrQr7wu3NPElA5oHpqOkkFCqEZurR51U++Zr
-         +8cAkKXco8ZQWQHyuoyBxdoYOiBe3slDf/2j4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5fI+BSDiPUzdDWNigSKIYcVMENINjKY03JtZ4eNNu0U=;
-        b=E6qix8IHwqYIvLHzdIPT+g5gkd9ZIxRLrtw88b69Gz8cP272P4iE54ZpiQssF0wM6R
-         ljJcEH1pe0LlWrKKvndQ/jFgMRrUOtj2NBVmxrSzPB35+NlUmfizAbmnjtFfoXtUMgkc
-         INvPVAs3q86ZQr2lyUeAdYIN394zKn6ew/0CG0+Qnjc/4tYj4Dzh9PdHgpwojaK++4tu
-         84HsC4Svo3y1ASP2M1aoG80qEbNOleQSFOTt72uFHulEfmNtDlKDRZUZIPa2SrktKXKL
-         vefJ/VVhzaXO/XJhhcVR2uC7rIFBbGhPbT560PuzJdvukdyiJfhYd191cRjjnaEq5UBl
-         HFSw==
-X-Gm-Message-State: AOAM5331FadrqR9xoVc2Q62x0GFpxDD2rNoC5j5+P7B/F/leCjuxAWdF
-        +H0FjEIpvqjr9sfilSL9L25TFmMcw4Hfhg==
-X-Google-Smtp-Source: ABdhPJz5qWlKvSdldOQrl2h9+2SWTYWqxilVs2k77+s4QuGPHFwq2SRUTnnaEJnNuhT2MSakZ2B5Vg==
-X-Received: by 2002:a67:2e15:: with SMTP id u21mr3060855vsu.30.1602106872635;
-        Wed, 07 Oct 2020 14:41:12 -0700 (PDT)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id r22sm453120vke.5.2020.10.07.14.41.11
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2020 14:41:12 -0700 (PDT)
-Received: by mail-vs1-f43.google.com with SMTP id r1so943384vsi.12
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 14:41:11 -0700 (PDT)
-X-Received: by 2002:a67:bc0d:: with SMTP id t13mr3111623vsn.4.1602106870527;
- Wed, 07 Oct 2020 14:41:10 -0700 (PDT)
+        id S1727772AbgJGXMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 19:12:41 -0400
+Received: from mail-41104.protonmail.ch ([185.70.41.104]:17566 "EHLO
+        mail-41104.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727727AbgJGXMl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 19:12:41 -0400
+Received: from mail-02.mail-europe.com (mail-02.mail-europe.com [51.89.119.103])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        by mail-41104.protonmail.ch (Postfix) with ESMTPS id 074F1200790C
+        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 23:12:39 +0000 (UTC)
+Authentication-Results: mail-41104.protonmail.ch;
+        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="DsmYwPxb"
+Date:   Wed, 07 Oct 2020 23:12:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1602112355;
+        bh=xFWHtRQUX5S239mP/ot0kFUFeIwV67GIZDgFaqML8/I=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=DsmYwPxbn9DZGa4HcdHjZf3B4/29375/SQgHJh147suuFnQGjolWG4x3O09aVu40L
+         KYkOpO5vcvkla4W8DAwATGVu7z/pKU1f0OH49i4c7Kp27wzipgLIIDbMxULgU0sYSQ
+         fqF+0WBWECCBOTyRMSCGVPUZG9nyheL936nNXtM0=
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
+Message-ID: <20201007231214.326456-1-nfraprado@protonmail.com>
 MIME-Version: 1.0
-References: <20201002114426.31277-1-lukasz.luba@arm.com> <20201002114426.31277-4-lukasz.luba@arm.com>
- <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com>
- <e9b6fc5a-45d3-168d-db38-6c068da26f6b@arm.com> <CAD=FV=Xkg1zpsMW5rERbibnjrgY6opZi8Z9DUFkWebb7NHtU5w@mail.gmail.com>
- <bc5d21c1-ea84-9132-2e52-ae84fbb0515a@arm.com> <CAD=FV=VfA8AB3BZk8Ykkhigv9eGijzu4zuA6KdXk0K5UG0yCCQ@mail.gmail.com>
- <CAL_JsqJ37TVk4=E1DyZuhfH1jZ7wyauGLucSH7XW9wkeT3PSgg@mail.gmail.com>
- <CAD=FV=Vy641h5KNLKipC1n=tgjp7a3HGHw0odY9fNpwdqorrAg@mail.gmail.com> <CAL_JsqJ=brfbLiTm9D+p2N0Az-gcStbYj=RS2EaG50dHo0-5WA@mail.gmail.com>
-In-Reply-To: <CAL_JsqJ=brfbLiTm9D+p2N0Az-gcStbYj=RS2EaG50dHo0-5WA@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 7 Oct 2020 14:40:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XF_kqr0=vBqHVT4RWB8NWx0kHoFnap-smxtv_m+GQvSg@mail.gmail.com>
-Message-ID: <CAD=FV=XF_kqr0=vBqHVT4RWB8NWx0kHoFnap-smxtv_m+GQvSg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: thermal: update sustainable-power
- with abstract scale
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Lukasz Luba <lukasz.luba@arm.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Amit Kucheria <amitk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+While Sphinx 2 used a single c:type role for struct, union, enum and
+typedef, Sphinx 3 uses a specific role for each one.
+To keep backward compatibility, detect the Sphinx version and use the
+correct roles for that version.
+
+Also, Sphinx 3 is more strict with its C domain and generated warnings,
+exposing issues in the parsing.
+To fix the warnings, make the C regexes use ASCII, ensure the
+expressions only match the beginning of words and skip trying to
+cross-reference C reserved words.
+
+Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
+---
+
 Hi,
 
-On Wed, Oct 7, 2020 at 6:26 AM Rob Herring <robh+dt@kernel.org> wrote:
->
-> On Tue, Oct 6, 2020 at 8:17 PM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Hi,
-> >
-> > On Tue, Oct 6, 2020 at 3:24 PM Rob Herring <robh+dt@kernel.org> wrote:
-> > >
-> > > On Fri, Oct 2, 2020 at 12:39 PM Doug Anderson <dianders@chromium.org> wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > On Fri, Oct 2, 2020 at 9:40 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
-> > > > >
-> > > > > On 10/2/20 4:47 PM, Doug Anderson wrote:
-> > > > > > Hi,
-> > > > > >
-> > > > > > On Fri, Oct 2, 2020 at 8:13 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
-> > > > > >>
-> > > > > >> Hi Doug,
-> > > > > >>
-> > > > > >> On 10/2/20 3:31 PM, Doug Anderson wrote:
-> > > > > >>> Hi,
-> > > > > >>>
-> > > > > >>> On Fri, Oct 2, 2020 at 4:45 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
-> > > > > >>>>
-> > > > > >>>> Update the documentation for the binding 'sustainable-power' and allow
-> > > > > >>>> to provide values in an abstract scale. It is required when the cooling
-> > > > > >>>> devices use an abstract scale for their power values.
-> > > > > >>>>
-> > > > > >>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
-> > > > > >>>> ---
-> > > > > >>>>    .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
-> > > > > >>>>    1 file changed, 9 insertions(+), 4 deletions(-)
-> > > > > >>>>
-> > > > > >>>> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> > > > > >>>> index 3ec9cc87ec50..4d8f2e37d1e6 100644
-> > > > > >>>> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> > > > > >>>> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> > > > > >>>> @@ -99,10 +99,15 @@ patternProperties:
-> > > > > >>>>          sustainable-power:
-> > > > > >>>>            $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > >>>>            description:
-> > > > > >>>> -          An estimate of the sustainable power (in mW) that this thermal zone
-> > > > > >>>> -          can dissipate at the desired control temperature. For reference, the
-> > > > > >>>> -          sustainable power of a 4-inch phone is typically 2000mW, while on a
-> > > > > >>>> -          10-inch tablet is around 4500mW.
-> > > > > >>>> +          An estimate of the sustainable power (in mW or in an abstract scale)
-> > > > > >>>> +         that this thermal zone can dissipate at the desired control
-> > > > > >>>> +         temperature. For reference, the sustainable power of a 4-inch phone
-> > > > > >>>> +         is typically 2000mW, while on a 10-inch tablet is around 4500mW.
-> > > > > >>>> +
-> > > > > >>>> +         It is possible to express the sustainable power in an abstract
-> > > > > >>>> +         scale. This is the case when the related cooling devices use also
-> > > > > >>>> +         abstract scale to express their power usage. The scale must be
-> > > > > >>>> +         consistent.
-> > > > > >>>
-> > > > > >>> Two thoughts:
-> > > > > >>>
-> > > > > >>> 1. If we're going to allow "sustainable-power" to be in abstract
-> > > > > >>> scale, why not allow "dynamic-power-coefficient" to be in abstract
-> > > > > >>> scale too?  I assume that the whole reason against that originally was
-> > > > > >>> the idea of device tree purity, but if we're allowing the abstract
-> > > > > >>> scale here then there seems no reason not to allow it for
-> > > > > >>> "dynamic-power-coefficient".
-> > > > > >>
-> > > > > >> With this binding it's a bit more tricky.
-> > > > > >> I also have to discuss a few things internally. This requirement of
-> > > > > >> uW/MHz/V^2 makes the code easier also for potential drivers
-> > > > > >> like GPU (which are going to register the devfreq cooling with EM).
-> > > > > >>
-> > > > > >> Let me think about it, but for now I would just update these bits.
-> > > > > >> These are required to proper IPA operation, the dyn.-pow.-coef. is a
-> > > > > >> nice to have and possible next step.
-> > > > > >
-> > > > > > I guess the problem is that Rajendra is currently planning to remove
-> > > > > > all the "dynamic-power-coefficient" values from device tree right now
-> > > > > > and move them to the source code because the numbers we currently have
-> > > > > > in the device tree _are_ in abstract scale and thus violate the
-> > > > > > bindings.  Moving this to source code won't help us get to more real
-> > > > > > power numbers (since it'll still be abstract scale), it'll just be
-> > > > > > pure churn.  If we're OK with the abstract scale in general then we
-> > > > > > should allow it everywhere and not add churn for no reason.
-> > > > >
-> > > > > IIUC he is still going to use the Energy Model, but with different
-> > > > > registration function. We have such a driver: scmi-cpufreq.c, which
-> > > > > uses em_dev_register_perf_domain(). He can still use EM, EAS, IPA
-> > > > > not violating anything.
-> > > >
-> > > > Right.  He's going to take the exact same "abstract scale" numbers
-> > > > that he has today and take them out of device tree and put them in the
-> > > > cpufreq driver.  Doing so magically makes it so that he's not
-> > > > violating anything since "abstract scale" is not currently allowed in
-> > > > device tree but is allowed in the cpufreq driver.  I'm not saying that
-> > > > he's doing anything wrong, I'm just saying that it's pointless churn.
-> > > > If we're OK with "abstract scale" in one place in the device tree we
-> > > > should be OK with it everywhere in the device tree.  Then Rajendra
-> > > > wouldn't need his patch at all and he could leave his numbers in the
-> > > > device tree.
-> > > >
-> > > >
-> > > > > The real problem that we want to address is with sustainable-power in
-> > > > > IPA. It is used in power budget calculation and if the devices operate
-> > > > > in abstract scale, then there is an issue.
-> > > > > There are two options to get that value:
-> > > > > 1. from DT, which can have optimized value, stored by OEM engineer
-> > > > > 2. from IPA estimation code, which just calculates it as a sum of
-> > > > > minimum OPP power for each cooling device.
-> > > > >
-> > > > > The 2nd option might not be the best for a platform, so vendor/OEM
-> > > > > engineer might want to provide a better value in DT -> 1st option.
-> > > > > This is currently against the binding description and I have to fix it.
-> > > >
-> > > > Right, things are already broken today because a SoC vendor could
-> > > > (without violating any rules) provide their SoC core
-> > > > "dynamic-power-coefficient" in "abstract scale" in code and there
-> > > > would be no way to for a board to (without violating DT bindings)
-> > > > specify a "sustainable-power".  ...so, in that sense, your patch does
-> > > > provide a benefit even if we don't make any changes to the rules for
-> > > > "sustainable-power".  All I'm saying is that if these new rules for
-> > > > allowing an abstract scale for "sustainable-power" in the device tree
-> > > > are OK that it should _also_ be OK to add new rules to allow an
-> > > > abstract scale for "dynamic-power-coefficient".
-> > >
-> > > Didn't we beat this one to death with "dynamic-power-coefficient"?
-> >
-> > We did?  Where / when?
->
-> https://lore.kernel.org/r/1448288921-30307-1-git-send-email-juri.lelli@arm.com/
+after Mauro's series making everything ready for Sphinx 3.1, only the autom=
+arkup
+was left to be ported.
+This patch makes the needed changes to automarkup so that we can soon flip =
+the
+switch to Sphinx 3.1.
 
-Thanks for the reference.
+This change was tested both with Sphinx 2.4.4 and Sphinx 3.1.
+
+This change doesn't add any warnings to the Documentation build.
+I tested it with Mauro's series but later rebased it to docs-next, and it c=
+an be
+accepted independently of that series.
+
+I ended up doing more than one thing in this single patch, but since it was=
+ all
+changing the same lines and for the same purpose, I felt it would be better=
+ to
+keep it as a single commit.
+
+Mauro,
+if this patch is ok, the 3rd patch in your series, which disables automarku=
+p for
+sphinx 3, should be dropped.
+Although I'm not sure what the implications of your patches adding namespac=
+es
+and using the c:macro for functions are.
+All I did here was use the specific roles for sphinx 3 and fix the warnings=
+, but
+that was enough to get correct cross-references even after your series.
+
+Thanks,
+N=C3=ADcolas
 
 
-> > I'm not sure I was involved, but right now
-> > both "sustainable-power" and "dynamic-power-coefficient" are still
-> > defined in the device tree to be in real units, not abstract scale.
-> > Are you saying that we beat it to death and decided that it needed to
-> > be in real units, or we beat it to death and decided that abstract
-> > scale was OK and we just didn't put it in the bindings?
->
-> The former.
+ Documentation/sphinx/automarkup.py | 69 ++++++++++++++++++++++++++----
+ 1 file changed, 60 insertions(+), 9 deletions(-)
 
-OK.  So I suppose this is a NAK to Lukasz's patch.  It also means that:
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/auto=
+markup.py
+index a1b0f554cd82..fd1e927408ad 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -22,13 +22,34 @@ from itertools import chain
+ # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
+ # bit tries to restrict matches to things that won't create trouble.
+ #
+-RE_function =3D re.compile(r'(([\w_][\w\d_]+)\(\))')
+-RE_type =3D re.compile(r'(struct|union|enum|typedef)\s+([\w_][\w\d_]+)')
++RE_function =3D re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=3Dre.ASCII)
++
++#
++# Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
++#
++RE_generic_type =3D re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_=
+]\w+)',
++                             flags=3Dre.ASCII)
++
++#
++# Sphinx 3 uses a different C role for each one of struct, union, enum and
++# typedef
++#
++RE_struct =3D re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
++RE_union =3D re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
++RE_enum =3D re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
++RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCI=
+I)
++
+ #
+ # Detects a reference to a documentation page of the form Documentation/..=
+. with
+ # an optional extension
+ #
+-RE_doc =3D re.compile(r'Documentation(/[\w\-_/]+)(\.\w+)*')
++RE_doc =3D re.compile(r'\bDocumentation(/[\w\-_/]+)(\.\w+)*')
++
++#
++# Reserved C words that we should skip when cross-referencing
++#
++Skipnames =3D [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
++
+=20
+ #
+ # Many places in the docs refer to common system calls.  It is
+@@ -48,9 +69,22 @@ def markup_refs(docname, app, node):
+     #
+     # Associate each regex with the function that will markup its matches
+     #
+-    markup_func =3D {RE_type: markup_c_ref,
+-                   RE_function: markup_c_ref,
+-                   RE_doc: markup_doc_ref}
++    markup_func_sphinx2 =3D {RE_doc: markup_doc_ref,
++                           RE_function: markup_c_ref,
++                           RE_generic_type: markup_c_ref}
++
++    markup_func_sphinx3 =3D {RE_doc: markup_doc_ref,
++                           RE_function: markup_c_ref,
++                           RE_struct: markup_c_ref,
++                           RE_union: markup_c_ref,
++                           RE_enum: markup_c_ref,
++                           RE_typedef: markup_c_ref}
++
++    if sphinx.__version__[0] =3D=3D '3':
++        markup_func =3D markup_func_sphinx3
++    else:
++        markup_func =3D markup_func_sphinx2
++
+     match_iterators =3D [regex.finditer(t) for regex in markup_func]
+     #
+     # Sort all references by the starting position in text
+@@ -79,8 +113,24 @@ def markup_refs(docname, app, node):
+ # type_name) with an appropriate cross reference.
+ #
+ def markup_c_ref(docname, app, match):
+-    class_str =3D {RE_function: 'c-func', RE_type: 'c-type'}
+-    reftype_str =3D {RE_function: 'function', RE_type: 'type'}
++    class_str =3D {RE_function: 'c-func',
++                 # Sphinx 2 only
++                 RE_generic_type: 'c-type',
++                 # Sphinx 3+ only
++                 RE_struct: 'c-struct',
++                 RE_union: 'c-union',
++                 RE_enum: 'c-enum',
++                 RE_typedef: 'c-type',
++                 }
++    reftype_str =3D {RE_function: 'function',
++                   # Sphinx 2 only
++                   RE_generic_type: 'type',
++                   # Sphinx 3+ only
++                   RE_struct: 'struct',
++                   RE_union: 'union',
++                   RE_enum: 'enum',
++                   RE_typedef: 'type',
++                   }
+=20
+     cdom =3D app.env.domains['c']
+     #
+@@ -89,7 +139,8 @@ def markup_c_ref(docname, app, match):
+     target =3D match.group(2)
+     target_text =3D nodes.Text(match.group(0))
+     xref =3D None
+-    if not (match.re =3D=3D RE_function and target in Skipfuncs):
++    if not ((match.re =3D=3D RE_function and target in Skipfuncs)
++            or (target in Skipnames)):
+         lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[match=
+.re]])
+         lit_text +=3D target_text
+         pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+--=20
+2.28.0
 
-* The power numbers that landed in the sc7180 devicetree violate
-what's documented in the bindings.
 
-* While Rajendra can fix this by moving the numbers out of devicetree
-and into code, it doesn't really help us because there will be no way
-to allow boards to specify their "sustainable-power" in code.
-
-* Anyone who is using the "abstract scale" provided by firmware or by
-code is in the same boat.  There's no way for a board to specify
-"sustainable-power" that will match this "abstract scale" without
-violating the devicetree bindings.
-
-Obviously the easiest way to fix this is to just move everyone off of
-"abstract scale".
-
-If someone else has other bright ideas I'm all ears.
-
-
-> > > That is the abstract scale because I don't think you can really ever
-> > > measure it
-> >
-> > That's debatable.  it's not very hard to get reasonable measurements.
-> > Matthias provided a recipe earlier in the thread.  See commit
-> > ac60c5e33df4 ("ARM: dts: rockchip: Add dynamic-power-coefficient for
-> > rk3288").  In that case he used a machine that could easily measure
-> > power on the CPU rail, but if you simply keep all other rails in the
-> > system constant (and/or run a long enough test), you can easily
-> > accomplish this by just querying the smart battery in systems.
->
-> Okay, yes, you can measure and then calculate something. But the value
-> is only meaningful within that platform. There's no standardized test
-> to run. What the power rails are could be different (e.g. CPU RAMs on
-> a separate rail and shared).
-
-I think in this case the dynamic-power-coefficient is supposed to
-describe the CPU cores only.  Presumably for a given SoC the cores
-will behave (to a rough approximation) the same from board to board?
-
-
-> > > and because vendors don't want to advertise their absolute
-> > > power.
-> >
-> > That is certainly true, though after a device has shipped it's not
-> > that hard to measure.
->
-> Can you tell me how to measure the CPU rail on my Pixel3?
-
-I've written a script to do this and I'll share it soon.
-Unfortunately the power consumption of little cores when running at
-very low frequencies is pretty miniscule and sbs_battery doesn't have
-that fine of a granularity.  I tried running where I spent 10 minutes
-at each frequency and it was still slightly too noisy.  I'll run it
-overnight where I spend 30 minutes at each frequency and see if my
-numbers are accurate / consistent.  Since I'm running on hardware that
-hasn't been released to the general public I won't publish my numbers,
-but I'm hoping my script will be good enough that you should be able
-to run it on your hardware and get real / consistent numbers.
-
-
-> > > > > >>> 2. Is it worth adding some type of indication of what type of units
-> > > > > >>> "sustainable-power" is represented in?  Maybe even a made up unit so
-> > > > > >>> that you could tell the difference between made up units in the same
-> > > > > >>> system?  I'd envision something like:
-> > > > > >>>
-> > > > > >>> sustainable-power-units = "qualcomm,sc7180-bogoWatts"
-> > > > > >>>
-> > > > > >>> ...and on the dynamic-power-coefficient side, the same:
-> > > > > >>>
-> > > > > >>> dynamic-power-coefficient-units = "qualcomm,sc7180-bogoWatts"
-> > > > > >>>
-> > > > > >>> One could imagine someone even later (after devices are widely
-> > > > > >>> distributed) figuring out translations between these bogoWatts numbers
-> > > > > >>> and real Watts if someone could come up with a case where it matters.
-> > > > > >>
-> > > > > >> To figure this out we don't need a new binding.
-> > > > > >> I think a simple comment in the DT would be enough for this, even e.g.:
-> > > > > >>
-> > > > > >> sustainable-power = <100> /* bogoWatts */
-> > > > > >
-> > > > > > There are some important differences:
-> > > > > >
-> > > > > > a) Your comment is gone when the device tree is compiled.  If we
-> > > > > > actually add a string to the device tree then, in theory, we can add
-> > > > > > conversions in code (without touching the device tree) down the road.
-> > > > >
-> > > > > We don't need code and binding with a bogoscale. It is up to the
-> > > > > platform integrator to make sure the scale in consistent in all devices.
-> > > > > Comment in DT is good enough.
-> > > >
-> > > > One other nice thing about having the units is that the device tree is
-> > > > supposed to be more of a "pure" thing, less sullied about what's
-> > > > convenient and more about a real description of a thing.  Presumably
-> > > > that's why "abstract scale" wasn't allowed originally?  In any case,
-> > > > giving quantifiable units to the number somehow makes it feel less
-> > > > made up because it's possible to come up with a way to convert it back
-> > > > to real units.
-> > > >
-> > > >
-> > > > > > b) I believe there can be more than one abstract scale present in a
-> > > > > > single device tree, at least in theory.  Adding a string allows you to
-> > > > > > know if you're comparing apples to apples or apples to organges.
-> > > > >
-> > > > > IMHO DT is not the place for such abstractions, but Rob might correct me
-> > > > > here.
-> > > >
-> > > > Yup, seems like we're blocked waiting for Rob to chime in unless
-> > > > someone else has the authority to make the call about how to deal with
-> > > > "abstract scale" numbers in the device tree.
-> > >
-> > > I don't really know nor completely follow the issues. I just get all
-> > > these PM related bindings piece by piece with everyone solving their
-> > > own single issue. It's death by 1000 cuts. So my default position is
-> > > NAK. All the missing pieces and deficiencies can build up until
-> > > there's a coherent picture (maybe?).
-> >
-> > I'm totally confused.  NAK on what?  NAK on Lukasz's patch?  ...or
-> > Lukasz's patch is totally fine but NAK on also allowing abstract scale
-> > for 'dynamic-power-coefficient".  Or NAK on adding units?  NAK on
-> > something else?
->
-> That's just my rant on PM bindings in general.
-> 'cpu-performance-dependencies' is another one currently.
->
-> Rob
