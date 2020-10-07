@@ -2,59 +2,285 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2742C47095
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 12:24:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E477C4363D
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:09:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 87A7A20789
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 12:24:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D117208C7
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:09:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DA6B/QuW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728260AbgJGMYY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 08:24:24 -0400
-Received: from verein.lst.de ([213.95.11.211]:37192 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728214AbgJGMYY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 08:24:24 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 8D0B768B02; Wed,  7 Oct 2020 14:24:19 +0200 (CEST)
-Date:   Wed, 7 Oct 2020 14:24:18 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-Message-ID: <20201007122418.GA31318@lst.de>
-References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de> <20201002175040.GA1131147@chromium.org> <20201005082629.GA13850@lst.de> <CAAFQd5DcFjTUpOYkaz4nGxozgOc9oGf9QngjbpXWdcwXTT=kmw@mail.gmail.com> <20201007062150.GA10601@lst.de> <CAAFQd5AtN-ykAF_2mAqGxVugeEegYxfYdS6gD4O3zCY1jznNYA@mail.gmail.com>
+        id S1728319AbgJGNJJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 09:09:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728279AbgJGNJJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 09:09:09 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9307C061755
+        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 06:09:08 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id q21so2094900ota.8
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 06:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A+vdTZV1rixc4rZMr4BboFv1cYBtz4vmBbW7LOKVMmM=;
+        b=DA6B/QuWWJ6abSG8x2CpeZdGhRX/3oToa8SdG/bY58JWSX4fHKlIpeK2iOwefjLQD3
+         HLCcorm00DZfsuhcNvUP+CDarsggpjVQwQdtRNKjYndU1Y9xAWJWgnkmf/UqV6DGl/JD
+         W8gR2P6U63j6Zv6/O3XbYa3D8xIfGGVOJRz2qF19GCuvh+y7WRlo/cXckCCgh32yPSdh
+         UB1IIRUUHmzJTErYcVaLa4tbq6Qb+QBfapLRpJ/q/i9V0gI+2JA8kThsw/MZquNRH5Xn
+         8akNq/UEOfhZ8Tum/jg+WJRmPDvXsIMlEznEkFUJCvsSVLbhZONi1eFHcsCyD/m718pd
+         cccA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A+vdTZV1rixc4rZMr4BboFv1cYBtz4vmBbW7LOKVMmM=;
+        b=mT9CDgMpUxSCoaZD4Gc7O5iqwcWp99J4fDagfkM4+5iEOks4Dqf8FOkH5LjE6w8U+/
+         iZ5Ds4WgX/6YPr5lPKFUwLRYSNTp9i6W4rp301CrbiK2mK7lL3Gsagc4E6W60sL2ydt7
+         VV7h+DkQSx7k8f1xXdN5WcNxraYTpUcs7ohlpQ5nF1PExkCs3bJ+ER0gF+Qds34V4aU6
+         2RU9Q4XSSd4AukBl+nZofDvlFjeaBWPlnYZ1vdmHNt7d4IPiLpafidrak+vdzD1n571Y
+         bHuYCb897QbLfxmcPcwp/mGoQIuDVRCC4kutfaWKp4WamaWkpSlHetutclz/iX8eMj+N
+         EYrw==
+X-Gm-Message-State: AOAM532d088nU218BlHhMWnKrmtH8oGbf6zyfSXKjJEgAkziT88p3czq
+        dz/eivk8MjDbKK9iDcZmRRxfkCSDP3k86n5RWfwAFQ==
+X-Google-Smtp-Source: ABdhPJzmEMbM2ed2iTUf2uXSFPJhT+rIlO7bAUUOBD8wBltb7Fr4FekytLMrMK9nNsP4GJ92+02/K0TQLxLG1w9IFBU=
+X-Received: by 2002:a9d:66a:: with SMTP id 97mr1884792otn.233.1602076147446;
+ Wed, 07 Oct 2020 06:09:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5AtN-ykAF_2mAqGxVugeEegYxfYdS6gD4O3zCY1jznNYA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
+ <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
+In-Reply-To: <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Wed, 7 Oct 2020 15:08:55 +0200
+Message-ID: <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
+To:     Jann Horn <jannh@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 02:21:43PM +0200, Tomasz Figa wrote:
-> My initial feeling is that it should work, but we'll give you a
-> definitive answer once we prototype it. :)
-> 
-> We might actually give it a try in the USB HCD subsystem as well, to
-> implement usb_alloc_noncoherent(), as an optimization for drivers
-> which have to perform multiple random accesses to the URB buffers. I
-> think you might recall discussing this by the way of the pwc and
-> uvcvideo camera drivers.
+On Fri, 2 Oct 2020 at 07:45, Jann Horn <jannh@google.com> wrote:
+>
+> On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > Add architecture specific implementation details for KFENCE and enable
+> > KFENCE for the x86 architecture. In particular, this implements the
+> > required interface in <asm/kfence.h> for setting up the pool and
+> > providing helper functions for protecting and unprotecting pages.
+> >
+> > For x86, we need to ensure that the pool uses 4K pages, which is done
+> > using the set_memory_4k() helper function.
+> [...]
+> > diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
+> [...]
+> > +/* Protect the given page and flush TLBs. */
+> > +static inline bool kfence_protect_page(unsigned long addr, bool protect)
+> > +{
+> > +       unsigned int level;
+> > +       pte_t *pte = lookup_address(addr, &level);
+> > +
+> > +       if (!pte || level != PG_LEVEL_4K)
+>
+> Do we actually expect this to happen, or is this just a "robustness"
+> check? If we don't expect this to happen, there should be a WARN_ON()
+> around the condition.
 
-Yes.  I guess for usb the dma_alloc_noncoherent as-is in linux-next
-might be better.   So if you have the cycles please prototype it
-either way, although for that we'd also need at least a
-mmap_noncoherent method, and probaby a get_sgtable_noncoherent one.
+It's not obvious here, but we already have this covered with a WARN:
+the core.c code has a KFENCE_WARN_ON, which disables KFENCE on a
+warning.
+
+> > +               return false;
+> > +
+> > +       if (protect)
+> > +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> > +       else
+> > +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+>
+> Hmm... do we have this helper (instead of using the existing helpers
+> for modifying memory permissions) to work around the allocation out of
+> the data section?
+
+I just played around with using the set_memory.c functions, to remind
+myself why this didn't work. I experimented with using
+set_memory_{np,p}() functions; set_memory_p() isn't implemented, but
+is easily added (which I did for below experiment). However, this
+didn't quite work:
+
+WARNING: CPU: 6 PID: 107 at kernel/smp.c:490
+smp_call_function_many_cond+0x9c/0x2a0 kernel/smp.c:490
+[...]
+Call Trace:
+ smp_call_function_many kernel/smp.c:577 [inline]
+ smp_call_function kernel/smp.c:599 [inline]
+ on_each_cpu+0x3e/0x90 kernel/smp.c:698
+ __purge_vmap_area_lazy+0x58/0x670 mm/vmalloc.c:1352
+ _vm_unmap_aliases.part.0+0x10b/0x140 mm/vmalloc.c:1770
+ change_page_attr_set_clr+0xb4/0x1c0 arch/x86/mm/pat/set_memory.c:1732
+ change_page_attr_set arch/x86/mm/pat/set_memory.c:1782 [inline]
+ set_memory_p+0x21/0x30 arch/x86/mm/pat/set_memory.c:1950
+ kfence_protect_page arch/x86/include/asm/kfence.h:55 [inline]
+ kfence_protect_page arch/x86/include/asm/kfence.h:43 [inline]
+ kfence_unprotect+0x42/0x70 mm/kfence/core.c:139
+ no_context+0x115/0x300 arch/x86/mm/fault.c:705
+ handle_page_fault arch/x86/mm/fault.c:1431 [inline]
+ exc_page_fault+0xa7/0x170 arch/x86/mm/fault.c:1486
+ asm_exc_page_fault+0x1e/0x30 arch/x86/include/asm/idtentry.h:538
+
+For one, smp_call_function_many_cond() doesn't want to be called with
+interrupts disabled, and we may very well get a KFENCE allocation or
+page fault with interrupts disabled / within interrupts.
+
+Therefore, to be safe, we should avoid IPIs. It follows that setting
+the page attribute is best-effort, and we can tolerate some
+inaccuracy. Lazy fault handling should take care of faults after we
+set the page as PRESENT.
+
+Which hopefully also answers your other comment:
+
+> flush_tlb_one_kernel() -> flush_tlb_one_user() ->
+> __flush_tlb_one_user() -> native_flush_tlb_one_user() only flushes on
+> the local CPU core, not on others. If you want to leave it this way, I
+> think this needs a comment explaining why we're not doing a global
+> flush (locking context / performance overhead / ... ?).
+
+We'll add a comment to clarify why it's done this way.
+
+> > +       flush_tlb_one_kernel(addr);
+> > +       return true;
+> > +}
+> > +
+> > +#endif /* _ASM_X86_KFENCE_H */
+> > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> [...]
+> > @@ -701,6 +702,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
+> >         }
+> >  #endif
+> >
+> > +       if (kfence_handle_page_fault(address))
+> > +               return;
+> > +
+> >         /*
+> >          * 32-bit:
+> >          *
+>
+> The standard 5 lines of diff context don't really make it obvious
+> what's going on here. Here's a diff with more context:
+>
+>
+>         /*
+>          * Stack overflow?  During boot, we can fault near the initial
+>          * stack in the direct map, but that's not an overflow -- check
+>          * that we're in vmalloc space to avoid this.
+>          */
+>         if (is_vmalloc_addr((void *)address) &&
+>             (((unsigned long)tsk->stack - 1 - address < PAGE_SIZE) ||
+>              address - ((unsigned long)tsk->stack + THREAD_SIZE) < PAGE_SIZE)) {
+>                 unsigned long stack = __this_cpu_ist_top_va(DF) -
+> sizeof(void *);
+>                 /*
+>                  * We're likely to be running with very little stack space
+>                  * left.  It's plausible that we'd hit this condition but
+>                  * double-fault even before we get this far, in which case
+>                  * we're fine: the double-fault handler will deal with it.
+>                  *
+>                  * We don't want to make it all the way into the oops code
+>                  * and then double-fault, though, because we're likely to
+>                  * break the console driver and lose most of the stack dump.
+>                  */
+>                 asm volatile ("movq %[stack], %%rsp\n\t"
+>                               "call handle_stack_overflow\n\t"
+>                               "1: jmp 1b"
+>                               : ASM_CALL_CONSTRAINT
+>                               : "D" ("kernel stack overflow (page fault)"),
+>                                 "S" (regs), "d" (address),
+>                                 [stack] "rm" (stack));
+>                 unreachable();
+>         }
+>  #endif
+>
+> +       if (kfence_handle_page_fault(address))
+> +               return;
+> +
+>         /*
+>          * 32-bit:
+>          *
+>          *   Valid to do another page fault here, because if this fault
+>          *   had been triggered by is_prefetch fixup_exception would have
+>          *   handled it.
+>          *
+>          * 64-bit:
+>          *
+>          *   Hall of shame of CPU/BIOS bugs.
+>          */
+>         if (is_prefetch(regs, error_code, address))
+>                 return;
+>
+>         if (is_errata93(regs, address))
+>                 return;
+>
+>         /*
+>          * Buggy firmware could access regions which might page fault, try to
+>          * recover from such faults.
+>          */
+>         if (IS_ENABLED(CONFIG_EFI))
+>                 efi_recover_from_page_fault(address);
+>
+>  oops:
+>         /*
+>          * Oops. The kernel tried to access some bad page. We'll have to
+>          * terminate things with extreme prejudice:
+>          */
+>         flags = oops_begin();
+>
+>
+>
+> Shouldn't kfence_handle_page_fault() happen after prefetch handling,
+> at least? Maybe directly above the "oops" label?
+
+Good question. AFAIK it doesn't matter, as is_kfence_address() should
+never apply for any of those that follow, right? In any case, it
+shouldn't hurt to move it down.
+
+Thanks,
+-- Marco
