@@ -2,83 +2,124 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83521C41604
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:43:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4B10C4363C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:57:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32FDD20797
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:43:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E97120797
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:57:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602060194;
-	bh=/sFCkq5oJImYNwq6dQNMQFugo7oIPmUBVxj2a8fU55M=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=fWoV8jrJV5j2S8mjUy8QLmjkx0Fpm19M359hIKH6b7WG/FO4yQK4RoAKSEEJfXzMJ
-	 0krpnCHrf2mfSbmdV0D7RVBi0LXXHbxYL2yJydYXnFvqoBmmnZfdrdVlJBOvjgiKqP
-	 AS6igNHDNg+AepSzNQIDR/+57SvbppfAXb8SLW4Y=
+	s=default; t=1602061033;
+	bh=mt9j4ybMiuGqNcFFzY34J4q2E0XZfsLXB8bTZq+jQBE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=vBt2uFHIGg4zRGYkAItkBvTGuS1YXSP8S3uA57ITzpmG1pE3uCZKBLX6WP3H/na8t
+	 ovLZFclJejsPifmRx9d9IaPllHCgbW8QM/zZ+mLpE6euFmJNHcvObnsIVbbMZg0VkH
+	 t+9t2zd9NDAolnBHd4bcB/g5K625yHBR/wMROTFA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726323AbgJGInN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 04:43:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36912 "EHLO mail.kernel.org"
+        id S1728053AbgJGI5I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 04:57:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42380 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726181AbgJGInN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 04:43:13 -0400
-Received: from kozik-lap.mshome.net (unknown [194.230.155.194])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1728050AbgJGI5I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Oct 2020 04:57:08 -0400
+Received: from coco.lan (ip5f5ad5a2.dynamic.kabel-deutschland.de [95.90.213.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7CEF20797;
-        Wed,  7 Oct 2020 08:43:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8186720797;
+        Wed,  7 Oct 2020 08:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602060193;
-        bh=/sFCkq5oJImYNwq6dQNMQFugo7oIPmUBVxj2a8fU55M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=W28yM5bIifjQ3xzPcY8ovt+B0pmQlytcYdWLJjSyfoYhoS45AcvBuRbWIo3zbnM+f
-         grDw+zV1kPnoeCrtf1oPg9BgantQrZunfrywCiud/ow65oyme/iRX8iR69DvLW/9Nq
-         Wv9rQVxK+7jy45Hqi03UtXhi25ijpqKIJvhjLUGE=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH] docs: submitting-patches: describe preserving review/test tags
-Date:   Wed,  7 Oct 2020 10:43:06 +0200
-Message-Id: <20201007084306.12591-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        s=default; t=1602061027;
+        bh=mt9j4ybMiuGqNcFFzY34J4q2E0XZfsLXB8bTZq+jQBE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FT9Orr+JhwM6Gzd+5NtrkIa2D7PFMrPstUC5EMjwJd8C9APLdYeFfrLopQdLFi6lG
+         3WAt2J98Misru7PQY8zJlmABY3pQABYD8HBDoQAO61vX+38sPvGQO2ay7XHVVSUjxl
+         VxxWv9U6AG1fHPDe5oRr7UXpfiJQ4Z1DxBvfZSZQ=
+Date:   Wed, 7 Oct 2020 10:57:02 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
+Cc:     Evgeniy Polyakov <zbr@ioremap.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Akira Shimahara <akira215corp@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Evgeny Boger <boger@wirenboard.com>
+Subject: Re: [PATCH 2/2] w1: w1_therm: Add support for GXCAS GX20MH01
+ device.
+Message-ID: <20201007105702.67988846@coco.lan>
+In-Reply-To: <1561045277.20201007103227@wirenboard.ru>
+References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
+        <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
+        <20201006151915.77d044a4@coco.lan>
+        <1561045277.20201007103227@wirenboard.ru>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From time to time, the novice kernel contributors do not add Reviewed-by
-or Tested-by tags to the next versions of the patches.  Mostly because
-they are unaware that responsibility of adding these tags in next
-version is on submitter, not maintainer.
+Em Wed, 7 Oct 2020 10:32:27 +0300
+Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- Documentation/process/submitting-patches.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+> Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
+> 
+> >> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
+> >> index f1148181f53e..00376501a5ef 100644
+> >> --- a/Documentation/w1/slaves/w1_therm.rst
+> >> +++ b/Documentation/w1/slaves/w1_therm.rst  
+> 
+> >>  
+> >> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
+> >>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
+> >>  conversion completion (normal power only) by generating read cycles on the bus
+> >>  after conversion starts. In parasite power mode this feature is not available.
+> >> -Feature bit masks may be combined (OR).
+> >> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
+> >> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
+> >> +  
+> 
+> > As warned by Sphinx, this cross-reference is broken:  
+> 
+> >         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
+> > undefined label: w1_therm (if the link has no caption the label must precede a section header)  
+> 
+> Would this be ok?
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 58586ffe2808..9752b6311674 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -527,6 +527,13 @@ done on the patch.  Reviewed-by: tags, when supplied by reviewers known to
- understand the subject area and to perform thorough reviews, will normally
- increase the likelihood of your patch getting into the kernel.
- 
-+Both Tested-by and Reviewed-by tags, once received on mailing list from tester
-+or reviewer, should be added by author to the applicable patches when sending
-+next versions.  However if the patch is changed in following version, these
-+tags might not be applicable anymore and thus should be removed.  Usually
-+removal of someone's Tested-by or Reviewed-by tags should be mentioned
-+in the patch changelog (after '---' separator).
-+
- A Suggested-by: tag indicates that the patch idea is suggested by the person
- named and ensures credit to the person for the idea. Please note that this
- tag should not be added without the reporter's permission, especially if the
--- 
-2.17.1
+Yeah, sure!
 
+> 
+> "More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
+> 
+> > Not sure what you wanted to point here.  
+> 
+> A link to a driver's sysfs interface, but sysfs docs are text
+> files and seem to not be included in Sphynx Docs.
+
+I sent upstream sometime ago a patch series adding ABI to Sphinx, but I 
+was not merged, not sure why:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v5.6
+
+Yet, the approach such series took were not to convert ABI files
+to ReST, but, instead, to use a script that would do that.
+
+The rationale were to avoid needing to touch all ABI files at
+the same time[1]. 
+
+In any case, with such approach a cross-reference won't work.
+
+So, I guess that the next best thing to do is to just mention
+the file like what you suggested.
+
+[1] It would be easy to run the script I wrote to convert the
+files to ReST directly.
+
+Thanks,
+Mauro
