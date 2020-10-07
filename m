@@ -2,285 +2,303 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E477C4363D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 350B1C4363D
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:26:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D117208C7
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:09:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DA6B/QuW"
+	by mail.kernel.org (Postfix) with ESMTP id B9D5820782
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 13:26:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602077191;
+	bh=uGmhac3bXoIKLxS/etulp9xyU6Nx9zBTXBPhRODTRjY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=PGvfeV3qd7PSxFoTdaE2bMrWo4VUN5lsLlM6fIvvdgI4nIPhDKPoVfV6k8YsGvCjj
+	 SNMC/q4MQoWkycL63HS8APvMNnIDxEbq1o4Pm5B/Tb4cZqAD93k7d35rNKPT6e1g4w
+	 1alILUGtVlzYWWLWgk6RLhJBp34GEUWKfSG69t6I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728319AbgJGNJJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 09:09:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728279AbgJGNJJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 09:09:09 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9307C061755
-        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 06:09:08 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id q21so2094900ota.8
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 06:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A+vdTZV1rixc4rZMr4BboFv1cYBtz4vmBbW7LOKVMmM=;
-        b=DA6B/QuWWJ6abSG8x2CpeZdGhRX/3oToa8SdG/bY58JWSX4fHKlIpeK2iOwefjLQD3
-         HLCcorm00DZfsuhcNvUP+CDarsggpjVQwQdtRNKjYndU1Y9xAWJWgnkmf/UqV6DGl/JD
-         W8gR2P6U63j6Zv6/O3XbYa3D8xIfGGVOJRz2qF19GCuvh+y7WRlo/cXckCCgh32yPSdh
-         UB1IIRUUHmzJTErYcVaLa4tbq6Qb+QBfapLRpJ/q/i9V0gI+2JA8kThsw/MZquNRH5Xn
-         8akNq/UEOfhZ8Tum/jg+WJRmPDvXsIMlEznEkFUJCvsSVLbhZONi1eFHcsCyD/m718pd
-         cccA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A+vdTZV1rixc4rZMr4BboFv1cYBtz4vmBbW7LOKVMmM=;
-        b=mT9CDgMpUxSCoaZD4Gc7O5iqwcWp99J4fDagfkM4+5iEOks4Dqf8FOkH5LjE6w8U+/
-         iZ5Ds4WgX/6YPr5lPKFUwLRYSNTp9i6W4rp301CrbiK2mK7lL3Gsagc4E6W60sL2ydt7
-         VV7h+DkQSx7k8f1xXdN5WcNxraYTpUcs7ohlpQ5nF1PExkCs3bJ+ER0gF+Qds34V4aU6
-         2RU9Q4XSSd4AukBl+nZofDvlFjeaBWPlnYZ1vdmHNt7d4IPiLpafidrak+vdzD1n571Y
-         bHuYCb897QbLfxmcPcwp/mGoQIuDVRCC4kutfaWKp4WamaWkpSlHetutclz/iX8eMj+N
-         EYrw==
-X-Gm-Message-State: AOAM532d088nU218BlHhMWnKrmtH8oGbf6zyfSXKjJEgAkziT88p3czq
-        dz/eivk8MjDbKK9iDcZmRRxfkCSDP3k86n5RWfwAFQ==
-X-Google-Smtp-Source: ABdhPJzmEMbM2ed2iTUf2uXSFPJhT+rIlO7bAUUOBD8wBltb7Fr4FekytLMrMK9nNsP4GJ92+02/K0TQLxLG1w9IFBU=
-X-Received: by 2002:a9d:66a:: with SMTP id 97mr1884792otn.233.1602076147446;
- Wed, 07 Oct 2020 06:09:07 -0700 (PDT)
+        id S1728426AbgJGN0b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 09:26:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44094 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728177AbgJGN0b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Oct 2020 09:26:31 -0400
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A9A821582;
+        Wed,  7 Oct 2020 13:26:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602077188;
+        bh=uGmhac3bXoIKLxS/etulp9xyU6Nx9zBTXBPhRODTRjY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=EXYLgME4aSy9w0phDYuB0dkEfawxqGJGkk7zmaqswB33/82zigv4ArDeZHtEH43AZ
+         f5sjMiI26FYxvxOYGvN+/KvNZZWucYMB6WPdb2R93RwtvNSK9eOs6AG3ASDvfsO1Xq
+         +eyHOyOMkd6suZPHnMkZ1Fn0dlU/2OhKtWlyYPiA=
+Received: by mail-ot1-f41.google.com with SMTP id 60so2193906otw.3;
+        Wed, 07 Oct 2020 06:26:28 -0700 (PDT)
+X-Gm-Message-State: AOAM531EoZwL4yTYkYsyOFwJ8OsPXbQveT4bBCBguLNXLi4s397g2Rk7
+        h95MobYfSFuCTZ50oUp30+x3jIefLwfXvhlMCw==
+X-Google-Smtp-Source: ABdhPJzVSZ8lJh3fapZiaKYsWtKQifzoktUnq75rDoDNfG9+wus7rYtSDDCEvihzf+7CUOvlYAf9inSt2W0r01mXld0=
+X-Received: by 2002:a9d:1c90:: with SMTP id l16mr1938283ota.192.1602077187620;
+ Wed, 07 Oct 2020 06:26:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
- <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
-In-Reply-To: <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 7 Oct 2020 15:08:55 +0200
-Message-ID: <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com>
-Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
-To:     Jann Horn <jannh@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+References: <20201002114426.31277-1-lukasz.luba@arm.com> <20201002114426.31277-4-lukasz.luba@arm.com>
+ <CAD=FV=UbNP5-G1z95F37Fmv8=n0JPSSwnPQO_K==WpAc4vAHWQ@mail.gmail.com>
+ <e9b6fc5a-45d3-168d-db38-6c068da26f6b@arm.com> <CAD=FV=Xkg1zpsMW5rERbibnjrgY6opZi8Z9DUFkWebb7NHtU5w@mail.gmail.com>
+ <bc5d21c1-ea84-9132-2e52-ae84fbb0515a@arm.com> <CAD=FV=VfA8AB3BZk8Ykkhigv9eGijzu4zuA6KdXk0K5UG0yCCQ@mail.gmail.com>
+ <CAL_JsqJ37TVk4=E1DyZuhfH1jZ7wyauGLucSH7XW9wkeT3PSgg@mail.gmail.com> <CAD=FV=Vy641h5KNLKipC1n=tgjp7a3HGHw0odY9fNpwdqorrAg@mail.gmail.com>
+In-Reply-To: <CAD=FV=Vy641h5KNLKipC1n=tgjp7a3HGHw0odY9fNpwdqorrAg@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 7 Oct 2020 08:26:16 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ=brfbLiTm9D+p2N0Az-gcStbYj=RS2EaG50dHo0-5WA@mail.gmail.com>
+Message-ID: <CAL_JsqJ=brfbLiTm9D+p2N0Az-gcStbYj=RS2EaG50dHo0-5WA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] dt-bindings: thermal: update sustainable-power
+ with abstract scale
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Lukasz Luba <lukasz.luba@arm.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Amit Kucheria <amitk@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dietmar.Eggemann@arm.com, Quentin Perret <qperret@google.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2 Oct 2020 at 07:45, Jann Horn <jannh@google.com> wrote:
+On Tue, Oct 6, 2020 at 8:17 PM Doug Anderson <dianders@chromium.org> wrote:
 >
-> On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
-> > Add architecture specific implementation details for KFENCE and enable
-> > KFENCE for the x86 architecture. In particular, this implements the
-> > required interface in <asm/kfence.h> for setting up the pool and
-> > providing helper functions for protecting and unprotecting pages.
+> Hi,
+>
+> On Tue, Oct 6, 2020 at 3:24 PM Rob Herring <robh+dt@kernel.org> wrote:
 > >
-> > For x86, we need to ensure that the pool uses 4K pages, which is done
-> > using the set_memory_4k() helper function.
-> [...]
-> > diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
-> [...]
-> > +/* Protect the given page and flush TLBs. */
-> > +static inline bool kfence_protect_page(unsigned long addr, bool protect)
-> > +{
-> > +       unsigned int level;
-> > +       pte_t *pte = lookup_address(addr, &level);
-> > +
-> > +       if (!pte || level != PG_LEVEL_4K)
->
-> Do we actually expect this to happen, or is this just a "robustness"
-> check? If we don't expect this to happen, there should be a WARN_ON()
-> around the condition.
-
-It's not obvious here, but we already have this covered with a WARN:
-the core.c code has a KFENCE_WARN_ON, which disables KFENCE on a
-warning.
-
-> > +               return false;
-> > +
-> > +       if (protect)
-> > +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
-> > +       else
-> > +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
->
-> Hmm... do we have this helper (instead of using the existing helpers
-> for modifying memory permissions) to work around the allocation out of
-> the data section?
-
-I just played around with using the set_memory.c functions, to remind
-myself why this didn't work. I experimented with using
-set_memory_{np,p}() functions; set_memory_p() isn't implemented, but
-is easily added (which I did for below experiment). However, this
-didn't quite work:
-
-WARNING: CPU: 6 PID: 107 at kernel/smp.c:490
-smp_call_function_many_cond+0x9c/0x2a0 kernel/smp.c:490
-[...]
-Call Trace:
- smp_call_function_many kernel/smp.c:577 [inline]
- smp_call_function kernel/smp.c:599 [inline]
- on_each_cpu+0x3e/0x90 kernel/smp.c:698
- __purge_vmap_area_lazy+0x58/0x670 mm/vmalloc.c:1352
- _vm_unmap_aliases.part.0+0x10b/0x140 mm/vmalloc.c:1770
- change_page_attr_set_clr+0xb4/0x1c0 arch/x86/mm/pat/set_memory.c:1732
- change_page_attr_set arch/x86/mm/pat/set_memory.c:1782 [inline]
- set_memory_p+0x21/0x30 arch/x86/mm/pat/set_memory.c:1950
- kfence_protect_page arch/x86/include/asm/kfence.h:55 [inline]
- kfence_protect_page arch/x86/include/asm/kfence.h:43 [inline]
- kfence_unprotect+0x42/0x70 mm/kfence/core.c:139
- no_context+0x115/0x300 arch/x86/mm/fault.c:705
- handle_page_fault arch/x86/mm/fault.c:1431 [inline]
- exc_page_fault+0xa7/0x170 arch/x86/mm/fault.c:1486
- asm_exc_page_fault+0x1e/0x30 arch/x86/include/asm/idtentry.h:538
-
-For one, smp_call_function_many_cond() doesn't want to be called with
-interrupts disabled, and we may very well get a KFENCE allocation or
-page fault with interrupts disabled / within interrupts.
-
-Therefore, to be safe, we should avoid IPIs. It follows that setting
-the page attribute is best-effort, and we can tolerate some
-inaccuracy. Lazy fault handling should take care of faults after we
-set the page as PRESENT.
-
-Which hopefully also answers your other comment:
-
-> flush_tlb_one_kernel() -> flush_tlb_one_user() ->
-> __flush_tlb_one_user() -> native_flush_tlb_one_user() only flushes on
-> the local CPU core, not on others. If you want to leave it this way, I
-> think this needs a comment explaining why we're not doing a global
-> flush (locking context / performance overhead / ... ?).
-
-We'll add a comment to clarify why it's done this way.
-
-> > +       flush_tlb_one_kernel(addr);
-> > +       return true;
-> > +}
-> > +
-> > +#endif /* _ASM_X86_KFENCE_H */
-> > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> [...]
-> > @@ -701,6 +702,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
-> >         }
-> >  #endif
+> > On Fri, Oct 2, 2020 at 12:39 PM Doug Anderson <dianders@chromium.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Fri, Oct 2, 2020 at 9:40 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+> > > >
+> > > > On 10/2/20 4:47 PM, Doug Anderson wrote:
+> > > > > Hi,
+> > > > >
+> > > > > On Fri, Oct 2, 2020 at 8:13 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+> > > > >>
+> > > > >> Hi Doug,
+> > > > >>
+> > > > >> On 10/2/20 3:31 PM, Doug Anderson wrote:
+> > > > >>> Hi,
+> > > > >>>
+> > > > >>> On Fri, Oct 2, 2020 at 4:45 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+> > > > >>>>
+> > > > >>>> Update the documentation for the binding 'sustainable-power' and allow
+> > > > >>>> to provide values in an abstract scale. It is required when the cooling
+> > > > >>>> devices use an abstract scale for their power values.
+> > > > >>>>
+> > > > >>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> > > > >>>> ---
+> > > > >>>>    .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
+> > > > >>>>    1 file changed, 9 insertions(+), 4 deletions(-)
+> > > > >>>>
+> > > > >>>> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> > > > >>>> index 3ec9cc87ec50..4d8f2e37d1e6 100644
+> > > > >>>> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> > > > >>>> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> > > > >>>> @@ -99,10 +99,15 @@ patternProperties:
+> > > > >>>>          sustainable-power:
+> > > > >>>>            $ref: /schemas/types.yaml#/definitions/uint32
+> > > > >>>>            description:
+> > > > >>>> -          An estimate of the sustainable power (in mW) that this thermal zone
+> > > > >>>> -          can dissipate at the desired control temperature. For reference, the
+> > > > >>>> -          sustainable power of a 4-inch phone is typically 2000mW, while on a
+> > > > >>>> -          10-inch tablet is around 4500mW.
+> > > > >>>> +          An estimate of the sustainable power (in mW or in an abstract scale)
+> > > > >>>> +         that this thermal zone can dissipate at the desired control
+> > > > >>>> +         temperature. For reference, the sustainable power of a 4-inch phone
+> > > > >>>> +         is typically 2000mW, while on a 10-inch tablet is around 4500mW.
+> > > > >>>> +
+> > > > >>>> +         It is possible to express the sustainable power in an abstract
+> > > > >>>> +         scale. This is the case when the related cooling devices use also
+> > > > >>>> +         abstract scale to express their power usage. The scale must be
+> > > > >>>> +         consistent.
+> > > > >>>
+> > > > >>> Two thoughts:
+> > > > >>>
+> > > > >>> 1. If we're going to allow "sustainable-power" to be in abstract
+> > > > >>> scale, why not allow "dynamic-power-coefficient" to be in abstract
+> > > > >>> scale too?  I assume that the whole reason against that originally was
+> > > > >>> the idea of device tree purity, but if we're allowing the abstract
+> > > > >>> scale here then there seems no reason not to allow it for
+> > > > >>> "dynamic-power-coefficient".
+> > > > >>
+> > > > >> With this binding it's a bit more tricky.
+> > > > >> I also have to discuss a few things internally. This requirement of
+> > > > >> uW/MHz/V^2 makes the code easier also for potential drivers
+> > > > >> like GPU (which are going to register the devfreq cooling with EM).
+> > > > >>
+> > > > >> Let me think about it, but for now I would just update these bits.
+> > > > >> These are required to proper IPA operation, the dyn.-pow.-coef. is a
+> > > > >> nice to have and possible next step.
+> > > > >
+> > > > > I guess the problem is that Rajendra is currently planning to remove
+> > > > > all the "dynamic-power-coefficient" values from device tree right now
+> > > > > and move them to the source code because the numbers we currently have
+> > > > > in the device tree _are_ in abstract scale and thus violate the
+> > > > > bindings.  Moving this to source code won't help us get to more real
+> > > > > power numbers (since it'll still be abstract scale), it'll just be
+> > > > > pure churn.  If we're OK with the abstract scale in general then we
+> > > > > should allow it everywhere and not add churn for no reason.
+> > > >
+> > > > IIUC he is still going to use the Energy Model, but with different
+> > > > registration function. We have such a driver: scmi-cpufreq.c, which
+> > > > uses em_dev_register_perf_domain(). He can still use EM, EAS, IPA
+> > > > not violating anything.
+> > >
+> > > Right.  He's going to take the exact same "abstract scale" numbers
+> > > that he has today and take them out of device tree and put them in the
+> > > cpufreq driver.  Doing so magically makes it so that he's not
+> > > violating anything since "abstract scale" is not currently allowed in
+> > > device tree but is allowed in the cpufreq driver.  I'm not saying that
+> > > he's doing anything wrong, I'm just saying that it's pointless churn.
+> > > If we're OK with "abstract scale" in one place in the device tree we
+> > > should be OK with it everywhere in the device tree.  Then Rajendra
+> > > wouldn't need his patch at all and he could leave his numbers in the
+> > > device tree.
+> > >
+> > >
+> > > > The real problem that we want to address is with sustainable-power in
+> > > > IPA. It is used in power budget calculation and if the devices operate
+> > > > in abstract scale, then there is an issue.
+> > > > There are two options to get that value:
+> > > > 1. from DT, which can have optimized value, stored by OEM engineer
+> > > > 2. from IPA estimation code, which just calculates it as a sum of
+> > > > minimum OPP power for each cooling device.
+> > > >
+> > > > The 2nd option might not be the best for a platform, so vendor/OEM
+> > > > engineer might want to provide a better value in DT -> 1st option.
+> > > > This is currently against the binding description and I have to fix it.
+> > >
+> > > Right, things are already broken today because a SoC vendor could
+> > > (without violating any rules) provide their SoC core
+> > > "dynamic-power-coefficient" in "abstract scale" in code and there
+> > > would be no way to for a board to (without violating DT bindings)
+> > > specify a "sustainable-power".  ...so, in that sense, your patch does
+> > > provide a benefit even if we don't make any changes to the rules for
+> > > "sustainable-power".  All I'm saying is that if these new rules for
+> > > allowing an abstract scale for "sustainable-power" in the device tree
+> > > are OK that it should _also_ be OK to add new rules to allow an
+> > > abstract scale for "dynamic-power-coefficient".
 > >
-> > +       if (kfence_handle_page_fault(address))
-> > +               return;
-> > +
-> >         /*
-> >          * 32-bit:
-> >          *
+> > Didn't we beat this one to death with "dynamic-power-coefficient"?
 >
-> The standard 5 lines of diff context don't really make it obvious
-> what's going on here. Here's a diff with more context:
->
->
->         /*
->          * Stack overflow?  During boot, we can fault near the initial
->          * stack in the direct map, but that's not an overflow -- check
->          * that we're in vmalloc space to avoid this.
->          */
->         if (is_vmalloc_addr((void *)address) &&
->             (((unsigned long)tsk->stack - 1 - address < PAGE_SIZE) ||
->              address - ((unsigned long)tsk->stack + THREAD_SIZE) < PAGE_SIZE)) {
->                 unsigned long stack = __this_cpu_ist_top_va(DF) -
-> sizeof(void *);
->                 /*
->                  * We're likely to be running with very little stack space
->                  * left.  It's plausible that we'd hit this condition but
->                  * double-fault even before we get this far, in which case
->                  * we're fine: the double-fault handler will deal with it.
->                  *
->                  * We don't want to make it all the way into the oops code
->                  * and then double-fault, though, because we're likely to
->                  * break the console driver and lose most of the stack dump.
->                  */
->                 asm volatile ("movq %[stack], %%rsp\n\t"
->                               "call handle_stack_overflow\n\t"
->                               "1: jmp 1b"
->                               : ASM_CALL_CONSTRAINT
->                               : "D" ("kernel stack overflow (page fault)"),
->                                 "S" (regs), "d" (address),
->                                 [stack] "rm" (stack));
->                 unreachable();
->         }
->  #endif
->
-> +       if (kfence_handle_page_fault(address))
-> +               return;
-> +
->         /*
->          * 32-bit:
->          *
->          *   Valid to do another page fault here, because if this fault
->          *   had been triggered by is_prefetch fixup_exception would have
->          *   handled it.
->          *
->          * 64-bit:
->          *
->          *   Hall of shame of CPU/BIOS bugs.
->          */
->         if (is_prefetch(regs, error_code, address))
->                 return;
->
->         if (is_errata93(regs, address))
->                 return;
->
->         /*
->          * Buggy firmware could access regions which might page fault, try to
->          * recover from such faults.
->          */
->         if (IS_ENABLED(CONFIG_EFI))
->                 efi_recover_from_page_fault(address);
->
->  oops:
->         /*
->          * Oops. The kernel tried to access some bad page. We'll have to
->          * terminate things with extreme prejudice:
->          */
->         flags = oops_begin();
->
->
->
-> Shouldn't kfence_handle_page_fault() happen after prefetch handling,
-> at least? Maybe directly above the "oops" label?
+> We did?  Where / when?
 
-Good question. AFAIK it doesn't matter, as is_kfence_address() should
-never apply for any of those that follow, right? In any case, it
-shouldn't hurt to move it down.
+https://lore.kernel.org/r/1448288921-30307-1-git-send-email-juri.lelli@arm.com/
 
-Thanks,
--- Marco
+> I'm not sure I was involved, but right now
+> both "sustainable-power" and "dynamic-power-coefficient" are still
+> defined in the device tree to be in real units, not abstract scale.
+> Are you saying that we beat it to death and decided that it needed to
+> be in real units, or we beat it to death and decided that abstract
+> scale was OK and we just didn't put it in the bindings?
+
+The former.
+
+> > That is the abstract scale because I don't think you can really ever
+> > measure it
+>
+> That's debatable.  it's not very hard to get reasonable measurements.
+> Matthias provided a recipe earlier in the thread.  See commit
+> ac60c5e33df4 ("ARM: dts: rockchip: Add dynamic-power-coefficient for
+> rk3288").  In that case he used a machine that could easily measure
+> power on the CPU rail, but if you simply keep all other rails in the
+> system constant (and/or run a long enough test), you can easily
+> accomplish this by just querying the smart battery in systems.
+
+Okay, yes, you can measure and then calculate something. But the value
+is only meaningful within that platform. There's no standardized test
+to run. What the power rails are could be different (e.g. CPU RAMs on
+a separate rail and shared).
+
+> > and because vendors don't want to advertise their absolute
+> > power.
+>
+> That is certainly true, though after a device has shipped it's not
+> that hard to measure.
+
+Can you tell me how to measure the CPU rail on my Pixel3?
+
+> > > > >>> 2. Is it worth adding some type of indication of what type of units
+> > > > >>> "sustainable-power" is represented in?  Maybe even a made up unit so
+> > > > >>> that you could tell the difference between made up units in the same
+> > > > >>> system?  I'd envision something like:
+> > > > >>>
+> > > > >>> sustainable-power-units = "qualcomm,sc7180-bogoWatts"
+> > > > >>>
+> > > > >>> ...and on the dynamic-power-coefficient side, the same:
+> > > > >>>
+> > > > >>> dynamic-power-coefficient-units = "qualcomm,sc7180-bogoWatts"
+> > > > >>>
+> > > > >>> One could imagine someone even later (after devices are widely
+> > > > >>> distributed) figuring out translations between these bogoWatts numbers
+> > > > >>> and real Watts if someone could come up with a case where it matters.
+> > > > >>
+> > > > >> To figure this out we don't need a new binding.
+> > > > >> I think a simple comment in the DT would be enough for this, even e.g.:
+> > > > >>
+> > > > >> sustainable-power = <100> /* bogoWatts */
+> > > > >
+> > > > > There are some important differences:
+> > > > >
+> > > > > a) Your comment is gone when the device tree is compiled.  If we
+> > > > > actually add a string to the device tree then, in theory, we can add
+> > > > > conversions in code (without touching the device tree) down the road.
+> > > >
+> > > > We don't need code and binding with a bogoscale. It is up to the
+> > > > platform integrator to make sure the scale in consistent in all devices.
+> > > > Comment in DT is good enough.
+> > >
+> > > One other nice thing about having the units is that the device tree is
+> > > supposed to be more of a "pure" thing, less sullied about what's
+> > > convenient and more about a real description of a thing.  Presumably
+> > > that's why "abstract scale" wasn't allowed originally?  In any case,
+> > > giving quantifiable units to the number somehow makes it feel less
+> > > made up because it's possible to come up with a way to convert it back
+> > > to real units.
+> > >
+> > >
+> > > > > b) I believe there can be more than one abstract scale present in a
+> > > > > single device tree, at least in theory.  Adding a string allows you to
+> > > > > know if you're comparing apples to apples or apples to organges.
+> > > >
+> > > > IMHO DT is not the place for such abstractions, but Rob might correct me
+> > > > here.
+> > >
+> > > Yup, seems like we're blocked waiting for Rob to chime in unless
+> > > someone else has the authority to make the call about how to deal with
+> > > "abstract scale" numbers in the device tree.
+> >
+> > I don't really know nor completely follow the issues. I just get all
+> > these PM related bindings piece by piece with everyone solving their
+> > own single issue. It's death by 1000 cuts. So my default position is
+> > NAK. All the missing pieces and deficiencies can build up until
+> > there's a coherent picture (maybe?).
+>
+> I'm totally confused.  NAK on what?  NAK on Lukasz's patch?  ...or
+> Lukasz's patch is totally fine but NAK on also allowing abstract scale
+> for 'dynamic-power-coefficient".  Or NAK on adding units?  NAK on
+> something else?
+
+That's just my rant on PM bindings in general.
+'cpu-performance-dependencies' is another one currently.
+
+Rob
