@@ -2,224 +2,128 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86AE0C4363D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 23:12:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4153C4363D
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 23:31:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D33322083B
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 23:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FD4020725
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 23:31:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="DsmYwPxb"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="bB7+fcU3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgJGXMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 19:12:41 -0400
-Received: from mail-41104.protonmail.ch ([185.70.41.104]:17566 "EHLO
-        mail-41104.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727727AbgJGXMl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 19:12:41 -0400
-Received: from mail-02.mail-europe.com (mail-02.mail-europe.com [51.89.119.103])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        by mail-41104.protonmail.ch (Postfix) with ESMTPS id 074F1200790C
-        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 23:12:39 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
-        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="DsmYwPxb"
-Date:   Wed, 07 Oct 2020 23:12:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1602112355;
-        bh=xFWHtRQUX5S239mP/ot0kFUFeIwV67GIZDgFaqML8/I=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=DsmYwPxbn9DZGa4HcdHjZf3B4/29375/SQgHJh147suuFnQGjolWG4x3O09aVu40L
-         KYkOpO5vcvkla4W8DAwATGVu7z/pKU1f0OH49i4c7Kp27wzipgLIIDbMxULgU0sYSQ
-         fqF+0WBWECCBOTyRMSCGVPUZG9nyheL936nNXtM0=
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
-Message-ID: <20201007231214.326456-1-nfraprado@protonmail.com>
+        id S1727237AbgJGXby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 19:31:54 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15464 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726408AbgJGXbx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 19:31:53 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f7e4f7c0000>; Wed, 07 Oct 2020 16:30:04 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 7 Oct
+ 2020 23:31:53 +0000
+Received: from sandstorm.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Wed, 7 Oct 2020 23:31:53 +0000
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH] Documentation: filesystems: better locations for sysfs-pci, sysfs-tagging
+Date:   Wed, 7 Oct 2020 16:31:51 -0700
+Message-ID: <20201007233151.490953-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1602113404; bh=E7vpDOD4gxqXLsuZsi7hTD94dOIXP2RUKkySHzQpRT8=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+         X-NVConfidentiality:Content-Transfer-Encoding:Content-Type;
+        b=bB7+fcU3Jtj5cwQqrmHTz9zotIY3TwJMuEMq5n6trsRShAKCX2QlL/x0mw8RGe/9C
+         QmYkDu9iLWJDYsanChxjkYnCTKy9aDuRKniRX5RNxiXXahMm334qDeDaCJM61BaK8Q
+         7uOHJUtyaqp6AwaDUC8uRIuAaGrKZtufpItk0gHHPOI2fMbDC79QIsNr+IAvCoSMwG
+         /EZv2FhCTw8wEazFQkArh9OrxqYrbcVDNL+5Lix906F17uzA1JXGpECrNHC1Ut1nfG
+         7TOzcPhF6YOTSAc3ippwjqQn45XaM0VnkbMmyTe0vWK03yZKMJLCq/sGnK7+Xl3Af5
+         krIMxddp/YZHQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While Sphinx 2 used a single c:type role for struct, union, enum and
-typedef, Sphinx 3 uses a specific role for each one.
-To keep backward compatibility, detect the Sphinx version and use the
-correct roles for that version.
+sysfs-pci and sysfs-tagging were mis-filed: their locations with
+Documentation/ implied that they were related to file systems. Actually,
+each topic is about a very specific *use* of sysfs, and sysfs *happens*
+to be a (virtual) filesystem, so this is not really the right place.
 
-Also, Sphinx 3 is more strict with its C domain and generated warnings,
-exposing issues in the parsing.
-To fix the warnings, make the C regexes use ASCII, ensure the
-expressions only match the beginning of words and skip trying to
-cross-reference C reserved words.
+It's jarring to be reading about filesystems in general and then come
+across these specific details about PCI, and tagging...and then back to
+general filesystems again.
 
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
+Move sysfs-pci and sysfs-tagging to a location under the sysfs topic.
+
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
 
 Hi,
 
-after Mauro's series making everything ready for Sphinx 3.1, only the autom=
-arkup
-was left to be ported.
-This patch makes the needed changes to automarkup so that we can soon flip =
-the
-switch to Sphinx 3.1.
+I'm not sure if the "toctree, maxdepth: 1" is the ideal way to do this,=20
+but the output in the browser looks about right to me, anyway.
 
-This change was tested both with Sphinx 2.4.4 and Sphinx 3.1.
+thanks,
+John Hubbard
+NVIDIA
 
-This change doesn't add any warnings to the Documentation build.
-I tested it with Mauro's series but later rebased it to docs-next, and it c=
-an be
-accepted independently of that series.
+ Documentation/filesystems/index.rst |  2 --
+ Documentation/filesystems/sysfs.rst | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-I ended up doing more than one thing in this single patch, but since it was=
- all
-changing the same lines and for the same purpose, I felt it would be better=
- to
-keep it as a single commit.
-
-Mauro,
-if this patch is ok, the 3rd patch in your series, which disables automarku=
-p for
-sphinx 3, should be dropped.
-Although I'm not sure what the implications of your patches adding namespac=
-es
-and using the c:macro for functions are.
-All I did here was use the specific roles for sphinx 3 and fix the warnings=
-, but
-that was enough to get correct cross-references even after your series.
-
-Thanks,
-N=C3=ADcolas
-
-
- Documentation/sphinx/automarkup.py | 69 ++++++++++++++++++++++++++----
- 1 file changed, 60 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/auto=
-markup.py
-index a1b0f554cd82..fd1e927408ad 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -22,13 +22,34 @@ from itertools import chain
- # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
- # bit tries to restrict matches to things that won't create trouble.
- #
--RE_function =3D re.compile(r'(([\w_][\w\d_]+)\(\))')
--RE_type =3D re.compile(r'(struct|union|enum|typedef)\s+([\w_][\w\d_]+)')
-+RE_function =3D re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=3Dre.ASCII)
-+
-+#
-+# Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
-+#
-+RE_generic_type =3D re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_=
-]\w+)',
-+                             flags=3Dre.ASCII)
-+
-+#
-+# Sphinx 3 uses a different C role for each one of struct, union, enum and
-+# typedef
-+#
-+RE_struct =3D re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
-+RE_union =3D re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
-+RE_enum =3D re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
-+RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCI=
-I)
-+
- #
- # Detects a reference to a documentation page of the form Documentation/..=
-. with
- # an optional extension
- #
--RE_doc =3D re.compile(r'Documentation(/[\w\-_/]+)(\.\w+)*')
-+RE_doc =3D re.compile(r'\bDocumentation(/[\w\-_/]+)(\.\w+)*')
-+
-+#
-+# Reserved C words that we should skip when cross-referencing
-+#
-+Skipnames =3D [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
-+
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystem=
+s/index.rst
+index 4c536e66dc4c..98f59a864242 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -34,8 +34,6 @@ algorithms work.
+    quota
+    seq_file
+    sharedsubtree
+-   sysfs-pci
+-   sysfs-tagging
 =20
- #
- # Many places in the docs refer to common system calls.  It is
-@@ -48,9 +69,22 @@ def markup_refs(docname, app, node):
-     #
-     # Associate each regex with the function that will markup its matches
-     #
--    markup_func =3D {RE_type: markup_c_ref,
--                   RE_function: markup_c_ref,
--                   RE_doc: markup_doc_ref}
-+    markup_func_sphinx2 =3D {RE_doc: markup_doc_ref,
-+                           RE_function: markup_c_ref,
-+                           RE_generic_type: markup_c_ref}
-+
-+    markup_func_sphinx3 =3D {RE_doc: markup_doc_ref,
-+                           RE_function: markup_c_ref,
-+                           RE_struct: markup_c_ref,
-+                           RE_union: markup_c_ref,
-+                           RE_enum: markup_c_ref,
-+                           RE_typedef: markup_c_ref}
-+
-+    if sphinx.__version__[0] =3D=3D '3':
-+        markup_func =3D markup_func_sphinx3
-+    else:
-+        markup_func =3D markup_func_sphinx2
-+
-     match_iterators =3D [regex.finditer(t) for regex in markup_func]
-     #
-     # Sort all references by the starting position in text
-@@ -79,8 +113,24 @@ def markup_refs(docname, app, node):
- # type_name) with an appropriate cross reference.
- #
- def markup_c_ref(docname, app, match):
--    class_str =3D {RE_function: 'c-func', RE_type: 'c-type'}
--    reftype_str =3D {RE_function: 'function', RE_type: 'type'}
-+    class_str =3D {RE_function: 'c-func',
-+                 # Sphinx 2 only
-+                 RE_generic_type: 'c-type',
-+                 # Sphinx 3+ only
-+                 RE_struct: 'c-struct',
-+                 RE_union: 'c-union',
-+                 RE_enum: 'c-enum',
-+                 RE_typedef: 'c-type',
-+                 }
-+    reftype_str =3D {RE_function: 'function',
-+                   # Sphinx 2 only
-+                   RE_generic_type: 'type',
-+                   # Sphinx 3+ only
-+                   RE_struct: 'struct',
-+                   RE_union: 'union',
-+                   RE_enum: 'enum',
-+                   RE_typedef: 'type',
-+                   }
+    automount-support
 =20
-     cdom =3D app.env.domains['c']
-     #
-@@ -89,7 +139,8 @@ def markup_c_ref(docname, app, match):
-     target =3D match.group(2)
-     target_text =3D nodes.Text(match.group(0))
-     xref =3D None
--    if not (match.re =3D=3D RE_function and target in Skipfuncs):
-+    if not ((match.re =3D=3D RE_function and target in Skipfuncs)
-+            or (target in Skipnames)):
-         lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[match=
-.re]])
-         lit_text +=3D target_text
-         pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystem=
+s/sysfs.rst
+index ab0f7795792b..39da2f5c235f 100644
+--- a/Documentation/filesystems/sysfs.rst
++++ b/Documentation/filesystems/sysfs.rst
+@@ -416,3 +416,17 @@ ABI between the kernel and user space. As for any ABI,=
+ it is important that
+ this ABI is stable and properly documented. All new sysfs attributes must =
+be
+ documented in Documentation/ABI. See also Documentation/ABI/README for mor=
+e
+ information.
++
++sysfs and PCI
++~~~~~~~~~~~~~
++.. toctree::
++   :maxdepth: 1
++
++   sysfs-pci
++
++sysfs and tagging
++~~~~~~~~~~~~~~~~~
++.. toctree::
++   :maxdepth: 1
++
++   sysfs-tagging
 --=20
 2.28.0
-
 
