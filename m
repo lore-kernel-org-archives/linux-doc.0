@@ -2,93 +2,203 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AFC2C4363D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 14:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EB4C4727E
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 14:41:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D872212CC
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 14:38:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A71EA208C7
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 14:41:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G/1uZ6Me"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728644AbgJGOiW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 10:38:22 -0400
-Received: from mga14.intel.com ([192.55.52.115]:37456 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728535AbgJGOiV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 10:38:21 -0400
-IronPort-SDR: lFsGsiqb3rL8z4tM5cHC9U2gmtAgvJPW3QHHgATKqBKvMOGGPx2fcYHKok3R4tCj3oLLqjDRjF
- AAhkdoGgKRPQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9767"; a="164194151"
-X-IronPort-AV: E=Sophos;i="5.77,347,1596524400"; 
-   d="scan'208";a="164194151"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2020 07:38:21 -0700
-IronPort-SDR: Np++mvahEkNacbGXOpLzVKFIka7R5HlA7jx5gDCTliMZYZi9CnHppSUw5Tw8OwnCNU+iI34kKi
- 7QdSzuCVB7Fw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,347,1596524400"; 
-   d="scan'208";a="461348356"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga004.jf.intel.com with ESMTP; 07 Oct 2020 07:38:19 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 9489A1D7; Wed,  7 Oct 2020 17:38:18 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-gpio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] gpiolib: Update indentation in driver.rst for code excerpts
-Date:   Wed,  7 Oct 2020 17:38:17 +0300
-Message-Id: <20201007143817.76335-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
+        id S1728669AbgJGOlh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 10:41:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728631AbgJGOlh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 10:41:37 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2ABCC0613D2
+        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 07:41:37 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id n61so2401826ota.10
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 07:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ln7qxyNzii1scl8HLSA2+oOjYgQ14R9ppJu+tWqxheQ=;
+        b=G/1uZ6MeGY8rOjaNAklSVvWjwj9mhvIyr//BSIgpkmzlm4xSzk1UliIldkVStFhjzK
+         guXYhVU3K20+r7wiNGmWowgpWVD8ICk7FEs94assDRJ2Qz4pEif0o1cqV5V9nQIPgWDn
+         0M5+V8V4CzXE9kSiToHHUNDVSlO/qwGepPLA1XkLBo7eOkTkVyrK//Ty1x9bdan86r18
+         0ji9kl1sYrSRcowtfN78ieadrASPfbrfupDUNWTQt9I8ppvr7ZV3aDnI5rnUV/B2MUNh
+         ZJ8YpLLkmWO9SzFNoM/W53MoIGouRDcaTeTueqzB/cIM4zF116m2OcZARASeI9zROTVu
+         fn9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ln7qxyNzii1scl8HLSA2+oOjYgQ14R9ppJu+tWqxheQ=;
+        b=tEuXmSGrpvP8+bjZrodaUKmYLaHm6qk3j8Cv3eS+7X21bV5P4JfablWovykxqGmdUp
+         C/ndeZgSRE0u9UgaeGUOX4sfYilbu/DCPOtYI0sFacgqr3ug6Rki37ViPhTL+0oNzW8y
+         VxOje7FNKeZEkYr95fIOkaRF6S75bmRWB5q2cLfCml/mb3hH2bRPNCwjlEd1zjI7pjbC
+         8sRuqpCWF2ql+3GhxD11PJrJFz3lHq0OThrHWsyPJlCM45tx9TmPnaPWX5WhFgMgfwy+
+         1djk7XNdkMsVj0iNrWjQMcgI7Hav6cXXAyc/jN26GY00mv29QBzjp+YmJBmZB/jz0fDS
+         9LGg==
+X-Gm-Message-State: AOAM5335G7B6+ThVGbQtZ7z0h6k8sHKhZlbxK2Hnfa6TvDFqKILpCNCV
+        e8MjJXMPud+9/a31wqfZyYmxE1bZKbxU5r0sJ9wF3Q==
+X-Google-Smtp-Source: ABdhPJz0y0PHROhdZgOKjGqM+5XUi78Db76T50F9Fxwke8ee/GyTOCfNHB8qk8Q8oh1UeTEJNvd4nvQ3DLmPxGTNmSE=
+X-Received: by 2002:a9d:66a:: with SMTP id 97mr2142529otn.233.1602081696697;
+ Wed, 07 Oct 2020 07:41:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
+ <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
+ <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com> <CAG48ez0sYZof_PDdNrqPUnNOCz1wcauma+zWJbF+VdUuO6x31w@mail.gmail.com>
+In-Reply-To: <CAG48ez0sYZof_PDdNrqPUnNOCz1wcauma+zWJbF+VdUuO6x31w@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Wed, 7 Oct 2020 16:41:25 +0200
+Message-ID: <CANpmjNOZtkFcyL8FTRTZ6j2yqCOb2Hgsy8eF8n5zgd7mDYezkw@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
+To:     Jann Horn <jannh@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When TABs are being used to indent the code excerpts inside
-the bullet lists some of the tools fail to recognize it and
-continue interpreting the special characters inside
-the quoted excerpt.
+On Wed, 7 Oct 2020 at 16:15, Jann Horn <jannh@google.com> wrote:
+>
+> On Wed, Oct 7, 2020 at 3:09 PM Marco Elver <elver@google.com> wrote:
+> > On Fri, 2 Oct 2020 at 07:45, Jann Horn <jannh@google.com> wrote:
+> > > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > > > Add architecture specific implementation details for KFENCE and enable
+> > > > KFENCE for the x86 architecture. In particular, this implements the
+> > > > required interface in <asm/kfence.h> for setting up the pool and
+> > > > providing helper functions for protecting and unprotecting pages.
+> > > >
+> > > > For x86, we need to ensure that the pool uses 4K pages, which is done
+> > > > using the set_memory_4k() helper function.
+> > > [...]
+> > > > diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
+> > > [...]
+> > > > +/* Protect the given page and flush TLBs. */
+> > > > +static inline bool kfence_protect_page(unsigned long addr, bool protect)
+> > > > +{
+> > > > +       unsigned int level;
+> > > > +       pte_t *pte = lookup_address(addr, &level);
+> > > > +
+> > > > +       if (!pte || level != PG_LEVEL_4K)
+> > >
+> > > Do we actually expect this to happen, or is this just a "robustness"
+> > > check? If we don't expect this to happen, there should be a WARN_ON()
+> > > around the condition.
+> >
+> > It's not obvious here, but we already have this covered with a WARN:
+> > the core.c code has a KFENCE_WARN_ON, which disables KFENCE on a
+> > warning.
+>
+> So for this specific branch: Can it ever happen? If not, please either
+> remove it or add WARN_ON(). That serves two functions: It ensures that
+> if something unexpected happens, we see a warning, and it hints to
+> people reading the code "this isn't actually expected to happen, you
+> don't have to wrack your brain trying to figure out for which scenario
+> this branch is intended".
 
-Update indentation in driver.rst for code excerpts to avoid
-their special interpretation.
+Perhaps I could have been clearer: we already have this returning
+false covered by a WARN+disable KFENCE in core.c.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/driver-api/gpio/driver.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+We'll add another WARN_ON right here, as it doesn't hurt, and
+hopefully improves readability.
 
-diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-index 9809f593c0ab..072a7455044e 100644
---- a/Documentation/driver-api/gpio/driver.rst
-+++ b/Documentation/driver-api/gpio/driver.rst
-@@ -342,12 +342,12 @@ Cascaded GPIO irqchips usually fall in one of three categories:
-   forced to a thread. The "fake?" raw lock can be used to work around this
-   problem::
- 
--	raw_spinlock_t wa_lock;
--	static irqreturn_t omap_gpio_irq_handler(int irq, void *gpiobank)
--		unsigned long wa_lock_flags;
--		raw_spin_lock_irqsave(&bank->wa_lock, wa_lock_flags);
--		generic_handle_irq(irq_find_mapping(bank->chip.irq.domain, bit));
--		raw_spin_unlock_irqrestore(&bank->wa_lock, wa_lock_flags);
-+    raw_spinlock_t wa_lock;
-+    static irqreturn_t omap_gpio_irq_handler(int irq, void *gpiobank)
-+        unsigned long wa_lock_flags;
-+        raw_spin_lock_irqsave(&bank->wa_lock, wa_lock_flags);
-+        generic_handle_irq(irq_find_mapping(bank->chip.irq.domain, bit));
-+        raw_spin_unlock_irqrestore(&bank->wa_lock, wa_lock_flags);
- 
- - GENERIC CHAINED GPIO IRQCHIPS: these are the same as "CHAINED GPIO irqchips",
-   but chained IRQ handlers are not used. Instead GPIO IRQs dispatching is
--- 
-2.28.0
+> > > > +               return false;
+> > > > +
+> > > > +       if (protect)
+> > > > +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> > > > +       else
+> > > > +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+> > >
+> > > Hmm... do we have this helper (instead of using the existing helpers
+> > > for modifying memory permissions) to work around the allocation out of
+> > > the data section?
+> >
+> > I just played around with using the set_memory.c functions, to remind
+> > myself why this didn't work. I experimented with using
+> > set_memory_{np,p}() functions; set_memory_p() isn't implemented, but
+> > is easily added (which I did for below experiment). However, this
+> > didn't quite work:
+> [...]
+> > For one, smp_call_function_many_cond() doesn't want to be called with
+> > interrupts disabled, and we may very well get a KFENCE allocation or
+> > page fault with interrupts disabled / within interrupts.
+> >
+> > Therefore, to be safe, we should avoid IPIs.
+>
+> set_direct_map_invalid_noflush() does that, too, I think? And that's
+> already implemented for both arm64 and x86.
 
+Sure, that works.
+
+We still want the flush_tlb_one_kernel(), at least so the local CPU's
+TLB is flushed.
+
+> > It follows that setting
+> > the page attribute is best-effort, and we can tolerate some
+> > inaccuracy. Lazy fault handling should take care of faults after we
+> > set the page as PRESENT.
+> [...]
+> > > Shouldn't kfence_handle_page_fault() happen after prefetch handling,
+> > > at least? Maybe directly above the "oops" label?
+> >
+> > Good question. AFAIK it doesn't matter, as is_kfence_address() should
+> > never apply for any of those that follow, right? In any case, it
+> > shouldn't hurt to move it down.
+>
+> is_prefetch() ignores any #PF not caused by instruction fetch if it
+> comes from kernel mode and the faulting instruction is one of the
+> PREFETCH* instructions. (Which is not supposed to happen - the
+> processor should just be ignoring the fault for PREFETCH instead of
+> generating an exception AFAIK. But the comments say that this is about
+> CPU bugs and stuff.) While this is probably not a big deal anymore
+> partly because the kernel doesn't use software prefetching in many
+> places anymore, it seems to me like, in principle, this could also
+> cause page faults that should be ignored in KFENCE regions if someone
+> tries to do PREFETCH on an out-of-bounds array element or a dangling
+> pointer or something.
+
+Thanks for the clarification.
