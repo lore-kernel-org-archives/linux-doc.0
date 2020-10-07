@@ -2,89 +2,128 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E3CC41604
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 16:25:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2456C47095
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 16:33:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F44A2173E
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 16:25:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8ABE5206BE
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 16:33:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727665AbgJGQZB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 12:25:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59260 "EHLO mail.kernel.org"
+        id S1726948AbgJGQd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 12:33:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36578 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726504AbgJGQZB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 12:25:01 -0400
+        id S1726138AbgJGQd1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Oct 2020 12:33:27 -0400
 Received: from gaia (unknown [95.149.105.49])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3B21E216C4;
-        Wed,  7 Oct 2020 16:24:56 +0000 (UTC)
-Date:   Wed, 7 Oct 2020 17:24:53 +0100
+        by mail.kernel.org (Postfix) with ESMTPSA id 092952064E;
+        Wed,  7 Oct 2020 16:33:21 +0000 (UTC)
+Date:   Wed, 7 Oct 2020 17:33:19 +0100
 From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     chenzhou <chenzhou10@huawei.com>
-Cc:     will@kernel.org, james.morse@arm.com, tglx@linutronix.de,
-        mingo@redhat.com, dyoung@redhat.com, bhe@redhat.com,
-        corbet@lwn.net, John.P.donnelly@oracle.com,
-        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
-        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+To:     Bhupesh Sharma <bhsharma@redhat.com>
+Cc:     John Donnelly <john.p.donnelly@oracle.com>,
+        Chen Zhou <chenzhou10@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        RuiRui Yang <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, nsaenzjulienne@suse.de,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
         wangkefeng.wang@huawei.com
-Subject: Re: [PATCH v12 9/9] kdump: update Documentation about crashkernel
-Message-ID: <20201007162453.GR3462@gaia>
+Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
+ kdump
+Message-ID: <20201007163319.GS3462@gaia>
 References: <20200907134745.25732-1-chenzhou10@huawei.com>
- <20200907134745.25732-10-chenzhou10@huawei.com>
- <20201005171936.GD14576@gaia>
- <8644712d-1331-1efc-1cd2-6da8640145b7@huawei.com>
+ <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
+ <20201005170937.GA14576@gaia>
+ <CACi5LpMWUmP1df8fB8psJY_cNGHF9MNn+TNK4B4edaRHvOXxGQ@mail.gmail.com>
+ <20201006180012.GB31946@C02TF0J2HF1T.local>
+ <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8644712d-1331-1efc-1cd2-6da8640145b7@huawei.com>
+In-Reply-To: <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 06, 2020 at 10:10:54AM +0800, chenzhou wrote:
-> On 2020/10/6 1:19, Catalin Marinas wrote:
-> > On Mon, Sep 07, 2020 at 09:47:45PM +0800, Chen Zhou wrote:
-> >> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> >> index 2da65fef2a1c..549611abc581 100644
-> >> --- a/Documentation/admin-guide/kdump/kdump.rst
-> >> +++ b/Documentation/admin-guide/kdump/kdump.rst
-> > [...]
-> >> @@ -316,8 +325,18 @@ Boot into System Kernel
-> >>     kernel will automatically locate the crash kernel image within the
-> >>     first 512MB of RAM if X is not given.
-> >>  
-> >> -   On arm64, use "crashkernel=Y[@X]".  Note that the start address of
-> >> -   the kernel, X if explicitly specified, must be aligned to 2MiB (0x200000).
-> >> +   On arm64, use "crashkernel=X" to try low allocation in DMA zone, and
-> >> +   fall back to high allocation if it fails. And go for high allocation
-> >> +   directly if the required size is too large.
-> >> +   We can also use "crashkernel=X,high" to select a high region above
-> >> +   DMA zone, which also tries to allocate at least 256M low memory in
-> >> +   DMA zone automatically.
-> >> +   "crashkernel=Y,low" can be used to allocate specified size low memory
-> >> +   in DMA zone.
-> >> +   For non-RPi4 platforms, change DMA zone memtioned above to DMA32 zone.
-> > I don't think we should mention non-RPi4 explicitly here. I don't even
-> > understand what the suggestion is since the only way is to disable
-> > ZONE_DMA in the kernel config. I'd just stick to ZONE_DMA description
-> > here.
-> How about like this:
-> If the kernel config ZONE_DMA is disabled, just try low allocation in DMA32 zone
-> and high allocation above DMA32 zone.
+On Wed, Oct 07, 2020 at 12:37:49PM +0530, Bhupesh Sharma wrote:
+> On Tue, Oct 6, 2020 at 11:30 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > On Mon, Oct 05, 2020 at 11:12:10PM +0530, Bhupesh Sharma wrote:
+> > > I think my earlier email with the test results on this series bounced
+> > > off the mailing list server (for some weird reason), but I still see
+> > > several issues with this patchset. I will add specific issues in the
+> > > review comments for each patch again, but overall, with a crashkernel
+> > > size of say 786M, I see the following issue:
+> > >
+> > > # cat /proc/cmdline
+> > > BOOT_IMAGE=(hd7,gpt2)/vmlinuz-5.9.0-rc7+ root=<..snip..> rd.lvm.lv=<..snip..> crashkernel=786M
+> > >
+> > > I see two regions of size 786M and 256M reserved in low and high
+> > > regions respectively, So we reserve a total of 1042M of memory, which
+> > > is an incorrect behaviour:
+> > >
+> > > # dmesg | grep -i crash
+> > > [    0.000000] Reserving 256MB of low memory at 2816MB for crashkernel (System low RAM: 768MB)
+> > > [    0.000000] Reserving 786MB of memory at 654158MB for crashkernel (System RAM: 130816MB)
+> > > [    0.000000] Kernel command line: BOOT_IMAGE=(hd2,gpt2)/vmlinuz-5.9.0-rc7+ root=/dev/mapper/rhel_ampere--hr330a--03-root ro rd.lvm.lv=rhel_ampere-hr330a-03/root rd.lvm.lv=rhel_ampere-hr330a-03/swap crashkernel=786M cma=1024M
+> > >
+> > > # cat /proc/iomem | grep -i crash
+> > >   b0000000-bfffffff : Crash kernel (low)
+> > >   bfcbe00000-bffcffffff : Crash kernel
+> >
+> > As Chen said, that's the intended behaviour and how x86 works. The
+> > requested 768M goes in the high range if there's not enough low memory
+> > and an additional buffer for swiotlb is allocated, hence the low 256M.
+> 
+> I understand, but why 256M (as low) for arm64? x86_64 setups usually
+> have more system memory available as compared to several commercially
+> available arm64 setups. So is the intent, just to keep the behavior
+> similar between arm64 and x86_64?
 
-Something like: "allocate 256M low memory in the DMA zone automatically
-(or the DMA32 zone if CONFIG_ZONE_DMA is disabled)".
+Similar in the sense of the fallback to high memory and some low memory
+allocation but the amounts can vary per architecture.
 
-I'd keep it short.
+> Should we have a CONFIG option / bootarg to help one select the max
+> 'low_size'? Currently the ' low_size' value is calculated as:
+> 
+>     /*
+>          * two parts from kernel/dma/swiotlb.c:
+>          * -swiotlb size: user-specified with swiotlb= or default.
+>          *
+>          * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+>          * to 8M for other buffers that may need to stay low too. Also
+>          * make sure we allocate enough extra low memory so that we
+>          * don't run out of DMA buffers for 32-bit devices.
+>          */
+>         low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+> 
+> Since many arm64 boards ship with swiotlb=0 (turned off) via kernel
+> bootargs, the low_size, still ends up being 256M in such cases,
+> whereas this 256M can be used for some other purposes - so should we
+> be limiting this to 64M and failing the crash kernel allocation
+> request (gracefully) otherwise?
+
+I think it makes sense to set a low_size = 0 if
+swiotlb_size_or_default() is 0. The assumption would be that if the main
+kernel doesn't need an swiotlb, the crashdump one wouldn't need it
+either. But this probably needs the ZONE_DMA for non-RPi4 platforms
+addressed as well (expanded to the whole ZONE_DMA32).
 
 -- 
 Catalin
