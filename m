@@ -2,115 +2,90 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 877A5C4363C
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 07:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBBFC4363C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:14:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A26D212CC
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 07:33:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC80220870
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:14:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=wirenboard-ru.20150623.gappssmtp.com header.i=@wirenboard-ru.20150623.gappssmtp.com header.b="r86zR5CS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M+Js+118"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727669AbgJGHdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 03:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51996 "EHLO
+        id S1727369AbgJGIOi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 04:14:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727624AbgJGHdU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 03:33:20 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6E77C0613D2
-        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 00:33:19 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id d24so1133971lfa.8
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 00:33:19 -0700 (PDT)
+        with ESMTP id S1725976AbgJGIOi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 04:14:38 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F47C061755;
+        Wed,  7 Oct 2020 01:14:38 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d23so612898pll.7;
+        Wed, 07 Oct 2020 01:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-ru.20150623.gappssmtp.com; s=20150623;
-        h=date:from:message-id:to:cc:subject:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=H+yhAtKBkJAhd84Dg7hmzBchD0bnksTdEsvNNdIrfzU=;
-        b=r86zR5CSiSdiaQOjoa/A8EDooKjhNyFIVPPxIsH0NcfFkcCH2wGYXZvgMw4WNpUfjN
-         wp+WYl6jQ5qPOHnH+HO7tgxbr0PfbKGYJcBmUn4m4sDf3JU5OuSdypBT3U2P3uhj43nD
-         Wjv2GArTiOxtr0UjpGuyWCkDdsn+VHfaIUulqXlbXYooq29TR5Y7SHk5O2aX3GWKaPDO
-         fHDn8Kv0Ec2RFIdZ6T0qwpH/JzAD9qkzj5fjD2S6y++H9i9DRd5cPAGyv3aH4HPI2QT/
-         XOizhVEn8nlG4WF6EZ92FXpBOWnfncOXnUUMDYmQcs+U2tt9Z6r4bkP6ipbbFAU5gEjt
-         gw8Q==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=aR/crGqpjngWx4uY4BPhbCIGGN5/NfXCrwfurQ6wFX8=;
+        b=M+Js+118hi8DOmX4FZf6mM4Ib2Y7HqIbHABHKm5ceOi/4YB8ADUtyzTcFCLWJIiiNL
+         d/PiaG1qaUaFVeft9/wdrewQBHyiiSYMZPUn1gsuMeeuMUEvfcU9m7VwDCW1JiGlMo1j
+         3TSGkt/XxZ7y+JrANSekJFzReHjOnpQQqhTXKzE9aabYvy+YHbY0lJAgkJJ91bv9cp3Z
+         S4ospVUiU0DcNofTKhlJgPIuKGU675U84EOke+sMGFdZaomba+4el2KKYDbas7PlHgsf
+         /IetCjGw4truos/ZkrxPMbYjhtdU3IXsucgFh8GZv2gGIaqT7nonV0RRj6pngaHd4SV5
+         SY0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:message-id:to:cc:subject:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=H+yhAtKBkJAhd84Dg7hmzBchD0bnksTdEsvNNdIrfzU=;
-        b=QLNaW/GVOH3TF0Sm9DQMQ3b6JfbkJh2dBhUzIhh8Cs13q4kQoqdxzl1gPf8LeaG5Ly
-         uVFRB9VICJTKUltDYvF08m1CfZWr6HUcfxEa5spqR5yABthgDCxR+wOd0LKZXbxBsy5n
-         HX/Oom2o3xEPVHfk4flbPfZJfnYHNsaQ2WTjkZIlIhTcw5IgUILziuCJ0ZeTmpGYjlbH
-         fqF40RSLWU4nQeFtECrF+5gIFPfduCy7FioP2nOpZg/FVPZ3kdJQf/PsFIIdbftN8SMI
-         QrQvBEHH0tbhLi6kxZomS5EnCuhHR99ld6yvr5KRqlrTiVHVxFsH3SX9APdMlQGz2Ivs
-         UfFQ==
-X-Gm-Message-State: AOAM5311DOVw06/FAxdrpm4364uolrNsnJ4d5uelr6t8HrulMpH3dCmS
-        PRo/r/gxHWwf2NKZdT2rrj44Iw==
-X-Google-Smtp-Source: ABdhPJyO4JVtlsxVmVera4axbDrjS/Qfw7ukoANOngtFtqjd/hzKbeyjxyppntyjZG4oAWKR1LpSqA==
-X-Received: by 2002:a19:68a:: with SMTP id 132mr494362lfg.429.1602055998298;
-        Wed, 07 Oct 2020 00:33:18 -0700 (PDT)
-Received: from [192.168.1.25] (128-70-41-239.broadband.corbina.ru. [128.70.41.239])
-        by smtp.gmail.com with ESMTPSA id o18sm200728lfl.282.2020.10.07.00.33.17
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Wed, 07 Oct 2020 00:33:17 -0700 (PDT)
-Date:   Wed, 7 Oct 2020 10:32:27 +0300
-From:   Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
-X-Priority: 3 (Normal)
-Message-ID: <1561045277.20201007103227@wirenboard.ru>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Evgeny Boger <boger@wirenboard.com>
-Subject: Re: [PATCH 2/2] w1: w1_therm: Add support for GXCAS GX20MH01 device.
-In-Reply-To: <20201006151915.77d044a4@coco.lan>
-References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru> <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru> <20201006151915.77d044a4@coco.lan>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=aR/crGqpjngWx4uY4BPhbCIGGN5/NfXCrwfurQ6wFX8=;
+        b=WC2t/KGKAJ5Ut2hH6uC3kL5NpIv/cao7xG2A4qmgyIcqpKn+oSJkSyMv3yqM7EumSf
+         WZhboTk3FLU17XGuNQOzsPzNjNm/6SJiu4mVT6oIvitXIg0py2KMP5r3QEm+JHJPFvlt
+         ic0gZIxwDTqUWVO1QRDrJD3ybXAQEZVa1v8fC8WSuoIBv/3kaYKfOMIzraSeuA/72t4r
+         NguvtSsphhC7kSBuz5BPxbMmHUplfrUmb81mD8MiHxw8WX2bXcheuWuXe9T9/+R/tE2u
+         uxeWfXhxz8F3hw+n1tlYVjqX1rX0t881drIqNpGJRyxKeOEAj8ZoV/Ot3ZYTtSbN0bUV
+         i9+A==
+X-Gm-Message-State: AOAM532sudpdlFLVTgUoXcP4qUUsT1tS4IEbIsVLGlmwYtL37DjcOnJd
+        TORIUDdFvZ4nJEdz0pT0XXs=
+X-Google-Smtp-Source: ABdhPJz/IG9016CRVziTx6VnTnMzdjx9OkOQzHYZaUJYwr+krDqW/GsysWerNUdwLfDFLLG/GMQ9mQ==
+X-Received: by 2002:a17:902:b70a:b029:d2:6391:a80f with SMTP id d10-20020a170902b70ab02900d26391a80fmr1843556pls.0.1602058477662;
+        Wed, 07 Oct 2020 01:14:37 -0700 (PDT)
+Received: from adolin ([49.207.194.78])
+        by smtp.gmail.com with ESMTPSA id w10sm1443590pjy.13.2020.10.07.01.14.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2020 01:14:36 -0700 (PDT)
+Date:   Wed, 7 Oct 2020 13:44:32 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     Julia.Lawall@lip6.fr
+Cc:     corbet@lwn.net, Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, cocci@systeme.lip6.fr,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH 0/2 V3] Improve Coccinelle Parallelisation
+Message-ID: <cover.1602054065.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
+Coccinelle utilises all available threads to implement parallelisation.
+However, this results in a decrease in performance.
 
->> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
->> index f1148181f53e..00376501a5ef 100644
->> --- a/Documentation/w1/slaves/w1_therm.rst
->> +++ b/Documentation/w1/slaves/w1_therm.rst
+This patchset aims to improve performance by modifying cocciccheck to
+use at most one thread per core by default in machines with more than 4
+hyperthreads.
 
->>  
->> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
->>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
->>  conversion completion (normal power only) by generating read cycles on the bus
->>  after conversion starts. In parasite power mode this feature is not available.
->> -Feature bit masks may be combined (OR).
->> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
->> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
->> +
+Sumera Priyadarsini (2):
+  scripts: coccicheck: Change default value for parallelism
+  Documentation: Coccinelle: Modify parallelisation information in docs
 
-> As warned by Sphinx, this cross-reference is broken:
-
->         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
-> undefined label: w1_therm (if the link has no caption the label must precede a section header)
-
-Would this be ok?
-
-"More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
-
-> Not sure what you wanted to point here.
-
-A link to a driver's sysfs interface, but sysfs docs are text
-files and seem to not be included in Sphynx Docs.
+ Documentation/dev-tools/coccinelle.rst | 5 +++--
+ scripts/coccicheck                     | 5 +++++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
 -- 
-Best regards,
- Ivan                            mailto:ivan.zaentsev@wirenboard.ru
+2.25.1
 
