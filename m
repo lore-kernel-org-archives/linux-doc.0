@@ -2,103 +2,150 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C587FC41604
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 20:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 342D5C4363C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 21:15:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 569932083B
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 20:31:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D625320872
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 21:15:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nEyvZX+2"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WGXPcwhB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728605AbgJGUbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 16:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727776AbgJGUa5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 16:30:57 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 743D2C061755
-        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 13:30:57 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id c6so1597283plr.9
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 13:30:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pd+/ZpbnBV5l9qExxGdnTHpTNEUm5cV1GzwUJ6tqh44=;
-        b=nEyvZX+2vjJOueDyZuWbV5vWft8TAIWEiARMuJgcgQhpHDYfg/KPbHubPg2PDWezaZ
-         CKhFhBlogdbkd18w3DAOu7i+iectLFDenZL7hG/CtyzfjFRAwIPw+/2LGozuMjeuSxnF
-         ASu4OJZ8TJPnCw3XwDkRKi+7pFaKpqChLq86E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pd+/ZpbnBV5l9qExxGdnTHpTNEUm5cV1GzwUJ6tqh44=;
-        b=fQC61Nzue7MSzhS+6r/lmtnU6jLmUkblcMBWMD98ybpFgnNEGnEbgx3ecNHxqTymPi
-         qKuNau4FJU41OhXRbBe4tB+fS75E2htl/8BBJ0FdCx13/w60G88/PbhyC+A+ZBjPHHbv
-         9OZYTXuHvbkcmS74Td73q3bq5PLBFzVENmDhTzB/7AC2HNGz/XzyZUZtBBSni3HPhx8V
-         chExfWAIIUE/6VNrBQnDbDPYZH5y/ayEzOSSnZTn284mrdNNDHSTW0CPQeFLf0lxMl9X
-         zXeiVYLwBZMy3FUFiLDL09xf0c0IzkqXwTPHKVi2/IOJ9vNo0+kZaikn6LM0OHi/QZg8
-         UgRg==
-X-Gm-Message-State: AOAM531MXhkRZiReaEEnuqCAs6J3k5fpPPTJe7LgmpLeUh/WojbB8ZXX
-        5t93TVJ8Frl44JQedNDeqWlxRA==
-X-Google-Smtp-Source: ABdhPJxvzB5CQqKYSVpxXRdbhDUgduIv9j3T0qsKxz8w/h/kbw9HaWwcBy6dbTfM/ADqztFMkbJNtg==
-X-Received: by 2002:a17:902:a5c6:b029:d3:8dc1:5240 with SMTP id t6-20020a170902a5c6b02900d38dc15240mr4478706plq.16.1602102656996;
-        Wed, 07 Oct 2020 13:30:56 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j8sm4324781pfr.121.2020.10.07.13.30.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2020 13:30:55 -0700 (PDT)
-Date:   Wed, 7 Oct 2020 13:30:54 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     corbet@lwn.net, gregkh@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] counters: Introduce counter_atomic* counters
-Message-ID: <202010071329.90E96DC2@keescook>
-References: <cover.1602011710.git.skhan@linuxfoundation.org>
- <cbace4e3f504359bd017a7fc2aab62178a1550ed.1602011710.git.skhan@linuxfoundation.org>
- <202010071056.E4804235E@keescook>
- <f0939f9d-d60f-7a97-31bd-e527c79ce284@linuxfoundation.org>
+        id S1728654AbgJGVPq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 17:15:46 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:53430 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727821AbgJGVPq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 17:15:46 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 097L9wBI146673;
+        Wed, 7 Oct 2020 21:15:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
+ cc : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=JPMWL4bTVnMXu+B6HCp8FDYPYl29laP2NiOsFFNS9QQ=;
+ b=WGXPcwhBqra3r34fdmj2xTjTiiUtavQUyyv8t5oMMOoUDEPyghSyV6iBb+d3ispKtFmx
+ MPzuM3HiJ0a1msA4SRyTRdNZV7rxFJjTF5m+EHxhobYPQipTTOsAxe517iy99bs/v6Ox
+ 2qlG49kEYwgIxRMtjrk7as3Adn7WyGVZ0Nq/ILuLmXEZ4dep0rIEP8QLt2yC+R/ALhEj
+ q2uR53OjmSm7N9A3eEIKUXXprTkvxqARVAkAQPzKOGd8Kqcv5rOgzMmnqGYkQP/RXQh2
+ Ai56OmPwrqCYkZAALrEzGOYS/oBK8XmoXV2djklH7arEv10e5HqFkwaYjV8jqeWDRgbA hA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 33ym34sgtp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 07 Oct 2020 21:15:01 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 097LBKZG037135;
+        Wed, 7 Oct 2020 21:13:01 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 33y2vq0gpt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 07 Oct 2020 21:13:01 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 097LCnQm031393;
+        Wed, 7 Oct 2020 21:12:49 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 07 Oct 2020 14:12:49 -0700
+Subject: Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap pages of hugetlb
+ page
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+ <31eac1d8-69ba-ed2f-8e47-d957d6bb908c@oracle.com>
+Message-ID: <9d220de0-f06d-cb5b-363f-6ae97d5b4146@oracle.com>
+Date:   Wed, 7 Oct 2020 14:12:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f0939f9d-d60f-7a97-31bd-e527c79ce284@linuxfoundation.org>
+In-Reply-To: <31eac1d8-69ba-ed2f-8e47-d957d6bb908c@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9767 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
+ malwarescore=0 suspectscore=2 spamscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010070137
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9767 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 priorityscore=1501
+ mlxscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 spamscore=0
+ malwarescore=0 phishscore=0 suspectscore=2 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2010070137
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 01:26:53PM -0600, Shuah Khan wrote:
-> On 10/7/20 12:11 PM, Kees Cook wrote:
-> > My instinct is to say leave it "int" and adjust documentation, which is
-> > the least disruptive, but I am enticed by the desire to make sure a
-> > counter doesn't "misbehave" and go negative when the usage wants it
-> > always positive.
-> > 
-> 
-> I would recommend leaving it as "int". Changing the API to unsigned has
-> other ramifications and cascading changes.
-> 
-> My quick search shows me there are 612 atomic_inc_return usages and
-> 14 out of them are forcing the return type from int to u32.
-> 
-> For atomic_read the numbers are 51 out of 5833 forcing u32. We have
-> couple of options:
-> 
-> 1. Update the documentation since we have more cases where
->    int is just fine.
-> 2. Add counter_atomic32_inc_return_u32() variant to cover these few
->    cases that are forcing the return.
-> 
-> I recommend going with option 1 with Documentation update and add
-> option 2 when we convert one of these 60+.
+On 9/29/20 2:58 PM, Mike Kravetz wrote:
+> On 9/15/20 5:59 AM, Muchun Song wrote:
+>> Hi all,
+>>
+>> This patch series will free some vmemmap pages(struct page structures)
+>> associated with each hugetlbpage when preallocated to save memory.
+> ...
+>> The mapping of the first page(index 0) and the second page(index 1) is
+>> unchanged. The remaining 6 pages are all mapped to the same page(index
+>> 1). So we only need 2 pages for vmemmap area and free 6 pages to the
+>> buddy system to save memory. Why we can do this? Because the content
+>> of the remaining 7 pages are usually same except the first page.
+>>
+>> When a hugetlbpage is freed to the buddy system, we should allocate 6
+>> pages for vmemmap pages and restore the previous mapping relationship.
+>>
+>> If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
+>> substantial gain. On our server, run some SPDK applications which will
+>> use 300GB hugetlbpage. With this feature enabled, we can save 4797MB
+>> memory.
 
-Agreed: 1 seems best, and then later 2 if it feels justified. :)
+I had a hard time going through the patch series as it is currently
+structured, and instead examined all the code together.  Muchun put in
+much effort and the code does reduce memory usage.
+- For 2MB hugetlb pages, we save 5 pages of struct pages
+- For 1GB hugetlb pages, we save 4086 pages of struct pages
 
+Code is even in pace to handle poisoned pages, although I have not looked
+at this closely.  The code survives the libhugetlbfs and ltp huge page tests.
+
+To date, nobody has asked the important question "Is the added complexity
+worth the memory savings?".  I suppose it all depends on one's use case.
+Obviously, the savings are more significant when one uses 1G huge pages but
+that may not be the common case today.
+
+> At a high level this seems like a reasonable optimization for hugetlb
+> pages.  It is possible because hugetlb pages are 'special' and mostly
+> handled differently than pages in normal mm paths.
+
+Such an optimization only makes sense for something like hugetlb pages.  One
+reason is the 'special' nature of hugetlbfs as stated above.  The other is
+that this optimization mostly makes sense for huge pages that are created
+once and stick around for a long time.  hugetlb pool pages are a perfect
+example.  This is because manipulation of struct page mappings is done when
+a huge page is created or destroyed.
+
+> The majority of the new code is hugetlb specific, so it should not be
+> of too much concern for the general mm code paths.
+
+It is true that much of the code in this series was put in hugetlb.c.  However,
+I would argue that there is a bunch of code that only deals with remapping
+the memmap which should more generic and added to sparse-vmemmap.c.  This
+would at least allow for easier reuse.
+
+Before Muchun and myself put more effort into this series, I would really
+like to get feedback on the whether or not this should move forward.
+Specifically, is the memory savings worth added complexity?  Is the removing
+of struct pages going to come back and cause issues for future features?
 -- 
-Kees Cook
+Mike Kravetz
