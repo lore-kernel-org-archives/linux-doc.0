@@ -2,109 +2,142 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3C0C4727F
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 10:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28041C4363C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 11:05:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0EA5212CC
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 10:09:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d1bLEP6O"
+	by mail.kernel.org (Postfix) with ESMTP id AF5FC20B1F
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 11:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602068756;
+	bh=8fjmSp49cKh0wfDCoSeaYG9gAubXCSGeNCp550twzME=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=XsUFsZ6ieemN2VlqTkMSiuus5rYfF1YrE9cP9tAcBU6dEkOjKQVUpCcE7H+1NGqqz
+	 6e58n8DEXfdEizQeTTFUtxImxnyZfc7KdhlIeYZtqOCgxh6eBUykaiTosNcvZb7ktg
+	 fET9EwLUKt7ePsxG0uIRJCkTL//ECx/xyUW/+AM0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728036AbgJGKJB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 06:09:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47860 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728021AbgJGKI7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 06:08:59 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6EC8C0613D5
-        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 03:08:59 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id t18so767991plo.1
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 03:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=4zAlyHu3ozVwhIdc8JuhpCI5T47/aq9qR52/3xNtzoE=;
-        b=d1bLEP6O8l2t1teQ7OtLJS+0E8nkTe4PSCUUuOi8LhwThHSIAzScvJJxVNWwrTjFsw
-         gdVnXX/RvkS5FQdDXh5QsPAU9t34495bbhsaG1Uj8fmoQXfHBDs6y7aIdCdydpdkkqHk
-         3luI89zlBE5reHz/ChyEZqGsWv6eUg3Nx6wEE3meDopsZAHLDsz+licI2O9yQ5/cXmwU
-         thz2o/oKpepvkGme3St/tEkOKeFGLWa/uG3rIm5gVjmLlyjW4ucCKDYGtZI4mIkp7tf1
-         T7mGJUmx6TWOZowJk7qtg3IyZS2RqICYvcduRI71MXqhsQHwEQnITTZD5XEP1kg6i2ql
-         KwBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=4zAlyHu3ozVwhIdc8JuhpCI5T47/aq9qR52/3xNtzoE=;
-        b=M+j7qO/Orw2QqVC5PYVKI5XaoXQeqk/7xDA0QzA0GZ3dmM83XeowHV865Qw5hruVOA
-         fPSOyCKpjyBwAydYKddwZDCgT1LQs/3FhfK9CJUus7W/Zs70N/6OVVSpufdbxE0OZhud
-         5QbXnhZKAoiHBFNdJMk8gO/kansxvxJY8RWLa8llNxJoH9XFsqzrvwntTkl3Vo/2iWUQ
-         2Y3uj7chSCf+o9yW3cd/M1tZ7aDMW/HXTi6Z1XoeaG8UafyelhSBVWY6QtrM5CyMDaFQ
-         cKO4dMIhEFJP7swBuNK5nYJbTgqL4SmTay5iq0DaWW06Ml3QIruw/D8vI29V4DHLfOwk
-         VsiQ==
-X-Gm-Message-State: AOAM5312QVOyeQBJLgvSz8XakLI1LqoYc1qy6bqxaPkxNHZH71Voct9j
-        5/6jA2ZQx0dcJRthJOrYh7lx4g==
-X-Google-Smtp-Source: ABdhPJwG4XN+q49MZ9O4RWqa8DonZxPxMTXdW7QbCKNxEz+y6bUBf5dxXAl3AwAwgmIowjHCWTfLTQ==
-X-Received: by 2002:a17:90a:6787:: with SMTP id o7mr2224342pjj.125.1602065339238;
-        Wed, 07 Oct 2020 03:08:59 -0700 (PDT)
-Received: from localhost.localdomain ([117.252.65.235])
-        by smtp.gmail.com with ESMTPSA id m4sm2322174pgv.87.2020.10.07.03.08.49
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 07 Oct 2020 03:08:58 -0700 (PDT)
-From:   Sumit Garg <sumit.garg@linaro.org>
-To:     jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com,
-        jejb@linux.ibm.com
-Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org,
-        Sumit Garg <sumit.garg@linaro.org>
-Subject: [PATCH v7 4/4] MAINTAINERS: Add entry for TEE based Trusted Keys
-Date:   Wed,  7 Oct 2020 15:37:48 +0530
-Message-Id: <1602065268-26017-5-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
-References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
+        id S1727732AbgJGLF4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 07:05:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43982 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727278AbgJGLF4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Oct 2020 07:05:56 -0400
+Received: from coco.lan (ip5f5ad5a2.dynamic.kabel-deutschland.de [95.90.213.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C244520870;
+        Wed,  7 Oct 2020 11:05:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602068755;
+        bh=8fjmSp49cKh0wfDCoSeaYG9gAubXCSGeNCp550twzME=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=sgod0wBKkbcZXEbenUHnXhSX5tyaGZ+fKjXAXo13RX3GLdVkK0kua0nKzLlMxRx6V
+         aewwVG9unLpFWAOg1W9yOXAy2Vu5VGr1VbSP1RP+vnZvcBRhdiTIIGFq45Lyqc5dqF
+         hxm0AuGJg9GwPAmD9s7JtbQBd4UYlLLT3zptHyzE=
+Date:   Wed, 7 Oct 2020 13:05:49 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Akira Shimahara <akira215corp@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Evgeny Boger <boger@wirenboard.com>
+Subject: Re: [PATCH 2/2] w1: w1_therm: Add support for GXCAS GX20MH01
+ device.
+Message-ID: <20201007130549.6ca57af0@coco.lan>
+In-Reply-To: <20201007090619.GA613204@kroah.com>
+References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
+        <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
+        <20201006151915.77d044a4@coco.lan>
+        <1561045277.20201007103227@wirenboard.ru>
+        <20201007105702.67988846@coco.lan>
+        <20201007090619.GA613204@kroah.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MAINTAINERS entry for TEE based Trusted Keys framework.
+Em Wed, 7 Oct 2020 11:06:19 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> On Wed, Oct 07, 2020 at 10:57:02AM +0200, Mauro Carvalho Chehab wrote:
+> > Em Wed, 7 Oct 2020 10:32:27 +0300
+> > Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
+> >   
+> > > Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
+> > >   
+> > > >> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
+> > > >> index f1148181f53e..00376501a5ef 100644
+> > > >> --- a/Documentation/w1/slaves/w1_therm.rst
+> > > >> +++ b/Documentation/w1/slaves/w1_therm.rst    
+> > >   
+> > > >>  
+> > > >> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
+> > > >>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
+> > > >>  conversion completion (normal power only) by generating read cycles on the bus
+> > > >>  after conversion starts. In parasite power mode this feature is not available.
+> > > >> -Feature bit masks may be combined (OR).
+> > > >> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
+> > > >> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
+> > > >> +    
+> > >   
+> > > > As warned by Sphinx, this cross-reference is broken:    
+> > >   
+> > > >         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
+> > > > undefined label: w1_therm (if the link has no caption the label must precede a section header)    
+> > > 
+> > > Would this be ok?  
+> > 
+> > Yeah, sure!
+> >   
+> > > 
+> > > "More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
+> > >   
+> > > > Not sure what you wanted to point here.    
+> > > 
+> > > A link to a driver's sysfs interface, but sysfs docs are text
+> > > files and seem to not be included in Sphynx Docs.  
+> > 
+> > I sent upstream sometime ago a patch series adding ABI to Sphinx, but I 
+> > was not merged, not sure why:
+> > 
+> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v5.6  
+> 
+> I think the raft of different patches floating around at the time made
+> me totally confused as to what was, and was not, the latest versions.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 48aff80..eb3d889 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9663,6 +9663,14 @@ F:	include/keys/trusted-type.h
- F:	include/keys/trusted_tpm.h
- F:	security/keys/trusted-keys/
- 
-+KEYS-TRUSTED-TEE
-+M:	Sumit Garg <sumit.garg@linaro.org>
-+L:	linux-integrity@vger.kernel.org
-+L:	keyrings@vger.kernel.org
-+S:	Supported
-+F:	include/keys/trusted_tee.h
-+F:	security/keys/trusted-keys/trusted_tee.c
-+
- KEYS/KEYRINGS
- M:	David Howells <dhowells@redhat.com>
- M:	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
--- 
-2.7.4
+Yeah, there were lots of patches floating around that time.
 
+I also recall that someone (Jeni?) asked if the best wouldn't be to
+just convert the ABI files to ReST directly.
+
+> I'll be glad to look at them again, if you want to rebase after 5.10-rc1
+> is out and resend them, as I think this should be showing up in the
+> documentation.
+
+Surely. I'll rebase them after 5.10-rc1 and re-submit. 
+
+What strategy do you prefer? Keep the files with the same format as
+today (allowing them to optionally have ReST markups) or to convert
+them to .rst directly?
+
+In the latter case, the best would be to apply it as early as possible
+after 5.10-rc1, as it may cause conflicts with other patches being
+submitted for 5.11.
+
+In the former case, as there are a few other places like w1_therm that want
+cross-references to ABI, I'll try to automate a way to generate identifiers
+for processed ABI files.
+
+Thanks,
+Mauro
