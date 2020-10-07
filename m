@@ -2,128 +2,378 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2456C47095
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 16:33:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C88F9C4363C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 18:11:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8ABE5206BE
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 16:33:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FF9D2168B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 18:11:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JCeWw1wO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726948AbgJGQd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 12:33:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36578 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726138AbgJGQd1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 12:33:27 -0400
-Received: from gaia (unknown [95.149.105.49])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 092952064E;
-        Wed,  7 Oct 2020 16:33:21 +0000 (UTC)
-Date:   Wed, 7 Oct 2020 17:33:19 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Bhupesh Sharma <bhsharma@redhat.com>
-Cc:     John Donnelly <john.p.donnelly@oracle.com>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        RuiRui Yang <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, nsaenzjulienne@suse.de,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com
-Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
- kdump
-Message-ID: <20201007163319.GS3462@gaia>
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
- <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
- <20201005170937.GA14576@gaia>
- <CACi5LpMWUmP1df8fB8psJY_cNGHF9MNn+TNK4B4edaRHvOXxGQ@mail.gmail.com>
- <20201006180012.GB31946@C02TF0J2HF1T.local>
- <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
+        id S1727535AbgJGSLb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 14:11:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38150 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726323AbgJGSLa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 14:11:30 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B29C061755
+        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 11:11:30 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id g29so1895044pgl.2
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 11:11:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=lw8OB3rFZdOlwiNzv9Y4yzoBKxk1qoYHkNDIN73QPRA=;
+        b=JCeWw1wOAlXt+9yytv5njMCrjiDYkJ40T1sXChMzgASGIPoOKgbo/OIAwo/F9FDd1r
+         YxZUMfhXx93VNso2xsbfiq9hBU9/oN/XcATTLWp+aFhlKDhTEUNwzGkaWDRByAnXEYyb
+         B32fg4KsdJGqBnk8T4dE66EduFaFYgdueeZN8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lw8OB3rFZdOlwiNzv9Y4yzoBKxk1qoYHkNDIN73QPRA=;
+        b=FUnT3sSOaY36+mCe+Jx0zLFRl4b6o3Y+vS4CwSE393AIdfiBdmh7JWlfbo1G4bQMS2
+         XJkgeg+7R+piBGnIETaKNc0cdxdRkcUAKhl+hwavC6fcsj0QpJpz1NsUMcZSU6NNaX6/
+         MpUcN+QJnYRNUvA27sNTnh1wqVJrcwJhBXJDaT10Emkj20Que3BnM0vdwl5AkUc1mROm
+         71W/jH0aCj/dzwLkLd2UJaSPF6UUQ/wMJDqREUJKAAJlURrBULHxHZGLA5YZdx5QM9kY
+         eP1IEPTyX3p/TFTwbZWwFlY8LTk7qHXvZNTgBXvpQDZRk4+J8w6SjLEqH7+hnDMdDH4C
+         ULkQ==
+X-Gm-Message-State: AOAM5300AfmDGML64F+Bxqx7y+PQdk02D41DicKRp4oTIoxLSFy1d13+
+        UXRqBmPkFS7IoyQZ/HM9jtW3pmFYXpCcXM6a
+X-Google-Smtp-Source: ABdhPJwUrB+Z8YeVQObhtBmEcoUxwGK8gVOTk+RLjOiyk/kbgnimAKALuzevTB7dTWEnSOTNRhmFmA==
+X-Received: by 2002:a17:90a:4545:: with SMTP id r5mr3822740pjm.55.1602094290139;
+        Wed, 07 Oct 2020 11:11:30 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id in6sm2492778pjb.42.2020.10.07.11.11.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2020 11:11:29 -0700 (PDT)
+Date:   Wed, 7 Oct 2020 11:11:28 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     corbet@lwn.net, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/11] counters: Introduce counter_atomic* counters
+Message-ID: <202010071056.E4804235E@keescook>
+References: <cover.1602011710.git.skhan@linuxfoundation.org>
+ <cbace4e3f504359bd017a7fc2aab62178a1550ed.1602011710.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <cbace4e3f504359bd017a7fc2aab62178a1550ed.1602011710.git.skhan@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 12:37:49PM +0530, Bhupesh Sharma wrote:
-> On Tue, Oct 6, 2020 at 11:30 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > On Mon, Oct 05, 2020 at 11:12:10PM +0530, Bhupesh Sharma wrote:
-> > > I think my earlier email with the test results on this series bounced
-> > > off the mailing list server (for some weird reason), but I still see
-> > > several issues with this patchset. I will add specific issues in the
-> > > review comments for each patch again, but overall, with a crashkernel
-> > > size of say 786M, I see the following issue:
-> > >
-> > > # cat /proc/cmdline
-> > > BOOT_IMAGE=(hd7,gpt2)/vmlinuz-5.9.0-rc7+ root=<..snip..> rd.lvm.lv=<..snip..> crashkernel=786M
-> > >
-> > > I see two regions of size 786M and 256M reserved in low and high
-> > > regions respectively, So we reserve a total of 1042M of memory, which
-> > > is an incorrect behaviour:
-> > >
-> > > # dmesg | grep -i crash
-> > > [    0.000000] Reserving 256MB of low memory at 2816MB for crashkernel (System low RAM: 768MB)
-> > > [    0.000000] Reserving 786MB of memory at 654158MB for crashkernel (System RAM: 130816MB)
-> > > [    0.000000] Kernel command line: BOOT_IMAGE=(hd2,gpt2)/vmlinuz-5.9.0-rc7+ root=/dev/mapper/rhel_ampere--hr330a--03-root ro rd.lvm.lv=rhel_ampere-hr330a-03/root rd.lvm.lv=rhel_ampere-hr330a-03/swap crashkernel=786M cma=1024M
-> > >
-> > > # cat /proc/iomem | grep -i crash
-> > >   b0000000-bfffffff : Crash kernel (low)
-> > >   bfcbe00000-bffcffffff : Crash kernel
-> >
-> > As Chen said, that's the intended behaviour and how x86 works. The
-> > requested 768M goes in the high range if there's not enough low memory
-> > and an additional buffer for swiotlb is allocated, hence the low 256M.
+On Tue, Oct 06, 2020 at 02:44:32PM -0600, Shuah Khan wrote:
+> Introduce Simple atomic counters.
 > 
-> I understand, but why 256M (as low) for arm64? x86_64 setups usually
-> have more system memory available as compared to several commercially
-> available arm64 setups. So is the intent, just to keep the behavior
-> similar between arm64 and x86_64?
-
-Similar in the sense of the fallback to high memory and some low memory
-allocation but the amounts can vary per architecture.
-
-> Should we have a CONFIG option / bootarg to help one select the max
-> 'low_size'? Currently the ' low_size' value is calculated as:
+> There are a number of atomic_t usages in the kernel where atomic_t api
+> is used strictly for counting and not for managing object lifetime. In
+> some cases, atomic_t might not even be needed.
 > 
->     /*
->          * two parts from kernel/dma/swiotlb.c:
->          * -swiotlb size: user-specified with swiotlb= or default.
->          *
->          * -swiotlb overflow buffer: now hardcoded to 32k. We round it
->          * to 8M for other buffers that may need to stay low too. Also
->          * make sure we allocate enough extra low memory so that we
->          * don't run out of DMA buffers for 32-bit devices.
->          */
->         low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+> The purpose of these counters is to clearly differentiate atomic_t
+> counters from atomic_t usages that guard object lifetimes, hence prone
+> to overflow and underflow errors. It allows tools that scan for underflow
+> and overflow on atomic_t usages to detect overflow and underflows to scan
+> just the cases that are prone to errors.
 > 
-> Since many arm64 boards ship with swiotlb=0 (turned off) via kernel
-> bootargs, the low_size, still ends up being 256M in such cases,
-> whereas this 256M can be used for some other purposes - so should we
-> be limiting this to 64M and failing the crash kernel allocation
-> request (gracefully) otherwise?
+> Simple atomic counters api provides interfaces for simple atomic counters
+> that just count, and don't guard resource lifetimes. Counter will wrap
+> around to 0 when it overflows and should not be used to guard resource
+> lifetimes, device usage and open counts that control state changes, and
+> pm states.
+> 
+> Using counter_atomic* to guard lifetimes could lead to use-after free
+> when it overflows and undefined behavior when used to manage state
+> changes and device usage/open states.
+> 
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  Documentation/core-api/counters.rst | 103 +++++++++++++++++
+>  MAINTAINERS                         |   7 ++
+>  include/linux/counters.h            | 173 ++++++++++++++++++++++++++++
+>  lib/Kconfig                         |  10 ++
+>  lib/Makefile                        |   1 +
+>  lib/test_counters.c                 | 157 +++++++++++++++++++++++++
+>  6 files changed, 451 insertions(+)
+>  create mode 100644 Documentation/core-api/counters.rst
+>  create mode 100644 include/linux/counters.h
+>  create mode 100644 lib/test_counters.c
+> 
+> diff --git a/Documentation/core-api/counters.rst b/Documentation/core-api/counters.rst
+> new file mode 100644
+> index 000000000000..ba1ce325b639
+> --- /dev/null
+> +++ b/Documentation/core-api/counters.rst
+> @@ -0,0 +1,103 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +======================
+> +Simple atomic counters
+> +======================
+> +
+> +:Author: Shuah Khan
+> +
+> +There are a number of atomic_t usages in the kernel where atomic_t api
+> +is used strictly for counting and not for managing object lifetime. In
+> +some cases, atomic_t might not even be needed.
+> +
+> +The purpose of these counters is to clearly differentiate atomic_t counters
+> +from atomic_t usages that guard object lifetimes, hence prone to overflow
+> +and underflow errors. It allows tools that scan for underflow and overflow
+> +on atomic_t usages to detect overflow and underflows to scan just the cases
+> +that are prone to errors.
+> +
+> +Simple atomic counters api provides interfaces for simple atomic counters
+> +that just count, and don't guard resource lifetimes. Counter will wrap
+> +around to 0 when it overflows and should not be used to guard resource
+> +lifetimes, device usage and open counts that control state changes, and
+> +pm states.
+> +
+> +Using counter_atomic32_* to guard lifetimes could lead to use-after free
+> +when it overflows and undefined behavior when used to manage state
+> +changes and device usage/open states.
+> +
+> +Use refcount_t interfaces for guarding resources.
+> +
+> +.. warning::
+> +        Counter will wrap around to 0 when it overflows.
+> +        Should not be used to guard resource lifetimes.
+> +        Should not be used to manage device state and pm state.
+> +
+> +Test Counters Module and selftest
+> +---------------------------------
+> +
+> +Please see :ref:`lib/test_counters.c <Test Counters Module>` for how to
+> +use these interfaces and also test them.
+> +
+> +Selftest for testing:
+> +:ref:`testing/selftests/lib/test_counters.sh <selftest for counters>`
+> +
+> +Atomic counter interfaces
+> +=========================
+> +
+> +counter_atomic32 and counter_atomic64 types use atomic_t and atomic64_t
+> +underneath to leverage atomic_t api,  providing a small subset of atomic_t
+> +interfaces necessary to support simple counters. ::
+> +
+> +        struct counter_atomic32 { atomic_t cnt; };
+> +        struct counter_atomic64 { atomic64_t cnt; };
+> +
+> +Please see :ref:`Documentation/core-api/atomic_ops.rst <atomic_ops>` for
+> +information on the Semantics and Behavior of Atomic operations.
+> +
+> +.. warning::
+> +        It is important to keep the ops to a very small subset to ensure
+> +        that the Counter API will never be used for guarding resource
+> +        lifetimes and state management.
+> +
+> +        inc_return() is added to support current atomic_inc_return()
+> +        usages and avoid forcing the use of _inc() followed by _read().
+> +
+> +Initializers
+> +------------
+> +
+> +Interfaces for initializing counters are write operations which in turn
+> +invoke their ``ATOMIC_INIT() and atomic_set()`` counterparts ::
+> +
+> +        #define COUNTER_ATOMIC_INIT(i)    { .cnt = ATOMIC_INIT(i) }
+> +        counter_atomic32_set() --> atomic_set()
+> +
+> +        static struct counter_atomic32 acnt = COUNTER_ATOMIC_INIT(0);
+> +        counter_atomic32_set(0);
+> +
+> +        static struct counter_atomic64 acnt = COUNTER_ATOMIC_INIT(0);
+> +        counter_atomic64_set(0);
+> +
+> +Increment interface
+> +-------------------
+> +
+> +Increments counter and doesn't return the new counter value. ::
+> +
+> +        counter_atomic32_inc() --> atomic_inc()
+> +        counter_atomic64_inc() --> atomic64_inc()
+> +
+> +Increment and return new counter value interface
+> +------------------------------------------------
+> +
+> +Increments counter and returns the new counter value. ::
+> +
+> +        counter_atomic32_inc_return() --> atomic_inc_return()
+> +        counter_atomic64_inc_return() --> atomic64_inc_return()
+> +
+> +Decrement interface
+> +-------------------
+> +
+> +Decrements counter and doesn't return the new counter value. ::
+> +
+> +        counter_atomic32_dec() --> atomic_dec()
+> +        counter_atomic64_dec() --> atomic64_dec()
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 33b27e62ce19..4e82d0ffcab0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15839,6 +15839,13 @@ S:	Maintained
+>  F:	Documentation/fb/sm712fb.rst
+>  F:	drivers/video/fbdev/sm712*
+>  
+> +SIMPLE ATOMIC and NON-ATOMIC COUNTERS
+> +M:	Shuah Khan <skhan@linuxfoundation.org>
+> +L:	linux-kernel@vger.kernel.org
+> +S:	Maintained
+> +F:	include/linux/counters.h
+> +F:	lib/test_counters.c
+> +
+>  SIMPLE FIRMWARE INTERFACE (SFI)
+>  S:	Obsolete
+>  W:	http://simplefirmware.org/
+> diff --git a/include/linux/counters.h b/include/linux/counters.h
+> new file mode 100644
+> index 000000000000..c0c26a13f768
+> --- /dev/null
+> +++ b/include/linux/counters.h
+> @@ -0,0 +1,173 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Interface for simple atomic counters that just count.
+> + *
+> + * Counter will wrap around to 0 when it overflows and should not be
+> + * used to guard resource lifetimes, device usage and open counts that
+> + * control state changes, and pm states. Using counter_atomic to guard
+> + * lifetimes could lead to use-after free when it overflows and undefined
+> + * behavior when used to manage state changes and device usage/open states.
+> + *
+> + * Use refcount_t interfaces for guarding resources.
+> + *
+> + * The interface provides:
+> + * atomic32 & atomic64 functions:
+> + *	increment and no return
+> + *	increment and return value
+> + *	decrement and no return
+> + *	read
+> + *	set
+> + *
+> + * counter_atomic32 unctions leverage/use atomic_t interfaces.
 
-I think it makes sense to set a low_size = 0 if
-swiotlb_size_or_default() is 0. The assumption would be that if the main
-kernel doesn't need an swiotlb, the crashdump one wouldn't need it
-either. But this probably needs the ZONE_DMA for non-RPi4 platforms
-addressed as well (expanded to the whole ZONE_DMA32).
+typo: functions
+
+> + * counter_atomic64 functions leverage/use atomic64_t interfaces.
+> + * The counter will wrap around to 0 when it overflows.
+> + * These interfaces should not be used to guard resource lifetimes.
+> + *
+> + * Reference and API guide:
+> + *	Documentation/core-api/counters.rst for more information.
+> + *
+> + */
+> +
+> +#ifndef __LINUX_COUNTERS_H
+> +#define __LINUX_COUNTERS_H
+> +
+> +#include <linux/atomic.h>
+> +
+> +/**
+> + * struct counter_atomic32 - Simple atomic counter
+> + * @cnt: int
+> + *
+> + * The counter wraps around to 0, when it overflows. Should not
+> + * be used to guard object lifetimes.
+> + **/
+> +struct counter_atomic32 {
+> +	atomic_t cnt;
+> +};
+> +
+> +#define COUNTER_ATOMIC_INIT(i)		{ .cnt = ATOMIC_INIT(i) }
+> +
+> +/*
+> + * counter_atomic32_inc() - increment counter value
+> + * @cntr: struct counter_atomic32 pointer
+> + *
+> + */
+> +static inline void counter_atomic32_inc(struct counter_atomic32 *cntr)
+> +{
+> +	atomic_inc(&cntr->cnt);
+> +}
+> +
+> +/*
+> + * counter_atomic32_inc_return() - increment counter value and return it
+> + * @cntr: struct counter_atomic32 pointer
+> + *
+> + * Return: returns the new counter value after incrementing it
+> + */
+> +static inline int counter_atomic32_inc_return(struct counter_atomic32 *cntr)
+> +{
+> +	return atomic_inc_return(&cntr->cnt);
+> +}
+
+So, there's an issue here between the types and the documentation: while
+this will eventually wrap around to 0, it will first go through the
+negative value space (i.e. INT_MAX + 1 == INT_MIN, INT_MIN < 0).
+
+Current users of atomic_t should already be expecting this, but does it
+make sense?
+
+i.e. should the documentation be updated to "wraps around to negative
+values", or should the counter API be updated to force the unsigned
+value:
+
++static inline u32 counter_atomic32_inc_return(struct counter_atomic32 *cntr)
++{
++	return (u32)atomic_inc_return(&cntr->cnt);
++}
+
+I see many forcing the return type from atomic_*{read,return}*():
+
+$ git grep -E '\((unsigned|unsigned int|u32)\).*\batomic.*(read|return)' | wc -l
+67
+
+My instinct is to say leave it "int" and adjust documentation, which is
+the least disruptive, but I am enticed by the desire to make sure a
+counter doesn't "misbehave" and go negative when the usage wants it
+always positive.
+
+> +static void test_counter_atomic32_overflow(void)
+> +{
+> +	static struct counter_atomic32 ucnt = COUNTER_ATOMIC_INIT(0);
+> +	static struct counter_atomic32 ocnt = COUNTER_ATOMIC_INIT(INT_MAX);
+> +	int start_val;
+> +	int end_val;
+> +
+> +	start_val = counter_atomic32_read(&ucnt);
+> +	counter_atomic32_dec(&ucnt);
+> +	end_val = counter_atomic32_read(&ucnt);
+
+This is testing that counter operations match native int operations,
+which seems fine. I wonder if hard-coded values should be added too, to
+just more directly map the explicit expectations? E.g. adding a second
+test with each:
+
+	test_counter_result_print32("Test underflow (int)",
+				    start_val, end_val, start_val-1);
+	test_counter_result_print32("Test underflow (-1)",
+				    start_val, end_val, -1);
+
+
+> +
+> +	start_val = counter_atomic32_read(&ocnt);
+> +	end_val = counter_atomic32_inc_return(&ocnt);
+
+and:
+
+	test_counter_result_print32("Test overflow (int)",
+				    start_val, end_val, start_val+1);
+	test_counter_result_print32("Test underflow (INT_MIN)",
+				    start_val, end_val, INT_MIN);
+
+
+Otherwise, yes, looks great; thank you!
 
 -- 
-Catalin
+Kees Cook
