@@ -2,71 +2,108 @@ Return-Path: <SRS0=+dB3=DO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F78C4363C
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B04C4363C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:23:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02E992083B
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:22:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B90AA2076C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Oct 2020 08:23:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r5BnuTJL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727897AbgJGIWy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Oct 2020 04:22:54 -0400
-Received: from mga18.intel.com ([134.134.136.126]:44318 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727896AbgJGIWy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Oct 2020 04:22:54 -0400
-IronPort-SDR: xt5cVcWXarbAl1TtCBB2MF9xg3AmOtAaZe2PW8a/zeIiJlxRtDOep3YERJlA5xs64bI86h+fKl
- c+SUn8v+LiyA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9766"; a="152628612"
-X-IronPort-AV: E=Sophos;i="5.77,346,1596524400"; 
-   d="scan'208";a="152628612"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2020 01:22:51 -0700
-IronPort-SDR: 05ugYUlxo5ouPOyYQiwLdofSkck3UW7zEhZ3ydBjg8wP7VzFIzkUTg/+XfztGUA24kn5Maa6WQ
- HKmficnhWrfA==
-X-IronPort-AV: E=Sophos;i="5.77,346,1596524400"; 
-   d="scan'208";a="461229991"
-Received: from kneumaye-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.34.113])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2020 01:22:49 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, Joe Perches <joe@perches.com>
-Subject: Re: [PATCH RFC] script: add a script for checking doc problems with external functions
-In-Reply-To: <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20201005125920.27a7768d@coco.lan> <e40a32900dba6b8e7a1f41838ee8caeb1ef1c1b3.1601985151.git.mchehab+huawei@kernel.org>
-Date:   Wed, 07 Oct 2020 11:23:11 +0300
-Message-ID: <87tuv6igwg.fsf@intel.com>
+        id S1727896AbgJGIXA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Oct 2020 04:23:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727885AbgJGIW7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Oct 2020 04:22:59 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0CEC061755;
+        Wed,  7 Oct 2020 01:22:59 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id j33so917113pgj.5;
+        Wed, 07 Oct 2020 01:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DTMIeAb4199BQec+LNtvo77g56g0FGiP7OwneWm/qvY=;
+        b=r5BnuTJLumHmMsoWOjoCTn0gMd3jUUw8iI1MJypztqgE5nG9CU48UfVtN/rMXQM1VV
+         9T9wzdYfyxDvwqIKaC0Uogef32LbP8aY80dXceZCT9SmtMe947Ezwe8v/TGV3kT5cBG8
+         AvzvzQRrY5FfVf9RXlA/0HWbScgyo+BejsLtuefOVV0oD9IgY9DZWmZlM8jBHwXq8Rcq
+         z2awCSt0XRi26cQC4dhwsEtoJLVapdo2WzkklbaRzMiosk9p6zCRYbWZJ9DzXdUafiyr
+         4IjmhXbwG1+APq65/HQKdO33dC8UgGaA52aZV89jTuvhqCVNzSoWFyRAjEl832NMqUnv
+         sZPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DTMIeAb4199BQec+LNtvo77g56g0FGiP7OwneWm/qvY=;
+        b=ALJbApXnff3Fugx0QPQVZWQQAWESsVdP4PEFNdKIVjcPvkXFjaSs4bojo+4LeCiwuF
+         hxlApqvP0A4GoyzqwlosKTOhx7TBoL+gtcuv9NTlCDYWTSUVlHDatPpqcjEY6fVQTZnZ
+         yTpZ4p0HCqkathhsuQcckUlEtUgReYgq8++qb1s6p54ZYrGonQFz070YuSBIUDT5Htfk
+         u5YFOQQlFCP/P9mRGLo1y8UkT4c1qsH0TbLfO9XvPgJjicz77/E2RhJLd46gMSsp38dH
+         l05VZKIWbua4giam4HVn6CcgQH02mJpaiQ06/IX8lp/PZVfWgdAdg7geP7lu2SNDwUc0
+         CQbQ==
+X-Gm-Message-State: AOAM530MD56Gp4OSC4PXksquAdHTCEWxrxUmQf9bPMi8y5ookbUh/tRl
+        ou4VjLTCiSAE2syO7q6T8/Q=
+X-Google-Smtp-Source: ABdhPJw7aCjvWh+9f5ZHF7Si16K7xRCRQhAenNZXmtVZEZmwMh2/En9ERkjHqxmnFwxsTNeJFHnCUQ==
+X-Received: by 2002:a63:4e4a:: with SMTP id o10mr391023pgl.384.1602058979301;
+        Wed, 07 Oct 2020 01:22:59 -0700 (PDT)
+Received: from adolin ([49.207.194.78])
+        by smtp.gmail.com with ESMTPSA id g4sm2042335pgh.65.2020.10.07.01.22.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2020 01:22:58 -0700 (PDT)
+Date:   Wed, 7 Oct 2020 13:52:53 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     Julia.Lawall@lip6.fr
+Cc:     corbet@lwn.net, Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, cocci@systeme.lip6.fr,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH 2/2 V3] Documentation: Coccinelle: Modify parallelisation
+ information in docs
+Message-ID: <25adae324909605cdbe5ae88a9d60c34aeb515d7.1602054065.git.sylphrenadin@gmail.com>
+References: <cover.1602054065.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1602054065.git.sylphrenadin@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 06 Oct 2020, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> While not all EXPORT_SYMBOL*() symbols should be documented,
-> it seems useful to have a tool which would help to check what
-> symbols aren't documented.
->
-> This is a first step on this direction. The tool has some
-> limitations. Yet, it could be useful for maintainers to check
-> about missing documents on their subsystems.
+This patchset modifies coccicheck to use at most one thread per core by
+default in machines with more than 4 hyperthreads for optimal performance.
+Modify documentation in coccinelle.rst to reflect the same.
 
-Seems like this should be part of checkpatch.pl somehow.
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+---
+Changes in V2:
+	Update scripts/coccicheck to use all available threads
+	in machines with upto 4 hyperthreads.
+---
+ Documentation/dev-tools/coccinelle.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-BR,
-Jani.
-
-
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 74c5e6aeeff5..6fdc462689d5 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -130,8 +130,9 @@ To enable verbose messages set the V= variable, for example::
+ Coccinelle parallelization
+ --------------------------
+ 
+-By default, coccicheck tries to run as parallel as possible. To change
+-the parallelism, set the J= variable. For example, to run across 4 CPUs::
++By default, coccicheck uses at most 1 thread per core in a machine with more
++than 4 hyperthreads. In a machine with upto 4 threads, all threads are used.
++To change the parallelism, set the J= variable. For example, to run across 4 CPUs::
+ 
+    make coccicheck MODE=report J=4
+ 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.25.1
+
