@@ -2,90 +2,72 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B60CC4363C
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 15:54:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85C71C433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 16:04:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EE96215A4
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 15:54:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJGEk64o"
+	by mail.kernel.org (Postfix) with ESMTP id 39A34221FD
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 16:04:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729566AbgJHPyM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 11:54:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41652 "EHLO
+        id S1729570AbgJHQEa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 12:04:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731595AbgJHPyI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 11:54:08 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65EEEC0613D2;
-        Thu,  8 Oct 2020 08:54:08 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id x22so4310421pfo.12;
-        Thu, 08 Oct 2020 08:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wP+udRW03ScOonDwfr2+rE7x2nDIe+62cJ5Bmdntu7k=;
-        b=VJGEk64oBgb776ZwVsxjmdpAp6ohTbkaSqAPjtQPJ56197gqTmEytREl0thcRiS1ST
-         BU2dGqlzCeHf+bLIvL+FSThoOHExUnYeGSJlnaIEW0nP9GUscP9YAWs2SpEjHmOztq06
-         5j8v3kWSWvW3HhmB/qc9Ko2fBXpFKVVNyFVRDTvCa9b5/WxD31jD6BEgv6o+fvaWVG/u
-         c7HZmpvFpvM8qIzEpc0KVIAT3po3qOMUq5CiMs1BEGy4Pfo5wYz/juYPrisYUctD1e/v
-         ZVhfOsIZJGp4NOUGwlZzmvOA0K1VzF50QWE3+qIW0NRzPFvCMI8E28lDGqHFreISTKxx
-         jLcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wP+udRW03ScOonDwfr2+rE7x2nDIe+62cJ5Bmdntu7k=;
-        b=DR/egR5Ne9tmq6I9ZR+c2Jyf3lHu6lZj6c35DeFk5UqJNhI15cQDpRH5rZI5J1X34R
-         ssQQlq46b/0upYL7cUq8ugJ98q7QQHNA0SXG066MQQbMFxuun4VcrEHsm2Nh0Sa/d9Fi
-         MSSAnlCWszEo7rFx/xc3C9g953pQVNFuDjCB2AbL+B6Zyh6HL+NYpfIxpoIl/X0b+LK0
-         Cedpvp8HaNMNaeUZVizcq8LoiMgzpmFvOD09cv26cyENJGb3To1SJk49xGfj+4igEis4
-         Te90EJq+TUGWzyhgQ365el2/jnRb0dQvDikZReKSUt4Z0ft8XKag7NdFOB9IRXFm6gId
-         DFJw==
-X-Gm-Message-State: AOAM533HyywlnKh6JmVjx/NDmyq8+ryeEGrnYhtgD41HHp+rwrOGbQJp
-        i4ve6ecix7Uv+58rO6Pwi7X9+MH/DcYGiQvRZ9+FJlOpUN7SJg==
-X-Google-Smtp-Source: ABdhPJzy6VdWnsJszD4ndz7auG7E75pSR6XcAx+7WS2KGUiXvEsKaAUQjprG66NcuJfPy9Izq6N8n4uIJWH1L2dmo6Y=
-X-Received: by 2002:a63:4c1d:: with SMTP id z29mr8089999pga.203.1602172447925;
- Thu, 08 Oct 2020 08:54:07 -0700 (PDT)
+        with ESMTP id S1726875AbgJHQEa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 12:04:30 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67142C061755;
+        Thu,  8 Oct 2020 09:04:30 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 728E52E6;
+        Thu,  8 Oct 2020 16:04:29 +0000 (UTC)
+Date:   Thu, 8 Oct 2020 10:04:27 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: filesystems: better locations for
+ sysfs-pci, sysfs-tagging
+Message-ID: <20201008100427.39ca3c1f@lwn.net>
+In-Reply-To: <20201007233151.490953-1-jhubbard@nvidia.com>
+References: <20201007233151.490953-1-jhubbard@nvidia.com>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20201007143817.76335-1-andriy.shevchenko@linux.intel.com> <20201008090851.3041aa1d@lwn.net>
-In-Reply-To: <20201008090851.3041aa1d@lwn.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 8 Oct 2020 18:54:57 +0300
-Message-ID: <CAHp75VfYn1SRXXhpC=YXzDzUYuc3LVwj4WY1e9k6qH7ZmEWwtQ@mail.gmail.com>
-Subject: Re: [PATCH v1] gpiolib: Update indentation in driver.rst for code excerpts
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 8, 2020 at 6:10 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Wed,  7 Oct 2020 17:38:17 +0300
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
->
-> > When TABs are being used to indent the code excerpts inside
-> > the bullet lists some of the tools fail to recognize it and
-> > continue interpreting the special characters inside
-> > the quoted excerpt.
->
-> Which tools are those?  The docs build itself seems to work fine...?
+On Wed, 7 Oct 2020 16:31:51 -0700
+John Hubbard <jhubbard@nvidia.com> wrote:
 
-vim
+> sysfs-pci and sysfs-tagging were mis-filed: their locations with
+> Documentation/ implied that they were related to file systems. Actually,
+> each topic is about a very specific *use* of sysfs, and sysfs *happens*
+> to be a (virtual) filesystem, so this is not really the right place.
+> 
+> It's jarring to be reading about filesystems in general and then come
+> across these specific details about PCI, and tagging...and then back to
+> general filesystems again.
+> 
+> Move sysfs-pci and sysfs-tagging to a location under the sysfs topic.
+> 
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
+I see why you want to do this, but I have to wonder if moving them out of
+Documentation/filesystems entirely might not be a better approach.
+sysfs-pci.rst might better belong in the admin guide or under PCI/, while
+sysfs-tagging.rst could go under networking/.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Make sense?
+
+Thanks,
+
+jon
