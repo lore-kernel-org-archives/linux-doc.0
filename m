@@ -2,261 +2,160 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EFA8C433E7
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 05:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C93BC433E7
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 06:03:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11FF72087D
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 05:43:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=wirenboard-ru.20150623.gappssmtp.com header.i=@wirenboard-ru.20150623.gappssmtp.com header.b="D/9bfveK"
+	by mail.kernel.org (Postfix) with ESMTP id 97848217BA
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 06:03:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602136993;
+	bh=vpzw2eAPwPm0AHcA/aZnYkEH6aH6DDHIDFv9+O5ovNo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=iBo1+VtCpwOTicN46aXJOszQK3GzjTjWG2SQVgs+8qDCjTwyTajBBTOUGVDnPOB7F
+	 Q7Jl9mHXofOesBkyu+p4/Dvk0i3oF6LUEzfZvFCpeHjN9EYJUpk/tXCj6lkGaWFt3e
+	 /uukWLKj1aD9T0tPOg+gaedKElsUa15f5ccy4py0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbgJHFnr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 01:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59974 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbgJHFnr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 01:43:47 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1B5C061755
-        for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2020 22:43:46 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id a4so4369230lji.12
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2020 22:43:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-ru.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i71PJY1rLSI4eOg+PhEakUm+s6386zJP+9T/6pzaOEg=;
-        b=D/9bfveKRY7NtJ/Ol+qzWXBZbPrDmL2RSVxXB8Qw4GxvPhKfFD8a5/LhM6xoJKyV92
-         l2pPteRoF8F19iNbLlZM4/qkeNMHVvBjuo4cD+h1uLBh9K70mHdV98y3rYpe7FeRFt4Z
-         CmlSb6hJHUsXc/qfwmBaWurD3lyzgAmZ0azE7bvUoJxobCOr4kWK9KRhThfQxTXZvD7c
-         D1YjP2b7qSKCa4Qh+P6L1LRmRgYPZRD8VI6WZFi5nRTxJ7rcUJmFOm6x3qUc0ePwxS13
-         RY4fbXNhbVpM8NrXRPC6j3PggJjM+dWfKnoy7B7mDZ2K+J4wR7kuC+uxdFyh3LfjhfPh
-         ILYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i71PJY1rLSI4eOg+PhEakUm+s6386zJP+9T/6pzaOEg=;
-        b=fCjx82BkVXN+xeCCYgDaYvHxw2TaAnROPaDHfv639qQJSiXnf10t2/yYpSOGskyogR
-         1R0xqLBNedm1t+RRiP07Ws69z3dnr8I/u1r3SDN0+WhtrNa0zo5tasxZVcr2Aw3H3rQx
-         MyzrdV2VGyZ3bTQPQYPmHj6eqxfUVqZ2ki/rad5sZK/YseV+Xgu4XCQgUuCoEdoc/lQr
-         L6x2DnZHdWfeyrgoh66pO+cQcvmWUlvdBO9bJvWpOQi9WUikGHgaGsCVNK0ZYUxoOUV+
-         zUCtmNv1fV9adUtYOCcWy4ih0AVjSHHPuFgeDk1VYJFELCRtn3DUUMHX8j7v+gW++86d
-         qQoA==
-X-Gm-Message-State: AOAM531yw90CKKpqCuWoFDgvsJfTwKsI3NoY02T3l6vNMTaXj5Rkv7F6
-        I349BViv9W4y+XGfSsS+mIqez0eKBq8BL25q
-X-Google-Smtp-Source: ABdhPJxA9d+S0OjpGIJz2cGmcZ/RB2TADS7auylQiOH9np9UxomCUyJaZ2ljT+CNDWrHr/EFqNRfmg==
-X-Received: by 2002:a2e:9b02:: with SMTP id u2mr2707129lji.303.1602135823116;
-        Wed, 07 Oct 2020 22:43:43 -0700 (PDT)
-Received: from localhost.localdomain (128-70-36-207.broadband.corbina.ru. [128.70.36.207])
-        by smtp.googlemail.com with ESMTPSA id x14sm738816ljm.126.2020.10.07.22.43.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2020 22:43:42 -0700 (PDT)
-From:   Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Evgeny Boger <boger@wirenboard.com>,
-        Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
-Subject: [PATCH] docs: w1: w1_therm: Fix broken xref, mistakes, clarify text
-Date:   Thu,  8 Oct 2020 08:42:59 +0300
-Message-Id: <20201008054259.5461-1-ivan.zaentsev@wirenboard.ru>
-X-Mailer: git-send-email 2.25.1
+        id S1727698AbgJHGDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 02:03:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34962 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726245AbgJHGDM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Oct 2020 02:03:12 -0400
+Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E06092173E;
+        Thu,  8 Oct 2020 06:03:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602136991;
+        bh=vpzw2eAPwPm0AHcA/aZnYkEH6aH6DDHIDFv9+O5ovNo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CDRzFJMF8lg4koIcHSZ5b9K6yXAf9BTq+2DS7fj4GKi7TYzJHtgJs3sr0cwBw/Atg
+         ZxsyZiE8JOgZtUOvMQqJcXGpfuVe4+J6Be6icBJhBf7xGi4RfPvx0/dYxCq3fhdZE+
+         eWtXD71GaJ7BzsP2HfoGLqvngjtIOeyPyUajpAJ4=
+Date:   Thu, 8 Oct 2020 08:03:06 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
+        andrealmeid@collabora.com
+Subject: Re: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
+Message-ID: <20201008080306.25e89901@coco.lan>
+In-Reply-To: <20201008024706.GZ20115@casper.infradead.org>
+References: <C674RBXSO9XN.1LXXU71QQNTF1@ArchWay>
+        <20201008024706.GZ20115@casper.infradead.org>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-sysfs attribute names are mixed with the same normal text terms.
-Use ReST to distinguish.
+Em Thu, 8 Oct 2020 03:47:06 +0100
+Matthew Wilcox <willy@infradead.org> escreveu:
 
-Fix typos and mistakes.
+> On Thu, Oct 08, 2020 at 02:15:24AM +0000, N=C3=ADcolas F. R. A. Prado wro=
+te:
+> > > I have a feature request ... could you automarkup NULL as being
+> > > :c:macro?
+> > > Or maybe just anything matching \<[[:upper:]_[:digit:]]*\>
+> > > (i may have my regex syntax confused ... a word composed of any
+> > > arrangement of upper-case, digits and underscores.) =20
+> >=20
+> > I think what you are suggesting are two separate things.
+> >=20
+> > For NULL, what you're interested in is that it appears in a monospaced =
+font, as
+> > if written ``NULL``, right? As I don't think a cross-reference to "the =
+NULL
+> > macro definition" would make much sense.
+> >=20
+> > While "anything containing only upper-case, digits and underscores" wou=
+ld
+> > actually be for cross-referencing to the definition of the macro symbol=
+ in
+> > question, right? =20
+>=20
+> Well, maybe!  What I'd really like is to remove all the markup from
+> xarray.rst.  Jon managed to get rid of most of it with the (), but
+> there's still markup on:
+>=20
+> LONG_MAX
+> NULL
+> -EBUSY
+> true
+> XA_MARK_[012]
+> XA_FLAGS_*
+> ENOMEM
+> EINVAL
+>=20
+> I'm not sure there's much that automarkup can do about ``true``, but all
+> the others fit the all-caps-and-underscore-and-digits pattern.
+>=20
+> I don't know how much we want errnos to link to anything in particular.
+> So maybe split these into 'well-known' (eg defined by ANSI C or POSIX)
+> definitions and things which are local macros:
+>=20
+> LONG_MAX
+> NULL
+> -EBUSY
+> ENOMEM
+> EINVAL
 
-Signed-off-by: Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
----
- .../ABI/testing/sysfs-driver-w1_therm         |  6 +-
- Documentation/w1/slaves/w1_therm.rst          | 83 +++++++++----------
- 2 files changed, 43 insertions(+), 46 deletions(-)
+Yeah, a nice improvement would be to auto-markup error codes and NULL as
+literal blocks.
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-w1_therm b/Documentation/ABI/testing/sysfs-driver-w1_therm
-index 9f05bcdcd762..8873bbb075cb 100644
---- a/Documentation/ABI/testing/sysfs-driver-w1_therm
-+++ b/Documentation/ABI/testing/sysfs-driver-w1_therm
-@@ -146,7 +146,7 @@ Date:		July 2020
- Contact:	Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
- Description:
- 		(RW) Control optional driver settings.
--		Bit masks to read/write (logical OR):
-+		Bit masks to read/write (bitwise OR):
- 
-                 1: Enable check for conversion success. If byte 6 of
-                    scratchpad memory is 0xC after conversion, and
-@@ -157,7 +157,7 @@ Description:
-                    after the conversion start and wait for 1's. In parasite
-                    power mode this feature is not available.
- 
--		*read*:  Currently selected features, bitwise OR.
--		*write*: Select features, bitwise OR.
-+		*read*:  Currently selected features.
-+		*write*: Select features.
- 
- Users:		An application using the w1_term device
-diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
-index 00376501a5ef..e39202e2b000 100644
---- a/Documentation/w1/slaves/w1_therm.rst
-+++ b/Documentation/w1/slaves/w1_therm.rst
-@@ -27,75 +27,72 @@ W1_THERM_DS1825		0x3B
- W1_THERM_DS28EA00	0x42
- ====================	====
- 
--Support is provided through the sysfs w1_slave file. Each open and
--read sequence will initiate a temperature conversion then provide two
-+Support is provided through the sysfs entry ``w1_slave``. Each open and
-+read sequence will initiate a temperature conversion, then provide two
- lines of ASCII output. The first line contains the nine hex bytes
- read along with a calculated crc value and YES or NO if it matched.
- If the crc matched the returned values are retained. The second line
- displays the retained values along with a temperature in millidegrees
- Centigrade after t=.
- 
--Alternatively, temperature can be read using temperature sysfs, it
--return only temperature in millidegrees Centigrade.
-+Alternatively, temperature can be read using ``temperature`` sysfs, it
-+returns only the temperature in millidegrees Centigrade.
- 
--A bulk read of all devices on the bus could be done writing 'trigger'
--in the therm_bulk_read sysfs entry at w1_bus_master level. This will
--sent the convert command on all devices on the bus, and if parasite
--powered devices are detected on the bus (and strong pullup is enable
-+A bulk read of all devices on the bus could be done writing ``trigger``
-+to ``therm_bulk_read`` entry at w1_bus_master level. This will
-+send the convert command to all devices on the bus, and if parasite
-+powered devices are detected on the bus (and strong pullup is enabled
- in the module), it will drive the line high during the longer conversion
- time required by parasited powered device on the line. Reading
--therm_bulk_read will return 0 if no bulk conversion pending,
-+``therm_bulk_read`` will return 0 if no bulk conversion pending,
- -1 if at least one sensor still in conversion, 1 if conversion is complete
- but at least one sensor value has not been read yet. Result temperature is
--then accessed by reading the temperature sysfs entry of each device, which
-+then accessed by reading the ``temperature`` entry of each device, which
- may return empty if conversion is still in progress. Note that if a bulk
- read is sent but one sensor is not read immediately, the next access to
--temperature on this device will return the temperature measured at the
-+``temperature`` on this device will return the temperature measured at the
- time of issue of the bulk read command (not the current temperature).
- 
- A strong pullup will be applied during the conversion if required.
- 
--``conv_time`` sysfs entry is used to get current conversion time (read), and
-+``conv_time`` is used to get current conversion time (read), and
- adjust it (write). A temperature conversion time depends on the device type and
- it's current resolution. Default conversion time is set by the driver according
- to the device datasheet. A conversion time for many original device clones
- deviate from datasheet specs. There are three options: 1) manually set the
- correct conversion time by writing a value in milliseconds to ``conv_time``; 2)
- auto measure and set a conversion time by writing ``1`` to
--``conv_time``; 3) use ``features`` entry to enable poll for conversion
-+``conv_time``; 3) use ``features`` to enable poll for conversion
- completion. Options 2, 3 can't be used in parasite power mode. To get back to
- the default conversion time write ``0`` to ``conv_time``.
- 
--Writing a value between 9 and 12 to the sysfs w1_slave file will change the
--precision of the sensor for the next readings. This value is in (volatile)
--SRAM, so it is reset when the sensor gets power-cycled.
-+Writing a resolution value (in bits) to ``w1_slave`` will change the
-+precision of the sensor for the next readings. Allowed resolutions are defined by
-+the sensor. Resolution is reset when the sensor gets power-cycled.
- 
--To store the current precision configuration into EEPROM, the value 0
--has to be written to the sysfs w1_slave file. Since the EEPROM has a limited
--amount of writes (>50k), this command should be used wisely.
-+To store the current resolution in EEPROM, write ``0`` to ``w1_slave``.
-+Since the EEPROM has a limited amount of writes (>50k), this command should be
-+used wisely.
- 
--Alternatively, resolution can be set or read (value from 9 to 12) using the
--dedicated resolution sysfs entry on each device. This sysfs entry is not present
--for devices not supporting this feature.
-+Alternatively, resolution can be read or written using the dedicated
-+``resolution`` entry on each device, if supported by the sensor.
- 
--Some non-genuine DS18B20 chips are
--fixed in 12-bit mode only, so the actual resolution is read back from the chip
--and verified by the driver.
-+Some non-genuine DS18B20 chips are fixed in 12-bit mode only, so the actual
-+resolution is read back from the chip and verified.
- 
- Note: Changing the resolution reverts the conversion time to default.
- 
--The write-only sysfs entry eeprom is an alternative for EEPROM operations:
--  * 'save': will save device RAM to EEPROM
--  * 'restore': will restore EEPROM data in device RAM.
-+The write-only sysfs entry ``eeprom`` is an alternative for EEPROM operations.
-+Write ``save`` to save device RAM to EEPROM. Write ``restore`` to restore EEPROM
-+data in device RAM.
- 
--ext_power syfs entry allow tho check the power status of each device.
--  * '0': device parasite powered
--  * '1': device externally powered
-+``ext_power`` entry allows checking the power state of each device. Reads
-+``0`` if the device is parasite powered, ``1`` if the device is externally powered.
- 
--sysfs alarms allow read or write TH and TL (Temperature High an Low) alarms.
-+Sysfs ``alarms`` allow read or write TH and TL (Temperature High an Low) alarms.
- Values shall be space separated and in the device range (typical -55 degC
- to 125 degC). Values are integer as they are store in a 8bit register in
--the device. Lowest value is automatically put to TL.Once set, alarms could
-+the device. Lowest value is automatically put to TL. Once set, alarms could
- be search at master level.
- 
- The module parameter strong_pullup can be set to 0 to disable the
-@@ -119,24 +116,24 @@ The DS28EA00 provides an additional two pins for implementing a sequence
- detection algorithm.  This feature allows you to determine the physical
- location of the chip in the 1-wire bus without needing pre-existing
- knowledge of the bus ordering.  Support is provided through the sysfs
--w1_seq file.  The file will contain a single line with an integer value
-+``w1_seq``. The file will contain a single line with an integer value
- representing the device index in the bus starting at 0.
- 
- ``features`` sysfs entry controls optional driver settings per device.
--Insufficient power in parasite mode, line noise and insufficient conversion time
--may lead to conversion failure. Original DS18B20 and some clones allow for
-+Insufficient power in parasite mode, line noise and insufficient conversion
-+time may lead to conversion failure. Original DS18B20 and some clones allow for
- detection of invalid conversion. Write bit mask ``1`` to ``features`` to enable
- checking the conversion success. If byte 6 of scratchpad memory is 0xC after
- conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
- power), the driver returns a conversion error. Bit mask ``2`` enables poll for
- conversion completion (normal power only) by generating read cycles on the bus
- after conversion starts. In parasite power mode this feature is not available.
--Feature bit masks may be combined (OR). See accompanying sysfs documentation:
--:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
-+Feature bit masks may be combined (OR). More details in
-+Documentation/ABI/testing/sysfs-driver-w1_therm
- 
- GX20MH01 device shares family number 0x28 with DS18*20. The device is generally
--compatible with DS18B20. Added are lowest 2^-5, 2^-6 temperature bits in Config
--register; R2 bit in Config register enabling 13 and 14 bit resolutions. The
--device is powered up in 14-bit resolution mode. The conversion times specified
--in the datasheet are too low and have to be increased. The device supports
--driver features ``1`` and ``2``.
-+compatible with DS18B20. Added are lowest 2\ :sup:`-5`, 2\ :sup:`-6` temperature
-+bits in Config register; R2 bit in Config register enabling 13 and 14 bit
-+resolutions. The device is powered up in 14-bit resolution mode. The conversion
-+times specified in the datasheet are too low and have to be increased. The
-+device supports driver features ``1`` and ``2``.
--- 
-2.25.1
+>=20
+> vs
+>=20
+> XA_MARK_[012]
 
+> XA_FLAGS_*
+
+Actually, things that end with an * (but doesn't start with an *)
+are good candidates for being literals - although extra care should
+be taken on such case, as parsing those automatically will likely hit
+lots of false-positives.
+
+> I'm willing to add more inline kernel-doc to get this to work better.
+
+Why? inline kernel-doc should be evaluated just like normal blocks.
+
+Right now, kernel-doc handles constants like NULL and XA_FLAGS_* using
+two ways:
+
+	%FOO
+or
+	``FOO``
+
+The regex for those are:
+
+	my $type_constant =3D '\b``([^\`]+)``\b';
+	my $type_constant2 =3D '\%([-_\w]+)';
+
+
+In other words, "%FOO" should not contain any symbol, except for
+'-' and '_'.
+
+If there is any other symbol, like in "XA_FLAGS_*", the alternative
+syntax is needed.
+
+No matter if you use inline or block definitions, the same regexes
+are used.
+
+> Or even convert #defines to enums ... whatever gets this working better.
+
+Using enums where possible[1] is nicer, IMHO.=20
+
+[1] enums shouldn't be used on uAPI, as its size depends on the C
+    compiler implementation.
+
+Thanks,
+Mauro
