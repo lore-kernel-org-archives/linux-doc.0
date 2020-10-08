@@ -2,239 +2,283 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D3CC433E7
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 04:01:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF38C433E7
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 05:28:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A74FC2168B
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 04:01:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ayzd5qHB"
+	by mail.kernel.org (Postfix) with ESMTP id C504120708
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 05:28:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602134884;
+	bh=ZopNFXHd+TvEsylau77g8IQKUvJq42zhnvRYMjB0RYI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=nQYG+ygCYT1NZoMuMIGvUd8qxfW3FsHr/xPT0I7CjLQDjlm1ryYGjjZ0MCaxGdpEX
+	 PgRFcSKRRIYRqIl/mZBk49IUn213ZEj3k4ws0WadoG5hQIhjUm+lrG1mT4m6dTwpwI
+	 OxS9HG5xi83i/F/WLD8XHqxo9E6EUczEP62NYOGQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbgJHEB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 00:01:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22946 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726043AbgJHEB4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 00:01:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1602129713;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ayx0RH2EmuBsF+SJ5HofbKfMYekN3xbWZ4RAelYIgVk=;
-        b=ayzd5qHBY0a2gXTY4IHQaCHWVvW8FyF3Bkwn9qgGttMwP8Afzek8VqHmzD+NfU+u8sqouV
-        p6nMdHHpXnhlru62hznHRf+PHDOwL7xFM+ALkL9zSetlFyWRZ7iXIVJKgq1FBVpKpI1H+C
-        U7i6TfqsvTTWKuq3l6dGZljHy/ZY8dc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-a7s1O-dAOYmcHUo2I-Ik1g-1; Thu, 08 Oct 2020 00:01:49 -0400
-X-MC-Unique: a7s1O-dAOYmcHUo2I-Ik1g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1726148AbgJHF2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 01:28:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52642 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725858AbgJHF2E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Oct 2020 01:28:04 -0400
+Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8216425D0;
-        Thu,  8 Oct 2020 04:01:45 +0000 (UTC)
-Received: from mail (ovpn-112-72.rdu2.redhat.com [10.10.112.72])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 29B7D76650;
-        Thu,  8 Oct 2020 04:01:42 +0000 (UTC)
-Date:   Thu, 8 Oct 2020 00:01:41 -0400
-From:   Andrea Arcangeli <aarcange@redhat.com>
-To:     Lokesh Gidra <lokeshgidra@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Kalesh Singh <kaleshsingh@google.com>,
-        Calin Juravle <calin@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH v4 0/2] Control over userfaultfd kernel-fault handling
-Message-ID: <20201008040141.GA17076@redhat.com>
-References: <20200924065606.3351177-1-lokeshgidra@google.com>
- <CA+EESO7kCqtJf+ApoOcceFT+NX8pBwGmOr0q0PVnJf9Dnkrp6A@mail.gmail.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A2FD2087D;
+        Thu,  8 Oct 2020 05:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602134883;
+        bh=ZopNFXHd+TvEsylau77g8IQKUvJq42zhnvRYMjB0RYI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=AjWYK4+ndZwuYapeb61RhbG61KPqp1rEvogGs+dYXFhmWsFmRl7cRAeHbpLhxJITa
+         b8Kt7+YDvm5poLmAAkd4JxYJwOgrK5bzEbF/3zkv2uKklC5s0AAPUargMlxuD0GWau
+         F33kbu9z+1PhTlPLuZMyw0FH/N2B7q04EMx4mbTI=
+Date:   Thu, 8 Oct 2020 07:27:57 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
+        linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: Re: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
+Message-ID: <20201008072757.0ca42539@coco.lan>
+In-Reply-To: <20201007231214.326456-1-nfraprado@protonmail.com>
+References: <20201007231214.326456-1-nfraprado@protonmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+EESO7kCqtJf+ApoOcceFT+NX8pBwGmOr0q0PVnJf9Dnkrp6A@mail.gmail.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Lokesh,
+Hi N=C3=ADcolas,
 
-On Wed, Oct 07, 2020 at 01:26:55PM -0700, Lokesh Gidra wrote:
-> On Wed, Sep 23, 2020 at 11:56 PM Lokesh Gidra <lokeshgidra@google.com> wrote:
-> >
-> > This patch series is split from [1]. The other series enables SELinux
-> > support for userfaultfd file descriptors so that its creation and
-> > movement can be controlled.
-> >
-> > It has been demonstrated on various occasions that suspending kernel
-> > code execution for an arbitrary amount of time at any access to
-> > userspace memory (copy_from_user()/copy_to_user()/...) can be exploited
-> > to change the intended behavior of the kernel. For instance, handling
-> > page faults in kernel-mode using userfaultfd has been exploited in [2, 3].
-> > Likewise, FUSE, which is similar to userfaultfd in this respect, has been
-> > exploited in [4, 5] for similar outcome.
-> >
-> > This small patch series adds a new flag to userfaultfd(2) that allows
-> > callers to give up the ability to handle kernel-mode faults with the
-> > resulting UFFD file object. It then adds a 'user-mode only' option to
-> > the unprivileged_userfaultfd sysctl knob to require unprivileged
-> > callers to use this new flag.
-> >
-> > The purpose of this new interface is to decrease the chance of an
-> > unprivileged userfaultfd user taking advantage of userfaultfd to
-> > enhance security vulnerabilities by lengthening the race window in
-> > kernel code.
-> >
-> > [1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@google.com/
-> > [2] https://duasynt.com/blog/linux-kernel-heap-spray
-> > [3] https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit
+Em Wed, 07 Oct 2020 23:12:25 +0000
+N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> escreveu:
 
-I've looking at those links and I've been trying to verify the link
-[3] is relevant.
+> While Sphinx 2 used a single c:type role for struct, union, enum and
+> typedef, Sphinx 3 uses a specific role for each one.
+> To keep backward compatibility, detect the Sphinx version and use the
+> correct roles for that version.
+>=20
+> Also, Sphinx 3 is more strict with its C domain and generated warnings,
+> exposing issues in the parsing.
+> To fix the warnings, make the C regexes use ASCII, ensure the
+> expressions only match the beginning of words and skip trying to
+> cross-reference C reserved words.
+>=20
+> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
+> ---
+>=20
+> Hi,
+>=20
+> after Mauro's series making everything ready for Sphinx 3.1, only the aut=
+omarkup
+> was left to be ported.
+> This patch makes the needed changes to automarkup so that we can soon fli=
+p the
+> switch to Sphinx 3.1.
+>=20
+> This change was tested both with Sphinx 2.4.4 and Sphinx 3.1.
+>=20
+> This change doesn't add any warnings to the Documentation build.
+> I tested it with Mauro's series but later rebased it to docs-next, and it=
+ can be
+> accepted independently of that series.
+>=20
+> I ended up doing more than one thing in this single patch, but since it w=
+as all
+> changing the same lines and for the same purpose, I felt it would be bett=
+er to
+> keep it as a single commit.
+>=20
 
-Specifically I've been trying to verify if 1) current state of the art
-modern SLUB randomization techniques already enabled in production and
-rightfully wasting some CPU in all enterprise kernels to prevent
-things like above to become an issue in practice 2) combined with the
-fact different memcg need to share the same kmemcaches (which was
-incidentally fixed a few months ago upstream) and 3) further
-robustness enhancements against exploits in the slub metadata, may
-already render the exploit [3] from 2016 irrelevant in practice.
+Thanks for doing this! That was the last missing part on fully supporting
+Sphinx 3.1+.
 
-So I started by trying to reproduce [3] by building 4.5.1 with a
-.config with no robustness features and I booted it on fedora-32 or
-gentoo userland and I cannot even invoke call_usermodehelper. Calling
-socket(22, AF_INET, 0) won't invoke such function. Can you reproduce
-on 4.5.1? Which kernel .config should I use to build 4.5.1 in order
-for call_usermodehelper to be invoked by the exploit? Could you help
-to verify it?
+> Mauro,
+> if this patch is ok, the 3rd patch in your series, which disables automar=
+kup for
+> sphinx 3, should be dropped.
 
-It even has uninitialized variable spawning random perrors so it
-doesn't give a warm fuzzy feeling:
+Yeah, sure.
 
-====
-int main(int argc, char **argv) {
-	void *region, *map;
-	              ^^^^^
-	pthread_t uffd_thread;
-	int uffd, msqid, i;
+> Although I'm not sure what the implications of your patches adding namesp=
+aces
+> and using the c:macro for functions are.
 
-	region = (void *)mmap((void *)0x40000000, 0x2000, PROT_READ|PROT_WRITE,
-                               MAP_FIXED|MAP_PRIVATE|MAP_ANON, -1, 0);
+With regards to namespaces:
 
-	if (!region) {
-		perror("mmap");
-		exit(2);
-	}
+Currently, only the media docs use namespaces, and it declares it at the
+beginning of each file that needs it, without overriding it later[1].
 
-	setup_pagefault(region + 0x1000, 0x1000, 1);
+[1] btw, the cdomain.py backward compat code doesn't support namespace
+    changes - as it parses namespaces before handling the C domain tags.
+    I doubt that we'll need to have a single .rst file using more than
+    one namespace anyway.
 
-	printf("my pid = %d\n", getpid());
+The main usage is to avoid conflicts for uAPI documentation for
+syscalls - actually for libc userspace wrappers to syscalls. It documents
+things like: open, close, read, write, ioctl, poll, select.
 
-	if (!map) {
-	^^^^^^^^
-		perror("mmap");
-====
+I'm not sure if the automarkup should be aware of it, or if the c.py code
+at Sphinx 3.x will add the namespace automatically, but I suspect that
+automarkup will need to handle it as well.
 
-The whole point of being able to reproduce on 4.5.1 is then to
-simulate if the same exploit would also reproduce on current kernels
-with all enterprise default robustness features enabled. Or did
-anybody already verify it?
+One file you could use for checking it is this one:
 
-Anyway the links I was playing with are all in the cover letter, the
-cover letter is not as important as the actual patches. The actual
-patches looks fine to me.
+	Documentation/userspace-api/media/v4l/hist-v4l2.rst
 
-The only improvement I can think of is, what about to add a
-printk_once to suggest to toggle the sysctl if userfaultfd bails out
-because the process lacks the CAP_SYS_PTRACE capability? That would
-facilitate the /etc/sysctl.conf or tuned tweaking in case the apps
-aren't verbose enough.
+It contains a namespace directive and documents what changed without
+using any explicit reference (after my patch series + linux-next).
 
-It's not relevant anymore with this latest patchset, but about the
-previous argument that seccomp couldn't be used in all Android
-processes because of performance concern, I'm slightly confused.
+With regards to c:macro vs c:function:
 
-https://android-developers.googleblog.com/2017/07/seccomp-filter-in-android-o.html
+I suspect that automarkup should test both when trying to do=20
+cross-references for function-like calls. E. g. test first if
+there is a :c:function, falling back to check for :c:macro.
 
-"Android O includes a single seccomp filter installed into zygote, the
-process from which all the Android applications are derived. Because
-the filter is installed into zygote—and therefore all apps—the Android
-security team took extra caution to not break existing apps"
+I would add a "sphinx3_c_func_ref" function that would handle
+such special case, e. g. something like:
 
-Example:
+    markup_func_sphinx3 =3D {RE_doc: markup_doc_ref,
+                           RE_function: sphinx3_c_func_ref,
+                           RE_struct: markup_c_ref,
+                           RE_union: markup_c_ref,
+                           RE_enum: markup_c_ref,
+                           RE_typedef: markup_c_ref}
 
-$ uname -mo
-aarch64 Android
-$ cat swapoff.c
-#include <sys/swap.h>
+> All I did here was use the specific roles for sphinx 3 and fix the warnin=
+gs, but
+> that was enough to get correct cross-references even after your series.
+>=20
+> Thanks,
+> N=C3=ADcolas
 
-int main()
-{
-        swapoff("");
-}
-$ gcc swapoff.c -o swapoff -O2
-$ ./swapoff
-Bad system call
-$
+>=20
+>=20
+>  Documentation/sphinx/automarkup.py | 69 ++++++++++++++++++++++++++----
+>  1 file changed, 60 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/au=
+tomarkup.py
+> index a1b0f554cd82..fd1e927408ad 100644
+> --- a/Documentation/sphinx/automarkup.py
+> +++ b/Documentation/sphinx/automarkup.py
+> @@ -22,13 +22,34 @@ from itertools import chain
+>  # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
+>  # bit tries to restrict matches to things that won't create trouble.
+>  #
+> -RE_function =3D re.compile(r'(([\w_][\w\d_]+)\(\))')
+> -RE_type =3D re.compile(r'(struct|union|enum|typedef)\s+([\w_][\w\d_]+)')
+> +RE_function =3D re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=3Dre.ASCII)
+> +
+> +#
+> +# Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
+> +#
+> +RE_generic_type =3D re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-=
+Z_]\w+)',
+> +                             flags=3Dre.ASCII)
+> +
+> +#
+> +# Sphinx 3 uses a different C role for each one of struct, union, enum a=
+nd
+> +# typedef
+> +#
+> +RE_struct =3D re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCI=
+I)
+> +RE_union =3D re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
+> +RE_enum =3D re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
+> +RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=3Dre.AS=
+CII)
+> +
+>  #
+>  # Detects a reference to a documentation page of the form Documentation/=
+... with
+>  # an optional extension
+>  #
+> -RE_doc =3D re.compile(r'Documentation(/[\w\-_/]+)(\.\w+)*')
+> +RE_doc =3D re.compile(r'\bDocumentation(/[\w\-_/]+)(\.\w+)*')
+> +
+> +#
+> +# Reserved C words that we should skip when cross-referencing
+> +#
+> +Skipnames =3D [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
+> +
+> =20
+>  #
+>  # Many places in the docs refer to common system calls.  It is
+> @@ -48,9 +69,22 @@ def markup_refs(docname, app, node):
+>      #
+>      # Associate each regex with the function that will markup its matches
+>      #
+> -    markup_func =3D {RE_type: markup_c_ref,
+> -                   RE_function: markup_c_ref,
+> -                   RE_doc: markup_doc_ref}
+> +    markup_func_sphinx2 =3D {RE_doc: markup_doc_ref,
+> +                           RE_function: markup_c_ref,
+> +                           RE_generic_type: markup_c_ref}
+> +
+> +    markup_func_sphinx3 =3D {RE_doc: markup_doc_ref,
+> +                           RE_function: markup_c_ref,
+> +                           RE_struct: markup_c_ref,
+> +                           RE_union: markup_c_ref,
+> +                           RE_enum: markup_c_ref,
+> +                           RE_typedef: markup_c_ref}
+> +
+> +    if sphinx.__version__[0] =3D=3D '3':
+> +        markup_func =3D markup_func_sphinx3
+> +    else:
+> +        markup_func =3D markup_func_sphinx2
+> +
+>      match_iterators =3D [regex.finditer(t) for regex in markup_func]
+>      #
+>      # Sort all references by the starting position in text
+> @@ -79,8 +113,24 @@ def markup_refs(docname, app, node):
+>  # type_name) with an appropriate cross reference.
+>  #
+>  def markup_c_ref(docname, app, match):
+> -    class_str =3D {RE_function: 'c-func', RE_type: 'c-type'}
+> -    reftype_str =3D {RE_function: 'function', RE_type: 'type'}
+> +    class_str =3D {RE_function: 'c-func',
+> +                 # Sphinx 2 only
+> +                 RE_generic_type: 'c-type',
+> +                 # Sphinx 3+ only
+> +                 RE_struct: 'c-struct',
+> +                 RE_union: 'c-union',
+> +                 RE_enum: 'c-enum',
+> +                 RE_typedef: 'c-type',
+> +                 }
+> +    reftype_str =3D {RE_function: 'function',
+> +                   # Sphinx 2 only
+> +                   RE_generic_type: 'type',
+> +                   # Sphinx 3+ only
+> +                   RE_struct: 'struct',
+> +                   RE_union: 'union',
+> +                   RE_enum: 'enum',
+> +                   RE_typedef: 'type',
+> +                   }
+> =20
+>      cdom =3D app.env.domains['c']
+>      #
+> @@ -89,7 +139,8 @@ def markup_c_ref(docname, app, match):
+>      target =3D match.group(2)
+>      target_text =3D nodes.Text(match.group(0))
+>      xref =3D None
+> -    if not (match.re =3D=3D RE_function and target in Skipfuncs):
+> +    if not ((match.re =3D=3D RE_function and target in Skipfuncs)
+> +            or (target in Skipnames)):
+>          lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[mat=
+ch.re]])
+>          lit_text +=3D target_text
+>          pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
 
-It's hard to imagine what is more performance critical than the zygote
-process and the actual apps as above?
 
-It's also hard to imagine what kind of performance concern can arise
-by adding seccomp filters also to background system apps that
-generally should consume ~0% of CPU.
 
-If performance is really a concern, the BPF JIT representation with
-the bitmap to be able to run the filter in O(1) sounds a better
-solution than not adding ad-hoc filters and it's being worked on for
-x86-64 and can be ported to aarch64 too. Many of the standalone
-background processes likely wouldn't even use uffd at all so you could
-block the user initiated faults too that way.
-
-Ultimately because of issues as [3] (be them still relevant or not, to
-be double checked), no matter if through selinux, seccomp or a
-different sysctl value, without this patchset applied the default
-behavior of the userfaultfd syscall for all Linux binaries running on
-Android kernels, would deviate from the upstream kernel. So even if we
-would make the pipe mutex logic more complex the deviation would
-remain. Your patchset adds much less risk of breakage than adding a
-timeout to kernel initiated userfaults and it resolves all concerns as
-well as a timeout. We'll also make better use of the "0" value this
-way. So while I'm not certain this is the best for the long term, this
-looks the sweet spot for the short term to resolve many issues at
-once.
-
-Thanks!
-Andrea
-
+Thanks,
+Mauro
