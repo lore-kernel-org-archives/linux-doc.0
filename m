@@ -2,146 +2,148 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 128F4C43467
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 10:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22B43C43467
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 11:31:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B15F42184D
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 10:45:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88EE7206E9
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 11:31:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gYyn7eK+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728919AbgJHKpN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 06:45:13 -0400
-Received: from foss.arm.com ([217.140.110.172]:50036 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726766AbgJHKpM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Oct 2020 06:45:12 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 21CCBD6E;
-        Thu,  8 Oct 2020 03:45:11 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.52.79])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1EBF83F70D;
-        Thu,  8 Oct 2020 03:45:03 -0700 (PDT)
-Date:   Thu, 8 Oct 2020 11:45:01 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Marco Elver <elver@google.com>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Will Deacon <will@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
-Message-ID: <20201008104501.GB72325@C02TD0UTHF1T.local>
-References: <20200921132611.1700350-1-elver@google.com>
- <20200921132611.1700350-4-elver@google.com>
- <20200921143059.GO2139@willie-the-truck>
- <CAG_fn=WXknUnNmyniy_UE7daivSNmy0Da2KzNmX4wcmXC2Z_Mg@mail.gmail.com>
- <20200929140226.GB53442@C02TD0UTHF1T.local>
- <CAG_fn=VOR-3LgmLY-T2Fy6K_VYFgCHK0Hv+Y-atrvrVZ4mQE=Q@mail.gmail.com>
- <20201001175716.GA89689@C02TD0UTHF1T.local>
- <CANpmjNMFrMZybOebFwJ1GRXpt8v39AN016UDgPZzE8J3zKh9RA@mail.gmail.com>
+        id S1726065AbgJHLbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 07:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbgJHLbf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 07:31:35 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 609B8C061755;
+        Thu,  8 Oct 2020 04:31:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=DwTSjvedulsO0opgiIotXj/b9knhE4+XuYMJtOMwQ+s=; b=gYyn7eK+f+PGv9vwKMOqbEALC1
+        NaGp03IA4BNliBLtfEewPwon7oUI1y1lVimJ5tjHHooJEM3p+tVcA4e65JiYPCq/bvFrFsLxmNROP
+        HMV8pumFA/1nw+F8twfAHMS7ybSgjbxFx/nrevtNr2/4XdkgZHwK5+/x9GaZBC4/UV2LmGgJjjHEy
+        pd0EIk0W27EqeEIAx2JlNKaSB0ELpBaYFyQCwjHJEC92rmi1RV1Jk9DQ2FSzMB6YQluS5JPnfEjnq
+        5vi3ZiQTyc3QU0UZpGasGRT6L8JvTsLpXoRPAUa1v/eHIpNkA2bpXgX3vsEMvc116o4Cgq6EApYBS
+        K/k5FTBg==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kQU8t-0001YQ-83; Thu, 08 Oct 2020 11:31:27 +0000
+Date:   Thu, 8 Oct 2020 12:31:27 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
+        <nfraprado@protonmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: Re: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
+Message-ID: <20201008113127.GA20115@casper.infradead.org>
+References: <C674RBXSO9XN.1LXXU71QQNTF1@ArchWay>
+ <20201008024706.GZ20115@casper.infradead.org>
+ <20201008080306.25e89901@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CANpmjNMFrMZybOebFwJ1GRXpt8v39AN016UDgPZzE8J3zKh9RA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201008080306.25e89901@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 08, 2020 at 11:40:52AM +0200, Marco Elver wrote:
-> On Thu, 1 Oct 2020 at 19:58, Mark Rutland <mark.rutland@arm.com> wrote:
-> [...]
-> > > > If you need virt_to_page() to work, the address has to be part of the
-> > > > linear/direct map.
-> [...]
-> >
-> > What's the underlying requirement here? Is this a performance concern,
-> > codegen/codesize, or something else?
+On Thu, Oct 08, 2020 at 08:03:06AM +0200, Mauro Carvalho Chehab wrote:
+> Em Thu, 8 Oct 2020 03:47:06 +0100
+> Matthew Wilcox <willy@infradead.org> escreveu:
 > 
-> It used to be performance, since is_kfence_address() is used in the
-> fast path. However, with some further tweaks we just did to
-> is_kfence_address(), our benchmarks show a pointer load can be
-> tolerated.
-
-Great!
-
-I reckon that this is something we can optimize in futue if necessary
-(e.g. with some form of code-patching for immediate values), but it's
-good to have a starting point that works everywhere!
-
-[...]
-
-> > I'm not too worried about allocating this dynamically, but:
-> >
-> > * The arch code needs to set up the translation tables for this, as we
-> >   cannot safely change the mapping granularity live.
-> >
-> > * As above I'm fairly certain x86 needs to use a carevout from the
-> >   linear map to function correctly anyhow, so we should follow the same
-> >   approach for both arm64 and x86. That might be a static carevout that
-> >   we figure out the aliasing for, or something entirely dynamic.
+> > On Thu, Oct 08, 2020 at 02:15:24AM +0000, Nícolas F. R. A. Prado wrote:
+> > > > I have a feature request ... could you automarkup NULL as being
+> > > > :c:macro?
+> > > > Or maybe just anything matching \<[[:upper:]_[:digit:]]*\>
+> > > > (i may have my regex syntax confused ... a word composed of any
+> > > > arrangement of upper-case, digits and underscores.)  
+> > > 
+> > > I think what you are suggesting are two separate things.
+> > > 
+> > > For NULL, what you're interested in is that it appears in a monospaced font, as
+> > > if written ``NULL``, right? As I don't think a cross-reference to "the NULL
+> > > macro definition" would make much sense.
+> > > 
+> > > While "anything containing only upper-case, digits and underscores" would
+> > > actually be for cross-referencing to the definition of the macro symbol in
+> > > question, right?  
+> > 
+> > Well, maybe!  What I'd really like is to remove all the markup from
+> > xarray.rst.  Jon managed to get rid of most of it with the (), but
+> > there's still markup on:
+> > 
+> > LONG_MAX
+> > NULL
+> > -EBUSY
+> > true
+> > XA_MARK_[012]
+> > XA_FLAGS_*
+> > ENOMEM
+> > EINVAL
+> > 
+> > I'm not sure there's much that automarkup can do about ``true``, but all
+> > the others fit the all-caps-and-underscore-and-digits pattern.
+> > 
+> > I don't know how much we want errnos to link to anything in particular.
+> > So maybe split these into 'well-known' (eg defined by ANSI C or POSIX)
+> > definitions and things which are local macros:
+> > 
+> > LONG_MAX
+> > NULL
+> > -EBUSY
+> > ENOMEM
+> > EINVAL
 > 
-> We're going with dynamically allocating the pool (for both x86 and
-> arm64), since any benefits we used to measure from the static pool are
-> no longer measurable (after removing a branch from
-> is_kfence_address()). It should hopefully simplify a lot of things,
-> given all the caveats that you pointed out.
+> Yeah, a nice improvement would be to auto-markup error codes and NULL as
+> literal blocks.
 > 
-> For arm64, the only thing left then is to fix up the case if the
-> linear map is not forced to page granularity.
+> > 
+> > vs
+> > 
+> > XA_MARK_[012]
+> 
+> > XA_FLAGS_*
+> 
+> Actually, things that end with an * (but doesn't start with an *)
+> are good candidates for being literals - although extra care should
+> be taken on such case, as parsing those automatically will likely hit
+> lots of false-positives.
 
-The simplest way to do this is to modify arm64's arch_add_memory() to
-force the entire linear map to be mapped at page granularity when KFENCE
-is enabled, something like:
+I do apologise.  I was trying to be concise in email.  In the actual
+text file, I currently have:
 
-| diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-| index 936c4762dadff..f6eba0642a4a3 100644
-| --- a/arch/arm64/mm/mmu.c
-| +++ b/arch/arm64/mm/mmu.c
-| @@ -1454,7 +1454,8 @@ int arch_add_memory(int nid, u64 start, u64 size,
-|  {
-|         int ret, flags = 0;
-|  
-| -       if (rodata_full || debug_pagealloc_enabled())
-| +       if (rodata_full || debug_pagealloc_enabled() ||
-| +           IS_ENABLED(CONFIG_KFENCE))
-|                 flags = NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
-|  
-|         __create_pgd_mapping(swapper_pg_dir, start, __phys_to_virt(start),
+``XA_FLAGS_ALLOC``
+``XA_FLAGS_ALLOC1``
+``XA_FLAGS_LOCK_IRQ``
+``XA_FLAGS_LOCK_BH``
+``XA_FLAGS_TRACK_FREE``
 
-... and I given that RODATA_FULL_DEFAULT_ENABLED is the default, I
-suspect it's not worth trying to only for that for the KFENCE region
-unless someone complains.
+> > I'm willing to add more inline kernel-doc to get this to work better.
+> 
+> Why? inline kernel-doc should be evaluated just like normal blocks.
+> 
+> Right now, kernel-doc handles constants like NULL and XA_FLAGS_* using
+> two ways:
+> 
+> 	%FOO
+> or
+> 	``FOO``
+> 
+> The regex for those are:
+> 
+> 	my $type_constant = '\b``([^\`]+)``\b';
+> 	my $type_constant2 = '\%([-_\w]+)';
 
-Thanks,
-Mark.
+Right, but that's in kernel-doc ... in a .rst file, I believe we have
+to use the ``SYMBOL`` syntax.
+
