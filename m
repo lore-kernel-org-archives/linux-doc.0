@@ -2,238 +2,103 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A93CEC43467
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 09:41:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6CAC43467
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 10:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3531821D43
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 09:41:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XhgNGt7s"
+	by mail.kernel.org (Postfix) with ESMTP id 3688E21734
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 10:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602152978;
+	bh=XHI5eZX58sToTeMD5p9ZUxHyJjzwD/WCDYNuZbi56vU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=nzFyqrjOfSfIyqBvvdR28boPxxbd0rArQb/uUW7mtCNWbO8FE0uMvEbgaODhW4S6m
+	 ezLOseNZ1M/i7u5WuANAFCDwOSJdSERvCJ7UeVktRsDszEDVUlmMQfS8+FYS13UAsM
+	 GOervvztOvju99NMQYvINUjJUCVC98Acbt84lrh8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725852AbgJHJlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 05:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725849AbgJHJlE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 05:41:04 -0400
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69BF3C0613D2
-        for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2020 02:41:04 -0700 (PDT)
-Received: by mail-oo1-xc41.google.com with SMTP id h8so1308906ooc.12
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2020 02:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qfMhghjBP9os9D7z08t6DZuXpLEhZ0q00x6tVMxnguE=;
-        b=XhgNGt7sZGGLxtmNrRJ871VQhJd0fNw2qyyQ3bG65nG8yWrd0coT2vg98wemz73DRa
-         OQFOsfFkqX3Qpv6BqvANBrGp1v/zHUL6/F//Y8Z8W+ZGO/O8NtUgc/cun0XtY3sugtqC
-         rpD3wq1fMFPkSqujDdgA11TQivyGzt2VdLlYgjK/OCYOLFei2YuVtXmBbN7RTzbZJAfD
-         qg8lTlu+yyX5/bTsKx6BRHDb4yxxyO3Mtr7iiyFVeFHjxKSdhHNGb+TLiumyyyP20mYk
-         f39q+It7JtrMXjXHTF8AbAY15c/yMOL/TbbKTQoU4hosJJHPQ6/5rrrouihLrRtPS1gs
-         HArg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qfMhghjBP9os9D7z08t6DZuXpLEhZ0q00x6tVMxnguE=;
-        b=bEW2YyiPvwRugJ2znHFE3nQjWHVTxOjDq8ByZwvGdtCAkexbo0vD7xBfbeNx9/dVYc
-         jgpsvXuyRsO2dgdAZ3LcrFd5gtEdChhbZnYvyQFMYjkB0I6lL8y0ZEdA4R29imI7qvJh
-         pLA9e/OCbcAjm+rLAKvHWZKGvPfbkBFg7lz408w/wstCn59T/fDVCgbJhJxNmQ7rk05B
-         dLjlhDaWB/CDfGiMR1jQcRgj9Cpj8MGrc1LEV405mFY623DTZjiEFVPpjtJP+bLNj9DF
-         ZopPjA7xd98sfP0Nk9f9zTlvzm9amJYB9pzzGnby4+amwUkc+gFCTvF/6ileFtT/4k/M
-         R2BQ==
-X-Gm-Message-State: AOAM5324BTxXOEnL4jEU9V1kfLquRaFO8p9Fl2sQ8IaiQnPBATPwGTKN
-        4IJUS5NO6J1l1gmqks6LiLhPLJJr5Ww39rXAomo/vA==
-X-Google-Smtp-Source: ABdhPJz6rUkb1Txy1Mg6WERcI/aK60bYF3BpyK1h2rgllajlsKxuWqvgLfUlTY2lcTNMmGW97hxPyj88uoxYkOw99u4=
-X-Received: by 2002:a4a:751a:: with SMTP id j26mr4844047ooc.14.1602150063537;
- Thu, 08 Oct 2020 02:41:03 -0700 (PDT)
+        id S1729434AbgJHK3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 06:29:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58036 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729325AbgJHK3h (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Oct 2020 06:29:37 -0400
+Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC9322076B;
+        Thu,  8 Oct 2020 10:29:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602152976;
+        bh=XHI5eZX58sToTeMD5p9ZUxHyJjzwD/WCDYNuZbi56vU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=m/7o9uA9S2RFmymlpn8tWUch6q+JhNKekWs3vXjB2A9XJ62bLrjw1p2plaOV6dXk0
+         h4fk+CL4Uaq1fwk0jkSjfL5ZLg4sa2c+Vvc+sGeofHPJsmL7OP4gRyc5kKSIsCcyUm
+         rv5OUP7/T0je5+WwFN3jyUvdo4iBz5nIP+HivAI8=
+Date:   Thu, 8 Oct 2020 12:29:31 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Jonathan Corbet" <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3] script: add a script for checking doc problems with
+ external functions
+Message-ID: <20201008122931.369b628d@coco.lan>
+In-Reply-To: <c256819190b2691f62c515c4aa82033a8d35c8f0.1602077410.git.mchehab+huawei@kernel.org>
+References: <aac55ad312d17bb12f905b544a4e485ad507735d.1602070137.git.mchehab+huawei@kernel.org>
+        <c256819190b2691f62c515c4aa82033a8d35c8f0.1602077410.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
- <20200921143059.GO2139@willie-the-truck> <CAG_fn=WXknUnNmyniy_UE7daivSNmy0Da2KzNmX4wcmXC2Z_Mg@mail.gmail.com>
- <20200929140226.GB53442@C02TD0UTHF1T.local> <CAG_fn=VOR-3LgmLY-T2Fy6K_VYFgCHK0Hv+Y-atrvrVZ4mQE=Q@mail.gmail.com>
- <20201001175716.GA89689@C02TD0UTHF1T.local>
-In-Reply-To: <20201001175716.GA89689@C02TD0UTHF1T.local>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 8 Oct 2020 11:40:52 +0200
-Message-ID: <CANpmjNMFrMZybOebFwJ1GRXpt8v39AN016UDgPZzE8J3zKh9RA@mail.gmail.com>
-Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Will Deacon <will@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 1 Oct 2020 at 19:58, Mark Rutland <mark.rutland@arm.com> wrote:
-[...]
-> > > If you need virt_to_page() to work, the address has to be part of the
-> > > linear/direct map.
-[...]
->
-> What's the underlying requirement here? Is this a performance concern,
-> codegen/codesize, or something else?
+Em Wed,  7 Oct 2020 15:31:10 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-It used to be performance, since is_kfence_address() is used in the
-fast path. However, with some further tweaks we just did to
-is_kfence_address(), our benchmarks show a pointer load can be
-tolerated.
+> While not all EXPORT_SYMBOL*() symbols should be documented,
+> it seems useful to have a tool which would help to check what
+> symbols aren't documented.
+> 
+> This is a first step on this direction. The tool has some
+> limitations. Yet, it could be useful for maintainers to check
+> about missing documents on their subsystems.
 
-> > (3) For addresses belonging to that pool virt_addr_valid() is true
-> > (SLAB/SLUB rely on that)
->
-> As I hinted at before, there's a reasonable amount of code which relies
-> on being able to round-trip convert (va->{pa,page}->va) allocations from
-> SLUB, e.g. phys = virt_to_page(addr); ... ; phys = page_to_virt(phys).
-> Usually this is because the phys addr is stored in some HW register, or
-> in-memory structure shared with HW.
->
-> I'm fairly certain KFENCE will need to support this in order to be
-> deployable in production, and arm64 is the canary in the coalmine.
->
-> I added tests for this back when tag-based KASAN broke this property.
-> See commit:
->
->   b92a953cb7f727c4 ("lib/test_kasan.c: add roundtrip tests")
->
-> ... for which IIUC the kfree_via_phys() test would be broken by KFENCE,
-> even on x86:
 
-Yeah, we're fixing that by also making x86 use a dynamically allocated
-pool now. The benefits we got from the static pool no longer apply, so
-the whole dance to make the static pool work right is no longer worth
-it.
 
-> | static noinline void __init kfree_via_phys(void)
-> | {
-> |        char *ptr;
-> |        size_t size = 8;
-> |        phys_addr_t phys;
-> |
-> |        pr_info("invalid-free false positive (via phys)\n");
-> |        ptr = kmalloc(size, GFP_KERNEL);
-> |        if (!ptr) {
-> |                pr_err("Allocation failed\n");
-> |                return;
-> |        }
-> |
-> |        phys = virt_to_phys(ptr);
-> |        kfree(phys_to_virt(phys));
-> | }
->
-> ... since the code will pass the linear map alias of the KFENCE VA into
-> kfree().
->
-> To avoid random breakage we either need to:
->
-> * Have KFENCE retain this property (which effectively requires
->   allocation VAs to fall within the linear/direct map)
+./scripts/check_docs_external_symbols drivers/gpu/drm/ took 102.04 seconds
 
-^^ Yes, this is the only realistic option.
 
-> * Decide that round-trips are forbidden, and go modify that code
->   somehow, which was deemed to be impractical in the past
->
-> ... and I would strongly prefer the former as it's less liable to break any
-> existing code.
->
-> > On x86 we achieve (2) by making our pool a .bss array, so that its
-> > address is known statically. Aligning that array on 4K and calling
-> > set_memory_4k() ensures that (1) is also fulfilled. (3) seems to just
-> > happen automagically without any address translations.
-> >
-> > Now, what we are seeing on arm64 is different.
-> > My understanding (please correct me if I'm wrong) is that on arm64
-> > only the memory range at 0xffff000000000000 has valid struct pages,
-> > and the size of that range depends on the amount of memory on the
-> > system.
->
-> The way virt_to_page() works is based on there being a constant (at
-> runtime) offset between a linear map address and the corresponding
-> physical page. That makes it easy to get the PA with a subtraction, then
-> the PFN with a shift, then to index the vmemmap array with that to get
-> the page. The x86 version of virt_to_page() automatically fixes up an
-> image address to its linear map alias internally.
->
-> > This probably means we cannot just pick a fixed address for our pool
-> > in that range, unless it is very close to 0xffff000000000000.
->
-> It would have to be part of the linear map, or we'd have to apply the
-> same fixup as x86 does. But as above, I'm reluctant to do that as it
-> only encourages writing fragile code. The only sensible way to detect
-> that is to disallow virt_to_*() on image addresses, since that's the
-> only time we can distinguish the source.
->
-> > If we allocate the pool statically in the way x86 does (assuming we
-> > somehow resolve (1)), we can apply lm_alias() to addresses returned by
-> > the KFENCE allocator, making kmalloc() always return addresses from
-> > the linear map and satisfying (3).
-> > But in that case is_kfence_address() will also need to be updated to
-> > compare the addresses to lm_alias(__kfence_pool), and this becomes
-> > more heavyweight than just reading the address from memory.
->
-> We can calculate the lm_alias(__kfence_pool) at boot time, so it's only
-> a read from memory in the fast-path.
->
-> > So looks like it's still more preferable to allocate the pool
-> > dynamically on ARM64, unless there's a clever trick to allocate a
-> > fixed address in the linear map (DTS maybe?)
->
-> I'm not too worried about allocating this dynamically, but:
->
-> * The arch code needs to set up the translation tables for this, as we
->   cannot safely change the mapping granularity live.
->
-> * As above I'm fairly certain x86 needs to use a carevout from the
->   linear map to function correctly anyhow, so we should follow the same
->   approach for both arm64 and x86. That might be a static carevout that
->   we figure out the aliasing for, or something entirely dynamic.
 
-We're going with dynamically allocating the pool (for both x86 and
-arm64), since any benefits we used to measure from the static pool are
-no longer measurable (after removing a branch from
-is_kfence_address()). It should hopefully simplify a lot of things,
-given all the caveats that you pointed out.
+It took more than an hour to run on a Xeon workstation for
+the complete Kernel tree.
 
-For arm64, the only thing left then is to fix up the case if the
-linear map is not forced to page granularity.
+So, I'm sending a followup patch that makes it a lot better by using
+one perl thread per CPU thread.
+
+Before such patch, running this command:
+
+	$ /usr/bin/time --format='%C took %e seconds'  ./scripts/check_docs_external_symbols drivers/gpu/drm/
+	
+It takes:
+
+	./scripts/check_docs_external_symbols drivers/gpu/drm/ took 1218.96 seconds
+
+
+After the patch:
+
+	./scripts/check_docs_external_symbols drivers/gpu/drm/ took 102.04 seconds
+
+
+measured on a machine with a machine with a Xeon(R) W-2133 CPU @ 3.60GHz
+(12 CPU threads), with normal HDD.
+
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 Thanks,
--- Marco
+Mauro
