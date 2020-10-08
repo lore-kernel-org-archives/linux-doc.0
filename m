@@ -2,273 +2,181 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A249FC43467
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 11:59:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39599C43467
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 12:25:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5103321527
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 11:59:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M6GmYwfb"
+	by mail.kernel.org (Postfix) with ESMTP id E99932184D
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 12:25:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602159915;
+	bh=3KpYhHQ85TqDmljH+UC/i0KAIqnhq3Y7TnXDFqhugvg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=pY86NZMyJq3VitncpFdlMnp60JYT9e2i14+nLxC85ArOlWWC4uYU6wTd08FwU5T0z
+	 xDDz3buW0JysP2u6PnHKEUcTWYNrIBqdjAoLaxiKwMyk7U5pvf7osgmEUfG6CwxKXq
+	 6bsQOyhbj6Z0FvnTT+m29knU1UyvNqx2SyhubNw4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725871AbgJHL7D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 07:59:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33324 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729650AbgJHL6s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 07:58:48 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA5CC061755;
-        Thu,  8 Oct 2020 04:58:47 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id d6so2635208plo.13;
-        Thu, 08 Oct 2020 04:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=C16XrUr3EIZoC6wKnJOdQjSS5HIA0XhjmNmgGMQUzM4=;
-        b=M6GmYwfbt/kjjUW6kp5B076qsmpCA6NAxj2aoMFmCLiqC6VWEhmwIkeTxTLjaR/BCj
-         3iR9bU/ra3dayF4z0WUFKWnNJ5peBgsjjppx5Uk9CZaKeMVGwGVpJGo9b8hx0tklIqdu
-         prMZsWNqmRo/buzmThYSm4iKEsbYTH/EZtJ7WczGcl/Rbqdn7UPUo/dpNf4L6mLygsoI
-         rGIeSL0ftAreMCxlS4OTBU8g9V1P958rcn5Bg8W3DD2z4CqsAZ43pbSi/vsdJU024AUt
-         yxjl+fh02KHA9q0MpzJx5O73kisLHCxKK5bf2Mj5mnAJW70PhVt7Yi1612Y5722HdrAp
-         hw6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=C16XrUr3EIZoC6wKnJOdQjSS5HIA0XhjmNmgGMQUzM4=;
-        b=gQtwiM+D4eQKpOKLSzFoPbflC37Txr444Zt+imcdenPUUDzcdblqEJpJtsmx8H8q0u
-         r5uv5QgNDjiTsznvZC11XvxOQIF/G/A/MU3pvV7jB/zRNIdx/4PgVvALkFjJKQraAv3N
-         0jwRq09IcOD6TMUU+Tf4PWuxkj/QN2lDCyj3HT7FuimafaurMaaBwMs32DIeaggIAB4T
-         y6TFpVcNPmdglO2JOIIh5OommUK8geIGns8LfBPSSafz9XA7OHlurmPrfUcPtqM2XRqn
-         dClJHlk22pGecKf3TD7gNMiRs/fE+JKyq9XCsp5sMgkh1NXW/OtLPKFk9HXzcLbG8N7A
-         49Iw==
-X-Gm-Message-State: AOAM530E9X+LPHNqncrUrYl4hAbW/Fq4TYkYFm+habqAXHvqskcQU/+O
-        71HJuV9cvyyyYMcQf+GPCrw=
-X-Google-Smtp-Source: ABdhPJxBYQscTqQs3Usj08yzGOuKS+2JWwobVnEXIACwojWNpwWI5RwwKY4148y1cdC1Hg6PHssNQg==
-X-Received: by 2002:a17:902:aa04:b029:d3:8b4e:e5ef with SMTP id be4-20020a170902aa04b02900d38b4ee5efmr7380941plb.65.1602158327213;
-        Thu, 08 Oct 2020 04:58:47 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
-        by smtp.gmail.com with ESMTPSA id 31sm7027555pgs.59.2020.10.08.04.58.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2020 04:58:46 -0700 (PDT)
-From:   Coiby Xu <coiby.xu@gmail.com>
-To:     devel@driverdev.osuosl.org
-Cc:     Benjamin Poirier <benjamin.poirier@gmail.com>,
-        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v1 6/6] staging: qlge: add documentation for debugging qlge
-Date:   Thu,  8 Oct 2020 19:58:08 +0800
-Message-Id: <20201008115808.91850-7-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201008115808.91850-1-coiby.xu@gmail.com>
-References: <20201008115808.91850-1-coiby.xu@gmail.com>
+        id S1729739AbgJHMZO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 08:25:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56176 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729665AbgJHMZO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Oct 2020 08:25:14 -0400
+Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5FAAA20659;
+        Thu,  8 Oct 2020 12:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602159914;
+        bh=3KpYhHQ85TqDmljH+UC/i0KAIqnhq3Y7TnXDFqhugvg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=M3xmhMwIGTnSJtAgbMZJJA0Ks9kTC3Q85NEpwt6QPquV5V9aN3dyW5+NP6T3ZUFNV
+         o/sot55fZZ4EJWUVjOOEoTyBK1soBcimn+hqXeLu1zMtDO43ZKyuIEcSe00QhKGtsw
+         CQMlEg5A69Aks0YmaTRMqAUyqFRmBICXcbKCK1Gw=
+Date:   Thu, 8 Oct 2020 14:25:05 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
+        andrealmeid@collabora.com
+Subject: Re: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
+Message-ID: <20201008142505.0cf36409@coco.lan>
+In-Reply-To: <20201008113127.GA20115@casper.infradead.org>
+References: <C674RBXSO9XN.1LXXU71QQNTF1@ArchWay>
+        <20201008024706.GZ20115@casper.infradead.org>
+        <20201008080306.25e89901@coco.lan>
+        <20201008113127.GA20115@casper.infradead.org>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instructions and examples on kernel data structures dumping and coredump.
+Em Thu, 8 Oct 2020 12:31:27 +0100
+Matthew Wilcox <willy@infradead.org> escreveu:
 
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
----
- .../networking/device_drivers/index.rst       |   1 +
- .../device_drivers/qlogic/index.rst           |  18 +++
- .../networking/device_drivers/qlogic/qlge.rst | 118 ++++++++++++++++++
- MAINTAINERS                                   |   6 +
- 4 files changed, 143 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
- create mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
+> On Thu, Oct 08, 2020 at 08:03:06AM +0200, Mauro Carvalho Chehab wrote:
+> > Em Thu, 8 Oct 2020 03:47:06 +0100
+> > Matthew Wilcox <willy@infradead.org> escreveu:
+> >  =20
+> > > On Thu, Oct 08, 2020 at 02:15:24AM +0000, N=C3=ADcolas F. R. A. Prado=
+ wrote: =20
+> > > > > I have a feature request ... could you automarkup NULL as being
+> > > > > :c:macro?
+> > > > > Or maybe just anything matching \<[[:upper:]_[:digit:]]*\>
+> > > > > (i may have my regex syntax confused ... a word composed of any
+> > > > > arrangement of upper-case, digits and underscores.)   =20
+> > > >=20
+> > > > I think what you are suggesting are two separate things.
+> > > >=20
+> > > > For NULL, what you're interested in is that it appears in a monospa=
+ced font, as
+> > > > if written ``NULL``, right? As I don't think a cross-reference to "=
+the NULL
+> > > > macro definition" would make much sense.
+> > > >=20
+> > > > While "anything containing only upper-case, digits and underscores"=
+ would
+> > > > actually be for cross-referencing to the definition of the macro sy=
+mbol in
+> > > > question, right?   =20
+> > >=20
+> > > Well, maybe!  What I'd really like is to remove all the markup from
+> > > xarray.rst.  Jon managed to get rid of most of it with the (), but
+> > > there's still markup on:
+> > >=20
+> > > LONG_MAX
+> > > NULL
+> > > -EBUSY
+> > > true
+> > > XA_MARK_[012]
+> > > XA_FLAGS_*
+> > > ENOMEM
+> > > EINVAL
+> > >=20
+> > > I'm not sure there's much that automarkup can do about ``true``, but =
+all
+> > > the others fit the all-caps-and-underscore-and-digits pattern.
+> > >=20
+> > > I don't know how much we want errnos to link to anything in particula=
+r.
+> > > So maybe split these into 'well-known' (eg defined by ANSI C or POSIX)
+> > > definitions and things which are local macros:
+> > >=20
+> > > LONG_MAX
+> > > NULL
+> > > -EBUSY
+> > > ENOMEM
+> > > EINVAL =20
+> >=20
+> > Yeah, a nice improvement would be to auto-markup error codes and NULL as
+> > literal blocks.
+> >  =20
+> > >=20
+> > > vs
+> > >=20
+> > > XA_MARK_[012] =20
+> >  =20
+> > > XA_FLAGS_* =20
+> >=20
+> > Actually, things that end with an * (but doesn't start with an *)
+> > are good candidates for being literals - although extra care should
+> > be taken on such case, as parsing those automatically will likely hit
+> > lots of false-positives. =20
+>=20
+> I do apologise.  I was trying to be concise in email.  In the actual
+> text file, I currently have:
+>=20
+> ``XA_FLAGS_ALLOC``
+> ``XA_FLAGS_ALLOC1``
+> ``XA_FLAGS_LOCK_IRQ``
+> ``XA_FLAGS_LOCK_BH``
+> ``XA_FLAGS_TRACK_FREE``
 
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index a3113ffd7a16..d8279de7bf25 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -15,6 +15,7 @@ Contents:
-    ethernet/index
-    fddi/index
-    hamradio/index
-+   qlogic/index
-    wan/index
-    wifi/index
- 
-diff --git a/Documentation/networking/device_drivers/qlogic/index.rst b/Documentation/networking/device_drivers/qlogic/index.rst
-new file mode 100644
-index 000000000000..ad05b04286e4
---- /dev/null
-+++ b/Documentation/networking/device_drivers/qlogic/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+QLogic QLGE Device Drivers
-+===============================================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   qlge
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/device_drivers/qlogic/qlge.rst b/Documentation/networking/device_drivers/qlogic/qlge.rst
-new file mode 100644
-index 000000000000..0b888253d152
---- /dev/null
-+++ b/Documentation/networking/device_drivers/qlogic/qlge.rst
-@@ -0,0 +1,118 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+QLogic QLGE 10Gb Ethernet device driver
-+=======================================
-+
-+This driver use drgn and devlink for debugging.
-+
-+Dump kernel data structures in drgn
-+-----------------------------------
-+
-+To dump kernel data structures, the following Python script can be used
-+in drgn:
-+
-+.. code-block:: python
-+
-+	def align(x, a):
-+	    """the alignment a should be a power of 2
-+	    """
-+	    mask = a - 1
-+	    return (x+ mask) & ~mask
-+
-+	def struct_size(struct_type):
-+	    struct_str = "struct {}".format(struct_type)
-+	    return sizeof(Object(prog, struct_str, address=0x0))
-+
-+	def netdev_priv(netdevice):
-+	    NETDEV_ALIGN = 32
-+	    return netdevice.value_() + align(struct_size("net_device"), NETDEV_ALIGN)
-+
-+	name = 'xxx'
-+	qlge_device = None
-+	netdevices = prog['init_net'].dev_base_head.address_of_()
-+	for netdevice in list_for_each_entry("struct net_device", netdevices, "dev_list"):
-+	    if netdevice.name.string_().decode('ascii') == name:
-+	        print(netdevice.name)
-+
-+	ql_adapter = Object(prog, "struct ql_adapter", address=netdev_priv(qlge_device))
-+
-+The struct ql_adapter will be printed in drgn as follows,
-+
-+    >>> ql_adapter
-+    (struct ql_adapter){
-+            .ricb = (struct ricb){
-+                    .base_cq = (u8)0,
-+                    .flags = (u8)120,
-+                    .mask = (__le16)26637,
-+                    .hash_cq_id = (u8 [1024]){ 172, 142, 255, 255 },
-+                    .ipv6_hash_key = (__le32 [10]){},
-+                    .ipv4_hash_key = (__le32 [4]){},
-+            },
-+            .flags = (unsigned long)0,
-+            .wol = (u32)0,
-+            .nic_stats = (struct nic_stats){
-+                    .tx_pkts = (u64)0,
-+                    .tx_bytes = (u64)0,
-+                    .tx_mcast_pkts = (u64)0,
-+                    .tx_bcast_pkts = (u64)0,
-+                    .tx_ucast_pkts = (u64)0,
-+                    .tx_ctl_pkts = (u64)0,
-+                    .tx_pause_pkts = (u64)0,
-+                    ...
-+            },
-+            .active_vlans = (unsigned long [64]){
-+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52780853100545, 18446744073709551615,
-+                    18446619461681283072, 0, 42949673024, 2147483647,
-+            },
-+            .rx_ring = (struct rx_ring [17]){
-+                    {
-+                            .cqicb = (struct cqicb){
-+                                    .msix_vect = (u8)0,
-+                                    .reserved1 = (u8)0,
-+                                    .reserved2 = (u8)0,
-+                                    .flags = (u8)0,
-+                                    .len = (__le16)0,
-+                                    .rid = (__le16)0,
-+                                    ...
-+                            },
-+                            .cq_base = (void *)0x0,
-+                            .cq_base_dma = (dma_addr_t)0,
-+                    }
-+                    ...
-+            }
-+    }
-+
-+coredump via devlink
-+--------------------
-+
-+
-+And the coredump obtained via devlink in json format looks like,
-+
-+.. code:: shell
-+
-+	$ devlink health dump show DEVICE reporter coredump -p -j
-+	{
-+	    "Core Registers": {
-+	        "segment": 1,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    "Test Logic Regs": {
-+	        "segment": 2,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    "RMII Registers": {
-+	        "segment": 3,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    ...
-+	    "Sem Registers": {
-+	        "segment": 50,
-+	        "values": [ 0,0,0,0 ]
-+	    }
-+	}
-+
-+When the module parameter qlge_force_coredump is set to be true, the MPI
-+RISC reset before coredumping. So coredumping will much longer since
-+devlink tool has to wait for 5 secs for the resetting to be
-+finished.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ecb727f0a8f..d482078e3e88 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14411,6 +14411,12 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/staging/qlge/
- 
-+QLOGIC QLGE 10Gb ETHERNET DRIVER
-+M:	Coiby Xu <coiby.xu@gmail.com>
-+L:	netdev@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/networking/device_drivers/qlogic/qlge.rst
-+
- QM1D1B0004 MEDIA DRIVER
- M:	Akihiro Tsukada <tskd08@gmail.com>
- L:	linux-media@vger.kernel.org
--- 
-2.28.0
+Ah, OK!
 
+>=20
+> > > I'm willing to add more inline kernel-doc to get this to work better.=
+ =20
+> >=20
+> > Why? inline kernel-doc should be evaluated just like normal blocks.
+> >=20
+> > Right now, kernel-doc handles constants like NULL and XA_FLAGS_* using
+> > two ways:
+> >=20
+> > 	%FOO
+> > or
+> > 	``FOO``
+> >=20
+> > The regex for those are:
+> >=20
+> > 	my $type_constant =3D '\b``([^\`]+)``\b';
+> > 	my $type_constant2 =3D '\%([-_\w]+)'; =20
+>=20
+> Right, but that's in kernel-doc ... in a .rst file, I believe we have
+> to use the ``SYMBOL`` syntax.
+
+As you mentioned that you're "willing to add more inline kernel-doc",
+I assumed that you were talking about kernel-doc markups at the C files.
+
+Yeah, inside a .rst file, this should be ``SYMBOL``.
+
+As you suggested, the automarkup.py could help with replacing some
+of those.
+
+-
+
+Just my two cents: a documentation writer hat, it sounds weird to me to=20
+mix ``SYMBOL`` (with markup) with NULL (without explicit markup) at the
+same file.
+
+Thanks,
+Mauro
