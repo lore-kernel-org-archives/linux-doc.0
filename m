@@ -2,127 +2,59 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F0AC4727E
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 15:03:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31438C4363A
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 15:08:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84F3C21927
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 15:03:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="r22/Sm/g"
+	by mail.kernel.org (Postfix) with ESMTP id E42AD21789
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 15:08:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730794AbgJHPDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 11:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33652 "EHLO
+        id S1730861AbgJHPIy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 11:08:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730721AbgJHPDU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 11:03:20 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09769C061755;
-        Thu,  8 Oct 2020 08:03:20 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0a9000bfab7746bad7d6a7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:9000:bfab:7746:bad7:d6a7])
+        with ESMTP id S1730854AbgJHPIy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 11:08:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D77C061755;
+        Thu,  8 Oct 2020 08:08:54 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D4FE71EC047E;
-        Thu,  8 Oct 2020 17:03:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1602169398;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=H7LtysFbQs7PFQq4RWrYSce3ni7L2rAYoFE4zYkyzvU=;
-        b=r22/Sm/gD7Lz5A+6cEIj8Ie9aJaqNuQDC08G/jWg3szjtFh7iwQM2+BVesit/IXWwFdSYi
-        8T+tIhUQtvDrANDK2N0cmi5Vuoae28DQRzdhPvgrNM7mK+2GwX49d3Y6hiavaVcw7CjhBK
-        tgdC4EioZOTpVZnT0sNu5spyAIJ27Iw=
-Date:   Thu, 8 Oct 2020 17:03:09 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Mackerras <paulus@samba.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-sh@vger.kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH 2/2] dt: Remove booting-without-of.rst
-Message-ID: <20201008150309.GA5505@zn.tnic>
-References: <20201008142420.2083861-1-robh@kernel.org>
- <20201008142420.2083861-2-robh@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id 27787301;
+        Thu,  8 Oct 2020 15:08:53 +0000 (UTC)
+Date:   Thu, 8 Oct 2020 09:08:51 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1] gpiolib: Update indentation in driver.rst for code
+ excerpts
+Message-ID: <20201008090851.3041aa1d@lwn.net>
+In-Reply-To: <20201007143817.76335-1-andriy.shevchenko@linux.intel.com>
+References: <20201007143817.76335-1-andriy.shevchenko@linux.intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201008142420.2083861-2-robh@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 08, 2020 at 09:24:20AM -0500, Rob Herring wrote:
-> booting-without-of.rstt is an ancient document that first outlined
-> Flattened DeviceTree on PowerPC initially. The DT world has evolved a
-> lot in the 15 years since and booting-without-of.rst is pretty stale.
-> The name of the document itself is confusing if you don't understand the
-> evolution from real 'OpenFirmware'. Most of what booting-without-of.rst
-> contains is now in the DT specification (which evolved out of the
-> ePAPR). The few things that weren't documented in the DT specification
-> are now.
-> 
-> All that remains is the boot entry details, so let's move these to arch
-> specific documents. The exception is arm which already has the same
-> details documented.
-> 
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Cc: Rich Felker <dalias@libc.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: x86@kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-sh@vger.kernel.org
-> Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/booting-without-of.rst         | 1585 -----------------
->  Documentation/devicetree/index.rst            |    1 -
->  Documentation/mips/booting.rst                |   28 +
->  Documentation/mips/index.rst                  |    1 +
->  Documentation/powerpc/booting.rst             |  110 ++
->  Documentation/powerpc/index.rst               |    1 +
->  Documentation/sh/booting.rst                  |   12 +
->  Documentation/sh/index.rst                    |    1 +
->  Documentation/x86/booting-dt.rst              |   21 +
->  Documentation/x86/index.rst                   |    1 +
+On Wed,  7 Oct 2020 17:38:17 +0300
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-For x86:
+> When TABs are being used to indent the code excerpts inside
+> the bullet lists some of the tools fail to recognize it and
+> continue interpreting the special characters inside
+> the quoted excerpt.
 
-Acked-by: Borislav Petkov <bp@suse.de>
+Which tools are those?  The docs build itself seems to work fine...?
 
-Thx.
+Thanks,
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+jon
