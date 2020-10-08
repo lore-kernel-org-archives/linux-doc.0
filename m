@@ -2,160 +2,75 @@ Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C93BC433E7
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 06:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84634C433E7
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 07:46:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97848217BA
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 06:03:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F18A21924
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 07:46:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602136993;
-	bh=vpzw2eAPwPm0AHcA/aZnYkEH6aH6DDHIDFv9+O5ovNo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=iBo1+VtCpwOTicN46aXJOszQK3GzjTjWG2SQVgs+8qDCjTwyTajBBTOUGVDnPOB7F
-	 Q7Jl9mHXofOesBkyu+p4/Dvk0i3oF6LUEzfZvFCpeHjN9EYJUpk/tXCj6lkGaWFt3e
-	 /uukWLKj1aD9T0tPOg+gaedKElsUa15f5ccy4py0=
+	s=default; t=1602143163;
+	bh=f7syuYxd7pSyhG15DMcL/MnkQd064/mINipKDjU5y24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=LJCDSiuX34+KyLx54GqG+k82+DHit1MCUSxQX7eEW9Naw3Aw+0DD+uh7JjnKMNzIv
+	 8GOXGVnP4lr8I3l20Zdgm9SU801G9IX0I5sYrMRIXNGovUwhGtTQhN1fPzk2f2svfV
+	 TNtgR7KcB3FKGu8YqZ372VhvnRJ31DCRtahtlGkc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbgJHGDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 02:03:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34962 "EHLO mail.kernel.org"
+        id S1727611AbgJHHqC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 03:46:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33028 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726245AbgJHGDM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Oct 2020 02:03:12 -0400
-Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        id S1725899AbgJHHqC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Oct 2020 03:46:02 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E06092173E;
-        Thu,  8 Oct 2020 06:03:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8AFB12184D;
+        Thu,  8 Oct 2020 07:46:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602136991;
-        bh=vpzw2eAPwPm0AHcA/aZnYkEH6aH6DDHIDFv9+O5ovNo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CDRzFJMF8lg4koIcHSZ5b9K6yXAf9BTq+2DS7fj4GKi7TYzJHtgJs3sr0cwBw/Atg
-         ZxsyZiE8JOgZtUOvMQqJcXGpfuVe4+J6Be6icBJhBf7xGi4RfPvx0/dYxCq3fhdZE+
-         eWtXD71GaJ7BzsP2HfoGLqvngjtIOeyPyUajpAJ4=
-Date:   Thu, 8 Oct 2020 08:03:06 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
-        andrealmeid@collabora.com
-Subject: Re: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
-Message-ID: <20201008080306.25e89901@coco.lan>
-In-Reply-To: <20201008024706.GZ20115@casper.infradead.org>
-References: <C674RBXSO9XN.1LXXU71QQNTF1@ArchWay>
-        <20201008024706.GZ20115@casper.infradead.org>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        s=default; t=1602143162;
+        bh=f7syuYxd7pSyhG15DMcL/MnkQd064/mINipKDjU5y24=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ziYjLr6LpIQL87bJTZ91Y2DWZOoxyDdn3yh6gWeueXlhh0cZ9gVORmNuEP6wn5plA
+         c7Hkwa1jnzQ31SjOaZxxxsUUs3+PqtQDeArV0VnRt+lM3Dgtcg5joTROF0QbzWatrI
+         pqfTR9i3LYEar4rLpG0vRF6OUtY+LXo1V6NFG1gk=
+Date:   Thu, 8 Oct 2020 09:46:46 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Akira Shimahara <akira215corp@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Evgeny Boger <boger@wirenboard.com>
+Subject: Re: [PATCH] docs: w1: w1_therm: Fix broken xref, mistakes, clarify
+ text
+Message-ID: <20201008074646.GA247801@kroah.com>
+References: <20201008054259.5461-1-ivan.zaentsev@wirenboard.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201008054259.5461-1-ivan.zaentsev@wirenboard.ru>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 8 Oct 2020 03:47:06 +0100
-Matthew Wilcox <willy@infradead.org> escreveu:
+On Thu, Oct 08, 2020 at 08:42:59AM +0300, Ivan Zaentsev wrote:
+> sysfs attribute names are mixed with the same normal text terms.
+> Use ReST to distinguish.
+> 
+> Fix typos and mistakes.
+> 
+> Signed-off-by: Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
 
-> On Thu, Oct 08, 2020 at 02:15:24AM +0000, N=C3=ADcolas F. R. A. Prado wro=
-te:
-> > > I have a feature request ... could you automarkup NULL as being
-> > > :c:macro?
-> > > Or maybe just anything matching \<[[:upper:]_[:digit:]]*\>
-> > > (i may have my regex syntax confused ... a word composed of any
-> > > arrangement of upper-case, digits and underscores.) =20
-> >=20
-> > I think what you are suggesting are two separate things.
-> >=20
-> > For NULL, what you're interested in is that it appears in a monospaced =
-font, as
-> > if written ``NULL``, right? As I don't think a cross-reference to "the =
-NULL
-> > macro definition" would make much sense.
-> >=20
-> > While "anything containing only upper-case, digits and underscores" wou=
-ld
-> > actually be for cross-referencing to the definition of the macro symbol=
- in
-> > question, right? =20
->=20
-> Well, maybe!  What I'd really like is to remove all the markup from
-> xarray.rst.  Jon managed to get rid of most of it with the (), but
-> there's still markup on:
->=20
-> LONG_MAX
-> NULL
-> -EBUSY
-> true
-> XA_MARK_[012]
-> XA_FLAGS_*
-> ENOMEM
-> EINVAL
->=20
-> I'm not sure there's much that automarkup can do about ``true``, but all
-> the others fit the all-caps-and-underscore-and-digits pattern.
->=20
-> I don't know how much we want errnos to link to anything in particular.
-> So maybe split these into 'well-known' (eg defined by ANSI C or POSIX)
-> definitions and things which are local macros:
->=20
-> LONG_MAX
-> NULL
-> -EBUSY
-> ENOMEM
-> EINVAL
+You forgot a "Reported-by:" line in here.  I'll go add that...
 
-Yeah, a nice improvement would be to auto-markup error codes and NULL as
-literal blocks.
+thanks,
 
->=20
-> vs
->=20
-> XA_MARK_[012]
-
-> XA_FLAGS_*
-
-Actually, things that end with an * (but doesn't start with an *)
-are good candidates for being literals - although extra care should
-be taken on such case, as parsing those automatically will likely hit
-lots of false-positives.
-
-> I'm willing to add more inline kernel-doc to get this to work better.
-
-Why? inline kernel-doc should be evaluated just like normal blocks.
-
-Right now, kernel-doc handles constants like NULL and XA_FLAGS_* using
-two ways:
-
-	%FOO
-or
-	``FOO``
-
-The regex for those are:
-
-	my $type_constant =3D '\b``([^\`]+)``\b';
-	my $type_constant2 =3D '\%([-_\w]+)';
-
-
-In other words, "%FOO" should not contain any symbol, except for
-'-' and '_'.
-
-If there is any other symbol, like in "XA_FLAGS_*", the alternative
-syntax is needed.
-
-No matter if you use inline or block definitions, the same regexes
-are used.
-
-> Or even convert #defines to enums ... whatever gets this working better.
-
-Using enums where possible[1] is nicer, IMHO.=20
-
-[1] enums shouldn't be used on uAPI, as its size depends on the C
-    compiler implementation.
-
-Thanks,
-Mauro
+greg k-h
