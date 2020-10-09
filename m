@@ -2,73 +2,144 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A13C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 07:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1815CC433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 08:55:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C576C22277
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 07:38:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A00392227F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 08:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602233699;
+	bh=PyiP6M+lDsgbufpbwMpTvauol6VUFL607YHj7WiFOD8=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=gmuvMjB82r4nv5fnx1xqh9KDDhAvh06Ap92ErIvv8CwSNPOMhgfjSRliMtUt5IXhh
+	 x9wSTPs5oFhIcSwIQuKQJ85I2y3Ok0Mtcr5ETajJoNOOuEageMlKl0NbYOlX8Gdgmb
+	 x8C2AHIx5HqDAj/nFd5klgIBxBsa3rDz5+FsqKaw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732184AbgJIHiY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 03:38:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731977AbgJIHiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 03:38:24 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB16C0613D2;
-        Fri,  9 Oct 2020 00:38:23 -0700 (PDT)
-Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kQmyl-0003AF-55; Fri, 09 Oct 2020 09:38:15 +0200
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <89c5aa12cdb55568b3e33afbe8c5afddf54dddf6.1601541165.git.linux@leemhuis.info>
- <05897f9c-8039-51f1-27b2-97c65a3913db@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 21/26] docs: reporting-bugs: details on writing and
- sending the report
-Message-ID: <b1c84287-867b-5884-8cb5-f9f433014622@leemhuis.info>
-Date:   Fri, 9 Oct 2020 09:38:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S1732496AbgJIIy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 04:54:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52768 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732492AbgJIIy7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Oct 2020 04:54:59 -0400
+Received: from mail.kernel.org (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E6BA2227F;
+        Fri,  9 Oct 2020 08:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602233698;
+        bh=PyiP6M+lDsgbufpbwMpTvauol6VUFL607YHj7WiFOD8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=15JTSwYH/sbarqoWl9NhOZ0NJtuFdUchcbIqRsIc3Y7vx0E5BVqUDndXSuMaJRq/v
+         auGACGsPdZQUgs/wYYqj0H/TmfmKo/vZgTZG5nfI/E7oX1unliTO1ct/42+Fg72l5o
+         F03A1nDTir8/LnQ1r/ogLG8yhDXw/xltL4aBwTww=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kQoAx-0036mc-F4; Fri, 09 Oct 2020 10:54:55 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH] kernel-doc: fix line number handling
+Date:   Fri,  9 Oct 2020 10:54:54 +0200
+Message-Id: <32dd3f497839310aebcea763add71d390f4c7b54.1602233692.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <05897f9c-8039-51f1-27b2-97c65a3913db@infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1602229104;c8eb8e30;
-X-HE-SMSGID: 1kQmyl-0003AF-55
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Many thx for you comments. Consider all the obvious spelling and
+Address several issues related to pointing to the wrong line
+number:
 
+1) ensure that line numbers will always be initialized
 
-grammatical mistakes you pointed out fixed, I won't mention all of them
+   When section is the default (Description), the line number
+   is not initializing, producing this:
 
+	$ ./scripts/kernel-doc --enable-lineno ./drivers/media/v4l2-core/v4l2-mem2mem.c|less
 
-in this reply to keep things easier to follow.
+	**Description**
 
-Am 09.10.20 um 04:45 schrieb Randy Dunlap:
-> On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
+	#define LINENO 0
+	In case of streamoff or release called on any context,
+	1] If the context is currently running, then abort job will be called
+	2] If the context is queued, then the context will be removed from
+	   the job_queue
 
->> +   In both cases make sure to inform those that the MAINTAINERS file lists in
->> +   the section 'security contact'. Ideally CCing them on the mail with the
->> +   report. If you filed it in a bug tracker forward the reports text, but on top
-> 
-> parse error in first 2 sentences above...
+  Which is not right. Ensure that the line number will always
+  be there. After applied, the result now points to the right location:
 
-Now reads:
+	**Description**
 
-In both cases make sure to mail your report to the addresses the 
-MAINTAINERS file lists in the section 'security contact'. Ideally 
-directly CC them when sending the report by mail.
+	#define LINENO 410
+	In case of streamoff or release called on any context,
+	1] If the context is currently running, then abort job will be called
+	2] If the context is queued, then the context will be removed from
+	   the job_queue
 
-Ciao, Thorsten
+2) The line numbers for function prototypes are always + 1,
+   because it is taken at the line after handling the prototype.
+   Change the logic to point to the next line after the /** */
+   block;
+
+3) The "DOC:" line number should point to the same line as this
+   markup is found, and not to the next one.
+
+Probably part of the issues were due to a but that was causing
+the line number offset to be incremented by one, if --export
+were used.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index a3453de4495c..297312824d26 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1706,7 +1706,7 @@ sub dump_function($$) {
+     my $file = shift;
+     my $noret = 0;
+ 
+-    print_lineno($.);
++    print_lineno($new_start_line);
+ 
+     $prototype =~ s/^static +//;
+     $prototype =~ s/^extern +//;
+@@ -2034,7 +2034,7 @@ sub process_name($$) {
+     if (/$doc_block/o) {
+ 	$state = STATE_DOCBLOCK;
+ 	$contents = "";
+-	$new_start_line = $. + 1;
++	$new_start_line = $.;
+ 
+ 	if ( $1 eq "" ) {
+ 	    $section = $section_intro;
+@@ -2117,6 +2117,7 @@ sub process_body($$) {
+     if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
+ 	dump_section($file, $section, $contents);
+ 	$section = $section_default;
++	$new_start_line = $.;
+ 	$contents = "";
+     }
+ 
+@@ -2172,6 +2173,7 @@ sub process_body($$) {
+ 	$prototype = "";
+ 	$state = STATE_PROTO;
+ 	$brcount = 0;
++        $new_start_line = $. + 1;
+     } elsif (/$doc_content/) {
+ 	if ($1 eq "") {
+ 	    if ($section eq $section_context) {
+-- 
+2.26.2
+
