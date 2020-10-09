@@ -2,635 +2,345 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB9FDC433E7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 15:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C017C43457
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 17:38:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62C0E222C2
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 15:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602259004;
-	bh=L5cWS9W7lZyNTqWdKzojGKFLC5DpYe6w2uml7Zc/Hss=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=o+rgv+sIVnp5vgEre5zXUkbgzAP17y9euwH88+2IDvPspkEF26OOZhQ06FYUrFJ8R
-	 p2c/CUlij2v2rrxWjaDYkIa6R/NL1l4vvM1mJTTEcu/zwPQps/bIf80Jw4c2WdzYfh
-	 iDit2DnAndgY6bJsOsj0aWS0T/z4GxtMRhkWyI1k=
+	by mail.kernel.org (Postfix) with ESMTP id 0D5D82227E
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 17:38:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OBN0U505"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389322AbgJIP4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 11:56:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38696 "EHLO
+        id S1733193AbgJIRiV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 13:38:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389463AbgJIP4M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 11:56:12 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B84C0613D5
-        for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2020 08:56:12 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id m128so10651162oig.7
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2020 08:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LzNUXoqWkCfe5RfMPJ8BgNbf85j7vUJ3HuYLgvdsuac=;
-        b=GdUSnwIMVKTfRFQs7PyYvGJuD4xHU9TNZcUKu/M8ur54uzu2FUmgbTdepKlccnjFHI
-         dsWJxPADIhLu1uXYZoH3nPRchlFRt1NULykM+jKx/p5Sywdjqt9QaiQaN6SYgXW3hNU3
-         jJmHmomtjAPV/UjrEhXr9KOHZuiQrv04239fA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LzNUXoqWkCfe5RfMPJ8BgNbf85j7vUJ3HuYLgvdsuac=;
-        b=lVq/dJb+ujVoeG+21UyIylAne+69Ev+D7xhxNJM/tAtnKPrN8BPBEwVsbkqR0lSt0c
-         ltiRE0dw0yx03IbiqIVPUOkuRYak6/95z2vU11cfBBlXD6YVZiAx+zLENBzn7dmS+uVw
-         J2x7H2t/1XiP5IpBhe0z/8YBinlruDYNvyAXwTEhqpWZUUE+5EpqvzKS7+8hyFgqPGaC
-         r3j88YthlGelfrPsWEeTzTrJ9Ii7EILs/AZevlVqvjcCzppC+DR6pib1Z0WDZnOTbTLC
-         h1bOZPUHPBCvzqTcufjqO5DnDqSy/qr0M1yiRIspuMTcDJeGJOp0KX9JyhnDumqjUxtg
-         p7sA==
-X-Gm-Message-State: AOAM530VG4bapmzIqj4Mdr/29jxJZG6+Inks1KukwrH9n7NRBDam3TSe
-        Ny8vNAjC8Dr5z0O4/QsN3Tyvo+OXpQDVfQ==
-X-Google-Smtp-Source: ABdhPJydSvnyxBwibM9aBUi6YV6KsCGIxZjC6LgLN6vSUvH81x8IyzWBg1DgpEm8f7zWy90zWwI/BA==
-X-Received: by 2002:aca:a893:: with SMTP id r141mr2744342oie.50.1602258971939;
-        Fri, 09 Oct 2020 08:56:11 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id e7sm7347246oia.9.2020.10.09.08.56.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 08:56:11 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 01/11] counters: Introduce counter_atomic* counters
-Date:   Fri,  9 Oct 2020 09:55:56 -0600
-Message-Id: <baede266cc0c69da61142b467ff386c6b31a70b7.1602209970.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1602209970.git.skhan@linuxfoundation.org>
-References: <cover.1602209970.git.skhan@linuxfoundation.org>
+        with ESMTP id S1733195AbgJIRhw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 13:37:52 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 268DAC0613D2;
+        Fri,  9 Oct 2020 10:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=5KGK0KBNJicqKUUx6uAxbNxMchAcU7TkrBnzqht4jjU=; b=OBN0U505hPl2JYq1qKCFJtzg29
+        aBueYoEBcoRGnFB7z1ViVBYfrWLduByjly8klpbPTDkQ2oQ8hXxPyletq2QpS3JNWbTTDjS3IYwlp
+        3XAD5LhbA3kB2gbfPpP7pPzf35oUcbDa0t/JCM97LIJexRYZebP/8T3cQ+fCYaSjwP2iJ3js0M1X1
+        d8A5Xl8xdYXQaCrWogVpKpIraqOSfopExmy00dzGv243BvSb2Po6ORSnQ81RJ4COsid7I0a4iShXR
+        yKcViRZjhVfG4ZU6Ib2sQOsG95J4CedtFKIrMWoc32WcP/xAxaaDyVVcX4AegY0/LpkMG3QaB57ee
+        r57EF/Bg==;
+Received: from [2601:1c0:6280:3f0::507c]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kQwKz-0001JC-Jg; Fri, 09 Oct 2020 17:37:50 +0000
+Subject: Re: [RFC PATCH v1 22/26] docs: reporting-bugs: explain what users
+ should do once the report got out
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1601541165.git.linux@leemhuis.info>
+ <60aeaadf670271ee69a47f5eff3f6bf7b530ac5a.1601541165.git.linux@leemhuis.info>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <57bebfe1-7f57-744c-a803-093f219cb451@infradead.org>
+Date:   Fri, 9 Oct 2020 10:37:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <60aeaadf670271ee69a47f5eff3f6bf7b530ac5a.1601541165.git.linux@leemhuis.info>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce Simple atomic counters.
+On 10/1/20 1:50 AM, Thorsten Leemhuis wrote:
+> Users should know that sending the report is not the end of this
+> process: if want to see the issue fixed, they will need to keep the ball
+> rolling sometimes. Hence, explain why it's in their interest to send a
+> reminder occasionally. Als point out that it's a really good idea to
+> retest shortly after the rc1 of a new mainline release came out.
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+> 
+> = RFC =
+> 
+> This commit removes a section from the old text that kinda tells maintainers
+> what users can expect from them. Should this be made more explicit in the Kernel
+> Maintainer Handbook? Maybe something along the lines of "Try to answer each
+> issue report at least once, ideally within 1 to 5 business days"?
+> ---
+>  Documentation/admin-guide/reporting-bugs.rst | 222 +++++++++++++++----
+>  1 file changed, 180 insertions(+), 42 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
+> index b06935cad880..b8bc6c4e2340 100644
+> --- a/Documentation/admin-guide/reporting-bugs.rst
+> +++ b/Documentation/admin-guide/reporting-bugs.rst
+> @@ -1043,6 +1043,186 @@ High priority issues need special handling when sending the report:
+>     information.
+>  
+>  
+> +Duties after the report went out
+> +--------------------------------
+> +
+> +    *Wait for reactions and keep the thing rolling until you can accept the
+> +    outcome in one way or the other. Thus react publicly and in a timely manner
+> +    to any inquiries. Test proposed fixes. Do proactive testing when a new rc1
+> +    gets released. Sent friendly reminders if things stall. And try to help
 
-There are a number of atomic_t usages in the kernel where atomic_t api
-is used strictly for counting and not for managing object lifetime. In
-some cases, atomic_t might not even be needed.
+                      Send
 
-The purpose of these counters is to clearly differentiate atomic_t
-counters from atomic_t usages that guard object lifetimes, hence prone
-to overflow and underflow errors. It allows tools that scan for underflow
-and overflow on atomic_t usages to detect overflow and underflows to scan
-just the cases that are prone to errors.
+> +    yourself, if you don't get any help or if it is unsatisfying.*
+> +
+> +If your report was good and you are really lucky then one of the developers
+> +might immediately spot what's causing the issue; then he might write a patch to
+> +fix it, test it, and sends it straight for integration in mainline while
 
-Simple atomic counters api provides interfaces for simple atomic counters
-that just count, and don't guard resource lifetimes. The interfaces are
-built on top of atomic_t api, providing a smaller subset of atomic_t
-interfaces necessary to support simple counters.
+                        send
 
-Counter wraps around to INT_MIN when it overflows and should not be used
-to guard resource lifetimes, device usage and open counts that control
-state changes, and pm states. Overflowing to INT_MIN is consistent with
-the atomic_t api, which it is built on top of.
+> +tagging it for later backport to stable and longterm kernels that need it. Then
+> +all you need to do is reply with a 'Thank you very much' and switch to a
+> +version with the fix once it gets released.
+> +
+> +But this ideal scenario rarely happens, that's why the job is only starting once
 
-Using counter_atomic* to guard lifetimes could lead to use-after free
-when it overflows and undefined behavior when used to manage state
-changes and device usage/open states.
+                                  happens. That's
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- Documentation/core-api/counters.rst | 109 +++++++++++++++++
- MAINTAINERS                         |   7 ++
- include/linux/counters.h            | 176 ++++++++++++++++++++++++++++
- lib/Kconfig                         |   9 ++
- lib/Makefile                        |   1 +
- lib/test_counters.c                 | 162 +++++++++++++++++++++++++
- 6 files changed, 464 insertions(+)
- create mode 100644 Documentation/core-api/counters.rst
- create mode 100644 include/linux/counters.h
- create mode 100644 lib/test_counters.c
+> +you got the report out. What you'll have to do depends on the issue, but often
+> +it will be the things listed below. But before digging into the details a few
 
-diff --git a/Documentation/core-api/counters.rst b/Documentation/core-api/counters.rst
-new file mode 100644
-index 000000000000..642d907f4d3a
---- /dev/null
-+++ b/Documentation/core-api/counters.rst
-@@ -0,0 +1,109 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================
-+Simple atomic counters
-+======================
-+
-+:Author: Shuah Khan
-+:Copyright: |copy| 2020, The Linux Foundation
-+:Copyright: |copy| 2020, Shuah Khan <skhan@linuxfoundation.org>
-+
-+There are a number of atomic_t usages in the kernel where atomic_t api
-+is used strictly for counting and not for managing object lifetime. In
-+some cases, atomic_t might not even be needed.
-+
-+The purpose of these counters is to clearly differentiate atomic_t counters
-+from atomic_t usages that guard object lifetimes, hence prone to overflow
-+and underflow errors. It allows tools that scan for underflow and overflow
-+on atomic_t usages to detect overflow and underflows to scan just the cases
-+that are prone to errors.
-+
-+Simple atomic counters api provides interfaces for simple atomic counters
-+that just count, and don't guard resource lifetimes. The interfaces are
-+built on top of atomic_t api, providing a smaller subset of atomic_t
-+interfaces necessary to support simple counters.
-+
-+Counter wraps around to INT_MIN when it overflows and should not be used
-+to guard resource lifetimes, device usage and open counts that control
-+state changes, and pm states. Overflowing to INT_MIN is consistent with
-+the atomic_t api, which it is built on top of.
-+
-+Using counter_atomic32_* to guard lifetimes could lead to use-after free
-+when it overflows and undefined behavior when used to manage state
-+changes and device usage/open states.
-+
-+Use refcount_t interfaces for guarding resources.
-+
-+.. warning::
-+        Counter wraps around to INT_MIN when it overflows.
-+        Should not be used to guard resource lifetimes.
-+        Should not be used to manage device state and pm state.
-+
-+Test Counters Module and selftest
-+---------------------------------
-+
-+Please see :ref:`lib/test_counters.c <Test Counters Module>` for how to
-+use these interfaces and also test them.
-+
-+Selftest for testing:
-+:ref:`testing/selftests/lib/test_counters.sh <selftest for counters>`
-+
-+Atomic counter interfaces
-+=========================
-+
-+counter_atomic32 and counter_atomic64 types use atomic_t and atomic64_t
-+underneath to leverage atomic_t api,  providing a small subset of atomic_t
-+interfaces necessary to support simple counters. ::
-+
-+        struct counter_atomic32 { atomic_t cnt; };
-+        struct counter_atomic64 { atomic64_t cnt; };
-+
-+Please see :ref:`Documentation/core-api/atomic_ops.rst <atomic_ops>` for
-+information on the Semantics and Behavior of Atomic operations.
-+
-+.. warning::
-+        It is important to keep the ops to a very small subset to ensure
-+        that the Counter API will never be used for guarding resource
-+        lifetimes and state management.
-+
-+        inc_return() is added to support current atomic_inc_return()
-+        usages and avoid forcing the use of _inc() followed by _read().
-+
-+Initializers
-+------------
-+
-+Interfaces for initializing counters are write operations which in turn
-+invoke their ``ATOMIC_INIT() and atomic_set()`` counterparts ::
-+
-+        #define COUNTER_ATOMIC_INIT(i)    { .cnt = ATOMIC_INIT(i) }
-+        counter_atomic32_set() --> atomic_set()
-+
-+        static struct counter_atomic32 acnt = COUNTER_ATOMIC_INIT(0);
-+        counter_atomic32_set(0);
-+
-+        static struct counter_atomic64 acnt = COUNTER_ATOMIC_INIT(0);
-+        counter_atomic64_set(0);
-+
-+Increment interface
-+-------------------
-+
-+Increments counter and doesn't return the new counter value. ::
-+
-+        counter_atomic32_inc() --> atomic_inc()
-+        counter_atomic64_inc() --> atomic64_inc()
-+
-+Increment and return new counter value interface
-+------------------------------------------------
-+
-+Increments counter and returns the new counter value. ::
-+
-+        counter_atomic32_inc_return() --> atomic_inc_return()
-+        counter_atomic64_inc_return() --> atomic64_inc_return()
-+
-+Decrement interface
-+-------------------
-+
-+Decrements counter and doesn't return the new counter value. ::
-+
-+        counter_atomic32_dec() --> atomic_dec()
-+        counter_atomic64_dec() --> atomic64_dec()
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 33b27e62ce19..4e82d0ffcab0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15839,6 +15839,13 @@ S:	Maintained
- F:	Documentation/fb/sm712fb.rst
- F:	drivers/video/fbdev/sm712*
- 
-+SIMPLE ATOMIC and NON-ATOMIC COUNTERS
-+M:	Shuah Khan <skhan@linuxfoundation.org>
-+L:	linux-kernel@vger.kernel.org
-+S:	Maintained
-+F:	include/linux/counters.h
-+F:	lib/test_counters.c
-+
- SIMPLE FIRMWARE INTERFACE (SFI)
- S:	Obsolete
- W:	http://simplefirmware.org/
-diff --git a/include/linux/counters.h b/include/linux/counters.h
-new file mode 100644
-index 000000000000..bb96dd544553
---- /dev/null
-+++ b/include/linux/counters.h
-@@ -0,0 +1,176 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * counters.h - Interface for simple atomic counters that just count.
-+ *
-+ * Copyright (c) 2020 Shuah Khan <skhan@linuxfoundation.org>
-+ * Copyright (c) 2020 The Linux Foundation
-+ *
-+ * Counter wraps around to INT_MIN when it overflows and should not be
-+ * used to guard resource lifetimes, device usage and open counts that
-+ * control state changes, and pm states. Using counter_atomic to guard
-+ * lifetimes could lead to use-after free when it overflows and undefined
-+ * behavior when used to manage state changes and device usage/open states.
-+ *
-+ * Use refcount_t interfaces for guarding resources.
-+ *
-+ * The interface provides:
-+ * atomic32 & atomic64 functions:
-+ *	increment and no return
-+ *	increment and return value
-+ *	decrement and no return
-+ *	read
-+ *	set
-+ *
-+ * counter_atomic32 functions leverage/use atomic_t interfaces.
-+ * counter_atomic64 functions leverage/use atomic64_t interfaces.
-+ * The counter wraps around to INT_MIN when it overflows.
-+ * These interfaces should not be used to guard resource lifetimes.
-+ *
-+ * Reference and API guide:
-+ *	Documentation/core-api/counters.rst for more information.
-+ *
-+ */
-+
-+#ifndef __LINUX_COUNTERS_H
-+#define __LINUX_COUNTERS_H
-+
-+#include <linux/atomic.h>
-+
-+/**
-+ * struct counter_atomic32 - Simple atomic counter
-+ * @cnt: int
-+ *
-+ * The counter wraps around to INT_MIN, when it overflows. Should not
-+ * be used to guard object lifetimes.
-+ **/
-+struct counter_atomic32 {
-+	atomic_t cnt;
-+};
-+
-+#define COUNTER_ATOMIC_INIT(i)		{ .cnt = ATOMIC_INIT(i) }
-+
-+/*
-+ * counter_atomic32_inc() - increment counter value
-+ * @cntr: struct counter_atomic32 pointer
-+ *
-+ */
-+static inline void counter_atomic32_inc(struct counter_atomic32 *cntr)
-+{
-+	atomic_inc(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic32_inc_return() - increment counter value and return it
-+ * @cntr: struct counter_atomic32 pointer
-+ *
-+ * Return: returns the new counter value after incrementing it
-+ */
-+static inline int counter_atomic32_inc_return(struct counter_atomic32 *cntr)
-+{
-+	return atomic_inc_return(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic32_dec() - decrement counter value
-+ * @cntr: struct counter_atomic32 pointer
-+ *
-+ */
-+static inline void counter_atomic32_dec(struct counter_atomic32 *cntr)
-+{
-+	atomic_dec(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic32_read() - read counter value
-+ * @cntr: struct counter_atomic32 pointer
-+ *
-+ * Return: return the counter value
-+ */
-+static inline int counter_atomic32_read(const struct counter_atomic32 *cntr)
-+{
-+	return atomic_read(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic32_set() - set counter value
-+ * @cntr: struct counter_atomic32 pointer
-+ * @val:  new counter value to set
-+ *
-+ */
-+static inline void
-+counter_atomic32_set(struct counter_atomic32 *cntr, int val)
-+{
-+	atomic_set(&cntr->cnt, val);
-+}
-+
-+#ifdef CONFIG_64BIT
-+/*
-+ * struct counter_atomic64 - Simple atomic counter
-+ * @cnt: atomic64_t
-+ *
-+ * The counter wraps around to INT_MIN, when it overflows. Should not
-+ * be used to guard object lifetimes.
-+ */
-+struct counter_atomic64 {
-+	atomic64_t cnt;
-+};
-+
-+/*
-+ * counter_atomic64_inc() - increment counter value
-+ * @cntr: struct counter_atomic64 pointer
-+ *
-+ */
-+static inline void counter_atomic64_inc(struct counter_atomic64 *cntr)
-+{
-+	atomic64_inc(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic64_inc_return() - increment counter value and return it
-+ * @cntr: struct counter_atomic64 pointer
-+ *
-+ * Return: return the new counter value after incrementing it
-+ */
-+static inline s64
-+counter_atomic64_inc_return(struct counter_atomic64 *cntr)
-+{
-+	return atomic64_inc_return(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic64_dec() - decrement counter value
-+ * @cntr: struct counter_atomic64 pointer
-+ *
-+ */
-+static inline void counter_atomic64_dec(
-+				struct counter_atomic64 *cntr)
-+{
-+	atomic64_dec(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic64_read() - read counter value
-+ * @cntr: struct counter_atomic64 pointer
-+ *
-+ * Return: return the counter value
-+ */
-+static inline s64
-+counter_atomic64_read(const struct counter_atomic64 *cntr)
-+{
-+	return atomic64_read(&cntr->cnt);
-+}
-+
-+/*
-+ * counter_atomic64_set() - set counter value
-+ * @cntr: struct counter_atomic64 pointer
-+ * &val:  new counter value to set
-+ *
-+ */
-+static inline void
-+counter_atomic64_set(struct counter_atomic64 *cntr, s64 val)
-+{
-+	atomic64_set(&cntr->cnt, val);
-+}
-+
-+#endif /* CONFIG_64BIT */
-+#endif /* __LINUX_COUNTERS_H */
-diff --git a/lib/Kconfig b/lib/Kconfig
-index b4b98a03ff98..e05e3d0a6d9c 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -658,6 +658,15 @@ config OBJAGG
- config STRING_SELFTEST
- 	tristate "Test string functions"
- 
-+config TEST_COUNTERS
-+	tristate "Test Simple Atomic counter functions"
-+	help
-+	   A test module for Simple Atomic counter functions.
-+	   A corresponding selftest can be used to test the
-+	   counter functions.
-+
-+	   Select this if you would like to test counters.
-+
- endmenu
- 
- config GENERIC_IOREMAP
-diff --git a/lib/Makefile b/lib/Makefile
-index a4a4c6864f51..95b357bb5f3c 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -99,6 +99,7 @@ obj-$(CONFIG_TEST_BLACKHOLE_DEV) += test_blackhole_dev.o
- obj-$(CONFIG_TEST_MEMINIT) += test_meminit.o
- obj-$(CONFIG_TEST_LOCKUP) += test_lockup.o
- obj-$(CONFIG_TEST_HMM) += test_hmm.o
-+obj-$(CONFIG_TEST_COUNTERS) += test_counters.o
- 
- #
- # CFLAGS for compiling floating point code inside the kernel. x86/Makefile turns
-diff --git a/lib/test_counters.c b/lib/test_counters.c
-new file mode 100644
-index 000000000000..7a7251273ba7
---- /dev/null
-+++ b/lib/test_counters.c
-@@ -0,0 +1,162 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * test_counters.c - Kernel module for testing Counters
-+ *
-+ * Copyright (c) 2020 Shuah Khan <skhan@linuxfoundation.org>
-+ * Copyright (c) 2020 The Linux Foundation
-+ *
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/module.h>
-+#include <linux/counters.h>
-+
-+static inline void
-+test_counter_result_print32(char *msg, int start, int end, int expected)
-+{
-+	pr_info("%s: %d to %d - %s\n",
-+		msg, start, end,
-+		((expected == end) ? "PASS" : "FAIL"));
-+}
-+
-+
-+static void test_counter_atomic32(void)
-+{
-+	static struct counter_atomic32 acnt = COUNTER_ATOMIC_INIT(0);
-+	int start_val = counter_atomic32_read(&acnt);
-+	int end_val;
-+
-+	counter_atomic32_inc(&acnt);
-+	end_val = counter_atomic32_read(&acnt);
-+	test_counter_result_print32("Test read and increment",
-+				    start_val, end_val, start_val+1);
-+
-+	start_val = counter_atomic32_read(&acnt);
-+	end_val = counter_atomic32_inc_return(&acnt);
-+	test_counter_result_print32("Test read increment and return",
-+				    start_val, end_val, start_val+1);
-+
-+	start_val = counter_atomic32_read(&acnt);
-+	counter_atomic32_dec(&acnt);
-+	end_val = counter_atomic32_read(&acnt);
-+	test_counter_result_print32("Test read and decrement",
-+				    start_val, end_val, start_val-1);
-+
-+	start_val = counter_atomic32_read(&acnt);
-+	counter_atomic32_set(&acnt, INT_MAX);
-+	end_val = counter_atomic32_read(&acnt);
-+	test_counter_result_print32("Test set", start_val, end_val, INT_MAX);
-+}
-+
-+static void test_counter_atomic32_overflow(void)
-+{
-+	static struct counter_atomic32 ucnt = COUNTER_ATOMIC_INIT(0);
-+	static struct counter_atomic32 ocnt = COUNTER_ATOMIC_INIT(INT_MAX);
-+	int start_val;
-+	int end_val;
-+
-+	start_val = counter_atomic32_read(&ucnt);
-+	counter_atomic32_dec(&ucnt);
-+	end_val = counter_atomic32_read(&ucnt);
-+	test_counter_result_print32("Test underflow (int)",
-+				    start_val, end_val, start_val-1);
-+	test_counter_result_print32("Test underflow (-1)",
-+				    start_val, end_val, -1);
-+
-+	start_val = counter_atomic32_read(&ocnt);
-+	end_val = counter_atomic32_inc_return(&ocnt);
-+	test_counter_result_print32("Test overflow (int)",
-+				    start_val, end_val, start_val+1);
-+	test_counter_result_print32("Test overflow (INT_MIN)",
-+				    start_val, end_val, INT_MIN);
-+}
-+
-+#ifdef CONFIG_64BIT
-+
-+static inline void
-+test_counter_result_print64(char *msg, s64 start, s64 end, s64 expected)
-+{
-+	pr_info("%s: %lld to %lld - %s\n",
-+		msg, start, end,
-+		((expected == end) ? "PASS" : "FAIL"));
-+}
-+
-+static void test_counter_atomic64(void)
-+{
-+	static struct counter_atomic64 acnt = COUNTER_ATOMIC_INIT(0);
-+	s64 start_val = counter_atomic64_read(&acnt);
-+	s64 end_val;
-+
-+	counter_atomic64_inc(&acnt);
-+	end_val = counter_atomic64_read(&acnt);
-+	test_counter_result_print64("Test read and increment",
-+				    start_val, end_val, start_val+1);
-+
-+	start_val = counter_atomic64_read(&acnt);
-+	end_val = counter_atomic64_inc_return(&acnt);
-+	test_counter_result_print64("Test read increment and return",
-+				    start_val, end_val, start_val+1);
-+
-+	start_val = counter_atomic64_read(&acnt);
-+	counter_atomic64_dec(&acnt);
-+	end_val = counter_atomic64_read(&acnt);
-+	test_counter_result_print64("Test read and decrement",
-+				    start_val, end_val, start_val-1);
-+
-+	start_val = counter_atomic64_read(&acnt);
-+	counter_atomic64_set(&acnt, INT_MAX);
-+	end_val = counter_atomic64_read(&acnt);
-+	test_counter_result_print64("Test set", start_val, end_val, INT_MAX);
-+}
-+
-+static void test_counter_atomic64_overflow(void)
-+{
-+	static struct counter_atomic64 ucnt = COUNTER_ATOMIC_INIT(0);
-+	static struct counter_atomic64 ocnt = COUNTER_ATOMIC_INIT(INT_MAX);
-+	s64 start_val;
-+	s64 end_val;
-+
-+	start_val = counter_atomic64_read(&ucnt);
-+	counter_atomic64_dec(&ucnt);
-+	end_val = counter_atomic64_read(&ucnt);
-+	test_counter_result_print64("Test underflow",
-+				    start_val, end_val, start_val-1);
-+
-+	start_val = counter_atomic64_read(&ocnt);
-+	end_val = counter_atomic64_inc_return(&ocnt);
-+	test_counter_result_print64("Test overflow",
-+				    start_val, end_val, start_val+1);
-+}
-+
-+#endif /* CONFIG_64BIT */
-+
-+static int __init test_counters_init(void)
-+{
-+	pr_info("Start counter_atomic32_*() interfaces test\n");
-+	test_counter_atomic32();
-+	test_counter_atomic32_overflow();
-+	pr_info("End counter_atomic32_*() interfaces test\n\n");
-+
-+#ifdef CONFIG_64BIT
-+	pr_info("Start counter_atomic64_*() interfaces test\n");
-+	test_counter_atomic64();
-+	test_counter_atomic64_overflow();
-+	pr_info("End counter_atomic64_*() interfaces test\n\n");
-+
-+#endif /* CONFIG_64BIT */
-+
-+	return 0;
-+}
-+
-+module_init(test_counters_init);
-+
-+static void __exit test_counters_exit(void)
-+{
-+	pr_info("exiting.\n");
-+}
-+
-+module_exit(test_counters_exit);
-+
-+MODULE_AUTHOR("Shuah Khan <skhan@linuxfoundation.org>");
-+MODULE_LICENSE("GPL v2");
+                                                                   details, here are a few
+
+> +important things you need to keep in mind for this part of the process.
+> +
+> +General advice for further interactions
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +*Always reply in public*: When the issue was filed in a bug tracker always
+> +reply there and do not contact any of the developer privately about it. For
+
+                                             developers
+
+> +mailed reports always use the 'Reply-all' function when replying to any mails
+> +you receive. That includes mails with any additional data you might want to add
+> +to your report: go to your mail applications 'Sent' folder and use 'reply-all'
+> +on your mail with the report. This approach will make sure the public mailing
+> +list(s) and everyone else that gets involved over time always stays in the
+> +loop; it also keeps the mail thread intact, which among others is really
+> +important for mailing list to group all related mails together.
+> +
+> +There are just two situations where a comment in a bug tracker or a 'Reply-all'
+> +is unsuitable:
+> +
+> + * Someone tells you to send something privately.
+> +
+> + * You were told to sent something, but noticed it contains sensitive
+
+                       send
+
+> +   information that really needs to be kept private. In that case it's okay to
+> +   sent it in private to the developer that asked for it. But point in the
+
+      send                                                   But note in the
+
+> +   ticket or a mail that you did that, so everyone else knows the request was
+> +   honored.
+> +
+> +*Do research before asking for clarifications or help*: In this part of the
+> +process someone might tell you to do something that requires a skill you might
+> +not have mastered yet. For example, you might get ask to use some test tools
+
+                                                 be asked
+
+> +you never have heard of yet; or you might get asked to apply a patch to the
+
+                                             be
+
+> +Linux kernel sources to test if it helps. In some cases it will be fine sending
+> +a reply asking for instructions how to do that. But before going that route try
+> +to find the answer own your own by searching the internet; alternatively
+> +consider asking a friend or in some chatroom/forum you normally hang out for
+> +advice.
+> +
+> +*Be patient*: If you are really lucky you might get a reply to your report
+> +within a few hours. But most of the time it will take longer, as maintainers
+> +are scattered around the globe and thus might be in a different time zone – one
+> +where they already enjoy their evening away from keyboard.
+> +
+> +In general, kernel developers will take one to five business days to respond to
+> +reports. Sometimes it will take longer, as they might be busy with other work,
+> +visiting developer conferences, or simply enjoying a long summer holiday.
+> +
+> +The 'issues of high priority' (see above for an explanation) are an exception
+> +here: maintainer should address them as soon as possible, that's why you should
+
+         maintainers                               possible; that's
+
+> +wait a week at maximum (or just two days if it's something urgent) before
+> +sending a friendly reminder. If the maintainer is not responding in a timely
+> +manner or not handing it appropriately, mention that you are considering to
+> +escalate the issue to a higher authority and do so if there is in the end
+
+                                            and do so if there seems to be
+no way around this.
+
+although such a "threat" probably won't do much good.
+
+> +there seems to be no way around this. In case of Wi-Fi driver code you for
+> +example would escalate it to the wireless maintainers; if there are no higher
+> +level maintainers or all else fails it might be one of those situations where
+> +it's okay to get Linus Torvalds involved directly.
+> +
+> +*Proactive testing*: Every time the first pre-release (the 'rc1') of a new
+> +mainline kernel version gets released, go and check if the issue is fixed there
+> +or if anything of importance changed. Mention the outcome in the ticket or in a
+> +reply to the report (make sure it has all those in the CC that up to that point
+> +participated in the discussion). This will show your commitment and that you
+> +are willing to help. It also tells developers if the issue persists and makes
+> +sure they do not forget about it. A few other occasional retests (for example
+> +with rc3, rc6 and the final) are also a good idea, but only report your results
+> +if something relevant changed or if you are writing something anyway.
+> +
+> +With all these general things off the table let's get into the details how to
+
+                                                                  details of how to
+
+> +help to get issues resolved once they were reported.
+> +
+> +Inquires and testing request
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Here are your duties in case you got replies to your report:
+> +
+> + *Check who you deal with*: Most of the time it will be the maintainer or a
+> + developer of the particular code area that will respond to your report. But as
+> + issues are normally reported in public it could be anyone that's replying —
+> + including people that want to help, but in the end might guide you totally off
+> + track with their questions or requests. That rarely happens, but it's one of
+> + many reasons why it's wise to quickly run an internet search to see who you're
+> + interacting with. You also get aware if your report was heard by the right
+> + people, as a reminder to the maintainer (see below) might be in order later if
+> + discussion fades out and does not lead to a fix.
+> +
+> + *Inquires for data*: Often you will be asked to test something or provide
+
+     Inquiries
+
+> + additional details. Try to provide the information requested soon, as you have
+> + the attention of someone that might help and risk losing it the longer you
+> + wait; that outcome is even likely if you do not provide the information within
+> + a few business days.
+> +
+> + *Requests for testing*: When you get asked to test a diagnostic patch or a
+
+                                     are
+
+> + possible fix try to test it in timely manner, too. Do it properly and make
+
+             fix,
+
+> + sure to not rush it: mixing things up can happen easily and lead to a lot
+> + of confusion for everyone involved. A common mistake for example is thinking a
+> + kernel patch that might fix the issue was applied, but in fact wasn't – even
+> + experienced testers make such mistakes occasionally and only notice when the
+> + kernel built from those sources behaves just as before.
+> +
+> +What to do when nothing of substance happens
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Some report will not get any reaction from the responsible Linux kernel
+
+        reports
+
+> +developers; or a discussion around the issue evolved, but it faded out and
+> +nothing of substance came out of it.
+> +
+> +In these cases wait two (better: three) weeks before sending a friendly
+> +reminder: maybe the maintainer was just away from keyboard for a while when
+> +your report arrived or had something more important to take care of. When
+> +writing the reminder, kindly ask if anything else from your side is needed to
+> +get the ball running somehow. If the report got out by mail do that in the first
+> +lines of a mail that is a reply to your initial mail (see above) which includes
+> +a full quote of the original report below: that's on of those few situations
+> +where such a 'TOFU' (Text Over, Fullquote Under) is the right approach, as then
+> +all the recipients will have the details at hand immediately in the proper
+> +order.
+> +
+> +After the reminder wait three more weeks for replies. If you still don't get a
+> +proper reaction, you first should reconsider your approach. Did you maybe try
+> +to reach out to the wrong people? Was the report maybe offensive or so
+> +confusing that people decided to completely stay away from it? The best way to
+> +rule out such factors: show the report to one or two people familiar with FLOSS
+> +issue reporting and ask for their option. Also ask them for their advice how to
+
+                                     opinion.
+
+> +move forward. That might mean: prepare a better report and make those people
+> +review it before you sent it out. Such an approach it totally fine, just
+
+                        send                          is         fine; just
+
+> +mentions that this is the second and improved report on the issue and include a
+
+   mention
+
+> +link to the first report.
+> +
+> +If the report was proper you can send a second reminder; in it ask for advice
+> +why the report did not get any replies. A good moment for this second reminder
+> +mail is shortly after the first pre-release (the 'rc1') of a new Linux kernel
+> +version got published, as you should retest at that point anyway (see above).
+> +
+> +If the second reminder again results in no reaction within a week, try to
+> +contact a higher-level maintainer asking for advice: even busy maintainers by
+> +then should at least have sent some kind of acknowledgment.
+> +
+> +Remember to prepare yourself for a disappointment: maintainers ideally should
+> +react somehow to every issue report, but they are only obliged to fix those
+> +'issues of high priority' outlined earlier. So don't be too devastating if you
+> +get a  reply along the lines of 'thanks for the report, I have more important
+> +issues to deal with currently and won't have time to look into this for the
+> +foreseeable future'.
+> +
+> +It's also possible that after some discussion in the bug tracker or one a list
+
+                                                                       on a list
+
+> +nothing happens anymore and reminders don't help to motivate anyone to work out
+> +a fix. Such situations can be devastating, but is within the cards when if
+
+                                                                           it
+
+> +comes to Linux kernel development. This and sore other reasons for not getting
+
+                                               several
+
+> +help are explained in 'Why some issues won't get any reaction or remain unfixed
+> +after being reported' near the end of this document.
+> +
+> +Don't get devastated if you don't get any help or if the issue in the end does
+> +not get solved: as this the Linux kernel is FLOSS and thus you can still help
+> +yourself. Find others that are affected and try to team up with them to get the
+> +issue resolved. You for example can prepare a fresh report together that
+> +mentions how many you are and why this is something that in your option should
+> +get fixed. Maybe together you can also narrow down the root cause or the change
+> +that introduced a regression, which often makes developing a fix easier. And
+> +with a bit of luck there might be someone in the team that knows a bit about
+> +programming and might be able to write a fix.
+> +
+> +
+>  .. ############################################################################
+>  .. Temporary marker added while this document is rewritten. Sections above
+>  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+
+
 -- 
-2.25.1
+~Randy
 
