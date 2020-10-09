@@ -2,125 +2,144 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CD4C43467
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 06:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D6A0C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 07:01:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3233C22254
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 06:36:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1143922266
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 07:01:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zleWHzII";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5vyvJZW4"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="c7da8hc+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732138AbgJIGf5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 02:35:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732134AbgJIGf4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 02:35:56 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2960C0613DB;
-        Thu,  8 Oct 2020 23:35:47 -0700 (PDT)
-Date:   Fri, 09 Oct 2020 06:35:45 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1602225346;
-        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
-        bh=khxhsAbU45LYuHnIPGuwL3HaoaN0JNjjVfoNYv5j93s=;
-        b=zleWHzIIPyDuo/YCJyOpIi32U7CH1gMXYkd57SP4NRgNLtNBJw4selyM59H7b/UOUxzvAX
-        tua65wthccIlSjCJZsIxtJUgtsOtGmWhu8/uLso24/zsRg7/OS96NuOD8Qo9uWClni2pdq
-        sfXqKl9dgMWUvf9XjT43QyBfLsK+6agYuNXLzdoSg3uNhisYW4Hnw2x0UV0jmt7t9h4inl
-        rVT8KepgMZHXWQdPcSv1plZRBMyAjosZiL/yVY3xybiSwAxnexJ6foTYK1ok9SJJSM4aa5
-        svxVE3Opp3eOSVine2VtJRIq5w4ytCJ0Ndoy084GWTFajMLDVZKOn95L35xh1w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1602225346;
-        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
-        bh=khxhsAbU45LYuHnIPGuwL3HaoaN0JNjjVfoNYv5j93s=;
-        b=5vyvJZW4FIufHHGXgjQZks2fTItx3HUYL0NMXBO0nyDFMabE6Tyxm0PXxMbOSmro1Uh7op
-        rtrWspne3riG7KBQ==
-From:   "tip-bot2 for Randy Dunlap" <tip-bot2@linutronix.de>
-Sender: tip-bot2@linutronix.de
-Reply-to: linux-kernel@vger.kernel.org
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip: core/rcu] doc: Drop doubled words from RCU requirements documentation
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
-        x86 <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+        id S1729045AbgJIHBa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 03:01:30 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19996 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725908AbgJIHBa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 03:01:30 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f800a910008>; Fri, 09 Oct 2020 00:00:33 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 9 Oct
+ 2020 07:01:30 +0000
+Received: from sandstorm.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Fri, 9 Oct 2020 07:01:30 +0000
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v2] Documentation: better locations for sysfs-pci, sysfs-tagging
+Date:   Fri, 9 Oct 2020 00:01:28 -0700
+Message-ID: <20201009070128.118639-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Message-ID: <160222534557.7002.3373041201583952594.tip-bot2@tip-bot2>
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Content-Type: text/plain; charset="utf-8"
+X-NVConfidentiality: public
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1602226833; bh=IKsshG2P8w9TQtkug7AHOInsxKiFv+rqEkEZux0T+u0=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+         X-NVConfidentiality:Content-Transfer-Encoding:Content-Type;
+        b=c7da8hc+S4k3uArBydiGgk0PrAt12ww3gbw8ireAydgXBrDcw2NTLZ7U4ypTH4ERF
+         YePSgwGCs2xa9ifDRPQjhOY3XoYPIlA2tfuQzaHgZqgBOwCSq3ud4MfdL3WpreHCZY
+         djw9QR1sCahqRWbTIXf1IyWg2um4LRY4Y2mVqCY3RxcfELuyY3vkV3WWyEK8dYleGA
+         bv6Z5hAWDKIwslXXnYqR0TJ/5blvTRfw2100FcNamp1/9eGQudEEc7nkZX4yxKj9F5
+         ZWTWqWFI/RtS8uz5VDGZO9KJsg9qpbU+9bHxfN8B3kYfYsus3ekrjYinPRNbx+DgNF
+         eF1ECoMbiiOpA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following commit has been merged into the core/rcu branch of tip:
+sysfs-pci and sysfs-tagging were mis-filed: their locations within
+Documentation/ implied that they were related to file systems. Actually,
+each topic is about a very specific *use* of sysfs, and sysfs *happens*
+to be a (virtual) filesystem, so this is not really the right place.
 
-Commit-ID:     7f45d6f8ae383ed01070883b3c74ee51c9740065
-Gitweb:        https://git.kernel.org/tip/7f45d6f8ae383ed01070883b3c74ee51c97=
-40065
-Author:        Randy Dunlap <rdunlap@infradead.org>
-AuthorDate:    Fri, 03 Jul 2020 14:33:42 -07:00
-Committer:     Paul E. McKenney <paulmck@kernel.org>
-CommitterDate: Mon, 24 Aug 2020 14:29:17 -07:00
+It's jarring to be reading about filesystems in general and then come
+across these specific details about PCI, and tagging...and then back to
+general filesystems again.
 
-doc: Drop doubled words from RCU requirements documentation
+Move sysfs-pci to PCI, and move sysfs-tagging to networking. (Thanks to
+Jonathan Corbet for coming up with the final locations.)
 
-Drop the doubled words "to" and "for".
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Josh Triplett <josh@joshtriplett.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Lai Jiangshan <jiangshanlai@gmail.com>
-Cc: Joel Fernandes <joel@joelfernandes.org>
-Cc: rcu@vger.kernel.org
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- Documentation/RCU/Design/Requirements/Requirements.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documen=
-tation/RCU/Design/Requirements/Requirements.rst
-index 8f41ad0..1ae79a1 100644
---- a/Documentation/RCU/Design/Requirements/Requirements.rst
-+++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-@@ -2162,7 +2162,7 @@ scheduling-clock interrupt be enabled when RCU needs it=
- to be:
-    this sort of thing.
- #. If a CPU is in a portion of the kernel that is absolutely positively
-    no-joking guaranteed to never execute any RCU read-side critical
--   sections, and RCU believes this CPU to to be idle, no problem. This
-+   sections, and RCU believes this CPU to be idle, no problem. This
-    sort of thing is used by some architectures for light-weight
-    exception handlers, which can then avoid the overhead of
-    ``rcu_irq_enter()`` and ``rcu_irq_exit()`` at exception entry and
-@@ -2431,7 +2431,7 @@ However, there are legitimate preemptible-RCU implement=
-ations that do
- not have this property, given that any point in the code outside of an
- RCU read-side critical section can be a quiescent state. Therefore,
- *RCU-sched* was created, which follows =E2=80=9Cclassic=E2=80=9D RCU in that=
- an
--RCU-sched grace period waits for for pre-existing interrupt and NMI
-+RCU-sched grace period waits for pre-existing interrupt and NMI
- handlers. In kernels built with ``CONFIG_PREEMPT=3Dn``, the RCU and
- RCU-sched APIs have identical implementations, while kernels built with
- ``CONFIG_PREEMPT=3Dy`` provide a separate implementation for each.
+Changes since v1: moved sysfs-pci to PCI, and sysfs-tagging to
+networking, and poked around in the generated HTML via Firefox.
+It looks like the right place now.
+
+thanks,
+John Hubbard
+NVIDIA
+
+
+ Documentation/PCI/index.rst                                 | 1 +
+ Documentation/{filesystems =3D> PCI}/sysfs-pci.rst            | 0
+ Documentation/filesystems/index.rst                         | 2 --
+ Documentation/networking/index.rst                          | 1 +
+ Documentation/{filesystems =3D> networking}/sysfs-tagging.rst | 0
+ 5 files changed, 2 insertions(+), 2 deletions(-)
+ rename Documentation/{filesystems =3D> PCI}/sysfs-pci.rst (100%)
+ rename Documentation/{filesystems =3D> networking}/sysfs-tagging.rst (100%=
+)
+
+diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+index 8f66feaafd4f..c17c87af1968 100644
+--- a/Documentation/PCI/index.rst
++++ b/Documentation/PCI/index.rst
+@@ -12,6 +12,7 @@ Linux PCI Bus Subsystem
+    pciebus-howto
+    pci-iov-howto
+    msi-howto
++   sysfs-pci
+    acpi-info
+    pci-error-recovery
+    pcieaer-howto
+diff --git a/Documentation/filesystems/sysfs-pci.rst b/Documentation/PCI/sy=
+sfs-pci.rst
+similarity index 100%
+rename from Documentation/filesystems/sysfs-pci.rst
+rename to Documentation/PCI/sysfs-pci.rst
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystem=
+s/index.rst
+index 4c536e66dc4c..98f59a864242 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -34,8 +34,6 @@ algorithms work.
+    quota
+    seq_file
+    sharedsubtree
+-   sysfs-pci
+-   sysfs-tagging
+=20
+    automount-support
+=20
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/=
+index.rst
+index c29496fff81c..611e4b130c1e 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -95,6 +95,7 @@ Contents:
+    seg6-sysctl
+    strparser
+    switchdev
++   sysfs-tagging
+    tc-actions-env-rules
+    tcp-thin
+    team
+diff --git a/Documentation/filesystems/sysfs-tagging.rst b/Documentation/ne=
+tworking/sysfs-tagging.rst
+similarity index 100%
+rename from Documentation/filesystems/sysfs-tagging.rst
+rename to Documentation/networking/sysfs-tagging.rst
+--=20
+2.28.0
+
