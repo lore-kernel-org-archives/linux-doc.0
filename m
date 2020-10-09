@@ -2,217 +2,108 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E10AC433E7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 05:54:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43352C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 06:36:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC15E22240
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 05:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602222841;
-	bh=IsKZBtZjGxV8D/buzpbbAbqpzlM09DUTQcsVZaQmIaE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=LnOOgTqOlZyiEKNkn08mBs0PVe1S4LMy7G8LUY4T03lPoWRM8fzgRwdB3kkH5Y2gD
-	 aUeHpFrcal1ik5I0UpO+8HhWXeoJXh3wCdZ4nJCmwOEZ3gm15zUW85CpYPR5/PeFSH
-	 FMPLbfzDyKJ2jOdynv4SBkDSEtB5a++Zh50B8kW8=
+	by mail.kernel.org (Postfix) with ESMTP id E1FBE22254
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 06:36:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ejyaTDQA";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4+mqkksy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731466AbgJIFyB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 01:54:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54070 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725917AbgJIFyB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 01:54:01 -0400
-Received: from coco.lan (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D4A522222F;
-        Fri,  9 Oct 2020 05:53:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602222840;
-        bh=IsKZBtZjGxV8D/buzpbbAbqpzlM09DUTQcsVZaQmIaE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=t++t1gYkbMkUlClHXPeg8Iy8VoPVRNG6+BCoRKUQoRwa0RiYjkTXDWz0vb8Prugl+
-         mmVTYINW55OKFCNp9N2u0KA9E8W/PrG5toVoTWvNVUJsq9mIfKlETEjrJgGiG12Llc
-         VvrQG3E1B0Stm6//0vzk9Ze+wYr7R4KgAYSiwFEY=
-Date:   Fri, 9 Oct 2020 07:53:53 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
-        andrealmeid@collabora.com
-Subject: Re: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
-Message-ID: <20201009075353.16e05c65@coco.lan>
-In-Reply-To: <C67JVCS5C9NG.LIAW4RFKE6A9@ArchWay>
-References: <C67JVCS5C9NG.LIAW4RFKE6A9@ArchWay>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1732152AbgJIGf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 02:35:58 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:55718 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732090AbgJIGfs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 02:35:48 -0400
+Date:   Fri, 09 Oct 2020 06:35:46 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1602225346;
+        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
+        bh=J0d/UMsc62xpOiT0yZyPwU/CYObiDrK89wW4NwNbZAU=;
+        b=ejyaTDQAeTXRazQwW8KBGgsGSQULcNhClPFX7hPlP/ocHYVslWE0zg2/+Us7q0ri++C1w8
+        EmQ9EZm0MaRdNHu6CbGsJ6M+aqkLkCB/KR9COkaSDsOf1Sv3i28KEry6VPeMHADw9Bli/M
+        uoxMurwuAndLzfrtLmEo2OlrAcYpqfpInB9ceU4lsqig2fKFL846XHJrN0VytRaTb1FsXx
+        Z0xIvgFUZaaKDzeowNHDGubsxczW++dRXiOrgAQi068fIu6dLzuiwza2kLC16YKvYHNIRV
+        8segPXfflyQ3uZOCxqf9nz9g6qJwIIOos12kHd4iatjvtWoXzami+vOwc/EHpQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1602225346;
+        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
+        bh=J0d/UMsc62xpOiT0yZyPwU/CYObiDrK89wW4NwNbZAU=;
+        b=4+mqkksyxG4bYkTRghBIXhnNH0HFqNUsl6Q7tJDQT5a2v3/B/Yn+blX9d8Ac61yFeFiAVt
+        KIueBpXlw07ejEAw==
+From:   "tip-bot2 for Randy Dunlap" <tip-bot2@linutronix.de>
+Sender: tip-bot2@linutronix.de
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: core/rcu] doc: Drop doubled words from RCU Data-Structures.rst
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
+        x86 <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <160222534612.7002.16770645647309093400.tip-bot2@tip-bot2>
+Robot-ID: <tip-bot2.linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 08 Oct 2020 13:54:59 +0000
-N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> escreveu:
+The following commit has been merged into the core/rcu branch of tip:
 
-> On Thu Oct 8, 2020 at 2:27 AM -03, Mauro Carvalho Chehab wrote:
-> >
-> > Hi N=C3=ADcolas,
-> >
-> > Em Wed, 07 Oct 2020 23:12:25 +0000
-> > N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> escreveu:
-> > =20
-> > > While Sphinx 2 used a single c:type role for struct, union, enum and
-> > > typedef, Sphinx 3 uses a specific role for each one.
-> > > To keep backward compatibility, detect the Sphinx version and use the
-> > > correct roles for that version.
-> > >
-> > > Also, Sphinx 3 is more strict with its C domain and generated warning=
-s,
-> > > exposing issues in the parsing.
-> > > To fix the warnings, make the C regexes use ASCII, ensure the
-> > > expressions only match the beginning of words and skip trying to
-> > > cross-reference C reserved words.
-> > >
-> > > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
-> > > ---
-> > >
-> > > Hi,
-> > >
-> > > after Mauro's series making everything ready for Sphinx 3.1, only the=
- automarkup
-> > > was left to be ported.
-> > > This patch makes the needed changes to automarkup so that we can soon=
- flip the
-> > > switch to Sphinx 3.1.
-> > >
-> > > This change was tested both with Sphinx 2.4.4 and Sphinx 3.1.
-> > >
-> > > This change doesn't add any warnings to the Documentation build.
-> > > I tested it with Mauro's series but later rebased it to docs-next, an=
-d it can be
-> > > accepted independently of that series.
-> > >
-> > > I ended up doing more than one thing in this single patch, but since =
-it was all
-> > > changing the same lines and for the same purpose, I felt it would be =
-better to
-> > > keep it as a single commit.
-> > > =20
-> >
-> > Thanks for doing this! That was the last missing part on fully
-> > supporting
-> > Sphinx 3.1+.
-> > =20
-> > > Mauro,
-> > > if this patch is ok, the 3rd patch in your series, which disables aut=
-omarkup for
-> > > sphinx 3, should be dropped. =20
-> >
-> > Yeah, sure.
-> > =20
-> > > Although I'm not sure what the implications of your patches adding na=
-mespaces
-> > > and using the c:macro for functions are. =20
-> >
-> > With regards to namespaces:
-> >
-> > Currently, only the media docs use namespaces, and it declares it at the
-> > beginning of each file that needs it, without overriding it later[1].
-> >
-> > [1] btw, the cdomain.py backward compat code doesn't support namespace
-> > changes - as it parses namespaces before handling the C domain tags.
-> > I doubt that we'll need to have a single .rst file using more than
-> > one namespace anyway.
-> >
-> > The main usage is to avoid conflicts for uAPI documentation for
-> > syscalls - actually for libc userspace wrappers to syscalls. It
-> > documents
-> > things like: open, close, read, write, ioctl, poll, select. =20
->=20
-> If it's mainly for that, I think automarkup could skip handling namespace=
-s.
-> From automarkup.py:
->=20
-> #
-> # Many places in the docs refer to common system calls.  It is
-> # pointless to try to cross-reference them and, as has been known
-> # to happen, somebody defining a function by these names can lead
-> # to the creation of incorrect and confusing cross references.  So
-> # just don't even try with these names.
-> #
-> Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcntl', 'mmap',
->               'select', 'poll', 'fork', 'execve', 'clone', 'ioctl',
-> 	      'socket' ]
->=20
-> So unless I'm confusing things and the namespaces actually sidestep that =
-issue,
-> the namespace handling could be left out of automarkup.
+Commit-ID:     1b98b7c5eb2f94eddad541d6fc91f1d1995d644b
+Gitweb:        https://git.kernel.org/tip/1b98b7c5eb2f94eddad541d6fc91f1d1995d644b
+Author:        Randy Dunlap <rdunlap@infradead.org>
+AuthorDate:    Fri, 03 Jul 2020 14:33:41 -07:00
+Committer:     Paul E. McKenney <paulmck@kernel.org>
+CommitterDate: Mon, 24 Aug 2020 14:29:17 -07:00
 
-Maybe I didn't express well enough. We need namespaces due to the
-syscals.
+doc: Drop doubled words from RCU Data-Structures.rst
 
-Yet, if a .rst file uses it, *all* functions, structs, ... declared
-there will be under the namespace.=20
+Drop the doubled word "the".
 
-In other words, looking at the V4L docs, for instance, all
-functions there will be under "V4L" namespace.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: rcu@vger.kernel.org
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+---
+ Documentation/RCU/Design/Data-Structures/Data-Structures.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It should be noticed that a side effect of this change is that
-we may need to use namespaces on *all* (or almost all) uAPI=20
-media documents. I'll double-check this for v5.11.
-
-If automarkup would try to generate a cross-reference for one
-of the many V4L2 API structs without using the "V4L" namespace,
-it will fail.
-
-Btw, considering that the namespace will solve the issues
-with those functions, I suspect that we can avoid skipping them,
-at least with Sphinx 3+.
-
-> >
-> > I'm not sure if the automarkup should be aware of it, or if the c.py
-> > code
-> > at Sphinx 3.x will add the namespace automatically, but I suspect that
-> > automarkup will need to handle it as well.
-> >
-> > One file you could use for checking it is this one:
-> >
-> > Documentation/userspace-api/media/v4l/hist-v4l2.rst
-> >
-> > It contains a namespace directive and documents what changed without
-> > using any explicit reference (after my patch series + linux-next).
-> >
-> > With regards to c:macro vs c:function:
-> >
-> > I suspect that automarkup should test both when trying to do
-> > cross-references for function-like calls. E. g. test first if
-> > there is a :c:function, falling back to check for :c:macro.
-> >
-> > I would add a "sphinx3_c_func_ref" function that would handle
-> > such special case, e. g. something like:
-> >
-> > markup_func_sphinx3 =3D {RE_doc: markup_doc_ref,
-> > RE_function: sphinx3_c_func_ref,
-> > RE_struct: markup_c_ref,
-> > RE_union: markup_c_ref,
-> > RE_enum: markup_c_ref,
-> > RE_typedef: markup_c_ref} =20
->=20
-> Sounds good.
->=20
-> I'll make this patch into a series and add that function/macro handling a=
-s a new
-> patch, and the namespace handling depending on your answer on the above c=
-omment,
-> for v2.
-
-Thank you!
-
-
-Thanks,
-Mauro
+diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.rst b/Documentation/RCU/Design/Data-Structures/Data-Structures.rst
+index 4a48e20..f4efd68 100644
+--- a/Documentation/RCU/Design/Data-Structures/Data-Structures.rst
++++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.rst
+@@ -963,7 +963,7 @@ exit and perhaps also vice versa. Therefore, whenever the
+ ``->dynticks_nesting`` field is incremented up from zero, the
+ ``->dynticks_nmi_nesting`` field is set to a large positive number, and
+ whenever the ``->dynticks_nesting`` field is decremented down to zero,
+-the the ``->dynticks_nmi_nesting`` field is set to zero. Assuming that
++the ``->dynticks_nmi_nesting`` field is set to zero. Assuming that
+ the number of misnested interrupts is not sufficient to overflow the
+ counter, this approach corrects the ``->dynticks_nmi_nesting`` field
+ every time the corresponding CPU enters the idle loop from process
