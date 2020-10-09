@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BD74C41604
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:09:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D1CC43467
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:10:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED1D220659
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:09:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D31D215A4
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:10:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391706AbgJIUI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 16:08:57 -0400
-Received: from mga03.intel.com ([134.134.136.65]:25936 "EHLO mga03.intel.com"
+        id S2403845AbgJITvH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 15:51:07 -0400
+Received: from mga04.intel.com ([192.55.52.120]:43231 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403924AbgJITv3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 15:51:29 -0400
-IronPort-SDR: y57ejaJgVBNlpT3G8VL+eb/8qirNhMK6yqdMgqA2Zofe3N1jmyHJKpOn1cxbYcjftnOrosB3AT
- yDtdD/JZt5Pw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="165592018"
+        id S2403811AbgJITuy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Oct 2020 15:50:54 -0400
+IronPort-SDR: TODn5nPyhBhMttOIv0R0R1Sxkxcpeku+IG0sPA74UvEwvhiUoQ5XH2zh3FOpLg7jGmc5VZIMhn
+ fS90ytquo+OQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="162893208"
 X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="165592018"
+   d="scan'208";a="162893208"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 12:51:11 -0700
-IronPort-SDR: 7ZsxuYrd4RIh+I9L87qE8QKpDxHdxlIArpw96UL8x0WQ0i4hLag3NZ1m816qhb9i0FMTl4f1za
- dG2KA2sC/NWA==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 12:50:51 -0700
+IronPort-SDR: r9rFWs4LxSt/DLhc0vk8qSUxzY/hR2W3QZLi44jmj/rGXS9Mfwq/Fn231GdfrO+iUZYF22umi/
+ 70MWS29lQZXg==
 X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="312652519"
+   d="scan'208";a="529052813"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 12:51:09 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 12:50:50 -0700
 From:   ira.weiny@intel.com
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>
-Cc:     Ira Weiny <ira.weiny@intel.com>, Jens Axboe <axboe@kernel.dk>,
-        x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
@@ -66,9 +66,9 @@ Cc:     Ira Weiny <ira.weiny@intel.com>, Jens Axboe <axboe@kernel.dk>,
         drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
         xen-devel@lists.xenproject.org, linux-cachefs@redhat.com,
         samba-technical@lists.samba.org, intel-wired-lan@lists.osuosl.org
-Subject: [PATCH RFC PKS/PMEM 07/58] drivers/drbd: Utilize new kmap_thread()
-Date:   Fri,  9 Oct 2020 12:49:42 -0700
-Message-Id: <20201009195033.3208459-8-ira.weiny@intel.com>
+Subject: [PATCH RFC PKS/PMEM 02/58] x86/pks/test: Add testing for global option
+Date:   Fri,  9 Oct 2020 12:49:37 -0700
+Message-Id: <20201009195033.3208459-3-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
 In-Reply-To: <20201009195033.3208459-1-ira.weiny@intel.com>
 References: <20201009195033.3208459-1-ira.weiny@intel.com>
@@ -80,84 +80,205 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-The kmap() calls in this driver are localized to a single thread.  To
-avoid the over head of global PKRS updates use the new kmap_thread()
-call.
+Now that PKS can be enabled globaly (for all threads) add a test which
+spawns a thread and tests the same PKS functionality.
 
-Cc: Jens Axboe <axboe@kernel.dk>
+The test enables/disables PKS in 1 thread while attempting to access the
+page in another thread.  We use the same test array as in the 'local'
+PKS testing.
+
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
- drivers/block/drbd/drbd_main.c     |  4 ++--
- drivers/block/drbd/drbd_receiver.c | 12 ++++++------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ arch/x86/mm/fault.c |   4 ++
+ lib/pks/pks_test.c  | 128 +++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 124 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index 573dbf6f0c31..f0d0c6b0745e 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -1532,9 +1532,9 @@ static int _drbd_no_send_page(struct drbd_peer_device *peer_device, struct page
- 	int err;
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index 4b4ff9efa298..4c74f52fbc23 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -1108,6 +1108,10 @@ static int spurious_kernel_fault_check(unsigned long error_code, pte_t *pte,
+ 		if (global_pkey_is_enabled(pte, is_write, irq_state))
+ 			return 1;
  
- 	socket = peer_device->connection->data.socket;
--	addr = kmap(page) + offset;
-+	addr = kmap_thread(page) + offset;
- 	err = drbd_send_all(peer_device->connection, socket, addr, size, msg_flags);
--	kunmap(page);
-+	kunmap_thread(page);
- 	if (!err)
- 		peer_device->device->send_cnt += size >> 9;
- 	return err;
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 422363daa618..4704bc0564e2 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -1951,13 +1951,13 @@ read_in_block(struct drbd_peer_device *peer_device, u64 id, sector_t sector,
- 	page = peer_req->pages;
- 	page_chain_for_each(page) {
- 		unsigned len = min_t(int, ds, PAGE_SIZE);
--		data = kmap(page);
-+		data = kmap_thread(page);
- 		err = drbd_recv_all_warn(peer_device->connection, data, len);
- 		if (drbd_insert_fault(device, DRBD_FAULT_RECEIVE)) {
- 			drbd_err(device, "Fault injection: Corrupting data on receive\n");
- 			data[0] = data[0] ^ (unsigned long)-1;
- 		}
--		kunmap(page);
-+		kunmap_thread(page);
- 		if (err) {
- 			drbd_free_peer_req(device, peer_req);
- 			return NULL;
-@@ -1992,7 +1992,7 @@ static int drbd_drain_block(struct drbd_peer_device *peer_device, int data_size)
++		/*
++		 * NOTE: This must be after the global_pkey_is_enabled() call
++		 * to allow the fixup code to be tested.
++		 */
+ 		if (handle_pks_testing(error_code, irq_state))
+ 			return 1;
  
- 	page = drbd_alloc_pages(peer_device, 1, 1);
- 
--	data = kmap(page);
-+	data = kmap_thread(page);
- 	while (data_size) {
- 		unsigned int len = min_t(int, data_size, PAGE_SIZE);
- 
-@@ -2001,7 +2001,7 @@ static int drbd_drain_block(struct drbd_peer_device *peer_device, int data_size)
- 			break;
- 		data_size -= len;
+diff --git a/lib/pks/pks_test.c b/lib/pks/pks_test.c
+index 286c8b8457da..dfddccbe4cb6 100644
+--- a/lib/pks/pks_test.c
++++ b/lib/pks/pks_test.c
+@@ -154,7 +154,8 @@ static void check_exception(irqentry_state_t *irq_state)
  	}
--	kunmap(page);
-+	kunmap_thread(page);
- 	drbd_free_pages(peer_device->device, page, 0);
- 	return err;
- }
-@@ -2033,10 +2033,10 @@ static int recv_dless_read(struct drbd_peer_device *peer_device, struct drbd_req
- 	D_ASSERT(peer_device->device, sector == bio->bi_iter.bi_sector);
  
- 	bio_for_each_segment(bvec, bio, iter) {
--		void *mapped = kmap(bvec.bv_page) + bvec.bv_offset;
-+		void *mapped = kmap_thread(bvec.bv_page) + bvec.bv_offset;
- 		expect = min_t(int, data_size, bvec.bv_len);
- 		err = drbd_recv_all_warn(peer_device->connection, mapped, expect);
--		kunmap(bvec.bv_page);
-+		kunmap_thread(bvec.bv_page);
- 		if (err)
- 			return err;
- 		data_size -= expect;
+ 	/* Check the exception state */
+-	if (!check_pkrs(test_armed_key, PKEY_DISABLE_ACCESS)) {
++	if (!check_pkrs(test_armed_key,
++			PKEY_DISABLE_ACCESS | PKEY_DISABLE_WRITE)) {
+ 		pr_err("     FAIL: PKRS cache and MSR\n");
+ 		test_exception_ctx->pass = false;
+ 	}
+@@ -308,24 +309,29 @@ static int test_it(struct pks_test_ctx *ctx, struct pks_access_test *test, void
+ 	return ret;
+ }
+ 
+-static int run_access_test(struct pks_test_ctx *ctx,
+-			   struct pks_access_test *test,
+-			   void *ptr)
++static void set_protection(int pkey, enum pks_access_mode mode, bool global)
+ {
+-	switch (test->mode) {
++	switch (mode) {
+ 		case PKS_TEST_NO_ACCESS:
+-			pks_mknoaccess(ctx->pkey, false);
++			pks_mknoaccess(pkey, global);
+ 			break;
+ 		case PKS_TEST_RDWR:
+-			pks_mkrdwr(ctx->pkey, false);
++			pks_mkrdwr(pkey, global);
+ 			break;
+ 		case PKS_TEST_RDONLY:
+-			pks_mkread(ctx->pkey, false);
++			pks_mkread(pkey, global);
+ 			break;
+ 		default:
+ 			pr_err("BUG in test invalid mode\n");
+ 			break;
+ 	}
++}
++
++static int run_access_test(struct pks_test_ctx *ctx,
++			   struct pks_access_test *test,
++			   void *ptr)
++{
++	set_protection(ctx->pkey, test->mode, false);
+ 
+ 	return test_it(ctx, test, ptr);
+ }
+@@ -516,6 +522,110 @@ static void run_exception_test(void)
+ 		 pass ? "PASS" : "FAIL");
+ }
+ 
++struct shared_data {
++	struct mutex lock;
++	struct pks_test_ctx *ctx;
++	void *kmap_addr;
++	struct pks_access_test *test;
++};
++
++static int thread_main(void *d)
++{
++	struct shared_data *data = d;
++	struct pks_test_ctx *ctx = data->ctx;
++
++	while (!kthread_should_stop()) {
++		mutex_lock(&data->lock);
++		/*
++		 * wait for the main thread to hand us the page
++		 * We should be spinning so hopefully we will not have gotten
++		 * the global value from a schedule in.
++		 */
++		if (data->kmap_addr) {
++			if (test_it(ctx, data->test, data->kmap_addr))
++				ctx->pass = false;
++			data->kmap_addr = NULL;
++		}
++		mutex_unlock(&data->lock);
++	}
++
++	return 0;
++}
++
++static void run_thread_access_test(struct shared_data *data,
++				   struct pks_test_ctx *ctx,
++				   struct pks_access_test *test,
++				   void *ptr)
++{
++	set_protection(ctx->pkey, test->mode, true);
++
++	pr_info("checking...  mode %s; write %s\n",
++			get_mode_str(test->mode), test->write ? "TRUE" : "FALSE");
++
++	mutex_lock(&data->lock);
++	data->test = test;
++	data->kmap_addr = ptr;
++	mutex_unlock(&data->lock);
++
++	while (data->kmap_addr) {
++		msleep(10);
++	}
++}
++
++static void run_global_test(void)
++{
++	struct task_struct *other_task;
++	struct pks_test_ctx *ctx;
++	struct shared_data data;
++	bool pass = true;
++	void *ptr;
++	int i;
++
++	pr_info("     ***** BEGIN: global pkey checking\n");
++
++	/* Set up context, data pgae, and thread */
++	ctx = alloc_ctx("global pkey test");
++	if (IS_ERR(ctx)) {
++		pr_err("     FAIL: no context\n");
++		pass = false;
++		goto result;
++	}
++	ptr = alloc_test_page(ctx->pkey);
++	if (!ptr) {
++		pr_err("     FAIL: no vmalloc page\n");
++		pass = false;
++		goto free_context;
++	}
++	other_task = kthread_run(thread_main, &data, "PKRS global test");
++	if (IS_ERR(other_task)) {
++		pr_err("     FAIL: Failed to start thread\n");
++		pass = false;
++		goto free_page;
++	}
++
++	memset(&data, 0, sizeof(data));
++	mutex_init(&data.lock);
++	data.ctx = ctx;
++
++	/* Start testing */
++	ctx->pass = true;
++
++	for (i = 0; i < ARRAY_SIZE(pkey_test_ary); i++) {
++		run_thread_access_test(&data, ctx, &pkey_test_ary[i], ptr);
++	}
++
++	kthread_stop(other_task);
++	pass = ctx->pass;
++
++free_page:
++	vfree(ptr);
++free_context:
++	free_ctx(ctx);
++result:
++	pr_info("     ***** END: global pkey checking : %s\n",
++		 pass ? "PASS" : "FAIL");
++}
++
+ static void run_all(void)
+ {
+ 	struct pks_test_ctx *ctx[PKS_NUM_KEYS];
+@@ -538,6 +648,8 @@ static void run_all(void)
+ 	}
+ 
+ 	run_exception_test();
++
++	run_global_test();
+ }
+ 
+ static void crash_it(void)
 -- 
 2.28.0.rc0.12.gb6a658bd00c9
 
