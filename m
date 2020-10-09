@@ -2,165 +2,217 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C22C433E7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 04:14:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E10AC433E7
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 05:54:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8856022251
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 04:14:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="v7gBYn5/"
+	by mail.kernel.org (Postfix) with ESMTP id DC15E22240
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 05:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602222841;
+	bh=IsKZBtZjGxV8D/buzpbbAbqpzlM09DUTQcsVZaQmIaE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=LnOOgTqOlZyiEKNkn08mBs0PVe1S4LMy7G8LUY4T03lPoWRM8fzgRwdB3kkH5Y2gD
+	 aUeHpFrcal1ik5I0UpO+8HhWXeoJXh3wCdZ4nJCmwOEZ3gm15zUW85CpYPR5/PeFSH
+	 FMPLbfzDyKJ2jOdynv4SBkDSEtB5a++Zh50B8kW8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728323AbgJIEOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 00:14:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728303AbgJIEOY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 00:14:24 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AD6C0613D2
-        for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2020 21:14:23 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id t18so3839653plo.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2020 21:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2EdRl1RZSZyQAx1Q/Ie821/xWpZ1zaRf0wSS4lUA3SI=;
-        b=v7gBYn5/EZRmnBAafloGJqCSbpmjFsH9/KMYR1XRcVdwbTsT+m1XSFlQI84qBLDeOT
-         b6kqq2Jl1eNr7H6VNFbnPEN3x97qDCgPpi/SPmll2afdgy/agYkIwQeMQYm2S8IO9ztp
-         OHcPIBkoKPNfbYmailisJnqZthEwjvGgu8lniBGv3y5+22eE7vAsugCQiA6cnJ9pNAfO
-         TBz4fOgAgQiOOiyrCe6fjZuO1tQ5Ougo0x6zCMAT8nLaQBtch2+Y+la2jwgpauoS2nyi
-         VJi1YXlCmmzENl7kiOneL+0Q+/1cXu+BVnEXk3bhxCwELuqUtAHE+dkeLkC03XLw7fUe
-         va5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2EdRl1RZSZyQAx1Q/Ie821/xWpZ1zaRf0wSS4lUA3SI=;
-        b=eJwfT4E31re/s0IAXmM9GZ9+G4FGHQXkIpvXtLegwee19qS7xrR6MQa2w+/1D7lnZz
-         BaAkyGFATP5xeXEqh/aE35pRYpM53m8Fy6Vvs8nJRUXeN6i0+5ipj2mhjJ3wCINMNa+9
-         OqpS6MmfVDlIpypDZ9AuxiBlqczqCnhZMRVzEEs7SiX9zXGEZX1xc1pIR63RKKRBYd2f
-         VzTeaJiVspShNilgbyk1dW6kGeRquWxNuFJmqgIO4JUuWAiLdTcEBch96H5MOdVkpq6Y
-         9wQxAR5enJqJcrf2duudLZ0jfWKD0Tq8i8ObgvEacxyBcILwnJIAMU5tPXAmBcg6eSFK
-         OXRA==
-X-Gm-Message-State: AOAM5302t45WIkDU2YXhbWzMQvez6NnPbb2x8c2U6mUaaL4fPlSIXYhT
-        KSw3vNLohJnPsFvyCF/H4Ict9symjSBZIyETfcq1IA==
-X-Google-Smtp-Source: ABdhPJy+9zgYNBhCq4QlEB9KjNxaK/TjK9EK5mKamVQ74y0m5jXebPwnkkW6871aHrnVRAd4WHnZoDUCYUoEHq5INcY=
-X-Received: by 2002:a17:902:7681:b029:d2:88b1:b130 with SMTP id
- m1-20020a1709027681b02900d288b1b130mr10859993pll.20.1602216863306; Thu, 08
- Oct 2020 21:14:23 -0700 (PDT)
+        id S1731466AbgJIFyB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 01:54:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54070 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725917AbgJIFyB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Oct 2020 01:54:01 -0400
+Received: from coco.lan (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D4A522222F;
+        Fri,  9 Oct 2020 05:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602222840;
+        bh=IsKZBtZjGxV8D/buzpbbAbqpzlM09DUTQcsVZaQmIaE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=t++t1gYkbMkUlClHXPeg8Iy8VoPVRNG6+BCoRKUQoRwa0RiYjkTXDWz0vb8Prugl+
+         mmVTYINW55OKFCNp9N2u0KA9E8W/PrG5toVoTWvNVUJsq9mIfKlETEjrJgGiG12Llc
+         VvrQG3E1B0Stm6//0vzk9Ze+wYr7R4KgAYSiwFEY=
+Date:   Fri, 9 Oct 2020 07:53:53 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
+        andrealmeid@collabora.com
+Subject: Re: [PATCH] docs: Make automarkup ready for Sphinx 3.1+
+Message-ID: <20201009075353.16e05c65@coco.lan>
+In-Reply-To: <C67JVCS5C9NG.LIAW4RFKE6A9@ArchWay>
+References: <C67JVCS5C9NG.LIAW4RFKE6A9@ArchWay>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200915125947.26204-1-songmuchun@bytedance.com>
- <31eac1d8-69ba-ed2f-8e47-d957d6bb908c@oracle.com> <9d220de0-f06d-cb5b-363f-6ae97d5b4146@oracle.com>
-In-Reply-To: <9d220de0-f06d-cb5b-363f-6ae97d5b4146@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 9 Oct 2020 12:13:44 +0800
-Message-ID: <CAMZfGtXAB7CqNxp2Et=SSY4iPDbxS92cwcDEo2C_88m92JNWoQ@mail.gmail.com>
-Subject: Re: [External] Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap
- pages of hugetlb page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel@vger.kernel.org,
-        Xiongchun duan <duanxiongchun@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 8, 2020 at 5:15 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 9/29/20 2:58 PM, Mike Kravetz wrote:
-> > On 9/15/20 5:59 AM, Muchun Song wrote:
-> >> Hi all,
-> >>
-> >> This patch series will free some vmemmap pages(struct page structures)
-> >> associated with each hugetlbpage when preallocated to save memory.
-> > ...
-> >> The mapping of the first page(index 0) and the second page(index 1) is
-> >> unchanged. The remaining 6 pages are all mapped to the same page(index
-> >> 1). So we only need 2 pages for vmemmap area and free 6 pages to the
-> >> buddy system to save memory. Why we can do this? Because the content
-> >> of the remaining 7 pages are usually same except the first page.
-> >>
-> >> When a hugetlbpage is freed to the buddy system, we should allocate 6
-> >> pages for vmemmap pages and restore the previous mapping relationship.
-> >>
-> >> If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
-> >> substantial gain. On our server, run some SPDK applications which will
-> >> use 300GB hugetlbpage. With this feature enabled, we can save 4797MB
-> >> memory.
->
-> I had a hard time going through the patch series as it is currently
-> structured, and instead examined all the code together.  Muchun put in
-> much effort and the code does reduce memory usage.
-> - For 2MB hugetlb pages, we save 5 pages of struct pages
-> - For 1GB hugetlb pages, we save 4086 pages of struct pages
->
-> Code is even in pace to handle poisoned pages, although I have not looked
-> at this closely.  The code survives the libhugetlbfs and ltp huge page tests.
->
-> To date, nobody has asked the important question "Is the added complexity
-> worth the memory savings?".  I suppose it all depends on one's use case.
-> Obviously, the savings are more significant when one uses 1G huge pages but
-> that may not be the common case today.
->
-> > At a high level this seems like a reasonable optimization for hugetlb
-> > pages.  It is possible because hugetlb pages are 'special' and mostly
-> > handled differently than pages in normal mm paths.
->
-> Such an optimization only makes sense for something like hugetlb pages.  One
-> reason is the 'special' nature of hugetlbfs as stated above.  The other is
-> that this optimization mostly makes sense for huge pages that are created
-> once and stick around for a long time.  hugetlb pool pages are a perfect
-> example.  This is because manipulation of struct page mappings is done when
-> a huge page is created or destroyed.
+Em Thu, 08 Oct 2020 13:54:59 +0000
+N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> escreveu:
 
-Yeah, in our cloud server, we have some application scenarios(e.g. SPDK,
-DPDK, QEMU and jemalloc). These applications may use a lot of hugetlb
-pages.
+> On Thu Oct 8, 2020 at 2:27 AM -03, Mauro Carvalho Chehab wrote:
+> >
+> > Hi N=C3=ADcolas,
+> >
+> > Em Wed, 07 Oct 2020 23:12:25 +0000
+> > N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> escreveu:
+> > =20
+> > > While Sphinx 2 used a single c:type role for struct, union, enum and
+> > > typedef, Sphinx 3 uses a specific role for each one.
+> > > To keep backward compatibility, detect the Sphinx version and use the
+> > > correct roles for that version.
+> > >
+> > > Also, Sphinx 3 is more strict with its C domain and generated warning=
+s,
+> > > exposing issues in the parsing.
+> > > To fix the warnings, make the C regexes use ASCII, ensure the
+> > > expressions only match the beginning of words and skip trying to
+> > > cross-reference C reserved words.
+> > >
+> > > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
+> > > ---
+> > >
+> > > Hi,
+> > >
+> > > after Mauro's series making everything ready for Sphinx 3.1, only the=
+ automarkup
+> > > was left to be ported.
+> > > This patch makes the needed changes to automarkup so that we can soon=
+ flip the
+> > > switch to Sphinx 3.1.
+> > >
+> > > This change was tested both with Sphinx 2.4.4 and Sphinx 3.1.
+> > >
+> > > This change doesn't add any warnings to the Documentation build.
+> > > I tested it with Mauro's series but later rebased it to docs-next, an=
+d it can be
+> > > accepted independently of that series.
+> > >
+> > > I ended up doing more than one thing in this single patch, but since =
+it was all
+> > > changing the same lines and for the same purpose, I felt it would be =
+better to
+> > > keep it as a single commit.
+> > > =20
+> >
+> > Thanks for doing this! That was the last missing part on fully
+> > supporting
+> > Sphinx 3.1+.
+> > =20
+> > > Mauro,
+> > > if this patch is ok, the 3rd patch in your series, which disables aut=
+omarkup for
+> > > sphinx 3, should be dropped. =20
+> >
+> > Yeah, sure.
+> > =20
+> > > Although I'm not sure what the implications of your patches adding na=
+mespaces
+> > > and using the c:macro for functions are. =20
+> >
+> > With regards to namespaces:
+> >
+> > Currently, only the media docs use namespaces, and it declares it at the
+> > beginning of each file that needs it, without overriding it later[1].
+> >
+> > [1] btw, the cdomain.py backward compat code doesn't support namespace
+> > changes - as it parses namespaces before handling the C domain tags.
+> > I doubt that we'll need to have a single .rst file using more than
+> > one namespace anyway.
+> >
+> > The main usage is to avoid conflicts for uAPI documentation for
+> > syscalls - actually for libc userspace wrappers to syscalls. It
+> > documents
+> > things like: open, close, read, write, ioctl, poll, select. =20
+>=20
+> If it's mainly for that, I think automarkup could skip handling namespace=
+s.
+> From automarkup.py:
+>=20
+> #
+> # Many places in the docs refer to common system calls.  It is
+> # pointless to try to cross-reference them and, as has been known
+> # to happen, somebody defining a function by these names can lead
+> # to the creation of incorrect and confusing cross references.  So
+> # just don't even try with these names.
+> #
+> Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcntl', 'mmap',
+>               'select', 'poll', 'fork', 'execve', 'clone', 'ioctl',
+> 	      'socket' ]
+>=20
+> So unless I'm confusing things and the namespaces actually sidestep that =
+issue,
+> the namespace handling could be left out of automarkup.
 
->
-> > The majority of the new code is hugetlb specific, so it should not be
-> > of too much concern for the general mm code paths.
->
-> It is true that much of the code in this series was put in hugetlb.c.  However,
-> I would argue that there is a bunch of code that only deals with remapping
-> the memmap which should more generic and added to sparse-vmemmap.c.  This
-> would at least allow for easier reuse.
+Maybe I didn't express well enough. We need namespaces due to the
+syscals.
 
-I agree with you.
+Yet, if a .rst file uses it, *all* functions, structs, ... declared
+there will be under the namespace.=20
 
->
-> Before Muchun and myself put more effort into this series, I would really
-> like to get feedback on the whether or not this should move forward.
-> Specifically, is the memory savings worth added complexity?  Is the removing
-> of struct pages going to come back and cause issues for future features?
+In other words, looking at the V4L docs, for instance, all
+functions there will be under "V4L" namespace.
 
-Some users do need this optimization to save memory. But if some users
-do not need this optimization, they also can disable it by using a kernel boot
-parameter 'hugetlb_free_vmemmap=off' or not configuring
-CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+It should be noticed that a side effect of this change is that
+we may need to use namespaces on *all* (or almost all) uAPI=20
+media documents. I'll double-check this for v5.11.
 
-I have no idea about "cause issues for future features". Is there any feature
-ongoing or planned?
+If automarkup would try to generate a cross-reference for one
+of the many V4L2 API structs without using the "V4L" namespace,
+it will fail.
 
--- 
-Yours,
-Muchun
+Btw, considering that the namespace will solve the issues
+with those functions, I suspect that we can avoid skipping them,
+at least with Sphinx 3+.
+
+> >
+> > I'm not sure if the automarkup should be aware of it, or if the c.py
+> > code
+> > at Sphinx 3.x will add the namespace automatically, but I suspect that
+> > automarkup will need to handle it as well.
+> >
+> > One file you could use for checking it is this one:
+> >
+> > Documentation/userspace-api/media/v4l/hist-v4l2.rst
+> >
+> > It contains a namespace directive and documents what changed without
+> > using any explicit reference (after my patch series + linux-next).
+> >
+> > With regards to c:macro vs c:function:
+> >
+> > I suspect that automarkup should test both when trying to do
+> > cross-references for function-like calls. E. g. test first if
+> > there is a :c:function, falling back to check for :c:macro.
+> >
+> > I would add a "sphinx3_c_func_ref" function that would handle
+> > such special case, e. g. something like:
+> >
+> > markup_func_sphinx3 =3D {RE_doc: markup_doc_ref,
+> > RE_function: sphinx3_c_func_ref,
+> > RE_struct: markup_c_ref,
+> > RE_union: markup_c_ref,
+> > RE_enum: markup_c_ref,
+> > RE_typedef: markup_c_ref} =20
+>=20
+> Sounds good.
+>=20
+> I'll make this patch into a series and add that function/macro handling a=
+s a new
+> patch, and the namespace handling depending on your answer on the above c=
+omment,
+> for v2.
+
+Thank you!
+
+
+Thanks,
+Mauro
