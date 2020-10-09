@@ -2,105 +2,154 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E8AC433E7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 09:16:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B8DC43457
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 12:15:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8498D22276
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 09:16:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C13D222B8
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 12:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602245745;
+	bh=pDC8468yRWXl1XwCHsZdpI1gGFIdnrS9rb6TGaSt7wI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=tO+0F5z5uvr50qvS702LHEVzywddwobJZolBXwpWZ7ltgDjk0uniBXJBYr57NbjbL
+	 fEmHeT+3fpPJYQEhtplLmubx0wQ9awUgOhSOwaWyYUO+D/G3FAwQARNo4vc8cXb+CT
+	 VZBaXYwrhrZ3ThAX70iPKIRmrdO42VW95tNrz9/k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733052AbgJIJQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 05:16:23 -0400
-Received: from foss.arm.com ([217.140.110.172]:45660 "EHLO foss.arm.com"
+        id S2388469AbgJIMPh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 08:15:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731262AbgJIJQW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 05:16:22 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D5C1ED6E;
-        Fri,  9 Oct 2020 02:16:21 -0700 (PDT)
-Received: from [10.57.51.133] (unknown [10.57.51.133])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD9AF3F66B;
-        Fri,  9 Oct 2020 02:16:18 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
- Energy Model, EAS and IPA
-To:     rjw@rjwysocki.net
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, amitk@kernel.org, corbet@lwn.net,
-        daniel.lezcano@linaro.org, Dietmar.Eggemann@arm.com,
-        qperret@google.com, dianders@chromium.org, mka@chromium.org,
-        rnayak@codeaurora.org
-References: <20201002114426.31277-1-lukasz.luba@arm.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
-Date:   Fri, 9 Oct 2020 10:16:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1732958AbgJIMPg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Oct 2020 08:15:36 -0400
+Received: from mail.kernel.org (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 289B1222B8;
+        Fri,  9 Oct 2020 12:15:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602245735;
+        bh=pDC8468yRWXl1XwCHsZdpI1gGFIdnrS9rb6TGaSt7wI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VP3Z001XFILJTixrqR4GNf/XexaFVRWjSTLHA66XzOS38ujpyjKgxvtV6Dx8p2Ld5
+         MZwjuC4wqhQ/ChsoXlrv7vzGg0O6yc+Oja/8RYMhaPvvdfbeEB+Q/Op5UWj8eFatPR
+         /+w/mvXf1YXBnZkxc8/s1wQlLtWfjE0XDgW1U7uQ=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kQrJ6-003kt1-IP; Fri, 09 Oct 2020 14:15:32 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= 
+        <jerome.pouiller@silabs.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, devel@driverdev.osuosl.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] MAINTAINERS: fix broken doc refs due to yaml conversion
+Date:   Fri,  9 Oct 2020 14:15:30 +0200
+Message-Id: <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1602245659.git.mchehab+huawei@kernel.org>
+References: <cover.1602245659.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201002114426.31277-1-lukasz.luba@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
+Several *.txt files got converted to yaml. Update their
+references at MAINTAINERS file accordingly.
 
-On 10/2/20 12:44 PM, Lukasz Luba wrote:
-> Hi all,
-> 
-> The Energy Model supports power values expressed in an abstract scale.
-> This has an impact on Intelligent Power Allocation (IPA) and should be
-> documented properly. There is also a need to update the DT binding for the
-> 'sustainable-power' and allow it to have abstract scale as well.
-> 
-> Changes:
-> v2:
-> - updated sustainable power section in IPA documentation
-> - updated DT binding for the 'sustainable-power'
-> 
-> The v1 of the patch set and related discussion can be found in [1].
-> 
-> Regards,
-> Lukasz Luba
-> 
-> [1] https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
-> 
-> Lukasz Luba (3):
->    docs: Clarify abstract scale usage for power values in Energy Model
->    PM / EM: update the comments related to power scale
->    dt-bindings: thermal: update sustainable-power with abstract scale
-> 
->   .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
->   .../driver-api/thermal/power_allocator.rst          | 13 ++++++++++++-
->   Documentation/power/energy-model.rst                | 13 +++++++++++++
->   Documentation/scheduler/sched-energy.rst            |  5 +++++
->   include/linux/energy_model.h                        | 11 +++++------
->   kernel/power/energy_model.c                         |  2 +-
->   6 files changed, 45 insertions(+), 12 deletions(-)
-> 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/devicetree/bindings/clock/hi6220-clock.txt | 2 +-
+ MAINTAINERS                                              | 9 ++++-----
+ .../devicetree/bindings/net/wireless/silabs,wfx.yaml     | 2 +-
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-Could you take patch 1/3 and patch 2/3 via your PM tree,
-please? I will be very grateful.
+diff --git a/Documentation/devicetree/bindings/clock/hi6220-clock.txt b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
+index ef3deb7b86ea..17ac4a3dd26a 100644
+--- a/Documentation/devicetree/bindings/clock/hi6220-clock.txt
++++ b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
+@@ -4,7 +4,7 @@ Clock control registers reside in different Hi6220 system controllers,
+ please refer the following document to know more about the binding rules
+ for these system controllers:
+ 
+-Documentation/devicetree/bindings/arm/hisilicon/hisilicon.txt
++Documentation/devicetree/bindings/arm/hisilicon/hisilicon.yaml
+ 
+ Required Properties:
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d55f55d89509..7b1183aaafe5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -978,7 +978,7 @@ M:	Michael Hennerich <Michael.Hennerich@analog.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Supported
+ W:	http://ez.analog.com/community/linux-device-drivers
+-F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.txt
++F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml
+ F:	drivers/iio/adc/ad7768-1.c
+ 
+ ANALOG DEVICES INC AD7780 DRIVER
+@@ -3867,7 +3867,7 @@ M:	Roger Quadros <rogerq@ti.com>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
+-F:	Documentation/devicetree/bindings/usb/cdns-usb3.txt
++F:	Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+ F:	drivers/usb/cdns3/
+ 
+ CADET FM/AM RADIO RECEIVER DRIVER
+@@ -7918,7 +7918,7 @@ HISILICON LPC BUS DRIVER
+ M:	john.garry@huawei.com
+ S:	Maintained
+ W:	http://www.hisilicon.com
+-F:	Documentation/devicetree/bindings/arm/hisilicon/hisilicon-low-pin-count.txt
++F:	Documentation/devicetree/bindings/arm/hisilicon/low-pin-count.yaml
+ F:	drivers/bus/hisi_lpc.c
+ 
+ HISILICON NETWORK SUBSYSTEM 3 DRIVER (HNS3)
+@@ -14911,7 +14911,6 @@ RENESAS ETHERNET DRIVERS
+ R:	Sergei Shtylyov <sergei.shtylyov@gmail.com>
+ L:	netdev@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+-F:	Documentation/devicetree/bindings/net/renesas,*.txt
+ F:	Documentation/devicetree/bindings/net/renesas,*.yaml
+ F:	drivers/net/ethernet/renesas/
+ F:	include/linux/sh_eth.h
+@@ -18107,7 +18106,7 @@ M:	Yu Chen <chenyu56@huawei.com>
+ M:	Binghui Wang <wangbinghui@hisilicon.com>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt
++F:	Documentation/devicetree/bindings/phy/hisilicon,hi3660-usb3.yaml
+ F:	drivers/phy/hisilicon/phy-hi3660-usb3.c
+ 
+ USB ISP116X DRIVER
+diff --git a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
+index 43b5630c0407..510edd12ed19 100644
+--- a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
++++ b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
+@@ -24,7 +24,7 @@ description:
+     In addition, it is recommended to declare a mmc-pwrseq on SDIO host above
+     WFx. Without it, you may encounter issues with warm boot. The mmc-pwrseq
+     should be compatible with mmc-pwrseq-simple. Please consult
+-    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.txt for more
++    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml for more
+     information.
+ 
+   For SPI':'
+-- 
+2.26.2
 
-These patches just update the documentation and comments regarding
-an issue that we can have: bogoWatts in the Energy Model (and we
-already have). One of the drawbacks is that we cannot derive real energy
-from these numbers. Will see how this would evolve.
-
-The patch 3/3 with dt-binding is not going to fly upstream [1].
-I hope developers will put a real number in DT so we could
-have real milliWatts from that source (wishful thinking).
-Doug even made a script, which might be helpful for that [2].
-
-Regards,
-Lukasz
-
-[1] 
-https://lore.kernel.org/linux-pm/45fae8cd-0635-41dc-c744-3c9833bf6492@arm.com/
-[2] 
-https://lore.kernel.org/linux-pm/CAD=FV=U1FP0e3_AVHpauUUZtD-5X3XCwh5aT9fH_8S_FFML2Uw@mail.gmail.com/
