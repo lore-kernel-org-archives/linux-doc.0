@@ -2,555 +2,193 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADFEBC43467
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE97C433E7
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75F4B2222F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:14:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB4E1221FD
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 20:18:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390662AbgJIUOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 16:14:36 -0400
-Received: from mga09.intel.com ([134.134.136.24]:30370 "EHLO mga09.intel.com"
+        id S2390829AbgJIUSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 16:18:30 -0400
+Received: from mga04.intel.com ([192.55.52.120]:45442 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726427AbgJIUOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 16:14:33 -0400
-IronPort-SDR: y8cB7gOgZFTtEciIitUdVGFi06OWUEGdzOl2y+/bPNW/paHEVV5MZ1USP3cb7UFa6PoY7qzOCB
- JLo6dBanSBzQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="165645696"
+        id S1731521AbgJIUS1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Oct 2020 16:18:27 -0400
+IronPort-SDR: ZH6OHsc+e0nxvlORZDUJw/FV78YNy4xcuiSpNRkz3acBTnhmmsJaKyMyY1gjL6j1EzLQAGii87
+ 14UvhHMr1uYw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="162895849"
 X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="165645696"
+   d="scan'208";a="162895849"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 13:14:31 -0700
-IronPort-SDR: jgQsFRAlfHBo80EaDq6UUpsPxAnTNwwEcXCneOQBX38JCbGEvK/O3QEXBqd2evdiIGuqrrbxaD
- ++KTSJnvkkLQ==
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 13:18:25 -0700
+IronPort-SDR: EPIUO6Sq8Ni44u09CTNBCky6tlBQ3tCFyV5bqnAJ9cDrxp+dSvLhEAuIf8hRZbdCSG1SROpCwp
+ 0Z4ffgAZVLlQ==
 X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="519852282"
+   d="scan'208";a="354973816"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 13:14:31 -0700
-From:   ira.weiny@intel.com
-To:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mike Rapoport <rppt@kernel.org>
-Cc:     Elena Reshetova <elena.reshetova@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 13:18:24 -0700
+Date:   Fri, 9 Oct 2020 13:18:24 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
         Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-integrity@vger.kernel.org (open list:KEYS-TRUSTED),
-        keyrings@vger.kernel.org (open list:KEYS-TRUSTED),
-        linux-security-module@vger.kernel.org (open list:SECURITY SUBSYSTEM)
-Subject: [PATCH RFC PKS/Trusted keys 2/2] keys/trusted: protect trusted keys using PKS
-Date:   Fri,  9 Oct 2020 13:14:10 -0700
-Message-Id: <20201009201410.3209180-3-ira.weiny@intel.com>
-X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
-In-Reply-To: <20201009201410.3209180-1-ira.weiny@intel.com>
-References: <20201009201410.3209180-1-ira.weiny@intel.com>
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V3 0/9] PKS: Add Protection Keys Supervisor (PKS)
+ support RFC v3
+Message-ID: <20201009201824.GW2046448@iweiny-DESK2.sc.intel.com>
+References: <20201009194258.3207172-1-ira.weiny@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201009194258.3207172-1-ira.weiny@intel.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Elena Reshetova <elena.reshetova@intel.com>
+On Fri, Oct 09, 2020 at 12:42:49PM -0700, 'Ira Weiny' wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> This RFC series has been reviewed by Dave Hansen.
+> 
+> Introduce a new page protection mechanism for supervisor pages, Protection Key
+> Supervisor (PKS).
+> 
+> 2 use cases for PKS are being developed, trusted keys and PMEM.
 
-Enable additional protection for trusted keys against arbitrary reads
-using Protection Keys Supervisor (PKS) feature on architectures which
-support it.  PKS feature allows different 'domains' of page mappings
-which have an extra level of protection beyond those specified in the
-supervisor page table entries. Pages can be placed into such a 'domain'
-upon allocation and the access to them is enforced based on the
-per-thread per-CPU granularity.
+RFC patch sets for these use cases have also been posted:
 
-The PKS protection 'domain' is acquired upon TPM initialization and, if
-successful, will be used to limit access (both read and write) to pages
-containing trusted key plaintext buffer. When a legitimate operation needs
-to be performed on this buffer, the access to it is temporally enabled
-for a particular thread on a particular CPU.
+PMEM:
+https://lore.kernel.org/lkml/20201009195033.3208459-1-ira.weiny@intel.com/
 
-This is not a perfect solution, but a first step towards providing an
-additional protection for the trusted keys residing in the kernel
-memory.  Currently, it still does not prevent direct map aliased
-attacks, i.e.  when the page with the key content is accessed via the
-kernel direct map directly.  In order to address this concern, future
-work could utilize PKS in secretmem[1] and/or secretment in trusted
-keys.  For this patch, we are focused on just using PKS to remove the
-non-direct map alias access to this key data when not needed.
+Trusted Keys:
+https://lore.kernel.org/lkml/20201009201410.3209180-1-ira.weiny@intel.com/
 
-In order to limit access to the pages containing the trusted key
-plaintext buffer, trusted_key_enable/disable_access functions are used.
-The "disable" function removes access (both read and write) to the pages
-allocated for the trusted keys PKS 'domain' on a given CPU and for the
-given thread, and the "enable" one enables read and write access on a
-given CPU and for the given thread. By default the access to the trusted
-keys PKS 'domain' is disabled for all threads on all CPUs.
+Ira
 
-[1] https://lore.kernel.org/linux-mm/20200924132904.1391-1-rppt@kernel.org/
-
-Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
- include/keys/trusted-type.h               |  2 +-
- include/keys/trusted_tpm.h                | 15 ++++
- security/keys/encrypted-keys/encrypted.c  | 38 +++++++---
- security/keys/trusted-keys/trusted_tpm1.c | 90 ++++++++++++++++++++---
- security/keys/trusted-keys/trusted_tpm2.c |  9 +++
- 5 files changed, 131 insertions(+), 23 deletions(-)
-
-diff --git a/include/keys/trusted-type.h b/include/keys/trusted-type.h
-index a94c03a61d8f..826525e22b45 100644
---- a/include/keys/trusted-type.h
-+++ b/include/keys/trusted-type.h
-@@ -22,7 +22,7 @@ struct trusted_key_payload {
- 	unsigned int key_len;
- 	unsigned int blob_len;
- 	unsigned char migratable;
--	unsigned char key[MAX_KEY_SIZE + 1];
-+	unsigned char  *key;
- 	unsigned char blob[MAX_BLOB_SIZE];
- };
- 
-diff --git a/include/keys/trusted_tpm.h b/include/keys/trusted_tpm.h
-index a56d8e1298f2..5aa254c70820 100644
---- a/include/keys/trusted_tpm.h
-+++ b/include/keys/trusted_tpm.h
-@@ -47,6 +47,21 @@ int tpm2_unseal_trusted(struct tpm_chip *chip,
- 			struct trusted_key_payload *payload,
- 			struct trusted_key_options *options);
- 
-+#if defined(CONFIG_TRUSTED_KEYS) || \
-+	(defined(CONFIG_TRUSTED_KEYS_MODULE) && defined(CONFIG_ENCRYPTED_KEYS_MODULE))
-+void trusted_key_enable_access(void);
-+void trusted_key_disable_access(void);
-+#else
-+static inline void trusted_key_enable_access(void)
-+{
-+
-+}
-+static inline void trusted_key_disable_access(void)
-+{
-+
-+}
-+#endif
-+
- #define TPM_DEBUG 0
- 
- #if TPM_DEBUG
-diff --git a/security/keys/encrypted-keys/encrypted.c b/security/keys/encrypted-keys/encrypted.c
-index 192e531c146f..d996e9fd2dec 100644
---- a/security/keys/encrypted-keys/encrypted.c
-+++ b/security/keys/encrypted-keys/encrypted.c
-@@ -20,6 +20,7 @@
- #include <linux/err.h>
- #include <keys/user-type.h>
- #include <keys/trusted-type.h>
-+#include <keys/trusted_tpm.h>
- #include <keys/encrypted-type.h>
- #include <linux/key-type.h>
- #include <linux/random.h>
-@@ -344,10 +345,12 @@ static int calc_hmac(u8 *digest, const u8 *key, unsigned int keylen,
- }
- 
- enum derived_key_type { ENC_KEY, AUTH_KEY };
-+enum master_key_type { TRUSTED_KEY, USER_KEY };
- 
- /* Derive authentication/encryption key from trusted key */
- static int get_derived_key(u8 *derived_key, enum derived_key_type key_type,
--			   const u8 *master_key, size_t master_keylen)
-+			   const u8 *master_key, size_t master_keylen,
-+			   enum master_key_type m_key_type)
- {
- 	u8 *derived_buf;
- 	unsigned int derived_buf_len;
-@@ -366,8 +369,13 @@ static int get_derived_key(u8 *derived_key, enum derived_key_type key_type,
- 	else
- 		strcpy(derived_buf, "ENC_KEY");
- 
-+	if (unlikely(m_key_type == TRUSTED_KEY))
-+		trusted_key_enable_access();
- 	memcpy(derived_buf + strlen(derived_buf) + 1, master_key,
- 	       master_keylen);
-+	if (unlikely(m_key_type == TRUSTED_KEY))
-+		trusted_key_disable_access();
-+
- 	ret = crypto_shash_tfm_digest(hash_tfm, derived_buf, derived_buf_len,
- 				      derived_key);
- 	kfree_sensitive(derived_buf);
-@@ -408,7 +416,8 @@ static struct skcipher_request *init_skcipher_req(const u8 *key,
- }
- 
- static struct key *request_master_key(struct encrypted_key_payload *epayload,
--				      const u8 **master_key, size_t *master_keylen)
-+				      const u8 **master_key, size_t *master_keylen,
-+				      enum master_key_type *m_key_type)
- {
- 	struct key *mkey = ERR_PTR(-EINVAL);
- 
-@@ -417,11 +426,13 @@ static struct key *request_master_key(struct encrypted_key_payload *epayload,
- 		mkey = request_trusted_key(epayload->master_desc +
- 					   KEY_TRUSTED_PREFIX_LEN,
- 					   master_key, master_keylen);
-+		*m_key_type = TRUSTED_KEY;
- 	} else if (!strncmp(epayload->master_desc, KEY_USER_PREFIX,
- 			    KEY_USER_PREFIX_LEN)) {
- 		mkey = request_user_key(epayload->master_desc +
- 					KEY_USER_PREFIX_LEN,
- 					master_key, master_keylen);
-+		*m_key_type = USER_KEY;
- 	} else
- 		goto out;
- 
-@@ -486,13 +497,14 @@ static int derived_key_encrypt(struct encrypted_key_payload *epayload,
- }
- 
- static int datablob_hmac_append(struct encrypted_key_payload *epayload,
--				const u8 *master_key, size_t master_keylen)
-+				const u8 *master_key, size_t master_keylen,
-+				enum master_key_type m_key_type)
- {
- 	u8 derived_key[HASH_SIZE];
- 	u8 *digest;
- 	int ret;
- 
--	ret = get_derived_key(derived_key, AUTH_KEY, master_key, master_keylen);
-+	ret = get_derived_key(derived_key, AUTH_KEY, master_key, master_keylen, m_key_type);
- 	if (ret < 0)
- 		goto out;
- 
-@@ -509,7 +521,7 @@ static int datablob_hmac_append(struct encrypted_key_payload *epayload,
- /* verify HMAC before decrypting encrypted key */
- static int datablob_hmac_verify(struct encrypted_key_payload *epayload,
- 				const u8 *format, const u8 *master_key,
--				size_t master_keylen)
-+				size_t master_keylen, enum master_key_type m_key_type)
- {
- 	u8 derived_key[HASH_SIZE];
- 	u8 digest[HASH_SIZE];
-@@ -517,7 +529,7 @@ static int datablob_hmac_verify(struct encrypted_key_payload *epayload,
- 	char *p;
- 	unsigned short len;
- 
--	ret = get_derived_key(derived_key, AUTH_KEY, master_key, master_keylen);
-+	ret = get_derived_key(derived_key, AUTH_KEY, master_key, master_keylen, m_key_type);
- 	if (ret < 0)
- 		goto out;
- 
-@@ -664,6 +676,7 @@ static int encrypted_key_decrypt(struct encrypted_key_payload *epayload,
- 	size_t master_keylen;
- 	size_t asciilen;
- 	int ret;
-+	enum master_key_type m_key_type;
- 
- 	encrypted_datalen = roundup(epayload->decrypted_datalen, blksize);
- 	asciilen = (ivsize + 1 + encrypted_datalen + HASH_SIZE) * 2;
-@@ -685,17 +698,17 @@ static int encrypted_key_decrypt(struct encrypted_key_payload *epayload,
- 	if (ret < 0)
- 		return -EINVAL;
- 
--	mkey = request_master_key(epayload, &master_key, &master_keylen);
-+	mkey = request_master_key(epayload, &master_key, &master_keylen, &m_key_type);
- 	if (IS_ERR(mkey))
- 		return PTR_ERR(mkey);
- 
--	ret = datablob_hmac_verify(epayload, format, master_key, master_keylen);
-+	ret = datablob_hmac_verify(epayload, format, master_key, master_keylen, m_key_type);
- 	if (ret < 0) {
- 		pr_err("encrypted_key: bad hmac (%d)\n", ret);
- 		goto out;
- 	}
- 
--	ret = get_derived_key(derived_key, ENC_KEY, master_key, master_keylen);
-+	ret = get_derived_key(derived_key, ENC_KEY, master_key, master_keylen, m_key_type);
- 	if (ret < 0)
- 		goto out;
- 
-@@ -908,6 +921,7 @@ static long encrypted_read(const struct key *key, char *buffer,
- 	char *ascii_buf;
- 	size_t asciiblob_len;
- 	int ret;
-+	enum master_key_type m_key_type;
- 
- 	epayload = dereference_key_locked(key);
- 
-@@ -919,11 +933,11 @@ static long encrypted_read(const struct key *key, char *buffer,
- 	if (!buffer || buflen < asciiblob_len)
- 		return asciiblob_len;
- 
--	mkey = request_master_key(epayload, &master_key, &master_keylen);
-+	mkey = request_master_key(epayload, &master_key, &master_keylen, &m_key_type);
- 	if (IS_ERR(mkey))
- 		return PTR_ERR(mkey);
- 
--	ret = get_derived_key(derived_key, ENC_KEY, master_key, master_keylen);
-+	ret = get_derived_key(derived_key, ENC_KEY, master_key, master_keylen, m_key_type);
- 	if (ret < 0)
- 		goto out;
- 
-@@ -931,7 +945,7 @@ static long encrypted_read(const struct key *key, char *buffer,
- 	if (ret < 0)
- 		goto out;
- 
--	ret = datablob_hmac_append(epayload, master_key, master_keylen);
-+	ret = datablob_hmac_append(epayload, master_key, master_keylen, m_key_type);
- 	if (ret < 0)
- 		goto out;
- 
-diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-index b9fe02e5f84f..62e6c5eb8e2b 100644
---- a/security/keys/trusted-keys/trusted_tpm1.c
-+++ b/security/keys/trusted-keys/trusted_tpm1.c
-@@ -26,9 +26,49 @@
- #include <linux/capability.h>
- #include <linux/tpm.h>
- #include <linux/tpm_command.h>
-+#include <linux/pkeys.h>
-+#include <linux/vmalloc.h>
-+#include <uapi/asm-generic/mman-common.h>
- 
- #include <keys/trusted_tpm.h>
- 
-+#define PKEY_INVALID (INT_MIN)
-+static int trusted_keys_pkey = PKEY_INVALID;
-+
-+#if defined(CONFIG_TRUSTED_KEYS) || \
-+	(defined(CONFIG_TRUSTED_KEYS_MODULE) && defined(CONFIG_ENCRYPTED_KEYS_MODULE))
-+void trusted_key_disable_access(void)
-+{
-+	if (trusted_keys_pkey == PKEY_INVALID)
-+		return;
-+
-+	pks_mknoaccess(trusted_keys_pkey, false);
-+
-+}
-+EXPORT_SYMBOL_GPL(trusted_key_disable_access);
-+
-+void trusted_key_enable_access(void)
-+{
-+	if (trusted_keys_pkey == PKEY_INVALID)
-+		return;
-+
-+	pks_mkrdwr(trusted_keys_pkey, false);
-+}
-+EXPORT_SYMBOL_GPL(trusted_key_enable_access);
-+#endif
-+
-+static void trusted_payload_free(struct trusted_key_payload *p)
-+{
-+	if (!p)
-+		return;
-+
-+	trusted_key_enable_access();
-+	memzero_explicit(p->key, MAX_KEY_SIZE + 1);
-+	trusted_key_disable_access();
-+	vfree(p->key);
-+	kzfree(p);
-+}
-+
- static const char hmac_alg[] = "hmac(sha1)";
- static const char hash_alg[] = "sha1";
- static struct tpm_chip *chip;
-@@ -663,12 +703,15 @@ static int key_seal(struct trusted_key_payload *p,
- 	if (ret)
- 		return ret;
- 
-+	trusted_key_enable_access();
- 	/* include migratable flag at end of sealed key */
- 	p->key[p->key_len] = p->migratable;
- 
- 	ret = tpm_seal(&tb, o->keytype, o->keyhandle, o->keyauth,
- 		       p->key, p->key_len + 1, p->blob, &p->blob_len,
- 		       o->blobauth, o->pcrinfo, o->pcrinfo_len);
-+	trusted_key_disable_access();
-+
- 	if (ret < 0)
- 		pr_info("trusted_key: srkseal failed (%d)\n", ret);
- 
-@@ -689,6 +732,7 @@ static int key_unseal(struct trusted_key_payload *p,
- 	if (ret)
- 		return ret;
- 
-+	trusted_key_enable_access();
- 	ret = tpm_unseal(&tb, o->keyhandle, o->keyauth, p->blob, p->blob_len,
- 			 o->blobauth, p->key, &p->key_len);
- 	if (ret < 0)
-@@ -696,6 +740,7 @@ static int key_unseal(struct trusted_key_payload *p,
- 	else
- 		/* pull migratable flag out of sealed key */
- 		p->migratable = p->key[--p->key_len];
-+	trusted_key_disable_access();
- 
- 	tpm_buf_destroy(&tb);
- 	return ret;
-@@ -928,15 +973,26 @@ static struct trusted_key_options *trusted_options_alloc(void)
- 
- static struct trusted_key_payload *trusted_payload_alloc(struct key *key)
- {
--	struct trusted_key_payload *p = NULL;
-+	struct trusted_key_payload *p;
- 	int ret;
- 
- 	ret = key_payload_reserve(key, sizeof *p);
- 	if (ret < 0)
--		return p;
-+		return NULL;
- 	p = kzalloc(sizeof *p, GFP_KERNEL);
--	if (p)
-+	if (p) {
- 		p->migratable = 1; /* migratable by default */
-+		if (trusted_keys_pkey == PKEY_INVALID)
-+			p->key = vmalloc(MAX_KEY_SIZE + 1);
-+		else
-+			p->key = vmalloc_pks(MAX_KEY_SIZE + 1, trusted_keys_pkey);
-+
-+		if (!(p->key)) {
-+			kfree(p);
-+			return NULL;
-+		}
-+	}
-+
- 	return p;
- }
- 
-@@ -1012,7 +1068,9 @@ static int trusted_instantiate(struct key *key,
- 		break;
- 	case Opt_new:
- 		key_len = payload->key_len;
-+		trusted_key_enable_access();
- 		ret = tpm_get_random(chip, payload->key, key_len);
-+		trusted_key_disable_access();
- 		if (ret != key_len) {
- 			pr_info("trusted_key: key_create failed (%d)\n", ret);
- 			goto out;
-@@ -1036,7 +1094,7 @@ static int trusted_instantiate(struct key *key,
- 	if (!ret)
- 		rcu_assign_keypointer(key, payload);
- 	else
--		kfree_sensitive(payload);
-+		trusted_payload_free(payload);
- 	return ret;
- }
- 
-@@ -1045,7 +1103,7 @@ static void trusted_rcu_free(struct rcu_head *rcu)
- 	struct trusted_key_payload *p;
- 
- 	p = container_of(rcu, struct trusted_key_payload, rcu);
--	kfree_sensitive(p);
-+	trusted_payload_free(p);
- }
- 
- /*
-@@ -1087,34 +1145,38 @@ static int trusted_update(struct key *key, struct key_preparsed_payload *prep)
- 	ret = datablob_parse(datablob, new_p, new_o);
- 	if (ret != Opt_update) {
- 		ret = -EINVAL;
--		kfree_sensitive(new_p);
-+		trusted_payload_free(new_p);
- 		goto out;
- 	}
- 
- 	if (!new_o->keyhandle) {
- 		ret = -EINVAL;
--		kfree_sensitive(new_p);
-+		trusted_payload_free(new_p);
- 		goto out;
- 	}
- 
- 	/* copy old key values, and reseal with new pcrs */
- 	new_p->migratable = p->migratable;
- 	new_p->key_len = p->key_len;
-+
-+	trusted_key_enable_access();
- 	memcpy(new_p->key, p->key, p->key_len);
-+	trusted_key_disable_access();
-+
- 	dump_payload(p);
- 	dump_payload(new_p);
- 
- 	ret = key_seal(new_p, new_o);
- 	if (ret < 0) {
- 		pr_info("trusted_key: key_seal failed (%d)\n", ret);
--		kfree_sensitive(new_p);
-+		trusted_payload_free(new_p);
- 		goto out;
- 	}
- 	if (new_o->pcrlock) {
- 		ret = pcrlock(new_o->pcrlock);
- 		if (ret < 0) {
- 			pr_info("trusted_key: pcrlock failed (%d)\n", ret);
--			kfree_sensitive(new_p);
-+			trusted_payload_free(new_p);
- 			goto out;
- 		}
- 	}
-@@ -1219,7 +1281,7 @@ static int __init init_digests(void)
- 
- static int __init init_trusted(void)
- {
--	int ret;
-+	int ret, key_id;
- 
- 	/* encrypted_keys.ko depends on successful load of this module even if
- 	 * TPM is not used.
-@@ -1237,6 +1299,14 @@ static int __init init_trusted(void)
- 	ret = register_key_type(&key_type_trusted);
- 	if (ret < 0)
- 		goto err_release;
-+
-+	/* Attempt to reserve a PKS key for protecting the trusted keys.
-+	 * Note the pkey is never free'ed. This is run at init time and
-+	 * we either get the key or we do not.
-+	 */
-+	key_id = pks_key_alloc("Keyring Trusted Keys");
-+	if (key_id >= 0)
-+		trusted_keys_pkey = key_id;
- 	return 0;
- err_release:
- 	trusted_shash_release();
-diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
-index 08ec7f48f01d..67281394523f 100644
---- a/security/keys/trusted-keys/trusted_tpm2.c
-+++ b/security/keys/trusted-keys/trusted_tpm2.c
-@@ -8,6 +8,8 @@
- #include <linux/err.h>
- #include <linux/tpm.h>
- #include <linux/tpm_command.h>
-+#include <linux/pkeys.h>
-+#include <uapi/asm-generic/mman-common.h>
- 
- #include <keys/trusted-type.h>
- #include <keys/trusted_tpm.h>
-@@ -96,7 +98,11 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	tpm_buf_append_u16(&buf, TPM_DIGEST_SIZE);
- 	tpm_buf_append(&buf, options->blobauth, TPM_DIGEST_SIZE);
- 	tpm_buf_append_u16(&buf, payload->key_len + 1);
-+
-+	trusted_key_enable_access();
- 	tpm_buf_append(&buf, payload->key, payload->key_len);
-+	trusted_key_disable_access();
-+
- 	tpm_buf_append_u8(&buf, payload->migratable);
- 
- 	/* public */
-@@ -278,7 +284,10 @@ static int tpm2_unseal_cmd(struct tpm_chip *chip,
- 		}
- 		data = &buf.data[TPM_HEADER_SIZE + 6];
- 
-+		trusted_key_enable_access();
- 		memcpy(payload->key, data, data_len - 1);
-+		trusted_key_disable_access();
-+
- 		payload->key_len = data_len - 1;
- 		payload->migratable = data[data_len - 1];
- 	}
--- 
-2.28.0.rc0.12.gb6a658bd00c9
-
+> Trusted keys
+> is a newer use case which is still being explored.  PMEM was submitted as part
+> of the RFC (v2) series[1].  However, since then it was found that some callers
+> of kmap() require a global implementation of PKS.  Specifically some users of
+> kmap() expect mappings to be available to all kernel threads.  While global use
+> of PKS is rare it needs to be included for correctness.  Unfortunately the
+> kmap() updates required a large patch series to make the needed changes at the
+> various kmap() call sites so that patch set has been split out.  Because the
+> global PKS feature is only required for that use case it will be deferred to
+> that set as well.[2]  This patch set is being submitted as a precursor to both
+> of the use cases.
+> 
+> For an overview of the entire PKS ecosystem, a git tree including this series
+> and the 2 use cases can be found here:
+> 
+> 	https://github.com/weiny2/linux-kernel/tree/pks-rfc-v3
+> 
+> 
+> PKS enables protections on 'domains' of supervisor pages to limit supervisor
+> mode access to those pages beyond the normal paging protections.  PKS works in
+> a similar fashion to user space pkeys, PKU.  As with PKU, supervisor pkeys are
+> checked in addition to normal paging protections and Access or Writes can be
+> disabled via a MSR update without TLB flushes when permissions change.  Also
+> like PKU, a page mapping is assigned to a domain by setting pkey bits in the
+> page table entry for that mapping.
+> 
+> Access is controlled through a PKRS register which is updated via WRMSR/RDMSR.
+> 
+> XSAVE is not supported for the PKRS MSR.  Therefore the implementation
+> saves/restores the MSR across context switches and during exceptions.  Nested
+> exceptions are supported by each exception getting a new PKS state.
+> 
+> For consistent behavior with current paging protections, pkey 0 is reserved and
+> configured to allow full access via the pkey mechanism, thus preserving the
+> default paging protections on mappings with the default pkey value of 0.
+> 
+> Other keys, (1-15) are allocated by an allocator which prepares us for key
+> contention from day one.  Kernel users should be prepared for the allocator to
+> fail either because of key exhaustion or due to PKS not being supported on the
+> arch and/or CPU instance.
+> 
+> The following are key attributes of PKS.
+> 
+>    1) Fast switching of permissions
+> 	1a) Prevents access without page table manipulations
+> 	1b) No TLB flushes required
+>    2) Works on a per thread basis
+> 
+> PKS is available with 4 and 5 level paging.  Like PKRU it consumes 4 bits from
+> the PTE to store the pkey within the entry.
+> 
+> 
+> [1] https://lore.kernel.org/lkml/20200717072056.73134-1-ira.weiny@intel.com/
+> [2] https://github.com/weiny2/linux-kernel/commit/f10abb0f0d7b4e14f03fc8890313a5830cde1e49
+> 	and a testing patch
+>     https://github.com/weiny2/linux-kernel/commit/2a8e0fc7654a7c69b243d628f63b01ff26a5a797
+> 
+> 
+> Fenghua Yu (3):
+>   x86/fpu: Refactor arch_set_user_pkey_access() for PKS support
+>   x86/pks: Enable Protection Keys Supervisor (PKS)
+>   x86/pks: Add PKS kernel API
+> 
+> Ira Weiny (6):
+>   x86/pkeys: Create pkeys_common.h
+>   x86/pks: Preserve the PKRS MSR on context switch
+>   x86/entry: Pass irqentry_state_t by reference
+>   x86/entry: Preserve PKRS MSR across exceptions
+>   x86/fault: Report the PKRS state on fault
+>   x86/pks: Add PKS test code
+> 
+>  Documentation/core-api/protection-keys.rst  | 102 ++-
+>  arch/x86/Kconfig                            |   1 +
+>  arch/x86/entry/common.c                     |  57 +-
+>  arch/x86/include/asm/cpufeatures.h          |   1 +
+>  arch/x86/include/asm/idtentry.h             |  29 +-
+>  arch/x86/include/asm/msr-index.h            |   1 +
+>  arch/x86/include/asm/pgtable.h              |  13 +-
+>  arch/x86/include/asm/pgtable_types.h        |  12 +
+>  arch/x86/include/asm/pkeys.h                |  15 +
+>  arch/x86/include/asm/pkeys_common.h         |  36 +
+>  arch/x86/include/asm/processor.h            |  13 +
+>  arch/x86/include/uapi/asm/processor-flags.h |   2 +
+>  arch/x86/kernel/cpu/common.c                |  17 +
+>  arch/x86/kernel/cpu/mce/core.c              |   4 +
+>  arch/x86/kernel/fpu/xstate.c                |  22 +-
+>  arch/x86/kernel/kvm.c                       |   4 +-
+>  arch/x86/kernel/nmi.c                       |   7 +-
+>  arch/x86/kernel/process.c                   |  21 +
+>  arch/x86/kernel/traps.c                     |  21 +-
+>  arch/x86/mm/fault.c                         |  86 ++-
+>  arch/x86/mm/pkeys.c                         | 188 +++++-
+>  include/linux/entry-common.h                |  19 +-
+>  include/linux/pgtable.h                     |   4 +
+>  include/linux/pkeys.h                       |  23 +-
+>  kernel/entry/common.c                       |  28 +-
+>  lib/Kconfig.debug                           |  12 +
+>  lib/Makefile                                |   3 +
+>  lib/pks/Makefile                            |   3 +
+>  lib/pks/pks_test.c                          | 690 ++++++++++++++++++++
+>  mm/Kconfig                                  |   2 +
+>  tools/testing/selftests/x86/Makefile        |   3 +-
+>  tools/testing/selftests/x86/test_pks.c      |  65 ++
+>  32 files changed, 1376 insertions(+), 128 deletions(-)
+>  create mode 100644 arch/x86/include/asm/pkeys_common.h
+>  create mode 100644 lib/pks/Makefile
+>  create mode 100644 lib/pks/pks_test.c
+>  create mode 100644 tools/testing/selftests/x86/test_pks.c
+> 
+> -- 
+> 2.28.0.rc0.12.gb6a658bd00c9
+> 
