@@ -1,295 +1,428 @@
-Return-Path: <SRS0=DBCI=DP=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B5EC433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 23:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8027C433E7
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 02:45:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E8EE22246
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Oct 2020 23:22:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D0D922242
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 02:45:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oCz8NftM"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O+NEkicn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730895AbgJHXWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 19:22:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54542 "EHLO
+        id S1729346AbgJICpQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Oct 2020 22:45:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730865AbgJHXWu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 19:22:50 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 268C5C0613D5
-        for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2020 16:22:50 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id 67so5801400ybt.6
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2020 16:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=pfLY6NJMMNBF6tf7lQ1m6FQIX7pTGz4aW6ys+I9FOHQ=;
-        b=oCz8NftMVyAUYVB/cnihhjtq4Qb9IYBQ37nbSeEMzmn5jvZOwH7S5seI9m7XxYNVVE
-         MCluyGraKb8yKh82/5CgCxXGU6msSNlqp00GtAqLsih/URqyglJxlmsxwAsNA/aGhk23
-         pdUosZHgwlnBEZGdePwFVdwv3ZzZ1HbuUQNj0nkpdE/QaVszVmFnJ9PfLe0yXxi4odPh
-         0FbEMSb1+/4GC6767e1Z3wwT0/JwJRSCYWXTuT/jKG9GUDhCrmKMCGNygn9Q3DdTO7Me
-         tRI+CKHVsa7MoKQPGvcMu7dSi7ZXyaq0xmrpW/27eYJ6qijGo9/sVW0b0kB1/CIG4NiN
-         rJ+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=pfLY6NJMMNBF6tf7lQ1m6FQIX7pTGz4aW6ys+I9FOHQ=;
-        b=JcQVqyrE8ra/oEOjO8mbY3dNoU3Umr1b3EAaZL1cZsaFJGnJtD+MVZrmJh/4FIbO5F
-         t9XWkyJih+YjLtfE7MPF8qUpAKWWqzmLhKEss/OucqtO0IW3SlJSIZNLNlo7s59DXjQv
-         GHcSgLJxbPa72vbLE1UOzYB+kpt/M6hhgNnaxSd0o2hWwNlQ/rjq3rC3wQ35NFs+xXbq
-         /g7zdWhcghtSSkPVC6K6ABbj6O89SegTQwdUZ6xUG3Q/os9hvqmKwwIYFzSqBUUCrL16
-         fichuhrwYdYECPoARwSwdc11AhLV2mqwwWOxO6k88JijRISQ+SGpgPRVOYvACneznlw7
-         3pFA==
-X-Gm-Message-State: AOAM531yWTVqNj7N70HJqIvBmkmJPo9sia8YAPBpOzFNgM8qvlAkBgi3
-        G367N7Lrp6Rjx3lWtbeG9GQcc2Zq/6ssMoeoDtfdQQ==
-X-Google-Smtp-Source: ABdhPJyX0CDq9kyDz0XCQILMTz1l28FHrncM4bE4cBxgbXwRky7KKKn9fiX0bYuzzWU8KPrslm5Kx7hkU7X0iX8HRnA=
-X-Received: by 2002:a5b:d44:: with SMTP id f4mr13535317ybr.153.1602199368952;
- Thu, 08 Oct 2020 16:22:48 -0700 (PDT)
+        with ESMTP id S1726547AbgJICpQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Oct 2020 22:45:16 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02C51C0613D2;
+        Thu,  8 Oct 2020 19:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=8azVUMF2a8Wg5CG7wBoZUPHCKs5CLu7GlBQUy9KsC34=; b=O+NEkicnziFy9UmUAGbDgi5F3A
+        E2un6mti0oU4bIp6xMxAbu2VP8X8Ex7NRndpKWurMMHYSxIo40rLa3Prv8z0+jPGwTpYju3Y5BMK4
+        tNtS7xQduyiPR+ge5f8tMQETm7u64J2WbNaWV56daoOqq6LFVUsS1auh3goFdMm4N2lYLIVSFrD+R
+        r2pK4WyhUE6FvulN1JvABWusIqqA8ayFxmp/4HeDSr8hXH+wYvv+CCpbVolkUOujAbyYj5nMO7FSf
+        NsADCBRcVt5jKABx/Nt5JWa6EMXqMLPHtcetd2O5ZiDcSrbHCMum88jfMrKEAI8mnt/2LoRNhxWZr
+        iEpvFsqA==;
+Received: from [2601:1c0:6280:3f0::507c]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kQiP9-0001Sy-4N; Fri, 09 Oct 2020 02:45:11 +0000
+Subject: Re: [RFC PATCH v1 21/26] docs: reporting-bugs: details on writing and
+ sending the report
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1601541165.git.linux@leemhuis.info>
+ <89c5aa12cdb55568b3e33afbe8c5afddf54dddf6.1601541165.git.linux@leemhuis.info>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <05897f9c-8039-51f1-27b2-97c65a3913db@infradead.org>
+Date:   Thu, 8 Oct 2020 19:45:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200924065606.3351177-1-lokeshgidra@google.com>
- <CA+EESO7kCqtJf+ApoOcceFT+NX8pBwGmOr0q0PVnJf9Dnkrp6A@mail.gmail.com> <20201008040141.GA17076@redhat.com>
-In-Reply-To: <20201008040141.GA17076@redhat.com>
-From:   Nick Kralevich <nnk@google.com>
-Date:   Thu, 8 Oct 2020 16:22:36 -0700
-Message-ID: <CAFJ0LnGoD9NaKhbsohdXo5zt5nyMOX=g1aMRX0b0W1zBSNaSBg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Control over userfaultfd kernel-fault handling
-To:     Andrea Arcangeli <aarcange@redhat.com>
-Cc:     Lokesh Gidra <lokeshgidra@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Kalesh Singh <kaleshsingh@google.com>,
-        Calin Juravle <calin@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <89c5aa12cdb55568b3e33afbe8c5afddf54dddf6.1601541165.git.linux@leemhuis.info>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 7, 2020 at 9:01 PM Andrea Arcangeli <aarcange@redhat.com> wrote=
-:
->
-> Hello Lokesh,
->
-> On Wed, Oct 07, 2020 at 01:26:55PM -0700, Lokesh Gidra wrote:
-> > On Wed, Sep 23, 2020 at 11:56 PM Lokesh Gidra <lokeshgidra@google.com> =
-wrote:
-> > >
-> > > This patch series is split from [1]. The other series enables SELinux
-> > > support for userfaultfd file descriptors so that its creation and
-> > > movement can be controlled.
-> > >
-> > > It has been demonstrated on various occasions that suspending kernel
-> > > code execution for an arbitrary amount of time at any access to
-> > > userspace memory (copy_from_user()/copy_to_user()/...) can be exploit=
-ed
-> > > to change the intended behavior of the kernel. For instance, handling
-> > > page faults in kernel-mode using userfaultfd has been exploited in [2=
-, 3].
-> > > Likewise, FUSE, which is similar to userfaultfd in this respect, has =
-been
-> > > exploited in [4, 5] for similar outcome.
-> > >
-> > > This small patch series adds a new flag to userfaultfd(2) that allows
-> > > callers to give up the ability to handle kernel-mode faults with the
-> > > resulting UFFD file object. It then adds a 'user-mode only' option to
-> > > the unprivileged_userfaultfd sysctl knob to require unprivileged
-> > > callers to use this new flag.
-> > >
-> > > The purpose of this new interface is to decrease the chance of an
-> > > unprivileged userfaultfd user taking advantage of userfaultfd to
-> > > enhance security vulnerabilities by lengthening the race window in
-> > > kernel code.
-> > >
-> > > [1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@googl=
-e.com/
-> > > [2] https://duasynt.com/blog/linux-kernel-heap-spray
-> > > [3] https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit
->
-> I've looking at those links and I've been trying to verify the link
-> [3] is relevant.
->
-> Specifically I've been trying to verify if 1) current state of the art
-> modern SLUB randomization techniques already enabled in production and
-> rightfully wasting some CPU in all enterprise kernels to prevent
-> things like above to become an issue in practice 2) combined with the
-> fact different memcg need to share the same kmemcaches (which was
-> incidentally fixed a few months ago upstream) and 3) further
-> robustness enhancements against exploits in the slub metadata, may
-> already render the exploit [3] from 2016 irrelevant in practice.
+On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
+> Outline how to write the report. Give instructions that hopefully will
+> make people write better reports that ideally are also quick to evaluate
+> for kernel developers.
+> 
+> At the same time put some more faith into the readers to make them
+> provide all relevant data. That's a bit different to the old approach,
+> which told people to always send contents of files like /proc/ioports or
+> /proc/iomem, which in a lot of cases won't be needed and make reports
+> unnecessarily big.
+> 
+> That's also why this commit removes scripts/ver_linux as well: the
+> details it collects are only needed in some situations and make reports
+> bigger and harder to compile without good reason. Additionally, some
+> distributions do not ship it; a better, more modern script would likely
+> resist in tools/, then distros might start shipping it in packages like
+> "linux-tools".
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>  Documentation/admin-guide/reporting-bugs.rst | 247 +++++++++++++++----
+>  scripts/ver_linux                            |  81 ------
+>  2 files changed, 198 insertions(+), 130 deletions(-)
+>  delete mode 100755 scripts/ver_linux
+> 
+> diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
+> index 71c49347c544..b06935cad880 100644
+> --- a/Documentation/admin-guide/reporting-bugs.rst
+> +++ b/Documentation/admin-guide/reporting-bugs.rst
+> @@ -845,6 +845,204 @@ freshly to each newer kernel version you try. Afterwards run
+>  enabling any new feature, as those are allowed to cause regressions.
+>  
+>  
+> +Write and send the report
+> +-------------------------
+> +
+> +    *Start to compile the report by writing a detailed description about the
+> +    issue. Always mentions a few things: the latest kernel version you installed
 
-It's quite possible that some other mitigation was helpful against the
-technique used by this particular exploit. It's the nature of exploits
-that they are fragile and will change as new soft mitigations are
-introduced. The effectiveness of a particular exploit mitigation
-change is orthogonal to the change presented here.
+                     mention
 
-The purpose of this change is to prevent an attacker from suspending
-kernel code execution and having kernel data structures in a
-predictable state. This makes it harder for an attacker to "win" race
-conditions against various kernel data structures. This change
-compliments other kernel hardening changes such as the changes you've
-referenced above. Focusing on one particular exploit somewhat misses
-the point of this change.
+> +    for reproducing, the Linux Distribution used, and your notes how to
 
->
-> So I started by trying to reproduce [3] by building 4.5.1 with a
-> .config with no robustness features and I booted it on fedora-32 or
-> gentoo userland and I cannot even invoke call_usermodehelper. Calling
-> socket(22, AF_INET, 0) won't invoke such function. Can you reproduce
-> on 4.5.1? Which kernel .config should I use to build 4.5.1 in order
-> for call_usermodehelper to be invoked by the exploit? Could you help
-> to verify it?
+                                                              notes {of,on} how to
 
-I haven't tried to verify this myself. I wonder if the usermode
-hardening changes also impacted this exploit? See
-https://lkml.org/lkml/2017/1/16/468
+> +    reproduce the issue. Ideally, make the kernels build configuration (.config)
 
-But again, focusing on an exploit, which is inherently fragile in
-nature and dependent on the state of the kernel tree at a particular
-time, is unlikely to be useful to analyze this patch.
+                                              kernel's
 
->
-> It even has uninitialized variable spawning random perrors so it
-> doesn't give a warm fuzzy feeling:
->
-> =3D=3D=3D=3D
-> int main(int argc, char **argv) {
->         void *region, *map;
->                       ^^^^^
->         pthread_t uffd_thread;
->         int uffd, msqid, i;
->
->         region =3D (void *)mmap((void *)0x40000000, 0x2000, PROT_READ|PRO=
-T_WRITE,
->                                MAP_FIXED|MAP_PRIVATE|MAP_ANON, -1, 0);
->
->         if (!region) {
->                 perror("mmap");
->                 exit(2);
->         }
->
->         setup_pagefault(region + 0x1000, 0x1000, 1);
->
->         printf("my pid =3D %d\n", getpid());
->
->         if (!map) {
->         ^^^^^^^^
->                 perror("mmap");
-> =3D=3D=3D=3D
->
-> The whole point of being able to reproduce on 4.5.1 is then to
-> simulate if the same exploit would also reproduce on current kernels
-> with all enterprise default robustness features enabled. Or did
-> anybody already verify it?
->
-> Anyway the links I was playing with are all in the cover letter, the
-> cover letter is not as important as the actual patches. The actual
-> patches looks fine to me.
+> +    and the output from ``dmesg`` available somewhere on the net and link to it.
+> +    Include or upload all other information that might be relevant, like the
+> +    output/screenshot of an Oops or the output from ``lspci``. Once you wrote
+> +    this main part insert a normal length paragraph on top of it outlining the
+> +    issue and the impact quickly. On top of this add one sentence that briefly
+> +    describes the problem and gets people to read on. Now give the thing a
+> +    descriptive title or subject that yet again is shorter. Then you're ready to
+> +    send or file the report like the MAINTAINERS file told you, unless you are
+> +    dealing with one of those 'issues of high priority': they need special care
+> +    which is explained in 'Special handling for high priority issues' below.*
+> +
+> +Now that you have prepared everything it's time to write your report. How to do
+> +that is partly explained by the two documents linked to in the preface above.
+> +
+> +This text will only mention a few of the essentials as well as things apecific
 
-That's great to hear.
+                                                                         specific
 
->
-> The only improvement I can think of is, what about to add a
-> printk_once to suggest to toggle the sysctl if userfaultfd bails out
-> because the process lacks the CAP_SYS_PTRACE capability? That would
-> facilitate the /etc/sysctl.conf or tuned tweaking in case the apps
-> aren't verbose enough.
->
-> It's not relevant anymore with this latest patchset, but about the
-> previous argument that seccomp couldn't be used in all Android
-> processes because of performance concern, I'm slightly confused.
+> +to the Linux kernel. There is one thing that fits both categories: the most
+> +crucial parts of your report are the title/subject, the first sentence and the
+> +first paragraph. Developers often get quite a lot of mail and have to quickly
+> +decide if one is really worth reading. Developer sometimes take just a few
+> +seconds to skim a mail before deciding if it's worth a closer look. Thus: the
+> +better the top section of your report, the higher are the chances that someone
+> +will look into it and help you. And that why you should ignore them for now
 
-Seccomp causes more problems than just performance. Seccomp is not
-designed for whole-of-system protections. Please see my other writeup
-at https://lore.kernel.org/lkml/CAFJ0LnEo-7YUvgOhb4pHteuiUW+wPfzqbwXUCGAA35=
-ZMx11A-w@mail.gmail.com/
+                                       that is why
 
->
-> https://android-developers.googleblog.com/2017/07/seccomp-filter-in-andro=
-id-o.html
->
-> "Android O includes a single seccomp filter installed into zygote, the
-> process from which all the Android applications are derived. Because
-> the filter is installed into zygote=E2=80=94and therefore all apps=E2=80=
-=94the Android
-> security team took extra caution to not break existing apps"
->
-> Example:
->
-> $ uname -mo
-> aarch64 Android
-> $ cat swapoff.c
-> #include <sys/swap.h>
->
-> int main()
-> {
->         swapoff("");
-> }
-> $ gcc swapoff.c -o swapoff -O2
-> $ ./swapoff
-> Bad system call
-> $
->
-> It's hard to imagine what is more performance critical than the zygote
-> process and the actual apps as above?
->
-> It's also hard to imagine what kind of performance concern can arise
-> by adding seccomp filters also to background system apps that
-> generally should consume ~0% of CPU.
->
-> If performance is really a concern, the BPF JIT representation with
-> the bitmap to be able to run the filter in O(1) sounds a better
-> solution than not adding ad-hoc filters and it's being worked on for
-> x86-64 and can be ported to aarch64 too. Many of the standalone
-> background processes likely wouldn't even use uffd at all so you could
-> block the user initiated faults too that way.
->
-> Ultimately because of issues as [3] (be them still relevant or not, to
-> be double checked), no matter if through selinux, seccomp or a
-> different sysctl value, without this patchset applied the default
-> behavior of the userfaultfd syscall for all Linux binaries running on
-> Android kernels, would deviate from the upstream kernel. So even if we
-> would make the pipe mutex logic more complex the deviation would
-> remain. Your patchset adds much less risk of breakage than adding a
-> timeout to kernel initiated userfaults and it resolves all concerns as
-> well as a timeout. We'll also make better use of the "0" value this
-> way. So while I'm not certain this is the best for the long term, this
-> looks the sweet spot for the short term to resolve many issues at
-> once.
->
-> Thanks!
-> Andrea
->
+> +and write the detailed report first. ;-)
+> +
+> +Things each report should mention
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Describe in detail how your issue happens with the fresh vanilla kernel you
+> +installed. Try to include the step-by-step instructions you wrote and optimized
+> +earlier that descibe how you and ideally others can reproduce the issue; in
+
+                describe
+
+> +those rare cases where that's impossible try to describe what you did to trigger
+> +it.
+> +
+> +Also include all the relevant information others might need to understand the
+> +issue and its environment. What's actually needed depends a lot on the issue,
+> +but there are some things you should include always:
+> +
+> + * the output from ``cat /proc/version``, which contains the Linux kernel
+> +   version number and the compiler it was built with.
+> +
+> + * the Linux distribution the machine is running (``hostnamectl | grep
+> +   "Operating System"``)
+> +
+> + * the architecture of the CPU and the operating system (``uname -mi``)
+> +
+> + * if you are dealing with a regression and performed a bisection, mention the
+> +   subject and the commit-id of the culprit.
+> +
+> +In a lot of cases it's also wise to make two more things available to those
+> +that read your report:
+> +
+> + * the configuration used for building your Linux kernel (the '.config' file)
+> +
+> + * the kernels messages that you get from ``dmesg``. Make sure it near the top
+
+          kernel's                                      Make sure that it contains
+a line lie ' ... ' near the top; otherwise messages
 
 
---=20
-Nick Kralevich | nnk@google.com
+> +   contains a line like 'Linux version 5.8-1 (foobar@example.com) (gcc (GCC)
+> +   10.2.1, GNU ld version 2.34) #1 SMP Mon Aug 3 14:54:37 UTC 2020', as
+> +   otherwise messages from the first boot phase are already gone from the
+> +   buffer. In this case instead consider using ``journalctl -b 0 -k``;
+> +   alternatively you can also reboot, reproduce the issue and call ``dmesg``
+> +   right afterwards.
+> +
+> +This data files are big, that's why it's a bad idea to put them directly into
+
+   This data file is big; that's why
+
+> +your report. If you are filing the issue in a bug tracker then attach them to
+> +the ticket. If you report the issue by mail do not attach them, as that makes
+> +the mail too large; instead do one of these things:
+> +
+> + * Upload the files somewhere public (your website, a public file paste
+> +   service, a ticket created just for this purpose on `bugzilla.kernel.org
+> +   <https://bugzilla.kernel.org/>`_, ...) and include a link to them in your
+> +   report. Ideally use something where the files stay available for years, as
+> +   they could be useful to someone many years from now; this for example can
+> +   happen if somebody else runs into the same issue or when a developer works on
+> +   some code that was changed to fix your issue.
+> +
+> + * Put the files aside and mention you will send them later in individual
+> +   replies to your own mail. Just remember to actually do that once the report
+> +   went out. ;-)
+> +
+> +Things that might be wise to provide
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Depending on the issue you might need to add more files with background data.
+> +Here are a few suggestions what often is good to provide:
+> +
+> + * If you are dealing with a 'warning', an 'OOPS' or a 'panic' from the kernel,
+> +   include it. If you can't copy' n'paste it try to capture a netconsole trace
+
+                  If you can't copy'n'paste it, try
+
+> +   or take a picture of the screen.
+> +
+> + * If the issue might be related to your computer hardware mention what kind of
+
+                                                     hardware, mention
+
+> +   system you use. If you for example have problems with your graphics card
+
+                                                                          card,
+
+> +   mention its manufacturer and the cards model. If it's a Laptop mention its
+
+                                       card's                 laptop,
+
+
+> +   name, but try to make sure it's meaningful. 'Dell XPS 13' for example is
+> +   not, because it might be the one from 2012; that one might look a bit similar
+> +   to the one sold today, but apart from that the two have nothing in common.
+> +   Hence, in such cases add the exact model number, which for example are
+> +   '9380' or '7390' for XPS 13 models introduced during 2019. Names like
+> +   'Lenovo Thinkpad T590' are also somewhat ambiguous: there are variants of
+> +   this Laptop with and without a dedicated graphics chip, so try to find the
+
+           laptop
+
+> +   exact models name or specify the main components.
+
+            model's
+or          model name
+
+> +
+> + * Mention the Software in the environment that's relevant. If you have
+> +   problems with loading modules, you want to mention the versions of kmod,
+> +   systemd, and udev in use. If one of the DRM drivers misbehaves, you want to
+> +   state the versions of libdrm and Mesa; also specify your Wayland compositor
+> +   or the X-Server and its driver. If you have a filesystem issue, mention the
+
+             X Server
+
+> +   version of corresponding filesystem utilities (e2fsprogs, btrfs-progs,
+> +   xfsprogs, …).
+
+Can we try to use ASCII as much as possible (for text/console readability)?
+So just "...".
+
+> +
+> + * Gather additional information from the kernel that might be of interest. The
+> +   output from ``lspci -nn`` will for example help others to identify what
+> +   hardware you use. If you have a problem with hardware you even might want to
+> +   make the output from ``sudo lspci -vvv`` available, as that provides
+> +   insights how the components were configured. For some issues it might be
+> +   good to include the contents of files like ``/proc/cpuinfo``,
+> +   ``/proc/ioports``, ``/proc/iomem``, ``/proc/modules``, or
+> +   ``/proc/scsi/scsi``. Some subsystem also offer tools to collect relevant
+> +   information. One such tool is ``alsa-info.sh`` `which the audio/sound
+> +   subsystem developers provide <https://www.alsa-project.org/wiki/AlsaInfo>`_.
+> +
+> +That will give your some ideas what data might be wise to send, but you have to
+
+                            ideas of what data
+
+> +think yourself what might be helpful for others to know. Don't worry too much
+> +about forgetting something: developers will ask for additional details they
+> +need; but making everything important available from the start increases the
+> +chance someone will take a closer look.
+> +
+> +The important part: the head of your report
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Now that you have the detailed part of the report prepared let's get back to
+> +the most important section: the first few sentences. Thus go to the top, add
+> +something like 'The detailed description:' before the part you wrote and insert
+> +two newlines at the top. Now write one normal length paragraph that describes
+> +the issue roughly. Leave out all boring details and focus on the crucial parts
+> +readers need to know to understand what this is all about; if you think this
+> +bug affects a lot of users, mention this to get people interested.
+> +
+> +Once you did that insert two more lines at the top and write a one sentence
+> +summary that explains quickly what the report is about. After that you have to
+> +get even more abstract and write an even short subject/title for the report.
+
+                                            shorter
+
+> +
+> +Now that you have written this part take some time to optimize it, as it is the
+> +most important parts of your report: a lot of people will only read this before
+> +they decide if reading the rest is time well spend.
+
+                                                spent.
+
+> +
+> +Now send or file the report like the `MAINTAINERS file
+> +<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/MAINTAINERS>`_
+> +told you, unless it's one of those 'issues of high priority' outlined earlier:
+> +In that read the next subsection before sending the report.
+> +
+> +Special handling for high priority issues
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +High priority issues need special handling when sending the report:
+> +
+> +
+> + * *Regression* If the issue is a regression add [REGRESSION] to the mails
+
+                                                                        mail's
+
+> +   subject or the title in the bug-tracker. If you did not perform a bisection
+> +   mention at least the latest mainline version you tested that worked fine (say
+> +   5.7) and the oldest where the issue occurs (say 5.8). If you did a successful
+> +   bisection mention the commit id and subject of the change that causes the
+> +   regression. Also make sure to add the author of that change to your report;
+> +   if you need to file your bug in a bug-tracker forward the report to him in a
+> +   private mail and mention where your filed it.
+> +
+> + * *Severe bug*: make sure the subject or ticket title as well as the first para
+
+                                                                               paragraph
+
+> +   makes the severeness obvious.
+> +
+> + * *Security issues*: for these issues your will have to evaluate if a
+> +   short-term risk to other users would arise if details were publicly
+> +   disclosed. If that's not the case simply proceed with reporting the issue as
+> +   described. For issues that bear such a risk you will need to adjust the
+> +   reporting process slightly:
+> +
+> +   * If the MAINTAINERS file instructed you to report the issue by mail, do not
+> +     CC any public mailing lists.
+> +
+> +   * If you were supposed to file the issue in a bug tracker make sure to mark
+> +     the ticket as 'private' or 'security issue'. If the bug tracker does not
+> +     offer a way to keep reports private, forget about it and send your report
+> +     as a private mail to the maintainers instead.
+> +
+> +   In both cases make sure to inform those that the MAINTAINERS file lists in
+> +   the section 'security contact'. Ideally CCing them on the mail with the
+> +   report. If you filed it in a bug tracker forward the reports text, but on top
+
+parse error in first 2 sentences above...
+                                                           report's
+
+> +   of it put a small note where you mention that you filed it with a link to the
+> +   ticket.
+> +
+> +   See :ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>` for more
+> +   information.
+> +
+> +
+>  .. ############################################################################
+>  .. Temporary marker added while this document is rewritten. Sections above
+>  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+> @@ -867,55 +1065,6 @@ How to report Linux kernel bugs
+>  ===============================
+>  
+>  
+> -Gather information
+> -------------------
+> -
+> -The most important information in a bug report is how to reproduce the
+> -bug.  This includes system information, and (most importantly)
+> -step-by-step instructions for how a user can trigger the bug.
+> -
+> -If the failure includes an "OOPS:", take a picture of the screen, capture
+> -a netconsole trace, or type the message from your screen into the bug
+> -report.
+> -
+> -This is a suggested format for a bug report sent via email or bugzilla.
+> -Having a standardized bug report form makes it easier for you not to
+> -overlook things, and easier for the developers to find the pieces of
+> -information they're really interested in.  If some information is not
+> -relevant to your bug, feel free to exclude it.
+> -
+> -First run the ver_linux script included as scripts/ver_linux, which
+> -reports the version of some important subsystems.  Run this script with
+> -the command ``awk -f scripts/ver_linux``.
+> -
+> -Use that information to fill in all fields of the bug report form, and
+> -post it to the mailing list with a subject of "PROBLEM: <one line
+> -summary from [1.]>" for easy identification by the developers::
+> -
+> -  [1.] One line summary of the problem:
+> -  [2.] Full description of the problem/report:
+> -  [3.] Keywords (i.e., modules, networking, kernel):
+> -  [4.] Kernel information
+> -  [4.1.] Kernel version (from /proc/version):
+> -  [4.2.] Kernel .config file:
+> -  [5.] Most recent kernel version which did not have the bug:
+> -  [6.] Output of Oops.. message (if applicable) with symbolic information
+> -       resolved (see Documentation/admin-guide/bug-hunting.rst)
+> -  [7.] A small shell script or example program which triggers the
+> -       problem (if possible)
+> -  [8.] Environment
+> -  [8.1.] Software (add the output of the ver_linux script here)
+> -  [8.2.] Processor information (from /proc/cpuinfo):
+> -  [8.3.] Module information (from /proc/modules):
+> -  [8.4.] Loaded driver and hardware information (/proc/ioports, /proc/iomem)
+> -  [8.5.] PCI information ('lspci -vvv' as root)
+> -  [8.6.] SCSI information (from /proc/scsi/scsi)
+> -  [8.7.] Other information that might be relevant to the problem
+> -         (please look in /proc and include all information that you
+> -         think to be relevant):
+> -  [X.] Other notes, patches, fixes, workarounds:
+> -
+> -
+>  Follow up
+>  =========
+>  
+
+
+-- 
+~Randy
+
