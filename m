@@ -2,120 +2,195 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C031C9DCA7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 19:54:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD800C9DCAF
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 19:54:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B9CC22B48
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 19:54:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E09022B4B
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 19:54:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F0I4Bmj+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391308AbgJITyR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 15:54:17 -0400
-Received: from mga14.intel.com ([192.55.52.115]:15724 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391245AbgJITyG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 15:54:06 -0400
-IronPort-SDR: 7qaDjl2/ZxevUxp9SIgeuOAu8od3VQFfONS9RP6IrIk3xZmTXRvkzFi7/Qwdz+i1yGXcanWplh
- jXuBSYf4vxRQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="164744163"
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="164744163"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 12:54:04 -0700
-IronPort-SDR: NEiErKYZfPZGqrWyxIZ0z43ef9+IKjrcXd9NJIRckxXQwdDEMd5poh/dknsqhifod6Ym/UoaZd
- Mu4h9c7DJvbA==
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="462301216"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 12:54:03 -0700
-From:   ira.weiny@intel.com
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        kvm@vger.kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
-        kexec@lists.infradead.org, linux-bcache@vger.kernel.org,
-        linux-mtd@lists.infradead.org, devel@driverdev.osuosl.org,
-        linux-efi@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-aio@kvack.org,
-        io-uring@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-um@lists.infradead.org, linux-ntfs-dev@lists.sourceforge.net,
-        reiserfs-devel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-nilfs@vger.kernel.org, cluster-devel@redhat.com,
-        ecryptfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-afs@lists.infradead.org,
-        linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-cachefs@redhat.com,
-        samba-technical@lists.samba.org, intel-wired-lan@lists.osuosl.org
-Subject: [PATCH RFC PKS/PMEM 56/58] dax: Stray access protection for dax_direct_access()
-Date:   Fri,  9 Oct 2020 12:50:31 -0700
-Message-Id: <20201009195033.3208459-57-ira.weiny@intel.com>
-X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
-In-Reply-To: <20201009195033.3208459-1-ira.weiny@intel.com>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
+        id S2391320AbgJITyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 15:54:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391316AbgJITyV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 15:54:21 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21FE8C0613DC
+        for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2020 12:54:20 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id x13so5118803pfa.9
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2020 12:54:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MKVT1NayGOCFPj4jUjfddG2fh98d2Hp64B/fUAoeHgc=;
+        b=F0I4Bmj+eZOoMvjlN+/ePSMaTLGzaEP42n737m9wUNFUUqKSjNcQ1KfgYY64SHbwc/
+         pH5/+JoxjefU5iPH3wCOgQAfbtvdT/6ouLTahinKdZA7WV7o13stY5YRlxyA3MgonoCS
+         C1ILFTDADlhndXBcilmyvcUSNQ9g281qHpw4U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MKVT1NayGOCFPj4jUjfddG2fh98d2Hp64B/fUAoeHgc=;
+        b=FaD9OxBQTLJ6HaBWgmRAQwNkYtUo52uBnFNUGb106dlA2Y21ZdypVZBtO6kA3BLSkE
+         m4vToxZTaCdCAAKN9ISMjvK+XsVoIdrF/gmEcm40TY602zoOw12ziRnd/CVImzafQ3lb
+         js4KTr/ZHx2uovjDoFQsvWWsop6JEQoQrTa+cOf+e5bEHYo6l90eAnDKj+OE7edcylMg
+         c9fmLjR+i4/yuPglDwq/8RkISIuh9owuljQ0tFtahmvNynXTFqhzbx5Lfh/dl4d6pjVu
+         lv3BL/M3P8mvt5kJ4tg1q3v6qUHcciupVqsk3X+yHNX3nrxYfRyx5eKDiYrU5jwBtimV
+         gWcg==
+X-Gm-Message-State: AOAM533l0CQ6EG5zY+k6oWp6cOZdmMg43iCvkF0/GIENkHhM1HMbdQls
+        dRwiBr6jU7fBkrCeT/6fc8g/AA==
+X-Google-Smtp-Source: ABdhPJwPN7od3JJSjQz1VUfsBLXqZz58dCE/XYP9DIxX2N/C3vfTS5tvZMhnS1O5NEJjIzdYcDnnOA==
+X-Received: by 2002:a62:1951:0:b029:152:6669:ac74 with SMTP id 78-20020a6219510000b02901526669ac74mr13510431pfz.36.1602273259675;
+        Fri, 09 Oct 2020 12:54:19 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w23sm11091704pfn.142.2020.10.09.12.54.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2020 12:54:16 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <guro@fb.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: [PATCH v2 1/3] mm/slub: Clarify verification reporting
+Date:   Fri,  9 Oct 2020 12:54:09 -0700
+Message-Id: <20201009195411.4018141-2-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201009195411.4018141-1-keescook@chromium.org>
+References: <20201009195411.4018141-1-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ira Weiny <ira.weiny@intel.com>
+Instead of repeating "Redzone" and "Poison", clarify which sides of
+those zones got tripped. Additionally fix column alignment in the
+trailer.
 
-dax_direct_access() is a special case of accessing pmem via a page
-offset and without a struct page.
+Before:
 
-Because the dax driver is well aware of the special protections it has
-mapped memory with, call dev_access_[en|dis]able() directly instead of
-the unnecessary overhead of trying to get a page to kmap.
+BUG test (Tainted: G    B            ): Redzone overwritten
+...
+Redzone (____ptrval____): bb bb bb bb bb bb bb bb      ........
+Object (____ptrval____): f6 f4 a5 40 1d e8            ...@..
+Redzone (____ptrval____): 1a aa                        ..
+Padding (____ptrval____): 00 00 00 00 00 00 00 00      ........
 
-Similar to kmap, we leverage existing functions, dax_read_[un]lock(),
-because they are already required to surround the use of the memory
-returned from dax_direct_access().
+After:
 
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+BUG test (Tainted: G    B            ): Right Redzone overwritten
+...
+Redzone  (____ptrval____): bb bb bb bb bb bb bb bb      ........
+Object   (____ptrval____): f6 f4 a5 40 1d e8            ...@..
+Redzone  (____ptrval____): 1a aa                        ..
+Padding  (____ptrval____): 00 00 00 00 00 00 00 00      ........
+
+Fixes: d86bd1bece6f ("mm/slub: support left redzone")
+Fixes: ffc79d288000 ("slub: use print_hex_dump")
+Fixes: 2492268472e7 ("SLUB: change error reporting format to follow lockdep loosely")
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/dax/super.c | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/vm/slub.rst | 10 +++++-----
+ mm/slub.c                 | 14 +++++++-------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-index e84070b55463..0ddb3ee73e36 100644
---- a/drivers/dax/super.c
-+++ b/drivers/dax/super.c
-@@ -30,6 +30,7 @@ static DEFINE_SPINLOCK(dax_host_lock);
+diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
+index 289d231cee97..77c7a3331eda 100644
+--- a/Documentation/vm/slub.rst
++++ b/Documentation/vm/slub.rst
+@@ -181,7 +181,7 @@ SLUB Debug output
+ Here is a sample of slub debug output::
  
- int dax_read_lock(void)
- {
-+	dev_access_enable(false);
- 	return srcu_read_lock(&dax_srcu);
- }
- EXPORT_SYMBOL_GPL(dax_read_lock);
-@@ -37,6 +38,7 @@ EXPORT_SYMBOL_GPL(dax_read_lock);
- void dax_read_unlock(int id)
- {
- 	srcu_read_unlock(&dax_srcu, id);
-+	dev_access_disable(false);
- }
- EXPORT_SYMBOL_GPL(dax_read_unlock);
+  ====================================================================
+- BUG kmalloc-8: Redzone overwritten
++ BUG kmalloc-8: Right Redzone overwritten
+  --------------------------------------------------------------------
  
+  INFO: 0xc90f6d28-0xc90f6d2b. First byte 0x00 instead of 0xcc
+@@ -189,10 +189,10 @@ Here is a sample of slub debug output::
+  INFO: Object 0xc90f6d20 @offset=3360 fp=0xc90f6d58
+  INFO: Allocated in get_modalias+0x61/0xf5 age=53 cpu=1 pid=554
+ 
+- Bytes b4 0xc90f6d10:  00 00 00 00 00 00 00 00 5a 5a 5a 5a 5a 5a 5a 5a ........ZZZZZZZZ
+-   Object 0xc90f6d20:  31 30 31 39 2e 30 30 35                         1019.005
+-  Redzone 0xc90f6d28:  00 cc cc cc                                     .
+-  Padding 0xc90f6d50:  5a 5a 5a 5a 5a 5a 5a 5a                         ZZZZZZZZ
++ Bytes b4 (0xc90f6d10): 00 00 00 00 00 00 00 00 5a 5a 5a 5a 5a 5a 5a 5a ........ZZZZZZZZ
++ Object   (0xc90f6d20): 31 30 31 39 2e 30 30 35                         1019.005
++ Redzone  (0xc90f6d28): 00 cc cc cc                                     .
++ Padding  (0xc90f6d50): 5a 5a 5a 5a 5a 5a 5a 5a                         ZZZZZZZZ
+ 
+    [<c010523d>] dump_trace+0x63/0x1eb
+    [<c01053df>] show_trace_log_lvl+0x1a/0x2f
+diff --git a/mm/slub.c b/mm/slub.c
+index 6d3574013b2f..f4f1d63f0ab9 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -698,15 +698,15 @@ static void print_trailer(struct kmem_cache *s, struct page *page, u8 *p)
+ 	       p, p - addr, get_freepointer(s, p));
+ 
+ 	if (s->flags & SLAB_RED_ZONE)
+-		print_section(KERN_ERR, "Redzone ", p - s->red_left_pad,
++		print_section(KERN_ERR, "Redzone  ", p - s->red_left_pad,
+ 			      s->red_left_pad);
+ 	else if (p > addr + 16)
+ 		print_section(KERN_ERR, "Bytes b4 ", p - 16, 16);
+ 
+-	print_section(KERN_ERR, "Object ", p,
++	print_section(KERN_ERR,         "Object   ", p,
+ 		      min_t(unsigned int, s->object_size, PAGE_SIZE));
+ 	if (s->flags & SLAB_RED_ZONE)
+-		print_section(KERN_ERR, "Redzone ", p + s->object_size,
++		print_section(KERN_ERR, "Redzone  ", p + s->object_size,
+ 			s->inuse - s->object_size);
+ 
+ 	off = get_info_end(s);
+@@ -718,7 +718,7 @@ static void print_trailer(struct kmem_cache *s, struct page *page, u8 *p)
+ 
+ 	if (off != size_from_object(s))
+ 		/* Beginning of the filler is the free pointer */
+-		print_section(KERN_ERR, "Padding ", p + off,
++		print_section(KERN_ERR, "Padding  ", p + off,
+ 			      size_from_object(s) - off);
+ 
+ 	dump_stack();
+@@ -895,11 +895,11 @@ static int check_object(struct kmem_cache *s, struct page *page,
+ 	u8 *endobject = object + s->object_size;
+ 
+ 	if (s->flags & SLAB_RED_ZONE) {
+-		if (!check_bytes_and_report(s, page, object, "Redzone",
++		if (!check_bytes_and_report(s, page, object, "Left Redzone",
+ 			object - s->red_left_pad, val, s->red_left_pad))
+ 			return 0;
+ 
+-		if (!check_bytes_and_report(s, page, object, "Redzone",
++		if (!check_bytes_and_report(s, page, object, "Right Redzone",
+ 			endobject, val, s->inuse - s->object_size))
+ 			return 0;
+ 	} else {
+@@ -914,7 +914,7 @@ static int check_object(struct kmem_cache *s, struct page *page,
+ 		if (val != SLUB_RED_ACTIVE && (s->flags & __OBJECT_POISON) &&
+ 			(!check_bytes_and_report(s, page, p, "Poison", p,
+ 					POISON_FREE, s->object_size - 1) ||
+-			 !check_bytes_and_report(s, page, p, "Poison",
++			 !check_bytes_and_report(s, page, p, "End Poison",
+ 				p + s->object_size - 1, POISON_END, 1)))
+ 			return 0;
+ 		/*
 -- 
-2.28.0.rc0.12.gb6a658bd00c9
+2.25.1
 
