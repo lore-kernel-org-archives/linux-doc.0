@@ -2,115 +2,165 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A90CC433E7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 03:52:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C22C433E7
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 04:14:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2481322240
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 03:52:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8856022251
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 04:14:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="IL6myVQY"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="v7gBYn5/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731599AbgJIDwH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Oct 2020 23:52:07 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:34179 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729195AbgJIDwG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Oct 2020 23:52:06 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4C6vJn0VVyz9sSG;
-        Fri,  9 Oct 2020 14:51:53 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1602215524;
-        bh=JJFHt0WKQB92kXQpvXVLk3zDAHuNVQpW9ACYB9X5JlY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=IL6myVQYQiWcr+Iv/skn0UNuXCXKrjL/lFkXJplPrupeQL5g6E4tmNcJ7QDxNh36v
-         BfNhzZPKVdq55BmPZIztbw8JNGkI0X/TJbcEh4kXSiE8cmqpkbnFvHUdyWGz7Cu6pL
-         wy1oD7J+6au+seC5fwUleUJC09q038qMu/eZ3uKjr+18pyvYRg6gQ+UaMxdhP65pXm
-         FbIBpZ/5BY6AIUnsj57pCBjj2H3MVnlyeRvUnZABjjprmsERyEouWILv1q3tzMS4KZ
-         2HFp0KJvXzwFb9/mIVXbA62GFzyYe5BFnmE5MAok5rrmbrKbhagBX2Nl1OcSFZpBH4
-         omqtDTanxmmzQ==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Mackerras <paulus@samba.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-sh@vger.kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH 2/2] dt: Remove booting-without-of.rst
-In-Reply-To: <20201008142420.2083861-2-robh@kernel.org>
-References: <20201008142420.2083861-1-robh@kernel.org> <20201008142420.2083861-2-robh@kernel.org>
-Date:   Fri, 09 Oct 2020 14:51:51 +1100
-Message-ID: <87imbk12g8.fsf@mpe.ellerman.id.au>
+        id S1728323AbgJIEOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 00:14:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43006 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728303AbgJIEOY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 00:14:24 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AD6C0613D2
+        for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2020 21:14:23 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id t18so3839653plo.1
+        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2020 21:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2EdRl1RZSZyQAx1Q/Ie821/xWpZ1zaRf0wSS4lUA3SI=;
+        b=v7gBYn5/EZRmnBAafloGJqCSbpmjFsH9/KMYR1XRcVdwbTsT+m1XSFlQI84qBLDeOT
+         b6kqq2Jl1eNr7H6VNFbnPEN3x97qDCgPpi/SPmll2afdgy/agYkIwQeMQYm2S8IO9ztp
+         OHcPIBkoKPNfbYmailisJnqZthEwjvGgu8lniBGv3y5+22eE7vAsugCQiA6cnJ9pNAfO
+         TBz4fOgAgQiOOiyrCe6fjZuO1tQ5Ougo0x6zCMAT8nLaQBtch2+Y+la2jwgpauoS2nyi
+         VJi1YXlCmmzENl7kiOneL+0Q+/1cXu+BVnEXk3bhxCwELuqUtAHE+dkeLkC03XLw7fUe
+         va5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2EdRl1RZSZyQAx1Q/Ie821/xWpZ1zaRf0wSS4lUA3SI=;
+        b=eJwfT4E31re/s0IAXmM9GZ9+G4FGHQXkIpvXtLegwee19qS7xrR6MQa2w+/1D7lnZz
+         BaAkyGFATP5xeXEqh/aE35pRYpM53m8Fy6Vvs8nJRUXeN6i0+5ipj2mhjJ3wCINMNa+9
+         OqpS6MmfVDlIpypDZ9AuxiBlqczqCnhZMRVzEEs7SiX9zXGEZX1xc1pIR63RKKRBYd2f
+         VzTeaJiVspShNilgbyk1dW6kGeRquWxNuFJmqgIO4JUuWAiLdTcEBch96H5MOdVkpq6Y
+         9wQxAR5enJqJcrf2duudLZ0jfWKD0Tq8i8ObgvEacxyBcILwnJIAMU5tPXAmBcg6eSFK
+         OXRA==
+X-Gm-Message-State: AOAM5302t45WIkDU2YXhbWzMQvez6NnPbb2x8c2U6mUaaL4fPlSIXYhT
+        KSw3vNLohJnPsFvyCF/H4Ict9symjSBZIyETfcq1IA==
+X-Google-Smtp-Source: ABdhPJy+9zgYNBhCq4QlEB9KjNxaK/TjK9EK5mKamVQ74y0m5jXebPwnkkW6871aHrnVRAd4WHnZoDUCYUoEHq5INcY=
+X-Received: by 2002:a17:902:7681:b029:d2:88b1:b130 with SMTP id
+ m1-20020a1709027681b02900d288b1b130mr10859993pll.20.1602216863306; Thu, 08
+ Oct 2020 21:14:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+ <31eac1d8-69ba-ed2f-8e47-d957d6bb908c@oracle.com> <9d220de0-f06d-cb5b-363f-6ae97d5b4146@oracle.com>
+In-Reply-To: <9d220de0-f06d-cb5b-363f-6ae97d5b4146@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 9 Oct 2020 12:13:44 +0800
+Message-ID: <CAMZfGtXAB7CqNxp2Et=SSY4iPDbxS92cwcDEo2C_88m92JNWoQ@mail.gmail.com>
+Subject: Re: [External] Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap
+ pages of hugetlb page
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel@vger.kernel.org,
+        Xiongchun duan <duanxiongchun@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rob Herring <robh@kernel.org> writes:
-> booting-without-of.rstt is an ancient document that first outlined
-                        ^
-                        nit
-
-> Flattened DeviceTree on PowerPC initially. The DT world has evolved a
-> lot in the 15 years since and booting-without-of.rst is pretty stale.
-> The name of the document itself is confusing if you don't understand the
-> evolution from real 'OpenFirmware'. Most of what booting-without-of.rst
-> contains is now in the DT specification (which evolved out of the
-> ePAPR). The few things that weren't documented in the DT specification
-> are now.
+On Thu, Oct 8, 2020 at 5:15 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
 >
-> All that remains is the boot entry details, so let's move these to arch
-> specific documents. The exception is arm which already has the same
-> details documented.
+> On 9/29/20 2:58 PM, Mike Kravetz wrote:
+> > On 9/15/20 5:59 AM, Muchun Song wrote:
+> >> Hi all,
+> >>
+> >> This patch series will free some vmemmap pages(struct page structures)
+> >> associated with each hugetlbpage when preallocated to save memory.
+> > ...
+> >> The mapping of the first page(index 0) and the second page(index 1) is
+> >> unchanged. The remaining 6 pages are all mapped to the same page(index
+> >> 1). So we only need 2 pages for vmemmap area and free 6 pages to the
+> >> buddy system to save memory. Why we can do this? Because the content
+> >> of the remaining 7 pages are usually same except the first page.
+> >>
+> >> When a hugetlbpage is freed to the buddy system, we should allocate 6
+> >> pages for vmemmap pages and restore the previous mapping relationship.
+> >>
+> >> If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
+> >> substantial gain. On our server, run some SPDK applications which will
+> >> use 300GB hugetlbpage. With this feature enabled, we can save 4797MB
+> >> memory.
 >
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Cc: Rich Felker <dalias@libc.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: x86@kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-sh@vger.kernel.org
-> Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/booting-without-of.rst         | 1585 -----------------
->  Documentation/devicetree/index.rst            |    1 -
->  Documentation/mips/booting.rst                |   28 +
->  Documentation/mips/index.rst                  |    1 +
->  Documentation/powerpc/booting.rst             |  110 ++
+> I had a hard time going through the patch series as it is currently
+> structured, and instead examined all the code together.  Muchun put in
+> much effort and the code does reduce memory usage.
+> - For 2MB hugetlb pages, we save 5 pages of struct pages
+> - For 1GB hugetlb pages, we save 4086 pages of struct pages
+>
+> Code is even in pace to handle poisoned pages, although I have not looked
+> at this closely.  The code survives the libhugetlbfs and ltp huge page tests.
+>
+> To date, nobody has asked the important question "Is the added complexity
+> worth the memory savings?".  I suppose it all depends on one's use case.
+> Obviously, the savings are more significant when one uses 1G huge pages but
+> that may not be the common case today.
+>
+> > At a high level this seems like a reasonable optimization for hugetlb
+> > pages.  It is possible because hugetlb pages are 'special' and mostly
+> > handled differently than pages in normal mm paths.
+>
+> Such an optimization only makes sense for something like hugetlb pages.  One
+> reason is the 'special' nature of hugetlbfs as stated above.  The other is
+> that this optimization mostly makes sense for huge pages that are created
+> once and stick around for a long time.  hugetlb pool pages are a perfect
+> example.  This is because manipulation of struct page mappings is done when
+> a huge page is created or destroyed.
 
-LGTM.
+Yeah, in our cloud server, we have some application scenarios(e.g. SPDK,
+DPDK, QEMU and jemalloc). These applications may use a lot of hugetlb
+pages.
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+>
+> > The majority of the new code is hugetlb specific, so it should not be
+> > of too much concern for the general mm code paths.
+>
+> It is true that much of the code in this series was put in hugetlb.c.  However,
+> I would argue that there is a bunch of code that only deals with remapping
+> the memmap which should more generic and added to sparse-vmemmap.c.  This
+> would at least allow for easier reuse.
 
-cheers
+I agree with you.
+
+>
+> Before Muchun and myself put more effort into this series, I would really
+> like to get feedback on the whether or not this should move forward.
+> Specifically, is the memory savings worth added complexity?  Is the removing
+> of struct pages going to come back and cause issues for future features?
+
+Some users do need this optimization to save memory. But if some users
+do not need this optimization, they also can disable it by using a kernel boot
+parameter 'hugetlb_free_vmemmap=off' or not configuring
+CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+
+I have no idea about "cause issues for future features". Is there any feature
+ongoing or planned?
+
+-- 
+Yours,
+Muchun
