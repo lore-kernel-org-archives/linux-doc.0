@@ -2,176 +2,229 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 865DFC433E7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 15:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1AA7C43457
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 15:56:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DE752225D
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 15:47:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6206522284
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 15:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602258978;
+	bh=/rIYhxMA513560+sJKJLaUarM8Igz+w6pwP5NbjXQVw=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=nSq8DA/lSKnKLR5//mSP3qTA6CMc7sINm5YpY4vHqNYiwVV3+1m4I+j0Jx98j6we0
+	 +ocOBeUSZNS92vOYpD0uRist31Idd5xuFno+sMH0KgLr+KV8xcNMefueLdfaSvGOx/
+	 wZkTZEvAYsdcsMe9SKA4dEKSBnzlhtbkWBzQTxao=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387664AbgJIPrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 11:47:01 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43018 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389144AbgJIPrA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 11:47:00 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4025737C;
-        Fri,  9 Oct 2020 15:47:00 +0000 (UTC)
-Date:   Fri, 9 Oct 2020 09:46:58 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: process: Submitting a patch for a single git
- commit.
-Message-ID: <20201009094658.0d30b66c@lwn.net>
-In-Reply-To: <20201001104724.3876-2-ingo.rohloff@lauterbach.com>
-References: <20201001104724.3876-1-ingo.rohloff@lauterbach.com>
-        <20201001104724.3876-2-ingo.rohloff@lauterbach.com>
-Organization: LWN.net
+        id S2389336AbgJIP4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 11:56:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389135AbgJIP4L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Oct 2020 11:56:11 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89639C0613D2
+        for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2020 08:56:11 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id i12so9440289ota.5
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2020 08:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b32z5dKsXOrYLHbSI9QCODj0mLTC/ZJJ3E6KUm9+yHE=;
+        b=LDUnatNNn2udc+UqXUN+tdPGpv/2MM9wKl2dLPda8qil/vULNrO0DxhWPtDkcZAr7r
+         Axl53TaOKUNtScl2hLkq3wuBNt2lR3WN46nvKYP8c1uTr33qF1NY9nZeDw/6Yzf+HUky
+         iZQzHYFeB4F6JRZXy5O7uBw49tpgKhHzVWrMk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b32z5dKsXOrYLHbSI9QCODj0mLTC/ZJJ3E6KUm9+yHE=;
+        b=mFgFpDjsVG2+WHi2xFBVN7Yk1QsqlBBRPEY4x0Taa8E4VOpngHwadzzaXi82CTZgcA
+         UOIP7qh0+7JSPSZTMk/qjD5Kn2cB/PZv11FbI/PeTuw1cPeyVEAa9Bw+qDINi0fH5N6r
+         7y9WaVYq722jzJURNTDC6dmlsx2eVy9rW4YMxmsyJ6ZrILKtKpsT5z39BYHulIP7rtei
+         vEKkGilwO4XmKh/PTKbLCE5+lfbOVsc6/ybzr5xHk0W93FIYjyTw+LwmI6FPKJE4ny9D
+         pKbDTNrcYnnW4eZ/9xYyO/7t/lEgNCK/0MkPEoerhLgRYC5BbIKxq7pK1jDUz14A287J
+         YNOg==
+X-Gm-Message-State: AOAM533Y8Zk58JtxfTwDk0AG0xyuW6ulxtsorCBTXArQxB82KfbVBR/7
+        CRvEUw9B3XYM7wOpQ+GwKRVPQA==
+X-Google-Smtp-Source: ABdhPJz3Y617hhCiPlIHjqC9vW6PFy/AnltbdLlnrMsE2eBnxmpcpkdSCIOXcudkVjETugwBP8Bj1Q==
+X-Received: by 2002:a9d:2a88:: with SMTP id e8mr8717319otb.299.1602258970850;
+        Fri, 09 Oct 2020 08:56:10 -0700 (PDT)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id e7sm7347246oia.9.2020.10.09.08.56.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2020 08:56:09 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+        shuah@kernel.org, rafael@kernel.org, johannes@sipsolutions.net,
+        lenb@kernel.org, james.morse@arm.com, tony.luck@intel.com,
+        bp@alien8.de, arve@android.com, tkjos@android.com,
+        maco@android.com, joel@joelfernandes.org, christian@brauner.io,
+        hridya@google.com, surenb@google.com, minyard@acm.org,
+        arnd@arndb.de, mchehab@kernel.org, rric@kernel.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-edac@vger.kernel.org
+Subject: [PATCH v3 00/11] Introduce Simple atomic counters
+Date:   Fri,  9 Oct 2020 09:55:55 -0600
+Message-Id: <cover.1602209970.git.skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  1 Oct 2020 12:47:24 +0200
-Ingo Rohloff <ingo.rohloff@lauterbach.com> wrote:
+This patch series is a result of discussion at the refcount_t BOF
+the Linux Plumbers Conference. In this discussion, we identified
+a need for looking closely and investigating atomic_t usages in
+the kernel when it is used strictly as a counter without it
+controlling object lifetimes and state changes.
 
-> A short primer how to submit a single git commit as a patch via
-> e-mail using git send-email.
-> 
-> Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-> ---
->  Documentation/process/submitting-patches.rst | 72 ++++++++++++++++++++
->  1 file changed, 72 insertions(+)
+There are a number of atomic_t usages in the kernel where atomic_t api
+is used strictly for counting and not for managing object lifetime. In
+some cases, atomic_t might not even be needed.
 
-So I still don't think that this is appropriate for submitting-patches.rst,
-which is already far too long.  It *might* be useful if it were filled out
-and added as a separate tutorial document, though.
+The purpose of these counters is to clearly differentiate atomic_t
+counters from atomic_t usages that guard object lifetimes, hence prone
+to overflow and underflow errors. It allows tools that scan for underflow
+and overflow on atomic_t usages to detect overflow and underflows to scan
+just the cases that are prone to errors.
 
-A few minor comments below...
+Simple atomic counters api provides interfaces for simple atomic counters
+that just count, and don't guard resource lifetimes. The interfaces are
+built on top of atomic_t api, providing a smaller subset of atomic_t
+interfaces necessary to support simple counters.
+    
+Counter wraps around to INT_MIN when it overflows and should not be used
+to guard resource lifetimes, device usage and open counts that control
+state changes, and pm states. Overflowing to INT_MIN is consistent with
+the atomic_t api, which it is built on top of.
+    
+Using counter_atomic* to guard lifetimes could lead to use-after free
+when it overflows and undefined behavior when used to manage state
+changes and device usage/open states.
 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 5219bf3cddfc..a73b94f677c8 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -24,6 +24,8 @@ of the mechanical work done for you, though you'll still need to prepare
->  and document a sensible set of patches.  In general, use of ``git`` will make
->  your life as a kernel developer easier.
->  
-> +.. _get_source_tree:
-> +
->  0) Obtain a current source tree
->  -------------------------------
->  
-> @@ -419,6 +421,7 @@ and other kernel developers more easily distinguish patches from other
->  e-mail discussions.
->  
->  
-> +.. _dev_cert_of_origin:
->  
->  11) Sign your work - the Developer's Certificate of Origin
->  ----------------------------------------------------------
-> @@ -892,6 +895,75 @@ command like this will do the trick::
->  
->    git request-pull master git://my.public.tree/linux.git my-signed-tag
->  
-> +17) A simple use case: Submitting a single git commit with ``git send-email``
-> +-----------------------------------------------------------------------------
-> +
-> +The scenario:
-> +You have a small code modification which sensibly fits into
-> +a single commit. You want to get this modification into the kernel.
-> +
-> +Assumptions:
-> + - You are running a not too old Linux installation.
+This patch series introduces Simple atomic counters. Counter atomic ops
+leverage atomic_t and provide a sub-set of atomic_t ops.
 
-What is "too old"?  Somebody who needs a tutorial at this level is unlikely
-to know that.
+In addition this patch series converts a few drivers to use the new api.
+The following criteria is used for select variables for conversion:
 
-> + - You have ``git`` installed.
-> + - You have the tools for ``git send-email`` installed.
-> +   It seems many Linux distributions deliver this set of tools in a
-> +   separate package. So make sure you have the appropriate package installed.
-> +   ``git send-email`` is able to directly talk to an SMTP server; so you
-> +   do not need a local mail transport agent or similar.
-> + - You have configured ``git send-email``.
-> +   You might set the properties describing how you would like to send e-mail
-> +   via SMTP with the appropriate ``git config`` commands.
-> +   In particular you might need to set the properties:
-> +   ``sendemail.smtpserver``, ``sendemail.smtpserverport``,
-> +   ``sendemail.smtpuser``, ``sendemail.smtpencryption``, ``sendemail.smtppass``
+1. Variable doesn't guard object lifetimes, manage state changes e.g:
+   device usage counts, device open counts, and pm states.
+2. Variable is used for stats and counters.
+3. The conversion doesn't change the overflow behavior.
 
-That's an awful lot of configuration that has just been skipped over...
+Note: Would like to get this into Linux 5.10-rc1 so we can continue
+updating drivers that can be updated to use this API. If this all looks
+good, Kees, would you like to take this through your tree or would you
+like to take this through mine.
 
-> +Process:
-> + - Clone the kernel source tree; see :ref:`get_source_tree`
-> + - Use ``git config`` to configure the user name and e-mail address for
-> +   yourself.
+Changes since Patch v2:
+-- Thanks for reviews and reviewed-by, and Acked-by tags. Updated
+   the patches with the tags.
+-- Minor changes to address Greg's comment to remove default from
+   Kconfig
+-- Added Copyrights to new files
+Updates to address comments on v2 from Kees Cook
+-- Updated Patch 1/11 to make clear that the counter wraps around to
+   INT_MIN and that this behavior is consistent with the atomic_t
+   api, on which this counter built api built on top of.
+-- Other patch change logs updated with the correct wrap around
+   behavior.
+-- Patch 1/11 is updated to add tests with constants for overflow
+   and underflow.
+-- Patch 8/11 - added inits for the stat counters
+-- Patch 10/11 - fixes the vmci_num_guest_devices != 0 to >0 which is
+   safer than checking for !=0. 
+ 
+Changes since Patch v1
+-- Thanks for reviews and reviewed-by, and Acked-by tags. Updated
+   the patches with the tags.
+-- Addressed Kees's  and Joel's comments:
+   1. Removed dec_return interfaces
+   2. Removed counter_simple interfaces to be added later with changes
+      to drivers that use them (if any).
 
-If we're going to make a tutorial, actually say how to do that.
+Changes since RFC:
+-- Thanks for reviews and reviewed-by, and Acked-by tags. Updated
+   the patches with the tags.
+-- Addressed Kees's comments:
+   1. Non-atomic counters renamed to counter_simple32 and counter_simple64
+      to clearly indicate size.
+   2. Added warning for counter_simple* usage and it should be used only
+      when there is no need for atomicity.
+   3. Renamed counter_atomic to counter_atomic32 to clearly indicate size.
+   4. Renamed counter_atomic_long to counter_atomic64 and it now uses
+      atomic64_t ops and indicates size.
+   5. Test updated for the API renames.
+   6. Added helper functions for test results printing
+   7. Verified that the test module compiles in kunit env. and test
+      module can be loaded to run the test.
+   8. Updated Documentation to reflect the intent to make the API
+      restricted so it can never be used to guard object lifetimes
+      and state management. I left _return ops for now, inc_return
+      is necessary for now as per the discussion we had on this topic.
+-- Updated driver patches with API name changes.
+-- We discussed if binder counters can be non-atomic. For now I left
+   them the same as the RFC patch - using counter_atomic32
+-- Unrelated to this patch series:
+   The patch series review uncovered improvements could be made to
+   test_async_driver_probe and vmw_vmci/vmci_guest. I will track
+   these for fixing later.
 
-> + - Create and checkout a git branch to work on your code modification.
-> +   Use: ``git checkout -b <branch name>``
-> + - Modify the code.
-> + - Commit your code to your local git repository into your local branch with
-> +   a single commit.
-> +   Your commit message should start with a single line:
-> +   ``<subsystem>: <summary phrase>``.
-> +   The rest of the commit message should follow :ref:`describe_changes`
-> + - Test your changes; they must compile and hopefully fix a problem.
+Shuah Khan (11):
+  counters: Introduce counter_atomic* counters
+  selftests:lib:test_counters: add new test for counters
+  drivers/base: convert deferred_trigger_count and probe_count to
+    counter_atomic32
+  drivers/base/devcoredump: convert devcd_count to counter_atomic32
+  drivers/acpi: convert seqno counter_atomic32
+  drivers/acpi/apei: convert seqno counter_atomic32
+  drivers/android/binder: convert stats, transaction_log to
+    counter_atomic32
+  drivers/base/test/test_async_driver_probe: convert to use
+    counter_atomic32
+  drivers/char/ipmi: convert stats to use counter_atomic32
+  drivers/misc/vmw_vmci: convert num guest devices counter to
+    counter_atomic32
+  drivers/edac: convert pci counters to counter_atomic32
 
-Why on earth would you commit your changes before you test them?
+ Documentation/core-api/counters.rst          | 109 ++++++++++++
+ MAINTAINERS                                  |   8 +
+ drivers/acpi/acpi_extlog.c                   |   5 +-
+ drivers/acpi/apei/ghes.c                     |   5 +-
+ drivers/android/binder.c                     |  41 ++---
+ drivers/android/binder_internal.h            |   3 +-
+ drivers/base/dd.c                            |  19 +-
+ drivers/base/devcoredump.c                   |   5 +-
+ drivers/base/test/test_async_driver_probe.c  |  26 +--
+ drivers/char/ipmi/ipmi_msghandler.c          |   9 +-
+ drivers/char/ipmi/ipmi_si_intf.c             |   9 +-
+ drivers/edac/edac_pci.h                      |   5 +-
+ drivers/edac/edac_pci_sysfs.c                |  28 +--
+ drivers/misc/vmw_vmci/vmci_guest.c           |   9 +-
+ include/linux/counters.h                     | 176 +++++++++++++++++++
+ lib/Kconfig                                  |   9 +
+ lib/Makefile                                 |   1 +
+ lib/test_counters.c                          | 162 +++++++++++++++++
+ tools/testing/selftests/lib/Makefile         |   1 +
+ tools/testing/selftests/lib/config           |   1 +
+ tools/testing/selftests/lib/test_counters.sh |  10 ++
+ 21 files changed, 567 insertions(+), 74 deletions(-)
+ create mode 100644 Documentation/core-api/counters.rst
+ create mode 100644 include/linux/counters.h
+ create mode 100644 lib/test_counters.c
+ create mode 100755 tools/testing/selftests/lib/test_counters.sh
 
-> +   If there are problems, modify your commit.
-> +   Use ``git commit --amend`` to modify your commit.
-> + - You are now ready to generate a patch file suitable for sending via e-mail.
-> +   Use::
-> +
-> +	git format-patch -1 -s
-> +
-> +   This command should create a patch file, which is close to what you need
-> +   to send via e-mail.
-> +   This command also adds a "Signed-off-by:" line; see
-> +   :ref:`the_canonical_patch_format`, and :ref:`dev_cert_of_origin`.
+-- 
+2.25.1
 
-Why wouldn't you put the signoff in the commit?
-
-> + - Verify that your patch matches the required style::
-> +
-> +	./scripts/checkpatch.pl <patch file>
-> +
-> +   Also see :ref:`Documentation/process/coding-style.rst <codingstyle>`.
-> +   If there are problems, modify your commit (``git commit --amend``)
-> +   and subsequently your e-mail patch (``git format-patch``).
-> + - Test if you are able to send the patch to yourself::
-> +
-> +	git send-email --to=<your email address> <patch file>
-> +
-> + - If sending the e-mail to yourself worked, inspect the e-mail you have
-> +   received and check if it adheres to :ref:`the_canonical_patch_format`.
-
-Haven't you already ensured that you've formatted it correctly?
-
-> + - Find out to which people the e-mail should be send::
-> +
-> +	./scripts/get_maintainer.pl <patch file>
-> +
-> +   In general send the e-mail to the appropriate maintainer and put relevant
-> +   mailing lists on CC.
-> + - Finally send the patch e-mail with::
-> +
-> +	git send-email --to=<maintainer> --cc=<mail list 1> ... <patch file>
-> +
-
-Thanks,
-
-jon
