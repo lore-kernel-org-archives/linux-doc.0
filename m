@@ -7,33 +7,33 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F4086C2D0A4
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 18:34:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B74F9C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 18:34:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF3EC222B9
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 18:34:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C948222E8
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 18:34:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390489AbgJISdd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 14:33:33 -0400
-Received: from mga14.intel.com ([192.55.52.115]:9542 "EHLO mga14.intel.com"
+        id S2390596AbgJISeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 14:34:25 -0400
+Received: from mga14.intel.com ([192.55.52.115]:9530 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390464AbgJISdW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 14:33:22 -0400
-IronPort-SDR: YWrPIKZpIMUGD55LLsDYPoe2zECRKJexQ82E+wtd37GloQOhBIyLLzF6pH1RBQbz7H0/Haat9C
- 4+jOiNehfidw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="164736622"
+        id S2390452AbgJISdN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Oct 2020 14:33:13 -0400
+IronPort-SDR: ZHiSDTB2n9e6uZzXMtUqMtUXZza21NOJgk/NXBWIgJBxc7XiJe1Wyy8TKcmXdAzdNwHEaCaXEq
+ bAWe/0PA7WuA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="164736599"
 X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="164736622"
+   d="scan'208";a="164736599"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 11:33:22 -0700
-IronPort-SDR: kwqnonbsJTBKvJ1u/MPsZ7qKVw2rupj2KDzxzltIKru8fra2WhgDj8Wmu0wolWM/MgNw5jfCIp
- 119yCIcITC1w==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 11:33:13 -0700
+IronPort-SDR: AnsvOg3ftbUY5GVbbBfdSqHuV+7OId3FEb3JM2h+sl8ejNnxytJ7yCESZofgNo3agZ9uZrFaCG
+ rXUU1fYiQsBw==
 X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
-   d="scan'208";a="529031183"
+   d="scan'208";a="529031121"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 11:33:21 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 11:33:12 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -62,9 +62,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v14 16/26] mm: Add guard pages around a shadow stack.
-Date:   Fri,  9 Oct 2020 11:32:20 -0700
-Message-Id: <20201009183230.26717-17-yu-cheng.yu@intel.com>
+Subject: [PATCH v14 05/26] x86/cet/shstk: Add Kconfig option for user-mode Shadow Stack
+Date:   Fri,  9 Oct 2020 11:32:09 -0700
+Message-Id: <20201009183230.26717-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201009183230.26717-1-yu-cheng.yu@intel.com>
 References: <20201009183230.26717-1-yu-cheng.yu@intel.com>
@@ -74,96 +74,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-INCSSP(Q/D) increments shadow stack pointer and 'pops and discards' the
-first and the last elements in the range, effectively touches those memory
-areas.
-
-The maximum moving distance by INCSSPQ is 255 * 8 = 2040 bytes and
-255 * 4 = 1020 bytes by INCSSPD.  Both ranges are far from PAGE_SIZE.
-Thus, putting a gap page on both ends of a shadow stack prevents INCSSP,
-CALL, and RET from going beyond.
+Shadow Stack provides protection against function return address
+corruption.  It is active when the processor supports it, the kernel has
+CONFIG_X86_SHADOW_STACK_USER, and the application is built for the feature.
+This is only implemented for the 64-bit kernel.  When it is enabled, legacy
+non-shadow stack applications continue to work, but without protection.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-v10:
-- Define ARCH_SHADOW_STACK_GUARD_GAP.
----
- arch/x86/include/asm/processor.h | 10 ++++++++++
- include/linux/mm.h               | 24 ++++++++++++++++++++----
- 2 files changed, 30 insertions(+), 4 deletions(-)
+v13:
+- Update help text, and change default to N.
+- Change X86_INTEL_* to X86_*.
 
-diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-index 97143d87994c..01acbd63cad8 100644
---- a/arch/x86/include/asm/processor.h
-+++ b/arch/x86/include/asm/processor.h
-@@ -840,6 +840,16 @@ static inline void spin_lock_prefetch(const void *x)
- #define STACK_TOP		TASK_SIZE_LOW
- #define STACK_TOP_MAX		TASK_SIZE_MAX
+v10:
+- Change SHSTK to shadow stack in the help text.
+- Change build-time check to config-time check.
+- Change ARCH_HAS_SHSTK to ARCH_HAS_SHADOW_STACK.
+---
+ arch/x86/Kconfig                      | 33 +++++++++++++++++++++++++++
+ scripts/as-x86_64-has-shadow-stack.sh |  4 ++++
+ 2 files changed, 37 insertions(+)
+ create mode 100755 scripts/as-x86_64-has-shadow-stack.sh
+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 7101ac64bb20..415fcc869afc 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1927,6 +1927,39 @@ config X86_INTEL_TSX_MODE_AUTO
+ 	  side channel attacks- equals the tsx=auto command line parameter.
+ endchoice
  
-+/*
-+ * Shadow stack pointer is moved by CALL, JMP, and INCSSP(Q/D).  INCSSPQ
-+ * moves shadow stack pointer up to 255 * 8 = ~2 KB (~1KB for INCSSPD) and
-+ * touches the first and the last element in the range, which triggers a
-+ * page fault if the range is not in a shadow stack.  Because of this,
-+ * creating 4-KB guard pages around a shadow stack prevents these
-+ * instructions from going beyond.
-+ */
-+#define ARCH_SHADOW_STACK_GUARD_GAP PAGE_SIZE
++config AS_HAS_SHADOW_STACK
++	def_bool $(success,$(srctree)/scripts/as-x86_64-has-shadow-stack.sh $(CC))
++	help
++	  Test the assembler for shadow stack instructions.
 +
- #define INIT_THREAD  {						\
- 	.addr_limit		= KERNEL_DS,			\
- }
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 4f6305106feb..ce461795fd8b 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2615,6 +2615,10 @@ extern vm_fault_t filemap_page_mkwrite(struct vm_fault *vmf);
- int __must_check write_one_page(struct page *page);
- void task_dirty_inc(struct task_struct *tsk);
- 
-+#ifndef ARCH_SHADOW_STACK_GUARD_GAP
-+#define ARCH_SHADOW_STACK_GUARD_GAP 0
-+#endif
++config X86_CET
++	def_bool n
 +
- extern unsigned long stack_guard_gap;
- /* Generic expand stack which grows the stack according to GROWS{UP,DOWN} */
- extern int expand_stack(struct vm_area_struct *vma, unsigned long address);
-@@ -2647,9 +2651,15 @@ static inline struct vm_area_struct * find_vma_intersection(struct mm_struct * m
- static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
- {
- 	unsigned long vm_start = vma->vm_start;
-+	unsigned long gap = 0;
- 
--	if (vma->vm_flags & VM_GROWSDOWN) {
--		vm_start -= stack_guard_gap;
-+	if (vma->vm_flags & VM_GROWSDOWN)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = ARCH_SHADOW_STACK_GUARD_GAP;
++config ARCH_HAS_SHADOW_STACK
++	def_bool n
 +
-+	if (gap != 0) {
-+		vm_start -= gap;
- 		if (vm_start > vma->vm_start)
- 			vm_start = 0;
- 	}
-@@ -2659,9 +2669,15 @@ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
- static inline unsigned long vm_end_gap(struct vm_area_struct *vma)
- {
- 	unsigned long vm_end = vma->vm_end;
-+	unsigned long gap = 0;
++config X86_SHADOW_STACK_USER
++	prompt "Intel Shadow Stacks for user-mode"
++	def_bool n
++	depends on CPU_SUP_INTEL && X86_64
++	depends on AS_HAS_SHADOW_STACK
++	select ARCH_USES_HIGH_VMA_FLAGS
++	select X86_CET
++	select ARCH_HAS_SHADOW_STACK
++	help
++	  Shadow Stacks provides protection against program stack
++	  corruption.  It's a hardware feature.  This only matters
++	  if you have the right hardware.  It's a security hardening
++	  feature and apps must be enabled to use it.  You get no
++	  protection "for free" on old userspace.  The hardware can
++	  support user and kernel, but this option is for user space
++	  only.
++	  Support for this feature is only known to be present on
++	  processors released in 2020 or later.  CET features are also
++	  known to increase kernel text size by 3.7 KB.
 +
-+	if (vma->vm_flags & VM_GROWSUP)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = ARCH_SHADOW_STACK_GUARD_GAP;
- 
--	if (vma->vm_flags & VM_GROWSUP) {
--		vm_end += stack_guard_gap;
-+	if (gap != 0) {
-+		vm_end += gap;
- 		if (vm_end < vma->vm_end)
- 			vm_end = -PAGE_SIZE;
- 	}
++	  If unsure, say N.
++
+ config EFI
+ 	bool "EFI runtime service support"
+ 	depends on ACPI
+diff --git a/scripts/as-x86_64-has-shadow-stack.sh b/scripts/as-x86_64-has-shadow-stack.sh
+new file mode 100755
+index 000000000000..fac1d363a1b8
+--- /dev/null
++++ b/scripts/as-x86_64-has-shadow-stack.sh
+@@ -0,0 +1,4 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++echo "wrussq %rax, (%rbx)" | $* -x assembler -c -
 -- 
 2.21.0
 
