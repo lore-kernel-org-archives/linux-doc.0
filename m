@@ -2,144 +2,105 @@ Return-Path: <SRS0=YNrp=DQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1815CC433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 08:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E8AC433E7
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 09:16:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A00392227F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 08:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602233699;
-	bh=PyiP6M+lDsgbufpbwMpTvauol6VUFL607YHj7WiFOD8=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=gmuvMjB82r4nv5fnx1xqh9KDDhAvh06Ap92ErIvv8CwSNPOMhgfjSRliMtUt5IXhh
-	 x9wSTPs5oFhIcSwIQuKQJ85I2y3Ok0Mtcr5ETajJoNOOuEageMlKl0NbYOlX8Gdgmb
-	 x8C2AHIx5HqDAj/nFd5klgIBxBsa3rDz5+FsqKaw=
+	by mail.kernel.org (Postfix) with ESMTP id 8498D22276
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Oct 2020 09:16:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732496AbgJIIy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Oct 2020 04:54:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52768 "EHLO mail.kernel.org"
+        id S1733052AbgJIJQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Oct 2020 05:16:23 -0400
+Received: from foss.arm.com ([217.140.110.172]:45660 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732492AbgJIIy7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Oct 2020 04:54:59 -0400
-Received: from mail.kernel.org (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0E6BA2227F;
-        Fri,  9 Oct 2020 08:54:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602233698;
-        bh=PyiP6M+lDsgbufpbwMpTvauol6VUFL607YHj7WiFOD8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=15JTSwYH/sbarqoWl9NhOZ0NJtuFdUchcbIqRsIc3Y7vx0E5BVqUDndXSuMaJRq/v
-         auGACGsPdZQUgs/wYYqj0H/TmfmKo/vZgTZG5nfI/E7oX1unliTO1ct/42+Fg72l5o
-         F03A1nDTir8/LnQ1r/ogLG8yhDXw/xltL4aBwTww=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kQoAx-0036mc-F4; Fri, 09 Oct 2020 10:54:55 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH] kernel-doc: fix line number handling
-Date:   Fri,  9 Oct 2020 10:54:54 +0200
-Message-Id: <32dd3f497839310aebcea763add71d390f4c7b54.1602233692.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        id S1731262AbgJIJQW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Oct 2020 05:16:22 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D5C1ED6E;
+        Fri,  9 Oct 2020 02:16:21 -0700 (PDT)
+Received: from [10.57.51.133] (unknown [10.57.51.133])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD9AF3F66B;
+        Fri,  9 Oct 2020 02:16:18 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+To:     rjw@rjwysocki.net
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org, amitk@kernel.org, corbet@lwn.net,
+        daniel.lezcano@linaro.org, Dietmar.Eggemann@arm.com,
+        qperret@google.com, dianders@chromium.org, mka@chromium.org,
+        rnayak@codeaurora.org
+References: <20201002114426.31277-1-lukasz.luba@arm.com>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
+Date:   Fri, 9 Oct 2020 10:16:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <20201002114426.31277-1-lukasz.luba@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Address several issues related to pointing to the wrong line
-number:
+Hi Rafael,
 
-1) ensure that line numbers will always be initialized
+On 10/2/20 12:44 PM, Lukasz Luba wrote:
+> Hi all,
+> 
+> The Energy Model supports power values expressed in an abstract scale.
+> This has an impact on Intelligent Power Allocation (IPA) and should be
+> documented properly. There is also a need to update the DT binding for the
+> 'sustainable-power' and allow it to have abstract scale as well.
+> 
+> Changes:
+> v2:
+> - updated sustainable power section in IPA documentation
+> - updated DT binding for the 'sustainable-power'
+> 
+> The v1 of the patch set and related discussion can be found in [1].
+> 
+> Regards,
+> Lukasz Luba
+> 
+> [1] https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
+> 
+> Lukasz Luba (3):
+>    docs: Clarify abstract scale usage for power values in Energy Model
+>    PM / EM: update the comments related to power scale
+>    dt-bindings: thermal: update sustainable-power with abstract scale
+> 
+>   .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
+>   .../driver-api/thermal/power_allocator.rst          | 13 ++++++++++++-
+>   Documentation/power/energy-model.rst                | 13 +++++++++++++
+>   Documentation/scheduler/sched-energy.rst            |  5 +++++
+>   include/linux/energy_model.h                        | 11 +++++------
+>   kernel/power/energy_model.c                         |  2 +-
+>   6 files changed, 45 insertions(+), 12 deletions(-)
+> 
 
-   When section is the default (Description), the line number
-   is not initializing, producing this:
+Could you take patch 1/3 and patch 2/3 via your PM tree,
+please? I will be very grateful.
 
-	$ ./scripts/kernel-doc --enable-lineno ./drivers/media/v4l2-core/v4l2-mem2mem.c|less
+These patches just update the documentation and comments regarding
+an issue that we can have: bogoWatts in the Energy Model (and we
+already have). One of the drawbacks is that we cannot derive real energy
+from these numbers. Will see how this would evolve.
 
-	**Description**
+The patch 3/3 with dt-binding is not going to fly upstream [1].
+I hope developers will put a real number in DT so we could
+have real milliWatts from that source (wishful thinking).
+Doug even made a script, which might be helpful for that [2].
 
-	#define LINENO 0
-	In case of streamoff or release called on any context,
-	1] If the context is currently running, then abort job will be called
-	2] If the context is queued, then the context will be removed from
-	   the job_queue
+Regards,
+Lukasz
 
-  Which is not right. Ensure that the line number will always
-  be there. After applied, the result now points to the right location:
-
-	**Description**
-
-	#define LINENO 410
-	In case of streamoff or release called on any context,
-	1] If the context is currently running, then abort job will be called
-	2] If the context is queued, then the context will be removed from
-	   the job_queue
-
-2) The line numbers for function prototypes are always + 1,
-   because it is taken at the line after handling the prototype.
-   Change the logic to point to the next line after the /** */
-   block;
-
-3) The "DOC:" line number should point to the same line as this
-   markup is found, and not to the next one.
-
-Probably part of the issues were due to a but that was causing
-the line number offset to be incremented by one, if --export
-were used.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/kernel-doc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index a3453de4495c..297312824d26 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1706,7 +1706,7 @@ sub dump_function($$) {
-     my $file = shift;
-     my $noret = 0;
- 
--    print_lineno($.);
-+    print_lineno($new_start_line);
- 
-     $prototype =~ s/^static +//;
-     $prototype =~ s/^extern +//;
-@@ -2034,7 +2034,7 @@ sub process_name($$) {
-     if (/$doc_block/o) {
- 	$state = STATE_DOCBLOCK;
- 	$contents = "";
--	$new_start_line = $. + 1;
-+	$new_start_line = $.;
- 
- 	if ( $1 eq "" ) {
- 	    $section = $section_intro;
-@@ -2117,6 +2117,7 @@ sub process_body($$) {
-     if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
- 	dump_section($file, $section, $contents);
- 	$section = $section_default;
-+	$new_start_line = $.;
- 	$contents = "";
-     }
- 
-@@ -2172,6 +2173,7 @@ sub process_body($$) {
- 	$prototype = "";
- 	$state = STATE_PROTO;
- 	$brcount = 0;
-+        $new_start_line = $. + 1;
-     } elsif (/$doc_content/) {
- 	if ($1 eq "") {
- 	    if ($section eq $section_context) {
--- 
-2.26.2
-
+[1] 
+https://lore.kernel.org/linux-pm/45fae8cd-0635-41dc-c744-3c9833bf6492@arm.com/
+[2] 
+https://lore.kernel.org/linux-pm/CAD=FV=U1FP0e3_AVHpauUUZtD-5X3XCwh5aT9fH_8S_FFML2Uw@mail.gmail.com/
