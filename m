@@ -2,174 +2,91 @@ Return-Path: <SRS0=65L0=DS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7277EC43457
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 06:25:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC253C433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 10:27:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F13620795
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 06:25:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77CC42083B
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 10:27:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iuK2qujS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NVS7Zyk+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727258AbgJKGZK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Oct 2020 02:25:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54058 "EHLO
+        id S1726576AbgJKK1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Oct 2020 06:27:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727126AbgJKGZH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Oct 2020 02:25:07 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E42FCC0613D2
-        for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2020 23:25:06 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id f126so10422190qke.17
-        for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2020 23:25:06 -0700 (PDT)
+        with ESMTP id S1726222AbgJKK1D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Oct 2020 06:27:03 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8795CC0613CE;
+        Sun, 11 Oct 2020 03:27:03 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id x16so11254028pgj.3;
+        Sun, 11 Oct 2020 03:27:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=5fGPuFwLHe/GLon7KcEGj+q06IZAPIH4nCR0GWMNees=;
-        b=iuK2qujS2Wpb/UqMfnOeCjgHvZ1IsRGnt0EmpuwPtogcu4rNijokbrOyxMBpdb9OAK
-         85ZHfXv1VPQNQdn1y41zmpAAmWpNR40EPAMVSaiKmahqGdI55+GfXLwGSXuYmI41+d37
-         mTvdq6tLM9FgV7Sr3lLamNKbDZzCDB0bEup8RZg/XsEMsawRG0IbvaT3zFghbjRIY8CU
-         HsQo72JTpSux84TMMpY3ZwnfkMeBWZusK9Bqzx2ZlC3qbUKbRU+hl7cLM4nkoJvVMw9J
-         qfa01qh2VDH/dee9xBYEYl4LGHYvW7GcqzTeABvB/1rlz3VFA/pXUrZIxZzqMzrgfiO2
-         L3xw==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=sZ4u0IYX+prhPTXd0MVIePeS5ONiOotzisA3LcVKmGs=;
+        b=NVS7Zyk+rjxHS3Fim/isNHWuIprg+c2HM+wV+yaIh9E7EihNDRfTuLYfDV41xq9uwi
+         uOy69v3QR0MakTzpXeOHvayM4QZM8Yo53iwXh6iUN0gxncfE5J6OfSrEU+NP09tRfsWy
+         azWSanp94VlkodpfsZAnL9oSYSL4iL8BYLySvy9LD/FO9r1yLEeOgr3fC8nztbDP92LQ
+         G9S08ezRghlNaq9pE2mf0ctDyLhd7f2fihyM5OedkNQJ752yk40uE/lSP9QBk7aUs0gX
+         K6vACT9vq9wS/+UZL+nxX8nEPzVWqh1jqZZbpMgWLfScV0dWp03Lp2DZ7IN6lHis/pB/
+         YY7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=5fGPuFwLHe/GLon7KcEGj+q06IZAPIH4nCR0GWMNees=;
-        b=sn3OmvLXSDW/dzF0iBgVrbD+GqH5taDJTaK6FfLu2QpPz6P2X9HggXDg61LxcKng3f
-         s7RiH+aqKlST+WBg/xrgM3srCpmt0hDa2sSs272UqeNASrF7xM1YFtkORX57g0NT3hu1
-         XFGMRx5GGIxBihURH92ER4tMIhSoh3E7k+re6Sj4o3X/gTjKvptTXwudWxvMDjFkhUft
-         +7WWwvnS/0o40i3LyzFCt+5as/ytP8wN8UiajthgSlmrjfNmP9vkChP48C0r2R0L97xv
-         vbhyz/SS4I/5awVTsJTUyVra5tdNOcsGJ/ukJ/1utr6q7cRDLZGEdbkYuSAtki9HJd0x
-         jNqQ==
-X-Gm-Message-State: AOAM532nm2YGwCj13YpckLQPGD+I7jAgHSL7SIskS6cU9IFKrLd/qXtB
-        Uj8HTz/x38M21vyhgkfifc1AjuWAysHJS5KFJQ==
-X-Google-Smtp-Source: ABdhPJwT/P3/Fh36zKb/0qLPFkU8c3uzBjOUT7W2zQEYpKzol1aZwZdzOhkr0Y/f/ACdpO1wkyJGoNMDZQeurtOaJA==
-Sender: "lokeshgidra via sendgmr" <lokeshgidra@lg.mtv.corp.google.com>
-X-Received: from lg.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:29dd])
- (user=lokeshgidra job=sendgmr) by 2002:a0c:fca9:: with SMTP id
- h9mr20337980qvq.30.1602397506018; Sat, 10 Oct 2020 23:25:06 -0700 (PDT)
-Date:   Sat, 10 Oct 2020 23:24:56 -0700
-In-Reply-To: <20201011062456.4065576-1-lokeshgidra@google.com>
-Message-Id: <20201011062456.4065576-3-lokeshgidra@google.com>
-Mime-Version: 1.0
-References: <20201011062456.4065576-1-lokeshgidra@google.com>
-X-Mailer: git-send-email 2.28.0.1011.ga647a8990f-goog
-Subject: [PATCH v5 2/2] Add user-mode only option to unprivileged_userfaultfd
- sysctl knob
-From:   Lokesh Gidra <lokeshgidra@google.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kaleshsingh@google.com,
-        calin@google.com, surenb@google.com, nnk@google.com,
-        jeffv@google.com, kernel-team@android.com,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=sZ4u0IYX+prhPTXd0MVIePeS5ONiOotzisA3LcVKmGs=;
+        b=WV3qU6torSkNfRD4JLqvYaAzec/KidRzk7X4KAaPOxuf+J+l4sOh8IVfCqgbkAqx02
+         RBgOZJVTBxrHVUPIhEhIEoNfZs6qddDOU+fxModQPsSthuQ2zPhtL0dd//BoooNFFfJp
+         8n0HF/02Yd22bVERP32B7GlK8ajFs9Ez8Kuo0YS6pdVMxz50KsbY0u4Omc+n+LKtOmv3
+         K1ZG5UuDE4LBwEHKz0OEOTRAOc8dhJ/RzswLyE7MOkqaQBysn0TXVuV0hyL3yOZdiump
+         8OURpDPmPktUxWD0cO8ejLPPiqeXWOM5LYZk5D/ehTCampGgm/s4W2Ak8dARKPsOgF6N
+         86sA==
+X-Gm-Message-State: AOAM533RS0r4jWmfDSG4nAp53DsNIPdr9DO19tcjmy2Qpqt8S8QBc5t6
+        4wkI2OqrqThWpT9E33OqMSQ=
+X-Google-Smtp-Source: ABdhPJxSlKHZz4nogWT9Nt3kZILi1+8lgygZc0KhYqgDj9p1Hb85VG4EdeKLcxVdM5B7uicpX/BFwA==
+X-Received: by 2002:a17:90a:6301:: with SMTP id e1mr14656301pjj.131.1602412022680;
+        Sun, 11 Oct 2020 03:27:02 -0700 (PDT)
+Received: from adolin ([49.207.215.73])
+        by smtp.gmail.com with ESMTPSA id y4sm741762pgs.0.2020.10.11.03.26.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2020 03:27:02 -0700 (PDT)
+Date:   Sun, 11 Oct 2020 15:56:57 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     Julia.Lawall@lip6.fr
+Cc:     corbet@lwn.net, Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, cocci@systeme.lip6.fr,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v4 0/3] Improve Coccinelle Parallelisation
+Message-ID: <cover.1602410019.git.sylphrenadin@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With this change, when the knob is set to 0, it allows unprivileged
-users to call userfaultfd, like when it is set to 1, but with the
-restriction that page faults from only user-mode can be handled.
-In this mode, an unprivileged user (without SYS_CAP_PTRACE capability)
-must pass UFFD_USER_MODE_ONLY to userfaultd or the API will fail with
-EPERM.
+Presently, Coccinelle uses at most one thread per core to improve
+performance in machines with more than 2 hyperthreads. Modify
+coccicheck to use all available threads in machines upto 4 hyperthreads.
+Further, modify the coccicheck script to improve portability.
 
-This enables administrators to reduce the likelihood that
-an attacker with access to userfaultfd can delay faulting kernel
-code to widen timing windows for other exploits.
+Modify documentation to reflect the same. 
 
-The default value of this knob is changed to 0. This is required for
-correct functioning of pipe mutex. However, this will fail postcopy
-live migration, which will be unnoticeable to the VM guests. To avoid
-this, set 'vm.userfault = 1' in /sys/sysctl.conf. For more details,
-refer to Andrea's reply [1].
+Sumera Priyadarsini (3):
+  scripts: coccicheck: Add quotes to improve portability
+  scripts: coccicheck: Change default condition for parallelism
+  Documentation: Coccinelle: Modify Parallelisation information in docs
 
-[1] https://lore.kernel.org/lkml/20200904033438.GI9411@redhat.com/
+ Documentation/dev-tools/coccinelle.rst | 6 ++++--
+ scripts/coccicheck                     | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-Signed-off-by: Lokesh Gidra <lokeshgidra@google.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 15 ++++++++++-----
- fs/userfaultfd.c                        |  6 ++++--
- 2 files changed, 14 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 4b9d2e8e9142..4263d38c3c21 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -871,12 +871,17 @@ file-backed pages is less than the high watermark in a zone.
- unprivileged_userfaultfd
- ========================
- 
--This flag controls whether unprivileged users can use the userfaultfd
--system calls.  Set this to 1 to allow unprivileged users to use the
--userfaultfd system calls, or set this to 0 to restrict userfaultfd to only
--privileged users (with SYS_CAP_PTRACE capability).
-+This flag controls the mode in which unprivileged users can use the
-+userfaultfd system calls. Set this to 0 to restrict unprivileged users
-+to handle page faults in user mode only. In this case, users without
-+SYS_CAP_PTRACE must pass UFFD_USER_MODE_ONLY in order for userfaultfd to
-+succeed. Prohibiting use of userfaultfd for handling faults from kernel
-+mode may make certain vulnerabilities more difficult to exploit.
- 
--The default value is 1.
-+Set this to 1 to allow unprivileged users to use the userfaultfd system
-+calls without any restrictions.
-+
-+The default value is 0.
- 
- 
- user_reserve_kbytes
-diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-index bd229f06d4e9..0f8a975db3be 100644
---- a/fs/userfaultfd.c
-+++ b/fs/userfaultfd.c
-@@ -28,7 +28,7 @@
- #include <linux/security.h>
- #include <linux/hugetlb.h>
- 
--int sysctl_unprivileged_userfaultfd __read_mostly = 1;
-+int sysctl_unprivileged_userfaultfd __read_mostly;
- 
- static struct kmem_cache *userfaultfd_ctx_cachep __read_mostly;
- 
-@@ -1976,7 +1976,9 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
- 	struct userfaultfd_ctx *ctx;
- 	int fd;
- 
--	if (!sysctl_unprivileged_userfaultfd && !capable(CAP_SYS_PTRACE))
-+	if (!sysctl_unprivileged_userfaultfd &&
-+	    (flags & UFFD_USER_MODE_ONLY) == 0 &&
-+	    !capable(CAP_SYS_PTRACE))
- 		return -EPERM;
- 
- 	BUG_ON(!current->mm);
 -- 
-2.28.0.1011.ga647a8990f-goog
+2.25.1
 
