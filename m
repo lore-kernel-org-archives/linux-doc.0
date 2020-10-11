@@ -2,56 +2,98 @@ Return-Path: <SRS0=65L0=DS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,WEIRD_QUOTING
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBD2C433E7
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 13:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB54C433E7
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 15:06:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 261C7207FB
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 13:29:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6B6222227
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Oct 2020 15:06:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G03mAjDx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387894AbgJKN3d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Oct 2020 09:29:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34064 "EHLO
+        id S2388098AbgJKPGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Oct 2020 11:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387887AbgJKN3d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Oct 2020 09:29:33 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3603C0613D0;
-        Sun, 11 Oct 2020 06:29:32 -0700 (PDT)
-Received: from ip4d14bc8c.dynamic.kabel-deutschland.de ([77.20.188.140] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kRbPf-0004O8-Lp; Sun, 11 Oct 2020 15:29:23 +0200
-To:     Randy Dunlap <rdunlap@infradead.org>,
+        with ESMTP id S2388074AbgJKPGo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Oct 2020 11:06:44 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11EAC0613CE;
+        Sun, 11 Oct 2020 08:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=mn7mw5xxc4zpmIpLQTMI/KCEK9pYqdMfFl2NSSEiSxU=; b=G03mAjDxQyciJcVwsInoXd6DVM
+        F5MouasjuzAqO4yJofHV1JuBgeOgchL7BoJhqUosnrsnbKwmWWxzudOT76ciSbsp8agkHmw1p59jd
+        X72+5ruicyiZNuSn9HZEfNHuPHgH4U7F/X27fL8tU5lFemJJXD99mmJJyMBofgh93AyA398aLEJSn
+        jKsgfhiWxWfLBOmn5+TQGl5Vw/meU1L4bDNxUJul4dlbPaxqmpp47pWJIu6uDRjlYDbjaZJJqtnYu
+        wKEnle+GoYjBiwWiLtxYAHWAzpPcUCWZCnMpCTV8GmoJ0UNaUKL7a/zZARqblHRNOIsSLwxefiMrC
+        uSzPlsPw==;
+Received: from [2601:1c0:6280:3f0::507c]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kRcvn-000221-TJ; Sun, 11 Oct 2020 15:06:40 +0000
+Subject: Re: [RFC PATCH v1 22/26] docs: reporting-bugs: explain what users
+ should do once the report got out
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <2cc7172602eecefc12b4f870dd0be143524bd4bc.1601541165.git.linux@leemhuis.info>
- <aa333881-a899-ece7-da2b-fd4b66e3f6d6@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 23/26] docs: reporting-bugs: details for issues
- specific to stable and longterm
-Message-ID: <c9564a72-eb09-8121-cd7e-19864dff8e34@leemhuis.info>
-Date:   Sun, 11 Oct 2020 15:29:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ <60aeaadf670271ee69a47f5eff3f6bf7b530ac5a.1601541165.git.linux@leemhuis.info>
+ <57bebfe1-7f57-744c-a803-093f219cb451@infradead.org>
+ <1e902d27-9e2a-8dab-7849-f45e22bc05ee@leemhuis.info>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5ec324fd-e9e4-f913-1929-154035e8b3e8@infradead.org>
+Date:   Sun, 11 Oct 2020 08:06:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <aa333881-a899-ece7-da2b-fd4b66e3f6d6@infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <1e902d27-9e2a-8dab-7849-f45e22bc05ee@leemhuis.info>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1602422972;a374b6b3;
-X-HE-SMSGID: 1kRbPf-0004O8-Lp
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 09.10.20 um 20:42 schrieb Randy Dunlap:
-> On 10/1/20 1:50 AM, Thorsten Leemhuis wrote:
+On 10/11/20 6:29 AM, Thorsten Leemhuis wrote:
+> Many thx for you comments. Consider all the obvious spelling and grammatical mistakes you pointed out fixed, I won't mention all of them in this reply to keep things easier to follow.
+> 
+> Am 09.10.20 um 19:37 schrieb Randy Dunlap:
+>> On 10/1/20 1:50 AM, Thorsten Leemhuis wrote:
+> 
+>>> +wait a week at maximum (or just two days if it's something urgent) before
+>>> +sending a friendly reminder. If the maintainer is not responding in a timely
+>>> +manner or not handing it appropriately, mention that you are considering to
+>>> +escalate the issue to a higher authority and do so if there is in the end
+>>
+>>                                              and do so if there seems to be
+>> no way around this.
+>>
+>> although such a "threat" probably won't do much good.
+> 
+> Hmmm, yeah, I guess did not find the right tone here. But I think this situation needs to be mentioned in the text. And FWIW, something about it is even in the old text:
+> 
+> """
+> If you suspect a maintainer is not responding to these types of bugs in a timely manner (especially during a merge window), escalate the bug to LKML and Linus Torvalds.
+> """"
+> 
+> So how about this:
+> ```
+> The 'issues of high priority' (see above for an explanation) are an exception here: maintainers should address them as soon as possible; that's why you should wait a week at maximum (or just two days if it's something urgent) before sending a friendly reminder.
+> 
+> Sometimes the maintainer might not be responding in a timely manner; other times there might be disagreements, for example if an issue qualifies as regression or not. In such cases raise your concerns on the mailing list and ask others for public or private replies how to move on. If that fails, it might be appropriate to escalate the issue to a higher authority. In case of a WiFi driver that would be the wireless maintainers; if there are no higher level maintainers or all else fails, it might be one of those rare situations where it's okay to get Linus Torvalds involved.
+> ```
+> 
+> 
+> Still not totally happy with it, but I better at least. Or what do other think about it?
 
-Many thx for you comments, all suggestions implemented.
+Thanks, it's better.
 
+-- 
+~Randy
 
-Ciao, Thorsten
