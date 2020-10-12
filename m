@@ -2,62 +2,84 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80129C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 08:32:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC95C433E7
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 08:38:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DD282065D
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 08:32:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 190E520757
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 08:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726753AbgJLIcd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 04:32:33 -0400
-Received: from ns.lineo.co.jp ([203.141.200.203]:47592 "EHLO mail.lineo.co.jp"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726335AbgJLIcd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Oct 2020 04:32:33 -0400
-X-Greylist: delayed 464 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Oct 2020 04:32:33 EDT
-Received: from naokihayama-desktop (unknown [203.141.200.204])
-        by mail.lineo.co.jp (Postfix) with ESMTPSA id EA91C8035CE48;
-        Mon, 12 Oct 2020 17:24:46 +0900 (JST)
-Received: by naokihayama-desktop (Postfix, from userid 1000)
-        id C94DE50040BA; Mon, 12 Oct 2020 17:24:46 +0900 (JST)
-From:   Naoki Hayama <naoki.hayama@lineo.co.jp>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Naoki Hayama <naoki.hayama@lineo.co.jp>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation/admin-guide: tainted-kernels: Fix typo occured
-Date:   Mon, 12 Oct 2020 17:24:41 +0900
-Message-Id: <20201012082441.5831-1-naoki.hayama@lineo.co.jp>
-X-Mailer: git-send-email 2.17.1
+        id S1726680AbgJLIiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 04:38:16 -0400
+Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:5416 "EHLO
+        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726130AbgJLIiQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 04:38:16 -0400
+X-IronPort-AV: E=Sophos;i="5.77,366,1596492000"; 
+   d="scan'208";a="472083300"
+Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 10:38:14 +0200
+Date:   Mon, 12 Oct 2020 10:38:14 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     Sumera Priyadarsini <sylphrenadin@gmail.com>
+cc:     Julia.Lawall@lip6.fr, michal.lkml@markovi.net,
+        linux-doc@vger.kernel.org, Gilles.Muller@lip6.fr, corbet@lwn.net,
+        nicolas.palix@imag.fr, linux-kernel@vger.kernel.org,
+        cocci@systeme.lip6.fr
+Subject: Re: [Cocci] [PATCH v4 2/3] scripts: coccicheck: Change default
+ condition for parallelism
+In-Reply-To: <13de95fe3959459ac9ae8c74d99eb7e3c5702a2d.1602410019.git.sylphrenadin@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2010121038040.2901@hadrien>
+References: <cover.1602410019.git.sylphrenadin@gmail.com> <13de95fe3959459ac9ae8c74d99eb7e3c5702a2d.1602410019.git.sylphrenadin@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typo.
-s/occured/occurred/
 
-Signed-off-by: Naoki Hayama <naoki.hayama@lineo.co.jp>
----
- Documentation/admin-guide/tainted-kernels.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index abf804719890..f718a2eaf1f6 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -130,7 +130,7 @@ More detailed explanation for tainting
-  5)  ``B`` If a page-release function has found a bad page reference or some
-      unexpected page flags. This indicates a hardware problem or a kernel bug;
-      there should be other information in the log indicating why this tainting
--     occured.
-+     occurred.
- 
-  6)  ``U`` if a user or user application specifically requested that the
-      Tainted flag be set, ``' '`` otherwise.
--- 
-2.17.1
+On Sun, 11 Oct 2020, Sumera Priyadarsini wrote:
 
+> Currently, Coccinelle uses at most one thread per core by default in
+> machines with more than 2 hyperthreads. However, for systems with only 4
+> hyperthreads, this does not improve performance.
+>
+> Modify coccicheck to use all available threads in machines with
+> upto 4 hyperthreads.
+>
+> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+
+Applied, thanks.
+
+> ---
+>  scripts/coccicheck | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/coccicheck b/scripts/coccicheck
+> index d67907b8a38b..209bb0427b43 100755
+> --- a/scripts/coccicheck
+> +++ b/scripts/coccicheck
+> @@ -79,7 +79,7 @@ else
+>      THREADS_PER_CORE=$(lscpu | grep "Thread(s) per core: " | tr -cd "[:digit:]")
+>      if [ -z "$J" ]; then
+>          NPROC=$(getconf _NPROCESSORS_ONLN)
+> -	if [ $THREADS_PER_CORE -gt 1 -a $NPROC -gt 2 ] ; then
+> +	if [ $THREADS_PER_CORE -gt 1 -a $NPROC -gt 4 ] ; then
+>  		NPROC=$((NPROC/2))
+>  	fi
+>      else
+> --
+> 2.25.1
+>
+> _______________________________________________
+> Cocci mailing list
+> Cocci@systeme.lip6.fr
+> https://systeme.lip6.fr/mailman/listinfo/cocci
+>
