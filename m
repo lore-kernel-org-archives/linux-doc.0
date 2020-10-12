@@ -2,161 +2,314 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D60EEC43457
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 14:21:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 928EDC4363A
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:39:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A46C72087E
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 14:21:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W5D1O2Lh"
+	by mail.kernel.org (Postfix) with ESMTP id 586C92087D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:39:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728269AbgJLOVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 10:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37426 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726724AbgJLOVM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 10:21:12 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6DD6C0613D0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2020 07:21:11 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id x62so18845567oix.11
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2020 07:21:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qgmtNie/zntd1O8Xi3/aeMkTtA9q5iGd/FaFCpPsSPs=;
-        b=W5D1O2LhZGhhtUHHQ0CoKvhXXf/YejHLvjh9W17bi16WOd0iJo1QZTL1rcHvftYDMV
-         h6XvT/lCmWVeoZLr9Tjqsc/fOiM7YbwnNwnvXem9eM/+1ZJs0pqwf/p48vjhWaDyD4CR
-         fevht215iJjkDTi4Nl/dVbNS+ell3n3OgXOzmQQALEJPbD1Hs+2LUQ2DgtPXAcI2FXtB
-         wvxHPK6QEYohTpdrIHAZabd9TDA5lbi7jQwcfY5cBpYSi1vec/iBwv6MfVEktJiRjr0b
-         YdFUc251KB7K6IRHrYMSoZEFAbENaJ34qCFRqlILxCzqzjSKuJ15s+uDvLvRiavWHlIB
-         mSIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qgmtNie/zntd1O8Xi3/aeMkTtA9q5iGd/FaFCpPsSPs=;
-        b=CoZL3hSeW8MU8I5x8ZS47E0oZOCkhwCYkoAMlNeNXE5wdNxFnws+owT8ocN1qD3vhL
-         E+081z3LXkVqNNMpDgZY/Fu8nuUNxKVXfxlgb08Av5m6eoOdyVtJKLu7EAZsvlHG3/37
-         bQwBO8/IKqMKzaf43BH9c1ke8ryuhH2I+sOziHE8ybrFrG152eSyRY+iHSa4iOpaKkem
-         eo7ksyt12SFiUJgr6k5L9ZwfBIfvqA5yUP1eGM5emd9GOoTAelDBb1Zvyym0Ns56Gjzp
-         qm0cz6FU1DFZfF2vZhJIjaJx8s76dFosKBOEd6K33MR4yQMkT3MxJ70fk9LsG0yiH/eV
-         Gzug==
-X-Gm-Message-State: AOAM533VeqGotIPlhzVqXI75B130YGOduWjFbFu1ai7FmHK/Ocup6lnN
-        Q3GpS+mqASZWFvGbwXQHcPR/Yy2igl2JZKIEc5PEKw==
-X-Google-Smtp-Source: ABdhPJxW8RGoOJpKn2/G8YuZtMEiJ+Fre4lLQCyuU8ImxOvZHMcKn2i477QwV30ZDV2aJL70uTEAfHUomZ6GY2lTL2g=
-X-Received: by 2002:a54:468f:: with SMTP id k15mr11407914oic.121.1602512471058;
- Mon, 12 Oct 2020 07:21:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-2-elver@google.com>
- <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
- <20201002171959.GA986344@elver.google.com> <CAG48ez0D1+hStZaDOigwbqNqFHJAJtXK+8Nadeuiu1Byv+xp5A@mail.gmail.com>
- <CANpmjNN7s3o4DYbP64iLYo0MeDWciQnKd61njJKLsiZv+ZLQdA@mail.gmail.com> <CAG48ez0az-Mv1f6EpnQwO6cYQANwx4qCDLa+yda_i15AzciS1Q@mail.gmail.com>
-In-Reply-To: <CAG48ez0az-Mv1f6EpnQwO6cYQANwx4qCDLa+yda_i15AzciS1Q@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 12 Oct 2020 16:20:59 +0200
-Message-ID: <CANpmjNPb2JW6vjRODOzpbjh2HauAN2==NAs9tfpbxYiv53r_Zg@mail.gmail.com>
-Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
-To:     Jann Horn <jannh@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
+        id S2390162AbgJLPjq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 11:39:46 -0400
+Received: from mga05.intel.com ([192.55.52.43]:1310 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390132AbgJLPjq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 11:39:46 -0400
+IronPort-SDR: v+jG243knWDlniOVXzfoXxIxC7ozbpodJUwfWA09FIM67G+EsRLSKNswPe5tuwwcsLF8REhQYI
+ OyjDlYlwEFqQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="250452639"
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
+   d="scan'208";a="250452639"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:39:46 -0700
+IronPort-SDR: dqV8bcEBsLnKqZq8QIlofIoV+IjvTLbm8X5Z6keC2xKm+dV2oxH/5ocT1qE/kcja2iv49st5YW
+ dQAbS5gBZDvg==
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
+   d="scan'208";a="530010768"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:39:45 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
-Content-Type: text/plain; charset="UTF-8"
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v14 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES supervisor states
+Date:   Mon, 12 Oct 2020 08:38:27 -0700
+Message-Id: <20201012153850.26996-4-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20201012153850.26996-1-yu-cheng.yu@intel.com>
+References: <20201012153850.26996-1-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[ Sorry for delay, just noticed this one doesn't have a reply yet. ]
+Control-flow Enforcement Technology (CET) adds five MSRs.  Introduce them
+and their XSAVES supervisor states:
 
-On Sat, 3 Oct 2020 at 00:27, Jann Horn <jannh@google.com> wrote:
-> On Fri, Oct 2, 2020 at 11:28 PM Marco Elver <elver@google.com> wrote:
-> > On Fri, 2 Oct 2020 at 21:32, Jann Horn <jannh@google.com> wrote:
-> > > > That's another check; we don't want to make this more expensive.
-> > >
-> > > Ah, right, I missed that this is the one piece of KFENCE that is
-> > > actually really hot code until Dmitry pointed that out.
-> > >
-> > > But actually, can't you reduce how hot this is for SLUB by moving
-> > > is_kfence_address() down into the freeing slowpath? At the moment you
-> > > use it in slab_free_freelist_hook(), which is in the super-hot
-> > > fastpath, but you should be able to at least move it down into
-> > > __slab_free()...
-> > >
-> > > Actually, you already have hooked into __slab_free(), so can't you
-> > > just get rid of the check in the slab_free_freelist_hook()?
-> >
-> > I missed this bit: the loop that follows wants the free pointer, so I
-> > currently see how this might work. :-/
->
-> reverse call graph:
-> __slab_free
->   do_slab_free
->     slab_free
->       kmem_cache_free (frees a single non-kmalloc allocation)
->       kmem_cache_free_bulk (frees multiple)
->       kfree (frees a single kmalloc allocation)
->     ___cache_free (frees a single allocation for KASAN)
->
-> So the only path for which we can actually loop in __slab_free() is
-> kmem_cache_free_bulk(); and you've already changed
-> build_detached_freelist() (which is used by kmem_cache_free_bulk() to
-> group objects from the same page) to consume KFENCE allocations before
-> they can ever reach __slab_free(). So we know that if we've reached
-> __slab_free(), then we are being called with either a single object
-> (which may be a KFENCE object) or with a list of objects that all
-> belong to the same page and don't contain any KFENCE allocations.
+    MSR_IA32_U_CET (user-mode CET settings),
+    MSR_IA32_PL3_SSP (user-mode Shadow Stack pointer),
+    MSR_IA32_PL0_SSP (kernel-mode Shadow Stack pointer),
+    MSR_IA32_PL1_SSP (Privilege Level 1 Shadow Stack pointer),
+    MSR_IA32_PL2_SSP (Privilege Level 2 Shadow Stack pointer).
 
-Yes, while that is true, we still cannot execute the code in
-slab_free_freelist_hook(). There are several problems:
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+ arch/x86/include/asm/fpu/types.h            | 23 +++++++++++++++--
+ arch/x86/include/asm/fpu/xstate.h           |  5 ++--
+ arch/x86/include/asm/msr-index.h            | 20 +++++++++++++++
+ arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+ arch/x86/kernel/fpu/xstate.c                | 28 ++++++++++++++++++---
+ tools/arch/x86/include/asm/msr-index.h      | 20 +++++++++++++++
+ 6 files changed, 91 insertions(+), 7 deletions(-)
 
-- getting the freepointer which accesses object + s->offset, may
-result in KFENCE OOB errors.
+diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
+index c87364ea6446..2a7037a6f960 100644
+--- a/arch/x86/include/asm/fpu/types.h
++++ b/arch/x86/include/asm/fpu/types.h
+@@ -115,8 +115,8 @@ enum xfeature {
+ 	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
+ 	XFEATURE_PKRU,
+ 	XFEATURE_RSRVD_COMP_10,
+-	XFEATURE_RSRVD_COMP_11,
+-	XFEATURE_RSRVD_COMP_12,
++	XFEATURE_CET_USER,
++	XFEATURE_CET_KERNEL,
+ 	XFEATURE_RSRVD_COMP_13,
+ 	XFEATURE_RSRVD_COMP_14,
+ 	XFEATURE_LBR,
+@@ -134,6 +134,8 @@ enum xfeature {
+ #define XFEATURE_MASK_Hi16_ZMM		(1 << XFEATURE_Hi16_ZMM)
+ #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
+ #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
++#define XFEATURE_MASK_CET_USER		(1 << XFEATURE_CET_USER)
++#define XFEATURE_MASK_CET_KERNEL	(1 << XFEATURE_CET_KERNEL)
+ #define XFEATURE_MASK_LBR		(1 << XFEATURE_LBR)
+ 
+ #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
+@@ -236,6 +238,23 @@ struct pkru_state {
+ 	u32				pad;
+ } __packed;
+ 
++/*
++ * State component 11 is Control-flow Enforcement user states
++ */
++struct cet_user_state {
++	u64 user_cet;			/* user control-flow settings */
++	u64 user_ssp;			/* user shadow stack pointer */
++};
++
++/*
++ * State component 12 is Control-flow Enforcement kernel states
++ */
++struct cet_kernel_state {
++	u64 kernel_ssp;			/* kernel shadow stack */
++	u64 pl1_ssp;			/* privilege level 1 shadow stack */
++	u64 pl2_ssp;			/* privilege level 2 shadow stack */
++};
++
+ /*
+  * State component 15: Architectural LBR configuration state.
+  * The size of Arch LBR state depends on the number of LBRs (lbr_depth).
+diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
+index 14ab815132d4..e4408db88bca 100644
+--- a/arch/x86/include/asm/fpu/xstate.h
++++ b/arch/x86/include/asm/fpu/xstate.h
+@@ -35,7 +35,7 @@
+ 				      XFEATURE_MASK_BNDCSR)
+ 
+ /* All currently supported supervisor features */
+-#define XFEATURE_MASK_SUPERVISOR_SUPPORTED (0)
++#define XFEATURE_MASK_SUPERVISOR_SUPPORTED (XFEATURE_MASK_CET_USER)
+ 
+ /*
+  * A supervisor state component may not always contain valuable information,
+@@ -62,7 +62,8 @@
+  * Unsupported supervisor features. When a supervisor feature in this mask is
+  * supported in the future, move it to the supported supervisor feature mask.
+  */
+-#define XFEATURE_MASK_SUPERVISOR_UNSUPPORTED (XFEATURE_MASK_PT)
++#define XFEATURE_MASK_SUPERVISOR_UNSUPPORTED (XFEATURE_MASK_PT | \
++					      XFEATURE_MASK_CET_KERNEL)
+ 
+ /* All supervisor states including supported and unsupported states. */
+ #define XFEATURE_MASK_SUPERVISOR_ALL (XFEATURE_MASK_SUPERVISOR_SUPPORTED | \
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 2859ee4f39a8..f6f3a0e6c664 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -912,4 +912,24 @@
+ #define MSR_VM_IGNNE                    0xc0010115
+ #define MSR_VM_HSAVE_PA                 0xc0010117
+ 
++/* Control-flow Enforcement Technology MSRs */
++#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
++#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
++#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shstk pointer */
++#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shstk pointer */
++#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shstk pointer */
++#define MSR_IA32_PL3_SSP	0x6a7 /* user shstk pointer */
++#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shstk table */
++
++/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
++#define CET_SHSTK_EN		BIT_ULL(0)
++#define CET_WRSS_EN		BIT_ULL(1)
++#define CET_ENDBR_EN		BIT_ULL(2)
++#define CET_LEG_IW_EN		BIT_ULL(3)
++#define CET_NO_TRACK_EN		BIT_ULL(4)
++#define CET_SUPPRESS_DISABLE	BIT_ULL(5)
++#define CET_RESERVED		(BIT_ULL(6) | BIT_ULL(7) | BIT_ULL(8) | BIT_ULL(9))
++#define CET_SUPPRESS		BIT_ULL(10)
++#define CET_WAIT_ENDBR		BIT_ULL(11)
++
+ #endif /* _ASM_X86_MSR_INDEX_H */
+diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
+index bcba3c643e63..a8df907e8017 100644
+--- a/arch/x86/include/uapi/asm/processor-flags.h
++++ b/arch/x86/include/uapi/asm/processor-flags.h
+@@ -130,6 +130,8 @@
+ #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
+ #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
+ #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
++#define X86_CR4_CET_BIT		23 /* enable Control-flow Enforcement */
++#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
+ 
+ /*
+  * x86-64 Task Priority Register, CR8
+diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+index 038e19c0019e..705fd9b94e31 100644
+--- a/arch/x86/kernel/fpu/xstate.c
++++ b/arch/x86/kernel/fpu/xstate.c
+@@ -38,6 +38,9 @@ static const char *xfeature_names[] =
+ 	"Processor Trace (unused)"	,
+ 	"Protection Keys User registers",
+ 	"unknown xstate feature"	,
++	"Control-flow User registers"	,
++	"Control-flow Kernel registers"	,
++	"unknown xstate feature"	,
+ };
+ 
+ static short xsave_cpuid_features[] __initdata = {
+@@ -51,6 +54,9 @@ static short xsave_cpuid_features[] __initdata = {
+ 	X86_FEATURE_AVX512F,
+ 	X86_FEATURE_INTEL_PT,
+ 	X86_FEATURE_PKU,
++	-1,		   /* Unused */
++	X86_FEATURE_SHSTK, /* XFEATURE_CET_USER */
++	X86_FEATURE_SHSTK, /* XFEATURE_CET_KERNEL */
+ };
+ 
+ /*
+@@ -318,6 +324,8 @@ static void __init print_xstate_features(void)
+ 	print_xstate_feature(XFEATURE_MASK_ZMM_Hi256);
+ 	print_xstate_feature(XFEATURE_MASK_Hi16_ZMM);
+ 	print_xstate_feature(XFEATURE_MASK_PKRU);
++	print_xstate_feature(XFEATURE_MASK_CET_USER);
++	print_xstate_feature(XFEATURE_MASK_CET_KERNEL);
+ }
+ 
+ /*
+@@ -592,6 +600,8 @@ static void check_xstate_against_struct(int nr)
+ 	XCHECK_SZ(sz, nr, XFEATURE_ZMM_Hi256, struct avx_512_zmm_uppers_state);
+ 	XCHECK_SZ(sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
+ 	XCHECK_SZ(sz, nr, XFEATURE_PKRU,      struct pkru_state);
++	XCHECK_SZ(sz, nr, XFEATURE_CET_USER,   struct cet_user_state);
++	XCHECK_SZ(sz, nr, XFEATURE_CET_KERNEL, struct cet_kernel_state);
+ 
+ 	/*
+ 	 * Make *SURE* to add any feature numbers in below if
+@@ -601,7 +611,8 @@ static void check_xstate_against_struct(int nr)
+ 	if ((nr < XFEATURE_YMM) ||
+ 	    (nr >= XFEATURE_MAX) ||
+ 	    (nr == XFEATURE_PT_UNIMPLEMENTED_SO_FAR) ||
+-	    ((nr >= XFEATURE_RSRVD_COMP_10) && (nr <= XFEATURE_LBR))) {
++	    (nr == XFEATURE_RSRVD_COMP_10) ||
++	    ((nr >= XFEATURE_RSRVD_COMP_13) && (nr <= XFEATURE_LBR))) {
+ 		WARN_ONCE(1, "no structure for xstate: %d\n", nr);
+ 		XSTATE_WARN_ON(1);
+ 	}
+@@ -831,8 +842,19 @@ void __init fpu__init_system_xstate(void)
+ 	 * Clear XSAVE features that are disabled in the normal CPUID.
+ 	 */
+ 	for (i = 0; i < ARRAY_SIZE(xsave_cpuid_features); i++) {
+-		if (!boot_cpu_has(xsave_cpuid_features[i]))
+-			xfeatures_mask_all &= ~BIT_ULL(i);
++		if (xsave_cpuid_features[i] == X86_FEATURE_SHSTK) {
++			/*
++			 * X86_FEATURE_SHSTK and X86_FEATURE_IBT share
++			 * same states, but can be enabled separately.
++			 */
++			if (!boot_cpu_has(X86_FEATURE_SHSTK) &&
++			    !boot_cpu_has(X86_FEATURE_IBT))
++				xfeatures_mask_all &= ~BIT_ULL(i);
++		} else {
++			if ((xsave_cpuid_features[i] == -1) ||
++			    !boot_cpu_has(xsave_cpuid_features[i]))
++				xfeatures_mask_all &= ~BIT_ULL(i);
++		}
+ 	}
+ 
+ 	xfeatures_mask_all &= fpu__get_supported_xfeatures_mask();
+diff --git a/tools/arch/x86/include/asm/msr-index.h b/tools/arch/x86/include/asm/msr-index.h
+index 2859ee4f39a8..f6f3a0e6c664 100644
+--- a/tools/arch/x86/include/asm/msr-index.h
++++ b/tools/arch/x86/include/asm/msr-index.h
+@@ -912,4 +912,24 @@
+ #define MSR_VM_IGNNE                    0xc0010115
+ #define MSR_VM_HSAVE_PA                 0xc0010117
+ 
++/* Control-flow Enforcement Technology MSRs */
++#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
++#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
++#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shstk pointer */
++#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shstk pointer */
++#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shstk pointer */
++#define MSR_IA32_PL3_SSP	0x6a7 /* user shstk pointer */
++#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shstk table */
++
++/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
++#define CET_SHSTK_EN		BIT_ULL(0)
++#define CET_WRSS_EN		BIT_ULL(1)
++#define CET_ENDBR_EN		BIT_ULL(2)
++#define CET_LEG_IW_EN		BIT_ULL(3)
++#define CET_NO_TRACK_EN		BIT_ULL(4)
++#define CET_SUPPRESS_DISABLE	BIT_ULL(5)
++#define CET_RESERVED		(BIT_ULL(6) | BIT_ULL(7) | BIT_ULL(8) | BIT_ULL(9))
++#define CET_SUPPRESS		BIT_ULL(10)
++#define CET_WAIT_ENDBR		BIT_ULL(11)
++
+ #endif /* _ASM_X86_MSR_INDEX_H */
+-- 
+2.21.0
 
-- similarly for setting the freepointer.
-
-- slab_want_init_on_free zeroing object according to memcache
-object_size, because it'll corrupt KFENCE's redzone if memcache
-object_size > actual allocation size.
-
-Leaving this here is fine, since we have determined that recent
-optimizations make the check in slab_free_freelist_hook() negligible.
-
-Thanks,
--- Marco
