@@ -2,72 +2,105 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00808C43457
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E2EFC433E7
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:54:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C45212145D
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:38:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4880208FE
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:54:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="s0Z3dVvb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387702AbgJLKie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 06:38:34 -0400
-Received: from elvis.franken.de ([193.175.24.41]:58433 "EHLO elvis.franken.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387605AbgJLKiS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Oct 2020 06:38:18 -0400
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1kRvDc-0008KW-09; Mon, 12 Oct 2020 12:38:16 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 9D990C1140; Mon, 12 Oct 2020 12:38:05 +0200 (CEST)
-Date:   Mon, 12 Oct 2020 12:38:05 +0200
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhc@lemote.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
-Subject: Re: [PATCH v2 3/4 RESEND] MIPS: Loongson64: Add /proc/boardinfo
-Message-ID: <20201012103805.GC7953@alpha.franken.de>
-References: <1602373674-4579-1-git-send-email-yangtiezhu@loongson.cn>
- <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn>
+        id S2387799AbgJLKyt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 06:54:49 -0400
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:18598 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387796AbgJLKyt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 06:54:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1602500089; x=1634036089;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=8y87zV5AlbPh5zyL4s+kUQVE8AR1AIkR7l4IYTIADsY=;
+  b=s0Z3dVvbSFVNSfYpzG9EHM6kvZHCYHqn06ywgp9Boe48iN11iViuj8Ru
+   EYHfnWURfoZ+uBVnCKPkyvaX+Emky4ErT8j8RRJJQBCTAxEjXXNdtTB3b
+   A8ZCdjRb1azX/9Er98Iuh5qBn1nxEkp+g/nV0f16Elvqnj1h8FCqkdWVX
+   Y=;
+X-IronPort-AV: E=Sophos;i="5.77,366,1596499200"; 
+   d="scan'208";a="59190454"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1d-2c665b5d.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 12 Oct 2020 10:54:43 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1d-2c665b5d.us-east-1.amazon.com (Postfix) with ESMTPS id 4D7ADA1C0B;
+        Mon, 12 Oct 2020 10:54:39 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.71) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 12 Oct 2020 10:54:35 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <brendanhiggins@google.com>
+CC:     SeongJae Park <sjpark@amazon.de>, <corbet@lwn.net>,
+        <skhan@linuxfoundation.org>, <linux-kselftest@vger.kernel.org>,
+        <kunit-dev@googlegroups.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] Documentation: kunit: Update Kconfig parts for KUNIT's module support
+Date:   Mon, 12 Oct 2020 12:54:20 +0200
+Message-ID: <20201012105420.5945-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.71]
+X-ClientProxiedBy: EX13D17UWC004.ant.amazon.com (10.43.162.195) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 11, 2020 at 07:47:53AM +0800, Tiezhu Yang wrote:
-> Add /proc/boardinfo to get mainboard and BIOS info easily on the Loongson
-> platform, this is useful to point out the current used mainboard type and
-> BIOS version when there exists problems related with hardware or firmware.
-> 
-> E.g. with this patch:
-> 
-> [loongson@linux ~]$ cat /proc/boardinfo
-> Board Info
-> Manufacturer            : LEMOTE
-> Board Name              : LEMOTE-LS3A4000-7A1000-1w-V01-pc
-> Family                  : LOONGSON3
-> 
-> BIOS Info
-> Vendor                  : Kunlun
-> Version                 : Kunlun-A1901-V4.1.3-20200414093938
-> ROM Size                : 4 KB
-> Release Date            : 2020-04-14
+From: SeongJae Park <sjpark@amazon.de>
 
-Why does Loongson64 need this extra file no other architecture or MIPS
-platform need ? Do others provide this information via a different method ?
-If yes, why can't Loongson64 do the same ?
+If 'CONFIG_KUNIT=m', letting kunit tests that do not support loadable
+module build depends on 'KUNIT' instead of 'KUNIT=y' result in compile
+errors.  This commit updates the document for this.
 
-Thomas.
+Fixes: 9fe124bf1b77 ("kunit: allow kunit to be loaded as a module")
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ Documentation/dev-tools/kunit/start.rst | 2 +-
+ Documentation/dev-tools/kunit/usage.rst | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+index d23385e3e159..454f307813ea 100644
+--- a/Documentation/dev-tools/kunit/start.rst
++++ b/Documentation/dev-tools/kunit/start.rst
+@@ -197,7 +197,7 @@ Now add the following to ``drivers/misc/Kconfig``:
+ 
+ 	config MISC_EXAMPLE_TEST
+ 		bool "Test for my example"
+-		depends on MISC_EXAMPLE && KUNIT
++		depends on MISC_EXAMPLE && KUNIT=y
+ 
+ and the following to ``drivers/misc/Makefile``:
+ 
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index 3c3fe8b5fecc..410380fc7fb4 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -556,6 +556,11 @@ Once the kernel is built and installed, a simple
+ 
+ ...will run the tests.
+ 
++.. note::
++   Note that you should make your test depends on ``KUNIT=y`` in Kcofig if the
++   test does not support module build.  Otherwise, it will trigger compile
++   errors if ``CONFIG_KUNIT`` is ``m``.
++
+ Writing new tests for other architectures
+ -----------------------------------------
+ 
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+2.17.1
+
