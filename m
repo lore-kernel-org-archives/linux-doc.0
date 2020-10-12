@@ -2,172 +2,116 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DC8C433E7
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:46:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D20C43457
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 16:19:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A4D8A20797
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:46:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 219D82087D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 16:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602519592;
+	bh=FXrMfe87r7In01hy1fZxNUDLVXbtP/5TJ3+XTzWq1o4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ilbrc3cSf/8o+Rp0PK49Y4Cyy+q8yPIj/mnKcD6DUqcndIZv8YqsyNgZyafk+4kdy
+	 p19rBl4wWfouAaupN4mi+ATHx3i7/A9/obFDVZS/Yc9FEypQb5WFUMNhHO9CgTmM30
+	 TVswxgpQAaYXwngn5PAJg/FzYyYXGCAr0dj+IPSg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390574AbgJLPqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 11:46:07 -0400
-Received: from mga07.intel.com ([134.134.136.100]:28365 "EHLO mga07.intel.com"
+        id S2390669AbgJLQTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 12:19:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59212 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389540AbgJLPpw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Oct 2020 11:45:52 -0400
-IronPort-SDR: kbiOaKC5vU/CTWeP9HTASalAvyUqioQbkNadgcM/v/zlfupa4H8UYozOP5oXpRWY8EP9eLP7oX
- GSwhyDyOmoLA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="229939275"
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
-   d="scan'208";a="229939275"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:45:52 -0700
-IronPort-SDR: +ewMVzeoFtp7hZWuheQMK+NfvJHqiZ2L5PLnIo0TG52tI9roPU3/FZ2SIb9/1eHXUJalgwAv8R
- IlBuFr16OCVQ==
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
-   d="scan'208";a="530012635"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:45:51 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S2390043AbgJLQTu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 12:19:50 -0400
+Received: from sol.localdomain (172-10-235-113.lightspeed.sntcca.sbcglobal.net [172.10.235.113])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 22B302080A;
+        Mon, 12 Oct 2020 16:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602519589;
+        bh=FXrMfe87r7In01hy1fZxNUDLVXbtP/5TJ3+XTzWq1o4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=V7DSrccLr5b4UIwMLihtwG0wHPpEpEeCdL4DEsryZDNbDbBe/031RRLLs/mkasjte
+         GkozOXCGlriE75ewyNE/y/+1/YN0mvEXF3Fx+zkSk5bqABC19TCsH57zxXZt4yoDfc
+         Gd/Q7Kn6Oc4wJMc886CZx9bFLur2svNEjPDcQyvk=
+Date:   Mon, 12 Oct 2020 09:19:46 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>, linux-aio@kvack.org,
+        linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v14 3/7] x86/cet/ibt: Handle signals for Indirect Branch Tracking
-Date:   Mon, 12 Oct 2020 08:45:26 -0700
-Message-Id: <20201012154530.28382-4-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201012154530.28382-1-yu-cheng.yu@intel.com>
-References: <20201012154530.28382-1-yu-cheng.yu@intel.com>
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org,
+        x86@kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-afs@lists.infradead.org, cluster-devel@redhat.com,
+        linux-cachefs@redhat.com, intel-wired-lan@lists.osuosl.org,
+        xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+        Fenghua Yu <fenghua.yu@intel.com>, ecryptfs@vger.kernel.org,
+        linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+        linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        io-uring@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH RFC PKS/PMEM 22/58] fs/f2fs: Utilize new kmap_thread()
+Message-ID: <20201012161946.GA858@sol.localdomain>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-23-ira.weiny@intel.com>
+ <20201009213434.GA839@sol.localdomain>
+ <20201010003954.GW20115@casper.infradead.org>
+ <20201010013036.GD1122@sol.localdomain>
+ <20201012065635.GB2046448@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201012065635.GB2046448@iweiny-DESK2.sc.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An indirect CALL/JMP moves the indirect branch tracking (IBT) state machine
-to WAIT_ENDBR status until the instruction reaches an ENDBR opcode.  If the
-CALL/JMP does not reach an ENDBR opcode, the processor raises a control-
-protection fault.  WAIT_ENDBR status can be read from MSR_IA32_U_CET.
+On Sun, Oct 11, 2020 at 11:56:35PM -0700, Ira Weiny wrote:
+> > 
+> > And I still don't really understand.  After this patchset, there is still code
+> > nearly identical to the above (doing a temporary mapping just for a memcpy) that
+> > would still be using kmap_atomic().
+> 
+> I don't understand.  You mean there would be other call sites calling:
+> 
+> kmap_atomic()
+> memcpy()
+> kunmap_atomic()
 
-WAIT_ENDBR is cleared for signal handling, and restored for sigreturn.
+Yes, there are tons of places that do this.  Try 'git grep -A6 kmap_atomic'
+and look for memcpy().
 
-IBT state machine is described in Intel SDM Vol. 1, Sec. 18.3.
+Hence why I'm asking what will be the "recommended" way to do this...
+kunmap_thread() or kmap_atomic()?
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
- arch/x86/kernel/cet.c        | 27 +++++++++++++++++++++++++--
- arch/x86/kernel/fpu/signal.c |  8 +++++---
- 2 files changed, 30 insertions(+), 5 deletions(-)
+> And since I don't know the call site details if there are kmap_thread() calls
+> which are better off as kmap_atomic() calls I think it is worth converting
+> them.  But I made the assumption that kmap users would already be calling
+> kmap_atomic() if they could (because it is more efficient).
 
-diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
-index 1dcd16aa4f90..0edcbd70f408 100644
---- a/arch/x86/kernel/cet.c
-+++ b/arch/x86/kernel/cet.c
-@@ -295,6 +295,13 @@ void cet_restore_signal(struct sc_ext *sc_ext)
- 		msr_val |= CET_SHSTK_EN;
- 	}
- 
-+	if (cet->ibt_enabled) {
-+		msr_val |= (CET_ENDBR_EN | CET_NO_TRACK_EN);
-+
-+		if (sc_ext->wait_endbr)
-+			msr_val |= CET_WAIT_ENDBR;
-+	}
-+
- 	if (test_thread_flag(TIF_NEED_FPU_LOAD))
- 		cet_user_state->user_cet = msr_val;
- 	else
-@@ -335,9 +342,25 @@ int cet_setup_signal(bool ia32, unsigned long rstor_addr, struct sc_ext *sc_ext)
- 		sc_ext->ssp = new_ssp;
- 	}
- 
--	if (ssp) {
-+	if (ssp || cet->ibt_enabled) {
-+
- 		start_update_msrs();
--		wrmsrl(MSR_IA32_PL3_SSP, ssp);
-+
-+		if (ssp)
-+			wrmsrl(MSR_IA32_PL3_SSP, ssp);
-+
-+		if (cet->ibt_enabled) {
-+			u64 r;
-+
-+			rdmsrl(MSR_IA32_U_CET, r);
-+
-+			if (r & CET_WAIT_ENDBR) {
-+				sc_ext->wait_endbr = 1;
-+				r &= ~CET_WAIT_ENDBR;
-+				wrmsrl(MSR_IA32_U_CET, r);
-+			}
-+		}
-+
- 		end_update_msrs();
- 	}
- 
-diff --git a/arch/x86/kernel/fpu/signal.c b/arch/x86/kernel/fpu/signal.c
-index c0c2141cb4b3..077853ef6f48 100644
---- a/arch/x86/kernel/fpu/signal.c
-+++ b/arch/x86/kernel/fpu/signal.c
-@@ -57,7 +57,8 @@ int save_cet_to_sigframe(int ia32, void __user *fp, unsigned long restorer)
- {
- 	int err = 0;
- 
--	if (!current->thread.cet.shstk_size)
-+	if (!current->thread.cet.shstk_size &&
-+	    !current->thread.cet.ibt_enabled)
- 		return 0;
- 
- 	if (fp) {
-@@ -89,7 +90,8 @@ static int get_cet_from_sigframe(int ia32, void __user *fp, struct sc_ext *ext)
- 
- 	memset(ext, 0, sizeof(*ext));
- 
--	if (!current->thread.cet.shstk_size)
-+	if (!current->thread.cet.shstk_size &&
-+	    !current->thread.cet.ibt_enabled)
- 		return 0;
- 
- 	if (fp) {
-@@ -577,7 +579,7 @@ static unsigned long fpu__alloc_sigcontext_ext(unsigned long sp)
- 	 * sigcontext_ext is at: fpu + fpu_user_xstate_size +
- 	 * FP_XSTATE_MAGIC2_SIZE, then aligned to 8.
- 	 */
--	if (cet->shstk_size)
-+	if (cet->shstk_size || cet->ibt_enabled)
- 		sp -= (sizeof(struct sc_ext) + 8);
- 
- 	return sp;
--- 
-2.21.0
+Not necessarily.  In cases where either one is correct, people might not have
+put much thought into which of kmap() and kmap_atomic() they are using.
 
+- Eric
