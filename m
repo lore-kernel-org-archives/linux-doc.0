@@ -6,82 +6,67 @@ X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 291EBC43457
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:21:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F6EBC433E7
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:26:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C776E208FE
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:21:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A5BC208B8
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602530480;
-	bh=ac3s7Vzk7Ib/lYUyP6ArqVRzBeKX+Hpl6WotbQS8KWM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=2B27JI/0XS1QUC5bCRRt5euzn9U4YYsdD8LwI3TytMccvkpI44gztQ+r/dOYTyXe0
-	 bR4GQo749eycFjxSt3D9XppCiV/8uMm5Y7uLIuj/QPKrkNYK1RIMWov83mCy8H4d0U
-	 jdr1drVFqJGCBAM4D1bybKnQ6WaWt1GqC4Qp2rwY=
+	s=default; t=1602530777;
+	bh=Z2F7hT/rtiFpKHrOdbWSil4FwSFmNrhQsk/IQB1RaAo=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:List-ID:From;
+	b=bcC/4niLVUcE/8Kdbojc59NC1FQ7LOyAO/Xmj3S06XNApPIHgpxipjHxzet5puhio
+	 2/d/QokQ3S0H3LSieJ37V0/KyH37jgd3NthxN+z78IuYYa4jeowVhnc2GkYgSNusAn
+	 eGWDel937TQuU3OnPrh2wbscgcIURm+dq0Ig++sI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390136AbgJLTVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 15:21:17 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42217 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730275AbgJLTVR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 15:21:17 -0400
-Received: by mail-ot1-f66.google.com with SMTP id m13so16813302otl.9;
-        Mon, 12 Oct 2020 12:21:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bDPx3gJbG2CpVJ6aCSdfBbWW1HjsWj+9+ilZev1TlOQ=;
-        b=KZxuEpNhBuGnPPUCdviakjWMCYsKMZ8wD80OyQDHLAQusTPEFX85N1PCKtIR5Oc2Xn
-         sgVs56zdYYTNSYqWf1bATSOZNIJ/kO+6rHlfzd/+PWxK31mCwB8ED/JLQfWUcWkW4sbW
-         V5CMUpI6mmQeTKGSb4hLvTAtIo5ldW3Ob6pExeftmwwOz1aL+B420vClvPxZmJWwP26g
-         gPiyYEf2ntL1tEGkbZbTkpUInobdk8dqiqzOVYqjLMGl4haVLw4zWIXZPPyqNNtns3cg
-         B6QfW0ePbHoLjolRz386Qa/25efteHs6DjAbt1ChOXN9wQ0XaINmqZpuxmI+f5zq4YU7
-         1dbA==
-X-Gm-Message-State: AOAM533+cfZqHdPuoUQn3+N0QRVOyUvNezepvgP6XfnSI5TJSg+4kR1V
-        zkqj3rJNqx4hWxGpptXV8g==
-X-Google-Smtp-Source: ABdhPJw/4sppoLAPM1GFsYwKrqpR8AaTvfdRnnsfE2ptYh6DHCLhGTrUTKut0LsveqNvpS/12rG/Eg==
-X-Received: by 2002:a9d:6954:: with SMTP id p20mr18379195oto.189.1602530476200;
-        Mon, 12 Oct 2020 12:21:16 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id m1sm9428947otq.30.2020.10.12.12.21.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 12:21:15 -0700 (PDT)
-Received: (nullmailer pid 1940143 invoked by uid 1000);
-        Mon, 12 Oct 2020 19:21:14 -0000
-Date:   Mon, 12 Oct 2020 14:21:14 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+        id S2388034AbgJLT0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 15:26:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34376 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387974AbgJLT0Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 15:26:16 -0400
+Received: from kernel.org (unknown [104.132.1.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 522602074A;
+        Mon, 12 Oct 2020 19:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602530776;
+        bh=Z2F7hT/rtiFpKHrOdbWSil4FwSFmNrhQsk/IQB1RaAo=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=lgced3+Zq1zK+bGA+HzuCC8nqbByms2HTt6BvjcsUEyPmQTMZov/m7G0uWD95MPpq
+         ABrfmQGy2MG35o8TFaYHl587ST1XUpOgjCKjllIHdpdpHR0tr6ivSnYGAjla672Ay9
+         uft2uj8S8m2ZIwalJ0BygYEvs0A6yT2Ms3tx295s=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
+References: <cover.1602245659.git.mchehab+huawei@kernel.org> <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 1/2] MAINTAINERS: fix broken doc refs due to yaml conversion
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?utf-8?q?J=C3=A9r=C3=B4me?= Pouiller 
+        <jerome.pouiller@silabs.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, devel@driverdev.osuosl.org,
+        Rob Herring <robh+dt@kernel.org>, devel@driverdev.osuosl.org,
         devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] MAINTAINERS: fix broken doc refs due to yaml
- conversion
-Message-ID: <20201012192114.GA1938842@bogus>
-References: <cover.1602245659.git.mchehab+huawei@kernel.org>
- <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date:   Mon, 12 Oct 2020 12:26:15 -0700
+Message-ID: <160253077510.310579.8020430999414158134@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 02:15:30PM +0200, Mauro Carvalho Chehab wrote:
+Quoting Mauro Carvalho Chehab (2020-10-09 05:15:30)
 > Several *.txt files got converted to yaml. Update their
 > references at MAINTAINERS file accordingly.
-> 
+>=20
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/devicetree/bindings/clock/hi6220-clock.txt | 2 +-
->  MAINTAINERS                                              | 9 ++++-----
->  .../devicetree/bindings/net/wireless/silabs,wfx.yaml     | 2 +-
->  3 files changed, 6 insertions(+), 7 deletions(-)
 
-Doesn't apply for me.
+Acked-by: Stephen Boyd <sboyd@kernel.org>
