@@ -2,134 +2,180 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD782C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 12:02:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4DE4C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 12:27:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 822272065D
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 12:02:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CA12208FE
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 12:27:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602505677;
+	bh=59oCIjsJ1RnqsEKDFdcIlGF19qeI1cmuvdFDSYDMqPk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=ZxgktV4mNgIBpqZ7j7VTFQ3JYf7M2cGh1Osx+lXSJS8wFeIb3YjH3uMCuU+fL4Ck/
+	 FoL1YYtAV3uA+R4aJ5hJoU4t8hiNyjiyz4Pc710iDDtPd8ytHquQgLL/wpyimoo416
+	 35vUVNQ0ZUUNHPMycjFt7tYlFTeoN9IxVnWaJlwc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388330AbgJLMCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 08:02:39 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:51246 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388332AbgJLMCi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Oct 2020 08:02:38 -0400
-Received: from [10.130.0.80] (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxGMbRRYRfq8ocAA--.4092S3;
-        Mon, 12 Oct 2020 20:02:26 +0800 (CST)
-Subject: Re: [PATCH v2 3/4 RESEND] MIPS: Loongson64: Add /proc/boardinfo
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-References: <1602373674-4579-1-git-send-email-yangtiezhu@loongson.cn>
- <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn>
- <20201012103805.GC7953@alpha.franken.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhc@lemote.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <95060519-530b-c5f5-537d-a7b217b39003@loongson.cn>
-Date:   Mon, 12 Oct 2020 20:02:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+        id S2388479AbgJLM15 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 08:27:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42608 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388334AbgJLM15 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 08:27:57 -0400
+Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1098C20708;
+        Mon, 12 Oct 2020 12:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602505676;
+        bh=59oCIjsJ1RnqsEKDFdcIlGF19qeI1cmuvdFDSYDMqPk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=yL++0nK1IJxw7lJh/t8BWWrR2pEmL6hzOw6KfjjXH38nQz42t0lV+aNhETYAHRSGl
+         YZKlgqhBi3F73W9/2G5Z7+LXHW7h1/RidGnZRsEsFhuEmfXR32QOllavshxbfCrazc
+         6Vk2+Xm12rjajbpI7Kt/P8uhGyZN65gQjiTqA+oM=
+Date:   Mon, 12 Oct 2020 14:27:50 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Changbin Du <changbin.du@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Markus Heiser <markus.heiser@darmarit.de>
+Subject: Re: [PATCH] scripts: kernel-doc: allow passing desired Sphinx C
+ domain dialect
+Message-ID: <20201012142750.5073109a@coco.lan>
+In-Reply-To: <20201006080134.07d94d26@lwn.net>
+References: <ee1f16453ad40eae2603adfde5f6dda3ab1befc7.1601798520.git.mchehab+huawei@kernel.org>
+        <20201005101736.7adf4f46@lwn.net>
+        <20201006084207.125c88d5@coco.lan>
+        <20201006080134.07d94d26@lwn.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201012103805.GC7953@alpha.franken.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf9DxGMbRRYRfq8ocAA--.4092S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw45Ww1fXr4DArWfCr13CFg_yoW8tFyrpa
-        yfAw4DGr4DK3WUurn5Ww4UZrWFv3yYkFWqqFW2vw1fK3s5G34FqFW0kayjyF1ayr18Jayj
-        qFWIkr4rWa4DCaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-        6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
-        Y487MxkIecxEwVAFwVW5JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
-        C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
-        wI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
-        v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2
-        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-        UI43ZEXa7VUjsjjDUUUUU==
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/12/2020 06:38 PM, Thomas Bogendoerfer wrote:
-> On Sun, Oct 11, 2020 at 07:47:53AM +0800, Tiezhu Yang wrote:
->> Add /proc/boardinfo to get mainboard and BIOS info easily on the Loongson
->> platform, this is useful to point out the current used mainboard type and
->> BIOS version when there exists problems related with hardware or firmware.
->>
->> E.g. with this patch:
->>
->> [loongson@linux ~]$ cat /proc/boardinfo
->> Board Info
->> Manufacturer            : LEMOTE
->> Board Name              : LEMOTE-LS3A4000-7A1000-1w-V01-pc
->> Family                  : LOONGSON3
->>
->> BIOS Info
->> Vendor                  : Kunlun
->> Version                 : Kunlun-A1901-V4.1.3-20200414093938
->> ROM Size                : 4 KB
->> Release Date            : 2020-04-14
-> Why does Loongson64 need this extra file no other architecture or MIPS
-> platform need ? Do others provide this information via a different method ?
-> If yes, why can't Loongson64 do the same ?
+Em Tue, 6 Oct 2020 08:01:34 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Hi Thomas,
+> On Tue, 6 Oct 2020 08:42:07 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > As right now we don't support Sphinx version 3.0[1], we're actually using just
+> > $sphinx_major. So, I'm wonder if it would make sense to also make <minor>
+> > optional.  
+> 
+> Maybe...someday we may need it, knowing how the Sphinx folks approach
+> compatibility, but I guess we can always add it then if so.
+> 
+> > The change would be trivial, although the regex will become even more
+> > harder to read ;-)  
+> 
+> 	^(\d+)(\.(\d+)){,2}
+> 
+> ?  (untested, of course)
 
-This is related with the implementation of firmware.
+Didn't work (perl complains about its syntax), and neither:
 
-Using dmidecode command can get the similar info if there exists SMBIOS
-in firmware, but the fact is there is no SMBIOS on some machines, we can
-see nothing when execute dmidecode, like this:
+	^(\d+)(\.(\d+)){0,2}
 
-[root@linux loongson]# dmidecode
-# dmidecode 2.12
-# No SMBIOS nor DMI entry point found, sorry.
+I also tried this:
 
-The following three structures are already defined in the interface
-specification about firmware and kernel on the Loongson platform,
-this is common requirement and specific for Loongson64, so add a
-new boardinfo.c file in arch/mips/loongson64.
+	^(\d+)(?:\.(\d+)){0,2}
 
-arch/mips/include/asm/mach-loongson64/boot_param.h
-struct interface_info {
-     u16 vers; /* version of the specificition */
-     u16 size;
-     u8  flag;
-     char description[64];
-} __packed;
+But both ends misplacing the second group information when
+x.y.z is used.
 
-struct board_devices {
-     char name[64];    /* hold the device name */
-     u32 num_resources; /* number of device_resource */
-     /* for each device's resource */
-     struct resource_loongson resource[MAX_RESOURCE_NUMBER];
-     /* arch specific additions */
-     struct archdev_data archdata;
-};
+On the tests I did, this is the one that worked fine:
 
-struct loongson_special_attribute {
-     u16 vers;     /* version of this special */
-     char special_name[64]; /* special_atribute_name */
-     u32 loongson_special_type; /* type of special device */
-     /* for each device's resource */
-     struct resource_loongson resource[MAX_RESOURCE_NUMBER];
-};
+	if ($ver_string =~ m/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/) {
+	    $sphinx_major = $1;
+	    if (defined($2)) {
+		$sphinx_minor = $2;
+	    } else {
+		$sphinx_minor = 0;
+	    }
+	    if (defined($3)) {
+		$sphinx_patch = $3
+	    } else {
+		$sphinx_patch = 0;
+	    }
+
+Or the alternative one, using substrings:
+
+	if ($ver_string =~ m/^(\d+)(\.\d+)?(\.\d+)?/) {
+	    $sphinx_major = $1;
+	    if (defined($2)) {
+		$sphinx_minor = substr($2,1);
+	    } else {
+		$sphinx_minor = 0;
+	    }
+	    if (defined($3)) {
+		$sphinx_patch = substr($3,1)
+	    } else {
+		$sphinx_patch = 0;
+	    }
+	}
+
+I'll keep the last one, as it is likely simpler to understand.
+
+> 
+> > [1] not sure how valuable would be adding support for Sphinx 3.0. While
+> > I didn't make any tests, I'm strongly suspecting that, with the approach
+> > we took for backward/forward compatibility, adding support for it
+> > would mean to just do a trivial change at cdomain.py by applying a
+> > patch that Markus did replacing a regex function that doesn't exist
+> > anymore at Sphinx API and emulating C namespace with the logic I
+> > already implemented.   
+> 
+> 3.0 might just be skippable at this point, methinks.  
+
+Yeah, agreed. 
+
+I'll fold the latest version of this patch with the following diff.
 
 Thanks,
-Tiezhu
+Mauro
 
->
-> Thomas.
->
+index 297312824d26..c8f6b11d5da1 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -466,11 +466,15 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	$show_not_found = 1;  # A no-op but don't fail
+     } elsif ($cmd eq "sphinx-version") {
+ 	my $ver_string = shift @ARGV;
+-	if ($ver_string =~ m/^(\d+)\.(\d+)(\.\d+)?/) {
++	if ($ver_string =~ m/^(\d+)(\.\d+)?(\.\d+)?/) {
+ 	    $sphinx_major = $1;
+-	    $sphinx_minor = $2;
++	    if (defined($2)) {
++		$sphinx_minor = substr($2,1);
++	    } else {
++		$sphinx_minor = 0;
++	    }
+ 	    if (defined($3)) {
+-		$sphinx_patch = substr($3,1);
++		$sphinx_patch = substr($3,1)
+ 	    } else {
+ 		$sphinx_patch = 0;
+ 	    }
+@@ -2368,7 +2372,10 @@ sub process_file($) {
+ }
+ 
+ 
+-get_sphinx_version() if (!$sphinx_major);
++if ($output_mode eq "rst") {
++	get_sphinx_version() if (!$sphinx_major);
++}
++
+ $kernelversion = get_kernel_version();
+ 
+ # generate a sequence of code that will splice in highlighting information
+
 
