@@ -2,102 +2,108 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F225C04EBE
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 16:45:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C67D2C433E7
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 17:19:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 366E42080A
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 16:45:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cjGmRDHB"
+	by mail.kernel.org (Postfix) with ESMTP id 7BE912087D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 17:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602523152;
+	bh=wl0o+SYD4qRU8FNYmgCsWz7TjkIKtNRRG6C2CoCtz6Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=nTAzN3v0k0OlKu8+3iBwRl0gswu/HUufC0zYkVfg4XplY/r/FsXY0Ilvrkwg6TN7W
+	 jl8H+aNLrOaJ/kEO1+lOnjLvib2tRsEBVgkOfOf1CfIy1+dV2I9SXRry6/LE2ouEgB
+	 HYUPYXr6aQWT47CyHJ75wPDlcYGFoHBhKu9AfUVs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403966AbgJLQoy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 12:44:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390257AbgJLQox (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 12:44:53 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BED7C0613D0;
-        Mon, 12 Oct 2020 09:44:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=l9dol8BjF52rFe8mzz85c9RZmeAYDZ2M1zPXpY3Bxec=; b=cjGmRDHB+K+xo1zaI46uR/JWZM
-        mu6b6OfRoAYfgdNA5Kf5Iurex6D1FcBZ+mRQhj12vLi3isoy7f1JrMIQOIfa61TejqqWEwpL43yKb
-        2mAeiG7QIg8Vb+ajA0gepoKbc6o17WQEzV+UWJKTyQWQStoFHb/kNJEfYbWmPc27vxrcwV1GpTL/g
-        cqcPit9vRB3f1Zs6upmREd44qhzYUWIO5sf13vXmWctx364S7GYQlJM4ZaGSBTPIwUKM8imQUHEl+
-        YU7Gj26Vo02zH0C4u7a3/EscApIpoLOe+KQejmiwTcRHTR/bJWdX/slhogDIyA7BDVBafjowKFz4j
-        1dyYxPzg==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kS0wA-0004gO-8Q; Mon, 12 Oct 2020 16:44:38 +0000
-Date:   Mon, 12 Oct 2020 17:44:38 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Eric Biggers <ebiggers@kernel.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, linux-aio@kvack.org,
-        linux-efi@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org,
-        x86@kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-afs@lists.infradead.org, cluster-devel@redhat.com,
-        linux-cachefs@redhat.com, intel-wired-lan@lists.osuosl.org,
-        xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
-        Fenghua Yu <fenghua.yu@intel.com>, ecryptfs@vger.kernel.org,
-        linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-        linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        io-uring@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH RFC PKS/PMEM 22/58] fs/f2fs: Utilize new kmap_thread()
-Message-ID: <20201012164438.GA20115@casper.infradead.org>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
- <20201009195033.3208459-23-ira.weiny@intel.com>
- <20201009213434.GA839@sol.localdomain>
- <20201010003954.GW20115@casper.infradead.org>
- <20201010013036.GD1122@sol.localdomain>
- <20201012065635.GB2046448@iweiny-DESK2.sc.intel.com>
- <20201012161946.GA858@sol.localdomain>
- <5d621db9-23d4-e140-45eb-d7fca2093d2b@intel.com>
+        id S2404073AbgJLRTM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 13:19:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45962 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403963AbgJLRTJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 13:19:09 -0400
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 01FA4208B8;
+        Mon, 12 Oct 2020 17:19:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602523149;
+        bh=wl0o+SYD4qRU8FNYmgCsWz7TjkIKtNRRG6C2CoCtz6Y=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Gx3Cn0CmLBl1Zhh5JnMbZlpAzcM36fenhtbQLPaXa/YB8ML+cYsXa/nZ8YorZOzPT
+         Oc1oZdHarNSFmdSY+Ka1wsxZp9AagB+/zuVxZCfzeUR4Ms0HGnix+AoXiP1f/gdUhZ
+         okLszCn2/qjagh+zRk/ReDFBAceKeekY17i5OJ60=
+Received: by mail-ej1-f51.google.com with SMTP id c22so24318739ejx.0;
+        Mon, 12 Oct 2020 10:19:08 -0700 (PDT)
+X-Gm-Message-State: AOAM530fJ8EKk1ntKB4J4MYbzzYClE9qFgFTrlZ2poRax2CS9tuqHgZb
+        t5tz/3Km6SfLYGQJnnNc/npsQRP9X7RKfPDYv/M=
+X-Google-Smtp-Source: ABdhPJzT2zTp6/dBYTUl1DVU5Qnm36/KSZ1tOBUj/D0oj3p+j9jBoqk1ddp9KI22QbA+Wp/V96EMVQb2D1RVmc13yqY=
+X-Received: by 2002:a17:906:6a07:: with SMTP id o7mr28963825ejr.454.1602523147452;
+ Mon, 12 Oct 2020 10:19:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d621db9-23d4-e140-45eb-d7fca2093d2b@intel.com>
+References: <20201007084306.12591-1-krzk@kernel.org> <20201009093804.7a130063@lwn.net>
+In-Reply-To: <20201009093804.7a130063@lwn.net>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Mon, 12 Oct 2020 19:18:55 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPe5Jw7iXmai234Za=x3X5qXDyGM1ECVtQcNuL+0cXyP3A@mail.gmail.com>
+Message-ID: <CAJKOXPe5Jw7iXmai234Za=x3X5qXDyGM1ECVtQcNuL+0cXyP3A@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: describe preserving review/test tags
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 09:28:29AM -0700, Dave Hansen wrote:
-> kmap_atomic() is always preferred over kmap()/kmap_thread().
-> kmap_atomic() is _much_ more lightweight since its TLB invalidation is
-> always CPU-local and never broadcast.
-> 
-> So, basically, unless you *must* sleep while the mapping is in place,
-> kmap_atomic() is preferred.
+On Fri, 9 Oct 2020 at 17:38, Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Wed,  7 Oct 2020 10:43:06 +0200
+> Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> > From time to time, the novice kernel contributors do not add Reviewed-by
+> > or Tested-by tags to the next versions of the patches.  Mostly because
+> > they are unaware that responsibility of adding these tags in next
+> > version is on submitter, not maintainer.
+> >
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > ---
+> >  Documentation/process/submitting-patches.rst | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> > index 58586ffe2808..9752b6311674 100644
+> > --- a/Documentation/process/submitting-patches.rst
+> > +++ b/Documentation/process/submitting-patches.rst
+> > @@ -527,6 +527,13 @@ done on the patch.  Reviewed-by: tags, when supplied by reviewers known to
+> >  understand the subject area and to perform thorough reviews, will normally
+> >  increase the likelihood of your patch getting into the kernel.
+> >
+> > +Both Tested-by and Reviewed-by tags, once received on mailing list from tester
+> > +or reviewer, should be added by author to the applicable patches when sending
+> > +next versions.  However if the patch is changed in following version, these
+> > +tags might not be applicable anymore and thus should be removed.  Usually
+> > +removal of someone's Tested-by or Reviewed-by tags should be mentioned
+> > +in the patch changelog (after '---' separator).
+>
+> after *the* "---" separator
+>
+> This is a bit ambiguous, though, since the point of sending a new version
+> of a patch is usually that it has changed.  I'm not quite sure how to best
+> articulate when a patch has changed enough that reviews and such are no
+> longer applicable...  If nothing else, "if the patch *has changed
+> substantially*" or something like that?
 
-But kmap_atomic() disables preemption, so the _ideal_ interface would map
-it only locally, then on preemption make it global.  I don't even know
-if that _can_ be done.  But this email makes it seem like kmap_atomic()
-has no downsides.
+Yes, it is ambiguous because different people see the amount of
+changes invalidating tags differently. I do not think we could make
+the paragraph above stricter and formalize such rule. I'll rework it
+to match your choice of wording.
+
+Best regards,
+Krzysztof
