@@ -2,133 +2,131 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B18EBC433E7
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:58:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD507C2D0A2
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 20:03:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6762A20FC3
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:58:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A4B620BED
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 20:03:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PA275n58"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="osm7lCKh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbgJLT6N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 15:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33316 "EHLO
+        id S1727089AbgJLUDK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 16:03:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726648AbgJLT6M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 15:58:12 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C49EC0613D0;
-        Mon, 12 Oct 2020 12:58:12 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id l2so19609538lfk.0;
-        Mon, 12 Oct 2020 12:58:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=UH3UXpfvrUNTYADvYPs2GrdsYjSWIaxmja32HFZoz98=;
-        b=PA275n58J7f37URqrBTUoDFA89FhZekXMQ21Bb7CQwst5nv71BJD2xlKXU/N4lIIiV
-         jD4DySJRjyBOq4YQn0WI3E0mUp0Hmn4gOhn9H6QF7AXOBQ4phxqKQ972lRqkScQ0EKLI
-         gH6RzWc/8RAhqpfngv8vqC2HRT9xy5FVSEkCbBbqlKE0gw1o9NhLpqwrraZe5xEzhAH3
-         uSru8TSSKGaHVLPXRIBlhgZNAeHbamAfNqWsJkPj7Os/Y/dEfbHQUpNRjRkb/rHYu+dx
-         huYMlfq3W/itydIJk3pPuNhHylfpKvs4lFoVhuykm44AwS59wSt0OTLzzExVSn/rIdOX
-         4Rxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UH3UXpfvrUNTYADvYPs2GrdsYjSWIaxmja32HFZoz98=;
-        b=dvEBjJUqVafqUOnAKq1lu2aCOvQnzi+L5U6SnPqmArbsqx++lmY4fv97QEA80meVrn
-         3HfypylpkMynoNHp2bVIWUpngYlMBBWIJicFlSE4d2ESxEfJSEIFQddRNzhJHrSDdiDA
-         U/U2zk3maTqIARDw0AKL+/qwnOmdW4r/tqMX1WEOXDEFbTTAn8nWvo1lafH4Oh9vsv+F
-         XzGqW1MMuZHN+B2+dv7TAYZKr5RmKPWlrAtQXyRkebaS7ND1KIA11C4MyBEma79SQI1+
-         euB4X4LG6dWNkspzgjPPapqxJg3RKJ0INfwpvQFkA+X1DN9bLdkq5T0LATz0e9zrAna3
-         rlnw==
-X-Gm-Message-State: AOAM530Tl4yoNFq0kQ5PKOkUbpfRc6RwaKAK1j671eOL48t2dyixKiH9
-        XjGwSylQdCWZz9BbVkYIeJE=
-X-Google-Smtp-Source: ABdhPJxlvyqilgdH1o27x6VJAY1YQ0TW4Ua3qooVBz9Izd6zA7hKwEZCPS860qjC1oNhpf1U3Oe5dQ==
-X-Received: by 2002:a19:c6cc:: with SMTP id w195mr1542377lff.24.1602532690551;
-        Mon, 12 Oct 2020 12:58:10 -0700 (PDT)
-Received: from grain.localdomain ([5.18.102.224])
-        by smtp.gmail.com with ESMTPSA id m11sm649927lfa.112.2020.10.12.12.58.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 12:58:09 -0700 (PDT)
-Received: by grain.localdomain (Postfix, from userid 1000)
-        id 3417A1A032A; Mon, 12 Oct 2020 22:58:08 +0300 (MSK)
-Date:   Mon, 12 Oct 2020 22:58:08 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        with ESMTP id S1726648AbgJLUDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 16:03:09 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3C8C0613D0;
+        Mon, 12 Oct 2020 13:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bCWIFHvT8FvIPrDMc3maof4qHUnzu6oS60i9lgfyu+w=; b=osm7lCKhtCxcgsJVmnbUIZHhMp
+        5nvioHkxA8AhlfbRA0tXQBSBlQdovP0UNFUmlu/tYL30pdEacRnzwKeBjNLJ8YRj+D/sF4f+x4FRA
+        68EE5VyuQPlhkPgzE4vuiuikkji/6lzFKcK2qIYtpBfSW0scT+5xZ65/me+9ijMgWVh8NM56bexcy
+        gJZd0qYjXWzdg4a2mFecVVyLa3Rwg0gTTp9KEwoseCi8fLlQXob3uBfLwA1anIPkZvUKPjVJpvK3u
+        UT+9cSbb34PGNNH3jL974SwKTCytz2qfL4ONXzbZAaSn1ZoiKQGnXIIuZa+WQOp/Awa/qjp/ly6GK
+        H6D/8XHQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kS422-0000HA-AX; Mon, 12 Oct 2020 20:02:54 +0000
+Date:   Mon, 12 Oct 2020 21:02:54 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>, linux-aio@kvack.org,
+        linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mmc@vger.kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v14 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES
- supervisor states
-Message-ID: <20201012195808.GD14048@grain>
-References: <20201012153850.26996-1-yu-cheng.yu@intel.com>
- <20201012153850.26996-4-yu-cheng.yu@intel.com>
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org,
+        x86@kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-afs@lists.infradead.org, cluster-devel@redhat.com,
+        linux-cachefs@redhat.com, intel-wired-lan@lists.osuosl.org,
+        xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+        Fenghua Yu <fenghua.yu@intel.com>, ecryptfs@vger.kernel.org,
+        linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+        linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        io-uring@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH RFC PKS/PMEM 22/58] fs/f2fs: Utilize new kmap_thread()
+Message-ID: <20201012200254.GB20115@casper.infradead.org>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-23-ira.weiny@intel.com>
+ <20201009213434.GA839@sol.localdomain>
+ <20201010003954.GW20115@casper.infradead.org>
+ <20201010013036.GD1122@sol.localdomain>
+ <20201012065635.GB2046448@iweiny-DESK2.sc.intel.com>
+ <20201012161946.GA858@sol.localdomain>
+ <5d621db9-23d4-e140-45eb-d7fca2093d2b@intel.com>
+ <20201012164438.GA20115@casper.infradead.org>
+ <20201012195354.GC2046448@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201012153850.26996-4-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+In-Reply-To: <20201012195354.GC2046448@iweiny-DESK2.sc.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 08:38:27AM -0700, Yu-cheng Yu wrote:
-...
->  /*
->   * x86-64 Task Priority Register, CR8
-> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-> index 038e19c0019e..705fd9b94e31 100644
-> --- a/arch/x86/kernel/fpu/xstate.c
-> +++ b/arch/x86/kernel/fpu/xstate.c
-> @@ -38,6 +38,9 @@ static const char *xfeature_names[] =
->  	"Processor Trace (unused)"	,
->  	"Protection Keys User registers",
->  	"unknown xstate feature"	,
-> +	"Control-flow User registers"	,
-> +	"Control-flow Kernel registers"	,
-> +	"unknown xstate feature"	,
->  };
->  
->  static short xsave_cpuid_features[] __initdata = {
-> @@ -51,6 +54,9 @@ static short xsave_cpuid_features[] __initdata = {
->  	X86_FEATURE_AVX512F,
->  	X86_FEATURE_INTEL_PT,
->  	X86_FEATURE_PKU,
-> +	-1,		   /* Unused */
-> +	X86_FEATURE_SHSTK, /* XFEATURE_CET_USER */
-> +	X86_FEATURE_SHSTK, /* XFEATURE_CET_KERNEL */
->  };
+On Mon, Oct 12, 2020 at 12:53:54PM -0700, Ira Weiny wrote:
+> On Mon, Oct 12, 2020 at 05:44:38PM +0100, Matthew Wilcox wrote:
+> > On Mon, Oct 12, 2020 at 09:28:29AM -0700, Dave Hansen wrote:
+> > > kmap_atomic() is always preferred over kmap()/kmap_thread().
+> > > kmap_atomic() is _much_ more lightweight since its TLB invalidation is
+> > > always CPU-local and never broadcast.
+> > > 
+> > > So, basically, unless you *must* sleep while the mapping is in place,
+> > > kmap_atomic() is preferred.
+> > 
+> > But kmap_atomic() disables preemption, so the _ideal_ interface would map
+> > it only locally, then on preemption make it global.  I don't even know
+> > if that _can_ be done.  But this email makes it seem like kmap_atomic()
+> > has no downsides.
+> 
+> And that is IIUC what Thomas was trying to solve.
+> 
+> Also, Linus brought up that kmap_atomic() has quirks in nesting.[1]
+> 
+> >From what I can see all of these discussions support the need to have something
+> between kmap() and kmap_atomic().
+> 
+> However, the reason behind converting call sites to kmap_thread() are different
+> between Thomas' patch set and mine.  Both require more kmap granularity.
+> However, they do so with different reasons and underlying implementations but
+> with the _same_ resulting semantics; a thread local mapping which is
+> preemptable.[2]  Therefore they each focus on changing different call sites.
+> 
+> While this patch set is huge I think it serves a valuable purpose to identify a
+> large number of call sites which are candidates for this new semantic.
 
-Why do you need "-1" here in the array? The only 1:1 mapping is between
-the names itselves and values, not indices of arrays so i don't understand
-why we need this unused value. Sorry if it is a dumb questions and
-been discussed already.
+Yes, I agree.  My problem with this patch-set is that it ties it to
+some Intel feature that almost nobody cares about.  Maybe we should
+care about it, but you didn't try very hard to make anyone care about
+it in the cover letter.
+
+For a future patch-set, I'd like to see you just introduce the new
+API.  Then you can optimise the Intel implementation of it afterwards.
+Those patch-sets have entirely different reviewers.
