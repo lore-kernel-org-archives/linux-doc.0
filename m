@@ -2,131 +2,134 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7DB0C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 11:28:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD782C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 12:02:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77D3F20E65
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 11:28:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WNwNfCC2"
+	by mail.kernel.org (Postfix) with ESMTP id 822272065D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 12:02:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388209AbgJLL2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 07:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388168AbgJLL2y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 07:28:54 -0400
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69759C0613D1
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2020 04:28:54 -0700 (PDT)
-Received: by mail-oo1-xc43.google.com with SMTP id y127so3980501ooa.5
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2020 04:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+XBDGrLSwB/6Y+76sReBKVonEBADxfEIwAHgLXgJVMM=;
-        b=WNwNfCC2ACvhv6Pa/bsQsYh4kkbVFDdT5MQQONrFzL2gwX2MnK1rrG1hTLm2LOiffa
-         SQNwSmdAuo7yfROtUrQKfzrgiyTB/OedKABr7BcetNgeA9/21HUAr5fvxqxBIF9BdvGF
-         vTgCZRXUVz3zUO6A0eUpkN4bYxvqxZa4c4JKHwV2amoJLfuMy48tIJ1PLvPi2Fec8av0
-         3IPFllGnuCE8yt8J8sDzBxSGKNyTU0x4sgH0xJCnIkGjwklwaZ//LqiA76vGJudwFaUK
-         uPBFzsKZlcfkVQg7JnhB0Mpt6tT0RpU1t0YIMdzjrtYA5y2vzpw3cSpDZEg4VJnRNf6e
-         PeWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+XBDGrLSwB/6Y+76sReBKVonEBADxfEIwAHgLXgJVMM=;
-        b=hgz6IJqBV/o4+gXnU8YMbZDYM4doD4EygZin5ZlBortFbmGrqQuVF4z6zFIotNN0tV
-         qEWjREpZlGq87tE/V/Vy6aKeog3bCt1o1B4xk/KTKfwzRmXL96gcVP/MCZphmgO91YS4
-         aL2hRgpVf9DEmlMhhSldSRMi0kZTjRrRHbtIMTtZ6ejqcDJYjUxKu+TWF6bwdhUC+iN3
-         lVrx/pBAdEV6xNuycXNeYQq/wcVVwYLb2IC/YqnTzrmTPVvnEDD6kJehuC53jztPGxxN
-         rv3DlY+JmGI0nXtjGjnSwvhNwGvoRwmOwVH7xmzTdPkvLSGsXz47g+zqWqakEJeT/uRB
-         JGZQ==
-X-Gm-Message-State: AOAM533cox7N3PzklgFGUfZSusXcFTvgLcQ3SFeUxmLWXwZ29tNwVM1I
-        oeRJ30JoXtdQWkpNy5oleu1/boX8WSNr8DnlVOpQCA==
-X-Google-Smtp-Source: ABdhPJxsRy1faO20CsKmVxozicKRHXjn1dAMVKdnEGKL74LeSp9bzA6YqEnp2aHZxDujgJpSWMrKE9d4pcir8ovYK6w=
-X-Received: by 2002:a4a:db6f:: with SMTP id o15mr18181579ood.36.1602502133520;
- Mon, 12 Oct 2020 04:28:53 -0700 (PDT)
+        id S2388330AbgJLMCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 08:02:39 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:51246 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388332AbgJLMCi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 08:02:38 -0400
+Received: from [10.130.0.80] (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxGMbRRYRfq8ocAA--.4092S3;
+        Mon, 12 Oct 2020 20:02:26 +0800 (CST)
+Subject: Re: [PATCH v2 3/4 RESEND] MIPS: Loongson64: Add /proc/boardinfo
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+References: <1602373674-4579-1-git-send-email-yangtiezhu@loongson.cn>
+ <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn>
+ <20201012103805.GC7953@alpha.franken.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhc@lemote.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <95060519-530b-c5f5-537d-a7b217b39003@loongson.cn>
+Date:   Mon, 12 Oct 2020 20:02:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-References: <20201012105420.5945-1-sjpark@amazon.com>
-In-Reply-To: <20201012105420.5945-1-sjpark@amazon.com>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 12 Oct 2020 13:28:42 +0200
-Message-ID: <CANpmjNP3oZZsOkE4sP---sXoa-K8yBB9fBXc8JzqQNXs2MwKUg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: Update Kconfig parts for KUNIT's
- module support
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201012103805.GC7953@alpha.franken.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf9DxGMbRRYRfq8ocAA--.4092S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw45Ww1fXr4DArWfCr13CFg_yoW8tFyrpa
+        yfAw4DGr4DK3WUurn5Ww4UZrWFv3yYkFWqqFW2vw1fK3s5G34FqFW0kayjyF1ayr18Jayj
+        qFWIkr4rWa4DCaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+        6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+        Y487MxkIecxEwVAFwVW5JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+        C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+        wI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+        v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2
+        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+        UI43ZEXa7VUjsjjDUUUUU==
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 12 Oct 2020 at 12:54, 'SeongJae Park' via KUnit Development
-<kunit-dev@googlegroups.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> If 'CONFIG_KUNIT=m', letting kunit tests that do not support loadable
-> module build depends on 'KUNIT' instead of 'KUNIT=y' result in compile
-> errors.  This commit updates the document for this.
->
-> Fixes: 9fe124bf1b77 ("kunit: allow kunit to be loaded as a module")
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> ---
->  Documentation/dev-tools/kunit/start.rst | 2 +-
->  Documentation/dev-tools/kunit/usage.rst | 5 +++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-> index d23385e3e159..454f307813ea 100644
-> --- a/Documentation/dev-tools/kunit/start.rst
-> +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -197,7 +197,7 @@ Now add the following to ``drivers/misc/Kconfig``:
->
->         config MISC_EXAMPLE_TEST
->                 bool "Test for my example"
-> -               depends on MISC_EXAMPLE && KUNIT
-> +               depends on MISC_EXAMPLE && KUNIT=y
->
->  and the following to ``drivers/misc/Makefile``:
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index 3c3fe8b5fecc..410380fc7fb4 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -556,6 +556,11 @@ Once the kernel is built and installed, a simple
->
->  ...will run the tests.
->
-> +.. note::
-> +   Note that you should make your test depends on ``KUNIT=y`` in Kcofig if the
-> +   test does not support module build.  Otherwise, it will trigger compile
-> +   errors if ``CONFIG_KUNIT`` is ``m``.
+On 10/12/2020 06:38 PM, Thomas Bogendoerfer wrote:
+> On Sun, Oct 11, 2020 at 07:47:53AM +0800, Tiezhu Yang wrote:
+>> Add /proc/boardinfo to get mainboard and BIOS info easily on the Loongson
+>> platform, this is useful to point out the current used mainboard type and
+>> BIOS version when there exists problems related with hardware or firmware.
+>>
+>> E.g. with this patch:
+>>
+>> [loongson@linux ~]$ cat /proc/boardinfo
+>> Board Info
+>> Manufacturer            : LEMOTE
+>> Board Name              : LEMOTE-LS3A4000-7A1000-1w-V01-pc
+>> Family                  : LOONGSON3
+>>
+>> BIOS Info
+>> Vendor                  : Kunlun
+>> Version                 : Kunlun-A1901-V4.1.3-20200414093938
+>> ROM Size                : 4 KB
+>> Release Date            : 2020-04-14
+> Why does Loongson64 need this extra file no other architecture or MIPS
+> platform need ? Do others provide this information via a different method ?
+> If yes, why can't Loongson64 do the same ?
 
-s/Kcofig/Kconfig/
+Hi Thomas,
 
->  Writing new tests for other architectures
->  -----------------------------------------
+This is related with the implementation of firmware.
+
+Using dmidecode command can get the similar info if there exists SMBIOS
+in firmware, but the fact is there is no SMBIOS on some machines, we can
+see nothing when execute dmidecode, like this:
+
+[root@linux loongson]# dmidecode
+# dmidecode 2.12
+# No SMBIOS nor DMI entry point found, sorry.
+
+The following three structures are already defined in the interface
+specification about firmware and kernel on the Loongson platform,
+this is common requirement and specific for Loongson64, so add a
+new boardinfo.c file in arch/mips/loongson64.
+
+arch/mips/include/asm/mach-loongson64/boot_param.h
+struct interface_info {
+     u16 vers; /* version of the specificition */
+     u16 size;
+     u8  flag;
+     char description[64];
+} __packed;
+
+struct board_devices {
+     char name[64];    /* hold the device name */
+     u32 num_resources; /* number of device_resource */
+     /* for each device's resource */
+     struct resource_loongson resource[MAX_RESOURCE_NUMBER];
+     /* arch specific additions */
+     struct archdev_data archdata;
+};
+
+struct loongson_special_attribute {
+     u16 vers;     /* version of this special */
+     char special_name[64]; /* special_atribute_name */
+     u32 loongson_special_type; /* type of special device */
+     /* for each device's resource */
+     struct resource_loongson resource[MAX_RESOURCE_NUMBER];
+};
+
+Thanks,
+Tiezhu
+
 >
-> --
-> 2.17.1
+> Thomas.
 >
-> --
-> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20201012105420.5945-1-sjpark%40amazon.com.
+
