@@ -2,81 +2,69 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4BCEC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:38:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00808C43457
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:38:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EB442078E
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:38:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C45212145D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 10:38:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387620AbgJLKiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 06:38:18 -0400
-Received: from elvis.franken.de ([193.175.24.41]:58431 "EHLO elvis.franken.de"
+        id S2387702AbgJLKie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 06:38:34 -0400
+Received: from elvis.franken.de ([193.175.24.41]:58433 "EHLO elvis.franken.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387599AbgJLKiS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2387605AbgJLKiS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 12 Oct 2020 06:38:18 -0400
 Received: from uucp (helo=alpha)
         by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1kRvDc-0008KW-07; Mon, 12 Oct 2020 12:38:16 +0200
+        id 1kRvDc-0008KW-09; Mon, 12 Oct 2020 12:38:16 +0200
 Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 841EFC1140; Mon, 12 Oct 2020 12:34:47 +0200 (CEST)
-Date:   Mon, 12 Oct 2020 12:34:47 +0200
+        id 9D990C1140; Mon, 12 Oct 2020 12:38:05 +0200 (CEST)
+Date:   Mon, 12 Oct 2020 12:38:05 +0200
 From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 To:     Tiezhu Yang <yangtiezhu@loongson.cn>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhc@lemote.com>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
-Subject: Re: [PATCH v2 1/4 RESEND] MIPS: Loongson64: Select SMP in Kconfig to
- avoid build error
-Message-ID: <20201012103447.GA7953@alpha.franken.de>
+Subject: Re: [PATCH v2 3/4 RESEND] MIPS: Loongson64: Add /proc/boardinfo
+Message-ID: <20201012103805.GC7953@alpha.franken.de>
 References: <1602373674-4579-1-git-send-email-yangtiezhu@loongson.cn>
- <1602373674-4579-2-git-send-email-yangtiezhu@loongson.cn>
+ <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1602373674-4579-2-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 11, 2020 at 07:47:51AM +0800, Tiezhu Yang wrote:
-> In the current code, CONFIG_SMP can be set as N by user on the Loongson
-> platform, then there exists the following build error under !CONFIG_SMP:
+On Sun, Oct 11, 2020 at 07:47:53AM +0800, Tiezhu Yang wrote:
+> Add /proc/boardinfo to get mainboard and BIOS info easily on the Loongson
+> platform, this is useful to point out the current used mainboard type and
+> BIOS version when there exists problems related with hardware or firmware.
 > 
->   CC      arch/mips/kernel/asm-offsets.s
-> In file included from ./include/linux/gfp.h:9:0,
->                  from ./include/linux/xarray.h:14,
->                  from ./include/linux/radix-tree.h:18,
->                  from ./include/linux/fs.h:15,
->                  from ./include/linux/compat.h:17,
->                  from arch/mips/kernel/asm-offsets.c:12:
-> ./include/linux/topology.h: In function 'numa_node_id':
-> ./include/linux/topology.h:119:2: error: implicit declaration of function 'cpu_logical_map' [-Werror=implicit-function-declaration]
->   return cpu_to_node(raw_smp_processor_id());
->   ^
-> cc1: some warnings being treated as errors
-> scripts/Makefile.build:117: recipe for target 'arch/mips/kernel/asm-offsets.s' failed
-> make[1]: *** [arch/mips/kernel/asm-offsets.s] Error 1
+> E.g. with this patch:
 > 
-> Select SMP in Kconfig to avoid the above build error and then remove
-> CONFIG_SMP=y in loongson3_defconfig.
+> [loongson@linux ~]$ cat /proc/boardinfo
+> Board Info
+> Manufacturer            : LEMOTE
+> Board Name              : LEMOTE-LS3A4000-7A1000-1w-V01-pc
+> Family                  : LOONGSON3
 > 
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
-> 
-> v2: no changes
-> 
->  arch/mips/Kconfig                     | 1 +
->  arch/mips/configs/loongson3_defconfig | 1 -
->  2 files changed, 1 insertion(+), 1 deletion(-)
+> BIOS Info
+> Vendor                  : Kunlun
+> Version                 : Kunlun-A1901-V4.1.3-20200414093938
+> ROM Size                : 4 KB
+> Release Date            : 2020-04-14
 
-applied to mips-next.
+Why does Loongson64 need this extra file no other architecture or MIPS
+platform need ? Do others provide this information via a different method ?
+If yes, why can't Loongson64 do the same ?
 
 Thomas.
 
