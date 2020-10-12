@@ -2,66 +2,86 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65257C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:16:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 291EBC43457
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:21:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 083EF208FE
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:16:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C776E208FE
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 19:21:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602530480;
+	bh=ac3s7Vzk7Ib/lYUyP6ArqVRzBeKX+Hpl6WotbQS8KWM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=2B27JI/0XS1QUC5bCRRt5euzn9U4YYsdD8LwI3TytMccvkpI44gztQ+r/dOYTyXe0
+	 bR4GQo749eycFjxSt3D9XppCiV/8uMm5Y7uLIuj/QPKrkNYK1RIMWov83mCy8H4d0U
+	 jdr1drVFqJGCBAM4D1bybKnQ6WaWt1GqC4Qp2rwY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730049AbgJLTQl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 15:16:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729890AbgJLTQl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 15:16:41 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA09C0613D0;
-        Mon, 12 Oct 2020 12:16:41 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D31CF37C;
-        Mon, 12 Oct 2020 19:16:40 +0000 (UTC)
-Date:   Mon, 12 Oct 2020 13:16:39 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1] gpiolib: Update indentation in driver.rst for code
- excerpts
-Message-ID: <20201012131639.1c7437e7@lwn.net>
-In-Reply-To: <20201007143817.76335-1-andriy.shevchenko@linux.intel.com>
-References: <20201007143817.76335-1-andriy.shevchenko@linux.intel.com>
-Organization: LWN.net
+        id S2390136AbgJLTVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 15:21:17 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42217 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730275AbgJLTVR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 15:21:17 -0400
+Received: by mail-ot1-f66.google.com with SMTP id m13so16813302otl.9;
+        Mon, 12 Oct 2020 12:21:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bDPx3gJbG2CpVJ6aCSdfBbWW1HjsWj+9+ilZev1TlOQ=;
+        b=KZxuEpNhBuGnPPUCdviakjWMCYsKMZ8wD80OyQDHLAQusTPEFX85N1PCKtIR5Oc2Xn
+         sgVs56zdYYTNSYqWf1bATSOZNIJ/kO+6rHlfzd/+PWxK31mCwB8ED/JLQfWUcWkW4sbW
+         V5CMUpI6mmQeTKGSb4hLvTAtIo5ldW3Ob6pExeftmwwOz1aL+B420vClvPxZmJWwP26g
+         gPiyYEf2ntL1tEGkbZbTkpUInobdk8dqiqzOVYqjLMGl4haVLw4zWIXZPPyqNNtns3cg
+         B6QfW0ePbHoLjolRz386Qa/25efteHs6DjAbt1ChOXN9wQ0XaINmqZpuxmI+f5zq4YU7
+         1dbA==
+X-Gm-Message-State: AOAM533+cfZqHdPuoUQn3+N0QRVOyUvNezepvgP6XfnSI5TJSg+4kR1V
+        zkqj3rJNqx4hWxGpptXV8g==
+X-Google-Smtp-Source: ABdhPJw/4sppoLAPM1GFsYwKrqpR8AaTvfdRnnsfE2ptYh6DHCLhGTrUTKut0LsveqNvpS/12rG/Eg==
+X-Received: by 2002:a9d:6954:: with SMTP id p20mr18379195oto.189.1602530476200;
+        Mon, 12 Oct 2020 12:21:16 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m1sm9428947otq.30.2020.10.12.12.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2020 12:21:15 -0700 (PDT)
+Received: (nullmailer pid 1940143 invoked by uid 1000);
+        Mon, 12 Oct 2020 19:21:14 -0000
+Date:   Mon, 12 Oct 2020 14:21:14 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, devel@driverdev.osuosl.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] MAINTAINERS: fix broken doc refs due to yaml
+ conversion
+Message-ID: <20201012192114.GA1938842@bogus>
+References: <cover.1602245659.git.mchehab+huawei@kernel.org>
+ <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed,  7 Oct 2020 17:38:17 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-
-> When TABs are being used to indent the code excerpts inside
-> the bullet lists some of the tools fail to recognize it and
-> continue interpreting the special characters inside
-> the quoted excerpt.
+On Fri, Oct 09, 2020 at 02:15:30PM +0200, Mauro Carvalho Chehab wrote:
+> Several *.txt files got converted to yaml. Update their
+> references at MAINTAINERS file accordingly.
 > 
-> Update indentation in driver.rst for code excerpts to avoid
-> their special interpretation.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
+>  Documentation/devicetree/bindings/clock/hi6220-clock.txt | 2 +-
+>  MAINTAINERS                                              | 9 ++++-----
+>  .../devicetree/bindings/net/wireless/silabs,wfx.yaml     | 2 +-
+>  3 files changed, 6 insertions(+), 7 deletions(-)
 
-OK, I've applied this.  I added a parenthetical to the changelog
-mentioning vim in particular - gotta put the blame where it's due...:)
-
-Thanks,
-
-jon
+Doesn't apply for me.
