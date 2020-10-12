@@ -2,103 +2,100 @@ Return-Path: <SRS0=n+aG=DT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E58C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 20:30:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C767FC433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 20:43:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D9CA2145D
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 20:30:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77B6B208D5
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 20:43:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nkPnEYk/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729656AbgJLUaB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 16:30:01 -0400
-Received: from mga18.intel.com ([134.134.136.126]:31318 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728392AbgJLUaB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Oct 2020 16:30:01 -0400
-IronPort-SDR: FgyIRCx2kFq6mOo2jW7M0DM+o4ZM7PkL0CedglDPnfHKE44Pf0DZNTVYiH6VZT5EhRWx9S4Hro
- /RRpgol7FWMQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="153631193"
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
-   d="scan'208";a="153631193"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 13:29:59 -0700
-IronPort-SDR: Q3TMmJJfFdzOben8LhYKlvy2Lf9ifmccyfK46qxXdTv68g+iC/y3Dbe8lzuVbqqJFOCGX9WdEK
- BE8Pg6hROcLw==
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
-   d="scan'208";a="356739364"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.167.7]) ([10.209.167.7])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 13:29:58 -0700
-Subject: Re: [PATCH v14 1/7] x86/cet/ibt: Add Kconfig option for user-mode
- Indirect Branch Tracking
-To:     Cyrill Gorcunov <gorcunov@gmail.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1729110AbgJLUnd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 16:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728974AbgJLUnd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 16:43:33 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC13C0613D1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2020 13:43:33 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id p11so9321123pld.5
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2020 13:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=A6mr2GZ0DBJINQQpjmdYC2+OXujmO1pjxp1POyMlL2Y=;
+        b=nkPnEYk/TLpBpiZhbw9Co0vkESAqfDQdMLbvHaLr/5IjpIdqevfPju7kohqgEo7ksk
+         j9P4eHXHwHse0/oE9MbGn0/vvREbCk0OI8mhvlDRWvcZK/YTrWdc7u0RFoY/0Xiq7owD
+         nfZ04P9MBRZDiskcE9fB7lgt/sSthpVDBiOtE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=A6mr2GZ0DBJINQQpjmdYC2+OXujmO1pjxp1POyMlL2Y=;
+        b=NX16S+n/9/gdRoLBffKsr97YaSW7/ZAZRVFLnR8cyD2x6fMzWmFtAVwW1V/+4iExtt
+         SwIHTRkt6Q/fRBoegVexLTE6o0jPCPLmywd30mtM8ahTGZu0IUEjc3JrNRakJKkvV4x4
+         n/29csX5TJxZzxPsFxdQlmdc8hc2lDFUzK1x/eO5LGvoKA1zv+ONEk2tAkK4ORTAC2yO
+         A0zXulYZEvPtEcGHHIZPzWD5SUbe7qhhkx1+Q+T8FAVy5RLUOm0iK9gYes8RJuAQHVEb
+         V/NQybCY067K3vCqGSVqBxBSPrSrTqThMNWAH9jCPtncnBi51Z6TpUajpl8t70zlux7X
+         Wb6Q==
+X-Gm-Message-State: AOAM532oDsq6MSqBShQZ4HrbvUUoWDw8XbHM/rLlNS4RsaDonxmRMViF
+        Kv+jU0Oq/AIolFzN7FJ7bnv7zQ==
+X-Google-Smtp-Source: ABdhPJy1Hfs3WCk1tNDDRBB108LnSHEMkiQWQrCzfTBIswhUfzDcCcfAA0yjxRQniPbRDHSo0ZL6TQ==
+X-Received: by 2002:a17:902:8f82:b029:d4:bf4f:13da with SMTP id z2-20020a1709028f82b02900d4bf4f13damr16441277plo.40.1602535412935;
+        Mon, 12 Oct 2020 13:43:32 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w5sm21123501pgf.61.2020.10.12.13.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2020 13:43:32 -0700 (PDT)
+Date:   Mon, 12 Oct 2020 13:43:31 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Christopher Lameter <cl@linux.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, stable@vger.kernel.org,
+        Marco Elver <elver@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201012154530.28382-1-yu-cheng.yu@intel.com>
- <20201012154530.28382-2-yu-cheng.yu@intel.com> <20201012191511.GC14048@grain>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c1bb9728-95a8-2fc2-6a28-ea37f2b50e7b@intel.com>
-Date:   Mon, 12 Oct 2020 13:29:57 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <guro@fb.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v2 2/3] mm/slub: Fix redzoning for small allocations
+Message-ID: <202010121342.836D3C26CF@keescook>
+References: <20201009195411.4018141-1-keescook@chromium.org>
+ <20201009195411.4018141-3-keescook@chromium.org>
+ <alpine.DEB.2.22.394.2010120754010.150059@www.lameter.com>
 MIME-Version: 1.0
-In-Reply-To: <20201012191511.GC14048@grain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2010120754010.150059@www.lameter.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/12/2020 12:15 PM, Cyrill Gorcunov wrote:
-> On Mon, Oct 12, 2020 at 08:45:24AM -0700, Yu-cheng Yu wrote:
-> ...
->> +	  the application support it.  When this feature is enabled,
->> +	  legacy non-IBT applications continue to work, but without
->> +	  IBT protection.
->> +	  Support for this feature is only known to be present on
->> +	  processors released in 2020 or later.  CET features are also
->> +	  known to increase kernel text size by 3.7 KB.
+On Mon, Oct 12, 2020 at 08:01:04AM +0000, Christopher Lameter wrote:
+> On Fri, 9 Oct 2020, Kees Cook wrote:
 > 
-> It seems the last sentence is redundant - new features always bloat
-> the kernel code and precise size may differ depending on compiler
-> and options. Surely this can be patched on top.
+> > Store the freelist pointer out of line when object_size is smaller than
+> > sizeof(void *) and redzoning is enabled.
+> >
+> > (Note that no caches with such a size are known to exist in the kernel
+> > currently.)
 > 
+> Ummm... The smallest allowable cache size is sizeof(void *) as I recall.
+> 
+> 
+> mm/slab_common.c::kmem_sanity_check() checks the sizes when caches are
+> created.
 
-This was added after some discussion in v12 about kernel text size [1]. 
-I think these few extra words can help people who have older machines 
-and want to save some space.  Yes, like you said, if later we don't want 
-this sentence, I will be happy to add a patch to remove it.  Thanks for 
-the feedback.
+Ah thank you! Yes, I really thought there was a place where that
+happened, but I missed it. This patch can be dropped.
 
-Yu-cheng
-
-[1] 
-https://lore.kernel.org/linux-api/5e0a4005-45e3-3e88-e6e0-4ec31aad7eb9@intel.com/
+-- 
+Kees Cook
