@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF1AC2D0AE
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:46:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65969C3279D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:46:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFDF3208B8
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:46:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29D5920776
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Oct 2020 15:46:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389613AbgJLPpx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 11:45:53 -0400
-Received: from mga07.intel.com ([134.134.136.100]:28363 "EHLO mga07.intel.com"
+        id S2390550AbgJLPqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 11:46:07 -0400
+Received: from mga07.intel.com ([134.134.136.100]:28367 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389679AbgJLPpv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Oct 2020 11:45:51 -0400
-IronPort-SDR: Xmub+Y5kvXGsrjTyjWsoyN9zHpDc1wAoJECUFmd4A6CJn8Kf2u9i354qBES4Sa9gTtJuJKK2W5
- 2jgUZU7rxauw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="229939272"
+        id S2390391AbgJLPpz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 11:45:55 -0400
+IronPort-SDR: Tt3zefFKzByUYb0rQwEpbeh/U/wFrhZuiONnQR3pquxOsEdWUaHPjLEiTBwpNnYSRfj0oI2yqz
+ YT8ReG1Zz2Wg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="229939284"
 X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
-   d="scan'208";a="229939272"
+   d="scan'208";a="229939284"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:45:50 -0700
-IronPort-SDR: yS/7RiddGAclWwbaoIWSfXQ7X453w41ye5ZUMBbKZ7HAblE59SP21/Y4DZ/WElwvxGnOSijulU
- rprbjoIuvbHg==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:45:54 -0700
+IronPort-SDR: uktNiKl6OrGraGtBexLD49EBKoSk4PWqNdqvRfE9JUhTzhcs8JxM9dleflCvMSf5Pd2el9vp80
+ gvY7DK0IsBSA==
 X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
-   d="scan'208";a="530012625"
+   d="scan'208";a="530012655"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:45:49 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 08:45:54 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -62,9 +62,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v14 1/7] x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
-Date:   Mon, 12 Oct 2020 08:45:24 -0700
-Message-Id: <20201012154530.28382-2-yu-cheng.yu@intel.com>
+Subject: [PATCH v14 7/7] x86/vdso: Insert endbr32/endbr64 to vDSO
+Date:   Mon, 12 Oct 2020 08:45:30 -0700
+Message-Id: <20201012154530.28382-8-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201012154530.28382-1-yu-cheng.yu@intel.com>
 References: <20201012154530.28382-1-yu-cheng.yu@intel.com>
@@ -74,49 +74,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce Kconfig option X86_BRANCH_TRACKING_USER.
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
-Indirect Branch Tracking (IBT) provides protection against CALL-/JMP-
-oriented programming attacks.  It is active when the kernel has this
-feature enabled, and the processor and the application support it.
-When this feature is enabled, legacy non-IBT applications continue to
-work, but without IBT protection.
+When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
+called indirectly, and must have ENDBR32 or ENDBR64 as the first
+instruction.  The compiler must support -fcf-protection=branch so that it
+can be used to compile vDSO.
 
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Acked-by: Andy Lutomirski <luto@kernel.org>
 ---
- arch/x86/Kconfig | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ arch/x86/entry/vdso/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 4b28a0ce4594..15c7f2606c9d 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1966,6 +1966,25 @@ config X86_SHADOW_STACK_USER
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index 215376d975a2..1f1b6893068a 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -94,6 +94,10 @@ endif
  
- 	  If unsure, say N.
+ $(vobjs): KBUILD_CFLAGS := $(filter-out $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
  
-+config X86_BRANCH_TRACKING_USER
-+	prompt "Intel Indirect Branch Tracking for user-mode"
-+	def_bool n
-+	depends on CPU_SUP_INTEL && X86_64
-+	depends on $(cc-option,-fcf-protection)
-+	select X86_CET
-+	help
-+	  Indirect Branch Tracking (IBT) provides protection against
-+	  CALL-/JMP-oriented programming attacks.  It is active when
-+	  the kernel has this feature enabled, and the processor and
-+	  the application support it.  When this feature is enabled,
-+	  legacy non-IBT applications continue to work, but without
-+	  IBT protection.
-+	  Support for this feature is only known to be present on
-+	  processors released in 2020 or later.  CET features are also
-+	  known to increase kernel text size by 3.7 KB.
++ifdef CONFIG_X86_BRANCH_TRACKING_USER
++$(vobjs) $(vobjs32): KBUILD_CFLAGS += -fcf-protection=branch
++endif
 +
-+	  If unsure, say N.
-+
- config EFI
- 	bool "EFI runtime service support"
- 	depends on ACPI
+ #
+ # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
+ #
 -- 
 2.21.0
 
