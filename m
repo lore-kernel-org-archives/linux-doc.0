@@ -4,54 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7365C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A36C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5612620E65
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 096B12080A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590351;
-	bh=vrOfvePziKf+7l42JCBnb/pDEace0km6NriCAj45eBE=;
+	s=default; t=1602590369;
+	bh=LCf87qwfRfVquJSMBSLMadZoYFzd1py4QT5QAhXaufg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=y98mo6EPeFqcMNBXd8/9Yl2l+qJISiDhP/4EVQyhWFNREvCvXHkQ7ClyRAVf5j0Rl
-	 fWyCVOycSvkyXXIbZmGD9t2SMBlRUsll/H007Ln4q2cEsNGdCr1X2/dT6ZJ4V1nNSL
-	 3iDZKvTZdXKuD/zwYHClasEeG9ed/iBtHaT8xmTI=
+	b=LEutcyq9uw8aUOAib6bm2PzHKSckKncB7AhjdKjHuKyTbe+qLU4C7MHfIqDJ7XrBG
+	 gefDvco2VQe9s6KYglLR9I81r5qb59hJYe5FFgzPS9QTGcOjLirrh3whlfCFUwiZpK
+	 3bYu3qPmPIuHbFIX7hUyOGcZF8s5zs9gqHplmp6M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728263AbgJML7K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:59:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58144 "EHLO mail.kernel.org"
+        id S1728453AbgJML71 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:59:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57642 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727552AbgJMLyo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 07:54:44 -0400
+        id S1727519AbgJMLyn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:43 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 03F412242C;
+        by mail.kernel.org (Postfix) with ESMTPSA id DDFE02237B;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=vrOfvePziKf+7l42JCBnb/pDEace0km6NriCAj45eBE=;
+        bh=LCf87qwfRfVquJSMBSLMadZoYFzd1py4QT5QAhXaufg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CJul3RkyFNw956A4Q0EziMFCVH/NxIt15+IjFN4Ool5dyWIZ6xZJSIok8Gr+s+n9v
-         3hkA90SC1T9O4xJGEPQzHI11XXI2gYq+TB7u4BQ/2lj6T+mXNz5peuGLaolA5ay9uy
-         AyuO1/+9RLNH4jDXWOFVVNUaIIF3r2zEBGFUBV+w=
+        b=JyHH9QCeB8AXRiKhLf5T0okefLPKawlctsELk2byhCQhFbhreY7avPbvXcqz7SAbd
+         CAkVeoUSHS0632g8d59QsZUrIDk6q2WZ6F0ZVZzbHKfAokPnspSnkpVOjxziHS0qF1
+         Eic2Kwbet0jM+7a+fBbVxrXsfCNdxBkQlS1SiFso=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt6-006CWz-3a; Tue, 13 Oct 2020 13:54:40 +0200
+        id 1kSIt4-006CUU-EW; Tue, 13 Oct 2020 13:54:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Ralph Campbell <rcampbell@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v6 78/80] mm/doc: fix a literal block markup
-Date:   Tue, 13 Oct 2020 13:54:33 +0200
-Message-Id: <edbe13e8169c6c3dab86436d5c20f1d7744cdad8.1602589096.git.mchehab+huawei@kernel.org>
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Harald Seiler <hws@denx.de>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Pragat Pandya <pragat.pandya@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v6 29/80] docs: remove sound API duplication
+Date:   Tue, 13 Oct 2020 13:53:44 +0200
+Message-Id: <135fc08ee65363ee7a916705487cfdf928a3673b.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -62,30 +72,106 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Literal blocks with :: markup should be indented, as otherwise
-Sphinx complains:
+The sound API is documented on two different parts:
+under Documentation/driver-api/sound.rst and under
+Documentation/sound/kernel-api/alsa-driver-api.rst.
 
-	Documentation/vm/hmm.rst:363: WARNING: Literal block expected; none found.
+The alsa-driver-api.rst seems more complete, and APIs
+are split per type. There's just one missing kernel-doc
+markup there.
 
-Fixes: f7ebd9ed7767 ("mm/doc: add usage description for migrate_vma_*()")
+Add it and drop the duplicated one.
+
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/vm/hmm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/driver-api/index.rst            |  1 -
+ Documentation/driver-api/sound.rst            | 54 -------------------
+ .../sound/kernel-api/alsa-driver-api.rst      |  1 +
+ 3 files changed, 1 insertion(+), 55 deletions(-)
+ delete mode 100644 Documentation/driver-api/sound.rst
 
-diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-index dd9f76a4ef29..09e28507f5b2 100644
---- a/Documentation/vm/hmm.rst
-+++ b/Documentation/vm/hmm.rst
-@@ -360,7 +360,7 @@ between device driver specific code and shared common code:
-    system memory page, locks the page with ``lock_page()``, and fills in the
-    ``dst`` array entry with::
- 
--   dst[i] = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-+     dst[i] = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
- 
-    Now that the driver knows that this page is being migrated, it can
-    invalidate device private MMU mappings and copy device private memory
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 5ef2cfe3a16b..90d02c5fb155 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -28,7 +28,6 @@ available subsections can be seen below.
+    component
+    message-based
+    infiniband
+-   sound
+    frame-buffer
+    regulator
+    iio/index
+diff --git a/Documentation/driver-api/sound.rst b/Documentation/driver-api/sound.rst
+deleted file mode 100644
+index afef6eabc073..000000000000
+--- a/Documentation/driver-api/sound.rst
++++ /dev/null
+@@ -1,54 +0,0 @@
+-Sound Devices
+-=============
+-
+-.. kernel-doc:: include/sound/core.h
+-   :internal:
+-
+-.. kernel-doc:: sound/sound_core.c
+-   :export:
+-
+-.. kernel-doc:: include/sound/pcm.h
+-   :internal:
+-
+-.. kernel-doc:: sound/core/pcm.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/device.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/info.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/rawmidi.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/sound.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/memory.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/pcm_memory.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/init.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/isadma.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/control.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/pcm_lib.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/hwdep.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/pcm_native.c
+-   :export:
+-
+-.. kernel-doc:: sound/core/memalloc.c
+-   :export:
+-
+diff --git a/Documentation/sound/kernel-api/alsa-driver-api.rst b/Documentation/sound/kernel-api/alsa-driver-api.rst
+index c8cc651eccf7..d24c64df7069 100644
+--- a/Documentation/sound/kernel-api/alsa-driver-api.rst
++++ b/Documentation/sound/kernel-api/alsa-driver-api.rst
+@@ -132,3 +132,4 @@ ISA DMA Helpers
+ Other Helper Macros
+ -------------------
+ .. kernel-doc:: include/sound/core.h
++.. kernel-doc:: sound/sound_core.c
 -- 
 2.26.2
 
