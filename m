@@ -7,51 +7,53 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00EE3C4363A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D883C43467
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A676D214DB
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BC0B20878
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590244;
-	bh=BXGjvj2YrbZhIVzM1s1K593e8KBsZNVDOudP8Rkf7D4=;
+	s=default; t=1602590245;
+	bh=w7RTmAibzlnP4qxmJCS1CnZ5TrmTyrtcBUUPhI7/qQ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=LAnA2SyGSDEruklIq36mYpUSGxY5K2gtxBNTxBxJp+KwZO9GiHADuDJjQ6p6Pn711
-	 keEGGw2GmjIs4vjDWHi3O3jMReYCImCKM3QtpbfqrfppNVVjdCzluMZpfvoQzkUoD5
-	 ZZ4MUYX087RYWwfLl5wfAkb8UwH8mrj8Wv1DPZfM=
+	b=Czc9DUl39vXf2crKzlF6WiLiwt1MY9nn9VkSS4lP91HC0o2aeQlVh8HG3DxVrjXzJ
+	 fknGsFgQMaFcv2BQTjLyoYoichBA4SoS7SzWiuswl/Ty7TtIDpj5sZ9dzTQXItQY/L
+	 TjJVoNSdmpssxJUVNwJvYNAar0Zjo3Z6Y1Vd38t8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728084AbgJML5H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:57:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58144 "EHLO mail.kernel.org"
+        id S1728079AbgJML5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:57:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58060 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727648AbgJMLys (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727658AbgJMLys (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:48 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4B175224F4;
+        by mail.kernel.org (Postfix) with ESMTPSA id 37AA121D40;
         Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=BXGjvj2YrbZhIVzM1s1K593e8KBsZNVDOudP8Rkf7D4=;
+        bh=w7RTmAibzlnP4qxmJCS1CnZ5TrmTyrtcBUUPhI7/qQ0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KfXGiyqeuV8n1rQGxQIn5BmfSNqvtgjfkPGTZbuOGgqotYVbtogTEFOqaA89PGMmJ
-         23WYS1HSjhaRnyuZ3EX6e/pPVGE6e0ruMpdsPKsQrh4p1OkRK3cE7ERnsaYztXSAS+
-         YV/9yqiDC+FTNTD+u5OcliFwtI8nG772HmBfAXso=
+        b=hH4Sv1hv1I/FDXlg1fxZ971j4iMkKh7xG/pbeLiIVfVrYehOtv0gfb8NoIu7zAjYQ
+         wxmE/47iy/guJEaB98q5/i+Ib3y7dJRcm1p+juPJb+isCoC1tR8YoCG3GtU1PIsptm
+         Tw59H+B6zPn49tRAvzRpbKmhtAG0YrxRltvwHxEM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CVt-B3; Tue, 13 Oct 2020 13:54:39 +0200
+        id 1kSIt5-006CWd-RY; Tue, 13 Oct 2020 13:54:39 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v6 57/80] net: appletalk: Kconfig: Fix docs location
-Date:   Tue, 13 Oct 2020 13:54:12 +0200
-Message-Id: <732aa8cc045a585a4f91d886195682f290e885a2.1602589096.git.mchehab+huawei@kernel.org>
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 73/80] drm: kernel-doc: drm_dp_helper.h: fix a typo
+Date:   Tue, 13 Oct 2020 13:54:28 +0200
+Message-Id: <2075532606081f22ed00cf5fedc0754db80a6471.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -62,28 +64,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The location of ltpc.rst changed. Update it at Kconfig.
+Right now, kernel-doc generates a warning:
+	./include/drm/drm_dp_helper.h:1786: warning: Function parameter or member 'hbr2_reset' not described in 'drm_dp_phy_test_params'
 
-Fixes: 4daedf7abb41 ("docs: networking: move AppleTalk / LocalTalk drivers to the hw driver section")
+This is due to a typo:
+
+	@hb2_reset -> @hbr2_reset
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/net/appletalk/Kconfig | 2 +-
+ include/drm/drm_dp_helper.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/appletalk/Kconfig b/drivers/net/appletalk/Kconfig
-index d4f22a2e5be4..43918398f0d3 100644
---- a/drivers/net/appletalk/Kconfig
-+++ b/drivers/net/appletalk/Kconfig
-@@ -48,7 +48,7 @@ config LTPC
- 	  If you are in doubt, this card is the one with the 65C02 chip on it.
- 	  You also need version 1.3.3 or later of the netatalk package.
- 	  This driver is experimental, which means that it may not work.
--	  See the file <file:Documentation/networking/ltpc.rst>.
-+	  See the file <file:Documentation/networking/device_drivers/appletalk/ltpc.rst>.
- 
- config COPS
- 	tristate "COPS LocalTalk PC support"
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index e47dc22ebf50..69f7863ee99a 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1760,7 +1760,7 @@ static inline void drm_dp_cec_unset_edid(struct drm_dp_aux *aux)
+  * @link_rate: Requested Link rate from DPCD 0x219
+  * @num_lanes: Number of lanes requested by sing through DPCD 0x220
+  * @phy_pattern: DP Phy test pattern from DPCD 0x248
+- * @hb2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD 0x24A and 0x24B
++ * @hbr2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD 0x24A and 0x24B
+  * @custom80: DP Test_80BIT_CUSTOM_PATTERN from DPCDs 0x250 through 0x259
+  * @enhanced_frame_cap: flag for enhanced frame capability.
+  */
 -- 
 2.26.2
 
