@@ -2,105 +2,83 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 314CFC433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 15:54:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECC73C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:13:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFF8C25218
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 15:54:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602604449;
-	bh=trQOVCfY7quismV6EFJLZYCRoqbFMFBZuwroBsLlQXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Zht4Fdotfb31GTFXn9Ac6CiCDlG749OVptVntU+5k/zymmy3GFAXHHHVw/ROANzHH
-	 KbPPNZpOryrQ+gEEDCt5aMBIgUzLm/c/M6uQ74tGQdW2Cb767v6L85ocZG4v0JZhBR
-	 VyKHIy/TLuNTBo15dRl7l6hxOK8vKGW+qMfzdsPc=
+	by mail.kernel.org (Postfix) with ESMTP id A7C8525247
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:13:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731285AbgJMPyJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 11:54:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41908 "EHLO mail.kernel.org"
+        id S1731507AbgJMQNj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 12:13:39 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42294 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727016AbgJMPyJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 11:54:09 -0400
-Received: from localhost (dyndsl-091-249-035-207.ewe-ip-backbone.de [91.249.35.207])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6CA1E25215;
-        Tue, 13 Oct 2020 15:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602604448;
-        bh=trQOVCfY7quismV6EFJLZYCRoqbFMFBZuwroBsLlQXk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0kx25ZycPbfKI57m16/MizCeX6undrJikhtC1/6PMcHbuvDoojeIJt33jcVj7dyqY
-         8Tds4rJ9V8md2TQ6uyj2LwgSqtm+ub8CrArNHHGEQhfG0RDMMnYv82rPhVu46gxqJV
-         AbY0Ni7oe6OYo3jTrGI3Mz18cc03qwzcAtL+W4Ag=
-Date:   Tue, 13 Oct 2020 17:53:58 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Balbir Singh <sblbir@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 13/24] docs: i2c: index.rst: add
- slave-testunit-backend.rst
-Message-ID: <20201013155358.GA1465@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Balbir Singh <sblbir@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <8b46f6d001962e7b562c3542eb4449bd905f448a.1602590106.git.mchehab+huawei@kernel.org>
+        id S1726482AbgJMQNj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 12:13:39 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id D2F42AC6D;
+        Tue, 13 Oct 2020 16:13:37 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] mm/slub: Clarify verification reporting
+To:     Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+References: <20201009195411.4018141-1-keescook@chromium.org>
+ <20201009195411.4018141-2-keescook@chromium.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <cfdb11d7-fb8e-e578-c939-f7f5fb69a6bd@suse.cz>
+Date:   Tue, 13 Oct 2020 18:13:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
-Content-Disposition: inline
-In-Reply-To: <8b46f6d001962e7b562c3542eb4449bd905f448a.1602590106.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20201009195411.4018141-2-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 10/9/20 9:54 PM, Kees Cook wrote:
+> Instead of repeating "Redzone" and "Poison", clarify which sides of
+> those zones got tripped. Additionally fix column alignment in the
+> trailer.
+> 
+> Before:
+> 
+> BUG test (Tainted: G    B            ): Redzone overwritten
+> ...
+> Redzone (____ptrval____): bb bb bb bb bb bb bb bb      ........
+> Object (____ptrval____): f6 f4 a5 40 1d e8            ...@..
+> Redzone (____ptrval____): 1a aa                        ..
+> Padding (____ptrval____): 00 00 00 00 00 00 00 00      ........
+> 
+> After:
+> 
+> BUG test (Tainted: G    B            ): Right Redzone overwritten
+> ...
+> Redzone  (____ptrval____): bb bb bb bb bb bb bb bb      ........
+> Object   (____ptrval____): f6 f4 a5 40 1d e8            ...@..
+> Redzone  (____ptrval____): 1a aa                        ..
+> Padding  (____ptrval____): 00 00 00 00 00 00 00 00      ........
+> 
+> Fixes: d86bd1bece6f ("mm/slub: support left redzone")
+> Fixes: ffc79d288000 ("slub: use print_hex_dump")
+> Fixes: 2492268472e7 ("SLUB: change error reporting format to follow lockdep loosely")
 
---jRHKVT23PllUwdXP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Not sure about those Fixes: tag as this is mainly an enhancement. I'd only use 
+those for real bug fixes.
 
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-> Fixes: a8335c64c5f0 ("i2c: add slave testunit driver")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-As discussed with v1, I already fixed it (correctly). Patch is in
-linux-next:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git/commit/?h=i2c/for-next&id=40daf09a30a0c86a038bcce606604333f32e03f8
-
-Thanks!
-
-
---jRHKVT23PllUwdXP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl+FzY0ACgkQFA3kzBSg
-KbaaXw/9GVxvuUSDOgJD2XFZbvdWzUHyr58OcfG6bnfRZrlD8RJPLSmGUTA8xsLr
-5AbQG5y18J84KIiUqQpfFXR8Tie0NmTb7cCzCz5S/uTTzuCNNt/WU04OCDdTrbFV
-ZkfxZV3chY+oo7yDRCsGzSNDj3Wn0MQlp5MKnSXjRoQAihxId0ePRSQ9F+r/vWlt
-wqpCN6kDFZrjKZESDlY6CReVpvt4VHzQfW8O2NzlSUgkP3c08xBa0ILRNZGC2wUs
-Cw4mngubxrXvFCt5i/p+a797GbB5rsamwu0inmnoDYD92+BDJpJicf5GsxeO1Z/B
-RpETW9U6lQZZ1AqolS0hLwt4BULgU5QQSUx9to7O6mcvI/0jLApRi60X5baf5rny
-w3W/spX6FzPBzrrwucQxg5/RpJIirTa8RANtXChGwcVFxucvX0nXEWS/URiejy8t
-nVL9wnCinWtBAR3/sYeOSy0jpUuNJ0EusOKdwiPZbZxz50zs4Da5l+ER3ZuTjtlB
-AXU1fzYl4OH041qioAyJOuXf6GV5YZJm+P3xPbc55gnTqLTC3tqmm5Uk8lq0X1aT
-VPvR1Xq3c55uUG8rBfR2HMh07jETerLuTd71plQz6yV0IpiwzSSd6fBVrI1K6fRX
-c2a4HsBmTaZ9fkQMxQ9Lby+ktflUXf0GX/E7k0TErp2gC08yg4Q=
-=0/8Q
------END PGP SIGNATURE-----
-
---jRHKVT23PllUwdXP--
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
