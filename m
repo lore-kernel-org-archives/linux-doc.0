@@ -2,121 +2,89 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95128C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:02:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB9EC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:41:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FC8420E65
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:02:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6663208D5
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602621675;
+	bh=KF0q+uupmDV1pOAyg9WYj6hVV6CX1TMrjKTkOPB24yw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=Nh9BbC20KWpWapbUIsdLu+p5JOpL89qNWOBPXFmNTOQgDd4MYKI25nB5nIlXnEHw2
+	 z0Z/ohdvGU9qpPxGmMF6Er9CoQhA9VD5vPZ9XMmqAu15Y9KPIXPgG6xxOgwAp+3CNK
+	 Sr1y+JB9J3R4J4FMk6lvH4dgMuevGGupl+EahjaU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728171AbgJMUC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 16:02:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgJMUC2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 16:02:28 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7997C061755;
-        Tue, 13 Oct 2020 13:02:27 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kSQUX-00H96b-NT; Tue, 13 Oct 2020 20:01:49 +0000
-Date:   Tue, 13 Oct 2020 21:01:49 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        "Weiny, Ira" <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicolas Pitre <nico@fluxnic.net>, X86 ML <x86@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org,
-        Kexec Mailing List <kexec@lists.infradead.org>,
-        linux-bcache@vger.kernel.org, linux-mtd@lists.infradead.org,
-        devel@driverdev.osuosl.org, linux-efi <linux-efi@vger.kernel.org>,
-        linux-mmc@vger.kernel.org, linux-scsi <linux-scsi@vger.kernel.org>,
-        target-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        ceph-devel@vger.kernel.org,
-        linux-ext4 <linux-ext4@vger.kernel.org>, linux-aio@kvack.org,
-        io-uring@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-um@lists.infradead.org, linux-ntfs-dev@lists.sourceforge.net,
-        reiserfs-devel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-nilfs@vger.kernel.org, cluster-devel@redhat.com,
-        ecryptfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        linux-afs@lists.infradead.org,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, intel-gfx@lists.freedesktop.org,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        xen-devel <xen-devel@lists.xenproject.org>,
-        linux-cachefs@redhat.com, samba-technical@lists.samba.org,
-        intel-wired-lan@lists.osuosl.org
-Subject: Re: [PATCH RFC PKS/PMEM 33/58] fs/cramfs: Utilize new kmap_thread()
-Message-ID: <20201013200149.GI3576660@ZenIV.linux.org.uk>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
- <20201009195033.3208459-34-ira.weiny@intel.com>
- <CAPcyv4gL3jfw4d+SJGPqAD3Dp4F_K=X3domuN4ndAA1FQDGcPg@mail.gmail.com>
- <20201013193643.GK20115@casper.infradead.org>
+        id S1726768AbgJMUlJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 16:41:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726137AbgJMUlJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 16:41:09 -0400
+Received: from coco.lan (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1320520878;
+        Tue, 13 Oct 2020 20:41:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602621669;
+        bh=KF0q+uupmDV1pOAyg9WYj6hVV6CX1TMrjKTkOPB24yw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kVCJ0MMa7YrUSlZvqdvOd3h65STWdVIDu5uRnJoFnXPFMclK3wtnTid6cB4Z1W4zh
+         +Oee99PbVb8n0oEoUFufTP4cDkZTWTjgtwMYuc4ohHmh6jvZ0M12V2QyAZth0wPtqJ
+         1I1IIfucq+4aqSqcUM+qA3I9UjRxwKjX53fTKH7U=
+Date:   Tue, 13 Oct 2020 22:41:03 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Thomas Pedersen <thomas@adapt-ip.com>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH v6 68/80] nl80211: docs: add a description for s1g_cap
+ parameter
+Message-ID: <20201013224103.7f958544@coco.lan>
+In-Reply-To: <5ad3c2c6cd096b6fb5c9bedd340b927adb899213.camel@sipsolutions.net>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org>
+        <9633ea7d9b0cb2f997d784df86ba92e67659f29b.1602589096.git.mchehab+huawei@kernel.org>
+        <5ad3c2c6cd096b6fb5c9bedd340b927adb899213.camel@sipsolutions.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201013193643.GK20115@casper.infradead.org>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 08:36:43PM +0100, Matthew Wilcox wrote:
+Em Tue, 13 Oct 2020 20:47:47 +0200
+Johannes Berg <johannes@sipsolutions.net> escreveu:
 
-> static inline void copy_to_highpage(struct page *to, void *vfrom, unsigned int size)
-> {
-> 	char *vto = kmap_atomic(to);
+> Thanks Mauro.
 > 
-> 	memcpy(vto, vfrom, size);
-> 	kunmap_atomic(vto);
-> }
 > 
-> in linux/highmem.h ?
+> On Tue, 2020-10-13 at 13:54 +0200, Mauro Carvalho Chehab wrote:
+> > Changeset df78a0c0b67d ("nl80211: S1G band and channel definitions")
+> > added a new parameter, but didn't add the corresponding kernel-doc
+> > markup, as repoted when doing "make htmldocs":
+> > 
+> > 	./include/net/cfg80211.h:471: warning: Function parameter or member 's1g_cap' not described in 'ieee80211_supported_band'
+> > 
+> > Add a documentation for it.  
+> 
+> Should I take this through my tree, or is that part of a larger set
+> that'll go somewhere else?
 
-You mean, like
-static void memcpy_from_page(char *to, struct page *page, size_t offset, size_t len)
-{
-        char *from = kmap_atomic(page);
-        memcpy(to, from + offset, len);
-        kunmap_atomic(from);
-}
+Whatever works best for you ;-)
 
-static void memcpy_to_page(struct page *page, size_t offset, const char *from, size_t len)
-{
-        char *to = kmap_atomic(page);
-        memcpy(to + offset, from, len);
-        kunmap_atomic(to);
-}
+If you don't pick it via your tree, I'm planning to send it
+together with the other patches likely on Thursday.
 
-static void memzero_page(struct page *page, size_t offset, size_t len)
-{
-        char *addr = kmap_atomic(page);
-        memset(addr + offset, 0, len);
-        kunmap_atomic(addr);
-}
 
-in lib/iov_iter.c?  FWIW, I don't like that "highpage" in the name and
-highmem.h as location - these make perfect sense regardless of highmem;
-they are normal memory operations with page + offset used instead of
-a pointer...
+Thanks,
+Mauro
