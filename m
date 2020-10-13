@@ -7,57 +7,53 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA36AC433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD13C43467
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F0492227E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E2FA2227E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591371;
-	bh=Xx1nqZUs1Cn9NQ/RFywLp52tQmE9pzr1tQGxN0xfLMc=;
+	s=default; t=1602591372;
+	bh=6jY6pADWd4LdcEnG1rOTq/8tMFI7N/XzmAw3LP7tTK4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZNUuDLvnSJJ3WJ0yAr1h63ogyTXmUFnmdj2ZBOBO5VgaxDdbb+KrCBf7H6PrBUF6/
-	 pNYq4cBBeCty5fAmJ9qRpnO6KloxFhf17NJGA7Sui5vVTR74rIx3DS6VcvKfe7eSIw
-	 yydanICnEGLsZafXgQ7jNEO/MuwkqIlyOBehwSLE=
+	b=dwhycn120Rry+qKN1bK1l21RGpRDVLsP1Izlryn0kDGVwtkvMPQrxTdO6A7vmbBFD
+	 GCTziUGp52OWQ0k/akt1GW8cloPm9VpIMQz0n6QJF/GFVAwfZxwikAx0w+IGe7DoqP
+	 xs6HJWs9dHIknZN0QO7BDj6MiK5bNpXDCT/zQLjA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727618AbgJMMPh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:15:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41344 "EHLO mail.kernel.org"
+        id S1727554AbgJMMPg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:15:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41342 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727022AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727007AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 08:14:57 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A75122400;
+        by mail.kernel.org (Postfix) with ESMTPSA id 585F122384;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=Xx1nqZUs1Cn9NQ/RFywLp52tQmE9pzr1tQGxN0xfLMc=;
+        bh=6jY6pADWd4LdcEnG1rOTq/8tMFI7N/XzmAw3LP7tTK4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pLKZYwUfqS0djbTxgctSN2fB7QbIYBPSRA4YlKJTv/cs4TC6puun3kxAlJUQni4ur
-         2BZNRJJUlMcZIl/xgG4uNxuAf4MlY+AkWUJklHabE3h42dfrcUvTV+q9E90uamsN8n
-         zXTF9wjWHX/RSSVa8X/kpTRbmr/b/GgmolNhv70A=
+        b=ZLKLRGcHw+Jhgg8LShujgoam4S9h+R4TwFSFdIFJ7DcuJcnUGoQZwcgdFUtqFO9FA
+         ei5qhg5SRXErlQbzrLOrpe4SfY/9G1f7Fvo28tbrIL4yj9V5hggiCJU7K/kCDNFlLG
+         i8ncBRqdGaJjbQJRqCVohbtIl1YB9mniaOPRZRCU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCf-006Coo-CF; Tue, 13 Oct 2020 14:14:53 +0200
+        id 1kSJCf-006Cof-9R; Tue, 13 Oct 2020 14:14:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "rd.dunlab@gmail.com" <rd.dunlab@gmail.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kamal Heib <kamalheib1@gmail.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>,
-        Parav Pandit <parav@mellanox.com>,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
-Subject: [PATCH v2 23/24] RDMA: add a missing kernel-doc parameter markup
-Date:   Tue, 13 Oct 2020 14:14:50 +0200
-Message-Id: <6b2ed339933d066622d5715903870676d8cc523a.1602590106.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>, Chen-Yu Tsai <wens@csie.org>,
+        Corentin Labbe <clabbe.montjoie@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Maxime Ripard <mripard@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 21/24] crypto: sun8x-ce*: update entries to its documentation
+Date:   Tue, 13 Oct 2020 14:14:48 +0200
+Message-Id: <f8e8feef7e17cf66a2587139386d951a0265adcf.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -68,33 +64,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
-added a new parameter to ib_register_device().
+The README file was converted to ReST format. Update the
+references for it accordingly.
 
-Document it.
-
-Fixes: 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/infiniband/core/device.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 2 +-
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 2 +-
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/infiniband/core/device.c b/drivers/infiniband/core/device.c
-index feaec8d2f0ca..a3b1fc84cdca 100644
---- a/drivers/infiniband/core/device.c
-+++ b/drivers/infiniband/core/device.c
-@@ -1318,7 +1318,10 @@ static void prevent_dealloc_device(struct ib_device *ib_dev)
-  * ib_register_device - Register an IB device with IB core
-  * @device: Device to register
-  * @name: unique string device name. This may include a '%' which will
-- * cause a unique index to be added to the passed device name.
-+ * 	  cause a unique index to be added to the passed device name.
-+ * @dma_device: pointer to a DMA-capable device. If %NULL, then the IB
-+ *	        device will be used. In this case the caller should fully
-+ *		setup the ibdev for DMA. This usually means using dma_virt_ops.
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+index fa2f1b4fad7b..a94bf28f858a 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+@@ -7,7 +7,7 @@
   *
-  * Low-level drivers use ib_register_device() to register their
-  * devices with the IB core.  All registered clients will receive a
+  * This file add support for MD5 and SHA1/SHA224/SHA256/SHA384/SHA512.
+  *
+- * You could find the datasheet in Documentation/arm/sunxi/README
++ * You could find the datasheet in Documentation/arm/sunxi.rst
+  */
+ #include <linux/dma-mapping.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
+index 78503006949c..cfde9ee4356b 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
+@@ -7,7 +7,7 @@
+  *
+  * This file handle the PRNG
+  *
+- * You could find a link for the datasheet in Documentation/arm/sunxi/README
++ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
+  */
+ #include "sun8i-ce.h"
+ #include <linux/dma-mapping.h>
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
+index 654328160d19..5b7af4498bd5 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
+@@ -7,7 +7,7 @@
+  *
+  * This file handle the TRNG
+  *
+- * You could find a link for the datasheet in Documentation/arm/sunxi/README
++ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
+  */
+ #include "sun8i-ce.h"
+ #include <linux/dma-mapping.h>
 -- 
 2.26.2
 
