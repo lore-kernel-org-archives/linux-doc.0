@@ -2,67 +2,60 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29760C433E7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 535B9C43457
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE8852224A
+	by mail.kernel.org (Postfix) with ESMTP id 09A9A2222E
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591327;
-	bh=GEoQoCGbFf5b/wNA+woo6pF55S9XNZRyPZRWqLMsiiE=;
+	s=default; t=1602591328;
+	bh=Jfl3S5/CVm87dfrfFsJcJ1KcmDiVSxRRxlJQMp3INpw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yLsvtD7+SoUxS+tthpCR42QAmnbaFVieSVtXrsUFQdgK6Tm33SwurwATXR0GqJ1IJ
-	 wPfB4JQsfIiJ2aVvPLTVE+3ByRyyWUvraBC9YqVKtV+5lT5ukmkvD4Vz4lh8ntvY3/
-	 OqIA1DXyBWFEj2KFo2x3VJkG3LZPA/pascPTqI2w=
+	b=wzP2cuFwuIwqHgB2UROc1Jnt7GKIauHc4lPA3QyiGs+hFKOef+1MoymKQ8P3myVii
+	 rvxeSTMhR4sZiT3ti1G/c5ztaM1NNx+IpeJissykODCtHk90Nd4f9KXdhl7aNd60BC
+	 CqUpc2syBnXcFUrvTCO1tSR6nTvXvg+vrjydOw74=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727086AbgJMMO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:14:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41278 "EHLO mail.kernel.org"
+        id S1727450AbgJMMP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:15:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41336 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726993AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 08:14:57 -0400
+        id S1727020AbgJMMO6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 08:14:58 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 23AD522268;
+        by mail.kernel.org (Postfix) with ESMTPSA id 50CAC22363;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=GEoQoCGbFf5b/wNA+woo6pF55S9XNZRyPZRWqLMsiiE=;
+        bh=Jfl3S5/CVm87dfrfFsJcJ1KcmDiVSxRRxlJQMp3INpw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=t+zMKk4A+xLqFI+/h4S1sI/vdK8QQ5yAODbSP8I5gP/0qgw+ExA9A3SOD66Ake9FJ
-         jPFwr/M2iX36Bo50gK3lSsB4fStHiNI91M/dYfHQImZzZ2guRiOd0sS6j4Ctc9wIL/
-         kAgUQK4WmpM/Yo2ovvNOZYZUxjbn6+HqUEWbCP2w=
+        b=W1eYstPcXcFq3NKpMJZUOZWeDlJ/3fKGrkhUrtGfj1AYmVNllVLXSxqzK0KdPe3lj
+         Q8AtYylAYOX22FG/PQGbmtNDXkeAaH8G6No29h/5bskrsIpWELSfYPb+y+2geNsEn7
+         0ITar86K20zICb84mLsSGnQi93lSSY4saheTo2Gw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCe-006Co3-SK; Tue, 13 Oct 2020 14:14:52 +0200
+        id 1kSJCf-006Cob-7l; Tue, 13 Oct 2020 14:14:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Bernard Zhao <bernard@vivo.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Colton Lewis <colton.w.lewis@protonmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>, Dennis Li <Dennis.Li@amd.com>,
-        Evan Quan <evan.quan@amd.com>,
-        Hawking Zhang <Hawking.Zhang@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= 
+        <jerome.pouiller@silabs.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, devel@driverdev.osuosl.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/24] drm: amdgpu: kernel-doc: update some adev parameters
-Date:   Tue, 13 Oct 2020 14:14:34 +0200
-Message-Id: <e8d8081e713010edcae2414427fec4a497182fae.1602590106.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 20/24] MAINTAINERS: fix broken doc refs due to yaml conversion
+Date:   Tue, 13 Oct 2020 14:14:47 +0200
+Message-Id: <2645a845a705a4ba5231db9d3570d7765b6204a0.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -73,102 +66,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Running "make htmldocs: produce lots of warnings on those files:
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+Several *.txt files got converted to yaml. Update their
+references at MAINTAINERS file accordingly.
 
-They're related to the repacement of some parameters by adev,
-and due to a few renamed parameters.
-
-Update the kernel-doc documentation accordingly.
-
+Acked-by: Stephen Boyd <sboyd@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 6 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 5 ++---
+ Documentation/devicetree/bindings/clock/hi6220-clock.txt | 2 +-
+ MAINTAINERS                                              | 9 ++++-----
+ .../devicetree/bindings/net/wireless/silabs,wfx.yaml     | 2 +-
  3 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index f8f298b34805..fb375752feb1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -817,7 +817,7 @@ static void amdgpu_block_invalid_wreg(struct amdgpu_device *adev,
- /**
-  * amdgpu_device_asic_init - Wrapper for atom asic_init
-  *
-- * @dev: drm_device pointer
-+ * @adev: drm_device pointer
-  *
-  * Does any asic specific work and then calls atom asic init.
-  */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index f203e4a6a3f2..5f3a04cd0fba 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -81,8 +81,8 @@ static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
- /**
-  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
-  *
-- * @man: TTM memory type manager
-- * @p_size: maximum size of GTT
-+ * @adev: amdgpu device structure
-+ * @gtt_size: maximum size of GTT
-  *
-  * Allocate and initialize the GTT manager.
-  */
-@@ -123,7 +123,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- /**
-  * amdgpu_gtt_mgr_fini - free and destroy GTT manager
-  *
-- * @man: TTM memory type manager
-+ * @adev: amdgpu device structure
-  *
-  * Destroy and free the GTT manager, returns -EBUSY if ranges are still
-  * allocated inside it.
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 01c1171afbe0..a0e787ddbbd7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -168,8 +168,7 @@ static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
- /**
-  * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
-  *
-- * @man: TTM memory type manager
-- * @p_size: maximum size of VRAM
-+ * @adev: amdgpu device structure
-  *
-  * Allocate and initialize the VRAM manager.
-  */
-@@ -199,7 +198,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
- /**
-  * amdgpu_vram_mgr_fini - free and destroy VRAM manager
-  *
-- * @man: TTM memory type manager
-+ * @adev: amdgpu device structure
-  *
-  * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
-  * allocated inside it.
+diff --git a/Documentation/devicetree/bindings/clock/hi6220-clock.txt b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
+index ef3deb7b86ea..17ac4a3dd26a 100644
+--- a/Documentation/devicetree/bindings/clock/hi6220-clock.txt
++++ b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
+@@ -4,7 +4,7 @@ Clock control registers reside in different Hi6220 system controllers,
+ please refer the following document to know more about the binding rules
+ for these system controllers:
+ 
+-Documentation/devicetree/bindings/arm/hisilicon/hisilicon.txt
++Documentation/devicetree/bindings/arm/hisilicon/hisilicon.yaml
+ 
+ Required Properties:
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f1eeef654caa..891b735233d3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -978,7 +978,7 @@ M:	Michael Hennerich <Michael.Hennerich@analog.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Supported
+ W:	http://ez.analog.com/community/linux-device-drivers
+-F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.txt
++F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml
+ F:	drivers/iio/adc/ad7768-1.c
+ 
+ ANALOG DEVICES INC AD7780 DRIVER
+@@ -3867,7 +3867,7 @@ M:	Roger Quadros <rogerq@ti.com>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
+-F:	Documentation/devicetree/bindings/usb/cdns-usb3.txt
++F:	Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+ F:	drivers/usb/cdns3/
+ 
+ CADET FM/AM RADIO RECEIVER DRIVER
+@@ -7919,7 +7919,7 @@ HISILICON LPC BUS DRIVER
+ M:	john.garry@huawei.com
+ S:	Maintained
+ W:	http://www.hisilicon.com
+-F:	Documentation/devicetree/bindings/arm/hisilicon/hisilicon-low-pin-count.txt
++F:	Documentation/devicetree/bindings/arm/hisilicon/low-pin-count.yaml
+ F:	drivers/bus/hisi_lpc.c
+ 
+ HISILICON NETWORK SUBSYSTEM 3 DRIVER (HNS3)
+@@ -14910,7 +14910,6 @@ RENESAS ETHERNET DRIVERS
+ R:	Sergei Shtylyov <sergei.shtylyov@gmail.com>
+ L:	netdev@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+-F:	Documentation/devicetree/bindings/net/renesas,*.txt
+ F:	Documentation/devicetree/bindings/net/renesas,*.yaml
+ F:	drivers/net/ethernet/renesas/
+ F:	include/linux/sh_eth.h
+@@ -18114,7 +18113,7 @@ M:	Yu Chen <chenyu56@huawei.com>
+ M:	Binghui Wang <wangbinghui@hisilicon.com>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt
++F:	Documentation/devicetree/bindings/phy/hisilicon,hi3660-usb3.yaml
+ F:	drivers/phy/hisilicon/phy-hi3660-usb3.c
+ 
+ USB ISP116X DRIVER
+diff --git a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
+index 43b5630c0407..510edd12ed19 100644
+--- a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
++++ b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
+@@ -24,7 +24,7 @@ description:
+     In addition, it is recommended to declare a mmc-pwrseq on SDIO host above
+     WFx. Without it, you may encounter issues with warm boot. The mmc-pwrseq
+     should be compatible with mmc-pwrseq-simple. Please consult
+-    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.txt for more
++    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml for more
+     information.
+ 
+   For SPI':'
 -- 
 2.26.2
 
