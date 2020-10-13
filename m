@@ -4,55 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E527C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDC1C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2A662227E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16A402227E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591373;
-	bh=8xmp8qJnTJi9IoID4I9CZ1SA+GyrMHFlPwDDsnJv+pc=;
+	s=default; t=1602591378;
+	bh=GiA/YK+LRhCnfgr+mmOKXZFT0B03NQNNFawIJNWdA6I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=e8A/NvPiBvu9DDf5y0faiQHs3J1bSHHoTy/vwkD4n/ssOADp/NN9+2iThKp6F8JTl
-	 iEdeH/9mER1VO+CuJYScW+9UfS+GXFKFZXKbC7IahAFHkTHMEd+AtQnfo6cJLaungy
-	 f5YWVn4kAfX2Qt76xPPqEw1cNQXAI/59ejbgCqO0=
+	b=TMH4ZAdwYW16mhhGTmm3g34JqpiRsEL+bfy/Xzi22R/3YtwLkooJfnBTi0dchHZCx
+	 Zt4Pn25kJTKUdsCj15We6+MKq5EVEtfEjBcNKqTDLUNMWqM/UyuwSu8ZfYPOABkaIz
+	 XgcHlvxUjujIQqTpZ5Kohn5yrzlwAdU/UKJMqAZg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727293AbgJMMPf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:15:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41142 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727005AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726707AbgJMMO5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 13 Oct 2020 08:14:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41112 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726867AbgJMMO4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 08:14:56 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5739F22365;
+        by mail.kernel.org (Postfix) with ESMTPSA id 01D4F22251;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=8xmp8qJnTJi9IoID4I9CZ1SA+GyrMHFlPwDDsnJv+pc=;
+        bh=GiA/YK+LRhCnfgr+mmOKXZFT0B03NQNNFawIJNWdA6I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yLViJ5h+qtaNMckfglLOmqg8/OZ5nQsss5BBveVQVd3eigXtl2CziT68OLvI8rUY8
-         2dwS5lznQUO4HQeBnUqenOOziLykML1rSBR2JPPRwkRQ1vnqzA50udQAckzCTtyiVu
-         PT7UuqHQeRfn+vrNIpWFiwXU2ukhPauLj35aag/Q=
+        b=Bxs+qOye1CX7hx51E+7Uzhg1J7AwTzRNMW4OJkUlSZFFw/LjqWoDxzp/oTVopO2dt
+         uITOc8WxWEyubN1EmPU2vnE42OYRAzB+12ReA0Rhls7FBR1Uwzn5fimHLpg45FGyyP
+         niBHbhbDoecYxtl7foW3rQM2fxR0t4IdItAecrBc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCf-006Cok-Al; Tue, 13 Oct 2020 14:14:53 +0200
+        id 1kSJCf-006CoI-1N; Tue, 13 Oct 2020 14:14:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@nvidia.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 22/24] ice: docs fix a devlink info that broke a table
-Date:   Tue, 13 Oct 2020 14:14:49 +0200
-Message-Id: <79d341b6be03e9ffbe489d7110348357971a5fc8.1602590106.git.mchehab+huawei@kernel.org>
+        Balbir Singh <sblbir@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 13/24] docs: i2c: index.rst: add slave-testunit-backend.rst
+Date:   Tue, 13 Oct 2020 14:14:40 +0200
+Message-Id: <8b46f6d001962e7b562c3542eb4449bd905f448a.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -63,41 +62,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 410d06879c01 ("ice: add the DDP Track ID to devlink info")
-added description for a new devlink field, but forgot to add
-one of its columns, causing it to break:
+As warned by Sphinx:
 
-	.../Documentation/networking/devlink/ice.rst:15: WARNING: Error parsing content block for the "list-table" directive: uniform two-level bullet list expected, but row 11 does not contain the same number of items as row 1 (3 vs 4).
+	.../Documentation/i2c/slave-testunit-backend.rst: WARNING: document isn't included in any toctree
 
-	.. list-table:: devlink info versions implemented
-	    :widths: 5 5 5 90
-...
-	    * - ``fw.app.bundle_id``
-	      - 0xc0000001
-	      - Unique identifier for the DDP package loaded in the device. Also
-	        referred to as the DDP Track ID. Can be used to uniquely identify
-	        the specific DDP package.
+This document is not included anywhere.
 
-Add the type field to the ``fw.app.bundle_id`` row.
-
-Fixes: 410d06879c01 ("ice: add the DDP Track ID to devlink info")
+Fixes: a8335c64c5f0 ("i2c: add slave testunit driver")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/devlink/ice.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/admin-guide/hw-vuln/l1d_flush.rst | 3 +--
+ Documentation/i2c/index.rst                     | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/devlink/ice.rst b/Documentation/networking/devlink/ice.rst
-index b165181d5d4d..a432dc419fa4 100644
---- a/Documentation/networking/devlink/ice.rst
-+++ b/Documentation/networking/devlink/ice.rst
-@@ -70,6 +70,7 @@ The ``ice`` driver reports the following versions
-         that both the name (as reported by ``fw.app.name``) and version are
-         required to uniquely identify the package.
-     * - ``fw.app.bundle_id``
-+      - running
-       - 0xc0000001
-       - Unique identifier for the DDP package loaded in the device. Also
-         referred to as the DDP Track ID. Can be used to uniquely identify
+diff --git a/Documentation/admin-guide/hw-vuln/l1d_flush.rst b/Documentation/admin-guide/hw-vuln/l1d_flush.rst
+index adc4ecc72361..f794e2b1096c 100644
+--- a/Documentation/admin-guide/hw-vuln/l1d_flush.rst
++++ b/Documentation/admin-guide/hw-vuln/l1d_flush.rst
+@@ -22,8 +22,7 @@ mechanism
+ Usage Guidelines
+ ----------------
+ 
+-Please see document: :ref:`Documentation/userspace-api/spec_ctrl.rst` for
+-details.
++Please see document: :doc:`/userspace-api/spec_ctrl` for details.
+ 
+ **NOTE**: The feature is disabled by default, applications need to
+ specifically opt into the feature to enable it.
+diff --git a/Documentation/i2c/index.rst b/Documentation/i2c/index.rst
+index 8b76217e370a..c8bf6f7d5286 100644
+--- a/Documentation/i2c/index.rst
++++ b/Documentation/i2c/index.rst
+@@ -38,6 +38,7 @@ Debugging
+ 
+    gpio-fault-injection
+    i2c-stub
++   slave-testunit-backend
+ 
+ Slave I2C
+ =========
 -- 
 2.26.2
 
