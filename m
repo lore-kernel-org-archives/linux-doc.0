@@ -4,56 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E31CC4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 101F3C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:58:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAD8F20870
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFD2E20878
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:58:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590271;
-	bh=9gBSzD3+KeU2Jz+UL1PYwe8WBiZH0JtTAv3JMCXciwk=;
+	s=default; t=1602590289;
+	bh=E+HUF3B3F2T5EVRU+RRyU63RjuPp+MoSXQWg3UueGeg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=qAi+HYxNkeOgnQ6nhyr4DtMa32cBscgUSPMuVvDCRynmPQmVRAL60xFU8BHf+EMjN
-	 vy5Ege4YxkK8yj3JawiUoEfJQ+kzdmWTHzTtFF6MVj0yCHnqmSlQ8+suuZimUXZ6JU
-	 ovTXZ7MK8L85daho87cwqa1k+Vh5d8gzY+ahbbms=
+	b=lV3hV7canN3vY41gd+CWU6/OCXfKKXMjDMRaR/ewr7y2Qe4gMn6IGgIUKtdPX73Qn
+	 ao9/fKrxn6akbjC2IW/RZombQ1D2GyCQMJlNOzHZKbwcKEIIISOdPaHwmtAJRumr2S
+	 vjEHesLDQIW8qkUMUHyXTAYgIjBazaMSEPQVdxvE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728152AbgJML5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:57:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58138 "EHLO mail.kernel.org"
+        id S1727958AbgJML5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:57:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58022 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727621AbgJMLyr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727632AbgJMLyr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:47 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 306AC22482;
+        by mail.kernel.org (Postfix) with ESMTPSA id 4429C224D1;
         Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=9gBSzD3+KeU2Jz+UL1PYwe8WBiZH0JtTAv3JMCXciwk=;
+        bh=E+HUF3B3F2T5EVRU+RRyU63RjuPp+MoSXQWg3UueGeg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Lp7zRxDYoZJQFNmFrIE6SvUb2826U+RmZdy0amCEQzHX9XzQk1AmKjV7ag5qhPAd7
-         ii1oRn8MMEoMSSsfYnioimquGxVo5OAk8rSnAsM3zEMiDpNNxY9HOhVNvh9VJ9WA6V
-         WyJr9QT90Ka0Pmr/Y/+2peSOl9ESXa+zRUjZqZP4=
+        b=W11d4hnwzShn/6gD5fRyBS110rJHitGDGIkVYy6RRCZOjVdehCzm7TuJkpH4DhqtA
+         GeG5zWZLdxewjZj4eF1zaAM1Y6eeBjRvDyZ6lZC4UZKsp2NiSieST20hk1ivk3QKhA
+         jhc9WKbXX631Pv3aLBtzE/kTmNmILKLrfJeMZwo4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CWh-St; Tue, 13 Oct 2020 13:54:39 +0200
+        id 1kSIt5-006CVn-8x; Tue, 13 Oct 2020 13:54:39 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 74/80] gpu: docs: amdgpu.rst: get rid of wrong kernel-doc markups
-Date:   Tue, 13 Oct 2020 13:54:29 +0200
-Message-Id: <f2cad6cfa5094014c386fe4d6ec0ee7c5803dca6.1602589096.git.mchehab+huawei@kernel.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: [PATCH v6 55/80] memblock: get rid of a :c:type leftover
+Date:   Tue, 13 Oct 2020 13:54:10 +0200
+Message-Id: <4d161da11361ce386e7885873f6f4e014f0f2c99.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -64,59 +61,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As reported by kernel-doc:
-    ./drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:1: warning: no structured comments found
-    ./drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1: warning: no structured comments found
+chanseset b3a7bb1851c8 ("docs: get rid of :c:type explicit declarations for structs")
+removed several :c:type: markups, except by one.
 
-Those files only contain
+Now, Sphinx 3.x complains about it:
 
-	/**
-	 * DOC:
-	 */
+	.../Documentation/core-api/boot-time-mm:26: ../mm/memblock.c:51: WARNING: Unparseable C cross-reference: 'struct\nmemblock_type'
+	Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
+	  struct
+	memblock_type
+	  ------^
 
-markups, but they're included twice there: one to parse
-such markup, and another one to parse internal functions.
+As, on Sphinx 3.x, the right markup is c:struct:`foo`.
 
-In the case of amdgpu_xgmi.c, as it has just one such
-markup, we can simply include the file once, and let it
-parse the entire file without passing arguments to kernel-doc.
-
-This should place everything altogether.
-
-For amdgpu_ras.c, however, we need to remove the kernel-doc
-with just internal. This should be re-introduced if this
-file ever gets new non-DOC markups.
+So, let's remove it, relying on automarkup.py to convert it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/gpu/amdgpu.rst | 7 -------
- 1 file changed, 7 deletions(-)
+ mm/memblock.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu.rst
-index 4ed8ecf1cd86..aba8df189a74 100644
---- a/Documentation/gpu/amdgpu.rst
-+++ b/Documentation/gpu/amdgpu.rst
-@@ -74,10 +74,6 @@ AMDGPU XGMI Support
- ===================
- 
- .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
--   :doc: AMDGPU XGMI Support
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
--   :internal:
- 
- AMDGPU RAS Support
- ==================
-@@ -115,9 +111,6 @@ RAS VRAM Bad Pages sysfs Interface
- .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-    :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
- 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
--   :internal:
--
- Sample Code
- -----------
- Sample code for testing error injection can be found here:
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 670216826940..a06e68b1e5a0 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -50,8 +50,8 @@
+  *
+  * Each region is represented by struct memblock_region that
+  * defines the region extents, its attributes and NUMA node id on NUMA
+- * systems. Every memory type is described by the :c:type:`struct
+- * memblock_type` which contains an array of memory regions along with
++ * systems. Every memory type is described by the struct memblock_type
++ * which contains an array of memory regions along with
+  * the allocator metadata. The "memory" and "reserved" types are nicely
+  * wrapped with struct memblock. This structure is statically
+  * initialized at build time. The region arrays are initially sized to
 -- 
 2.26.2
 
