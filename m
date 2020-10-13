@@ -7,50 +7,55 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F0E2C43467
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CEBCC4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:56:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A36E214D8
+	by mail.kernel.org (Postfix) with ESMTP id D2F4E20E65
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1602590174;
-	bh=tzgaAgJpIzDjlP2NVIAPK4NTSvcnNtwteXFciBdLZFY=;
+	bh=m2A+Rzm0QXUwCl96Bxiy3ZH3xuPHHZOxt+ALBjD9Gu0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VOaLGHICLOjHjGJaP5PefhsU/IFDYQfTWP+rVqxgK0JwEpFm+rfY5WWmWUj8GXzJX
-	 ldfKgyv0mwrTQN2QBxbDJkR6GFvZC6OemGVJPL9f1mFd9wY9OdYRbL+/O9lePfrntk
-	 uasyMBDdUbyI9oKuh2YD6FbJYyWOsvQeyBCIiUKY=
+	b=N76nemRJf59sGptvmK2evNSHkClBVa5FBxCqmYijtDYLpj0V4Jpuh6yE1bEesep9A
+	 y3ObURL7C1wGmz1Ft4EVtfZrsonNW1rSP5CJ+RjdGK4C9IZ4kSQF6nPq5gzovLCutr
+	 VyJCJoRwqqaquoJHnVOtXY9AxW+JRsm6fHr4ONik=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727665AbgJML4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:56:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57942 "EHLO mail.kernel.org"
+        id S1727880AbgJML4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:56:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58150 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727681AbgJMLyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727669AbgJMLyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:49 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 81C43225AC;
+        by mail.kernel.org (Postfix) with ESMTPSA id 4414821775;
         Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=tzgaAgJpIzDjlP2NVIAPK4NTSvcnNtwteXFciBdLZFY=;
+        bh=m2A+Rzm0QXUwCl96Bxiy3ZH3xuPHHZOxt+ALBjD9Gu0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nb6alqc59amhsSKHlBfBaX3FBd5o2g+LMPnJE9KjApg8ajQyCbBkm3ZLE24M62EA7
-         WL/aCZTzURo1nQoBIu085dqf0HGnbLnjIGNJ8u6qH/kGM54CKIWhufnAWgngBr9A69
-         VH8X46Q+DjKKCUn32omasTJGH+34szgyEfVxgW5g=
+        b=MIuWPxCtV/U85BImd1p/O1jWCDfauLqsUOU1wBO4l9BqAWOdcBAovSXHjyLaKwk6G
+         trqECwQv7m2/tdh7krcIqtCPp6oAsTbLU2W5kIGYNrqRJ+ej0zo3ZBUOb/G7m/aL1O
+         lNKN+3jcy3UGTf0XeTHRKO+591CaOXMX/i4TucHI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CWC-Gk; Tue, 13 Oct 2020 13:54:39 +0200
+        id 1kSIt5-006CWT-Nq; Tue, 13 Oct 2020 13:54:39 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v6 64/80] kunit: test.h: fix a bad kernel-doc markup
-Date:   Tue, 13 Oct 2020 13:54:19 +0200
-Message-Id: <8d3ec9c166ba2697b22a5d47c510946a7005a533.1602589096.git.mchehab+huawei@kernel.org>
+        Bart Van Assche <bvanassche@acm.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Max Gurtovoy <maxg@mellanox.com>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Yamin Friedman <yaminf@mellanox.com>,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        target-devel@vger.kernel.org
+Subject: [PATCH v6 69/80] IB/srpt: docs: add a description for cq_size member
+Date:   Tue, 13 Oct 2020 13:54:24 +0200
+Message-Id: <d44a565b1638481c8dd282f01cae1fda3adf9fad.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -61,40 +66,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As warned by:
+Changeset c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
+added a new member for struct srpt_rdma_ch, but didn't add the
+corresponding kernel-doc markup, as repoted when doing
+"make htmldocs":
+	./drivers/infiniband/ulp/srpt/ib_srpt.h:331: warning: Function parameter or member 'cq_size' not described in 'srpt_rdma_ch'
 
-	./include/kunit/test.h:504: WARNING: Block quote ends without a blank line; unexpected unindent.
+Add a description for it.
 
-The right way to describe a function is:
-
-	name - description
-
-Instead, kunit_remove_resource was using:
-
-	name: description
-
-Causing it to be improperly parsed.
-
+Fixes: c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/kunit/test.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/infiniband/ulp/srpt/ib_srpt.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 41b3a266bf8c..5c5ed262a950 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -498,8 +498,8 @@ static inline int kunit_destroy_named_resource(struct kunit *test,
- }
- 
- /**
-- * kunit_remove_resource: remove resource from resource list associated with
-- *			  test.
-+ * kunit_remove_resource() - remove resource from resource list associated with
-+ *			     test.
-  * @test: The test context object.
-  * @res: The resource to be removed.
-  *
+diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.h b/drivers/infiniband/ulp/srpt/ib_srpt.h
+index 41435a699b53..e5d6af14d073 100644
+--- a/drivers/infiniband/ulp/srpt/ib_srpt.h
++++ b/drivers/infiniband/ulp/srpt/ib_srpt.h
+@@ -256,6 +256,7 @@ enum rdma_ch_state {
+  * @rdma_cm:	   See below.
+  * @rdma_cm.cm_id: RDMA CM ID associated with the channel.
+  * @cq:            IB completion queue for this channel.
++ * @cq_size:	   Size of the @cq pool.
+  * @zw_cqe:	   Zero-length write CQE.
+  * @rcu:           RCU head.
+  * @kref:	   kref for this channel.
 -- 
 2.26.2
 
