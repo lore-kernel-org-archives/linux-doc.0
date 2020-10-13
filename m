@@ -4,56 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A66C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15CF8C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 87EB720870
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B410820870
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590443;
-	bh=uyw81/CIQor1pw1d+F+O72/KMytUqBcsX5jPSTgoByE=;
+	s=default; t=1602590445;
+	bh=gircHDTmaOYdmAjX4GqQkC9md45Fenmq59SXCI2xF+A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=P5INd4ZRZ1nKetaMk0Mo4zM9c7rE22RyRnl+ugLFpPJlZiJPKBMXI3lIi8mwVHhB1
-	 cz8IZXazlXMhX3WX/G4aMQT+bGUKBM7/uAjV59WlSABo6is8sbY0fCyE7XjpyiI9mA
-	 1DvEmtXd467+WU4qRhwtz7kZfwvLns0z4oOPbYxk=
+	b=UU5reeo3WSZ5MLUdDHtG7PT2KEsPnWePmxgajXpCnVzL0QRCSPT9KggxeJsLY0Nyr
+	 b53DQXIA5d27ds1zOt4gS6BpGL/Mel3Da9PYiOhWuh7fJ7nWK8YWfrNtdspzeIQ10c
+	 rzLWAvB7dXGGOlNBxsxR7ysKo5ZbPUQ0enLUv2zM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728408AbgJMMA3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:00:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57432 "EHLO mail.kernel.org"
+        id S1728505AbgJMMAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:00:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727451AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727470AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:42 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8B0E4222C8;
+        by mail.kernel.org (Postfix) with ESMTPSA id B65752231B;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590080;
-        bh=uyw81/CIQor1pw1d+F+O72/KMytUqBcsX5jPSTgoByE=;
+        bh=gircHDTmaOYdmAjX4GqQkC9md45Fenmq59SXCI2xF+A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UG2vO65eqVkBKAnAhL+JdEyNxErQmO0597qfesKYR05pbPxvdd2m74Cwc0AhcDITB
-         wAJlIQfkpOidDJElNIDpMd1Engk93aH39qFnmuElMbdMMkQewD5F3YMTojsRKFoQCD
-         7GB2CvTycFN6ZVJG3V1J7/mA1Lz7/lkd10kJtVig=
+        b=BJkyBuOu5E3e3Nw/plYP61UnFF9HTXHKSf+UXzUbsPE4JV1EGCRHL5t3usp8YdiUE
+         aMq7u9joR0IPtoI1bOIZwevQrjhJbYJZXD6fdu3JwF9wqEhFuKq4XUDT5mAs8/vwxH
+         yhNMlxr+egAQSJCSnowPeu5q8oExI4NRsjrX6IeY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt4-006CUM-Bo; Tue, 13 Oct 2020 13:54:38 +0200
+        id 1kSIt4-006CUk-Li; Tue, 13 Oct 2020 13:54:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v6 26/80] docs: net: ieee802154.rst: fix C expressions
-Date:   Tue, 13 Oct 2020 13:53:41 +0200
-Message-Id: <e9a94add62e184ce5a3b2fd49b2c217b4dc77e7b.1602589096.git.mchehab+huawei@kernel.org>
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 36/80] docs: devices.rst: get rid of :c:type macros
+Date:   Tue, 13 Oct 2020 13:53:51 +0200
+Message-Id: <b16aed62c6c31a440ab9d45769b86cddb388f804.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -64,103 +62,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some warnings produced with Sphinx 3.x:
+There's no need to use macros to use :c:type on this file,
+as automarkup.py should do this automatically.
 
-	Documentation/networking/ieee802154.rst:29: WARNING: Error in declarator or parameters
-	Invalid C declaration: Expecting "(" in parameters. [error at 7]
-	  int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
-	  -------^
-	Documentation/networking/ieee802154.rst:134: WARNING: Invalid C declaration: Expected end of definition. [error at 81]
-	  void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
-	  ---------------------------------------------------------------------------------^
-	Documentation/networking/ieee802154.rst:139: WARNING: Invalid C declaration: Expected end of definition. [error at 95]
-	  void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
-	  -----------------------------------------------------------------------------------------------^
-	Documentation/networking/ieee802154.rst:158: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
-	  int start(struct ieee802154_hw *hw):
-	  -----------------------------------^
-	Documentation/networking/ieee802154.rst:162: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
-	  void stop(struct ieee802154_hw *hw):
-	  -----------------------------------^
-	Documentation/networking/ieee802154.rst:166: WARNING: Invalid C declaration: Expected end of definition. [error at 61]
-	  int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
-	  -------------------------------------------------------------^
-	Documentation/networking/ieee802154.rst:171: WARNING: Invalid C declaration: Expected end of definition. [error at 43]
-	  int ed(struct ieee802154_hw *hw, u8 *level):
-	  -------------------------------------------^
-	Documentation/networking/ieee802154.rst:176: WARNING: Invalid C declaration: Expected end of definition. [error at 62]
-	  int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
-	  --------------------------------------------------------------^
+Also, this breaks compatibility with Sphinx 3.x, as there,
+structs should be declared using .. c:struct.
 
-Caused by some bad c:function: prototypes. Fix them.
+So, get rid of them.
 
-Acked-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/ieee802154.rst | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ Documentation/driver-api/pm/devices.rst | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/networking/ieee802154.rst b/Documentation/networking/ieee802154.rst
-index 6f4bf8447a21..f27856d77c8b 100644
---- a/Documentation/networking/ieee802154.rst
-+++ b/Documentation/networking/ieee802154.rst
-@@ -26,7 +26,9 @@ The stack is composed of three main parts:
- Socket API
- ==========
+diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
+index 946ad0b94e31..4bda8a21f5d1 100644
+--- a/Documentation/driver-api/pm/devices.rst
++++ b/Documentation/driver-api/pm/devices.rst
+@@ -1,14 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ .. include:: <isonum.txt>
  
--.. c:function:: int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
-+::
-+
-+    int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
+-.. |struct dev_pm_ops| replace:: :c:type:`struct dev_pm_ops <dev_pm_ops>`
+-.. |struct dev_pm_domain| replace:: :c:type:`struct dev_pm_domain <dev_pm_domain>`
+-.. |struct bus_type| replace:: :c:type:`struct bus_type <bus_type>`
+-.. |struct device_type| replace:: :c:type:`struct device_type <device_type>`
+-.. |struct class| replace:: :c:type:`struct class <class>`
+-.. |struct wakeup_source| replace:: :c:type:`struct wakeup_source <wakeup_source>`
+-.. |struct device| replace:: :c:type:`struct device <device>`
+-
+ .. _driverapi_pm_devices:
  
- The address family, socket addresses etc. are defined in the
- include/net/af_ieee802154.h header or in the special header
-@@ -131,12 +133,12 @@ Register PHY in the system.
+ ==============================
+@@ -107,7 +99,7 @@ Device Power Management Operations
  
- Freeing registered PHY.
+ Device power management operations, at the subsystem level as well as at the
+ device driver level, are implemented by defining and populating objects of type
+-|struct dev_pm_ops| defined in :file:`include/linux/pm.h`.  The roles of the
++struct dev_pm_ops defined in :file:`include/linux/pm.h`.  The roles of the
+ methods included in it will be explained in what follows.  For now, it should be
+ sufficient to remember that the last three methods are specific to runtime power
+ management while the remaining ones are used during system-wide power
+@@ -115,7 +107,7 @@ transitions.
  
--.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
-+.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi)
+ There also is a deprecated "old" or "legacy" interface for power management
+ operations available at least for some subsystems.  This approach does not use
+-|struct dev_pm_ops| objects and it is suitable only for implementing system
++struct dev_pm_ops objects and it is suitable only for implementing system
+ sleep power management methods in a limited way.  Therefore it is not described
+ in this document, so please refer directly to the source code for more
+ information about it.
+@@ -125,9 +117,9 @@ Subsystem-Level Methods
+ -----------------------
  
- Telling 802.15.4 module there is a new received frame in the skb with
- the RF Link Quality Indicator (LQI) from the hardware device.
+ The core methods to suspend and resume devices reside in
+-|struct dev_pm_ops| pointed to by the :c:member:`ops` member of
+-|struct dev_pm_domain|, or by the :c:member:`pm` member of |struct bus_type|,
+-|struct device_type| and |struct class|.  They are mostly of interest to the
++struct dev_pm_ops pointed to by the :c:member:`ops` member of
++struct dev_pm_domain, or by the :c:member:`pm` member of struct bus_type,
++struct device_type and struct class.  They are mostly of interest to the
+ people writing infrastructure for platforms and buses, like PCI or USB, or
+ device type and device class drivers.  They also are relevant to the writers of
+ device drivers whose subsystems (PM domains, device types, device classes and
+@@ -156,7 +148,7 @@ The :c:member:`power.can_wakeup` flag just records whether the device (and its
+ driver) can physically support wakeup events.  The
+ :c:func:`device_set_wakeup_capable()` routine affects this flag.  The
+ :c:member:`power.wakeup` field is a pointer to an object of type
+-|struct wakeup_source| used for controlling whether or not the device should use
++struct wakeup_source used for controlling whether or not the device should use
+ its system wakeup mechanism and for notifying the PM core of system wakeup
+ events signaled by the device.  This object is only present for wakeup-capable
+ devices (i.e. devices whose :c:member:`can_wakeup` flags are set) and is created
+@@ -713,8 +705,8 @@ nested inside another power domain. The nested domain is referred to as the
+ sub-domain of the parent domain.
  
--.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
-+.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling)
- 
- Telling 802.15.4 module the frame in the skb is or going to be
- transmitted through the hardware device
-@@ -155,25 +157,25 @@ operations structure at least::
-         ...
-    };
- 
--.. c:function:: int start(struct ieee802154_hw *hw):
-+.. c:function:: int start(struct ieee802154_hw *hw)
- 
- Handler that 802.15.4 module calls for the hardware device initialization.
- 
--.. c:function:: void stop(struct ieee802154_hw *hw):
-+.. c:function:: void stop(struct ieee802154_hw *hw)
- 
- Handler that 802.15.4 module calls for the hardware device cleanup.
- 
--.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
-+.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb)
- 
- Handler that 802.15.4 module calls for each frame in the skb going to be
- transmitted through the hardware device.
- 
--.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level):
-+.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level)
- 
- Handler that 802.15.4 module calls for Energy Detection from the hardware
- device.
- 
--.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
-+.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel)
- 
- Set radio for listening on specific channel of the hardware device.
- 
+ Support for power domains is provided through the :c:member:`pm_domain` field of
+-|struct device|.  This field is a pointer to an object of type
+-|struct dev_pm_domain|, defined in :file:`include/linux/pm.h`, providing a set
++struct device.  This field is a pointer to an object of type
++struct dev_pm_domain, defined in :file:`include/linux/pm.h`, providing a set
+ of power management callbacks analogous to the subsystem-level and device driver
+ callbacks that are executed for the given device during all power transitions,
+ instead of the respective subsystem-level callbacks.  Specifically, if a
 -- 
 2.26.2
 
