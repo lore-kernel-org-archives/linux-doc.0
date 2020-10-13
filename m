@@ -2,76 +2,71 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCF3C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:52:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 736E2C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 17:25:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 005BF252EC
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:52:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A2F925359
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 17:25:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602609916;
+	bh=V95KNOynADgyNJkbMcakWMDVLJhk1UkWeH59c6nVuF8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=u4XOmhlv1aXqgfulE1wQoH37FImNe49TSFHVbOpSoiabuvDEqnih2LpxjxYahXdNC
+	 xt57H1alemB/Dxuk+li0vfCVHiDJHTRqYEeKITvYABramG5JmKfKXHZclsjDE+B1x5
+	 yMaCSpXG2OvyImCauif//ly5cuNEyMadORRWuJPA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728508AbgJMQw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 12:52:58 -0400
-Received: from mail.adapt-ip.com ([173.164.178.19]:60192 "EHLO
-        web.adapt-ip.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727696AbgJMQw6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 12:52:58 -0400
-X-Greylist: delayed 423 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Oct 2020 12:52:58 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by web.adapt-ip.com (Postfix) with ESMTP id 46B8A4FA377;
-        Tue, 13 Oct 2020 16:45:54 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at web.adapt-ip.com
-Received: from web.adapt-ip.com ([127.0.0.1])
-        by localhost (web.adapt-ip.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id RRucx4ImxBfd; Tue, 13 Oct 2020 16:45:51 +0000 (UTC)
-Received: from mail.ibsgaard.io (c-73-223-60-234.hsd1.ca.comcast.net [73.223.60.234])
-        (Authenticated sender: thomas@adapt-ip.com)
-        by web.adapt-ip.com (Postfix) with ESMTPSA id 5EC344FA372;
-        Tue, 13 Oct 2020 16:45:50 +0000 (UTC)
-MIME-Version: 1.0
-Date:   Tue, 13 Oct 2020 09:45:49 -0700
-From:   Thomas Pedersen <thomas@adapt-ip.com>
+        id S1729982AbgJMRZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 13:25:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43616 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729800AbgJMRZP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 13:25:15 -0400
+Received: from gmail.com (unknown [104.132.1.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 809C325352;
+        Tue, 13 Oct 2020 17:25:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602609914;
+        bh=V95KNOynADgyNJkbMcakWMDVLJhk1UkWeH59c6nVuF8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=srAc5VjgMBfmXT/SLN9eUj3vHn2r18dijjjTZjQ7fH3zOdvMA4D7GWBAWQ41fmEA4
+         bBJAu1RcGOJyHOgBaVmYu/J5NiAU3j74lFSETJRXzR5rJDnUkax1VhURLUOYqD2EFw
+         jhcGriTvK3wF0rLsd7pgqlMCGvVZ11T7bUymUWaM=
+Date:   Tue, 13 Oct 2020 10:25:12 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH v6 68/80] nl80211: docs: add a description for s1g_cap
- parameter
-In-Reply-To: <9633ea7d9b0cb2f997d784df86ba92e67659f29b.1602589096.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type: tags
+Message-ID: <20201013172512.GA1306858@gmail.com>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
- <9633ea7d9b0cb2f997d784df86ba92e67659f29b.1602589096.git.mchehab+huawei@kernel.org>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <53bc6de4ee69b43236866a4355859e2a@adapt-ip.com>
-X-Sender: thomas@adapt-ip.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+ <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-10-13 04:54, Mauro Carvalho Chehab wrote:
-> Changeset df78a0c0b67d ("nl80211: S1G band and channel definitions")
-> added a new parameter, but didn't add the corresponding kernel-doc
-> markup, as repoted when doing "make htmldocs":
+On Tue, Oct 13, 2020 at 01:53:50PM +0200, Mauro Carvalho Chehab wrote:
+> The :c:type: tag has problems with Sphinx 3.x, as structs
+> there should be declared with c:struct.
 > 
-> 	./include/net/cfg80211.h:471: warning: Function parameter or member
-> 's1g_cap' not described in 'ieee80211_supported_band'
+> So, remove them, relying at automarkup.py extension to
+> convert them into cross-references.
 > 
-> Add a documentation for it.
-
-Sorry about that. Patch looks good.
-
-> Fixes: df78a0c0b67d ("nl80211: S1G band and channel definitions")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Thomas Pedersen <thomas@adapt-ip.com>
+I left some comments on v5 which weren't addressed.
 
--- 
-thomas
+- Eric
