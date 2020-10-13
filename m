@@ -7,57 +7,50 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA592C433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 043D7C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E68A22261
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA4882227E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591335;
-	bh=Ce+YwOX8NUyVQ34kqyNLtBwPsw6IDLQQTy4q/V/8GNk=;
+	s=default; t=1602591339;
+	bh=zhqkufZ7f7yOmStqpe6IwS4Q7Pbm2bPb4tI8f5PD8is=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Euq0fjjM9ZsXJ9L5JifCp8OzB/KwnyMbQzbzjeoQewFvFuWi3DVJ2LZTBpuJp1mdT
-	 G+0uWpUFrMv2f1ynrsTI9pEhi5WS6VVNA8tm97r3nEmGX1Fr429L2VLfwrDBeabJoL
-	 KqDRiakqZZij6+Vej+ZtAeSMvVZsb9Ep73ezCAoo=
+	b=stOR7Rj3CvXRAx35ykF3c9KHc+8RPKhB9T6bO/zyua1mEwMBOgTvqI0OQ29NoO+Z7
+	 ivHBy8Ik9EbpX1XO58TTwOIKg57xDPggllVBtowF9igCfXEj93t/aoZ97nn7bo6JeD
+	 VDUNJPetiRtYPpNyNGuQ99zBspVi0SOv6VvT9VD4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727119AbgJMMPf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:15:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41112 "EHLO mail.kernel.org"
+        id S1727672AbgJMMPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:15:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41126 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727023AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727006AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 08:14:57 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8258D22403;
+        by mail.kernel.org (Postfix) with ESMTPSA id 2D3522226B;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=Ce+YwOX8NUyVQ34kqyNLtBwPsw6IDLQQTy4q/V/8GNk=;
+        bh=zhqkufZ7f7yOmStqpe6IwS4Q7Pbm2bPb4tI8f5PD8is=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VuM2oSDYiyUdACnWDGdaZvn/yr4CJ++YOQP7UXXQqSbuXa9tYAofcfgq1xw6e9bqX
-         Nf1A/1t3zieP/I/ftT6jDjq1sE6oyQPz+QPvtNkkM/aSJnUmDNaQlzYd/zaxoNIdUw
-         XdxeeM4HMnEqyXo4ZNNXq3fwfr+A3mGMak2SBAPo=
+        b=IJ/exGaa9jn8vqZuR4s0V/ooPf7voEJXvKUd4nPr4e6UnPijxWCTPtuvnhciLjKmI
+         U/Tg3oMZEd1+NZEMIqMDM1/0S8PLMsqvmw8gBc7vNOapU6d/ZTWG6H1kYTFI5alJfJ
+         WdJQCg0+vvPyTO4wrXmJJQsLJa5N1P6R7MbrU5dw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCf-006Cos-DB; Tue, 13 Oct 2020 14:14:53 +0200
+        id 1kSJCf-006CoY-6m; Tue, 13 Oct 2020 14:14:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 24/24] counters: docs: add a missing include
-Date:   Tue, 13 Oct 2020 14:14:51 +0200
-Message-Id: <74814cc3d2b2ac3fe7c10ff2045c77691bacf64b.1602590106.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v2 19/24] net: phy: remove kernel-doc duplication
+Date:   Tue, 13 Oct 2020 14:14:46 +0200
+Message-Id: <89c130eab83089f7976ed8876e9bd1ba62d800c3.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -68,50 +61,108 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 37a0dbf631f6 ("counters: Introduce counter_atomic* counters")
+Sphinx 3 now checks for duplicated function declarations:
 
-Is causing two new warnings:
+	.../Documentation/networking/kapi:143: ../include/linux/phy.h:163: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
+	Declaration is 'unsigned int phy_supported_speeds (struct phy_device *phy, unsigned int *speeds, unsigned int size)'.
+	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1034: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
+	Declaration is 'int phy_read_mmd (struct phy_device *phydev, int devad, u32 regnum)'.
+	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1076: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
+	Declaration is 'int __phy_read_mmd (struct phy_device *phydev, int devad, u32 regnum)'.
+	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1088: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
+	Declaration is 'int phy_write_mmd (struct phy_device *phydev, int devad, u32 regnum, u16 val)'.
+	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1100: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
+	Declaration is 'int __phy_write_mmd (struct phy_device *phydev, int devad, u32 regnum, u16 val)'.
 
-	.../Documentation/core-api/counters.rst:8: WARNING: Undefined substitution referenced: "copy".
-	.../Documentation/core-api/counters.rst:9: WARNING: Undefined substitution referenced: "copy".
+It turns that both the C and the H files have the same
+kernel-doc markup for the same functions. Let's drop the
+at the header file, keeping the one closer to the code.
 
-Because it forgot to include isonum.txt, which defines |copy|
-macro.
-
-While here, also add it to core-api index file, in order to
-solve this warning:
-
-	.../Documentation/core-api/counters.rst: WARNING: document isn't included in any toctree
-
-Fixes: 37a0dbf631f6 ("counters: Introduce counter_atomic* counters")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/core-api/counters.rst | 1 +
- Documentation/core-api/index.rst    | 1 +
- 2 files changed, 2 insertions(+)
+ include/linux/phy.h | 40 +++++-----------------------------------
+ 1 file changed, 5 insertions(+), 35 deletions(-)
 
-diff --git a/Documentation/core-api/counters.rst b/Documentation/core-api/counters.rst
-index 642d907f4d3a..2821aebf3f45 100644
---- a/Documentation/core-api/counters.rst
-+++ b/Documentation/core-api/counters.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index eb3cb1a98b45..56563e5e0dc7 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -147,16 +147,8 @@ typedef enum {
+ 	PHY_INTERFACE_MODE_MAX,
+ } phy_interface_t;
  
- ======================
- Simple atomic counters
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 69171b1799f2..cf9cd44c1191 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -43,6 +43,7 @@ Library functionality that is used throughout the kernel.
-    this_cpu_ops
-    timekeeping
-    errseq
-+   counters
+-/**
++/*
+  * phy_supported_speeds - return all speeds currently supported by a PHY device
+- * @phy: The PHY device to return supported speeds of.
+- * @speeds: buffer to store supported speeds in.
+- * @size: size of speeds buffer.
+- *
+- * Description: Returns the number of supported speeds, and fills
+- * the speeds buffer with the supported speeds. If speeds buffer is
+- * too small to contain all currently supported speeds, will return as
+- * many speeds as can fit.
+  */
+ unsigned int phy_supported_speeds(struct phy_device *phy,
+ 				      unsigned int *speeds,
+@@ -1022,14 +1014,9 @@ static inline int __phy_modify_changed(struct phy_device *phydev, u32 regnum,
+ 					regnum, mask, set);
+ }
  
- Concurrency primitives
- ======================
+-/**
++/*
+  * phy_read_mmd - Convenience function for reading a register
+  * from an MMD on a given PHY.
+- * @phydev: The phy_device struct
+- * @devad: The MMD to read from
+- * @regnum: The register on the MMD to read
+- *
+- * Same rules as for phy_read();
+  */
+ int phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
+ 
+@@ -1064,38 +1051,21 @@ int phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
+ 	__ret; \
+ })
+ 
+-/**
++/*
+  * __phy_read_mmd - Convenience function for reading a register
+  * from an MMD on a given PHY.
+- * @phydev: The phy_device struct
+- * @devad: The MMD to read from
+- * @regnum: The register on the MMD to read
+- *
+- * Same rules as for __phy_read();
+  */
+ int __phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
+ 
+-/**
++/*
+  * phy_write_mmd - Convenience function for writing a register
+  * on an MMD on a given PHY.
+- * @phydev: The phy_device struct
+- * @devad: The MMD to write to
+- * @regnum: The register on the MMD to read
+- * @val: value to write to @regnum
+- *
+- * Same rules as for phy_write();
+  */
+ int phy_write_mmd(struct phy_device *phydev, int devad, u32 regnum, u16 val);
+ 
+-/**
++/*
+  * __phy_write_mmd - Convenience function for writing a register
+  * on an MMD on a given PHY.
+- * @phydev: The phy_device struct
+- * @devad: The MMD to write to
+- * @regnum: The register on the MMD to read
+- * @val: value to write to @regnum
+- *
+- * Same rules as for __phy_write();
+  */
+ int __phy_write_mmd(struct phy_device *phydev, int devad, u32 regnum, u16 val);
+ 
 -- 
 2.26.2
 
