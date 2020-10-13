@@ -2,93 +2,162 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E63C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 02:47:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F13DC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 04:37:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FDE920735
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 02:47:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A15920878
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 04:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbgJMCrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 22:47:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60356 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727025AbgJMCrW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Oct 2020 22:47:22 -0400
-Received: from localhost (83-245-197-237.elisa-laajakaista.fi [83.245.197.237])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 60396208B8;
-        Tue, 13 Oct 2020 02:21:59 +0000 (UTC)
-Date:   Tue, 13 Oct 2020 05:21:57 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     zohar@linux.ibm.com, jejb@linux.ibm.com, dhowells@redhat.com,
-        jens.wiklander@linaro.org, corbet@lwn.net, jmorris@namei.org,
-        serge@hallyn.com, casey@schaufler-ca.com, janne.karhunen@gmail.com,
-        daniel.thompson@linaro.org, Markus.Wamser@mixed-mode.de,
-        lhinds@redhat.com, keyrings@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org
-Subject: Re: [PATCH v7 4/4] MAINTAINERS: Add entry for TEE based Trusted Keys
-Message-ID: <20201013022157.GA47751@linux.intel.com>
-References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
- <1602065268-26017-5-git-send-email-sumit.garg@linaro.org>
+        id S1728336AbgJMEhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 00:37:02 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:56004 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726463AbgJMEhC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 00:37:02 -0400
+Received: from [10.130.0.80] (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr93mLoVf8fccAA--.8279S3;
+        Tue, 13 Oct 2020 12:36:55 +0800 (CST)
+Subject: Re: [PATCH v2 3/4 RESEND] MIPS: Loongson64: Add /proc/boardinfo
+To:     Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+References: <1602373674-4579-1-git-send-email-yangtiezhu@loongson.cn>
+ <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn>
+ <20201012103805.GC7953@alpha.franken.de>
+ <95060519-530b-c5f5-537d-a7b217b39003@loongson.cn>
+ <3707A9AD-DD41-4DD0-A015-DE4DC33279DE@flygoat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhc@lemote.com>,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <f1a4ef4a-a293-5b07-3436-37835e92ca1e@loongson.cn>
+Date:   Tue, 13 Oct 2020 12:36:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1602065268-26017-5-git-send-email-sumit.garg@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <3707A9AD-DD41-4DD0-A015-DE4DC33279DE@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxr93mLoVf8fccAA--.8279S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxuFyUZFWDAryDJrW5Kry3urg_yoW5CF1UpF
+        Z3Aa1DGw4DGr1UCrnagw4kZFWSvrWYyrZYqF4ayw1xK3s5KFyfXrWxJFWjkF13Zr48Ja1j
+        qFW0kr45ZFn5CFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+        6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+        1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+        0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+        bIxvr21lc2xSY4AK67AK6r45MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+        4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+        67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+        x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY
+        6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvj
+        DU0xZFpf9x0JUfcTPUUUUU=
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 03:37:48PM +0530, Sumit Garg wrote:
-> Add MAINTAINERS entry for TEE based Trusted Keys framework.
-> 
-> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 48aff80..eb3d889 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9663,6 +9663,14 @@ F:	include/keys/trusted-type.h
->  F:	include/keys/trusted_tpm.h
->  F:	security/keys/trusted-keys/
->  
-> +KEYS-TRUSTED-TEE
-> +M:	Sumit Garg <sumit.garg@linaro.org>
-> +L:	linux-integrity@vger.kernel.org
-> +L:	keyrings@vger.kernel.org
-> +S:	Supported
-> +F:	include/keys/trusted_tee.h
-> +F:	security/keys/trusted-keys/trusted_tee.c
-> +
->  KEYS/KEYRINGS
->  M:	David Howells <dhowells@redhat.com>
->  M:	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> -- 
-> 2.7.4
+On 10/13/2020 08:15 AM, Jiaxun Yang wrote:
+>
+> 于 2020年10月12日 GMT+08:00 下午8:02:25, Tiezhu Yang <yangtiezhu@loongson.cn> 写到:
+>> On 10/12/2020 06:38 PM, Thomas Bogendoerfer wrote:
+>>> On Sun, Oct 11, 2020 at 07:47:53AM +0800, Tiezhu Yang wrote:
+>>>> Add /proc/boardinfo to get mainboard and BIOS info easily on the Loongson
+>>>> platform, this is useful to point out the current used mainboard type and
+>>>> BIOS version when there exists problems related with hardware or firmware.
+>>>>
+>>>> E.g. with this patch:
+>>>>
+>>>> [loongson@linux ~]$ cat /proc/boardinfo
+>>>> Board Info
+>>>> Manufacturer            : LEMOTE
+>>>> Board Name              : LEMOTE-LS3A4000-7A1000-1w-V01-pc
+>>>> Family                  : LOONGSON3
+>>>>
+>>>> BIOS Info
+>>>> Vendor                  : Kunlun
+>>>> Version                 : Kunlun-A1901-V4.1.3-20200414093938
+>>>> ROM Size                : 4 KB
+>>>> Release Date            : 2020-04-14
+>>> Why does Loongson64 need this extra file no other architecture or MIPS
+>>> platform need ? Do others provide this information via a different method ?
+>>> If yes, why can't Loongson64 do the same ?
+>> Hi Thomas,
+>>
+>> This is related with the implementation of firmware.
+>>
+>> Using dmidecode command can get the similar info if there exists SMBIOS
+>> in firmware, but the fact is there is no SMBIOS on some machines, we can
+>> see nothing when execute dmidecode, like this:
+>>
+>> [root@linux loongson]# dmidecode
+>> # dmidecode 2.12
+>> # No SMBIOS nor DMI entry point found, sorry.
+>>
+>> The following three structures are already defined in the interface
+>> specification about firmware and kernel on the Loongson platform,
+>> this is common requirement and specific for Loongson64, so add a
+>> new boardinfo.c file in arch/mips/loongson64.
+>>
+>> arch/mips/include/asm/mach-loongson64/boot_param.h
+>> struct interface_info {
+>>      u16 vers; /* version of the specificition */
+>>      u16 size;
+>>      u8  flag;
+>>      char description[64];
+>> } __packed;
+>>
+>> struct board_devices {
+>>      char name[64];    /* hold the device name */
+>>      u32 num_resources; /* number of device_resource */
+>>      /* for each device's resource */
+>>      struct resource_loongson resource[MAX_RESOURCE_NUMBER];
+>>      /* arch specific additions */
+>>      struct archdev_data archdata;
+>> };
+>>
+>> struct loongson_special_attribute {
+>>      u16 vers;     /* version of this special */
+>>      char special_name[64]; /* special_atribute_name */
+>>      u32 loongson_special_type; /* type of special device */
+>>      /* for each device's resource */
+>>      struct resource_loongson resource[MAX_RESOURCE_NUMBER];
+>> };
+> Hi Tiezhu,
+>
+> Through I don't think touching top level of proc would be a good idea. It's all about API consistency.
+>
+> If you intend to provide user an interface then I guess /sys/firmware/lefi
+> like what DMI did or somewhere less critical is better.
+>
+> There is no guarantee that Loongson64 device would come with LEFI,
+> although it's mandatory for now.
 
-I'm sorry but I think I have changed my mind on this. This has been
-spinning for a while and sometimes conclusions change over the time.
+Hi Jiaxun,
 
-I don't think that we really need a separate subsystem tag. I'd be for a
-new M-entry or R-entry to the existing subsystem tag. It's essential to
-have ack from someone with ARM and TEE knowledge but this way too heavy
-for the purpose.
+Thank you very much.
 
-I also see it the most manageable if the trusted keys PR's come from a
-single source.
+Let us add /sys/firmware/lefi/boardinfo, I will do it and then send a 
+new patch.
 
-/Jarkko
+Thanks,
+Tiezhu
+
+>
+> Thanks.
+>
+> - Jiaxun
+>
+>> Thanks,
+>> Tiezhu
+>>
+>>> Thomas.
+>>>
+
