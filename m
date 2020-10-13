@@ -7,58 +7,56 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54700C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5894C43457
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF979222E8
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C8C1222EC
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591405;
-	bh=v7xvZE08GeJrZFEuozEOJEqCvb7eyGbV4GNw/+N4zeY=;
+	s=default; t=1602591412;
+	bh=4Bu6akfKjaahqyWEGXpzqa8kviAzcp1lUCJxl8zFrWQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=rjclwzaejTeMgGaTcyu708JNBaPhAae1/cx2vswzR1HlpIv5mcEZQiaB9BMAJPkgg
-	 G+OpgOKdcHBP28WgQrdIbLT+orGcapjYuEj0bDKSml9cr/q6kIvZc29D9Mplg7urU2
-	 VLWjrjQwSLsCNpG2daqSKmH3cRUe8oZ5EYTWf334=
+	b=MGnROuuV+hyVrorWEaipoPsricRqkbLKnWSX5qeKkB+d4MW0zDzLKzjhJINcxqR9k
+	 bPDmCiKPxyyhTvOda3hA/gDHpaCos5eNSJ7jEhYFUhltmZGumlJbe4Z5zcUtEb58h6
+	 hYzUP0nqY++o+QNTlMHKXv8ByJYFcgDh7OKzp6vo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727880AbgJMMQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:16:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41132 "EHLO mail.kernel.org"
+        id S1727785AbgJMMQv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:16:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41102 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726884AbgJMMO4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726854AbgJMMO4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 08:14:56 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1830822261;
-        Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F19E02224A;
+        Tue, 13 Oct 2020 12:14:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=v7xvZE08GeJrZFEuozEOJEqCvb7eyGbV4GNw/+N4zeY=;
+        bh=4Bu6akfKjaahqyWEGXpzqa8kviAzcp1lUCJxl8zFrWQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=azJcxpZwEUFfCCB2krYUl8xMZdMcRna4TAswUJH5oCLfqZTeM1SKCu6VoXpGDmNJ2
-         iJUyGMvWgnyRH3MTuMOvDIzkdGngeP2dUSPQ6dNkm/mNjdZ71K9QkLh5MRAYrIcL9t
-         70PjXmGglUHbS5FGXe+1aaH+uZiMM7Ska/PqGnL8=
+        b=2iGqVC1fOha+iGz8JFU7cdkGEU5OoGqj/YHIfj9cSSwx7NoAlAo3j5BZ3dcmeH9NA
+         nV40NJUVyy592zk//xW5Y8s8+5F4tTcqOjj+IyBCezscgfuLxjGXYNLQ5QW84vqliE
+         aOv4FYczeFA+p6ri5EUYEUavDvh93i6oKdwB9BKI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCe-006CoB-Uy; Tue, 13 Oct 2020 14:14:52 +0200
+        id 1kSJCe-006Co6-TJ; Tue, 13 Oct 2020 14:14:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        William Kucharski <william.kucharski@oracle.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/24] mm: pagemap.h: fix two kernel-doc markups
-Date:   Tue, 13 Oct 2020 14:14:37 +0200
-Message-Id: <54ea6dd0fc37c48aef3fc3ae454c54a80db313dc.1602590106.git.mchehab+huawei@kernel.org>
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Jeevan B <jeevan.b@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Oleg Vasilev <oleg.vasilev@intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 08/24] drm: kernel-doc: document drm_dp_set_subconnector_property() params
+Date:   Tue, 13 Oct 2020 14:14:35 +0200
+Message-Id: <1d8b7e4aa3b5a3feedf11407b1b7437d2c680443.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -69,44 +67,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 6c8adf8446a3 ("mm: add find_lock_head") renamed the
-index parameter, but forgot to update the kernel-doc markups
-accordingly.
+Changeset e5b92773287c ("drm: report dp downstream port type as a subconnector property")
+added a new function to the kAPI, but didn't add any documentation
+for the parameters for drm_dp_set_subconnector_property().
 
-Fixes: 6c8adf8446a3 ("mm: add find_lock_head")
+Fixes: e5b92773287c ("drm: report dp downstream port type as a subconnector property")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/pagemap.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_dp_helper.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 7dd3523093db..932a260a29f2 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -342,9 +342,9 @@ static inline struct page *find_get_page_flags(struct address_space *mapping,
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 90807a6b415c..b1c71af88579 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1028,7 +1028,8 @@ EXPORT_SYMBOL(drm_dp_downstream_debug);
+ 
  /**
-  * find_lock_page - locate, pin and lock a pagecache page
-  * @mapping: the address_space to search
-- * @offset: the page index
-+ * @index: the page index
-  *
-- * Looks up the page cache entry at @mapping & @offset.  If there is a
-+ * Looks up the page cache entry at @mapping & @index.  If there is a
-  * page cache page, it is returned locked and with an increased
-  * refcount.
-  *
-@@ -361,9 +361,9 @@ static inline struct page *find_lock_page(struct address_space *mapping,
+  * drm_dp_subconnector_type() - get DP branch device type
+- *
++ * @dpcd: DisplayPort configuration data
++ * @port_cap: port capabilities
+  */
+ enum drm_mode_subconnector
+ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+@@ -1079,6 +1080,10 @@ EXPORT_SYMBOL(drm_dp_subconnector_type);
+ 
  /**
-  * find_lock_head - Locate, pin and lock a pagecache page.
-  * @mapping: The address_space to search.
-- * @offset: The page index.
-+ * @index: The page index.
+  * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
++ * @connector: connector to set property on
++ * @status: connector status
++ * @dpcd: DisplayPort configuration data
++ * @port_cap: port capabilities
   *
-- * Looks up the page cache entry at @mapping & @offset.  If there is a
-+ * Looks up the page cache entry at @mapping & @index.  If there is a
-  * page cache page, its head page is returned locked and with an increased
-  * refcount.
-  *
+  * Called by a driver on every detect event.
+  */
 -- 
 2.26.2
 
