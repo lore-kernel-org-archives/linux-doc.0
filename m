@@ -2,88 +2,126 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6884FC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9288EC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:16:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2702522EBE
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:11:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E71922CBE
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:16:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K3yIru4s"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jRefv6wA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728419AbgJMNLU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 09:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
+        id S1728225AbgJMNQU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 09:16:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727789AbgJMNLU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 09:11:20 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C224EC0613D0;
-        Tue, 13 Oct 2020 06:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=bKWuOpqTvvPutJLjCgDeEC9YLBcPFZ6MunEhJpI05qU=; b=K3yIru4s0IaQ3mv7rDbfgarPND
-        DhuLAbhRsi9BRBBguLna9wGjBTevRzXf3teOrYnx7NmuoVzp9jVC1hEifBpbZolvybVHa3j6qI0Bc
-        NUdi2ejkq35SCuPvVaj+KqMQydYNolF9yQxxXRMNoP87Ez/ltkIq4tM8dYuXLTU8ICmnwJZy796op
-        i1u5wHzlhCkp1wgnhdDiLCBTpq085s2IhQ9T6ao9Qm4WwoFSGA1kd5bx1HCb+p+FO+WhXv+3L07YR
-        Xpj7CYfwIRuWGJz99sKeag4VwMttUOnMfqYGupeBI/Qg2SZMJfimyJdXgorPSDsYK4/x1HRXktpFE
-        NglBQWtQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kSK5E-0000bf-Rw; Tue, 13 Oct 2020 13:11:16 +0000
-Date:   Tue, 13 Oct 2020 14:11:16 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 04/24] docs: lockdep-design: fix some warning issues
-Message-ID: <20201013131116.GG20115@casper.infradead.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <c76318f859a78adb80a6eef63c5c777d05501198.1602590106.git.mchehab+huawei@kernel.org>
- <20201013125206.GU2611@hirez.programming.kicks-ass.net>
+        with ESMTP id S1726648AbgJMNQT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 09:16:19 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF3BC0613D0;
+        Tue, 13 Oct 2020 06:16:17 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id a72so10287978wme.5;
+        Tue, 13 Oct 2020 06:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9lW4dFaX7zENb53L/tQnCRjjQKB77rHKz+r8ZW7p+KU=;
+        b=jRefv6wAPkcjLEUrg0lsNRz9xZOtlpZDjYV+z3w6hlJEqA1Q7SlQci9S23IZDlN4g9
+         YYKyAYrbFJeNahTRsWVlqLuzAg/ijzeiNIzS48rkdpij1Mr2HQ6Eml0/tVlzAgT75FJm
+         yl535TpmDxaFlxWTsZ43ezYar43gYHtTS6n4d7Eya86vLdRMJQqsD8+pHEaWqmeZjOvH
+         gG3OaRmNLazhAIcYmuOkCdyrSSjDTvdpa7+yYxZ7I/r/pFZDTOI9DeA1B6GP7qCEH7Ou
+         AAFTpHdHdB4waig/dVUS5GU1XaNl+Z3jb+Y3jSwEp0V3XB+SMQt2QwfsjpD4a+WmQ0fJ
+         1lQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9lW4dFaX7zENb53L/tQnCRjjQKB77rHKz+r8ZW7p+KU=;
+        b=XMWoIbSaJrrhbw5eHcYOYqA5xtuk/6AZjrwTVckTKHaibEpzCl7O9cyd3HzbiCRe4Q
+         oEYarXijp+xZScqnY5iS/F8PUzW2sX9AEAw4lbS0RG/ogVbOtMZ8yTff3lWTxHJcupYr
+         kO8NyXhdLd4gElXAXtwzmuKkEl4fjUWVPGJ/b00IW1l2qRkIc7dyYF2s5mh6fRq3F745
+         6oEukfBq2GsTpvgz0JyIvStq3d7s3RGO9qF8UvYRxfQbTCakp3FKAF54MwXevvsjUtJP
+         h0mBBLQeDKcIfskGDUKikm3V53z0RbKLeBFBUxPspyg1Zy5ZAVhKKFQo7GJeO5xLiiZt
+         clow==
+X-Gm-Message-State: AOAM532eGvtbXB07IoCSUCjtfYUxar4yWxyqGUwPLwA7MrsWAPi49CyJ
+        jh7voeOtSC5qeGSODEDU8SxmC5GOlrWa1ket6z4=
+X-Google-Smtp-Source: ABdhPJyF/ftciBqzh4ch1CG+SWuyn6xuAXkHcUCbsiHDWmq1tOGg12CynfIElRQkbmq/7l1KZq6D6ByKciowJMl1XDo=
+X-Received: by 2002:a1c:1d15:: with SMTP id d21mr8363338wmd.79.1602594975661;
+ Tue, 13 Oct 2020 06:16:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201013125206.GU2611@hirez.programming.kicks-ass.net>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org> <5698741522f375b5687860b597ecb786e14dfc82.1602589096.git.mchehab+huawei@kernel.org>
+In-Reply-To: <5698741522f375b5687860b597ecb786e14dfc82.1602589096.git.mchehab+huawei@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Tue, 13 Oct 2020 09:16:03 -0400
+Message-ID: <CADnq5_NCgoqbBc5LG2QANh9n14h7RO1A5eZ8Dn95EkHCiRfWsA@mail.gmail.com>
+Subject: Re: [PATCH v6 72/80] drm/amd/display: kernel-doc: document force_timing_sync
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Stylon Wang <stylon.wang@amd.com>,
+        Eryk Brol <eryk.brol@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Leo Li <sunpeng.li@amd.com>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Aurabindo Pillai <aurabindo.pillai@amd.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Mikita Lipski <mikita.lipski@amd.com>,
+        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Victor Lu <victorchengchi.lu@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 02:52:06PM +0200, Peter Zijlstra wrote:
-> On Tue, Oct 13, 2020 at 02:14:31PM +0200, Mauro Carvalho Chehab wrote:
-> > +   =====  ===================================================
-> > +   ``.``  acquired while irqs disabled and not in irq context
-> > +   ``-``  acquired in irq context
-> > +   ``+``  acquired with irqs enabled
-> > +   ``?``  acquired in irq context with irqs enabled.
-> > +   =====  ===================================================
+Applied.  Thanks!
+
+Alex
+
+On Tue, Oct 13, 2020 at 7:54 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> NAK!
-
-You're seriously suggesting that:
-
--   ===  ===================================================
--   '.'  acquired while irqs disabled and not in irq context
--   '-'  acquired in irq context
--   '+'  acquired with irqs enabled
--   '?'  acquired in irq context with irqs enabled.
--   ===  ===================================================
-+   =====  ===================================================
-+   ``.``  acquired while irqs disabled and not in irq context
-+   ``-``  acquired in irq context
-+   ``+``  acquired with irqs enabled
-+   ``?``  acquired in irq context with irqs enabled.
-+   =====  ===================================================
-
-this change makes the lockdep docs less readable?
-
-It's not the markup that makes the lockdep documentation hard to
-understand.
+> As warned when running "make htmldocs":
+>
+>         ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:345: warning: Function parameter or member 'force_timing_sync' not described in 'amdgpu_display_manager'
+>
+> This new struct member was not documented at kernel-doc markup.
+>
+> Fixes: 3d4e52d0cf24 ("drm/amd/display: Add debugfs for forcing stream timing sync")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index dd1559c743c2..fc7e3e9fd719 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -149,6 +149,8 @@ struct amdgpu_dm_backlight_caps {
+>   * @cached_state: Caches device atomic state for suspend/resume
+>   * @cached_dc_state: Cached state of content streams
+>   * @compressor: Frame buffer compression buffer. See &struct dm_comressor_info
+> + * @force_timing_sync: set via debugfs. When set, indicates that all connected
+> + *                    displays will be forced to synchronize.
+>   */
+>  struct amdgpu_display_manager {
+>
+> --
+> 2.26.2
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
