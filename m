@@ -2,105 +2,104 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 905ABC4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B7AC433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 22:01:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D513208D5
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:53:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC70F216C4
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 22:01:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727340AbgJMUxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 16:53:39 -0400
-Received: from mga17.intel.com ([192.55.52.151]:54071 "EHLO mga17.intel.com"
+        id S1725977AbgJMWBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 18:01:10 -0400
+Received: from mga05.intel.com ([192.55.52.43]:7401 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726186AbgJMUxi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 16:53:38 -0400
-IronPort-SDR: gI8MkOnOGO61aP07XY6CCWHG9J8FvCUX/dOJGBzQnYJFTP4ej18aKmY+Fn52D+I38Lw4zhRGT9
- RQaSxhwXc52g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="145845033"
+        id S1725935AbgJMWBJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 18:01:09 -0400
+IronPort-SDR: Bd2LgM3qlBnb2yfx7G5pdhT3MlLSWjI4jlepT9+M42ImGREnpLisNTehcvMe/QPASsrehAb0i4
+ 4GVhp/nVfW5A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="250686415"
 X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
-   d="scan'208";a="145845033"
+   d="scan'208";a="250686415"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 13:53:36 -0700
-IronPort-SDR: 6pC5EU5QwoXbsJ9AhSALdpEnefHex0iyEFu7THvX1eaSFNd77CbWePaQQdxa3yUvYDZ6VBgRvg
- Vwn0OOQPMwwA==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 15:01:09 -0700
+IronPort-SDR: ToVhdH2VAtIHbB7hGPVNvyPLfEZNQSmGRyRg4EVj49UMevEF1HfIuZC2SHMo5/F/njAUmFGJ07
+ r/AcmQcabifg==
 X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
-   d="scan'208";a="313946459"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 13:53:35 -0700
-Date:   Tue, 13 Oct 2020 13:52:49 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        kvm@vger.kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
-        kexec@lists.infradead.org, linux-bcache@vger.kernel.org,
-        linux-mtd@lists.infradead.org, devel@driverdev.osuosl.org,
-        linux-efi@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-aio@kvack.org,
-        io-uring@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-um@lists.infradead.org, linux-ntfs-dev@lists.sourceforge.net,
-        reiserfs-devel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-nilfs@vger.kernel.org, cluster-devel@redhat.com,
-        ecryptfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-afs@lists.infradead.org,
-        linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-cachefs@redhat.com,
-        samba-technical@lists.samba.org, intel-wired-lan@lists.osuosl.org
-Subject: Re: [PATCH RFC PKS/PMEM 24/58] fs/freevxfs: Utilize new kmap_thread()
-Message-ID: <20201013205248.GJ2046448@iweiny-DESK2.sc.intel.com>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
- <20201009195033.3208459-25-ira.weiny@intel.com>
- <20201013112544.GA5249@infradead.org>
+   d="scan'208";a="463658440"
+Received: from alexissu-mobl.amr.corp.intel.com (HELO [10.212.1.230]) ([10.212.1.230])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 15:01:08 -0700
+Subject: Re: [PATCH v2 22/24] ice: docs fix a devlink info that broke a table
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@nvidia.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+ <79d341b6be03e9ffbe489d7110348357971a5fc8.1602590106.git.mchehab+huawei@kernel.org>
+From:   Jacob Keller <jacob.e.keller@intel.com>
+Organization: Intel Corporation
+Message-ID: <1c894002-7d96-3b28-b612-56b392ba5c2d@intel.com>
+Date:   Tue, 13 Oct 2020 15:01:05 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201013112544.GA5249@infradead.org>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <79d341b6be03e9ffbe489d7110348357971a5fc8.1602590106.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 12:25:44PM +0100, Christoph Hellwig wrote:
-> > -	kaddr = kmap(pp);
-> > +	kaddr = kmap_thread(pp);
-> >  	memcpy(kaddr, vip->vii_immed.vi_immed + offset, PAGE_SIZE);
-> > -	kunmap(pp);
-> > +	kunmap_thread(pp);
+
+
+On 10/13/2020 5:14 AM, Mauro Carvalho Chehab wrote:
+> Changeset 410d06879c01 ("ice: add the DDP Track ID to devlink info")
+> added description for a new devlink field, but forgot to add
+> one of its columns, causing it to break:
 > 
-> You only Cced me on this particular patch, which means I have absolutely
-> no idea what kmap_thread and kunmap_thread actually do, and thus can't
-> provide an informed review.
-
-Sorry the list was so big I struggled with who to CC and on which patches.
-
+> 	.../Documentation/networking/devlink/ice.rst:15: WARNING: Error parsing content block for the "list-table" directive: uniform two-level bullet list expected, but row 11 does not contain the same number of items as row 1 (3 vs 4).
 > 
-> That being said I think your life would be a lot easier if you add
-> helpers for the above code sequence and its counterpart that copies
-> to a potential hughmem page first, as that hides the implementation
-> details from most users.
+> 	.. list-table:: devlink info versions implemented
+> 	    :widths: 5 5 5 90
+> ...
+> 	    * - ``fw.app.bundle_id``
+> 	      - 0xc0000001
+> 	      - Unique identifier for the DDP package loaded in the device. Also
+> 	        referred to as the DDP Track ID. Can be used to uniquely identify
+> 	        the specific DDP package.
+> 
+> Add the type field to the ``fw.app.bundle_id`` row.
+> 
+> Fixes: 410d06879c01 ("ice: add the DDP Track ID to devlink info")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Matthew Wilcox and Al Viro have suggested similar ideas.
+Yep, looks correct. Thanks for the fix!
 
-https://lore.kernel.org/lkml/20201013205012.GI2046448@iweiny-DESK2.sc.intel.com/
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 
-Ira
+> ---
+>  Documentation/networking/devlink/ice.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/networking/devlink/ice.rst b/Documentation/networking/devlink/ice.rst
+> index b165181d5d4d..a432dc419fa4 100644
+> --- a/Documentation/networking/devlink/ice.rst
+> +++ b/Documentation/networking/devlink/ice.rst
+> @@ -70,6 +70,7 @@ The ``ice`` driver reports the following versions
+>          that both the name (as reported by ``fw.app.name``) and version are
+>          required to uniquely identify the package.
+>      * - ``fw.app.bundle_id``
+> +      - running
+>        - 0xc0000001
+>        - Unique identifier for the DDP package loaded in the device. Also
+>          referred to as the DDP Track ID. Can be used to uniquely identify
+> 
