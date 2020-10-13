@@ -2,186 +2,76 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3334FC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCF3C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:52:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DBFD3252DA
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:48:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rxf99be+"
+	by mail.kernel.org (Postfix) with ESMTP id 005BF252EC
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:52:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728328AbgJMQsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 12:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57654 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727696AbgJMQsp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 12:48:45 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F48AC0613D0;
-        Tue, 13 Oct 2020 09:48:45 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id u17so88795oie.3;
-        Tue, 13 Oct 2020 09:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Mg/Vf27uQrH+QZr9MTsy0LWlJpcdeTpSu6ROq5/oqks=;
-        b=rxf99be+1u3xmfnKzAazaXlLwug4y9Ha9N8tYMnfpBWnfcj5yq+HQhOW9KNu12vKGm
-         DA7IosO129OvxWS+P06quSWzl5HRoDYyTJXN7FUk9yhZ+OFrzcN0px5klKPCtqhDQekp
-         BvVsywWbs+f+9yMD/+87+Ar2Z/9uRchRTp2hSe3BtKqcMhOVGvsuHxZ+GuRiSEfaM0TY
-         ixpyZ4E6//1XGP7NpJTYIqMxPce7LrK/ugnMht6VCoxGcZ3bsDrNAlCMNoRr4gyJuY9B
-         pEqJm46gOncVtL5WwwAXLDxz9ObXyi+iAMcmYQZUE4zi+7hQvbbcm7cL/VtJc57RRnwc
-         63Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Mg/Vf27uQrH+QZr9MTsy0LWlJpcdeTpSu6ROq5/oqks=;
-        b=PD87V6+6YVuKaNOf3OpxL4SBT0C8s3jW7tNUpuThyb7XL2fjlSYqz5EDHx//xq82iw
-         B+DXYR40bWLCU2rOYWn+vtbgx69KyhnxbahBlLUof/yOr+7tO+9QiHuoQ0eFovgkH1lb
-         1mw8yj1mKkdgmS7NvO8tC1e5YKvbQ0oTgKPtfb17oHaqZWy9gb4BBuSxGxBN3An8r2yf
-         sw2fv7Aq2hpwARnvjY0N4e2uLVouQh+lpsp0G2fsAXL3niFpad5QjDNsRCBHUIW2xfx/
-         +wB2V1htpfHAcdond+asFdiLfMhfdEn/L7oD9QhDjgaqzQJrCWU6t97DpPMoc/Xlard5
-         AUwg==
-X-Gm-Message-State: AOAM532pani3MOygTSeLIEulKBtIwxyxkld4KV4jkvuEh37ocuIKBVQ2
-        1gGc5O29LIAYf4xeeVKAuyg=
-X-Google-Smtp-Source: ABdhPJyj87YRbCDfhwXXsSdbQDCnKaVwQ5liQ6F5/fX7ATWBFiVMns7zYD4gSd77pL3mAI68iHvMHQ==
-X-Received: by 2002:aca:3341:: with SMTP id z62mr340784oiz.169.1602607724538;
-        Tue, 13 Oct 2020 09:48:44 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id k128sm91571oib.52.2020.10.13.09.48.42
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 13 Oct 2020 09:48:43 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 13 Oct 2020 09:48:42 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
+        id S1728508AbgJMQw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 12:52:58 -0400
+Received: from mail.adapt-ip.com ([173.164.178.19]:60192 "EHLO
+        web.adapt-ip.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727696AbgJMQw6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 12:52:58 -0400
+X-Greylist: delayed 423 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Oct 2020 12:52:58 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by web.adapt-ip.com (Postfix) with ESMTP id 46B8A4FA377;
+        Tue, 13 Oct 2020 16:45:54 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at web.adapt-ip.com
+Received: from web.adapt-ip.com ([127.0.0.1])
+        by localhost (web.adapt-ip.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id RRucx4ImxBfd; Tue, 13 Oct 2020 16:45:51 +0000 (UTC)
+Received: from mail.ibsgaard.io (c-73-223-60-234.hsd1.ca.comcast.net [73.223.60.234])
+        (Authenticated sender: thomas@adapt-ip.com)
+        by web.adapt-ip.com (Postfix) with ESMTPSA id 5EC344FA372;
+        Tue, 13 Oct 2020 16:45:50 +0000 (UTC)
+MIME-Version: 1.0
+Date:   Tue, 13 Oct 2020 09:45:49 -0700
+From:   Thomas Pedersen <thomas@adapt-ip.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 17/24] docs: hwmon: mp2975.rst: address some html
- build warnings
-Message-ID: <20201013164842.GI251780@roeck-us.net>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <8418e2062b82314ceae5da7404fad7b2d3a3fa9a.1602590106.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8418e2062b82314ceae5da7404fad7b2d3a3fa9a.1602590106.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Jakub Kicinski <kuba@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH v6 68/80] nl80211: docs: add a description for s1g_cap
+ parameter
+In-Reply-To: <9633ea7d9b0cb2f997d784df86ba92e67659f29b.1602589096.git.mchehab+huawei@kernel.org>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org>
+ <9633ea7d9b0cb2f997d784df86ba92e67659f29b.1602589096.git.mchehab+huawei@kernel.org>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <53bc6de4ee69b43236866a4355859e2a@adapt-ip.com>
+X-Sender: thomas@adapt-ip.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 02:14:44PM +0200, Mauro Carvalho Chehab wrote:
->     .../Documentation/hwmon/mp2975.rst:25: WARNING: Unexpected indentation.
->     .../Documentation/hwmon/mp2975.rst:27: WARNING: Block quote ends without a blank line; unexpected unindent.
->     .../Documentation/hwmon/mp2975.rst:69: WARNING: Unexpected indentation.
->     .../Documentation/hwmon/mp2975.rst:70: WARNING: Block quote ends without a blank line; unexpected unindent.
->     .../Documentation/hwmon/mp2975.rst:72: WARNING: Bullet list ends without a blank line; unexpected unindent.
->     .../Documentation/hwmon/mp2975.rst: WARNING: document isn't included in any toctree
+On 2020-10-13 04:54, Mauro Carvalho Chehab wrote:
+> Changeset df78a0c0b67d ("nl80211: S1G band and channel definitions")
+> added a new parameter, but didn't add the corresponding kernel-doc
+> markup, as repoted when doing "make htmldocs":
 > 
-> List blocks should have blank lines before and after them,
-> in order to be properly parsed.
+> 	./include/net/cfg80211.h:471: warning: Function parameter or member
+> 's1g_cap' not described in 'ieee80211_supported_band'
 > 
-> Fixes: 4beb7a028e9f ("hwmon: (pmbus) Add support for MPS Multi-phase mp2975 controller")
+> Add a documentation for it.
+
+Sorry about that. Patch looks good.
+
+> Fixes: df78a0c0b67d ("nl80211: S1G band and channel definitions")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Thomas Pedersen <thomas@adapt-ip.com>
 
-> ---
->  Documentation/hwmon/index.rst  |  1 +
->  Documentation/hwmon/mp2975.rst | 14 +++++++++++++-
->  2 files changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index e6b91ab12978..b797db738225 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -132,6 +132,7 @@ Hardware Monitoring Kernel Drivers
->     mcp3021
->     menf21bmc
->     mlxreg-fan
-> +   mp2975
->     nct6683
->     nct6775
->     nct7802
-> diff --git a/Documentation/hwmon/mp2975.rst b/Documentation/hwmon/mp2975.rst
-> index 5b0609c62f48..81d816b71490 100644
-> --- a/Documentation/hwmon/mp2975.rst
-> +++ b/Documentation/hwmon/mp2975.rst
-> @@ -20,6 +20,7 @@ This driver implements support for Monolithic Power Systems, Inc. (MPS)
->  vendor dual-loop, digital, multi-phase controller MP2975.
->  
->  This device:
-> +
->  - Supports up to two power rail.
->  - Provides 8 pulse-width modulations (PWMs), and can be configured up
->    to 8-phase operation for rail 1 and up to 4-phase operation for rail
-> @@ -32,10 +33,12 @@ This device:
->    10-mV DAC, IMVP9 mode with 5-mV DAC.
->  
->  Device supports:
-> +
->  - SVID interface.
->  - AVSBus interface.
->  
->  Device complaint with:
-> +
->  - PMBus rev 1.3 interface.
->  
->  Device supports direct format for reading output current, output voltage,
-> @@ -45,11 +48,14 @@ Device supports VID and direct formats for reading output voltage.
->  The below VID modes are supported: VR12, VR13, IMVP9.
->  
->  The driver provides the next attributes for the current:
-> +
->  - for current in: input, maximum alarm;
->  - for current out input, maximum alarm and highest values;
->  - for phase current: input and label.
-> -attributes.
-> +  attributes.
-> +
->  The driver exports the following attributes via the 'sysfs' files, where
-> +
->  - 'n' is number of telemetry pages (from 1 to 2);
->  - 'k' is number of configured phases (from 1 to 8);
->  - indexes 1, 1*n for "iin";
-> @@ -65,11 +71,14 @@ The driver exports the following attributes via the 'sysfs' files, where
->  **curr[1-{2n+k}]_label**
->  
->  The driver provides the next attributes for the voltage:
-> +
->  - for voltage in: input, high critical threshold, high critical alarm, all only
->    from page 0;
->  - for voltage out: input, low and high critical thresholds, low and high
->    critical alarms, from pages 0 and 1;
-> +
->  The driver exports the following attributes via the 'sysfs' files, where
-> +
->  - 'n' is number of telemetry pages (from 1 to 2);
->  - indexes 1 for "iin";
->  - indexes n+1, n+2 for "vout";
-> @@ -87,9 +96,12 @@ The driver exports the following attributes via the 'sysfs' files, where
->  **in[2-{n+1}1_lcrit_alarm**
->  
->  The driver provides the next attributes for the power:
-> +
->  - for power in alarm and input.
->  - for power out: highest and input.
-> +
->  The driver exports the following attributes via the 'sysfs' files, where
-> +
->  - 'n' is number of telemetry pages (from 1 to 2);
->  - indexes 1 for "pin";
->  - indexes n+1, n+2 for "pout";
-> -- 
-> 2.26.2
-> 
+-- 
+thomas
