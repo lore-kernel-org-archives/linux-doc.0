@@ -4,135 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE21BC433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 473CDC43457
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A9AB20878
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB5832080A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590428;
-	bh=i1ehfJ5a+ArhUT+7IpeOP77r+VemFZ1XPuELZc8RizM=;
+	s=default; t=1602590430;
+	bh=6FnAXTisJK9UFRAN8m9cKwYQmxfqAucBzkfFzqVowps=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zGlN/+nOs1+g+y/P95afyHzYs1Ic6RvdYqqJyvoY5mxq9a13ffdePsHWDg2+Z/B8X
-	 iw0BJGNCin7g57LNS4u9Hd8SjEuMSGHi1Cfy+UasNPhgZ/dbceTjftlFCPqcbXInR7
-	 Ck+30f++S18Zk5IaCeQK/2obHoZjS2aEkisaWYeM=
+	b=exI6yOe9SquGdKUmgC5tVUszkcBMRNB2SpxJ9o6qinC/HIVlwOEA4PxjrMyG9R6iy
+	 AjXuxP5oWtznooqweatxg7u/8VC/8jHzzGy8lA5FvCSHQrf1RPUcR6Gzl5g7PqaaXn
+	 nnXOWXvH3REk0ikuTJfWzA1EAXdsV73a459VWgCY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728272AbgJMMAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:00:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58150 "EHLO mail.kernel.org"
+        id S1727474AbgJMMA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:00:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57390 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727474AbgJMLyn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 07:54:43 -0400
+        id S1727464AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:42 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CB6C2223BD;
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A15C222B8;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602590081;
-        bh=i1ehfJ5a+ArhUT+7IpeOP77r+VemFZ1XPuELZc8RizM=;
+        s=default; t=1602590080;
+        bh=6FnAXTisJK9UFRAN8m9cKwYQmxfqAucBzkfFzqVowps=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O7AGre3eWrnkcM4mXQibvxErJanrmuHiCacF82DcZQ1YwgeVh2Vs99iCx6eqlPQ7l
-         bTg2TeQbiUlPDNz2DFO6iR186eJTFjSX4VTzP6bzhkhay5EnGtECzHgR4OsAUrcJZY
-         XfGR4X5xk20cZ7V8mctuKAcc9jFr1CenMlwnGA3k=
+        b=M+CryfopvZVxNhSp4//FqDaBQ+Oscc631+w+7kIforkvV7qYf6WA6B2myPIPTwKlT
+         6cmmU7OqFIAqHJflE1PtapTHLQwa9gLAyCZ7eiCGN02ogsROXGrk24mlTDRg2L3+vS
+         em9ac5KmHk6N0zRL1r5Hz/R9z8poVQMHR7PBdu7w=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt4-006CV1-QN; Tue, 13 Oct 2020 13:54:38 +0200
+        id 1kSIt4-006CUd-I4; Tue, 13 Oct 2020 13:54:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 40/80] docs: fpga: replace :c:member: macros
-Date:   Tue, 13 Oct 2020 13:53:55 +0200
-Message-Id: <bc213cf5197fc2d7f0c8e5f331189991536222be.1602589096.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 33/80] docs: basics.rst: get rid of rcu kernel-doc macros
+Date:   Tue, 13 Oct 2020 13:53:48 +0200
+Message-Id: <f6eca03c3b5252f8d4f8c691899ca2b7d483087d.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those macros are not doing the right thing with Sphinx 3,
-causing parse errors:
+Those are already defined at kernel-api.rst, as part of the
+synchronization primitives chapter.
 
-	./Documentation/driver-api/fpga/fpga-mgr.rst:104: WARNING: Unparseable C cross-reference: 'fpga_manager->state'
-	Invalid C declaration: Expected end of definition. [error at 12]
-	  fpga_manager->state
-	  ------------^
-	./Documentation/driver-api/fpga/fpga-programming.rst:18: WARNING: Unparseable C cross-reference: 'fpga_region->info'
-	Invalid C declaration: Expected end of definition. [error at 11]
-	  fpga_region->info
-	  -----------^
-	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->bridge_list'
-	Invalid C declaration: Expected end of definition. [error at 11]
-	  fpga_region->bridge_list
-	  -----------^
-	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->get_bridges'
-	Invalid C declaration: Expected end of definition. [error at 11]
-	  fpga_region->get_bridges
-	  -----------^
+This solves several Sphinx 3 warnings, like:
 
-Replace them by :c:expr:, with does what's desired.
+	.../Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'rcu_idle_enter'.
+	.../Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'rcu_idle_exit'.
+	.../Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'rcu_is_watching'.
+	.../Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'call_rcu'.
+	.../Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
+	Declaration is 'synchronize_rcu'.
+	...
 
-Reviewed-by: Moritz Fischer <mdf@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/fpga/fpga-mgr.rst         | 2 +-
- Documentation/driver-api/fpga/fpga-programming.rst | 2 +-
- Documentation/driver-api/fpga/fpga-region.rst      | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/driver-api/basics.rst | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
-index 22f7885b32c9..917ee22db429 100644
---- a/Documentation/driver-api/fpga/fpga-mgr.rst
-+++ b/Documentation/driver-api/fpga/fpga-mgr.rst
-@@ -101,7 +101,7 @@ in state.
- API for implementing a new FPGA Manager driver
- ----------------------------------------------
+diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+index 54f8d5ca7475..63bbe3ed5e76 100644
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -103,12 +103,6 @@ Kernel utility functions
+ .. kernel-doc:: kernel/panic.c
+    :export:
  
--* ``fpga_mgr_states`` —  Values for :c:member:`fpga_manager->state`.
-+* ``fpga_mgr_states`` —  Values for :c:expr:`fpga_manager->state`.
- * struct fpga_manager —  the FPGA manager struct
- * struct fpga_manager_ops —  Low level FPGA manager driver ops
- * devm_fpga_mgr_create() —  Allocate and init a manager struct
-diff --git a/Documentation/driver-api/fpga/fpga-programming.rst b/Documentation/driver-api/fpga/fpga-programming.rst
-index f487ad64dfb9..002392dab04f 100644
---- a/Documentation/driver-api/fpga/fpga-programming.rst
-+++ b/Documentation/driver-api/fpga/fpga-programming.rst
-@@ -15,7 +15,7 @@ the FPGA manager and bridges.  It will:
-  * lock the mutex of the region's FPGA manager
-  * build a list of FPGA bridges if a method has been specified to do so
-  * disable the bridges
-- * program the FPGA using info passed in :c:member:`fpga_region->info`.
-+ * program the FPGA using info passed in :c:expr:`fpga_region->info`.
-  * re-enable the bridges
-  * release the locks
+-.. kernel-doc:: kernel/rcu/tree.c
+-   :export:
+-
+-.. kernel-doc:: kernel/rcu/update.c
+-   :export:
+-
+ .. kernel-doc:: include/linux/overflow.h
+    :internal:
  
-diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
-index 3e52be7e2968..363a8171ab0a 100644
---- a/Documentation/driver-api/fpga/fpga-region.rst
-+++ b/Documentation/driver-api/fpga/fpga-region.rst
-@@ -61,9 +61,9 @@ during the region's probe function.
- 
- The FPGA region will need to specify which bridges to control while programming
- the FPGA.  The region driver can build a list of bridges during probe time
--(:c:member:`fpga_region->bridge_list`) or it can have a function that creates
-+(:c:expr:`fpga_region->bridge_list`) or it can have a function that creates
- the list of bridges to program just before programming
--(:c:member:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
-+(:c:expr:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
- following APIs to handle building or tearing down that list.
- 
- * fpga_bridge_get_to_list() — Get a ref of an FPGA bridge, add it to a
 -- 
 2.26.2
 
