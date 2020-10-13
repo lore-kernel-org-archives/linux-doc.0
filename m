@@ -2,62 +2,70 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 051B2C43467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC65FC433E7
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B99992227E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A1DD2227E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591386;
-	bh=7oNtrCAc9I0+vEOO9y8qmGK4YQCampiFBV+447rAEz8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0BTnT2mcvrVtQaf1t8OkytBaHK1+GVvucOWDhIHToz2qwhLTYXDpKCTYmez6T7xCL
-	 Cm3adubeIuP/Gp37OCcsr14CKpsWepePFZ0GdGPHLDDTKNN5FjctlLoYwyUFMGnm6h
-	 d8TJXKzDZxYzMAxrdlqLMu7wtHRnJDXymAcaQfWE=
+	s=default; t=1602591387;
+	bh=nMXTOlO8MmNlVI621kGGK0owv+NaepaGR3buXWsc9hY=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=yyAO5sGmKm5kkzIacJV86UwpDH6dP/V6E03hKZlQAz7yMLcmC847qlYnt7hUT3wYH
+	 EpCw0g1CNjcMfl8sKC8EsCW5vgQSEOTUvwOc83MKQOmlUOLk6E5drRNbdm6qGTH8bp
+	 fKy5Apc/2R0+eWwp81524OEz/ld3eWIkxpGHY2g4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbgJMMQZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:16:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41102 "EHLO mail.kernel.org"
+        id S1727025AbgJMMQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:16:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41124 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726954AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726885AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 08:14:57 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A5B222264;
+        by mail.kernel.org (Postfix) with ESMTPSA id 034AA22258;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=7oNtrCAc9I0+vEOO9y8qmGK4YQCampiFBV+447rAEz8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wvb3Cm5kkZmKMXFV9YTMXmXjTqE/KaP/Qi4QtQYFgC9aGne1tn3zWCzqIqVX0J+UP
-         rFgMtPON5YDHxzi9FGx6OtDKaUEqSoVEjt+GX/XYOPh6XJ8yL8ZyIwYl1l1dZkp+uP
-         PqAuynx+oGvIW3ddSYASXEPX3sBTnylFzk0KDYsA=
+        bh=nMXTOlO8MmNlVI621kGGK0owv+NaepaGR3buXWsc9hY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZDO/Aj1h/8cOxyLV9QLrtOUfPLbg39QUyR/VGVFdQ1J82x24z1AKekkT1+QzbNcQJ
+         wLxx4C/wH/D7SDvP7OPBoohYZxW+CVjxSMaNCfJaa5+SkVfPUNgwdPi1BR/p1e85nl
+         GTjJQfXXiWDvsWYPmwkEPqTIkNCYPJQ//2yC3M5E=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCf-006CoF-0Z; Tue, 13 Oct 2020 14:14:53 +0200
+        id 1kSJCe-006Cnp-L4; Tue, 13 Oct 2020 14:14:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>, Lyude Paul <lyude@redhat.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Jens Axboe <axboe@kernel.dk>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/24] drm/dp: fix a kernel-doc issue at drm_edid.c
-Date:   Tue, 13 Oct 2020 14:14:39 +0200
-Message-Id: <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
+        Will Deacon <will@kernel.org>, Wolfram Sang <wsa@kernel.org>
+Subject: [PATCH v2 00/24] Documentation build fixes against next-20201013
+Date:   Tue, 13 Oct 2020 14:14:27 +0200
+Message-Id: <cover.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -65,30 +73,101 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The name of the argument is different, causing those warnings:
+This series is based on the top of my previous series:
 
-	./drivers/gpu/drm/drm_edid.c:3754: warning: Function parameter or member 'video_code' not described in 'drm_display_mode_from_cea_vic'
-	./drivers/gpu/drm/drm_edid.c:3754: warning: Excess function parameter 'vic' description in 'drm_display_mode_from_cea_vic'
+	https://lore.kernel.org/lkml/cover.1602589096.git.mchehab+huawei@kernel.org/
 
-Fixes: 7af655bce275 ("drm/dp: Add drm_dp_downstream_mode()")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/gpu/drm/drm_edid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+plus linux-next.
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index a82f37d44258..631125b46e04 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3741,7 +3741,7 @@ drm_add_cmdb_modes(struct drm_connector *connector, u8 svd)
- /**
-  * drm_display_mode_from_cea_vic() - return a mode for CEA VIC
-  * @dev: DRM device
-- * @vic: CEA VIC of the mode
-+ * @video_code: CEA VIC of the mode
-  *
-  * Creates a new mode matching the specified CEA VIC.
-  *
+It contains the patches I sent before with documentation fixes
+for Kernel 5.10, plus 3 new fixes for stuff that got merged today
+at linux-next.
+
+My plan is to do a late pull request by the end of the merge window
+with the patches from this tree that weren't merged directly
+via some other trees.
+
+-
+
+After both series applied, the only warnings with Sphinx 2.4.4
+are those:
+
+../include/kunit/test.h:282: warning: Function parameter or member '__suites' not described in 'kunit_test_suites_for_module'
+../include/kunit/test.h:282: warning: Excess function parameter 'suites_list' description in 'kunit_test_suites_for_module'
+../include/kunit/test.h:314: warning: Excess function parameter 'suites' description in 'kunit_test_suites'
+
+.../Documentation/core-api/counters.rst:46: WARNING: undefined label: test counters module (if the link has no caption the label must precede a section header)
+.../Documentation/core-api/counters.rst:49: WARNING: undefined label: selftest for counters (if the link has no caption the label must precede a section header)
+.../Documentation/core-api/counters.rst:62: WARNING: undefined label: atomic_ops (if the link has no caption the label must precede a section header)
+
+Those require some care from the authors in order to
+properly address them.
+
+Hopefully, this will all be sorted until the end of the merge window.
+
+
+Mauro Carvalho Chehab (24):
+  docs: hwmon: adm1266.rst: fix a broken reference
+  tools: docs: memory-model: fix references for some files
+  docs: SafeSetID: fix a warning
+  docs: lockdep-design: fix some warning issues
+  docs: admin-guide: net.rst: add a missing blank line
+  blk-mq: docs: add kernel-doc description for a new struct member
+  drm: amdgpu: kernel-doc: update some adev parameters
+  drm: kernel-doc: document drm_dp_set_subconnector_property() params
+  docs: kasan.rst: add two missing blank lines
+  mm: pagemap.h: fix two kernel-doc markups
+  drm/dp: fix kernel-doc warnings at drm_dp_helper.c
+  drm/dp: fix a kernel-doc issue at drm_edid.c
+  docs: i2c: index.rst: add slave-testunit-backend.rst
+  docs: conf.py: disable automarkup for Sphinx 3.x
+  docs: net: statistics.rst: remove a duplicated kernel-doc
+  seqlock: fix two kernel-doc warnings
+  docs: hwmon: mp2975.rst: address some html build warnings
+  docs: userspace-api: add iommu.rst to the index file
+  net: phy: remove kernel-doc duplication
+  MAINTAINERS: fix broken doc refs due to yaml conversion
+  crypto: sun8x-ce*: update entries to its documentation
+  ice: docs fix a devlink info that broke a table
+  RDMA: add a missing kernel-doc parameter markup
+  counters: docs: add a missing include
+
+ Documentation/admin-guide/LSM/SafeSetID.rst   |  2 +-
+ .../admin-guide/hw-vuln/l1d_flush.rst         |  3 +-
+ Documentation/admin-guide/sysctl/net.rst      |  1 +
+ Documentation/conf.py                         |  3 +-
+ Documentation/core-api/counters.rst           |  1 +
+ Documentation/core-api/index.rst              |  1 +
+ Documentation/dev-tools/kasan.rst             |  2 +
+ .../bindings/clock/hi6220-clock.txt           |  2 +-
+ Documentation/hwmon/adm1266.rst               |  2 +-
+ Documentation/hwmon/index.rst                 |  1 +
+ Documentation/hwmon/mp2975.rst                | 14 +++-
+ Documentation/i2c/index.rst                   |  1 +
+ Documentation/locking/lockdep-design.rst      | 69 +++++++++++--------
+ Documentation/networking/devlink/ice.rst      |  1 +
+ Documentation/networking/statistics.rst       |  3 +-
+ Documentation/userspace-api/index.rst         |  1 +
+ MAINTAINERS                                   |  9 ++-
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c |  2 +-
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-prng.c |  2 +-
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-trng.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |  6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |  5 +-
+ drivers/gpu/drm/drm_dp_helper.c               | 12 +++-
+ drivers/gpu/drm/drm_edid.c                    |  2 +-
+ drivers/infiniband/core/device.c              |  5 +-
+ .../bindings/net/wireless/silabs,wfx.yaml     |  2 +-
+ include/linux/blk-mq.h                        |  2 +
+ include/linux/pagemap.h                       |  8 +--
+ include/linux/phy.h                           | 40 ++---------
+ include/linux/seqlock.h                       |  2 +-
+ tools/memory-model/Documentation/README       |  2 +-
+ tools/memory-model/Documentation/ordering.txt |  2 +-
+ 33 files changed, 113 insertions(+), 99 deletions(-)
+
 -- 
 2.26.2
+
 
