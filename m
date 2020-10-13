@@ -2,64 +2,158 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B490C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:32:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B57DC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:40:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AD5B235E4
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:32:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C19A24743
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:40:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602596452;
+	bh=hMKks0yH+1QbT8lmw2IcB9FvKt0uw8hZHVUF20d9isU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=a3ISx48JLqGIRQcTbrvypMV5CeMDs9lgVXIVNvNE3Vbi/4AoQ+4jujwe+z0TcoTTu
+	 Xmu0StQkbJazXKHwOOQc+/b1p1nvPD4YODUGipVVqaaAzTQ2xkIO6L/AlP7LPIi9Ib
+	 ysZcr/O+Nm5IdALn5XyN7SUm+2zUinYXAUGauz/o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728720AbgJMNcw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 09:32:52 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2976 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728487AbgJMNcv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 09:32:51 -0400
-Received: from lhreml724-chm.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 2B1DE986D246418F2178;
-        Tue, 13 Oct 2020 14:32:47 +0100 (IST)
-Received: from [127.0.0.1] (10.47.6.6) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 13 Oct
- 2020 14:32:46 +0100
-Subject: Re: [PATCH v2 06/24] blk-mq: docs: add kernel-doc description for a
- new struct member
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        <linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <408fac4661f48a7c0e937251880f51ae503d137b.1602590106.git.mchehab+huawei@kernel.org>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <38c2a5f6-74d7-b1fb-51d7-ecfe29880a2f@huawei.com>
-Date:   Tue, 13 Oct 2020 14:29:38 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+        id S1729111AbgJMNkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 09:40:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42818 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729110AbgJMNkv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 09:40:51 -0400
+Received: from localhost (83-245-197-237.elisa-laajakaista.fi [83.245.197.237])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5114024741;
+        Tue, 13 Oct 2020 13:40:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602596450;
+        bh=hMKks0yH+1QbT8lmw2IcB9FvKt0uw8hZHVUF20d9isU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iEP+KtkxdbveqHc3o6dc0NabtkgQBAMQRm6bRQ2wdx9i0idUyeoN5bGhVU9LshPhp
+         RQ63GxGtL7rGZLClYXAzipFBusI5YRWl3Ei/5GCzmB4WQdmknstsXe4e0k9JPY8ebc
+         MIveOdrgpZSUwYYlnCVuFPoWuCxl9brA4QH81e+I=
+Date:   Tue, 13 Oct 2020 16:40:48 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v7 4/4] MAINTAINERS: Add entry for TEE based Trusted Keys
+Message-ID: <20201013134048.GA147135@kernel.org>
+References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
+ <1602065268-26017-5-git-send-email-sumit.garg@linaro.org>
+ <20201013022157.GA47751@linux.intel.com>
+ <CAFA6WYO6zNKtxhpNpTpqAjZnMPrEygs1k7Gwg3hwJV8Ynrr=qQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <408fac4661f48a7c0e937251880f51ae503d137b.1602590106.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.6.6]
-X-ClientProxiedBy: lhreml719-chm.china.huawei.com (10.201.108.70) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYO6zNKtxhpNpTpqAjZnMPrEygs1k7Gwg3hwJV8Ynrr=qQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13/10/2020 13:14, Mauro Carvalho Chehab wrote:
-> As reported by kernel-doc:
-> 	./include/linux/blk-mq.h:267: warning: Function parameter or member 'active_queues_shared_sbitmap' not described in 'blk_mq_tag_set'
+On Tue, Oct 13, 2020 at 04:58:47PM +0530, Sumit Garg wrote:
+> On Tue, 13 Oct 2020 at 07:52, Jarkko Sakkinen
+> <jarkko.sakkinen@linux.intel.com> wrote:
+> >
+> > On Wed, Oct 07, 2020 at 03:37:48PM +0530, Sumit Garg wrote:
+> > > Add MAINTAINERS entry for TEE based Trusted Keys framework.
+> > >
+> > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> > > Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> > > ---
+> > >  MAINTAINERS | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 48aff80..eb3d889 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -9663,6 +9663,14 @@ F:     include/keys/trusted-type.h
+> > >  F:   include/keys/trusted_tpm.h
+> > >  F:   security/keys/trusted-keys/
+> > >
+> > > +KEYS-TRUSTED-TEE
+> > > +M:   Sumit Garg <sumit.garg@linaro.org>
+> > > +L:   linux-integrity@vger.kernel.org
+> > > +L:   keyrings@vger.kernel.org
+> > > +S:   Supported
+> > > +F:   include/keys/trusted_tee.h
+> > > +F:   security/keys/trusted-keys/trusted_tee.c
+> > > +
+> > >  KEYS/KEYRINGS
+> > >  M:   David Howells <dhowells@redhat.com>
+> > >  M:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> > > --
+> > > 2.7.4
+> >
+> > I'm sorry but I think I have changed my mind on this. This has been
+> > spinning for a while and sometimes conclusions change over the time.
+> >
+> > I don't think that we really need a separate subsystem tag.
 > 
-> There is now a new member for struct blk_mq_tag_set. Add a
-> description for it, based on the commit that introduced it.
+> I don't see it as a separate subsystem but rather a kind of underlying
+> trust source (TEE) driver plugged into existing trusted keys
+> subsystem. We could relate it to the RNG subsystem as well where there
+> is a subsystem maintainer and specific driver maintainers.
 > 
-> Fixes: f1b49fdc1c64 ("blk-mq: Record active_queues_shared_sbitmap per tag_set for when using shared sbitmap")
-> Signed-off-by: Mauro Carvalho Chehab<mchehab+huawei@kernel.org>
+> IMO, having a dedicated entry like this brings clarity in maintenance
+> and in future we may have more trust sources like this added where
+> everyone may not have access to all the trust sources to test.
 
-Reviewed-by: John Garry <john.garry@huawei.com>
+More entries pointing to the exact same stuff does not necessarily mean
+clarity in my books.
+
+> > I'd be for a
+> > new M-entry or R-entry to the existing subsystem tag. It's essential to
+> > have ack from someone with ARM and TEE knowledge but this way too heavy
+> > for the purpose.
+> 
+> If you still think otherwise then I am fine with a new M-entry for
+> existing trusted keys subsystem as well.
+
+Adding a M-entry does makes sense because trusted keys backends can be
+based on various technologies and standard. It's a different in that
+sense than lets say a TPM hardware driver.
+
+> > I also see it the most manageable if the trusted keys PR's come from a
+> > single source.
+> 
+> I echo here with you to have a single source for trusted keys PR's
+> irrespective of whether we go with a separate trust source entry or
+> update existing subsystem entry.
+> 
+> -Sumit
+
+And I echo that oviously if there is someone to say the final ack about
+TEE, I will require that as the minimum to ever pick any of those
+changes :-)
+
+I would resolve this with just the M-entry, and we can *later on*
+restructure, if there is a need for that. These things are not sealed
+to stone.
+
+/Jarkko
