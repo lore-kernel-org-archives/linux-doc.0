@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 365CBC433E7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B45FEC433DF
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE00C2080A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67DA620870
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1602590518;
-	bh=4d7Y4VRJAT55TPn+Ta7Z8IsjnKYifaTuMxjzy7uI7jg=;
+	bh=WH7NQxltJQ8vKrUjPm4oW9OKV59fzbWXlQA+seUql9k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=U5qWnl+7NFQaW5W0ZSYEPIgP7MpCIF5MvnFPkzmShLqFytLSZtKQih6CQgcZqqpTi
-	 nNIjz0sXTsH6/aYBGuF7GfPtcSEXUnGctzahFydENcWvlewXSYUApNHXX5UHvyFce3
-	 HdFGwGUyEnXI3syxKxO5aUZ82B3lKj1I6F6w3X7Y=
+	b=G0DdaIyenbpuJ4wBhm7XPza+YzvnhEssKxv/gObYwMsfUdImyWHjsNPjPkjWDH+xn
+	 i+fEhd3zh/T4bPkG+tji0KENSAG/Y1Vv8sdKqYvtXJwobiALqNVf37I7qvfSowFU4P
+	 IGDNUkCBjFgf777/g+RPr7oJyw+J0F6OCowloSlw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728721AbgJMMBl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:01:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57942 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727414AbgJMLyl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727402AbgJMLyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 13 Oct 2020 07:54:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57146 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727302AbgJMLyk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:40 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6D18320E65;
-        Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 82A9B21582;
+        Tue, 13 Oct 2020 11:54:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602590080;
-        bh=4d7Y4VRJAT55TPn+Ta7Z8IsjnKYifaTuMxjzy7uI7jg=;
+        s=default; t=1602590079;
+        bh=WH7NQxltJQ8vKrUjPm4oW9OKV59fzbWXlQA+seUql9k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ARJi3Uutsq5GzqjFATC/NaWhycZCBZh8Xsn9qQ4OuGL/Vi8WroghrkHVKOqTUogAL
-         8bW/EECyxlAfk3jLz6CXeZZnFeIU6T3+Chu/2NQ+K7XdYGT1wFTxVmp7Lr8h080h6b
-         /GDdSGRxSuoj36aUBI25RJ2dgxESYti2nJOILdus=
+        b=WdCyIDanYltgh5iY2S9O/jR/JqiaBmzvhMxekMDWHtnUZsW1iUlyiv3DbhHj4b3OD
+         YTiT3ruV42gBo9rnghqzypStJ4io0VSw/Xh2+QqhnhBnmybdduElwGUqQwXAOCk4QS
+         ZaIbufuXA3blaJNSibzOjsNEYchT/QEVrKEfnjTI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt4-006CUO-Co; Tue, 13 Oct 2020 13:54:38 +0200
+        id 1kSIt3-006CT5-3x; Tue, 13 Oct 2020 13:54:37 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v6 27/80] docs: genericirq.rst: don't document chip.c functions twice
-Date:   Tue, 13 Oct 2020 13:53:42 +0200
-Message-Id: <dc99199c32813914c021f3881c940c63a9c7b0cd.1602589096.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 01/80] scripts: kernel-doc: add support for typedef enum
+Date:   Tue, 13 Oct 2020 13:53:16 +0200
+Message-Id: <2a2ef251d948cda935689473359fe0da8bb9713e.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -60,36 +60,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, kernel/irq/chip.c is included twice, one for
-export functions, and then for internal ones. However, as
-the :export:  and :internal: tags are missing, they ended
-being included twice.
+The PHY kernel-doc markup has gained support for documenting
+a typedef enum.
 
+However, right now the parser was not prepared for it.
+
+So, add support for parsing it.
+
+Fixes: 4069a572d423 ("net: phy: Document core PHY structures")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/core-api/genericirq.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/kernel-doc | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/core-api/genericirq.rst b/Documentation/core-api/genericirq.rst
-index 8f06d885c310..f959c9b53f61 100644
---- a/Documentation/core-api/genericirq.rst
-+++ b/Documentation/core-api/genericirq.rst
-@@ -419,6 +419,7 @@ functions which are exported.
- .. kernel-doc:: kernel/irq/manage.c
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 724528f4b7d6..adc05406c68e 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1265,14 +1265,22 @@ sub show_warnings($$) {
+ sub dump_enum($$) {
+     my $x = shift;
+     my $file = shift;
++    my $members;
++
  
- .. kernel-doc:: kernel/irq/chip.c
-+   :export:
+     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
+     # strip #define macros inside enums
+     $x =~ s@#\s*((define|ifdef)\s+|endif)[^;]*;@@gos;
  
- Internal Functions Provided
- ===========================
-@@ -431,6 +432,7 @@ functions.
- .. kernel-doc:: kernel/irq/handle.c
+-    if ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
++    if ($x =~ /typedef\s+enum\s*\{(.*)\}\s*(\w*)\s*;/) {
++	$declaration_name = $2;
++	$members = $1;
++    } elsif ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
+ 	$declaration_name = $1;
+-	my $members = $2;
++	$members = $2;
++    }
++
++    if ($declaration_name) {
+ 	my %_members;
  
- .. kernel-doc:: kernel/irq/chip.c
-+   :internal:
- 
- Credits
- =======
+ 	$members =~ s/\s+$//;
+@@ -1307,8 +1315,7 @@ sub dump_enum($$) {
+ 			    'sections' => \%sections,
+ 			    'purpose' => $declaration_purpose
+ 			   });
+-    }
+-    else {
++    } else {
+ 	print STDERR "${file}:$.: error: Cannot parse enum!\n";
+ 	++$errors;
+     }
 -- 
 2.26.2
 
