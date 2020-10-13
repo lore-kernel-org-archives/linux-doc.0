@@ -4,58 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CEBCC4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B63C43457
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:56:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2F4E20E65
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:56:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 479BF22203
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:56:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590174;
-	bh=m2A+Rzm0QXUwCl96Bxiy3ZH3xuPHHZOxt+ALBjD9Gu0=;
+	s=default; t=1602590189;
+	bh=SAoiVBwj4frBK9DklH9xrVa7QCGUVVUYTNr2b3GBIpI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=N76nemRJf59sGptvmK2evNSHkClBVa5FBxCqmYijtDYLpj0V4Jpuh6yE1bEesep9A
-	 y3ObURL7C1wGmz1Ft4EVtfZrsonNW1rSP5CJ+RjdGK4C9IZ4kSQF6nPq5gzovLCutr
-	 VyJCJoRwqqaquoJHnVOtXY9AxW+JRsm6fHr4ONik=
+	b=Wrv0Q8SQDktNdZdZRGm0qQB/XuZGhLh616iwPeUFNGOGkUU+03VDmKyH1dWqQEv0W
+	 bGuhbgW9XhXPRQDtTBuv/9t5eZxhbLM+qu7PzKn6cWT6wBwPz3K30tYqoHlyOCzXrR
+	 XnyjBIOTYgqRT+NfJ7zs6UgYMTEMCSOoZ2wz9hVc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727880AbgJML4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:56:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58150 "EHLO mail.kernel.org"
+        id S1727885AbgJML4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:56:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57390 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727669AbgJMLyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727668AbgJMLyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:49 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4414821775;
+        by mail.kernel.org (Postfix) with ESMTPSA id 52AD322512;
         Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=m2A+Rzm0QXUwCl96Bxiy3ZH3xuPHHZOxt+ALBjD9Gu0=;
+        bh=SAoiVBwj4frBK9DklH9xrVa7QCGUVVUYTNr2b3GBIpI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MIuWPxCtV/U85BImd1p/O1jWCDfauLqsUOU1wBO4l9BqAWOdcBAovSXHjyLaKwk6G
-         trqECwQv7m2/tdh7krcIqtCPp6oAsTbLU2W5kIGYNrqRJ+ej0zo3ZBUOb/G7m/aL1O
-         lNKN+3jcy3UGTf0XeTHRKO+591CaOXMX/i4TucHI=
+        b=SS5Q7q/f9kTjn2X//6qRecceXdhEwvTLlyumJThvoIpJMln70z/g8N13Huc+Zvild
+         q3a4wTstIL4Fir/RpF/qXSTLdPKtYSub3Yn5qLuISHesm1zGz5ncOMk+YRqYe8vdPq
+         T3iJkH/BmBLMWc3OsC7YP2akcBVm3z4mj/HmmZSs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CWT-Nq; Tue, 13 Oct 2020 13:54:39 +0200
+        id 1kSIt5-006CVe-6n; Tue, 13 Oct 2020 13:54:39 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Max Gurtovoy <maxg@mellanox.com>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Yamin Friedman <yaminf@mellanox.com>,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        target-devel@vger.kernel.org
-Subject: [PATCH v6 69/80] IB/srpt: docs: add a description for cq_size member
-Date:   Tue, 13 Oct 2020 13:54:24 +0200
-Message-Id: <d44a565b1638481c8dd282f01cae1fda3adf9fad.1602589096.git.mchehab+huawei@kernel.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v6 53/80] media: uAPI: buffer.rst: remove a left-over documentation
+Date:   Tue, 13 Oct 2020 13:54:08 +0200
+Message-Id: <22935a861fb7c76e5d7781c5e3dd77071ba5f4a2.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -66,32 +63,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
-added a new member for struct srpt_rdma_ch, but didn't add the
-corresponding kernel-doc markup, as repoted when doing
-"make htmldocs":
-	./drivers/infiniband/ulp/srpt/ib_srpt.h:331: warning: Function parameter or member 'cq_size' not described in 'srpt_rdma_ch'
+Changeset 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
+reverted an uAPI flag, but it kept some left-overs at the documentation.
 
-Add a description for it.
+Drop them too. This should solve this warning:
 
-Fixes: c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
+	Documentation/userspace-api/media/v4l/buffer.rst:692: WARNING: The "flat-table" directive is empty; content required.
+
+	.. flat-table::
+	    :header-rows:  0
+	    :stub-columns: 0
+	    :widths:       3 1 4
+
+Fixes: 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/infiniband/ulp/srpt/ib_srpt.h | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/userspace-api/media/v4l/buffer.rst | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.h b/drivers/infiniband/ulp/srpt/ib_srpt.h
-index 41435a699b53..e5d6af14d073 100644
---- a/drivers/infiniband/ulp/srpt/ib_srpt.h
-+++ b/drivers/infiniband/ulp/srpt/ib_srpt.h
-@@ -256,6 +256,7 @@ enum rdma_ch_state {
-  * @rdma_cm:	   See below.
-  * @rdma_cm.cm_id: RDMA CM ID associated with the channel.
-  * @cq:            IB completion queue for this channel.
-+ * @cq_size:	   Size of the @cq pool.
-  * @zw_cqe:	   Zero-length write CQE.
-  * @rcu:           RCU head.
-  * @kref:	   kref for this channel.
+diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+index 8be62dcffbb2..7dbdfbb4a0a9 100644
+--- a/Documentation/userspace-api/media/v4l/buffer.rst
++++ b/Documentation/userspace-api/media/v4l/buffer.rst
+@@ -678,20 +678,6 @@ Buffer Flags
+ 
+ .. _memory-flags:
+ 
+-Memory Consistency Flags
+-========================
+-
+-.. tabularcolumns:: |p{7.0cm}|p{2.2cm}|p{8.3cm}|
+-
+-.. cssclass:: longtable
+-
+-.. flat-table::
+-    :header-rows:  0
+-    :stub-columns: 0
+-    :widths:       3 1 4
+-
+-.. c:type:: v4l2_memory
+-
+ enum v4l2_memory
+ ================
+ 
 -- 
 2.26.2
 
