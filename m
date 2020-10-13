@@ -7,49 +7,55 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D17B4C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A614AC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B2EC2080A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50D6B20878
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590469;
-	bh=lFEzsRGazv6x3BF+7IzZhV96OJvEaoKXaQrpvpjxmPU=;
+	s=default; t=1602590470;
+	bh=SAVn8enQ4C4UTfYln5jnWV4ibLgb6yze8aWC+I7yQmM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xe+c+c8y2KVs7JYNvAMRf3FSg75GJa4xJ8C5F5YR1P4E7W5CTvKLx7IiEYBQ2hykG
-	 nQd4VMhkN+FvKPMaJ8NabiVJQIUsMgIqPbzIzeOFVKV5JJmUsMaet4EtTBB3b4IJS4
-	 Rne6XYIU/Y6LDULQSjcTSddTiyHv8KR4Zjb/ilzY=
+	b=quT+gTN0fK3hF8jQwWXDucekm5cu9tWh5/CEWViKn5OMRSH5n9h2PhrPxgZ9iaqS0
+	 pqLfJqEFmhmtDn6yTVpv6QvyEmjuKcL69RmGkVnYMt38KDJkjNO7dRBnpw6DPILUQl
+	 6OTpmKbd+0JxCqn2dMEV7npOIgdgSz4r2aMZrvAY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726775AbgJMMBI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:01:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57508 "EHLO mail.kernel.org"
+        id S1730431AbgJMMBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:01:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58022 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727442AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727439AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:42 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7C08A22273;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7C7D92227E;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590080;
-        bh=lFEzsRGazv6x3BF+7IzZhV96OJvEaoKXaQrpvpjxmPU=;
+        bh=SAVn8enQ4C4UTfYln5jnWV4ibLgb6yze8aWC+I7yQmM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NOzuU+/GKgLO/HD9vu/6LsZ1ZmGSoHuI/QrjaPpfprorH8i6dKJs+l+OfZa3wDDg+
-         dLaizJiliPzHuA8iga4Rsm33x2m+WsZeMvpNrkAd4qlFajtSlbxcmUckjy4MepoDpD
-         NCJT7F8614YApqZLczfgRC5UTLlV8/MKtzi4UW38=
+        b=zBP9gwsjjN4sbW/yfD6L2YmZt8h2Vo+v6uUVD2fnRhkilVtkIy7qNu4K4eKxAx/At
+         Uuc84ALKoCOxUBtakZNNxK/LwxJGyhsJOEFDKWAb08K6TzKVYUKyHQ8c9ZD0mnz+wS
+         OAw9VhbiRFTIJ9/xTsG1x4Gy3r+P4WQabS2C++cU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt4-006CUW-FM; Tue, 13 Oct 2020 13:54:38 +0200
+        id 1kSIt5-006CWW-Oj; Tue, 13 Oct 2020 13:54:39 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
-        Tejun Heo <tj@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 30/80] docs: basics.rst: move kernel-doc workqueue markups to workqueue.rst
-Date:   Tue, 13 Oct 2020 13:53:45 +0200
-Message-Id: <f19293340b028a47925119ac40805c9a853edf2f.1602589096.git.mchehab+huawei@kernel.org>
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org, rcu@vger.kernel.org
+Subject: [PATCH v6 70/80] rcu/tree: docs: document bkvcache new members at struct kfree_rcu_cpu
+Date:   Tue, 13 Oct 2020 13:54:25 +0200
+Message-Id: <6dd0804d6fd567f11e4c6efb767e91acca659d1f.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -60,46 +66,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As there's already a rst file with workqueue markups, containing
-part of them, move the other definitions, in order to avoid
-warnings with Sphinx.
+Changeset 53c72b590b3a ("rcu/tree: cache specified number of objects")
+added new members for struct kfree_rcu_cpu, but didn't add the
+corresponding at the kernel-doc markup, as repoted when doing
+"make htmldocs":
+	./kernel/rcu/tree.c:3113: warning: Function parameter or member 'bkvcache' not described in 'kfree_rcu_cpu'
+	./kernel/rcu/tree.c:3113: warning: Function parameter or member 'nr_bkv_objs' not described in 'kfree_rcu_cpu'
 
+So, move the description for bkvcache to kernel-doc, and add a
+description for nr_bkv_objs.
+
+Fixes: 53c72b590b3a ("rcu/tree: cache specified number of objects")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/core-api/workqueue.rst | 2 ++
- Documentation/driver-api/basics.rst  | 9 ---------
- 2 files changed, 2 insertions(+), 9 deletions(-)
+ kernel/rcu/tree.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-index 00a5ba51e63f..541d31de8926 100644
---- a/Documentation/core-api/workqueue.rst
-+++ b/Documentation/core-api/workqueue.rst
-@@ -396,3 +396,5 @@ Kernel Inline Documentations Reference
- ======================================
- 
- .. kernel-doc:: include/linux/workqueue.h
-+
-+.. kernel-doc:: kernel/workqueue.c
-diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
-index 1ba88c7b3984..54f8d5ca7475 100644
---- a/Documentation/driver-api/basics.rst
-+++ b/Documentation/driver-api/basics.rst
-@@ -55,15 +55,6 @@ High-resolution timers
- .. kernel-doc:: kernel/time/hrtimer.c
-    :export:
- 
--Workqueues and Kevents
------------------------
+diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+index f78ee759af9c..03c54c3478b7 100644
+--- a/kernel/rcu/tree.c
++++ b/kernel/rcu/tree.c
+@@ -3022,6 +3022,12 @@ struct kfree_rcu_cpu_work {
+  * @monitor_todo: Tracks whether a @monitor_work delayed work is pending
+  * @initialized: The @rcu_work fields have been initialized
+  * @count: Number of objects for which GP not started
++ * @bkvcache:
++ *	A simple cache list that contains objects for reuse purpose.
++ *	In order to save some per-cpu space the list is singular.
++ *	Even though it is lockless an access has to be protected by the
++ *	per-cpu lock.
++ * @nr_bkv_objs: number of allocated objects at @bkvcache.
+  *
+  * This is a per-CPU structure.  The reason that it is not included in
+  * the rcu_data structure is to permit this code to be extracted from
+@@ -3037,14 +3043,6 @@ struct kfree_rcu_cpu {
+ 	bool monitor_todo;
+ 	bool initialized;
+ 	int count;
 -
--.. kernel-doc:: include/linux/workqueue.h
--   :internal:
--
--.. kernel-doc:: kernel/workqueue.c
--   :export:
--
- Internal Functions
- ------------------
- 
+-	/*
+-	 * A simple cache list that contains objects for
+-	 * reuse purpose. In order to save some per-cpu
+-	 * space the list is singular. Even though it is
+-	 * lockless an access has to be protected by the
+-	 * per-cpu lock.
+-	 */
+ 	struct llist_head bkvcache;
+ 	int nr_bkv_objs;
+ };
 -- 
 2.26.2
 
