@@ -2,154 +2,94 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B97BC433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 19:02:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E07E7C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 19:12:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC3A2212CC
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 19:02:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86EF2212CC
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 19:12:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="EXeSCJlD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727733AbgJMTCJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 15:02:09 -0400
-Received: from mga11.intel.com ([192.55.52.93]:8322 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727033AbgJMTCJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 15:02:09 -0400
-IronPort-SDR: Xmr+SbJbc02BdFFtq1B/XNN/rY+O3AURZMq+1IiM3dEymPTdmXIsGqsOhGIZfEUM0Bx5lvd+b+
- 993pacOQH0KQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="162504516"
-X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
-   d="scan'208";a="162504516"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 12:02:08 -0700
-IronPort-SDR: Ks8d3iW6VA2rHlMJV3z2sn2Xc4yY6st8MZ78zXSsxE3R3wJB3IbgG91rehKtBCb6H45fCfc393
- cWtRORkWdzhQ==
-X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
-   d="scan'208";a="346284561"
-Received: from murawskx-mobl.amr.corp.intel.com (HELO [10.209.9.29]) ([10.209.9.29])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 12:02:08 -0700
-Subject: Re: [PATCH RFC V3 9/9] x86/pks: Add PKS test code
-To:     ira.weiny@intel.com, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20201009194258.3207172-1-ira.weiny@intel.com>
- <20201009194258.3207172-10-ira.weiny@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <3f9ebe3b-5c1c-6a69-3779-6f90d66227bd@intel.com>
-Date:   Tue, 13 Oct 2020 12:02:07 -0700
+        id S1730210AbgJMTMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 15:12:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726395AbgJMTMv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 15:12:51 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92665C0613D2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2020 12:12:49 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id c20so380584pfr.8
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2020 12:12:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=CIUw9wLfc3OZIwg0Uswy6MSqpPUNtbGdZo6diLuevVc=;
+        b=EXeSCJlDVG9TCpBADW8wsFfEAvnVjHepPWPVcg3NIrEuwsKLf6vzdNl0dlyN2C7xaY
+         nwbyhAPN+29WdAmM9JdTa1oU6pgF3JqYy2eJum0h2c4IB35tFsqHPgNHBNMuPRCV+gLD
+         LLdK6bQ3ICjAI1KuWlCNh0gRbS5NU+o411j8Y8jK2alh3aFULadINjJMQi39f044+gPs
+         JNe0orhgaveZJTmSZNFKao3PR6SXN0KpNTbeHsMmiIysPxOqgAVNIELrcTkPIvAy/6iD
+         dAbmOWP1cuabe7IzPib/+ZVI5Ct+R0ApbBP098NnT8YvgX4bhsatwCwJvqNnbMNRtpPo
+         SwiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=CIUw9wLfc3OZIwg0Uswy6MSqpPUNtbGdZo6diLuevVc=;
+        b=LKBBGWAigWu8fLCJaX7AziMocf7bPbwAnDEwAfFidISV5gxAPms5zqcgi0cXITvUOk
+         K2TXF73/03AekI0QIk96uYkMAk41+ZmKaJPoMWz/PoYtXRr0WdxBVV2GaLqG80KvvFUz
+         U3rigsnJ+DBU3ZY1SHykS7LVMuTqdy7j9q4sHQMNTCsJP7ClAelCvGXjandgpkrob2DS
+         aLpDNRHhlB1JgiC8a3cYMzdacfF1WWnE8M4hfgCbxZTXK5kwXHPB2N2lpMQQqaADjqnG
+         oeeLfSVppNYTixyRwssZuunUkozCSG8CCGiTuRkxB5s2sYxTlRoVHRon67AfqvJxsvM7
+         JDjg==
+X-Gm-Message-State: AOAM530Ig8c6lOg8AlL+SfkL2Q+60hEBHb1tzVf5LevWmQXkTn9eF8tG
+        1ax6fFF/LbWKrZ4iRroYePkUfg==
+X-Google-Smtp-Source: ABdhPJyhAEdx3kXb4x/uh73WpkkE0fKigWWIsTZPI9d101pzSUD3B7hTrUhg/uUS9AUir4IhYkrKHQ==
+X-Received: by 2002:a65:400c:: with SMTP id f12mr831973pgp.355.1602616368957;
+        Tue, 13 Oct 2020 12:12:48 -0700 (PDT)
+Received: from [192.168.1.134] ([66.219.217.173])
+        by smtp.gmail.com with ESMTPSA id d9sm661579pjx.47.2020.10.13.12.12.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2020 12:12:48 -0700 (PDT)
+Subject: Re: [PATCH v2 06/24] blk-mq: docs: add kernel-doc description for a
+ new struct member
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        John Garry <john.garry@huawei.com>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+ <408fac4661f48a7c0e937251880f51ae503d137b.1602590106.git.mchehab+huawei@kernel.org>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <197771e2-4344-91aa-1ff8-3a826f7f7235@kernel.dk>
+Date:   Tue, 13 Oct 2020 13:12:47 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201009194258.3207172-10-ira.weiny@intel.com>
+In-Reply-To: <408fac4661f48a7c0e937251880f51ae503d137b.1602590106.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/9/20 12:42 PM, ira.weiny@intel.com wrote:
->  #ifdef CONFIG_X86_32
->  	/*
->  	 * We can fault-in kernel-space virtual memory on-demand. The
-> diff --git a/include/linux/pkeys.h b/include/linux/pkeys.h
-> index cc3510cde64e..f9552bd9341f 100644
-> --- a/include/linux/pkeys.h
-> +++ b/include/linux/pkeys.h
-> @@ -47,7 +47,6 @@ static inline bool arch_pkeys_enabled(void)
->  static inline void copy_init_pkru_to_fpregs(void)
->  {
->  }
-> -
->  #endif /* ! CONFIG_ARCH_HAS_PKEYS */
+On 10/13/20 6:14 AM, Mauro Carvalho Chehab wrote:
+> As reported by kernel-doc:
+> 	./include/linux/blk-mq.h:267: warning: Function parameter or member 'active_queues_shared_sbitmap' not described in 'blk_mq_tag_set'
+> 
+> There is now a new member for struct blk_mq_tag_set. Add a
+> description for it, based on the commit that introduced it.
 
-^ Whitespace damage
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
->  #ifndef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 0c781f912f9f..f015c09ba5a1 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -2400,6 +2400,18 @@ config HYPERV_TESTING
->  	help
->  	  Select this option to enable Hyper-V vmbus testing.
->  
-> +config PKS_TESTING
-> +	bool "PKey(S)upervisor testing"
-
-Seems like we need a space in there somewhere.
-
-> +	pid = fork();
-> +	if (pid == 0) {
-> +		fd = open("/sys/kernel/debug/x86/run_pks", O_RDWR);
-> +		if (fd < 0) {
-> +			printf("cannot open file\n");
-> +			return -1;
-> +		}
-> +
-
-Will this return code make anybody mad?  Should we have a nicer return
-code for when this is running on non-PKS hardware?
-
-I'm not going to be too picky about this.  I'll just ask one question:
-Has this found real bugs for you?
-
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
+-- 
+Jens Axboe
 
