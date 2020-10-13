@@ -2,71 +2,111 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE50AC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 05:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A366C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 06:38:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B403320E65
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 05:55:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6652208D5
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 06:38:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="RQfbt1qj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388518AbgJMFzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 01:55:32 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:41150 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388506AbgJMFzb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 01:55:31 -0400
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX8c3QYVfhPscAA--.14939S2;
-        Tue, 13 Oct 2020 13:55:04 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhc@lemote.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc:     linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
-Subject: [PATCH 0/2] Add /sys/firmware/lefi/boardinfo for Loongson64
-Date:   Tue, 13 Oct 2020 13:55:00 +0800
-Message-Id: <1602568502-18044-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9DxX8c3QYVfhPscAA--.14939S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrJr4fKw45ur1kAr4kuFyxuFg_yoWxWrbEkr
-        12y348Kry8Za4rAFWUZr43CrW7uayUWF15CFy3Jr1jqwn5Za9xGF18A34UuFn7Zryjvr45
-        JFy8try8ZFn29jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbckFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-        Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GrWl
-        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
-        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-        4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-        0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUP5rcUUUUU=
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S2389434AbgJMGiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 02:38:15 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:23530 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389433AbgJMGiO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 02:38:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1602571094; x=1634107094;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=aHrNIi6Spaa8PTVDo9sFuO7JRmGUmYOw/fAbYNNAQdY=;
+  b=RQfbt1qjlcVA+yuLRiiMBYMLENj2h/NK+eCtbXquvUBEsly8wpKyod1O
+   qh/B6Pao7Y/HP1ToBels6fD5DQFhWi9yahTRVVCL8rcpLAtSqwGnl4nfi
+   gJTmOxzxTHSbx1QYIB1KMMUw9gCBBWgq8g2ESer5uiM6O+97bX0XczAUp
+   E=;
+X-IronPort-AV: E=Sophos;i="5.77,369,1596499200"; 
+   d="scan'208";a="83990110"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 13 Oct 2020 06:38:08 +0000
+Received: from EX13D31EUB001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS id 212CCA1ECF;
+        Tue, 13 Oct 2020 06:38:04 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.27) by
+ EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 13 Oct 2020 06:38:00 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <brendanhiggins@google.com>
+CC:     SeongJae Park <sjpark@amazon.de>, <corbet@lwn.net>,
+        <skhan@linuxfoundation.org>, <linux-kselftest@vger.kernel.org>,
+        <kunit-dev@googlegroups.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] Documentation: kunit: Update Kconfig parts for KUNIT's module support
+Date:   Tue, 13 Oct 2020 08:37:43 +0200
+Message-ID: <20201013063743.32179-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.27]
+X-ClientProxiedBy: EX13D50UWA004.ant.amazon.com (10.43.163.5) To
+ EX13D31EUB001.ant.amazon.com (10.43.166.210)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tiezhu Yang (2):
-  MIPS: Loongson64: Add /sys/firmware/lefi/boardinfo
-  Documentation: ABI: Add /sys/firmware/lefi/boardinfo description for
-    Loongson64
+From: SeongJae Park <sjpark@amazon.de>
 
- .../ABI/testing/sysfs-firmware-lefi-boardinfo      | 35 ++++++++++++++++
- arch/mips/include/asm/mach-loongson64/boot_param.h |  4 ++
- arch/mips/loongson64/Makefile                      |  1 +
- arch/mips/loongson64/boardinfo.c                   | 48 ++++++++++++++++++++++
- arch/mips/loongson64/env.c                         | 10 +++++
- 5 files changed, 98 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-firmware-lefi-boardinfo
- create mode 100644 arch/mips/loongson64/boardinfo.c
+If 'CONFIG_KUNIT=m', letting kunit tests that do not support loadable
+module build depends on 'KUNIT' instead of 'KUNIT=y' result in compile
+errors.  This commit updates the document for this.
 
+Fixes: 9fe124bf1b77 ("kunit: allow kunit to be loaded as a module")
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+
+Changes from v1
+(https://lore.kernel.org/linux-kselftest/20201012105420.5945-1-sjpark@amazon.com/):
+- Fix a typo (Marco Elver)
+
+---
+ Documentation/dev-tools/kunit/start.rst | 2 +-
+ Documentation/dev-tools/kunit/usage.rst | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+index d23385e3e159..454f307813ea 100644
+--- a/Documentation/dev-tools/kunit/start.rst
++++ b/Documentation/dev-tools/kunit/start.rst
+@@ -197,7 +197,7 @@ Now add the following to ``drivers/misc/Kconfig``:
+ 
+ 	config MISC_EXAMPLE_TEST
+ 		bool "Test for my example"
+-		depends on MISC_EXAMPLE && KUNIT
++		depends on MISC_EXAMPLE && KUNIT=y
+ 
+ and the following to ``drivers/misc/Makefile``:
+ 
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index 3c3fe8b5fecc..b331f5a5b0b9 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -556,6 +556,11 @@ Once the kernel is built and installed, a simple
+ 
+ ...will run the tests.
+ 
++.. note::
++   Note that you should make your test depends on ``KUNIT=y`` in Kconfig if the
++   test does not support module build.  Otherwise, it will trigger compile
++   errors if ``CONFIG_KUNIT`` is ``m``.
++
+ Writing new tests for other architectures
+ -----------------------------------------
+ 
 -- 
-2.1.0
+2.17.1
 
