@@ -4,54 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A40AC433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5119C433E7
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2CE82080A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87EB920870
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590384;
-	bh=VDfOGlsJYZesR9L6Qb+5QlSLDI9X9oF0Ascq4FkKHDo=;
+	s=default; t=1602590385;
+	bh=uaW4C+I+Tu+DdiBRbypIkyBAmHzHYL3ISOLOIWi0ZTU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=YkIl2b2tocuVvFJVGojn3l9tHc2odefey8pP9X8/Vefoput1VmVu3NUqnG/Tf9c86
-	 dbMLB7+fjqVCaTNtktMvLXk0XNZyLIXxVQUKTu5gmtua1ZfgVvSsyFzqAEMN4wndYH
-	 xty0V/AXTpv+J0FHtQcVIxhe9CIHGCoKDH/ewzlU=
+	b=vXxgH4VOXChhxpg/VDz2EZMHtAYwaVjgengu58kmAIfKEKV60gLX4loVlEi7nAfLi
+	 h/L7FCLy9gzL1EGBvYzh3OAxt8YNS2gEvZQFsGV3N+/wwhdEDxenFyOYrWla3JwaSf
+	 ikxPK39a0wlC/SF34GYCdDSWGtbWSQDMx1CXjXXs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728587AbgJML7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:59:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58138 "EHLO mail.kernel.org"
+        id S1728619AbgJML7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:59:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57428 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727472AbgJMLyn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727502AbgJMLyn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:43 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C43FA223AC;
+        by mail.kernel.org (Postfix) with ESMTPSA id DFA922240A;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=VDfOGlsJYZesR9L6Qb+5QlSLDI9X9oF0Ascq4FkKHDo=;
+        bh=uaW4C+I+Tu+DdiBRbypIkyBAmHzHYL3ISOLOIWi0ZTU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CSYUci2yVomvA0eUI5HyXbLAxiy+vdN/JwTP/APzC3ldKv+ohbR2gjkfc8iWaC+6s
-         0iZBs3b2yFrXtNEj0QdOivthX4d8oLnL/MquNF1OYfhhBcDmlSBwLr2FTzjyfkThKM
-         JRhIOfAZ+gDpqHRcgi2PsT+5qYTgBl5CiHWZ/wRE=
+        b=Jxv7HSmmnfarOXt56K2CKEs7FapeshUVwwY+Eg/bNBHbPnH5QDrnldK3HmzLNxREU
+         o/LERtoU/8HVffNjY+mwhgJxynjhTtv+Y1OHasamMFfpR1B+PxjghpnI/3OzKPxqpf
+         U1jE57cjdiyKvozL22lnhfM8vANst4qp6a4UiQmw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt4-006CUi-K6; Tue, 13 Oct 2020 13:54:38 +0200
+        id 1kSIt4-006CV5-SQ; Tue, 13 Oct 2020 13:54:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type: tags
-Date:   Tue, 13 Oct 2020 13:53:50 +0200
-Message-Id: <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 42/80] docs: libata.rst: fix a wrong usage of :c:type: tag
+Date:   Tue, 13 Oct 2020 13:53:57 +0200
+Message-Id: <854e3df68b24570e9271ebe3fd0d9d8c5470672b.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -62,135 +61,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The :c:type: tag has problems with Sphinx 3.x, as structs
-there should be declared with c:struct.
+The usage of :c:type: to reference to a struct member is wrong,
+as pointed by Sphinx 3:
 
-So, remove them, relying at automarkup.py extension to
-convert them into cross-references.
+	./Documentation/driver-api/libata.rst:511: WARNING: Unparseable C cross-reference: 'qc->complete_fn'
+	Invalid C declaration: Expected end of definition. [error at 2]
+	  qc->complete_fn
+	  --^
+
+Instead, let's use :c:expr: for such purpose.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/fscrypt.rst | 51 ++++++++++++---------------
- 1 file changed, 23 insertions(+), 28 deletions(-)
+ Documentation/driver-api/libata.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-index 4f858b38a412..46a9d1bd2ab5 100644
---- a/Documentation/filesystems/fscrypt.rst
-+++ b/Documentation/filesystems/fscrypt.rst
-@@ -437,8 +437,7 @@ FS_IOC_SET_ENCRYPTION_POLICY
- The FS_IOC_SET_ENCRYPTION_POLICY ioctl sets an encryption policy on an
- empty directory or verifies that a directory or regular file already
- has the specified encryption policy.  It takes in a pointer to a
--struct fscrypt_policy_v1 or a :c:type:`struct
--fscrypt_policy_v2`, defined as follows::
-+struct fscrypt_policy_v1 or a struct fscrypt_policy_v2, defined as follows::
+diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api/libata.rst
+index e2f87b82b074..d477e296bda5 100644
+--- a/Documentation/driver-api/libata.rst
++++ b/Documentation/driver-api/libata.rst
+@@ -508,7 +508,7 @@ also complete commands.
  
-     #define FSCRYPT_POLICY_V1               0
-     #define FSCRYPT_KEY_DESCRIPTOR_SIZE     8
-@@ -464,11 +463,10 @@ fscrypt_policy_v2`, defined as follows::
+ 2. ATA_QCFLAG_ACTIVE is cleared from qc->flags.
  
- This structure must be initialized as follows:
+-3. :c:func:`qc->complete_fn` callback is invoked. If the return value of the
++3. :c:expr:`qc->complete_fn` callback is invoked. If the return value of the
+    callback is not zero. Completion is short circuited and
+    :c:func:`ata_qc_complete` returns.
  
--- ``version`` must be FSCRYPT_POLICY_V1 (0) if the struct is
--  :c:type:`fscrypt_policy_v1` or FSCRYPT_POLICY_V2 (2) if the struct
--  is :c:type:`fscrypt_policy_v2`.  (Note: we refer to the original
--  policy version as "v1", though its version code is really 0.)  For
--  new encrypted directories, use v2 policies.
-+- ``version`` must be FSCRYPT_POLICY_V1 (0) if struct fscrypt_policy_v1
-+  is used or FSCRYPT_POLICY_V2 (2) if struct fscrypt_policy_v2 is used.
-+  (Note: we refer to the original policy version as "v1", though its
-+  version code is really 0.)  For new encrypted directories, use v2 policies.
- 
- - ``contents_encryption_mode`` and ``filenames_encryption_mode`` must
-   be set to constants from ``<linux/fscrypt.h>`` which identify the
-@@ -509,8 +507,7 @@ This structure must be initialized as follows:
-   be arbitrarily chosen.  Instead, the key must first be added using
-   `FS_IOC_ADD_ENCRYPTION_KEY`_.  Then, the ``key_spec.u.identifier``
-   the kernel returned in the struct fscrypt_add_key_arg must
--  be used as the ``master_key_identifier`` in the :c:type:`struct
--  fscrypt_policy_v2`.
-+  be used as the ``master_key_identifier`` in struct fscrypt_policy_v2.
- 
- If the file is not yet encrypted, then FS_IOC_SET_ENCRYPTION_POLICY
- verifies that the file is an empty directory.  If so, the specified
-@@ -637,9 +634,8 @@ The FS_IOC_GET_ENCRYPTION_POLICY ioctl can also retrieve the
- encryption policy, if any, for a directory or regular file.  However,
- unlike `FS_IOC_GET_ENCRYPTION_POLICY_EX`_,
- FS_IOC_GET_ENCRYPTION_POLICY only supports the original policy
--version.  It takes in a pointer directly to a :c:type:`struct
--fscrypt_policy_v1` rather than a :c:type:`struct
--fscrypt_get_policy_ex_arg`.
-+version.  It takes in a pointer directly to struct fscrypt_policy_v1
-+rather than struct fscrypt_get_policy_ex_arg.
- 
- The error codes for FS_IOC_GET_ENCRYPTION_POLICY are the same as those
- for FS_IOC_GET_ENCRYPTION_POLICY_EX, except that
-@@ -717,10 +713,9 @@ as follows:
-   ``key_spec.type`` must contain FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR, and
-   ``key_spec.u.descriptor`` must contain the descriptor of the key
-   being added, corresponding to the value in the
--  ``master_key_descriptor`` field of :c:type:`struct
--  fscrypt_policy_v1`.  To add this type of key, the calling process
--  must have the CAP_SYS_ADMIN capability in the initial user
--  namespace.
-+  ``master_key_descriptor`` field of struct fscrypt_policy_v1.
-+  To add this type of key, the calling process must have the
-+  CAP_SYS_ADMIN capability in the initial user namespace.
- 
-   Alternatively, if the key is being added for use by v2 encryption
-   policies, then ``key_spec.type`` must contain
-@@ -737,8 +732,8 @@ as follows:
- 
- - ``key_id`` is 0 if the raw key is given directly in the ``raw``
-   field.  Otherwise ``key_id`` is the ID of a Linux keyring key of
--  type "fscrypt-provisioning" whose payload is a :c:type:`struct
--  fscrypt_provisioning_key_payload` whose ``raw`` field contains the
-+  type "fscrypt-provisioning" whose payload is
-+  struct fscrypt_provisioning_key_payload whose ``raw`` field contains the
-   raw key and whose ``type`` field matches ``key_spec.type``.  Since
-   ``raw`` is variable-length, the total size of this key's payload
-   must be ``sizeof(struct fscrypt_provisioning_key_payload)`` plus the
-@@ -956,8 +951,8 @@ FS_IOC_GET_ENCRYPTION_KEY_STATUS
- The FS_IOC_GET_ENCRYPTION_KEY_STATUS ioctl retrieves the status of a
- master encryption key.  It can be executed on any file or directory on
- the target filesystem, but using the filesystem's root directory is
--recommended.  It takes in a pointer to a :c:type:`struct
--fscrypt_get_key_status_arg`, defined as follows::
-+recommended.  It takes in a pointer to struct fscrypt_get_key_status_arg,
-+defined as follows::
- 
-     struct fscrypt_get_key_status_arg {
-             /* input */
-@@ -1148,12 +1143,12 @@ Implementation details
- Encryption context
- ------------------
- 
--An encryption policy is represented on-disk by a :c:type:`struct
--fscrypt_context_v1` or a struct fscrypt_context_v2.  It is
--up to individual filesystems to decide where to store it, but normally
--it would be stored in a hidden extended attribute.  It should *not* be
--exposed by the xattr-related system calls such as getxattr() and
--setxattr() because of the special semantics of the encryption xattr.
-+An encryption policy is represented on-disk by struct fscrypt_context_v1
-+or struct fscrypt_context_v2.  It is up to individual filesystems to decide
-+where to store it, but normally it would be stored in a hidden extended
-+attribute.  It should *not* be exposed by the xattr-related system calls
-+such as getxattr() and setxattr() because of the special semantics of the
-+encryption xattr.
- (In particular, there would be much confusion if an encryption policy
- were to be added to or removed from anything other than an empty
- directory.)  These structs are defined as follows::
-@@ -1249,8 +1244,8 @@ a strong "hash" of the ciphertext filename, along with the optional
- filesystem-specific hash(es) needed for directory lookups.  This
- allows the filesystem to still, with a high degree of confidence, map
- the filename given in ->lookup() back to a particular directory entry
--that was previously listed by readdir().  See :c:type:`struct
--fscrypt_nokey_name` in the source for more details.
-+that was previously listed by readdir().  See struct fscrypt_nokey_name
-+in the source for more details.
- 
- Note that the precise way that filenames are presented to userspace
- without the key is subject to change in the future.  It is only meant
 -- 
 2.26.2
 
