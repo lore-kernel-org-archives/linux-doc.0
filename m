@@ -4,53 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FE5C43457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 959AFC2D0A0
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:54:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CEA3522266
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:54:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62F1422265
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590082;
-	bh=efSy3EsZtYlchN7NNLMKbFLNt9OD+EOXOZ/6wuSW+N0=;
+	s=default; t=1602590084;
+	bh=KEhDi0VPgM7hCIhR/9xG2Kx3ZY+OBLtU3k7jdAK2xak=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=sFD48XaW8kLm6oSKKtQzFZpuB/f1LRDphcUUbx2ManVyDrob02H4DrF7xr0WOJe9T
-	 BGdt0zSXpZNh/y13BKwyB1S6qxY3Q//JYaczBdZcPphI7w0+DfE/D8c5ccZ7AvtnQj
-	 byzJmEXsrA6O5XaaRgTSShZ4pRy3uBPgqPKGi9co=
+	b=rNf9DX4ydwL2Oi1xbk7Yfm9r0NOOzzutNZTtpVt7msV6jkwsoYMXugJKb+PvEd0m6
+	 RkqYsEpGnzqd3lg+vPoqmjkB9YEg0ghmBUaLkLs1UtQ5hwEpmh/EdsJ0MJLMH7yyGP
+	 nAGErmM+QYsOmDMw0aGM9YEcZsJulvNRSFaQusVY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727296AbgJMLym (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:54:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57428 "EHLO mail.kernel.org"
+        id S1727524AbgJMLyn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:54:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57316 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727341AbgJMLyl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 07:54:41 -0400
+        id S1727427AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:42 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 91CFC21D7F;
-        Tue, 13 Oct 2020 11:54:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7A5CC2226B;
+        Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602590079;
-        bh=efSy3EsZtYlchN7NNLMKbFLNt9OD+EOXOZ/6wuSW+N0=;
+        s=default; t=1602590080;
+        bh=KEhDi0VPgM7hCIhR/9xG2Kx3ZY+OBLtU3k7jdAK2xak=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oAS5yiU6Mq+4qEGDkE+cEomi0r4Q64Lx+KIpX1AUCAleq2d/D95Io1k+B3Z88E3+Z
-         4dnAljI3y6YLdXwZXNVE1wpAPtz/ZqJpe9LpTUsRJarypaAdOOsUGp1MwEqGt7/KUf
-         cMv+JVywdSFAHfeXNZkDg4wpmWygREQFBV2HpOxg=
+        b=NLm8tTqYOQA5HWI+r/o6a5WGTp0MOxUGtCsqVWL2O+24u6RA/BYf1Y331b1IT1+nS
+         GeikgOGMsz5l0Sr28egd7y+h08ihUq+/MVvl14Jth+UAGDW2nqNFrEdI5ir/+2pJTC
+         vGT5XCme+7pnb8mfD0pwWJCXK/ZsMHyG8fEKIKW8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt3-006CTl-Gl; Tue, 13 Oct 2020 13:54:37 +0200
+        id 1kSIt4-006CUb-HA; Tue, 13 Oct 2020 13:54:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@protonmail.com>, Changbin Du <changbin.du@intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v6 15/80] docs: kerneldoc.py: add support for kerneldoc -nosymbol
-Date:   Tue, 13 Oct 2020 13:53:30 +0200
-Message-Id: <6273ee699ff56d26ff37f2786ad9a50d975696e5.1602589096.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 32/80] docs: device_link.rst: remove duplicated kernel-doc include
+Date:   Tue, 13 Oct 2020 13:53:47 +0200
+Message-Id: <837e18d5315072ed35298c7b10d36a28b25c9ed5.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -61,59 +58,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, there's no way to exclude identifiers from
-a kernel-doc markup. Add support for it.
+The infrastructure.rst file already includes the external
+symbols from drivers/base/core.c.
+
+Duplicating 3 functions there causes namespace collisions:
+
+	Documentation/driver-api/device_link.rst: WARNING: Duplicate C declaration, also defined in 'driver-api/infrastructure'.
+	Declaration is 'device_link_state'.
+	Documentation/driver-api/device_link.rst: WARNING: Duplicate C declaration, also defined in 'driver-api/infrastructure'.
+	Declaration is 'device_link_add'.
+	Documentation/driver-api/device_link.rst: WARNING: Duplicate C declaration, also defined in 'driver-api/infrastructure'.
+	Declaration is 'device_link_del'.
+	Documentation/driver-api/device_link.rst: WARNING: Duplicate C declaration, also defined in 'driver-api/infrastructure'.
+	Declaration is 'device_link_remove'.
+
+So, drop the reference, adding just a mention to the functions
+associated with device_link.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/doc-guide/kernel-doc.rst | 8 ++++++++
- Documentation/sphinx/kerneldoc.py      | 7 +++++++
- 2 files changed, 15 insertions(+)
+ Documentation/driver-api/device_link.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 4fd86c21397b..52a87ab4c99f 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -490,6 +490,14 @@ identifiers: *[ function/type ...]*
-     .. kernel-doc:: lib/idr.c
-        :identifiers:
+diff --git a/Documentation/driver-api/device_link.rst b/Documentation/driver-api/device_link.rst
+index 76950d061632..ee913ae16371 100644
+--- a/Documentation/driver-api/device_link.rst
++++ b/Documentation/driver-api/device_link.rst
+@@ -317,5 +317,4 @@ State machine
+ API
+ ===
  
-+no-identifiers: *[ function/type ...]*
-+  Exclude documentation for each *function* and *type* in *source*.
-+
-+  Example::
-+
-+    .. kernel-doc:: lib/bitmap.c
-+       :no-identifiers: bitmap_parselist
-+
- functions: *[ function/type ...]*
-   This is an alias of the 'identifiers' directive and deprecated.
- 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index a3a5427130da..e9857ab904f1 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -62,6 +62,7 @@ class KernelDocDirective(Directive):
-         'export': directives.unchanged,
-         'internal': directives.unchanged,
-         'identifiers': directives.unchanged,
-+        'no-identifiers': directives.unchanged,
-         'functions': directives.unchanged,
-     }
-     has_content = False
-@@ -104,6 +105,12 @@ class KernelDocDirective(Directive):
-             else:
-                 cmd += ['-no-doc-sections']
- 
-+        if 'no-identifiers' in self.options:
-+            no_identifiers = self.options.get('no-identifiers').split()
-+            if no_identifiers:
-+                for i in no_identifiers:
-+                    cmd += ['-nosymbol', i]
-+
-         for pattern in export_file_patterns:
-             for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
-                 env.note_dependency(os.path.abspath(f))
+-.. kernel-doc:: drivers/base/core.c
+-   :functions: device_link_add device_link_del device_link_remove
++See device_link_add(), device_link_del() and device_link_remove().
 -- 
 2.26.2
 
