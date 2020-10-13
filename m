@@ -4,55 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0853EC43457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA592C433E7
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F34A22247
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E68A22261
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591334;
-	bh=WPnTGKEVQNENdM9VtW0rexICCGE8BPIBZcU+b1gSzLk=;
+	s=default; t=1602591335;
+	bh=Ce+YwOX8NUyVQ34kqyNLtBwPsw6IDLQQTy4q/V/8GNk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zhlPS3/CvKVJjepZ3PR9X/ty9B+oQHcijqBp5yA79W+fTGx3KjUPs+5OV7BGFE/0N
-	 PR5SydoUVYRwP3fyzZnV2FpXtCBKJGu8ZOVBpOWzlLfEQ0ljgNSm8Yc1bC/EC9+WNC
-	 oV/FJ3hbBguLCLWln3XTQZ4m24Fj1FCsPjFAp1rA=
+	b=Euq0fjjM9ZsXJ9L5JifCp8OzB/KwnyMbQzbzjeoQewFvFuWi3DVJ2LZTBpuJp1mdT
+	 G+0uWpUFrMv2f1ynrsTI9pEhi5WS6VVNA8tm97r3nEmGX1Fr429L2VLfwrDBeabJoL
+	 KqDRiakqZZij6+Vej+ZtAeSMvVZsb9Ep73ezCAoo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727058AbgJMMO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:14:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41150 "EHLO mail.kernel.org"
+        id S1727119AbgJMMPf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:15:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41112 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726908AbgJMMO4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 08:14:56 -0400
+        id S1727023AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 08:14:57 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1C8C822265;
+        by mail.kernel.org (Postfix) with ESMTPSA id 8258D22403;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=WPnTGKEVQNENdM9VtW0rexICCGE8BPIBZcU+b1gSzLk=;
+        bh=Ce+YwOX8NUyVQ34kqyNLtBwPsw6IDLQQTy4q/V/8GNk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZTYMaspF0YAp9EOwC36Ax05x/2v4x8cmwDYdOOiMeAsvyeKw4ve4mkvKqR/MTwkO0
-         Afkd/w9YEkwf6akN0O9xJNo9W1xtQRmDDUAGFiuK4MdHVFxiLtGLV0N2rkwBN9A/DH
-         5KVwNIC/plM50hH0GKRBeOHbKitmbKkN0jMSbDFc=
+        b=VuM2oSDYiyUdACnWDGdaZvn/yr4CJ++YOQP7UXXQqSbuXa9tYAofcfgq1xw6e9bqX
+         Nf1A/1t3zieP/I/ftT6jDjq1sE6oyQPz+QPvtNkkM/aSJnUmDNaQlzYd/zaxoNIdUw
+         XdxeeM4HMnEqyXo4ZNNXq3fwfr+A3mGMak2SBAPo=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCe-006Co9-U8; Tue, 13 Oct 2020 14:14:52 +0200
+        id 1kSJCf-006Cos-DB; Tue, 13 Oct 2020 14:14:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org,
-        Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v2 09/24] docs: kasan.rst: add two missing blank lines
-Date:   Tue, 13 Oct 2020 14:14:36 +0200
-Message-Id: <48293b76fddce2b2914592677bf5efdbb5b34859.1602590106.git.mchehab+huawei@kernel.org>
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 24/24] counters: docs: add a missing include
+Date:   Tue, 13 Oct 2020 14:14:51 +0200
+Message-Id: <74814cc3d2b2ac3fe7c10ff2045c77691bacf64b.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -63,37 +68,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-literal blocks should start and end with a blank line,
-as otherwise the parser complains and may do the wrong
-thing, as warned by Sphinx:
+Changeset 37a0dbf631f6 ("counters: Introduce counter_atomic* counters")
 
-	Documentation/dev-tools/kasan.rst:298: WARNING: Literal block ends without a blank line; unexpected unindent.
-	Documentation/dev-tools/kasan.rst:303: WARNING: Literal block ends without a blank line; unexpected unindent.
+Is causing two new warnings:
 
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+	.../Documentation/core-api/counters.rst:8: WARNING: Undefined substitution referenced: "copy".
+	.../Documentation/core-api/counters.rst:9: WARNING: Undefined substitution referenced: "copy".
+
+Because it forgot to include isonum.txt, which defines |copy|
+macro.
+
+While here, also add it to core-api index file, in order to
+solve this warning:
+
+	.../Documentation/core-api/counters.rst: WARNING: document isn't included in any toctree
+
+Fixes: 37a0dbf631f6 ("counters: Introduce counter_atomic* counters")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/dev-tools/kasan.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/core-api/counters.rst | 1 +
+ Documentation/core-api/index.rst    | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index c09c9ca2ff1c..2b68addaadcd 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -295,11 +295,13 @@ print the number of the test and the status of the test:
- pass::
+diff --git a/Documentation/core-api/counters.rst b/Documentation/core-api/counters.rst
+index 642d907f4d3a..2821aebf3f45 100644
+--- a/Documentation/core-api/counters.rst
++++ b/Documentation/core-api/counters.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
  
-         ok 28 - kmalloc_double_kzfree
-+
- or, if kmalloc failed::
+ ======================
+ Simple atomic counters
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index 69171b1799f2..cf9cd44c1191 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -43,6 +43,7 @@ Library functionality that is used throughout the kernel.
+    this_cpu_ops
+    timekeeping
+    errseq
++   counters
  
-         # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
-         Expected ptr is not null, but is
-         not ok 4 - kmalloc_large_oob_right
-+
- or, if a KASAN report was expected, but not found::
- 
-         # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
+ Concurrency primitives
+ ======================
 -- 
 2.26.2
 
