@@ -4,58 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A614AC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B380C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50D6B20878
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F32620878
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590470;
-	bh=SAVn8enQ4C4UTfYln5jnWV4ibLgb6yze8aWC+I7yQmM=;
+	s=default; t=1602590472;
+	bh=ANwSfHlYycUaZxzUwSyDQzW5wFbqluFd7ZfalvckhQQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=quT+gTN0fK3hF8jQwWXDucekm5cu9tWh5/CEWViKn5OMRSH5n9h2PhrPxgZ9iaqS0
-	 pqLfJqEFmhmtDn6yTVpv6QvyEmjuKcL69RmGkVnYMt38KDJkjNO7dRBnpw6DPILUQl
-	 6OTpmKbd+0JxCqn2dMEV7npOIgdgSz4r2aMZrvAY=
+	b=ZG0JXZMXCoBJPaEg7xSklsA96J/WFmpolvNsZ7FNSAb7CHfTqZ+noHKUJiGa/vsSK
+	 FGFhbP1opRvO8jAzlYrHGArIeFIlzsqCVhCmYkzd9y1qeaFROPpUxGeNpcdVHytjYi
+	 4tTt0JwUNzCZk2zlv5nD95oCtmF260FghP6htRPc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730431AbgJMMBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730524AbgJMMBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 13 Oct 2020 08:01:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58022 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:58030 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727439AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727440AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:42 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7C7D92227E;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7ED7F2227F;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590080;
-        bh=SAVn8enQ4C4UTfYln5jnWV4ibLgb6yze8aWC+I7yQmM=;
+        bh=ANwSfHlYycUaZxzUwSyDQzW5wFbqluFd7ZfalvckhQQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zBP9gwsjjN4sbW/yfD6L2YmZt8h2Vo+v6uUVD2fnRhkilVtkIy7qNu4K4eKxAx/At
-         Uuc84ALKoCOxUBtakZNNxK/LwxJGyhsJOEFDKWAb08K6TzKVYUKyHQ8c9ZD0mnz+wS
-         OAw9VhbiRFTIJ9/xTsG1x4Gy3r+P4WQabS2C++cU=
+        b=dAvaiRBoscStIgvpVMBHjV95O1w2/By3kPHHQXi/YIEYOJiwsh7mKexOSt7yPCiGJ
+         FaHKvSAje0cvnzowi7EODboldDn91A7aaap8zFCG1qODh3Qe2atbD6pXE7VSvEv2Dv
+         aAZL0yEBpwdGq0rXdsWD5Z4Q7EWFd9rrgIXQ10rE=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CWW-Oj; Tue, 13 Oct 2020 13:54:39 +0200
+        id 1kSIt4-006CUG-AA; Tue, 13 Oct 2020 13:54:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org
-Subject: [PATCH v6 70/80] rcu/tree: docs: document bkvcache new members at struct kfree_rcu_cpu
-Date:   Tue, 13 Oct 2020 13:54:25 +0200
-Message-Id: <6dd0804d6fd567f11e4c6efb767e91acca659d1f.1602589096.git.mchehab+huawei@kernel.org>
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v6 24/80] docs: trace-uses.rst: remove bogus c-domain tags
+Date:   Tue, 13 Oct 2020 13:53:39 +0200
+Message-Id: <e1d48df962ef794f274b921c0c912176a01d533d.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -66,54 +64,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 53c72b590b3a ("rcu/tree: cache specified number of objects")
-added new members for struct kfree_rcu_cpu, but didn't add the
-corresponding at the kernel-doc markup, as repoted when doing
-"make htmldocs":
-	./kernel/rcu/tree.c:3113: warning: Function parameter or member 'bkvcache' not described in 'kfree_rcu_cpu'
-	./kernel/rcu/tree.c:3113: warning: Function parameter or member 'nr_bkv_objs' not described in 'kfree_rcu_cpu'
+There are some c-domain tags that are wrong. While this won't
+cause problems with Sphinx < 3.0, this cause troubles with
+newer versions, as the C parser won't recognize the contents
+of the tag, and will drop it from the output.
 
-So, move the description for bkvcache to kernel-doc, and add a
-description for nr_bkv_objs.
+Let's just place them at literal blocks.
 
-Fixes: 53c72b590b3a ("rcu/tree: cache specified number of objects")
+Reviewed-by: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/rcu/tree.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ Documentation/trace/ftrace-uses.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index f78ee759af9c..03c54c3478b7 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -3022,6 +3022,12 @@ struct kfree_rcu_cpu_work {
-  * @monitor_todo: Tracks whether a @monitor_work delayed work is pending
-  * @initialized: The @rcu_work fields have been initialized
-  * @count: Number of objects for which GP not started
-+ * @bkvcache:
-+ *	A simple cache list that contains objects for reuse purpose.
-+ *	In order to save some per-cpu space the list is singular.
-+ *	Even though it is lockless an access has to be protected by the
-+ *	per-cpu lock.
-+ * @nr_bkv_objs: number of allocated objects at @bkvcache.
-  *
-  * This is a per-CPU structure.  The reason that it is not included in
-  * the rcu_data structure is to permit this code to be extracted from
-@@ -3037,14 +3043,6 @@ struct kfree_rcu_cpu {
- 	bool monitor_todo;
- 	bool initialized;
- 	int count;
--
--	/*
--	 * A simple cache list that contains objects for
--	 * reuse purpose. In order to save some per-cpu
--	 * space the list is singular. Even though it is
--	 * lockless an access has to be protected by the
--	 * per-cpu lock.
--	 */
- 	struct llist_head bkvcache;
- 	int nr_bkv_objs;
- };
+diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
+index 2a05e770618a..a4955f7e3d19 100644
+--- a/Documentation/trace/ftrace-uses.rst
++++ b/Documentation/trace/ftrace-uses.rst
+@@ -55,17 +55,17 @@ an ftrace_ops with ftrace:
+ 
+ Both .flags and .private are optional. Only .func is required.
+ 
+-To enable tracing call:
++To enable tracing call::
+ 
+-.. c:function::  register_ftrace_function(&ops);
++    register_ftrace_function(&ops);
+ 
+-To disable tracing call:
++To disable tracing call::
+ 
+-.. c:function::  unregister_ftrace_function(&ops);
++    unregister_ftrace_function(&ops);
+ 
+-The above is defined by including the header:
++The above is defined by including the header::
+ 
+-.. c:function:: #include <linux/ftrace.h>
++    #include <linux/ftrace.h>
+ 
+ The registered callback will start being called some time after the
+ register_ftrace_function() is called and before it returns. The exact time
 -- 
 2.26.2
 
