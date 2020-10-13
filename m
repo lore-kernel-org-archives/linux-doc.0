@@ -7,49 +7,57 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3B0C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA36AC433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F0F22227E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F0492227E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:16:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591365;
-	bh=qdz3piIzX1wpe0r/0uZBhudtd/hwLAcckI0SXN+J6n8=;
+	s=default; t=1602591371;
+	bh=Xx1nqZUs1Cn9NQ/RFywLp52tQmE9pzr1tQGxN0xfLMc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XZJhU7mFMlnxZQzytaQMqWOcdDcrAE80VJdfzkWho1qMRvPvW1wlwTHc0s0UWrNvZ
-	 k/hOC99GWXjw43DdMtenBck+Af7WBexkM+Oe4PdzcpeypaueHbOQoNUpeKFPTkou4g
-	 n7dxIraGcDFAHIygIjt+DxBgcm0jajDj2SD4ErTY=
+	b=ZNUuDLvnSJJ3WJ0yAr1h63ogyTXmUFnmdj2ZBOBO5VgaxDdbb+KrCBf7H6PrBUF6/
+	 pNYq4cBBeCty5fAmJ9qRpnO6KloxFhf17NJGA7Sui5vVTR74rIx3DS6VcvKfe7eSIw
+	 yydanICnEGLsZafXgQ7jNEO/MuwkqIlyOBehwSLE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727664AbgJMMPh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727618AbgJMMPh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 13 Oct 2020 08:15:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41122 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:41344 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727025AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727022AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 08:14:57 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F1D4F2242F;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7A75122400;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602591296;
-        bh=qdz3piIzX1wpe0r/0uZBhudtd/hwLAcckI0SXN+J6n8=;
+        s=default; t=1602591295;
+        bh=Xx1nqZUs1Cn9NQ/RFywLp52tQmE9pzr1tQGxN0xfLMc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GPVOBrDn2Q7AGL2qOPD5oyQT2fyKLF0FykpUpaTQEhuV3n2eI9iwweBhXHA5HQAsx
-         mvkfMSyNG6a0PvUhdx10P1P3UBzzUpOgpiyqkqHB9+z17/k8AOKYSeEFc1FTNTAgRu
-         QM450yHUgsEyVk2j3BhNMLR+ii31Hzn2jBZkWxho=
+        b=pLKZYwUfqS0djbTxgctSN2fB7QbIYBPSRA4YlKJTv/cs4TC6puun3kxAlJUQni4ur
+         2BZNRJJUlMcZIl/xgG4uNxuAf4MlY+AkWUJklHabE3h42dfrcUvTV+q9E90uamsN8n
+         zXTF9wjWHX/RSSVa8X/kpTRbmr/b/GgmolNhv70A=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCe-006Co1-RQ; Tue, 13 Oct 2020 14:14:52 +0200
+        id 1kSJCf-006Coo-CF; Tue, 13 Oct 2020 14:14:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        John Garry <john.garry@huawei.com>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/24] blk-mq: docs: add kernel-doc description for a new struct member
-Date:   Tue, 13 Oct 2020 14:14:33 +0200
-Message-Id: <408fac4661f48a7c0e937251880f51ae503d137b.1602590106.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "rd.dunlab@gmail.com" <rd.dunlab@gmail.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kamal Heib <kamalheib1@gmail.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>,
+        Parav Pandit <parav@mellanox.com>,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: [PATCH v2 23/24] RDMA: add a missing kernel-doc parameter markup
+Date:   Tue, 13 Oct 2020 14:14:50 +0200
+Message-Id: <6b2ed339933d066622d5715903870676d8cc523a.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -60,31 +68,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As reported by kernel-doc:
-	./include/linux/blk-mq.h:267: warning: Function parameter or member 'active_queues_shared_sbitmap' not described in 'blk_mq_tag_set'
+Changeset 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
+added a new parameter to ib_register_device().
 
-There is now a new member for struct blk_mq_tag_set. Add a
-description for it, based on the commit that introduced it.
+Document it.
 
-Fixes: f1b49fdc1c64 ("blk-mq: Record active_queues_shared_sbitmap per tag_set for when using shared sbitmap")
+Fixes: 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/blk-mq.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/infiniband/core/device.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index b23eeca4d677..794b2a33a2c3 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -235,6 +235,8 @@ enum hctx_type {
-  * @flags:	   Zero or more BLK_MQ_F_* flags.
-  * @driver_data:   Pointer to data owned by the block driver that created this
-  *		   tag set.
-+ * @active_queues_shared_sbitmap:
-+ * 		   number of active request queues per tag set.
-  * @__bitmap_tags: A shared tags sbitmap, used over all hctx's
-  * @__breserved_tags:
-  *		   A shared reserved tags sbitmap, used over all hctx's
+diff --git a/drivers/infiniband/core/device.c b/drivers/infiniband/core/device.c
+index feaec8d2f0ca..a3b1fc84cdca 100644
+--- a/drivers/infiniband/core/device.c
++++ b/drivers/infiniband/core/device.c
+@@ -1318,7 +1318,10 @@ static void prevent_dealloc_device(struct ib_device *ib_dev)
+  * ib_register_device - Register an IB device with IB core
+  * @device: Device to register
+  * @name: unique string device name. This may include a '%' which will
+- * cause a unique index to be added to the passed device name.
++ * 	  cause a unique index to be added to the passed device name.
++ * @dma_device: pointer to a DMA-capable device. If %NULL, then the IB
++ *	        device will be used. In this case the caller should fully
++ *		setup the ibdev for DMA. This usually means using dma_virt_ops.
+  *
+  * Low-level drivers use ib_register_device() to register their
+  * devices with the IB core.  All registered clients will receive a
 -- 
 2.26.2
 
