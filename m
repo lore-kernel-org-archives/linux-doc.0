@@ -6,90 +6,84 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE283C433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:52:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6884FC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:11:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F5FF225A9
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:52:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2702522EBE
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 13:11:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A19mXaDM"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K3yIru4s"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728200AbgJMMwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49264 "EHLO
+        id S1728419AbgJMNLU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 09:11:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727260AbgJMMwO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 08:52:14 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71939C0613D0;
-        Tue, 13 Oct 2020 05:52:14 -0700 (PDT)
+        with ESMTP id S1727789AbgJMNLU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 09:11:20 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C224EC0613D0;
+        Tue, 13 Oct 2020 06:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=+NnF8mXNakRlzoqAgkjq1DF0tdaTbndVS0Kzp4/RQv8=; b=A19mXaDMPQsr3FhPWF2UXpJ7XG
-        YeIVyZgXhf5umYX/r2JsYFErELnBSXQGZruOQCU+UQ2s5xN5+gdRpqSieWngDw9irvE+kRzsflk+U
-        BvcdMCER/qjonBmM3Gq/HSHRlPuVyo4LAc7Wu7UrehXDob6mVeABVncf53KlG/28ej+tccGIu6ZIt
-        bMBwSSXcofP3dCvy08oosGaaMACgLjQVrcZzFW9h7HgjEcQCBK/iHZbnZyYuVBVetISjIaMuz3zWO
-        x1QHz+peNsj/dG1enb92qMLJwuSS3AcoN/yTPSTplv9lhS6jmOKw6+30JcYmAJ78sKPukF4snTfYP
-        6BjBOppA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kSJmj-0008Mk-0D; Tue, 13 Oct 2020 12:52:09 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1E458301959;
-        Tue, 13 Oct 2020 14:52:07 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 03A442B4F909A; Tue, 13 Oct 2020 14:52:06 +0200 (CEST)
-Date:   Tue, 13 Oct 2020 14:52:06 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        bh=bKWuOpqTvvPutJLjCgDeEC9YLBcPFZ6MunEhJpI05qU=; b=K3yIru4s0IaQ3mv7rDbfgarPND
+        DhuLAbhRsi9BRBBguLna9wGjBTevRzXf3teOrYnx7NmuoVzp9jVC1hEifBpbZolvybVHa3j6qI0Bc
+        NUdi2ejkq35SCuPvVaj+KqMQydYNolF9yQxxXRMNoP87Ez/ltkIq4tM8dYuXLTU8ICmnwJZy796op
+        i1u5wHzlhCkp1wgnhdDiLCBTpq085s2IhQ9T6ao9Qm4WwoFSGA1kd5bx1HCb+p+FO+WhXv+3L07YR
+        Xpj7CYfwIRuWGJz99sKeag4VwMttUOnMfqYGupeBI/Qg2SZMJfimyJdXgorPSDsYK4/x1HRXktpFE
+        NglBQWtQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kSK5E-0000bf-Rw; Tue, 13 Oct 2020 13:11:16 +0000
+Date:   Tue, 13 Oct 2020 14:11:16 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Boqun Feng <boqun.feng@gmail.com>,
         Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 04/24] docs: lockdep-design: fix some warning issues
-Message-ID: <20201013125206.GU2611@hirez.programming.kicks-ass.net>
+Message-ID: <20201013131116.GG20115@casper.infradead.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
  <c76318f859a78adb80a6eef63c5c777d05501198.1602590106.git.mchehab+huawei@kernel.org>
+ <20201013125206.GU2611@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c76318f859a78adb80a6eef63c5c777d05501198.1602590106.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20201013125206.GU2611@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 02:14:31PM +0200, Mauro Carvalho Chehab wrote:
-> +   =====  ===================================================
-> +   ``.``  acquired while irqs disabled and not in irq context
-> +   ``-``  acquired in irq context
-> +   ``+``  acquired with irqs enabled
-> +   ``?``  acquired in irq context with irqs enabled.
-> +   =====  ===================================================
->  
->  The bits are illustrated with an example::
->  
-> @@ -96,14 +99,14 @@ exact case is for the lock as of the reporting time.
->    +--------------+-------------+--------------+
->    |              | irq enabled | irq disabled |
->    +--------------+-------------+--------------+
-> -  | ever in irq  |      ?      |       -      |
-> +  | ever in irq  |    ``?``    |     ``-``    |
->    +--------------+-------------+--------------+
-> -  | never in irq |      +      |       .      |
-> +  | never in irq |    ``+``    |     ``.``    |
->    +--------------+-------------+--------------+
->  
-> -The character '-' suggests irq is disabled because if otherwise the
-> -charactor '?' would have been shown instead. Similar deduction can be
-> -applied for '+' too.
-> +The character ``-`` suggests irq is disabled because if otherwise the
-> +charactor ``?`` would have been shown instead. Similar deduction can be
-> +applied for ``+`` too.
->  
+On Tue, Oct 13, 2020 at 02:52:06PM +0200, Peter Zijlstra wrote:
+> On Tue, Oct 13, 2020 at 02:14:31PM +0200, Mauro Carvalho Chehab wrote:
+> > +   =====  ===================================================
+> > +   ``.``  acquired while irqs disabled and not in irq context
+> > +   ``-``  acquired in irq context
+> > +   ``+``  acquired with irqs enabled
+> > +   ``?``  acquired in irq context with irqs enabled.
+> > +   =====  ===================================================
+>
+> NAK!
 
-NAK!
+You're seriously suggesting that:
+
+-   ===  ===================================================
+-   '.'  acquired while irqs disabled and not in irq context
+-   '-'  acquired in irq context
+-   '+'  acquired with irqs enabled
+-   '?'  acquired in irq context with irqs enabled.
+-   ===  ===================================================
++   =====  ===================================================
++   ``.``  acquired while irqs disabled and not in irq context
++   ``-``  acquired in irq context
++   ``+``  acquired with irqs enabled
++   ``?``  acquired in irq context with irqs enabled.
++   =====  ===================================================
+
+this change makes the lockdep docs less readable?
+
+It's not the markup that makes the lockdep documentation hard to
+understand.
