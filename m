@@ -2,209 +2,90 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92AFBC2D0A0
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 02:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E53C83039
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 02:42:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47398221FC
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 02:40:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mymailcheap.com header.i=@mymailcheap.com header.b="Li+e9b6N";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="Qk8gEh4s"
+	by mail.kernel.org (Postfix) with ESMTP id 43A6D20674
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 02:42:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbgJMAXT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Oct 2020 20:23:19 -0400
-Received: from relay-us1.mymailcheap.com ([51.81.35.219]:32888 "EHLO
-        relay-us1.mymailcheap.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726564AbgJMAXT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Oct 2020 20:23:19 -0400
-X-Greylist: delayed 456 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Oct 2020 20:23:18 EDT
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
-        by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 29AE920E5D
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2020 00:15:42 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.199.117])
-        by relay5.mymailcheap.com (Postfix) with ESMTPS id A7E852008F;
-        Tue, 13 Oct 2020 00:15:36 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
-        by relay4.mymailcheap.com (Postfix) with ESMTPS id DAF013F1D0;
-        Tue, 13 Oct 2020 02:15:33 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by filter1.mymailcheap.com (Postfix) with ESMTP id 0E1102A3E1;
-        Mon, 12 Oct 2020 20:15:33 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
-        s=default; t=1602548133;
-        bh=5NmZlDTB2lauu72Cp0R1dqygEUHe74aaaaBzo97C13U=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=Li+e9b6N6yOl517KIiePZfoFBEuTAQfQXeJ9I81apx5mkMQIO8GkpHYJ9m0xusiz8
-         Eu39IEXYIyj1YcBeOxzAS7XUVY7GKZQRAhVhpxxOT0GTbY0lRGgUbYOWmu8dKP3ddZ
-         wOXcHoCojzvJU6VsCkv9YVlZ3Y50poxT9pUOS0Zo=
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
-        by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id dSNRXE9ejvd2; Mon, 12 Oct 2020 20:15:31 -0400 (EDT)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by filter1.mymailcheap.com (Postfix) with ESMTPS;
-        Mon, 12 Oct 2020 20:15:31 -0400 (EDT)
-Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
-        by mail20.mymailcheap.com (Postfix) with ESMTP id C7AEB41A00;
-        Tue, 13 Oct 2020 00:15:28 +0000 (UTC)
-Authentication-Results: mail20.mymailcheap.com;
-        dkim=pass (1024-bit key; unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="Qk8gEh4s";
-        dkim-atps=neutral
-AI-Spam-Status: Not processed
-Received: from [127.0.0.1] (unknown [113.52.132.214])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail20.mymailcheap.com (Postfix) with ESMTPSA id CCB5D41A00;
-        Tue, 13 Oct 2020 00:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
-        s=default; t=1602548125;
-        bh=5NmZlDTB2lauu72Cp0R1dqygEUHe74aaaaBzo97C13U=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=Qk8gEh4sEPTR4Mpb+paJyIcNnBuKrl9NwdvE+4KANvYeQgs6qEV4XaXaTox3y3aSj
-         vlXS+WrPwcvkQcdfmNE85G4UbuEs2c6oHVfdo0Awz1qPva+WRIRoY85DV6M8rb+aoS
-         6JEGAspMH7AeWFStTQG3g/NEA7eoZhcU4utMFAbM=
-Date:   Tue, 13 Oct 2020 08:15:15 +0800
-From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-CC:     Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhc@lemote.com>,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>
-Subject: Re: [PATCH v2 3/4 RESEND] MIPS: Loongson64: Add /proc/boardinfo
-User-Agent: K-9 Mail for Android
-In-Reply-To: <95060519-530b-c5f5-537d-a7b217b39003@loongson.cn>
-References: <1602373674-4579-1-git-send-email-yangtiezhu@loongson.cn> <1602373674-4579-4-git-send-email-yangtiezhu@loongson.cn> <20201012103805.GC7953@alpha.franken.de> <95060519-530b-c5f5-537d-a7b217b39003@loongson.cn>
-Message-ID: <3707A9AD-DD41-4DD0-A015-DE4DC33279DE@flygoat.com>
+        id S1728337AbgJMBnM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Oct 2020 21:43:12 -0400
+Received: from mga03.intel.com ([134.134.136.65]:15405 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728217AbgJMBnM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Oct 2020 21:43:12 -0400
+IronPort-SDR: v+OHJDtpHHRyvZINB0s/fMjlwR3NasKMz0j1l72Ljqy+NXuqpZ/qVWYXxEcyHefXVPIvwA9Uui
+ HGUiRs15KjUw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="165890360"
+X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; 
+   d="scan'208";a="165890360"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 18:43:11 -0700
+IronPort-SDR: 8DDZae9ULC1Juos8+m1ku7wGzRyhk40RdQlxcgY5PDbFwqtOn4+rL76R0oYLFE3SMNuTLfHR2/
+ er29pWA3DMqQ==
+X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; 
+   d="scan'208";a="463303490"
+Received: from lusin-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.53.81])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 18:43:06 -0700
+Date:   Tue, 13 Oct 2020 04:43:04 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     zohar@linux.ibm.com, jejb@linux.ibm.com, dhowells@redhat.com,
+        jens.wiklander@linaro.org, corbet@lwn.net, jmorris@namei.org,
+        serge@hallyn.com, casey@schaufler-ca.com, janne.karhunen@gmail.com,
+        daniel.thompson@linaro.org, Markus.Wamser@mixed-mode.de,
+        lhinds@redhat.com, keyrings@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org,
+        Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v7 1/4] KEYS: trusted: Add generic trusted keys framework
+Message-ID: <20201013014304.GC41176@linux.intel.com>
+References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
+ <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: C7AEB41A00
-X-Spamd-Result: default: False [-0.10 / 10.00];
-         RCVD_VIA_SMTP_AUTH(0.00)[];
-         ARC_NA(0.00)[];
-         R_DKIM_ALLOW(0.00)[flygoat.com:s=default];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         R_SPF_SOFTFAIL(0.00)[~all];
-         ML_SERVERS(-3.10)[148.251.23.173];
-         DKIM_TRACE(0.00)[flygoat.com:+];
-         DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
-         RCPT_COUNT_SEVEN(0.00)[8];
-         DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
-         RCVD_COUNT_TWO(0.00)[2];
-         MID_RHS_MATCH_FROM(0.00)[];
-         HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
-X-Rspamd-Server: mail20.mymailcheap.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Oct 07, 2020 at 03:37:45PM +0530, Sumit Garg wrote:
+> Current trusted keys framework is tightly coupled to use TPM device as
+> an underlying implementation which makes it difficult for implementations
+> like Trusted Execution Environment (TEE) etc. to provide trusted keys
+> support in case platform doesn't posses a TPM device.
+> 
+> Add a generic trusted keys framework where underlying implementations
+> can be easily plugged in. Create struct trusted_key_ops to achieve this,
+> which contains necessary functions of a backend.
+> 
+> Also, add a module parameter in order to select a particular trust source
+> in case a platform support multiple trust sources.
+> 
+> Suggested-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
 
+This is exactly kind of place where I think static_call() should be
+taken into use, which is a v5.10 feature [1]. For background and
+context, I'd read [2].
 
-=E4=BA=8E 2020=E5=B9=B410=E6=9C=8812=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=88=
-8:02:25, Tiezhu Yang <yangtiezhu@loongson=2Ecn> =E5=86=99=E5=88=B0:
->On 10/12/2020 06:38 PM, Thomas Bogendoerfer wrote:
->> On Sun, Oct 11, 2020 at 07:47:53AM +0800, Tiezhu Yang wrote:
->>> Add /proc/boardinfo to get mainboard and BIOS info easily on the Loong=
-son
->>> platform, this is useful to point out the current used mainboard type =
-and
->>> BIOS version when there exists problems related with hardware or firmw=
-are=2E
->>>
->>> E=2Eg=2E with this patch:
->>>
->>> [loongson@linux ~]$ cat /proc/boardinfo
->>> Board Info
->>> Manufacturer            : LEMOTE
->>> Board Name              : LEMOTE-LS3A4000-7A1000-1w-V01-pc
->>> Family                  : LOONGSON3
->>>
->>> BIOS Info
->>> Vendor                  : Kunlun
->>> Version                 : Kunlun-A1901-V4=2E1=2E3-20200414093938
->>> ROM Size                : 4 KB
->>> Release Date            : 2020-04-14
->> Why does Loongson64 need this extra file no other architecture or MIPS
->> platform need ? Do others provide this information via a different meth=
-od ?
->> If yes, why can't Loongson64 do the same ?
->
->Hi Thomas,
->
->This is related with the implementation of firmware=2E
->
->Using dmidecode command can get the similar info if there exists SMBIOS
->in firmware, but the fact is there is no SMBIOS on some machines, we can
->see nothing when execute dmidecode, like this:
->
->[root@linux loongson]# dmidecode
-># dmidecode 2=2E12
-># No SMBIOS nor DMI entry point found, sorry=2E
->
->The following three structures are already defined in the interface
->specification about firmware and kernel on the Loongson platform,
->this is common requirement and specific for Loongson64, so add a
->new boardinfo=2Ec file in arch/mips/loongson64=2E
->
->arch/mips/include/asm/mach-loongson64/boot_param=2Eh
->struct interface_info {
->     u16 vers; /* version of the specificition */
->     u16 size;
->     u8  flag;
->     char description[64];
->} __packed;
->
->struct board_devices {
->     char name[64];    /* hold the device name */
->     u32 num_resources; /* number of device_resource */
->     /* for each device's resource */
->     struct resource_loongson resource[MAX_RESOURCE_NUMBER];
->     /* arch specific additions */
->     struct archdev_data archdata;
->};
->
->struct loongson_special_attribute {
->     u16 vers;     /* version of this special */
->     char special_name[64]; /* special_atribute_name */
->     u32 loongson_special_type; /* type of special device */
->     /* for each device's resource */
->     struct resource_loongson resource[MAX_RESOURCE_NUMBER];
->};
+The other thing that I see that does not make much else than additional
+complexity, is trusted_tpm.ko. We can do with one trusted.ko.
 
-Hi Tiezhu,
+I'd also *guess* that the static_call() mechanism does not work accross
+module boundaries.
 
-Through I don't think touching top level of proc would be a good idea=2E I=
-t's all about API consistency=2E
+[1] https://lore.kernel.org/lkml/20201012155542.GA3557765@gmail.com/
+[2] https://lwn.net/Articles/815908/
 
-If you intend to provide user an interface then I guess /sys/firmware/lefi
-like what DMI did or somewhere less critical is better=2E
-
-There is no guarantee that Loongson64 device would come with LEFI,
-although it's mandatory for now=2E
-
-Thanks=2E
-
-- Jiaxun
-
->
->Thanks,
->Tiezhu
->
->>
->> Thomas=2E
->>
+/Jarkko
