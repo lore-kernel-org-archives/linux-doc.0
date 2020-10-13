@@ -2,152 +2,137 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11939C43467
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE21BC433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDFB521D6C
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A9AB20878
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602590428;
+	bh=i1ehfJ5a+ArhUT+7IpeOP77r+VemFZ1XPuELZc8RizM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=zGlN/+nOs1+g+y/P95afyHzYs1Ic6RvdYqqJyvoY5mxq9a13ffdePsHWDg2+Z/B8X
+	 iw0BJGNCin7g57LNS4u9Hd8SjEuMSGHi1Cfy+UasNPhgZ/dbceTjftlFCPqcbXInR7
+	 Ck+30f++S18Zk5IaCeQK/2obHoZjS2aEkisaWYeM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728651AbgJMMAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:00:15 -0400
-Received: from mga02.intel.com ([134.134.136.20]:14109 "EHLO mga02.intel.com"
+        id S1728272AbgJMMAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:00:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58150 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728481AbgJML72 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 07:59:28 -0400
-IronPort-SDR: PpIHyXp+/qzvkeT84o78c5M1SCrAluqNEqAKGYMU16OHAMPDZR2RrZ0Foa9+rfq/xmFiWZbcgk
- hp7TeW7m+BVw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="152827280"
-X-IronPort-AV: E=Sophos;i="5.77,370,1596524400"; 
-   d="scan'208";a="152827280"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 04:59:26 -0700
-IronPort-SDR: +CYsTsmY3BO6jXl4YwQVqxzg7Mj0arD3Ox/RU3pLCDxWtYp6149sOP9VzZdMh63RZ3hO4rpB44
- 8ZJkg+6UaVKg==
-X-IronPort-AV: E=Sophos;i="5.77,370,1596524400"; 
-   d="scan'208";a="530368699"
-Received: from sobrien1-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.35.215])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 04:59:21 -0700
-Date:   Tue, 13 Oct 2020 14:59:18 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [PATCH v7 1/4] KEYS: trusted: Add generic trusted keys framework
-Message-ID: <20201013115918.GB141833@linux.intel.com>
-References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
- <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
- <20201013014304.GC41176@linux.intel.com>
- <CAFA6WYN1n_x1wUefXEf-4Y+bUZybNAMeD9cirvz4WQnK2E7djw@mail.gmail.com>
+        id S1727474AbgJMLyn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:43 -0400
+Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CB6C2223BD;
+        Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602590081;
+        bh=i1ehfJ5a+ArhUT+7IpeOP77r+VemFZ1XPuELZc8RizM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=O7AGre3eWrnkcM4mXQibvxErJanrmuHiCacF82DcZQ1YwgeVh2Vs99iCx6eqlPQ7l
+         bTg2TeQbiUlPDNz2DFO6iR186eJTFjSX4VTzP6bzhkhay5EnGtECzHgR4OsAUrcJZY
+         XfGR4X5xk20cZ7V8mctuKAcc9jFr1CenMlwnGA3k=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kSIt4-006CV1-QN; Tue, 13 Oct 2020 13:54:38 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 40/80] docs: fpga: replace :c:member: macros
+Date:   Tue, 13 Oct 2020 13:53:55 +0200
+Message-Id: <bc213cf5197fc2d7f0c8e5f331189991536222be.1602589096.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFA6WYN1n_x1wUefXEf-4Y+bUZybNAMeD9cirvz4WQnK2E7djw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 04:23:36PM +0530, Sumit Garg wrote:
-> On Tue, 13 Oct 2020 at 07:13, Jarkko Sakkinen
-> <jarkko.sakkinen@linux.intel.com> wrote:
-> >
-> > On Wed, Oct 07, 2020 at 03:37:45PM +0530, Sumit Garg wrote:
-> > > Current trusted keys framework is tightly coupled to use TPM device as
-> > > an underlying implementation which makes it difficult for implementations
-> > > like Trusted Execution Environment (TEE) etc. to provide trusted keys
-> > > support in case platform doesn't posses a TPM device.
-> > >
-> > > Add a generic trusted keys framework where underlying implementations
-> > > can be easily plugged in. Create struct trusted_key_ops to achieve this,
-> > > which contains necessary functions of a backend.
-> > >
-> > > Also, add a module parameter in order to select a particular trust source
-> > > in case a platform support multiple trust sources.
-> > >
-> > > Suggested-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> >
-> > This is exactly kind of place where I think static_call() should be
-> > taken into use, which is a v5.10 feature [1]. For background and
-> > context, I'd read [2].
-> 
-> This looks like an interesting feature. But I am not sure about the
-> real benefits that it will provide in case of trusted keys. If we are
-> looking at it performance wise then I think the gain will be
-> negligible when compared with slow TPM communication interface (eg.
-> SPI, I2C) or when compared with context switching involved in TEE.
-> 
-> Also, it requires arch specific support too which currently seems to
-> be limited to x86 only.
+Those macros are not doing the right thing with Sphinx 3,
+causing parse errors:
 
-Please, do not purposely add indirect calls, unless you  must. Here it's
-not a must.
+	./Documentation/driver-api/fpga/fpga-mgr.rst:104: WARNING: Unparseable C cross-reference: 'fpga_manager->state'
+	Invalid C declaration: Expected end of definition. [error at 12]
+	  fpga_manager->state
+	  ------------^
+	./Documentation/driver-api/fpga/fpga-programming.rst:18: WARNING: Unparseable C cross-reference: 'fpga_region->info'
+	Invalid C declaration: Expected end of definition. [error at 11]
+	  fpga_region->info
+	  -----------^
+	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->bridge_list'
+	Invalid C declaration: Expected end of definition. [error at 11]
+	  fpga_region->bridge_list
+	  -----------^
+	./Documentation/driver-api/fpga/fpga-region.rst:62: WARNING: Unparseable C cross-reference: 'fpga_region->get_bridges'
+	Invalid C declaration: Expected end of definition. [error at 11]
+	  fpga_region->get_bridges
+	  -----------^
 
-static_call() is the correct kernel idiom to define what you are doing
-in this patch. arch's will catch up.
+Replace them by :c:expr:, with does what's desired.
 
-> > The other thing that I see that does not make much else than additional
-> > complexity, is trusted_tpm.ko. We can do with one trusted.ko.
-> >
-> 
-> Current implementation only builds a single trusted.ko module. There
-> isn't any trusted_tpm.ko.
-> -Sumit
+Reviewed-by: Moritz Fischer <mdf@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/driver-api/fpga/fpga-mgr.rst         | 2 +-
+ Documentation/driver-api/fpga/fpga-programming.rst | 2 +-
+ Documentation/driver-api/fpga/fpga-region.rst      | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-You're right, I'm sorry. I misread this:
-
--static void __exit cleanup_trusted(void)
-+static void __exit exit_tpm_trusted(void)
- {
- 	if (chip) {
- 		put_device(&chip->dev);
-@@ -1257,7 +1029,11 @@  static void __exit cleanup_trusted(void)
- 	}
- }
+diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
+index 22f7885b32c9..917ee22db429 100644
+--- a/Documentation/driver-api/fpga/fpga-mgr.rst
++++ b/Documentation/driver-api/fpga/fpga-mgr.rst
+@@ -101,7 +101,7 @@ in state.
+ API for implementing a new FPGA Manager driver
+ ----------------------------------------------
  
--late_initcall(init_trusted);
--module_exit(cleanup_trusted);
--
--MODULE_LICENSE("GPL");
-+struct trusted_key_ops tpm_trusted_key_ops = {
-+	.migratable = 1, /* migratable by default */
-+	.init = init_tpm_trusted,
-+	.seal = tpm_trusted_seal,
-+	.unseal = tpm_trusted_unseal,
-+	.get_random = tpm_trusted_get_random,
-+	.exit = exit_tpm_trusted,
-+};
+-* ``fpga_mgr_states`` —  Values for :c:member:`fpga_manager->state`.
++* ``fpga_mgr_states`` —  Values for :c:expr:`fpga_manager->state`.
+ * struct fpga_manager —  the FPGA manager struct
+ * struct fpga_manager_ops —  Low level FPGA manager driver ops
+ * devm_fpga_mgr_create() —  Allocate and init a manager struct
+diff --git a/Documentation/driver-api/fpga/fpga-programming.rst b/Documentation/driver-api/fpga/fpga-programming.rst
+index f487ad64dfb9..002392dab04f 100644
+--- a/Documentation/driver-api/fpga/fpga-programming.rst
++++ b/Documentation/driver-api/fpga/fpga-programming.rst
+@@ -15,7 +15,7 @@ the FPGA manager and bridges.  It will:
+  * lock the mutex of the region's FPGA manager
+  * build a list of FPGA bridges if a method has been specified to do so
+  * disable the bridges
+- * program the FPGA using info passed in :c:member:`fpga_region->info`.
++ * program the FPGA using info passed in :c:expr:`fpga_region->info`.
+  * re-enable the bridges
+  * release the locks
+ 
+diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
+index 3e52be7e2968..363a8171ab0a 100644
+--- a/Documentation/driver-api/fpga/fpga-region.rst
++++ b/Documentation/driver-api/fpga/fpga-region.rst
+@@ -61,9 +61,9 @@ during the region's probe function.
+ 
+ The FPGA region will need to specify which bridges to control while programming
+ the FPGA.  The region driver can build a list of bridges during probe time
+-(:c:member:`fpga_region->bridge_list`) or it can have a function that creates
++(:c:expr:`fpga_region->bridge_list`) or it can have a function that creates
+ the list of bridges to program just before programming
+-(:c:member:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
++(:c:expr:`fpga_region->get_bridges`).  The FPGA bridge framework supplies the
+ following APIs to handle building or tearing down that list.
+ 
+ * fpga_bridge_get_to_list() — Get a ref of an FPGA bridge, add it to a
+-- 
+2.26.2
 
-Please remove "__init" and  "__exit" for the functions as they are used
-as fields as members of a struct that has neither life span. That messed
-up my head.
-
-Please use a single convention for the function names. It would
-be optimal to prefix with the subsystem name because that makes easier
-to use tracing tools:  trusted_tpm_<callback name> would work.
-
-/Jarkko
