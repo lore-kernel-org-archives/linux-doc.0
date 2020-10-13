@@ -2,111 +2,136 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D5FFC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B547C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:37:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96DF322314
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:26:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ova8boCd"
+	by mail.kernel.org (Postfix) with ESMTP id 2BB7122447
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:37:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgJMM07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726400AbgJMM06 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 08:26:58 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A389AC0613D0;
-        Tue, 13 Oct 2020 05:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=7Vx9B6T8bICpioAlzEd5JffMc8VKDN49NunY21LOeXI=; b=Ova8boCdYxsjqoPe5SgGZE9a6p
-        c57sdOEboKXe4T0r4yu5+BaXyF6bxeK6h/AkSd9P1PFwhCTABSRnObkN5tzBMsNIN7QAeqvtG/z52
-        vyRGfre4+fZ1yV3A1TzteDF1UguEyWSFaImr1dY0S0ylvb7nn9ARGzXeFPyvkQi7ugJOMx8Mphauz
-        /pHUgavIymQvd0CpGVeTN9b8NU5kTIyoCpH1owGnqBlNCKcRwyYlnN3lnU1laEIzV0gOndI10mCBr
-        WavkXbtSvJ1EzmLyvzAf3jKkiZlJjys8chkKnzmAlNi17Q/XlFRTUN7feyfJL8QM7kT4JzMMnMmnd
-        t22YBLJQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kSJOI-0006CZ-6I; Tue, 13 Oct 2020 12:26:54 +0000
-Date:   Tue, 13 Oct 2020 13:26:54 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        William Kucharski <william.kucharski@oracle.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 10/24] mm: pagemap.h: fix two kernel-doc markups
-Message-ID: <20201013122654.GE20115@casper.infradead.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <54ea6dd0fc37c48aef3fc3ae454c54a80db313dc.1602590106.git.mchehab+huawei@kernel.org>
+        id S1726732AbgJMMhK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:37:10 -0400
+Received: from mail-m1272.qiye.163.com ([115.236.127.2]:47775 "EHLO
+        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726492AbgJMMhK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 08:37:10 -0400
+Received: from ubuntu.localdomain (unknown [58.250.176.229])
+        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id 20363B021A7;
+        Tue, 13 Oct 2020 20:37:03 +0800 (CST)
+From:   Bailu Lin <bailu.lin@vivo.com>
+To:     alex.shi@linux.alibaba.com, catalin.marinas@arm.com,
+        corbet@lwn.net, harryxiyou@gmail.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, will@kernel.org
+Cc:     bailu.lin@vivo.com, kernel@vivo.com
+Subject: [PATCH v2] Documentation: Chinese translation of Documentation/arm64/hugetlbpage.rst
+Date:   Tue, 13 Oct 2020 05:36:55 -0700
+Message-Id: <20201013123655.40631-1-bailu.lin@vivo.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200926101902.3460-1-bailu.lin@vivo.com>
+References: <20200926101902.3460-1-bailu.lin@vivo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54ea6dd0fc37c48aef3fc3ae454c54a80db313dc.1602590106.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZSE5MHUJIHU9MSkJKVkpNS0lOQklNSUhDTkJVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PTo6ECo*Lz8jKzg*Qz0DKSou
+        SyMwCj1VSlVKTUtJTkJJTUlPTE1IVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
+        VUlOS1VKTE1VSUlCWVdZCAFZQU9JSEM3Bg++
+X-HM-Tid: 0a7521f6cc6098b7kuuu20363b021a7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 02:14:37PM +0200, Mauro Carvalho Chehab wrote:
-> Changeset 6c8adf8446a3 ("mm: add find_lock_head") renamed the
-> index parameter, but forgot to update the kernel-doc markups
-> accordingly.
+This is a Chinese translated version of
+ Documentation/arm64/hugetlbpage.rst
 
-The patch is correct (thank you!), but the description here references
-a git commit id that's only found in the -next tree and is unstable.
+Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+---
+Changes in v2:
+ - Fix Sphinx 2.4.4's waring by increasing underline' size.
+---
+ Documentation/arm64/hugetlbpage.rst           |  2 +
+ .../translations/zh_CN/arm64/hugetlbpage.rst  | 45 +++++++++++++++++++
+ .../translations/zh_CN/arm64/index.rst        |  1 +
+ 3 files changed, 48 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/arm64/hugetlbpage.rst
 
-Andrew, can you fold this into the offending commit?
+diff --git a/Documentation/arm64/hugetlbpage.rst b/Documentation/arm64/hugetlbpage.rst
+index b44f939e5210..a110124c11e3 100644
+--- a/Documentation/arm64/hugetlbpage.rst
++++ b/Documentation/arm64/hugetlbpage.rst
+@@ -1,3 +1,5 @@
++.. _hugetlbpage_index:
++
+ ====================
+ HugeTLBpage on ARM64
+ ====================
+diff --git a/Documentation/translations/zh_CN/arm64/hugetlbpage.rst b/Documentation/translations/zh_CN/arm64/hugetlbpage.rst
+new file mode 100644
+index 000000000000..dfc88195deb2
+--- /dev/null
++++ b/Documentation/translations/zh_CN/arm64/hugetlbpage.rst
+@@ -0,0 +1,45 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/arm64/hugetlbpage.rst <hugetlbpage_index>`
++
++Translator: Bailu Lin <bailu.lin@vivo.com>
++
++=====================
++ARM64中的 HugeTLBpage
++=====================
++
++大页依靠有效利用 TLBs 来提高地址翻译的性能。这取决于以下
++两点 -
++
++  - 大页的大小
++  - TLBs 支持的条目大小
++
++ARM64 接口支持2种大页方式。
++
++1) pud/pmd 级别的块映射
++-----------------------
++
++这是常规大页，他们的 pmd 或 pud 页面表条目指向一个内存块。
++不管 TLB 中支持的条目大小如何，块映射可以减少翻译大页地址
++所需遍历的页表深度。
++
++2) 使用连续位
++-------------
++
++架构中转换页表条目(D4.5.3, ARM DDI 0487C.a)中提供一个连续
++位告诉 MMU 这个条目是一个连续条目集的一员，它可以被缓存在单
++个 TLB 条目中。
++
++在 Linux 中连续位用来增加 pmd 和 pte(最后一级)级别映射的大
++小。受支持的连续页表条目数量因页面大小和页表级别而异。
++
++
++支持以下大页大小配置 -
++
++  ====== ========   ====    ========    ===
++  -      CONT PTE    PMD    CONT PMD    PUD
++  ====== ========   ====    ========    ===
++  4K:         64K     2M         32M     1G
++  16K:         2M    32M          1G
++  64K:         2M   512M         16G
++  ====== ========   ====    ========    ===
+diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
+index 646ed1f7aea3..e31a6090384d 100644
+--- a/Documentation/translations/zh_CN/arm64/index.rst
++++ b/Documentation/translations/zh_CN/arm64/index.rst
+@@ -14,3 +14,4 @@ ARM64 架构
+     :maxdepth: 2
+ 
+     amu
++    hugetlbpage
+-- 
+2.20.1
 
-> Fixes: 6c8adf8446a3 ("mm: add find_lock_head")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  include/linux/pagemap.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index 7dd3523093db..932a260a29f2 100644
-> --- a/include/linux/pagemap.h
-> +++ b/include/linux/pagemap.h
-> @@ -342,9 +342,9 @@ static inline struct page *find_get_page_flags(struct address_space *mapping,
->  /**
->   * find_lock_page - locate, pin and lock a pagecache page
->   * @mapping: the address_space to search
-> - * @offset: the page index
-> + * @index: the page index
->   *
-> - * Looks up the page cache entry at @mapping & @offset.  If there is a
-> + * Looks up the page cache entry at @mapping & @index.  If there is a
->   * page cache page, it is returned locked and with an increased
->   * refcount.
->   *
-> @@ -361,9 +361,9 @@ static inline struct page *find_lock_page(struct address_space *mapping,
->  /**
->   * find_lock_head - Locate, pin and lock a pagecache page.
->   * @mapping: The address_space to search.
-> - * @offset: The page index.
-> + * @index: The page index.
->   *
-> - * Looks up the page cache entry at @mapping & @offset.  If there is a
-> + * Looks up the page cache entry at @mapping & @index.  If there is a
->   * page cache page, its head page is returned locked and with an increased
->   * refcount.
->   *
-> -- 
-> 2.26.2
-> 
