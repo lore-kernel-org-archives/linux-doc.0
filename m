@@ -2,143 +2,141 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 991B2C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:46:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 397A1C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:50:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46E0E20EDD
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602621975;
-	bh=3ApEKt0+9kZ4IhsU+7nj2jOoMK/qjUd5zeELYHUzVq8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=xdvnjSY77++RE4jfi/si4zvBpIxAnnBRld8ACmjFSdN0GvK3T7Klk/ktc4bxUt5pX
-	 99ctiOIeKADti/YGERwJH6UJJvewAtFALLCTwzvh8ZB/cGvHCBdxD9hZ4BfOFNcnpD
-	 pLdCpCJ9SGtJdo597YAZTQjPofOzfU6IMbYeMIcU=
+	by mail.kernel.org (Postfix) with ESMTP id F193F20BED
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 20:50:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727875AbgJMUqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 16:46:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36950 "EHLO mail.kernel.org"
+        id S1727698AbgJMUuV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 16:50:21 -0400
+Received: from mga17.intel.com ([192.55.52.151]:53797 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727397AbgJMUqO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 16:46:14 -0400
-Received: from coco.lan (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A34220878;
-        Tue, 13 Oct 2020 20:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602621973;
-        bh=3ApEKt0+9kZ4IhsU+7nj2jOoMK/qjUd5zeELYHUzVq8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Ku0ra5WvDYWyqb8GnTCE7GaYItgoQaFxgtVOCIdaVX3aNVUwJTlsD4UopO6VkrWff
-         TeiTqe+HFvXQsleMtPC1wvwKTPtEfdfBMOja08rKjg5oET76aYazFOqtKztZaV95JP
-         21DC9p+X9K7XURU3/XcManTFm50SveGkDTl5RzIE=
-Date:   Tue, 13 Oct 2020 22:46:08 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH v6 70/80] rcu/tree: docs: document bkvcache new members
- at struct kfree_rcu_cpu
-Message-ID: <20201013224608.30dd1bc9@coco.lan>
-In-Reply-To: <20201013163404.GP3249@paulmck-ThinkPad-P72>
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
-        <6dd0804d6fd567f11e4c6efb767e91acca659d1f.1602589096.git.mchehab+huawei@kernel.org>
-        <20201013163404.GP3249@paulmck-ThinkPad-P72>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726186AbgJMUuU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 16:50:20 -0400
+IronPort-SDR: vGwvENHr8aV6GMMmU3JiVVu9bGbHLVnIKGEU16rg4DPFmRfroqFhcgmzGSrDU1r1Uxn8m2zrs/
+ Bjj0wf008kQQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="145844592"
+X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
+   d="scan'208";a="145844592"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 13:50:14 -0700
+IronPort-SDR: tBU8Od+WgzKnoE84+DWDWPkln+je7r0O2Nptsn2TVKPsgnriflj5gQkH1GYPWlpzBZ1iqAqtCk
+ /srhQcj0pjbQ==
+X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
+   d="scan'208";a="318439699"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 13:50:12 -0700
+Date:   Tue, 13 Oct 2020 13:50:12 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicolas Pitre <nico@fluxnic.net>, X86 ML <x86@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>, bpf@vger.kernel.org,
+        Kexec Mailing List <kexec@lists.infradead.org>,
+        linux-bcache@vger.kernel.org, linux-mtd@lists.infradead.org,
+        devel@driverdev.osuosl.org, linux-efi <linux-efi@vger.kernel.org>,
+        linux-mmc@vger.kernel.org, linux-scsi <linux-scsi@vger.kernel.org>,
+        target-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        ceph-devel@vger.kernel.org,
+        linux-ext4 <linux-ext4@vger.kernel.org>, linux-aio@kvack.org,
+        io-uring@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+        linux-um@lists.infradead.org, linux-ntfs-dev@lists.sourceforge.net,
+        reiserfs-devel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-nilfs@vger.kernel.org, cluster-devel@redhat.com,
+        ecryptfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        linux-afs@lists.infradead.org,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, intel-gfx@lists.freedesktop.org,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        xen-devel <xen-devel@lists.xenproject.org>,
+        linux-cachefs@redhat.com, samba-technical@lists.samba.org,
+        intel-wired-lan@lists.osuosl.org
+Subject: Re: [PATCH RFC PKS/PMEM 33/58] fs/cramfs: Utilize new kmap_thread()
+Message-ID: <20201013205012.GI2046448@iweiny-DESK2.sc.intel.com>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-34-ira.weiny@intel.com>
+ <CAPcyv4gL3jfw4d+SJGPqAD3Dp4F_K=X3domuN4ndAA1FQDGcPg@mail.gmail.com>
+ <20201013193643.GK20115@casper.infradead.org>
+ <20201013200149.GI3576660@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201013200149.GI3576660@ZenIV.linux.org.uk>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 13 Oct 2020 09:34:04 -0700
-"Paul E. McKenney" <paulmck@kernel.org> escreveu:
-
-> On Tue, Oct 13, 2020 at 01:54:25PM +0200, Mauro Carvalho Chehab wrote:
-> > Changeset 53c72b590b3a ("rcu/tree: cache specified number of objects")
-> > added new members for struct kfree_rcu_cpu, but didn't add the
-> > corresponding at the kernel-doc markup, as repoted when doing
-> > "make htmldocs":
-> > 	./kernel/rcu/tree.c:3113: warning: Function parameter or member 'bkvcache' not described in 'kfree_rcu_cpu'
-> > 	./kernel/rcu/tree.c:3113: warning: Function parameter or member 'nr_bkv_objs' not described in 'kfree_rcu_cpu'
-> > 
-> > So, move the description for bkvcache to kernel-doc, and add a
-> > description for nr_bkv_objs.
-> > 
-> > Fixes: 53c72b590b3a ("rcu/tree: cache specified number of objects")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+On Tue, Oct 13, 2020 at 09:01:49PM +0100, Al Viro wrote:
+> On Tue, Oct 13, 2020 at 08:36:43PM +0100, Matthew Wilcox wrote:
 > 
-> Queued for review and testing, likely target v5.11.
-
-Hi Paul,
-
-I would prefer if we could get those on 5.10, if possible.
-We're aiming to have 5.10 free of docs warnings ;-)
-
-If you prefer, I can send those patches to Linus with your
-ack.
-
-Regards,
-Mauro
-
-> 
-> 							Thanx, Paul
-> 
-> > ---
-> >  kernel/rcu/tree.c | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
+> > static inline void copy_to_highpage(struct page *to, void *vfrom, unsigned int size)
+> > {
+> > 	char *vto = kmap_atomic(to);
 > > 
-> > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> > index f78ee759af9c..03c54c3478b7 100644
-> > --- a/kernel/rcu/tree.c
-> > +++ b/kernel/rcu/tree.c
-> > @@ -3022,6 +3022,12 @@ struct kfree_rcu_cpu_work {
-> >   * @monitor_todo: Tracks whether a @monitor_work delayed work is pending
-> >   * @initialized: The @rcu_work fields have been initialized
-> >   * @count: Number of objects for which GP not started
-> > + * @bkvcache:
-> > + *	A simple cache list that contains objects for reuse purpose.
-> > + *	In order to save some per-cpu space the list is singular.
-> > + *	Even though it is lockless an access has to be protected by the
-> > + *	per-cpu lock.
-> > + * @nr_bkv_objs: number of allocated objects at @bkvcache.
-> >   *
-> >   * This is a per-CPU structure.  The reason that it is not included in
-> >   * the rcu_data structure is to permit this code to be extracted from
-> > @@ -3037,14 +3043,6 @@ struct kfree_rcu_cpu {
-> >  	bool monitor_todo;
-> >  	bool initialized;
-> >  	int count;
-> > -
-> > -	/*
-> > -	 * A simple cache list that contains objects for
-> > -	 * reuse purpose. In order to save some per-cpu
-> > -	 * space the list is singular. Even though it is
-> > -	 * lockless an access has to be protected by the
-> > -	 * per-cpu lock.
-> > -	 */
-> >  	struct llist_head bkvcache;
-> >  	int nr_bkv_objs;
-> >  };
-> > -- 
-> > 2.26.2
-> >   
+> > 	memcpy(vto, vfrom, size);
+> > 	kunmap_atomic(vto);
+> > }
+> > 
+> > in linux/highmem.h ?
+> 
+> You mean, like
+> static void memcpy_from_page(char *to, struct page *page, size_t offset, size_t len)
+> {
+>         char *from = kmap_atomic(page);
+>         memcpy(to, from + offset, len);
+>         kunmap_atomic(from);
+> }
+> 
+> static void memcpy_to_page(struct page *page, size_t offset, const char *from, size_t len)
+> {
+>         char *to = kmap_atomic(page);
+>         memcpy(to + offset, from, len);
+>         kunmap_atomic(to);
+> }
+> 
+> static void memzero_page(struct page *page, size_t offset, size_t len)
+> {
+>         char *addr = kmap_atomic(page);
+>         memset(addr + offset, 0, len);
+>         kunmap_atomic(addr);
+> }
+> 
+> in lib/iov_iter.c?  FWIW, I don't like that "highpage" in the name and
+> highmem.h as location - these make perfect sense regardless of highmem;
+> they are normal memory operations with page + offset used instead of
+> a pointer...
 
+I was thinking along those lines as well especially because of the direction
+this patch set takes kmap().
 
+Thanks for pointing these out to me.  How about I lift them to a common header?
+But if not highmem.h where?
 
-Thanks,
-Mauro
+Ira
