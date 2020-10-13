@@ -2,111 +2,111 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A366C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 06:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A56E6C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 08:49:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6652208D5
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 06:38:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="RQfbt1qj"
+	by mail.kernel.org (Postfix) with ESMTP id 4293420E65
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 08:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602578995;
+	bh=a443CT+7ELJK1HsOHYrEa+FiSjJIehUJ6pQRBBixPnA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=o4u4zvEkXeQspnPiRlpkXcGiMTjDnHbtOzKHLq+d5Pumq6HxNG6biUjN4YA1xei3R
+	 3IURKfyozKo+ZBi0rlSdU5AiX/vCRaDEpROWQvxep5xEJhsemL5jqj4dEs+rFOQTfI
+	 YtIVyzjFK3D4ziMs2iejwAoajBR6Y2IWSOjvJFao=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389434AbgJMGiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 02:38:15 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:23530 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389433AbgJMGiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 02:38:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1602571094; x=1634107094;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=aHrNIi6Spaa8PTVDo9sFuO7JRmGUmYOw/fAbYNNAQdY=;
-  b=RQfbt1qjlcVA+yuLRiiMBYMLENj2h/NK+eCtbXquvUBEsly8wpKyod1O
-   qh/B6Pao7Y/HP1ToBels6fD5DQFhWi9yahTRVVCL8rcpLAtSqwGnl4nfi
-   gJTmOxzxTHSbx1QYIB1KMMUw9gCBBWgq8g2ESer5uiM6O+97bX0XczAUp
-   E=;
-X-IronPort-AV: E=Sophos;i="5.77,369,1596499200"; 
-   d="scan'208";a="83990110"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 13 Oct 2020 06:38:08 +0000
-Received: from EX13D31EUB001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS id 212CCA1ECF;
-        Tue, 13 Oct 2020 06:38:04 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.27) by
- EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 13 Oct 2020 06:38:00 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <brendanhiggins@google.com>
-CC:     SeongJae Park <sjpark@amazon.de>, <corbet@lwn.net>,
-        <skhan@linuxfoundation.org>, <linux-kselftest@vger.kernel.org>,
-        <kunit-dev@googlegroups.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] Documentation: kunit: Update Kconfig parts for KUNIT's module support
-Date:   Tue, 13 Oct 2020 08:37:43 +0200
-Message-ID: <20201013063743.32179-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
+        id S2403991AbgJMIty (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 04:49:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59418 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403825AbgJMIty (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 04:49:54 -0400
+Received: from coco.lan (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 03BD5208D5;
+        Tue, 13 Oct 2020 08:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602578994;
+        bh=a443CT+7ELJK1HsOHYrEa+FiSjJIehUJ6pQRBBixPnA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=xcDaVd70OlpIsITMu6jWrAbXyyZ1bdIxtBoBjzw9zt6ckGGZYLOEYIn0fr54ChD6I
+         OhN/eFb0B5T8IxDBimwZvBr7Mj9X5qpfRX7Dh7v5yItbG5GphiXtziW8ivW+3J40gK
+         yMe6iO/YZ2w4pu9TDPS7OBNrWB7+mTg8YIe8Cs04=
+Date:   Tue, 13 Oct 2020 10:49:50 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [GIT PULL] Documentation for 5.10
+Message-ID: <20201013104950.25764be1@coco.lan>
+In-Reply-To: <20201012133042.688ee6a6@lwn.net>
+References: <20201012133042.688ee6a6@lwn.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.27]
-X-ClientProxiedBy: EX13D50UWA004.ant.amazon.com (10.43.163.5) To
- EX13D31EUB001.ant.amazon.com (10.43.166.210)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+Hi Linus,
 
-If 'CONFIG_KUNIT=m', letting kunit tests that do not support loadable
-module build depends on 'KUNIT' instead of 'KUNIT=y' result in compile
-errors.  This commit updates the document for this.
+Em Mon, 12 Oct 2020 13:30:42 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Fixes: 9fe124bf1b77 ("kunit: allow kunit to be loaded as a module")
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
+> As hoped, things calmed down for docs this cycle; fewer changes and almost
+> no conflicts at all.  This pull includes:
+> 
+>  - A reworked and expanded user-mode Linux document
+>  - Some simplifications and improvements for submitting-patches.rst
+>  - An emergency fix for (some) problems with Sphinx 3.x
+>  - Some welcome automarkup improvements to automatically generate
+>    cross-references to struct definitions and other documents
+>  - The usual collection of translation updates, typo fixes, etc.
+> 
+> NOTE that there will be a largish  late-window pull request coming,
+> probably directly from Mauro.  Sphinx 3.x has broken a bunch of things,
+> which is obnoxious, though the end result is better; fixing the problems
+> requires a number of cross-tree documentation tweaks.  These are best done
+> toward the end to avoid creating unnecessary conflicts with other trees.
 
-Changes from v1
-(https://lore.kernel.org/linux-kselftest/20201012105420.5945-1-sjpark@amazon.com/):
-- Fix a typo (Marco Elver)
+I double-checked: after having both docs and media tree pulled upstream, 
+80% of the patches should apply cleanly.
 
----
- Documentation/dev-tools/kunit/start.rst | 2 +-
- Documentation/dev-tools/kunit/usage.rst | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+So, I just merged the ones that apply cleanly at my -next tree:
 
-diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-index d23385e3e159..454f307813ea 100644
---- a/Documentation/dev-tools/kunit/start.rst
-+++ b/Documentation/dev-tools/kunit/start.rst
-@@ -197,7 +197,7 @@ Now add the following to ``drivers/misc/Kconfig``:
- 
- 	config MISC_EXAMPLE_TEST
- 		bool "Test for my example"
--		depends on MISC_EXAMPLE && KUNIT
-+		depends on MISC_EXAMPLE && KUNIT=y
- 
- and the following to ``drivers/misc/Makefile``:
- 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 3c3fe8b5fecc..b331f5a5b0b9 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -556,6 +556,11 @@ Once the kernel is built and installed, a simple
- 
- ...will run the tests.
- 
-+.. note::
-+   Note that you should make your test depends on ``KUNIT=y`` in Kconfig if the
-+   test does not support module build.  Otherwise, it will trigger compile
-+   errors if ``CONFIG_KUNIT`` is ``m``.
-+
- Writing new tests for other architectures
- -----------------------------------------
- 
--- 
-2.17.1
+	https://git.linuxtv.org/mchehab/media-next.git/ (master branch)
 
+If everything goes well on tomorrow's next, I'll send you a pull request
+with those.
+
+The other ones depend on merges from DRM, hwmon and other
+trees. So, I'll keep rebasing them and should be sending you a late
+PR by the end of the merge window, fixing the remaining doc issues.
+
+We're aiming to have zero documentation warnings by
+the end of the merge window, when built with Sphinx 2.x,
+and just a handful set of warnings with Sphinx 3.1+[1].
+
+[1] One of the limitations of Sphinx C cross-reference code,
+    up to its latest version, is that it doesn't allow to have
+    both a function called "foo" and a struct or enum also called
+    "foo".
+
+    With Sphinx < 3, this doesn't generate warnings, but it still
+    cause troubles with cross-references. Sphinx 3.x warns
+    about name clashes, but the bug was not solved yet upstream.
+    They're working on Sphinx to fix that in the future:
+
+	https://github.com/sphinx-doc/sphinx/issues/8241
+	https://github.com/sphinx-doc/sphinx/issues/7819
+
+Thanks,
+Mauro
