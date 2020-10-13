@@ -2,103 +2,99 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0FDC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 09:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0AD5C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 10:21:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3CF72080A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 09:59:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="ke2B61w+"
+	by mail.kernel.org (Postfix) with ESMTP id 73452207C3
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 10:21:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602584479;
+	bh=1KOk9XSZS8NJ0MqOzm4ccGPeLdbKxr3CC3OT5GpcB/s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=WJJAd6Al/8q0mRHpi6D3VZQGPdNnyriRz063wArBsg+S/uHlbTuJaW5OL8DLdFQ27
+	 43K72QyUCo1V4kzfhpMmzApi4ZWhEYX0z42iKYzcCekrxC/VFwzjk/HI3fUsrkvhH4
+	 3XoQ4pgdY2NeA4UubkITuWLOkJZdauIIjNTJxtdo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbgJMJ7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 05:59:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726120AbgJMJ7A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 05:59:00 -0400
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED88C0613D0;
-        Tue, 13 Oct 2020 02:58:59 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S2388020AbgJMKVS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 06:21:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56908 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387936AbgJMKVO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 06:21:14 -0400
+Received: from coco.lan (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4C9WGT1ztNz9sTv;
-        Tue, 13 Oct 2020 20:58:57 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1602583137;
-        bh=vQY2c9cN6FjoHPzgdROZih+fPjPHG6GUvQ/lO4cSMtg=;
+        by mail.kernel.org (Postfix) with ESMTPSA id 574A520708;
+        Tue, 13 Oct 2020 10:21:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602584473;
+        bh=1KOk9XSZS8NJ0MqOzm4ccGPeLdbKxr3CC3OT5GpcB/s=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ke2B61w+F3mXsTWMxeCsK/cZRpGO97Dg2xRVjQQzx6OTj8zDUk07NUREG5xLTDAo+
-         61MVP5V1W5O5SAERIbuVta+fZxz9zsues81E5RuBcMUSCUABfUb0Udtj+7IzPdBlFN
-         1H4EVEXRIdVqrHhnmHwG7IdMzOHi5T6sO/0Hq98hqvZgShbOgZGF/ujj0K2v6lxIXN
-         Vbczm68x1711CxWnOEwPfvrzhV+FCNf1KFiqyChIELdtLf6LX5w54PHL848mc27fAk
-         UkrsJF0e8d4oPOfXlKXFpCBMehfrUWLD9vFLV8BRd7A+AzQz+Fvi0RFz7psTTBAA2C
-         mgzljjItaTZYQ==
-Date:   Tue, 13 Oct 2020 20:58:56 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        b=MdnR7Je7aPtn7qo7mlk9G2HQnjOAhHmWLSlrguko5AoRZCYk2bcCiXKDhiWf5xXn/
+         y/RnsrDRCyFQ/WZxemnoNk2pKqTB59XI+rdwGKSN8kdZl/CItB8q1AWuwIm+CUpPNL
+         rQbtMASSNQ3d8htTdRecf2IEkb9JA70P5XZkt/wM=
+Date:   Tue, 13 Oct 2020 12:21:08 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Subject: Re: [GIT PULL] Documentation for 5.10
-Message-ID: <20201013205856.21f762ff@canb.auug.org.au>
-In-Reply-To: <20201013104950.25764be1@coco.lan>
+Message-ID: <20201013122108.232a57d6@coco.lan>
+In-Reply-To: <20201013205856.21f762ff@canb.auug.org.au>
 References: <20201012133042.688ee6a6@lwn.net>
         <20201013104950.25764be1@coco.lan>
+        <20201013205856.21f762ff@canb.auug.org.au>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/bB.hnbahcrX3ELuO0ph/q23";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/bB.hnbahcrX3ELuO0ph/q23
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Em Tue, 13 Oct 2020 20:58:56 +1100
+Stephen Rothwell <sfr@canb.auug.org.au> escreveu:
 
-Hi Mauro,
+> Hi Mauro,
+> 
+> On Tue, 13 Oct 2020 10:49:50 +0200 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >
+> > If everything goes well on tomorrow's next, I'll send you a pull request
+> > with those.  
+> 
+> Sorry, bad timing, but there won't be a linux-next tomorrow (I have a
+> day off).
 
-On Tue, 13 Oct 2020 10:49:50 +0200 Mauro Carvalho Chehab <mchehab+huawei@ke=
-rnel.org> wrote:
->
-> If everything goes well on tomorrow's next, I'll send you a pull request
-> with those.
+No problem. I'll then do it on Thursday. Enjoy your day off!
 
-Sorry, bad timing, but there won't be a linux-next tomorrow (I have a
-day off).
+> 
+> > The other ones depend on merges from DRM, hwmon and other
+> > trees. So, I'll keep rebasing them and should be sending you a late
+> > PR by the end of the merge window, fixing the remaining doc issues.
+> > 
+> > We're aiming to have zero documentation warnings by
+> > the end of the merge window, when built with Sphinx 2.x,  
+> 
+> That would be nice.  I am still getting about 35-40 each day.
 
-> The other ones depend on merges from DRM, hwmon and other
-> trees. So, I'll keep rebasing them and should be sending you a late
-> PR by the end of the merge window, fixing the remaining doc issues.
->=20
-> We're aiming to have zero documentation warnings by
-> the end of the merge window, when built with Sphinx 2.x,
+Yeah, currently the warnings are so polluted that it is hard
+for developers to see new ones.
 
-That would be nice.  I am still getting about 35-40 each day.
+Btw, after rebasing the remaining fixes on today's next, there
+are a few new warnings:
 
---=20
-Cheers,
-Stephen Rothwell
+	build succeeded, 7 warnings.
 
---Sig_/bB.hnbahcrX3ELuO0ph/q23
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Hopefully this will be solved soon, after we merge those
+fixes upstream, as it will make easier to detect new
+ones early and should help maintainers to enforce a cleaner
+build.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+FemAACgkQAVBC80lX
-0GxbPQf+PYl0U/k8bfj/UkPaN+G4xWrTRO4RRkyohzR7xMGeWZDQ8Ncvg+bzy+aJ
-5wS8nshv5FlC0jrlNQkzqKabKV8FYcgROkoJDruJdD/cCQsD3PdQlf091YRlpJ04
-BMSL8T0MiLkfYq10q6wIWbDTfLM2ZDEKduLTgUMgwwpJ8zs0bDnKnnE7a8bJiVC1
-S9vYriZb0Ws0p8kxfQXmtUeBvnSE7auNg6Yopn1UuQM6SS9fvHjW1CAUQpoXr7vk
-XDEJrgOqoDrrbaZWen01n//t0AEL/+MLYzmli88IBrKAQDiac/+IFEHpdAUzq+YC
-vLLWT0znZGgkafCuRundJdllcSlt5g==
-=jeTT
------END PGP SIGNATURE-----
-
---Sig_/bB.hnbahcrX3ELuO0ph/q23--
+Thanks,
+Mauro
