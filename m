@@ -2,152 +2,107 @@ Return-Path: <SRS0=GARK=DU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED90C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC96C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:48:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F3E8252C5
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:44:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F407252CF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 16:48:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnalsexw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727960AbgJMQoT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 12:44:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55464 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727958AbgJMQoS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 12:44:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 694EBAB0E;
-        Tue, 13 Oct 2020 16:44:16 +0000 (UTC)
-To:     Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-References: <20201009195411.4018141-1-keescook@chromium.org>
- <20201009195411.4018141-4-keescook@chromium.org>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v2 3/3] mm/slub: Actually fix freelist pointer vs
- redzoning
-Message-ID: <0f7dd7b2-7496-5e2d-9488-2ec9f8e90441@suse.cz>
-Date:   Tue, 13 Oct 2020 18:44:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+        id S1728335AbgJMQsM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 12:48:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57570 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728328AbgJMQsM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 12:48:12 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B3BC0613D0;
+        Tue, 13 Oct 2020 09:48:12 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id e20so605152otj.11;
+        Tue, 13 Oct 2020 09:48:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=zwnERbtjK98BZDP38JfMSXq7lY/lqD1s9bTHt/VKNxQ=;
+        b=fnalsexwDtPHpXytFFMOxK18SuNkOWOo02GQmlvY01PwtDLnTbA3h9ze1J7gEWwB3s
+         nw2/A0BN+SXD4CYfqPFASW4qQ4keOuWRd630K+1CRSqH2NvPp23epNXnBOPLbyDwdFMK
+         0cFt9yNU6D6shDJS4odwIy2FThFKTFmCQh9hW6CoGIufme+rr7bZe0qwi+RipUDwX4TV
+         jokEF9o79sLfmtlEiUS3jMe9vRi+yJvy8hNpczEx4t3G2SqJ16SMo8vOVc7OhmKNfHFF
+         nIqAzqbJ/ieJGe+PateKL3v5kNCPAR2dIVuPcVlmZrQWJFurjuahvUu5xgvw/XWlc0LH
+         e1qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=zwnERbtjK98BZDP38JfMSXq7lY/lqD1s9bTHt/VKNxQ=;
+        b=FZNLCtIyuXbjuyXQWMg3hPitLU26hU5IuRfe2e4e7C/x5qSCy4vRxk0q/0PNW7mtES
+         wfD+bd7Ya3WkD2v1wUIGjuTI3j2N3j7tZrtSBosWIVcZEvt6XOLlKcmQg82UHZclxGU/
+         GDPdK/g/UL6P4KCwzd2ex6dgQdXgSh+6bObc1M0X/ePm265AwfQAAsQx71I8zTzzGCCX
+         yEgF3tMQQzXIOTSvxXLAcnzKFRzwNdeBlUZUIFIKU+helxE+TsctoXECil23JXPZabWX
+         Jy6zFv86VFrU4lzGl8Azx+usYYGgJ75qlhTZyDzRh1lUVOWC+KtbKgbU8KPXgF51DLLf
+         +m2w==
+X-Gm-Message-State: AOAM5302MJKTgjeUZVDHTWtDCu6/8FPWkakEMfRVNnYRgh/SsTbKfEez
+        sLr0bvDEo9Tiin/5B2iHoa0jqGocCxI=
+X-Google-Smtp-Source: ABdhPJwVNPqv0PLgz8GYgWA3Yh2rTf52Fn1fi8rKTfwQzDltDeMJYbF2sP3DH4wXdgSErY/UEIPutg==
+X-Received: by 2002:a05:6830:199:: with SMTP id q25mr356425ota.263.1602607691597;
+        Tue, 13 Oct 2020 09:48:11 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id o2sm96645oia.42.2020.10.13.09.48.10
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 13 Oct 2020 09:48:11 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 13 Oct 2020 09:48:09 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/24] docs: hwmon: adm1266.rst: fix a broken reference
+Message-ID: <20201013164809.GH251780@roeck-us.net>
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+ <240216628f613d85fd1191b56debda611e8f659e.1602590106.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201009195411.4018141-4-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <240216628f613d85fd1191b56debda611e8f659e.1602590106.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/9/20 9:54 PM, Kees Cook wrote:
-> It turns out that SLUB redzoning ("slub_debug=Z") checks from
-> s->object_size rather than from s->inuse (which is normally bumped to
-> make room for the freelist pointer), so a cache created with an object
-> size less than 24 would have their freelist pointer written beyond
-> s->object_size, causing the redzone to corrupt the freelist pointer.
-
-Is this accurate? Seems to me that redzone is (re)initialized only when 
-freepointer is not active. So it is actually freelist pointer corrupting the 
-redzone...
-
-> This was very visible with "slub_debug=ZF":
-
-... as this report shows :)
-
+On Tue, Oct 13, 2020 at 02:14:28PM +0200, Mauro Carvalho Chehab wrote:
+> The reference was missing the extension, causing the
+> check script to complain.
 > 
-> BUG test (Tainted: G    B            ): Right Redzone overwritten
-> -----------------------------------------------------------------------------
-> 
-> INFO: 0xffff957ead1c05de-0xffff957ead1c05df @offset=1502. First byte 0x1a instead of 0xbb
-> INFO: Slab 0xffffef3950b47000 objects=170 used=170 fp=0x0000000000000000 flags=0x8000000000000200
-> INFO: Object 0xffff957ead1c05d8 @offset=1496 fp=0xffff957ead1c0620
-> 
-> Redzone  (____ptrval____): bb bb bb bb bb bb bb bb               ........
-> Object   (____ptrval____): 00 00 00 00 00 f6 f4 a5               ........
-> Redzone  (____ptrval____): 40 1d e8 1a aa                        @....
-> Padding  (____ptrval____): 00 00 00 00 00 00 00 00               ........
-> 
-> Adjust the offset to stay within s->object_size.
-> 
-> Reported-by: Marco Elver <elver@google.com>
-> Link: https://lore.kernel.org/linux-mm/20200807160627.GA1420741@elver.google.com/
-> Fixes: 89b83f282d8b (slub: avoid redzone when choosing freepointer location)
-> Tested-by: Marco Elver <elver@google.com>
-> Link: https://lore.kernel.org/lkml/CANpmjNOwZ5VpKQn+SYWovTkFB4VsT-RPwyENBmaK0dLcpqStkA@mail.gmail.com
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-
-This struggle to get it right perhaps calls for some selftests of all 
-combinations of flags that affect object layout, e.g. of 
-redzone/poison/store_user, on sizes from sizeof(void *) to e.g. 3*sizeof(void 
-*), with sanity_checks enabled. Shouldn't be too many tests...
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->   mm/slub.c | 14 +++-----------
->   1 file changed, 3 insertions(+), 11 deletions(-)
+>  Documentation/hwmon/adm1266.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 752fad36522c..6f115e56c5d0 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -3637,7 +3637,6 @@ static int calculate_sizes(struct kmem_cache *s, int forced_order)
->   {
->   	slab_flags_t flags = s->flags;
->   	unsigned int size = s->object_size;
-> -	unsigned int freepointer_area;
->   	unsigned int order;
->   
->   	/*
-> @@ -3646,13 +3645,6 @@ static int calculate_sizes(struct kmem_cache *s, int forced_order)
->   	 * the possible location of the free pointer.
->   	 */
->   	size = ALIGN(size, sizeof(void *));
-> -	/*
-> -	 * This is the area of the object where a freepointer can be
-> -	 * safely written. If redzoning adds more to the inuse size, we
-> -	 * can't use that portion for writing the freepointer, so
-> -	 * s->offset must be limited within this for the general case.
-> -	 */
-> -	freepointer_area = size;
->   
->   #ifdef CONFIG_SLUB_DEBUG
->   	/*
-> @@ -3678,7 +3670,7 @@ static int calculate_sizes(struct kmem_cache *s, int forced_order)
->   
->   	/*
->   	 * With that we have determined the number of bytes in actual use
-> -	 * by the object. This is the potential offset to the free pointer.
-> +	 * by the object and redzoning.
->   	 */
->   	s->inuse = size;
->   
-> @@ -3701,13 +3693,13 @@ static int calculate_sizes(struct kmem_cache *s, int forced_order)
->   		 */
->   		s->offset = size;
->   		size += sizeof(void *);
-> -	} else if (freepointer_area > sizeof(void *)) {
-> +	} else {
->   		/*
->   		 * Store freelist pointer near middle of object to keep
->   		 * it away from the edges of the object to avoid small
->   		 * sized over/underflows from neighboring allocations.
->   		 */
-> -		s->offset = ALIGN(freepointer_area / 2, sizeof(void *));
-> +		s->offset = ALIGN_DOWN(s->object_size / 2, sizeof(void *));
->   	}
->   
->   #ifdef CONFIG_SLUB_DEBUG
+> diff --git a/Documentation/hwmon/adm1266.rst b/Documentation/hwmon/adm1266.rst
+> index 9257f8a48650..2b877011cfdf 100644
+> --- a/Documentation/hwmon/adm1266.rst
+> +++ b/Documentation/hwmon/adm1266.rst
+> @@ -20,7 +20,7 @@ ADM1266 is a sequencer that features voltage readback from 17 channels via an
+>  integrated 12 bit SAR ADC, accessed using a PMBus interface.
+>  
+>  The driver is a client driver to the core PMBus driver. Please see
+> -Documentation/hwmon/pmbus for details on PMBus client drivers.
+> +Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+>  
+>  
+>  Sysfs entries
+> -- 
+> 2.26.2
 > 
-
