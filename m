@@ -4,53 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 043D7C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B3DC433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA4882227E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 043722227E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591339;
-	bh=zhqkufZ7f7yOmStqpe6IwS4Q7Pbm2bPb4tI8f5PD8is=;
+	s=default; t=1602591341;
+	bh=ZaTen0FVonGz3YfAKiTProfR+cBfv2hpCSbt+ubcKlE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=stOR7Rj3CvXRAx35ykF3c9KHc+8RPKhB9T6bO/zyua1mEwMBOgTvqI0OQ29NoO+Z7
-	 ivHBy8Ik9EbpX1XO58TTwOIKg57xDPggllVBtowF9igCfXEj93t/aoZ97nn7bo6JeD
-	 VDUNJPetiRtYPpNyNGuQ99zBspVi0SOv6VvT9VD4=
+	b=cu6UEiQP1qk0QENB9k1s3INpH9ylrUBK/Ye39bTscfNH8TCeLIXZeq8N0x6k083U6
+	 KfA8xVzes0SYR6A8qrIFhpxU9sxTvd1DwT/oxeqqvpMsiFFlKfRNtHN362FMrcE8YA
+	 gc5OLGcKmC+5rdNjOy5nmL7r/uY0yuFUqU1J2PEg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727672AbgJMMPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:15:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41126 "EHLO mail.kernel.org"
+        id S1727682AbgJMMPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:15:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41132 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727006AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727002AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 08:14:57 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2D3522226B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 1EB4222266;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=zhqkufZ7f7yOmStqpe6IwS4Q7Pbm2bPb4tI8f5PD8is=;
+        bh=ZaTen0FVonGz3YfAKiTProfR+cBfv2hpCSbt+ubcKlE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IJ/exGaa9jn8vqZuR4s0V/ooPf7voEJXvKUd4nPr4e6UnPijxWCTPtuvnhciLjKmI
-         U/Tg3oMZEd1+NZEMIqMDM1/0S8PLMsqvmw8gBc7vNOapU6d/ZTWG6H1kYTFI5alJfJ
-         WdJQCg0+vvPyTO4wrXmJJQsLJa5N1P6R7MbrU5dw=
+        b=UmsrD5gE8Ycf86mMMEFcLZ13ziCA3Ha7gK5X/BS5/xZEvmMooRMuXr8kPhrTQldDA
+         3Af9REZuyDlBxbii/wwZnjngDQ+HHZ46JQrtWL897pLT5rhVCnJIDBfhq7ekdWiHn7
+         ILn2Zd1rLbiut9QCM01196coCv94H7/85uLi0+Uw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCf-006CoY-6m; Tue, 13 Oct 2020 14:14:53 +0200
+        id 1kSJCf-006CoS-4k; Tue, 13 Oct 2020 14:14:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 19/24] net: phy: remove kernel-doc duplication
-Date:   Tue, 13 Oct 2020 14:14:46 +0200
-Message-Id: <89c130eab83089f7976ed8876e9bd1ba62d800c3.1602590106.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Vadim Pasternak <vadimp@nvidia.com>,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 17/24] docs: hwmon: mp2975.rst: address some html build warnings
+Date:   Tue, 13 Oct 2020 14:14:44 +0200
+Message-Id: <8418e2062b82314ceae5da7404fad7b2d3a3fa9a.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -61,108 +62,104 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx 3 now checks for duplicated function declarations:
+    .../Documentation/hwmon/mp2975.rst:25: WARNING: Unexpected indentation.
+    .../Documentation/hwmon/mp2975.rst:27: WARNING: Block quote ends without a blank line; unexpected unindent.
+    .../Documentation/hwmon/mp2975.rst:69: WARNING: Unexpected indentation.
+    .../Documentation/hwmon/mp2975.rst:70: WARNING: Block quote ends without a blank line; unexpected unindent.
+    .../Documentation/hwmon/mp2975.rst:72: WARNING: Bullet list ends without a blank line; unexpected unindent.
+    .../Documentation/hwmon/mp2975.rst: WARNING: document isn't included in any toctree
 
-	.../Documentation/networking/kapi:143: ../include/linux/phy.h:163: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
-	Declaration is 'unsigned int phy_supported_speeds (struct phy_device *phy, unsigned int *speeds, unsigned int size)'.
-	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1034: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
-	Declaration is 'int phy_read_mmd (struct phy_device *phydev, int devad, u32 regnum)'.
-	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1076: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
-	Declaration is 'int __phy_read_mmd (struct phy_device *phydev, int devad, u32 regnum)'.
-	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1088: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
-	Declaration is 'int phy_write_mmd (struct phy_device *phydev, int devad, u32 regnum, u16 val)'.
-	.../Documentation/networking/kapi:143: ../include/linux/phy.h:1100: WARNING: Duplicate C declaration, also defined in 'networking/kapi'.
-	Declaration is 'int __phy_write_mmd (struct phy_device *phydev, int devad, u32 regnum, u16 val)'.
+List blocks should have blank lines before and after them,
+in order to be properly parsed.
 
-It turns that both the C and the H files have the same
-kernel-doc markup for the same functions. Let's drop the
-at the header file, keeping the one closer to the code.
-
+Fixes: 4beb7a028e9f ("hwmon: (pmbus) Add support for MPS Multi-phase mp2975 controller")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/phy.h | 40 +++++-----------------------------------
- 1 file changed, 5 insertions(+), 35 deletions(-)
+ Documentation/hwmon/index.rst  |  1 +
+ Documentation/hwmon/mp2975.rst | 14 +++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index eb3cb1a98b45..56563e5e0dc7 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -147,16 +147,8 @@ typedef enum {
- 	PHY_INTERFACE_MODE_MAX,
- } phy_interface_t;
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index e6b91ab12978..b797db738225 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -132,6 +132,7 @@ Hardware Monitoring Kernel Drivers
+    mcp3021
+    menf21bmc
+    mlxreg-fan
++   mp2975
+    nct6683
+    nct6775
+    nct7802
+diff --git a/Documentation/hwmon/mp2975.rst b/Documentation/hwmon/mp2975.rst
+index 5b0609c62f48..81d816b71490 100644
+--- a/Documentation/hwmon/mp2975.rst
++++ b/Documentation/hwmon/mp2975.rst
+@@ -20,6 +20,7 @@ This driver implements support for Monolithic Power Systems, Inc. (MPS)
+ vendor dual-loop, digital, multi-phase controller MP2975.
  
--/**
-+/*
-  * phy_supported_speeds - return all speeds currently supported by a PHY device
-- * @phy: The PHY device to return supported speeds of.
-- * @speeds: buffer to store supported speeds in.
-- * @size: size of speeds buffer.
-- *
-- * Description: Returns the number of supported speeds, and fills
-- * the speeds buffer with the supported speeds. If speeds buffer is
-- * too small to contain all currently supported speeds, will return as
-- * many speeds as can fit.
-  */
- unsigned int phy_supported_speeds(struct phy_device *phy,
- 				      unsigned int *speeds,
-@@ -1022,14 +1014,9 @@ static inline int __phy_modify_changed(struct phy_device *phydev, u32 regnum,
- 					regnum, mask, set);
- }
+ This device:
++
+ - Supports up to two power rail.
+ - Provides 8 pulse-width modulations (PWMs), and can be configured up
+   to 8-phase operation for rail 1 and up to 4-phase operation for rail
+@@ -32,10 +33,12 @@ This device:
+   10-mV DAC, IMVP9 mode with 5-mV DAC.
  
--/**
-+/*
-  * phy_read_mmd - Convenience function for reading a register
-  * from an MMD on a given PHY.
-- * @phydev: The phy_device struct
-- * @devad: The MMD to read from
-- * @regnum: The register on the MMD to read
-- *
-- * Same rules as for phy_read();
-  */
- int phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
+ Device supports:
++
+ - SVID interface.
+ - AVSBus interface.
  
-@@ -1064,38 +1051,21 @@ int phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
- 	__ret; \
- })
+ Device complaint with:
++
+ - PMBus rev 1.3 interface.
  
--/**
-+/*
-  * __phy_read_mmd - Convenience function for reading a register
-  * from an MMD on a given PHY.
-- * @phydev: The phy_device struct
-- * @devad: The MMD to read from
-- * @regnum: The register on the MMD to read
-- *
-- * Same rules as for __phy_read();
-  */
- int __phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
+ Device supports direct format for reading output current, output voltage,
+@@ -45,11 +48,14 @@ Device supports VID and direct formats for reading output voltage.
+ The below VID modes are supported: VR12, VR13, IMVP9.
  
--/**
-+/*
-  * phy_write_mmd - Convenience function for writing a register
-  * on an MMD on a given PHY.
-- * @phydev: The phy_device struct
-- * @devad: The MMD to write to
-- * @regnum: The register on the MMD to read
-- * @val: value to write to @regnum
-- *
-- * Same rules as for phy_write();
-  */
- int phy_write_mmd(struct phy_device *phydev, int devad, u32 regnum, u16 val);
+ The driver provides the next attributes for the current:
++
+ - for current in: input, maximum alarm;
+ - for current out input, maximum alarm and highest values;
+ - for phase current: input and label.
+-attributes.
++  attributes.
++
+ The driver exports the following attributes via the 'sysfs' files, where
++
+ - 'n' is number of telemetry pages (from 1 to 2);
+ - 'k' is number of configured phases (from 1 to 8);
+ - indexes 1, 1*n for "iin";
+@@ -65,11 +71,14 @@ The driver exports the following attributes via the 'sysfs' files, where
+ **curr[1-{2n+k}]_label**
  
--/**
-+/*
-  * __phy_write_mmd - Convenience function for writing a register
-  * on an MMD on a given PHY.
-- * @phydev: The phy_device struct
-- * @devad: The MMD to write to
-- * @regnum: The register on the MMD to read
-- * @val: value to write to @regnum
-- *
-- * Same rules as for __phy_write();
-  */
- int __phy_write_mmd(struct phy_device *phydev, int devad, u32 regnum, u16 val);
+ The driver provides the next attributes for the voltage:
++
+ - for voltage in: input, high critical threshold, high critical alarm, all only
+   from page 0;
+ - for voltage out: input, low and high critical thresholds, low and high
+   critical alarms, from pages 0 and 1;
++
+ The driver exports the following attributes via the 'sysfs' files, where
++
+ - 'n' is number of telemetry pages (from 1 to 2);
+ - indexes 1 for "iin";
+ - indexes n+1, n+2 for "vout";
+@@ -87,9 +96,12 @@ The driver exports the following attributes via the 'sysfs' files, where
+ **in[2-{n+1}1_lcrit_alarm**
  
+ The driver provides the next attributes for the power:
++
+ - for power in alarm and input.
+ - for power out: highest and input.
++
+ The driver exports the following attributes via the 'sysfs' files, where
++
+ - 'n' is number of telemetry pages (from 1 to 2);
+ - indexes 1 for "pin";
+ - indexes n+1, n+2 for "pout";
 -- 
 2.26.2
 
