@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF3DC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FE9C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0909E20870
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD86520870
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590347;
-	bh=d71iacXbZw2ABLpWaZX1uaqcv45PDLhlX1j5I6cVz50=;
+	s=default; t=1602590350;
+	bh=8Ugy8JtQBg0iQvd2yN/ML4tDaHJflxT3n0hmWb/m5F8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=bX+y27v9kqkh6BNJfxlh5klyDnRAAU0sBB/sWnzq9MfSR+UL+1Bz+kLdTM8gTVcbL
-	 8Cx7UfU6P/pWvgpngQtvB8n6fCVifmPpwe+1bm0AuqKo/6cezPeYrxP0ksheQEEUnc
-	 njf23F+YJHK+UsLpHn1peS9i2o8q/MuRKY/c2yzc=
+	b=rB+SmFRUFI0L5nMOM9TUfDshERm98afx1w0I/H4t/1e2yM1olVkb8Pqj6UCs5HHP8
+	 BbHPVd+IrrMtWGFnOpGXuKNjFjTB8AiY51iglxUSqvx0YLN+6ekFc/4rC/hkOWlNpE
+	 QRGsfuKhfHMlYCy5UpuACmmS20tJ12Y8oD+LZeDU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728355AbgJML6y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:58:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57968 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727554AbgJMLyo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727557AbgJMLyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 13 Oct 2020 07:54:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57428 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727435AbgJMLym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:42 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 08CC82242F;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7C02E22272;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602590081;
-        bh=d71iacXbZw2ABLpWaZX1uaqcv45PDLhlX1j5I6cVz50=;
+        s=default; t=1602590080;
+        bh=8Ugy8JtQBg0iQvd2yN/ML4tDaHJflxT3n0hmWb/m5F8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=R3KW14V7Wim7RdPQZIE5yMh0o7hfk//GGyeVFh6BrHQf/cfkIy3k8Vy4sD4w+i90J
-         a/gHYkF5atiHT3grTSxg57RjsL2SZgMoFhw1wrPjhnp85GyIfv0AGKaMUCgKkL2Gn3
-         rGxhwI3qwdZPuuHT+GHs7BpANaqjpVY9dPnzzL4c=
+        b=JYDASm8YW1Ys+ghwunQ6HMJicXn4G7ELM5eNYCM/u05hjEtbyli53ocKtG8jJynnM
+         1gH1sr/XL+i2B3Jn6QdqoztMWQCqHvUqoJqcJecl0rJbbMrcoOCwPE0zQvhJrhE2CI
+         6cPfDXb57Waw/ScQB977K/N6BrgEaGO1fKgC9Giw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CVM-26; Tue, 13 Oct 2020 13:54:39 +0200
+        id 1kSIt3-006CTY-D9; Tue, 13 Oct 2020 13:54:37 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 48/80] docs: basics.rst: avoid duplicated C function declaration
-Date:   Tue, 13 Oct 2020 13:54:03 +0200
-Message-Id: <be7eb8eac95950baf458977fff5b4ddf13c44bc4.1602589096.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 11/80] docs: cdomain.py: add support for a new Sphinx 3.1+ tag
+Date:   Tue, 13 Oct 2020 13:53:26 +0200
+Message-Id: <7326ea76aaf6de0d83ed3fde34d8e7609e6a42be.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -58,55 +58,128 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-pci_device_id is already documented at pci.rst:
+Since Sphinx 3.0, the C domain code was rewritten, but only
+after version 3.1 it got support for setting namespaces on
+C domains, with is something that it is required, in order to
+document system calls, like ioctl() and others.
 
-	./Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'PCI/pci'.
-	Declaration is 'pci_device_id'.
+As part of changing the documentation subsystem to properly
+build with Sphinx 3.1+, add support for such new tag:
 
-The kstrtol and kstrtoul are already at kernel-api:
+	.. c:namespace::"
 
-	./Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
-	Declaration is 'kstrtoul'.
-	./Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/kernel-api'.
-	Declaration is 'kstrtol'.
+Such tag optionally replaces the optional "name" tag for functions,
+setting a single namespace domain for all C references found
+at the file.
 
-And the printk is already defined at printk-basics:
-
-	./Documentation/driver-api/basics.rst: WARNING: Duplicate C declaration, also defined in 'core-api/printk-basics'.
-	Declaration is 'printk'.
-
-So, exclude those identifiers from basirs.rst.
+With that, it should be possible to convert existing
+documentation to be compatible with both Sphinx 1.x/2.x and
+3.1+.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/basics.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/sphinx/cdomain.py | 55 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 54 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
-index 63bbe3ed5e76..3e2dae954898 100644
---- a/Documentation/driver-api/basics.rst
-+++ b/Documentation/driver-api/basics.rst
-@@ -12,6 +12,8 @@ Driver device table
+diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+index cbac8e608dc4..35805c44a4fc 100644
+--- a/Documentation/sphinx/cdomain.py
++++ b/Documentation/sphinx/cdomain.py
+@@ -40,14 +40,56 @@ from sphinx import addnodes
+ from sphinx.domains.c import c_funcptr_sig_re, c_sig_re
+ from sphinx.domains.c import CObject as Base_CObject
+ from sphinx.domains.c import CDomain as Base_CDomain
++from itertools import chain
++import re
  
- .. kernel-doc:: include/linux/mod_devicetable.h
-    :internal:
-+   :no-identifiers: pci_device_id
+-__version__  = '1.0'
++__version__  = '1.1'
+ 
+ # Get Sphinx version
+ major, minor, patch = sphinx.version_info[:3]
+ 
++# Namespace to be prepended to the full name
++namespace = None
 +
++#
++# Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
++# - Store the namespace if ".. c:namespace::" tag is found
++
++RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
++
++def markup_namespace(match):
++    global namespace
++
++    namespace = match.group(1)
++
++    return ""
++
++def c_markups(app, docname, source):
++    result = ""
++    markup_func = {
++        RE_namespace: markup_namespace,
++    }
++
++    lines = iter(source[0].splitlines(True))
++    for n in lines:
++        match_iterators = [regex.finditer(n) for regex in markup_func]
++        matches = sorted(chain(*match_iterators), key=lambda m: m.start())
++        for m in matches:
++            n = n[:m.start()] + markup_func[m.re](m) + n[m.end():]
++
++        result = result + n
++
++    source[0] = result
++
++#
++# Now implements support for the cdomain namespacing logic
++#
++
+ def setup(app):
  
- Delaying, scheduling, and timer routines
- ----------------------------------------
-@@ -96,9 +98,11 @@ Kernel utility functions
++    # Handle easy Sphinx 3.1+ simple new tags: :c:expr and .. c:namespace::
++    app.connect('source-read', c_markups)
++
+     if (major == 1 and minor < 8):
+         app.override_domain(CDomain)
+     else:
+@@ -75,6 +117,8 @@ class CObject(Base_CObject):
+         function-like macro, the name of the macro is returned. Otherwise
+         ``False`` is returned.  """
  
- .. kernel-doc:: include/linux/kernel.h
-    :internal:
-+   :no-identifiers: kstrtol kstrtoul
++        global namespace
++
+         if not self.objtype == 'function':
+             return False
  
- .. kernel-doc:: kernel/printk/printk.c
-    :export:
-+   :no-identifiers: printk
+@@ -107,11 +151,16 @@ class CObject(Base_CObject):
+             param += nodes.emphasis(argname, argname)
+             paramlist += param
  
- .. kernel-doc:: kernel/panic.c
-    :export:
++        if namespace:
++            fullname = namespace + "." + fullname
++
+         return fullname
+ 
+     def handle_signature(self, sig, signode):
+         """Transform a C signature into RST nodes."""
+ 
++        global namespace
++
+         fullname = self.handle_func_like_macro(sig, signode)
+         if not fullname:
+             fullname = super(CObject, self).handle_signature(sig, signode)
+@@ -122,6 +171,10 @@ class CObject(Base_CObject):
+             else:
+                 # FIXME: handle :name: value of other declaration types?
+                 pass
++        else:
++            if namespace:
++                fullname = namespace + "." + fullname
++
+         return fullname
+ 
+     def add_target_and_index(self, name, sig, signode):
 -- 
 2.26.2
 
