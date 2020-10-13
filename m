@@ -5,53 +5,53 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E334C43457
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A40AC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACC9420878
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2CE82080A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:59:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590369;
-	bh=78BG9Iu2yAlND/COH/HKK6//gm3h8RbYRE58LCuOyj4=;
+	s=default; t=1602590384;
+	bh=VDfOGlsJYZesR9L6Qb+5QlSLDI9X9oF0Ascq4FkKHDo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=pVLm3BQ6iXeqT3sZ5lFySQo8tqJCjZFMdVEKd4aKUgYaMKiVJmN3vBl1jPslbPxsw
-	 gbzQJ6PmW0/ImZ6txoddNTF62DEV3fdiv4WuYNoOSUy5IQrCjq8hBjJZm6vUkkwXgU
-	 JG2KQElF47Zt0q1YsGtj/7Shlamkd5pKkF7WZKG0=
+	b=YkIl2b2tocuVvFJVGojn3l9tHc2odefey8pP9X8/Vefoput1VmVu3NUqnG/Tf9c86
+	 dbMLB7+fjqVCaTNtktMvLXk0XNZyLIXxVQUKTu5gmtua1ZfgVvSsyFzqAEMN4wndYH
+	 xty0V/AXTpv+J0FHtQcVIxhe9CIHGCoKDH/ewzlU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728508AbgJML73 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:59:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57414 "EHLO mail.kernel.org"
+        id S1728587AbgJML7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:59:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58138 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727513AbgJMLyn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727472AbgJMLyn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 13 Oct 2020 07:54:43 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DEBB122404;
+        by mail.kernel.org (Postfix) with ESMTPSA id C43FA223AC;
         Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=78BG9Iu2yAlND/COH/HKK6//gm3h8RbYRE58LCuOyj4=;
+        bh=VDfOGlsJYZesR9L6Qb+5QlSLDI9X9oF0Ascq4FkKHDo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AsK7hZKtJHTp+v/vQK7XgM0QCL3nZxAgSJGWungnQzL/zeI6v/B32acVF1enJu+A9
-         IRprqu9BkcwN4dzKVUpjjIYEAtgjJJPbBEVgieSPRbCuk+VUU8v322xh1wkbfjKvrM
-         cwkig0bWKbK+uTEmlbTrA2y5DEC6r1TBITVQkz5U=
+        b=CSYUci2yVomvA0eUI5HyXbLAxiy+vdN/JwTP/APzC3ldKv+ohbR2gjkfc8iWaC+6s
+         0iZBs3b2yFrXtNEj0QdOivthX4d8oLnL/MquNF1OYfhhBcDmlSBwLr2FTzjyfkThKM
+         JRhIOfAZ+gDpqHRcgi2PsT+5qYTgBl5CiHWZ/wRE=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt4-006CUx-PS; Tue, 13 Oct 2020 13:54:38 +0200
+        id 1kSIt4-006CUi-K6; Tue, 13 Oct 2020 13:54:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v6 39/80] docs: writing-an-alsa-driver.rst: fix some bad c:func: markups
-Date:   Tue, 13 Oct 2020 13:53:54 +0200
-Message-Id: <d01b867cb61f9bcbd810ed31be080705fd31f0aa.1602589096.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type: tags
+Date:   Tue, 13 Oct 2020 13:53:50 +0200
+Message-Id: <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -62,51 +62,135 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some such markups are invalid, as reported by Sphinx:
+The :c:type: tag has problems with Sphinx 3.x, as structs
+there should be declared with c:struct.
 
-	./Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3317: WARNING: Unparseable C cross-reference: 'snd_rawmidi_transmit*'
-	Invalid C declaration: Expected end of definition. [error at 20]
-	  snd_rawmidi_transmit*
-	  --------------------^
-	./Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3917: WARNING: Unparseable C cross-reference: 'copy_from/to_user'
-	Invalid C declaration: Expected end of definition. [error at 9]
-	  copy_from/to_user
-	  ---------^
+So, remove them, relying at automarkup.py extension to
+convert them into cross-references.
 
-The first case seems to be better replaced by a literal.
-
-For the second one, let's generate cross-references, by
-spliting it in two.
-
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sound/kernel-api/writing-an-alsa-driver.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ Documentation/filesystems/fscrypt.rst | 51 ++++++++++++---------------
+ 1 file changed, 23 insertions(+), 28 deletions(-)
 
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 85d6e9c643ef..73bbd59afc33 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -3315,8 +3315,7 @@ data and removes them from the buffer at once:
-   }
+diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
+index 4f858b38a412..46a9d1bd2ab5 100644
+--- a/Documentation/filesystems/fscrypt.rst
++++ b/Documentation/filesystems/fscrypt.rst
+@@ -437,8 +437,7 @@ FS_IOC_SET_ENCRYPTION_POLICY
+ The FS_IOC_SET_ENCRYPTION_POLICY ioctl sets an encryption policy on an
+ empty directory or verifies that a directory or regular file already
+ has the specified encryption policy.  It takes in a pointer to a
+-struct fscrypt_policy_v1 or a :c:type:`struct
+-fscrypt_policy_v2`, defined as follows::
++struct fscrypt_policy_v1 or a struct fscrypt_policy_v2, defined as follows::
  
- If you know beforehand how many bytes you can accept, you can use a
--buffer size greater than one with the
--:c:func:`snd_rawmidi_transmit\*()` functions.
-+buffer size greater than one with the ``snd_rawmidi_transmit*()`` functions.
+     #define FSCRYPT_POLICY_V1               0
+     #define FSCRYPT_KEY_DESCRIPTOR_SIZE     8
+@@ -464,11 +463,10 @@ fscrypt_policy_v2`, defined as follows::
  
- The ``trigger`` callback must not sleep. If the hardware FIFO is full
- before the substream buffer has been emptied, you have to continue
-@@ -3916,7 +3915,7 @@ the maximum size of the proc file access.
+ This structure must be initialized as follows:
  
- The read/write callbacks of raw mode are more direct than the text mode.
- You need to use a low-level I/O functions such as
--:c:func:`copy_from/to_user()` to transfer the data.
-+:c:func:`copy_from_user()` and :c:func:`copy_to_user()` to transfer the data.
+-- ``version`` must be FSCRYPT_POLICY_V1 (0) if the struct is
+-  :c:type:`fscrypt_policy_v1` or FSCRYPT_POLICY_V2 (2) if the struct
+-  is :c:type:`fscrypt_policy_v2`.  (Note: we refer to the original
+-  policy version as "v1", though its version code is really 0.)  For
+-  new encrypted directories, use v2 policies.
++- ``version`` must be FSCRYPT_POLICY_V1 (0) if struct fscrypt_policy_v1
++  is used or FSCRYPT_POLICY_V2 (2) if struct fscrypt_policy_v2 is used.
++  (Note: we refer to the original policy version as "v1", though its
++  version code is really 0.)  For new encrypted directories, use v2 policies.
  
- ::
+ - ``contents_encryption_mode`` and ``filenames_encryption_mode`` must
+   be set to constants from ``<linux/fscrypt.h>`` which identify the
+@@ -509,8 +507,7 @@ This structure must be initialized as follows:
+   be arbitrarily chosen.  Instead, the key must first be added using
+   `FS_IOC_ADD_ENCRYPTION_KEY`_.  Then, the ``key_spec.u.identifier``
+   the kernel returned in the struct fscrypt_add_key_arg must
+-  be used as the ``master_key_identifier`` in the :c:type:`struct
+-  fscrypt_policy_v2`.
++  be used as the ``master_key_identifier`` in struct fscrypt_policy_v2.
  
+ If the file is not yet encrypted, then FS_IOC_SET_ENCRYPTION_POLICY
+ verifies that the file is an empty directory.  If so, the specified
+@@ -637,9 +634,8 @@ The FS_IOC_GET_ENCRYPTION_POLICY ioctl can also retrieve the
+ encryption policy, if any, for a directory or regular file.  However,
+ unlike `FS_IOC_GET_ENCRYPTION_POLICY_EX`_,
+ FS_IOC_GET_ENCRYPTION_POLICY only supports the original policy
+-version.  It takes in a pointer directly to a :c:type:`struct
+-fscrypt_policy_v1` rather than a :c:type:`struct
+-fscrypt_get_policy_ex_arg`.
++version.  It takes in a pointer directly to struct fscrypt_policy_v1
++rather than struct fscrypt_get_policy_ex_arg.
+ 
+ The error codes for FS_IOC_GET_ENCRYPTION_POLICY are the same as those
+ for FS_IOC_GET_ENCRYPTION_POLICY_EX, except that
+@@ -717,10 +713,9 @@ as follows:
+   ``key_spec.type`` must contain FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR, and
+   ``key_spec.u.descriptor`` must contain the descriptor of the key
+   being added, corresponding to the value in the
+-  ``master_key_descriptor`` field of :c:type:`struct
+-  fscrypt_policy_v1`.  To add this type of key, the calling process
+-  must have the CAP_SYS_ADMIN capability in the initial user
+-  namespace.
++  ``master_key_descriptor`` field of struct fscrypt_policy_v1.
++  To add this type of key, the calling process must have the
++  CAP_SYS_ADMIN capability in the initial user namespace.
+ 
+   Alternatively, if the key is being added for use by v2 encryption
+   policies, then ``key_spec.type`` must contain
+@@ -737,8 +732,8 @@ as follows:
+ 
+ - ``key_id`` is 0 if the raw key is given directly in the ``raw``
+   field.  Otherwise ``key_id`` is the ID of a Linux keyring key of
+-  type "fscrypt-provisioning" whose payload is a :c:type:`struct
+-  fscrypt_provisioning_key_payload` whose ``raw`` field contains the
++  type "fscrypt-provisioning" whose payload is
++  struct fscrypt_provisioning_key_payload whose ``raw`` field contains the
+   raw key and whose ``type`` field matches ``key_spec.type``.  Since
+   ``raw`` is variable-length, the total size of this key's payload
+   must be ``sizeof(struct fscrypt_provisioning_key_payload)`` plus the
+@@ -956,8 +951,8 @@ FS_IOC_GET_ENCRYPTION_KEY_STATUS
+ The FS_IOC_GET_ENCRYPTION_KEY_STATUS ioctl retrieves the status of a
+ master encryption key.  It can be executed on any file or directory on
+ the target filesystem, but using the filesystem's root directory is
+-recommended.  It takes in a pointer to a :c:type:`struct
+-fscrypt_get_key_status_arg`, defined as follows::
++recommended.  It takes in a pointer to struct fscrypt_get_key_status_arg,
++defined as follows::
+ 
+     struct fscrypt_get_key_status_arg {
+             /* input */
+@@ -1148,12 +1143,12 @@ Implementation details
+ Encryption context
+ ------------------
+ 
+-An encryption policy is represented on-disk by a :c:type:`struct
+-fscrypt_context_v1` or a struct fscrypt_context_v2.  It is
+-up to individual filesystems to decide where to store it, but normally
+-it would be stored in a hidden extended attribute.  It should *not* be
+-exposed by the xattr-related system calls such as getxattr() and
+-setxattr() because of the special semantics of the encryption xattr.
++An encryption policy is represented on-disk by struct fscrypt_context_v1
++or struct fscrypt_context_v2.  It is up to individual filesystems to decide
++where to store it, but normally it would be stored in a hidden extended
++attribute.  It should *not* be exposed by the xattr-related system calls
++such as getxattr() and setxattr() because of the special semantics of the
++encryption xattr.
+ (In particular, there would be much confusion if an encryption policy
+ were to be added to or removed from anything other than an empty
+ directory.)  These structs are defined as follows::
+@@ -1249,8 +1244,8 @@ a strong "hash" of the ciphertext filename, along with the optional
+ filesystem-specific hash(es) needed for directory lookups.  This
+ allows the filesystem to still, with a high degree of confidence, map
+ the filename given in ->lookup() back to a particular directory entry
+-that was previously listed by readdir().  See :c:type:`struct
+-fscrypt_nokey_name` in the source for more details.
++that was previously listed by readdir().  See struct fscrypt_nokey_name
++in the source for more details.
+ 
+ Note that the precise way that filenames are presented to userspace
+ without the key is subject to change in the future.  It is only meant
 -- 
 2.26.2
 
