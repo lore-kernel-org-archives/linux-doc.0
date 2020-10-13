@@ -4,65 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CCD3C2BD0C
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B181C43457
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD6DE20878
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15E6C20870
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 11:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602590247;
-	bh=zSUqnUMGOuZHuphGvZpdLh9OorbBqz3JTjOWvc0tYKs=;
+	s=default; t=1602590251;
+	bh=9mtg6cPA9MJfrf7/vYpFkaem8befp1IfLRwT5OVMr08=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XDql6KGJbGjpX00eU6B1diPJbH8ZiVhivkyphgpt9PhMZ5oZMojFyEoAddNwXYs3V
-	 8g02SxwMwbdX1FGbTa9swatopXPc299XC+OPVBWi9QB5TfF/8mDmPyTNXHzgDnnIEl
-	 qJFzXh+UwCsX0Cz3LQHMH0tBPZPqhGc7n0Chvo3Y=
+	b=ajo1XFnZM1TUrxs04xVkNpgHaDlHyQVSDbKJQOySwGtxeF/0mUV3hQNjrbwp8WByG
+	 0TMZu1s+GUZsnvICITxQ9rVs8RVK7+OaeFIE5Ji8WkXQeEaODiO6/H8HiFwQ+Cq9YC
+	 sBRaJsWg7MfztcE/+UR+Appt6hyQ0UcxDlSt7RvY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727996AbgJML5E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 07:57:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57428 "EHLO mail.kernel.org"
+        id S1728072AbgJML5a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 07:57:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58030 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727673AbgJMLyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 07:54:49 -0400
+        id S1727297AbgJMLys (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:48 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5369422513;
+        by mail.kernel.org (Postfix) with ESMTPSA id 51A1922447;
         Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602590081;
-        bh=zSUqnUMGOuZHuphGvZpdLh9OorbBqz3JTjOWvc0tYKs=;
+        bh=9mtg6cPA9MJfrf7/vYpFkaem8befp1IfLRwT5OVMr08=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hT0xMUaPR3XFQ4JOyPeVAL5vNsM31QTpoByUrzszv6ZYl9n6SHBIb0YUZzSl7ZhAh
-         c9kRwDR+4mT8RqrIp7FoHI24BQ3zVGUmYD11+ud5jljLHgoDSk5kl5SUKRmrmPF2z3
-         U1/yLLtVeOW9A3PUbTT4n6jnHEq7xZoJHs2ByZbc=
+        b=He/Oxt6d2cmA9KfQOE7Dt6LEH8Ncj3xqfh5tdAQ6WwqGZeNuOQQhrebZf2Q54ei+8
+         +/+qrEv5gFpaa9BZ2XAp6pdewPBhX8mm6EVBw5LPJ1TsB4duKc7W7VrfhtOJKFEXZQ
+         zzecwXyO2OkA79qSfSp4/rIp3ojHxAHC5a5AYpeA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CWa-Qd; Tue, 13 Oct 2020 13:54:39 +0200
+        id 1kSIt5-006CVz-Cm; Tue, 13 Oct 2020 13:54:39 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Aurabindo Pillai <aurabindo.pillai@amd.com>,
-        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>, Eryk Brol <eryk.brol@amd.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Mikita Lipski <mikita.lipski@amd.com>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Stylon Wang <stylon.wang@amd.com>,
-        Victor Lu <victorchengchi.lu@amd.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v6 72/80] drm/amd/display: kernel-doc: document force_timing_sync
-Date:   Tue, 13 Oct 2020 13:54:27 +0200
-Message-Id: <5698741522f375b5687860b597ecb786e14dfc82.1602589096.git.mchehab+huawei@kernel.org>
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v6 59/80] docs: powerpc: syscall64-abi.rst: fix a malformed table
+Date:   Tue, 13 Oct 2020 13:54:14 +0200
+Message-Id: <6dee3216d15ef03bf8b35fd55149631d7f71d62d.1602589096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
@@ -73,31 +62,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As warned when running "make htmldocs":
+As reported:
 
-	./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:345: warning: Function parameter or member 'force_timing_sync' not described in 'amdgpu_display_manager'
+	Documentation/powerpc/syscall64-abi.rst:53: WARNING: Malformed table.
+	Text in column margin in table line 2.
 
-This new struct member was not documented at kernel-doc markup.
+	=========== ============= ========================================
+	--- For the sc instruction, differences with the ELF ABI ---
+	r0          Volatile      (System call number.)
 
-Fixes: 3d4e52d0cf24 ("drm/amd/display: Add debugfs for forcing stream timing sync")
+This table requires a different notation to be valid.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/powerpc/syscall64-abi.rst | 32 ++++++++++++-------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index dd1559c743c2..fc7e3e9fd719 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -149,6 +149,8 @@ struct amdgpu_dm_backlight_caps {
-  * @cached_state: Caches device atomic state for suspend/resume
-  * @cached_dc_state: Cached state of content streams
-  * @compressor: Frame buffer compression buffer. See &struct dm_comressor_info
-+ * @force_timing_sync: set via debugfs. When set, indicates that all connected
-+ *		       displays will be forced to synchronize.
-  */
- struct amdgpu_display_manager {
+diff --git a/Documentation/powerpc/syscall64-abi.rst b/Documentation/powerpc/syscall64-abi.rst
+index 379817ca64d2..cf9b2857c72a 100644
+--- a/Documentation/powerpc/syscall64-abi.rst
++++ b/Documentation/powerpc/syscall64-abi.rst
+@@ -49,22 +49,22 @@ Register preservation rules
+ Register preservation rules match the ELF ABI calling sequence with the
+ following differences:
  
+---- For the sc instruction, differences with the ELF ABI ---
+-=========== ============= ========================================
+-r0          Volatile      (System call number.)
+-r3          Volatile      (Parameter 1, and return value.)
+-r4-r8       Volatile      (Parameters 2-6.)
+-cr0         Volatile      (cr0.SO is the return error condition.)
+-cr1, cr5-7  Nonvolatile
+-lr          Nonvolatile
+-=========== ============= ========================================
+-
+---- For the scv 0 instruction, differences with the ELF ABI ---
+-=========== ============= ========================================
+-r0          Volatile      (System call number.)
+-r3          Volatile      (Parameter 1, and return value.)
+-r4-r8       Volatile      (Parameters 2-6.)
+-=========== ============= ========================================
+++------------------------------------------------------------------------+
++|        For the sc instruction, differences with the ELF ABI		 |
+++--------------+--------------+------------------------------------------+
++| r0           | Volatile     | (System call number.)			 |
++| rr3          | Volatile     | (Parameter 1, and return value.)	 |
++| rr4-r8       | Volatile     | (Parameters 2-6.)			 |
++| rcr0         | Volatile     | (cr0.SO is the return error condition.)	 |
++| rcr1, cr5-7  | Nonvolatile  |						 |
++| rlr          | Nonvolatile  |						 |
+++--------------+--------------+------------------------------------------+
++|      For the scv 0 instruction, differences with the ELF ABI		 |
+++--------------+--------------+------------------------------------------+
++| r0           | Volatile     | (System call number.)			 |
++| r3           | Volatile     | (Parameter 1, and return value.)	 |
++| r4-r8        | Volatile     | (Parameters 2-6.)			 |
+++--------------+--------------+------------------------------------------+
+ 
+ All floating point and vector data registers as well as control and status
+ registers are nonvolatile.
 -- 
 2.26.2
 
