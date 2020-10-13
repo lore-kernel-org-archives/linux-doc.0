@@ -4,52 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3849FC43467
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:14:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29760C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2B7B22251
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:14:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE8852224A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Oct 2020 12:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602591298;
-	bh=lZ0DMSd0gNqY4mdYZgTISK0mJnAdK/yJ7//Q3B7wU7A=;
+	s=default; t=1602591327;
+	bh=GEoQoCGbFf5b/wNA+woo6pF55S9XNZRyPZRWqLMsiiE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=DfJRsNxvAdEUz2dNUdTqXTimntUMooIFd00sV/utNQg1q960OCMi/WkSR6zTRVeIW
-	 7CQXDxjGUnfak4KQTDYGtR1E48FBvM6M1WZItuMd5NaZ9VYJV6DSKCB48NRX5FcDhF
-	 X9tG+uNUKKY07NefIbIyrBfPFOmDzIpH8dVZPFOo=
+	b=yLsvtD7+SoUxS+tthpCR42QAmnbaFVieSVtXrsUFQdgK6Tm33SwurwATXR0GqJ1IJ
+	 wPfB4JQsfIiJ2aVvPLTVE+3ByRyyWUvraBC9YqVKtV+5lT5ukmkvD4Vz4lh8ntvY3/
+	 OqIA1DXyBWFEj2KFo2x3VJkG3LZPA/pascPTqI2w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727043AbgJMMO5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:14:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41142 "EHLO mail.kernel.org"
+        id S1727086AbgJMMO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 08:14:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41278 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726901AbgJMMO4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 08:14:56 -0400
+        id S1726993AbgJMMO5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 08:14:57 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11A8122260;
+        by mail.kernel.org (Postfix) with ESMTPSA id 23AD522268;
         Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1602591295;
-        bh=lZ0DMSd0gNqY4mdYZgTISK0mJnAdK/yJ7//Q3B7wU7A=;
+        bh=GEoQoCGbFf5b/wNA+woo6pF55S9XNZRyPZRWqLMsiiE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uZV8W6GPmaRQLLN/4V4tHsFQMPQojrAeXz0MzmyBMVGROitkMwF4st480wlL6iFdu
-         xkEHaEn46wR5NM4E7WvkgtxHOxFCu/J5cLXttt8w3haDPaBiWZHVy+hdONFSVQDziw
-         4fJ4wefZpOLYwTLOCx84dwQbTUscbV2E2FCwaduw=
+        b=t+zMKk4A+xLqFI+/h4S1sI/vdK8QQ5yAODbSP8I5gP/0qgw+ExA9A3SOD66Ake9FJ
+         jPFwr/M2iX36Bo50gK3lSsB4fStHiNI91M/dYfHQImZzZ2guRiOd0sS6j4Ctc9wIL/
+         kAgUQK4WmpM/Yo2ovvNOZYZUxjbn6+HqUEWbCP2w=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kSJCf-006CoQ-3u; Tue, 13 Oct 2020 14:14:53 +0200
+        id 1kSJCe-006Co3-SK; Tue, 13 Oct 2020 14:14:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 16/24] seqlock: fix two kernel-doc warnings
-Date:   Tue, 13 Oct 2020 14:14:43 +0200
-Message-Id: <a59144cdaadf7fdf1fe5d55d0e1575abbf1c0cb3.1602590106.git.mchehab+huawei@kernel.org>
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Bernard Zhao <bernard@vivo.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Colton Lewis <colton.w.lewis@protonmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>, Dennis Li <Dennis.Li@amd.com>,
+        Evan Quan <evan.quan@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 07/24] drm: amdgpu: kernel-doc: update some adev parameters
+Date:   Tue, 13 Oct 2020 14:14:34 +0200
+Message-Id: <e8d8081e713010edcae2414427fec4a497182fae.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -60,70 +73,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, seqloc.h produces two kernel-doc warnings:
+Running "make htmldocs: produce lots of warnings on those files:
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
 
-	./include/linux/seqlock.h:181: error: Cannot parse typedef!
-	WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno ./include/linux/seqlock.h' failed with return code 1
+They're related to the repacement of some parameters by adev,
+and due to a few renamed parameters.
 
-Those are due to two things:
+Update the kernel-doc documentation accordingly.
 
-1. the kernel-doc markup syntax doesn't recognize "typedef"
-   expression at the markup. Both functions and typedefs
-   use the same notation:
-
-	/**
-	 * foo - some bar description
-	 */
-  or
-	/**
-	 * foo() - some bar description
-	 */
-
-2. kernel-doc markups require a function or typedef prototype,
-   in order to get the type of each argument. This is also
-   common for other code documentation markkup languages, like
-   doxygen.
-
-On other words, a valid notation for describing those macros
-would be:
-
-	 /**
-	  * seqcount_LOCKNAME_t() - sequence counter with LOCKNAME associated
-	  * @seqcount:  The real sequence counter
-	  * @lock:      Pointer to the associated lock
-	  *
-	  * <some description>
-	  */
-	#if 0 /* kernel-doc needs a function or typedef prototype */
-	void seqcount_LOCKNAME_t(seqcount_##lockname##_t *seqcount, locktype *lock) {}
-	#endif
-
-Alternatively, the description of those arguments should be added
-as a DOC: block.
-
-Yet, from changeset a28e884b966e ("seqlock: Fix multiple kernel-doc warnings"),
-it sounds that, on this file, it is preferred to just convert the
-kernel-doc markups into simple comments.
-
-Fixes: a8772dccb2ec ("seqlock: Fold seqcount_LOCKNAME_t definition")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/seqlock.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 6 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 5 ++---
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index ac5b07f558b0..cbfc78b92b65 100644
---- a/include/linux/seqlock.h
-+++ b/include/linux/seqlock.h
-@@ -154,7 +154,7 @@ static inline void seqcount_lockdep_reader_access(const seqcount_t *s)
- #define __SEQ_LOCK(expr)
- #endif
- 
--/**
-+/*
-  * typedef seqcount_LOCKNAME_t - sequence counter with LOCKNAME associated
-  * @seqcount:	The real sequence counter
-  * @lock:	Pointer to the associated lock
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index f8f298b34805..fb375752feb1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -817,7 +817,7 @@ static void amdgpu_block_invalid_wreg(struct amdgpu_device *adev,
+ /**
+  * amdgpu_device_asic_init - Wrapper for atom asic_init
+  *
+- * @dev: drm_device pointer
++ * @adev: drm_device pointer
+  *
+  * Does any asic specific work and then calls atom asic init.
+  */
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index f203e4a6a3f2..5f3a04cd0fba 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -81,8 +81,8 @@ static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
+ /**
+  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
+  *
+- * @man: TTM memory type manager
+- * @p_size: maximum size of GTT
++ * @adev: amdgpu device structure
++ * @gtt_size: maximum size of GTT
+  *
+  * Allocate and initialize the GTT manager.
+  */
+@@ -123,7 +123,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+ /**
+  * amdgpu_gtt_mgr_fini - free and destroy GTT manager
+  *
+- * @man: TTM memory type manager
++ * @adev: amdgpu device structure
+  *
+  * Destroy and free the GTT manager, returns -EBUSY if ranges are still
+  * allocated inside it.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 01c1171afbe0..a0e787ddbbd7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -168,8 +168,7 @@ static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
+ /**
+  * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
+  *
+- * @man: TTM memory type manager
+- * @p_size: maximum size of VRAM
++ * @adev: amdgpu device structure
+  *
+  * Allocate and initialize the VRAM manager.
+  */
+@@ -199,7 +198,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+ /**
+  * amdgpu_vram_mgr_fini - free and destroy VRAM manager
+  *
+- * @man: TTM memory type manager
++ * @adev: amdgpu device structure
+  *
+  * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
+  * allocated inside it.
 -- 
 2.26.2
 
