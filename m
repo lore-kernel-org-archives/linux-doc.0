@@ -2,199 +2,84 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A81A1C43467
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 17:10:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98761C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 18:48:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C21C221EB
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 17:10:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XG+flZeA"
+	by mail.kernel.org (Postfix) with ESMTP id 415EC2222C
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 18:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726019AbgJNRKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 13:10:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56404 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726306AbgJNRKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 13:10:11 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE82C0613D4
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 10:10:10 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id z22so186530wmi.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 10:10:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=I0pEDuKxGGGuBmYvVm4TwEpZ23vGsYXeXFdnlUxUTUw=;
-        b=XG+flZeApLSKjELCtEfUK5RLhkkl2AezZuRLW/3HGQqXHI9rfLH//X/riYc2iWGlS4
-         ZdEoupzAN6IKfvxxPOu3fME+Bb/hxrbRCSQLBoT71y4lPQZhB0wdr0jzp3DH3A8ncCon
-         L4higHI9JkFDrd4L6JlUKMafZ25w9RA1pf3zbRRzC4T5Q8Wf/sEmwWskuaQ964q8O7Y4
-         cJ0ulkn3/MbKESdSMRzJOw1wWcXUlx+Ej4lIhFm2t+PoY5Q98gBSh3XKWyUp0w45jUAt
-         I633QBbypN3bg584AFQzgCRRdTTajq3IpO3iQpvF2ZXJceq3VSlnuLaULqEyv6PBd3Vy
-         P0KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=I0pEDuKxGGGuBmYvVm4TwEpZ23vGsYXeXFdnlUxUTUw=;
-        b=C6pi8x39A56BSxtIMAdVxoQQLPGQjD9GbtavQdPRg69DT74/Qu+41UUsRvopNUP7x/
-         5z+4UMpJtfe5YlkunyeQo7F1M3gVlQqeaxSk+4M/lMMH7CE/OsglxrV/76qeRnSO+98G
-         Xmw/cDsXDH0yQR8IFnXa4zroS5a9Rck0k+09Fy+TzDV6I6xe1J4jjGJg03jhfz+hwrq1
-         xjVt39ks9SMCAyZ38wVlr6RLD91335A94Tx35LZ+D0QnIH6PDhLE/z2Aq0y7DkBvNPTO
-         Y4KpKSwtZ2f+AnEegCDINRbM+6c3ObhlVYimpNTkVS8bO02gL/1Z99GpNFk5C1YhFFVZ
-         ZqKQ==
-X-Gm-Message-State: AOAM532WBvHSrppK2OaZ8ayxwyVVbGCH8uKjj4YfRgBoTqkrZimOtaGZ
-        zGU+9uNDdFtwVw7ng3Gnw3MMMw==
-X-Google-Smtp-Source: ABdhPJyXOPxJ4gMTARh7uvf1rLbQDsa7rciyJvewLeZvZZGKN3pSdr3HLVGC63ubPZYm4uVL/CS7AQ==
-X-Received: by 2002:a05:600c:1149:: with SMTP id z9mr438655wmz.180.1602695409214;
-        Wed, 14 Oct 2020 10:10:09 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:5400:5b12:4f4c:844b? ([2a01:e34:ed2f:f020:5400:5b12:4f4c:844b])
-        by smtp.googlemail.com with ESMTPSA id q2sm5772845wrw.40.2020.10.14.10.10.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2020 10:10:08 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
- Energy Model, EAS and IPA
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, robh+dt@kernel.org, amitk@kernel.org,
-        corbet@lwn.net, Dietmar.Eggemann@arm.com, qperret@google.com,
-        dianders@chromium.org, mka@chromium.org, rnayak@codeaurora.org
-References: <20201002114426.31277-1-lukasz.luba@arm.com>
- <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
- <765e6603-b614-fb72-64ff-248b42474803@linaro.org>
- <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
- <55d3fb0f-f7d8-63c5-2bdb-53eaa62380e0@linaro.org>
- <f660731e-132b-2514-f526-d7123ed3522c@arm.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <d04019bd-9e85-5f3e-2a1b-66780b8df3dc@linaro.org>
-Date:   Wed, 14 Oct 2020 19:10:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1730151AbgJNSsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 14:48:41 -0400
+Received: from namei.org ([65.99.196.166]:35602 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726269AbgJNSsl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Oct 2020 14:48:41 -0400
+X-Greylist: delayed 2428 seconds by postgrey-1.27 at vger.kernel.org; Wed, 14 Oct 2020 14:48:41 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id 09EI7CpI027390;
+        Wed, 14 Oct 2020 18:07:13 GMT
+Date:   Thu, 15 Oct 2020 05:07:12 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+cc:     linux-kernel@vger.kernel.org,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v21 07/12] landlock: Support filesystem access-control
+In-Reply-To: <20201008153103.1155388-8-mic@digikod.net>
+Message-ID: <alpine.LRH.2.21.2010150504360.26012@namei.org>
+References: <20201008153103.1155388-1-mic@digikod.net> <20201008153103.1155388-8-mic@digikod.net>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <f660731e-132b-2514-f526-d7123ed3522c@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="1665246916-928235661-1602698835=:26012"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14/10/2020 17:24, Lukasz Luba wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-[ ... ]
+--1665246916-928235661-1602698835=:26012
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-> We have to update the EM doc about allowed abstract scale, which
-> implies EAS, IPA doc update with some information to the community that
-> these components can handle it.
-> 
-> The script will just make developers life easier, but the current
-> documentation does not say anything about abstract scale.
+On Thu, 8 Oct 2020, Mickaël Salaün wrote:
 
-... yes, because there is no consistency across the source of power
-numbers and no tools to ensure DT power numbers consistency, yet.
+> +config ARCH_EPHEMERAL_STATES
+> +	def_bool n
+> +	help
+> +	  An arch should select this symbol if it does not keep an internal kernel
+> +	  state for kernel objects such as inodes, but instead relies on something
+> +	  else (e.g. the host kernel for an UML kernel).
+> +
 
->> In any case, if the DT is specifying real numbers, and SCMI abstract
->> numbers or the opposite, obviously there is a conflict if we are using
->> both.
-> 
-> True, DT only allows real numbers (I have Rob's opinion regarding
-> patch 3/3).
-> 
-> It's not that there is only SCMI which might use abstract scale. Qcom
-> already has it and other vendors will follow (not exposing real
-> numbers). They would register bogoWatts to EM because they know that EAS
-> can deal with both.
+This is used to disable Landlock for UML, correct? I wonder if it could be 
+more specific: "ephemeral states" is a very broad term.
 
-So vendors are using bogoWatts, despite the documentation.
-
-By updating the documentation saying it supports the abstract values,
-that means every new framework, device with power values, will have to
-comply with that. How is it possible to add a device with power numbers
-if the existing ones are obfuscated ?
-
-With two subsystems using the energy model, evolving independently we
-can see there are conflicts. With more subsystems, that may become a
-source of confusion, especially with different contributors.
-
-I think the energy model should stick to milliwatts and keep the
-documentation unchanged regarding this. And vendors should take the
-responsibility of not sticking to the documentation.
-
->> I suggest to fix the conflict first and provide the features to make the
->> numbers more easy to share (like the script described above and/or the
->> firmware file).
->>
->> Then with the right tools, everything can be documented.
->>
-> 
-> We cannot block one way of registration to EM when the other was used.
-> They might have correct and consistent numbers.
-
-What is the rational of using two firmware power information ?
-
-> It's up to the platform developers to choose the path:
-> - go with bogoWatts - if they are not allowed to expose sensitive
->   information, use em_dev_register_perf_domain() in drivers, not DT;
->   make sure everything that is needed works; check the doc, which
->   sub-systems can handle it or needs some tuning (patches 1/3 and 2/3
->   try to help here);
-> - use milliWatts - easier; DT is allowed; help from the community in
->   reviews, possible results comparisons; both EM registration ways
->   might be used;
-> 
-> We cannot force vendors/OEM engineers to store milliWatts in the
-> Energy Model if these values are protected by some NDA. 
-
-If I am able to measure one real power value, (and I'm pretty sure it is
-quite possible), whatever which one, it is possible to deduce all the
-numbers with the linear scale. IMO that is a false debate. Anyway ...
-
-> Your proposed
-> way of providing data into EM from user-space firmware.bin IMHO also
-> falls into the same bucket. That information would be accessible in EM
-> debugfs and they would avoid it.
-
-I think you misunderstood my point.
-
-There is the SCMI and the DT. Because there are two sources where it is
-impossible to know if they are using the same units, we are stuck to
-ensure a consistency for the kernel.
-
-The platform should use:
- - the SCMI only (scaled or real)
- - the DT only (real)
- [ - the firmware file only (scaled or real) ]
-
-
-As it is not possible to know if they are scaled or real, there is no
-choice except making them mutually exclusive.
-
-From my POV, it is not adequate to let SCMI power information co-exists
-with the DT power information if we know they can be with different units.
-
-I've just expressed my opinions:
-
- - vendors take responsibility of putting different units for the EM
-
- - Power numbers should come from the same source
-
-
-Up to Rafael to decide what to do with this documentation update.
-
-Thanks
-  -- Daniel
+How about something like ARCH_OWN_INODES ?
 
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+James Morris
+<jmorris@namei.org>
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+--1665246916-928235661-1602698835=:26012--
