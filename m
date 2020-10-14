@@ -2,103 +2,118 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B50C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 01:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6450FC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 02:08:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3258C221FF
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 01:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602640722;
-	bh=gsQXg/Wr/5qYlMS+P7kGnf949bK69OfahNw1f6kbQn0=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=ek/ndDdsYW0aNYdGcrNOgjO2bzi2Hz+hCuh4Yhe+l0b/6FcoV1WxE73YiAYcb0Xnt
-	 usofWScu7jxDdet1YrLX07hRmUqogolqfoTcZ7MQP2Ifsq3AQoOdPrkyEvqyTsj9Ch
-	 qHBYgZ7Q9tu9wq2wDmcmZ4rgl0SpmhqEwHj+qtlI=
+	by mail.kernel.org (Postfix) with ESMTP id 274F621D7F
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 02:08:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728197AbgJNB6l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 21:58:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55284 "EHLO mail.kernel.org"
+        id S1728782AbgJNCI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 22:08:29 -0400
+Received: from mga17.intel.com ([192.55.52.151]:22912 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725874AbgJNB6l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 21:58:41 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-104-11.bvtn.or.frontiernet.net [50.39.104.11])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F0C721D7F;
-        Wed, 14 Oct 2020 01:58:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602640720;
-        bh=gsQXg/Wr/5qYlMS+P7kGnf949bK69OfahNw1f6kbQn0=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=zXiI++IfkMkVnClheHjnLnr8M7OJtmmt3kckkVfr5t+aCUbVnldusWFt7GWUWEhsJ
-         ScIVUlvbp2RY5bmXCpWpBmSabId2HAYMWriDZBOZc81eNi2hsejhRUpUCFdZNFBbRV
-         BASo2ZuLHbPvKnd1Xr9kzNLYcKuzZORI/5gY3qus=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 5725335229EE; Tue, 13 Oct 2020 18:58:40 -0700 (PDT)
-Date:   Tue, 13 Oct 2020 18:58:40 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Nicholas Piggin <npiggin@gmail.com>,
+        id S1725874AbgJNCI3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Oct 2020 22:08:29 -0400
+IronPort-SDR: yBPi+WL7a4DNdUvyrh1MJhTW+GyOOMVGIX1S38Tc37EzWAxgs4WvuDTApBhoYjxT5xoHjKRQD/
+ ifcKXwlt0QhQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="145879786"
+X-IronPort-AV: E=Sophos;i="5.77,373,1596524400"; 
+   d="scan'208";a="145879786"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 19:08:27 -0700
+IronPort-SDR: inQ4qbS0lmxsXC1fa/JBY45Zh6JLJm29uxHgtI4QzSetpkgZ6qu/XIxzj094gWeTQWPgLeSmUk
+ brKTQAX3Hb1w==
+X-IronPort-AV: E=Sophos;i="5.77,373,1596524400"; 
+   d="scan'208";a="530644675"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 19:08:26 -0700
+Date:   Tue, 13 Oct 2020 19:08:25 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/24] tools: docs: memory-model: fix references for
- some files
-Message-ID: <20201014015840.GR3249@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <44baab3643aeefdb68f1682d89672fad44aa2c67.1602590106.git.mchehab+huawei@kernel.org>
- <20201013163354.GO3249@paulmck-ThinkPad-P72>
- <20201013163836.GC670875@rowland.harvard.edu>
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V3 3/9] x86/pks: Enable Protection Keys Supervisor
+ (PKS)
+Message-ID: <20201014020825.GM2046448@iweiny-DESK2.sc.intel.com>
+References: <20201009194258.3207172-1-ira.weiny@intel.com>
+ <20201009194258.3207172-4-ira.weiny@intel.com>
+ <cfd8e361-9d5b-5b24-08d4-31ad3d392255@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201013163836.GC670875@rowland.harvard.edu>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <cfd8e361-9d5b-5b24-08d4-31ad3d392255@intel.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 12:38:36PM -0400, Alan Stern wrote:
-> On Tue, Oct 13, 2020 at 09:33:54AM -0700, Paul E. McKenney wrote:
-> > On Tue, Oct 13, 2020 at 02:14:29PM +0200, Mauro Carvalho Chehab wrote:
-> > > - The sysfs.txt file was converted to ReST and renamed;
-> > > - The control-dependencies.txt is not at
-> > >   Documentation/control-dependencies.txt. As it is at the
-> > >   same dir as the README file, which mentions it, just
-> > >   remove Documentation/.
-> > > 
-> > > With that, ./scripts/documentation-file-ref-check script
-> > > is now happy again for files under tools/.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > 
-> > Queued for review and testing, likely target v5.11.
+On Tue, Oct 13, 2020 at 11:23:08AM -0700, Dave Hansen wrote:
+> On 10/9/20 12:42 PM, ira.weiny@intel.com wrote:
+> > +/*
+> > + * PKS is independent of PKU and either or both may be supported on a CPU.
+> > + * Configure PKS if the cpu supports the feature.
+> > + */
 > 
-> Instead of changing the path in the README reference, shouldn't 
-> tools/memory-model/control-dependencies.txt be moved to its proper 
-> position in .../Documentation?
+> Let's at least be consistent about CPU vs. cpu in a single comment. :)
 
-You are of course quite right.  My thought is to let Mauro go ahead,
-given his short deadline.  We can then make this "git mv" change once
-v5.10-rc1 comes out, given that it should have Mauro's patches.  I have
-added a reminder to my calendar.
+Sorry, done.
 
-							Thanx, Paul
+> 
+> > +static void setup_pks(void)
+> > +{
+> > +	if (!IS_ENABLED(CONFIG_ARCH_HAS_SUPERVISOR_PKEYS))
+> > +		return;
+> > +	if (!cpu_feature_enabled(X86_FEATURE_PKS))
+> > +		return;
+> 
+> If you put X86_FEATURE_PKS in disabled-features.h, you can get rid of
+> the explicit CONFIG_ check.
+
+Done.
+
+> 
+> > +	cr4_set_bits(X86_CR4_PKS);
+> > +}
+> > +
+> >  /*
+> >   * This does the hard work of actually picking apart the CPU stuff...
+> >   */
+> > @@ -1544,6 +1558,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
+> >  
+> >  	x86_init_rdrand(c);
+> >  	setup_pku(c);
+> > +	setup_pks();
+> >  
+> >  	/*
+> >  	 * Clear/Set all flags overridden by options, need do it
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 6c974888f86f..1b9bc004d9bc 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -822,6 +822,8 @@ config ARCH_USES_HIGH_VMA_FLAGS
+> >  	bool
+> >  config ARCH_HAS_PKEYS
+> >  	bool
+> > +config ARCH_HAS_SUPERVISOR_PKEYS
+> > +	bool
+> >  
+> >  config PERCPU_STATS
+> >  	bool "Collect percpu memory statistics"
+> > 
+> 
