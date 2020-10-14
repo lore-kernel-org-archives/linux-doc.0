@@ -2,276 +2,277 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA3B6C433E7
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 10:44:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDC7C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 11:23:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69956221FE
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 10:44:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A7BF21527
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 11:23:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KapgrmEA"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V1B4Zhet"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388378AbgJNKn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 06:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53046 "EHLO
+        id S1730626AbgJNLXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 07:23:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730147AbgJNKnx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 06:43:53 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2160C0613D5;
-        Wed, 14 Oct 2020 03:43:53 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id gm14so1308485pjb.2;
-        Wed, 14 Oct 2020 03:43:53 -0700 (PDT)
+        with ESMTP id S1727865AbgJNLXF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 07:23:05 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652C5C0613D2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 04:23:05 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id j136so2196353wmj.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 04:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=W3D78JnB3JWvtlnY5Ql/e6WWsfNU7jwi9/AJtLMFZTY=;
-        b=KapgrmEA/WHaS+v61nXXg+l4GfVSXCqX2Ug4wCHwGwPhucq6YR0P/xSpRHiqE1PCyu
-         +PUTqZZwZZa1BXHCtcfw8trIw2476f8furqXqjE5liY/cKGJ7kl9q6l1+oV/One3NXUS
-         uDapod6D+kFWsOGSSxPI9jPazns3y13nJCQb5XY1cGZqpqRrGvrgYK3dUtFVfeb2ShxV
-         ftPdiXm+/cIuUL0mUDGS77D7XbIWSynYSg7KLfuw1QaslfKEmSYwoQUjM4kTGMKXAZGK
-         xepG2P1DqNKNjbUlFBPq5gtGhORIEIt0LbrnCLCLfCVB+eT/GL6tCewXXGIDMfz7f/2O
-         l6zg==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oWaGuo9LskuZ4hXwW4a3zf/hlKac3ATy+u6gonh1b2Q=;
+        b=V1B4ZhetUpahJXmCc8Nl/G16fbmvRO9QjhujCBD8MrohGV6HWWErpum53RILt21/xW
+         jgLYOxZXMSKZz7AI38yPWU+kNk8ZDQAnjjhFEnb7mif+oSZjVbQNhDFcYKwLePNqlcVu
+         m9VLQQMV/saSgEDp4nZJE8A2jt6C9V2vgkLHwlSwK730iEF8B+3qxQcl1bZ/qmVcxz2T
+         Dw/Zz8UFdyPv+vkbvYZRoLfr8dKDjJx+7C/AFseaBLWsTBaWb51mGYQafD0aCXtWr+py
+         OohFL+Y24rRJuj//F6EUb4NZ7jO6cr7fSske3WjM+WNFZez9Q+/fdWRdAs4w+SQgtOpv
+         x+5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=W3D78JnB3JWvtlnY5Ql/e6WWsfNU7jwi9/AJtLMFZTY=;
-        b=fkofk19NrPYx8nXHzQdgb55HqGZJDBokdSZKbqjylWn4OSdk5+txkXP1FDh3/Di8hZ
-         fir60NtIb1sX6ZP6ifkTMgeWuFOzoT+NWKTES909Aw5xwvFIiS6CvkwQZ7eopa6sCRa4
-         l80zwso8lTM3JyJ/Cw12nZ+iJ/+1HHeiXirFx8c75lpN8a3NIc63E3prEqIdVxKTxzLa
-         z6IxCkBExOte2npWHrVGn/OWgTN6AyHWz1XXVXm5bVHsU/iobAdZrbvro2FMrZqOp/ic
-         5eDNVSA9kg1rhqEyFpTLPkYQvWLk3pE3t5Bqffwa2mEVDkoUw2R3ur6oFibOU8bj2WwT
-         1kEQ==
-X-Gm-Message-State: AOAM533DqIOSvlnrOGzcMv9h6nT8PGOZyhTWzEYBavHH+0c5ThPA1yPU
-        H0mVMxGh8a0jImJ6xV/zorg=
-X-Google-Smtp-Source: ABdhPJw7jmQdaX7le3EDyRuKq9wreKdZDW3zZ7R69YsvFSt7oSLtjF+GN5ZoZvGZXMdOgFowRJ5D6w==
-X-Received: by 2002:a17:902:b60f:b029:d3:df34:31e6 with SMTP id b15-20020a170902b60fb02900d3df3431e6mr3568673pls.59.1602672233172;
-        Wed, 14 Oct 2020 03:43:53 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
-        by smtp.gmail.com with ESMTPSA id i126sm2932209pfc.48.2020.10.14.03.43.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2020 03:43:52 -0700 (PDT)
-From:   Coiby Xu <coiby.xu@gmail.com>
-To:     devel@driverdev.osuosl.org
-Cc:     Benjamin Poirier <benjamin.poirier@gmail.com>,
-        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 7/7] staging: qlge: add documentation for debugging qlge
-Date:   Wed, 14 Oct 2020 18:43:06 +0800
-Message-Id: <20201014104306.63756-8-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201014104306.63756-1-coiby.xu@gmail.com>
-References: <20201014104306.63756-1-coiby.xu@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oWaGuo9LskuZ4hXwW4a3zf/hlKac3ATy+u6gonh1b2Q=;
+        b=RJTyqo/XbQuoQcLFH8ljibZcmhWZ9XqLeh3UJ0kptNzcqxP8Y8msYhYxJpGjR8lx6V
+         cxQocxhIvg1vUIjzX9Dv+1sxAJWJJLRNiRr8hnzagfTU5jJduhtZ9zKtu94DdlRX/ikW
+         5F5Q8DdYjf4+d3nFr74TS1XqpVr8S4rNI3SGFYh8jvOjpZpvl/A7anjZSzxuG8tjWFpD
+         8wuxbTic/mTPndpHEUVqGzruFpJqLDF7y2qqfGEtmIbdu1/GKpGF2ST1kFPW3x+WZQmt
+         0ByjEhqgh/dGBpbCx6BN+OlNZHqdagT+EEYPq+4pq0uVCqM7A9OduzATMokKJDqlEAcq
+         r+GA==
+X-Gm-Message-State: AOAM530ZAl+iD41+91g7NduzkGuBMwVZ4xNxk+DxzcReLCRsBSAsuTkv
+        fLA65B9iELq10rRvrDBepcj6D6mRG++WwA==
+X-Google-Smtp-Source: ABdhPJzq2JW0akPdDmOzMbu3G9f8P99qjock5GWOa+k7jyBd/FreW1zPU+oD5RPP9LYdFSjfK6i28g==
+X-Received: by 2002:a7b:c112:: with SMTP id w18mr3087165wmi.66.1602674583733;
+        Wed, 14 Oct 2020 04:23:03 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f? ([2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f])
+        by smtp.googlemail.com with ESMTPSA id v3sm4621066wre.17.2020.10.14.04.23.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2020 04:23:02 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org, amitk@kernel.org,
+        corbet@lwn.net, Dietmar.Eggemann@arm.com, qperret@google.com,
+        dianders@chromium.org, mka@chromium.org, rnayak@codeaurora.org
+References: <20201002114426.31277-1-lukasz.luba@arm.com>
+ <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
+ <765e6603-b614-fb72-64ff-248b42474803@linaro.org>
+ <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <55d3fb0f-f7d8-63c5-2bdb-53eaa62380e0@linaro.org>
+Date:   Wed, 14 Oct 2020 13:23:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instructions and examples on kernel data structures dumping and
-coredump.
+On 14/10/2020 11:08, Lukasz Luba wrote:
+> Hi Daniel,
+> 
+> On 10/14/20 9:22 AM, Daniel Lezcano wrote:
+>>
+>> Hi Lukasz,
+>>
+>> On 09/10/2020 11:16, Lukasz Luba wrote:
+>>> Hi Rafael,
+>>>
+>>> On 10/2/20 12:44 PM, Lukasz Luba wrote:
+>>>> Hi all,
+>>>>
+>>>> The Energy Model supports power values expressed in an abstract scale.
+>>>> This has an impact on Intelligent Power Allocation (IPA) and should be
+>>>> documented properly. There is also a need to update the DT binding for
+>>>> the
+>>>> 'sustainable-power' and allow it to have abstract scale as well.
+>>>>
+>>>> Changes:
+>>>> v2:
+>>>> - updated sustainable power section in IPA documentation
+>>>> - updated DT binding for the 'sustainable-power'
+>>>>
+>>>> The v1 of the patch set and related discussion can be found in [1].
+>>>>
+>>>> Regards,
+>>>> Lukasz Luba
+>>>>
+>>>> [1]
+>>>> https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
+>>>>
+>>>>
+>>>>
+>>>> Lukasz Luba (3):
+>>>>     docs: Clarify abstract scale usage for power values in Energy Model
+>>>>     PM / EM: update the comments related to power scale
+>>>>     dt-bindings: thermal: update sustainable-power with abstract scale
+>>>>
+>>>>    .../devicetree/bindings/thermal/thermal-zones.yaml  | 13
+>>>> +++++++++----
+>>>>    .../driver-api/thermal/power_allocator.rst          | 13
+>>>> ++++++++++++-
+>>>>    Documentation/power/energy-model.rst                | 13
+>>>> +++++++++++++
+>>>>    Documentation/scheduler/sched-energy.rst            |  5 +++++
+>>>>    include/linux/energy_model.h                        | 11 +++++------
+>>>>    kernel/power/energy_model.c                         |  2 +-
+>>>>    6 files changed, 45 insertions(+), 12 deletions(-)
+>>>>
+>>>
+>>> Could you take patch 1/3 and patch 2/3 via your PM tree,
+>>> please? I will be very grateful.
+>>>
+>>> These patches just update the documentation and comments regarding
+>>> an issue that we can have: bogoWatts in the Energy Model (and we
+>>> already have). One of the drawbacks is that we cannot derive real energy
+>>> from these numbers. Will see how this would evolve.
+>>
+>> The purpose of the energy model is to provide these power numbers.
+>>
+>> If the SoC vendors do not want to share those numbers, then better to
+>> not use the energy model at all.
+>>
+>> If they want to use the EAS and the IPA at all costs without sharing the
+>> power numbers, then it is up to them to take responsibility of providing
+>> consistent numbers, not the community to document how to hack the energy
+>> model.
+>>
+>> And that is even more true as mentioned by Doug: the power numbers are
+>> not impossible to measure.
+>>
+>> Documenting the scale values give the opportunity to the SoC vendor to
+>> never share the power numbers, and even worst, that implies all the
+>> existing and future frameworks based on the energy model (and its
+>> evolution) *must* comply with these dummy values. That is the promise of
+>> a real pain.
+>>
+>> IMO, we must keep a strong constraint on the power values for the energy
+>> model.
+>>
+>> However, nothing prevents to write a recipe on a website explaining how
+>> to use the energy model without the power numbers with a big warning
+>> that could not work in the future if the energy model evolves or it
+>> could be incompatible with the IPA.
+>>
+>> I suggest to solve the energy model main issue: the SoC vendor do not
+>> want to share the power numbers. Why not give the opportunity to load a
+>> firmware where the power numbers will be ? The firmware could be in a
+>> vendor partition for example.
+>>
+>>
+> 
+> I understand your concerns. Unfortunately, the reality is that the
+> bogoWatts are there. I had discussion about it a few days ago with
+> Rajendra and Doug [1], where I was also opposed to allow bogoValue
+> coming from DT 'dynamic-power-coefficient'. But I have discussed it
+> internally and we allow, because developers would do it anyway.
 
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
----
- .../networking/device_drivers/index.rst       |   1 +
- .../device_drivers/qlogic/index.rst           |  18 +++
- .../networking/device_drivers/qlogic/qlge.rst | 118 ++++++++++++++++++
- MAINTAINERS                                   |   6 +
- 4 files changed, 143 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
- create mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
+With all respects, 'internal discussions' is like out of tree kernels:
+for the community, they don't exist :)
 
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index a3113ffd7a16..d8279de7bf25 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -15,6 +15,7 @@ Contents:
-    ethernet/index
-    fddi/index
-    hamradio/index
-+   qlogic/index
-    wan/index
-    wifi/index
- 
-diff --git a/Documentation/networking/device_drivers/qlogic/index.rst b/Documentation/networking/device_drivers/qlogic/index.rst
-new file mode 100644
-index 000000000000..ad05b04286e4
---- /dev/null
-+++ b/Documentation/networking/device_drivers/qlogic/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+QLogic QLGE Device Drivers
-+===============================================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   qlge
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/device_drivers/qlogic/qlge.rst b/Documentation/networking/device_drivers/qlogic/qlge.rst
-new file mode 100644
-index 000000000000..0b888253d152
---- /dev/null
-+++ b/Documentation/networking/device_drivers/qlogic/qlge.rst
-@@ -0,0 +1,118 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+QLogic QLGE 10Gb Ethernet device driver
-+=======================================
-+
-+This driver use drgn and devlink for debugging.
-+
-+Dump kernel data structures in drgn
-+-----------------------------------
-+
-+To dump kernel data structures, the following Python script can be used
-+in drgn:
-+
-+.. code-block:: python
-+
-+	def align(x, a):
-+	    """the alignment a should be a power of 2
-+	    """
-+	    mask = a - 1
-+	    return (x+ mask) & ~mask
-+
-+	def struct_size(struct_type):
-+	    struct_str = "struct {}".format(struct_type)
-+	    return sizeof(Object(prog, struct_str, address=0x0))
-+
-+	def netdev_priv(netdevice):
-+	    NETDEV_ALIGN = 32
-+	    return netdevice.value_() + align(struct_size("net_device"), NETDEV_ALIGN)
-+
-+	name = 'xxx'
-+	qlge_device = None
-+	netdevices = prog['init_net'].dev_base_head.address_of_()
-+	for netdevice in list_for_each_entry("struct net_device", netdevices, "dev_list"):
-+	    if netdevice.name.string_().decode('ascii') == name:
-+	        print(netdevice.name)
-+
-+	ql_adapter = Object(prog, "struct ql_adapter", address=netdev_priv(qlge_device))
-+
-+The struct ql_adapter will be printed in drgn as follows,
-+
-+    >>> ql_adapter
-+    (struct ql_adapter){
-+            .ricb = (struct ricb){
-+                    .base_cq = (u8)0,
-+                    .flags = (u8)120,
-+                    .mask = (__le16)26637,
-+                    .hash_cq_id = (u8 [1024]){ 172, 142, 255, 255 },
-+                    .ipv6_hash_key = (__le32 [10]){},
-+                    .ipv4_hash_key = (__le32 [4]){},
-+            },
-+            .flags = (unsigned long)0,
-+            .wol = (u32)0,
-+            .nic_stats = (struct nic_stats){
-+                    .tx_pkts = (u64)0,
-+                    .tx_bytes = (u64)0,
-+                    .tx_mcast_pkts = (u64)0,
-+                    .tx_bcast_pkts = (u64)0,
-+                    .tx_ucast_pkts = (u64)0,
-+                    .tx_ctl_pkts = (u64)0,
-+                    .tx_pause_pkts = (u64)0,
-+                    ...
-+            },
-+            .active_vlans = (unsigned long [64]){
-+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52780853100545, 18446744073709551615,
-+                    18446619461681283072, 0, 42949673024, 2147483647,
-+            },
-+            .rx_ring = (struct rx_ring [17]){
-+                    {
-+                            .cqicb = (struct cqicb){
-+                                    .msix_vect = (u8)0,
-+                                    .reserved1 = (u8)0,
-+                                    .reserved2 = (u8)0,
-+                                    .flags = (u8)0,
-+                                    .len = (__le16)0,
-+                                    .rid = (__le16)0,
-+                                    ...
-+                            },
-+                            .cq_base = (void *)0x0,
-+                            .cq_base_dma = (dma_addr_t)0,
-+                    }
-+                    ...
-+            }
-+    }
-+
-+coredump via devlink
-+--------------------
-+
-+
-+And the coredump obtained via devlink in json format looks like,
-+
-+.. code:: shell
-+
-+	$ devlink health dump show DEVICE reporter coredump -p -j
-+	{
-+	    "Core Registers": {
-+	        "segment": 1,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    "Test Logic Regs": {
-+	        "segment": 2,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    "RMII Registers": {
-+	        "segment": 3,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    ...
-+	    "Sem Registers": {
-+	        "segment": 50,
-+	        "values": [ 0,0,0,0 ]
-+	    }
-+	}
-+
-+When the module parameter qlge_force_coredump is set to be true, the MPI
-+RISC reset before coredumping. So coredumping will much longer since
-+devlink tool has to wait for 5 secs for the resetting to be
-+finished.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 05d9b8c00eed..1def89b15913 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14413,6 +14413,12 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/staging/qlge/
- 
-+QLOGIC QLGE 10Gb ETHERNET DRIVER
-+M:	Coiby Xu <coiby.xu@gmail.com>
-+L:	netdev@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/networking/device_drivers/qlogic/qlge.rst
-+
- QM1D1B0004 MEDIA DRIVER
- M:	Akihiro Tsukada <tskd08@gmail.com>
- L:	linux-media@vger.kernel.org
+The development process in opensource is, by essence, public.
+
+That said, if the developers want to use abstract values, up to them to
+make sure it is consistent with the existing framework.
+
+Why do you need to document that and involve the community
+responsibility by adding these information in the Documentation even if
+you know different frameworks could be incompatible ?
+
+
+> Regarding your question with firmware where the power numbers can be
+> stored. Unfortunately, it is quite opposite, FW might want to hide it.
+
+No, I meant a firmware file, called by request_firmware(). So instead of
+having the power numbers in the DT, so published with the kernel, they
+are in the SoC vendor's partition in the firmware file, like
+'energy_model.bin'.
+
+Then when the energy model is initialized, it will try to request an
+energy model firmware file.
+
+That gives the opportunity to the SoC vendor to put the power numbers in
+the file and distribute it with the product.
+
+> We even allow bogoWatts to come from firmware, the SCMI spec:
+> (4.5.1 Performance domain management protocol background)
+> 'The power can be expressed in mW or in an abstract scale. Vendors are
+> not obliged to reveal power costs if it is undesirable, but a linear
+> scale is required.'
+> The callback which does this is not able to check if the value is a
+> bogoWatt [2].
+
+So the definition is clear: '... linear scale is required'. So that
+implies *all* power numbers for all devices defined in the SCMI. It is
+up to the SoC vendor to provide the right numbers.
+
+The EM / IPA / EAS do not have to care about the values.
+
+> EAS can handle EM with bogoWatts, as I described in the patch.
+> IPA has some issues: 'sustainable-power' in DT (which shouldn't be used
+> when EM devices use abstract scale) but sysfs interface can be used.
+
+Here the platform is mixing the numbers from different firmwares with
+different units.
+
+Why not make things consistent ? If the power numbers are coming from
+the SCMI, then ignore the ones coming from the DT, no? That should be
+simpler now that we have the energy model used for devfreq and cpufreq.
+
+May be add a flag in the energy model giving the origin of the data?
+
+> This patch set just align the SCMI spec with EM, EAS, IPA
+> documentation and already present platforms which use it.
+
+Actually, it is the opposite, the patch aligns EAS and EM to the SCMI
+spec, but we end up with IPA based on the EM/SCMI & DT and EAS based on
+EM/SCMI, right ?
+
+That is the root cause of the incompatibility.
+
+> I hope that the real milliWatts would come to EM via the DT
+> 'dynamic-power-coefficient' and function dev_pm_opp_of_register_em().
+> But no guaranties as you can see in [1].
+
+It is not a kernel problem if inconsistent values are specified in the DT.
+
+May be make developer life easier by submitting a script which will take
+a device tree, check all power numbers, and consistently abstract them.
+The developer will write the real values in the DT, test everything is
+working fine, then run the script which will make the 'linear scale' of
+all the power numbers and convert them to bogoWatt (with different
+properties name, so watt and bogowatt mix can be detected).
+
+In any case, if the DT is specifying real numbers, and SCMI abstract
+numbers or the opposite, obviously there is a conflict if we are using both.
+
+I suggest to fix the conflict first and provide the features to make the
+numbers more easy to share (like the script described above and/or the
+firmware file).
+
+Then with the right tools, everything can be documented.
+
+
+
 -- 
-2.28.0
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
