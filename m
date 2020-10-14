@@ -2,71 +2,102 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C7D9C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 20:16:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13DA9C43457
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 20:47:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03BAC22246
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 20:16:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4B362224D
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 20:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729854AbgJNUQS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 16:16:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728714AbgJNUQS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 16:16:18 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439E5C061755;
-        Wed, 14 Oct 2020 13:16:18 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 96878739;
-        Wed, 14 Oct 2020 20:16:17 +0000 (UTC)
-Date:   Wed, 14 Oct 2020 14:16:16 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Subject: Re: [PATCH v2 2/5] docs: automarkup.py: Fix regexes to solve sphinx
- 3 warnings
-Message-ID: <20201014141616.63082d5d@lwn.net>
-In-Reply-To: <C6CVK7V449HT.12X5MRPR3R7TK@ArchWay>
-References: <C6CVK7V449HT.12X5MRPR3R7TK@ArchWay>
-Organization: LWN.net
+        id S2388021AbgJNUrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 16:47:09 -0400
+Received: from namei.org ([65.99.196.166]:35652 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387909AbgJNUrJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Oct 2020 16:47:09 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id 09EKkLrU004034;
+        Wed, 14 Oct 2020 20:46:21 GMT
+Date:   Thu, 15 Oct 2020 07:46:21 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+cc:     linux-kernel@vger.kernel.org,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v21 07/12] landlock: Support filesystem access-control
+In-Reply-To: <b311a2a6-5290-5c50-3a9c-4d5b54b6b406@digikod.net>
+Message-ID: <alpine.LRH.2.21.2010150746120.4000@namei.org>
+References: <20201008153103.1155388-1-mic@digikod.net> <20201008153103.1155388-8-mic@digikod.net> <alpine.LRH.2.21.2010150504360.26012@namei.org> <77ea263c-4200-eb74-24b2-9a8155aff9b5@digikod.net> <b311a2a6-5290-5c50-3a9c-4d5b54b6b406@digikod.net>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="1665246916-1392177967-1602708383=:4000"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 14 Oct 2020 20:09:10 +0000
-Nícolas F. R. A. Prado <nfraprado@protonmail.com> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> One I had noted down was:
-> 
-> WARNING: Unparseable C cross-reference: '调用debugfs_rename'
-> 
-> which I believe occurred in the chinese translation.
-> 
-> I think the problem is that in chinese there normally isn't space between the
-> words, so even if I had made the regexes only match the beginning of the word
-> (which I didn't, but I fixed this in this patch with the \b), it would still try
-> to cross-reference to that symbol containing chinese characters, which is
-> unparsable to sphinx.
-> 
-> So since valid identifiers in C are only in ASCII anyway, I used the ASCII flag
-> to make \w, and \d only match ASCII characters, otherwise they match any unicode
-> character.
+--1665246916-1392177967-1602708383=:4000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-OK, this all makes sense, as does your fix.  The one thing I would ask
-would be to put that warning into the changelog for future reference.
+On Wed, 14 Oct 2020, Mickaël Salaün wrote:
 
-Thanks,
+> 
+> On 14/10/2020 20:52, Mickaël Salaün wrote:
+> > 
+> > On 14/10/2020 20:07, James Morris wrote:
+> >> On Thu, 8 Oct 2020, Mickaël Salaün wrote:
+> >>
+> >>> +config ARCH_EPHEMERAL_STATES
+> >>> +	def_bool n
+> >>> +	help
+> >>> +	  An arch should select this symbol if it does not keep an internal kernel
+> >>> +	  state for kernel objects such as inodes, but instead relies on something
+> >>> +	  else (e.g. the host kernel for an UML kernel).
+> >>> +
+> >>
+> >> This is used to disable Landlock for UML, correct?
+> > 
+> > Yes
+> > 
+> >> I wonder if it could be 
+> >> more specific: "ephemeral states" is a very broad term.
+> >>
+> >> How about something like ARCH_OWN_INODES ?
+> > 
+> > Sounds good. We may need add new ones (e.g. for network socket, UID,
+> > etc.) in the future though.
+> > 
+> 
+> Because UML is the exception here, it would be more convenient to keep
+> the inverted semantic. What about ARCH_NO_OWN_INODES or
+> ARCH_EPHEMERAL_INODES?
 
-jon
+The latter seems good.
+
+-- 
+James Morris
+<jmorris@namei.org>
+
+--1665246916-1392177967-1602708383=:4000--
