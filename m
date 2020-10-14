@@ -2,303 +2,156 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B55C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 13:20:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE993C433E7
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 14:14:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D61522202
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 13:20:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9618D22202
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 14:14:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O/PdYI4g"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tPQ9t0LV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388489AbgJNNUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 09:20:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49060 "EHLO
+        id S1728461AbgJNOOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 10:14:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388358AbgJNNUe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 09:20:34 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A5AC0613D3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 06:20:34 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id p5so1998098ejj.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 06:20:34 -0700 (PDT)
+        with ESMTP id S1727023AbgJNOOI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 10:14:08 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08DEAC061755;
+        Wed, 14 Oct 2020 07:14:08 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id j8so1820254pjy.5;
+        Wed, 14 Oct 2020 07:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4Sqo0tOnGBsG6neBtdcruAk7VjUKLmx7JbBsdacr1Gw=;
-        b=O/PdYI4gt9NIkdQ7pjQMtJrKP9uLGcgl0v60zgDaawd9ZM3vpACURSvXjl81i9Jkjq
-         dnr6cgYM+U4Z+96d5/DqZ/9C5A7UDjEJ7F6S1nU8fMoKjfwhZ/LIU9Xrl+3Tn19Z3XL+
-         rSu76RLbIj3GKdiLv25D7ztOw1dDBAXkZ4GKU=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=69069AnehaVf3UnSZwNG1/x2dVHK2fJGYXosNGLirqA=;
+        b=tPQ9t0LVAjdXlrRg8FlQwBDOUkZpALEmpbMxXBjfr5wAr9LYMa9Uam1636/b8zhDXL
+         8b1l5zaeo7D5wrgmZUQBpBJFiV1zb/c6F02lPDDFml5Dedkp0chOBTDBRFBoRJQLGsFN
+         1/1lnzG40gcoB8upIsgAl65cpOEo2zUTMrqIoZnu4rSiQAOnn6KRbXRHJgWHERRNEoGQ
+         TqGFhtyUUiA4/2wqM8E14cI6UNIXLO1W1dbP23Zekc5G2QpwU7nG3Ii/Y/ZFiZIH+NW3
+         wVQgVoLyawsOsEKwYjIzXsXzFkE8m/3KdobzUvlWHCcobHVrOIygQhoLX/AUWn6vy1mN
+         co8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4Sqo0tOnGBsG6neBtdcruAk7VjUKLmx7JbBsdacr1Gw=;
-        b=aaRO+1vokWvmhF77f53lRhVbG2SMD6UdWiIAJ1XPRADWdhp+QCXerZcubtdoTaKBZm
-         3a405QqUZNEpBTS1gzyDrQQ4Py/B7dnL3TVmOiyogT2nhfO+baGzFdL/VdnF2EL13nrT
-         oFIOcx69q2R2FodRnjD2KrYV9ujH+N+O5KyKTDJnAMUiNMbElailjW48dIWxxQUeHVo9
-         6b0Wt20ZR7/SvCBBcNQgHdl0S6kndos/LbvJuhdmXTGHu4xiOaazE0JDiID5+9gXCXeU
-         xbMC9jf7T7C91O2qvr2lNIOAJb/5lljDYT+ysQHVO+bDNxAapEh2ChM5CiiE/d3qaU6r
-         v7nw==
-X-Gm-Message-State: AOAM530f4LUjkMp9D6A9lJNQ7ZGaBEaF/DDBHuTZMIjzA7TYY54Rm/Zv
-        5PEUTFQiVkCKctUsiBfjtjFWh/jyoBpdQQ==
-X-Google-Smtp-Source: ABdhPJyOfyJZH7LgzJ5hPGEkDSxPmEDFpeK2dzqDplRcSgMU69PvVvAXzEI5hdSXxz5OyVUQWUtQDQ==
-X-Received: by 2002:a17:907:392:: with SMTP id ss18mr5334801ejb.429.1602681631234;
-        Wed, 14 Oct 2020 06:20:31 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id n4sm1718847ejj.19.2020.10.14.06.20.28
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=69069AnehaVf3UnSZwNG1/x2dVHK2fJGYXosNGLirqA=;
+        b=r1Oqi8vM7kwb9vGd5ZEfyQZGw3cFw1KtNi8lzjoICKezEEMXXIvKlDaXBQinzEq+YU
+         O9GQvJ+zTeJsywq1s/b5KP/s1i1PcrZaCN4psACaL+X8L4JtmG3AgD+7pAasWe7oZTVW
+         WUeHQJiJ+THc6zxIbJQu0sj5ashOoDssxe1qIBfgld2nZEor9UQAKA6DZAfMmoyzakH0
+         Bq0/yTr7nWsZczZJOihEUTex7bSZKqH5YTn1yo7jiE7Ea/K+agTP0krHEf7A5UFV3m99
+         YJSlBeeojOdh4Ac7GeYrLUDX8RzRecwOBhIhhDo5urEucE8/8Y2ipHH00Uuq4sntxxVk
+         /Gig==
+X-Gm-Message-State: AOAM531fxD90Vp+h7o2In9Wj/kfS9HomnDUMJIbr9scGg8pWeb3V2LZg
+        x1DBuJAMTYpzlmbEYoOfG7w=
+X-Google-Smtp-Source: ABdhPJwlSk9NJC9q/BbL/TeawLocBTV2wGEM3Q5doa1fGqW4pcUFHwvWxzrPHTj759w63AA03MH2Qw==
+X-Received: by 2002:a17:90a:ca95:: with SMTP id y21mr3724437pjt.68.1602684847425;
+        Wed, 14 Oct 2020 07:14:07 -0700 (PDT)
+Received: from [192.168.11.3] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id m13sm3695976pfd.65.2020.10.14.07.14.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2020 06:20:29 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id e2so2617259wme.1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 06:20:28 -0700 (PDT)
-X-Received: by 2002:a7b:c451:: with SMTP id l17mr3551632wmi.127.1602681627926;
- Wed, 14 Oct 2020 06:20:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
-In-Reply-To: <20200930160917.1234225-9-hch@lst.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 14 Oct 2020 15:20:16 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
-Message-ID: <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
+        Wed, 14 Oct 2020 07:14:06 -0700 (PDT)
+Subject: Re: [PATCH v2 02/24] tools: docs: memory-model: fix references for
+ some files
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        ribalda@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+ <44baab3643aeefdb68f1682d89672fad44aa2c67.1602590106.git.mchehab+huawei@kernel.org>
+ <20201013163354.GO3249@paulmck-ThinkPad-P72>
+ <20201013163836.GC670875@rowland.harvard.edu>
+ <20201014015840.GR3249@paulmck-ThinkPad-P72>
+ <20201014095603.0d899da7@coco.lan>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <aaeeba66-48be-0354-8f1c-261b361ae17f@gmail.com>
+Date:   Wed, 14 Oct 2020 23:14:00 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20201014095603.0d899da7@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+CC Ricardo who will be looking into using this in the USB stack (UVC
-camera driver).
+On Wed, 14 Oct 2020 09:56:03 +0200, Mauro Carvalho Chehab wrote:
+> Em Tue, 13 Oct 2020 18:58:40 -0700
+> "Paul E. McKenney" <paulmck@kernel.org> escreveu:
+> 
+>> On Tue, Oct 13, 2020 at 12:38:36PM -0400, Alan Stern wrote:
+>>> On Tue, Oct 13, 2020 at 09:33:54AM -0700, Paul E. McKenney wrote:  
+>>>> On Tue, Oct 13, 2020 at 02:14:29PM +0200, Mauro Carvalho Chehab wrote:  
+>>>>> - The sysfs.txt file was converted to ReST and renamed;
+>>>>> - The control-dependencies.txt is not at
+>>>>>   Documentation/control-dependencies.txt. As it is at the
+>>>>>   same dir as the README file, which mentions it, just
+>>>>>   remove Documentation/.
+>>>>>
+>>>>> With that, ./scripts/documentation-file-ref-check script
+>>>>> is now happy again for files under tools/.
+>>>>>
+>>>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+>>>>
+>>>> Queued for review and testing, likely target v5.11.  
+>>>
+>>> Instead of changing the path in the README reference, shouldn't 
+>>> tools/memory-model/control-dependencies.txt be moved to its proper 
+>>> position in .../Documentation?  
+>>
+>> You are of course quite right.  My thought is to let Mauro go ahead,
+>> given his short deadline.  We can then make this "git mv" change once
+>> v5.10-rc1 comes out, given that it should have Mauro's patches.  I have
+>> added a reminder to my calendar.
+> 
+> Sounds like a plan to me.
+> 
+> 
+> If it helps on 5.11 plans, converting this file to ReST format is quite
+> trivial: it just needs to use "::" for C/asm code literal blocks, and 
+> to replace "(*) " by something that matches ReST syntax for lists,
+> like "(#) " or just "* ":
+> 
+> 	https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bullet-lists
+> 
+> See enclosed.
 
-On Wed, Sep 30, 2020 at 6:09 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Add a new API that returns a virtually non-contigous array of pages
-> and dma address.  This API is only implemented for dma-iommu and will
-> not be implemented for non-iommu DMA API instances that have to allocate
-> contiguous memory.  It is up to the caller to check if the API is
-> available.
->
-> The intent is that media drivers can use this API if either:
->
->  - no kernel mapping or only temporary kernel mappings are required.
->    That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
->  - a kernel mapping is required for cached and DMA mapped pages, but
->    the driver also needs the pages to e.g. map them to userspace.
->    In that sense it is a replacement for some aspects of the recently
->    removed and never fully implemented DMA_ATTR_NON_CONSISTENT
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/iommu/dma-iommu.c   | 73 +++++++++++++++++++++++++------------
->  include/linux/dma-mapping.h |  9 +++++
->  kernel/dma/mapping.c        | 35 ++++++++++++++++++
->  3 files changed, 93 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 7922f545cd5eef..158026a856622c 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -565,23 +565,12 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
->         return pages;
->  }
->
-> -/**
-> - * iommu_dma_alloc_remap - Allocate and map a buffer contiguous in IOVA space
-> - * @dev: Device to allocate memory for. Must be a real device
-> - *      attached to an iommu_dma_domain
-> - * @size: Size of buffer in bytes
-> - * @dma_handle: Out argument for allocated DMA handle
-> - * @gfp: Allocation flags
-> - * @prot: pgprot_t to use for the remapped mapping
-> - * @attrs: DMA attributes for this allocation
-> - *
-> - * If @size is less than PAGE_SIZE, then a full CPU page will be allocated,
-> +/*
-> + * If size is less than PAGE_SIZE, then a full CPU page will be allocated,
->   * but an IOMMU which supports smaller pages might not map the whole thing.
-> - *
-> - * Return: Mapped virtual address, or NULL on failure.
->   */
-> -static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
-> -               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
-> +static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
-> +               size_t size, dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
->                 unsigned long attrs)
->  {
->         struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> @@ -593,7 +582,6 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
->         struct page **pages;
->         struct sg_table sgt;
->         dma_addr_t iova;
-> -       void *vaddr;
->
->         *dma_handle = DMA_MAPPING_ERROR;
->
-> @@ -636,17 +624,10 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
->                         < size)
->                 goto out_free_sg;
->
-> -       vaddr = dma_common_pages_remap(pages, size, prot,
-> -                       __builtin_return_address(0));
-> -       if (!vaddr)
-> -               goto out_unmap;
-> -
->         *dma_handle = iova;
->         sg_free_table(&sgt);
-> -       return vaddr;
-> +       return pages;
->
-> -out_unmap:
-> -       __iommu_dma_unmap(dev, iova, size);
->  out_free_sg:
->         sg_free_table(&sgt);
->  out_free_iova:
-> @@ -656,6 +637,46 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
->         return NULL;
->  }
->
-> +static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
-> +               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
-> +               unsigned long attrs)
-> +{
-> +       struct page **pages;
-> +       void *vaddr;
-> +
-> +       pages = __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
-> +                                               prot, attrs);
-> +       if (!pages)
-> +               return NULL;
-> +       vaddr = dma_common_pages_remap(pages, size, prot,
-> +                       __builtin_return_address(0));
-> +       if (!vaddr)
-> +               goto out_unmap;
-> +       return vaddr;
-> +
-> +out_unmap:
-> +       __iommu_dma_unmap(dev, *dma_handle, size);
-> +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
-> +       return NULL;
-> +}
-> +
-> +#ifdef CONFIG_DMA_REMAP
-> +static struct page **iommu_dma_alloc_noncontiguous(struct device *dev,
-> +               size_t size, dma_addr_t *dma_handle, gfp_t gfp,
-> +               unsigned long attrs)
-> +{
-> +       return __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
-> +                                              PAGE_KERNEL, attrs);
-> +}
-> +
-> +static void iommu_dma_free_noncontiguous(struct device *dev, size_t size,
-> +               struct page **pages, dma_addr_t dma_handle)
-> +{
-> +       __iommu_dma_unmap(dev, dma_handle, size);
-> +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
-> +}
-> +#endif
-> +
->  static void iommu_dma_sync_single_for_cpu(struct device *dev,
->                 dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
->  {
-> @@ -1110,6 +1131,10 @@ static const struct dma_map_ops iommu_dma_ops = {
->         .free                   = iommu_dma_free,
->         .alloc_pages            = dma_common_alloc_pages,
->         .free_pages             = dma_common_free_pages,
-> +#ifdef CONFIG_DMA_REMAP
-> +       .alloc_noncontiguous    = iommu_dma_alloc_noncontiguous,
-> +       .free_noncontiguous     = iommu_dma_free_noncontiguous,
-> +#endif
->         .mmap                   = iommu_dma_mmap,
->         .get_sgtable            = iommu_dma_get_sgtable,
->         .map_page               = iommu_dma_map_page,
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index 4b9b1d64f5ec9e..51bbc32365bb8d 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -74,6 +74,10 @@ struct dma_map_ops {
->                         gfp_t gfp);
->         void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
->                         dma_addr_t dma_handle, enum dma_data_direction dir);
-> +       struct page **(*alloc_noncontiguous)(struct device *dev, size_t size,
-> +                       dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
-> +       void (*free_noncontiguous)(struct device *dev, size_t size,
-> +                       struct page **pages, dma_addr_t dma_handle);
->         int (*mmap)(struct device *, struct vm_area_struct *,
->                           void *, dma_addr_t, size_t,
->                           unsigned long attrs);
-> @@ -384,6 +388,11 @@ void *dma_alloc_noncoherent(struct device *dev, size_t size,
->                 dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
->  void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
->                 dma_addr_t dma_handle, enum dma_data_direction dir);
-> +bool dma_can_alloc_noncontiguous(struct device *dev);
-> +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
-> +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
-> +void dma_free_noncontiguous(struct device *dev, size_t size,
-> +               struct page **pages, dma_addr_t dma_handle);
->
->  static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
->                 size_t size, enum dma_data_direction dir, unsigned long attrs)
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 06115f59f4ffbf..6d975d1a20dd72 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -529,6 +529,41 @@ void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
->  }
->  EXPORT_SYMBOL_GPL(dma_free_noncoherent);
->
-> +bool dma_can_alloc_noncontiguous(struct device *dev)
-> +{
-> +       const struct dma_map_ops *ops = get_dma_ops(dev);
-> +
-> +       return ops && ops->free_noncontiguous;
-> +}
-> +EXPORT_SYMBOL_GPL(dma_can_alloc_noncontiguous);
-> +
-> +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
-> +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
-> +{
-> +       const struct dma_map_ops *ops = get_dma_ops(dev);
-> +
-> +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
-> +               return NULL;
-> +       if (attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES) {
-> +               dev_warn(dev, "invalid flags (0x%lx) for %s\n",
-> +                        attrs, __func__);
-> +               return NULL;
-> +       }
-> +       return ops->alloc_noncontiguous(dev, size, dma_handle, gfp, attrs);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_alloc_noncontiguous);
-> +
-> +void dma_free_noncontiguous(struct device *dev, size_t size,
-> +               struct page **pages, dma_addr_t dma_handle)
-> +{
-> +       const struct dma_map_ops *ops = get_dma_ops(dev);
-> +
-> +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
-> +               return;
-> +       ops->free_noncontiguous(dev, size, pages, dma_handle);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_free_noncontiguous);
-> +
->  int dma_supported(struct device *dev, u64 mask)
->  {
->         const struct dma_map_ops *ops = get_dma_ops(dev);
-> --
-> 2.28.0
->
+I'm afraid conversion of LKMM documents to ReST is unlikely to happen
+any time soon.
+It should wait until such time comes when the auto markup tools become
+clever enough and .rst files looks exactly the same as plain .txt files.
+
+Am I asking too much? :-)
+
+        Thanks, Akira
+
+> 
+> Thanks,
+> Mauro
+> 
+> [PATCH] convert control-dependencies.rst to ReST
+> 
+
+[snip]
