@@ -2,142 +2,157 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0D12C4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 01:24:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AD5C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 01:59:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96B9E22257
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 01:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602725099;
-	bh=4GK2AcxAoybORLB+vHy+WW700H/huJz57VEgUBjvK1g=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=irNBJTXmQraAwdxwHZkaJ9jafaZLumr5qiSUBsjhvL0oTtvF0dseUaAt+O35lIFUx
-	 EcCmlbrdZwW+2kBEZS38CSozpxAVm07jPxfiA/GdfCICTrTxiitJl/syVCHFSm2ysw
-	 XzSpKFpt1fOuM+S0hHXSH2R6UqKcD4RGGDHYslAQ=
+	by mail.kernel.org (Postfix) with ESMTP id 496B022257
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 01:59:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jCAqi4iT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388578AbgJOBY6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 21:24:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48188 "EHLO
+        id S2389301AbgJOB7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 21:59:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732044AbgJOBYi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 21:24:38 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C64B5C0F26F7
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 18:06:54 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id y20so2218202iod.5
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 18:06:54 -0700 (PDT)
+        with ESMTP id S1732511AbgJOB7i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 21:59:38 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5086EC08EC89
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 16:31:45 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id x13so764560pfa.9
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 16:31:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nuoA4nhqaT2r5Q46oH6MDqZrYkcrLiu5o7waToPeU4U=;
-        b=ZfM2dR1TVM9711DQqLS1u7B81AJpL280LQQTwlJw+3/gMKiDTmwBAI85Q+aCbOog6r
-         xyaCpCPr5oP/gIjJF4y8l7sZYHvPdjj6tGZuEZud6PFI7d6Gw154k4gtiTvQvaQho3TP
-         8LSCyi4Xajhw1knanNXpifLBMBtJd4S2L1MdM=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HXVUBRNSSqTPt62/mgLGqwfLQyF1yjV/YHL73Dao6W8=;
+        b=jCAqi4iTXHmrlmTxFYn6GS2VgUo/8myl3KBrmWg0lRxHbNQgb3vs1osYENVe61bW0P
+         M+4wkDUWjW0myaMTX5a1Gxf50PJCa/e+uOHI7EyM+POftZ0Y/9LfYtXSwlA+pbBlCT0Z
+         p+qpDy78UxHceaiLraq0fP4f7UgNDPeMM5qHQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nuoA4nhqaT2r5Q46oH6MDqZrYkcrLiu5o7waToPeU4U=;
-        b=k2ke49a0O3ufqyMJSMDqOf9adhQdZ6M7TgJ0y6I/oEwu/Lu85QGjnMU6PBUPxyzfGs
-         6C4Z4YsWE8hge7egUHtCWDD80C71e5TYqCXiEOOEvKix3IrmQ3eACjabau5JxtJ6PEo0
-         vzyddVo7uK01HVz6Zzt1b4DDo+WEWlaOO68YpuLSYEhHpH0tYj5vy6zu6gU2JJFTdjmd
-         v0UlO/cVG873Dl6Fl3GjSmllwVuil/arN6Y7ZTfev0CQ9xKtg9S3Y+o4AAUDIM/yMqmf
-         Gi30edcXs/Yq6mEN8O12vpAWTdsCoNSAiHIkIYx9mmQi5gd2EH5yLuhoJu+f9qoOfaNW
-         YfGw==
-X-Gm-Message-State: AOAM530fhaXnRSDXiN2XASBCgqg9mSJL464qFPGxPBDncRLA7vB2FaxZ
-        x6KF3Fy4eKY6oL5tNrTr7w5n7g==
-X-Google-Smtp-Source: ABdhPJwZ8n+nuyRdHP5Sff3yx8mk/bObtC07yQCShDgVe4UfTBPTIBPbPI99IitZ3cn80JwKdFFEQg==
-X-Received: by 2002:a02:380c:: with SMTP id b12mr1734863jaa.9.1602724014000;
-        Wed, 14 Oct 2020 18:06:54 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id b2sm1042048ila.62.2020.10.14.18.06.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2020 18:06:53 -0700 (PDT)
-Subject: Re: [PATCH v2 24/24] counters: docs: add a missing include
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <74814cc3d2b2ac3fe7c10ff2045c77691bacf64b.1602590106.git.mchehab+huawei@kernel.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <982ecabd-330d-7ef9-9287-0eda5ba399b3@linuxfoundation.org>
-Date:   Wed, 14 Oct 2020 19:06:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HXVUBRNSSqTPt62/mgLGqwfLQyF1yjV/YHL73Dao6W8=;
+        b=N3q0mLJwZdhO7SriTLj1uGCbERZI3x1OuLrNzaCaVvnIKTwVsFjIY8c4/qDhaMpkI0
+         YUoldQelioSSKnwSUUFkIMINOFIV3WNEyEOckb1Q0GDWBEkHbYS/afa41ze9ULsnJtvQ
+         w1lWq/T47se70CmGoS+igt4THJnOJq5U27npi6tylwPt95ug0ijn2ebmVENH5K3J16Fv
+         JW5KMKHIlalym89CiTziDiTNlAF+GtKDjemDfy3LJTvAplI33NlpAxDb1jBv84tFOcWc
+         7uLAp1Qkn//HbIniFrwufq+8yhljNFcgxRNuj2EusIHnOl2337dWDu8LzdaYF4cBk8zN
+         WFnQ==
+X-Gm-Message-State: AOAM533hyCAKnwx2zspQ9Ncf+mBdz3IxmePdHpjgYF9wmgxcEQYyqZ1C
+        x15DD4zBBiqEvEjEJxeXUgGPAA==
+X-Google-Smtp-Source: ABdhPJxOwI5RHIhqZd5sqTZJ3BeFjY/QwyZ69aihzdHcq4MYx7e3PrGhvAMQ5MYwvG0KK4zLFTqSZQ==
+X-Received: by 2002:a63:d66:: with SMTP id 38mr983974pgn.400.1602718304430;
+        Wed, 14 Oct 2020 16:31:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id r201sm780160pfc.98.2020.10.14.16.31.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 16:31:43 -0700 (PDT)
+Date:   Wed, 14 Oct 2020 16:31:42 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
+        gregkh@linuxfoundation.org, shuah@kernel.org, rafael@kernel.org,
+        johannes@sipsolutions.net, lenb@kernel.org, james.morse@arm.com,
+        tony.luck@intel.com, bp@alien8.de, arve@android.com,
+        tkjos@android.com, maco@android.com, joel@joelfernandes.org,
+        christian@brauner.io, hridya@google.com, surenb@google.com,
+        minyard@acm.org, arnd@arndb.de, mchehab@kernel.org,
+        rric@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-edac@vger.kernel.org, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3 00/11] Introduce Simple atomic counters
+Message-ID: <202010141611.70B7A38@keescook>
+References: <cover.1602209970.git.skhan@linuxfoundation.org>
+ <20201009193746.GA1073957@hirez.programming.kicks-ass.net>
+ <202010091255.246395A6@keescook>
+ <20201010110920.GQ2628@hirez.programming.kicks-ass.net>
+ <6e1dd408-653e-817e-b659-23649259a929@linuxfoundation.org>
+ <20201014091720.GC2628@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <74814cc3d2b2ac3fe7c10ff2045c77691bacf64b.1602590106.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201014091720.GC2628@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/13/20 6:14 AM, Mauro Carvalho Chehab wrote:
-> Changeset 37a0dbf631f6 ("counters: Introduce counter_atomic* counters")
+On Wed, Oct 14, 2020 at 11:17:20AM +0200, Peter Zijlstra wrote:
+> On Tue, Oct 13, 2020 at 08:12:20PM -0600, Shuah Khan wrote:
 > 
-> Is causing two new warnings:
+> > They don't add any new behavior, As Kees mentioned they do give us a
+> > way to clearly differentiate atomic usages that can wrap.
 > 
-> 	.../Documentation/core-api/counters.rst:8: WARNING: Undefined substitution referenced: "copy".
-> 	.../Documentation/core-api/counters.rst:9: WARNING: Undefined substitution referenced: "copy".
+> No it doesn't! atomic_t can wrap, this thing can wrap, no distinction.
 > 
-> Because it forgot to include isonum.txt, which defines |copy|
-> macro.
-> 
-> While here, also add it to core-api index file, in order to
-> solve this warning:
-> 
-> 	.../Documentation/core-api/counters.rst: WARNING: document isn't included in any toctree
-> 
-> Fixes: 37a0dbf631f6 ("counters: Introduce counter_atomic* counters")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   Documentation/core-api/counters.rst | 1 +
->   Documentation/core-api/index.rst    | 1 +
->   2 files changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/core-api/counters.rst b/Documentation/core-api/counters.rst
-> index 642d907f4d3a..2821aebf3f45 100644
-> --- a/Documentation/core-api/counters.rst
-> +++ b/Documentation/core-api/counters.rst
-> @@ -1,4 +1,5 @@
->   .. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
->   
->   ======================
->   Simple atomic counters
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index 69171b1799f2..cf9cd44c1191 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -43,6 +43,7 @@ Library functionality that is used throughout the kernel.
->      this_cpu_ops
->      timekeeping
->      errseq
-> +   counters
->   
->   Concurrency primitives
->   ======================
-> 
+> All it does is fragment the API and sow confusion. FOR NO BENEFIT.
 
-Thank you for the patch. I will add this to my patch series.
+I really don't see it this way. It's a distinct subset of the atomic_t
+API. The trouble that has existed here has been with an atomic_t being
+originally used NOT for lifetime management, that mutates into something
+like that because of the available API, but doing so without realizing
+it. atomic_t gets used for all kinds of algorithms, and the "counter"
+type is way too easily accidentally transformed into a "lifetime
+tracker" and we get bugs.
 
-thanks,
--- Shuah
+If we have a distinct type for wrapping-counters that limits the API,
+then it is much harder for folks to shoot themselves in the foot. I don't
+see why this is so bad: we end up with safer usage, more easily auditable
+code behavior ("how was this atomic_t instance _intended_ to be used?"),
+and no change in binary size.
+
+> > There is no need to keep inc_return in this API as such. I included it
+> > so it can be used for above cases 1 and 2, so the users don't have to
+> > call inc() followed by read(). It can be left out of the API.
+
+I go back and forth on this, but after looking at these instances,
+it makes sense to have inc_return(), for where counters are actually
+"serial numbers". An argument could be made[1], however, that such uses
+should not end up in the position of _reusing_ earlier identifiers, which
+means it's actually can't wrap. (And some cases just need u64 to make this
+happen[2] -- and in that specific case, don't even need to be atomic_t).
+
+[1] https://lore.kernel.org/lkml/202010071334.8298F3FA7@keescook/
+[2] https://git.kernel.org/linus/d1e7fd6462ca9fc76650fbe6ca800e35b24267da
+
+> Wrong! The atomic usage in mutex doesn't fall in any of those
+> categories.
+
+But the atomic usage in mutex is *IN* mutex -- it's a separate data
+type, etc. We don't build mutexes manually, so why build counters
+manually?
+
+> The only thing you're all saying that makes sense is that unintentional
+> wrapping can have bad consequences, the rest is pure confusion.
+> 
+> Focus on the non-wrapping cases, _everything_ else is not going
+> anywhere.
+
+I view this as a way to do so: this subset of wrapping cases is being
+identified and removed from the pool of all the atomic_t cases so that
+they will have been classified, and we can continue to narrow down all
+the atomic_t uses to find any potentially mis-used non-wrapping cases.
+
+The other option is adding some kind of attribute to the declarations
+(which gets us the annotation) but doesn't provide a limit to the API.
+(e.g. no counter should ever call dec_return).
+
+> So audit the kernel, find the cases that should not wrap, categorize and
+> create APIs for them that trap the wrapping. But don't go around
+> confusing things that don't need confusion.
+
+That's what's happening here. But as it turns out, it's easier to do
+this by employing both the process of elimination (mark the counters)
+and direct identification (mark the refcount_t). Then the pool of
+"unannotated" atomic_t instances continues to shrink.
+
+-- 
+Kees Cook
