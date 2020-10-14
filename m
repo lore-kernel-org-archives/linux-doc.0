@@ -2,254 +2,199 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBCC1C43457
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 16:05:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A81A1C43467
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 17:10:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A4322222E
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 16:05:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602691507;
-	bh=UyfuipMpBBXN4pHNIZOafb1pP5DePQ6km5QUP57Anc0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=p8D4DSl0X8cBemT5rapZ+ztBvEvkGhfaHogEuKDelVR8Fq66Ukt0vYja2wJ9/HfWc
-	 /rIeHy5Gp+wSk6Wx4nwHl6nOH7i6BdpqbzWBJPAQpxnHR2o5dJp29NN7yC1+ew0OLU
-	 VuhB7/ylxHhMJcaCBouCAqVQmMP2pagMkFo5s9Hs=
+	by mail.kernel.org (Postfix) with ESMTP id 4C21C221EB
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 17:10:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XG+flZeA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730016AbgJNQFH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 12:05:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51502 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728035AbgJNQFG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Oct 2020 12:05:06 -0400
-Received: from coco.lan (ip5f5ad5dc.dynamic.kabel-deutschland.de [95.90.213.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A585F20B1F;
-        Wed, 14 Oct 2020 16:05:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602691505;
-        bh=UyfuipMpBBXN4pHNIZOafb1pP5DePQ6km5QUP57Anc0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WXc15mHus01dI1sEILxIKonKWxojhho/Cahj3LH0cAgE3Qbul94NOtdmKZR5it4lW
-         lTy/wAOiyw+TQw7lO7+3UMaDpf8Lj6ce9zFpL8SZOIuYsjoGF5XIv7ksaLNMhwVC4j
-         krlwkJBt/5d/MblU0+3qMfaDEZt6IZCfwpo7eW+s=
-Date:   Wed, 14 Oct 2020 18:04:59 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 04/24] docs: lockdep-design: fix some warning issues
-Message-ID: <20201014175143.3d594341@coco.lan>
-In-Reply-To: <20201013150250.GJ20115@casper.infradead.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
-        <c76318f859a78adb80a6eef63c5c777d05501198.1602590106.git.mchehab+huawei@kernel.org>
-        <20201013125206.GU2611@hirez.programming.kicks-ass.net>
-        <20201013131116.GG20115@casper.infradead.org>
-        <20201013140941.GC2594@hirez.programming.kicks-ass.net>
-        <20201013150250.GJ20115@casper.infradead.org>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726019AbgJNRKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 13:10:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726306AbgJNRKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 13:10:11 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE82C0613D4
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 10:10:10 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id z22so186530wmi.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 10:10:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=I0pEDuKxGGGuBmYvVm4TwEpZ23vGsYXeXFdnlUxUTUw=;
+        b=XG+flZeApLSKjELCtEfUK5RLhkkl2AezZuRLW/3HGQqXHI9rfLH//X/riYc2iWGlS4
+         ZdEoupzAN6IKfvxxPOu3fME+Bb/hxrbRCSQLBoT71y4lPQZhB0wdr0jzp3DH3A8ncCon
+         L4higHI9JkFDrd4L6JlUKMafZ25w9RA1pf3zbRRzC4T5Q8Wf/sEmwWskuaQ964q8O7Y4
+         cJ0ulkn3/MbKESdSMRzJOw1wWcXUlx+Ej4lIhFm2t+PoY5Q98gBSh3XKWyUp0w45jUAt
+         I633QBbypN3bg584AFQzgCRRdTTajq3IpO3iQpvF2ZXJceq3VSlnuLaULqEyv6PBd3Vy
+         P0KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=I0pEDuKxGGGuBmYvVm4TwEpZ23vGsYXeXFdnlUxUTUw=;
+        b=C6pi8x39A56BSxtIMAdVxoQQLPGQjD9GbtavQdPRg69DT74/Qu+41UUsRvopNUP7x/
+         5z+4UMpJtfe5YlkunyeQo7F1M3gVlQqeaxSk+4M/lMMH7CE/OsglxrV/76qeRnSO+98G
+         Xmw/cDsXDH0yQR8IFnXa4zroS5a9Rck0k+09Fy+TzDV6I6xe1J4jjGJg03jhfz+hwrq1
+         xjVt39ks9SMCAyZ38wVlr6RLD91335A94Tx35LZ+D0QnIH6PDhLE/z2Aq0y7DkBvNPTO
+         Y4KpKSwtZ2f+AnEegCDINRbM+6c3ObhlVYimpNTkVS8bO02gL/1Z99GpNFk5C1YhFFVZ
+         ZqKQ==
+X-Gm-Message-State: AOAM532WBvHSrppK2OaZ8ayxwyVVbGCH8uKjj4YfRgBoTqkrZimOtaGZ
+        zGU+9uNDdFtwVw7ng3Gnw3MMMw==
+X-Google-Smtp-Source: ABdhPJyXOPxJ4gMTARh7uvf1rLbQDsa7rciyJvewLeZvZZGKN3pSdr3HLVGC63ubPZYm4uVL/CS7AQ==
+X-Received: by 2002:a05:600c:1149:: with SMTP id z9mr438655wmz.180.1602695409214;
+        Wed, 14 Oct 2020 10:10:09 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:5400:5b12:4f4c:844b? ([2a01:e34:ed2f:f020:5400:5b12:4f4c:844b])
+        by smtp.googlemail.com with ESMTPSA id q2sm5772845wrw.40.2020.10.14.10.10.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2020 10:10:08 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org, amitk@kernel.org,
+        corbet@lwn.net, Dietmar.Eggemann@arm.com, qperret@google.com,
+        dianders@chromium.org, mka@chromium.org, rnayak@codeaurora.org
+References: <20201002114426.31277-1-lukasz.luba@arm.com>
+ <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
+ <765e6603-b614-fb72-64ff-248b42474803@linaro.org>
+ <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
+ <55d3fb0f-f7d8-63c5-2bdb-53eaa62380e0@linaro.org>
+ <f660731e-132b-2514-f526-d7123ed3522c@arm.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <d04019bd-9e85-5f3e-2a1b-66780b8df3dc@linaro.org>
+Date:   Wed, 14 Oct 2020 19:10:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f660731e-132b-2514-f526-d7123ed3522c@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 13 Oct 2020 16:02:50 +0100
-Matthew Wilcox <willy@infradead.org> escreveu:
+On 14/10/2020 17:24, Lukasz Luba wrote:
 
-> On Tue, Oct 13, 2020 at 04:09:41PM +0200, Peter Zijlstra wrote:
-> > On Tue, Oct 13, 2020 at 02:11:16PM +0100, Matthew Wilcox wrote:
-> > > On Tue, Oct 13, 2020 at 02:52:06PM +0200, Peter Zijlstra wrote:
-> > > > On Tue, Oct 13, 2020 at 02:14:31PM +0200, Mauro Carvalho Chehab wro=
-te:
-> > > > > +   =3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > > +   ``.``  acquired while irqs disabled and not in irq context
-> > > > > +   ``-``  acquired in irq context
-> > > > > +   ``+``  acquired with irqs enabled
-> > > > > +   ``?``  acquired in irq context with irqs enabled.
-> > > > > +   =3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >
-> > > > NAK!
-> > >=20
-> > > You're seriously suggesting that:
-> > >=20
-> > > -   =3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > -   '.'  acquired while irqs disabled and not in irq context
-> > > -   '-'  acquired in irq context
-> > > -   '+'  acquired with irqs enabled
-> > > -   '?'  acquired in irq context with irqs enabled.
-> > > -   =3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +   =3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +   ``.``  acquired while irqs disabled and not in irq context
-> > > +   ``-``  acquired in irq context
-> > > +   ``+``  acquired with irqs enabled
-> > > +   ``?``  acquired in irq context with irqs enabled.
-> > > +   =3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >=20
-> > > this change makes the lockdep docs less readable?
-> >=20
-> > Definitely makes it harder to read for me. My C trained eyes go WTF at
-> > seeing it, which breaks the flow. ',' is a regular single character
-> > constant, '','' a syntax error.
->=20
-> OK, that's fair.  'a' is definitely a character constant.  Perhaps
-> the automarkup script can take care of this for us?  We'd have to
-> be careful not to catch anything we shouldn't've [1], but I'm sure
-> there's a regex for it.  Something like "\<'.'\>", perhaps?
+[ ... ]
 
-I guess that this regex could work:
+> We have to update the EM doc about allowed abstract scale, which
+> implies EAS, IPA doc update with some information to the community that
+> these components can handle it.
+> 
+> The script will just make developers life easier, but the current
+> documentation does not say anything about abstract scale.
 
-	/\b\'\S\'\b/=20
+... yes, because there is no consistency across the source of power
+numbers and no tools to ensure DT power numbers consistency, yet.
 
-would get this very specific case, or maybe even:
-	/\b\'\S+\'\b/
+>> In any case, if the DT is specifying real numbers, and SCMI abstract
+>> numbers or the opposite, obviously there is a conflict if we are using
+>> both.
+> 
+> True, DT only allows real numbers (I have Rob's opinion regarding
+> patch 3/3).
+> 
+> It's not that there is only SCMI which might use abstract scale. Qcom
+> already has it and other vendors will follow (not exposing real
+> numbers). They would register bogoWatts to EM because they know that EAS
+> can deal with both.
 
-in order to get things like 'foo'.
+So vendors are using bogoWatts, despite the documentation.
 
-Adding support for something like this at=20
-Documentation/sphinx/automarkup.py should be trivial. However,
-checking if this won't be doing anything wrong with the other existing
-files can be painful.
+By updating the documentation saying it supports the abstract values,
+that means every new framework, device with power values, will have to
+comply with that. How is it possible to add a device with power numbers
+if the existing ones are obfuscated ?
 
-Yet, there are 3 issues related to '.' character usage.
+With two subsystems using the energy model, evolving independently we
+can see there are conflicts. With more subsystems, that may become a
+source of confusion, especially with different contributors.
 
-See, the first table is:
+I think the energy model should stick to milliwatts and keep the
+documentation unchanged regarding this. And vendors should take the
+responsibility of not sticking to the documentation.
 
-   =3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-   '.'  acquired while irqs disabled and not in irq context
-   '-'  acquired in irq context
-   '+'  acquired with irqs enabled
-   '?'  acquired in irq context with irqs enabled.
-   =3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
+>> I suggest to fix the conflict first and provide the features to make the
+>> numbers more easy to share (like the script described above and/or the
+>> firmware file).
+>>
+>> Then with the right tools, everything can be documented.
+>>
+> 
+> We cannot block one way of registration to EM when the other was used.
+> They might have correct and consistent numbers.
 
-There, it uses '.' in order to indicate the dot character and so on.
+What is the rational of using two firmware power information ?
 
-The second table uses a different notation:
+> It's up to the platform developers to choose the path:
+> - go with bogoWatts - if they are not allowed to expose sensitive
+>   information, use em_dev_register_perf_domain() in drivers, not DT;
+>   make sure everything that is needed works; check the doc, which
+>   sub-systems can handle it or needs some tuning (patches 1/3 and 2/3
+>   try to help here);
+> - use milliWatts - easier; DT is allowed; help from the community in
+>   reviews, possible results comparisons; both EM registration ways
+>   might be used;
+> 
+> We cannot force vendors/OEM engineers to store milliWatts in the
+> Energy Model if these values are protected by some NDA. 
 
-   +--------------+-------------+--------------+
-   |              | irq enabled | irq disabled |
-   +--------------+-------------+--------------+
-   | ever in irq  |      ?      |       -      |
-   +--------------+-------------+--------------+
-   | never in irq |      +      |       .      |
-   +--------------+-------------+--------------+
+If I am able to measure one real power value, (and I'm pretty sure it is
+quite possible), whatever which one, it is possible to deduce all the
+numbers with the linear scale. IMO that is a false debate. Anyway ...
 
-which uses just a question mark without aphostrophes, instead of
-'?' (and the same for the other symbols).
+> Your proposed
+> way of providing data into EM from user-space firmware.bin IMHO also
+> falls into the same bucket. That information would be accessible in EM
+> debugfs and they would avoid it.
 
-The text describing them returns back to the notation used at the
-first table:
+I think you misunderstood my point.
 
-	"The character '-' suggests irq is disabled because if otherwise the
-	 charactor '?' would have been shown instead. Similar deduction can be
-	 applied for '+' too."
+There is the SCMI and the DT. Because there are two sources where it is
+impossible to know if they are using the same units, we are stuck to
+ensure a consistency for the kernel.
 
--
+The platform should use:
+ - the SCMI only (scaled or real)
+ - the DT only (real)
+ [ - the firmware file only (scaled or real) ]
 
-The above has actually 3 separate problems:
 
-1) This problem has nothing to do with Sphinx notation. The notation
-   is not coherent: It should use either ., ``.`` or '.' everywhere. =20
+As it is not possible to know if they are scaled or real, there is no
+choice except making them mutually exclusive.
 
-2) This is Sphinx-specific: a single minus or a single plus character
-indicates a list. On both cases, this is actually replaced by an UTF-8
-bullet character: '=E2=80=A2'.
+From my POV, it is not adequate to let SCMI power information co-exists
+with the DT power information if we know they can be with different units.
 
-3) This is a minor issue:
+I've just expressed my opinions:
 
-   using '.' will produce an html table that will display, using
-   a normal font, as '.', while ``.`` would use a monospaced=20
-   font and won't display the apostrophes. IMO, at the html output,=20
-   it would be better to just a dot without apostrophes, as the
-   text of the dmesg output doesn't have apostrophes either:
+ - vendors take responsibility of putting different units for the EM
 
-     "When locking rules are violated, these usage bits are presented in the
-      locking error messages, inside curlies, with a total of 2 * n STATEs =
-bits.
-      A contrived example::
+ - Power numbers should come from the same source
 
-        modprobe/2287 is trying to acquire lock:
-         (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
 
-        but task is already holding lock:
-         (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24"
+Up to Rafael to decide what to do with this documentation update.
 
-   Yet, we could live without addressing this one.
+Thanks
+  -- Daniel
 
-> [1] I'm quite proud of that one.
->=20
-> > > It's not the markup that makes the lockdep documentation hard to
-> > > understand.
-> >=20
-> > I'm not sure what you're alluding to, the subject just isn't easy to
-> > begin with.
->=20
-> Absolutely.  The problem is (similar to most Linux documentation)
-> the document doesn't know who its audience is.  It mixes internal
-> implementation details of lockdep with what people need to know who
-> are just trying to understand what a lockdep splat means.  I don't
-> have time to restructure it right now though.
 
-Yeah, that is one of the the main issues with this. This specific=20
-section of the file describes something that a sysadmin or a Kernel
-newbie may see on his system. He'll likely seek the web for some
-documentation about that, in order to try to understand it.
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-If someone is willing to do that, it will get this:
-
-	https://www.kernel.org/doc/html/latest/locking/lockdep-design.html#state
-
-Where it presents a plain wrong table that it would look like this:
-
-   +--------------+-------------+--------------+
-   |              | irq enabled | irq disabled |
-   +--------------+-------------+--------------+
-   | ever in irq  |      ?      |       =E2=80=A2      |
-   +--------------+-------------+--------------+
-   | never in irq |      =E2=80=A2      |       .      |
-   +--------------+-------------+--------------+
-
-If you prefer, I can send a new version of this patch using this at
-the second table:
-
-   +--------------+-------------+--------------+
-   |              | irq enabled | irq disabled |
-   +--------------+-------------+--------------+
-   | ever in irq  |     '?'     |      '-'     |
-   +--------------+-------------+--------------+
-   | never in irq |     '+'     |      '.'     |
-   +--------------+-------------+--------------+
-
-and keep using '.' at the other parts of the document.
-
-This should solve the Sphinx issue, although the Sphinx output
-won't be using a monospaced font.
-
-Thanks,
-Mauro
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
