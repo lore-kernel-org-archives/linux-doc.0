@@ -2,141 +2,173 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MALFORMED_FREEMAIL,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2437C433E7
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 08:19:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A67BC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 08:24:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4020C21527
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 08:19:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECF49214D8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 08:24:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y91XoDmg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z/VHBbtS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729110AbgJNITk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 04:19:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58654 "EHLO
+        id S1727413AbgJNIXH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 04:23:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728922AbgJNITd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 04:19:33 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85C90C041E73;
-        Tue, 13 Oct 2020 21:43:15 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id j136so1162742wmj.2;
-        Tue, 13 Oct 2020 21:43:15 -0700 (PDT)
+        with ESMTP id S1726517AbgJNIWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 04:22:53 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BBA1C051113
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 01:22:55 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id e23so1426444wme.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 01:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=yAoSXHRwpGz7nBgURGl4h1iZHKvaWjYO9+dk8dtTzEM=;
-        b=Y91XoDmgSV0T8y7s38jad1TN0OqdQ/W7/i8P2ncbuMKEZD2rOkSZiUQTJlsuYKHtPU
-         EAZV7qv1rUsvdBWUoA886/Y95M9vZa/oxqlJFhM8q/1rrvT6J84jeJlhZi8NQCojqDrj
-         Tes5NzvdJSB+DVYiNzB7Z+JvVuOHpaiNru8rAGagKUdC0j9MPOurw7mLoHNDCbFsPoZS
-         n583hEDRzu2p7Kqe01AlohE9ec6ZDpWlycrOa7cs+BNDFjntEoiVKIrhkwJA/95FI/mV
-         FSdQmGYWryAjzzPk7+g9a6lDfDynMecp9R4n0hxGRZiNmkM4V9grSiY5O0gZsORtJ/5Y
-         3abg==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Swh+dZQyBdaPmN5as6qgR/sRrl/ojxXJRUzze+Qmp7c=;
+        b=Z/VHBbtSTwP8FkfNNETkLr6RUIBBLouAgLw0uY8EmTB4tmRALqpeMFfKVFnLC50Mtt
+         nm44MdEv54nNQXzvc5ciyucLEFG3UmguNDgeJeq3uiJX1ZxoD562aEuwyenz92rgHqO7
+         mduo38uCnAjo9IiBA8jaGhqpJ5BxtELxrMqIwAM3V8MS8QcvYeVdIBQynr+SNMHTfWea
+         S0PQvoeqsJXb87abZvORn5S+I8WY+nOAXwlDuCbyB/K7GjcypPs1IIHP2e1VlD2krtAJ
+         RMJ07Amgc+2uCAPwGZpd5TqNPPOomLj4eCTH09dclssKq/zrMxMKeZ63fwSOw0Y/GT+d
+         RvjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=yAoSXHRwpGz7nBgURGl4h1iZHKvaWjYO9+dk8dtTzEM=;
-        b=JOHhwdfZKe4yD68bJyQjxY1BrYQE1wRftfXe8xqtgIenqTaOY8P4GQhtxNJ2213hOx
-         fD+oN3qVtAq71HlsTo/SSr3bVLtG6EKsROmhtrRgm10x9+rHzWBwCEtARl/T2SJKzjTb
-         TVDO6uIxoT9bHFvUOjeYa2623nfyFopsNSrlV4OFe2FTmlQnB1GpDzM8mcYZSEDMOFsG
-         FJMdqGXeClm45nrcn8OcDxzyEX37aohLgT35SsGCdXRpHcPbsm8Ht9sAYGWcIax2jW5v
-         P/NFtkz7TrMExm8Gq7gQMHL2t4CPkr2S/Agaku02sj/eBOxi15KmsGN/DhBtqSE74ZKZ
-         +EFw==
-X-Gm-Message-State: AOAM532UQZiR34uXFHvqv+IdJYqNTrWuPGrD9kwZqhm8vBZwb0i5xfaJ
-        UbiOnJKPRe5pVwy73pOOnz0=
-X-Google-Smtp-Source: ABdhPJxLj7cfYT+/1rNY1VWyuk/FeNLUT9YgTom+iIidb6iYPJvpU8+DuMBSQu3AZwhlP+GOUgdJYw==
-X-Received: by 2002:a7b:c081:: with SMTP id r1mr1410127wmh.158.1602650594160;
-        Tue, 13 Oct 2020 21:43:14 -0700 (PDT)
-Received: from felia ([2001:16b8:2da8:8200:4c70:9c82:f3bf:bebb])
-        by smtp.gmail.com with ESMTPSA id h206sm1713989wmf.47.2020.10.13.21.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2020 21:43:13 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date:   Wed, 14 Oct 2020 06:43:06 +0200 (CEST)
-X-X-Sender: lukas@felia
-To:     Masahiro Yamada <masahiroy@kernel.org>
-cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] kbuild: doc: describe proper script invocation
-In-Reply-To: <CAK7LNAR+W9h95sUZFwRHiyiDbUxn9b7KN5P1zKOAdR2emxp7=g@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2010140636020.6186@felia>
-References: <20201001075723.24246-1-lukas.bulwahn@gmail.com> <CAK7LNARXirw-DZg1-Dwq0NhWtqyS9PCpFhzjL7bfZjQt5-dL6A@mail.gmail.com> <CAK7LNAR+W9h95sUZFwRHiyiDbUxn9b7KN5P1zKOAdR2emxp7=g@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Swh+dZQyBdaPmN5as6qgR/sRrl/ojxXJRUzze+Qmp7c=;
+        b=JKGqX8sLfKsSGP6pPPfJZUahtvMSNENIBaLwoBaTsqQiY4sok4R7/G2riTVKo2hl1J
+         RwaPWWlxlSxUWy4U3XOd+bWNnKGJZCLMPMyImdrCGZMYCKjyD5zBdrD7SUsatb1g0ybX
+         Dz3o2SEzfl3SYxDnCvwMy6t+KPgDTOcYTiwoxtXYGgXlkqRjmNznGF+d1g94H2QrcC05
+         19Zv910DrzG5AQ7AuZdU1Hbo2TEHMsypqeLMoX5g6OJGO1jXm2z4j5NE2/i6VL4HxY6m
+         I6VgupgRCi86aCmXRhAPAhf9smJGyU5GFpdozb+H9bhFbzIbLrLVdZZo7N+ERJN13UeR
+         LKzA==
+X-Gm-Message-State: AOAM5305hG9pt9RqvENZdNWFAxloz64HEFSbm3GpxAf9VwbKcWvjkAC2
+        KDxUDwnRLx3j4IQYq5Zy86DX3w==
+X-Google-Smtp-Source: ABdhPJyhymZXHFLUxhQpIL4t7IHxHSPomNV81iEN402sS5TNy/a5RgPmeKkekvo2TU8sawSC/dDDKg==
+X-Received: by 2002:a1c:ed15:: with SMTP id l21mr2360202wmh.26.1602663773822;
+        Wed, 14 Oct 2020 01:22:53 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f? ([2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f])
+        by smtp.googlemail.com with ESMTPSA id p11sm3798385wrm.44.2020.10.14.01.22.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2020 01:22:53 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+To:     Lukasz Luba <lukasz.luba@arm.com>, rjw@rjwysocki.net
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org, amitk@kernel.org, corbet@lwn.net,
+        Dietmar.Eggemann@arm.com, qperret@google.com,
+        dianders@chromium.org, mka@chromium.org, rnayak@codeaurora.org
+References: <20201002114426.31277-1-lukasz.luba@arm.com>
+ <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <765e6603-b614-fb72-64ff-248b42474803@linaro.org>
+Date:   Wed, 14 Oct 2020 10:22:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+Hi Lukasz,
 
-On Wed, 14 Oct 2020, Masahiro Yamada wrote:
-
-> On Tue, Oct 13, 2020 at 11:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Thu, Oct 1, 2020 at 4:57 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> > >
-> > > During an investigation to fix up the execute bits of scripts in the kernel
-> > > repository, Andrew Morton and Kees Cook pointed out that the execute bit
-> > > should not matter, and that build scripts cannot rely on that. Kees could
-> > > not point to any documentation, though.
-> > >
-> > > Masahiro Yamada explained the convention of setting execute bits to make it
-> > > easier for manual script invocation.
-> > >
-> > > Provide some basic documentation how the build shall invoke scripts, such
-> > > that the execute bits do not matter, and acknowledge that execute bits
-> > > are useful nonetheless.
-> > >
-> > > This serves as reference for further clean-up patches in the future.
-> > >
-> > > Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-> > > Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-> > > Link: https://lore.kernel.org/linux-kbuild/CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com/
-> > >
-> > > Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> > > Suggested-by: Kees Cook <keescook@chromium.org>
-> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> >
-> >
-> > Applied to linux-kbuild.
-> > Thanks.
-> >
+On 09/10/2020 11:16, Lukasz Luba wrote:
+> Hi Rafael,
 > 
-> No, not really.
+> On 10/2/20 12:44 PM, Lukasz Luba wrote:
+>> Hi all,
+>>
+>> The Energy Model supports power values expressed in an abstract scale.
+>> This has an impact on Intelligent Power Allocation (IPA) and should be
+>> documented properly. There is also a need to update the DT binding for
+>> the
+>> 'sustainable-power' and allow it to have abstract scale as well.
+>>
+>> Changes:
+>> v2:
+>> - updated sustainable power section in IPA documentation
+>> - updated DT binding for the 'sustainable-power'
+>>
+>> The v1 of the patch set and related discussion can be found in [1].
+>>
+>> Regards,
+>> Lukasz Luba
+>>
+>> [1]
+>> https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
+>>
+>>
+>> Lukasz Luba (3):
+>>    docs: Clarify abstract scale usage for power values in Energy Model
+>>    PM / EM: update the comments related to power scale
+>>    dt-bindings: thermal: update sustainable-power with abstract scale
+>>
+>>   .../devicetree/bindings/thermal/thermal-zones.yaml  | 13 +++++++++----
+>>   .../driver-api/thermal/power_allocator.rst          | 13 ++++++++++++-
+>>   Documentation/power/energy-model.rst                | 13 +++++++++++++
+>>   Documentation/scheduler/sched-energy.rst            |  5 +++++
+>>   include/linux/energy_model.h                        | 11 +++++------
+>>   kernel/power/energy_model.c                         |  2 +-
+>>   6 files changed, 45 insertions(+), 12 deletions(-)
+>>
 > 
-> I will re-think if this is the right thing to do.
+> Could you take patch 1/3 and patch 2/3 via your PM tree,
+> please? I will be very grateful.
 > 
->
+> These patches just update the documentation and comments regarding
+> an issue that we can have: bogoWatts in the Energy Model (and we
+> already have). One of the drawbacks is that we cannot derive real energy
+> from these numbers. Will see how this would evolve.
 
-Masahiro-san, Andrew Morton has already picked this patch in his branch; 
-so, if we do not shout loudly, it will be merged. And we can follow up 
-with a solid improvement for rc2.
+The purpose of the energy model is to provide these power numbers.
 
-I am happy to rework the documentation and help guide and review the 
-follow-up patches that have been sent by Ujjwal.
+If the SoC vendors do not want to share those numbers, then better to
+not use the energy model at all.
 
-Please provide some specific feedback what is wrong and why; I think the 
-basic request not to rely on the execute bit from Andrew and Kees is still 
-valid. Maybe we just need to be more specific on the rules to follow in 
-Makefiles and have multiple examples for the different cases to consider.
+If they want to use the EAS and the IPA at all costs without sharing the
+power numbers, then it is up to them to take responsibility of providing
+consistent numbers, not the community to document how to hack the energy
+model.
 
-Thanks,
+And that is even more true as mentioned by Doug: the power numbers are
+not impossible to measure.
 
-Lukas
+Documenting the scale values give the opportunity to the SoC vendor to
+never share the power numbers, and even worst, that implies all the
+existing and future frameworks based on the energy model (and its
+evolution) *must* comply with these dummy values. That is the promise of
+a real pain.
+
+IMO, we must keep a strong constraint on the power values for the energy
+model.
+
+However, nothing prevents to write a recipe on a website explaining how
+to use the energy model without the power numbers with a big warning
+that could not work in the future if the energy model evolves or it
+could be incompatible with the IPA.
+
+I suggest to solve the energy model main issue: the SoC vendor do not
+want to share the power numbers. Why not give the opportunity to load a
+firmware where the power numbers will be ? The firmware could be in a
+vendor partition for example.
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
