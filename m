@@ -2,289 +2,276 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0AF9C43467
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 09:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA3B6C433E7
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 10:44:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BD7121527
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 09:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602669414;
-	bh=tkml7oPuVnn0Zm+DK/2abyti4mnRmDpxNYyklln/seU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=fItvoq8UFS3VIUwxYIUeeXxlV93CH+ohZNZ3eVjnIZY4ugkJBADtF1gyUJS6FKnjH
-	 W1MXcnF350Db+rUjd+NLfImpNm1Fu7wjVKSQVD7w90Du7boxDICuY3+iSSAE/bXBk3
-	 nYfuQNRpfuMszwbI+DWo2oN3Oyj9g9DxyauvAn3s=
+	by mail.kernel.org (Postfix) with ESMTP id 69956221FE
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 10:44:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KapgrmEA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728486AbgJNJ4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 05:56:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56456 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728264AbgJNJ4v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Oct 2020 05:56:51 -0400
-Received: from coco.lan (ip5f5ad5dc.dynamic.kabel-deutschland.de [95.90.213.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B911520757;
-        Wed, 14 Oct 2020 09:56:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602669409;
-        bh=tkml7oPuVnn0Zm+DK/2abyti4mnRmDpxNYyklln/seU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=NDvCjtt7sxilhVgeQj5SxmVLIF1qA2nfc0qhx6Yz5AgHzyZpz4LiatK5Pb5bpJB5i
-         mTR1IxZ1Oli4Oh2iIICfrZNEZRxl7ercxS9HIywEYe1CIP+vbIPdB2ECfNhCmgFcwi
-         eErPGZdUQeWyFs91ALbS53K+n08TwQGxZHyOfehc=
-Date:   Wed, 14 Oct 2020 11:56:44 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
-        andrealmeid@collabora.com
-Subject: Re: [PATCH v2 5/5] docs: automarkup.py: Allow automatic
- cross-reference inside C namespace
-Message-ID: <20201014115644.7bda9918@coco.lan>
-In-Reply-To: <20201013231218.2750109-6-nfraprado@protonmail.com>
-References: <20201013231218.2750109-1-nfraprado@protonmail.com>
-        <20201013231218.2750109-6-nfraprado@protonmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2388378AbgJNKn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 06:43:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730147AbgJNKnx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 06:43:53 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2160C0613D5;
+        Wed, 14 Oct 2020 03:43:53 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id gm14so1308485pjb.2;
+        Wed, 14 Oct 2020 03:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=W3D78JnB3JWvtlnY5Ql/e6WWsfNU7jwi9/AJtLMFZTY=;
+        b=KapgrmEA/WHaS+v61nXXg+l4GfVSXCqX2Ug4wCHwGwPhucq6YR0P/xSpRHiqE1PCyu
+         +PUTqZZwZZa1BXHCtcfw8trIw2476f8furqXqjE5liY/cKGJ7kl9q6l1+oV/One3NXUS
+         uDapod6D+kFWsOGSSxPI9jPazns3y13nJCQb5XY1cGZqpqRrGvrgYK3dUtFVfeb2ShxV
+         ftPdiXm+/cIuUL0mUDGS77D7XbIWSynYSg7KLfuw1QaslfKEmSYwoQUjM4kTGMKXAZGK
+         xepG2P1DqNKNjbUlFBPq5gtGhORIEIt0LbrnCLCLfCVB+eT/GL6tCewXXGIDMfz7f/2O
+         l6zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=W3D78JnB3JWvtlnY5Ql/e6WWsfNU7jwi9/AJtLMFZTY=;
+        b=fkofk19NrPYx8nXHzQdgb55HqGZJDBokdSZKbqjylWn4OSdk5+txkXP1FDh3/Di8hZ
+         fir60NtIb1sX6ZP6ifkTMgeWuFOzoT+NWKTES909Aw5xwvFIiS6CvkwQZ7eopa6sCRa4
+         l80zwso8lTM3JyJ/Cw12nZ+iJ/+1HHeiXirFx8c75lpN8a3NIc63E3prEqIdVxKTxzLa
+         z6IxCkBExOte2npWHrVGn/OWgTN6AyHWz1XXVXm5bVHsU/iobAdZrbvro2FMrZqOp/ic
+         5eDNVSA9kg1rhqEyFpTLPkYQvWLk3pE3t5Bqffwa2mEVDkoUw2R3ur6oFibOU8bj2WwT
+         1kEQ==
+X-Gm-Message-State: AOAM533DqIOSvlnrOGzcMv9h6nT8PGOZyhTWzEYBavHH+0c5ThPA1yPU
+        H0mVMxGh8a0jImJ6xV/zorg=
+X-Google-Smtp-Source: ABdhPJw7jmQdaX7le3EDyRuKq9wreKdZDW3zZ7R69YsvFSt7oSLtjF+GN5ZoZvGZXMdOgFowRJ5D6w==
+X-Received: by 2002:a17:902:b60f:b029:d3:df34:31e6 with SMTP id b15-20020a170902b60fb02900d3df3431e6mr3568673pls.59.1602672233172;
+        Wed, 14 Oct 2020 03:43:53 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id i126sm2932209pfc.48.2020.10.14.03.43.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 03:43:52 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+To:     devel@driverdev.osuosl.org
+Cc:     Benjamin Poirier <benjamin.poirier@gmail.com>,
+        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 7/7] staging: qlge: add documentation for debugging qlge
+Date:   Wed, 14 Oct 2020 18:43:06 +0800
+Message-Id: <20201014104306.63756-8-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201014104306.63756-1-coiby.xu@gmail.com>
+References: <20201014104306.63756-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 13 Oct 2020 23:13:40 +0000
-N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> escreveu:
+Instructions and examples on kernel data structures dumping and
+coredump.
 
-> Sphinx 3.1 introduced namespaces for C cross-references. With this,
-> each C domain type/function declaration is put inside the namespace that
-> was active at the time of its declaration.
->=20
-> To support automatic cross-reference inside C namespaces:
-> - Save the C namespace used in each doc file (if any) at the source-read
->   phase, in the beginning of the Sphinx process.
-> - When making the automarkup, if any namespace was used in the current
->   file, try to cross-reference to the symbol inside of it before trying
->   in the global namespace.
->=20
-> To make the first step possible, disable the parallel_read_safe option
-> in Sphinx, since the dictionary that maps the files to the C namespaces
-> can't be concurrently updated. This unfortunately increases the build
-> time of the documentation.
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+---
+ .../networking/device_drivers/index.rst       |   1 +
+ .../device_drivers/qlogic/index.rst           |  18 +++
+ .../networking/device_drivers/qlogic/qlge.rst | 118 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ 4 files changed, 143 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
+ create mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
 
-Disabling parallel_read_safe will make performance very poor.
-Doesn't the C domain store the current namespace somewhere?
-If so, then, instead of using the source-read phase, something
-else could be used instead.
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index a3113ffd7a16..d8279de7bf25 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -15,6 +15,7 @@ Contents:
+    ethernet/index
+    fddi/index
+    hamradio/index
++   qlogic/index
+    wan/index
+    wifi/index
+ 
+diff --git a/Documentation/networking/device_drivers/qlogic/index.rst b/Documentation/networking/device_drivers/qlogic/index.rst
+new file mode 100644
+index 000000000000..ad05b04286e4
+--- /dev/null
++++ b/Documentation/networking/device_drivers/qlogic/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++
++QLogic QLGE Device Drivers
++===============================================
++
++Contents:
++
++.. toctree::
++   :maxdepth: 2
++
++   qlge
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/networking/device_drivers/qlogic/qlge.rst b/Documentation/networking/device_drivers/qlogic/qlge.rst
+new file mode 100644
+index 000000000000..0b888253d152
+--- /dev/null
++++ b/Documentation/networking/device_drivers/qlogic/qlge.rst
+@@ -0,0 +1,118 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======================================
++QLogic QLGE 10Gb Ethernet device driver
++=======================================
++
++This driver use drgn and devlink for debugging.
++
++Dump kernel data structures in drgn
++-----------------------------------
++
++To dump kernel data structures, the following Python script can be used
++in drgn:
++
++.. code-block:: python
++
++	def align(x, a):
++	    """the alignment a should be a power of 2
++	    """
++	    mask = a - 1
++	    return (x+ mask) & ~mask
++
++	def struct_size(struct_type):
++	    struct_str = "struct {}".format(struct_type)
++	    return sizeof(Object(prog, struct_str, address=0x0))
++
++	def netdev_priv(netdevice):
++	    NETDEV_ALIGN = 32
++	    return netdevice.value_() + align(struct_size("net_device"), NETDEV_ALIGN)
++
++	name = 'xxx'
++	qlge_device = None
++	netdevices = prog['init_net'].dev_base_head.address_of_()
++	for netdevice in list_for_each_entry("struct net_device", netdevices, "dev_list"):
++	    if netdevice.name.string_().decode('ascii') == name:
++	        print(netdevice.name)
++
++	ql_adapter = Object(prog, "struct ql_adapter", address=netdev_priv(qlge_device))
++
++The struct ql_adapter will be printed in drgn as follows,
++
++    >>> ql_adapter
++    (struct ql_adapter){
++            .ricb = (struct ricb){
++                    .base_cq = (u8)0,
++                    .flags = (u8)120,
++                    .mask = (__le16)26637,
++                    .hash_cq_id = (u8 [1024]){ 172, 142, 255, 255 },
++                    .ipv6_hash_key = (__le32 [10]){},
++                    .ipv4_hash_key = (__le32 [4]){},
++            },
++            .flags = (unsigned long)0,
++            .wol = (u32)0,
++            .nic_stats = (struct nic_stats){
++                    .tx_pkts = (u64)0,
++                    .tx_bytes = (u64)0,
++                    .tx_mcast_pkts = (u64)0,
++                    .tx_bcast_pkts = (u64)0,
++                    .tx_ucast_pkts = (u64)0,
++                    .tx_ctl_pkts = (u64)0,
++                    .tx_pause_pkts = (u64)0,
++                    ...
++            },
++            .active_vlans = (unsigned long [64]){
++                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52780853100545, 18446744073709551615,
++                    18446619461681283072, 0, 42949673024, 2147483647,
++            },
++            .rx_ring = (struct rx_ring [17]){
++                    {
++                            .cqicb = (struct cqicb){
++                                    .msix_vect = (u8)0,
++                                    .reserved1 = (u8)0,
++                                    .reserved2 = (u8)0,
++                                    .flags = (u8)0,
++                                    .len = (__le16)0,
++                                    .rid = (__le16)0,
++                                    ...
++                            },
++                            .cq_base = (void *)0x0,
++                            .cq_base_dma = (dma_addr_t)0,
++                    }
++                    ...
++            }
++    }
++
++coredump via devlink
++--------------------
++
++
++And the coredump obtained via devlink in json format looks like,
++
++.. code:: shell
++
++	$ devlink health dump show DEVICE reporter coredump -p -j
++	{
++	    "Core Registers": {
++	        "segment": 1,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    "Test Logic Regs": {
++	        "segment": 2,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    "RMII Registers": {
++	        "segment": 3,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    ...
++	    "Sem Registers": {
++	        "segment": 50,
++	        "values": [ 0,0,0,0 ]
++	    }
++	}
++
++When the module parameter qlge_force_coredump is set to be true, the MPI
++RISC reset before coredumping. So coredumping will much longer since
++devlink tool has to wait for 5 secs for the resetting to be
++finished.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 05d9b8c00eed..1def89b15913 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14413,6 +14413,12 @@ L:	netdev@vger.kernel.org
+ S:	Supported
+ F:	drivers/staging/qlge/
+ 
++QLOGIC QLGE 10Gb ETHERNET DRIVER
++M:	Coiby Xu <coiby.xu@gmail.com>
++L:	netdev@vger.kernel.org
++S:	Maintained
++F:	Documentation/networking/device_drivers/qlogic/qlge.rst
++
+ QM1D1B0004 MEDIA DRIVER
+ M:	Akihiro Tsukada <tskd08@gmail.com>
+ L:	linux-media@vger.kernel.org
+-- 
+2.28.0
 
->=20
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
-> ---
->  Documentation/sphinx/automarkup.py | 130 ++++++++++++++++++-----------
->  1 file changed, 82 insertions(+), 48 deletions(-)
->=20
-> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/au=
-tomarkup.py
-> index 409dbc4100de..bca8cf5f519d 100644
-> --- a/Documentation/sphinx/automarkup.py
-> +++ b/Documentation/sphinx/automarkup.py
-> @@ -45,6 +45,8 @@ RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+=
-)', flags=3Dre.ASCII)
->  #
->  RE_doc =3D re.compile(r'\bDocumentation(/[\w\-_/]+)(\.\w+)*')
-> =20
-> +RE_namespace =3D re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
-> +
->  #
->  # Reserved C words that we should skip when cross-referencing
->  #
-> @@ -62,6 +64,8 @@ Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcnt=
-l', 'mmap',
->                'select', 'poll', 'fork', 'execve', 'clone', 'ioctl',
->                'socket' ]
-> =20
-> +c_namespace =3D {}
-> +
->  def markup_refs(docname, app, node):
->      t =3D node.astext()
->      done =3D 0
-> @@ -120,30 +124,42 @@ def markup_func_ref_sphinx3(docname, app, match):
->      #
->      # Go through the dance of getting an xref out of the C domain
->      #
-> -    target =3D match.group(2)
-> +    base_target =3D match.group(2)
->      target_text =3D nodes.Text(match.group(0))
->      xref =3D None
-> -    if not (target in Skipfuncs or target in Skipnames):
-> -        for class_s, reftype_s in zip(class_str, reftype_str):
-> -            lit_text =3D nodes.literal(classes=3D['xref', 'c', class_s])
-> -            lit_text +=3D target_text
-> -            pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
-> -                                          reftype =3D reftype_s,
-> -                                          reftarget =3D target, modname =
-=3D None,
-> -                                          classname =3D None)
-> -            #
-> -            # XXX The Latex builder will throw NoUri exceptions here,
-> -            # work around that by ignoring them.
-> -            #
-> -            try:
-> -                xref =3D cdom.resolve_xref(app.env, docname, app.builder,
-> -                                         reftype_s, target, pxref,
-> -                                         lit_text)
-> -            except NoUri:
-> -                xref =3D None
-> -
-> -            if xref:
-> -                return xref
-> +    possible_targets =3D [base_target]
-> +    # Check if this document has a namespace, and if so, try
-> +    # cross-referencing inside it first.
-> +    try:
-> +        namespace =3D c_namespace[docname]
-> +    except KeyError:
-> +        pass
-> +    else:
-> +        possible_targets.insert(0, namespace + "." + base_target)
-> +
-> +    if base_target not in Skipnames:
-> +        for target in possible_targets:
-> +            if target not in Skipfuncs:
-> +                for class_s, reftype_s in zip(class_str, reftype_str):
-> +                    lit_text =3D nodes.literal(classes=3D['xref', 'c', c=
-lass_s])
-> +                    lit_text +=3D target_text
-> +                    pxref =3D addnodes.pending_xref('', refdomain =3D 'c=
-',
-> +                                                  reftype =3D reftype_s,
-> +                                                  reftarget =3D target, =
-modname =3D None,
-> +                                                  classname =3D None)
-> +                    #
-> +                    # XXX The Latex builder will throw NoUri exceptions =
-here,
-> +                    # work around that by ignoring them.
-> +                    #
-> +                    try:
-> +                        xref =3D cdom.resolve_xref(app.env, docname, app=
-.builder,
-> +                                                 reftype_s, target, pxre=
-f,
-> +                                                 lit_text)
-> +                    except NoUri:
-> +                        xref =3D None
-> +
-> +                    if xref:
-> +                        return xref
-> =20
->      return target_text
-> =20
-> @@ -171,34 +187,43 @@ def markup_c_ref(docname, app, match):
->      #
->      # Go through the dance of getting an xref out of the C domain
->      #
-> -    target =3D match.group(2)
-> +    base_target =3D match.group(2)
->      target_text =3D nodes.Text(match.group(0))
->      xref =3D None
-> -    if not ((match.re =3D=3D RE_function and target in Skipfuncs)
-> -            or (target in Skipnames)):
-> -        lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[mat=
-ch.re]])
-> -        lit_text +=3D target_text
-> -        pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
-> -                                      reftype =3D reftype_str[match.re],
-> -                                      reftarget =3D target, modname =3D =
-None,
-> -                                      classname =3D None)
-> -        #
-> -        # XXX The Latex builder will throw NoUri exceptions here,
-> -        # work around that by ignoring them.
-> -        #
-> -        try:
-> -            xref =3D cdom.resolve_xref(app.env, docname, app.builder,
-> -                                     reftype_str[match.re], target, pxre=
-f,
-> -                                     lit_text)
-> -        except NoUri:
-> -            xref =3D None
-> -    #
-> -    # Return the xref if we got it; otherwise just return the plain text.
-> -    #
-> -    if xref:
-> -        return xref
-> +    possible_targets =3D [base_target]
-> +    # Check if this document has a namespace, and if so, try
-> +    # cross-referencing inside it first.
-> +    try:
-> +        namespace =3D c_namespace[docname]
-> +    except KeyError:
-> +        pass
->      else:
-> -        return target_text
-> +        possible_targets.insert(0, namespace + "." + base_target)
-> +
-> +    if base_target not in Skipnames:
-> +        for target in possible_targets:
-> +            if not (match.re =3D=3D RE_function and target in Skipfuncs):
-> +                lit_text =3D nodes.literal(classes=3D['xref', 'c', class=
-_str[match.re]])
-> +                lit_text +=3D target_text
-> +                pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
-> +                                              reftype =3D reftype_str[ma=
-tch.re],
-> +                                              reftarget =3D target, modn=
-ame =3D None,
-> +                                              classname =3D None)
-> +                #
-> +                # XXX The Latex builder will throw NoUri exceptions here,
-> +                # work around that by ignoring them.
-> +                #
-> +                try:
-> +                    xref =3D cdom.resolve_xref(app.env, docname, app.bui=
-lder,
-> +                                             reftype_str[match.re], targ=
-et, pxref,
-> +                                             lit_text)
-> +                except NoUri:
-> +                    xref =3D None
-> +
-> +                if xref:
-> +                    return xref
-> +
-> +    return target_text
-> =20
->  #
->  # Try to replace a documentation reference of the form Documentation/...=
- with a
-> @@ -246,9 +271,18 @@ def auto_markup(app, doctree, name):
->              if not isinstance(node.parent, nodes.literal):
->                  node.parent.replace(node, markup_refs(name, app, node))
-> =20
-> +def save_c_namespace(app, docname, source):
-> +    lines =3D iter(source[0].splitlines(True))
-> +    for l in lines:
-> +        match =3D RE_namespace.search(l)
-> +        if match:
-> +            c_namespace[docname] =3D match.group(1)
-> +            return
-> +
->  def setup(app):
-> +    app.connect('source-read', save_c_namespace)
->      app.connect('doctree-resolved', auto_markup)
->      return {
-> -        'parallel_read_safe': True,
-> +        'parallel_read_safe': False,
->          'parallel_write_safe': True,
->          }
-
-
-
-Thanks,
-Mauro
