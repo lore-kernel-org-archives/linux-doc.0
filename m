@@ -2,277 +2,303 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDC7C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 11:23:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B55C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 13:20:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A7BF21527
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 11:23:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D61522202
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 13:20:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V1B4Zhet"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O/PdYI4g"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730626AbgJNLXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 07:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59082 "EHLO
+        id S2388489AbgJNNUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 09:20:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727865AbgJNLXF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 07:23:05 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652C5C0613D2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 04:23:05 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id j136so2196353wmj.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 04:23:05 -0700 (PDT)
+        with ESMTP id S2388358AbgJNNUe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 09:20:34 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A5AC0613D3
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 06:20:34 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id p5so1998098ejj.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 06:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oWaGuo9LskuZ4hXwW4a3zf/hlKac3ATy+u6gonh1b2Q=;
-        b=V1B4ZhetUpahJXmCc8Nl/G16fbmvRO9QjhujCBD8MrohGV6HWWErpum53RILt21/xW
-         jgLYOxZXMSKZz7AI38yPWU+kNk8ZDQAnjjhFEnb7mif+oSZjVbQNhDFcYKwLePNqlcVu
-         m9VLQQMV/saSgEDp4nZJE8A2jt6C9V2vgkLHwlSwK730iEF8B+3qxQcl1bZ/qmVcxz2T
-         Dw/Zz8UFdyPv+vkbvYZRoLfr8dKDjJx+7C/AFseaBLWsTBaWb51mGYQafD0aCXtWr+py
-         OohFL+Y24rRJuj//F6EUb4NZ7jO6cr7fSske3WjM+WNFZez9Q+/fdWRdAs4w+SQgtOpv
-         x+5A==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4Sqo0tOnGBsG6neBtdcruAk7VjUKLmx7JbBsdacr1Gw=;
+        b=O/PdYI4gt9NIkdQ7pjQMtJrKP9uLGcgl0v60zgDaawd9ZM3vpACURSvXjl81i9Jkjq
+         dnr6cgYM+U4Z+96d5/DqZ/9C5A7UDjEJ7F6S1nU8fMoKjfwhZ/LIU9Xrl+3Tn19Z3XL+
+         rSu76RLbIj3GKdiLv25D7ztOw1dDBAXkZ4GKU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oWaGuo9LskuZ4hXwW4a3zf/hlKac3ATy+u6gonh1b2Q=;
-        b=RJTyqo/XbQuoQcLFH8ljibZcmhWZ9XqLeh3UJ0kptNzcqxP8Y8msYhYxJpGjR8lx6V
-         cxQocxhIvg1vUIjzX9Dv+1sxAJWJJLRNiRr8hnzagfTU5jJduhtZ9zKtu94DdlRX/ikW
-         5F5Q8DdYjf4+d3nFr74TS1XqpVr8S4rNI3SGFYh8jvOjpZpvl/A7anjZSzxuG8tjWFpD
-         8wuxbTic/mTPndpHEUVqGzruFpJqLDF7y2qqfGEtmIbdu1/GKpGF2ST1kFPW3x+WZQmt
-         0ByjEhqgh/dGBpbCx6BN+OlNZHqdagT+EEYPq+4pq0uVCqM7A9OduzATMokKJDqlEAcq
-         r+GA==
-X-Gm-Message-State: AOAM530ZAl+iD41+91g7NduzkGuBMwVZ4xNxk+DxzcReLCRsBSAsuTkv
-        fLA65B9iELq10rRvrDBepcj6D6mRG++WwA==
-X-Google-Smtp-Source: ABdhPJzq2JW0akPdDmOzMbu3G9f8P99qjock5GWOa+k7jyBd/FreW1zPU+oD5RPP9LYdFSjfK6i28g==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr3087165wmi.66.1602674583733;
-        Wed, 14 Oct 2020 04:23:03 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f? ([2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f])
-        by smtp.googlemail.com with ESMTPSA id v3sm4621066wre.17.2020.10.14.04.23.01
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4Sqo0tOnGBsG6neBtdcruAk7VjUKLmx7JbBsdacr1Gw=;
+        b=aaRO+1vokWvmhF77f53lRhVbG2SMD6UdWiIAJ1XPRADWdhp+QCXerZcubtdoTaKBZm
+         3a405QqUZNEpBTS1gzyDrQQ4Py/B7dnL3TVmOiyogT2nhfO+baGzFdL/VdnF2EL13nrT
+         oFIOcx69q2R2FodRnjD2KrYV9ujH+N+O5KyKTDJnAMUiNMbElailjW48dIWxxQUeHVo9
+         6b0Wt20ZR7/SvCBBcNQgHdl0S6kndos/LbvJuhdmXTGHu4xiOaazE0JDiID5+9gXCXeU
+         xbMC9jf7T7C91O2qvr2lNIOAJb/5lljDYT+ysQHVO+bDNxAapEh2ChM5CiiE/d3qaU6r
+         v7nw==
+X-Gm-Message-State: AOAM530f4LUjkMp9D6A9lJNQ7ZGaBEaF/DDBHuTZMIjzA7TYY54Rm/Zv
+        5PEUTFQiVkCKctUsiBfjtjFWh/jyoBpdQQ==
+X-Google-Smtp-Source: ABdhPJyOfyJZH7LgzJ5hPGEkDSxPmEDFpeK2dzqDplRcSgMU69PvVvAXzEI5hdSXxz5OyVUQWUtQDQ==
+X-Received: by 2002:a17:907:392:: with SMTP id ss18mr5334801ejb.429.1602681631234;
+        Wed, 14 Oct 2020 06:20:31 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by smtp.gmail.com with ESMTPSA id n4sm1718847ejj.19.2020.10.14.06.20.28
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2020 04:23:02 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
- Energy Model, EAS and IPA
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, robh+dt@kernel.org, amitk@kernel.org,
-        corbet@lwn.net, Dietmar.Eggemann@arm.com, qperret@google.com,
-        dianders@chromium.org, mka@chromium.org, rnayak@codeaurora.org
-References: <20201002114426.31277-1-lukasz.luba@arm.com>
- <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
- <765e6603-b614-fb72-64ff-248b42474803@linaro.org>
- <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <55d3fb0f-f7d8-63c5-2bdb-53eaa62380e0@linaro.org>
-Date:   Wed, 14 Oct 2020 13:23:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 14 Oct 2020 06:20:29 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id e2so2617259wme.1
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 06:20:28 -0700 (PDT)
+X-Received: by 2002:a7b:c451:: with SMTP id l17mr3551632wmi.127.1602681627926;
+ Wed, 14 Oct 2020 06:20:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
+In-Reply-To: <20200930160917.1234225-9-hch@lst.de>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 14 Oct 2020 15:20:16 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+Message-ID: <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        ribalda@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14/10/2020 11:08, Lukasz Luba wrote:
-> Hi Daniel,
-> 
-> On 10/14/20 9:22 AM, Daniel Lezcano wrote:
->>
->> Hi Lukasz,
->>
->> On 09/10/2020 11:16, Lukasz Luba wrote:
->>> Hi Rafael,
->>>
->>> On 10/2/20 12:44 PM, Lukasz Luba wrote:
->>>> Hi all,
->>>>
->>>> The Energy Model supports power values expressed in an abstract scale.
->>>> This has an impact on Intelligent Power Allocation (IPA) and should be
->>>> documented properly. There is also a need to update the DT binding for
->>>> the
->>>> 'sustainable-power' and allow it to have abstract scale as well.
->>>>
->>>> Changes:
->>>> v2:
->>>> - updated sustainable power section in IPA documentation
->>>> - updated DT binding for the 'sustainable-power'
->>>>
->>>> The v1 of the patch set and related discussion can be found in [1].
->>>>
->>>> Regards,
->>>> Lukasz Luba
->>>>
->>>> [1]
->>>> https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
->>>>
->>>>
->>>>
->>>> Lukasz Luba (3):
->>>>     docs: Clarify abstract scale usage for power values in Energy Model
->>>>     PM / EM: update the comments related to power scale
->>>>     dt-bindings: thermal: update sustainable-power with abstract scale
->>>>
->>>>    .../devicetree/bindings/thermal/thermal-zones.yaml  | 13
->>>> +++++++++----
->>>>    .../driver-api/thermal/power_allocator.rst          | 13
->>>> ++++++++++++-
->>>>    Documentation/power/energy-model.rst                | 13
->>>> +++++++++++++
->>>>    Documentation/scheduler/sched-energy.rst            |  5 +++++
->>>>    include/linux/energy_model.h                        | 11 +++++------
->>>>    kernel/power/energy_model.c                         |  2 +-
->>>>    6 files changed, 45 insertions(+), 12 deletions(-)
->>>>
->>>
->>> Could you take patch 1/3 and patch 2/3 via your PM tree,
->>> please? I will be very grateful.
->>>
->>> These patches just update the documentation and comments regarding
->>> an issue that we can have: bogoWatts in the Energy Model (and we
->>> already have). One of the drawbacks is that we cannot derive real energy
->>> from these numbers. Will see how this would evolve.
->>
->> The purpose of the energy model is to provide these power numbers.
->>
->> If the SoC vendors do not want to share those numbers, then better to
->> not use the energy model at all.
->>
->> If they want to use the EAS and the IPA at all costs without sharing the
->> power numbers, then it is up to them to take responsibility of providing
->> consistent numbers, not the community to document how to hack the energy
->> model.
->>
->> And that is even more true as mentioned by Doug: the power numbers are
->> not impossible to measure.
->>
->> Documenting the scale values give the opportunity to the SoC vendor to
->> never share the power numbers, and even worst, that implies all the
->> existing and future frameworks based on the energy model (and its
->> evolution) *must* comply with these dummy values. That is the promise of
->> a real pain.
->>
->> IMO, we must keep a strong constraint on the power values for the energy
->> model.
->>
->> However, nothing prevents to write a recipe on a website explaining how
->> to use the energy model without the power numbers with a big warning
->> that could not work in the future if the energy model evolves or it
->> could be incompatible with the IPA.
->>
->> I suggest to solve the energy model main issue: the SoC vendor do not
->> want to share the power numbers. Why not give the opportunity to load a
->> firmware where the power numbers will be ? The firmware could be in a
->> vendor partition for example.
->>
->>
-> 
-> I understand your concerns. Unfortunately, the reality is that the
-> bogoWatts are there. I had discussion about it a few days ago with
-> Rajendra and Doug [1], where I was also opposed to allow bogoValue
-> coming from DT 'dynamic-power-coefficient'. But I have discussed it
-> internally and we allow, because developers would do it anyway.
++CC Ricardo who will be looking into using this in the USB stack (UVC
+camera driver).
 
-With all respects, 'internal discussions' is like out of tree kernels:
-for the community, they don't exist :)
-
-The development process in opensource is, by essence, public.
-
-That said, if the developers want to use abstract values, up to them to
-make sure it is consistent with the existing framework.
-
-Why do you need to document that and involve the community
-responsibility by adding these information in the Documentation even if
-you know different frameworks could be incompatible ?
-
-
-> Regarding your question with firmware where the power numbers can be
-> stored. Unfortunately, it is quite opposite, FW might want to hide it.
-
-No, I meant a firmware file, called by request_firmware(). So instead of
-having the power numbers in the DT, so published with the kernel, they
-are in the SoC vendor's partition in the firmware file, like
-'energy_model.bin'.
-
-Then when the energy model is initialized, it will try to request an
-energy model firmware file.
-
-That gives the opportunity to the SoC vendor to put the power numbers in
-the file and distribute it with the product.
-
-> We even allow bogoWatts to come from firmware, the SCMI spec:
-> (4.5.1 Performance domain management protocol background)
-> 'The power can be expressed in mW or in an abstract scale. Vendors are
-> not obliged to reveal power costs if it is undesirable, but a linear
-> scale is required.'
-> The callback which does this is not able to check if the value is a
-> bogoWatt [2].
-
-So the definition is clear: '... linear scale is required'. So that
-implies *all* power numbers for all devices defined in the SCMI. It is
-up to the SoC vendor to provide the right numbers.
-
-The EM / IPA / EAS do not have to care about the values.
-
-> EAS can handle EM with bogoWatts, as I described in the patch.
-> IPA has some issues: 'sustainable-power' in DT (which shouldn't be used
-> when EM devices use abstract scale) but sysfs interface can be used.
-
-Here the platform is mixing the numbers from different firmwares with
-different units.
-
-Why not make things consistent ? If the power numbers are coming from
-the SCMI, then ignore the ones coming from the DT, no? That should be
-simpler now that we have the energy model used for devfreq and cpufreq.
-
-May be add a flag in the energy model giving the origin of the data?
-
-> This patch set just align the SCMI spec with EM, EAS, IPA
-> documentation and already present platforms which use it.
-
-Actually, it is the opposite, the patch aligns EAS and EM to the SCMI
-spec, but we end up with IPA based on the EM/SCMI & DT and EAS based on
-EM/SCMI, right ?
-
-That is the root cause of the incompatibility.
-
-> I hope that the real milliWatts would come to EM via the DT
-> 'dynamic-power-coefficient' and function dev_pm_opp_of_register_em().
-> But no guaranties as you can see in [1].
-
-It is not a kernel problem if inconsistent values are specified in the DT.
-
-May be make developer life easier by submitting a script which will take
-a device tree, check all power numbers, and consistently abstract them.
-The developer will write the real values in the DT, test everything is
-working fine, then run the script which will make the 'linear scale' of
-all the power numbers and convert them to bogoWatt (with different
-properties name, so watt and bogowatt mix can be detected).
-
-In any case, if the DT is specifying real numbers, and SCMI abstract
-numbers or the opposite, obviously there is a conflict if we are using both.
-
-I suggest to fix the conflict first and provide the features to make the
-numbers more easy to share (like the script described above and/or the
-firmware file).
-
-Then with the right tools, everything can be documented.
-
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+On Wed, Sep 30, 2020 at 6:09 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Add a new API that returns a virtually non-contigous array of pages
+> and dma address.  This API is only implemented for dma-iommu and will
+> not be implemented for non-iommu DMA API instances that have to allocate
+> contiguous memory.  It is up to the caller to check if the API is
+> available.
+>
+> The intent is that media drivers can use this API if either:
+>
+>  - no kernel mapping or only temporary kernel mappings are required.
+>    That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
+>  - a kernel mapping is required for cached and DMA mapped pages, but
+>    the driver also needs the pages to e.g. map them to userspace.
+>    In that sense it is a replacement for some aspects of the recently
+>    removed and never fully implemented DMA_ATTR_NON_CONSISTENT
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/iommu/dma-iommu.c   | 73 +++++++++++++++++++++++++------------
+>  include/linux/dma-mapping.h |  9 +++++
+>  kernel/dma/mapping.c        | 35 ++++++++++++++++++
+>  3 files changed, 93 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 7922f545cd5eef..158026a856622c 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -565,23 +565,12 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
+>         return pages;
+>  }
+>
+> -/**
+> - * iommu_dma_alloc_remap - Allocate and map a buffer contiguous in IOVA space
+> - * @dev: Device to allocate memory for. Must be a real device
+> - *      attached to an iommu_dma_domain
+> - * @size: Size of buffer in bytes
+> - * @dma_handle: Out argument for allocated DMA handle
+> - * @gfp: Allocation flags
+> - * @prot: pgprot_t to use for the remapped mapping
+> - * @attrs: DMA attributes for this allocation
+> - *
+> - * If @size is less than PAGE_SIZE, then a full CPU page will be allocated,
+> +/*
+> + * If size is less than PAGE_SIZE, then a full CPU page will be allocated,
+>   * but an IOMMU which supports smaller pages might not map the whole thing.
+> - *
+> - * Return: Mapped virtual address, or NULL on failure.
+>   */
+> -static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> -               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> +static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
+> +               size_t size, dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+>                 unsigned long attrs)
+>  {
+>         struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> @@ -593,7 +582,6 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+>         struct page **pages;
+>         struct sg_table sgt;
+>         dma_addr_t iova;
+> -       void *vaddr;
+>
+>         *dma_handle = DMA_MAPPING_ERROR;
+>
+> @@ -636,17 +624,10 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+>                         < size)
+>                 goto out_free_sg;
+>
+> -       vaddr = dma_common_pages_remap(pages, size, prot,
+> -                       __builtin_return_address(0));
+> -       if (!vaddr)
+> -               goto out_unmap;
+> -
+>         *dma_handle = iova;
+>         sg_free_table(&sgt);
+> -       return vaddr;
+> +       return pages;
+>
+> -out_unmap:
+> -       __iommu_dma_unmap(dev, iova, size);
+>  out_free_sg:
+>         sg_free_table(&sgt);
+>  out_free_iova:
+> @@ -656,6 +637,46 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+>         return NULL;
+>  }
+>
+> +static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> +               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> +               unsigned long attrs)
+> +{
+> +       struct page **pages;
+> +       void *vaddr;
+> +
+> +       pages = __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
+> +                                               prot, attrs);
+> +       if (!pages)
+> +               return NULL;
+> +       vaddr = dma_common_pages_remap(pages, size, prot,
+> +                       __builtin_return_address(0));
+> +       if (!vaddr)
+> +               goto out_unmap;
+> +       return vaddr;
+> +
+> +out_unmap:
+> +       __iommu_dma_unmap(dev, *dma_handle, size);
+> +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+> +       return NULL;
+> +}
+> +
+> +#ifdef CONFIG_DMA_REMAP
+> +static struct page **iommu_dma_alloc_noncontiguous(struct device *dev,
+> +               size_t size, dma_addr_t *dma_handle, gfp_t gfp,
+> +               unsigned long attrs)
+> +{
+> +       return __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
+> +                                              PAGE_KERNEL, attrs);
+> +}
+> +
+> +static void iommu_dma_free_noncontiguous(struct device *dev, size_t size,
+> +               struct page **pages, dma_addr_t dma_handle)
+> +{
+> +       __iommu_dma_unmap(dev, dma_handle, size);
+> +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+> +}
+> +#endif
+> +
+>  static void iommu_dma_sync_single_for_cpu(struct device *dev,
+>                 dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
+>  {
+> @@ -1110,6 +1131,10 @@ static const struct dma_map_ops iommu_dma_ops = {
+>         .free                   = iommu_dma_free,
+>         .alloc_pages            = dma_common_alloc_pages,
+>         .free_pages             = dma_common_free_pages,
+> +#ifdef CONFIG_DMA_REMAP
+> +       .alloc_noncontiguous    = iommu_dma_alloc_noncontiguous,
+> +       .free_noncontiguous     = iommu_dma_free_noncontiguous,
+> +#endif
+>         .mmap                   = iommu_dma_mmap,
+>         .get_sgtable            = iommu_dma_get_sgtable,
+>         .map_page               = iommu_dma_map_page,
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index 4b9b1d64f5ec9e..51bbc32365bb8d 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -74,6 +74,10 @@ struct dma_map_ops {
+>                         gfp_t gfp);
+>         void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
+>                         dma_addr_t dma_handle, enum dma_data_direction dir);
+> +       struct page **(*alloc_noncontiguous)(struct device *dev, size_t size,
+> +                       dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
+> +       void (*free_noncontiguous)(struct device *dev, size_t size,
+> +                       struct page **pages, dma_addr_t dma_handle);
+>         int (*mmap)(struct device *, struct vm_area_struct *,
+>                           void *, dma_addr_t, size_t,
+>                           unsigned long attrs);
+> @@ -384,6 +388,11 @@ void *dma_alloc_noncoherent(struct device *dev, size_t size,
+>                 dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+>  void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+>                 dma_addr_t dma_handle, enum dma_data_direction dir);
+> +bool dma_can_alloc_noncontiguous(struct device *dev);
+> +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
+> +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
+> +void dma_free_noncontiguous(struct device *dev, size_t size,
+> +               struct page **pages, dma_addr_t dma_handle);
+>
+>  static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+>                 size_t size, enum dma_data_direction dir, unsigned long attrs)
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index 06115f59f4ffbf..6d975d1a20dd72 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -529,6 +529,41 @@ void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+>  }
+>  EXPORT_SYMBOL_GPL(dma_free_noncoherent);
+>
+> +bool dma_can_alloc_noncontiguous(struct device *dev)
+> +{
+> +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> +
+> +       return ops && ops->free_noncontiguous;
+> +}
+> +EXPORT_SYMBOL_GPL(dma_can_alloc_noncontiguous);
+> +
+> +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
+> +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+> +{
+> +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> +
+> +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
+> +               return NULL;
+> +       if (attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES) {
+> +               dev_warn(dev, "invalid flags (0x%lx) for %s\n",
+> +                        attrs, __func__);
+> +               return NULL;
+> +       }
+> +       return ops->alloc_noncontiguous(dev, size, dma_handle, gfp, attrs);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_alloc_noncontiguous);
+> +
+> +void dma_free_noncontiguous(struct device *dev, size_t size,
+> +               struct page **pages, dma_addr_t dma_handle)
+> +{
+> +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> +
+> +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
+> +               return;
+> +       ops->free_noncontiguous(dev, size, pages, dma_handle);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_free_noncontiguous);
+> +
+>  int dma_supported(struct device *dev, u64 mask)
+>  {
+>         const struct dma_map_ops *ops = get_dma_ops(dev);
+> --
+> 2.28.0
+>
