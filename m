@@ -6,89 +6,60 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1727C433E7
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 19:13:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94555C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 19:19:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D6462222C
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 19:13:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34A07214D8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 19:19:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390482AbgJNTNs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 15:13:48 -0400
-Received: from smtp-8fad.mail.infomaniak.ch ([83.166.143.173]:50401 "EHLO
-        smtp-8fad.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390310AbgJNTNr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 15:13:47 -0400
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CBMXB3FxzzlhLBS;
-        Wed, 14 Oct 2020 21:13:46 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4CBMX80zFmzlh8TP;
-        Wed, 14 Oct 2020 21:13:44 +0200 (CEST)
-Subject: Re: [PATCH v21 07/12] landlock: Support filesystem access-control
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>
-Cc:     linux-kernel@vger.kernel.org,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Richard Weinberger <richard@nod.at>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201008153103.1155388-1-mic@digikod.net>
- <20201008153103.1155388-8-mic@digikod.net>
- <alpine.LRH.2.21.2010150504360.26012@namei.org>
- <77ea263c-4200-eb74-24b2-9a8155aff9b5@digikod.net>
-Message-ID: <b311a2a6-5290-5c50-3a9c-4d5b54b6b406@digikod.net>
-Date:   Wed, 14 Oct 2020 21:13:42 +0200
-User-Agent: 
+        id S2390353AbgJNTTC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 15:19:02 -0400
+Received: from ms.lwn.net ([45.79.88.28]:32854 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389668AbgJNTTC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Oct 2020 15:19:02 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id F2D2E739;
+        Wed, 14 Oct 2020 19:19:01 +0000 (UTC)
+Date:   Wed, 14 Oct 2020 13:19:00 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: Re: [PATCH v2 5/5] docs: automarkup.py: Allow automatic
+ cross-reference inside C namespace
+Message-ID: <20201014131900.1137cdc8@lwn.net>
+In-Reply-To: <20201014115644.7bda9918@coco.lan>
+References: <20201013231218.2750109-1-nfraprado@protonmail.com>
+        <20201013231218.2750109-6-nfraprado@protonmail.com>
+        <20201014115644.7bda9918@coco.lan>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <77ea263c-4200-eb74-24b2-9a8155aff9b5@digikod.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 14 Oct 2020 11:56:44 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On 14/10/2020 20:52, Mickaël Salaün wrote:
+> > To make the first step possible, disable the parallel_read_safe option
+> > in Sphinx, since the dictionary that maps the files to the C namespaces
+> > can't be concurrently updated. This unfortunately increases the build
+> > time of the documentation.  
 > 
-> On 14/10/2020 20:07, James Morris wrote:
->> On Thu, 8 Oct 2020, Mickaël Salaün wrote:
->>
->>> +config ARCH_EPHEMERAL_STATES
->>> +	def_bool n
->>> +	help
->>> +	  An arch should select this symbol if it does not keep an internal kernel
->>> +	  state for kernel objects such as inodes, but instead relies on something
->>> +	  else (e.g. the host kernel for an UML kernel).
->>> +
->>
->> This is used to disable Landlock for UML, correct?
-> 
-> Yes
-> 
->> I wonder if it could be 
->> more specific: "ephemeral states" is a very broad term.
->>
->> How about something like ARCH_OWN_INODES ?
-> 
-> Sounds good. We may need add new ones (e.g. for network socket, UID,
-> etc.) in the future though.
-> 
+> Disabling parallel_read_safe will make performance very poor.
+> Doesn't the C domain store the current namespace somewhere?
+> If so, then, instead of using the source-read phase, something
+> else could be used instead.
 
-Because UML is the exception here, it would be more convenient to keep
-the inverted semantic. What about ARCH_NO_OWN_INODES or
-ARCH_EPHEMERAL_INODES?
+That seems like the best solution if it exists, yes.  Otherwise a simple
+lock could be used around c_namespace to serialize access there, right?
+
+Thanks,
+
+jon
