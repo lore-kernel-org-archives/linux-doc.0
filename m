@@ -2,113 +2,62 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE977C43467
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 18:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1E8C433E7
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 19:11:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F58B2222C
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 18:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602701844;
-	bh=jFQXOQDUpjT6qesgdMyQFKwEbBCv/SGOxAeads27y1I=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
-	 From;
-	b=gI+DN7h0ZKEPRnhrKIGfLFfswfEPF2wHWC1ZHoUnhqAbs6mVi1tboUkruR4ezAt1F
-	 tyJ1bg8ZmH+fOaKmZFYXqj/1x+nviqQXcOoq/9ymHoXJm7gWXxS0p/Yat3k1UJE2Xj
-	 QUmhXEln3siIKZNTdEgpb15g7OC4DpJ7faqm+ELg=
+	by mail.kernel.org (Postfix) with ESMTP id 7874C2078A
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 19:11:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390252AbgJNS5V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 14:57:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45656 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389489AbgJNS5V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Oct 2020 14:57:21 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-104-11.bvtn.or.frontiernet.net [50.39.104.11])
+        id S2389380AbgJNTLZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 15:11:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47572 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388775AbgJNTLZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 15:11:25 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0FE3C061755;
+        Wed, 14 Oct 2020 12:11:24 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 974EB20691;
-        Wed, 14 Oct 2020 18:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602701840;
-        bh=jFQXOQDUpjT6qesgdMyQFKwEbBCv/SGOxAeads27y1I=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=uufeQWbi++CzSAbfjFeE8arW5VSfn63QlFfD+6AAVjcPn0ZrEKvm0FDOVWFBP5qKu
-         Qx+Lj9UjyLtzyQE1huslAmaMcCSGQOapisG8gISkjKxFSV8kEaXeXkyLvQ0kksbrTF
-         V2RkmlzvDZLJtvcgVLFJd3kvQDdXTUKvRi4qGC9E=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 2EFD13522892; Wed, 14 Oct 2020 11:57:20 -0700 (PDT)
-Date:   Wed, 14 Oct 2020 11:57:20 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
+        by ms.lwn.net (Postfix) with ESMTPSA id 533DB739;
+        Wed, 14 Oct 2020 19:11:24 +0000 (UTC)
+Date:   Wed, 14 Oct 2020 13:11:22 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/24] tools: docs: memory-model: fix references for
- some files
-Message-ID: <20201014185720.GA28761@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <44baab3643aeefdb68f1682d89672fad44aa2c67.1602590106.git.mchehab+huawei@kernel.org>
- <20201013163354.GO3249@paulmck-ThinkPad-P72>
- <20201013163836.GC670875@rowland.harvard.edu>
- <20201014015840.GR3249@paulmck-ThinkPad-P72>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: Re: [PATCH v2 2/5] docs: automarkup.py: Fix regexes to solve sphinx
+ 3 warnings
+Message-ID: <20201014131122.52305a86@lwn.net>
+In-Reply-To: <20201013231218.2750109-3-nfraprado@protonmail.com>
+References: <20201013231218.2750109-1-nfraprado@protonmail.com>
+        <20201013231218.2750109-3-nfraprado@protonmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201014015840.GR3249@paulmck-ThinkPad-P72>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 06:58:40PM -0700, Paul E. McKenney wrote:
-> On Tue, Oct 13, 2020 at 12:38:36PM -0400, Alan Stern wrote:
-> > On Tue, Oct 13, 2020 at 09:33:54AM -0700, Paul E. McKenney wrote:
-> > > On Tue, Oct 13, 2020 at 02:14:29PM +0200, Mauro Carvalho Chehab wrote:
-> > > > - The sysfs.txt file was converted to ReST and renamed;
-> > > > - The control-dependencies.txt is not at
-> > > >   Documentation/control-dependencies.txt. As it is at the
-> > > >   same dir as the README file, which mentions it, just
-> > > >   remove Documentation/.
-> > > > 
-> > > > With that, ./scripts/documentation-file-ref-check script
-> > > > is now happy again for files under tools/.
-> > > > 
-> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > 
-> > > Queued for review and testing, likely target v5.11.
-> > 
-> > Instead of changing the path in the README reference, shouldn't 
-> > tools/memory-model/control-dependencies.txt be moved to its proper 
-> > position in .../Documentation?
+On Tue, 13 Oct 2020 23:13:17 +0000
+Nícolas F. R. A. Prado <nfraprado@protonmail.com> wrote:
+
+> The warnings were caused by the expressions matching words in the
+> translated versions of the documentation, since any unicode character
+> was matched.
 > 
-> You are of course quite right.  My thought is to let Mauro go ahead,
-> given his short deadline.  We can then make this "git mv" change once
-> v5.10-rc1 comes out, given that it should have Mauro's patches.  I have
-> added a reminder to my calendar.
+> Fix the regular expression by making the C regexes use ASCII
 
-Except that I cannot find a commit where control-dependencies.txt is
-in tools/memory-model.  And this file is not yet in mainline, but
-only in -rcu and -next.  In both places, it is here:
+I don't quite understand this part, can you give an example of the kinds
+of warnings you were seeing?
 
-	tools/memory-model/Documentation/control-dependencies.txt
+Thanks,
 
-Mauro, to what commit in what tree are you applying this patch?
-
-							Thanx, Paul
+jon
