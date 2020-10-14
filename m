@@ -2,118 +2,138 @@ Return-Path: <SRS0=mLHd=DV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6450FC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 02:08:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 428A8C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 02:20:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 274F621D7F
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 02:08:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 051F221775
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Oct 2020 02:20:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728782AbgJNCI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Oct 2020 22:08:29 -0400
-Received: from mga17.intel.com ([192.55.52.151]:22912 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725874AbgJNCI3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Oct 2020 22:08:29 -0400
-IronPort-SDR: yBPi+WL7a4DNdUvyrh1MJhTW+GyOOMVGIX1S38Tc37EzWAxgs4WvuDTApBhoYjxT5xoHjKRQD/
- ifcKXwlt0QhQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="145879786"
-X-IronPort-AV: E=Sophos;i="5.77,373,1596524400"; 
-   d="scan'208";a="145879786"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 19:08:27 -0700
-IronPort-SDR: inQ4qbS0lmxsXC1fa/JBY45Zh6JLJm29uxHgtI4QzSetpkgZ6qu/XIxzj094gWeTQWPgLeSmUk
- brKTQAX3Hb1w==
-X-IronPort-AV: E=Sophos;i="5.77,373,1596524400"; 
-   d="scan'208";a="530644675"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 19:08:26 -0700
-Date:   Tue, 13 Oct 2020 19:08:25 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V3 3/9] x86/pks: Enable Protection Keys Supervisor
- (PKS)
-Message-ID: <20201014020825.GM2046448@iweiny-DESK2.sc.intel.com>
-References: <20201009194258.3207172-1-ira.weiny@intel.com>
- <20201009194258.3207172-4-ira.weiny@intel.com>
- <cfd8e361-9d5b-5b24-08d4-31ad3d392255@intel.com>
+        id S1726727AbgJNCUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Oct 2020 22:20:14 -0400
+Received: from mail-m1272.qiye.163.com ([115.236.127.2]:50288 "EHLO
+        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726120AbgJNCUO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Oct 2020 22:20:14 -0400
+Received: from ubuntu.localdomain (unknown [58.250.176.229])
+        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id 6AE8DB02537;
+        Wed, 14 Oct 2020 10:20:10 +0800 (CST)
+From:   Bailu Lin <bailu.lin@vivo.com>
+To:     alex.shi@linux.alibaba.com
+Cc:     bailu.lin@vivo.com, catalin.marinas@arm.com, corbet@lwn.net,
+        harryxiyou@gmail.com, kernel@vivo.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, will@kernel.org
+Subject: [PATCH v3] Documentation: Chinese translation of  Documentation/arm64/hugetlbpage.rst
+Date:   Tue, 13 Oct 2020 19:20:03 -0700
+Message-Id: <20201014022003.43862-1-bailu.lin@vivo.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <ab3df28a-cde4-67d1-d0a3-abaa5ada58a1@linux.alibaba.com>
+References: <ab3df28a-cde4-67d1-d0a3-abaa5ada58a1@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cfd8e361-9d5b-5b24-08d4-31ad3d392255@intel.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZHUpCSUlLHhofTEpJVkpNS0lNT0lLSktCSUlVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PTY6Ejo6CD8uFT8iFjwePzcJ
+        KxIKFB1VSlVKTUtJTU9JS0pKT0hKVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
+        VUlOS1VKTE1VSUlCWVdZCAFZQU9ITkw3Bg++
+X-HM-Tid: 0a7524e8629298b7kuuu6ae8db02537
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 11:23:08AM -0700, Dave Hansen wrote:
-> On 10/9/20 12:42 PM, ira.weiny@intel.com wrote:
-> > +/*
-> > + * PKS is independent of PKU and either or both may be supported on a CPU.
-> > + * Configure PKS if the cpu supports the feature.
-> > + */
-> 
-> Let's at least be consistent about CPU vs. cpu in a single comment. :)
+This is a Chinese translated version of
+ Documentation/arm64/hugetlbpage.rst
 
-Sorry, done.
+Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+---
+Changes in v3:
+ - Modify a translation as Alex sugguested.
+Changes in v2:
+ - Fix Sphinx 2.4.4's waring by increasing underline' size.
+---
+ Documentation/arm64/hugetlbpage.rst           |  2 +
+ .../translations/zh_CN/arm64/hugetlbpage.rst  | 45 +++++++++++++++++++
+ .../translations/zh_CN/arm64/index.rst        |  1 +
+ 3 files changed, 48 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/arm64/hugetlbpage.rst
 
-> 
-> > +static void setup_pks(void)
-> > +{
-> > +	if (!IS_ENABLED(CONFIG_ARCH_HAS_SUPERVISOR_PKEYS))
-> > +		return;
-> > +	if (!cpu_feature_enabled(X86_FEATURE_PKS))
-> > +		return;
-> 
-> If you put X86_FEATURE_PKS in disabled-features.h, you can get rid of
-> the explicit CONFIG_ check.
+diff --git a/Documentation/arm64/hugetlbpage.rst b/Documentation/arm64/hugetlbpage.rst
+index b44f939e5210..a110124c11e3 100644
+--- a/Documentation/arm64/hugetlbpage.rst
++++ b/Documentation/arm64/hugetlbpage.rst
+@@ -1,3 +1,5 @@
++.. _hugetlbpage_index:
++
+ ====================
+ HugeTLBpage on ARM64
+ ====================
+diff --git a/Documentation/translations/zh_CN/arm64/hugetlbpage.rst b/Documentation/translations/zh_CN/arm64/hugetlbpage.rst
+new file mode 100644
+index 000000000000..13304d269d0b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/arm64/hugetlbpage.rst
+@@ -0,0 +1,45 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/arm64/hugetlbpage.rst <hugetlbpage_index>`
++
++Translator: Bailu Lin <bailu.lin@vivo.com>
++
++=====================
++ARM64中的 HugeTLBpage
++=====================
++
++大页依靠有效利用 TLBs 来提高地址翻译的性能。这取决于以下
++两点 -
++
++  - 大页的大小
++  - TLBs 支持的条目大小
++
++ARM64 接口支持2种大页方式。
++
++1) pud/pmd 级别的块映射
++-----------------------
++
++这是常规大页，他们的 pmd 或 pud 页面表条目指向一个内存块。
++不管 TLB 中支持的条目大小如何，块映射可以减少翻译大页地址
++所需遍历的页表深度。
++
++2) 使用连续位
++-------------
++
++架构中转换页表条目(D4.5.3, ARM DDI 0487C.a)中提供一个连续
++位告诉 MMU 这个条目是一个连续条目集的一员，它可以被缓存在单
++个 TLB 条目中。
++
++在 Linux 中连续位用来增加 pmd 和 pte(最后一级)级别映射的大
++小。受支持的连续页表条目数量因页面大小和页表级别而异。
++
++
++支持以下大页尺寸配置 -
++
++  ====== ========   ====    ========    ===
++  -      CONT PTE    PMD    CONT PMD    PUD
++  ====== ========   ====    ========    ===
++  4K:         64K     2M         32M     1G
++  16K:         2M    32M          1G
++  64K:         2M   512M         16G
++  ====== ========   ====    ========    ===
+diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
+index 646ed1f7aea3..e31a6090384d 100644
+--- a/Documentation/translations/zh_CN/arm64/index.rst
++++ b/Documentation/translations/zh_CN/arm64/index.rst
+@@ -14,3 +14,4 @@ ARM64 架构
+     :maxdepth: 2
+ 
+     amu
++    hugetlbpage
+-- 
+2.20.1
 
-Done.
-
-> 
-> > +	cr4_set_bits(X86_CR4_PKS);
-> > +}
-> > +
-> >  /*
-> >   * This does the hard work of actually picking apart the CPU stuff...
-> >   */
-> > @@ -1544,6 +1558,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
-> >  
-> >  	x86_init_rdrand(c);
-> >  	setup_pku(c);
-> > +	setup_pks();
-> >  
-> >  	/*
-> >  	 * Clear/Set all flags overridden by options, need do it
-> > diff --git a/mm/Kconfig b/mm/Kconfig
-> > index 6c974888f86f..1b9bc004d9bc 100644
-> > --- a/mm/Kconfig
-> > +++ b/mm/Kconfig
-> > @@ -822,6 +822,8 @@ config ARCH_USES_HIGH_VMA_FLAGS
-> >  	bool
-> >  config ARCH_HAS_PKEYS
-> >  	bool
-> > +config ARCH_HAS_SUPERVISOR_PKEYS
-> > +	bool
-> >  
-> >  config PERCPU_STATS
-> >  	bool "Collect percpu memory statistics"
-> > 
-> 
