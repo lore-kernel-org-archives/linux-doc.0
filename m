@@ -2,128 +2,98 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0604DC433E7
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:32:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B5B9C433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 06:23:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5B1D2224A
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:32:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602739933;
-	bh=tvTGnLhwyWTmpxEH0NnPzvKJR5lhY8hgxX9pTfDeJ7Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=gQFjnF0Asr+CKaQpcJsjgbGEsO9uPvPjaUWV2S4Qy4Q0JMd6a/V4C7oN1tjbbxgdM
-	 MHQM8pTZQJcE02p2EJ9YHHhLC9Od3I/sM6uOUhGeqhATzClWihUvj0Btn1D5Q2eiBT
-	 humPevdBGpR3U7UJHOMlfSR0naCZ4fLiuEOXNQeQ=
+	by mail.kernel.org (Postfix) with ESMTP id E635622247
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 06:23:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=csie-ntu-edu-tw.20150623.gappssmtp.com header.i=@csie-ntu-edu-tw.20150623.gappssmtp.com header.b="uH9p+ldi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727489AbgJOFcN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 01:32:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37510 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726307AbgJOFcN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 01:32:13 -0400
-Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DD27922247;
-        Thu, 15 Oct 2020 05:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602739932;
-        bh=tvTGnLhwyWTmpxEH0NnPzvKJR5lhY8hgxX9pTfDeJ7Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dOSxk4aSmgDgsx8kagXkXRcCPJbWMKyZNP8hTxYjqwgvfcr3x9h4N4ao6ekx1vw+5
-         cutUKSs1B2RbWfYgSC/kksDS3vPvbDhni8FcWbKfz8c7Ym9usMp4XTMwjQ4XGx7LlX
-         tNz/SwjvRAw48vIpXa1RTua8RfsYLYN+ivWThV34=
-Date:   Thu, 15 Oct 2020 07:32:07 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type:
- tags
-Message-ID: <20201015073207.7504a55b@coco.lan>
-In-Reply-To: <20201014215954.GB2545693@gmail.com>
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
-        <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
-        <20201013172512.GA1306858@gmail.com>
-        <20201014085907.7da5bed3@coco.lan>
-        <20201014215954.GB2545693@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1728702AbgJOGXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 02:23:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728086AbgJOGXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 02:23:55 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4791CC061755
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 23:23:55 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id n9so1236522pgf.9
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 23:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=csie-ntu-edu-tw.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=rOybbcG2gzRHb5Bvm5WG6KUjxX79ZyS3rQJBpiyljFo=;
+        b=uH9p+ldiS0oDncC2bwZRnT3A6Ev/GJNL626t90SqFCGv+rK8+O2TF3TfmDy/nBTUHd
+         rBLxXzPbuUsxIzvVeK6KT4IeA/iBkq9p+kEOxcHLeKAKebLY/RUo5sh0kd7s+Y+MPJlz
+         3D7sviFfgC4s7dyJWiNYvGYWcNpwFlu12uRpoB84X2mwEcOIYXH8AgAi8DJ5vEyJPnm4
+         F3moBcG7VSlkCux3fX9LkR8rws1YvC4ObQXhMNxjbLk6jhzSEWWnq3IA+eLZ80+Nx6ta
+         OlZRqCiLHOz13KXBbt98Xb5+LFE70BFiPSm6J1Hr7TEpmWFNGxDbclEJCKLyGRFC+uYC
+         Wl3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=rOybbcG2gzRHb5Bvm5WG6KUjxX79ZyS3rQJBpiyljFo=;
+        b=sotiUErRGQATmi5sNcL7izG8mLYF+zHxFqexU25x4Ac7FJ4qN1Aq5XfZ17FTwlv38y
+         DyMXjLThb1L+uqqBbpmGZm+UjULlWFvRoBxoDNFmCoMnz8aE+PeiuyUWWJjwJkbRk0nh
+         d1qvMouK1SKcGCee/mbTHpqXZ8dmyYnf4uAbc8mJSuCF3F2SRKxr4+apYb9UgC3Uub1r
+         PjWcG5FWRErDfS3FzwYCL8gzenPDnL8IVZRNRwEslBqvmpTqjTJ85ttkf2JIvjp1vjAj
+         BX1+SfDpCxR6dXqKT+8/oYFYnuvd8tdH9eA7XgVdHHyNhDGq2RItBQHsjxcR02VPhCLT
+         q81g==
+X-Gm-Message-State: AOAM530ThI4ivn0PkCb2GjWZ/uDKL8nX8XtG+FVTf0oBEiFUr2Boqada
+        abkKZTCb2XCJeeg83GiTAKUllszE1+vd/i0T4WyqEUrha5/V5ER1z0N3mkaRIDh4wZF5ZwIcyBT
+        JLNgiYWjATilLx+XLlgusstpqFTjMO57KGs3p3Hnmj1/9wgFeb1rlWBT13BvlzneQPimcEm1g7r
+        mQDNFCy79eRNYQklgf33W7CZk=
+X-Google-Smtp-Source: ABdhPJwv6rRAJ77SdeNtpkBHlMRfLSwZQZSBPwXGuDk/FwwmlCigBkmh/ALTQyhN+00BMiFkHBx0HA==
+X-Received: by 2002:a63:d80e:: with SMTP id b14mr2139631pgh.114.1602743034692;
+        Wed, 14 Oct 2020 23:23:54 -0700 (PDT)
+Received: from localhost.localdomain (2001-b011-3803-1d24-853c-8d4c-9ff6-b9e6.dynamic-ip6.hinet.net. [2001:b011:3803:1d24:853c:8d4c:9ff6:b9e6])
+        by smtp.gmail.com with ESMTPSA id x23sm1787195pfc.47.2020.10.14.23.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 23:23:54 -0700 (PDT)
+From:   Wei Lin Chang <r09922117@csie.ntu.edu.tw>
+To:     corbet@lwn.net
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Wei Lin Chang <r09922117@csie.ntu.edu.tw>
+Subject: [PATCH] Documentation: x86: fix a missing word in x86_64/mm.rst.
+Date:   Thu, 15 Oct 2020 14:22:42 +0800
+Message-Id: <20201015062242.26296-1-r09922117@csie.ntu.edu.tw>
+X-Mailer: git-send-email 2.17.1
+X-Gm-Spam: 0
+X-Gm-Phishy: 0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 14 Oct 2020 14:59:54 -0700
-Eric Biggers <ebiggers@kernel.org> escreveu:
+This patch adds a missing word in x86/x86_64/mm.rst, without which
+the note reads awkwardly.
 
-> On Wed, Oct 14, 2020 at 08:59:07AM +0200, Mauro Carvalho Chehab wrote:
-> > [PATCH v6.1 35/80] docs: fs: fscrypt.rst: get rid of :c:type: tags
-> > 
-> > The :c:type: tag has problems with Sphinx 3.x, as structs
-> > there should be declared with c:struct.
-> > 
-> > So, remove them, relying at automarkup.py extension to
-> > convert them into cross-references.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> "relying at" => "relying on".
-> 
-> Otherwise looks fine, you can add:
-> 
-> Reviewed-by: Eric Biggers <ebiggers@google.com>
+Signed-off-by: Wei Lin Chang <r09922117@csie.ntu.edu.tw>
+---
+ Documentation/x86/x86_64/mm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you for reviewing it!
+diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
+index e5053404a..ede187571 100644
+--- a/Documentation/x86/x86_64/mm.rst
++++ b/Documentation/x86/x86_64/mm.rst
+@@ -19,7 +19,7 @@ Complete virtual memory map with 4-level page tables
+    Note that as we get closer to the top of the address space, the notation changes
+    from TB to GB and then MB/KB.
+ 
+- - "16M TB" might look weird at first sight, but it's an easier to visualize size
++ - "16M TB" might look weird at first sight, but it's an easier way to visualize size
+    notation than "16 EB", which few will recognize at first sight as 16 exabytes.
+    It also shows it nicely how incredibly large 64-bit address space is.
+ 
+-- 
+2.17.1
 
-> I do still wonder about your comment though:
-> 
-> > It should be said that, currently, if there's no documentation for "foo",
-> > automarkup will just keep using the regular text font, keeping the text
-> > untouched.  
-> 
-> That will apply to most (maybe all) of the structures mentioned in this file.
-> I expected that if the documentation system now automatically recognizes
-> 'struct foo', then it would render it in code font even when 'struct foo' isn't
-> documented.  Any particular reason why that isn't the case?  Not like I care
-> much myself, but it's a bit unexpected and it means this change actually makes
-> the rendered documentation look worse...
-
-Yeah, I agree that using monospaced fonts on this case too would
-be nice. The C domain actually uses italic monospaced fonts for
-broken XREFs.
-
-I suspect that changing this at automarkup.py would be simple, but
-not sure if it would be safe.
-
-Jon can tell more about that, as he's the author of automarkup,
-but I suspect that the reason for the current behavior is to avoid 
-false-positives. 
-
-I mean, if "struct foo" symbol doesn't exist at the C domain, this
-might mean that the parser is doing something wrong. So, a more
-conservative approach is to keep the string as-is.
-
-On the other hand, if one finds a valid "struct foo" using normal
-fonts, this would mean that either the doc is outdated, mentioning
-an struct that were removed/renamed or that there's a missing 
-kernel-doc markup.
-
-In any case, the fix is to simply fix the kernel-doc markup for
-struct foo.
-
-I guess in the future automarkup.py could issue a warning in
-order to warn about missing cross-references, perhaps when
-W=1 or W=2 is used.
-
-Thanks,
-Mauro
