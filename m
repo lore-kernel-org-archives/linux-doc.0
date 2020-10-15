@@ -2,83 +2,99 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C295C433E7
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:36:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09673C433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD9FD2225E
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:36:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9933722267
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:57:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602779768;
-	bh=yaXOtRmASXSGJpCPGckZbgBc9TUYjmkPJKXlD7mzlXQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=M7b6UtL3A1aWfcieG0W7z7E79ISJk3ogDLJF4wjfd/l0EmDBS9Wmh/zS9OBhX1Wl+
-	 kk7WGHT1F2pOUC+TMVwODAbuOOzO/sG5/BgqSqANoDIqr1bk57QV87NVSsvnK6uKBe
-	 0GkzRJJ9EhQdrPWDOJSl9OGB8H37jqiCuTZIHKzw=
+	s=default; t=1602781028;
+	bh=aZSJUmlfGw8r58Z5k8FZPhCBso0fzX2STY7EVtJw6bk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=yHO06Bs8YK1aDTTJGteFYpK+PdXg56EADw5lNLSERexpH8S1/L1mFfL00JY5RcN4A
+	 iXPc3BIJ2KeKaFE7d5qKZ6fHPDL6STK7T/MbR5lRnzrL7vMsZ62V9915n+UMLsqUSM
+	 EIFCW9rdVGL8RC/TIcoNeMtC9Kw1hWebmljmnPiM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389811AbgJOQgI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 12:36:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55330 "EHLO mail.kernel.org"
+        id S1731174AbgJOQ5I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 12:57:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35110 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389258AbgJOQgI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 12:36:08 -0400
-Received: from gmail.com (unknown [104.132.1.76])
+        id S1730793AbgJOQ5I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Oct 2020 12:57:08 -0400
+Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1601D22210;
-        Thu, 15 Oct 2020 16:36:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 810C0206CA;
+        Thu, 15 Oct 2020 16:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602779767;
-        bh=yaXOtRmASXSGJpCPGckZbgBc9TUYjmkPJKXlD7mzlXQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IEDd8b3kSmvCKaSQgP32yIf6CUR+HKmU/TuAEhFfi5mJvRx1Kto78pqz2ygBKjAKO
-         YsrAcghKR+qxlk5LVKNYYGgcmkYe0ENcQ8rVxJq4VZreo3qZ2G+94DOspCxRrfZxxI
-         ka/TwgvBUB4mRc76ob3JkGnIU7yaZtYPxmjXMSSw=
-Date:   Thu, 15 Oct 2020 09:36:05 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        s=default; t=1602781027;
+        bh=aZSJUmlfGw8r58Z5k8FZPhCBso0fzX2STY7EVtJw6bk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GXqfHhMIw67eZuC8cjyZDpvo1I7LJO9dI7Ci6vdF2Sbe7YSbMQs2ri5nSt6iEaWpS
+         9vrJB/5kqdotgvB7NRRa/5SU7Pi9v1hfz/E+6jiNewXeAMyRqcesVICahT8dyK4eXT
+         lIG8cSW/ZOtdPIGFaBETtkP5al2mRDt1JNJJ+OWc=
+Date:   Thu, 15 Oct 2020 18:56:58 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Eric Biggers <ebiggers@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Theodore Y. Ts'o" <tytso@mit.edu>,
         Jaegeuk Kim <jaegeuk@kernel.org>,
         linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type: tags
-Message-ID: <20201015163605.GA3336735@gmail.com>
+Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type:
+ tags
+Message-ID: <20201015185658.5778544e@coco.lan>
+In-Reply-To: <20201015163605.GA3336735@gmail.com>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
- <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
- <20201013172512.GA1306858@gmail.com>
- <20201014085907.7da5bed3@coco.lan>
- <20201014215954.GB2545693@gmail.com>
- <20201015073207.7504a55b@coco.lan>
+        <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
+        <20201013172512.GA1306858@gmail.com>
+        <20201014085907.7da5bed3@coco.lan>
+        <20201014215954.GB2545693@gmail.com>
+        <20201015073207.7504a55b@coco.lan>
+        <20201015163605.GA3336735@gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201015073207.7504a55b@coco.lan>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 15, 2020 at 07:32:07AM +0200, Mauro Carvalho Chehab wrote:
-> On the other hand, if one finds a valid "struct foo" using normal
-> fonts, this would mean that either the doc is outdated, mentioning
-> an struct that were removed/renamed or that there's a missing 
-> kernel-doc markup.
-> 
-> In any case, the fix is to simply fix the kernel-doc markup for
-> struct foo.
-> 
-> I guess in the future automarkup.py could issue a warning in
-> order to warn about missing cross-references, perhaps when
-> W=1 or W=2 is used.
+Em Thu, 15 Oct 2020 09:36:05 -0700
+Eric Biggers <ebiggers@kernel.org> escreveu:
 
-Well, most structs that fscrypt.rst refers to are defined in
-include/uapi/linux/fscrypt.h.  The whole fscrypt UAPI, including the fields of
-these structs, is documented in fscrypt.rst.  So I didn't really intend the
-fscrypt UAPI structs to have kerneldoc comments, as people are supposed to refer
-to the documentation in fscrypt.rst instead.  We could have both, but it feels a
-bit redundant.
+> On Thu, Oct 15, 2020 at 07:32:07AM +0200, Mauro Carvalho Chehab wrote:
+> > On the other hand, if one finds a valid "struct foo" using normal
+> > fonts, this would mean that either the doc is outdated, mentioning
+> > an struct that were removed/renamed or that there's a missing 
+> > kernel-doc markup.
+> > 
+> > In any case, the fix is to simply fix the kernel-doc markup for
+> > struct foo.
+> > 
+> > I guess in the future automarkup.py could issue a warning in
+> > order to warn about missing cross-references, perhaps when
+> > W=1 or W=2 is used.  
+> 
+> Well, most structs that fscrypt.rst refers to are defined in
+> include/uapi/linux/fscrypt.h.  The whole fscrypt UAPI, including the fields of
+> these structs, is documented in fscrypt.rst.  So I didn't really intend the
+> fscrypt UAPI structs to have kerneldoc comments, as people are supposed to refer
+> to the documentation in fscrypt.rst instead.  We could have both, but it feels a
+> bit redundant.
 
-- Eric
+Yeah, we do the same on V4L: the uAPI doesn't use kernel-docs. It is
+documented, instead, at ReST files.
+
+In any case, if all structs are documented, automarkup should
+be using monospaced fonts and be generating cross-references.
+
+If not, the regular expressions there may need tweaks ;-)
+
+Thanks,
+Mauro
