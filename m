@@ -2,169 +2,244 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C081C3279D
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 04:46:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A13DC43467
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:15:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3120C22261
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 04:46:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E63D22249
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:15:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602738931;
+	bh=UUsWGH9b1ZdDvymt42wNCT8MtrgbJyIDyU8ZdeDpNs4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=v88nrPTYd5c2aBsiCEpWKXObAXfla1RvSFM0w/qx8yo1s1fPbO/1m+ZO56IArBST+
+	 nd4Vuim/dBHZ1GdbgsVcL0UwTEZWahJsQuAJy9bNmS7xsl282GCnjqKbhbvisLgwKr
+	 8YPfOAP2gIlLXU4t0HymLBG4s60PSakVfPzYjc64=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728235AbgJOEqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 00:46:33 -0400
-Received: from mga18.intel.com ([134.134.136.126]:4839 "EHLO mga18.intel.com"
+        id S1727090AbgJOFP2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 01:15:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727479AbgJOEqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 00:46:33 -0400
-IronPort-SDR: iOGxpW3ZQR4HfO8xHvHsk8Cy1gC6KkMpHACDDNcWlw3m4LygWg5NoX0a+jv1TtIzZpBjSYUl19
- yxUC4bcTFz8g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9774"; a="154088398"
-X-IronPort-AV: E=Sophos;i="5.77,377,1596524400"; 
-   d="scan'208";a="154088398"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2020 21:46:32 -0700
-IronPort-SDR: okZevJNyFoB0pDRj0graDCFAGBe85RU4H4aY8F5klmxXZx1X/fo3dQRhH8k0J0Lzctn9GCjeCZ
- aeWfHIgGHVcw==
-X-IronPort-AV: E=Sophos;i="5.77,377,1596524400"; 
-   d="scan'208";a="531105799"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2020 21:46:32 -0700
-Date:   Wed, 14 Oct 2020 21:46:32 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
+        id S1725985AbgJOFP2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Oct 2020 01:15:28 -0400
+Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B7ECA22247;
+        Thu, 15 Oct 2020 05:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602738926;
+        bh=UUsWGH9b1ZdDvymt42wNCT8MtrgbJyIDyU8ZdeDpNs4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=vq9497tz27EaiI/qe14dYkrz2GUski7j2T81gN5OLP96nudYno11z/03rVeoGvY6I
+         HVdtsOzcku/thytSAjLnGCa5lfCj8WJ+sdtyfNjXRELBFPvNFG+tLGrEpcNKXrz+fl
+         iikd3fMF6hdB6Ak7/l8mPbhZSeDocCQR355pbru8=
+Date:   Thu, 15 Oct 2020 07:15:18 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Nicholas Piggin <npiggin@gmail.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V3 9/9] x86/pks: Add PKS test code
-Message-ID: <20201015044632.GT2046448@iweiny-DESK2.sc.intel.com>
-References: <20201009194258.3207172-1-ira.weiny@intel.com>
- <20201009194258.3207172-10-ira.weiny@intel.com>
- <3f9ebe3b-5c1c-6a69-3779-6f90d66227bd@intel.com>
+        Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/24] tools: docs: memory-model: fix references for
+ some files
+Message-ID: <20201015071518.5d9f8dc1@coco.lan>
+In-Reply-To: <20201014185720.GA28761@paulmck-ThinkPad-P72>
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+        <44baab3643aeefdb68f1682d89672fad44aa2c67.1602590106.git.mchehab+huawei@kernel.org>
+        <20201013163354.GO3249@paulmck-ThinkPad-P72>
+        <20201013163836.GC670875@rowland.harvard.edu>
+        <20201014015840.GR3249@paulmck-ThinkPad-P72>
+        <20201014185720.GA28761@paulmck-ThinkPad-P72>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f9ebe3b-5c1c-6a69-3779-6f90d66227bd@intel.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 12:02:07PM -0700, Dave Hansen wrote:
-> On 10/9/20 12:42 PM, ira.weiny@intel.com wrote:
-> >  #ifdef CONFIG_X86_32
-> >  	/*
-> >  	 * We can fault-in kernel-space virtual memory on-demand. The
-> > diff --git a/include/linux/pkeys.h b/include/linux/pkeys.h
-> > index cc3510cde64e..f9552bd9341f 100644
-> > --- a/include/linux/pkeys.h
-> > +++ b/include/linux/pkeys.h
-> > @@ -47,7 +47,6 @@ static inline bool arch_pkeys_enabled(void)
-> >  static inline void copy_init_pkru_to_fpregs(void)
-> >  {
-> >  }
-> > -
-> >  #endif /* ! CONFIG_ARCH_HAS_PKEYS */
-> 
-> ^ Whitespace damage
+Hi Paul,
 
-Done.
+Em Wed, 14 Oct 2020 11:57:20 -0700
+"Paul E. McKenney" <paulmck@kernel.org> escreveu:
 
-> 
-> >  #ifndef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 0c781f912f9f..f015c09ba5a1 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -2400,6 +2400,18 @@ config HYPERV_TESTING
-> >  	help
-> >  	  Select this option to enable Hyper-V vmbus testing.
-> >  
-> > +config PKS_TESTING
-> > +	bool "PKey(S)upervisor testing"
-> 
-> Seems like we need a space in there somewhere.
+> On Tue, Oct 13, 2020 at 06:58:40PM -0700, Paul E. McKenney wrote:
+> > On Tue, Oct 13, 2020 at 12:38:36PM -0400, Alan Stern wrote:  
+> > > On Tue, Oct 13, 2020 at 09:33:54AM -0700, Paul E. McKenney wrote:  
+> > > > On Tue, Oct 13, 2020 at 02:14:29PM +0200, Mauro Carvalho Chehab wrote:  
+> > > > > - The sysfs.txt file was converted to ReST and renamed;
+> > > > > - The control-dependencies.txt is not at
+> > > > >   Documentation/control-dependencies.txt. As it is at the
+> > > > >   same dir as the README file, which mentions it, just
+> > > > >   remove Documentation/.
+> > > > > 
+> > > > > With that, ./scripts/documentation-file-ref-check script
+> > > > > is now happy again for files under tools/.
+> > > > > 
+> > > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> > > > 
+> > > > Queued for review and testing, likely target v5.11.  
+> > > 
+> > > Instead of changing the path in the README reference, shouldn't 
+> > > tools/memory-model/control-dependencies.txt be moved to its proper 
+> > > position in .../Documentation?  
+> > 
+> > You are of course quite right.  My thought is to let Mauro go ahead,
+> > given his short deadline. 
 
-heheh...  yea...
+I guess there might be some misunderstanding here. My fault. The plan
+is to have zero doc warnings for 5.10[1].
 
-> 
-> > +	pid = fork();
-> > +	if (pid == 0) {
-> > +		fd = open("/sys/kernel/debug/x86/run_pks", O_RDWR);
-> > +		if (fd < 0) {
-> > +			printf("cannot open file\n");
-> > +			return -1;
-> > +		}
-> > +
-> 
-> Will this return code make anybody mad?  Should we have a nicer return
-> code for when this is running on non-PKS hardware?
+In order to get there, The patches for it were split on two series,
+both for 5.10:
 
-I'm not sure it will matter much but I think it is better to report the missing
-file.[1]
+- The /80 series with patches that already applies on the top of master;
+- This /24 patch series, which depends on trees that weren't merged
+  upstream yet (back on Oct, 13). Those applies on the top of
+  next-20201013.
 
-> 
-> I'm not going to be too picky about this.  I'll just ask one question:
-> Has this found real bugs for you?
+I'm intending to submit later today (after next-20201015) a PR with 
+patches from the /80 series.
 
-Many, especially regressions as things have changed.
+The remaining ones should be sent as a late pull request by the end 
+of the merge window, if the patch that caused the issue gets merged
+for 5.10. That's the case of this patch.
 
+
+[1] With Sphinx < 3. Sphinx 3 and above brings some additional
+    warnings that depends on a fix at the toolset. The fixup patches
+    for Sphinx were proposed yesterday by the Sphinx maintainer
+    of the C domain parser. More details can be seen here:
+
+	https://github.com/sphinx-doc/sphinx/pull/8313
+
+
+> >  We can then make this "git mv" change once
+> > v5.10-rc1 comes out, given that it should have Mauro's patches.  I have
+> > added a reminder to my calendar.  
 > 
-> Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Except that I cannot find a commit where control-dependencies.txt is
+> in tools/memory-model.  And this file is not yet in mainline, but
+> only in -rcu and -next.  In both places, it is here:
 > 
+> 	tools/memory-model/Documentation/control-dependencies.txt
+> 
+> Mauro, to what commit in what tree are you applying this patch?
+
+This is against next-20201013. The specific commit adding
+README and control-dependencies.txt is this one:
+
+commit d34a972f67252457158122e5ba7a0ce5ece62067
+Author:     Paul E. McKenney <paulmck@kernel.org>
+AuthorDate: Tue Aug 11 11:27:33 2020 -0700
+Commit:     Paul E. McKenney <paulmck@kernel.org>
+CommitDate: Sun Oct 4 17:21:31 2020 -0700
+
+    tools/memory-model: Document categories of ordering primitives
+    
+    The Linux kernel has a number of categories of ordering primitives, which
+    are recorded in the LKMM implementation and hinted at by cheatsheet.txt.
+    But there is no overview of these categories, and such an overview
+    is needed in order to understand multithreaded LKMM litmus tests.
+    This commit therefore adds an ordering.txt as well as extracting a
+    control-dependencies.txt from memory-barriers.txt.  It also updates the
+    README file.
+    
+    [ paulmck: Apply Akira Yokosawa file-placement feedback. ]
+    [ paulmck:  Apply Alan Stern feedback. ]
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+Btw, after re-checking the patch, I would drop this hunk:
+
+diff --git a/tools/memory-model/Documentation/README b/tools/memory-model/Documentation/README
+index 16177aaa9752..004969992bac 100644
+--- a/tools/memory-model/Documentation/README
++++ b/tools/memory-model/Documentation/README
+@@ -55,7 +55,7 @@ README
+ Documentation/cheatsheet.txt
+ 	Quick-reference guide to the Linux-kernel memory model.
+ 
+-Documentation/control-dependencies.txt
++control-dependencies.txt
+ 	A guide to preventing compiler optimizations from destroying
+ 	your control dependencies.
+
+The ./scripts/documentation-file-ref-check doesn't complain about
+broken references for Documentation/ files outside the main
+docs dir. So, this hunk is not really needed to fix warnings with
+5.10. Besides that, there are other references to those files:
+
+	$ git grep Documentation tools/memory-model/Documentation/README
+	tools/memory-model/Documentation/README:tools/memory-model/Documentation directory.  It has been said that at
+	tools/memory-model/Documentation/README:Documentation/cheatsheet.txt
+	tools/memory-model/Documentation/README:Documentation/control-dependencies.txt
+	tools/memory-model/Documentation/README:Documentation/explanation.txt
+	tools/memory-model/Documentation/README:Documentation/litmus-tests.txt
+	tools/memory-model/Documentation/README:Documentation/ordering.txt
+	tools/memory-model/Documentation/README:Documentation/recipes.txt
+	tools/memory-model/Documentation/README:Documentation/references.txt
+	tools/memory-model/Documentation/README:Documentation/simple.txt
+
+That also refer to the files inside tools/memory-model/Documentation/.
+So, they should ether all be replaced to just the file name without
+the directory (IMHO, that makes more sense) or kept as-is.
+
+In any case, for 5.10, all we need is to fix this reference:
+
+	Documentation/RCU/rcu_dereference.txt -> Documentation/RCU/rcu_dereference.rst
+
+Also, the patch description is wrong. I suspect that, when this patch
+was originally written, there were more hunks being touched, but
+fixes for everything else were already merged. So, the only thing that
+is left is the above change.
+
+It follows a new version. feel free to either pick (or merge) this one at 
+the same tree as tools/memory-model/Documentation/ordering.txt if you
+think that this works best for you.
+
+Otherwise, I'll keep this on my -next tree together with this series,
+aiming to submit by the end of the merge window, if ordering.txt gets
+merged for 5.10.
 
 Thanks,
-Ira
+Mauro
 
-[1]
+[PATCH v2.1 02/24] tools/memory-model: fix a broken doc reference
 
-diff --git a/tools/testing/selftests/x86/test_pks.c b/tools/testing/selftests/x86/test_pks.c
-index 8037a2a9ff5f..11be4e212d54 100644
---- a/tools/testing/selftests/x86/test_pks.c
-+++ b/tools/testing/selftests/x86/test_pks.c
-@@ -11,6 +11,8 @@
- #include <sys/stat.h>
- #include <fcntl.h>
+Documentation/RCU/rcu_dereference.txt -> Documentation/RCU/rcu_dereference.rst
+
+Fixes: d34a972f6725 ("tools/memory-model: Document categories of ordering primitives")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/tools/memory-model/Documentation/ordering.txt b/tools/memory-model/Documentation/ordering.txt
+index 3d020bed8585..629b19ae64a6 100644
+--- a/tools/memory-model/Documentation/ordering.txt
++++ b/tools/memory-model/Documentation/ordering.txt
+@@ -346,7 +346,7 @@ o	Accessing RCU-protected pointers via rcu_dereference()
  
-+#define PKS_TEST_FILE "/sys/kernel/debug/x86/run_pks"
-+
- int main(void)
- {
-        cpu_set_t cpuset;
-@@ -25,9 +27,9 @@ int main(void)
+ 	If there is any significant processing of the pointer value
+ 	between the rcu_dereference() that returned it and a later
+-	dereference(), please read Documentation/RCU/rcu_dereference.txt.
++	dereference(), please read Documentation/RCU/rcu_dereference.rst.
  
-        pid = fork();
-        if (pid == 0) {
--               fd = open("/sys/kernel/debug/x86/run_pks", O_RDWR);
-+               fd = open(PKS_TEST_FILE, O_RDWR);
-                if (fd < 0) {
--                       printf("cannot open file\n");
-+                       printf("cannot open %s\n", PKS_TEST_FILE);
-                        return -1;
-                }
+ It can also be quite helpful to review uses in the Linux kernel.
  
-@@ -45,9 +47,9 @@ int main(void)
-        } else {
-                sleep(2);
- 
--               fd = open("/sys/kernel/debug/x86/run_pks", O_RDWR);
-+               fd = open(PKS_TEST_FILE, O_RDWR);
-                if (fd < 0) {
--                       printf("cannot open file\n");
-+                       printf("cannot open %s\n", PKS_TEST_FILE);
-                        return -1;
-                }
- 
+
+
 
