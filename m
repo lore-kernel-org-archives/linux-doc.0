@@ -2,99 +2,93 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09673C433E7
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:57:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A10C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 17:38:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9933722267
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:57:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 120802225E
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 17:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602781028;
-	bh=aZSJUmlfGw8r58Z5k8FZPhCBso0fzX2STY7EVtJw6bk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=yHO06Bs8YK1aDTTJGteFYpK+PdXg56EADw5lNLSERexpH8S1/L1mFfL00JY5RcN4A
-	 iXPc3BIJ2KeKaFE7d5qKZ6fHPDL6STK7T/MbR5lRnzrL7vMsZ62V9915n+UMLsqUSM
-	 EIFCW9rdVGL8RC/TIcoNeMtC9Kw1hWebmljmnPiM=
+	s=default; t=1602783498;
+	bh=RmQH3oTA22KdAY64/nPzF6yHbVa2dvgS3GsObLLdovY=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=oPWYfe/ZCGTuzPZ9nTmrcAc4dUUrCw5/ndDkAnV8s5N40SYrA/EvQYrrQsoJEDmJA
+	 px0e04G2fH/10pNP6bQhK+QPnPvIhmC+gs1G+nKjNiSjyOW8ONtcRKpXTZrLAohRlc
+	 6jhyO8HJ28hICAy1Xxil29PLONzoSqSGYA+RBtGU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731174AbgJOQ5I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 12:57:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35110 "EHLO mail.kernel.org"
+        id S1731260AbgJORiR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 13:38:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43870 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730793AbgJOQ5I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 12:57:08 -0400
-Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
+        id S1731233AbgJORiR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Oct 2020 13:38:17 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-104-11.bvtn.or.frontiernet.net [50.39.104.11])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 810C0206CA;
-        Thu, 15 Oct 2020 16:57:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7DD6122254;
+        Thu, 15 Oct 2020 17:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602781027;
-        bh=aZSJUmlfGw8r58Z5k8FZPhCBso0fzX2STY7EVtJw6bk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GXqfHhMIw67eZuC8cjyZDpvo1I7LJO9dI7Ci6vdF2Sbe7YSbMQs2ri5nSt6iEaWpS
-         9vrJB/5kqdotgvB7NRRa/5SU7Pi9v1hfz/E+6jiNewXeAMyRqcesVICahT8dyK4eXT
-         lIG8cSW/ZOtdPIGFaBETtkP5al2mRDt1JNJJ+OWc=
-Date:   Thu, 15 Oct 2020 18:56:58 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type:
- tags
-Message-ID: <20201015185658.5778544e@coco.lan>
-In-Reply-To: <20201015163605.GA3336735@gmail.com>
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
-        <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
-        <20201013172512.GA1306858@gmail.com>
-        <20201014085907.7da5bed3@coco.lan>
-        <20201014215954.GB2545693@gmail.com>
-        <20201015073207.7504a55b@coco.lan>
-        <20201015163605.GA3336735@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        s=default; t=1602783496;
+        bh=RmQH3oTA22KdAY64/nPzF6yHbVa2dvgS3GsObLLdovY=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=YB+OOaaQldZG4gG6USbGpvMOZ6FolCgdCGlID/hhmWwQEWytSSvYxHBnXY6aH6L/t
+         vEzfKGGJRVaevEe+/nbok42jYLK/YeRpsEJGuvTFpdj0sM7rjJ5aMg0afTN12R0+jB
+         18AzzuLnWfCyFbkTH3/Yd9IoSWUi151Utveml3nU=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 1AAF3352078F; Thu, 15 Oct 2020 10:38:16 -0700 (PDT)
+Date:   Thu, 15 Oct 2020 10:38:16 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Hui Su <sh_def@163.com>
+Cc:     josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/rcu: update the api of call_rcu()
+Message-ID: <20201015173816.GZ3249@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20201015141334.GA20723@rlk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201015141334.GA20723@rlk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 15 Oct 2020 09:36:05 -0700
-Eric Biggers <ebiggers@kernel.org> escreveu:
-
-> On Thu, Oct 15, 2020 at 07:32:07AM +0200, Mauro Carvalho Chehab wrote:
-> > On the other hand, if one finds a valid "struct foo" using normal
-> > fonts, this would mean that either the doc is outdated, mentioning
-> > an struct that were removed/renamed or that there's a missing 
-> > kernel-doc markup.
-> > 
-> > In any case, the fix is to simply fix the kernel-doc markup for
-> > struct foo.
-> > 
-> > I guess in the future automarkup.py could issue a warning in
-> > order to warn about missing cross-references, perhaps when
-> > W=1 or W=2 is used.  
+On Thu, Oct 15, 2020 at 10:13:34PM +0800, Hui Su wrote:
+> update the api of call_rcu()
 > 
-> Well, most structs that fscrypt.rst refers to are defined in
-> include/uapi/linux/fscrypt.h.  The whole fscrypt UAPI, including the fields of
-> these structs, is documented in fscrypt.rst.  So I didn't really intend the
-> fscrypt UAPI structs to have kerneldoc comments, as people are supposed to refer
-> to the documentation in fscrypt.rst instead.  We could have both, but it feels a
-> bit redundant.
+> Signed-off-by: Hui Su <sh_def@163.com>
 
-Yeah, we do the same on V4L: the uAPI doesn't use kernel-docs. It is
-documented, instead, at ReST files.
+Good point, the typedef is more compact.  Queued, thank you!
 
-In any case, if all structs are documented, automarkup should
-be using monospaced fonts and be generating cross-references.
+							Thanx, Paul
 
-If not, the regular expressions there may need tweaks ;-)
-
-Thanks,
-Mauro
+> ---
+>  Documentation/RCU/whatisRCU.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+> index c7f147b8034f..aa7d5ed20da5 100644
+> --- a/Documentation/RCU/whatisRCU.rst
+> +++ b/Documentation/RCU/whatisRCU.rst
+> @@ -497,8 +497,7 @@ long -- there might be other high-priority work to be done.
+>  In such cases, one uses call_rcu() rather than synchronize_rcu().
+>  The call_rcu() API is as follows::
+>  
+> -	void call_rcu(struct rcu_head * head,
+> -		      void (*func)(struct rcu_head *head));
+> +	void call_rcu(struct rcu_head *head, rcu_callback_t func);
+>  
+>  This function invokes func(head) after a grace period has elapsed.
+>  This invocation might happen from either softirq or process context,
+> -- 
+> 2.25.1
+> 
+> 
