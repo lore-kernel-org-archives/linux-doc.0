@@ -5,64 +5,63 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B5AC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 22:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1ED6C433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 23:17:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 101B320789
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 22:46:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F73B20797
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 23:17:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gOpHuZi8"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jOLIN5HG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732247AbgJOWqG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 18:46:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49452 "EHLO
+        id S1732874AbgJOXRo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 19:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731887AbgJOWqF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 18:46:05 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC82C0613CF
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 15:46:03 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id d6so158911plo.13
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 15:46:03 -0700 (PDT)
+        with ESMTP id S1728376AbgJOXRo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 19:17:44 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54C0C061755
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 16:17:43 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id a200so338523pfa.10
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 16:17:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Ko2kzVze2iskg0Vcc5M0juxxnsEhQoWtuPeFx/BNZ2Q=;
-        b=gOpHuZi8RfT+aLDEXzp2x7i3U+7gSJw6r9d8T1JUP0/2G1E/eEb2kCUCqKX/1eSzcL
-         Ev4Ml9eLkVf6J+ZveNKx62cOM0rIOKBu5nYd0KqMEb5uz8hzakc1psqUAJieIO+L75eR
-         1H1b0IwTOxCVlhDYEtl96DWskGwb3lL/Qa7Qo=
+        bh=+rVXmKyIACVLQAEQsLnR+KYW2Ry+sP13KrcdyTUrOvo=;
+        b=jOLIN5HGAQ/Dd0VHJBgok/wBN9gzJu/zsm5iFFXvoHhb226GshILExBojlROnv8b0y
+         r5Qxpf0c+WAaRHK4U7EJhKMsyczMGj2kGVGPSeEE7AnlvtVFXhfGcqxTHNhWMTJNC8pe
+         fWAz94cM13lQfVDHr9w87rM5WYM+J8Y3lu64A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Ko2kzVze2iskg0Vcc5M0juxxnsEhQoWtuPeFx/BNZ2Q=;
-        b=p7UxNAOnklxbNraW3mJ6KPuBCkEfXJ6XizPFLsxJSuqQBurR9GiL2506cb4Ms0FMR+
-         GhfBcZF9H2Bll3lstp85L19EGBXUP8tWdJVUpVjkPnTvwrcg/UgykfT1hIzdc+j9FVj3
-         zDjbDxOp+JeNNeGpWf8lDT0THiX1B3PcIvGU8IwdaMtfz7ezhWdX8BRcWL9cT/5NQ03w
-         hrRqeekt7wswl/6A2jL9iCsgwJqS5wZB5gxgQBW4oiQUj7vXDDE1Vk07/vKbFu0mxU8j
-         5szgS2GHjqs68f7+eJOiCfQqsgx8uUUAHlcEUryFfpLKw+Y+rt3EzAMThk1eTMMPv4dl
-         8HtQ==
-X-Gm-Message-State: AOAM531LhOeOVAMKJBVw52zjqVVzGgxMuFy43jz5w5vebMMO+nJRsKsV
-        2f1J7S3xPfbBRdryMqrEL3Urjzy3vTwoFw==
-X-Google-Smtp-Source: ABdhPJxTufcSgQBLtXxVU0Ze5T1Zg9mWtwB4kTJzcALyam+WJt2W8aZD1PPDOI9pLp4M/L4QQ9xjTA==
-X-Received: by 2002:a17:90a:f617:: with SMTP id bw23mr866687pjb.95.1602801962895;
-        Thu, 15 Oct 2020 15:46:02 -0700 (PDT)
+        bh=+rVXmKyIACVLQAEQsLnR+KYW2Ry+sP13KrcdyTUrOvo=;
+        b=AIecOvODaEh1WXwIAuVM86yVNhQyZxTMi/CV/LFD+Ngihc/AHsfX1J2rc23Vt3kjsA
+         c9ce96DAlKNTGpjEJcsn2sKuA7ybcsRwkoHQOwAx6U27npd0igJ+vUSqHhTRnpFzhsZT
+         2ADF3pciT4++DeKQu4OEcEUz/vazUTFeQ0KlGcB4YQzBUMix1MetXKnqgUmLJkmGAHYc
+         u/iLSI6iuBsfunRGmidO7/r/W8i7GyLRos1GW+Vr7AUilWA+FzJeK7f8fqKiJ9kw9hX4
+         tdMXQ6Vj9qQYxKzSPzBbz82xQOLc8fWsc8XdiR9rmrCCpWr/86uDYN9i053WBQoJ+yj5
+         fpjA==
+X-Gm-Message-State: AOAM530YUM9qsPkAigUc3Vw3CgS4N6Nvv7eNVznLVkzXzs886l6c5O85
+        PJ6p2el2aLcfM5oK8UBi3uBinA==
+X-Google-Smtp-Source: ABdhPJwCXQmFNeXvfkclvNsvCCKyWIk69bItJtNIvSg3kfTgGBEqhu8/85bcvuFKCQkzMK69DfYVDA==
+X-Received: by 2002:a62:cfc2:0:b029:151:d47e:119b with SMTP id b185-20020a62cfc20000b0290151d47e119bmr889055pfg.46.1602803863416;
+        Thu, 15 Oct 2020 16:17:43 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c12sm356071pjq.50.2020.10.15.15.46.01
+        by smtp.gmail.com with ESMTPSA id a185sm405323pgc.46.2020.10.15.16.17.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2020 15:46:01 -0700 (PDT)
+        Thu, 15 Oct 2020 16:17:42 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Cc:     Kees Cook <keescook@chromium.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         linux-doc@vger.kernel.org
-Subject: [PATCH] docs: lkdtm: Modernize and improve details
-Date:   Thu, 15 Oct 2020 15:45:59 -0700
-Message-Id: <20201015224559.2137489-1-keescook@chromium.org>
+Subject: [PATCH] docs: deprecated.rst: Expand str*cpy() replacement notes
+Date:   Thu, 15 Oct 2020 16:17:31 -0700
+Message-Id: <20201015231730.2138505-1-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,101 +69,80 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The details on using LKDTM were overly obscure. Modernize the details
-and expand examples to better illustrate how to use the interfaces.
-Additionally add missing SPDX header.
+The notes on replacing the deprecated str*cpy() functions didn't call
+enough attention to the change in return type. Add these details and
+clean up the language a bit more.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- .../fault-injection/provoke-crashes.rst       | 56 +++++++++++--------
- 1 file changed, 33 insertions(+), 23 deletions(-)
+ Documentation/process/deprecated.rst | 44 ++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/Documentation/fault-injection/provoke-crashes.rst b/Documentation/fault-injection/provoke-crashes.rst
-index 9279a3e12278..93775bd4e6c8 100644
---- a/Documentation/fault-injection/provoke-crashes.rst
-+++ b/Documentation/fault-injection/provoke-crashes.rst
-@@ -1,16 +1,19 @@
--===============
--Provoke crashes
--===============
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index ff71d802b53d..9d83b8db8874 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -106,23 +106,29 @@ NUL or newline terminated.
  
--The lkdtm module provides an interface to crash or injure the kernel at
--predefined crashpoints to evaluate the reliability of crash dumps obtained
--using different dumping solutions. The module uses KPROBEs to instrument
--crashing points, but can also crash the kernel directly without KRPOBE
--support.
-+============================================================
-+Provoking crashes with Linux Kernel Dump Test Module (LKDTM)
-+============================================================
+ strcpy()
+ --------
+-strcpy() performs no bounds checking on the destination
+-buffer. This could result in linear overflows beyond the
+-end of the buffer, leading to all kinds of misbehaviors. While
+-`CONFIG_FORTIFY_SOURCE=y` and various compiler flags help reduce the
+-risk of using this function, there is no good reason to add new uses of
+-this function. The safe replacement is strscpy().
++strcpy() performs no bounds checking on the destination buffer. This
++could result in linear overflows beyond the end of the buffer, leading to
++all kinds of misbehaviors. While `CONFIG_FORTIFY_SOURCE=y` and various
++compiler flags help reduce the risk of using this function, there is
++no good reason to add new uses of this function. The safe replacement
++is strscpy(), though care must be given to any cases where the return
++value of strcpy() was used, since strscpy() does not return a pointer to
++the destination, but rather a count of non-NUL bytes copied (or negative
++errno when it truncates).
  
-+The lkdtm module provides an interface to disrupt (and usually crash)
-+the kernel at predefined code locations to evaluate the reliability of
-+the kernel's exception handling and to test crash dumps obtained using
-+different dumping solutions. The module uses KPROBEs to instrument the
-+trigger location, but can also trigger the kernel directly without KPROBE
-+support via debugfs.
+ strncpy() on NUL-terminated strings
+ -----------------------------------
+-Use of strncpy() does not guarantee that the destination buffer
+-will be NUL terminated. This can lead to various linear read overflows
+-and other misbehavior due to the missing termination. It also NUL-pads the
+-destination buffer if the source contents are shorter than the destination
+-buffer size, which may be a needless performance penalty for callers using
+-only NUL-terminated strings. The safe replacement is strscpy().
+-(Users of strscpy() still needing NUL-padding should instead
+-use strscpy_pad().)
++Use of strncpy() does not guarantee that the destination buffer will
++be NUL terminated. This can lead to various linear read overflows and
++other misbehavior due to the missing termination. It also NUL-pads
++the destination buffer if the source contents are shorter than the
++destination buffer size, which may be a needless performance penalty
++for callers using only NUL-terminated strings. The safe replacement is
++strscpy(), though care must be given to any cases where the return value
++of strncpy() was used, since strscpy() does not return a pointer to the
++destination, but rather a count of non-NUL bytes copied (or negative
++errno when it truncates). Any cases still needing NUL-padding should
++instead use strscpy_pad().
  
--You can provide the way either through module arguments when inserting
--the module, or through a debugfs interface.
-+You can select the location of the trigger ("crash point name") and the
-+type of action ("crash point type") either through module arguments when
-+inserting the module, or through the debugfs interface.
+ If a caller is using non-NUL-terminated strings, strncpy() can
+ still be used, but destinations should be marked with the `__nonstring
+@@ -131,10 +137,12 @@ attribute to avoid future compiler warnings.
  
- Usage::
+ strlcpy()
+ ---------
+-strlcpy() reads the entire source buffer first, possibly exceeding
+-the given limit of bytes to copy. This is inefficient and can lead to
+-linear read overflows if a source string is not NUL-terminated. The
+-safe replacement is strscpy().
++strlcpy() reads the entire source buffer first (since the return value
++is meant to match that of strlen()). This read may exceed the destination
++size limit. This is both inefficient and can lead to linear read overflows
++if a source string is not NUL-terminated. The safe replacement is strscpy(),
++though care must be given to any cases where the return value of strlcpy()
++is used, since strscpy() will return negative errno values when it truncates.
  
-@@ -18,31 +21,38 @@ Usage::
- 			[cpoint_count={>0}]
- 
- recur_count
--	Recursion level for the stack overflow test. Default is 10.
-+	Recursion level for the stack overflow test. By default this is
-+	dynamically calculated based on kernel configuration, with the
-+	goal of being just large enough to exhaust the kernel stack. The
-+	value can be seen at `/sys/module/lkdtm/parameters/recur_count`.
- 
- cpoint_name
--	Crash point where the kernel is to be crashed. It can be
-+	Where in the kernel to trigger the action. It can be
- 	one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
- 	FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
--	IDE_CORE_CP, DIRECT
-+	IDE_CORE_CP, or DIRECT
- 
- cpoint_type
- 	Indicates the action to be taken on hitting the crash point.
--	It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
--	CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
--	WRITE_AFTER_FREE,
-+	These are numerous, and best queried directly from debugfs. Some
-+	of the common ones are PANIC, BUG, EXCEPTION, LOOP, and OVERFLOW.
-+	See the contents of `/sys/kernel/debug/provoke-crash/DIRECT` for
-+	a complete list.
- 
- cpoint_count
- 	Indicates the number of times the crash point is to be hit
--	to trigger an action. The default is 10.
-+	before triggering the action. The default is 10 (except for
-+	DIRECT, which always fires immediately).
- 
- You can also induce failures by mounting debugfs and writing the type to
--<mountpoint>/provoke-crash/<crashpoint>. E.g.::
-+<debugfs>/provoke-crash/<crashpoint>. E.g.::
- 
--  mount -t debugfs debugfs /mnt
--  echo EXCEPTION > /mnt/provoke-crash/INT_HARDWARE_ENTRY
-+  mount -t debugfs debugfs /sys/kernel/debug
-+  echo EXCEPTION > /sys/kernel/debug/provoke-crash/INT_HARDWARE_ENTRY
- 
-+The special file `DIRECT` will induce the action directly without KPROBE
-+instrumentation. This mode is the only one available when the module is
-+built for a kernel without KPROBEs support::
- 
--A special file is `DIRECT` which will induce the crash directly without
--KPROBE instrumentation. This mode is the only one available when the module
--is built on a kernel without KPROBEs support.
-+  # Instead of having a BUG kill your shell, have it kill "cat":
-+  cat <(echo WRITE_RO) >/sys/kernel/debug/provoke-crash/DIRECT
+ %p format specifier
+ -------------------
 -- 
 2.25.1
 
