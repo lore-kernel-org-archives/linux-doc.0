@@ -2,70 +2,59 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A13DC43467
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:15:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0604DC433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:32:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E63D22249
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:15:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5B1D2224A
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 05:32:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602738931;
-	bh=UUsWGH9b1ZdDvymt42wNCT8MtrgbJyIDyU8ZdeDpNs4=;
+	s=default; t=1602739933;
+	bh=tvTGnLhwyWTmpxEH0NnPzvKJR5lhY8hgxX9pTfDeJ7Y=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=v88nrPTYd5c2aBsiCEpWKXObAXfla1RvSFM0w/qx8yo1s1fPbO/1m+ZO56IArBST+
-	 nd4Vuim/dBHZ1GdbgsVcL0UwTEZWahJsQuAJy9bNmS7xsl282GCnjqKbhbvisLgwKr
-	 8YPfOAP2gIlLXU4t0HymLBG4s60PSakVfPzYjc64=
+	b=gQFjnF0Asr+CKaQpcJsjgbGEsO9uPvPjaUWV2S4Qy4Q0JMd6a/V4C7oN1tjbbxgdM
+	 MHQM8pTZQJcE02p2EJ9YHHhLC9Od3I/sM6uOUhGeqhATzClWihUvj0Btn1D5Q2eiBT
+	 humPevdBGpR3U7UJHOMlfSR0naCZ4fLiuEOXNQeQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgJOFP2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 01:15:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32826 "EHLO mail.kernel.org"
+        id S1727489AbgJOFcN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 01:32:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37510 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725985AbgJOFP2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 01:15:28 -0400
+        id S1726307AbgJOFcN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Oct 2020 01:32:13 -0400
 Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7ECA22247;
-        Thu, 15 Oct 2020 05:15:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DD27922247;
+        Thu, 15 Oct 2020 05:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602738926;
-        bh=UUsWGH9b1ZdDvymt42wNCT8MtrgbJyIDyU8ZdeDpNs4=;
+        s=default; t=1602739932;
+        bh=tvTGnLhwyWTmpxEH0NnPzvKJR5lhY8hgxX9pTfDeJ7Y=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=vq9497tz27EaiI/qe14dYkrz2GUski7j2T81gN5OLP96nudYno11z/03rVeoGvY6I
-         HVdtsOzcku/thytSAjLnGCa5lfCj8WJ+sdtyfNjXRELBFPvNFG+tLGrEpcNKXrz+fl
-         iikd3fMF6hdB6Ak7/l8mPbhZSeDocCQR355pbru8=
-Date:   Thu, 15 Oct 2020 07:15:18 +0200
+        b=dOSxk4aSmgDgsx8kagXkXRcCPJbWMKyZNP8hTxYjqwgvfcr3x9h4N4ao6ekx1vw+5
+         cutUKSs1B2RbWfYgSC/kksDS3vPvbDhni8FcWbKfz8c7Ym9usMp4XTMwjQ4XGx7LlX
+         tNz/SwjvRAw48vIpXa1RTua8RfsYLYN+ivWThV34=
+Date:   Thu, 15 Oct 2020 07:32:07 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/24] tools: docs: memory-model: fix references for
- some files
-Message-ID: <20201015071518.5d9f8dc1@coco.lan>
-In-Reply-To: <20201014185720.GA28761@paulmck-ThinkPad-P72>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
-        <44baab3643aeefdb68f1682d89672fad44aa2c67.1602590106.git.mchehab+huawei@kernel.org>
-        <20201013163354.GO3249@paulmck-ThinkPad-P72>
-        <20201013163836.GC670875@rowland.harvard.edu>
-        <20201014015840.GR3249@paulmck-ThinkPad-P72>
-        <20201014185720.GA28761@paulmck-ThinkPad-P72>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type:
+ tags
+Message-ID: <20201015073207.7504a55b@coco.lan>
+In-Reply-To: <20201014215954.GB2545693@gmail.com>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org>
+        <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
+        <20201013172512.GA1306858@gmail.com>
+        <20201014085907.7da5bed3@coco.lan>
+        <20201014215954.GB2545693@gmail.com>
 X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -74,172 +63,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Paul,
+Em Wed, 14 Oct 2020 14:59:54 -0700
+Eric Biggers <ebiggers@kernel.org> escreveu:
 
-Em Wed, 14 Oct 2020 11:57:20 -0700
-"Paul E. McKenney" <paulmck@kernel.org> escreveu:
-
-> On Tue, Oct 13, 2020 at 06:58:40PM -0700, Paul E. McKenney wrote:
-> > On Tue, Oct 13, 2020 at 12:38:36PM -0400, Alan Stern wrote:  
-> > > On Tue, Oct 13, 2020 at 09:33:54AM -0700, Paul E. McKenney wrote:  
-> > > > On Tue, Oct 13, 2020 at 02:14:29PM +0200, Mauro Carvalho Chehab wrote:  
-> > > > > - The sysfs.txt file was converted to ReST and renamed;
-> > > > > - The control-dependencies.txt is not at
-> > > > >   Documentation/control-dependencies.txt. As it is at the
-> > > > >   same dir as the README file, which mentions it, just
-> > > > >   remove Documentation/.
-> > > > > 
-> > > > > With that, ./scripts/documentation-file-ref-check script
-> > > > > is now happy again for files under tools/.
-> > > > > 
-> > > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> > > > 
-> > > > Queued for review and testing, likely target v5.11.  
-> > > 
-> > > Instead of changing the path in the README reference, shouldn't 
-> > > tools/memory-model/control-dependencies.txt be moved to its proper 
-> > > position in .../Documentation?  
+> On Wed, Oct 14, 2020 at 08:59:07AM +0200, Mauro Carvalho Chehab wrote:
+> > [PATCH v6.1 35/80] docs: fs: fscrypt.rst: get rid of :c:type: tags
 > > 
-> > You are of course quite right.  My thought is to let Mauro go ahead,
-> > given his short deadline. 
-
-I guess there might be some misunderstanding here. My fault. The plan
-is to have zero doc warnings for 5.10[1].
-
-In order to get there, The patches for it were split on two series,
-both for 5.10:
-
-- The /80 series with patches that already applies on the top of master;
-- This /24 patch series, which depends on trees that weren't merged
-  upstream yet (back on Oct, 13). Those applies on the top of
-  next-20201013.
-
-I'm intending to submit later today (after next-20201015) a PR with 
-patches from the /80 series.
-
-The remaining ones should be sent as a late pull request by the end 
-of the merge window, if the patch that caused the issue gets merged
-for 5.10. That's the case of this patch.
-
-
-[1] With Sphinx < 3. Sphinx 3 and above brings some additional
-    warnings that depends on a fix at the toolset. The fixup patches
-    for Sphinx were proposed yesterday by the Sphinx maintainer
-    of the C domain parser. More details can be seen here:
-
-	https://github.com/sphinx-doc/sphinx/pull/8313
-
-
-> >  We can then make this "git mv" change once
-> > v5.10-rc1 comes out, given that it should have Mauro's patches.  I have
-> > added a reminder to my calendar.  
+> > The :c:type: tag has problems with Sphinx 3.x, as structs
+> > there should be declared with c:struct.
+> > 
+> > So, remove them, relying at automarkup.py extension to
+> > convert them into cross-references.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
 > 
-> Except that I cannot find a commit where control-dependencies.txt is
-> in tools/memory-model.  And this file is not yet in mainline, but
-> only in -rcu and -next.  In both places, it is here:
+> "relying at" => "relying on".
 > 
-> 	tools/memory-model/Documentation/control-dependencies.txt
+> Otherwise looks fine, you can add:
 > 
-> Mauro, to what commit in what tree are you applying this patch?
+> Reviewed-by: Eric Biggers <ebiggers@google.com>
 
-This is against next-20201013. The specific commit adding
-README and control-dependencies.txt is this one:
+Thank you for reviewing it!
 
-commit d34a972f67252457158122e5ba7a0ce5ece62067
-Author:     Paul E. McKenney <paulmck@kernel.org>
-AuthorDate: Tue Aug 11 11:27:33 2020 -0700
-Commit:     Paul E. McKenney <paulmck@kernel.org>
-CommitDate: Sun Oct 4 17:21:31 2020 -0700
+> I do still wonder about your comment though:
+> 
+> > It should be said that, currently, if there's no documentation for "foo",
+> > automarkup will just keep using the regular text font, keeping the text
+> > untouched.  
+> 
+> That will apply to most (maybe all) of the structures mentioned in this file.
+> I expected that if the documentation system now automatically recognizes
+> 'struct foo', then it would render it in code font even when 'struct foo' isn't
+> documented.  Any particular reason why that isn't the case?  Not like I care
+> much myself, but it's a bit unexpected and it means this change actually makes
+> the rendered documentation look worse...
 
-    tools/memory-model: Document categories of ordering primitives
-    
-    The Linux kernel has a number of categories of ordering primitives, which
-    are recorded in the LKMM implementation and hinted at by cheatsheet.txt.
-    But there is no overview of these categories, and such an overview
-    is needed in order to understand multithreaded LKMM litmus tests.
-    This commit therefore adds an ordering.txt as well as extracting a
-    control-dependencies.txt from memory-barriers.txt.  It also updates the
-    README file.
-    
-    [ paulmck: Apply Akira Yokosawa file-placement feedback. ]
-    [ paulmck:  Apply Alan Stern feedback. ]
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Yeah, I agree that using monospaced fonts on this case too would
+be nice. The C domain actually uses italic monospaced fonts for
+broken XREFs.
 
-Btw, after re-checking the patch, I would drop this hunk:
+I suspect that changing this at automarkup.py would be simple, but
+not sure if it would be safe.
 
-diff --git a/tools/memory-model/Documentation/README b/tools/memory-model/Documentation/README
-index 16177aaa9752..004969992bac 100644
---- a/tools/memory-model/Documentation/README
-+++ b/tools/memory-model/Documentation/README
-@@ -55,7 +55,7 @@ README
- Documentation/cheatsheet.txt
- 	Quick-reference guide to the Linux-kernel memory model.
- 
--Documentation/control-dependencies.txt
-+control-dependencies.txt
- 	A guide to preventing compiler optimizations from destroying
- 	your control dependencies.
+Jon can tell more about that, as he's the author of automarkup,
+but I suspect that the reason for the current behavior is to avoid 
+false-positives. 
 
-The ./scripts/documentation-file-ref-check doesn't complain about
-broken references for Documentation/ files outside the main
-docs dir. So, this hunk is not really needed to fix warnings with
-5.10. Besides that, there are other references to those files:
+I mean, if "struct foo" symbol doesn't exist at the C domain, this
+might mean that the parser is doing something wrong. So, a more
+conservative approach is to keep the string as-is.
 
-	$ git grep Documentation tools/memory-model/Documentation/README
-	tools/memory-model/Documentation/README:tools/memory-model/Documentation directory.  It has been said that at
-	tools/memory-model/Documentation/README:Documentation/cheatsheet.txt
-	tools/memory-model/Documentation/README:Documentation/control-dependencies.txt
-	tools/memory-model/Documentation/README:Documentation/explanation.txt
-	tools/memory-model/Documentation/README:Documentation/litmus-tests.txt
-	tools/memory-model/Documentation/README:Documentation/ordering.txt
-	tools/memory-model/Documentation/README:Documentation/recipes.txt
-	tools/memory-model/Documentation/README:Documentation/references.txt
-	tools/memory-model/Documentation/README:Documentation/simple.txt
+On the other hand, if one finds a valid "struct foo" using normal
+fonts, this would mean that either the doc is outdated, mentioning
+an struct that were removed/renamed or that there's a missing 
+kernel-doc markup.
 
-That also refer to the files inside tools/memory-model/Documentation/.
-So, they should ether all be replaced to just the file name without
-the directory (IMHO, that makes more sense) or kept as-is.
+In any case, the fix is to simply fix the kernel-doc markup for
+struct foo.
 
-In any case, for 5.10, all we need is to fix this reference:
-
-	Documentation/RCU/rcu_dereference.txt -> Documentation/RCU/rcu_dereference.rst
-
-Also, the patch description is wrong. I suspect that, when this patch
-was originally written, there were more hunks being touched, but
-fixes for everything else were already merged. So, the only thing that
-is left is the above change.
-
-It follows a new version. feel free to either pick (or merge) this one at 
-the same tree as tools/memory-model/Documentation/ordering.txt if you
-think that this works best for you.
-
-Otherwise, I'll keep this on my -next tree together with this series,
-aiming to submit by the end of the merge window, if ordering.txt gets
-merged for 5.10.
+I guess in the future automarkup.py could issue a warning in
+order to warn about missing cross-references, perhaps when
+W=1 or W=2 is used.
 
 Thanks,
 Mauro
-
-[PATCH v2.1 02/24] tools/memory-model: fix a broken doc reference
-
-Documentation/RCU/rcu_dereference.txt -> Documentation/RCU/rcu_dereference.rst
-
-Fixes: d34a972f6725 ("tools/memory-model: Document categories of ordering primitives")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/tools/memory-model/Documentation/ordering.txt b/tools/memory-model/Documentation/ordering.txt
-index 3d020bed8585..629b19ae64a6 100644
---- a/tools/memory-model/Documentation/ordering.txt
-+++ b/tools/memory-model/Documentation/ordering.txt
-@@ -346,7 +346,7 @@ o	Accessing RCU-protected pointers via rcu_dereference()
- 
- 	If there is any significant processing of the pointer value
- 	between the rcu_dereference() that returned it and a later
--	dereference(), please read Documentation/RCU/rcu_dereference.txt.
-+	dereference(), please read Documentation/RCU/rcu_dereference.rst.
- 
- It can also be quite helpful to review uses in the Linux kernel.
- 
-
-
-
