@@ -2,111 +2,83 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66812C433E7
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C295C433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:36:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E7CF22240
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:30:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD9FD2225E
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 16:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602779444;
-	bh=UkrdZc47kC7Domj8uTDjSM10oqtJl1xRrFG4Y7ujeOg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=16o1MA5YXkRDJdcojgi7t6Mn6DEBfGfzUgywRl91jtsgUzWJ53HgXwpED3/PJlH7J
-	 iEzRpDLvp5skkoovdNsrhDEXQ/yDWMtaydUoBEqVf7XIvrYNYoPxm4TQo+w+0FDM5B
-	 5VzTQ0qVY9JlFLlYMAo25KrJljqv4295/oeufVCk=
+	s=default; t=1602779768;
+	bh=yaXOtRmASXSGJpCPGckZbgBc9TUYjmkPJKXlD7mzlXQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=M7b6UtL3A1aWfcieG0W7z7E79ISJk3ogDLJF4wjfd/l0EmDBS9Wmh/zS9OBhX1Wl+
+	 kk7WGHT1F2pOUC+TMVwODAbuOOzO/sG5/BgqSqANoDIqr1bk57QV87NVSsvnK6uKBe
+	 0GkzRJJ9EhQdrPWDOJSl9OGB8H37jqiCuTZIHKzw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389433AbgJOQan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 12:30:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53578 "EHLO mail.kernel.org"
+        id S2389811AbgJOQgI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 12:36:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55330 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388357AbgJOQan (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 12:30:43 -0400
-Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
+        id S2389258AbgJOQgI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Oct 2020 12:36:08 -0400
+Received: from gmail.com (unknown [104.132.1.76])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DEBD522240;
-        Thu, 15 Oct 2020 16:30:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1601D22210;
+        Thu, 15 Oct 2020 16:36:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602779442;
-        bh=UkrdZc47kC7Domj8uTDjSM10oqtJl1xRrFG4Y7ujeOg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jAycibV+0HW/YJR1j1AXWHsG+t4V70W9RF+Z7A1yJfkw1n/jtHkkNELqJN/8RorIK
-         6RLAypqatDkt6B2V0lD81QpVQPH19DRUrRKSqtvSYnIl8IpAC/tY9jZDjauex+Za4v
-         Iqn0/9Kl9fAYH2TQgN+TRGOIAnQYfaMBwhdy9zeE=
-Date:   Thu, 15 Oct 2020 18:30:36 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Daniel Vetter <daniel@ffwll.ch>
+        s=default; t=1602779767;
+        bh=yaXOtRmASXSGJpCPGckZbgBc9TUYjmkPJKXlD7mzlXQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IEDd8b3kSmvCKaSQgP32yIf6CUR+HKmU/TuAEhFfi5mJvRx1Kto78pqz2ygBKjAKO
+         YsrAcghKR+qxlk5LVKNYYGgcmkYe0ENcQ8rVxJq4VZreo3qZ2G+94DOspCxRrfZxxI
+         ka/TwgvBUB4mRc76ob3JkGnIU7yaZtYPxmjXMSSw=
+Date:   Thu, 15 Oct 2020 09:36:05 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v6 00/80] htmldoc build fixes with Sphinx 2.x and 3.x
-Message-ID: <20201015183036.1f3dca65@coco.lan>
-In-Reply-To: <CAKMK7uH1uh+cO2=5ojtBhNYQmsrNOcM1qM8rsoHFaifx6v3dYA@mail.gmail.com>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type: tags
+Message-ID: <20201015163605.GA3336735@gmail.com>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
-        <CAKMK7uH1uh+cO2=5ojtBhNYQmsrNOcM1qM8rsoHFaifx6v3dYA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
+ <20201013172512.GA1306858@gmail.com>
+ <20201014085907.7da5bed3@coco.lan>
+ <20201014215954.GB2545693@gmail.com>
+ <20201015073207.7504a55b@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201015073207.7504a55b@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 15 Oct 2020 17:49:23 +0200
-Daniel Vetter <daniel@ffwll.ch> escreveu:
-
-> On Tue, Oct 13, 2020 at 01:53:15PM +0200, Mauro Carvalho Chehab wrote:
-> > This series actually folds the previous Sphinx 3.x patch series
-> > with the other patches I sent fixing warnings with Sphinx
-> > 2.x and with kernel-doc and that weren't merged yet via
-> > some other tree.
-> >
-> > It is based on the top of upstream, plus the media
-> > pull request I sent yesterday:
-> >
-> >       https://lore.kernel.org/lkml/20201012134139.0d58f5d7@coco.lan/
-> >
-> > My plan is to send a pull request with those patches after Thursday's
-> > linux next release.
-> >
-> > On this series, I removed the patches that depend on material
-> > currently found only at linux-next.  
+On Thu, Oct 15, 2020 at 07:32:07AM +0200, Mauro Carvalho Chehab wrote:
+> On the other hand, if one finds a valid "struct foo" using normal
+> fonts, this would mean that either the doc is outdated, mentioning
+> an struct that were removed/renamed or that there's a missing 
+> kernel-doc markup.
 > 
-> Was a bit tricky to find the cover letter here and that you plan to
-> send these out this merge window. 
+> In any case, the fix is to simply fix the kernel-doc markup for
+> struct foo.
+> 
+> I guess in the future automarkup.py could issue a warning in
+> order to warn about missing cross-references, perhaps when
+> W=1 or W=2 is used.
 
-Sorry for that. As this series touch lots of subsystems, just c/c
-the maintainers mean more than 50 c/c to patch 00. Some e-mail
-servers may not accept e-mails with too many c/c people. 
+Well, most structs that fscrypt.rst refers to are defined in
+include/uapi/linux/fscrypt.h.  The whole fscrypt UAPI, including the fields of
+these structs, is documented in fscrypt.rst.  So I didn't really intend the
+fscrypt UAPI structs to have kerneldoc comments, as people are supposed to refer
+to the documentation in fscrypt.rst instead.  We could have both, but it feels a
+bit redundant.
 
-Yet, checking at the c/c list of the original patch, you were
-copied on patch 00/80. So, maybe the e-mail server had silently
-dropped the original e-mail.
-
-> I think we'll have some confusion
-> now with Alex from amd having picked up a few already.
-
-I ended moving (at least part of) the drm patches from this
-series into a second one, as I'm intending to submit most of
-those patches today or tomorrow, and the remaining ones by the
-end of the merge window.
-
-> Anyway Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> for the
-> remaining drm patches. 
-
-Thank you!
-
-> Although I can also pick them up to
-> drm-misc-next (but that's going to be 5.11 or so).
-
-It would be a way better to have them merged for 5.10, in
-order to have a clean html build there.
-
-Thanks,
-Mauro
+- Eric
