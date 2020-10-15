@@ -7,144 +7,178 @@ X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC646C43467
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 14:15:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE52EC433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 15:04:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 508172225B
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 14:15:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 784482225D
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 15:04:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ENts0Dm6"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UKAndxXH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730674AbgJOOPQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 10:15:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55072 "EHLO
+        id S2389012AbgJOPES (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 11:04:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729760AbgJOOPP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 10:15:15 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDA61C0613D2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 07:15:15 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id s21so3293498oij.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 07:15:15 -0700 (PDT)
+        with ESMTP id S2388810AbgJOPER (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 11:04:17 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DACC0613D2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 08:04:17 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id t9so3861755wrq.11
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 08:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=myXCOQxC7yXdiZx9nG9HTWtecWE6QzVgfe61cEeMHyM=;
-        b=ENts0Dm6VGl7JCrVX9DHKihoOjKWkL7zveAIJ88O1VvyEPa+oWNJrNnTUWLffpC6YL
-         TKZfpXNJbyP7fOMAXYpJ0KmJMck477GzDbGvCHaRGkgeHkHFOsBsY/s6bxT9DLFL20Wg
-         Lp9tAvWitbNSqAceLGVBs2lBdVwx4XkdZ63C6gQF6eEnSWbzQiJmzL8b0lQnxlxxHsjn
-         2SbT8k3vEXKhH9Fcm8pjPRq8G6g4Y8Ss/j2S4HlSy1iO2NEchpEGTtl13KO8zAtQPtjj
-         oL0+DzHoIHfHbQeV7XLjRxB12RnVxxOZsxBn8uVVr9NnNtMqM/Aih4wmRUg22V6JXiEA
-         aL/A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=aM2rdd0kq3Z2pAcYt+iHv5sB+JPN3rjkl3TpYzl6xyc=;
+        b=UKAndxXHYto5P21FGeL51//alyDJpo5kZPud/VLYgQq0N3AMkjZx8Lk2sctmT6dujy
+         /DDzUg4xNokRkcYSOd8r8Ee3li5lhs1pZ35KRRkW2GSVSxLbf9PhvDGkMNoEnxDpk1pS
+         ZouASX6HTudRFi7bf7AIaEeIumeQzIkdRy1tK40IGjIw+H2s2t5aQu7x4vrGhJDASE9r
+         LYOzTGJWt6uH6EPhzDgWKDHHBzAQNnAP/SJQB661E2Umc1emtvMLwDs4BQq/sGSf27M0
+         lSkPoyj9JDnHWxgP5YNEr9V2NXKGYbCxUrsIUqcZYDqArO7afYzxk79A3I1tjVzOAgc5
+         zNRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=myXCOQxC7yXdiZx9nG9HTWtecWE6QzVgfe61cEeMHyM=;
-        b=E8urMWObMUx3gSWH0vLpE1sX+t0100Wp07+ePLkIAqKpZhd/lEDIBwd6evtfBdFegm
-         TYEi7cFwwXBbJLSe/xcyoP78zLsSJqQViohDP0kQ5mZyOsmx4/TQIvgkRbNWwAtikSfj
-         xlyEB27svwX+IFe/LNvqq0NgIkPV9FR7mB3fq/GXfK8SDgsSc8RsWhaZ6ut1aG91FCGh
-         bf+BQ07UsRwCNst2B+zl0vxgjLYpNb6/FKoN7tP+vhQ7DTUW9+9+WJOfwIVQJBDpgZxg
-         WpPZ3pDUzOsK6sbyLOtfERG3v5/a7qtIgza67n5n9H4tL3s6NfY3XUS+Vz4c8WAML5JV
-         +Iyg==
-X-Gm-Message-State: AOAM530YFuZ/I/sd/GdJC6pLDGQDeuJeuIpKnq3ADCR5nBfMuNeEH5Ax
-        SwHR1S3TvCfc+LQM3K8xX3Yu5CP52TioN2Zz8vHPbA==
-X-Google-Smtp-Source: ABdhPJyiZVTec8MGhfwjgMdcqomFj34Th7O68O0hMU5cub02dKvyPgALRpq80Lcmzr7NhCURFgEzH/D3O13q6ca6pFI=
-X-Received: by 2002:aca:6206:: with SMTP id w6mr1155830oib.121.1602771314808;
- Thu, 15 Oct 2020 07:15:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
- <20200921143059.GO2139@willie-the-truck> <CAG_fn=WXknUnNmyniy_UE7daivSNmy0Da2KzNmX4wcmXC2Z_Mg@mail.gmail.com>
- <20200929140226.GB53442@C02TD0UTHF1T.local> <CAG_fn=VOR-3LgmLY-T2Fy6K_VYFgCHK0Hv+Y-atrvrVZ4mQE=Q@mail.gmail.com>
- <20201001175716.GA89689@C02TD0UTHF1T.local> <CANpmjNMFrMZybOebFwJ1GRXpt8v39AN016UDgPZzE8J3zKh9RA@mail.gmail.com>
- <20201008104501.GB72325@C02TD0UTHF1T.local> <CANpmjNOg2OeWpXn57_ikqv4KR0xVEooCDECUyRijgr0tt4+Ncw@mail.gmail.com>
- <20201015133948.GB50416@C02TD0UTHF1T.local>
-In-Reply-To: <20201015133948.GB50416@C02TD0UTHF1T.local>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 15 Oct 2020 16:15:03 +0200
-Message-ID: <CANpmjNO9Gw0-U+QynFWPPZYEVgnZA84VHi_XrXfa5aiAq3kPuQ@mail.gmail.com>
-Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Will Deacon <will@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=aM2rdd0kq3Z2pAcYt+iHv5sB+JPN3rjkl3TpYzl6xyc=;
+        b=mBRKqsnTT3bGzOPP83otvmuiYP2OfPODSf4IMqFJFPUUGgF41cPCyMp8mHQ3aobvLE
+         j+UnKYzuQW35VLRTtlpzzWgayOCZmjLSSKZaPkcrK+FQx8yaSJV2CCaqRZj7Pz0b6keu
+         sQrbSjp8fSy/xZngzaq0umX+EWmmGY8tmBjVFKFRg+iJ9ozoarddNNZcjwzBFojIyIvQ
+         5vWem58v9ZqbFafzOQS/J1Bk89ilqXGgoq8Oo3lVPxMYPJJFdihStX/JuLZyXNBtDf3c
+         iy9WnTc3pqtSzA7rUvSgZQuPxtQ0aBZJk0gs8rwX1EHHqRXgPv5piWQHe92qheQd8uxp
+         1dnA==
+X-Gm-Message-State: AOAM533kPNkGHprAWvtmobmoqWYVdl6ML61DV49XTgIoBSQsdqlWV5dt
+        ttZfnh6BqSXHoDP3XZB+s0Hvvg==
+X-Google-Smtp-Source: ABdhPJxJMiuBO2wfbeo+8BN1kdMoWtXi/rlDqTUmwuk2W5nU946ZQ42veLZHYl+13YOi4BDx41lOig==
+X-Received: by 2002:adf:ce0b:: with SMTP id p11mr4801689wrn.318.1602774255908;
+        Thu, 15 Oct 2020 08:04:15 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:110:f693:9fff:fef4:a7ef])
+        by smtp.gmail.com with ESMTPSA id w4sm4612378wmi.10.2020.10.15.08.04.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2020 08:04:15 -0700 (PDT)
+Date:   Thu, 15 Oct 2020 16:04:11 +0100
+From:   Quentin Perret <qperret@google.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        "Nayak, Rajendra" <rnayak@codeaurora.org>
+Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+Message-ID: <20201015150411.GA1859176@google.com>
+References: <20201002114426.31277-1-lukasz.luba@arm.com>
+ <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
+ <765e6603-b614-fb72-64ff-248b42474803@linaro.org>
+ <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
+ <55d3fb0f-f7d8-63c5-2bdb-53eaa62380e0@linaro.org>
+ <f660731e-132b-2514-f526-d7123ed3522c@arm.com>
+ <d04019bd-9e85-5f3e-2a1b-66780b8df3dc@linaro.org>
+ <3e3dd42c-48ac-7267-45c5-ca88205611bd@arm.com>
+ <00ceec64-3273-bb4a-6f38-22de8d877ab5@linaro.org>
+ <CAJZ5v0hV8fwRnADdjiiF=zapO3AE6=_W_PeOQ_WhUirCcFkgdA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0hV8fwRnADdjiiF=zapO3AE6=_W_PeOQ_WhUirCcFkgdA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 15 Oct 2020 at 15:39, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Wed, Oct 14, 2020 at 09:12:37PM +0200, Marco Elver wrote:
-> > On Thu, 8 Oct 2020 at 12:45, Mark Rutland <mark.rutland@arm.com> wrote:
-> > > On Thu, Oct 08, 2020 at 11:40:52AM +0200, Marco Elver wrote:
-> > > > On Thu, 1 Oct 2020 at 19:58, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> > > > > > > If you need virt_to_page() to work, the address has to be part of the
-> > > > > > > linear/direct map.
->
-> > > > We're going with dynamically allocating the pool (for both x86 and
-> > > > arm64),
->
-> [...]
->
-> > We've got most of this sorted now for v5 -- thank you!
+On Thursday 15 Oct 2020 at 15:40:16 (+0200), Rafael J. Wysocki wrote:
+> On Thu, Oct 15, 2020 at 12:22 PM Daniel Lezcano
+> <daniel.lezcano@linaro.org> wrote:
 > >
-> > The only thing we're wondering now, is if there are any corner cases
-> > with using memblock_alloc'd memory for the KFENCE pool? (We'd like to
-> > avoid page alloc's MAX_ORDER limit.) We have a version that passes
-> > tests on x86 and arm64, but checking just in case. :-)
->
-> AFAICT otherwise the only noticeable difference might be PageSlab(), if
-> that's clear for KFENCE allocated pages? A few helpers appear to check
-> that to determine how something was allocated (e.g. in the scatterlist
-> and hwpoison code), and I suspect that needs to behave the same.
+> > On 15/10/2020 11:00, Lukasz Luba wrote:
+> >
+> > [ ... ]
+> >
+> > >> There is the SCMI and the DT. Because there are two sources where it is
+> > >> impossible to know if they are using the same units, we are stuck to
+> > >> ensure a consistency for the kernel.
+> > >>
+> > >> The platform should use:
+> > >>   - the SCMI only (scaled or real)
+> > >>   - the DT only (real)
+> > >>   [ - the firmware file only (scaled or real) ]
+> > >>
+> > >
+> > > Do you mean by SCMI - registration using em_dev_register_perf_domain() ?
+> >
+> > It was high level description, but yes, I guess it is the case.
+> >
+> > >> As it is not possible to know if they are scaled or real, there is no
+> > >> choice except making them mutually exclusive.
+> > >
+> > > So you propose a bit more restriction in registration EM, to not get
+> > > lost in the future. I also have these doubts. Let's consider it and
+> > > maybe agree.
+> > >
+> > > I've recommended Qcom to use em_dev_register_perf_domain() when they
+> > > have this obfuscated power values. Then any developer in the future
+> > > who wants to add EM for a new device on that platform, should use the
+> > > em_dev_register_perf_domain().
+> > >
+> > > In this case the flag in EM that you have proposed makes sense.
+> > > We probably need an argument 'bool abstract_scale' in the
+> > > em_dev_register_perf_domain(..., bool abstract_scale)
+> > > as a source of information.
+> >
+> > I was suggesting to add a flag to the em_perf_domain structure giving
+> > the source of the power numbers.
+> >
+> > So if the IPA is having the 'sustainable-power' set in DT but the
+> > em_perf_domain is flagged with power number coming from SCMI, then they
+> > will be incompatible, the thermal zone will fail to register.
+> >
+> >
+> > > We would allow to co-exist em_dev_register_perf_domain(..., false)
+> > > with dev_pm_opp_of_register_em() EM devices.
+> > >
+> > > Is it make sense?
+> >
+> > Well, it does not change my opinion. We should assume the energy model
+> > is always milliwatts. If the SoC vendors find a way to get around with
+> > bogoWatts, then good to them and up to them to deal with in the future.
+> 
+> That sounds fair enough, but it also means that any kernel patches
+> using power units different from milliwatts for the EM should be
+> rejected in the future, doesn't it?
+> 
+> And the existing code using different power units for the EM (if any)
+> should be updated/fixed accordingly, shouldn't it?
+> 
+> Otherwise I don't see now this can be regarded as a hard rule.
 
-We had to take care of setting PageSlab before, too. We do this during
-kfence_init().
+Sorry, jumping late in the discussion :)
 
-> Otherwise, I *think* using memblock_alloc should be fine on arm64; I'm
-> not entirely sure for x86 (but suspect it's similar). On arm64:
->
-> * All memory is given a struct page via memblocks_present() adding all
->   memory memblocks. This includes memory allocated by memblock_alloc().
->
-> * All memory is mapped into the linear map via arm64's map_mem() adding
->   all (non-nomap) memory memblocks. This includes memory allocated by
->   memblock_alloc().
+To add a bit of background to this, it's been the plan from the very
+beginning to make PM_EM use an abstract scale. The only reason it was
+not merged like that is because the first version only worked for CPUs,
+and IPA was using a totally different source for other devices. So we
+had no choice but to specify PM_EM in mW to keep things compatible and
+allow to transition IPA. But that is no longer true, so I'm in favor of
+evolving PM_EM where it was supposed to be to begin with.
 
-Very good, thank you. We'll send v5 with these changes rebased on
-5.10-rc1 (in ~2 weeks).
+IMO, the only thing the kernel cares about is consistency across power
+numbers, but not about the exact unit. And I agree with Rafael, we have
+code paths in the kernel that feed data in PM_EM but _cannot_ guarantee
+mW, SCMI being a prime example, so I don't think it is reasonable to
+mandate that.
+
+Having that properly documented + an 'abstract_scale' parameter in
+dev_pm_opp_of_register_em() (or even a unit, which could be bogo-watts)
+should work IMO. What is the concern with this approach?
 
 Thanks,
--- Marco
+Quentin
