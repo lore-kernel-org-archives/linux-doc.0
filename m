@@ -2,109 +2,121 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D277C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 21:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90309C433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 22:03:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C25020795
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 21:57:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D36E20795
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 22:03:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NryStx+0"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bPocx/iv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgJOV5d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 17:57:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41970 "EHLO
+        id S1731574AbgJOWDq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 18:03:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730361AbgJOV5a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 17:57:30 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1D5C0613D3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 14:57:29 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id f5so152151pgb.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 14:57:29 -0700 (PDT)
+        with ESMTP id S1729340AbgJOWDq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 18:03:46 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9215C0613CF
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 15:03:45 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id hk7so240713pjb.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 15:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=+HirN9imkTNenxnF1fARCZ++oG/BPbJh5tZatzn08Pk=;
-        b=NryStx+0D7n93j4bJ+39S+L/RJOrazFnYAsRRDiVE7ats47+CyDN/3kJNv+f9sea/O
-         Z8oyFOqrLTFunDVsds0hgV3+nIDFIcdrfJOjZWTaww0wJnqZppeXwDX6IGcC5sZtBghw
-         CukaZ4IKfMNGzJRKasMyR1cyCQ3ioP0G2omcw=
+        bh=tX6balWi3xF1R0xBEBJ7Br9SGLdyst5WwjhX9DaAUSw=;
+        b=bPocx/ivNrOzUwfCAeSqdKyrLvYAhK62fL3kdjmfVNF1Bb+bxToGO+GBArR5xQf+MF
+         db9H1aXyQub4Ugfb/JVOdu0qN9Ln3H9utp3jWgzzq7j5vH+im7uIm/YTIJMP3Gu5CX3O
+         ssih9rclSiehki2Ke3psOISIWCUMhjGguJor4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=+HirN9imkTNenxnF1fARCZ++oG/BPbJh5tZatzn08Pk=;
-        b=f66uqq3ADVOVGyGfGOMNhPVkE0uMlhCuHYzbEimvqrM3z3Gx9gv6+Ii7281bmbLXBw
-         k7QBHI8pRPxWzTp1CB52VXJYge9DBmxS9mjn4hlZ4K0YFxkQ/Iju5TfUwv0mNib7abdf
-         lL2N6TshwvsbsPZkhUY1Ca5SSgVlvyguo1hv44MLXz3FvWp7Z+AGJCZaA2xu1H+++1dY
-         4xcQJ4yPdALHD7pG6mAWPFJffKcS0QUPtDmL7RJCVoiPFq41WYBuJWMG/dzvNtBFYreC
-         JZmzZKZ9i8fJqwkXAUosTLyz3Qndeqe7SjrYHif2XVDZ0FCV+i33zpUMawZNwS1yHnk9
-         cQCQ==
-X-Gm-Message-State: AOAM530V7rkUGPasFXYa34BT+UyOkophRg9f33cot+UlVYCHO96dZCuN
-        jgbt3XlM8hTwL9EYKvXbDLgKTg==
-X-Google-Smtp-Source: ABdhPJwAvPB5af0CfJASapqoGe3tufGFbINTyn4eNTbKiWpIy7TpGbula57cC6HG75GjKrqYOt0Dbw==
-X-Received: by 2002:aa7:9828:0:b029:152:192d:9237 with SMTP id q8-20020aa798280000b0290152192d9237mr624696pfl.80.1602799048599;
-        Thu, 15 Oct 2020 14:57:28 -0700 (PDT)
+        bh=tX6balWi3xF1R0xBEBJ7Br9SGLdyst5WwjhX9DaAUSw=;
+        b=FLmtxOPF8EOhpMkBURAFGvjOmdI4dWGout8WyoElnTsXgtvPc+ADfgxRXBLGrzNq58
+         J9KYAlGHw6mWa+7srVndyGfcEHRroMgkG+DL5E0Fr3K5aub/SZYQXhii8HRgukZiXOpq
+         LWLmVHR3f2tHi/XHVilOyURDU9H/313T+wDlgKonh3DWoS4kDYLQ/h5wlnAj6OcKp2R8
+         39W4PXtbwKvhSErm2DTkZQ4OcWSe1r269DpXzo3Je686lTq6hchkoJj8V9Uk/+vjiol1
+         UFgsSEBOKEXc6fguRrm3wcY2MF0miMhFVBRHYsVT4hZrAJvqogsDUNeL3saSN4ETGtHp
+         0GRg==
+X-Gm-Message-State: AOAM530xuc3ntZSYfYxKH65JH1zD9ROuccLIqz0sPYmPTrzafU+7pGVq
+        JWqCQ39AFB2tAT2GVqip0zmLZA==
+X-Google-Smtp-Source: ABdhPJw8dCQgBOF92fJvUcvuyhCSRRzgnAoAQXQu74ak3em59f2h6fMejlXmC83RFodfUMkK/TR25Q==
+X-Received: by 2002:a17:902:7c8d:b029:d2:80bd:2f30 with SMTP id y13-20020a1709027c8db02900d280bd2f30mr632565pll.22.1602799425445;
+        Thu, 15 Oct 2020 15:03:45 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id bx22sm278682pjb.40.2020.10.15.14.57.27
+        by smtp.gmail.com with ESMTPSA id x10sm257583pfc.88.2020.10.15.15.03.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2020 14:57:27 -0700 (PDT)
-Date:   Thu, 15 Oct 2020 14:57:26 -0700
+        Thu, 15 Oct 2020 15:03:44 -0700 (PDT)
+Date:   Thu, 15 Oct 2020 15:03:43 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc:     Shuah Khan <shuah@kernel.org>, Hangbin Liu <liuhangbin@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Tim.Bird@sony.com, lkft-triage@lists.linaro.org,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Justin Cook <justin.cook@linaro.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 2/3] selftests/run_kselftest.sh: Make each test
- individually selectable
-Message-ID: <202010151336.3B30332@keescook>
-References: <20200928202650.2530280-1-keescook@chromium.org>
- <20200928202650.2530280-3-keescook@chromium.org>
- <CA+G9fYtqqzWtb65pk8J=-Afv0KZ9iy3_bA-WmiJjbe5Y6qXbAw@mail.gmail.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Christopher Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Waiman Long <longman@redhat.com>,
+        Marco Elver <elver@google.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 0/3] Actually fix freelist pointer vs redzoning
+Message-ID: <202010151501.C9F9D2ACF@keescook>
+References: <20201015033712.1491731-1-keescook@chromium.org>
+ <alpine.DEB.2.22.394.2010150822260.184556@www.lameter.com>
+ <1e43fd23-e9f1-9c5d-3ee2-17171642877f@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+G9fYtqqzWtb65pk8J=-Afv0KZ9iy3_bA-WmiJjbe5Y6qXbAw@mail.gmail.com>
+In-Reply-To: <1e43fd23-e9f1-9c5d-3ee2-17171642877f@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 15, 2020 at 02:57:34PM +0530, Naresh Kamboju wrote:
-> On Tue, 29 Sep 2020 at 01:56, Kees Cook <keescook@chromium.org> wrote:
-> >
-> > Currently with run_kselftest.sh there is no way to choose which test
-> > we could run. All the tests listed in kselftest-list.txt are all run
-> > every time. This patch enhanced the run_kselftest.sh to make the test
-> > collections (or tests) individually selectable. e.g.:
-> >
-> > $ ./run_kselftest.sh -c seccomp -t timers:posix_timers -t timers:nanosleep
-> >
-> > Additionally adds a way to list all known tests with "-l", usage
-> > with "-h", and perform a dry run without running tests with "-n".
+On Thu, Oct 15, 2020 at 11:44:15AM +0200, Vlastimil Babka wrote:
+> On 10/15/20 10:23 AM, Christopher Lameter wrote:
+> > On Wed, 14 Oct 2020, Kees Cook wrote:
+> > 
+> > > Note on patch 2: Christopher NAKed it, but I actually think this is a
+> > > reasonable thing to add -- the "too small" check is only made when built
+> > > with CONFIG_DEBUG_VM, so it *is* actually possible for someone to trip
+> > > over this directly, even if it would never make it into a released
+> > > kernel. I see no reason to just leave this foot-gun in place, though, so
+> > > we might as well just fix it too. (Which seems to be what Longman was
+> > > similarly supporting, IIUC.)
+> > 
+> > Well then remove the duplication of checks. The NAK was there because it
+> > seems that you were not aware of the existing checks.
+> > 
+> > > Anyway, if patch 2 stays NAKed, that's fine. It's entirely separable,
+> > > and the other 2 can land. :)
+> > 
+> > Just deal with the old checks too and it will be fine.
 > 
-> 
-> While testing this patch set on LAVA the skip test functionality is not working.
-> We may have to revisit test definitions kselftest skip logic
-> or else
-> may add one more option to skip a given test on run_kselftest.sh script.
-> 
-> ref:
-> https://github.com/Linaro/test-definitions/blob/master/automated/linux/kselftest/kselftest.sh#L196
+> Yeah, the existing check is under CONFIG_DEBUG_VM, which means it's not
+> active on some configurations. Creating a cache is not exactly fast path
+> operation, so I would remove this guard.
+> As for the minimum size check, I would probably remove it (but watch out if
+> SLAB/SLOB can handle it). It's not effective to use slab cache for 4-byte
+> objects, but why make it an error.
 
-Yes, LAVA's hack to skip tests needs to be adjusted. Here's what it
-should probably look like:
-https://github.com/Linaro/test-definitions/pull/231
+Err, why did the check exist to begin with? If the check isn't wanted,
+that's one thing, but I was just trying to fix what I saw in the redzone
+handling. What is preferred here?
+
+1) drop patch 2
+2) keep patch 2, but also:
+	a) validate slab/slob can handle < word-sized allocations
+	b) remove check in kmem_cache_sanity_check
+
+option 2a seems like it could be fragile if I miss something. I think
+I'd rather just take option 1.
 
 -- 
 Kees Cook
