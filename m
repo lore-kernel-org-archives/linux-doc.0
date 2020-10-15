@@ -2,79 +2,109 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B32AAC43457
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 21:26:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D277C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 21:57:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E1D02076E
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 21:26:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C25020795
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 21:57:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NryStx+0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730456AbgJOV0H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 17:26:07 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43770 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730453AbgJOV0G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 17:26:06 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 073C8739;
-        Thu, 15 Oct 2020 21:26:05 +0000 (UTC)
-Date:   Thu, 15 Oct 2020 15:26:03 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Eric Biggers <ebiggers@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 35/80] docs: fs: fscrypt.rst: get rid of :c:type:
- tags
-Message-ID: <20201015152603.6b2c40cd@lwn.net>
-In-Reply-To: <20201015073207.7504a55b@coco.lan>
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
-        <2ca36d4903a6c024c7605cd58eab417c8e5296b5.1602589096.git.mchehab+huawei@kernel.org>
-        <20201013172512.GA1306858@gmail.com>
-        <20201014085907.7da5bed3@coco.lan>
-        <20201014215954.GB2545693@gmail.com>
-        <20201015073207.7504a55b@coco.lan>
-Organization: LWN.net
+        id S1726776AbgJOV5d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 17:57:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730361AbgJOV5a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 17:57:30 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1D5C0613D3
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 14:57:29 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id f5so152151pgb.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 14:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+HirN9imkTNenxnF1fARCZ++oG/BPbJh5tZatzn08Pk=;
+        b=NryStx+0D7n93j4bJ+39S+L/RJOrazFnYAsRRDiVE7ats47+CyDN/3kJNv+f9sea/O
+         Z8oyFOqrLTFunDVsds0hgV3+nIDFIcdrfJOjZWTaww0wJnqZppeXwDX6IGcC5sZtBghw
+         CukaZ4IKfMNGzJRKasMyR1cyCQ3ioP0G2omcw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+HirN9imkTNenxnF1fARCZ++oG/BPbJh5tZatzn08Pk=;
+        b=f66uqq3ADVOVGyGfGOMNhPVkE0uMlhCuHYzbEimvqrM3z3Gx9gv6+Ii7281bmbLXBw
+         k7QBHI8pRPxWzTp1CB52VXJYge9DBmxS9mjn4hlZ4K0YFxkQ/Iju5TfUwv0mNib7abdf
+         lL2N6TshwvsbsPZkhUY1Ca5SSgVlvyguo1hv44MLXz3FvWp7Z+AGJCZaA2xu1H+++1dY
+         4xcQJ4yPdALHD7pG6mAWPFJffKcS0QUPtDmL7RJCVoiPFq41WYBuJWMG/dzvNtBFYreC
+         JZmzZKZ9i8fJqwkXAUosTLyz3Qndeqe7SjrYHif2XVDZ0FCV+i33zpUMawZNwS1yHnk9
+         cQCQ==
+X-Gm-Message-State: AOAM530V7rkUGPasFXYa34BT+UyOkophRg9f33cot+UlVYCHO96dZCuN
+        jgbt3XlM8hTwL9EYKvXbDLgKTg==
+X-Google-Smtp-Source: ABdhPJwAvPB5af0CfJASapqoGe3tufGFbINTyn4eNTbKiWpIy7TpGbula57cC6HG75GjKrqYOt0Dbw==
+X-Received: by 2002:aa7:9828:0:b029:152:192d:9237 with SMTP id q8-20020aa798280000b0290152192d9237mr624696pfl.80.1602799048599;
+        Thu, 15 Oct 2020 14:57:28 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id bx22sm278682pjb.40.2020.10.15.14.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2020 14:57:27 -0700 (PDT)
+Date:   Thu, 15 Oct 2020 14:57:26 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc:     Shuah Khan <shuah@kernel.org>, Hangbin Liu <liuhangbin@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Tim.Bird@sony.com, lkft-triage@lists.linaro.org,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Justin Cook <justin.cook@linaro.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 2/3] selftests/run_kselftest.sh: Make each test
+ individually selectable
+Message-ID: <202010151336.3B30332@keescook>
+References: <20200928202650.2530280-1-keescook@chromium.org>
+ <20200928202650.2530280-3-keescook@chromium.org>
+ <CA+G9fYtqqzWtb65pk8J=-Afv0KZ9iy3_bA-WmiJjbe5Y6qXbAw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYtqqzWtb65pk8J=-Afv0KZ9iy3_bA-WmiJjbe5Y6qXbAw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 15 Oct 2020 07:32:07 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> > That will apply to most (maybe all) of the structures mentioned in this file.
-> > I expected that if the documentation system now automatically recognizes
-> > 'struct foo', then it would render it in code font even when 'struct foo' isn't
-> > documented.  Any particular reason why that isn't the case?  Not like I care
-> > much myself, but it's a bit unexpected and it means this change actually makes
-> > the rendered documentation look worse...  
+On Thu, Oct 15, 2020 at 02:57:34PM +0530, Naresh Kamboju wrote:
+> On Tue, 29 Sep 2020 at 01:56, Kees Cook <keescook@chromium.org> wrote:
+> >
+> > Currently with run_kselftest.sh there is no way to choose which test
+> > we could run. All the tests listed in kselftest-list.txt are all run
+> > every time. This patch enhanced the run_kselftest.sh to make the test
+> > collections (or tests) individually selectable. e.g.:
+> >
+> > $ ./run_kselftest.sh -c seccomp -t timers:posix_timers -t timers:nanosleep
+> >
+> > Additionally adds a way to list all known tests with "-l", usage
+> > with "-h", and perform a dry run without running tests with "-n".
 > 
-> Yeah, I agree that using monospaced fonts on this case too would
-> be nice. The C domain actually uses italic monospaced fonts for
-> broken XREFs.
 > 
-> I suspect that changing this at automarkup.py would be simple, but
-> not sure if it would be safe.
+> While testing this patch set on LAVA the skip test functionality is not working.
+> We may have to revisit test definitions kselftest skip logic
+> or else
+> may add one more option to skip a given test on run_kselftest.sh script.
 > 
-> Jon can tell more about that, as he's the author of automarkup,
-> but I suspect that the reason for the current behavior is to avoid 
-> false-positives. 
+> ref:
+> https://github.com/Linaro/test-definitions/blob/master/automated/linux/kselftest/kselftest.sh#L196
 
-Automarkup has always behaved that way because ... well, because nobody
-got around to changing it.  I don't see any reason not to use a monospace
-font for such things, just without a link; shouldn't be a problem to do.
-I'll see if I can't get to it once things stabilize a bit.
+Yes, LAVA's hack to skip tests needs to be adjusted. Here's what it
+should probably look like:
+https://github.com/Linaro/test-definitions/pull/231
 
-Thanks,
-
-jon
+-- 
+Kees Cook
