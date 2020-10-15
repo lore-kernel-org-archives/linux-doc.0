@@ -2,101 +2,105 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C5FC4363D
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 04:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A241C433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 04:32:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B715F22247
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 04:18:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 448C42225E
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 04:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbgJOESK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 00:18:10 -0400
-Received: from mga12.intel.com ([192.55.52.136]:44018 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725208AbgJOESK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 00:18:10 -0400
-IronPort-SDR: AD5fzz89jB62x5ocJkZoD8dYWhzJvyNE1u1q1TlVOet6L34xBR36bCUv79JYU682zC/lJf8m2I
- 4gEUmP1vHd0g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9774"; a="145561348"
-X-IronPort-AV: E=Sophos;i="5.77,377,1596524400"; 
-   d="scan'208";a="145561348"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2020 21:18:09 -0700
-IronPort-SDR: v7spRh8MuASRkdNNr0ZHoNczdFMxX2I1ak7xY7gos/SeU28ARiQ6EMmXTm9vqvcAGZ60oslnd3
- 9cmkDq9PvUXw==
-X-IronPort-AV: E=Sophos;i="5.77,377,1596524400"; 
-   d="scan'208";a="531100241"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2020 21:18:08 -0700
-Date:   Wed, 14 Oct 2020 21:18:08 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V3 7/9] x86/entry: Preserve PKRS MSR across exceptions
-Message-ID: <20201015041808.GS2046448@iweiny-DESK2.sc.intel.com>
-References: <20201009194258.3207172-1-ira.weiny@intel.com>
- <20201009194258.3207172-8-ira.weiny@intel.com>
- <6006a4c8-32bd-04ca-95cc-b2736a5cef72@intel.com>
- <20201015034645.GQ2046448@iweiny-DESK2.sc.intel.com>
- <a3cb045e-3d27-eaca-c78d-d30d9a045e02@intel.com>
+        id S1727209AbgJOEcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 00:32:05 -0400
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:34825 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725208AbgJOEcF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 00:32:05 -0400
+Received: by mail-pj1-f66.google.com with SMTP id h4so1157352pjk.0;
+        Wed, 14 Oct 2020 21:32:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=K64GKhtw+rJqkS3SqXm3fRppZopgGb55fc2+FtOF5gQ=;
+        b=tWSfGlYQbcvmrtKPAS+cgouRRfSw4lO47PNj4sOLLtxbYK09dVCNPDclT9NyhMAPFK
+         P+2Ydv+MXh1csm9au1W7n3T+jjjqxIT6Wrm7HuLQD7vwRlQ4bqL9Js8ko+Y5ftdEjZ6i
+         eGr1DMl+ql9jdsue8QpezXqPanTJdHftZ28ATsO53yiGLAl/QWwnopU9+cku6AW6g7gn
+         +0CHixcINBal2/AkdwTO8iwUpUTyyMwutiHooNdRv5oXXcO4+ppVWjPpJFpeYkleaFsG
+         hUMVszCBLgvffnS7JlfFtg3T3J6yPLRxjUvB0pT5W/QtjT2BuhXnYl8WSnP0ZlUoSIuM
+         adpg==
+X-Gm-Message-State: AOAM533Aioho4YZ66eV+sCNOg0PPGUqSLwWeutxBghs/roWu9nqlBJp1
+        RBvxFRMg5EQ9MeVikEiLqksCIPFNOQCBIA==
+X-Google-Smtp-Source: ABdhPJxAHk/YzMqBEB5OL/UCNy2qUEkee/nT3sbO5NNRlDG85RqPqVpO35cLYkqneQeihGANHlLyOw==
+X-Received: by 2002:a17:90a:e107:: with SMTP id c7mr2333525pjz.27.1602736324170;
+        Wed, 14 Oct 2020 21:32:04 -0700 (PDT)
+Received: from [192.168.3.218] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
+        by smtp.gmail.com with ESMTPSA id u14sm1282426pjf.53.2020.10.14.21.32.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2020 21:32:02 -0700 (PDT)
+Subject: Re: [PATCH v6 69/80] IB/srpt: docs: add a description for cq_size
+ member
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Max Gurtovoy <maxg@mellanox.com>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Yamin Friedman <yaminf@mellanox.com>,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        target-devel@vger.kernel.org
+References: <cover.1602589096.git.mchehab+huawei@kernel.org>
+ <d44a565b1638481c8dd282f01cae1fda3adf9fad.1602589096.git.mchehab+huawei@kernel.org>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <f283f15e-073c-ee42-d022-5b543f041d0b@acm.org>
+Date:   Wed, 14 Oct 2020 21:32:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3cb045e-3d27-eaca-c78d-d30d9a045e02@intel.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <d44a565b1638481c8dd282f01cae1fda3adf9fad.1602589096.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 14, 2020 at 09:06:44PM -0700, Dave Hansen wrote:
-> On 10/14/20 8:46 PM, Ira Weiny wrote:
-> > On Tue, Oct 13, 2020 at 11:52:32AM -0700, Dave Hansen wrote:
-> >> On 10/9/20 12:42 PM, ira.weiny@intel.com wrote:
-> >>> @@ -341,6 +341,9 @@ noinstr void irqentry_enter(struct pt_regs *regs, irqentry_state_t *state)
-> >>>  	/* Use the combo lockdep/tracing function */
-> >>>  	trace_hardirqs_off();
-> >>>  	instrumentation_end();
-> >>> +
-> >>> +done:
-> >>> +	irq_save_pkrs(state);
-> >>>  }
-> >> One nit: This saves *and* sets PKRS.  It's not obvious from the call
-> >> here that PKRS is altered at this site.  Seems like there could be a
-> >> better name.
-> >>
-> >> Even if we did:
-> >>
-> >> 	irq_save_set_pkrs(state, INIT_VAL);
-> >>
-> >> It would probably compile down to the same thing, but be *really*
-> >> obvious what's going on.
-> > I suppose that is true.  But I think it is odd having a parameter which is the
-> > same for every call site.
+On 10/13/20 4:54 AM, Mauro Carvalho Chehab wrote:
+> Changeset c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
+> added a new member for struct srpt_rdma_ch, but didn't add the
+> corresponding kernel-doc markup, as repoted when doing
+> "make htmldocs":
+> 	./drivers/infiniband/ulp/srpt/ib_srpt.h:331: warning: Function parameter or member 'cq_size' not described in 'srpt_rdma_ch'
 > 
-> Well, it depends on what you optimize for.  I'm trying to optimize for
-> the code being understood quickly the first time someone reads it.  To
-> me, that's more important than minimizing the number of function
-> parameters (which are essentially free).
->
+> Add a description for it.
+> 
+> Fixes: c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/infiniband/ulp/srpt/ib_srpt.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.h b/drivers/infiniband/ulp/srpt/ib_srpt.h
+> index 41435a699b53..e5d6af14d073 100644
+> --- a/drivers/infiniband/ulp/srpt/ib_srpt.h
+> +++ b/drivers/infiniband/ulp/srpt/ib_srpt.h
+> @@ -256,6 +256,7 @@ enum rdma_ch_state {
+>   * @rdma_cm:	   See below.
+>   * @rdma_cm.cm_id: RDMA CM ID associated with the channel.
+>   * @cq:            IB completion queue for this channel.
+> + * @cq_size:	   Size of the @cq pool.
+>   * @zw_cqe:	   Zero-length write CQE.
+>   * @rcu:           RCU head.
+>   * @kref:	   kref for this channel.
 
-Agreed.  Sorry I was not trying to be confrontational.  There is just enough
-other things which are going to take me time to get right I need to focus on
-them...  :-D
+That doesn't seem correct to me. My understanding is that cq_size is the
+number of CQEs in @cq. @cq is a completion queue and not a CQ pool.
 
-Sorry,
-Ira
+Bart.
+
+
