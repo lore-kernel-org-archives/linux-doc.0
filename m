@@ -2,83 +2,66 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6150DC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 08:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DD3C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 08:23:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DBC02224A
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 08:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602749546;
-	bh=Rrf1VCBA+6H+AvBz4ghy3QPFEp+YTsbvEvIh5bSjGOM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uXGv0uxucMuLfCiGb/ooklts9/DEycMxSWR3Sc09RcluOs52PL/AD+XWf5VqemGZi
-	 k0UVeh40UYWB/ErpEbnMSrkXQ2BCGYcfZ4tYI0H1+vSUi5UKI57YBQ1tJk6DmbG2IC
-	 to3XOgA0VXV3eLRkieYZBeGGOoTSZbgV/FKufVaw=
+	by mail.kernel.org (Postfix) with ESMTP id B9D032224E
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 08:23:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387948AbgJOIMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 04:12:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56760 "EHLO mail.kernel.org"
+        id S2388164AbgJOIXe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 04:23:34 -0400
+Received: from gentwo.org ([3.19.106.255]:51678 "EHLO gentwo.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728470AbgJOIMS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Oct 2020 04:12:18 -0400
-Received: from mail.kernel.org (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20C472225F;
-        Thu, 15 Oct 2020 08:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602749538;
-        bh=Rrf1VCBA+6H+AvBz4ghy3QPFEp+YTsbvEvIh5bSjGOM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PSOmfreMm2peZmETjQIpLcMLucLerjuVC1bvHbARvxglt6rRjkfC6LUXm7YQUvzrA
-         v7oSY5x5kyqGKonhVwEMBeInKKMWuGITxsqZOf+IT41+QWg6EG+CFgFKNyOpQK4TrL
-         RMJ8/SPeKhLRplOy1CA90FAcsg4RQbxuP42awKMw=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kSyMw-000MSn-VT; Thu, 15 Oct 2020 10:12:14 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] sphinx: conf.py: properly handle Sphinx 4.0
-Date:   Thu, 15 Oct 2020 10:12:12 +0200
-Message-Id: <c8c01144fede9bd7209298bbeb185560eb60b94d.1602749214.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1602749214.git.mchehab+huawei@kernel.org>
-References: <cover.1602749214.git.mchehab+huawei@kernel.org>
+        id S1726018AbgJOIXe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Oct 2020 04:23:34 -0400
+Received: by gentwo.org (Postfix, from userid 1002)
+        id 1529E3F0EE; Thu, 15 Oct 2020 08:23:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+        by gentwo.org (Postfix) with ESMTP id 12ACA3F042;
+        Thu, 15 Oct 2020 08:23:33 +0000 (UTC)
+Date:   Thu, 15 Oct 2020 08:23:33 +0000 (UTC)
+From:   Christopher Lameter <cl@linux.com>
+X-X-Sender: cl@www.lameter.com
+To:     Kees Cook <keescook@chromium.org>
+cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Waiman Long <longman@redhat.com>,
+        Marco Elver <elver@google.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 0/3] Actually fix freelist pointer vs redzoning
+In-Reply-To: <20201015033712.1491731-1-keescook@chromium.org>
+Message-ID: <alpine.DEB.2.22.394.2010150822260.184556@www.lameter.com>
+References: <20201015033712.1491731-1-keescook@chromium.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-One of the checks for Sphinx 3+ is broken, causing some
-C warnings to return back with Sphinx 4.0.x.
+On Wed, 14 Oct 2020, Kees Cook wrote:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/conf.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Note on patch 2: Christopher NAKed it, but I actually think this is a
+> reasonable thing to add -- the "too small" check is only made when built
+> with CONFIG_DEBUG_VM, so it *is* actually possible for someone to trip
+> over this directly, even if it would never make it into a released
+> kernel. I see no reason to just leave this foot-gun in place, though, so
+> we might as well just fix it too. (Which seems to be what Longman was
+> similarly supporting, IIUC.)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 4f5d15abd047..a92442e70211 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -50,7 +50,7 @@ if major >= 3:
-         support for Sphinx v3.0 and above is brand new. Be prepared for
-         possible issues in the generated output.
-         ''')
--    if minor > 0 or patch >= 2:
-+    if (major > 3) or (minor > 0 or patch >= 2):
-         # Sphinx c function parser is more pedantic with regards to type
-         # checking. Due to that, having macros at c:function cause problems.
-         # Those needed to be scaped by using c_id_attributes[] array
--- 
-2.26.2
+Well then remove the duplication of checks. The NAK was there because it
+seems that you were not aware of the existing checks.
+
+> Anyway, if patch 2 stays NAKed, that's fine. It's entirely separable,
+> and the other 2 can land. :)
+
+Just deal with the old checks too and it will be fine.
 
