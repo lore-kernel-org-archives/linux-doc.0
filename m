@@ -2,157 +2,142 @@ Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AD5C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 01:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F59C433E7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 03:37:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 496B022257
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 01:59:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E84A122255
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 03:37:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jCAqi4iT"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y7RwMlnT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389301AbgJOB7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Oct 2020 21:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53934 "EHLO
+        id S1729112AbgJODhQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Oct 2020 23:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732511AbgJOB7i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 21:59:38 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5086EC08EC89
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 16:31:45 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id x13so764560pfa.9
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 16:31:45 -0700 (PDT)
+        with ESMTP id S1729045AbgJODhQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Oct 2020 23:37:16 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C56CC061755
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 20:37:16 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id l18so1012929pgg.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2020 20:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HXVUBRNSSqTPt62/mgLGqwfLQyF1yjV/YHL73Dao6W8=;
-        b=jCAqi4iTXHmrlmTxFYn6GS2VgUo/8myl3KBrmWg0lRxHbNQgb3vs1osYENVe61bW0P
-         M+4wkDUWjW0myaMTX5a1Gxf50PJCa/e+uOHI7EyM+POftZ0Y/9LfYtXSwlA+pbBlCT0Z
-         p+qpDy78UxHceaiLraq0fP4f7UgNDPeMM5qHQ=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rKpXkxl6yJIU4tRkHvXmPNNxYUSkKNgxeKQKUdkfeI4=;
+        b=Y7RwMlnTp+htb3EhE553XcSxYY00imMzkms1Q4ltiGTIPjbmMrFB9MsRfPZ8yGBGPR
+         2GQwJoxN0tNXCP7H7TODKP0OefvZGiXFMH33q68Fvyig5D2hvk6Li16EejMb2cAqJYRv
+         V9A/iQbWQ0cYjMEagNkFayGL8XGicbm+FsUQY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HXVUBRNSSqTPt62/mgLGqwfLQyF1yjV/YHL73Dao6W8=;
-        b=N3q0mLJwZdhO7SriTLj1uGCbERZI3x1OuLrNzaCaVvnIKTwVsFjIY8c4/qDhaMpkI0
-         YUoldQelioSSKnwSUUFkIMINOFIV3WNEyEOckb1Q0GDWBEkHbYS/afa41ze9ULsnJtvQ
-         w1lWq/T47se70CmGoS+igt4THJnOJq5U27npi6tylwPt95ug0ijn2ebmVENH5K3J16Fv
-         JW5KMKHIlalym89CiTziDiTNlAF+GtKDjemDfy3LJTvAplI33NlpAxDb1jBv84tFOcWc
-         7uLAp1Qkn//HbIniFrwufq+8yhljNFcgxRNuj2EusIHnOl2337dWDu8LzdaYF4cBk8zN
-         WFnQ==
-X-Gm-Message-State: AOAM533hyCAKnwx2zspQ9Ncf+mBdz3IxmePdHpjgYF9wmgxcEQYyqZ1C
-        x15DD4zBBiqEvEjEJxeXUgGPAA==
-X-Google-Smtp-Source: ABdhPJxOwI5RHIhqZd5sqTZJ3BeFjY/QwyZ69aihzdHcq4MYx7e3PrGhvAMQ5MYwvG0KK4zLFTqSZQ==
-X-Received: by 2002:a63:d66:: with SMTP id 38mr983974pgn.400.1602718304430;
-        Wed, 14 Oct 2020 16:31:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rKpXkxl6yJIU4tRkHvXmPNNxYUSkKNgxeKQKUdkfeI4=;
+        b=PGDrx+vTa9xvK1Js8+1zoKMIr2juy4VBT8eGR/fVpiBYg8MgUikMMqKjb7hJeMDSlB
+         duBMJ5PVm0BIKqN/MvVA8zHEDluWji/QxJwodtLqSF1V96hFBPchdJp1NeLQo1feDmW0
+         +s2r2ngLLbAITr++hSwt5c+BpKlvzNUqpgsVDhydfdCyveg8CSlTziFHfD4ls+VdyqBn
+         InArH9s5Toi8bBMoHlzbsEVm1ujN+O0CZM6Jk3DWsTnifCqyExq8ktoOtjRoCwPoEh84
+         eVnUR6dhl6oDFYEWft5Y7lPbIoCC0kIuvVcKotD7nDOcu1bkXeCUo96RuJ107l+tYy8f
+         klDQ==
+X-Gm-Message-State: AOAM533k9S5/UgR5BOSkTWo4j6XCHyMWBCiFQd6AdPbaSJJgXVi10Glb
+        iMS7rHhh1p2DCRkHhyAUohcSQw==
+X-Google-Smtp-Source: ABdhPJyoubbBOjnFUbsWxFOasUJwB58/UjuuTINRsJ1mzvqelRDL/1DXYNuIQElP2sRZyoYFfT/RKQ==
+X-Received: by 2002:aa7:8216:0:b029:142:2501:3968 with SMTP id k22-20020aa782160000b029014225013968mr2244959pfi.45.1602733035675;
+        Wed, 14 Oct 2020 20:37:15 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r201sm780160pfc.98.2020.10.14.16.31.43
+        by smtp.gmail.com with ESMTPSA id 78sm1157099pfz.211.2020.10.14.20.37.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2020 16:31:43 -0700 (PDT)
-Date:   Wed, 14 Oct 2020 16:31:42 -0700
+        Wed, 14 Oct 2020 20:37:14 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
-        gregkh@linuxfoundation.org, shuah@kernel.org, rafael@kernel.org,
-        johannes@sipsolutions.net, lenb@kernel.org, james.morse@arm.com,
-        tony.luck@intel.com, bp@alien8.de, arve@android.com,
-        tkjos@android.com, maco@android.com, joel@joelfernandes.org,
-        christian@brauner.io, hridya@google.com, surenb@google.com,
-        minyard@acm.org, arnd@arndb.de, mchehab@kernel.org,
-        rric@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-edac@vger.kernel.org, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 00/11] Introduce Simple atomic counters
-Message-ID: <202010141611.70B7A38@keescook>
-References: <cover.1602209970.git.skhan@linuxfoundation.org>
- <20201009193746.GA1073957@hirez.programming.kicks-ass.net>
- <202010091255.246395A6@keescook>
- <20201010110920.GQ2628@hirez.programming.kicks-ass.net>
- <6e1dd408-653e-817e-b659-23649259a929@linuxfoundation.org>
- <20201014091720.GC2628@hirez.programming.kicks-ass.net>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, stable@vger.kernel.org,
+        Christoph Lameter <cl@linux.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Waiman Long <longman@redhat.com>,
+        Marco Elver <elver@google.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v3 2/3] mm/slub: Fix redzoning for small allocations
+Date:   Wed, 14 Oct 2020 20:37:11 -0700
+Message-Id: <20201015033712.1491731-3-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201015033712.1491731-1-keescook@chromium.org>
+References: <20201015033712.1491731-1-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201014091720.GC2628@hirez.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 14, 2020 at 11:17:20AM +0200, Peter Zijlstra wrote:
-> On Tue, Oct 13, 2020 at 08:12:20PM -0600, Shuah Khan wrote:
-> 
-> > They don't add any new behavior, As Kees mentioned they do give us a
-> > way to clearly differentiate atomic usages that can wrap.
-> 
-> No it doesn't! atomic_t can wrap, this thing can wrap, no distinction.
-> 
-> All it does is fragment the API and sow confusion. FOR NO BENEFIT.
+The redzone area for SLUB exists between s->object_size and s->inuse
+(which is at least the word-aligned object_size). If a cache were created
+with an object_size smaller than sizeof(void *), the in-object stored
+freelist pointer would overwrite the redzone (e.g. with boot param
+"slub_debug=ZF"):
 
-I really don't see it this way. It's a distinct subset of the atomic_t
-API. The trouble that has existed here has been with an atomic_t being
-originally used NOT for lifetime management, that mutates into something
-like that because of the available API, but doing so without realizing
-it. atomic_t gets used for all kinds of algorithms, and the "counter"
-type is way too easily accidentally transformed into a "lifetime
-tracker" and we get bugs.
+BUG test (Tainted: G    B            ): Right Redzone overwritten
+-----------------------------------------------------------------------------
 
-If we have a distinct type for wrapping-counters that limits the API,
-then it is much harder for folks to shoot themselves in the foot. I don't
-see why this is so bad: we end up with safer usage, more easily auditable
-code behavior ("how was this atomic_t instance _intended_ to be used?"),
-and no change in binary size.
+INFO: 0xffff957ead1c05de-0xffff957ead1c05df @offset=1502. First byte 0x1a instead of 0xbb
+INFO: Slab 0xffffef3950b47000 objects=170 used=170 fp=0x0000000000000000 flags=0x8000000000000200
+INFO: Object 0xffff957ead1c05d8 @offset=1496 fp=0xffff957ead1c0620
 
-> > There is no need to keep inc_return in this API as such. I included it
-> > so it can be used for above cases 1 and 2, so the users don't have to
-> > call inc() followed by read(). It can be left out of the API.
+Redzone  (____ptrval____): bb bb bb bb bb bb bb bb    ........
+Object   (____ptrval____): f6 f4 a5 40 1d e8          ...@..
+Redzone  (____ptrval____): 1a aa                      ..
+Padding  (____ptrval____): 00 00 00 00 00 00 00 00    ........
 
-I go back and forth on this, but after looking at these instances,
-it makes sense to have inc_return(), for where counters are actually
-"serial numbers". An argument could be made[1], however, that such uses
-should not end up in the position of _reusing_ earlier identifiers, which
-means it's actually can't wrap. (And some cases just need u64 to make this
-happen[2] -- and in that specific case, don't even need to be atomic_t).
+Store the freelist pointer out of line when object_size is smaller
+than sizeof(void *) and redzoning is enabled. (This object_size is not
+actually considered valid, as tested by kmem_cache_sanity_check() under
+CONFIG_DEBUG_VM. This is being added for extra robustness, since it IS
+possible to build kernels where this is allowed -- why keep foot-guns
+around?)
 
-[1] https://lore.kernel.org/lkml/202010071334.8298F3FA7@keescook/
-[2] https://git.kernel.org/linus/d1e7fd6462ca9fc76650fbe6ca800e35b24267da
+(Note that no caches in this size range are known to exist in the kernel
+currently.)
 
-> Wrong! The atomic usage in mutex doesn't fall in any of those
-> categories.
+Fixes: 81819f0fc828 ("SLUB core")
+Cc: stable@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ mm/slub.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-But the atomic usage in mutex is *IN* mutex -- it's a separate data
-type, etc. We don't build mutexes manually, so why build counters
-manually?
-
-> The only thing you're all saying that makes sense is that unintentional
-> wrapping can have bad consequences, the rest is pure confusion.
-> 
-> Focus on the non-wrapping cases, _everything_ else is not going
-> anywhere.
-
-I view this as a way to do so: this subset of wrapping cases is being
-identified and removed from the pool of all the atomic_t cases so that
-they will have been classified, and we can continue to narrow down all
-the atomic_t uses to find any potentially mis-used non-wrapping cases.
-
-The other option is adding some kind of attribute to the declarations
-(which gets us the annotation) but doesn't provide a limit to the API.
-(e.g. no counter should ever call dec_return).
-
-> So audit the kernel, find the cases that should not wrap, categorize and
-> create APIs for them that trap the wrapping. But don't go around
-> confusing things that don't need confusion.
-
-That's what's happening here. But as it turns out, it's easier to do
-this by employing both the process of elimination (mark the counters)
-and direct identification (mark the refcount_t). Then the pool of
-"unannotated" atomic_t instances continues to shrink.
-
+diff --git a/mm/slub.c b/mm/slub.c
+index f4f1d63f0ab9..752fad36522c 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3682,15 +3682,17 @@ static int calculate_sizes(struct kmem_cache *s, int forced_order)
+ 	 */
+ 	s->inuse = size;
+ 
+-	if (((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
+-		s->ctor)) {
++	if ((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
++	    ((flags & SLAB_RED_ZONE) && s->object_size < sizeof(void *)) ||
++	    s->ctor) {
+ 		/*
+ 		 * Relocate free pointer after the object if it is not
+ 		 * permitted to overwrite the first word of the object on
+ 		 * kmem_cache_free.
+ 		 *
+ 		 * This is the case if we do RCU, have a constructor or
+-		 * destructor or are poisoning the objects.
++		 * destructor, are poisoning the objects, or are
++		 * redzoning an object smaller than sizeof(void *).
+ 		 *
+ 		 * The assumption that s->offset >= s->inuse means free
+ 		 * pointer is outside of the object is used in the
 -- 
-Kees Cook
+2.25.1
+
