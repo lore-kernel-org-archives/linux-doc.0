@@ -2,139 +2,353 @@ Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA6CC43467
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:50:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E161C433E7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:55:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1B53207E8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:50:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98B62207E8
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:55:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Clni0cNl"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SNrpEftL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iwKyGQXN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406449AbgJPMue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Oct 2020 08:50:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406381AbgJPMud (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Oct 2020 08:50:33 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88002C0613D3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 05:50:33 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id b127so2834215wmb.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 05:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=CrMlB8wZnz1QSRMDLaaqihjuRkl23NGRAQ7yTr/KKgU=;
-        b=Clni0cNlsKDQqQNx9Z1oea1qbI5trbL18Iwm/RppeJEeDU5onspHP+KN+DucCmqcpr
-         83zcVFENnk98nG7FAfwFElxxybgV2pzT2pSgM81VeOQzDSMxo3KvK/oBUr6gZENqPREC
-         Qkfm1jEKyT9XhdjMCrNsYLL4T+qZTbXTOOm+PYNIyqgd9H+V5BiMUcGSlQBkNyj9kBHS
-         HJu9xFj7y65JJdwxs8rQkmrNYeKw8u6w4LcCr+IKygGQmg6FCDKpfEsjYX58XNWbY+MS
-         fznHd8MrGWW6vLo0g1BieoHkqw4Rk9MDTCiFEdSwEsYwURoaoU9zpKfa4hxH3a57OMDJ
-         9kBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CrMlB8wZnz1QSRMDLaaqihjuRkl23NGRAQ7yTr/KKgU=;
-        b=tRpwiqJ5weHWr8vgMqmjHMKX+PKKw7vBnblOQRtATs8fcMTbrVH/N59THTHWCgkfyj
-         RwaHRGtCgp886ClFg7bl6v1y/veTYfSidQcJXPDosJaQBqZxDWsz+jqsiMmshlsV0HYk
-         Sx+TOvrL7o6FJ/hMXgR9BGC7mfcyxqurHrNZfZJ0rMOyKgYFiB9ETTTUjMNlMS69mA84
-         w19HvXNEGkRPgrsGzoVIjP4Fit75N81gAPOuHLN6OJLoTasGmNvGzeT168ITj04xtif5
-         atesFbLPtfyZdf5M1aHqd3F8xhDyiGADUZJvGvHn/4ZcWwC3DHZzSE6OktRX4e0vKgn0
-         Femg==
-X-Gm-Message-State: AOAM531geglqGdolP4nu1mIzTaeboVhgMGiiSd35eRlrq7lv296+2QGS
-        rAWKxKLVrMy6JjpsaH7A3WVBig==
-X-Google-Smtp-Source: ABdhPJwc6OQCnkD3OpBg2RnakL6syJWoFj3OemWf0bJrqBo0e6K5q4D9gFKaC16wyZgW5X4c9QHMMw==
-X-Received: by 2002:a1c:495:: with SMTP id 143mr3543475wme.63.1602852631989;
-        Fri, 16 Oct 2020 05:50:31 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:c9d8:1700:5168:39b? ([2a01:e34:ed2f:f020:c9d8:1700:5168:39b])
-        by smtp.googlemail.com with ESMTPSA id 14sm2610405wmf.27.2020.10.16.05.50.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2020 05:50:31 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
- Energy Model, EAS and IPA
-To:     Quentin Perret <qperret@google.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        "Nayak, Rajendra" <rnayak@codeaurora.org>
-References: <d2960f6a-1805-1fb4-98ae-4a756d20370b@arm.com>
- <765e6603-b614-fb72-64ff-248b42474803@linaro.org>
- <b19c1f12-b7cf-fcae-4ebb-617019effe2e@arm.com>
- <55d3fb0f-f7d8-63c5-2bdb-53eaa62380e0@linaro.org>
- <f660731e-132b-2514-f526-d7123ed3522c@arm.com>
- <d04019bd-9e85-5f3e-2a1b-66780b8df3dc@linaro.org>
- <3e3dd42c-48ac-7267-45c5-ca88205611bd@arm.com>
- <00ceec64-3273-bb4a-6f38-22de8d877ab5@linaro.org>
- <CAJZ5v0hV8fwRnADdjiiF=zapO3AE6=_W_PeOQ_WhUirCcFkgdA@mail.gmail.com>
- <e321191c-61d2-a15d-47c2-653b277984ca@linaro.org>
- <20201016121844.GA2420691@google.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <b3c6d7a5-0564-6e84-77ff-9afe10d7ee27@linaro.org>
-Date:   Fri, 16 Oct 2020 14:50:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S2395307AbgJPMzZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Oct 2020 08:55:25 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:44424 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2395281AbgJPMzZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Oct 2020 08:55:25 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1602852921;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IFWVugT+dTTDWBodFUMTGKF6FcevqFcG4mwU/SJ4v3Y=;
+        b=SNrpEftLssya9LMStEuqL5omNeFMJKimnual6z3+V6aJAqwaUJ7YhPr4HzoDb5wJNKmhRa
+        ERXtUA+56vN9HATCTKMxDnfdtRHBWpx51mO+jg65f8EUy0e8KQSw9VR/MgAZeIF2yb4pIJ
+        I8n7wZQnZwcr+K19jvygnHDNq4Jk/L0IBKQg2QRt/1nxF+GrNzUTrIIeEE/5W9iFdWRaC8
+        lUCpqI+kFsLqt/pBhvB4Tb9aeb+1JzLwvWXgr0Nn+pnOmqqfBQEZLUJDWw7Riu+RZAobpx
+        u2dPba2xPUPusgwNKAatKpyuyYl0UYBTxqbdxYuQCB+X8rh00DTnvQrUQEncLg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1602852921;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IFWVugT+dTTDWBodFUMTGKF6FcevqFcG4mwU/SJ4v3Y=;
+        b=iwKyGQXNsIU0MpOOMuSbEs4FgUEjJn4OHYUpcfwCy4h0dcT5Zw7jZ+W1pdwzI3jGgKmLmi
+        IWRicg8gEqquLqBg==
+To:     Peter Zijlstra <peterz@infradead.org>, ira.weiny@intel.com
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V3 6/9] x86/entry: Pass irqentry_state_t by reference
+In-Reply-To: <20201016114510.GO2611@hirez.programming.kicks-ass.net>
+References: <20201009194258.3207172-1-ira.weiny@intel.com> <20201009194258.3207172-7-ira.weiny@intel.com> <20201016114510.GO2611@hirez.programming.kicks-ass.net>
+Date:   Fri, 16 Oct 2020 14:55:21 +0200
+Message-ID: <87lfg6tjnq.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20201016121844.GA2420691@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16/10/2020 14:18, Quentin Perret wrote:
-> On Friday 16 Oct 2020 at 13:48:33 (+0200), Daniel Lezcano wrote:
->> If the SCMI is returning abstract numbers, the thermal IPA governor will
->> use these numbers as a reference to mitigate the temperature at the
->> specified sustainable power which is expressed in mW in the DT. So it
->> does not work and we can not detect such conflict.
->>
->> That is why I'm advocating to keep mW for the energy model and make the
->> SCMI and DT power numbers incompatible.
-> 
-> I think it's fair to say SCMI-provided number should only be compared to
-> other SCMI-provided numbers, so +1 on that. But what I don't understand
-> is why specifying the EM in mW helps with that?
+On Fri, Oct 16 2020 at 13:45, Peter Zijlstra wrote:
+> On Fri, Oct 09, 2020 at 12:42:55PM -0700, ira.weiny@intel.com wrote:
+>> @@ -238,7 +236,7 @@ noinstr void idtentry_exit_nmi(struct pt_regs *regs, bool restore)
+>>  
+>>  	rcu_nmi_exit();
+>>  	lockdep_hardirq_exit();
+>> -	if (restore)
+>> +	if (irq_state->exit_rcu)
+>>  		lockdep_hardirqs_on(CALLER_ADDR0);
+>>  	__nmi_exit();
+>>  }
+>
+> That's not nice.. The NMI path is different from the IRQ path and has a
+> different variable. Yes, this works, but *groan*.
+>
+> Maybe union them if you want to avoid bloating the structure, but the
+> above makes it really hard to read.
 
-It is already specified in mW. I'm just saying to not add the
-'scale'/'abstract'/'bogoWatt' in the documentation.
+Right, and also that nmi entry thing should not be in x86. Something
+like the untested below as first cleanup.
 
-> Can we not let the providers specify the unit? 
+Thanks,
 
-Yes, it is possible but the provider must give the 'unit' and the energy
-model must store this information along with the "power" numbers, so we
-can compare apple with apple.
+        tglx
+----
+Subject: x86/entry: Move nmi entry/exit into common code
+From: Thomas Gleixner <tglx@linutronix.de>
+Date: Fri, 11 Sep 2020 10:09:56 +0200
 
-Today, the energy model is using the mW unit only and the providers are
-not telling the 'unit', so both are missing.
+Add blurb here.
 
-Because both are missing, it does not make sense to talk about
-'abstract' values in the energy model documentation until the above is
-fixed.
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ arch/x86/entry/common.c         |   34 ----------------------------------
+ arch/x86/include/asm/idtentry.h |    3 ---
+ arch/x86/kernel/cpu/mce/core.c  |    6 +++---
+ arch/x86/kernel/nmi.c           |    6 +++---
+ arch/x86/kernel/traps.c         |   13 +++++++------
+ include/linux/entry-common.h    |   20 ++++++++++++++++++++
+ kernel/entry/common.c           |   36 ++++++++++++++++++++++++++++++++++++
+ 7 files changed, 69 insertions(+), 49 deletions(-)
+
+--- a/arch/x86/entry/common.c
++++ b/arch/x86/entry/common.c
+@@ -209,40 +209,6 @@ SYSCALL_DEFINE0(ni_syscall)
+ 	return -ENOSYS;
+ }
+ 
+-noinstr bool idtentry_enter_nmi(struct pt_regs *regs)
+-{
+-	bool irq_state = lockdep_hardirqs_enabled();
+-
+-	__nmi_enter();
+-	lockdep_hardirqs_off(CALLER_ADDR0);
+-	lockdep_hardirq_enter();
+-	rcu_nmi_enter();
+-
+-	instrumentation_begin();
+-	trace_hardirqs_off_finish();
+-	ftrace_nmi_enter();
+-	instrumentation_end();
+-
+-	return irq_state;
+-}
+-
+-noinstr void idtentry_exit_nmi(struct pt_regs *regs, bool restore)
+-{
+-	instrumentation_begin();
+-	ftrace_nmi_exit();
+-	if (restore) {
+-		trace_hardirqs_on_prepare();
+-		lockdep_hardirqs_on_prepare(CALLER_ADDR0);
+-	}
+-	instrumentation_end();
+-
+-	rcu_nmi_exit();
+-	lockdep_hardirq_exit();
+-	if (restore)
+-		lockdep_hardirqs_on(CALLER_ADDR0);
+-	__nmi_exit();
+-}
+-
+ #ifdef CONFIG_XEN_PV
+ #ifndef CONFIG_PREEMPTION
+ /*
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -11,9 +11,6 @@
+ 
+ #include <asm/irq_stack.h>
+ 
+-bool idtentry_enter_nmi(struct pt_regs *regs);
+-void idtentry_exit_nmi(struct pt_regs *regs, bool irq_state);
+-
+ /**
+  * DECLARE_IDTENTRY - Declare functions for simple IDT entry points
+  *		      No error code pushed by hardware
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1983,7 +1983,7 @@ void (*machine_check_vector)(struct pt_r
+ 
+ static __always_inline void exc_machine_check_kernel(struct pt_regs *regs)
+ {
+-	bool irq_state;
++	irqentry_state_t irq_state;
+ 
+ 	WARN_ON_ONCE(user_mode(regs));
+ 
+@@ -1995,7 +1995,7 @@ static __always_inline void exc_machine_
+ 	    mce_check_crashing_cpu())
+ 		return;
+ 
+-	irq_state = idtentry_enter_nmi(regs);
++	irq_state = irqentry_nmi_enter(regs);
+ 	/*
+ 	 * The call targets are marked noinstr, but objtool can't figure
+ 	 * that out because it's an indirect call. Annotate it.
+@@ -2006,7 +2006,7 @@ static __always_inline void exc_machine_
+ 	if (regs->flags & X86_EFLAGS_IF)
+ 		trace_hardirqs_on_prepare();
+ 	instrumentation_end();
+-	idtentry_exit_nmi(regs, irq_state);
++	irqentry_nmi_exit(regs, irq_state);
+ }
+ 
+ static __always_inline void exc_machine_check_user(struct pt_regs *regs)
+--- a/arch/x86/kernel/nmi.c
++++ b/arch/x86/kernel/nmi.c
+@@ -475,7 +475,7 @@ static DEFINE_PER_CPU(unsigned long, nmi
+ 
+ DEFINE_IDTENTRY_RAW(exc_nmi)
+ {
+-	bool irq_state;
++	irqentry_state_t irq_state;
+ 
+ 	/*
+ 	 * Re-enable NMIs right here when running as an SEV-ES guest. This might
+@@ -502,14 +502,14 @@ DEFINE_IDTENTRY_RAW(exc_nmi)
+ 
+ 	this_cpu_write(nmi_dr7, local_db_save());
+ 
+-	irq_state = idtentry_enter_nmi(regs);
++	irq_state = irqentry_nmi_enter(regs);
+ 
+ 	inc_irq_stat(__nmi_count);
+ 
+ 	if (!ignore_nmis)
+ 		default_do_nmi(regs);
+ 
+-	idtentry_exit_nmi(regs, irq_state);
++	irqentry_nmi_exit(regs, irq_state);
+ 
+ 	local_db_restore(this_cpu_read(nmi_dr7));
+ 
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -405,7 +405,7 @@ DEFINE_IDTENTRY_DF(exc_double_fault)
+ 	}
+ #endif
+ 
+-	idtentry_enter_nmi(regs);
++	irqentry_nmi_enter(regs);
+ 	instrumentation_begin();
+ 	notify_die(DIE_TRAP, str, regs, error_code, X86_TRAP_DF, SIGSEGV);
+ 
+@@ -651,12 +651,13 @@ DEFINE_IDTENTRY_RAW(exc_int3)
+ 		instrumentation_end();
+ 		irqentry_exit_to_user_mode(regs);
+ 	} else {
+-		bool irq_state = idtentry_enter_nmi(regs);
++		irqentry_state_t irq_state = irqentry_nmi_enter(regs);
++
+ 		instrumentation_begin();
+ 		if (!do_int3(regs))
+ 			die("int3", regs, 0);
+ 		instrumentation_end();
+-		idtentry_exit_nmi(regs, irq_state);
++		irqentry_nmi_exit(regs, irq_state);
+ 	}
+ }
+ 
+@@ -864,7 +865,7 @@ static __always_inline void exc_debug_ke
+ 	 * includes the entry stack is excluded for everything.
+ 	 */
+ 	unsigned long dr7 = local_db_save();
+-	bool irq_state = idtentry_enter_nmi(regs);
++	irqentry_state_t irq_state = irqentry_nmi_enter(regs);
+ 	instrumentation_begin();
+ 
+ 	/*
+@@ -907,7 +908,7 @@ static __always_inline void exc_debug_ke
+ 		regs->flags &= ~X86_EFLAGS_TF;
+ out:
+ 	instrumentation_end();
+-	idtentry_exit_nmi(regs, irq_state);
++	irqentry_nmi_exit(regs, irq_state);
+ 
+ 	local_db_restore(dr7);
+ }
+@@ -925,7 +926,7 @@ static __always_inline void exc_debug_us
+ 
+ 	/*
+ 	 * NB: We can't easily clear DR7 here because
+-	 * idtentry_exit_to_usermode() can invoke ptrace, schedule, access
++	 * irqentry_exit_to_usermode() can invoke ptrace, schedule, access
+ 	 * user memory, etc.  This means that a recursive #DB is possible.  If
+ 	 * this happens, that #DB will hit exc_debug_kernel() and clear DR7.
+ 	 * Since we're not on the IST stack right now, everything will be
+--- a/include/linux/entry-common.h
++++ b/include/linux/entry-common.h
+@@ -343,6 +343,7 @@ void irqentry_exit_to_user_mode(struct p
+ #ifndef irqentry_state
+ typedef struct irqentry_state {
+ 	bool	exit_rcu;
++	bool	lockdep;
+ } irqentry_state_t;
+ #endif
+ 
+@@ -402,4 +403,23 @@ void irqentry_exit_cond_resched(void);
+  */
+ void noinstr irqentry_exit(struct pt_regs *regs, irqentry_state_t state);
+ 
++/**
++ * irqentry_nmi_enter - Handle NMI entry
++ * @regs:	Pointer to currents pt_regs
++ *
++ * Similar to irqentry_enter() but taking care of the NMI constraints.
++ */
++irqentry_state_t noinstr irqentry_nmi_enter(struct pt_regs *regs);
++
++/**
++ * irqentry_nmi_exit - Handle return from NMI handling
++ * @regs:	Pointer to pt_regs (NMI entry regs)
++ * @state:	Return value from matching call to irqentry_nmi_enter()
++ *
++ * Last action before returning to the low level assmenbly code.
++ *
++ * Counterpart to irqentry_nmi_enter().
++ */
++void noinstr irqentry_nmi_exit(struct pt_regs *regs, irqentry_state_t irq_state);
++
+ #endif
+--- a/kernel/entry/common.c
++++ b/kernel/entry/common.c
+@@ -398,3 +398,39 @@ noinstr void irqentry_exit(struct pt_reg
+ 			rcu_irq_exit();
+ 	}
+ }
++
++irqentry_state_t noinstr irqentry_nmi_enter(struct pt_regs *regs)
++{
++	irqentry_state_t irq_state;
++
++	irq_state.lockdep = lockdep_hardirqs_enabled();
++
++	__nmi_enter();
++	lockdep_hardirqs_off(CALLER_ADDR0);
++	lockdep_hardirq_enter();
++	rcu_nmi_enter();
++
++	instrumentation_begin();
++	trace_hardirqs_off_finish();
++	ftrace_nmi_enter();
++	instrumentation_end();
++
++	return irq_state;
++}
++
++void noinstr irqentry_nmi_exit(struct pt_regs *regs, irqentry_state_t irq_state)
++{
++	instrumentation_begin();
++	ftrace_nmi_exit();
++	if (irq_state.lockdep) {
++		trace_hardirqs_on_prepare();
++		lockdep_hardirqs_on_prepare(CALLER_ADDR0);
++	}
++	instrumentation_end();
++
++	rcu_nmi_exit();
++	lockdep_hardirq_exit();
++	if (irq_state.lockdep)
++		lockdep_hardirqs_on(CALLER_ADDR0);
++	__nmi_exit();
++}
 
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+
