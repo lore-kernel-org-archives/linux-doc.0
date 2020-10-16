@@ -1,148 +1,147 @@
-Return-Path: <SRS0=MgSu=DW=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1ED6C433E7
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 23:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF26FC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 03:38:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F73B20797
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Oct 2020 23:17:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 557CC207F7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 03:38:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jOLIN5HG"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VNxAMvbk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732874AbgJOXRo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Oct 2020 19:17:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54352 "EHLO
+        id S2394232AbgJPDh7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Oct 2020 23:37:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728376AbgJOXRo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 19:17:44 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54C0C061755
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 16:17:43 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id a200so338523pfa.10
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2020 16:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+rVXmKyIACVLQAEQsLnR+KYW2Ry+sP13KrcdyTUrOvo=;
-        b=jOLIN5HGAQ/Dd0VHJBgok/wBN9gzJu/zsm5iFFXvoHhb226GshILExBojlROnv8b0y
-         r5Qxpf0c+WAaRHK4U7EJhKMsyczMGj2kGVGPSeEE7AnlvtVFXhfGcqxTHNhWMTJNC8pe
-         fWAz94cM13lQfVDHr9w87rM5WYM+J8Y3lu64A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+rVXmKyIACVLQAEQsLnR+KYW2Ry+sP13KrcdyTUrOvo=;
-        b=AIecOvODaEh1WXwIAuVM86yVNhQyZxTMi/CV/LFD+Ngihc/AHsfX1J2rc23Vt3kjsA
-         c9ce96DAlKNTGpjEJcsn2sKuA7ybcsRwkoHQOwAx6U27npd0igJ+vUSqHhTRnpFzhsZT
-         2ADF3pciT4++DeKQu4OEcEUz/vazUTFeQ0KlGcB4YQzBUMix1MetXKnqgUmLJkmGAHYc
-         u/iLSI6iuBsfunRGmidO7/r/W8i7GyLRos1GW+Vr7AUilWA+FzJeK7f8fqKiJ9kw9hX4
-         tdMXQ6Vj9qQYxKzSPzBbz82xQOLc8fWsc8XdiR9rmrCCpWr/86uDYN9i053WBQoJ+yj5
-         fpjA==
-X-Gm-Message-State: AOAM530YUM9qsPkAigUc3Vw3CgS4N6Nvv7eNVznLVkzXzs886l6c5O85
-        PJ6p2el2aLcfM5oK8UBi3uBinA==
-X-Google-Smtp-Source: ABdhPJwCXQmFNeXvfkclvNsvCCKyWIk69bItJtNIvSg3kfTgGBEqhu8/85bcvuFKCQkzMK69DfYVDA==
-X-Received: by 2002:a62:cfc2:0:b029:151:d47e:119b with SMTP id b185-20020a62cfc20000b0290151d47e119bmr889055pfg.46.1602803863416;
-        Thu, 15 Oct 2020 16:17:43 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a185sm405323pgc.46.2020.10.15.16.17.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2020 16:17:42 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] docs: deprecated.rst: Expand str*cpy() replacement notes
-Date:   Thu, 15 Oct 2020 16:17:31 -0700
-Message-Id: <20201015231730.2138505-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S2394231AbgJPDh7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Oct 2020 23:37:59 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28BCCC061755;
+        Thu, 15 Oct 2020 20:37:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=lmMJZPVnctvP1IeolKeWWhf8ROFToQ7YtsTqWupL42Q=; b=VNxAMvbkrpxVroXCQY5f+gNHrV
+        B7kFNgnAXUstE9doiB1sXzbGI8fmNo+KAFaJaGOlNWevK1AQ/R+M1QtbR6gWxmXl6uah7tI2UEMnT
+        OPO6DNLjnnTgd/xanppHivlmS7ealD6ErRh8iIWwIqV8H+GcSFze11yAmpnC9o/FweOj90lLtH3qN
+        Otz8ImDwXDmRAnnb41hDFJlEaa/RQ4Aozie3KpEMDNuEAVyLuakb+eWR5TAFyQHrAm9RoCkPhoB5h
+        1DyZpSUHxsJmW/bhcmVbgFldASl38TxSbydXB72N8JHmSd1WIN6lQkWI2IH3SxLRgmbS7KDEwqJ0b
+        LaC2EwaA==;
+Received: from [2601:1c0:6280:3f0::507c] (helo=smtpauth.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kTGZ2-0007ZV-4q; Fri, 16 Oct 2020 03:37:56 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH 1/2] fs/eventpoll.c: fix Returns: kernel-doc notation
+Date:   Thu, 15 Oct 2020 20:37:51 -0700
+Message-Id: <20201016033751.13733-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The notes on replacing the deprecated str*cpy() functions didn't call
-enough attention to the change in return type. Add these details and
-clean up the language a bit more.
+Fix some kernel-doc formatting in fs/eventpoll.c for "Returns:":
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
+- use "Returns:" without another "Returns" after it;
+- make multi-line Returns: indentation consistent;
+- add a ':' after "Returns" in a few places;
+
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
 ---
- Documentation/process/deprecated.rst | 44 ++++++++++++++++------------
- 1 file changed, 26 insertions(+), 18 deletions(-)
+ fs/eventpoll.c |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index ff71d802b53d..9d83b8db8874 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -106,23 +106,29 @@ NUL or newline terminated.
- 
- strcpy()
- --------
--strcpy() performs no bounds checking on the destination
--buffer. This could result in linear overflows beyond the
--end of the buffer, leading to all kinds of misbehaviors. While
--`CONFIG_FORTIFY_SOURCE=y` and various compiler flags help reduce the
--risk of using this function, there is no good reason to add new uses of
--this function. The safe replacement is strscpy().
-+strcpy() performs no bounds checking on the destination buffer. This
-+could result in linear overflows beyond the end of the buffer, leading to
-+all kinds of misbehaviors. While `CONFIG_FORTIFY_SOURCE=y` and various
-+compiler flags help reduce the risk of using this function, there is
-+no good reason to add new uses of this function. The safe replacement
-+is strscpy(), though care must be given to any cases where the return
-+value of strcpy() was used, since strscpy() does not return a pointer to
-+the destination, but rather a count of non-NUL bytes copied (or negative
-+errno when it truncates).
- 
- strncpy() on NUL-terminated strings
- -----------------------------------
--Use of strncpy() does not guarantee that the destination buffer
--will be NUL terminated. This can lead to various linear read overflows
--and other misbehavior due to the missing termination. It also NUL-pads the
--destination buffer if the source contents are shorter than the destination
--buffer size, which may be a needless performance penalty for callers using
--only NUL-terminated strings. The safe replacement is strscpy().
--(Users of strscpy() still needing NUL-padding should instead
--use strscpy_pad().)
-+Use of strncpy() does not guarantee that the destination buffer will
-+be NUL terminated. This can lead to various linear read overflows and
-+other misbehavior due to the missing termination. It also NUL-pads
-+the destination buffer if the source contents are shorter than the
-+destination buffer size, which may be a needless performance penalty
-+for callers using only NUL-terminated strings. The safe replacement is
-+strscpy(), though care must be given to any cases where the return value
-+of strncpy() was used, since strscpy() does not return a pointer to the
-+destination, but rather a count of non-NUL bytes copied (or negative
-+errno when it truncates). Any cases still needing NUL-padding should
-+instead use strscpy_pad().
- 
- If a caller is using non-NUL-terminated strings, strncpy() can
- still be used, but destinations should be marked with the `__nonstring
-@@ -131,10 +137,12 @@ attribute to avoid future compiler warnings.
- 
- strlcpy()
- ---------
--strlcpy() reads the entire source buffer first, possibly exceeding
--the given limit of bytes to copy. This is inefficient and can lead to
--linear read overflows if a source string is not NUL-terminated. The
--safe replacement is strscpy().
-+strlcpy() reads the entire source buffer first (since the return value
-+is meant to match that of strlen()). This read may exceed the destination
-+size limit. This is both inefficient and can lead to linear read overflows
-+if a source string is not NUL-terminated. The safe replacement is strscpy(),
-+though care must be given to any cases where the return value of strlcpy()
-+is used, since strscpy() will return negative errno values when it truncates.
- 
- %p format specifier
- -------------------
--- 
-2.25.1
-
+--- linux-next-20201013.orig/fs/eventpoll.c
++++ linux-next-20201013/fs/eventpoll.c
+@@ -369,7 +369,7 @@ static void ep_nested_calls_init(struct
+  *
+  * @ep: Pointer to the eventpoll context.
+  *
+- * Returns: Returns a value different than zero if ready events are available,
++ * Returns: a value different than zero if ready events are available,
+  *          or zero otherwise.
+  */
+ static inline int ep_events_available(struct eventpoll *ep)
+@@ -470,7 +470,7 @@ static inline void ep_set_busy_poll_napi
+  * @cookie: Cookie to be used to identify this nested call.
+  * @ctx: This instance context.
+  *
+- * Returns: Returns the code returned by the @nproc callback, or -1 if
++ * Returns: the code returned by the @nproc callback, or -1 if
+  *          the maximum recursion limit has been exceeded.
+  */
+ static int ep_call_nested(struct nested_calls *ncalls,
+@@ -1121,8 +1121,8 @@ struct file *get_epoll_tfile_raw_ptr(str
+  *        direction i.e. either to the tail either to the head, otherwise
+  *        concurrent access will corrupt the list.
+  *
+- * Returns %false if element has been already added to the list, %true
+- * otherwise.
++ * Returns: %false if element has been already added to the list, %true
++ *          otherwise.
+  */
+ static inline bool list_add_tail_lockless(struct list_head *new,
+ 					  struct list_head *head)
+@@ -1163,7 +1163,7 @@ static inline bool list_add_tail_lockles
+  * Chains a new epi entry to the tail of the ep->ovflist in a lockless way,
+  * i.e. multiple CPUs are allowed to call this function concurrently.
+  *
+- * Returns %false if epi element has been already chained, %true otherwise.
++ * Returns: %false if epi element has been already chained, %true otherwise.
+  */
+ static inline bool chain_epi_lockless(struct epitem *epi)
+ {
+@@ -1426,7 +1426,7 @@ static int reverse_path_check_proc(void
+  *                      paths such that we will spend all our time waking up
+  *                      eventpoll objects.
+  *
+- * Returns: Returns zero if the proposed links don't create too many paths,
++ * Returns: zero if the proposed links don't create too many paths,
+  *	    -1 otherwise.
+  */
+ static int reverse_path_check(void)
+@@ -1812,7 +1812,7 @@ static inline struct timespec64 ep_set_m
+  *           until at least one event has been retrieved (or an error
+  *           occurred).
+  *
+- * Returns: Returns the number of ready events which have been fetched, or an
++ * Returns: the number of ready events which have been fetched, or an
+  *          error code, in case of error.
+  */
+ static int ep_poll(struct eventpoll *ep, struct epoll_event __user *events,
+@@ -1957,7 +1957,7 @@ send_events:
+  *          data structure pointer.
+  * @call_nests: Current dept of the @ep_call_nested() call stack.
+  *
+- * Returns: Returns zero if adding the epoll @file inside current epoll
++ * Returns: zero if adding the epoll @file inside current epoll
+  *          structure @ep does not violate the constraints, or -1 otherwise.
+  */
+ static int ep_loop_check_proc(void *priv, void *cookie, int call_nests)
+@@ -2011,7 +2011,7 @@ static int ep_loop_check_proc(void *priv
+  * @ep: Pointer to the epoll private data structure.
+  * @file: Pointer to the epoll file to be checked.
+  *
+- * Returns: Returns zero if adding the epoll @file inside current epoll
++ * Returns: zero if adding the epoll @file inside current epoll
+  *          structure @ep does not violate the constraints, or -1 otherwise.
+  */
+ static int ep_loop_check(struct eventpoll *ep, struct file *file)
