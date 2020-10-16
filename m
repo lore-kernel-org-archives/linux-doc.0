@@ -2,125 +2,180 @@ Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACEB8C43457
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 10:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B30CC433E7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 11:01:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5899C207F7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 10:58:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s3sqnnAy"
+	by mail.kernel.org (Postfix) with ESMTP id A68B6207F7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 11:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406682AbgJPK6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Oct 2020 06:58:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49686 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406678AbgJPK6B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Oct 2020 06:58:01 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C466C061755;
-        Fri, 16 Oct 2020 03:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=vZekZ76KW1BiiwMFIl0NBOsPALzv6fOefXANoYwORjo=; b=s3sqnnAyqvzeCqqogltPaUvZEd
-        hgR7KOV9Fp54001uE9QNgg1AMWqHaFF5JgVauukBLqaKmERhe7h6OZuPB8JURXapZrfZATGcuctAT
-        2FHdhg5BHGWOxaGlMWilCHjdNkV1JkDDKEFiz9cDDj1n639XOPcv4wIOP4l6A/t1XTyTxIHPEzsW7
-        Fef+mSxOUoXwOKB4I2tTW7KtkIGOa86LcD9Sf4h2XhNC3QBU9iWQKu2iTqZKYXqS0uZ9fZ1a+hiUH
-        CA8hoABSndA1QINh/XC8/+hqZfNTqSO4Q80FrZoJwaVoy8PnFxFbI89lyknHaXGnX/yMRVUIBm0iW
-        DSJ6YZ5Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kTNQf-00024m-1i; Fri, 16 Oct 2020 10:57:45 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 787DB3011E6;
-        Fri, 16 Oct 2020 12:57:43 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 651BE203C7039; Fri, 16 Oct 2020 12:57:43 +0200 (CEST)
-Date:   Fri, 16 Oct 2020 12:57:43 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     ira.weiny@intel.com
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V3 2/9] x86/fpu: Refactor arch_set_user_pkey_access()
- for PKS support
-Message-ID: <20201016105743.GK2611@hirez.programming.kicks-ass.net>
-References: <20201009194258.3207172-1-ira.weiny@intel.com>
- <20201009194258.3207172-3-ira.weiny@intel.com>
+        id S2404575AbgJPLBP convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Oct 2020 07:01:15 -0400
+Received: from mga11.intel.com ([192.55.52.93]:53219 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404564AbgJPLBO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Oct 2020 07:01:14 -0400
+IronPort-SDR: EHKVTUe2Lvwjyb2azGc6nSvTGpCOrTf98VeW8EmVglPwUugssOjiQN0J/EjltaSvjVi1PbUtwq
+ SlXSRwyQDrLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="163110826"
+X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; 
+   d="scan'208";a="163110826"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 04:01:13 -0700
+IronPort-SDR: /Q+mvagjsZ8zx4IQMSorTjsfTJ3IvnFocgJAJnyNwJv7u4EZKztOx7qp0pVPiB+Wb1RdEo59rB
+ sBzGbcU8OUag==
+X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; 
+   d="scan'208";a="522195618"
+Received: from ssherida-mobl.ger.corp.intel.com (HELO localhost) ([10.251.83.218])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 04:01:09 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201009194258.3207172-3-ira.weiny@intel.com>
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <52a0dd42d3730d35b3ecd00d20a0601793e443e6.1602589096.git.mchehab+huawei@kernel.org>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org> <52a0dd42d3730d35b3ecd00d20a0601793e443e6.1602589096.git.mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 44/80] docs: gpu: i915.rst: Fix several C duplication warnings
+From:   Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <160284606673.11659.11178759979047002902@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date:   Fri, 16 Oct 2020 14:01:07 +0300
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 12:42:51PM -0700, ira.weiny@intel.com wrote:
-> From: Fenghua Yu <fenghua.yu@intel.com>
++ Lionel
+
+Can you please take a look at best resolving the below problem.
+
+Maybe we should eliminate the duplicate declarations? Updating such
+a list manually seems error prone to me.
+
+Regards, Joonas
+
+Quoting Mauro Carvalho Chehab (2020-10-13 14:53:59)
+> As reported by Sphinx:
 > 
-> Define a helper, update_pkey_val(), which will be used to support both
-> Protection Key User (PKU) and the new Protection Key for Supervisor
-> (PKS) in subsequent patches.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:1147: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_oa_wait_unlocked'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:1169: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_oa_poll_wait'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:1189: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_oa_read'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:2669: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_oa_stream_enable'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:2734: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_oa_stream_disable'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:2820: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_oa_stream_init'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3010: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_read'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3098: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_poll_locked'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3129: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_poll'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3152: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_enable_locked'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3181: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_disable_locked'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3273: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_ioctl'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3296: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_destroy_locked'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3321: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_release'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3379: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_open_ioctl_locked'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3534: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'read_properties_unlocked'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3717: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_open_ioctl'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3760: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_register'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3789: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_unregister'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4009: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_add_config_ioctl'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4162: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_remove_config_ioctl'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4260: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_init'.
+>         ./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4423: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
+>         Declaration is 'i915_perf_fini'.
 > 
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+> With Sphinx 3, C declarations can't be duplicated anymore,
+> so let's exclude those from the other internals found on
+> i915_perf.c file.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  arch/x86/include/asm/pkeys.h |  2 ++
->  arch/x86/kernel/fpu/xstate.c | 22 ++++------------------
->  arch/x86/mm/pkeys.c          | 21 +++++++++++++++++++++
->  3 files changed, 27 insertions(+), 18 deletions(-)
-
-This is not from Fenghua.
-
-  https://lkml.kernel.org/r/20200717085442.GX10769@hirez.programming.kicks-ass.net
-
-This is your patch based on the code I wrote.
-
-> diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
-> index f5efb4007e74..3cf8f775f36d 100644
-> --- a/arch/x86/mm/pkeys.c
-> +++ b/arch/x86/mm/pkeys.c
-> @@ -208,3 +208,24 @@ static __init int setup_init_pkru(char *opt)
->  	return 1;
->  }
->  __setup("init_pkru=", setup_init_pkru);
-> +
-> +/*
-> + * Update the pk_reg value and return it.
-> + *
-> + * Kernel users use the same flags as user space:
-> + *     PKEY_DISABLE_ACCESS
-> + *     PKEY_DISABLE_WRITE
-> + */
-> +u32 update_pkey_val(u32 pk_reg, int pkey, unsigned int flags)
-> +{
-> +	int pkey_shift = pkey * PKR_BITS_PER_PKEY;
-> +
-> +	pk_reg &= ~(((1 << PKR_BITS_PER_PKEY) - 1) << pkey_shift);
-> +
-> +	if (flags & PKEY_DISABLE_ACCESS)
-> +		pk_reg |= PKR_AD_BIT << pkey_shift;
-> +	if (flags & PKEY_DISABLE_WRITE)
-> +		pk_reg |= PKR_WD_BIT << pkey_shift;
-> +
-> +	return pk_reg;
-> +}
+>  Documentation/gpu/i915.rst | 29 +++++++++++++++++++++++++----
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 33cc6ddf8f64..cff1f154b473 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -636,15 +636,36 @@ i915 Perf Observation Architecture Stream
+>  .. kernel-doc:: drivers/gpu/drm/i915/i915_perf.c
+>     :functions: i915_oa_poll_wait
+>  
+> -All i915 Perf Internals
+> ------------------------
+> +Other i915 Perf Internals
+> +-------------------------
+>  
+> -This section simply includes all currently documented i915 perf internals, in
+> -no particular order, but may include some more minor utilities or platform
+> +This section simply includes all other currently documented i915 perf internals,
+> +in no particular order, but may include some more minor utilities or platform
+>  specific details than found in the more high-level sections.
+>  
+>  .. kernel-doc:: drivers/gpu/drm/i915/i915_perf.c
+>     :internal:
+> +   :no-identifiers:
+> +       i915_perf_init
+> +       i915_perf_fini
+> +       i915_perf_register
+> +       i915_perf_unregister
+> +       i915_perf_open_ioctl
+> +       i915_perf_release
+> +       i915_perf_add_config_ioctl
+> +       i915_perf_remove_config_ioctl
+> +       read_properties_unlocked
+> +       i915_perf_open_ioctl_locked
+> +       i915_perf_destroy_locked
+> +       i915_perf_read i915_perf_ioctl
+> +       i915_perf_enable_locked
+> +       i915_perf_disable_locked
+> +       i915_perf_poll i915_perf_poll_locked
+> +       i915_oa_stream_init i915_oa_read
+> +       i915_oa_stream_enable
+> +       i915_oa_stream_disable
+> +       i915_oa_wait_unlocked
+> +       i915_oa_poll_wait
+>  
+>  Style
+>  =====
 > -- 
-> 2.28.0.rc0.12.gb6a658bd00c9
+> 2.26.2
 > 
