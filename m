@@ -2,70 +2,120 @@ Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75868C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 22:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B895C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 22:51:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CF80221EB
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 22:14:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602886475;
-	bh=M0aAyDxVvnvmqVlN5x9Wl3j8xqrcyEPTBdj62UDYQ2M=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=X451zBBnXI2reSWU/vZxMZHRZMslnJ280tQT81qCGvvGKsSH7uUoBsTO9lUAQ/EpJ
-	 yzfR/13hcU9zSP8s4baYx9cBl5e9KvXEJiKTHaYPWO724+lMyRCyqxME8zOcOAxa4D
-	 ZEP+Jt4FuWvdLO79pGMBVADBjtmaB0D+VGQfbJuQ=
+	by mail.kernel.org (Postfix) with ESMTP id B486F2222A
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 22:51:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CF4LqkGI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390066AbgJPWOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Oct 2020 18:14:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39606 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388993AbgJPWOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Oct 2020 18:14:33 -0400
-Subject: Re: [GIT PULL for v5.10-rc1] docs: fix building warnings and add
- support for Sphinx 3.1+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602886472;
-        bh=M0aAyDxVvnvmqVlN5x9Wl3j8xqrcyEPTBdj62UDYQ2M=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=eWqPaGV7HPrJlPFDOm4qtTb/Mw8JPxh96CkCu8Dsp1zs5+yvDj8Z3yESB8F+RGsEO
-         xDNXT+XLBLZEC4xvl9rTkXncpd3H6LRBS7CvzyrTiWUaMzyuiYhg6CcDkE9DvCQ8nk
-         PVncdDvDM0IGEDfEWp8IbIkSgVXs+BtOa49TDrhE=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20201016091048.574b2eeb@coco.lan>
-References: <20201016091048.574b2eeb@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20201016091048.574b2eeb@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git tags/docs/v5.10-1
-X-PR-Tracked-Commit-Id: 3e2ac9798e13ad1f52d735ea2ea1d252cb140ae5
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 54a4c789ca8091ab8fcd70285caeee2c5bc62997
-Message-Id: <160288647259.19132.3173461329672086595.pr-tracker-bot@kernel.org>
-Date:   Fri, 16 Oct 2020 22:14:32 +0000
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Docs Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
+        id S2391995AbgJPWv2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Oct 2020 18:51:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47464 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391813AbgJPWv1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Oct 2020 18:51:27 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56DDBC0613D5
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 15:51:27 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id bf6so16070plb.4
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 15:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+A3qb7wSddKoudeH8qefVLLKBMGX/mQTDOB4rUkAdCY=;
+        b=CF4LqkGIH6KRSjEVRXkMwMTHn6F2e/bCzAoitFYNW9uJm8WKLqpR6NIZ7gFV3aCNBZ
+         DnHu4YGPXjOHok3RikNWoHjwks9Jp7YV3Q7GQeWMLNl6w2qqUkU+xnGlTV41kuQanWlw
+         5I3SXWgj8ziKK8QievcHzQEAYEVifzBDPBh1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+A3qb7wSddKoudeH8qefVLLKBMGX/mQTDOB4rUkAdCY=;
+        b=k5Epqrua7RmkvEZrI973BpRKN94s20S8FsZB9efdHmzYZY3K4PpWiYK9Q3tsISjll+
+         4QGi7WsEj067DUBvxvqMzAU4hFe/sgb/AsmH0U6//qDDOYzQM5oN86jfcbJnVGABl5nX
+         uBHD7aDdNL1YAF8T1D1AkeFmDUco7dvgFuO8HlCZXrNo0/eOuFdOVQkbZs3fP55ukzfe
+         mcRRO4VltekFN10vV+1EJhw7B0qaZSffDN7/qYS2RtygPND8qscJU3BJLmeQ2L2FWOsF
+         yochYIlJe1X0MgCybGAxob2W/hsFh5dzpVMrtXH9vKGnAUBJxo/NNP267K3T5YcnpHrn
+         5Jdg==
+X-Gm-Message-State: AOAM533SzwbIMISSojS09isHh9DcfyNXL8indwyVuIdivUBV5dPhrsKE
+        9zpY5gmFQ9Zap0LeMe5lpTId+w==
+X-Google-Smtp-Source: ABdhPJydepy1YplrdnyBgmFc/3tQ/e/3eMYUwqhlQUodPHed8wA582z7vboWjRhYh9ZEXf+nz1NAJw==
+X-Received: by 2002:a17:90a:aa90:: with SMTP id l16mr6212058pjq.0.1602888686891;
+        Fri, 16 Oct 2020 15:51:26 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id c17sm4044276pfj.220.2020.10.16.15.51.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 15:51:25 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 15:51:25 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
+        gregkh@linuxfoundation.org, shuah@kernel.org, rafael@kernel.org,
+        johannes@sipsolutions.net, lenb@kernel.org, james.morse@arm.com,
+        tony.luck@intel.com, bp@alien8.de, arve@android.com,
+        tkjos@android.com, maco@android.com, joel@joelfernandes.org,
+        christian@brauner.io, hridya@google.com, surenb@google.com,
+        minyard@acm.org, arnd@arndb.de, mchehab@kernel.org,
+        rric@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-edac@vger.kernel.org, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3 00/11] Introduce Simple atomic counters
+Message-ID: <202010161541.6DD2D1E@keescook>
+References: <cover.1602209970.git.skhan@linuxfoundation.org>
+ <20201009193746.GA1073957@hirez.programming.kicks-ass.net>
+ <202010091255.246395A6@keescook>
+ <20201010110920.GQ2628@hirez.programming.kicks-ass.net>
+ <6e1dd408-653e-817e-b659-23649259a929@linuxfoundation.org>
+ <20201014091720.GC2628@hirez.programming.kicks-ass.net>
+ <202010141611.70B7A38@keescook>
+ <20201016105313.GJ2611@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201016105313.GJ2611@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Fri, 16 Oct 2020 09:10:48 +0200:
+On Fri, Oct 16, 2020 at 12:53:13PM +0200, Peter Zijlstra wrote:
+> That's like saying: "I'm too lazy to track what I've looked at already".
+> You're basically proposing to graffiti "Kees was here -- 16/10/2020" all
+> over the kernel. Just so you can see where you still need to go.
+> 
+> It says the code was (assuming your audit was correct) good at that
+> date, but has no guarantees for any moment after that.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git tags/docs/v5.10-1
+That kind of bit-rot marking is exactly what I would like to avoid: just
+putting a comment in is pointless. Making the expectations of the usage
+become _enforced_ is the goal. And having it enforced by the _compiler_
+is key. Just adding a meaningless attribute that a static checker
+will notice some time and hope people fix them doesn't scale either
+(just look at how many sparse warnings there are). So with C's limits,
+the API and type enforcement become the principle way to get this done.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/54a4c789ca8091ab8fcd70285caeee2c5bc62997
+So, if there are behavioral patterns we CAN carve away from atomic_t
+cleanly (and I think there are), those are the ones I want to work
+towards. The "corner case" uses of atomic_t are much less common than
+the "big" code patterns like lifetime management (now delegated to and
+enforced by refcount_t). My estimation was that _statistics_ (and not
+"serial identifiers") was the next biggest code pattern using atomic_t
+that could benefit from having its usage isolated. It is not itself a
+dangerous code pattern, but it can mask finding them.
 
-Thank you!
+Then, at the end of the day, only the corner cases remain, and those can
+be seen clearly as they change over time. Since we can never have a
+one-time audit be anything other than advisory, we need to make it EASY
+to do those kinds of audits so they can be done regularly.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Kees Cook
