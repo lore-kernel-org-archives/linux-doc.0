@@ -2,128 +2,111 @@ Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A313C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 16:02:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00730C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 16:57:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DBE6120874
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 16:02:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97CB420E65
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 16:57:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bfcdoIjs"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="qTojcscn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409112AbgJPQCZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Oct 2020 12:02:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40554 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409114AbgJPQCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Oct 2020 12:02:25 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB1A2C0613D3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 09:02:24 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id y12so3506382wrp.6
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 09:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=idIwMLR1qbs0LEcD4O/aA7HLr22tz18ZNCJ0k8fk7cI=;
-        b=bfcdoIjsQPz/8DQCpMyYBVd2UI3qSwKRY7v0yRNoQQEj+Rp6gz/TJ+c+2aWwlGHNVl
-         tiWyM8kv8AOh7Ry003DOQGVEY/Yo37LIfjtqubjeH+3GIc7jpULAg9u9A04CLk6Gu0jw
-         /yHdR+t2GMgvN4HgERBfhetl6TIGtenJyPCUVu9f0A5KjcDVAt1VGQuBWexBUxlScauj
-         qXh81fyybu0RrScobfpBu4N+/1SeZ+vk0sL9lFOyJAAxEPH/RrUItlQpfY+BqoIuODn9
-         3iiy7tMPTXq85miUzLQmeHsOmh1kCps1DU5tNZfoEk77LDH1+enI9uxbUIpTWvRPCf5j
-         qz4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=idIwMLR1qbs0LEcD4O/aA7HLr22tz18ZNCJ0k8fk7cI=;
-        b=M1HAerLZ1kRACZ/dIsyDsIKQiiJoLz0Rsx2qNZ1RmQQA+ZjUx3kfIgY2bGNTFFkaZs
-         ojsZJQA3GgCqyHWhTLh8xV7wIKoCa5ss18w+HbEcBbjtfNLYzEHpibfytvlVcEdTR7bO
-         F1oymWJepwZ05O6+MXxF1X1h15ggquVVWsdaxC2li7A/AE6OILEeP2OlZWveFBWeWKbO
-         FPBCyLgDwyhcSPLpUgOTuuY0EY/z1ZMGRGKilZOKy/SjFk/jmuAxW3xWyaOc7e2ByLwk
-         HrVoXVx87JV/u1ISmBq9xvhkggdzMgxkYvkhEQWir+LQt2ZpjXd/fKa4IYU0OvLJGvk0
-         /NBQ==
-X-Gm-Message-State: AOAM530XIi4qVconrY2TktkoHv51z6X4OpF0WHW9eG4HNgg+OsfcxbxI
-        fXRlieIwSkof3PbYNq180PuaXw==
-X-Google-Smtp-Source: ABdhPJxB52djZ3CepWUJhRrmaEr1bcJ872guTYx2BYGnWlp5WrfpVEhYvfdeFcH5WB/FurcQW0ROnQ==
-X-Received: by 2002:adf:f54c:: with SMTP id j12mr4751369wrp.413.1602864143339;
-        Fri, 16 Oct 2020 09:02:23 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:110:f693:9fff:fef4:a7ef])
-        by smtp.gmail.com with ESMTPSA id p9sm3193871wmm.4.2020.10.16.09.02.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 09:02:21 -0700 (PDT)
-Date:   Fri, 16 Oct 2020 17:02:18 +0100
-From:   Quentin Perret <qperret@google.com>
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
+        id S2436522AbgJPQ5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Oct 2020 12:57:25 -0400
+Received: from nat-hk.nvidia.com ([203.18.50.4]:28774 "EHLO nat-hk.nvidia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2436511AbgJPQ5Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Oct 2020 12:57:24 -0400
+Received: from HKMAIL101.nvidia.com (Not Verified[10.18.92.100]) by nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f89d0f30000>; Sat, 17 Oct 2020 00:57:23 +0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL101.nvidia.com
+ (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 16 Oct
+ 2020 16:57:23 +0000
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
+ by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Fri, 16 Oct 2020 16:57:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fkyugQ1yhgP6qq3Qoo+t93JZK2mHwjKzTCG6c1EdMzOMBZEpMfxAoaI19NCTR4tE1kk9bId07GRjOOEKPMvpT/2v/1mVjU0zjEUk8xzaR2JqIuHJ6yZfv9g+FOitmT7hzEVSI/pH6bqbomNe+FsYSNLe1vFqKTSp8+1GZZg351e4IUBDIuHuh3RRgAIgVUEp4Q/w0rAmbQDGiDGzo6+VhDn81+yUznEYytdceeDBh7Vmyei8Lf+VWMiDUTi14kfO8hQ2WDxcsbVEjtPQoNMnj9O48SnIXjzlAUumlwLnB9g2aO3RnJ9zLKKq8LJ6xiNOB+B22XLiVQQ5s7/hBRLxZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=81vxbQdok0qt5mSZmFmNgbJS5iXaI6ochjSSAoxnAB0=;
+ b=T3Ss134rLa9acx+g8fvc50o2YjC8oseR7hvR0l5OwLgcS8d7rCZ/GYhZXHv7RGyjQZXcAFuhxJM2z1kB2Sm1LX702feduNhNUS5IvO5ZTFiH+qG5GdD7kwW1yXqozleBDg647OFp+GTDS+pRfyM8KmLHGSk7S16ZGH80QM9d4Fl5xD/GoCp/vdgcApedPo10Z5i7x46Yeg4TrqQHMkLKkUPpQrccA90s46GR4lktOiWOSLGrcix4xQALEuiPDw/SFobqepsFTz+RF8JoGgpcrWq4RkNbpcvEql5C6B2guHZeZdbfxwPuCvf7okV2m8G4ImoRpgmuhN33m/st5h4NsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB2940.namprd12.prod.outlook.com (2603:10b6:5:15f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Fri, 16 Oct
+ 2020 16:57:21 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3477.020; Fri, 16 Oct 2020
+ 16:57:21 +0000
+Date:   Fri, 16 Oct 2020 13:57:18 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        "Nayak, Rajendra" <rnayak@codeaurora.org>
-Subject: Re: [PATCH v2 0/3] Clarify abstract scale usage for power values in
- Energy Model, EAS and IPA
-Message-ID: <20201016160218.GC2426638@google.com>
-References: <f660731e-132b-2514-f526-d7123ed3522c@arm.com>
- <d04019bd-9e85-5f3e-2a1b-66780b8df3dc@linaro.org>
- <3e3dd42c-48ac-7267-45c5-ca88205611bd@arm.com>
- <00ceec64-3273-bb4a-6f38-22de8d877ab5@linaro.org>
- <CAJZ5v0hV8fwRnADdjiiF=zapO3AE6=_W_PeOQ_WhUirCcFkgdA@mail.gmail.com>
- <e321191c-61d2-a15d-47c2-653b277984ca@linaro.org>
- <20201016121844.GA2420691@google.com>
- <b3c6d7a5-0564-6e84-77ff-9afe10d7ee27@linaro.org>
- <20201016130905.GA2426638@google.com>
- <deffb2b4-34cb-3f46-af89-cc216d1cf5c5@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        "rd.dunlab@gmail.com" <rd.dunlab@gmail.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
+        Kamal Heib <kamalheib1@gmail.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>,
+        Parav Pandit <parav@mellanox.com>,
+        <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>
+Subject: Re: [PATCH v2 23/24] RDMA: add a missing kernel-doc parameter markup
+Message-ID: <20201016165718.GA160472@nvidia.com>
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+ <6b2ed339933d066622d5715903870676d8cc523a.1602590106.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <deffb2b4-34cb-3f46-af89-cc216d1cf5c5@arm.com>
+In-Reply-To: <6b2ed339933d066622d5715903870676d8cc523a.1602590106.git.mchehab+huawei@kernel.org>
+X-ClientProxiedBy: MN2PR15CA0041.namprd15.prod.outlook.com
+ (2603:10b6:208:237::10) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR15CA0041.namprd15.prod.outlook.com (2603:10b6:208:237::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend Transport; Fri, 16 Oct 2020 16:57:20 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kTT2c-000flH-R6; Fri, 16 Oct 2020 13:57:18 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1602867443; bh=81vxbQdok0qt5mSZmFmNgbJS5iXaI6ochjSSAoxnAB0=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+         From:To:CC:Subject:Message-ID:References:Content-Type:
+         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType;
+        b=qTojcscn8ezpz4jqHN5zePNBW7xqerbheI5VgS2LNF4hyWyTqJ/N2k9v/85BDe5F/
+         4giEnbjpbZJOJcjmpH+w0uDcyTz7F//BbEfCOD5ffTVQ5t3o18LspH/I5IrCRKIHDb
+         vdWmOshBpzXY+YRiZ6fznPm6ErjhDVx3Yk4/XczT2NxR+SkJ/EKXQhuMpv25RAW9Ix
+         LC1uKxhKIzpVEmWrVcmkrPIffCGHqd5Pr3N6jLJjTOskAl1wRRySVaVfrtmJwwbRCt
+         DXJ6T+71WvGNCS2UQCMBwf6nP7qELNi3uu1PAakBrkJDiIhOV+VM8EK3MDYihGS5p7
+         xYYCqmNsfP0Hg==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday 16 Oct 2020 at 15:42:57 (+0100), Lukasz Luba wrote:
-> Do you mean a new entry in DT which will be always below
-> 'dynamic-power-coefficient' and/or 'sustainable-power' saying the unit
-> of above value?
-
-Yes, something like that.
-
-> There was discussion with Rob (and Doug) about this. I got the
-> impression he was against any new DT stuff [1].
-> We don't have to, I think we all agree that DT will only support mW.
-
-Right, I agree this is a 'nice-to-have'.
-
-> I have agreed to this idea having a 'flag' inside EM [2], which
-> indicates the mW or bogoWatts. It could be set via API:
-> em_dev_register_perf_domain() and this new last argument.
+On Tue, Oct 13, 2020 at 02:14:50PM +0200, Mauro Carvalho Chehab wrote:
+> Changeset 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
+> added a new parameter to ib_register_device().
 > 
-> I can write that patch. There is only two usage (3rd is on LKML) of
-> that function. The DT way, which is via:
-> dev_pm_opp_of_register_em() will always set 'true';
-> Driver direct calls of em_dev_register_perf_domain(), will have to
-> set appropriate value ('true' or 'false'). The EM struct em_perf_domain
-> will have the new bool field set based on that.
-> Is it make sense?
+> Document it.
+> 
+> Fixes: 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/infiniband/core/device.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-I had something more complicated in mind, where units are arbitrary
-('milliwats', 'scmi-bogowatts', ...) as that would help if units can be
-specified in the DT too, but if we don't care about that then yes I
-suppose a boolean flag should do.
+This is in linux-next, not Linus's tree.
 
-Thanks!
-Quentin
+I've fixed it up in the rdma tree
+
+Thanks,
+Jason
