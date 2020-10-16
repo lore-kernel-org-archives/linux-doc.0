@@ -2,140 +2,156 @@ Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C58EC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 18:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA95AC43457
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 20:51:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3F6E21527
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 18:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602871839;
-	bh=KMK4Fja3s5VhAcwScM26Q5THZAJjZpspQRsETK4F1a8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=CRSs2L1P4ySxgYwdKJV1GB+y3/wKbIuRXQUGn5LrEFx5Bskaj9NSsePTS7b12qnjP
-	 cOUJvREpzuQvVpumVYqVF5XDn4TsW+yhdHJPsgkxukcrCWuaBvaxdsYQ2RlF7SL1Qf
-	 9FA6LMGYFWLZxnQD7nY0bwhqWKEiM4GvTGjkcAyw=
+	by mail.kernel.org (Postfix) with ESMTP id 4095221775
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 20:51:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DTKxfLT9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390894AbgJPSKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Oct 2020 14:10:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49312 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390885AbgJPSKi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Oct 2020 14:10:38 -0400
-Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6FA96208E4;
-        Fri, 16 Oct 2020 18:10:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602871837;
-        bh=KMK4Fja3s5VhAcwScM26Q5THZAJjZpspQRsETK4F1a8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S8tIe8x8JSx1ut0ImT9f8lMzVdXxtDgRHbsdpHf2Xi2lRB+g4gOO898TgIHZn0ihR
-         2o1fJif4yaAa8Bw5kUaZ7qfpBgD9KnWCrT2FjbTSsQeUAIu5cyOLZo0vj97KbUrF4t
-         9fz/px8+obkrqZzK1CAoMzgizdALjv9QfYcwhrzI=
-Date:   Fri, 16 Oct 2020 13:16:19 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: deprecated.rst: Expand str*cpy() replacement notes
-Message-ID: <20201016181619.GA17037@embeddedor>
-References: <20201015231730.2138505-1-keescook@chromium.org>
+        id S2407407AbgJPUv4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Oct 2020 16:51:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57164 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732579AbgJPUv4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Oct 2020 16:51:56 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16C09C061755;
+        Fri, 16 Oct 2020 13:51:55 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id r4so5639621ioh.0;
+        Fri, 16 Oct 2020 13:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3iRQz1Y4EjtL/zm7xtJOoKw/y4Z4fC/UfX5G2HjfOfA=;
+        b=DTKxfLT9qPTRmpVDMyjjStu8lMoH5InFR7MMemOpvmXyhEszgMkAhgTAPhVHrIHNqV
+         2zb7xJg7Jq9RpxkgmbE/E4NYuZ9atcNIc/rhJuXl/KS7jEI1wO5t70USNS/Pgr6PsyME
+         /PAWKsmW+27lOTpLSpH0wFqeDm4dZ8vaune/XiCk6DBUZwKen1Mns5qd4W+YWeikcVx/
+         UfPh8h5ZHdKVFMg39pSE+YS6LfofroyEZbF9NE9TwPacH4qwsi8kq1esfkSwitNyGa/F
+         AbDeUgzROTPQQ0155OVmO4E7UNj4M/6cH8Wl2sIyIAulO0FOuL5LnMXqYNq50pEs7tn8
+         0atA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=3iRQz1Y4EjtL/zm7xtJOoKw/y4Z4fC/UfX5G2HjfOfA=;
+        b=lsJ2hUv4w1vJoglWYlHV8xutlGGSnmzMyC7fX3+RGWTTVlkVY4fC3925ZMexum3qig
+         plI+Q9OiOPU/VWUDGELjh7BZwb6t/6T7eydIXPeHn+sNlx7GKF2gCBJIe6DXZgI+OqfJ
+         Xw1WJPmkdx7t3A49/F1JVqLn+LgAGgiEul6eyxU2lhVdV5+LofXM2DkptG6AZIakx+Iu
+         QnD8Zmq3yPh7bWzNjvvFTosdeJOGcanJa9xYYOngqcB2mG/3T8Sk1wusZs688uii6+gj
+         oxJ6rNHVgGajQcMUMuJtPJDZfZ8d4nUbH+l4sE4iVlFx6PpUOq5CrLIw6Kox1UwCtp4Y
+         EzCg==
+X-Gm-Message-State: AOAM532otci3Lqg801IOra1c2+chvs47YAhpdVRYLJSQMLPVRrT3Smij
+        LAugGMgm6Bs1Xrp6xYbK1tY=
+X-Google-Smtp-Source: ABdhPJzztWiZTCGYMZtjZZ8pBvCLaA7A2d0XRv+qhOiv2muZA//Rjui/vVkVwPn3uUY6NW2zcQc4sg==
+X-Received: by 2002:a02:1cc1:: with SMTP id c184mr4196277jac.29.1602881514264;
+        Fri, 16 Oct 2020 13:51:54 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id p12sm3929524ili.14.2020.10.16.13.51.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 13:51:53 -0700 (PDT)
+Sender: Arvind Sankar <niveditas98@gmail.com>
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Fri, 16 Oct 2020 16:51:51 -0400
+To:     Daniel Kiper <daniel.kiper@oracle.com>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        luto@amacapital.net, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
+Message-ID: <20201016205151.GA1618249@rani.riverdale.lan>
+References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+ <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
+ <20200924173801.GA103726@rani.riverdale.lan>
+ <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
+ <20200925191842.GA643740@rani.riverdale.lan>
+ <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
+ <20201015182654.lgtht5fd2aaunczu@tomti.i.net-space.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201015231730.2138505-1-keescook@chromium.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20201015182654.lgtht5fd2aaunczu@tomti.i.net-space.pl>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 15, 2020 at 04:17:31PM -0700, Kees Cook wrote:
-> The notes on replacing the deprecated str*cpy() functions didn't call
-> enough attention to the change in return type. Add these details and
-> clean up the language a bit more.
+On Thu, Oct 15, 2020 at 08:26:54PM +0200, Daniel Kiper wrote:
 > 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-
-Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
---
-Gustavo
-
-> ---
->  Documentation/process/deprecated.rst | 44 ++++++++++++++++------------
->  1 file changed, 26 insertions(+), 18 deletions(-)
+> I am discussing with Ross the other option. We can create
+> .rodata.mle_header section and put it at fixed offset as
+> kernel_info is. So, we would have, e.g.:
 > 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index ff71d802b53d..9d83b8db8874 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -106,23 +106,29 @@ NUL or newline terminated.
->  
->  strcpy()
->  --------
-> -strcpy() performs no bounds checking on the destination
-> -buffer. This could result in linear overflows beyond the
-> -end of the buffer, leading to all kinds of misbehaviors. While
-> -`CONFIG_FORTIFY_SOURCE=y` and various compiler flags help reduce the
-> -risk of using this function, there is no good reason to add new uses of
-> -this function. The safe replacement is strscpy().
-> +strcpy() performs no bounds checking on the destination buffer. This
-> +could result in linear overflows beyond the end of the buffer, leading to
-> +all kinds of misbehaviors. While `CONFIG_FORTIFY_SOURCE=y` and various
-> +compiler flags help reduce the risk of using this function, there is
-> +no good reason to add new uses of this function. The safe replacement
-> +is strscpy(), though care must be given to any cases where the return
-> +value of strcpy() was used, since strscpy() does not return a pointer to
-> +the destination, but rather a count of non-NUL bytes copied (or negative
-> +errno when it truncates).
->  
->  strncpy() on NUL-terminated strings
->  -----------------------------------
-> -Use of strncpy() does not guarantee that the destination buffer
-> -will be NUL terminated. This can lead to various linear read overflows
-> -and other misbehavior due to the missing termination. It also NUL-pads the
-> -destination buffer if the source contents are shorter than the destination
-> -buffer size, which may be a needless performance penalty for callers using
-> -only NUL-terminated strings. The safe replacement is strscpy().
-> -(Users of strscpy() still needing NUL-padding should instead
-> -use strscpy_pad().)
-> +Use of strncpy() does not guarantee that the destination buffer will
-> +be NUL terminated. This can lead to various linear read overflows and
-> +other misbehavior due to the missing termination. It also NUL-pads
-> +the destination buffer if the source contents are shorter than the
-> +destination buffer size, which may be a needless performance penalty
-> +for callers using only NUL-terminated strings. The safe replacement is
-> +strscpy(), though care must be given to any cases where the return value
-> +of strncpy() was used, since strscpy() does not return a pointer to the
-> +destination, but rather a count of non-NUL bytes copied (or negative
-> +errno when it truncates). Any cases still needing NUL-padding should
-> +instead use strscpy_pad().
->  
->  If a caller is using non-NUL-terminated strings, strncpy() can
->  still be used, but destinations should be marked with the `__nonstring
-> @@ -131,10 +137,12 @@ attribute to avoid future compiler warnings.
->  
->  strlcpy()
->  ---------
-> -strlcpy() reads the entire source buffer first, possibly exceeding
-> -the given limit of bytes to copy. This is inefficient and can lead to
-> -linear read overflows if a source string is not NUL-terminated. The
-> -safe replacement is strscpy().
-> +strlcpy() reads the entire source buffer first (since the return value
-> +is meant to match that of strlen()). This read may exceed the destination
-> +size limit. This is both inefficient and can lead to linear read overflows
-> +if a source string is not NUL-terminated. The safe replacement is strscpy(),
-> +though care must be given to any cases where the return value of strlcpy()
-> +is used, since strscpy() will return negative errno values when it truncates.
->  
->  %p format specifier
->  -------------------
-> -- 
-> 2.25.1
+> arch/x86/boot/compressed/vmlinux.lds.S:
+>         .rodata.kernel_info KERNEL_INFO_OFFSET : {
+>                 *(.rodata.kernel_info)
+>         }
+>         ASSERT(ABSOLUTE(kernel_info) == KERNEL_INFO_OFFSET, "kernel_info at bad address!")
 > 
+>         .rodata.mle_header MLE_HEADER_OFFSET : {
+>                 *(.rodata.mle_header)
+>         }
+>         ASSERT(ABSOLUTE(mle_header) == MLE_HEADER_OFFSET, "mle_header at bad address!")
+> 
+> arch/x86/boot/compressed/sl_stub.S:
+> #define mleh_rva(X) (((X) - mle_header) + MLE_HEADER_OFFSET)
+> 
+>         .section ".rodata.mle_header", "a"
+> 
+> SYM_DATA_START(mle_header)
+>         .long   0x9082ac5a    /* UUID0 */
+>         .long   0x74a7476f    /* UUID1 */
+>         .long   0xa2555c0f    /* UUID2 */
+>         .long   0x42b651cb    /* UUID3 */
+>         .long   0x00000034    /* MLE header size */
+>         .long   0x00020002    /* MLE version 2.2 */
+>         .long   mleh_rva(sl_stub_entry)    /* Linear entry point of MLE (virt. address) */
+>         .long   0x00000000    /* First valid page of MLE */
+>         .long   0x00000000    /* Offset within binary of first byte of MLE */
+>         .long   0x00000000    /* Offset within binary of last byte + 1 of MLE */
+>         .long   0x00000223    /* Bit vector of MLE-supported capabilities */
+>         .long   0x00000000    /* Starting linear address of command line (unused) */
+>         .long   0x00000000    /* Ending linear address of command line (unused) */
+> SYM_DATA_END(mle_header)
+> 
+> Of course MLE_HEADER_OFFSET has to be defined as a constant somewhere.
+> Anyway, is it acceptable?
+> 
+> There is also another problem. We have to put into mle_header size of
+> the Linux kernel image. Currently it is done by the bootloader but
+> I think it is not a role of the bootloader. The kernel image should
+> provide all data describing its properties and do not rely on the
+> bootloader to do that. Ross and I investigated various options but we
+> did not find a good/simple way to do that. Could you suggest how we
+> should do that or at least where we should take a look to get some
+> ideas?
+> 
+> Daniel
+
+What exactly is the size you need here? Is it just the size of the
+protected mode image, that's startup_32 to _edata. Or is it the size of
+the whole bzImage file, or something else? I guess the same question
+applies to "first valid page of MLE" and "first byte of MLE", and the
+linear entry point -- are those all relative to startup_32 or do they
+need to be relative to the start of the bzImage, i.e. you have to add
+the size of the real-mode boot stub?
+
+If you need to include the size of the bzImage file, that's not known
+when the files in boot/compressed are built. It's only known after the
+real-mode stub is linked. arch/x86/boot/tools/build.c fills in various
+details in the setup header and creates the bzImage file, but it does
+not currently modify anything in the protected-mode portion of the
+compressed kernel (i.e. arch/x86/boot/compressed/vmlinux, which then
+gets converted to binary format as arch/x86/boot/vmlinux.bin), so it
+would need to be extended if you need to modify the MLE header to
+include the bzImage size or anything depending on the size of the
+real-mode stub.
