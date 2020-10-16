@@ -2,170 +2,276 @@ Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F87C43467
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:03:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C027AC433E7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:14:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E14752083B
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:03:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51CCB2083B
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 12:14:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nEUE7XDm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407154AbgJPMDg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Oct 2020 08:03:36 -0400
-Received: from mga02.intel.com ([134.134.136.20]:39893 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407153AbgJPMDg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Oct 2020 08:03:36 -0400
-IronPort-SDR: PRnMcW93RnqSM3smdEImfNQUGk56W0TgARW31gleqI7TtNOeVnM+KbLWpfcBmoEVtOVNJ/+1yF
- ExZ2VUMCYrow==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="153506737"
-X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; 
-   d="scan'208";a="153506737"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 05:03:34 -0700
-IronPort-SDR: 5uNTqe4bYG6J69Pp1sWQmsPiQ5xfcoaWX+DglW63tlCAL5HqR1tfJFPMIUJftNDKS1cStgThvs
- 1Uq2EQW1ArjQ==
-X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; 
-   d="scan'208";a="531691673"
-Received: from wpross-mobl1.ger.corp.intel.com (HELO [10.249.36.186]) ([10.249.36.186])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 05:03:32 -0700
-Subject: Re: [PATCH v6 44/80] docs: gpu: i915.rst: Fix several C duplication
- warnings
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        id S2407236AbgJPMOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Oct 2020 08:14:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33280 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407038AbgJPMO2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Oct 2020 08:14:28 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE0CC061755;
+        Fri, 16 Oct 2020 05:14:28 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id b26so1407923pff.3;
+        Fri, 16 Oct 2020 05:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9FUaERzJV2+J/MteS9K4tNtdGuklK9KHfOCKTL1tY0U=;
+        b=nEUE7XDmcZ6NfzoC2vt6YBIF061oYhllb8fBvqG1v/9H7WTIAEaw1I9HyUBZldkDLZ
+         kuD6nkthVDN48dBeoEqii0L4D555/dAVxWzFUbMgtafllpbTwj38szWzHsiq7UeEhQic
+         a1g9HRSd0hGOUB7L4fw6BgT5qrj3fVq12QIHPm9K4X6lfB6B3hehH+RFcJDpGP4aFGMc
+         zNOiBzeI/16TFlNwL+C85g3qDE6dF1pcANwvxPWfr2TogwINWzHn4kSZSJGxqmQ9GeCX
+         Oy/PBPQC7PAS1mAE8cvHPYhT3Lt6QyStEE41q0y+BmK+D86Yd/muGzvIfJpClRuxLEUn
+         FiLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9FUaERzJV2+J/MteS9K4tNtdGuklK9KHfOCKTL1tY0U=;
+        b=bWl0iSsD0xYN9zU9GI4IhEMbMLCHCD0zqegwXp2I60ueGKBhuNig0Dh96z0PW+E130
+         RSpX4yYU+/F6iKN2XxwQLrCP/gg/YU6GGZQaXzuTi9UamC0Az0OyVtWu1OzUaQzGBeEB
+         EAGxYjNZ10hk99CLRPqhduI+PjBD1vKlMmewoW+3fyVqD4I46fL8kxN4IRcSo7hCd6zM
+         +OwG8CCjn0XWvjkGyrVxTteet2+LsHBY3HrsN9x3oWVupL/8FNKu0UweIIy4qB+d8QrV
+         dIe5TEq/Kz+r3RspH1lJT7/2h7urabUH/vOHSSg2chLJIKbltIayhVyketlMALL3uDXF
+         xz9g==
+X-Gm-Message-State: AOAM531Nfur5GE9dNaI544px+gEsHBJWIwJIWHGdSF743dzt49MoMCoB
+        oD947JhyFJqMM+iokapIKd4=
+X-Google-Smtp-Source: ABdhPJxGZ+CfFiWRlbQBxBEq+1DaI3KY2eruwwiF9HwSa/GEu/fA+YvmwmsBKiafg/DCUHGQnLl5LA==
+X-Received: by 2002:a62:5382:0:b029:155:6333:ce4f with SMTP id h124-20020a6253820000b02901556333ce4fmr3327163pfb.28.1602850467826;
+        Fri, 16 Oct 2020 05:14:27 -0700 (PDT)
+Received: from localhost ([160.16.113.140])
+        by smtp.gmail.com with ESMTPSA id 38sm2680994pgx.43.2020.10.16.05.14.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 05:14:27 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+To:     devel@driverdev.osuosl.org
+Cc:     Benjamin Poirier <benjamin.poirier@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        intel-gfx@lists.freedesktop.org
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
- <52a0dd42d3730d35b3ecd00d20a0601793e443e6.1602589096.git.mchehab+huawei@kernel.org>
-From:   Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Message-ID: <da5ef3ca-e546-9d39-e033-27c3ed1b762e@intel.com>
-Date:   Fri, 16 Oct 2020 15:03:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3 8/8] staging: qlge: add documentation for debugging qlge
+Date:   Fri, 16 Oct 2020 19:54:07 +0800
+Message-Id: <20201016115407.170821-9-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201016115407.170821-1-coiby.xu@gmail.com>
+References: <20201016115407.170821-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <52a0dd42d3730d35b3ecd00d20a0601793e443e6.1602589096.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13/10/2020 14:53, Mauro Carvalho Chehab wrote:
-> As reported by Sphinx:
->
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:1147: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_oa_wait_unlocked'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:1169: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_oa_poll_wait'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:1189: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_oa_read'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:2669: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_oa_stream_enable'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:2734: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_oa_stream_disable'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:2820: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_oa_stream_init'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3010: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_read'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3098: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_poll_locked'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3129: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_poll'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3152: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_enable_locked'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3181: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_disable_locked'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3273: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_ioctl'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3296: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_destroy_locked'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3321: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_release'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3379: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_open_ioctl_locked'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3534: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'read_properties_unlocked'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3717: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_open_ioctl'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3760: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_register'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:3789: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_unregister'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4009: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_add_config_ioctl'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4162: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_remove_config_ioctl'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4260: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_init'.
-> 	./Documentation/gpu/i915:646: ./drivers/gpu/drm/i915/i915_perf.c:4423: WARNING: Duplicate C declaration, also defined in 'gpu/i915'.
-> 	Declaration is 'i915_perf_fini'.
->
-> With Sphinx 3, C declarations can't be duplicated anymore,
-> so let's exclude those from the other internals found on
-> i915_perf.c file.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> ---
->   Documentation/gpu/i915.rst | 29 +++++++++++++++++++++++++----
->   1 file changed, 25 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 33cc6ddf8f64..cff1f154b473 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -636,15 +636,36 @@ i915 Perf Observation Architecture Stream
->   .. kernel-doc:: drivers/gpu/drm/i915/i915_perf.c
->      :functions: i915_oa_poll_wait
->   
-> -All i915 Perf Internals
-> ------------------------
-> +Other i915 Perf Internals
-> +-------------------------
->   
-> -This section simply includes all currently documented i915 perf internals, in
-> -no particular order, but may include some more minor utilities or platform
-> +This section simply includes all other currently documented i915 perf internals,
-> +in no particular order, but may include some more minor utilities or platform
->   specific details than found in the more high-level sections.
->   
->   .. kernel-doc:: drivers/gpu/drm/i915/i915_perf.c
->      :internal:
-> +   :no-identifiers:
-> +       i915_perf_init
-> +       i915_perf_fini
-> +       i915_perf_register
-> +       i915_perf_unregister
-> +       i915_perf_open_ioctl
-> +       i915_perf_release
-> +       i915_perf_add_config_ioctl
-> +       i915_perf_remove_config_ioctl
-> +       read_properties_unlocked
-> +       i915_perf_open_ioctl_locked
-> +       i915_perf_destroy_locked
-> +       i915_perf_read i915_perf_ioctl
-> +       i915_perf_enable_locked
-> +       i915_perf_disable_locked
-> +       i915_perf_poll i915_perf_poll_locked
-> +       i915_oa_stream_init i915_oa_read
-> +       i915_oa_stream_enable
-> +       i915_oa_stream_disable
-> +       i915_oa_wait_unlocked
-> +       i915_oa_poll_wait
->   
->   Style
->   =====
+Instructions and examples on kernel data structures dumping and
+coredump.
 
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+---
+ .../networking/device_drivers/index.rst       |   1 +
+ .../device_drivers/qlogic/index.rst           |  18 +++
+ .../networking/device_drivers/qlogic/qlge.rst | 118 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ 4 files changed, 143 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
+ create mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
+
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index a3113ffd7a16..d8279de7bf25 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -15,6 +15,7 @@ Contents:
+    ethernet/index
+    fddi/index
+    hamradio/index
++   qlogic/index
+    wan/index
+    wifi/index
+ 
+diff --git a/Documentation/networking/device_drivers/qlogic/index.rst b/Documentation/networking/device_drivers/qlogic/index.rst
+new file mode 100644
+index 000000000000..ad05b04286e4
+--- /dev/null
++++ b/Documentation/networking/device_drivers/qlogic/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++
++QLogic QLGE Device Drivers
++===============================================
++
++Contents:
++
++.. toctree::
++   :maxdepth: 2
++
++   qlge
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/networking/device_drivers/qlogic/qlge.rst b/Documentation/networking/device_drivers/qlogic/qlge.rst
+new file mode 100644
+index 000000000000..0b888253d152
+--- /dev/null
++++ b/Documentation/networking/device_drivers/qlogic/qlge.rst
+@@ -0,0 +1,118 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======================================
++QLogic QLGE 10Gb Ethernet device driver
++=======================================
++
++This driver use drgn and devlink for debugging.
++
++Dump kernel data structures in drgn
++-----------------------------------
++
++To dump kernel data structures, the following Python script can be used
++in drgn:
++
++.. code-block:: python
++
++	def align(x, a):
++	    """the alignment a should be a power of 2
++	    """
++	    mask = a - 1
++	    return (x+ mask) & ~mask
++
++	def struct_size(struct_type):
++	    struct_str = "struct {}".format(struct_type)
++	    return sizeof(Object(prog, struct_str, address=0x0))
++
++	def netdev_priv(netdevice):
++	    NETDEV_ALIGN = 32
++	    return netdevice.value_() + align(struct_size("net_device"), NETDEV_ALIGN)
++
++	name = 'xxx'
++	qlge_device = None
++	netdevices = prog['init_net'].dev_base_head.address_of_()
++	for netdevice in list_for_each_entry("struct net_device", netdevices, "dev_list"):
++	    if netdevice.name.string_().decode('ascii') == name:
++	        print(netdevice.name)
++
++	ql_adapter = Object(prog, "struct ql_adapter", address=netdev_priv(qlge_device))
++
++The struct ql_adapter will be printed in drgn as follows,
++
++    >>> ql_adapter
++    (struct ql_adapter){
++            .ricb = (struct ricb){
++                    .base_cq = (u8)0,
++                    .flags = (u8)120,
++                    .mask = (__le16)26637,
++                    .hash_cq_id = (u8 [1024]){ 172, 142, 255, 255 },
++                    .ipv6_hash_key = (__le32 [10]){},
++                    .ipv4_hash_key = (__le32 [4]){},
++            },
++            .flags = (unsigned long)0,
++            .wol = (u32)0,
++            .nic_stats = (struct nic_stats){
++                    .tx_pkts = (u64)0,
++                    .tx_bytes = (u64)0,
++                    .tx_mcast_pkts = (u64)0,
++                    .tx_bcast_pkts = (u64)0,
++                    .tx_ucast_pkts = (u64)0,
++                    .tx_ctl_pkts = (u64)0,
++                    .tx_pause_pkts = (u64)0,
++                    ...
++            },
++            .active_vlans = (unsigned long [64]){
++                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52780853100545, 18446744073709551615,
++                    18446619461681283072, 0, 42949673024, 2147483647,
++            },
++            .rx_ring = (struct rx_ring [17]){
++                    {
++                            .cqicb = (struct cqicb){
++                                    .msix_vect = (u8)0,
++                                    .reserved1 = (u8)0,
++                                    .reserved2 = (u8)0,
++                                    .flags = (u8)0,
++                                    .len = (__le16)0,
++                                    .rid = (__le16)0,
++                                    ...
++                            },
++                            .cq_base = (void *)0x0,
++                            .cq_base_dma = (dma_addr_t)0,
++                    }
++                    ...
++            }
++    }
++
++coredump via devlink
++--------------------
++
++
++And the coredump obtained via devlink in json format looks like,
++
++.. code:: shell
++
++	$ devlink health dump show DEVICE reporter coredump -p -j
++	{
++	    "Core Registers": {
++	        "segment": 1,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    "Test Logic Regs": {
++	        "segment": 2,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    "RMII Registers": {
++	        "segment": 3,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    ...
++	    "Sem Registers": {
++	        "segment": 50,
++	        "values": [ 0,0,0,0 ]
++	    }
++	}
++
++When the module parameter qlge_force_coredump is set to be true, the MPI
++RISC reset before coredumping. So coredumping will much longer since
++devlink tool has to wait for 5 secs for the resetting to be
++finished.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4538378de6f5..ed5691fef22e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14412,6 +14412,12 @@ L:	netdev@vger.kernel.org
+ S:	Supported
+ F:	drivers/staging/qlge/
+ 
++QLOGIC QLGE 10Gb ETHERNET DRIVER
++M:	Coiby Xu <coiby.xu@gmail.com>
++L:	netdev@vger.kernel.org
++S:	Maintained
++F:	Documentation/networking/device_drivers/qlogic/qlge.rst
++
+ QM1D1B0004 MEDIA DRIVER
+ M:	Akihiro Tsukada <tskd08@gmail.com>
+ L:	linux-media@vger.kernel.org
+-- 
+2.28.0
 
