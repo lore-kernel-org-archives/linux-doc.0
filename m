@@ -2,111 +2,140 @@ Return-Path: <SRS0=BNGE=DX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00730C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 16:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C58EC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 18:10:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97CB420E65
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 16:57:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="qTojcscn"
+	by mail.kernel.org (Postfix) with ESMTP id B3F6E21527
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Oct 2020 18:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602871839;
+	bh=KMK4Fja3s5VhAcwScM26Q5THZAJjZpspQRsETK4F1a8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=CRSs2L1P4ySxgYwdKJV1GB+y3/wKbIuRXQUGn5LrEFx5Bskaj9NSsePTS7b12qnjP
+	 cOUJvREpzuQvVpumVYqVF5XDn4TsW+yhdHJPsgkxukcrCWuaBvaxdsYQ2RlF7SL1Qf
+	 9FA6LMGYFWLZxnQD7nY0bwhqWKEiM4GvTGjkcAyw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436522AbgJPQ5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Oct 2020 12:57:25 -0400
-Received: from nat-hk.nvidia.com ([203.18.50.4]:28774 "EHLO nat-hk.nvidia.com"
+        id S2390894AbgJPSKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Oct 2020 14:10:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436511AbgJPQ5Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Oct 2020 12:57:24 -0400
-Received: from HKMAIL101.nvidia.com (Not Verified[10.18.92.100]) by nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f89d0f30000>; Sat, 17 Oct 2020 00:57:23 +0800
-Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL101.nvidia.com
- (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 16 Oct
- 2020 16:57:23 +0000
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
- by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Fri, 16 Oct 2020 16:57:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fkyugQ1yhgP6qq3Qoo+t93JZK2mHwjKzTCG6c1EdMzOMBZEpMfxAoaI19NCTR4tE1kk9bId07GRjOOEKPMvpT/2v/1mVjU0zjEUk8xzaR2JqIuHJ6yZfv9g+FOitmT7hzEVSI/pH6bqbomNe+FsYSNLe1vFqKTSp8+1GZZg351e4IUBDIuHuh3RRgAIgVUEp4Q/w0rAmbQDGiDGzo6+VhDn81+yUznEYytdceeDBh7Vmyei8Lf+VWMiDUTi14kfO8hQ2WDxcsbVEjtPQoNMnj9O48SnIXjzlAUumlwLnB9g2aO3RnJ9zLKKq8LJ6xiNOB+B22XLiVQQ5s7/hBRLxZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=81vxbQdok0qt5mSZmFmNgbJS5iXaI6ochjSSAoxnAB0=;
- b=T3Ss134rLa9acx+g8fvc50o2YjC8oseR7hvR0l5OwLgcS8d7rCZ/GYhZXHv7RGyjQZXcAFuhxJM2z1kB2Sm1LX702feduNhNUS5IvO5ZTFiH+qG5GdD7kwW1yXqozleBDg647OFp+GTDS+pRfyM8KmLHGSk7S16ZGH80QM9d4Fl5xD/GoCp/vdgcApedPo10Z5i7x46Yeg4TrqQHMkLKkUPpQrccA90s46GR4lktOiWOSLGrcix4xQALEuiPDw/SFobqepsFTz+RF8JoGgpcrWq4RkNbpcvEql5C6B2guHZeZdbfxwPuCvf7okV2m8G4ImoRpgmuhN33m/st5h4NsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB2940.namprd12.prod.outlook.com (2603:10b6:5:15f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Fri, 16 Oct
- 2020 16:57:21 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3477.020; Fri, 16 Oct 2020
- 16:57:21 +0000
-Date:   Fri, 16 Oct 2020 13:57:18 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "rd.dunlab@gmail.com" <rd.dunlab@gmail.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-        Kamal Heib <kamalheib1@gmail.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>,
-        Parav Pandit <parav@mellanox.com>,
-        <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>
-Subject: Re: [PATCH v2 23/24] RDMA: add a missing kernel-doc parameter markup
-Message-ID: <20201016165718.GA160472@nvidia.com>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <6b2ed339933d066622d5715903870676d8cc523a.1602590106.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6b2ed339933d066622d5715903870676d8cc523a.1602590106.git.mchehab+huawei@kernel.org>
-X-ClientProxiedBy: MN2PR15CA0041.namprd15.prod.outlook.com
- (2603:10b6:208:237::10) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S2390885AbgJPSKi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Oct 2020 14:10:38 -0400
+Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6FA96208E4;
+        Fri, 16 Oct 2020 18:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602871837;
+        bh=KMK4Fja3s5VhAcwScM26Q5THZAJjZpspQRsETK4F1a8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=S8tIe8x8JSx1ut0ImT9f8lMzVdXxtDgRHbsdpHf2Xi2lRB+g4gOO898TgIHZn0ihR
+         2o1fJif4yaAa8Bw5kUaZ7qfpBgD9KnWCrT2FjbTSsQeUAIu5cyOLZo0vj97KbUrF4t
+         9fz/px8+obkrqZzK1CAoMzgizdALjv9QfYcwhrzI=
+Date:   Fri, 16 Oct 2020 13:16:19 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: deprecated.rst: Expand str*cpy() replacement notes
+Message-ID: <20201016181619.GA17037@embeddedor>
+References: <20201015231730.2138505-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR15CA0041.namprd15.prod.outlook.com (2603:10b6:208:237::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend Transport; Fri, 16 Oct 2020 16:57:20 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kTT2c-000flH-R6; Fri, 16 Oct 2020 13:57:18 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1602867443; bh=81vxbQdok0qt5mSZmFmNgbJS5iXaI6ochjSSAoxnAB0=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType;
-        b=qTojcscn8ezpz4jqHN5zePNBW7xqerbheI5VgS2LNF4hyWyTqJ/N2k9v/85BDe5F/
-         4giEnbjpbZJOJcjmpH+w0uDcyTz7F//BbEfCOD5ffTVQ5t3o18LspH/I5IrCRKIHDb
-         vdWmOshBpzXY+YRiZ6fznPm6ErjhDVx3Yk4/XczT2NxR+SkJ/EKXQhuMpv25RAW9Ix
-         LC1uKxhKIzpVEmWrVcmkrPIffCGHqd5Pr3N6jLJjTOskAl1wRRySVaVfrtmJwwbRCt
-         DXJ6T+71WvGNCS2UQCMBwf6nP7qELNi3uu1PAakBrkJDiIhOV+VM8EK3MDYihGS5p7
-         xYYCqmNsfP0Hg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201015231730.2138505-1-keescook@chromium.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 02:14:50PM +0200, Mauro Carvalho Chehab wrote:
-> Changeset 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
-> added a new parameter to ib_register_device().
+On Thu, Oct 15, 2020 at 04:17:31PM -0700, Kees Cook wrote:
+> The notes on replacing the deprecated str*cpy() functions didn't call
+> enough attention to the change in return type. Add these details and
+> clean up the language a bit more.
 > 
-> Document it.
-> 
-> Fixes: 54816d3e69d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+--
+Gustavo
+
 > ---
->  drivers/infiniband/core/device.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-
-This is in linux-next, not Linus's tree.
-
-I've fixed it up in the rdma tree
-
-Thanks,
-Jason
+>  Documentation/process/deprecated.rst | 44 ++++++++++++++++------------
+>  1 file changed, 26 insertions(+), 18 deletions(-)
+> 
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index ff71d802b53d..9d83b8db8874 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -106,23 +106,29 @@ NUL or newline terminated.
+>  
+>  strcpy()
+>  --------
+> -strcpy() performs no bounds checking on the destination
+> -buffer. This could result in linear overflows beyond the
+> -end of the buffer, leading to all kinds of misbehaviors. While
+> -`CONFIG_FORTIFY_SOURCE=y` and various compiler flags help reduce the
+> -risk of using this function, there is no good reason to add new uses of
+> -this function. The safe replacement is strscpy().
+> +strcpy() performs no bounds checking on the destination buffer. This
+> +could result in linear overflows beyond the end of the buffer, leading to
+> +all kinds of misbehaviors. While `CONFIG_FORTIFY_SOURCE=y` and various
+> +compiler flags help reduce the risk of using this function, there is
+> +no good reason to add new uses of this function. The safe replacement
+> +is strscpy(), though care must be given to any cases where the return
+> +value of strcpy() was used, since strscpy() does not return a pointer to
+> +the destination, but rather a count of non-NUL bytes copied (or negative
+> +errno when it truncates).
+>  
+>  strncpy() on NUL-terminated strings
+>  -----------------------------------
+> -Use of strncpy() does not guarantee that the destination buffer
+> -will be NUL terminated. This can lead to various linear read overflows
+> -and other misbehavior due to the missing termination. It also NUL-pads the
+> -destination buffer if the source contents are shorter than the destination
+> -buffer size, which may be a needless performance penalty for callers using
+> -only NUL-terminated strings. The safe replacement is strscpy().
+> -(Users of strscpy() still needing NUL-padding should instead
+> -use strscpy_pad().)
+> +Use of strncpy() does not guarantee that the destination buffer will
+> +be NUL terminated. This can lead to various linear read overflows and
+> +other misbehavior due to the missing termination. It also NUL-pads
+> +the destination buffer if the source contents are shorter than the
+> +destination buffer size, which may be a needless performance penalty
+> +for callers using only NUL-terminated strings. The safe replacement is
+> +strscpy(), though care must be given to any cases where the return value
+> +of strncpy() was used, since strscpy() does not return a pointer to the
+> +destination, but rather a count of non-NUL bytes copied (or negative
+> +errno when it truncates). Any cases still needing NUL-padding should
+> +instead use strscpy_pad().
+>  
+>  If a caller is using non-NUL-terminated strings, strncpy() can
+>  still be used, but destinations should be marked with the `__nonstring
+> @@ -131,10 +137,12 @@ attribute to avoid future compiler warnings.
+>  
+>  strlcpy()
+>  ---------
+> -strlcpy() reads the entire source buffer first, possibly exceeding
+> -the given limit of bytes to copy. This is inefficient and can lead to
+> -linear read overflows if a source string is not NUL-terminated. The
+> -safe replacement is strscpy().
+> +strlcpy() reads the entire source buffer first (since the return value
+> +is meant to match that of strlen()). This read may exceed the destination
+> +size limit. This is both inefficient and can lead to linear read overflows
+> +if a source string is not NUL-terminated. The safe replacement is strscpy(),
+> +though care must be given to any cases where the return value of strlcpy()
+> +is used, since strscpy() will return negative errno values when it truncates.
+>  
+>  %p format specifier
+>  -------------------
+> -- 
+> 2.25.1
+> 
