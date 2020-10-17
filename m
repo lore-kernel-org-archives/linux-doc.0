@@ -7,82 +7,82 @@ X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7674FC433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94667C43457
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 06:01:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37E8420760
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:53:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B10F20720
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 06:01:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="amsP3PlI"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G0aFMwnX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436669AbgJQFxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Oct 2020 01:53:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55964 "EHLO
+        id S2436884AbgJQGB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Oct 2020 02:01:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436671AbgJQFxR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Oct 2020 01:53:17 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71C4C0613E5
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 22:53:16 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id 23so732665ljv.7
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 22:53:16 -0700 (PDT)
+        with ESMTP id S2436911AbgJQGBl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Oct 2020 02:01:41 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A83C05BD1C
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 21:03:05 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id m16so4911630ljo.6
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 21:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
-        b=amsP3PlI3ZycdlVxgLx5tS3RcZ/aE2JugXN/de8WjJzEbbWQfg5yay9mu9yMNOTQEG
-         zDGufeyQG0D8nAwfy0A+eh+5b93z85bXUL2cX8T/4mhVh2wiIWZNqlk28ZRb4QzNB/dh
-         AIBnGWL+ksEigCgQdVu62IDy26gLVIDUnczpRvNend8MTTwuaCQtont43SmFPbW4CRcT
-         cmRIzAt2jsd2hPhc8PRzFfChw9wh+qGJaBiAl8a3e2bI5TkwKjB9tCNO3N3jC/SV0wIn
-         USEp5Yt0/QCw/q0JJrWcSGJN2B9ryqMiiGMVPf4OXy69UAR96sfkVVyhw3En3TdcYtr6
-         S+7g==
+        bh=uR2yRSoFIyQFa85ZmyTeQWbKesy0kogveF0JOmK3HCU=;
+        b=G0aFMwnXL3XlqQtltqTo0eoChMRvdBPFzMoicowzO+xAY5WA7wnecLBujcLmZah0k/
+         e5mpG2PgiCXI5UV6aPxyJHgp+ak3mHqsIwGNyATLAY9IpyytJ/yv/eUNLEx8n5Z8IWxM
+         5Ev81C4+GL/IiR5iIz/ra80OcP7ctuQ69Pj2L7/QrHYXrCEAAle4I31KIYWKOWdz7wXn
+         M3HFOt505tL/bufF7RKhxyavqsmuktaYt6aLjMXM2bezAY35bwnHVGu6RsGL9aReXefA
+         CUnwlpUOUePqMTfmrge6m16eiA1+eUvlxTaBEHUJphVGNMuBAicVc8kqC269vRlgE0G9
+         pD+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
-        b=FcMaYXhcif4LK1lxXqYaG8UHhOTu1leqa5Pd64s236SKsh22FvDrFBvQ2qQeud7xSo
-         Age4xHlN2Bs7J2deyBie3Z1Te1Mw5LpAtWjd+v2YXevnLR+g2d73AnvEK3AuMEHqX74c
-         4ic9lIqp1VNm5lxrXVzHfhA2mMuX+KPOJ5ghyIs2gk+W+9TcaGGkAi5K0o95txKdODPg
-         c9/j4tc+jJ579HLx6pJHSQGicnT74hWGTBk3xrJNJDlIlDP3uOsUzDjielDZODGeVPbr
-         ge7yOW+YPY5UvP//s8KEVPnpAm8XBLUZQi6ZThSHuc9j4ARB7J0VNPzTAmMCVu022BUl
-         zosw==
-X-Gm-Message-State: AOAM532ED36c2xblNhYtRINFdwQbx7hoc2vhDR7hmK/02x2ZWICE4/TI
-        4ycos0Q0uG8H60JMNaDjCmHRdP+b05cko5AMuaQ6Wg==
-X-Google-Smtp-Source: ABdhPJyqRwgfzaNO4k6jC4+ngiz4xp94h1rvkVA6jI+YkhoWwbWi6nRJWMl5uQZtM/9C6Yz+umn28GEOA1tFiD8OGAE=
-X-Received: by 2002:a2e:504b:: with SMTP id v11mr2673538ljd.138.1602913994976;
- Fri, 16 Oct 2020 22:53:14 -0700 (PDT)
+        bh=uR2yRSoFIyQFa85ZmyTeQWbKesy0kogveF0JOmK3HCU=;
+        b=g8D2HRLp+LFHZ2q/yHZ0z3UpUNo0ANi2Ng1vKQtdCuj6m9G2P/qvYHnp4BdbnqM5Qm
+         1E06uoGcl1MmQhNLO0HmekSyAr1ESNII+KqwAqonwQKahBoZ6y0ZMU72jbYwu/AS/Nhr
+         gi4jn1xBeWG6yz1ffiaPgy7+ygk25WImbnAjmbInKTipB5E6AP0SFDSOEu+kVVWyPSpU
+         wXqS1zzt9AdNCuMZ1mC1A/GrL40AMUtdCiyd8CoF+H/TytXM4nBt3wqoe5iJTM3HNwKs
+         7uKOufCagQ3ZgKmwGQWgWLvOPNq0iHRkS2D5bsPDuEsF2bPnTClamt4YRezKyh2Lj9JT
+         56Dg==
+X-Gm-Message-State: AOAM531hYGVmITn25q5usGZ+aeNN0Q1Z+1alW4gItuo+fPPQ1VpeW2Kr
+        Og0pPy75dgS0KnJ+McRhk156EeQdyNVYqig9bqeCrA==
+X-Google-Smtp-Source: ABdhPJyWM+KuxWSKm+WZakQM1coYpvqzhvFBssVoo8yKJsSvLXOonodEkq1Mrj4Ytt2McNT6VBun6xj6Gc9/hPkEfDk=
+X-Received: by 2002:a2e:8816:: with SMTP id x22mr2543467ljh.377.1602907383409;
+ Fri, 16 Oct 2020 21:03:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <20201017033606.GA14014@1wt.eu> <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
- <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com> <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
- <20201017053712.GA14105@1wt.eu>
-In-Reply-To: <20201017053712.GA14105@1wt.eu>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com> <20201017033606.GA14014@1wt.eu>
+In-Reply-To: <20201017033606.GA14014@1wt.eu>
 From:   Jann Horn <jannh@google.com>
-Date:   Sat, 17 Oct 2020 07:52:48 +0200
-Message-ID: <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+Date:   Sat, 17 Oct 2020 06:02:36 +0200
+Message-ID: <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
 Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
 To:     Willy Tarreau <w@1wt.eu>
-Cc:     Colm MacCarthaigh <colmmacc@amazon.com>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+Cc:     "Catangiu, Adrian Costin" <acatan@amazon.com>,
         Andy Lutomirski <luto@kernel.org>,
         Jason Donenfeld <Jason@zx2c4.com>,
         "Theodore Y. Ts'o" <tytso@mit.edu>,
         Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:VIRTIO GPU DRIVER" 
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
         <virtualization@lists.linux-foundation.org>,
         "Graf (AWS), Alexander" <graf@amazon.de>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
         "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
-        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
         KVM list <kvm@vger.kernel.org>,
         Michal Hocko <mhocko@kernel.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -93,46 +93,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 17, 2020 at 7:37 AM Willy Tarreau <w@1wt.eu> wrote:
-> On Sat, Oct 17, 2020 at 07:01:31AM +0200, Jann Horn wrote:
-> > Microsoft's documentation
-> > (http://go.microsoft.com/fwlink/?LinkId=260709) says that the VM
-> > Generation ID that we get after a fork "is a 128-bit,
-> > cryptographically random integer value". If multiple people use the
-> > same image, it guarantees that each use of the image gets its own,
-> > fresh ID:
+On Sat, Oct 17, 2020 at 5:36 AM Willy Tarreau <w@1wt.eu> wrote:
+> On Sat, Oct 17, 2020 at 03:40:08AM +0200, Jann Horn wrote:
+> > [adding some more people who are interested in RNG stuff: Andy, Jason,
+> > Theodore, Willy Tarreau, Eric Biggers. also linux-api@, because this
+> > concerns some pretty fundamental API stuff related to RNG usage]
+> >
+> > On Fri, Oct 16, 2020 at 4:33 PM Catangiu, Adrian Costin
+> > <acatan@amazon.com> wrote:
+> > > This patch is a driver which exposes the Virtual Machine Generation ID
+> > > via a char-dev FS interface that provides ID update sync and async
+> > > notification, retrieval and confirmation mechanisms:
+> > >
+> > > When the device is 'open()'ed a copy of the current vm UUID is
+> > > associated with the file handle. 'read()' operations block until the
+> > > associated UUID is no longer up to date - until HW vm gen id changes -
+> > > at which point the new UUID is provided/returned. Nonblocking 'read()'
+> > > uses EWOULDBLOCK to signal that there is no _new_ UUID available.
+> > >
+> > > 'poll()' is implemented to allow polling for UUID updates. Such
+> > > updates result in 'EPOLLIN' events.
+> > >
+> > > Subsequent read()s following a UUID update no longer block, but return
+> > > the updated UUID. The application needs to acknowledge the UUID update
+> > > by confirming it through a 'write()'.
+> > > Only on writing back to the driver the right/latest UUID, will the
+> > > driver mark this "watcher" as up to date and remove EPOLLIN status.
+> > >
+> > > 'mmap()' support allows mapping a single read-only shared page which
+> > > will always contain the latest UUID value at offset 0.
+> >
+> > It would be nicer if that page just contained an incrementing counter,
+> > instead of a UUID. It's not like the application cares *what* the UUID
+> > changed to, just that it *did* change and all RNGs state now needs to
+> > be reseeded from the kernel, right? And an application can't reliably
+> > read the entire UUID from the memory mapping anyway, because the VM
+> > might be forked in the middle.
+> >
+> > So I think your kernel driver should detect UUID changes and then turn
+> > those into a monotonically incrementing counter. (Probably 64 bits
+> > wide?) (That's probably also a little bit faster than comparing an
+> > entire UUID.)
 >
-> No. It cannot be more unique than the source that feeds that cryptographic
-> transformation. All it guarantees is that the entropy source is protected
-> from being guessed based on the output. Applying cryptography on a simple
-> counter provides apparently random numbers that will be unique for a long
-> period for the same source, but as soon as you duplicate that code between
-> users and they start from the same counter they'll get the same IDs.
->
-> This is why I think that using a counter is better if you really need something
-> unique. Randoms only reduce predictability which helps avoiding collisions.
+> I agree with this. Further, I'm observing there is a very common
+> confusion between "universally unique" and "random". Randoms are
+> needed when seeking unpredictability. A random number generator
+> *must* be able to return the same value multiple times in a row
+> (though this is rare), otherwise it's not random.
+[...]
+> If the UUIDs used there are real UUIDs, it could be as simple as
+> updating them according to their format, i.e. updating the timestamp,
+> and if the timestamp is already the same, just increase the seq counter.
+> Doing this doesn't require entropy, doesn't need to block and doesn't
+> needlessly leak randoms that sometimes make people feel nervous.
 
-Microsoft's spec tells us that they're giving us cryptographically
-random numbers. Where they're getting those from is not our problem.
-(And if even the hypervisor is not able to collect enough entropy to
-securely generate random numbers, worrying about RNG reseeding in the
-guest would be kinda pointless, we'd be fairly screwed anyway.)
+Those UUIDs are supplied by existing hypervisor code; in that regard,
+this is almost like a driver for a hardware device. It is written
+against a fixed API provided by the underlying machine. Making sure
+that the sequence of UUIDs, as seen from inside the machine, never
+changes back to a previous one is the responsibility of the hypervisor
+and out of scope for this driver.
 
-Also note that we don't actually need to *always* reinitialize RNG
-state on forks for functional correctness; it is fine if that fails
-with a probability of 2^-128, because functionally everything will be
-fine, and an attacker who is that lucky could also just guess an AES
-key (which has the same probability of being successful). (And also
-2^-128 is such a tiny number that it doesn't matter anyway.)
+Microsoft's spec document (which is a .docx file for reasons I don't
+understand) actually promises us that it is a cryptographically random
+128-bit integer value, which means that if you fork a VM 2^64 times,
+the probability that any two of those VMs have the same counter is
+2^-64. That should be good enough.
 
-> And I'm saying this as someone who had on his external gateway the same SSH
-> host key as 89 other hosts on the net, each of them using randoms to provide
-> a universally unique one...
+But in userspace, we just need a simple counter. There's no need for
+us to worry about anything else, like timestamps or whatever. If we
+repeatedly fork a paused VM, the forked VMs will see the same counter
+value, but that's totally fine, because the only thing that matters to
+userspace is that the counter changes when the VM is forked.
 
-If your SSH host key was shared with 89 other hosts, it evidently
-wasn't generated from cryptographically random numbers. :P Either
-because the key generator was not properly hooked up to the system's
-entropy pool (if you're talking about the Debian fiasco), or because
-the system simply did not have enough entropy available. (Or because
-the key generator is broken, but I don't think that ever happened with
-OpenSSH?)
+And actually, since the value is a cryptographically random 128-bit
+value, I think that we should definitely use it to help reseed the
+kernel's RNG, and keep it secret from userspace. That way, even if the
+VM image is public, we can ensure that going forward, the kernel RNG
+will return securely random data.
