@@ -2,82 +2,137 @@ Return-Path: <SRS0=t8tM=DY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75B9AC433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:42:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7674FC433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:53:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CBE220791
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:42:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 37E8420760
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:53:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="amsP3PlI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436620AbgJQFmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Oct 2020 01:42:17 -0400
-Received: from mga12.intel.com ([192.55.52.136]:56627 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408934AbgJQFmR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 17 Oct 2020 01:42:17 -0400
-IronPort-SDR: 4knH7JxomiV86CjX5h0Kj2bf2SeKDFDrl1ycf5JYrYMXI4yuTTknG3qIjv8lKBDoN3p7pLqEa/
- 6MTSaYJPrVSg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9776"; a="146052110"
-X-IronPort-AV: E=Sophos;i="5.77,385,1596524400"; 
-   d="scan'208";a="146052110"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 22:42:16 -0700
-IronPort-SDR: bloDPZ1mHCCMDkSL4HTubqN5FZT0XoM6+FUXgp3YTonyMsQFc3Ur7Lotbw2ij0kO5hWgIJ5cfw
- HGUQxgmHfd2w==
-X-IronPort-AV: E=Sophos;i="5.77,385,1596524400"; 
-   d="scan'208";a="522528942"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 22:42:16 -0700
-Date:   Fri, 16 Oct 2020 22:42:16 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V3 5/9] x86/pks: Add PKS kernel API
-Message-ID: <20201017054216.GB3702775@iweiny-DESK2.sc.intel.com>
-References: <20201009194258.3207172-1-ira.weiny@intel.com>
- <20201009194258.3207172-6-ira.weiny@intel.com>
- <20201016110747.GM2611@hirez.programming.kicks-ass.net>
+        id S2436669AbgJQFxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Oct 2020 01:53:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55964 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436671AbgJQFxR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Oct 2020 01:53:17 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71C4C0613E5
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 22:53:16 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id 23so732665ljv.7
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2020 22:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
+        b=amsP3PlI3ZycdlVxgLx5tS3RcZ/aE2JugXN/de8WjJzEbbWQfg5yay9mu9yMNOTQEG
+         zDGufeyQG0D8nAwfy0A+eh+5b93z85bXUL2cX8T/4mhVh2wiIWZNqlk28ZRb4QzNB/dh
+         AIBnGWL+ksEigCgQdVu62IDy26gLVIDUnczpRvNend8MTTwuaCQtont43SmFPbW4CRcT
+         cmRIzAt2jsd2hPhc8PRzFfChw9wh+qGJaBiAl8a3e2bI5TkwKjB9tCNO3N3jC/SV0wIn
+         USEp5Yt0/QCw/q0JJrWcSGJN2B9ryqMiiGMVPf4OXy69UAR96sfkVVyhw3En3TdcYtr6
+         S+7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
+        b=FcMaYXhcif4LK1lxXqYaG8UHhOTu1leqa5Pd64s236SKsh22FvDrFBvQ2qQeud7xSo
+         Age4xHlN2Bs7J2deyBie3Z1Te1Mw5LpAtWjd+v2YXevnLR+g2d73AnvEK3AuMEHqX74c
+         4ic9lIqp1VNm5lxrXVzHfhA2mMuX+KPOJ5ghyIs2gk+W+9TcaGGkAi5K0o95txKdODPg
+         c9/j4tc+jJ579HLx6pJHSQGicnT74hWGTBk3xrJNJDlIlDP3uOsUzDjielDZODGeVPbr
+         ge7yOW+YPY5UvP//s8KEVPnpAm8XBLUZQi6ZThSHuc9j4ARB7J0VNPzTAmMCVu022BUl
+         zosw==
+X-Gm-Message-State: AOAM532ED36c2xblNhYtRINFdwQbx7hoc2vhDR7hmK/02x2ZWICE4/TI
+        4ycos0Q0uG8H60JMNaDjCmHRdP+b05cko5AMuaQ6Wg==
+X-Google-Smtp-Source: ABdhPJyqRwgfzaNO4k6jC4+ngiz4xp94h1rvkVA6jI+YkhoWwbWi6nRJWMl5uQZtM/9C6Yz+umn28GEOA1tFiD8OGAE=
+X-Received: by 2002:a2e:504b:: with SMTP id v11mr2673538ljd.138.1602913994976;
+ Fri, 16 Oct 2020 22:53:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201016110747.GM2611@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+ <20201017033606.GA14014@1wt.eu> <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+ <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com> <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu>
+In-Reply-To: <20201017053712.GA14105@1wt.eu>
+From:   Jann Horn <jannh@google.com>
+Date:   Sat, 17 Oct 2020 07:52:48 +0200
+Message-ID: <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Colm MacCarthaigh <colmmacc@amazon.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jason Donenfeld <Jason@zx2c4.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        "Graf (AWS), Alexander" <graf@amazon.de>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
+        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Qemu Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 01:07:47PM +0200, Peter Zijlstra wrote:
-> On Fri, Oct 09, 2020 at 12:42:54PM -0700, ira.weiny@intel.com wrote:
-> > +static inline void pks_update_protection(int pkey, unsigned long protection)
-> > +{
-> > +	current->thread.saved_pkrs = update_pkey_val(current->thread.saved_pkrs,
-> > +						     pkey, protection);
-> > +	preempt_disable();
-> > +	write_pkrs(current->thread.saved_pkrs);
-> > +	preempt_enable();
-> > +}
-> 
-> write_pkrs() already disables preemption itself. Wrapping it in yet
-> another layer is useless.
+On Sat, Oct 17, 2020 at 7:37 AM Willy Tarreau <w@1wt.eu> wrote:
+> On Sat, Oct 17, 2020 at 07:01:31AM +0200, Jann Horn wrote:
+> > Microsoft's documentation
+> > (http://go.microsoft.com/fwlink/?LinkId=260709) says that the VM
+> > Generation ID that we get after a fork "is a 128-bit,
+> > cryptographically random integer value". If multiple people use the
+> > same image, it guarantees that each use of the image gets its own,
+> > fresh ID:
+>
+> No. It cannot be more unique than the source that feeds that cryptographic
+> transformation. All it guarantees is that the entropy source is protected
+> from being guessed based on the output. Applying cryptography on a simple
+> counter provides apparently random numbers that will be unique for a long
+> period for the same source, but as soon as you duplicate that code between
+> users and they start from the same counter they'll get the same IDs.
+>
+> This is why I think that using a counter is better if you really need something
+> unique. Randoms only reduce predictability which helps avoiding collisions.
 
-I was thinking the update to saved_pkrs needed this protection as well and that
-was to be included in the preemption disable.  But that too is incorrect.
+Microsoft's spec tells us that they're giving us cryptographically
+random numbers. Where they're getting those from is not our problem.
+(And if even the hypervisor is not able to collect enough entropy to
+securely generate random numbers, worrying about RNG reseeding in the
+guest would be kinda pointless, we'd be fairly screwed anyway.)
 
-I've removed this preemption disable.
+Also note that we don't actually need to *always* reinitialize RNG
+state on forks for functional correctness; it is fine if that fails
+with a probability of 2^-128, because functionally everything will be
+fine, and an attacker who is that lucky could also just guess an AES
+key (which has the same probability of being successful). (And also
+2^-128 is such a tiny number that it doesn't matter anyway.)
 
-Thanks,
-Ira
+> And I'm saying this as someone who had on his external gateway the same SSH
+> host key as 89 other hosts on the net, each of them using randoms to provide
+> a universally unique one...
+
+If your SSH host key was shared with 89 other hosts, it evidently
+wasn't generated from cryptographically random numbers. :P Either
+because the key generator was not properly hooked up to the system's
+entropy pool (if you're talking about the Debian fiasco), or because
+the system simply did not have enough entropy available. (Or because
+the key generator is broken, but I don't think that ever happened with
+OpenSSH?)
