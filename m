@@ -2,148 +2,131 @@ Return-Path: <SRS0=t8tM=DY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 036B8C43457
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB55C433E7
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:35:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC567207EA
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:29:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Jf9H2Zd2"
+	by mail.kernel.org (Postfix) with ESMTP id 0B2FA20829
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 05:35:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409915AbgJQF3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Oct 2020 01:29:24 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:12821 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391975AbgJQF3Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Oct 2020 01:29:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1602912563; x=1634448563;
-  h=from:to:cc:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding:subject;
-  bh=4D+RWh/5beB78lRbdCD/b83sagLyNZAat88yYlEo6kY=;
-  b=Jf9H2Zd2Supmg22O3tLEBtoMqtAm0m/UzVnOGJeKZ3S674jKZRcmOVDs
-   +NyN8sJ69rNWfWC9bjdQn1J7oX7k8vzT0gXS/ArXKyEkP8k1P1OeIQDaz
-   Q3VSNC7k12vs5eh6f5Joq0HltI5+zKsG5Jlw7RXSpu5yTReEBKip3Ext3
-   s=;
-X-IronPort-AV: E=Sophos;i="5.77,385,1596499200"; 
-   d="scan'208";a="77295793"
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-4ff6265a.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 17 Oct 2020 05:29:17 +0000
-Received: from EX13MTAUWA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2b-4ff6265a.us-west-2.amazon.com (Postfix) with ESMTPS id 5414EA26D1;
-        Sat, 17 Oct 2020 05:29:16 +0000 (UTC)
-Received: from EX13D01UWA003.ant.amazon.com (10.43.160.107) by
- EX13MTAUWA001.ant.amazon.com (10.43.160.58) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Sat, 17 Oct 2020 05:29:15 +0000
-Received: from [10.50.40.37] (10.43.161.237) by EX13d01UWA003.ant.amazon.com
- (10.43.160.107) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sat, 17 Oct
- 2020 05:29:14 +0000
-From:   Colm MacCarthaigh <colmmacc@amazon.com>
-To:     Jann Horn <jannh@google.com>
-CC:     Willy Tarreau <w@1wt.eu>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        id S2436477AbgJQFfS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Oct 2020 01:35:18 -0400
+Received: from mga05.intel.com ([192.55.52.43]:43562 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2409430AbgJQFfS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 17 Oct 2020 01:35:18 -0400
+IronPort-SDR: RXH8Q+dOWLdkHKyiD1mnGpbys3Efva8uFXdh1cQEs5Gn+pMZMMsNDAQBRD4RcawbjgLSC08fi2
+ jj3u1XCjZPiw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9776"; a="251422269"
+X-IronPort-AV: E=Sophos;i="5.77,385,1596524400"; 
+   d="scan'208";a="251422269"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 20:32:03 -0700
+IronPort-SDR: kvyfzP2MmHEewAuij6J97fqoPkF27+6ntcl4pUo67Y0ey7WhiD8GVW1pnB6mjR8DSQp0w+kBVn
+ R3ZScB5JlEAA==
+X-IronPort-AV: E=Sophos;i="5.77,385,1596524400"; 
+   d="scan'208";a="521393708"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 20:32:03 -0700
+Date:   Fri, 16 Oct 2020 20:32:03 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
-        Jason Donenfeld <Jason@zx2c4.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        "Graf (AWS), Alexander" <graf@amazon.de>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, <bonzini@gnu.org>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>, <oridgar@gmail.com>,
-        <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>
-Date:   Fri, 16 Oct 2020 22:29:14 -0700
-X-Mailer: MailMate Trial (1.13.2r5673)
-Message-ID: <FF2CCC35-87DD-4311-A3CF-4943B29DBEE3@amazon.com>
-In-Reply-To: <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <20201017033606.GA14014@1wt.eu>
- <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
- <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
- <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V3 2/9] x86/fpu: Refactor arch_set_user_pkey_access()
+ for PKS support
+Message-ID: <20201017033202.GV2046448@iweiny-DESK2.sc.intel.com>
+References: <20201009194258.3207172-1-ira.weiny@intel.com>
+ <20201009194258.3207172-3-ira.weiny@intel.com>
+ <20201016105743.GK2611@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.43.161.237]
-X-ClientProxiedBy: EX13d09UWC002.ant.amazon.com (10.43.162.102) To
- EX13d01UWA003.ant.amazon.com (10.43.160.107)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201016105743.GK2611@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Oct 16, 2020 at 12:57:43PM +0200, Peter Zijlstra wrote:
+> On Fri, Oct 09, 2020 at 12:42:51PM -0700, ira.weiny@intel.com wrote:
+> > From: Fenghua Yu <fenghua.yu@intel.com>
+> > 
+> > Define a helper, update_pkey_val(), which will be used to support both
+> > Protection Key User (PKU) and the new Protection Key for Supervisor
+> > (PKS) in subsequent patches.
+> > 
+> > Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+> > ---
+> >  arch/x86/include/asm/pkeys.h |  2 ++
+> >  arch/x86/kernel/fpu/xstate.c | 22 ++++------------------
+> >  arch/x86/mm/pkeys.c          | 21 +++++++++++++++++++++
+> >  3 files changed, 27 insertions(+), 18 deletions(-)
+> 
+> This is not from Fenghua.
+> 
+>   https://lkml.kernel.org/r/20200717085442.GX10769@hirez.programming.kicks-ass.net
+> 
+> This is your patch based on the code I wrote.
 
+Ok, I apologize.  Yes the code below was all yours.
 
-On 16 Oct 2020, at 22:01, Jann Horn wrote:
->
-> On Sat, Oct 17, 2020 at 6:34 AM Colm MacCarthaigh 
-> <colmmacc@amazon.com> wrote:
->> For user-space, even a single bit would do. We added 
->> MADVISE_WIPEONFORK
->> so that userspace libraries can detect fork()/clone() robustly, for 
->> the
->> same reasons. It just wipes a page as the indicator, which is
->> effectively a single-bit signal, and it works well. On the user-space
->> side of this, I’m keen to find a solution like that that we can use
->> fairly easily inside of portable libraries and applications. The 
->> “have
->> I forked” checks do end up in hot paths, so it’s nice if they can 
->> be
->> CPU cache friendly. Comparing a whole 128-bit value wouldn’t be my
->> favorite.
->
-> I'm pretty sure a single bit is not enough if you want to have a
-> single page, shared across the entire system, that stores the VM
-> forking state; you need a counter for that.
+Is it ok to add?
 
-You’re right. WIPEONFORK is more like a single-bit per use. If it’s 
-something system wide then a counter is better.
+Co-developed-by: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Peter Zijlstra <peterz@infradead.org>
 
-> So the RNG state after mixing in the new VM Generation ID would
-> contain 128 bits of secret entropy not known to anyone else, including
-> people with access to the VM image.
->
-> Now, 128 bits of cryptographically random data aren't _optimal_; I
-> think something on the order of 256 bits would be nicer from a
-> theoretical standpoint. But in practice I think we'll be good with the
-> 128 bits we're getting (since the number of users who fork a VM image
-> is probably not going to be so large that worst-case collision
-> probabilities matter).
+?
 
-This reminds me on key/IV usage limits for AES encryption, where the 
-same birthday bounds apply, and even though 256-bits would be better, we 
-routinely make 128-bit birthday bounds work for massively scalable 
-systems.
+Thanks,
+Ira
 
->> The kernel would need to use the change as a trigger to
->> measure some entropy (e.g. interrupts and RDRAND, or whatever). Our 
->> just
->> define the machine contract as “this has to be unique random data 
->> and
->> if it’s not unique, or if it’s pubic, you’re toast”.
->
-> As far as I can tell from Microsoft's spec, that is a guarantee we're
-> already getting.
-
-Neat.
-
--
-Colm
+> 
+> > diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
+> > index f5efb4007e74..3cf8f775f36d 100644
+> > --- a/arch/x86/mm/pkeys.c
+> > +++ b/arch/x86/mm/pkeys.c
+> > @@ -208,3 +208,24 @@ static __init int setup_init_pkru(char *opt)
+> >  	return 1;
+> >  }
+> >  __setup("init_pkru=", setup_init_pkru);
+> > +
+> > +/*
+> > + * Update the pk_reg value and return it.
+> > + *
+> > + * Kernel users use the same flags as user space:
+> > + *     PKEY_DISABLE_ACCESS
+> > + *     PKEY_DISABLE_WRITE
+> > + */
+> > +u32 update_pkey_val(u32 pk_reg, int pkey, unsigned int flags)
+> > +{
+> > +	int pkey_shift = pkey * PKR_BITS_PER_PKEY;
+> > +
+> > +	pk_reg &= ~(((1 << PKR_BITS_PER_PKEY) - 1) << pkey_shift);
+> > +
+> > +	if (flags & PKEY_DISABLE_ACCESS)
+> > +		pk_reg |= PKR_AD_BIT << pkey_shift;
+> > +	if (flags & PKEY_DISABLE_WRITE)
+> > +		pk_reg |= PKR_WD_BIT << pkey_shift;
+> > +
+> > +	return pk_reg;
+> > +}
+> > -- 
+> > 2.28.0.rc0.12.gb6a658bd00c9
+> > 
