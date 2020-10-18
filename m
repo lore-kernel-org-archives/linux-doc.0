@@ -1,171 +1,155 @@
-Return-Path: <SRS0=t8tM=DY=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=QA7a=DZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B840CC433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 18:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 635B7C43457
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 02:08:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74A1720791
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Oct 2020 18:10:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602958241;
-	bh=bNUjXzAtYTeF0xeyT4fVDlewqtbmx5JXgMhZlub6oWs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=qWlPAB/5OFX07NtqpHqPXHsiYVISzKOFAT1Er+oHGzTmObFZyxOK4Ph5z+RnhEzQd
-	 UPSMkVZ3KHSZDMV9wvuC+0YPIa+Htdn+DpF5mPt2US8cM7Fc4ho8T/CG7tScodk+F1
-	 Vcqg0ljpOa1QsvQtpW0q7zpKH64ziPcwR3CWDUSM=
+	by mail.kernel.org (Postfix) with ESMTP id 27870207FF
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 02:08:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JYBvkmsN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438574AbgJQSKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Oct 2020 14:10:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49372 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437948AbgJQSKk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 17 Oct 2020 14:10:40 -0400
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 85CA2208E4
-        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2020 18:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602958239;
-        bh=bNUjXzAtYTeF0xeyT4fVDlewqtbmx5JXgMhZlub6oWs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=THGcrhra0XvZn4Ey1MGpMDVxtKDNQHgmX2j9JxAUeoHswlBA6Cnm/zT4hTZODIzHR
-         GIAP9ZD/E/9dmpMs96WF1G45M6M/NevjFPyBmIiwND5y72ADgjpFd1WGLuu3J/se7p
-         O3hmHiqDp9e1W5jgnKbn1xURn1TnVQtFlfaePNuA=
-Received: by mail-wm1-f47.google.com with SMTP id j136so8761352wmj.2
-        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2020 11:10:39 -0700 (PDT)
-X-Gm-Message-State: AOAM531njHpnHFHsYTKMZLWchMqgHNTGsxH84Dxpv3VUtYOjyQ05e19J
-        IzT8ywfWLYV35LMZIv5peFbfOd4uQ3vR8Soeq4mkWw==
-X-Google-Smtp-Source: ABdhPJytCiWOtxm84RCgZCVoArKJ0KdKOuxfgPiMKVnnwQm0gaac8Rg/0NC502KkEJ0/X88L4LXO8HEf81QzCgT9VjQ=
-X-Received: by 2002:a1c:6457:: with SMTP id y84mr9330642wmb.36.1602958237946;
- Sat, 17 Oct 2020 11:10:37 -0700 (PDT)
+        id S2440092AbgJRCIg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Oct 2020 22:08:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439939AbgJRCIe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Oct 2020 22:08:34 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12CB9C061755
+        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2020 19:08:33 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id x16so7259717ljh.2
+        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2020 19:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EoL7d0lHzdswPEFGsAEJJdNfE07sA8igVy5PEUcTbDQ=;
+        b=JYBvkmsN9RysEeFQRgQMS2IGgQheKP8WCpVEITeoShBcDrScb2YzXJWCS9fBQBrxMO
+         n86hAFDTEQHXskSLJ578m/TKYBOiwMg0z/aLu4hSKM9fzy3Bml2AtFnKiNFHXmC81ou5
+         oLgoTyjjd7m8dU7zn1iDkaLBmUIFwukS3W1degboeUcB5xxmHAwJ7X7ZJjY5qLq4Uevz
+         9565oX51vhmKmr/jiZRuPNAZjyZvYkS6kUYo9TyvCsqYY8xkBsy/gcixSZeElDfa4GKl
+         lQjC5lLseYNii8XoYpb7znRj1djIzK3pwUzl9c71Hf2cfPLya0ovLXiar856omGyFgtc
+         cBdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EoL7d0lHzdswPEFGsAEJJdNfE07sA8igVy5PEUcTbDQ=;
+        b=nJ9/n2qKJTRwP6VTBpCZ3AZGRVgSG05zMPYr5tVMoGC0RkZDU7bn0E+0Us1pySxUsb
+         L7trtUQeLHIelzzxhorwam7uH61qP0LlRM7wBRaI5UIlUfFA3aST0/kKqP4LMoHMtbgk
+         GBjnA+k+FT//0ZFYeV1kgSdX13rmtkUZI7We2NlrHpwNquklBZckbTjp3DHaKFAn0EQO
+         86twL6fdJNcFI0jY04UBCfYfuQAZVpmQLby45x7O6UHhmjcr7TP50MPIT/9rVRm4giCx
+         7O93yCr8b9RJZPGZOX8EGYSuM8GHPZCadt0HIOUIpmNQyzYQxjVodNkVfTGUvhvv2Mhu
+         VM8g==
+X-Gm-Message-State: AOAM530lxSPuoB2uZW+dLo3yFxQ/qDPaboL1vqRkoAwmQtIGzv4F13aj
+        6g0O9CZKxmV8SFrDAG/3kMPxS5bUCOUDQ0i73oGGfg==
+X-Google-Smtp-Source: ABdhPJxVC4A8hz5Ph8xI5Lcuiwu6i49AGWglYFrVbrHYISFimwHqgN7R9bAY4u2r3Hi8cj+JpNCqLDs0HlkcXSFAtqI=
+X-Received: by 2002:a05:651c:1313:: with SMTP id u19mr1073920lja.47.1602986911177;
+ Sat, 17 Oct 2020 19:08:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com> <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
-In-Reply-To: <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sat, 17 Oct 2020 11:10:26 -0700
-X-Gmail-Original-Message-ID: <CALCETrViTg_BWvRa+nfDWq=_B_ithzL-anVJNpsgHaXe9VgCNQ@mail.gmail.com>
-Message-ID: <CALCETrViTg_BWvRa+nfDWq=_B_ithzL-anVJNpsgHaXe9VgCNQ@mail.gmail.com>
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+ <20201017033606.GA14014@1wt.eu> <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+ <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com> <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu> <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu> <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+ <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com> <aacdff7a-2af1-4f46-6ab2-2a9d5b865d35@amazon.de>
+In-Reply-To: <aacdff7a-2af1-4f46-6ab2-2a9d5b865d35@amazon.de>
+From:   Jann Horn <jannh@google.com>
+Date:   Sun, 18 Oct 2020 04:08:04 +0200
+Message-ID: <CAG48ez0JYK2_tk0DuEgKY2y0d38N+O5HJrH2je7RRk6o7XBixA@mail.gmail.com>
 Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-To:     Jann Horn <jannh@google.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     "Catangiu, Adrian Costin" <acatan@amazon.com>,
+To:     Alexander Graf <graf@amazon.de>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy Tarreau <w@1wt.eu>,
+        Colm MacCarthaigh <colmmacc@amazon.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
         Andy Lutomirski <luto@kernel.org>,
-        Jason Donenfeld <Jason@zx2c4.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
         Eric Biggers <ebiggers@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:VIRTIO GPU DRIVER" 
         <virtualization@lists.linux-foundation.org>,
-        "Graf (AWS), Alexander" <graf@amazon.de>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
         "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        "oridgar@gmail.com" <oridgar@gmail.com>,
-        "ghammer@redhat.com" <ghammer@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
+        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Qemu Developers <qemu-devel@nongnu.org>,
         KVM list <kvm@vger.kernel.org>,
         Michal Hocko <mhocko@kernel.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>
+        Linux API <linux-api@vger.kernel.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 6:40 PM Jann Horn <jannh@google.com> wrote:
->
-> [adding some more people who are interested in RNG stuff: Andy, Jason,
-> Theodore, Willy Tarreau, Eric Biggers. also linux-api@, because this
-> concerns some pretty fundamental API stuff related to RNG usage]
->
-> On Fri, Oct 16, 2020 at 4:33 PM Catangiu, Adrian Costin
-> <acatan@amazon.com> wrote:
-> > - Background
-> >
-> > The VM Generation ID is a feature defined by Microsoft (paper:
-> > http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-> > multiple hypervisor vendors.
-> >
-> > The feature is required in virtualized environments by apps that work
-> > with local copies/caches of world-unique data such as random values,
-> > uuids, monotonically increasing counters, etc.
-> > Such apps can be negatively affected by VM snapshotting when the VM
-> > is either cloned or returned to an earlier point in time.
-> >
-> > The VM Generation ID is a simple concept meant to alleviate the issue
-> > by providing a unique ID that changes each time the VM is restored
-> > from a snapshot. The hw provided UUID value can be used to
-> > differentiate between VMs or different generations of the same VM.
-> >
-> > - Problem
-> >
-> > The VM Generation ID is exposed through an ACPI device by multiple
-> > hypervisor vendors but neither the vendors or upstream Linux have no
-> > default driver for it leaving users to fend for themselves.
-> >
-> > Furthermore, simply finding out about a VM generation change is only
-> > the starting point of a process to renew internal states of possibly
-> > multiple applications across the system. This process could benefit
-> > from a driver that provides an interface through which orchestration
-> > can be easily done.
-> >
-> > - Solution
-> >
-> > This patch is a driver which exposes the Virtual Machine Generation ID
-> > via a char-dev FS interface that provides ID update sync and async
-> > notification, retrieval and confirmation mechanisms:
-> >
-> > When the device is 'open()'ed a copy of the current vm UUID is
-> > associated with the file handle. 'read()' operations block until the
-> > associated UUID is no longer up to date - until HW vm gen id changes -
-> > at which point the new UUID is provided/returned. Nonblocking 'read()'
-> > uses EWOULDBLOCK to signal that there is no _new_ UUID available.
-> >
-> > 'poll()' is implemented to allow polling for UUID updates. Such
-> > updates result in 'EPOLLIN' events.
-> >
-> > Subsequent read()s following a UUID update no longer block, but return
-> > the updated UUID. The application needs to acknowledge the UUID update
-> > by confirming it through a 'write()'.
-> > Only on writing back to the driver the right/latest UUID, will the
-> > driver mark this "watcher" as up to date and remove EPOLLIN status.
-> >
-> > 'mmap()' support allows mapping a single read-only shared page which
-> > will always contain the latest UUID value at offset 0.
->
-> It would be nicer if that page just contained an incrementing counter,
-> instead of a UUID. It's not like the application cares *what* the UUID
-> changed to, just that it *did* change and all RNGs state now needs to
-> be reseeded from the kernel, right? And an application can't reliably
-> read the entire UUID from the memory mapping anyway, because the VM
-> might be forked in the middle.
->
-> So I think your kernel driver should detect UUID changes and then turn
-> those into a monotonically incrementing counter. (Probably 64 bits
-> wide?) (That's probably also a little bit faster than comparing an
-> entire UUID.)
->
-> An option might be to put that counter into the vDSO, instead of a
-> separate VMA; but I don't know how the other folks feel about that.
-> Andy, do you have opinions on this? That way, normal userspace code
-> that uses this infrastructure wouldn't have to mess around with a
-> special device at all. And it'd be usable in seccomp sandboxes and so
-> on without needing special plumbing. And libraries wouldn't have to
-> call open() and mess with file descriptor numbers.
+On Sat, Oct 17, 2020 at 8:09 PM Alexander Graf <graf@amazon.de> wrote:
+> There are applications way beyond that though. What do you do with
+> applications that already consumed randomness? For example a cached pool
+> of SSL keys. Or a higher level language primitive that consumes
+> randomness and caches its seed somewhere in an internal data structure.
 
-The vDSO might be annoyingly slow for this.  Something like the rseq
-page might make sense.  It could be a generic indication of "system
-went through some form of suspend".
+For deterministic protection, those would also have to poll some
+memory location that tells them whether the VmGenID changed:
+
+1. between reading entropy from their RNG pool and using it
+2. between collecting data from external sources (user input, clock,
+...) and encrypting it
+
+and synchronously shoot down the connection if a change happened. If
+e.g. an application inside the VM has an AES-GCM-encrypted TLS
+connection and, directly after the VM is restored, triggers an
+application-level timeout that sends some fixed message across the
+connection, then the TLS library must guarantee that either the VM was
+already committed to sending exactly that message before the VM was
+forked or the message will be blocked. If we don't do that, an
+attacker who captures both a single packet from the forked VM and
+traffic from the old VM can decrypt the next message from the old VM
+after the fork (because AES-GCM is like AES-CTR plus an authenticator,
+and CTR means that when keystream reuse occurs and one of the
+plaintexts is known, the attacker can simply recover the other
+plaintext using XOR).
+
+(Or maybe, in disaster failover environments, TLS 1.3 servers could
+get away with rekeying the connection instead of shooting it down? Ask
+your resident friendly cryptographer whether that would be secure, I
+am not one.)
+
+I don't think a mechanism based around asynchronously telling the
+application and waiting for it to confirm the rotation at a later
+point is going to cut it; we should have some hard semantics on when
+an application needs to poll this value.
+
+> Or even worse: your system's host ssh key.
+
+Mmmh... I think I normally would not want a VM to reset its host ssh
+key after merely restoring a snapshot though? And more importantly,
+Microsoft's docs say that they also change the VmGenID on disaster
+failover. I think you very much wouldn't want your server to lose its
+host key every time disaster failover happens. On the other hand,
+after importing a public VM image, it might be a good idea.
+
+I guess you could push that responsibility on the user, by adding an
+option to the sshd_config that tells OpenSSH whether the host key
+should be rotated on an ID change or not... but that still would not
+be particularly pretty.
+
+Ideally we would have the host tell us what type of events happened to
+the VM, or something like that... or maybe even get the host VM
+management software to ask the user whether they're importing a public
+image... I really feel like with Microsoft's current protocol, we
+don't get enough information to figure out what we should do about
+private long-term authentication keys.
