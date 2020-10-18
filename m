@@ -8,72 +8,72 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF00BC433E7
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 18:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06399C433E7
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 20:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D83522266
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 18:15:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4D1A22281
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 20:55:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QjCP1EX3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qBvzINNo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727043AbgJRSPB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Oct 2020 14:15:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
+        id S1727424AbgJRUzB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Oct 2020 16:55:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727042AbgJRSPA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Oct 2020 14:15:00 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95DC9C061755;
-        Sun, 18 Oct 2020 11:15:00 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id t22so879799plr.9;
-        Sun, 18 Oct 2020 11:15:00 -0700 (PDT)
+        with ESMTP id S1726428AbgJRUzB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Oct 2020 16:55:01 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ED92C061755;
+        Sun, 18 Oct 2020 13:55:00 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id l18so4803354pgg.0;
+        Sun, 18 Oct 2020 13:55:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=m6FHgeh68XrW5HEPqio+CAfOtISNqMru1HN9CgXSmBM=;
-        b=QjCP1EX34ML3REAsHj1Tuktcn2Qgs9vEAzg++SANXEotQatxk6cJ78+W/luVFvsA3f
-         nZNkGM2go1F8nkwh6yEUQxVkyIZOSgSO3THq+0gpiY9p60SUuVvKhDWBbHi94riAC158
-         JDorjfMHTqFwVLz0lpon1zH2WyRinDTgAZqYzF5ngx3ClF81QhYn6cp4wIPpq813dIHK
-         s7GRgyT580BXrnwrATopGB49vaMilA8vdkf2slNeGdl9j549H3kzxrpyicj+1Et8ki3p
-         9ODKdJhrDhod8Zt2o3IZRnrNOqE1O08i1zPH79d/5aAdF4rk6sX2svj7btVZGfC3j9ov
-         5k2g==
+        bh=40tXI37pHlk3TtzN2k44HneDIZz4amkAP9vv7Yjmryo=;
+        b=qBvzINNoyd0ePJlIBr9XRAf5uj3vpv4Qr+DUgP5kyRA85wMxV7ztzWw/LBsHwefrly
+         sC8tCYADiC/eld+Xed1K6diTdNz9H7dLztWAN9bo+udAPBB/icdea1Cxf4FSwz+xsn/v
+         Mad2slFqH8totbokNDgWI4nPLDjNj9bII5uqpwwafuxag1BtPvGimntlBJFHCfS4YN3p
+         /R5+kcJtS1Ul+ukoozoudfqCgW+k+CuBasqd1yW1FYTM+fj6dRhhPEEkawWv/4lvQCfB
+         a4czKI1Yo20AMM87Wtis1+Y4oC+bW/vtvrrZAKeAkWzmCBwXWrAxFAjuJj3+AflXP14p
+         E9kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=m6FHgeh68XrW5HEPqio+CAfOtISNqMru1HN9CgXSmBM=;
-        b=j4+bSgWeA1DDsCPVpHOUCfKesxlYxnEa0AO7FwYk9Mn2eXcMeH/pYj8UuiIN00r44B
-         ik9v0pQp4kdZsDwEDAY5GNdhobw5OLwM8nrXD68CCCN8du9UfNIzdpi1Rc/aCPEuEeQP
-         l/W7rJevnTB1Jlpoe8Sg3bv2rKkF/hEgD2PEMFE2LA5OaV/gXcVlZDECRFJuWIOCTVcm
-         Xf1ATDNCPGwXdAmDNvizGwhiEU9iSYDSqnqwrSHxeVf8GdyvkMqm7yYYQ6BGeoJ1glol
-         QVhhSuBRTudB8Wsr/L8hKJPISl9DDmkn+3BRCwcHpAfO52zhUWNFKUofaBbXe+8JG4cO
-         RLaw==
-X-Gm-Message-State: AOAM5336zbMIGgDrVUgUa5vpPLdR+laAhxMTFLjQZ32qGUiLoiPVBzA1
-        kup/P34X1JW7+VFmmS5tXg==
-X-Google-Smtp-Source: ABdhPJyD/RAMVd1M8vP32mGD/W3N7UjeH/8THUOCAjyc/6MDKMhug8g9/itU+OYPPf0q61CKLJRo6g==
-X-Received: by 2002:a17:902:8a8a:b029:d5:ab9e:1d5d with SMTP id p10-20020a1709028a8ab02900d5ab9e1d5dmr14061857plo.32.1603044900146;
-        Sun, 18 Oct 2020 11:15:00 -0700 (PDT)
+        bh=40tXI37pHlk3TtzN2k44HneDIZz4amkAP9vv7Yjmryo=;
+        b=lI92qHkr13mJQitjahPE7S+5/2Qg2oePOUtn1hgF5kunQjdDdZoQOJWDEjFs4Gc4jU
+         S5AB9PyAdouK3d37j3lF2lvogJJ/3gsi1J20cFZt1uziizm5QZceUZnLxY2qFVfBVc2I
+         x3aTw48UfiIUUTpA4WHqWRronwlWXT9pe6vgYRWoCwegjT624TUaottXhRxlds2b6PN3
+         H2v0g9NNMYjL44aYObcC6fknYl5Xsuy63mu4aFmB/OM8yHIZHCsd/YQ6s4ZrZn8qdKId
+         lVfgQpOiKdtXJ7HER/V0j1ESqZxreoIt9cbPft+gZm2D9pJ+jv/4iOxfEq6qknRJjWgo
+         fDDw==
+X-Gm-Message-State: AOAM532j9dRE1sxug+//1T6qwgUPJLexws9rRGgdG85dO7QjGOLVT67K
+        b4dztqidCI03Zi2wXKOc5w==
+X-Google-Smtp-Source: ABdhPJwJrUu0DW+lj02llJjiJVooeTj2lO5SI0doIdiPIzmOVKhr10VEfVZiynEkgJxjWHlTLcM1ig==
+X-Received: by 2002:a63:3115:: with SMTP id x21mr12018067pgx.416.1603054499615;
+        Sun, 18 Oct 2020 13:54:59 -0700 (PDT)
 Received: from localhost.localdomain ([161.117.41.183])
-        by smtp.gmail.com with ESMTPSA id u65sm9511516pfc.11.2020.10.18.11.14.56
+        by smtp.gmail.com with ESMTPSA id ck21sm9517430pjb.56.2020.10.18.13.54.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 11:14:59 -0700 (PDT)
+        Sun, 18 Oct 2020 13:54:58 -0700 (PDT)
 From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To:     Jonathan Corbet <corbet@lwn.net>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Sven Schneider <s.schneider@arkona-technologies.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Peilin Ye <yepeilin.cs@gmail.com>
-Subject: [PATCH 2/2] docs: fb: Add font_6x8 to available built-in fonts
-Date:   Sun, 18 Oct 2020 14:14:10 -0400
-Message-Id: <717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com>
+        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Peilin Ye <yepeilin.cs@gmail.com>
+Subject: [PATCH 2/2 RESEND] docs: fb: Add font_6x8 to available built-in fonts
+Date:   Sun, 18 Oct 2020 16:54:01 -0400
+Message-Id: <20201018205401.698242-1-yepeilin.cs@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
-References: <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
+In-Reply-To: <717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com>
+References: <717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -86,6 +86,8 @@ list.
 
 Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 ---
+Resending +Cc: dri-devel, sorry if I spammed.
+
  Documentation/fb/fbcon.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
