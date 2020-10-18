@@ -2,189 +2,145 @@ Return-Path: <SRS0=QA7a=DZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7DEC43457
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 16:14:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6E3EC433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 17:21:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2F1522203
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 16:14:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603037655;
-	bh=QkAuJOFzVf0Wwxo6H++VdX8xdeoi48QFNUPVWESxEeY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=hWD5Y+A+3urS3yWqDObztSimExfpcRjdqSp7xco83kzclllyhf7KFLBX9l1Aj9YRl
-	 cI6WOSwkRsv+vvJzYquIb4Oj+ed8SlGRsTAU0s24kG40CCRVRdiRxFVM4rgPFyqzGH
-	 LcXuY0ki9cZ320zRo3kPq5ldAQ6RbGmUaIJAok/M=
+	by mail.kernel.org (Postfix) with ESMTP id 8DA3022254
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 17:21:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="hcDCtaDv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726657AbgJRQOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Oct 2020 12:14:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41052 "EHLO mail.kernel.org"
+        id S1725904AbgJRRV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Oct 2020 13:21:27 -0400
+Received: from m12-14.163.com ([220.181.12.14]:54775 "EHLO m12-14.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726551AbgJRQOP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 18 Oct 2020 12:14:15 -0400
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 053B922267
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2020 16:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603037654;
-        bh=QkAuJOFzVf0Wwxo6H++VdX8xdeoi48QFNUPVWESxEeY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=REQ21UN9Va/Tchhw0Iufx5i7bXZEJ9oRfutu3gwrdtekpNdyOP9oS2QBdbHuW8dkc
-         RTeKkF2w8JxMtCocwlSDcoWntutriBaaDLoscjSsibsvmsABsaj4WSuB5g4UAvbHCa
-         sbahCb0xKb0j3iMhYCaCKqibUKXv3mZ2Htcf9Y/k=
-Received: by mail-wm1-f48.google.com with SMTP id k21so690976wmi.1
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2020 09:14:13 -0700 (PDT)
-X-Gm-Message-State: AOAM533bgMGxjDRk+iefsfYDkeLl/DOfqnkPY4yYAoui7tuZVcWX427i
-        XCQdYYFTEXGYPCJfqRd3fuDjDEp41CFWf1TlLbCQsg==
-X-Google-Smtp-Source: ABdhPJzAXECqLOcgtU/8DSPTTXSAjc3cG+qUKXcQQZ/UMNZ2TU+94ycOvtKGPaT5rUWM66K+feNpmT6EZJqfh4RkIck=
-X-Received: by 2002:a05:600c:2256:: with SMTP id a22mr13760040wmm.138.1603037652395;
- Sun, 18 Oct 2020 09:14:12 -0700 (PDT)
+        id S1725776AbgJRRV1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Oct 2020 13:21:27 -0400
+X-Greylist: delayed 911 seconds by postgrey-1.27 at vger.kernel.org; Sun, 18 Oct 2020 13:21:26 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=IX5bO
+        BLgQ3MVI8RGcDJwWiaWttwwGpXgmD0PVSnmAt4=; b=hcDCtaDvh4kPS2LlEH1km
+        L5JUqtKl6dElNGm7Bns0JgF0TzAv4TAbde5CFp5Bi4bETLvfmaL1aBxKr3/pJNwX
+        sS9ubA476NEAC44WKpXGfl/mkX5F+7wXRAPkVbDmza24kHV6Zp9kBCFgfPKEhFv8
+        DBZ9Hyv6E4AnPMUQfcyW+s=
+Received: from localhost (unknown [101.86.214.18])
+        by smtp10 (Coremail) with SMTP id DsCowADnnbT2dYxfkWtyQw--.18878S2;
+        Mon, 19 Oct 2020 01:05:58 +0800 (CST)
+Date:   Mon, 19 Oct 2020 01:05:57 +0800
+From:   Hui Su <sh_def@163.com>
+To:     corbet@lwn.net, dsterba@suse.com, mchehab+huawei@kernel.org,
+        sh_def@163.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/cpu-load: format the example code.
+Message-ID: <20201018170557.GA7670@rlk>
 MIME-Version: 1.0
-References: <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
- <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com> <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
- <20201017053712.GA14105@1wt.eu> <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
- <20201017064442.GA14117@1wt.eu> <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
- <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
- <20201018114625-mutt-send-email-mst@kernel.org> <CALCETrXBJZnKXo2QLKVWSgAhSMdwEVHeut6pRw4P92CR_5A-fQ@mail.gmail.com>
- <20201018115524-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201018115524-mutt-send-email-mst@kernel.org>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sun, 18 Oct 2020 09:14:00 -0700
-X-Gmail-Original-Message-ID: <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
-Message-ID: <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jann Horn <jannh@google.com>, Willy Tarreau <w@1wt.eu>,
-        Colm MacCarthaigh <colmmacc@amazon.com>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        "Graf (AWS), Alexander" <graf@amazon.de>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
-        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-CM-TRANSID: DsCowADnnbT2dYxfkWtyQw--.18878S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Kw1fCr1xXF47Aw4fZryrJFb_yoW8ZrWUp3
+        yUAan2qrZ5Ga4UCa4UA3yxGFnxX34I9an0gr42k3s5t397Aws5ta4Iyr1jyF4fCrWxJay7
+        ArZIgF15uF45C37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UprW7UUUUU=
+X-Originating-IP: [101.86.214.18]
+X-CM-SenderInfo: xvkbvvri6rljoofrz/1tbiWRbBX1WBtDepWAAAs3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 18, 2020 at 8:59 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Sun, Oct 18, 2020 at 08:54:36AM -0700, Andy Lutomirski wrote:
-> > On Sun, Oct 18, 2020 at 8:52 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Sat, Oct 17, 2020 at 03:24:08PM +0200, Jason A. Donenfeld wrote:
-> > > > 4c. The guest kernel maintains an array of physical addresses that are
-> > > > MADV_WIPEONFORK. The hypervisor knows about this array and its
-> > > > location through whatever protocol, and before resuming a
-> > > > moved/snapshotted/duplicated VM, it takes the responsibility for
-> > > > memzeroing this memory. The huge pro here would be that this
-> > > > eliminates all races, and reduces complexity quite a bit, because the
-> > > > hypervisor can perfectly synchronize its bringup (and SMP bringup)
-> > > > with this, and it can even optimize things like on-disk memory
-> > > > snapshots to simply not write out those pages to disk.
-> > > >
-> > > > A 4c-like approach seems like it'd be a lot of bang for the buck -- we
-> > > > reuse the existing mechanism (MADV_WIPEONFORK), so there's no new
-> > > > userspace API to deal with, and it'd be race free, and eliminate a lot
-> > > > of kernel complexity.
-> > >
-> > > Clearly this has a chance to break applications, right?
-> > > If there's an app that uses this as a non-system-calls way
-> > > to find out whether there was a fork, it will break
-> > > when wipe triggers without a fork ...
-> > > For example, imagine:
-> > >
-> > > MADV_WIPEONFORK
-> > > copy secret data to MADV_DONTFORK
-> > > fork
-> > >
-> > >
-> > > used to work, with this change it gets 0s instead of the secret data.
-> > >
-> > >
-> > > I am also not sure it's wise to expose each guest process
-> > > to the hypervisor like this. E.g. each process needs a
-> > > guest physical address of its own then. This is a finite resource.
-> > >
-> > >
-> > > The mmap interface proposed here is somewhat baroque, but it is
-> > > certainly simple to implement ...
-> >
-> > Wipe of fork/vmgenid/whatever could end up being much more problematic
-> > than it naively appears -- it could be wiped in the middle of a read.
-> > Either the API needs to handle this cleanly, or we need something more
-> > aggressive like signal-on-fork.
-> >
-> > --Andy
->
->
-> Right, it's not on fork, it's actually when process is snapshotted.
->
-> If we assume it's CRIU we care about, then I
-> wonder what's wrong with something like
-> MADV_CHANGEONPTRACE_SEIZE
-> and basically say it's X bytes which change the value...
+format the example code.
 
-I feel like we may be approaching this from the wrong end.  Rather
-than saying "what data structure can the kernel expose that might
-plausibly be useful", how about we try identifying some specific
-userspace needs and see what a good solution could look like.  I can
-identify two major cryptographic use cases:
+Signed-off-by: Hui Su <sh_def@163.com>
+---
+ Documentation/admin-guide/cpu-load.rst | 63 ++++++++++++++------------
+ 1 file changed, 33 insertions(+), 30 deletions(-)
 
-1. A userspace RNG.  The API exposed by the userspace end is a
-function that generates random numbers.  The userspace code in turn
-wants to know some things from the kernel: it wants some
-best-quality-available random seed data from the kernel (and possibly
-an indication of how good it is) as well as an indication of whether
-the userspace memory may have been cloned or rolled back, or, failing
-that, an indication of whether a reseed is needed.  Userspace could
-implement a wide variety of algorithms on top depending on its goals
-and compliance requirements, but the end goal is for the userspace
-part to be very, very fast.
+diff --git a/Documentation/admin-guide/cpu-load.rst b/Documentation/admin-guide/cpu-load.rst
+index ebdecf864080..f3ada90e9ca8 100644
+--- a/Documentation/admin-guide/cpu-load.rst
++++ b/Documentation/admin-guide/cpu-load.rst
+@@ -61,43 +61,46 @@ will lead to quite erratic information inside ``/proc/stat``::
+ 
+ 	static volatile sig_atomic_t stop;
+ 
+-	static void sighandler (int signr)
++	static void sighandler(int signr)
+ 	{
+-	(void) signr;
+-	stop = 1;
++		(void) signr;
++		stop = 1;
+ 	}
++
+ 	static unsigned long hog (unsigned long niters)
+ 	{
+-	stop = 0;
+-	while (!stop && --niters);
+-	return niters;
++		stop = 0;
++		while (!stop && --niters);
++		return niters;
+ 	}
++
+ 	int main (void)
+ 	{
+-	int i;
+-	struct itimerval it = { .it_interval = { .tv_sec = 0, .tv_usec = 1 },
+-				.it_value = { .tv_sec = 0, .tv_usec = 1 } };
+-	sigset_t set;
+-	unsigned long v[HIST];
+-	double tmp = 0.0;
+-	unsigned long n;
+-	signal (SIGALRM, &sighandler);
+-	setitimer (ITIMER_REAL, &it, NULL);
+-
+-	hog (ULONG_MAX);
+-	for (i = 0; i < HIST; ++i) v[i] = ULONG_MAX - hog (ULONG_MAX);
+-	for (i = 0; i < HIST; ++i) tmp += v[i];
+-	tmp /= HIST;
+-	n = tmp - (tmp / 3.0);
+-
+-	sigemptyset (&set);
+-	sigaddset (&set, SIGALRM);
+-
+-	for (;;) {
+-		hog (n);
+-		sigwait (&set, &i);
+-	}
+-	return 0;
++		int i;
++		struct itimerval it = {
++			.it_interval = { .tv_sec = 0, .tv_usec = 1 },
++			.it_value    = { .tv_sec = 0, .tv_usec = 1 } };
++		sigset_t set;
++		unsigned long v[HIST];
++		double tmp = 0.0;
++		unsigned long n;
++		signal(SIGALRM, &sighandler);
++		setitimer(ITIMER_REAL, &it, NULL);
++
++		hog (ULONG_MAX);
++		for (i = 0; i < HIST; ++i) v[i] = ULONG_MAX - hog(ULONG_MAX);
++		for (i = 0; i < HIST; ++i) tmp += v[i];
++		tmp /= HIST;
++		n = tmp - (tmp / 3.0);
++
++		sigemptyset(&set);
++		sigaddset(&set, SIGALRM);
++
++		for (;;) {
++			hog(n);
++			sigwait(&set, &i);
++		}
++		return 0;
+ 	}
+ 
+ 
+-- 
+2.25.1
 
-2. A userspace crypto stack that wants to avoid shooting itself in the
-foot due to inadvertently doing the same thing twice.  For example, an
-AES-GCM stack does not want to reuse an IV, *expecially* if there is
-even the slightest chance that it might reuse the IV for different
-data.  This use case doesn't necessarily involve random numbers, but,
-if anything, it needs to be even faster than #1.
 
-The threats here are not really the same.  For #1, a userspace RNG
-should be able to recover from a scenario in which an adversary clones
-the entire process *and gets to own the clone*.  For example, in
-Android, an adversary can often gain complete control of a fork of the
-zygote -- this shouldn't adversely affect the security properties of
-other forks.  Similarly, a server farm could operate by having one
-booted server that is cloned to create more workers.  Those clones
-could be provisioned with secrets and permissions post-clone, and at
-attacker gaining control of a fresh clone could be considered
-acceptable.  For #2, in contrast, if an adversary gains control of a
-clone of an AES-GCM session, they learn the key outright -- the
-relevant attack scenario is that the adversary gets to interact with
-two clones without compromising either clone per se.
-
-It's worth noting that, in both cases, there could possibly be more
-than one instance of an RNG or an AES-GCM session in the same process.
-This means that using signals is awkward but not necessarily
-impossibly.  (This is an area in which Linux, and POSIX in general, is
-much weaker than Windows.)
