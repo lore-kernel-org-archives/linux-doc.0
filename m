@@ -3,152 +3,200 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B77E4C43467
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 17:06:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1361C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 17:15:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C09C2064C
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 17:06:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 595BA22314
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 17:15:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TSfCaGE5"
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="Rleo5KpY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730883AbgJSRGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Oct 2020 13:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730552AbgJSRGT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Oct 2020 13:06:19 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE73C0613CE;
-        Mon, 19 Oct 2020 10:06:18 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id z33so316501qth.8;
-        Mon, 19 Oct 2020 10:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QlZ9jQiPI8wiI9R/8Eu0+GjPBdTOfIetM3KH+KtgMXI=;
-        b=TSfCaGE5nALMYvm6jXC7miu7tdEMeBbQ/oo3OvVvTIzuhQs5UqEpBSvY5xi8Zva1Or
-         OEmq6yA8Xwttc6yR4yh/GzBqDWS/8vZ3OcawGCl2JSSGA5gmjBcBPOQKJ/l6phRk5knh
-         bZrFVjTIQoVxXaD/4aONZoqa0BchWNbGQ3vHn6IzPxldgquacqdFtfT06wDMoNJybhmx
-         xPmSczVEDJjvs4T8ePUIE79ol1KcwWM1r7inus1jwbZ3OuU2qM9o2IZgDfQspyVEGjGY
-         IG+D8+VldXK00eD5H9N2rSitkxqWC0fjHNr3zM6elj0WNiqh0gePl/DqLCMcfgLOO93L
-         JsDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=QlZ9jQiPI8wiI9R/8Eu0+GjPBdTOfIetM3KH+KtgMXI=;
-        b=kamfaFVZbuLLWSLcIHliyvBudZzIObnuOSTs3KDL67Z+O31uR5S4iJjFK6wx6wh+8l
-         OkrAtfQOwk0IVI3yuN099MYKy8C1n9+YaEwUMmHZx/E9zMMA+6rUv+D75iq8Zx+5h0Yp
-         4NLf7Vi/iUTpwjlaNpAWyn/bKkknc+r+SQoz9vNpnymaxT2XH1dl6HIMN8lyQeJ9B0Va
-         LFNq3alKAxVRv/jVY/U4wIQrpScBnXsoGQAagOryb+AjMMxxcBGx2iaKGwArNGp6oMq2
-         RPjtzBpeGsGIrf3rghmFyC+JDo+fPUqotCuH9Y3ez6puCA5uuAcon5cMgVh5x4BIu8kd
-         uhMA==
-X-Gm-Message-State: AOAM532W5V1oN9P/fPC4bqinxCIu+p+IpuGT4xHnNB+2km481nYHaAKq
-        hW6a5s/DhY2lvEw6Hu4MfTQ=
-X-Google-Smtp-Source: ABdhPJwoZOuQWDFVA3DgogqmZ+TbE08fVV8ZWC3ILvYzlMSC4BsTgymar/lGVLzLn2+P+AQ6+IEIsA==
-X-Received: by 2002:ac8:5b82:: with SMTP id a2mr424004qta.176.1603127177979;
-        Mon, 19 Oct 2020 10:06:17 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id v14sm180923qta.44.2020.10.19.10.06.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 10:06:16 -0700 (PDT)
-Sender: Arvind Sankar <niveditas98@gmail.com>
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Mon, 19 Oct 2020 13:06:15 -0400
-To:     Ross Philipson <ross.philipson@oracle.com>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Daniel Kiper <daniel.kiper@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
-Message-ID: <20201019170615.GB2701355@rani.riverdale.lan>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
- <20200924173801.GA103726@rani.riverdale.lan>
- <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
- <20200925191842.GA643740@rani.riverdale.lan>
- <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
- <20201015182654.lgtht5fd2aaunczu@tomti.i.net-space.pl>
- <20201016205151.GA1618249@rani.riverdale.lan>
- <7529a1e7-4dd6-ab3a-6363-23fd2de6c338@oracle.com>
+        id S1730657AbgJSRPF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Oct 2020 13:15:05 -0400
+Received: from mail.efficios.com ([167.114.26.124]:34144 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730646AbgJSRPF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Oct 2020 13:15:05 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id AADCB2707BD;
+        Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id QTruwX3BYTn2; Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 284FE270752;
+        Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 284FE270752
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1603127703;
+        bh=a4Kyq9ggmnqJgL1OMZgiL3YI8Vq7lTIeBQc5QZoN7D4=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=Rleo5KpYLxJL9bE+eS/IDKaOFoEmvkq70bRu+JU0FvBo/l/SmYGCBDQs+xaFOFVHh
+         BJLQKLA6tCK8ZaIUWSrsP9eNGLLZGdYFBrCmdjHdnSkKFJRiWBCddq7bINqO1JrS6z
+         LiDZeRjCGch2dLFOuXwqHnn+Ivxs2sOrIF5lAwNdQIXqAC1yn7Wcp2M95eK+hTAjh2
+         2bA+wXNULdWuS9DpiktZT7bNyAwruDfMklfP+qTv7VM9LXYilPo5xXvaq8H58JbRBX
+         xy5xAXA9Jfvdh96AGWs2I075RgU0Y4TmN5l6CqHVGnXdNU7ZWMEVZ3OrX5Vg/g/cFz
+         WJ9MFFce5aMuQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id yP-ztTyztNwI; Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 0FA782707BC;
+        Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
+Date:   Mon, 19 Oct 2020 13:15:02 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Jann Horn <jannh@google.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        Jason Donenfeld <Jason@zx2c4.com>,
+        Theodore Tso <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "open list, DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        "Graf (AWS), Alexander" <graf@amazon.de>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
+        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mst@redhat.com, qemu-devel@nongnu.org,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        linux-api <linux-api@vger.kernel.org>
+Message-ID: <476895871.28084.1603127702969.JavaMail.zimbra@efficios.com>
+In-Reply-To: <CALCETrViTg_BWvRa+nfDWq=_B_ithzL-anVJNpsgHaXe9VgCNQ@mail.gmail.com>
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com> <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com> <CALCETrViTg_BWvRa+nfDWq=_B_ithzL-anVJNpsgHaXe9VgCNQ@mail.gmail.com>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7529a1e7-4dd6-ab3a-6363-23fd2de6c338@oracle.com>
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3968 (ZimbraWebClient - FF81 (Linux)/8.8.15_GA_3968)
+Thread-Topic: drivers/virt: vmgenid: add vm generation id driver
+Thread-Index: LGqdszkWAp7MsnjacXz6ZDq20p5wzw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 19, 2020 at 10:38:08AM -0400, Ross Philipson wrote:
-> On 10/16/20 4:51 PM, Arvind Sankar wrote:
-> > On Thu, Oct 15, 2020 at 08:26:54PM +0200, Daniel Kiper wrote:
-> >>
-> >> I am discussing with Ross the other option. We can create
-> >> .rodata.mle_header section and put it at fixed offset as
-> >> kernel_info is. So, we would have, e.g.:
-> >>
-> >> arch/x86/boot/compressed/vmlinux.lds.S:
-> >>         .rodata.kernel_info KERNEL_INFO_OFFSET : {
-> >>                 *(.rodata.kernel_info)
-> >>         }
-> >>         ASSERT(ABSOLUTE(kernel_info) == KERNEL_INFO_OFFSET, "kernel_info at bad address!")
-> >>
-> >>         .rodata.mle_header MLE_HEADER_OFFSET : {
-> >>                 *(.rodata.mle_header)
-> >>         }
-> >>         ASSERT(ABSOLUTE(mle_header) == MLE_HEADER_OFFSET, "mle_header at bad address!")
-> >>
-> >> arch/x86/boot/compressed/sl_stub.S:
-> >> #define mleh_rva(X) (((X) - mle_header) + MLE_HEADER_OFFSET)
-> >>
-> >>         .section ".rodata.mle_header", "a"
-> >>
-> >> SYM_DATA_START(mle_header)
-> >>         .long   0x9082ac5a    /* UUID0 */
-> >>         .long   0x74a7476f    /* UUID1 */
-> >>         .long   0xa2555c0f    /* UUID2 */
-> >>         .long   0x42b651cb    /* UUID3 */
-> >>         .long   0x00000034    /* MLE header size */
-> >>         .long   0x00020002    /* MLE version 2.2 */
-> >>         .long   mleh_rva(sl_stub_entry)    /* Linear entry point of MLE (virt. address) */
-> >>         .long   0x00000000    /* First valid page of MLE */
-> >>         .long   0x00000000    /* Offset within binary of first byte of MLE */
-> >>         .long   0x00000000    /* Offset within binary of last byte + 1 of MLE */
-> >>         .long   0x00000223    /* Bit vector of MLE-supported capabilities */
-> >>         .long   0x00000000    /* Starting linear address of command line (unused) */
-> >>         .long   0x00000000    /* Ending linear address of command line (unused) */
-> >> SYM_DATA_END(mle_header)
-> >>
-> >> Of course MLE_HEADER_OFFSET has to be defined as a constant somewhere.
-> >> Anyway, is it acceptable?
-> >>
-> >> There is also another problem. We have to put into mle_header size of
-> >> the Linux kernel image. Currently it is done by the bootloader but
-> >> I think it is not a role of the bootloader. The kernel image should
-> >> provide all data describing its properties and do not rely on the
-> >> bootloader to do that. Ross and I investigated various options but we
-> >> did not find a good/simple way to do that. Could you suggest how we
-> >> should do that or at least where we should take a look to get some
-> >> ideas?
-> >>
-> >> Daniel
-> > 
-> > What exactly is the size you need here? Is it just the size of the
-> > protected mode image, that's startup_32 to _edata. Or is it the size of
-> 
-> It is the size of the protected mode image. Though how to reference
-> those symbols to get the size might all more relocation issues.
-> 
+----- On Oct 17, 2020, at 2:10 PM, Andy Lutomirski luto@kernel.org wrote:
 
-Ok, then I think mleh_rva(_edata) should get you that -- I assume you
-don't want to include the uninitialized data in the size? The kernel
-will access memory beyond _edata (upto the init_size in the setup
-header), but that's not part of the image itself.
+> On Fri, Oct 16, 2020 at 6:40 PM Jann Horn <jannh@google.com> wrote:
+>>
+>> [adding some more people who are interested in RNG stuff: Andy, Jason,
+>> Theodore, Willy Tarreau, Eric Biggers. also linux-api@, because this
+>> concerns some pretty fundamental API stuff related to RNG usage]
+>>
+>> On Fri, Oct 16, 2020 at 4:33 PM Catangiu, Adrian Costin
+>> <acatan@amazon.com> wrote:
+>> > - Background
+>> >
+>> > The VM Generation ID is a feature defined by Microsoft (paper:
+>> > http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
+>> > multiple hypervisor vendors.
+>> >
+>> > The feature is required in virtualized environments by apps that work
+>> > with local copies/caches of world-unique data such as random values,
+>> > uuids, monotonically increasing counters, etc.
+>> > Such apps can be negatively affected by VM snapshotting when the VM
+>> > is either cloned or returned to an earlier point in time.
+>> >
+>> > The VM Generation ID is a simple concept meant to alleviate the issue
+>> > by providing a unique ID that changes each time the VM is restored
+>> > from a snapshot. The hw provided UUID value can be used to
+>> > differentiate between VMs or different generations of the same VM.
+>> >
+>> > - Problem
+>> >
+>> > The VM Generation ID is exposed through an ACPI device by multiple
+>> > hypervisor vendors but neither the vendors or upstream Linux have no
+>> > default driver for it leaving users to fend for themselves.
+>> >
+>> > Furthermore, simply finding out about a VM generation change is only
+>> > the starting point of a process to renew internal states of possibly
+>> > multiple applications across the system. This process could benefit
+>> > from a driver that provides an interface through which orchestration
+>> > can be easily done.
+>> >
+>> > - Solution
+>> >
+>> > This patch is a driver which exposes the Virtual Machine Generation ID
+>> > via a char-dev FS interface that provides ID update sync and async
+>> > notification, retrieval and confirmation mechanisms:
+>> >
+>> > When the device is 'open()'ed a copy of the current vm UUID is
+>> > associated with the file handle. 'read()' operations block until the
+>> > associated UUID is no longer up to date - until HW vm gen id changes -
+>> > at which point the new UUID is provided/returned. Nonblocking 'read()'
+>> > uses EWOULDBLOCK to signal that there is no _new_ UUID available.
+>> >
+>> > 'poll()' is implemented to allow polling for UUID updates. Such
+>> > updates result in 'EPOLLIN' events.
+>> >
+>> > Subsequent read()s following a UUID update no longer block, but return
+>> > the updated UUID. The application needs to acknowledge the UUID update
+>> > by confirming it through a 'write()'.
+>> > Only on writing back to the driver the right/latest UUID, will the
+>> > driver mark this "watcher" as up to date and remove EPOLLIN status.
+>> >
+>> > 'mmap()' support allows mapping a single read-only shared page which
+>> > will always contain the latest UUID value at offset 0.
+>>
+>> It would be nicer if that page just contained an incrementing counter,
+>> instead of a UUID. It's not like the application cares *what* the UUID
+>> changed to, just that it *did* change and all RNGs state now needs to
+>> be reseeded from the kernel, right? And an application can't reliably
+>> read the entire UUID from the memory mapping anyway, because the VM
+>> might be forked in the middle.
+>>
+>> So I think your kernel driver should detect UUID changes and then turn
+>> those into a monotonically incrementing counter. (Probably 64 bits
+>> wide?) (That's probably also a little bit faster than comparing an
+>> entire UUID.)
+>>
+>> An option might be to put that counter into the vDSO, instead of a
+>> separate VMA; but I don't know how the other folks feel about that.
+>> Andy, do you have opinions on this? That way, normal userspace code
+>> that uses this infrastructure wouldn't have to mess around with a
+>> special device at all. And it'd be usable in seccomp sandboxes and so
+>> on without needing special plumbing. And libraries wouldn't have to
+>> call open() and mess with file descriptor numbers.
+> 
+> The vDSO might be annoyingly slow for this.  Something like the rseq
+> page might make sense.  It could be a generic indication of "system
+> went through some form of suspend".
+
+This might indeed fit nicely as an extension of my KTLS prototype (extensible rseq):
+
+https://lore.kernel.org/lkml/20200925181518.4141-1-mathieu.desnoyers@efficios.com/
+
+There are a few ways we could wire things up. One might be to add the
+UUID field into the extended KTLS structure (so it's always updated after it
+changes on next return to user-space). For this I assume that the Linux scheduler
+within the guest VM always preempts all threads before a VM is suspended (is that
+indeed true ?).
+
+This leads to one important question though: how is the UUID check vs commit operation
+made atomic with respect to suspend ? Unless we use rseq critical sections in assembly,
+where the kernel will abort the rseq critical section on preemption, I don't see how we
+can ensure that the UUID value does not change right after it has been checked, before
+the "commit" side-effect. And what is the expected "commit" side-effect ? Is it a store
+to a variable in user-space memory, or is it issuing a system call which sends a packet over
+the network ?
+
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
