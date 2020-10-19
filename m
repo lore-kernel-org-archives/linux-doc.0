@@ -1,109 +1,153 @@
-Return-Path: <SRS0=QA7a=DZ=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=/93U=D2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06399C433E7
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 20:55:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 252E6C433E7
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 02:43:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4D1A22281
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Oct 2020 20:55:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qBvzINNo"
+	by mail.kernel.org (Postfix) with ESMTP id D0867222C3
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 02:43:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727424AbgJRUzB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Oct 2020 16:55:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47306 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbgJRUzB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Oct 2020 16:55:01 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ED92C061755;
-        Sun, 18 Oct 2020 13:55:00 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id l18so4803354pgg.0;
-        Sun, 18 Oct 2020 13:55:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=40tXI37pHlk3TtzN2k44HneDIZz4amkAP9vv7Yjmryo=;
-        b=qBvzINNoyd0ePJlIBr9XRAf5uj3vpv4Qr+DUgP5kyRA85wMxV7ztzWw/LBsHwefrly
-         sC8tCYADiC/eld+Xed1K6diTdNz9H7dLztWAN9bo+udAPBB/icdea1Cxf4FSwz+xsn/v
-         Mad2slFqH8totbokNDgWI4nPLDjNj9bII5uqpwwafuxag1BtPvGimntlBJFHCfS4YN3p
-         /R5+kcJtS1Ul+ukoozoudfqCgW+k+CuBasqd1yW1FYTM+fj6dRhhPEEkawWv/4lvQCfB
-         a4czKI1Yo20AMM87Wtis1+Y4oC+bW/vtvrrZAKeAkWzmCBwXWrAxFAjuJj3+AflXP14p
-         E9kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=40tXI37pHlk3TtzN2k44HneDIZz4amkAP9vv7Yjmryo=;
-        b=lI92qHkr13mJQitjahPE7S+5/2Qg2oePOUtn1hgF5kunQjdDdZoQOJWDEjFs4Gc4jU
-         S5AB9PyAdouK3d37j3lF2lvogJJ/3gsi1J20cFZt1uziizm5QZceUZnLxY2qFVfBVc2I
-         x3aTw48UfiIUUTpA4WHqWRronwlWXT9pe6vgYRWoCwegjT624TUaottXhRxlds2b6PN3
-         H2v0g9NNMYjL44aYObcC6fknYl5Xsuy63mu4aFmB/OM8yHIZHCsd/YQ6s4ZrZn8qdKId
-         lVfgQpOiKdtXJ7HER/V0j1ESqZxreoIt9cbPft+gZm2D9pJ+jv/4iOxfEq6qknRJjWgo
-         fDDw==
-X-Gm-Message-State: AOAM532j9dRE1sxug+//1T6qwgUPJLexws9rRGgdG85dO7QjGOLVT67K
-        b4dztqidCI03Zi2wXKOc5w==
-X-Google-Smtp-Source: ABdhPJwJrUu0DW+lj02llJjiJVooeTj2lO5SI0doIdiPIzmOVKhr10VEfVZiynEkgJxjWHlTLcM1ig==
-X-Received: by 2002:a63:3115:: with SMTP id x21mr12018067pgx.416.1603054499615;
-        Sun, 18 Oct 2020 13:54:59 -0700 (PDT)
-Received: from localhost.localdomain ([161.117.41.183])
-        by smtp.gmail.com with ESMTPSA id ck21sm9517430pjb.56.2020.10.18.13.54.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 13:54:58 -0700 (PDT)
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Daniel Vetter <daniel@ffwll.ch>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sven Schneider <s.schneider@arkona-technologies.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Peilin Ye <yepeilin.cs@gmail.com>
-Subject: [PATCH 2/2 RESEND] docs: fb: Add font_6x8 to available built-in fonts
-Date:   Sun, 18 Oct 2020 16:54:01 -0400
-Message-Id: <20201018205401.698242-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com>
-References: <717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com>
+        id S1728953AbgJSCnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Oct 2020 22:43:17 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:57650 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728791AbgJSCnR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Oct 2020 22:43:17 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 0E4BB91A978CEDFB0FE2;
+        Mon, 19 Oct 2020 10:43:15 +0800 (CST)
+Received: from [10.174.176.61] (10.174.176.61) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 19 Oct 2020 10:43:07 +0800
+Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
+ kdump
+To:     Bhupesh Sharma <bhsharma@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
+ <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
+ <20201005170937.GA14576@gaia>
+ <CACi5LpMWUmP1df8fB8psJY_cNGHF9MNn+TNK4B4edaRHvOXxGQ@mail.gmail.com>
+ <20201006180012.GB31946@C02TF0J2HF1T.local>
+ <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
+CC:     John Donnelly <john.p.donnelly@oracle.com>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, RuiRui Yang <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, <nsaenzjulienne@suse.de>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        <guohanjun@huawei.com>, <xiexiuqi@huawei.com>,
+        <huawei.libin@huawei.com>, <wangkefeng.wang@huawei.com>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <ab142d7d-55a7-eca6-4609-147e1605f02d@huawei.com>
+Date:   Mon, 19 Oct 2020 10:43:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.61]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Recently we added a new 6x8 font in commit e2028c8e6bf9 ("lib/fonts: add
-font 6x8 for OLED display"). Add its name to the "compiled-in fonts"
-list.
+Hi Bhupesh,
 
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
-Resending +Cc: dri-devel, sorry if I spammed.
 
- Documentation/fb/fbcon.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2020/10/7 15:07, Bhupesh Sharma wrote:
+> Hi Catalin,
+>
+> On Tue, Oct 6, 2020 at 11:30 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>> On Mon, Oct 05, 2020 at 11:12:10PM +0530, Bhupesh Sharma wrote:
+>>> I think my earlier email with the test results on this series bounced
+>>> off the mailing list server (for some weird reason), but I still see
+>>> several issues with this patchset. I will add specific issues in the
+>>> review comments for each patch again, but overall, with a crashkernel
+>>> size of say 786M, I see the following issue:
+>>>
+>>> # cat /proc/cmdline
+>>> BOOT_IMAGE=(hd7,gpt2)/vmlinuz-5.9.0-rc7+ root=<..snip..> rd.lvm.lv=<..snip..> crashkernel=786M
+>>>
+>>> I see two regions of size 786M and 256M reserved in low and high
+>>> regions respectively, So we reserve a total of 1042M of memory, which
+>>> is an incorrect behaviour:
+>>>
+>>> # dmesg | grep -i crash
+>>> [    0.000000] Reserving 256MB of low memory at 2816MB for crashkernel (System low RAM: 768MB)
+>>> [    0.000000] Reserving 786MB of memory at 654158MB for crashkernel (System RAM: 130816MB)
+>>> [    0.000000] Kernel command line: BOOT_IMAGE=(hd2,gpt2)/vmlinuz-5.9.0-rc7+ root=/dev/mapper/rhel_ampere--hr330a--03-root ro rd.lvm.lv=rhel_ampere-hr330a-03/root rd.lvm.lv=rhel_ampere-hr330a-03/swap crashkernel=786M cma=1024M
+>>>
+>>> # cat /proc/iomem | grep -i crash
+>>>   b0000000-bfffffff : Crash kernel (low)
+>>>   bfcbe00000-bffcffffff : Crash kernel
+>> As Chen said, that's the intended behaviour and how x86 works. The
+>> requested 768M goes in the high range if there's not enough low memory
+>> and an additional buffer for swiotlb is allocated, hence the low 256M.
+> I understand, but why 256M (as low) for arm64? x86_64 setups usually
+> have more system memory available as compared to several commercially
+> available arm64 setups. So is the intent, just to keep the behavior
+> similar between arm64 and x86_64?
+>
+> Should we have a CONFIG option / bootarg to help one select the max
+> 'low_size'? Currently the ' low_size' value is calculated as:
+>
+>     /*
+>          * two parts from kernel/dma/swiotlb.c:
+>          * -swiotlb size: user-specified with swiotlb= or default.
+>          *
+>          * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+>          * to 8M for other buffers that may need to stay low too. Also
+>          * make sure we allocate enough extra low memory so that we
+>          * don't run out of DMA buffers for 32-bit devices.
+>          */
+>         low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+>
+> Since many arm64 boards ship with swiotlb=0 (turned off) via kernel
+> bootargs, the low_size, still ends up being 256M in such cases,
+> whereas this 256M can be used for some other purposes - so should we
+> be limiting this to 64M and failing the crash kernel allocation
+> request (gracefully) otherwise?
+>
+>> We could (as an additional patch), subtract the 256M from the high
+>> allocation so that you'd get a low 256M and a high 512M, not sure it's
+>> worth it. Note that with a "crashkernel=768M,high" option, you still get
+>> the additional low 256M, otherwise the crashkernel won't be able to
+>> boot as there's no memory in ZONE_DMA. In the explicit ",high" request
+>> case, I'm not sure subtracted the 256M is more intuitive.
+>> In 5.11, we also hope to fix the ZONE_DMA layout for non-RPi4 platforms
+>> to cover the entire 32-bit address space (i.e. identical to the current
+>> ZONE_DMA32).
+>>
+>>> IMO, we should test this feature more before including this in 5.11
+>> Definitely. That's one of the reasons we haven't queued it yet. So any
+>> help with testing here is appreciated.
+> Sure, I am running more checks on this series. I will be soon back
+> with more updates.
 
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index 9aad964b767c..57f66de2f7e1 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -81,7 +81,7 @@ C. Boot options
- 1. fbcon=font:<name>
- 
- 	Select the initial font to use. The value 'name' can be any of the
--	compiled-in fonts: 10x18, 6x10, 7x14, Acorn8x8, MINI4x6,
-+	compiled-in fonts: 10x18, 6x10, 6x8, 7x14, Acorn8x8, MINI4x6,
- 	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, TER16x32, VGA8x16, VGA8x8.
- 
- 	Note, not all drivers can handle font with widths not divisible by 8,
--- 
-2.25.1
+Sorry to bother you. I am looking forward to your review comments.
+
+
+Thanks,
+Chen Zhou
+>
+> Regards,
+> Bhupesh
+>
+> .
+>
 
