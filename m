@@ -2,130 +2,94 @@ Return-Path: <SRS0=/93U=D2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03834C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 15:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2346C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 16:45:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9431722282
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 15:56:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="LauR/Atw"
+	by mail.kernel.org (Postfix) with ESMTP id 5F19C22314
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 16:45:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730335AbgJSP4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Oct 2020 11:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730150AbgJSP4Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Oct 2020 11:56:24 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE993C0613CE
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2020 08:56:23 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id s9so285233wro.8
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2020 08:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ExyTIzaV0pr3Eai44qIOEkkWvYQoFZOO2NPesnlxaJg=;
-        b=LauR/Atww+62lrIAoI0S2aXFYC3jXL8fwHGmpYG11gT0kpCJSlFHUFXzKtkFAV4O0P
-         HgNhi4Xzc7LNZ86YW6xp2qpqxF9fUjmU3Sww/YmAaNfW8lzaxOhMfDssyPcFYnBMQloE
-         zTbV1d/w/3aqdvChRUejuygCo/WdvsgMuPWKw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=ExyTIzaV0pr3Eai44qIOEkkWvYQoFZOO2NPesnlxaJg=;
-        b=Ug4M0/8kT9LnsFbh7hn+cLrG4X8bFx1iIX+nJDUGZxghP8AKXzT9UbExzTcAtaHjQ/
-         891/O+ht/vmG/msxodiZj/66A/ChTHksaxFR/bBybkFsaJHxk7LFC3afqsznBnslGJLe
-         URyqqe0I/ux6hoSFw7fVacfxCOw3H90weeDe/NS7o9YrzuSKvQjFDzi02HKW5+u3GcGk
-         RxQmKTA4Svgm7Q0Ta5Wj2olI0QbOes12YSCcYDFBp+iWCJI7eGnyxA5r0jjo0J4NB/3a
-         1TO/LERxo0dAfvtJMQ2KOF4lf12qoJjEAtBLLzmquZbDjptwAkHiBnjdJKq/ls7Tu/Qw
-         HZdA==
-X-Gm-Message-State: AOAM532w2hXt0WzhFVFWCuVJYD+yFXVue8cz9fGsQGIabOnAqsUZpmP3
-        QBLZd4Xwbit3WuEFN0TmPPnHdQ==
-X-Google-Smtp-Source: ABdhPJwXRObsL8ejRw2Heh5XRu+rRn4ydix5fTKFeZYFLvSwm2ojMD2la1MO54JxNhao+Rk9S4EHZg==
-X-Received: by 2002:adf:deca:: with SMTP id i10mr257359wrn.96.1603122982550;
-        Mon, 19 Oct 2020 08:56:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id w11sm191745wrs.26.2020.10.19.08.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 08:56:21 -0700 (PDT)
-Date:   Mon, 19 Oct 2020 17:56:19 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Peilin Ye <yepeilin.cs@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Daniel Vetter <daniel@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sven Schneider <s.schneider@arkona-technologies.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2 RESEND] docs: fb: Add font_6x8 to available built-in
- fonts
-Message-ID: <20201019155619.GH401619@phenom.ffwll.local>
-Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sven Schneider <s.schneider@arkona-technologies.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com>
- <20201018205401.698242-1-yepeilin.cs@gmail.com>
+        id S1730340AbgJSQpK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Oct 2020 12:45:10 -0400
+Received: from mga01.intel.com ([192.55.52.88]:47643 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730025AbgJSQpK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Oct 2020 12:45:10 -0400
+IronPort-SDR: 7OSZMk8+jCcMxpVdInmFo65l0vuhGzF156Eh7e+WKlK5ddSz7Y2JRlcK++k4aT9TZOeTbixvk/
+ 5N1hxnhkuoQg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="184676365"
+X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; 
+   d="scan'208";a="184676365"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2020 09:45:09 -0700
+IronPort-SDR: wj8CvrY57y34RZg+YoKd5VOTuCUrWy4AlNiJ7qhrcot1M9pxK+P6wyNU0iiOFl82OPx864Zwgx
+ Yj4aGnR2qyGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; 
+   d="scan'208";a="392083208"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga001.jf.intel.com with ESMTP; 19 Oct 2020 09:45:09 -0700
+Received: from [10.249.225.38] (abudanko-mobl.ccr.corp.intel.com [10.249.225.38])
+        by linux.intel.com (Postfix) with ESMTP id 10D00580127;
+        Mon, 19 Oct 2020 09:45:06 -0700 (PDT)
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: [PATCH v1 0/2] doc/admin-guide: update perf-security.rst with
+ CAP_PERFMON usage flows
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc:     Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+Organization: Intel Corp.
+Message-ID: <ebc702ad-9991-625f-ef42-92ba99b20865@linux.intel.com>
+Date:   Mon, 19 Oct 2020 19:45:05 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201018205401.698242-1-yepeilin.cs@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 18, 2020 at 04:54:01PM -0400, Peilin Ye wrote:
-> Recently we added a new 6x8 font in commit e2028c8e6bf9 ("lib/fonts: add
-> font 6x8 for OLED display"). Add its name to the "compiled-in fonts"
-> list.
-> 
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> ---
-> Resending +Cc: dri-devel, sorry if I spammed.
 
-Both this and patch 1/2 with the actual bugfix merged to
-drm-misc-next-fixes, should still make it into the merge window before
--rc1.
+Assignment of CAP_PERFMON [1] Linux capability to an executable located
+on a file system requires extended attributes (xattrs) [2] to be supported
+by the file system. Even if the file system supports xattrs an fs device
+should be mounted with permission to use xattrs for files located on the
+device (e.g. without nosuid option [3]). No xattrs support and nosuid
+mounts are quite common in HPC and Cloud multiuser environments thus
+applicability of privileged Perf user groups based on file capabilities
+[4] is limited in that environments. Alternative method to confer Linux
+capabilities into a process does still exist and it is thru creation of
+capabilities-enabled-semi-privileged shell environment. Usage of this
+method to extend privileged Perf user groups approach is documented in
+this patch set as an extension to perf-security.rst admin guide file.
 
-Thanks, Daniel
+[1] https://man7.org/linux/man-pages/man7/capabilities.7.html
+[2] https://man7.org/linux/man-pages/man7/xattr.7.html
+[3] https://man7.org/linux/man-pages/man8/mount.8.html
+[4] https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html#privileged-perf-users-groups
 
-> 
->  Documentation/fb/fbcon.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-> index 9aad964b767c..57f66de2f7e1 100644
-> --- a/Documentation/fb/fbcon.rst
-> +++ b/Documentation/fb/fbcon.rst
-> @@ -81,7 +81,7 @@ C. Boot options
->  1. fbcon=font:<name>
->  
->  	Select the initial font to use. The value 'name' can be any of the
-> -	compiled-in fonts: 10x18, 6x10, 7x14, Acorn8x8, MINI4x6,
-> +	compiled-in fonts: 10x18, 6x10, 6x8, 7x14, Acorn8x8, MINI4x6,
->  	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, TER16x32, VGA8x16, VGA8x8.
->  
->  	Note, not all drivers can handle font with widths not divisible by 8,
-> -- 
-> 2.25.1
-> 
+---
+Alexey Budankov (2):
+  doc/admin-guide: note credentials consolidation under CAP_PERFMON
+  doc/admin-guide: document creation of CAP_PERFMON privileged shell
+
+ Documentation/admin-guide/perf-security.rst | 81 ++++++++++++++++++---
+ 1 file changed, 70 insertions(+), 11 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.24.1
+
