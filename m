@@ -2,167 +2,180 @@ Return-Path: <SRS0=/93U=D2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D201C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 14:54:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD19C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 15:01:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D4A522314
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 14:54:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CB54222EB
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 15:01:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="W1T1+qvq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KzK3Y4Pr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729589AbgJSOyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Oct 2020 10:54:25 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:45780 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729075AbgJSOyZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Oct 2020 10:54:25 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09JEmvoZ104602;
-        Mon, 19 Oct 2020 14:54:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=TQ0JsZZ4AfiOpUOA+G8dEsL4WPds5Z81PFZwUH3rk/A=;
- b=W1T1+qvqb1pNQhTWMxTWAdv35cythKxpTqlFtvIcJFTehFP+BZKS4wOUK+oTjYS5m00+
- bZVAE7GINidii1X+bjxvMQVlDd32QYrvEU5Eri2zctsssskId3BVYkUsG1RCmb4p6XH0
- l5PU2qGpqFB1iiywqEYLhERb+wkTvnOZ4gcsLXUZzwKHNVFA17m4c1W54nd131FLXves
- RWrs35qYy5d/S60N9aA73hKCRac+LNWE1immIq35hsN0t3RvjY9FubdEQUkTga9cFpxV
- 9VLODF5sIBTDGcFarST22JHD4B0XPnGWgBvTcomHRNjg3HhrzwW2FayHdaicER2b/jYP 1g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 347p4ap4gm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 19 Oct 2020 14:54:01 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09JEipcq092608;
-        Mon, 19 Oct 2020 14:52:00 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 348ahv23ya-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 19 Oct 2020 14:52:00 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09JEpw1p025443;
-        Mon, 19 Oct 2020 14:51:58 GMT
-Received: from tomti.i.net-space.pl (/10.175.216.157)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 19 Oct 2020 07:51:58 -0700
-Date:   Mon, 19 Oct 2020 16:51:53 +0200
-From:   Daniel Kiper <daniel.kiper@oracle.com>
-To:     Arvind Sankar <nivedita@alum.mit.edu>
-Cc:     Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
-Message-ID: <20201019145153.7b6cg3rzj7g4njz6@tomti.i.net-space.pl>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
- <20200924173801.GA103726@rani.riverdale.lan>
- <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
- <20200925191842.GA643740@rani.riverdale.lan>
- <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
- <20201015182654.lgtht5fd2aaunczu@tomti.i.net-space.pl>
- <20201016205151.GA1618249@rani.riverdale.lan>
+        id S1729791AbgJSPA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Oct 2020 11:00:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37770 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729704AbgJSPAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Oct 2020 11:00:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603119654;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=eeEwkWd2inwelOxnZFWrV6qJ4loEm7oC47tsgU5zrNE=;
+        b=KzK3Y4PrPBqzVLK5EXFDXijQAaMHftHhFoZ7WePp24M9Rxe1w4kRDnyEKxNUegT0Lp7rcq
+        Jp56FcRiRyeTkmLW6zqdLlpwNm0BOi8aG2bPjPHI+87rKedwHw5KgHPjUfiywbG6vAz0v3
+        wajCgFHxNV774WTwCJdJd3FvAfDX/io=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-1lQW4I4LPBGOJ5O50QIDZQ-1; Mon, 19 Oct 2020 11:00:52 -0400
+X-MC-Unique: 1lQW4I4LPBGOJ5O50QIDZQ-1
+Received: by mail-wm1-f72.google.com with SMTP id r7so43371wmr.5
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2020 08:00:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eeEwkWd2inwelOxnZFWrV6qJ4loEm7oC47tsgU5zrNE=;
+        b=ln1NOTs9Onhhy50nInnAmrVAYwizBAwyjnyOirIIIrz+NHkgT8OTepkUc2xX6/Jx2E
+         FhAr8qHVmm3LP0WOomCO2Ruk1n5HhRUQCy75BtjysDbkKL+cYtOU39rMRxKsv+eHJma6
+         ARbwmQwOzmwI/0LdAPNPZMSqGO3/8fSam+86MUMbrMvUIiXZazTki0/Iwad0VJvTPx7w
+         LiWNHSimo+fsIvvwsrfAsEM+x5/GevOBUVlf2jagnvl7JNttsAPiC9mfj6AXkCH9VX6V
+         2xRByVpUFBHFEiyc21xCUkh3cbe8RFI9EC0z/IUByobwaQjIMBis9l5HcxIQ3vQSl3Av
+         ko/g==
+X-Gm-Message-State: AOAM5300Kifg27RdCxDQmItk7PiGj9mBkKSbU5pPqvTgNrlFuAXvcmwD
+        TenTQao9L5850jnFCx9oC+OxEFCxepgnq6pDG46bdyNTCpRkuIaWKi0lm4jUFt//YdczO3CTtwS
+        zajW0DBGnmEVF8MZtk6b2
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr17940610wmh.158.1603119650848;
+        Mon, 19 Oct 2020 08:00:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1K7foO6zAsERSnzDbqpvWg8Yzks+2b30SB3/GCrweUhcJIelqhNOTssKhNwAEMU36/iuvgw==
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr17940572wmh.158.1603119650551;
+        Mon, 19 Oct 2020 08:00:50 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+        by smtp.gmail.com with ESMTPSA id e15sm8898wro.13.2020.10.19.08.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2020 08:00:49 -0700 (PDT)
+Date:   Mon, 19 Oct 2020 11:00:45 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jann Horn <jannh@google.com>, Willy Tarreau <w@1wt.eu>,
+        Colm MacCarthaigh <colmmacc@amazon.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        "Graf (AWS), Alexander" <graf@amazon.de>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
+        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Qemu Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Message-ID: <20201019105118-mutt-send-email-mst@kernel.org>
+References: <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu>
+ <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu>
+ <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+ <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
+ <20201018114625-mutt-send-email-mst@kernel.org>
+ <CALCETrXBJZnKXo2QLKVWSgAhSMdwEVHeut6pRw4P92CR_5A-fQ@mail.gmail.com>
+ <20201018115524-mutt-send-email-mst@kernel.org>
+ <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201016205151.GA1618249@rani.riverdale.lan>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9778 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 bulkscore=0
- malwarescore=0 spamscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010190103
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9778 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 priorityscore=1501
- clxscore=1015 malwarescore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
- phishscore=0 adultscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010190103
+In-Reply-To: <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 04:51:51PM -0400, Arvind Sankar wrote:
-> On Thu, Oct 15, 2020 at 08:26:54PM +0200, Daniel Kiper wrote:
+On Sun, Oct 18, 2020 at 09:14:00AM -0700, Andy Lutomirski wrote:
+> On Sun, Oct 18, 2020 at 8:59 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 > >
-> > I am discussing with Ross the other option. We can create
-> > .rodata.mle_header section and put it at fixed offset as
-> > kernel_info is. So, we would have, e.g.:
+> > On Sun, Oct 18, 2020 at 08:54:36AM -0700, Andy Lutomirski wrote:
+> > > On Sun, Oct 18, 2020 at 8:52 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Sat, Oct 17, 2020 at 03:24:08PM +0200, Jason A. Donenfeld wrote:
+> > > > > 4c. The guest kernel maintains an array of physical addresses that are
+> > > > > MADV_WIPEONFORK. The hypervisor knows about this array and its
+> > > > > location through whatever protocol, and before resuming a
+> > > > > moved/snapshotted/duplicated VM, it takes the responsibility for
+> > > > > memzeroing this memory. The huge pro here would be that this
+> > > > > eliminates all races, and reduces complexity quite a bit, because the
+> > > > > hypervisor can perfectly synchronize its bringup (and SMP bringup)
+> > > > > with this, and it can even optimize things like on-disk memory
+> > > > > snapshots to simply not write out those pages to disk.
+> > > > >
+> > > > > A 4c-like approach seems like it'd be a lot of bang for the buck -- we
+> > > > > reuse the existing mechanism (MADV_WIPEONFORK), so there's no new
+> > > > > userspace API to deal with, and it'd be race free, and eliminate a lot
+> > > > > of kernel complexity.
+> > > >
+> > > > Clearly this has a chance to break applications, right?
+> > > > If there's an app that uses this as a non-system-calls way
+> > > > to find out whether there was a fork, it will break
+> > > > when wipe triggers without a fork ...
+> > > > For example, imagine:
+> > > >
+> > > > MADV_WIPEONFORK
+> > > > copy secret data to MADV_DONTFORK
+> > > > fork
+> > > >
+> > > >
+> > > > used to work, with this change it gets 0s instead of the secret data.
+> > > >
+> > > >
+> > > > I am also not sure it's wise to expose each guest process
+> > > > to the hypervisor like this. E.g. each process needs a
+> > > > guest physical address of its own then. This is a finite resource.
+> > > >
+> > > >
+> > > > The mmap interface proposed here is somewhat baroque, but it is
+> > > > certainly simple to implement ...
+> > >
+> > > Wipe of fork/vmgenid/whatever could end up being much more problematic
+> > > than it naively appears -- it could be wiped in the middle of a read.
+> > > Either the API needs to handle this cleanly, or we need something more
+> > > aggressive like signal-on-fork.
+> > >
+> > > --Andy
 > >
-> > arch/x86/boot/compressed/vmlinux.lds.S:
-> >         .rodata.kernel_info KERNEL_INFO_OFFSET : {
-> >                 *(.rodata.kernel_info)
-> >         }
-> >         ASSERT(ABSOLUTE(kernel_info) == KERNEL_INFO_OFFSET, "kernel_info at bad address!")
 > >
-> >         .rodata.mle_header MLE_HEADER_OFFSET : {
-> >                 *(.rodata.mle_header)
-> >         }
-> >         ASSERT(ABSOLUTE(mle_header) == MLE_HEADER_OFFSET, "mle_header at bad address!")
+> > Right, it's not on fork, it's actually when process is snapshotted.
 > >
-> > arch/x86/boot/compressed/sl_stub.S:
-> > #define mleh_rva(X) (((X) - mle_header) + MLE_HEADER_OFFSET)
-> >
-> >         .section ".rodata.mle_header", "a"
-> >
-> > SYM_DATA_START(mle_header)
-> >         .long   0x9082ac5a    /* UUID0 */
-> >         .long   0x74a7476f    /* UUID1 */
-> >         .long   0xa2555c0f    /* UUID2 */
-> >         .long   0x42b651cb    /* UUID3 */
-> >         .long   0x00000034    /* MLE header size */
-> >         .long   0x00020002    /* MLE version 2.2 */
-> >         .long   mleh_rva(sl_stub_entry)    /* Linear entry point of MLE (virt. address) */
-> >         .long   0x00000000    /* First valid page of MLE */
-> >         .long   0x00000000    /* Offset within binary of first byte of MLE */
-> >         .long   0x00000000    /* Offset within binary of last byte + 1 of MLE */
-> >         .long   0x00000223    /* Bit vector of MLE-supported capabilities */
-> >         .long   0x00000000    /* Starting linear address of command line (unused) */
-> >         .long   0x00000000    /* Ending linear address of command line (unused) */
-> > SYM_DATA_END(mle_header)
-> >
-> > Of course MLE_HEADER_OFFSET has to be defined as a constant somewhere.
-> > Anyway, is it acceptable?
+> > If we assume it's CRIU we care about, then I
+> > wonder what's wrong with something like
+> > MADV_CHANGEONPTRACE_SEIZE
+> > and basically say it's X bytes which change the value...
+> 
+> I feel like we may be approaching this from the wrong end.  Rather
+> than saying "what data structure can the kernel expose that might
+> plausibly be useful", how about we try identifying some specific
+> userspace needs and see what a good solution could look like.  I can
+> identify two major cryptographic use cases:
 
-What do you think about my MLE_HEADER_OFFSET and related stuff proposal?
+Well, I'm aware of a non-cryptographic use-case:
+https://bugzilla.redhat.com/show_bug.cgi?id=1118834
 
-> > There is also another problem. We have to put into mle_header size of
-> > the Linux kernel image. Currently it is done by the bootloader but
-> > I think it is not a role of the bootloader. The kernel image should
-> > provide all data describing its properties and do not rely on the
-> > bootloader to do that. Ross and I investigated various options but we
-> > did not find a good/simple way to do that. Could you suggest how we
-> > should do that or at least where we should take a look to get some
-> > ideas?
-> >
-> > Daniel
->
-> What exactly is the size you need here? Is it just the size of the
-> protected mode image, that's startup_32 to _edata. Or is it the size of
-> the whole bzImage file, or something else? I guess the same question
-> applies to "first valid page of MLE" and "first byte of MLE", and the
-> linear entry point -- are those all relative to startup_32 or do they
-> need to be relative to the start of the bzImage, i.e. you have to add
-> the size of the real-mode boot stub?
->
-> If you need to include the size of the bzImage file, that's not known
-> when the files in boot/compressed are built. It's only known after the
-> real-mode stub is linked. arch/x86/boot/tools/build.c fills in various
-> details in the setup header and creates the bzImage file, but it does
-> not currently modify anything in the protected-mode portion of the
-> compressed kernel (i.e. arch/x86/boot/compressed/vmlinux, which then
-> gets converted to binary format as arch/x86/boot/vmlinux.bin), so it
-> would need to be extended if you need to modify the MLE header to
-> include the bzImage size or anything depending on the size of the
-> real-mode stub.
+this seems to just ask for the guest to have a way to detect that
+a VM cloning triggered.
 
-Ross clarified this. So, I not have to add much here.
 
-Daniel
+-- 
+MST
+
