@@ -2,139 +2,97 @@ Return-Path: <SRS0=/93U=D2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C4DC433E7
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 17:18:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED8EC433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 18:49:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 216AA222EA
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 17:18:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tom0/k4W"
+	by mail.kernel.org (Postfix) with ESMTP id DCD39223C6
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 18:48:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731006AbgJSRS0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Oct 2020 13:18:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730972AbgJSRS0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Oct 2020 13:18:26 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A76C0613CE;
-        Mon, 19 Oct 2020 10:18:26 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id z5so594302iob.1;
-        Mon, 19 Oct 2020 10:18:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wFuBir/YvHjP7d2gN79CK1W0plZCBLGLO37M7axrAJc=;
-        b=tom0/k4WXXuhLo9fMXkhcwJVWFLlbOfwy2ZDKO4pDqlJVTyW1mnvMTOMF7xBkhJLMH
-         XA2ExSpeqrzTa6TrxCwNy0PFe+VjVkthpJM8r1Jcj45808b/ux+rxZuU+vbQ2jXPw46X
-         vLdtSYXw2+SeECTEfH9cr0Urx/hryhDXIxCCM6mf/4tSz/VgtKqOcdcG911xC2RjCN/A
-         R7ojbOrOpkfNDDNAvcXwlEpwai2K1pXxuuRXN+IyQUij71ZGr6xsDQVoYqBh1eg8xSwC
-         5oFly5kXdA3kocrOdFTUms29scmU0N8OcGup+zr3+iQox9+N9Ha+t5cI9LNmvtfFaOtz
-         eg7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=wFuBir/YvHjP7d2gN79CK1W0plZCBLGLO37M7axrAJc=;
-        b=l/iI9q1n5MmcP2iNyh2AQh8z02ZPKOUv05aw/Tl7a4BWWI+3PBllD9pQdR67tpfFaE
-         462NyRkicM3X15FfhACek8Gz4Fc+Jj0p4C4N2lMX729VnEy4sSvTmfOWNALW6Tibo8Zg
-         L7Hkl1A6T2FfHxe/0LbI8IYDOEfTjYUcvKGeE7/FqLCtwbnwSkAvXCr8C9BKtYPjOKZl
-         ShDgTqKVM0ECPr/TZR7CWk9RTpBBhTKR3FDvnJaAbtZFQydB8lGVdhvnwODHBZMWBRTA
-         v8rBDWUHyDzdYM49HiDjWnE15J/ua27jWuqGJChaYXEZDFq5W13Tbaub+sVzvens3iYg
-         rSRQ==
-X-Gm-Message-State: AOAM533CpFxVhqIKIFLyXnqeN3rPRwCs5XEysKevt0eob0TOfi9SHyyp
-        NJ4fz9bx/hjciiqV5jrnKbHuXSU9FkSHhw==
-X-Google-Smtp-Source: ABdhPJwGkQyTAlZd6nur7A0Kug/p2kDbfsOyLBxur0jlqp1BYwHJi529A04rqSuOEM5tnJ1DDP+BSA==
-X-Received: by 2002:a6b:144e:: with SMTP id 75mr381758iou.39.1603127905681;
-        Mon, 19 Oct 2020 10:18:25 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id v1sm396600ioe.0.2020.10.19.10.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 10:18:25 -0700 (PDT)
-Sender: Arvind Sankar <niveditas98@gmail.com>
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Mon, 19 Oct 2020 13:18:22 -0400
-To:     Daniel Kiper <daniel.kiper@oracle.com>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
-Message-ID: <20201019171822.GD2701355@rani.riverdale.lan>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
- <20200924173801.GA103726@rani.riverdale.lan>
- <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
- <20200925191842.GA643740@rani.riverdale.lan>
- <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
- <20201015182654.lgtht5fd2aaunczu@tomti.i.net-space.pl>
- <20201016205151.GA1618249@rani.riverdale.lan>
- <20201019145153.7b6cg3rzj7g4njz6@tomti.i.net-space.pl>
+        id S1730785AbgJSSs7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Oct 2020 14:48:59 -0400
+Received: from mga03.intel.com ([134.134.136.65]:16370 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727681AbgJSSs7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Oct 2020 14:48:59 -0400
+IronPort-SDR: 2Uu/efrXkwcYfZ13Vh1e4bjXBRJyN9t9x+RU4MYsgiXB2tp3pGHkTIYkhFr3Ho6UuJp57RtEiL
+ HnJy6ekHAn/A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="167165415"
+X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; 
+   d="scan'208";a="167165415"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2020 11:48:51 -0700
+IronPort-SDR: 9Q6lfeqmVXf8xJoZpKKEiMAlLaNRA4+210TknTwmbYMu5RiGfjwSmlxLQWJuXLP/L8JCdm8vZJ
+ yjNckI9qdKrw==
+X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; 
+   d="scan'208";a="301476541"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2020 11:48:49 -0700
+Date:   Mon, 19 Oct 2020 11:48:49 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V3 4/9] x86/pks: Preserve the PKRS MSR on context
+ switch
+Message-ID: <20201019184849.GC3713473@iweiny-DESK2.sc.intel.com>
+References: <20201009194258.3207172-1-ira.weiny@intel.com>
+ <20201009194258.3207172-5-ira.weiny@intel.com>
+ <429789d3-ab5b-49c3-65c3-f0fc30a12516@intel.com>
+ <20201016111226.GN2611@hirez.programming.kicks-ass.net>
+ <20201017051410.GW2046448@iweiny-DESK2.sc.intel.com>
+ <20201019093714.GI2628@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201019145153.7b6cg3rzj7g4njz6@tomti.i.net-space.pl>
+In-Reply-To: <20201019093714.GI2628@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 19, 2020 at 04:51:53PM +0200, Daniel Kiper wrote:
-> On Fri, Oct 16, 2020 at 04:51:51PM -0400, Arvind Sankar wrote:
-> > On Thu, Oct 15, 2020 at 08:26:54PM +0200, Daniel Kiper wrote:
-> > >
-> > > I am discussing with Ross the other option. We can create
-> > > .rodata.mle_header section and put it at fixed offset as
-> > > kernel_info is. So, we would have, e.g.:
-> > >
-> > > arch/x86/boot/compressed/vmlinux.lds.S:
-> > >         .rodata.kernel_info KERNEL_INFO_OFFSET : {
-> > >                 *(.rodata.kernel_info)
-> > >         }
-> > >         ASSERT(ABSOLUTE(kernel_info) == KERNEL_INFO_OFFSET, "kernel_info at bad address!")
-> > >
-> > >         .rodata.mle_header MLE_HEADER_OFFSET : {
-> > >                 *(.rodata.mle_header)
-> > >         }
-> > >         ASSERT(ABSOLUTE(mle_header) == MLE_HEADER_OFFSET, "mle_header at bad address!")
-> > >
-> > > arch/x86/boot/compressed/sl_stub.S:
-> > > #define mleh_rva(X) (((X) - mle_header) + MLE_HEADER_OFFSET)
-> > >
-> > >         .section ".rodata.mle_header", "a"
-> > >
-> > > SYM_DATA_START(mle_header)
-> > >         .long   0x9082ac5a    /* UUID0 */
-> > >         .long   0x74a7476f    /* UUID1 */
-> > >         .long   0xa2555c0f    /* UUID2 */
-> > >         .long   0x42b651cb    /* UUID3 */
-> > >         .long   0x00000034    /* MLE header size */
-> > >         .long   0x00020002    /* MLE version 2.2 */
-> > >         .long   mleh_rva(sl_stub_entry)    /* Linear entry point of MLE (virt. address) */
-> > >         .long   0x00000000    /* First valid page of MLE */
-> > >         .long   0x00000000    /* Offset within binary of first byte of MLE */
-> > >         .long   0x00000000    /* Offset within binary of last byte + 1 of MLE */
-> > >         .long   0x00000223    /* Bit vector of MLE-supported capabilities */
-> > >         .long   0x00000000    /* Starting linear address of command line (unused) */
-> > >         .long   0x00000000    /* Ending linear address of command line (unused) */
-> > > SYM_DATA_END(mle_header)
-> > >
-> > > Of course MLE_HEADER_OFFSET has to be defined as a constant somewhere.
-> > > Anyway, is it acceptable?
+On Mon, Oct 19, 2020 at 11:37:14AM +0200, Peter Zijlstra wrote:
+> On Fri, Oct 16, 2020 at 10:14:10PM -0700, Ira Weiny wrote:
+> > > so it either needs to
+> > > explicitly do so, or have an assertion that preemption is indeed
+> > > disabled.
+> > 
+> > However, I don't think I understand clearly.  Doesn't [get|put]_cpu_ptr()
+> > handle the preempt_disable() for us? 
 > 
-> What do you think about my MLE_HEADER_OFFSET and related stuff proposal?
+> It does.
 > 
+> > Is it not sufficient to rely on that?
+> 
+> It is.
+> 
+> > Dave's comment seems to be the opposite where we need to eliminate preempt
+> > disable before calling write_pkrs().
+> > 
+> > FWIW I think I'm mistaken in my response to Dave regarding the
+> > preempt_disable() in pks_update_protection().
+> 
+> Dave's concern is that we're calling with with preemption already
+> disabled so disabling it again is superfluous.
 
-I'm wondering if it would be easier to just allow relocations in these
-special "header" sections. I need to check how easy/hard it is to do
-that without triggering linker warnings.
+Ok, thanks, and after getting my head straight I think I agree with him, and
+you.
 
-Thanks.
+Thanks I've reworked the code to removed the superfluous calls.  Sorry about
+being so dense...  :-D
+
+Ira
