@@ -2,152 +2,140 @@ Return-Path: <SRS0=/93U=D2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 252E6C433E7
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 02:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C36EC433E7
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 05:37:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0867222C3
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 02:43:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E572C22243
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 05:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728953AbgJSCnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Oct 2020 22:43:17 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:57650 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728791AbgJSCnR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 18 Oct 2020 22:43:17 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 0E4BB91A978CEDFB0FE2;
-        Mon, 19 Oct 2020 10:43:15 +0800 (CST)
-Received: from [10.174.176.61] (10.174.176.61) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 19 Oct 2020 10:43:07 +0800
-Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
- kdump
-To:     Bhupesh Sharma <bhsharma@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
- <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
- <20201005170937.GA14576@gaia>
- <CACi5LpMWUmP1df8fB8psJY_cNGHF9MNn+TNK4B4edaRHvOXxGQ@mail.gmail.com>
- <20201006180012.GB31946@C02TF0J2HF1T.local>
- <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
-CC:     John Donnelly <john.p.donnelly@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, RuiRui Yang <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, <nsaenzjulienne@suse.de>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        <guohanjun@huawei.com>, <xiexiuqi@huawei.com>,
-        <huawei.libin@huawei.com>, <wangkefeng.wang@huawei.com>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <ab142d7d-55a7-eca6-4609-147e1605f02d@huawei.com>
-Date:   Mon, 19 Oct 2020 10:43:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1726424AbgJSFhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Oct 2020 01:37:51 -0400
+Received: from mga07.intel.com ([134.134.136.100]:36748 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725306AbgJSFhv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Oct 2020 01:37:51 -0400
+IronPort-SDR: BCttGlvxXOv8IEMavzW7QCZDOzs1MO3AV/WwrIlbEaiYnCGxWVJREPVdnNqGF0ZSMH0+EnvcXG
+ K6A+Vch2xQIA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9778"; a="231162684"
+X-IronPort-AV: E=Sophos;i="5.77,393,1596524400"; 
+   d="scan'208";a="231162684"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2020 22:37:46 -0700
+IronPort-SDR: RnOUFQmkYUDicpOlOT0tpOrIh/gyVBYXkd84kJDS4ikMZgrYuGPAp0+a9qjCzEuNsRXlsKxGfm
+ 7ykQey1Ml/Rw==
+X-IronPort-AV: E=Sophos;i="5.77,393,1596524400"; 
+   d="scan'208";a="532493630"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2020 22:37:37 -0700
+Date:   Sun, 18 Oct 2020 22:37:36 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V3 6/9] x86/entry: Pass irqentry_state_t by reference
+Message-ID: <20201019053639.GA3713473@iweiny-DESK2.sc.intel.com>
+References: <20201009194258.3207172-1-ira.weiny@intel.com>
+ <20201009194258.3207172-7-ira.weiny@intel.com>
+ <20201016114510.GO2611@hirez.programming.kicks-ass.net>
+ <87lfg6tjnq.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <CACi5LpMmccLX9p0ZXnEbWHgn2LRrVSDQZF9zBGzfZySe3TvXEQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.176.61]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87lfg6tjnq.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bhupesh,
+On Fri, Oct 16, 2020 at 02:55:21PM +0200, Thomas Gleixner wrote:
+> On Fri, Oct 16 2020 at 13:45, Peter Zijlstra wrote:
+> > On Fri, Oct 09, 2020 at 12:42:55PM -0700, ira.weiny@intel.com wrote:
+> >> @@ -238,7 +236,7 @@ noinstr void idtentry_exit_nmi(struct pt_regs *regs, bool restore)
+> >>  
+> >>  	rcu_nmi_exit();
+> >>  	lockdep_hardirq_exit();
+> >> -	if (restore)
+> >> +	if (irq_state->exit_rcu)
+> >>  		lockdep_hardirqs_on(CALLER_ADDR0);
+> >>  	__nmi_exit();
+> >>  }
+> >
+> > That's not nice.. The NMI path is different from the IRQ path and has a
+> > different variable. Yes, this works, but *groan*.
+> >
+> > Maybe union them if you want to avoid bloating the structure, but the
+> > above makes it really hard to read.
+> 
+> Right, and also that nmi entry thing should not be in x86. Something
+> like the untested below as first cleanup.
 
+Ok, I see what Peter was talking about.  I've added this patch to the series.
 
-On 2020/10/7 15:07, Bhupesh Sharma wrote:
-> Hi Catalin,
->
-> On Tue, Oct 6, 2020 at 11:30 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
->> On Mon, Oct 05, 2020 at 11:12:10PM +0530, Bhupesh Sharma wrote:
->>> I think my earlier email with the test results on this series bounced
->>> off the mailing list server (for some weird reason), but I still see
->>> several issues with this patchset. I will add specific issues in the
->>> review comments for each patch again, but overall, with a crashkernel
->>> size of say 786M, I see the following issue:
->>>
->>> # cat /proc/cmdline
->>> BOOT_IMAGE=(hd7,gpt2)/vmlinuz-5.9.0-rc7+ root=<..snip..> rd.lvm.lv=<..snip..> crashkernel=786M
->>>
->>> I see two regions of size 786M and 256M reserved in low and high
->>> regions respectively, So we reserve a total of 1042M of memory, which
->>> is an incorrect behaviour:
->>>
->>> # dmesg | grep -i crash
->>> [    0.000000] Reserving 256MB of low memory at 2816MB for crashkernel (System low RAM: 768MB)
->>> [    0.000000] Reserving 786MB of memory at 654158MB for crashkernel (System RAM: 130816MB)
->>> [    0.000000] Kernel command line: BOOT_IMAGE=(hd2,gpt2)/vmlinuz-5.9.0-rc7+ root=/dev/mapper/rhel_ampere--hr330a--03-root ro rd.lvm.lv=rhel_ampere-hr330a-03/root rd.lvm.lv=rhel_ampere-hr330a-03/swap crashkernel=786M cma=1024M
->>>
->>> # cat /proc/iomem | grep -i crash
->>>   b0000000-bfffffff : Crash kernel (low)
->>>   bfcbe00000-bffcffffff : Crash kernel
->> As Chen said, that's the intended behaviour and how x86 works. The
->> requested 768M goes in the high range if there's not enough low memory
->> and an additional buffer for swiotlb is allocated, hence the low 256M.
-> I understand, but why 256M (as low) for arm64? x86_64 setups usually
-> have more system memory available as compared to several commercially
-> available arm64 setups. So is the intent, just to keep the behavior
-> similar between arm64 and x86_64?
->
-> Should we have a CONFIG option / bootarg to help one select the max
-> 'low_size'? Currently the ' low_size' value is calculated as:
->
->     /*
->          * two parts from kernel/dma/swiotlb.c:
->          * -swiotlb size: user-specified with swiotlb= or default.
->          *
->          * -swiotlb overflow buffer: now hardcoded to 32k. We round it
->          * to 8M for other buffers that may need to stay low too. Also
->          * make sure we allocate enough extra low memory so that we
->          * don't run out of DMA buffers for 32-bit devices.
->          */
->         low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
->
-> Since many arm64 boards ship with swiotlb=0 (turned off) via kernel
-> bootargs, the low_size, still ends up being 256M in such cases,
-> whereas this 256M can be used for some other purposes - so should we
-> be limiting this to 64M and failing the crash kernel allocation
-> request (gracefully) otherwise?
->
->> We could (as an additional patch), subtract the 256M from the high
->> allocation so that you'd get a low 256M and a high 512M, not sure it's
->> worth it. Note that with a "crashkernel=768M,high" option, you still get
->> the additional low 256M, otherwise the crashkernel won't be able to
->> boot as there's no memory in ZONE_DMA. In the explicit ",high" request
->> case, I'm not sure subtracted the 256M is more intuitive.
->> In 5.11, we also hope to fix the ZONE_DMA layout for non-RPi4 platforms
->> to cover the entire 32-bit address space (i.e. identical to the current
->> ZONE_DMA32).
->>
->>> IMO, we should test this feature more before including this in 5.11
->> Definitely. That's one of the reasons we haven't queued it yet. So any
->> help with testing here is appreciated.
-> Sure, I am running more checks on this series. I will be soon back
-> with more updates.
+> 
+> Thanks,
+> 
+>         tglx
+> ----
+> Subject: x86/entry: Move nmi entry/exit into common code
+> From: Thomas Gleixner <tglx@linutronix.de>
+> Date: Fri, 11 Sep 2020 10:09:56 +0200
+> 
+> Add blurb here.
 
-Sorry to bother you. I am looking forward to your review comments.
+How about:
 
+To prepare for saving PKRS values across NMI's we lift the
+idtentry_[enter|exit]_nmi() to the common code.  Rename them to
+irqentry_nmi_[enter|exit]() to reflect the new generic nature and store the
+state in the same irqentry_state_t structure as the other irqentry_*()
+functions.  Finally, differentiate the state being stored between the NMI and
+IRQ path by adding 'lockdep' to irqentry_state_t.
 
-Thanks,
-Chen Zhou
->
-> Regards,
-> Bhupesh
->
-> .
->
+?
 
+> 
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> ---
+>  arch/x86/entry/common.c         |   34 ----------------------------------
+>  arch/x86/include/asm/idtentry.h |    3 ---
+>  arch/x86/kernel/cpu/mce/core.c  |    6 +++---
+>  arch/x86/kernel/nmi.c           |    6 +++---
+>  arch/x86/kernel/traps.c         |   13 +++++++------
+>  include/linux/entry-common.h    |   20 ++++++++++++++++++++
+>  kernel/entry/common.c           |   36 ++++++++++++++++++++++++++++++++++++
+>  7 files changed, 69 insertions(+), 49 deletions(-)
+> 
+
+[snip]
+
+> --- a/include/linux/entry-common.h
+> +++ b/include/linux/entry-common.h
+> @@ -343,6 +343,7 @@ void irqentry_exit_to_user_mode(struct p
+>  #ifndef irqentry_state
+>  typedef struct irqentry_state {
+>  	bool	exit_rcu;
+> +	bool	lockdep;
+>  } irqentry_state_t;
+
+Building on what Peter said do you agree this should be made into a union?
+
+It may not be strictly necessary in this patch but I think it would reflect the
+mutual exclusivity better and could be changed easy enough in the follow on
+patch which adds the pkrs state.
+
+Ira
