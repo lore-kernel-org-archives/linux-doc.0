@@ -2,237 +2,97 @@ Return-Path: <SRS0=/93U=D2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66DBBC433E7
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 11:53:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB097C43457
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 14:06:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0ADCA22276
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 11:53:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="XS3BOfhZ"
+	by mail.kernel.org (Postfix) with ESMTP id 6AF63222C3
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Oct 2020 14:06:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727279AbgJSLxU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Oct 2020 07:53:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45392 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728307AbgJSLxT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Oct 2020 07:53:19 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0FF5C0613D1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2020 04:53:18 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id az3so5190914pjb.4
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2020 04:53:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Z+gSYblY8NkfGQSbLmozzDZs5asdwzWvh7768mPtO9s=;
-        b=XS3BOfhZ6wpZ3SMcTCdY3IDH1ZiebSfGZrpaWC9+0LAgJJNQo8svsFA8sO+qY6PSYy
-         idJ46N5+9XeShGyWx8qztUtORYmY4zjtfevrMsfE+KXotYYP2Zs+oGykadbXmS0Q12Mp
-         VxZnB7TVoNhzQInNf92GjTO/UX4bOW8eFMQdzhp0FYyp5OdH5Kf/aXzkborNUpiLGo1M
-         7rBH5YvE3cZddYbF2Hr5Rwipf4jfND0ou0BqFtIJ3qgzbv1XDXswWExOOQvOTHaWYqnH
-         +SdZWjvYJdlC7/ItG69n5NDRtjZsZVsLpW8jWkvNqW7zqvoAhGe7RbhJNWvB426dX9oS
-         k7Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Z+gSYblY8NkfGQSbLmozzDZs5asdwzWvh7768mPtO9s=;
-        b=Y9BOWbchBmqk9Fqar3BPqTbrbvK2M4ccXeyzguxeX5jgzgBLB7Sp2ro8MXfNspEGdY
-         DokdyGanEgRZnMbcf9Latxd4AdQimM/oobe67N5VGeRb9+Mch/SP5yMtlczIw0Qf/wYL
-         aHh78VE5w+fxgz/pg0fyqkYv9IaW5GbJDgNQMD4igHIasUcMYlVSiIQJeh7v1ChYEZrv
-         DtydszNTUtc8KG5OvcJcZHyYD8hNhhAHtza3S28jqR8BW8GfnOQokLiN1A2beOvsLLbU
-         LyTbLswmOkKiRkMAjcq9EcecreyHM6aZzOYo7ZKFCKEGq/7BtZNg0VinvOiJ3g/7zQhV
-         hiDA==
-X-Gm-Message-State: AOAM530ezAE5TxikzS/GLMT2EUgydGgOj2X+OMYpOgfyfqT83xOk/EbG
-        kdqsz8CxehlrnLXUF2x+0SAPvA==
-X-Google-Smtp-Source: ABdhPJzHdRjYha/PRBdIpAk/bNTVr/5NFo87H+jbEReoGLJsabSjJJvfuRujXvEVRCDVeMv7X1y96A==
-X-Received: by 2002:a17:902:b283:b029:d3:d779:94fd with SMTP id u3-20020a170902b283b02900d3d77994fdmr16297318plr.8.1603108398506;
-        Mon, 19 Oct 2020 04:53:18 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:4a0f:cfff:fe35:d61b])
-        by smtp.gmail.com with ESMTPSA id w68sm12128099pfb.108.2020.10.19.04.53.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 04:53:17 -0700 (PDT)
-From:   Mark Salyzyn <salyzyn@android.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     kernel-team@android.com, Mark Salyzyn <salyzyn@android.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        linux-security-module@vger.kernel.org,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>, linux-doc@vger.kernel.org,
-        John Stultz <john.stultz@linaro.org>
-Subject: [PATCH v16 2/4] overlayfs: handle XATTR_NOSECURITY flag for get xattr method
-Date:   Mon, 19 Oct 2020 04:52:37 -0700
-Message-Id: <20201019115239.2732422-3-salyzyn@android.com>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-In-Reply-To: <20201019115239.2732422-1-salyzyn@android.com>
-References: <20201019115239.2732422-1-salyzyn@android.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1728859AbgJSOGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Oct 2020 10:06:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:58292 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728557AbgJSOGU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Oct 2020 10:06:20 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2CBEFD6E;
+        Mon, 19 Oct 2020 07:06:20 -0700 (PDT)
+Received: from e123648.arm.com (unknown [10.57.15.200])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 91F893F66E;
+        Mon, 19 Oct 2020 07:06:15 -0700 (PDT)
+From:   Lukasz Luba <lukasz.luba@arm.com>
+To:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     robh+dt@kernel.org, amitk@kernel.org, corbet@lwn.net,
+        daniel.lezcano@linaro.org, lukasz.luba@arm.com,
+        Dietmar.Eggemann@arm.com, morten.rasmussen@arm.com,
+        qperret@google.com, dianders@chromium.org, mka@chromium.org,
+        rnayak@codeaurora.org, rafael@kernel.org, sudeep.holla@arm.com,
+        viresh.kumar@linaro.org, sboyd@kernel.org, nm@ti.com
+Subject: [PATCH v3 0/4] Clarify abstract scale usage for power values in Energy Model, EAS and IPA
+Date:   Mon, 19 Oct 2020 15:05:57 +0100
+Message-Id: <20201019140601.3047-1-lukasz.luba@arm.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because of the overlayfs getxattr recursion, the incoming inode fails
-to update the selinux sid resulting in avc denials being reported
-against a target context of u:object_r:unlabeled:s0.
+Hi all,
 
-Solution is to respond to the XATTR_NOSECURITY flag in get xattr
-method that calls the __vfs_getxattr handler instead so that the
-context can be read in, rather than being denied with an -EACCES
-when vfs_getxattr handler is called.
+The Energy Model supports power values expressed in an abstract scale.
+This has an impact on Intelligent Power Allocation (IPA) and should be
+documented properly. Kernel sub-systems like EAS, IPA and DTPM
+(new comming PowerCap framework) would use the new flag to capture
+potential miss-configuration where the devices have registered different
+power scales, thus cannot operate together.
 
-For the use case where access is to be blocked by the security layer.
+There was a discussion below v2 of this patch series, which might help
+you to get context of these changes [2].
 
-The path then would be security(dentry) ->
-__vfs_getxattr({dentry...XATTR_NOSECURITY}) ->
-handler->get({dentry...XATTR_NOSECURITY}) ->
-__vfs_getxattr({realdentry...XATTR_NOSECURITY}) ->
-lower_handler->get({realdentry...XATTR_NOSECURITY}) which
-would report back through the chain data and success as expected,
-the logging security layer at the top would have the data to
-determine the access permissions and report back to the logs and
-the caller that the target context was blocked.
+The agreed approach is to have the DT as a source of power values expressed
+always in milli-Watts and the only way to submit with abstract scale values
+is via the em_dev_register_perf_domain() API.
 
-For selinux this would solve the cosmetic issue of the selinux log
-and allow audit2allow to correctly report the rule needed to address
-the access problem.
+Changes:
+v3:
+- added boolean flag to struct em_perf_domain and registration function
+  indicating if EM holds real power values in milli-Watts (suggested by
+  Daniel and aggreed with Quentin)
+- updated documentation regarding this new flag
+- dropped DT binding change for 'sustainable-power'
+- added more maintainers on CC (due to patch 1/4 touching different things)
+v2 [2]:
+- updated sustainable power section in IPA documentation
+- updated DT binding for the 'sustainable-power'
+v1 [1]:
+- simple documenation update with new 'abstract scale' in EAS, EM, IPA
 
-Check impure, opaque, origin & meta xattr with no sepolicy audit
-(using __vfs_getxattr) since these operations are internal to
-overlayfs operations and do not disclose any data.  This became
-an issue for credential override off since sys_admin would have
-been required by the caller; whereas would have been inherently
-present for the creator since it performed the mount.
+Regards,
+Lukasz Luba
 
-This is a change in operations since we do not check in the new
-ovl_do_getxattr function if the credential override is off or not.
-Reasoning is that the sepolicy check is unnecessary overhead,
-especially since the check can be expensive.
+[1] https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
+[2] https://lore.kernel.org/lkml/20201002114426.31277-1-lukasz.luba@arm.com/
 
-Because for override credentials off, this affects _everyone_ that
-underneath performs private xattr calls without the appropriate
-sepolicy permissions and sys_admin capability.  Providing blanket
-support for sys_admin would be bad for all possible callers.
+Lukasz Luba (4):
+  PM / EM: Add a flag indicating units of power values in Energy Model
+  docs: Clarify abstract scale usage for power values in Energy Model
+  PM / EM: update the comments related to power scale
+  docs: power: Update Energy Model with new flag indicating power scale
 
-For the override credentials on, this will affect only the mounter,
-should it lack sepolicy permissions. Not considered a security
-problem since mounting by definition has sys_admin capabilities,
-but sepolicy contexts would still need to be crafted.
+ .../driver-api/thermal/power_allocator.rst    | 13 +++++++-
+ Documentation/power/energy-model.rst          | 30 +++++++++++++++----
+ Documentation/scheduler/sched-energy.rst      |  5 ++++
+ drivers/cpufreq/scmi-cpufreq.c                |  3 +-
+ drivers/opp/of.c                              |  2 +-
+ include/linux/energy_model.h                  | 20 ++++++++-----
+ kernel/power/energy_model.c                   | 26 ++++++++++++++--
+ 7 files changed, 81 insertions(+), 18 deletions(-)
 
-It should be noted that there is precedence, __vfs_getxattr is used
-in other filesystems for their own internal trusted xattr management.
-
-Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-To: linux-fsdevel@vger.kernel.org
-To: linux-unionfs@vger.kernel.org
-Cc: Stephen Smalley <sds@tycho.nsa.gov>
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
-Cc: kernel-team@android.com
-Cc: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Vivek Goyal <vgoyal@redhat.com>
-Cc: Eric W. Biederman <ebiederm@xmission.com>
-Cc: Amir Goldstein <amir73il@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Cc: John Stultz <john.stultz@linaro.org>
-
-v16 - rebase and merge internal getxattr operations patch
-
-v15 - revert to v13 because xattr_gs_args rejected.
-
-v14 - rebase to use xattr_gs_args.
-
-v13 - rebase to use __vfs_getxattr flags option.
-
-v12 - Added back to patch series as get xattr with flag option.
-
-v11 - Squashed out of patch series and replaced with per-thread flag
-      solution.
-
-v10 - Added to patch series as __get xattr method.
----
- fs/overlayfs/inode.c     | 5 +++--
- fs/overlayfs/overlayfs.h | 4 ++--
- fs/overlayfs/super.c     | 4 ++--
- 3 files changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
-index b584dca845ba..2b14291beb86 100644
---- a/fs/overlayfs/inode.c
-+++ b/fs/overlayfs/inode.c
-@@ -378,7 +378,7 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
- }
- 
- int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
--		  void *value, size_t size)
-+		  void *value, size_t size, int flags)
- {
- 	ssize_t res;
- 	const struct cred *old_cred;
-@@ -386,7 +386,8 @@ int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
- 		ovl_i_dentry_upper(inode) ?: ovl_dentry_lower(dentry);
- 
- 	old_cred = ovl_override_creds(dentry->d_sb);
--	res = vfs_getxattr(realdentry, name, value, size);
-+	res = __vfs_getxattr(realdentry, d_inode(realdentry), name,
-+			     value, size, flags);
- 	revert_creds(old_cred);
- 	return res;
- }
-diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-index f8880aa2ba0e..3033f0c4de5f 100644
---- a/fs/overlayfs/overlayfs.h
-+++ b/fs/overlayfs/overlayfs.h
-@@ -184,7 +184,7 @@ static inline ssize_t ovl_do_getxattr(struct ovl_fs *ofs, struct dentry *dentry,
- 				      size_t size)
- {
- 	const char *name = ovl_xattr(ofs, ox);
--	return vfs_getxattr(dentry, name, value, size);
-+	return __vfs_getxattr(dentry, name, value, size, XATTR_NOSECURITY);
- }
- 
- static inline int ovl_do_setxattr(struct ovl_fs *ofs, struct dentry *dentry,
-@@ -439,7 +439,7 @@ int ovl_permission(struct inode *inode, int mask);
- int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
- 		  const void *value, size_t size, int flags);
- int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
--		  void *value, size_t size);
-+		  void *value, size_t size, int flags);
- ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size);
- struct posix_acl *ovl_get_acl(struct inode *inode, int type);
- int ovl_update_time(struct inode *inode, struct timespec64 *ts, int flags);
-diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index f41353ba1e68..d447958badc2 100644
---- a/fs/overlayfs/super.c
-+++ b/fs/overlayfs/super.c
-@@ -930,7 +930,7 @@ ovl_posix_acl_xattr_get(const struct xattr_handler *handler,
- 			struct dentry *dentry, struct inode *inode,
- 			const char *name, void *buffer, size_t size, int flags)
- {
--	return ovl_xattr_get(dentry, inode, handler->name, buffer, size);
-+	return ovl_xattr_get(dentry, inode, handler->name, buffer, size, flags);
- }
- 
- static int __maybe_unused
-@@ -1012,7 +1012,7 @@ static int ovl_other_xattr_get(const struct xattr_handler *handler,
- 			       const char *name, void *buffer, size_t size,
- 			       int flags)
- {
--	return ovl_xattr_get(dentry, inode, name, buffer, size);
-+	return ovl_xattr_get(dentry, inode, name, buffer, size, flags);
- }
- 
- static int ovl_other_xattr_set(const struct xattr_handler *handler,
 -- 
-2.29.0.rc1.297.gfa9743e501-goog
+2.17.1
 
