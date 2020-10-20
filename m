@@ -2,226 +2,490 @@ Return-Path: <SRS0=dOZX=D3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C49C433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 08:16:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCC53C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:00:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86170222C8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 08:16:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F42022404
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:00:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="EKshNLkO"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="XEN/Q/3F"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388229AbgJTIQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Oct 2020 04:16:23 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:47830 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726917AbgJTIQW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 04:16:22 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09K8G6Ng053466;
-        Tue, 20 Oct 2020 03:16:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1603181766;
-        bh=5/s9j3Ob5eJZaHs5Srca0Co8+TevhNJfJIAUERIj7tk=;
-        h=Subject:From:To:CC:References:Date:In-Reply-To;
-        b=EKshNLkON095RcIhp/C6mMEaqrvLAFlf3xcfoix1230vJCg+Zx8i9H89un+qKZFrL
-         SR++07m4426mw7jKdCx+V9xW1HEEyllzV45UKX8OYO+YiEYFkEm23fZzP2ruvHz2i8
-         F3vB/yVBEtNlZ6OuHu7vnHV8patmKQvBwSZ8oPAk=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09K8G6v7096187
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 20 Oct 2020 03:16:06 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 20
- Oct 2020 03:16:06 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 20 Oct 2020 03:16:06 -0500
-Received: from [10.250.234.189] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09K8FqWG111796;
-        Tue, 20 Oct 2020 03:15:54 -0500
-Subject: Re: [PATCH v7 00/18] Implement NTB Controller using multiple PCI EP
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>, Rob Herring <robh@kernel.org>
-CC:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
-References: <20200930153519.7282-1-kishon@ti.com>
- <fe2db298-2116-7f52-80bd-a3d01a9a1521@ti.com>
-Message-ID: <72ebe7db-86cd-6827-03ff-bde32c10dc7e@ti.com>
-Date:   Tue, 20 Oct 2020 13:45:45 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S2390094AbgJTJAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Oct 2020 05:00:46 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:58199 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728575AbgJTJAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:00:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1603184443; x=1634720443;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=gJhuhJ955jW/Qf0etCJftL4gN7gWU3ru6SnVkeCCQ5I=;
+  b=XEN/Q/3FkgwKKkL4qmt8YJD44iMXS7ZMjWq2UvalLkbXOdUyFfZFc0SN
+   Zh+SIVkfLLTtkcDwfpZLV3Du7hWhp1ABX9gLIxZb+Ijhgg871fKtMbAWr
+   sxXox8G7rH8FZ7Afylae62RNWoqkxNGcFr8B1tiSH1bILYSp/ku9jFCzS
+   A=;
+X-IronPort-AV: E=Sophos;i="5.77,396,1596499200"; 
+   d="scan'208";a="78101944"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 20 Oct 2020 09:00:35 +0000
+Received: from EX13D31EUB001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com (Postfix) with ESMTPS id F042FA216F;
+        Tue, 20 Oct 2020 09:00:31 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
+ EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 20 Oct 2020 09:00:11 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v22 00/18] Introduce Data Access MONitor (DAMON)
+Date:   Tue, 20 Oct 2020 10:59:22 +0200
+Message-ID: <20201020085940.13875-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <fe2db298-2116-7f52-80bd-a3d01a9a1521@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.237]
+X-ClientProxiedBy: EX13D41UWC001.ant.amazon.com (10.43.162.107) To
+ EX13D31EUB001.ant.amazon.com (10.43.166.210)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+From: SeongJae Park <sjpark@amazon.de>
 
-On 05/10/20 11:27 am, Kishon Vijay Abraham I wrote:
-> Hi Jon Mason, Allen Hubbe, Dave Jiang,
-> 
-> On 30/09/20 9:05 pm, Kishon Vijay Abraham I wrote:
->> This series is about implementing SW defined Non-Transparent Bridge (NTB)
->> using multiple endpoint (EP) instances. This series has been tested using
->> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
->> on the other end. However there is nothing platform specific for the NTB
->> functionality.
-> 
-> This series has two patches that adds to drivers/ntb/ directory.
-> [PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-Transparent
-> Bridge and [PATCH v7 16/18] NTB: tool: Enable the NTB/PCIe link on the
-> local or remote side of bridge.
-> 
-> If you can review and Ack the above patches, Lorenzo can queue it along
-> with the rest of the series.
-> 
-> Thanks for your help in advance.
+Changes from Previous Version (v21)
+===================================
 
-Gentle ping on this series.
+This version contains below minor changes.
 
-Thanks
-Kishon
-> 
-> Best Regards,
-> Kishon
-> 
->>
->> This was presented in Linux Plumbers Conference. Link to presentation
->> and video can be found @ [1]
->>
->> RFC patch series can be found @ [2]
->> v1 patch series can be found @ [3]
->> v2 patch series can be found @ [4]
->> v3 patch series can be found @ [5]
->> v4 patch series can be found @ [6]
->> v5 patch series can be found @ [7]
->> v6 patch series can be found @ [8]
->>
->> Changes from v6:
->> 1) Fixed issues when multiple NTB devices are creating using multiple
->>    functions
->> 2) Fixed issue with writing scratchpad register
->> 3) Created a video demo @ [9]
->>
->> Changes from v5:
->> 1) Fixed a formatting issue in Kconfig pointed out by Randy
->> 2) Checked for Error or Null in pci_epc_add_epf()
->>
->> Changes from v4:
->> 1) Fixed error condition checks in pci_epc_add_epf()
->>
->> Changes from v3:
->> 1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
->>
->> Changes from v2:
->> 1) Add support for the user to create sub-directory of 'EPF Device'
->>    directory (for endpoint function specific configuration using
->>    configfs).
->> 2) Add documentation for NTB specific attributes in configfs
->> 3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
->>    driver
->> 4) Other documentation fixes
->>
->> Changes from v1:
->> 1) As per Rob's comment, removed support for creating NTB function
->>    device from DT
->> 2) Add support to create NTB EPF device using configfs (added support in
->>    configfs to associate primary and secondary EPC with EPF.
->>
->> Changes from RFC:
->> 1) Converted the DT binding patches to YAML schema and merged the
->>    DT binding patches together
->> 2) NTB documentation is converted to .rst
->> 3) One HOST can now interrupt the other HOST using MSI-X interrupts
->> 4) Added support for teardown of memory window and doorbell
->>    configuration
->> 5) Add support to provide support 64-bit memory window size from
->>    DT
->>
->> [1] -> https://linuxplumbersconf.org/event/4/contributions/395/
->> [2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
->> [3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
->> [4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
->> [5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
->> [6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
->> [7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
->> [8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
->> [9] -> https://youtu.be/dLKKxrg5-rY
->>
->> Kishon Vijay Abraham I (18):
->>   Documentation: PCI: Add specification for the *PCI NTB* function
->>     device
->>   PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
->>     BAR
->>   PCI: endpoint: Add helper API to get the 'next' unreserved BAR
->>   PCI: endpoint: Make *_free_bar() to return error codes on failure
->>   PCI: endpoint: Remove unused pci_epf_match_device()
->>   PCI: endpoint: Add support to associate secondary EPC with EPF
->>   PCI: endpoint: Add support in configfs to associate two EPCs with EPF
->>   PCI: endpoint: Add pci_epc_ops to map MSI irq
->>   PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
->>     specific attrs
->>   PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
->>     directory
->>   PCI: cadence: Implement ->msi_map_irq() ops
->>   PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
->>   PCI: endpoint: Add EP function driver to provide NTB functionality
->>   PCI: Add TI J721E device to pci ids
->>   NTB: Add support for EPF PCI-Express Non-Transparent Bridge
->>   NTB: tool: Enable the NTB/PCIe link on the local or remote side of
->>     bridge
->>   Documentation: PCI: Add configfs binding documentation for pci-ntb
->>     endpoint function
->>   Documentation: PCI: Add userguide for PCI endpoint NTB function
->>
->>  .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
->>  Documentation/PCI/endpoint/index.rst          |    3 +
->>  .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
->>  .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
->>  Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
->>  drivers/misc/pci_endpoint_test.c              |    1 -
->>  drivers/ntb/hw/Kconfig                        |    1 +
->>  drivers/ntb/hw/Makefile                       |    1 +
->>  drivers/ntb/hw/epf/Kconfig                    |    6 +
->>  drivers/ntb/hw/epf/Makefile                   |    1 +
->>  drivers/ntb/hw/epf/ntb_hw_epf.c               |  755 ++++++
->>  drivers/ntb/test/ntb_tool.c                   |    1 +
->>  .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
->>  drivers/pci/endpoint/functions/Kconfig        |   12 +
->>  drivers/pci/endpoint/functions/Makefile       |    1 +
->>  drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
->>  drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
->>  drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
->>  drivers/pci/endpoint/pci-epc-core.c           |  130 +-
->>  drivers/pci/endpoint/pci-epf-core.c           |  105 +-
->>  include/linux/pci-epc.h                       |   39 +-
->>  include/linux/pci-epf.h                       |   28 +-
->>  include/linux/pci_ids.h                       |    1 +
->>  23 files changed, 3934 insertions(+), 73 deletions(-)
->>  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
->>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
->>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
->>  create mode 100644 drivers/ntb/hw/epf/Kconfig
->>  create mode 100644 drivers/ntb/hw/epf/Makefile
->>  create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
->>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
->>
+- Fix build warnings and errors (kernel test robot)
+- Fix a memory leak (kmemleak)
+- Respect KUNIT_ALL_TESTS
+- Rebase on v5.9
+- Update the evaluation results
+
+Introduction
+============
+
+DAMON is a data access monitoring framework for the Linux kernel.  The core
+mechanisms of DAMON called 'region based sampling' and 'adaptive regions
+adjustment' (refer to 'mechanisms.rst' in the 11th patch of this patchset for
+the detail) make it
+
+ - accurate (The monitored information is useful for DRAM level memory
+   management. It might not appropriate for Cache-level accuracy, though.),
+ - light-weight (The monitoring overhead is low enough to be applied online
+   while making no impact on the performance of the target workloads.), and
+ - scalable (the upper-bound of the instrumentation overhead is controllable
+   regardless of the size of target workloads.).
+
+Using this framework, therefore, several memory management mechanisms such as
+reclamation and THP can be optimized to aware real data access patterns.
+Experimental access pattern aware memory management optimization works that
+incurring high instrumentation overhead will be able to have another try.
+
+Though DAMON is for kernel subsystems, it can be easily exposed to the user
+space by writing a DAMON-wrapper kernel subsystem.  Then, user space users who
+have some special workloads will be able to write personalized tools or
+applications for deeper understanding and specialized optimizations of their
+systems.
+
+Evaluations
+===========
+
+We evaluated DAMON's overhead, monitoring quality and usefulness using 24
+realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+v22 DAMON patchset is applied.
+
+DAMON is lightweight.  It increases system memory usage by 0.25% and slows
+target workloads down by 0.89%.
+
+DAMON is accurate and useful for memory management optimizations.  An
+experimental DAMON-based operation scheme for THP, 'ethp', removes 81.73% of
+THP memory overheads while preserving 95.29% of THP speedup.  Another
+experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
+reduces 91.30% of residential sets and 23.45% of system memory footprint while
+incurring only 2.08% runtime overhead in the best case (parsec3/freqmine).
+
+NOTE that the experimentail THP optimization and proactive reclamation are not
+for production but only for proof of concepts.
+
+Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+a document for DAMON" patch in this patchset for detailed evaluation setup and
+results.
+
+[1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
+
+Comparison with Idle Page Tracking
+==================================
+
+Idle Page Tracking allows users to set and read idleness of pages using a
+bitmap file which represents each page with each bit of the file.  One
+recommended usage of it is working set size detection.  Users can do that by
+
+    1. find PFN of each page for workloads in interest,
+    2. set all the pages as idle by doing writes to the bitmap file,
+    3. wait until the workload accesses its working set, and
+    4. read the idleness of the pages again and count pages became not idle.
+
+NOTE: While Idle Page Tracking is for user space users, DAMON is primarily
+designed for kernel subsystems though it can easily exposed to the user space.
+Hence, this section only assumes such user space use of DAMON.
+
+For what use cases Idle Page Tracking would be better?
+------------------------------------------------------
+
+1. Page granularity working set size detection.
+
+DAMON maintains additional metadata for each of the monitoring target regions.
+So, in the page granularity working set size detection use case, DAMON would
+incur (number of monitoring target pages * size of metadata) memory overhead.
+Size of the single metadata item is about 54 bytes, so assuming 4KB pages,
+about 1.3% of monitoring target pages will be additionally used.
+
+All essential metadata for Idle Page Tracking are embedded in 'struct page' and
+page table entries.  Therefore, in this use case, only one counter variable for
+working set size accounting is required if Idle Page Tracking is used.
+
+There are more details to consider, but roughly speaking, this is true in most
+cases.
+
+2. Physical memory monitoring.
+
+Idle Page Tracking receives PFN range as input, so natively supports physical
+memory monitoring.
+
+DAMON is instead designed to be extensible for multiple address spaces and use
+cases by implementing and using primitives for the given use case.  Therefore,
+by theory, DAMON has no limitation in the type of target address space as long
+as primitives for the given address space exists.  However, this patchset
+provides only one implementation of primitives for virtual address spaces.
+
+Therefore, for physical memory monitoring, you should implement your own
+primitives and use it, or simply use Idle Page Tracking.
+
+Nonetheless, RFC patchsets[1] for the physical memory address space primitives
+is already available.  It also supports user memory same to Idle Page Tracking.
+
+[1] https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/
+
+For what use cases DAMON is better?
+-----------------------------------
+
+1. Hotness Monitoring.
+
+Idle Page Tracking let users know only if a page frame is accessed or not.  For
+hotness check, the user should write more code and use more memory.  DAMON do
+that by itself.
+
+2. Low Monitoring Overhead
+
+DAMON receives user's monitoring request with one step and then provide the
+results.  So, roughly speaking, DAMON require only O(1) user/kernel context
+switches.
+
+In case of Idle Page Tracking, however, because the interface receives
+contiguous page frames, the number of user/kernel context switches increases as
+the monitoring target becomes complex and huge.  As a result, the context
+switch overhead could be not negligible.
+
+Moreover, DAMON is born to handle with the monitoring overhead.  Because the
+core mechanism is pure logical, Idle Page Tracking users might be able to
+implement the mechanism on thier own, but it would be time consuming and the
+user/kernel context switching will still more frequent than that of DAMON.
+Also, the kernel subsystems cannot use the logic in this case.
+
+3. More future usecases
+
+While Idle Page Tracking has tight coupling with base primitives (PG_Idle and
+page table Accessed bits), DAMON is designed to be extensible for many use
+cases and address spaces.  If you need some special address type or want to use
+special h/w access check primitives, you can write your own primitives for that
+and configure DAMON to use those.  Therefore, if your use case could be changed
+a lot in future, using DAMON could be better.
+
+Can I use both Idle Page Tracking and DAMON?
+--------------------------------------------
+
+Yes, this patchset makes Idle Page Tracking and DAMON to be safely used on
+single system while synchronizing with each other to prevent any interference.
+So, you can choose whatever you want depending on the characteristics of your
+use cases.
+
+More Information
+================
+
+We prepared a showcase web site[1] that you can get more information.  There
+are
+
+- the official documentations[2],
+- the heatmap format dynamic access pattern of various realistic workloads for
+  heap area[3], mmap()-ed area[4], and stack[5] area,
+- the dynamic working set size distribution[6] and chronological working set
+  size changes[7], and
+- the latest performance test results[8].
+
+[1] https://damonitor.github.io/_index
+[2] https://damonitor.github.io/doc/html/latest-damon
+[3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.0.png.html
+[4] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
+[5] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.2.png.html
+[6] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
+[7] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.png.html
+[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the v5.9.  You can also clone the complete git
+tree:
+
+    $ git clone git://github.com/sjp38/linux -b damon/patches/v22
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damon/patches/v22
+
+There are a couple of trees for entire DAMON patchset series.  It includes
+future features.  The first one[1] contains the changes for latest release,
+while the other one[2] contains the changes for next release.
+
+[1] https://github.com/sjp38/linux/tree/damon/master
+[2] https://github.com/sjp38/linux/tree/damon/next
+
+Sequence Of Patches
+===================
+
+First four patches implement the core logics of DAMON.  The 1st patch
+introduces DAMON data structures and functions for manipulation of the
+structures.  Following three patches (2nd to 4th) implement the core mechanisms
+of DAMON, namely regions based sampling (patch 2), adaptive regions adjustment
+(patch 3), and dynamic memory mapping change adoption (patch 4).
+
+Now the essential parts of DAMON is complete, but it cannot work unless someone
+provides primitives for a specific use case.  The following two patches make it
+just work for virtual address spaces monitoring.  The 5th patch makes 'PG_idle'
+can be used by DAMON and the 6th patch implements the virtual memory address
+space specific low primitives using page table Accessed bits and the 'PG_idle'
+page flag.  As use of 'PG_idle' could interfere Idle Page Tracking, the
+primitives are configured to be exclusive with Idle Page Tracking.
+
+As there are some cases Idle Page Tracking could do better, next two patches
+make DAMON coexistable with Idle Page Tracking.  The 7th patch introduces a
+synchronization primitives for concurrent PG_Idle users, and the 8th patch
+makes the primitives for DAMON to synchronize with Idle Page Tracking using
+it.
+
+Now DAMON just works for virtual address space monitoring via the kernel space
+api.  To let the user space users can use DAMON, following six patches add
+interfaces for them.  The 9th patch adds a tracepoint for other tracepoints
+supporting tracers.  The 10th patch implements a DAMON application kernel
+module, namely damon-dbgfs, that simply wraps DAMON and exposes DAMON interface
+to the user space via the debugfs interface.  To let the user space get the
+monitoring results more easily, the 11th patch implements a simple recording
+feature in 'damon-dbgfs'.  The 12nd patch further exports pid of monitoring
+thread (kdamond) to user space for easier cpu usage accounting, and the 13rd
+patch makes the debugfs interface to support multiple contexts.  Then, the 14th
+patch implements an user space tool to provide a minimal reference to the
+debugfs interface and for high level use/tests of the DAMON.
+
+Three patches for maintainability follows.  The 15th patch adds documentations
+for both the user space and the kernel space.  The 16th patch provides unit
+tests (based on the kunit) while the 17th patch adds user space tests (based on
+the kselftest).
+
+Finally, the last patch (18th) updates the MAINTAINERS file.
+
+Patch History
+=============
+
+Changes from v21
+(https://lore.kernel.org/linux-doc/20201005105522.23841-1-sjpark@amazon.com/)
+- Fix build warnings and errors (kernel test robot)
+- Fix a memory leak (kmemleak)
+- Respect KUNIT_ALL_TESTS
+- Rebase on v5.9
+- Update the evaluation results
+
+Changes from v20
+(https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/)
+- s/snprintf()/scnprintf() (Marco Elver)
+- Support multiple contexts for user space users (Shakeel Butt)
+- Export pid of monitoring thread to user space (Shakeel Butt)
+- Let coexistable with Idle Page Tracking
+- Place three parts of DAMON (core, primitives, and dbgfs) in different files
+
+Changes from v19
+(https://lore.kernel.org/linux-mm/20200804091416.31039-1-sjpark@amazon.com/)
+- Place 'CREATE_TRACE_POINTS' after '#include' statements (Steven Rostedt)
+- Support large record file (Alkaid)
+- Place 'put_pid()' of virtual monitoring targets in 'cleanup' callback
+- Avoid conflict between concurrent DAMON users
+- Update evaluation result document
+
+Changes from v18
+(https://lore.kernel.org/linux-mm/20200713084144.4430-1-sjpark@amazon.com/)
+- Drop loadable module support (Mike Rapoport)
+- Select PAGE_EXTENSION if !64BIT for 'set_page_young()'
+- Take care of the MMU notification subscribers (Shakeel Butt)
+- Substitute 'struct damon_task' with 'struct damon_target' for better abstract
+- Use 'struct pid' instead of 'pid_t' as the target (Shakeel Butt)
+- Support pidfd from the debugfs interface (Shakeel Butt)
+- Fix typos (Greg Thelen)
+- Properly isolate DAMON from other pmd/pte Accessed bit users (Greg Thelen)
+- Rebase on v5.8
+
+Changes from v17
+(https://lore.kernel.org/linux-mm/20200706115322.29598-1-sjpark@amazon.com/)
+- Reorganize the doc and remove png blobs (Mike Rapoport)
+- Wordsmith mechnisms doc and commit messages
+- tools/wss: Set default working set access frequency threshold
+- Avoid race in damon deamon start
+
+Changes from v16
+(https://lore.kernel.org/linux-mm/20200615161927.12637-1-sjpark@amazon.com/)
+ - Wordsmith/cleanup the documentations and the code
+ - user space tool: Simplify the code and add wss option for reuse histogram
+ - recording: Check disablement condition properly
+ - recording: Force minimal recording buffer size (1KB)
+
+Changes from v15
+(https://lore.kernel.org/linux-mm/20200608114047.26589-1-sjpark@amazon.com/)
+ - Refine commit messages (David Hildenbrand)
+ - Optimizes three vma regions search (Varad Gautam)
+ - Support static granularity monitoring (Shakeel Butt)
+ - Cleanup code and re-organize the sequence of patches
+
+Please refer to the v15 patchset to get older history.
+
+SeongJae Park (18):
+  mm: Introduce Data Access MONitor (DAMON)
+  mm/damon: Implement region based sampling
+  mm/damon: Adaptively adjust regions
+  mm/damon: Track dynamic monitoring target regions update
+  mm/idle_page_tracking: Make PG_(idle|young) reusable
+  mm/damon: Implement primitives for the virtual memory address spaces
+  mm/page_idle: Avoid interferences from concurrent users
+  mm/damon/primitives: Make coexistable with Idle Page Tracking
+  mm/damon: Add a tracepoint
+  mm/damon: Implement a debugfs-based user space interface
+  mm/damon/dbgfs: Implement recording feature
+  mm/damon/dbgfs: Export kdamond pid to the user space
+  mm/damon/dbgfs: Support multiple contexts
+  tools: Introduce a minimal user-space tool for DAMON
+  Documentation: Add documents for DAMON
+  mm/damon: Add kunit tests
+  mm/damon: Add user space selftests
+  MAINTAINERS: Update for DAMON
+
+ Documentation/admin-guide/mm/damon/guide.rst  | 157 +++
+ Documentation/admin-guide/mm/damon/index.rst  |  15 +
+ Documentation/admin-guide/mm/damon/plans.rst  |  29 +
+ Documentation/admin-guide/mm/damon/start.rst  |  96 ++
+ Documentation/admin-guide/mm/damon/usage.rst  | 302 ++++++
+ .../admin-guide/mm/idle_page_tracking.rst     |  22 +-
+ Documentation/admin-guide/mm/index.rst        |   1 +
+ Documentation/vm/damon/api.rst                |  20 +
+ Documentation/vm/damon/design.rst             | 166 ++++
+ Documentation/vm/damon/eval.rst               | 227 +++++
+ Documentation/vm/damon/faq.rst                |  58 ++
+ Documentation/vm/damon/index.rst              |  31 +
+ Documentation/vm/index.rst                    |   1 +
+ MAINTAINERS                                   |  12 +
+ include/linux/damon.h                         | 257 +++++
+ include/linux/page-flags.h                    |   4 +-
+ include/linux/page_ext.h                      |   2 +-
+ include/linux/page_idle.h                     |   8 +-
+ include/trace/events/damon.h                  |  43 +
+ include/trace/events/mmflags.h                |   2 +-
+ mm/Kconfig                                    |  10 +
+ mm/Makefile                                   |   1 +
+ mm/damon/Kconfig                              |  70 ++
+ mm/damon/Makefile                             |   5 +
+ mm/damon/core-test.h                          | 253 +++++
+ mm/damon/core.c                               | 711 ++++++++++++++
+ mm/damon/dbgfs-test.h                         | 209 ++++
+ mm/damon/dbgfs.c                              | 922 ++++++++++++++++++
+ mm/damon/primitives-test.h                    | 328 +++++++
+ mm/damon/primitives.c                         | 595 +++++++++++
+ mm/page_ext.c                                 |  12 +-
+ mm/page_idle.c                                |  50 +-
+ tools/damon/.gitignore                        |   1 +
+ tools/damon/_damon.py                         | 130 +++
+ tools/damon/_dist.py                          |  35 +
+ tools/damon/_recfile.py                       |  23 +
+ tools/damon/bin2txt.py                        |  67 ++
+ tools/damon/damo                              |  37 +
+ tools/damon/heats.py                          | 362 +++++++
+ tools/damon/nr_regions.py                     |  91 ++
+ tools/damon/record.py                         | 135 +++
+ tools/damon/report.py                         |  45 +
+ tools/damon/wss.py                            | 100 ++
+ tools/testing/selftests/damon/Makefile        |   7 +
+ .../selftests/damon/_chk_dependency.sh        |  28 +
+ tools/testing/selftests/damon/_chk_record.py  | 109 +++
+ .../testing/selftests/damon/debugfs_attrs.sh  | 161 +++
+ .../testing/selftests/damon/debugfs_record.sh |  50 +
+ 48 files changed, 5976 insertions(+), 24 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/damon/guide.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/index.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/plans.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/start.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
+ create mode 100644 Documentation/vm/damon/api.rst
+ create mode 100644 Documentation/vm/damon/design.rst
+ create mode 100644 Documentation/vm/damon/eval.rst
+ create mode 100644 Documentation/vm/damon/faq.rst
+ create mode 100644 Documentation/vm/damon/index.rst
+ create mode 100644 include/linux/damon.h
+ create mode 100644 include/trace/events/damon.h
+ create mode 100644 mm/damon/Kconfig
+ create mode 100644 mm/damon/Makefile
+ create mode 100644 mm/damon/core-test.h
+ create mode 100644 mm/damon/core.c
+ create mode 100644 mm/damon/dbgfs-test.h
+ create mode 100644 mm/damon/dbgfs.c
+ create mode 100644 mm/damon/primitives-test.h
+ create mode 100644 mm/damon/primitives.c
+ create mode 100644 tools/damon/.gitignore
+ create mode 100644 tools/damon/_damon.py
+ create mode 100644 tools/damon/_dist.py
+ create mode 100644 tools/damon/_recfile.py
+ create mode 100644 tools/damon/bin2txt.py
+ create mode 100755 tools/damon/damo
+ create mode 100644 tools/damon/heats.py
+ create mode 100644 tools/damon/nr_regions.py
+ create mode 100644 tools/damon/record.py
+ create mode 100644 tools/damon/report.py
+ create mode 100644 tools/damon/wss.py
+ create mode 100644 tools/testing/selftests/damon/Makefile
+ create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+ create mode 100644 tools/testing/selftests/damon/_chk_record.py
+ create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+ create mode 100755 tools/testing/selftests/damon/debugfs_record.sh
+
+-- 
+2.17.1
+
