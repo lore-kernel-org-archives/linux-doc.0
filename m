@@ -8,40 +8,40 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D831EC4363D
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79343C43467
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74C3E22409
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1D4B222C8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="R/gtH8Cq"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="bz4H149B"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392413AbgJTJGg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Oct 2020 05:06:36 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:55679 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390607AbgJTJGg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:06:36 -0400
+        id S2392427AbgJTJGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Oct 2020 05:06:48 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:60627 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389447AbgJTJGr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:06:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1603184792; x=1634720792;
+  t=1603184803; x=1634720803;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=wlhigpqUWnPzGdNMOvD3bnUTVB5Oom4xoVgYUvo94Cs=;
-  b=R/gtH8Cq8x3E2whZRC/iuudE0hLXbJpOKXH615ysgZ80zrlYICjs+Yt2
-   Olui7fHr6zaOY41id5c8LJCPWxlMyRkQJb+7Q9W+LuDy4P042un2zYstG
-   SvRLkHxJHV63DEnsk+WHO7yzoMmkUHENCIXqtGdf4tfFqqaWpTlXoJf16
-   Y=;
+  bh=w601Bo9VNwpxMW2d5Fj37aHP7rXY9b49Q1CByIrNGSU=;
+  b=bz4H149BwVI+1WIUTx31vqtATSGumEH9gXb1egqmg3mVKEK/poAgRBv9
+   lyRl7RCFquqWrAE8qO0IvlPXoP29wiiTud+4J97eQrgwRc0UVdlCoym8a
+   gGL51l99D/dro7q/Rdu0S6BC6XKdjZB5jPr6L5kF0mIS6paHBIpwZr9Ed
+   k=;
 X-IronPort-AV: E=Sophos;i="5.77,396,1596499200"; 
-   d="scan'208";a="86290293"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-579b7f5b.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 20 Oct 2020 09:06:31 +0000
+   d="scan'208";a="78104155"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 20 Oct 2020 09:06:42 +0000
 Received: from EX13D31EUB001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2c-579b7f5b.us-west-2.amazon.com (Postfix) with ESMTPS id B8ED7A1BC3;
-        Tue, 20 Oct 2020 09:02:58 +0000 (UTC)
+        by email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com (Postfix) with ESMTPS id 6592DA18CB;
+        Tue, 20 Oct 2020 09:06:39 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
  EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 20 Oct 2020 09:02:37 +0000
+ id 15.0.1497.2; Tue, 20 Oct 2020 09:06:19 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -63,9 +63,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v22 06/18] mm/damon: Implement primitives for the virtual memory address spaces
-Date:   Tue, 20 Oct 2020 10:59:28 +0200
-Message-ID: <20201020085940.13875-7-sjpark@amazon.com>
+Subject: [PATCH v22 14/18] tools: Introduce a minimal user-space tool for DAMON
+Date:   Tue, 20 Oct 2020 10:59:36 +0200
+Message-ID: <20201020085940.13875-15-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201020085940.13875-1-sjpark@amazon.com>
 References: <20201020085940.13875-1-sjpark@amazon.com>
@@ -80,712 +80,1139 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit introduces a reference implementation of the address space
-specific low level primitives for the virtual address space, so that
-users of DAMON can easily monitor the data accesses on virtual address
-spaces of specific processes by simply configuring the implementation to
-be used by DAMON.
+'damon-dbgfs' provides simple user space interface for DAMON, but using
+the interface for complex usages could require annoying repetitive
+works.  Writing a user space data access monitoring applications on top
+of the debugfs interface and using the application would be better for
+such complex cases.
 
-The low level primitives for the fundamental access monitoring are
-defined in two parts:
-1. Identification of the monitoring target address range for the address
-space.
-2. Access check of specific address range in the target space.
+This commit introduces a reference implementation of such user space
+application built on top of the debugfs interface, namely 'DAMon
+Operator' (DAMO).  It contains a shallow wrapper python script of the
+debugfs interface and various visualization of the monitoring results
+convenient user interface.
 
-The reference implementation for the virtual address space provided by
-this commit is designed as below.
-
-PTE Accessed-bit Based Access Check
------------------------------------
-
-The implementation uses PTE Accessed-bit for basic access checks.  That
-is, it clears the bit for next sampling target page and checks whether
-it set again after one sampling period.  This could disturb other kernel
-subsystems using the Accessed bits, namely Idle page tracking and the
-reclaim logic.  To avoid such disturbances, DAMON makes it mutually
-exclusive with Idle page tracking and uses ``PG_idle`` and ``PG_young``
-page flags to solve the conflict with the reclaim logics, as Idle page
-tracking does.
-
-VMA-based Target Address Range Construction
--------------------------------------------
-
-Only small parts in the super-huge virtual address space of the
-processes are mapped to physical memory and accessed.  Thus, tracking
-the unmapped address regions is just wasteful.  However, because DAMON
-can deal with some level of noise using the adaptive regions adjustment
-mechanism, tracking every mapping is not strictly required but could
-even incur a high overhead in some cases.  That said, too huge unmapped
-areas inside the monitoring target should be removed to not take the
-time for the adaptive mechanism.
-
-For the reason, this implementation converts the complex mappings to
-three distinct regions that cover every mapped area of the address
-space.  Also, the two gaps between the three regions are the two biggest
-unmapped areas in the given address space.  The two biggest unmapped
-areas would be the gap between the heap and the uppermost mmap()-ed
-region, and the gap between the lowermost mmap()-ed region and the stack
-in most of the cases.  Because these gaps are exceptionally huge in
-usual address spacees, excluding these will be sufficient to make a
-reasonable trade-off.  Below shows this in detail::
-
-    <heap>
-    <BIG UNMAPPED REGION 1>
-    <uppermost mmap()-ed region>
-    (small mmap()-ed regions and munmap()-ed regions)
-    <lowermost mmap()-ed region>
-    <BIG UNMAPPED REGION 2>
-    <stack>
+Note that it is initially aimed to be used for minimal reference of the
+'damon-dbgfs' interface and for debugging of the DAMON itself.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 ---
- include/linux/damon.h |  14 +
- mm/damon/Kconfig      |  10 +
- mm/damon/Makefile     |   1 +
- mm/damon/primitives.c | 582 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 607 insertions(+)
- create mode 100644 mm/damon/primitives.c
+ tools/damon/.gitignore    |   1 +
+ tools/damon/_damon.py     | 130 ++++++++++++++
+ tools/damon/_dist.py      |  35 ++++
+ tools/damon/_recfile.py   |  23 +++
+ tools/damon/bin2txt.py    |  67 +++++++
+ tools/damon/damo          |  37 ++++
+ tools/damon/heats.py      | 362 ++++++++++++++++++++++++++++++++++++++
+ tools/damon/nr_regions.py |  91 ++++++++++
+ tools/damon/record.py     | 135 ++++++++++++++
+ tools/damon/report.py     |  45 +++++
+ tools/damon/wss.py        | 100 +++++++++++
+ 11 files changed, 1026 insertions(+)
+ create mode 100644 tools/damon/.gitignore
+ create mode 100644 tools/damon/_damon.py
+ create mode 100644 tools/damon/_dist.py
+ create mode 100644 tools/damon/_recfile.py
+ create mode 100644 tools/damon/bin2txt.py
+ create mode 100755 tools/damon/damo
+ create mode 100644 tools/damon/heats.py
+ create mode 100644 tools/damon/nr_regions.py
+ create mode 100644 tools/damon/record.py
+ create mode 100644 tools/damon/report.py
+ create mode 100644 tools/damon/wss.py
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index b8562814751e..70cc4b54212e 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -238,4 +238,18 @@ int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
- 
- #endif	/* CONFIG_DAMON */
- 
-+#ifdef CONFIG_DAMON_PRIMITIVES
-+
-+/* Reference callback implementations for virtual memory */
-+void damon_va_init_regions(struct damon_ctx *ctx);
-+void damon_va_update_regions(struct damon_ctx *ctx);
-+void damon_va_prepare_access_checks(struct damon_ctx *ctx);
-+unsigned int damon_va_check_accesses(struct damon_ctx *ctx);
-+bool damon_va_target_valid(struct damon_target *t);
-+void damon_va_cleanup(struct damon_ctx *ctx);
-+void damon_va_set_primitives(struct damon_ctx *ctx);
-+
-+#endif	/* CONFIG_DAMON_PRIMITIVES */
-+
-+
- #endif
-diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-index d00e99ac1a15..0d2a18ddb9d8 100644
---- a/mm/damon/Kconfig
-+++ b/mm/damon/Kconfig
-@@ -12,4 +12,14 @@ config DAMON
- 	  See https://damonitor.github.io/doc/html/latest-damon/index.html for
- 	  more information.
- 
-+config DAMON_PRIMITIVES
-+	bool "Monitoring primitives for virtual address spaces monitoring"
-+	depends on DAMON && MMU && !IDLE_PAGE_TRACKING
-+	select PAGE_EXTENSION if !64BIT
-+	select PAGE_IDLE_FLAG
-+	help
-+	  This builds the default data access monitoring primitives for DAMON.
-+	  The primitives support only virtual address spaces.  If this cannot
-+	  cover your use case, you can implement and use your own primitives.
-+
- endmenu
-diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-index 4fd2edb4becf..2f3235a52e5e 100644
---- a/mm/damon/Makefile
-+++ b/mm/damon/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- obj-$(CONFIG_DAMON)		:= core.o
-+obj-$(CONFIG_DAMON_PRIMITIVES)	+= primitives.o
-diff --git a/mm/damon/primitives.c b/mm/damon/primitives.c
+diff --git a/tools/damon/.gitignore b/tools/damon/.gitignore
 new file mode 100644
-index 000000000000..9b603ac0077c
+index 000000000000..96403d36ff93
 --- /dev/null
-+++ b/mm/damon/primitives.c
-@@ -0,0 +1,582 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Low Level Primitives for Data Access Monitoring
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
-+
-+#define pr_fmt(fmt) "damon-prmt: " fmt
-+
-+#include <linux/damon.h>
-+#include <linux/mm.h>
-+#include <linux/mmu_notifier.h>
-+#include <linux/page_idle.h>
-+#include <linux/random.h>
-+#include <linux/sched/mm.h>
-+#include <linux/slab.h>
-+
-+/* Minimal region size.  Every damon_region is aligned by this. */
-+#define MIN_REGION PAGE_SIZE
-+
-+/* Get a random number in [l, r) */
-+#define damon_rand(l, r) (l + prandom_u32_max(r - l))
-+
-+/*
-+ * 't->id' should be the pointer to the relevant 'struct pid' having reference
-+ * count.  Caller must put the returned task, unless it is NULL.
-+ */
-+#define damon_get_task_struct(t) \
-+	(get_pid_task((struct pid *)t->id, PIDTYPE_PID))
-+
-+/*
-+ * Get the mm_struct of the given target
-+ *
-+ * Caller _must_ put the mm_struct after use, unless it is NULL.
-+ *
-+ * Returns the mm_struct of the target on success, NULL on failure
-+ */
-+static struct mm_struct *damon_get_mm(struct damon_target *t)
-+{
-+	struct task_struct *task;
-+	struct mm_struct *mm;
-+
-+	task = damon_get_task_struct(t);
-+	if (!task)
-+		return NULL;
-+
-+	mm = get_task_mm(task);
-+	put_task_struct(task);
-+	return mm;
-+}
-+
-+/*
-+ * Primitives for virtual address spaces
-+ */
-+
-+/*
-+ * Functions for the initial monitoring target regions construction
-+ */
-+
-+/*
-+ * Size-evenly split a region into 'nr_pieces' small regions
-+ *
-+ * Returns 0 on success, or negative error code otherwise.
-+ */
-+static int damon_va_evenly_split_region(struct damon_ctx *ctx,
-+		struct damon_region *r, unsigned int nr_pieces)
-+{
-+	unsigned long sz_orig, sz_piece, orig_end;
-+	struct damon_region *n = NULL, *next;
-+	unsigned long start;
-+
-+	if (!r || !nr_pieces)
-+		return -EINVAL;
-+
-+	orig_end = r->ar.end;
-+	sz_orig = r->ar.end - r->ar.start;
-+	sz_piece = ALIGN_DOWN(sz_orig / nr_pieces, MIN_REGION);
-+
-+	if (!sz_piece)
-+		return -EINVAL;
-+
-+	r->ar.end = r->ar.start + sz_piece;
-+	next = damon_next_region(r);
-+	for (start = r->ar.end; start + sz_piece <= orig_end;
-+			start += sz_piece) {
-+		n = damon_new_region(start, start + sz_piece);
-+		if (!n)
-+			return -ENOMEM;
-+		damon_insert_region(n, r, next);
-+		r = n;
-+	}
-+	/* complement last region for possible rounding error */
-+	if (n)
-+		n->ar.end = orig_end;
-+
-+	return 0;
-+}
-+
-+static unsigned long sz_range(struct damon_addr_range *r)
-+{
-+	return r->end - r->start;
-+}
-+
-+static void swap_ranges(struct damon_addr_range *r1,
-+			struct damon_addr_range *r2)
-+{
-+	struct damon_addr_range tmp;
-+
-+	tmp = *r1;
-+	*r1 = *r2;
-+	*r2 = tmp;
-+}
-+
-+/*
-+ * Find three regions separated by two biggest unmapped regions
-+ *
-+ * vma		the head vma of the target address space
-+ * regions	an array of three address ranges that results will be saved
-+ *
-+ * This function receives an address space and finds three regions in it which
-+ * separated by the two biggest unmapped regions in the space.  Please refer to
-+ * below comments of '__damon_va_init_regions()' function to know why this is
-+ * necessary.
-+ *
-+ * Returns 0 if success, or negative error code otherwise.
-+ */
-+static int __damon_va_three_regions(struct vm_area_struct *vma,
-+				       struct damon_addr_range regions[3])
-+{
-+	struct damon_addr_range gap = {0}, first_gap = {0}, second_gap = {0};
-+	struct vm_area_struct *last_vma = NULL;
-+	unsigned long start = 0;
-+	struct rb_root rbroot;
-+
-+	/* Find two biggest gaps so that first_gap > second_gap > others */
-+	for (; vma; vma = vma->vm_next) {
-+		if (!last_vma) {
-+			start = vma->vm_start;
-+			goto next;
-+		}
-+
-+		if (vma->rb_subtree_gap <= sz_range(&second_gap)) {
-+			rbroot.rb_node = &vma->vm_rb;
-+			vma = rb_entry(rb_last(&rbroot),
-+					struct vm_area_struct, vm_rb);
-+			goto next;
-+		}
-+
-+		gap.start = last_vma->vm_end;
-+		gap.end = vma->vm_start;
-+		if (sz_range(&gap) > sz_range(&second_gap)) {
-+			swap_ranges(&gap, &second_gap);
-+			if (sz_range(&second_gap) > sz_range(&first_gap))
-+				swap_ranges(&second_gap, &first_gap);
-+		}
-+next:
-+		last_vma = vma;
-+	}
-+
-+	if (!sz_range(&second_gap) || !sz_range(&first_gap))
-+		return -EINVAL;
-+
-+	/* Sort the two biggest gaps by address */
-+	if (first_gap.start > second_gap.start)
-+		swap_ranges(&first_gap, &second_gap);
-+
-+	/* Store the result */
-+	regions[0].start = ALIGN(start, MIN_REGION);
-+	regions[0].end = ALIGN(first_gap.start, MIN_REGION);
-+	regions[1].start = ALIGN(first_gap.end, MIN_REGION);
-+	regions[1].end = ALIGN(second_gap.start, MIN_REGION);
-+	regions[2].start = ALIGN(second_gap.end, MIN_REGION);
-+	regions[2].end = ALIGN(last_vma->vm_end, MIN_REGION);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Get the three regions in the given target (task)
-+ *
-+ * Returns 0 on success, negative error code otherwise.
-+ */
-+static int damon_va_three_regions(struct damon_target *t,
-+				struct damon_addr_range regions[3])
-+{
-+	struct mm_struct *mm;
-+	int rc;
-+
-+	mm = damon_get_mm(t);
-+	if (!mm)
-+		return -EINVAL;
-+
-+	mmap_read_lock(mm);
-+	rc = __damon_va_three_regions(mm->mmap, regions);
-+	mmap_read_unlock(mm);
-+
-+	mmput(mm);
-+	return rc;
-+}
-+
-+/*
-+ * Initialize the monitoring target regions for the given target (task)
-+ *
-+ * t	the given target
-+ *
-+ * Because only a number of small portions of the entire address space
-+ * is actually mapped to the memory and accessed, monitoring the unmapped
-+ * regions is wasteful.  That said, because we can deal with small noises,
-+ * tracking every mapping is not strictly required but could even incur a high
-+ * overhead if the mapping frequently changes or the number of mappings is
-+ * high.  The adaptive regions adjustment mechanism will further help to deal
-+ * with the noise by simply identifying the unmapped areas as a region that
-+ * has no access.  Moreover, applying the real mappings that would have many
-+ * unmapped areas inside will make the adaptive mechanism quite complex.  That
-+ * said, too huge unmapped areas inside the monitoring target should be removed
-+ * to not take the time for the adaptive mechanism.
-+ *
-+ * For the reason, we convert the complex mappings to three distinct regions
-+ * that cover every mapped area of the address space.  Also the two gaps
-+ * between the three regions are the two biggest unmapped areas in the given
-+ * address space.  In detail, this function first identifies the start and the
-+ * end of the mappings and the two biggest unmapped areas of the address space.
-+ * Then, it constructs the three regions as below:
-+ *
-+ *     [mappings[0]->start, big_two_unmapped_areas[0]->start)
-+ *     [big_two_unmapped_areas[0]->end, big_two_unmapped_areas[1]->start)
-+ *     [big_two_unmapped_areas[1]->end, mappings[nr_mappings - 1]->end)
-+ *
-+ * As usual memory map of processes is as below, the gap between the heap and
-+ * the uppermost mmap()-ed region, and the gap between the lowermost mmap()-ed
-+ * region and the stack will be two biggest unmapped regions.  Because these
-+ * gaps are exceptionally huge areas in usual address space, excluding these
-+ * two biggest unmapped regions will be sufficient to make a trade-off.
-+ *
-+ *   <heap>
-+ *   <BIG UNMAPPED REGION 1>
-+ *   <uppermost mmap()-ed region>
-+ *   (other mmap()-ed regions and small unmapped regions)
-+ *   <lowermost mmap()-ed region>
-+ *   <BIG UNMAPPED REGION 2>
-+ *   <stack>
-+ */
-+static void __damon_va_init_regions(struct damon_ctx *c,
-+				     struct damon_target *t)
-+{
-+	struct damon_region *r;
-+	struct damon_addr_range regions[3];
-+	unsigned long sz = 0, nr_pieces;
-+	int i;
-+
-+	if (damon_va_three_regions(t, regions)) {
-+		pr_err("Failed to get three regions of target %lu\n", t->id);
-+		return;
-+	}
-+
-+	for (i = 0; i < 3; i++)
-+		sz += regions[i].end - regions[i].start;
-+	if (c->min_nr_regions)
-+		sz /= c->min_nr_regions;
-+	if (sz < MIN_REGION)
-+		sz = MIN_REGION;
-+
-+	/* Set the initial three regions of the target */
-+	for (i = 0; i < 3; i++) {
-+		r = damon_new_region(regions[i].start, regions[i].end);
-+		if (!r) {
-+			pr_err("%d'th init region creation failed\n", i);
-+			return;
-+		}
-+		damon_add_region(r, t);
-+
-+		nr_pieces = (regions[i].end - regions[i].start) / sz;
-+		damon_va_evenly_split_region(c, r, nr_pieces);
-+	}
-+}
-+
-+/* Initialize '->regions_list' of every target (task) */
-+void damon_va_init_regions(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+
-+	damon_for_each_target(t, ctx) {
-+		/* the user may set the target regions as they want */
-+		if (!damon_nr_regions(t))
-+			__damon_va_init_regions(ctx, t);
-+	}
-+}
-+
-+/*
-+ * Functions for the dynamic monitoring target regions update
-+ */
-+
-+/*
-+ * Check whether a region is intersecting an address range
-+ *
-+ * Returns true if it is.
-+ */
-+static bool damon_intersect(struct damon_region *r, struct damon_addr_range *re)
-+{
-+	return !(r->ar.end <= re->start || re->end <= r->ar.start);
-+}
-+
-+/*
-+ * Update damon regions for the three big regions of the given target
-+ *
-+ * t		the given target
-+ * bregions	the three big regions of the target
-+ */
-+static void damon_va_apply_three_regions(struct damon_ctx *ctx,
-+		struct damon_target *t, struct damon_addr_range bregions[3])
-+{
-+	struct damon_region *r, *next;
-+	unsigned int i = 0;
-+
-+	/* Remove regions which are not in the three big regions now */
-+	damon_for_each_region_safe(r, next, t) {
-+		for (i = 0; i < 3; i++) {
-+			if (damon_intersect(r, &bregions[i]))
-+				break;
-+		}
-+		if (i == 3)
-+			damon_destroy_region(r);
-+	}
-+
-+	/* Adjust intersecting regions to fit with the three big regions */
-+	for (i = 0; i < 3; i++) {
-+		struct damon_region *first = NULL, *last;
-+		struct damon_region *newr;
-+		struct damon_addr_range *br;
-+
-+		br = &bregions[i];
-+		/* Get the first and last regions which intersects with br */
-+		damon_for_each_region(r, t) {
-+			if (damon_intersect(r, br)) {
-+				if (!first)
-+					first = r;
-+				last = r;
-+			}
-+			if (r->ar.start >= br->end)
-+				break;
-+		}
-+		if (!first) {
-+			/* no damon_region intersects with this big region */
-+			newr = damon_new_region(
-+					ALIGN_DOWN(br->start, MIN_REGION),
-+					ALIGN(br->end, MIN_REGION));
-+			if (!newr)
-+				continue;
-+			damon_insert_region(newr, damon_prev_region(r), r);
-+		} else {
-+			first->ar.start = ALIGN_DOWN(br->start, MIN_REGION);
-+			last->ar.end = ALIGN(br->end, MIN_REGION);
-+		}
-+	}
-+}
-+
-+/*
-+ * Update regions for current memory mappings
-+ */
-+void damon_va_update_regions(struct damon_ctx *ctx)
-+{
-+	struct damon_addr_range three_regions[3];
-+	struct damon_target *t;
-+
-+	damon_for_each_target(t, ctx) {
-+		if (damon_va_three_regions(t, three_regions))
-+			continue;
-+		damon_va_apply_three_regions(ctx, t, three_regions);
-+	}
-+}
-+
-+/*
-+ * Functions for the access checking of the regions
-+ */
-+
-+static void damon_ptep_mkold(pte_t *pte, struct mm_struct *mm,
-+			     unsigned long addr)
-+{
-+	bool referenced = false;
-+	struct page *page = pte_page(*pte);
-+
-+	if (pte_young(*pte)) {
-+		referenced = true;
-+		*pte = pte_mkold(*pte);
-+	}
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	if (mmu_notifier_clear_young(mm, addr, addr + PAGE_SIZE))
-+		referenced = true;
-+#endif /* CONFIG_MMU_NOTIFIER */
-+
-+	if (referenced)
-+		set_page_young(page);
-+
-+	set_page_idle(page);
-+}
-+
-+static void damon_pmdp_mkold(pmd_t *pmd, struct mm_struct *mm,
-+			     unsigned long addr)
-+{
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	bool referenced = false;
-+	struct page *page = pmd_page(*pmd);
-+
-+	if (pmd_young(*pmd)) {
-+		referenced = true;
-+		*pmd = pmd_mkold(*pmd);
-+	}
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	if (mmu_notifier_clear_young(mm, addr,
-+				addr + ((1UL) << HPAGE_PMD_SHIFT)))
-+		referenced = true;
-+#endif /* CONFIG_MMU_NOTIFIER */
-+
-+	if (referenced)
-+		set_page_young(page);
-+
-+	set_page_idle(page);
-+#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+}
-+
-+static void damon_va_mkold(struct mm_struct *mm, unsigned long addr)
-+{
-+	pte_t *pte = NULL;
-+	pmd_t *pmd = NULL;
-+	spinlock_t *ptl;
-+
-+	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-+		return;
-+
-+	if (pte) {
-+		damon_ptep_mkold(pte, mm, addr);
-+		pte_unmap_unlock(pte, ptl);
-+	} else {
-+		damon_pmdp_mkold(pmd, mm, addr);
-+		spin_unlock(ptl);
-+	}
-+}
-+
-+static void damon_va_prepare_access_check(struct damon_ctx *ctx,
-+			struct mm_struct *mm, struct damon_region *r)
-+{
-+	r->sampling_addr = damon_rand(r->ar.start, r->ar.end);
-+
-+	damon_va_mkold(mm, r->sampling_addr);
-+}
-+
-+void damon_va_prepare_access_checks(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	struct mm_struct *mm;
-+	struct damon_region *r;
-+
-+	damon_for_each_target(t, ctx) {
-+		mm = damon_get_mm(t);
-+		if (!mm)
-+			continue;
-+		damon_for_each_region(r, t)
-+			damon_va_prepare_access_check(ctx, mm, r);
-+		mmput(mm);
-+	}
-+}
-+
-+static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-+			unsigned long *page_sz)
-+{
-+	pte_t *pte = NULL;
-+	pmd_t *pmd = NULL;
-+	spinlock_t *ptl;
-+	bool young = false;
-+
-+	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-+		return false;
-+
-+	*page_sz = PAGE_SIZE;
-+	if (pte) {
-+		young = pte_young(*pte);
-+		if (!young)
-+			young = !page_is_idle(pte_page(*pte));
-+		pte_unmap_unlock(pte, ptl);
-+		return young;
-+	}
-+
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	young = pmd_young(*pmd);
-+	if (!young)
-+		young = !page_is_idle(pmd_page(*pmd));
-+	spin_unlock(ptl);
-+	*page_sz = ((1UL) << HPAGE_PMD_SHIFT);
-+#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-+
-+	return young;
-+}
-+
-+/*
-+ * Check whether the region was accessed after the last preparation
-+ *
-+ * mm	'mm_struct' for the given virtual address space
-+ * r	the region to be checked
-+ */
-+static void damon_va_check_access(struct damon_ctx *ctx,
-+			       struct mm_struct *mm, struct damon_region *r)
-+{
-+	static struct mm_struct *last_mm;
-+	static unsigned long last_addr;
-+	static unsigned long last_page_sz = PAGE_SIZE;
-+	static bool last_accessed;
-+
-+	/* If the region is in the last checked page, reuse the result */
-+	if (mm == last_mm && (ALIGN_DOWN(last_addr, last_page_sz) ==
-+				ALIGN_DOWN(r->sampling_addr, last_page_sz))) {
-+		if (last_accessed)
-+			r->nr_accesses++;
-+		return;
-+	}
-+
-+	last_accessed = damon_va_young(mm, r->sampling_addr, &last_page_sz);
-+	if (last_accessed)
-+		r->nr_accesses++;
-+
-+	last_mm = mm;
-+	last_addr = r->sampling_addr;
-+}
-+
-+unsigned int damon_va_check_accesses(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	struct mm_struct *mm;
-+	struct damon_region *r;
-+	unsigned int max_nr_accesses = 0;
-+
-+	damon_for_each_target(t, ctx) {
-+		mm = damon_get_mm(t);
-+		if (!mm)
-+			continue;
-+		damon_for_each_region(r, t) {
-+			damon_va_check_access(ctx, mm, r);
-+			max_nr_accesses = max(r->nr_accesses, max_nr_accesses);
-+		}
-+		mmput(mm);
-+	}
-+
-+	return max_nr_accesses;
-+}
-+
-+/*
-+ * Functions for the target validity check and cleanup
-+ */
-+
-+bool damon_va_target_valid(struct damon_target *t)
-+{
-+	struct task_struct *task;
-+
-+	task = damon_get_task_struct(t);
-+	if (task) {
-+		put_task_struct(task);
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+void damon_va_cleanup(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t, *next;
-+
-+	damon_for_each_target_safe(t, next, ctx) {
-+		put_pid((struct pid *)t->id);
-+		damon_destroy_target(t);
-+	}
-+}
-+
-+void damon_va_set_primitives(struct damon_ctx *ctx)
-+{
-+	ctx->primitive.init_target_regions = damon_va_init_regions;
-+	ctx->primitive.update_target_regions = damon_va_update_regions;
-+	ctx->primitive.prepare_access_checks = damon_va_prepare_access_checks;
-+	ctx->primitive.check_accesses = damon_va_check_accesses;
-+	ctx->primitive.target_valid = damon_va_target_valid;
-+	ctx->primitive.cleanup = damon_va_cleanup;
-+}
++++ b/tools/damon/.gitignore
+@@ -0,0 +1 @@
++__pycache__/*
+diff --git a/tools/damon/_damon.py b/tools/damon/_damon.py
+new file mode 100644
+index 000000000000..1f6a292e8c25
+--- /dev/null
++++ b/tools/damon/_damon.py
+@@ -0,0 +1,130 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"""
++Contains core functions for DAMON debugfs control.
++"""
++
++import os
++import subprocess
++
++debugfs_attrs = None
++debugfs_record = None
++debugfs_target_ids = None
++debugfs_monitor_on = None
++
++def set_target_id(tid):
++    with open(debugfs_target_ids, 'w') as f:
++        f.write('%s\n' % tid)
++
++def turn_damon(on_off):
++    return subprocess.call("echo %s > %s" % (on_off, debugfs_monitor_on),
++            shell=True, executable="/bin/bash")
++
++def is_damon_running():
++    with open(debugfs_monitor_on, 'r') as f:
++        return f.read().strip() == 'on'
++
++class Attrs:
++    sample_interval = None
++    aggr_interval = None
++    regions_update_interval = None
++    min_nr_regions = None
++    max_nr_regions = None
++    rbuf_len = None
++    rfile_path = None
++
++    def __init__(self, s, a, r, n, x, l, f):
++        self.sample_interval = s
++        self.aggr_interval = a
++        self.regions_update_interval = r
++        self.min_nr_regions = n
++        self.max_nr_regions = x
++        self.rbuf_len = l
++        self.rfile_path = f
++
++    def __str__(self):
++        return "%s %s %s %s %s %s %s" % (self.sample_interval,
++                self.aggr_interval, self.regions_update_interval,
++                self.min_nr_regions, self.max_nr_regions, self.rbuf_len,
++                self.rfile_path)
++
++    def attr_str(self):
++        return "%s %s %s %s %s " % (self.sample_interval, self.aggr_interval,
++                self.regions_update_interval, self.min_nr_regions,
++                self.max_nr_regions)
++
++    def record_str(self):
++        return '%s %s ' % (self.rbuf_len, self.rfile_path)
++
++    def apply(self):
++        ret = subprocess.call('echo %s > %s' % (self.attr_str(), debugfs_attrs),
++                shell=True, executable='/bin/bash')
++        if ret:
++            return ret
++        ret = subprocess.call('echo %s > %s' % (self.record_str(),
++            debugfs_record), shell=True, executable='/bin/bash')
++        if ret:
++            return ret
++
++def current_attrs():
++    with open(debugfs_attrs, 'r') as f:
++        attrs = f.read().split()
++    attrs = [int(x) for x in attrs]
++
++    with open(debugfs_record, 'r') as f:
++        rattrs = f.read().split()
++    attrs.append(int(rattrs[0]))
++    attrs.append(rattrs[1])
++
++    return Attrs(*attrs)
++
++def chk_update_debugfs(debugfs):
++    global debugfs_attrs
++    global debugfs_record
++    global debugfs_target_ids
++    global debugfs_monitor_on
++
++    debugfs_damon = os.path.join(debugfs, 'damon')
++    debugfs_attrs = os.path.join(debugfs_damon, 'attrs')
++    debugfs_record = os.path.join(debugfs_damon, 'record')
++    debugfs_target_ids = os.path.join(debugfs_damon, 'target_ids')
++    debugfs_monitor_on = os.path.join(debugfs_damon, 'monitor_on')
++
++    if not os.path.isdir(debugfs_damon):
++        print("damon debugfs dir (%s) not found", debugfs_damon)
++        exit(1)
++
++    for f in [debugfs_attrs, debugfs_record, debugfs_target_ids,
++            debugfs_monitor_on]:
++        if not os.path.isfile(f):
++            print("damon debugfs file (%s) not found" % f)
++            exit(1)
++
++def cmd_args_to_attrs(args):
++    "Generate attributes with specified arguments"
++    sample_interval = args.sample
++    aggr_interval = args.aggr
++    regions_update_interval = args.updr
++    min_nr_regions = args.minr
++    max_nr_regions = args.maxr
++    rbuf_len = args.rbuf
++    if not os.path.isabs(args.out):
++        args.out = os.path.join(os.getcwd(), args.out)
++    rfile_path = args.out
++    return Attrs(sample_interval, aggr_interval, regions_update_interval,
++            min_nr_regions, max_nr_regions, rbuf_len, rfile_path)
++
++def set_attrs_argparser(parser):
++    parser.add_argument('-d', '--debugfs', metavar='<debugfs>', type=str,
++            default='/sys/kernel/debug', help='debugfs mounted path')
++    parser.add_argument('-s', '--sample', metavar='<interval>', type=int,
++            default=5000, help='sampling interval')
++    parser.add_argument('-a', '--aggr', metavar='<interval>', type=int,
++            default=100000, help='aggregate interval')
++    parser.add_argument('-u', '--updr', metavar='<interval>', type=int,
++            default=1000000, help='regions update interval')
++    parser.add_argument('-n', '--minr', metavar='<# regions>', type=int,
++            default=10, help='minimal number of regions')
++    parser.add_argument('-m', '--maxr', metavar='<# regions>', type=int,
++            default=1000, help='maximum number of regions')
+diff --git a/tools/damon/_dist.py b/tools/damon/_dist.py
+new file mode 100644
+index 000000000000..6435f98f4275
+--- /dev/null
++++ b/tools/damon/_dist.py
+@@ -0,0 +1,35 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++import os
++import struct
++import subprocess
++
++def access_patterns(f):
++    nr_regions = struct.unpack('I', f.read(4))[0]
++
++    patterns = []
++    for r in range(nr_regions):
++        saddr = struct.unpack('L', f.read(8))[0]
++        eaddr = struct.unpack('L', f.read(8))[0]
++        nr_accesses = struct.unpack('I', f.read(4))[0]
++        patterns.append([eaddr - saddr, nr_accesses])
++    return patterns
++
++def plot_dist(data_file, output_file, xlabel, ylabel):
++    terminal = output_file.split('.')[-1]
++    if not terminal in ['pdf', 'jpeg', 'png', 'svg']:
++        os.remove(data_file)
++        print("Unsupported plot output type.")
++        exit(-1)
++
++    gnuplot_cmd = """
++    set term %s;
++    set output '%s';
++    set key off;
++    set xlabel '%s';
++    set ylabel '%s';
++    plot '%s' with linespoints;""" % (terminal, output_file, xlabel, ylabel,
++            data_file)
++    subprocess.call(['gnuplot', '-e', gnuplot_cmd])
++    os.remove(data_file)
+diff --git a/tools/damon/_recfile.py b/tools/damon/_recfile.py
+new file mode 100644
+index 000000000000..45dd8ffdb5ae
+--- /dev/null
++++ b/tools/damon/_recfile.py
+@@ -0,0 +1,23 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++import struct
++
++fmt_version = 0
++
++def set_fmt_version(f):
++    global fmt_version
++
++    mark = f.read(16)
++    if mark == b'damon_recfmt_ver':
++        fmt_version = struct.unpack('i', f.read(4))[0]
++    else:
++        fmt_version = 0
++        f.seek(0)
++    return fmt_version
++
++def target_id(f):
++    if fmt_version == 1:
++        return struct.unpack('i', f.read(4))[0]
++    else:
++        return struct.unpack('L', f.read(8))[0]
+diff --git a/tools/damon/bin2txt.py b/tools/damon/bin2txt.py
+new file mode 100644
+index 000000000000..79516c72f449
+--- /dev/null
++++ b/tools/damon/bin2txt.py
+@@ -0,0 +1,67 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++import argparse
++import os
++import struct
++import sys
++
++import _recfile
++
++def parse_time(bindat):
++    "bindat should be 16 bytes"
++    sec = struct.unpack('l', bindat[0:8])[0]
++    nsec = struct.unpack('l', bindat[8:16])[0]
++    return sec * 1000000000 + nsec;
++
++def pr_region(f):
++    saddr = struct.unpack('L', f.read(8))[0]
++    eaddr = struct.unpack('L', f.read(8))[0]
++    nr_accesses = struct.unpack('I', f.read(4))[0]
++    print("%012x-%012x(%10d):\t%d" %
++            (saddr, eaddr, eaddr - saddr, nr_accesses))
++
++def pr_task_info(f):
++    target_id = _recfile.target_id(f)
++    print("target_id: ", target_id)
++    nr_regions = struct.unpack('I', f.read(4))[0]
++    print("nr_regions: ", nr_regions)
++    for r in range(nr_regions):
++        pr_region(f)
++
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    file_path = args.input
++
++    if not os.path.isfile(file_path):
++        print('input file (%s) is not exist' % file_path)
++        exit(1)
++
++    with open(file_path, 'rb') as f:
++        _recfile.set_fmt_version(f)
++        start_time = None
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            time = parse_time(timebin)
++            if not start_time:
++                start_time = time
++                print("start_time: ", start_time)
++            print("rel time: %16d" % (time - start_time))
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            print("nr_tasks: ", nr_tasks)
++            for t in range(nr_tasks):
++                pr_task_info(f)
++                print("")
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/damo b/tools/damon/damo
+new file mode 100755
+index 000000000000..58e1099ae5fc
+--- /dev/null
++++ b/tools/damon/damo
+@@ -0,0 +1,37 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++import argparse
++
++import record
++import report
++
++class SubCmdHelpFormatter(argparse.RawDescriptionHelpFormatter):
++    def _format_action(self, action):
++        parts = super(argparse.RawDescriptionHelpFormatter,
++                self)._format_action(action)
++        # skip sub parsers help
++        if action.nargs == argparse.PARSER:
++            parts = '\n'.join(parts.split('\n')[1:])
++        return parts
++
++parser = argparse.ArgumentParser(formatter_class=SubCmdHelpFormatter)
++
++subparser = parser.add_subparsers(title='command', dest='command',
++        metavar='<command>')
++subparser.required = True
++
++parser_record = subparser.add_parser('record',
++        help='record data accesses of the given target processes')
++record.set_argparser(parser_record)
++
++parser_report = subparser.add_parser('report',
++        help='report the recorded data accesses in the specified form')
++report.set_argparser(parser_report)
++
++args = parser.parse_args()
++
++if args.command == 'record':
++    record.main(args)
++elif args.command == 'report':
++    report.main(args)
+diff --git a/tools/damon/heats.py b/tools/damon/heats.py
+new file mode 100644
+index 000000000000..78a2a793f50e
+--- /dev/null
++++ b/tools/damon/heats.py
+@@ -0,0 +1,362 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"""
++Transform binary trace data into human readable text that can be used for
++heatmap drawing, or directly plot the data in a heatmap format.
++
++Format of the text is:
++
++    <time> <space> <heat>
++    ...
++
++"""
++
++import argparse
++import os
++import struct
++import subprocess
++import sys
++import tempfile
++
++import _recfile
++
++class HeatSample:
++    space_idx = None
++    sz_time_space = None
++    heat = None
++
++    def __init__(self, space_idx, sz_time_space, heat):
++        if sz_time_space < 0:
++            raise RuntimeError()
++        self.space_idx = space_idx
++        self.sz_time_space = sz_time_space
++        self.heat = heat
++
++    def total_heat(self):
++        return self.heat * self.sz_time_space
++
++    def merge(self, sample):
++        "sample must have a space idx that same to self"
++        heat_sum = self.total_heat() + sample.total_heat()
++        self.heat = heat_sum / (self.sz_time_space + sample.sz_time_space)
++        self.sz_time_space += sample.sz_time_space
++
++def pr_samples(samples, time_idx, time_unit, region_unit):
++    display_time = time_idx * time_unit
++    for idx, sample in enumerate(samples):
++        display_addr = idx * region_unit
++        if not sample:
++            print("%s\t%s\t%s" % (display_time, display_addr, 0.0))
++            continue
++        print("%s\t%s\t%s" % (display_time, display_addr, sample.total_heat() /
++            time_unit / region_unit))
++
++def to_idx(value, min_, unit):
++    return (value - min_) // unit
++
++def read_task_heats(f, tid, aunit, amin, amax):
++    tid_ = _recfile.target_id(f)
++    nr_regions = struct.unpack('I', f.read(4))[0]
++    if tid_ != tid:
++        f.read(20 * nr_regions)
++        return None
++    samples = []
++    for i in range(nr_regions):
++        saddr = struct.unpack('L', f.read(8))[0]
++        eaddr = struct.unpack('L', f.read(8))[0]
++        eaddr = min(eaddr, amax - 1)
++        heat = struct.unpack('I', f.read(4))[0]
++
++        if eaddr <= amin:
++            continue
++        if saddr >= amax:
++            continue
++        saddr = max(amin, saddr)
++        eaddr = min(amax, eaddr)
++
++        sidx = to_idx(saddr, amin, aunit)
++        eidx = to_idx(eaddr - 1, amin, aunit)
++        for idx in range(sidx, eidx + 1):
++            sa = max(amin + idx * aunit, saddr)
++            ea = min(amin + (idx + 1) * aunit, eaddr)
++            sample = HeatSample(idx, (ea - sa), heat)
++            samples.append(sample)
++    return samples
++
++def parse_time(bindat):
++    sec = struct.unpack('l', bindat[0:8])[0]
++    nsec = struct.unpack('l', bindat[8:16])[0]
++    return sec * 1000000000 + nsec
++
++def apply_samples(target_samples, samples, start_time, end_time, aunit, amin):
++    for s in samples:
++        sample = HeatSample(s.space_idx,
++                s.sz_time_space * (end_time - start_time), s.heat)
++        idx = sample.space_idx
++        if not target_samples[idx]:
++            target_samples[idx] = sample
++        else:
++            target_samples[idx].merge(sample)
++
++def __pr_heats(f, tid, tunit, tmin, tmax, aunit, amin, amax):
++    heat_samples = [None] * ((amax - amin) // aunit)
++
++    start_time = 0
++    end_time = 0
++    last_flushed = -1
++    while True:
++        start_time = end_time
++        timebin = f.read(16)
++        if (len(timebin)) != 16:
++            break
++        end_time = parse_time(timebin)
++        nr_tasks = struct.unpack('I', f.read(4))[0]
++        samples_set = {}
++        for t in range(nr_tasks):
++            samples = read_task_heats(f, tid, aunit, amin, amax)
++            if samples:
++                samples_set[tid] = samples
++        if not tid in samples_set:
++            continue
++        if start_time >= tmax:
++            continue
++        if end_time <= tmin:
++            continue
++        start_time = max(start_time, tmin)
++        end_time = min(end_time, tmax)
++
++        sidx = to_idx(start_time, tmin, tunit)
++        eidx = to_idx(end_time - 1, tmin, tunit)
++        for idx in range(sidx, eidx + 1):
++            if idx != last_flushed:
++                pr_samples(heat_samples, idx, tunit, aunit)
++                heat_samples = [None] * ((amax - amin) // aunit)
++                last_flushed = idx
++            st = max(start_time, tmin + idx * tunit)
++            et = min(end_time, tmin + (idx + 1) * tunit)
++            apply_samples(heat_samples, samples_set[tid], st, et, aunit, amin)
++
++def pr_heats(args):
++    binfile = args.input
++    tid = args.tid
++    tres = args.tres
++    tmin = args.tmin
++    ares = args.ares
++    amin = args.amin
++
++    tunit = (args.tmax - tmin) // tres
++    aunit = (args.amax - amin) // ares
++
++    # Compensate the values so that those fit with the resolution
++    tmax = tmin + tunit * tres
++    amax = amin + aunit * ares
++
++    with open(binfile, 'rb') as f:
++        _recfile.set_fmt_version(f)
++        __pr_heats(f, tid, tunit, tmin, tmax, aunit, amin, amax)
++
++class GuideInfo:
++    tid = None
++    start_time = None
++    end_time = None
++    lowest_addr = None
++    highest_addr = None
++    gaps = None
++
++    def __init__(self, tid, start_time):
++        self.tid = tid
++        self.start_time = start_time
++        self.gaps = []
++
++    def regions(self):
++        regions = []
++        region = [self.lowest_addr]
++        for gap in self.gaps:
++            for idx, point in enumerate(gap):
++                if idx == 0:
++                    region.append(point)
++                    regions.append(region)
++                else:
++                    region = [point]
++        region.append(self.highest_addr)
++        regions.append(region)
++        return regions
++
++    def total_space(self):
++        ret = 0
++        for r in self.regions():
++            ret += r[1] - r[0]
++        return ret
++
++    def __str__(self):
++        lines = ['target_id:%d' % self.tid]
++        lines.append('time: %d-%d (%d)' % (self.start_time, self.end_time,
++                    self.end_time - self.start_time))
++        for idx, region in enumerate(self.regions()):
++            lines.append('region\t%2d: %020d-%020d (%d)' %
++                    (idx, region[0], region[1], region[1] - region[0]))
++        return '\n'.join(lines)
++
++def is_overlap(region1, region2):
++    if region1[1] < region2[0]:
++        return False
++    if region2[1] < region1[0]:
++        return False
++    return True
++
++def overlap_region_of(region1, region2):
++    return [max(region1[0], region2[0]), min(region1[1], region2[1])]
++
++def overlapping_regions(regions1, regions2):
++    overlap_regions = []
++    for r1 in regions1:
++        for r2 in regions2:
++            if is_overlap(r1, r2):
++                r1 = overlap_region_of(r1, r2)
++        if r1:
++            overlap_regions.append(r1)
++    return overlap_regions
++
++def get_guide_info(binfile):
++    "Read file, return the set of guide information objects of the data"
++    guides = {}
++    with open(binfile, 'rb') as f:
++        _recfile.set_fmt_version(f)
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            monitor_time = parse_time(timebin)
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            for t in range(nr_tasks):
++                tid = _recfile.target_id(f)
++                nr_regions = struct.unpack('I', f.read(4))[0]
++                if not tid in guides:
++                    guides[tid] = GuideInfo(tid, monitor_time)
++                guide = guides[tid]
++                guide.end_time = monitor_time
++
++                last_addr = None
++                gaps = []
++                for r in range(nr_regions):
++                    saddr = struct.unpack('L', f.read(8))[0]
++                    eaddr = struct.unpack('L', f.read(8))[0]
++                    f.read(4)
++
++                    if not guide.lowest_addr or saddr < guide.lowest_addr:
++                        guide.lowest_addr = saddr
++                    if not guide.highest_addr or eaddr > guide.highest_addr:
++                        guide.highest_addr = eaddr
++
++                    if not last_addr:
++                        last_addr = eaddr
++                        continue
++                    if last_addr != saddr:
++                        gaps.append([last_addr, saddr])
++                    last_addr = eaddr
++
++                if not guide.gaps:
++                    guide.gaps = gaps
++                else:
++                    guide.gaps = overlapping_regions(guide.gaps, gaps)
++    return sorted(list(guides.values()), key=lambda x: x.total_space(),
++                    reverse=True)
++
++def pr_guide(binfile):
++    for guide in get_guide_info(binfile):
++        print(guide)
++
++def region_sort_key(region):
++    return region[1] - region[0]
++
++def set_missed_args(args):
++    if args.tid and args.tmin and args.tmax and args.amin and args.amax:
++        return
++    guides = get_guide_info(args.input)
++    guide = guides[0]
++    if not args.tid:
++        args.tid = guide.tid
++    for g in guides:
++        if g.tid == args.tid:
++            guide = g
++            break
++
++    if not args.tmin:
++        args.tmin = guide.start_time
++    if not args.tmax:
++        args.tmax = guide.end_time
++
++    if not args.amin or not args.amax:
++        region = sorted(guide.regions(), key=lambda x: x[1] - x[0],
++                reverse=True)[0]
++        args.amin = region[0]
++        args.amax = region[1]
++
++def plot_heatmap(data_file, output_file):
++    terminal = output_file.split('.')[-1]
++    if not terminal in ['pdf', 'jpeg', 'png', 'svg']:
++        os.remove(data_file)
++        print("Unsupported plot output type.")
++        exit(-1)
++
++    gnuplot_cmd = """
++    set term %s;
++    set output '%s';
++    set key off;
++    set xrange [0:];
++    set yrange [0:];
++    set xlabel 'Time (ns)';
++    set ylabel 'Address (bytes)';
++    plot '%s' using 1:2:3 with image;""" % (terminal, output_file, data_file)
++    subprocess.call(['gnuplot', '-e', gnuplot_cmd])
++    os.remove(data_file)
++
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
++    parser.add_argument('--tid', metavar='<id>', type=int,
++            help='target id')
++    parser.add_argument('--tres', metavar='<resolution>', type=int,
++            default=500, help='time resolution of the output')
++    parser.add_argument('--tmin', metavar='<time>', type=lambda x: int(x,0),
++            help='minimal time of the output')
++    parser.add_argument('--tmax', metavar='<time>', type=lambda x: int(x,0),
++            help='maximum time of the output')
++    parser.add_argument('--ares', metavar='<resolution>', type=int, default=500,
++            help='space address resolution of the output')
++    parser.add_argument('--amin', metavar='<address>', type=lambda x: int(x,0),
++            help='minimal space address of the output')
++    parser.add_argument('--amax', metavar='<address>', type=lambda x: int(x,0),
++            help='maximum space address of the output')
++    parser.add_argument('--guide', action='store_true',
++            help='print a guidance for the min/max/resolution settings')
++    parser.add_argument('--heatmap', metavar='<file>', type=str,
++            help='heatmap image file to create')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    if args.guide:
++        pr_guide(args.input)
++    else:
++        set_missed_args(args)
++        orig_stdout = sys.stdout
++        if args.heatmap:
++            tmp_path = tempfile.mkstemp()[1]
++            tmp_file = open(tmp_path, 'w')
++            sys.stdout = tmp_file
++
++        pr_heats(args)
++
++        if args.heatmap:
++            sys.stdout = orig_stdout
++            tmp_file.flush()
++            tmp_file.close()
++            plot_heatmap(tmp_path, args.heatmap)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/nr_regions.py b/tools/damon/nr_regions.py
+new file mode 100644
+index 000000000000..960dd4362472
+--- /dev/null
++++ b/tools/damon/nr_regions.py
+@@ -0,0 +1,91 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"Print out distribution of the number of regions in the given record"
++
++import argparse
++import struct
++import sys
++import tempfile
++
++import _dist
++import _recfile
++
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
++    parser.add_argument('--range', '-r', type=int, nargs=3,
++            metavar=('<start>', '<stop>', '<step>'),
++            help='range of percentiles to print')
++    parser.add_argument('--sortby', '-s', choices=['time', 'size'],
++            help='the metric to be used for sorting the number of regions')
++    parser.add_argument('--plot', '-p', type=str, metavar='<file>',
++            help='plot the distribution to an image file')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    percentiles = [0, 25, 50, 75, 100]
++
++    file_path = args.input
++    if args.range:
++        percentiles = range(args.range[0], args.range[1], args.range[2])
++    nr_regions_sort = True
++    if args.sortby == 'time':
++        nr_regions_sort = False
++
++    tid_pattern_map = {}
++    with open(file_path, 'rb') as f:
++        _recfile.set_fmt_version(f)
++        start_time = None
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            for t in range(nr_tasks):
++                tid = _recfile.target_id(f)
++                if not tid in tid_pattern_map:
++                    tid_pattern_map[tid] = []
++                tid_pattern_map[tid].append(_dist.access_patterns(f))
++
++    orig_stdout = sys.stdout
++    if args.plot:
++        tmp_path = tempfile.mkstemp()[1]
++        tmp_file = open(tmp_path, 'w')
++        sys.stdout = tmp_file
++
++    print('# <percentile> <# regions>')
++    for tid in tid_pattern_map.keys():
++        # Skip firs 20 regions as those would not adaptively adjusted
++        snapshots = tid_pattern_map[tid][20:]
++        nr_regions_dist = []
++        for snapshot in snapshots:
++            nr_regions_dist.append(len(snapshot))
++        if nr_regions_sort:
++            nr_regions_dist.sort(reverse=False)
++
++        print('# target_id\t%s' % tid)
++        print('# avr:\t%d' % (sum(nr_regions_dist) / len(nr_regions_dist)))
++        for percentile in percentiles:
++            thres_idx = int(percentile / 100.0 * len(nr_regions_dist))
++            if thres_idx == len(nr_regions_dist):
++                thres_idx -= 1
++            threshold = nr_regions_dist[thres_idx]
++            print('%d\t%d' % (percentile, nr_regions_dist[thres_idx]))
++
++    if args.plot:
++        sys.stdout = orig_stdout
++        tmp_file.flush()
++        tmp_file.close()
++        xlabel = 'runtime (percent)'
++        if nr_regions_sort:
++            xlabel = 'percentile'
++        _dist.plot_dist(tmp_path, args.plot, xlabel,
++                'number of monitoring target regions')
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/record.py b/tools/damon/record.py
+new file mode 100644
+index 000000000000..6d1cbe593b94
+--- /dev/null
++++ b/tools/damon/record.py
+@@ -0,0 +1,135 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"""
++Record data access patterns of the target process.
++"""
++
++import argparse
++import os
++import signal
++import subprocess
++import time
++
++import _damon
++
++def pidfd_open(pid):
++    import ctypes
++    libc = ctypes.CDLL(None)
++    syscall = libc.syscall
++    syscall.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_uint]
++    syscall.restype = ctypes.c_long
++
++    NR_pidfd_open = 434
++
++    return syscall(NR_pidfd_open, pid, 0)
++
++def do_record(target, is_target_cmd, attrs, old_attrs, pidfd):
++    if os.path.isfile(attrs.rfile_path):
++        os.rename(attrs.rfile_path, attrs.rfile_path + '.old')
++
++    if attrs.apply():
++        print('attributes (%s) failed to be applied' % attrs)
++        cleanup_exit(old_attrs, -1)
++    print('# damon attrs: %s %s' % (attrs.attr_str(), attrs.record_str()))
++    if is_target_cmd:
++        p = subprocess.Popen(target, shell=True, executable='/bin/bash')
++        target = p.pid
++
++    if pidfd:
++        fd = pidfd_open(int(target))
++        if fd < 0:
++            print('failed getting pidfd of %s: %s' % (target, fd))
++            cleanup_exit(old_attrs, -1)
++
++        # NOTE: The race is still possible because the pid might be already
++        # reused before above pidfd_open() returned.  Eliminating the race is
++        # impossible unless we drop the pid support.  This option handling is
++        # only for reference of the pidfd usage.
++        target = 'pidfd %s' % fd
++
++    if _damon.set_target_id(target):
++        print('target id setting (%s) failed' % target)
++        cleanup_exit(old_attrs, -2)
++    if _damon.turn_damon('on'):
++        print('could not turn on damon' % target)
++        cleanup_exit(old_attrs, -3)
++    while not _damon.is_damon_running():
++        time.sleep(1)
++    print('Press Ctrl+C to stop')
++    if is_target_cmd:
++        p.wait()
++    while True:
++        # damon will turn it off by itself if the target tasks are terminated.
++        if not _damon.is_damon_running():
++            break
++        time.sleep(1)
++
++    if pidfd:
++        os.close(fd)
++    cleanup_exit(old_attrs, 0)
++
++def cleanup_exit(orig_attrs, exit_code):
++    if _damon.is_damon_running():
++        if _damon.turn_damon('off'):
++            print('failed to turn damon off!')
++        while _damon.is_damon_running():
++            time.sleep(1)
++    if orig_attrs:
++        if orig_attrs.apply():
++            print('original attributes (%s) restoration failed!' % orig_attrs)
++    exit(exit_code)
++
++def sighandler(signum, frame):
++    print('\nsignal %s received' % signum)
++    cleanup_exit(orig_attrs, signum)
++
++def chk_permission():
++    if os.geteuid() != 0:
++        print("Run as root")
++        exit(1)
++
++def set_argparser(parser):
++    _damon.set_attrs_argparser(parser)
++    parser.add_argument('target', type=str, metavar='<target>',
++            help='the target command or the pid to record')
++    parser.add_argument('--pidfd', action='store_true',
++            help='use pidfd type target id')
++    parser.add_argument('-l', '--rbuf', metavar='<len>', type=int,
++            default=1024*1024, help='length of record result buffer')
++    parser.add_argument('-o', '--out', metavar='<file path>', type=str,
++            default='damon.data', help='output file path')
++
++def main(args=None):
++    global orig_attrs
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    chk_permission()
++    _damon.chk_update_debugfs(args.debugfs)
++
++    signal.signal(signal.SIGINT, sighandler)
++    signal.signal(signal.SIGTERM, sighandler)
++    orig_attrs = _damon.current_attrs()
++
++    args.schemes = ''
++    pidfd = args.pidfd
++    new_attrs = _damon.cmd_args_to_attrs(args)
++    target = args.target
++
++    target_fields = target.split()
++    if not subprocess.call('which %s &> /dev/null' % target_fields[0],
++            shell=True, executable='/bin/bash'):
++        do_record(target, True, new_attrs, orig_attrs, pidfd)
++    else:
++        try:
++            pid = int(target)
++        except:
++            print('target \'%s\' is neither a command, nor a pid' % target)
++            exit(1)
++        do_record(target, False, new_attrs, orig_attrs, pidfd)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/report.py b/tools/damon/report.py
+new file mode 100644
+index 000000000000..c661c7b2f1af
+--- /dev/null
++++ b/tools/damon/report.py
+@@ -0,0 +1,45 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++import argparse
++
++import bin2txt
++import heats
++import nr_regions
++import wss
++
++def set_argparser(parser):
++    subparsers = parser.add_subparsers(title='report type', dest='report_type',
++            metavar='<report type>', help='the type of the report to generate')
++    subparsers.required = True
++
++    parser_raw = subparsers.add_parser('raw', help='human readable raw data')
++    bin2txt.set_argparser(parser_raw)
++
++    parser_heats = subparsers.add_parser('heats', help='heats of regions')
++    heats.set_argparser(parser_heats)
++
++    parser_wss = subparsers.add_parser('wss', help='working set size')
++    wss.set_argparser(parser_wss)
++
++    parser_nr_regions = subparsers.add_parser('nr_regions',
++            help='number of regions')
++    nr_regions.set_argparser(parser_nr_regions)
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    if args.report_type == 'raw':
++        bin2txt.main(args)
++    elif args.report_type == 'heats':
++        heats.main(args)
++    elif args.report_type == 'wss':
++        wss.main(args)
++    elif args.report_type == 'nr_regions':
++        nr_regions.main(args)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/wss.py b/tools/damon/wss.py
+new file mode 100644
+index 000000000000..54e2ac7cf83b
+--- /dev/null
++++ b/tools/damon/wss.py
+@@ -0,0 +1,100 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"Print out the distribution of the working set sizes of the given trace"
++
++import argparse
++import struct
++import sys
++import tempfile
++
++import _dist
++import _recfile
++
++def set_argparser(parser):
++    parser.add_argument('--input', '-i', type=str, metavar='<file>',
++            default='damon.data', help='input file name')
++    parser.add_argument('--range', '-r', type=int, nargs=3,
++            metavar=('<start>', '<stop>', '<step>'),
++            help='range of wss percentiles to print')
++    parser.add_argument('--thres', '-t', type=int, default=1,
++            metavar='<# accesses>',
++            help='minimal number of accesses for treated as working set')
++    parser.add_argument('--sortby', '-s', choices=['time', 'size'],
++            help='the metric to be used for the sort of the working set sizes')
++    parser.add_argument('--plot', '-p', type=str, metavar='<file>',
++            help='plot the distribution to an image file')
++
++def main(args=None):
++    if not args:
++        parser = argparse.ArgumentParser()
++        set_argparser(parser)
++        args = parser.parse_args()
++
++    percentiles = [0, 25, 50, 75, 100]
++
++    file_path = args.input
++    if args.range:
++        percentiles = range(args.range[0], args.range[1], args.range[2])
++    wss_sort = True
++    if args.sortby == 'time':
++        wss_sort = False
++
++    tid_pattern_map = {}
++    with open(file_path, 'rb') as f:
++        _recfile.set_fmt_version(f)
++        start_time = None
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            for t in range(nr_tasks):
++                tid = _recfile.target_id(f)
++                if not tid in tid_pattern_map:
++                    tid_pattern_map[tid] = []
++                tid_pattern_map[tid].append(_dist.access_patterns(f))
++
++    orig_stdout = sys.stdout
++    if args.plot:
++        tmp_path = tempfile.mkstemp()[1]
++        tmp_file = open(tmp_path, 'w')
++        sys.stdout = tmp_file
++
++    print('# <percentile> <wss>')
++    for tid in tid_pattern_map.keys():
++        # Skip first 20 snapshots as regions may not adjusted yet.
++        snapshots = tid_pattern_map[tid][20:]
++        wss_dist = []
++        for snapshot in snapshots:
++            wss = 0
++            for p in snapshot:
++                # Ignore regions not accessed
++                if p[1] < args.thres:
++                    continue
++                wss += p[0]
++            wss_dist.append(wss)
++        if wss_sort:
++            wss_dist.sort(reverse=False)
++
++        print('# target_id\t%s' % tid)
++        print('# avr:\t%d' % (sum(wss_dist) / len(wss_dist)))
++        for percentile in percentiles:
++            thres_idx = int(percentile / 100.0 * len(wss_dist))
++            if thres_idx == len(wss_dist):
++                thres_idx -= 1
++            threshold = wss_dist[thres_idx]
++            print('%d\t%d' % (percentile, wss_dist[thres_idx]))
++
++    if args.plot:
++        sys.stdout = orig_stdout
++        tmp_file.flush()
++        tmp_file.close()
++        xlabel = 'runtime (percent)'
++        if wss_sort:
++            xlabel = 'percentile'
++        _dist.plot_dist(tmp_path, args.plot, xlabel,
++                'working set size (bytes)')
++
++if __name__ == '__main__':
++    main()
 -- 
 2.17.1
 
