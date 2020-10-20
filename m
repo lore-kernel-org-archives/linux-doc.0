@@ -5,42 +5,42 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F673C43467
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:02:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9519CC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:04:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4EF9222C8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:02:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BE08222C8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:04:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Z8T3hJQR"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="N59dxQVR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392290AbgJTJCN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Oct 2020 05:02:13 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:58674 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390222AbgJTJCM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:02:12 -0400
+        id S2390501AbgJTJEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Oct 2020 05:04:08 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:35118 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390480AbgJTJEH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:04:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1603184532; x=1634720532;
+  t=1603184647; x=1634720647;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=vCiIgpH/r3UBfJEt/yc/mpQlouFHUp3v4P69BFVrfRg=;
-  b=Z8T3hJQReeBKYb+lEZs1gKCnYb/FZPbqvSO/B6S879vjPONK8VOwmOFQ
-   pupgCDKpK1FE14alpQdsZdl1A0ajKEWYVpcrtGZ2wu9X46dORNoki6pBG
-   +XF0QoSm1ZLbeyGTpHFxd6WavdEEo4XcYECo8XT4kbljYH618Kk3ETx+d
-   I=;
+  bh=ex0dyR52pQlWbtLTi7+DCeRnQUrgwEcr4wvrGWXwkYQ=;
+  b=N59dxQVRDLccHIXz4MUOX2nfa18sYFbSmM+pQtqWZqBY6HncOF4l/nXw
+   JYKnnx6PahFQQI4nmB254NV3lOX3rgjmrwn5vvPN+5kcJhPwYn50qTA5M
+   31GixShz6c6a1UhLBGj7m5Wp31wz+yJYoQSIfI8Z2mq7YfKvM6tOBA8Ne
+   o=;
 X-IronPort-AV: E=Sophos;i="5.77,396,1596499200"; 
-   d="scan'208";a="78102445"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 20 Oct 2020 09:02:11 +0000
+   d="scan'208";a="85042254"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-456ef9c9.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 20 Oct 2020 09:04:07 +0000
 Received: from EX13D31EUB001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com (Postfix) with ESMTPS id EFCCAA18A8;
-        Tue, 20 Oct 2020 09:01:58 +0000 (UTC)
+        by email-inbound-relay-2c-456ef9c9.us-west-2.amazon.com (Postfix) with ESMTPS id B46DAA88A7;
+        Tue, 20 Oct 2020 09:04:02 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
  EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 20 Oct 2020 09:01:39 +0000
+ id 15.0.1497.2; Tue, 20 Oct 2020 09:03:44 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -62,9 +62,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v22 04/18] mm/damon: Track dynamic monitoring target regions update
-Date:   Tue, 20 Oct 2020 10:59:26 +0200
-Message-ID: <20201020085940.13875-5-sjpark@amazon.com>
+Subject: [PATCH v22 08/18] mm/damon/primitives: Make coexistable with Idle Page Tracking
+Date:   Tue, 20 Oct 2020 10:59:30 +0200
+Message-ID: <20201020085940.13875-9-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201020085940.13875-1-sjpark@amazon.com>
 References: <20201020085940.13875-1-sjpark@amazon.com>
@@ -79,165 +79,89 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-The monitoring target address range can be dynamically changed.  For
-example, virtual memory could be dynamically mapped and unmapped.
-Physical memory could be hot-plugged.
+DAMON's reference 'primitives' internally use 'PG_Idle' flag.  Because
+the flag is also used by Idle Page Tracking but there was no way to
+synchronize with it, the 'primitives' were configured to be exclusive
+with Idle Page Tracking before.  However, as we can now synchronize with
+Idle Page Tracking using 'idle_page_lock', this commit makes the
+primitives to do the synchronization and coexistable with Idle Page
+Tracking.
 
-As the changes could be quite frequent in some cases, DAMON checks the
-dynamic memory mapping changes and applies it to the abstracted target
-area only for each of a user-specified time interval, ``regions update
-interval``.
+Note that the 'primitives' only require the users to do the
+synchronization by themselves.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 ---
- include/linux/damon.h | 22 +++++++++++++++++-----
- mm/damon/core.c       | 22 ++++++++++++++++++++--
- 2 files changed, 37 insertions(+), 7 deletions(-)
+ include/linux/page_idle.h | 2 ++
+ mm/damon/Kconfig          | 2 +-
+ mm/damon/primitives.c     | 7 +++++++
+ mm/page_idle.c            | 2 +-
+ 4 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 0797bdfbfc24..b8562814751e 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -60,6 +60,7 @@ struct damon_ctx;
-  * struct damon_primitive	Monitoring primitives for given use cases.
-  *
-  * @init_target_regions:	Constructs initial monitoring target regions.
-+ * @update_target_regions:	Updates monitoring target regions.
-  * @prepare_access_checks:	Prepares next access check of target regions.
-  * @check_accesses:		Checks the access of target regions.
-  * @target_valid:		Determine if the target is valid.
-@@ -68,12 +69,17 @@ struct damon_ctx;
-  * DAMON can be extended for various address spaces and usages.  For this,
-  * users should register the low level primitives for their target address
-  * space and usecase via the &damon_ctx.primitive.  Then, the monitoring thread
-- * calls @init_target_regions before starting the monitoring and
-+ * calls @init_target_regions before starting the monitoring,
-+ * @update_target_regions for each @regions_update_interval, and
-  * @prepare_access_checks, @check_accesses, and @target_valid for each
-  * @sample_interval.
+diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
+index d8a6aecf99cb..bcbb965b566c 100644
+--- a/include/linux/page_idle.h
++++ b/include/linux/page_idle.h
+@@ -8,6 +8,8 @@
+ 
+ #ifdef CONFIG_PAGE_IDLE_FLAG
+ 
++extern struct mutex page_idle_lock;
 +
-  *
-  * @init_target_regions should construct proper monitoring target regions and
-  * link those to the DAMON context struct.
-+ * @update_target_regions should update the monitoring target regions for
-+ * current status.
-+
-  * @prepare_access_checks should manipulate the monitoring regions to be
-  * prepare for the next access check.
-  * @check_accesses should check the accesses to each region that made after the
-@@ -87,6 +93,7 @@ struct damon_ctx;
-  */
- struct damon_primitive {
- 	void (*init_target_regions)(struct damon_ctx *context);
-+	void (*update_target_regions)(struct damon_ctx *context);
- 	void (*prepare_access_checks)(struct damon_ctx *context);
- 	unsigned int (*check_accesses)(struct damon_ctx *context);
- 	bool (*target_valid)(struct damon_target *target);
-@@ -132,13 +139,16 @@ struct damon_callback {
-  *
-  * @sample_interval:		The time between access samplings.
-  * @aggr_interval:		The time between monitor results aggregations.
-+ * @regions_update_interval:	The time between monitor regions updates.
-  * @min_nr_regions:		The minimum number of monitoring regions.
-  * @max_nr_regions:		The maximum number of monitoring regions.
-  *
-  * For each @sample_interval, DAMON checks whether each region is accessed or
-  * not.  It aggregates and keeps the access information (number of accesses to
-- * each region) for @aggr_interval time.  All time intervals are in
-- * micro-seconds.
-+ * each region) for @aggr_interval time.  DAMON also checks whether the target
-+ * memory regions need update (e.g., by ``mmap()`` calls from the application,
-+ * in case of virtual memory monitoring) and applies the changes for each
-+ * @regions_update_interval.  All time intervals are in micro-seconds.
-  *
-  * @kdamond:		Kernel thread who does the monitoring.
-  * @kdamond_stop:	Notifies whether kdamond should stop.
-@@ -167,10 +177,12 @@ struct damon_callback {
- struct damon_ctx {
- 	unsigned long sample_interval;
- 	unsigned long aggr_interval;
-+	unsigned long regions_update_interval;
- 	unsigned long min_nr_regions;
- 	unsigned long max_nr_regions;
- 
- 	struct timespec64 last_aggregation;
-+	struct timespec64 last_regions_update;
- 
- 	struct task_struct *kdamond;
- 	bool kdamond_stop;
-@@ -216,8 +228,8 @@ unsigned int damon_nr_regions(struct damon_target *t);
- 
- int damon_set_targets(struct damon_ctx *ctx,
- 		unsigned long *ids, ssize_t nr_ids);
--int damon_set_attrs(struct damon_ctx *ctx,
--		unsigned long sample_int, unsigned long aggr_int,
-+int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-+		unsigned long aggr_int, unsigned long regions_update_int,
- 		unsigned long min_nr_reg, unsigned long max_nr_reg);
- 
- int damon_nr_running_ctxs(void);
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index ed364b42721d..36428327e848 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -167,6 +167,7 @@ int damon_set_targets(struct damon_ctx *ctx,
-  * damon_set_attrs() - Set attributes for the monitoring.
-  * @ctx:		monitoring context
-  * @sample_int:		time interval between samplings
-+ * @regions_update_int:	time interval between target regions update
-  * @aggr_int:		time interval between aggregations
-  * @min_nr_reg:		minimal number of regions
-  * @max_nr_reg:		maximum number of regions
-@@ -176,8 +177,8 @@ int damon_set_targets(struct damon_ctx *ctx,
-  *
-  * Return: 0 on success, negative error code otherwise.
-  */
--int damon_set_attrs(struct damon_ctx *ctx,
--		    unsigned long sample_int, unsigned long aggr_int,
-+int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-+		    unsigned long aggr_int, unsigned long regions_update_int,
- 		    unsigned long min_nr_reg, unsigned long max_nr_reg)
+ #ifdef CONFIG_64BIT
+ static inline bool page_is_young(struct page *page)
  {
- 	if (min_nr_reg < 3) {
-@@ -193,6 +194,7 @@ int damon_set_attrs(struct damon_ctx *ctx,
+diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
+index 0d2a18ddb9d8..63b9c905b548 100644
+--- a/mm/damon/Kconfig
++++ b/mm/damon/Kconfig
+@@ -14,7 +14,7 @@ config DAMON
  
- 	ctx->sample_interval = sample_int;
- 	ctx->aggr_interval = aggr_int;
-+	ctx->regions_update_interval = regions_update_int;
- 	ctx->min_nr_regions = min_nr_reg;
- 	ctx->max_nr_regions = max_nr_reg;
+ config DAMON_PRIMITIVES
+ 	bool "Monitoring primitives for virtual address spaces monitoring"
+-	depends on DAMON && MMU && !IDLE_PAGE_TRACKING
++	depends on DAMON && MMU
+ 	select PAGE_EXTENSION if !64BIT
+ 	select PAGE_IDLE_FLAG
+ 	help
+diff --git a/mm/damon/primitives.c b/mm/damon/primitives.c
+index 9b603ac0077c..59f4de703413 100644
+--- a/mm/damon/primitives.c
++++ b/mm/damon/primitives.c
+@@ -15,6 +15,10 @@
+ #include <linux/sched/mm.h>
+ #include <linux/slab.h>
  
-@@ -529,6 +531,17 @@ static void kdamond_split_regions(struct damon_ctx *ctx)
- 	last_nr_regions = nr_regions;
- }
- 
-+/*
-+ * Check whether it is time to check and apply the target monitoring regions
-+ *
-+ * Returns true if it is.
-+ */
-+static bool kdamond_need_update_regions(struct damon_ctx *ctx)
-+{
-+	return damon_check_reset_time_interval(&ctx->last_regions_update,
-+			ctx->regions_update_interval);
-+}
++#ifndef CONFIG_IDLE_PAGE_TRACKING
++DEFINE_MUTEX(page_idle_lock);
++#endif
 +
+ /* Minimal region size.  Every damon_region is aligned by this. */
+ #define MIN_REGION PAGE_SIZE
+ 
+@@ -552,6 +556,9 @@ bool damon_va_target_valid(struct damon_target *t)
+ {
+ 	struct task_struct *task;
+ 
++	if (!mutex_is_locked(&page_idle_lock))
++		return false;
++
+ 	task = damon_get_task_struct(t);
+ 	if (task) {
+ 		put_task_struct(task);
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 0aa45f848570..958dcc18f6cd 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -16,7 +16,7 @@
+ #define BITMAP_CHUNK_SIZE	sizeof(u64)
+ #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
+ 
+-static DEFINE_MUTEX(page_idle_lock);
++DEFINE_MUTEX(page_idle_lock);
+ 
  /*
-  * Check whether current monitoring should be stopped
-  *
-@@ -612,6 +625,11 @@ static int kdamond_fn(void *data)
- 			kdamond_reset_aggregated(ctx);
- 			kdamond_split_regions(ctx);
- 		}
-+
-+		if (kdamond_need_update_regions(ctx)) {
-+			kdamond_call_prmt(ctx, update_target_regions);
-+			sz_limit = damon_region_sz_limit(ctx);
-+		}
- 	}
- 	damon_for_each_target(t, ctx) {
- 		damon_for_each_region_safe(r, next, t)
+  * Idle page tracking only considers user memory pages, for other types of
 -- 
 2.17.1
 
