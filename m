@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 986AEC433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:08:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 267D5C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:08:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AD75222C8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:08:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC55F2237B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:08:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="BHyVqFxr"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="t2+PCLsZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392464AbgJTJID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Oct 2020 05:08:03 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:61252 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730795AbgJTJIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:08:02 -0400
+        id S2392476AbgJTJIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Oct 2020 05:08:16 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:3369 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390697AbgJTJIP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:08:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1603184882; x=1634720882;
+  t=1603184896; x=1634720896;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=rWHwBW9odJPqpm8jQnNHAqv59PCTaiCF9pp/UZsKxQo=;
-  b=BHyVqFxrImfayGNOGxttZeugWGZoujFYfBkN1VkR9BDHeCBGpVKdPq1m
-   jmhVRp3JRF6dpstYscvGJ5U7TtpEUZjyzYBMKEbGX5EOuv5jfvvYbTMj/
-   a9I/B/L77wLV4Lbgp/xYGu19nvmmNDPPYTMQuZ4ELHDShW36fNJiFVR56
+  bh=rShxTsC+r05RL4kB4b2eaGX79eG8EHZpexOFzUWZkac=;
+  b=t2+PCLsZ2Vg8tN+YoTz/fxV2fgu+OzH2F4ecX9ySzY1NpNN9Ol66Zwk3
+   5o+SSA/4DgE1ruINpcS5ApIkYEKfI7rg/JJjELX+OoFO7K1c6buEH8jaE
+   SQps6yUSA96cbUo0WlfLFr3FQ4przt409GvWzKywbi9eq9sfzXstjYApc
    E=;
 X-IronPort-AV: E=Sophos;i="5.77,396,1596499200"; 
-   d="scan'208";a="78104561"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 20 Oct 2020 09:08:01 +0000
-Received: from EX13D31EUB001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com (Postfix) with ESMTPS id EEB06A180E;
-        Tue, 20 Oct 2020 09:04:48 +0000 (UTC)
+   d="scan'208";a="60708756"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 20 Oct 2020 09:08:15 +0000
+Received: from EX13D31EUB001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS id CE72DA20E1;
+        Tue, 20 Oct 2020 09:08:02 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
  EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 20 Oct 2020 09:04:24 +0000
+ id 15.0.1497.2; Tue, 20 Oct 2020 09:07:43 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -62,9 +62,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v22 09/18] mm/damon: Add a tracepoint
-Date:   Tue, 20 Oct 2020 10:59:31 +0200
-Message-ID: <20201020085940.13875-10-sjpark@amazon.com>
+Subject: [PATCH v22 18/18] MAINTAINERS: Update for DAMON
+Date:   Tue, 20 Oct 2020 10:59:40 +0200
+Message-ID: <20201020085940.13875-19-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201020085940.13875-1-sjpark@amazon.com>
 References: <20201020085940.13875-1-sjpark@amazon.com>
@@ -79,94 +79,36 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit adds a tracepoint for DAMON.  It traces the monitoring
-results of each region for each aggregation interval.  Using this, DAMON
-can easily integrated with tracepoints supporting tools such as perf.
+This commit updates MAINTAINERS file for DAMON related files.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 ---
- include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
- mm/damon/core.c              |  7 +++++-
- 2 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 include/trace/events/damon.h
+ MAINTAINERS | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
-new file mode 100644
-index 000000000000..2f422f4f1fb9
---- /dev/null
-+++ b/include/trace/events/damon.h
-@@ -0,0 +1,43 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM damon
-+
-+#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DAMON_H
-+
-+#include <linux/damon.h>
-+#include <linux/types.h>
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(damon_aggregated,
-+
-+	TP_PROTO(struct damon_target *t, struct damon_region *r,
-+		unsigned int nr_regions),
-+
-+	TP_ARGS(t, r, nr_regions),
-+
-+	TP_STRUCT__entry(
-+		__field(unsigned long, target_id)
-+		__field(unsigned int, nr_regions)
-+		__field(unsigned long, start)
-+		__field(unsigned long, end)
-+		__field(unsigned int, nr_accesses)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->target_id = t->id;
-+		__entry->nr_regions = nr_regions;
-+		__entry->start = r->ar.start;
-+		__entry->end = r->ar.end;
-+		__entry->nr_accesses = r->nr_accesses;
-+	),
-+
-+	TP_printk("target_id=%lu nr_regions=%u %lu-%lu: %u",
-+			__entry->target_id, __entry->nr_regions,
-+			__entry->start, __entry->end, __entry->nr_accesses)
-+);
-+
-+#endif /* _TRACE_DAMON_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 36428327e848..d7957d8ff530 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -13,6 +13,9 @@
- #include <linux/random.h>
- #include <linux/slab.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 867157311dc8..39fa966c02b9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4828,6 +4828,18 @@ F:	net/ax25/ax25_out.c
+ F:	net/ax25/ax25_timer.c
+ F:	net/ax25/sysctl_net_ax25.c
  
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/damon.h>
++DATA ACCESS MONITOR
++M:	SeongJae Park <sjpark@amazon.de>
++L:	linux-mm@kvack.org
++S:	Maintained
++F:	Documentation/admin-guide/mm/damon/*
++F:	Documentation/vm/damon/*
++F:	include/linux/damon.h
++F:	include/trace/events/damon.h
++F:	mm/damon/*
++F:	tools/damon/*
++F:	tools/testing/selftests/damon/*
 +
- /* Minimal region size.  Every damon_region is aligned by this. */
- #define MIN_REGION PAGE_SIZE
- 
-@@ -386,8 +389,10 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
- 	damon_for_each_target(t, c) {
- 		struct damon_region *r;
- 
--		damon_for_each_region(r, t)
-+		damon_for_each_region(r, t) {
-+			trace_damon_aggregated(t, r, damon_nr_regions(t));
- 			r->nr_accesses = 0;
-+		}
- 	}
- }
- 
+ DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
+ L:	netdev@vger.kernel.org
+ S:	Orphan
 -- 
 2.17.1
 
