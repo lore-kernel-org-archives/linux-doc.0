@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C29F5C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87777C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E730222C8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1EAA12237B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 09:06:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="RuEZny06"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vixnYMm3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392386AbgJTJGb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Oct 2020 05:06:31 -0400
+        id S2392410AbgJTJGg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Oct 2020 05:06:36 -0400
 Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:2889 "EHLO
         smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390607AbgJTJGb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:06:31 -0400
+        with ESMTP id S2390674AbgJTJGg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 05:06:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1603184787; x=1634720787;
+  t=1603184794; x=1634720794;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=LsWjPNz3Yj7zyjFT/cDqF7ZBuGzEE0okHQgyvsNcGRk=;
-  b=RuEZny06SeJz99sj9gPCq8Jiuguns1V0zRsJLH3DbR3QqjkAoF546LVI
-   giWuL7iiODHPaI4aztILYiDaZbf1xlb/4tsI7JP/cU0Gsz9vCypwUcsag
-   hBXFZzuHTM/vcOxz3Es7b8CHRmoyy0zjW9LU5/87KDMA9hFpwOn3w/xSq
-   c=;
+  bh=tdNdw6IfHLO/vMz+dCnfV6saHBkcPkuM1L7pDo6BFss=;
+  b=vixnYMm3BlrXeaZPw31sjE0m1un5f0cc0iw2F6xgbk259ZjIlb4VhQ5S
+   L2ufD3S93Q2nXXuYkr4PCkJJTdy1MhvB2yYHD+3PUZxtCNBu/nVPQ7AaH
+   TW+VkQbMfo4gzT3Bkv90c10c9SGM0Uv/1rVjLrpZx8BtGbe8rLHsM0cFr
+   U=;
 X-IronPort-AV: E=Sophos;i="5.77,396,1596499200"; 
-   d="scan'208";a="60708410"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-c300ac87.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 20 Oct 2020 09:06:16 +0000
-Received: from EX13D31EUB001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2b-c300ac87.us-west-2.amazon.com (Postfix) with ESMTPS id 02439A21C4;
-        Tue, 20 Oct 2020 09:05:08 +0000 (UTC)
+   d="scan'208";a="60708464"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-579b7f5b.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 20 Oct 2020 09:06:30 +0000
+Received: from EX13D31EUB001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-579b7f5b.us-west-2.amazon.com (Postfix) with ESMTPS id D1604A1EED;
+        Tue, 20 Oct 2020 09:03:22 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
  EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 20 Oct 2020 09:04:50 +0000
+ id 15.0.1497.2; Tue, 20 Oct 2020 09:03:03 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -62,9 +62,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v22 10/18] mm/damon: Implement a debugfs-based user space interface
-Date:   Tue, 20 Oct 2020 10:59:32 +0200
-Message-ID: <20201020085940.13875-11-sjpark@amazon.com>
+Subject: [PATCH v22 07/18] mm/page_idle: Avoid interferences from concurrent users
+Date:   Tue, 20 Oct 2020 10:59:29 +0200
+Message-ID: <20201020085940.13875-8-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201020085940.13875-1-sjpark@amazon.com>
 References: <20201020085940.13875-1-sjpark@amazon.com>
@@ -79,626 +79,147 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-DAMON is designed to be used by kernel space code such as the memory
-management subsystems, and therefore it provides only kernel space API.
-That said, letting the user space control DAMON could provide some
-benefits to them.  For example, it will allow user space to analyze
-their specific workloads and make their own special optimizations.
+Concurrent Idle Page Tracking users can interfere each other because the
+interface doesn't provide a central rule for synchronization between the
+users.  Users could implement their own synchronization rule, but even
+in that case, applications developed by different users would not know
+how to synchronize with others.  To help this situation, this commit
+introduces a centralized synchronization infrastructure of Idle Page
+Tracking.
 
-For such cases, this commit implements a simple DAMON application kernel
-module, namely 'damon-dbgfs', which merely wraps the DAMON api and
-exports those to the user space via the debugfs.
+In detail, this commit introduces a mutex lock for Idle Page Tracking,
+called 'page_idle_lock'.  It is exposed to user space via a new bool
+sysfs file, '/sys/kernel/mm/page_idle/lock'.  By writing to and reading
+from the file, users can hold/release and read status of the mutex.
+Writes to the Idle Page Tracking 'bitmap' file fails if the lock is not
+held, while reads of the file can be done regardless of the lock status.
 
-'damon-dbgfs' exports three files, ``attrs``, ``target_ids``, and
-``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
-
-Attributes
-----------
-
-Users can read and write the ``sampling interval``, ``aggregation
-interval``, ``regions update interval``, and min/max number of
-monitoring target regions by reading from and writing to the ``attrs``
-file.  For example, below commands set those values to 5 ms, 100 ms,
-1,000 ms, 10, 1000 and check it again::
-
-    # cd <debugfs>/damon
-    # echo 5000 100000 1000000 10 1000 > attrs
-    # cat attrs
-    5000 100000 1000000 10 1000
-
-Target IDs
-----------
-
-Some types of address spaces supports multiple monitoring target.  For
-example, the virtual memory address spaces monitoring can have multiple
-processes as the monitoring targets.  Users can set the targets by
-writing relevant id values of the targets to, and get the ids of the
-current targets by reading from the ``target_ids`` file.  In case of the
-virtual address spaces monitoring, the values should be pids of the
-monitoring target processes.  For example, below commands set processes
-having pids 42 and 4242 as the monitoring targets and check it again::
-
-    # cd <debugfs>/damon
-    # echo 42 4242 > target_ids
-    # cat target_ids
-    42 4242
-
-Note that setting the target ids doesn't start the monitoring.
-
-Turning On/Off
---------------
-
-Setting the files as described above doesn't incur effect unless you
-explicitly start the monitoring.  You can start, stop, and check the
-current status of the monitoring by writing to and reading from the
-``monitor_on`` file.  Writing ``on`` to the file starts the monitoring
-of the targets with the attributes.  Writing ``off`` to the file stops
-those.  DAMON also stops if every targets are invalidated (in case of
-the virtual memory monitoring, target processes are invalidated when
-terminated).  Below example commands turn on, off, and check the status
-of DAMON::
-
-    # cd <debugfs>/damon
-    # echo on > monitor_on
-    # echo off > monitor_on
-    # cat monitor_on
-    off
-
-Please note that you cannot write to the above-mentioned debugfs files
-while the monitoring is turned on.  If you write to the files while
-DAMON is running, an error code such as ``-EBUSY`` will be returned.
+Note that users could still interfere each other if they abuse this
+locking rule.  Nevertheless, this change will let them notice the rule.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 ---
- include/linux/damon.h |   2 +
- mm/damon/Kconfig      |   9 +
- mm/damon/Makefile     |   1 +
- mm/damon/core.c       |  48 +++++
- mm/damon/dbgfs.c      | 428 ++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 488 insertions(+)
- create mode 100644 mm/damon/dbgfs.c
+ .../admin-guide/mm/idle_page_tracking.rst     | 22 +++++++---
+ mm/page_idle.c                                | 40 +++++++++++++++++++
+ 2 files changed, 56 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 70cc4b54212e..d675ea908a02 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -226,6 +226,8 @@ void damon_free_target(struct damon_target *t);
- void damon_destroy_target(struct damon_target *t);
- unsigned int damon_nr_regions(struct damon_target *t);
+diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
+index df9394fb39c2..3f5e7a8b5b78 100644
+--- a/Documentation/admin-guide/mm/idle_page_tracking.rst
++++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
+@@ -21,13 +21,13 @@ User API
+ ========
  
-+struct damon_ctx *damon_new_ctx(void);
-+void damon_destroy_ctx(struct damon_ctx *ctx);
- int damon_set_targets(struct damon_ctx *ctx,
- 		unsigned long *ids, ssize_t nr_ids);
- int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-index 63b9c905b548..e38f95d28f74 100644
---- a/mm/damon/Kconfig
-+++ b/mm/damon/Kconfig
-@@ -22,4 +22,13 @@ config DAMON_PRIMITIVES
- 	  The primitives support only virtual address spaces.  If this cannot
- 	  cover your use case, you can implement and use your own primitives.
+ The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
+-Currently, it consists of the only read-write file,
+-``/sys/kernel/mm/page_idle/bitmap``.
++Currently, it consists of two read-write file,
++``/sys/kernel/mm/page_idle/bitmap`` and ``/sys/kernel/mm/page_idle/lock``.
  
-+config DAMON_DBGFS
-+	bool "DAMON debugfs interface"
-+	depends on DAMON_PRIMITIVES && DEBUG_FS
-+	help
-+	  This builds the debugfs interface for DAMON.  The user space admins
-+	  can use the interface for arbitrary data access monitoring.
+-The file implements a bitmap where each bit corresponds to a memory page. The
+-bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
+-mapped to bit #i%64 of array element #i/64, byte order is native. When a bit is
+-set, the corresponding page is idle.
++The ``bitmap`` file implements a bitmap where each bit corresponds to a memory
++page. The bitmap is represented by an array of 8-byte integers, and the page at
++PFN #i is mapped to bit #i%64 of array element #i/64, byte order is native.
++When a bit is set, the corresponding page is idle.
+ 
+ A page is considered idle if it has not been accessed since it was marked idle
+ (for more details on what "accessed" actually means see the :ref:`Implementation
+@@ -74,6 +74,16 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
+ information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
+ ``/proc/kpagecgroup``.
+ 
++The ``lock`` file is for avoidance of interference from concurrent users.  If
++the content of the ``lock`` file is ``1``, it means the ``bitmap`` file is
++currently being used by someone.  While the content of the ``lock`` file is
++``1``, writing ``1`` to the file fails.  Therefore, users should first
++successfully write ``1`` to the ``lock`` file before starting use of ``bitmap``
++file and write ``0`` to the ``lock`` file after they finished use of the
++``bitmap`` file.  If a user writes the ``bitmap`` file while the ``lock`` is
++``0``, the write fails.  Meanwhile, reads of the ``bitmap`` file success
++regardless of the ``lock`` status.
 +
-+	  If unsure, say N.
-+
- endmenu
-diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-index 2f3235a52e5e..2295deb2fe0e 100644
---- a/mm/damon/Makefile
-+++ b/mm/damon/Makefile
-@@ -2,3 +2,4 @@
+ .. _impl_details:
  
- obj-$(CONFIG_DAMON)		:= core.o
- obj-$(CONFIG_DAMON_PRIMITIVES)	+= primitives.o
-+obj-$(CONFIG_DAMON_DBGFS)	+= dbgfs.o
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index d7957d8ff530..47baf859d7d9 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -135,6 +135,40 @@ unsigned int damon_nr_regions(struct damon_target *t)
- 	return nr_regions;
+ Implementation Details
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 144fb4ed961d..0aa45f848570 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -16,6 +16,8 @@
+ #define BITMAP_CHUNK_SIZE	sizeof(u64)
+ #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
+ 
++static DEFINE_MUTEX(page_idle_lock);
++
+ /*
+  * Idle page tracking only considers user memory pages, for other types of
+  * pages the idle flag is always unset and an attempt to set it is silently
+@@ -169,6 +171,9 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
+ 	unsigned long pfn, end_pfn;
+ 	int bit;
+ 
++	if (!mutex_is_locked(&page_idle_lock))
++		return -EPERM;
++
+ 	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+ 		return -EINVAL;
+ 
+@@ -197,17 +202,52 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
+ 	return (char *)in - buf;
  }
  
-+struct damon_ctx *damon_new_ctx(void)
++static ssize_t page_idle_lock_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
 +{
-+	struct damon_ctx *ctx;
-+
-+	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return NULL;
-+
-+	ctx->sample_interval = 5 * 1000;
-+	ctx->aggr_interval = 100 * 1000;
-+	ctx->regions_update_interval = 1000 * 1000;
-+	ctx->min_nr_regions = 10;
-+	ctx->max_nr_regions = 1000;
-+
-+	ktime_get_coarse_ts64(&ctx->last_aggregation);
-+	ctx->last_regions_update = ctx->last_aggregation;
-+
-+	mutex_init(&ctx->kdamond_lock);
-+
-+	INIT_LIST_HEAD(&ctx->targets_list);
-+
-+	return ctx;
++	return sprintf(buf, "%d\n", mutex_is_locked(&page_idle_lock));
 +}
 +
-+void damon_destroy_ctx(struct damon_ctx *ctx)
++static ssize_t page_idle_lock_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
 +{
-+	struct damon_target *t, *next_t;
-+
-+	damon_for_each_target_safe(t, next_t, ctx)
-+		damon_destroy_target(t);
-+
-+	kfree(ctx);
-+}
-+
- /**
-  * damon_set_targets() - Set monitoring targets.
-  * @ctx:	monitoring context
-@@ -204,6 +238,20 @@ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
- 	return 0;
- }
- 
-+/**
-+ * damon_nr_running_ctxs() - Return number of currently running contexts.
-+ */
-+int damon_nr_running_ctxs(void)
-+{
-+	int nr_ctxs;
-+
-+	mutex_lock(&damon_lock);
-+	nr_ctxs = nr_running_ctxs;
-+	mutex_unlock(&damon_lock);
-+
-+	return nr_ctxs;
-+}
-+
- /* Returns the size upper limit for each monitoring region */
- static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
- {
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-new file mode 100644
-index 000000000000..6316d4cae2a4
---- /dev/null
-+++ b/mm/damon/dbgfs.c
-@@ -0,0 +1,428 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DAMON Debugfs Interface
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
-+
-+#define pr_fmt(fmt) "damon-dbgfs: " fmt
-+
-+#include <linux/damon.h>
-+#include <linux/debugfs.h>
-+#include <linux/file.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/page_idle.h>
-+#include <linux/slab.h>
-+
-+static struct damon_ctx **dbgfs_ctxs;
-+static int dbgfs_nr_ctxs = 1;
-+static int dbgfs_nr_terminated_ctxs;
-+static struct dentry **dbgfs_dirs;
-+static DEFINE_MUTEX(damon_dbgfs_lock);
-+
-+/*
-+ * Returns non-empty string on success, negarive error code otherwise.
-+ */
-+static char *user_input_str(const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	char *kbuf;
-+	ssize_t ret;
-+
-+	/* We do not accept continuous write */
-+	if (*ppos)
-+		return ERR_PTR(-EINVAL);
-+
-+	kbuf = kmalloc(count + 1, GFP_KERNEL);
-+	if (!kbuf)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = simple_write_to_buffer(kbuf, count + 1, ppos, buf, count);
-+	if (ret != count) {
-+		kfree(kbuf);
-+		return ERR_PTR(-EIO);
-+	}
-+	kbuf[ret] = '\0';
-+
-+	return kbuf;
-+}
-+
-+static ssize_t dbgfs_attrs_read(struct file *file,
-+		char __user *buf, size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = file->private_data;
-+	char kbuf[128];
++	bool do_lock;
 +	int ret;
 +
-+	mutex_lock(&ctx->kdamond_lock);
-+	ret = scnprintf(kbuf, ARRAY_SIZE(kbuf), "%lu %lu %lu %lu %lu\n",
-+			ctx->sample_interval, ctx->aggr_interval,
-+			ctx->regions_update_interval, ctx->min_nr_regions,
-+			ctx->max_nr_regions);
-+	mutex_unlock(&ctx->kdamond_lock);
++	ret = kstrtobool(buf, &do_lock);
++	if (ret < 0)
++		return ret;
 +
-+	return simple_read_from_buffer(buf, count, ppos, kbuf, ret);
-+}
-+
-+static ssize_t dbgfs_attrs_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = file->private_data;
-+	unsigned long s, a, r, minr, maxr;
-+	char *kbuf;
-+	ssize_t ret = count;
-+	int err;
-+
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+
-+	if (sscanf(kbuf, "%lu %lu %lu %lu %lu",
-+				&s, &a, &r, &minr, &maxr) != 5) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	if (ctx->kdamond) {
-+		ret = -EBUSY;
-+		goto unlock_out;
-+	}
-+
-+	err = damon_set_attrs(ctx, s, a, r, minr, maxr);
-+	if (err)
-+		ret = err;
-+unlock_out:
-+	mutex_unlock(&ctx->kdamond_lock);
-+out:
-+	kfree(kbuf);
-+	return ret;
-+}
-+
-+#define targetid_is_pid(ctx)	\
-+	(ctx->primitive.target_valid == damon_va_target_valid)
-+
-+static ssize_t sprint_target_ids(struct damon_ctx *ctx, char *buf, ssize_t len)
-+{
-+	struct damon_target *t;
-+	unsigned long id;
-+	int written = 0;
-+	int rc;
-+
-+	damon_for_each_target(t, ctx) {
-+		id = t->id;
-+		if (targetid_is_pid(ctx))
-+			/* Show pid numbers to debugfs users */
-+			id = (unsigned long)pid_vnr((struct pid *)id);
-+
-+		rc = scnprintf(&buf[written], len - written, "%lu ", id);
-+		if (!rc)
-+			return -ENOMEM;
-+		written += rc;
-+	}
-+	if (written)
-+		written -= 1;
-+	written += scnprintf(&buf[written], len - written, "\n");
-+	return written;
-+}
-+
-+static ssize_t dbgfs_target_ids_read(struct file *file,
-+		char __user *buf, size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = file->private_data;
-+	ssize_t len;
-+	char ids_buf[320];
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	len = sprint_target_ids(ctx, ids_buf, 320);
-+	mutex_unlock(&ctx->kdamond_lock);
-+	if (len < 0)
-+		return len;
-+
-+	return simple_read_from_buffer(buf, count, ppos, ids_buf, len);
-+}
-+
-+/*
-+ * Converts a string into an array of unsigned long integers
-+ *
-+ * Returns an array of unsigned long integers if the conversion success, or
-+ * NULL otherwise.
-+ */
-+static unsigned long *str_to_target_ids(const char *str, ssize_t len,
-+					ssize_t *nr_ids)
-+{
-+	unsigned long *ids;
-+	const int max_nr_ids = 32;
-+	unsigned long id;
-+	int pos = 0, parsed, ret;
-+
-+	*nr_ids = 0;
-+	ids = kmalloc_array(max_nr_ids, sizeof(id), GFP_KERNEL);
-+	if (!ids)
-+		return NULL;
-+	while (*nr_ids < max_nr_ids && pos < len) {
-+		ret = sscanf(&str[pos], "%lu%n", &id, &parsed);
-+		pos += parsed;
-+		if (ret != 1)
-+			break;
-+		ids[*nr_ids] = id;
-+		*nr_ids += 1;
-+	}
-+
-+	return ids;
-+}
-+
-+/* Returns pid for the given pidfd if it's valid, or NULL otherwise. */
-+static struct pid *damon_get_pidfd_pid(unsigned int pidfd)
-+{
-+	struct fd f;
-+	struct pid *pid;
-+
-+	f = fdget(pidfd);
-+	if (!f.file)
-+		return NULL;
-+
-+	pid = pidfd_pid(f.file);
-+	if (!IS_ERR(pid))
-+		get_pid(pid);
-+	else
-+		pid = NULL;
-+
-+	fdput(f);
-+	return pid;
-+}
-+
-+static ssize_t dbgfs_target_ids_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = file->private_data;
-+	char *kbuf, *nrs;
-+	bool received_pidfds = false;
-+	unsigned long *targets;
-+	ssize_t nr_targets;
-+	ssize_t ret = count;
-+	int i;
-+	int err;
-+
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+
-+	nrs = kbuf;
-+
-+	if (!strncmp(kbuf, "pidfd ", 6)) {
-+		received_pidfds = true;
-+		nrs = &kbuf[6];
-+	}
-+
-+	targets = str_to_target_ids(nrs, ret, &nr_targets);
-+	if (!targets) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	if (received_pidfds) {
-+		for (i = 0; i < nr_targets; i++)
-+			targets[i] = (unsigned long)damon_get_pidfd_pid(
-+					(unsigned int)targets[i]);
-+	} else if (targetid_is_pid(ctx)) {
-+		for (i = 0; i < nr_targets; i++)
-+			targets[i] = (unsigned long)find_get_pid(
-+					(int)targets[i]);
-+	}
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	if (ctx->kdamond) {
-+		ret = -EINVAL;
-+		goto unlock_out;
-+	}
-+
-+	err = damon_set_targets(ctx, targets, nr_targets);
-+	if (err)
-+		ret = err;
-+unlock_out:
-+	mutex_unlock(&ctx->kdamond_lock);
-+	kfree(targets);
-+out:
-+	kfree(kbuf);
-+	return ret;
-+}
-+
-+static int damon_dbgfs_open(struct inode *inode, struct file *file)
-+{
-+	file->private_data = inode->i_private;
-+
-+	return nonseekable_open(inode, file);
-+}
-+
-+static const struct file_operations attrs_fops = {
-+	.owner = THIS_MODULE,
-+	.open = damon_dbgfs_open,
-+	.read = dbgfs_attrs_read,
-+	.write = dbgfs_attrs_write,
-+};
-+
-+static const struct file_operations target_ids_fops = {
-+	.owner = THIS_MODULE,
-+	.open = damon_dbgfs_open,
-+	.read = dbgfs_target_ids_read,
-+	.write = dbgfs_target_ids_write,
-+};
-+
-+static int dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
-+{
-+	const char * const file_names[] = {"attrs", "target_ids"};
-+	const struct file_operations *fops[] = {&attrs_fops, &target_ids_fops};
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(file_names); i++) {
-+		if (!debugfs_create_file(file_names[i], 0600, dir,
-+					ctx, fops[i])) {
-+			pr_err("failed to create %s file\n", file_names[i]);
-+			return -ENOMEM;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void dbgfs_unlock_page_idle_lock(void)
-+{
-+	mutex_lock(&damon_dbgfs_lock);
-+	if (++dbgfs_nr_terminated_ctxs == dbgfs_nr_ctxs) {
-+		dbgfs_nr_terminated_ctxs = 0;
++	if (do_lock) {
++		if (!mutex_trylock(&page_idle_lock))
++			return -EBUSY;
++	} else {
 +		mutex_unlock(&page_idle_lock);
 +	}
-+	mutex_unlock(&damon_dbgfs_lock);
++
++	return count;
 +}
 +
-+static int dbgfs_before_terminate(struct damon_ctx *ctx)
-+{
-+	dbgfs_unlock_page_idle_lock();
-+	return 0;
-+}
+ static struct bin_attribute page_idle_bitmap_attr =
+ 		__BIN_ATTR(bitmap, 0600,
+ 			   page_idle_bitmap_read, page_idle_bitmap_write, 0);
+ 
++static struct kobj_attribute page_idle_lock_attr =
++		__ATTR(lock, 0600, page_idle_lock_show, page_idle_lock_store);
 +
-+static struct damon_ctx *dbgfs_new_ctx(void)
-+{
-+	struct damon_ctx *ctx;
-+
-+	ctx = damon_new_ctx();
-+	if (!ctx)
-+		return NULL;
-+
-+	damon_va_set_primitives(ctx);
-+	ctx->callback.before_terminate = dbgfs_before_terminate;
-+	return ctx;
-+}
-+
-+static ssize_t dbgfs_monitor_on_read(struct file *file,
-+		char __user *buf, size_t count, loff_t *ppos)
-+{
-+	char monitor_on_buf[5];
-+	bool monitor_on = damon_nr_running_ctxs() != 0;
-+	int len;
-+
-+	len = scnprintf(monitor_on_buf, 5, monitor_on ? "on\n" : "off\n");
-+
-+	return simple_read_from_buffer(buf, count, ppos, monitor_on_buf, len);
-+}
-+
-+static int dbgfs_start_ctxs(struct damon_ctx **ctxs, int nr_ctxs)
-+{
-+	int rc;
-+
-+	if (!mutex_trylock(&page_idle_lock))
-+		return -EBUSY;
-+
-+	rc = damon_start(ctxs, nr_ctxs);
-+	if (rc)
-+		mutex_unlock(&page_idle_lock);
-+
-+	return rc;
-+}
-+
-+static ssize_t dbgfs_monitor_on_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	ssize_t ret = count;
-+	char *kbuf;
-+	int err;
-+
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+
-+	/* Remove white space */
-+	if (sscanf(kbuf, "%s", kbuf) != 1) {
-+		kfree(kbuf);
-+		return -EINVAL;
-+	}
-+
-+	if (!strncmp(kbuf, "on", count))
-+		err = dbgfs_start_ctxs(dbgfs_ctxs, dbgfs_nr_ctxs);
-+	else if (!strncmp(kbuf, "off", count))
-+		err = damon_stop(dbgfs_ctxs, dbgfs_nr_ctxs);
-+	else
-+		err = -EINVAL;
-+
-+	if (err)
-+		ret = err;
-+	kfree(kbuf);
-+	return ret;
-+}
-+
-+static const struct file_operations monitor_on_fops = {
-+	.owner = THIS_MODULE,
-+	.read = dbgfs_monitor_on_read,
-+	.write = dbgfs_monitor_on_write,
+ static struct bin_attribute *page_idle_bin_attrs[] = {
+ 	&page_idle_bitmap_attr,
+ 	NULL,
+ };
+ 
++static struct attribute *page_idle_lock_attrs[] = {
++	&page_idle_lock_attr.attr,
++	NULL,
 +};
 +
-+static int __init __damon_dbgfs_init(void)
-+{
-+	struct dentry *dbgfs_root;
-+	const char * const file_names[] = {"monitor_on"};
-+	const struct file_operations *fops[] = {&monitor_on_fops};
-+	int i;
-+
-+	dbgfs_root = debugfs_create_dir("damon", NULL);
-+	if (IS_ERR(dbgfs_root)) {
-+		pr_err("failed to create the dbgfs dir\n");
-+		return PTR_ERR(dbgfs_root);
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(file_names); i++) {
-+		if (!debugfs_create_file(file_names[i], 0600, dbgfs_root,
-+					NULL, fops[i])) {
-+			pr_err("failed to create %s file\n", file_names[i]);
-+			return -ENOMEM;
-+		}
-+	}
-+	dbgfs_fill_ctx_dir(dbgfs_root, dbgfs_ctxs[0]);
-+
-+	dbgfs_dirs = kmalloc_array(1, sizeof(dbgfs_root), GFP_KERNEL);
-+	dbgfs_dirs[0] = dbgfs_root;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Functions for the initialization
-+ */
-+
-+static int __init damon_dbgfs_init(void)
-+{
-+	int rc;
-+
-+	dbgfs_ctxs = kmalloc(sizeof(*dbgfs_ctxs), GFP_KERNEL);
-+	dbgfs_ctxs[0] = dbgfs_new_ctx();
-+	if (!dbgfs_ctxs[0])
-+		return -ENOMEM;
-+
-+	rc = __damon_dbgfs_init();
-+	if (rc)
-+		pr_err("%s: dbgfs init failed\n", __func__);
-+
-+	return rc;
-+}
-+
-+module_init(damon_dbgfs_init);
+ static const struct attribute_group page_idle_attr_group = {
+ 	.bin_attrs = page_idle_bin_attrs,
++	.attrs = page_idle_lock_attrs,
+ 	.name = "page_idle",
+ };
+ 
 -- 
 2.17.1
 
