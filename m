@@ -2,61 +2,60 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3DC1C561F8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:00:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4896C388F9
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:11:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60FB4222C8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:00:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F02322251
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603274427;
-	bh=vMGHj7i4+owKzNMXhur9mOOxw32IG/TyxPr15+zBKSE=;
+	s=default; t=1603275079;
+	bh=0YoH9Rt5LN3yhFZ9E/sW8Awr/TJIiPrp0Hndf57OxeQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=hRrhr4SLXzgvsIlNJwR6V/rCgNhekalJeDkQy76u0btVkEjcADVfYD6gRZSDY6g8q
-	 Dm0XZIEDXha7fx8dLsva5uH3t+0mBlUPNeEM1WK1PNq+NkdB09R2WeaJeBzdIkvdG1
-	 QPnQnIzujDmOUXxq3PEMblTD4Tf76pQdrc0hX9H8=
+	b=lrkA1ZX3Z6tcsrCnJUuI37fD//vZpREy+abpjUeGowE3wv6SZmvU49WPgyj+Hsauu
+	 kAcYGxnxjl7G4HJ8kgtGt+NRSzJpE9fNQs32J5wuof8aWrxkYAiWWc8h2zNWNHrqaf
+	 /wnVBauJzVeMR690CNtJr/X/18n5J6r6HR4JgB68=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387402AbgJUKA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 06:00:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35768 "EHLO mail.kernel.org"
+        id S2409669AbgJUKLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 06:11:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48584 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387394AbgJUKA0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Oct 2020 06:00:26 -0400
+        id S2405320AbgJUKLP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Oct 2020 06:11:15 -0400
 Received: from coco.lan (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4FAA821741;
-        Wed, 21 Oct 2020 10:00:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9994F221FC;
+        Wed, 21 Oct 2020 10:11:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603274425;
-        bh=vMGHj7i4+owKzNMXhur9mOOxw32IG/TyxPr15+zBKSE=;
+        s=default; t=1603275074;
+        bh=0YoH9Rt5LN3yhFZ9E/sW8Awr/TJIiPrp0Hndf57OxeQ=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=azHwE7cTBtqVKOXdRr2ULr/HOJ9dCNEgcwvfx8Jl0QEwIFLO1mJ2Ati631voYBNDj
-         LL6+gLcGFjJHsVA9d8jnOD5nDZ9zLGCTzAgGBKuLcERa+KqMKdxsn5MEwYHabnE1Xo
-         0hUh3rw46NMa7Ly0FwbqrBFqne8ZSb8sbeSpPMiE=
-Date:   Wed, 21 Oct 2020 12:00:17 +0200
+        b=GxvzkVb88rfqI6o5XMTbs8V7sRLU3+68wpcIkJuaPnmiDp+R5CF6Lp3rb2D3pKdyU
+         0eirdfRB/lnaXQVLI6DlL3a/CG+XkF7+qeJRcuo1uyssC6wCJLduWTWRduWHe/YYHz
+         XUruXt0Uq1AXCPQdaRxJQri1Q3AJ+Sm/lsEybh3s=
+Date:   Wed, 21 Oct 2020 12:11:08 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rob Herring <robh@kernel.org>
+To:     Lyude Paul <lyude@redhat.com>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWU=?= Pouiller <jerome.pouiller@silabs.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, devel@driverdev.osuosl.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] MAINTAINERS: fix broken doc refs due to yaml
- conversion
-Message-ID: <20201021120017.3da0fe46@coco.lan>
-In-Reply-To: <20201013105239.348efc0c@coco.lan>
-References: <cover.1602245659.git.mchehab+huawei@kernel.org>
-        <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
-        <20201012192114.GA1938842@bogus>
-        <20201013105239.348efc0c@coco.lan>
+        Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/24] drm/dp: fix a kernel-doc issue at drm_edid.c
+Message-ID: <20201021121108.51972144@coco.lan>
+In-Reply-To: <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+        <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
+        <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -65,127 +64,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 13 Oct 2020 10:52:39 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hi Lyude,
 
-> Em Mon, 12 Oct 2020 14:21:14 -0500
-> Rob Herring <robh@kernel.org> escreveu:
-> 
-> > On Fri, Oct 09, 2020 at 02:15:30PM +0200, Mauro Carvalho Chehab wrote:  
-> > > Several *.txt files got converted to yaml. Update their
-> > > references at MAINTAINERS file accordingly.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > >  Documentation/devicetree/bindings/clock/hi6220-clock.txt | 2 +-
-> > >  MAINTAINERS                                              | 9 ++++-----
-> > >  .../devicetree/bindings/net/wireless/silabs,wfx.yaml     | 2 +-
-> > >  3 files changed, 6 insertions(+), 7 deletions(-)    
-> > 
-> > Doesn't apply for me.  
-> 
-> It is based on the top of -next, so perhaps it depends on some other
-> changes that aren't upstream yet and comes from other trees. 
-> 
-> I could try to split it, but I guess the easiest way is
-> to just push this one by the end of the merge window, together
-> with the remaining patches I have left, fixing the other doc
-> build issues.
-> 
-> Would that work for you?
+Em Tue, 13 Oct 2020 15:49:11 -0400
+Lyude Paul <lyude@redhat.com> escreveu:
 
-It now applies cleanly on the top of upstream.
+> wait, I think there's some confusion here. these patches have already been
+> pushed
 
-If it would be ok for you, I'll send this one together with the other
-pending doc warning fix patch series.
+As the patch adding the warning was merged upstream at the 5.10 merge
+window, the fixup one should also be added there, instead of waiting
+until 5.11 ;-)
+
+So, if OK for you, I'll send this upstream via my tree by the end of
+the merge window, as our goal is that 5.10 won't have doc warnings.
 
 Regards,
 Mauro
-
-
-[PATCH] MAINTAINERS: fix broken doc refs due to yaml conversion
-
-Several *.txt files got converted to yaml. Update their
-references at MAINTAINERS file accordingly.
-
-Acked-by: Stephen Boyd <sboyd@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/Documentation/devicetree/bindings/clock/hi6220-clock.txt b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
-index ef3deb7b86ea..17ac4a3dd26a 100644
---- a/Documentation/devicetree/bindings/clock/hi6220-clock.txt
-+++ b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
-@@ -4,7 +4,7 @@ Clock control registers reside in different Hi6220 system controllers,
- please refer the following document to know more about the binding rules
- for these system controllers:
- 
--Documentation/devicetree/bindings/arm/hisilicon/hisilicon.txt
-+Documentation/devicetree/bindings/arm/hisilicon/hisilicon.yaml
- 
- Required Properties:
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 17ca7c8490a9..2cfcfa010b06 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -978,7 +978,7 @@ M:	Michael Hennerich <Michael.Hennerich@analog.com>
- L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	http://ez.analog.com/community/linux-device-drivers
--F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.txt
-+F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml
- F:	drivers/iio/adc/ad7768-1.c
- 
- ANALOG DEVICES INC AD7780 DRIVER
-@@ -3847,7 +3847,7 @@ M:	Roger Quadros <rogerq@ti.com>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
--F:	Documentation/devicetree/bindings/usb/cdns-usb3.txt
-+F:	Documentation/devicetree/bindings/usb/cdns,usb3.yaml
- F:	drivers/usb/cdns3/
- 
- CADET FM/AM RADIO RECEIVER DRIVER
-@@ -7898,7 +7898,7 @@ HISILICON LPC BUS DRIVER
- M:	john.garry@huawei.com
- S:	Maintained
- W:	http://www.hisilicon.com
--F:	Documentation/devicetree/bindings/arm/hisilicon/hisilicon-low-pin-count.txt
-+F:	Documentation/devicetree/bindings/arm/hisilicon/low-pin-count.yaml
- F:	drivers/bus/hisi_lpc.c
- 
- HISILICON NETWORK SUBSYSTEM 3 DRIVER (HNS3)
-@@ -14872,7 +14872,6 @@ RENESAS ETHERNET DRIVERS
- R:	Sergei Shtylyov <sergei.shtylyov@gmail.com>
- L:	netdev@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
--F:	Documentation/devicetree/bindings/net/renesas,*.txt
- F:	Documentation/devicetree/bindings/net/renesas,*.yaml
- F:	drivers/net/ethernet/renesas/
- F:	include/linux/sh_eth.h
-@@ -18060,7 +18059,7 @@ M:	Yu Chen <chenyu56@huawei.com>
- M:	Binghui Wang <wangbinghui@hisilicon.com>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt
-+F:	Documentation/devicetree/bindings/phy/hisilicon,hi3660-usb3.yaml
- F:	drivers/phy/hisilicon/phy-hi3660-usb3.c
- 
- USB ISP116X DRIVER
-diff --git a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
-index 43b5630c0407..510edd12ed19 100644
---- a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
-+++ b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
-@@ -24,7 +24,7 @@ description:
-     In addition, it is recommended to declare a mmc-pwrseq on SDIO host above
-     WFx. Without it, you may encounter issues with warm boot. The mmc-pwrseq
-     should be compatible with mmc-pwrseq-simple. Please consult
--    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.txt for more
-+    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml for more
-     information.
- 
-   For SPI':'
-
+> 
+> 
+> On Tue, 2020-10-13 at 14:14 +0200, Mauro Carvalho Chehab wrote:
+> > The name of the argument is different, causing those warnings:
+> > 
+> > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Function parameter or member
+> > 'video_code' not described in 'drm_display_mode_from_cea_vic'
+> > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Excess function parameter
+> > 'vic' description in 'drm_display_mode_from_cea_vic'
+> > 
+> > Fixes: 7af655bce275 ("drm/dp: Add drm_dp_downstream_mode()")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  drivers/gpu/drm/drm_edid.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> > index a82f37d44258..631125b46e04 100644
+> > --- a/drivers/gpu/drm/drm_edid.c
+> > +++ b/drivers/gpu/drm/drm_edid.c
+> > @@ -3741,7 +3741,7 @@ drm_add_cmdb_modes(struct drm_connector *connector, u8
+> > svd)
+> >  /**
+> >   * drm_display_mode_from_cea_vic() - return a mode for CEA VIC
+> >   * @dev: DRM device
+> > - * @vic: CEA VIC of the mode
+> > + * @video_code: CEA VIC of the mode
+> >   *
+> >   * Creates a new mode matching the specified CEA VIC.
+> >   *  
 
 
 
