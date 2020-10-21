@@ -2,261 +2,221 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7965AC56202
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CF05C56204
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:26:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2AA3722251
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603282678;
-	bh=LxyizouARpcsGPhJfNF7r+NNp7creLgIhK9Meaty+zs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TDPHmniH4Oq4+47hETnziYZxk8zYl1A6w3RoltD02Map+9cqAX+7wgZh7FWy1Pw+u
-	 LVHrKPAt4ANC1Yjnk+CCU6i5lvFg6Q9H0lYCn5bXI1KtztVNwi+iji9NMnNnROR7ev
-	 vwvxsJup7ghoNXu/fIHWpuF+iQ/cJ0FM5UDj9Yns=
+	by mail.kernel.org (Postfix) with ESMTP id D36492224B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:26:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jDOgf0Qi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442297AbgJUMRo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 08:17:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59074 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406831AbgJUMRb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Oct 2020 08:17:31 -0400
-Received: from mail.kernel.org (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B58E920BED;
-        Wed, 21 Oct 2020 12:17:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603282650;
-        bh=LxyizouARpcsGPhJfNF7r+NNp7creLgIhK9Meaty+zs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LfHARTSoAtcCyEmEFsD6cjPH48NC1aJicFYtVje6CQ1VOW/OfNGwGLGcev0T7tYwa
-         6CaVGZYymYbKAON7m7Rk1xlo9RnOtUBfVel1EtY+3/DjprKjShJtFsUAJMNGc23567
-         MJLvMSPv5Oo/Q8Ur1kt5YssZX2cETL5R2pffxI4U=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kVD3Y-001U2b-Av; Wed, 21 Oct 2020 14:17:28 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/6] docs: lockdep-design: fix some warning issues
-Date:   Wed, 21 Oct 2020 14:17:23 +0200
-Message-Id: <ef8a80c3250dcbea64c6dda2b9b25f81f93da4eb.1603282193.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603282193.git.mchehab+huawei@kernel.org>
-References: <cover.1603282193.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+        id S2440127AbgJUM0F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 08:26:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8858 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725791AbgJUM0E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Oct 2020 08:26:04 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09LC3ZMk115791;
+        Wed, 21 Oct 2020 08:25:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=bvSsPq3wOmmtOX1az4xCyTfWApYvcQkBAvmNyM4Gu/k=;
+ b=jDOgf0Qi/Sfe+6zHOdryNDHp6PEAoQIUv6TAVYN7AN285iFKam5UdOLQ1rLc2u59HXdO
+ qg8wMwH6KEvRao0u/p/Gn5/JnkCxOqU8bYpsMJib1LZPjfxzMgCH8UdqmvZI6mrDFZBJ
+ psJuJMBJVwMkuDPePGZnuPboeSizU2G648FNjJV/aUsVynXGY/J8gsWJB9rRtcnkOudB
+ NhUXSzPevHWifnim3vTckQy27ecypWvuQoaL11zQ2F7SyapPGwvu/L47c5PM2csZx65T
+ NtHUILzQEqxFqIa+MrnDnoOedaMn021bLHv2yhV4lH9haaHUK4iS0rdULyz4gv5i2PxX dA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 34ak37krm8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Oct 2020 08:25:41 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09LC5592123886;
+        Wed, 21 Oct 2020 08:25:41 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 34ak37krkj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Oct 2020 08:25:41 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09LCCH5h010636;
+        Wed, 21 Oct 2020 12:25:39 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma06ams.nl.ibm.com with ESMTP id 347qvhca8x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Oct 2020 12:25:38 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 09LCPa9t28901750
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 21 Oct 2020 12:25:36 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 883C04C050;
+        Wed, 21 Oct 2020 12:25:36 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 709A94C040;
+        Wed, 21 Oct 2020 12:25:32 +0000 (GMT)
+Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.92.86])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 21 Oct 2020 12:25:32 +0000 (GMT)
+Message-ID: <7b2ccd620a9de5c2fd57b8e8aeb41d5476f83b28.camel@linux.ibm.com>
+Subject: Re: [PATCH v7 1/4] KEYS: trusted: Add generic trusted keys framework
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Date:   Wed, 21 Oct 2020 08:25:31 -0400
+In-Reply-To: <CAFA6WYM7aJwP9j_ayGvbJPu-cyv87rsm9N4Wj2OCOMnmfDx+Rw@mail.gmail.com>
+References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
+         <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
+         <8e07f9401c9f7e18fb1453b7b290472c0049c6e6.camel@linux.ibm.com>
+         <CAFA6WYM7aJwP9j_ayGvbJPu-cyv87rsm9N4Wj2OCOMnmfDx+Rw@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.737
+ definitions=2020-10-21_05:2020-10-20,2020-10-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 mlxlogscore=999 mlxscore=0
+ phishscore=0 adultscore=0 suspectscore=2 bulkscore=0 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010210096
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are several warnings caused by a recent change
-224ec489d3cd ("lockdep/Documention: Recursive read lock detection reasoning")
+On Wed, 2020-10-21 at 11:16 +0530, Sumit Garg wrote:
+> Thanks Mimi for your comments.
+> 
+> On Wed, 21 Oct 2020 at 08:51, Mimi Zohar <zohar@linux.ibm.com> wrote:
+> >
+> > On Wed, 2020-10-07 at 15:37 +0530, Sumit Garg wrote:
+> >
+> > > +/*
+> > > + * trusted_destroy - clear and free the key's payload
+> > > + */
+> > > +static void trusted_destroy(struct key *key)
+> > > +{
+> > > +     kfree_sensitive(key->payload.data[0]);
+> > > +}
+> > > +
+> > > +struct key_type key_type_trusted = {
+> > > +     .name = "trusted",
+> > > +     .instantiate = trusted_instantiate,
+> > > +     .update = trusted_update,
+> > > +     .destroy = trusted_destroy,
+> > > +     .describe = user_describe,
+> > > +     .read = trusted_read,
+> > > +};
+> > > +EXPORT_SYMBOL_GPL(key_type_trusted);
+> > > +
+> > > +static int __init init_trusted(void)
+> > > +{
+> > > +     int i, ret = 0;
+> > > +
+> > > +     for (i = 0; i < ARRAY_SIZE(trusted_key_sources); i++) {
+> > > +             if (trusted_key_source &&
+> > > +                 strncmp(trusted_key_source, trusted_key_sources[i].name,
+> > > +                         strlen(trusted_key_sources[i].name)))
+> > > +                     continue;
+> > > +
+> > > +             trusted_key_ops = trusted_key_sources[i].ops;
+> > > +
+> > > +             ret = trusted_key_ops->init();
+> > > +             if (!ret)
+> > > +                     break;
+> > > +     }
+> >
+> > In the case when the module paramater isn't specified and both TPM and
+> > TEE are enabled, trusted_key_ops is set to the last source initialized.
+> 
+> I guess there is some misunderstanding. Here it's only a single trust
+> source (TPM *or* TEE) is initialized and only that trust source would
+> be active at runtime. And trusted_key_ops would be initialized to the
+> first trust source whose initialization is successful (see check: "if
+> (!ret)").
 
-Those are reported by htmldocs build:
+My mistake.
 
-    Documentation/locking/lockdep-design.rst:429: WARNING: Definition list ends without a blank line; unexpected unindent.
-    Documentation/locking/lockdep-design.rst:452: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/locking/lockdep-design.rst:453: WARNING: Unexpected indentation.
-    Documentation/locking/lockdep-design.rst:453: WARNING: Blank line required after table.
-    Documentation/locking/lockdep-design.rst:454: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/locking/lockdep-design.rst:455: WARNING: Unexpected indentation.
-    Documentation/locking/lockdep-design.rst:455: WARNING: Blank line required after table.
-    Documentation/locking/lockdep-design.rst:456: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/locking/lockdep-design.rst:457: WARNING: Unexpected indentation.
-    Documentation/locking/lockdep-design.rst:457: WARNING: Blank line required after table.
+> 
+> > After patch 2/4, the last trusted source initialized is TEE.  If the
+> > intention is to limit it to either TPM or TEE, then trusted_key_ops
+> > should have a default value, which could be overwritten at runtime.
+> > That would address Luke Hind's concerns of making the decision at
+> > compile time.
+> 
+> I think traversing the trust source list with the initial value being
+> TPM would be default value.
 
-Besides the reported issues, there are some missing blank
-lines that ended producing wrong html output, and some
-literals are not properly identified.
+Agreed
+> 
+> >
+> > trusted_key_ops should be defined as __ro_after_init, like is currently
+> > done for other LSM structures.
+> 
+> Sure, will do.
 
-Also, the symbols used at the irq enabled/disable table
-are not displayed as expected, as they're not literals.
-Also, on another table they're using a different notation.
+Thanks
+> 
+> >
+> > > +
+> > > +     /*
+> > > +      * encrypted_keys.ko depends on successful load of this module even if
+> > > +      * trusted key implementation is not found.
+> > > +      */
+> > > +     if (ret == -ENODEV)
+> > > +             return 0;
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static void __exit cleanup_trusted(void)
+> > > +{
+> > > +     trusted_key_ops->exit();
+> >
+> > If the intention is really to support both TPM and TEE trusted keys at
+> > the same time, as James suggested, then the same "for" loop as in
+> > init_trusted() is needed here and probably elsewhere.
+> 
+> Current intention is to only support a single trust source (TPM or
+> TEE) at runtime. But in future if there are use-cases then framework
+> can be extended to support multiple trust sources at runtime as well.
 
-Fixes: 224ec489d3cd ("lockdep/Documention: Recursive read lock detection reasoning")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/locking/lockdep-design.rst | 51 ++++++++++++++----------
- 1 file changed, 31 insertions(+), 20 deletions(-)
+Ok, the last sentence of the patch description, "Also, add a module
+parameter in order to select a particular trust source in case a
+platform support multiple trust sources.", needs to be expanded to:
+- indicate only one trust source at a time is supported
+- indicate the default, if the module_param is not specified
 
-diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
-index cec03bd1294a..9f3cfca9f8a4 100644
---- a/Documentation/locking/lockdep-design.rst
-+++ b/Documentation/locking/lockdep-design.rst
-@@ -42,6 +42,7 @@ The validator tracks lock-class usage history and divides the usage into
- (4 usages * n STATEs + 1) categories:
- 
- where the 4 usages can be:
-+
- - 'ever held in STATE context'
- - 'ever held as readlock in STATE context'
- - 'ever held with STATE enabled'
-@@ -49,10 +50,12 @@ where the 4 usages can be:
- 
- where the n STATEs are coded in kernel/locking/lockdep_states.h and as of
- now they include:
-+
- - hardirq
- - softirq
- 
- where the last 1 category is:
-+
- - 'ever used'                                       [ == !unused        ]
- 
- When locking rules are violated, these usage bits are presented in the
-@@ -96,9 +99,9 @@ exact case is for the lock as of the reporting time.
-   +--------------+-------------+--------------+
-   |              | irq enabled | irq disabled |
-   +--------------+-------------+--------------+
--  | ever in irq  |      ?      |       -      |
-+  | ever in irq  |     '?'     |      '-'     |
-   +--------------+-------------+--------------+
--  | never in irq |      +      |       .      |
-+  | never in irq |     '+'     |      '.'     |
-   +--------------+-------------+--------------+
- 
- The character '-' suggests irq is disabled because if otherwise the
-@@ -216,7 +219,7 @@ looks like this::
-        BD_MUTEX_PARTITION
-   };
- 
--mutex_lock_nested(&bdev->bd_contains->bd_mutex, BD_MUTEX_PARTITION);
-+  mutex_lock_nested(&bdev->bd_contains->bd_mutex, BD_MUTEX_PARTITION);
- 
- In this case the locking is done on a bdev object that is known to be a
- partition.
-@@ -334,7 +337,7 @@ Troubleshooting:
- ----------------
- 
- The validator tracks a maximum of MAX_LOCKDEP_KEYS number of lock classes.
--Exceeding this number will trigger the following lockdep warning:
-+Exceeding this number will trigger the following lockdep warning::
- 
- 	(DEBUG_LOCKS_WARN_ON(id >= MAX_LOCKDEP_KEYS))
- 
-@@ -420,7 +423,8 @@ the critical section of another reader of the same lock instance.
- 
- The difference between recursive readers and non-recursive readers is because:
- recursive readers get blocked only by a write lock *holder*, while non-recursive
--readers could get blocked by a write lock *waiter*. Considering the follow example:
-+readers could get blocked by a write lock *waiter*. Considering the follow
-+example::
- 
- 	TASK A:			TASK B:
- 
-@@ -448,20 +452,22 @@ There are simply four block conditions:
- 
- Block condition matrix, Y means the row blocks the column, and N means otherwise.
- 
--	    | E | r | R |
- 	+---+---+---+---+
--	  E | Y | Y | Y |
-+	|   | E | r | R |
- 	+---+---+---+---+
--	  r | Y | Y | N |
-+	| E | Y | Y | Y |
-+	+---+---+---+---+
-+	| r | Y | Y | N |
-+	+---+---+---+---+
-+	| R | Y | Y | N |
- 	+---+---+---+---+
--	  R | Y | Y | N |
- 
- 	(W: writers, r: non-recursive readers, R: recursive readers)
- 
- 
- acquired recursively. Unlike non-recursive read locks, recursive read locks
- only get blocked by current write lock *holders* other than write lock
--*waiters*, for example:
-+*waiters*, for example::
- 
- 	TASK A:			TASK B:
- 
-@@ -491,7 +497,7 @@ Recursive locks don't block each other, while non-recursive locks do (this is
- even true for two non-recursive read locks). A non-recursive lock can block the
- corresponding recursive lock, and vice versa.
- 
--A deadlock case with recursive locks involved is as follow:
-+A deadlock case with recursive locks involved is as follow::
- 
- 	TASK A:			TASK B:
- 
-@@ -510,7 +516,7 @@ because there are 3 types for lockers, there are, in theory, 9 types of lock
- dependencies, but we can show that 4 types of lock dependencies are enough for
- deadlock detection.
- 
--For each lock dependency:
-+For each lock dependency::
- 
- 	L1 -> L2
- 
-@@ -525,20 +531,25 @@ same types).
- With the above combination for simplification, there are 4 types of dependency edges
- in the lockdep graph:
- 
--1) -(ER)->: exclusive writer to recursive reader dependency, "X -(ER)-> Y" means
-+1) -(ER)->:
-+	    exclusive writer to recursive reader dependency, "X -(ER)-> Y" means
- 	    X -> Y and X is a writer and Y is a recursive reader.
- 
--2) -(EN)->: exclusive writer to non-recursive locker dependency, "X -(EN)-> Y" means
-+2) -(EN)->:
-+	    exclusive writer to non-recursive locker dependency, "X -(EN)-> Y" means
- 	    X -> Y and X is a writer and Y is either a writer or non-recursive reader.
- 
--3) -(SR)->: shared reader to recursive reader dependency, "X -(SR)-> Y" means
-+3) -(SR)->:
-+	    shared reader to recursive reader dependency, "X -(SR)-> Y" means
- 	    X -> Y and X is a reader (recursive or not) and Y is a recursive reader.
- 
--4) -(SN)->: shared reader to non-recursive locker dependency, "X -(SN)-> Y" means
-+4) -(SN)->:
-+	    shared reader to non-recursive locker dependency, "X -(SN)-> Y" means
- 	    X -> Y and X is a reader (recursive or not) and Y is either a writer or
- 	    non-recursive reader.
- 
--Note that given two locks, they may have multiple dependencies between them, for example:
-+Note that given two locks, they may have multiple dependencies between them,
-+for example::
- 
- 	TASK A:
- 
-@@ -592,11 +603,11 @@ circles that won't cause deadlocks.
- 
- Proof for sufficiency (Lemma 1):
- 
--Let's say we have a strong circle:
-+Let's say we have a strong circle::
- 
- 	L1 -> L2 ... -> Ln -> L1
- 
--, which means we have dependencies:
-+, which means we have dependencies::
- 
- 	L1 -> L2
- 	L2 -> L3
-@@ -633,7 +644,7 @@ a lock held by P2, and P2 is waiting for a lock held by P3, ... and Pn is waitin
- for a lock held by P1. Let's name the lock Px is waiting as Lx, so since P1 is waiting
- for L1 and holding Ln, so we will have Ln -> L1 in the dependency graph. Similarly,
- we have L1 -> L2, L2 -> L3, ..., Ln-1 -> Ln in the dependency graph, which means we
--have a circle:
-+have a circle::
- 
- 	Ln -> L1 -> L2 -> ... -> Ln
- 
--- 
-2.26.2
+I would also change the word from "add" to "define".   The new "source"
+module parameter needs to be added to the admin-guide/kernel-parameters 
+documentation.
+
+thanks,
+
+Mimi   
+
 
