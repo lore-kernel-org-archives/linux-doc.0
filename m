@@ -1,134 +1,169 @@
-Return-Path: <SRS0=dOZX=D3=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79EB4C388F2
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 23:11:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B3FC388F7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 03:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EE77223C6
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Oct 2020 23:11:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B343722253
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 03:21:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore-com.20150623.gappssmtp.com header.i=@paul-moore-com.20150623.gappssmtp.com header.b="oo1/w0oe"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="a0HC8Xj1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439255AbgJTXLH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Oct 2020 19:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2439252AbgJTXLH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 19:11:07 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875AAC0613CE
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2020 16:11:05 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id ce10so89955ejc.5
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2020 16:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oQrdvezJYSAFOQDr78k5AJCyrl0v3hhH//5WN2kgoBM=;
-        b=oo1/w0oelVxsAAQwsQ0ykiIfWkyo4Z3tcp4CWz9F9skAExBjVegSHj5Bmv8g7XOBw6
-         0GSwtoEhsy+zMTYshG53kWbNXDNH7eb5AW2BzM2Dc0J1WcEVhwqsPWmZdapsh4sMR9Ma
-         vZkhid0nH6RpBii5GRFd5iJFYT9oqT+cMR66xx5mcmi9G4tEmIZ57oRcHkY6saAV5u9U
-         nqzUeDbPfbedjJYWfGtHgA34Ceo90TgVXDAoROFb5Sc1knr2TW5zVTJJGx5LyVf3bmAI
-         DNpxd5ge5L0O1vrTMJtd76QXUU8aEf22TnnLbaPijcSqcRD4N9l9XL+oqmOf6DRbkG1I
-         axdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oQrdvezJYSAFOQDr78k5AJCyrl0v3hhH//5WN2kgoBM=;
-        b=Z9+vN6faiI0SrZEx9wW05vrm8tt/UtFJQv29OIwydVVGisb+4VZJ8ewXq9kmyc65cA
-         T1E2Q9gCeP3bEuGoDfr1y2vBuK19fERqwOipaG7ghSEqIY+zLCyRuYbpqE+JvWA6U+iZ
-         JYU7mT+39VnchS59MOVbSMUvpikN9KDxfbvdnfWy+t91J87i1nW8jWjXDbvzkewIkjGu
-         a9xoAnPk4+3dKrcly2GpSpMfCMbIc1u8S5Rq7urMSEcLql0MW7ot49o8kk8d078Xkho9
-         yJkQsQF7hS8/ecQzqcdMjRfCYvScSh9plYZJrwg+t7YVHoe+cH29VnJiOmhmoZnqSBbR
-         ukww==
-X-Gm-Message-State: AOAM530JzMwIxXgocD54VwVLFeZUCb8GWZyP6R6PsyzZV1Tp6jB1aaNA
-        FffNN3vSxoAYKp0YC5jN/DFJ/VIOpouKfSy1katx
-X-Google-Smtp-Source: ABdhPJw0pP1X9t3t36EeA9hYaCQRGW8zWHB8n131SXlMSo9h5Uhy/9KzkMAkGla2JJpYCBV8QIKKdJzqHlqu7Kb7Iz4=
-X-Received: by 2002:a17:906:ce5a:: with SMTP id se26mr521166ejb.106.1603235464181;
- Tue, 20 Oct 2020 16:11:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201020191732.4049987-1-salyzyn@android.com>
-In-Reply-To: <20201020191732.4049987-1-salyzyn@android.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 20 Oct 2020 19:10:53 -0400
-Message-ID: <CAHC9VhRMj-y2RsJ6HnbVYJV9j_snEqnmoNc6-wFacLG9wyqJpQ@mail.gmail.com>
-Subject: Re: [PATCH v17 0/4] overlayfs override_creds=off & nested get xattr fix
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S2411676AbgJUDV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Oct 2020 23:21:27 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57188 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2411620AbgJUDV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 23:21:27 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09L3ESZd175301;
+        Tue, 20 Oct 2020 23:21:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=v0Dn4h05hZpuQ0XCNNxFqCgcMKbDdVCE+TRGnwiRQds=;
+ b=a0HC8Xj16Ify51dtoNWjH/uXUG33galGvhktg31bidLdpkJRh4AOBnZzTfJxFxvzoRZT
+ rm8LhEoDjQnG85EWTqxnQYumtB+v4AzEY4KIdA0oa3BL3x8joeJV9vNS1otRazCQrzbP
+ Qh8J82KSzeGLqn68vZXiCQnL0lyguQLFLSUSKpSnwiOBBVrE+SWqJfXsDA4q4I+4zWq4
+ zdFXFc/jSqsJ4b7880ayf5pCz5WEEjWifEMOJVZ3Rz8xFUbensrm7nWn0suH3iDUUgtg
+ o45Zf39hdcB9pR/RAK6x9XYKT0v/8zgHqBGX9eIAWnLjoQ0TZswbu0kr1UulgwbcIMJ2 2w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 34acw986ds-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 20 Oct 2020 23:21:11 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09L3Fa7R177307;
+        Tue, 20 Oct 2020 23:21:10 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 34acw986cx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 20 Oct 2020 23:21:10 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09L3CGmP031758;
+        Wed, 21 Oct 2020 03:21:08 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma04ams.nl.ibm.com with ESMTP id 347r88bv5k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Oct 2020 03:21:08 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 09L3L5tH33620310
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 21 Oct 2020 03:21:05 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CF6A642047;
+        Wed, 21 Oct 2020 03:21:05 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B783D42045;
+        Wed, 21 Oct 2020 03:21:01 +0000 (GMT)
+Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.35.199])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 21 Oct 2020 03:21:01 +0000 (GMT)
+Message-ID: <8e07f9401c9f7e18fb1453b7b290472c0049c6e6.camel@linux.ibm.com>
+Subject: Re: [PATCH v7 1/4] KEYS: trusted: Add generic trusted keys framework
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Sumit Garg <sumit.garg@linaro.org>,
+        jarkko.sakkinen@linux.intel.com, jejb@linux.ibm.com
+Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
+        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
+        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
+        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
+        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org
+Date:   Tue, 20 Oct 2020 23:21:00 -0400
+In-Reply-To: <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
+References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
+         <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.737
+ definitions=2020-10-21_02:2020-10-20,2020-10-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
+ phishscore=0 spamscore=0 impostorscore=0 suspectscore=2 clxscore=1011
+ malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010210025
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 20, 2020 at 3:17 PM Mark Salyzyn <salyzyn@android.com> wrote:
->
-> Mark Salyzyn (3):
->   Add flags option to get xattr method paired to __vfs_getxattr
->   overlayfs: handle XATTR_NOSECURITY flag for get xattr method
->   overlayfs: override_creds=off option bypass creator_cred
->
-> Mark Salyzyn + John Stultz (1):
->   overlayfs: inode_owner_or_capable called during execv
->
-> The first three patches address fundamental security issues that should
-> be solved regardless of the override_creds=off feature.
->
-> The fourth adds the feature depends on these other fixes.
->
-> By default, all access to the upper, lower and work directories is the
-> recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> checked against the caller's credentials.
->
-> If the principles of least privilege are applied for sepolicy, the
-> mounter's credentials might not overlap the credentials of the caller's
-> when accessing the overlayfs filesystem.  For example, a file that a
-> lower DAC privileged caller can execute, is MAC denied to the
-> generally higher DAC privileged mounter, to prevent an attack vector.
->
-> We add the option to turn off override_creds in the mount options; all
-> subsequent operations after mount on the filesystem will be only the
-> caller's credentials.  The module boolean parameter and mount option
-> override_creds is also added as a presence check for this "feature",
-> existence of /sys/module/overlay/parameters/overlay_creds
->
-> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vivek Goyal <vgoyal@redhat.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Stephen Smalley <sds@tycho.nsa.gov>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> To: linux-fsdevel@vger.kernel.org
-> To: linux-unionfs@vger.kernel.org
-> Cc: linux-security-module@vger.kernel.org
-> Cc: kernel-team@android.com
+On Wed, 2020-10-07 at 15:37 +0530, Sumit Garg wrote:
 
-The SELinux list should also be CC'd on these patches.  For those who
-may just be seeing this, the lore link is below:
+> +/*
+> + * trusted_destroy - clear and free the key's payload
+> + */
+> +static void trusted_destroy(struct key *key)
+> +{
+> +	kfree_sensitive(key->payload.data[0]);
+> +}
+> +
+> +struct key_type key_type_trusted = {
+> +	.name = "trusted",
+> +	.instantiate = trusted_instantiate,
+> +	.update = trusted_update,
+> +	.destroy = trusted_destroy,
+> +	.describe = user_describe,
+> +	.read = trusted_read,
+> +};
+> +EXPORT_SYMBOL_GPL(key_type_trusted);
+> +
+> +static int __init init_trusted(void)
+> +{
+> +	int i, ret = 0;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(trusted_key_sources); i++) {
+> +		if (trusted_key_source &&
+> +		    strncmp(trusted_key_source, trusted_key_sources[i].name,
+> +			    strlen(trusted_key_sources[i].name)))
+> +			continue;
+> +
+> +		trusted_key_ops = trusted_key_sources[i].ops;
+> +
+> +		ret = trusted_key_ops->init();
+> +		if (!ret)
+> +			break;
+> +	}
 
-https://lore.kernel.org/linux-security-module/20201020191732.4049987-1-salyzyn@android.com/T/#t
+In the case when the module paramater isn't specified and both TPM and
+TEE are enabled, trusted_key_ops is set to the last source initialized.
+After patch 2/4, the last trusted source initialized is TEE.  If the
+intention is to limit it to either TPM or TEE, then trusted_key_ops
+should have a default value, which could be overwritten at runtime. 
+That would address Luke Hind's concerns of making the decision at
+compile time.
 
--- 
-paul moore
-www.paul-moore.com
+trusted_key_ops should be defined as __ro_after_init, like is currently
+done for other LSM structures.
+
+> +
+> +	/*
+> +	 * encrypted_keys.ko depends on successful load of this module even if
+> +	 * trusted key implementation is not found.
+> +	 */
+> +	if (ret == -ENODEV)
+> +		return 0;
+> +
+> +	return ret;
+> +}
+> +
+> +static void __exit cleanup_trusted(void)
+> +{
+> +	trusted_key_ops->exit();
+
+If the intention is really to support both TPM and TEE trusted keys at
+the same time, as James suggested, then the same "for" loop as in
+init_trusted() is needed here and probably elsewhere.
+
+thanks,
+
+Mimi
+
