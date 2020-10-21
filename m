@@ -4,55 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 020AFC56204
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:17:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0DFC388F9
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:17:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8747222461
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:17:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BF1C20BED
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 12:17:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603282658;
-	bh=SLlCxYtnKWjDjR6xkI87fNMGzcB0tiqNJ9pWSUh4OoY=;
+	s=default; t=1603282664;
+	bh=FP8ZUMYMOzdH37ufj3BXgTpg3gpGoQi9b6ZHc9JyKsE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=V0wE17GMJshBDlUyKvQk8uunkDNeXIxf8rlsoiLAX17/9yQAGH8Q1o9CBTEHzXTMS
-	 oNfz9s8aEdSU2VdxEHTDailT+WPKyEhIP11u+nxWOhAIqmsj7UdPPNvcdcEt+Xz8eR
-	 zeeTs1f4xHXxe0GbHeLMkWVNI0n9kDIbx4EUB+Gc=
+	b=Fm7hvS0I1JW8mkNNIgHzGFks4qfloCtEl2kVVjUao/pAGztXvr8QDla9gCmhlU1WK
+	 nh863Ja+OFCDTVWawA4cNamaIVyEBvfIzYKIwMvlHV/flqwlwTeL0k+0vl0f1tS92w
+	 R8IpI2znB/oB3Gn29AIpQleolACuIIK43asWpU+U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442273AbgJUMRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 08:17:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59170 "EHLO mail.kernel.org"
+        id S2442265AbgJUMRc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 08:17:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59076 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2411516AbgJUMRc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2411471AbgJUMRc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 21 Oct 2020 08:17:32 -0400
 Received: from mail.kernel.org (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D168B2227F;
+        by mail.kernel.org (Postfix) with ESMTPSA id BA0E122249;
         Wed, 21 Oct 2020 12:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603282651;
-        bh=SLlCxYtnKWjDjR6xkI87fNMGzcB0tiqNJ9pWSUh4OoY=;
+        s=default; t=1603282650;
+        bh=FP8ZUMYMOzdH37ufj3BXgTpg3gpGoQi9b6ZHc9JyKsE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=H6DgaaeCq7XZZJNbbFM/7YZszzky1S9JZXuCZbLPTiPpKLgXccoHJcbdom5j7dPdm
-         4mw4Z1bTNr4xeBdnzGUeOm7fignhN76QMiUEj5Ae8lexmXgMSuR0CONlbVA/3uzaBx
-         /wT5/xkhdKsVjmOh6+JdjOtrTQgo/na3+uItMkuc=
+        b=cs9qL6POj9tQbHN8t8+tVOqAAcXrr7CobM3XQ4j7ccaaIjrfjdn6rKHC1ZR5WOmcc
+         ybtoQyJkrE9OcdW3Di5GGcXjXDhkpiIoC99pdwlXP8VH2G2gn7b9LkHeXoKPfesAO7
+         T5s+S0oRlDzJNpIygpmTyTENV9AhebbAMUkgAKpM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kVD3Y-001U2d-Cr; Wed, 21 Oct 2020 14:17:28 +0200
+        id 1kVD3Y-001U2Z-9W; Wed, 21 Oct 2020 14:17:28 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/6] locking/refcount: move kernel-doc markups to the proper place
-Date:   Wed, 21 Oct 2020 14:17:24 +0200
-Message-Id: <02de37b2f6124ef4aa9b0a17723e97de4625249b.1603282193.git.mchehab+huawei@kernel.org>
+        Alex Deucher <alexander.deucher@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Bernard Zhao <bernard@vivo.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Colton Lewis <colton.w.lewis@protonmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>, Dennis Li <Dennis.Li@amd.com>,
+        Evan Quan <evan.quan@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/6] drm: amdgpu: kernel-doc: update some adev parameters
+Date:   Wed, 21 Oct 2020 14:17:22 +0200
+Message-Id: <8245658e2c6fb724e2ffbe6ead43b75bbdf8818d.1603282193.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603282193.git.mchehab+huawei@kernel.org>
 References: <cover.1603282193.git.mchehab+huawei@kernel.org>
@@ -63,282 +73,231 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
-added a set of functions starting with __ that have a new
-parameter, adding a series of new warnings:
+Running "make htmldocs: produce lots of warnings on those files:
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
 
-	$ ./scripts/kernel-doc -none include/linux/refcount.h
-	include/linux/refcount.h:169: warning: Function parameter or member 'oldp' not described in '__refcount_add_not_zero'
-	include/linux/refcount.h:208: warning: Function parameter or member 'oldp' not described in '__refcount_add'
-	include/linux/refcount.h:239: warning: Function parameter or member 'oldp' not described in '__refcount_inc_not_zero'
-	include/linux/refcount.h:261: warning: Function parameter or member 'oldp' not described in '__refcount_inc'
-	include/linux/refcount.h:291: warning: Function parameter or member 'oldp' not described in '__refcount_sub_and_test'
-	include/linux/refcount.h:327: warning: Function parameter or member 'oldp' not described in '__refcount_dec_and_test'
-	include/linux/refcount.h:347: warning: Function parameter or member 'oldp' not described in '__refcount_dec'
+They're related to the repacement of some parameters by adev,
+and due to a few renamed parameters.
 
-The issue is that the kernel-doc markups are now misplaced,
-as they should be added just before the functions.
+While here, uniform the name of the parameter for it to be
+the same on all functions using a pointer to struct amdgpu_device.
 
-So, move the kernel-doc markups to the proper places,
-in order to drop the warnings.
+Update the kernel-doc documentation accordingly.
 
-It should be noticed that git show produces a crappy output,
-for this patch without "--patience" flag.
-
-Fixes: a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/refcount.h | 158 +++++++++++++++++++--------------------
- 1 file changed, 79 insertions(+), 79 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 28 ++++++++++----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  |  6 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c |  7 +++--
+ 3 files changed, 20 insertions(+), 21 deletions(-)
 
-diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-index 7fabb1af18e0..497990c69b0b 100644
---- a/include/linux/refcount.h
-+++ b/include/linux/refcount.h
-@@ -147,24 +147,6 @@ static inline unsigned int refcount_read(const refcount_t *r)
- 	return atomic_read(&r->refs);
- }
- 
--/**
-- * refcount_add_not_zero - add a value to a refcount unless it is 0
-- * @i: the value to add to the refcount
-- * @r: the refcount
-- *
-- * Will saturate at REFCOUNT_SATURATED and WARN.
-- *
-- * Provides no memory ordering, it is assumed the caller has guaranteed the
-- * object memory to be stable (RCU, etc.). It does provide a control dependency
-- * and thereby orders future stores. See the comment on top.
-- *
-- * Use of this function is not recommended for the normal reference counting
-- * use case in which references are taken and released one at a time.  In these
-- * cases, refcount_inc(), or one of its variants, should instead be used to
-- * increment a reference count.
-- *
-- * Return: false if the passed refcount is 0, true otherwise
-- */
- static inline __must_check bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
- {
- 	int old = refcount_read(r);
-@@ -183,27 +165,29 @@ static inline __must_check bool __refcount_add_not_zero(int i, refcount_t *r, in
- 	return old;
- }
- 
-+/**
-+ * refcount_add_not_zero - add a value to a refcount unless it is 0
-+ * @i: the value to add to the refcount
-+ * @r: the refcount
-+ *
-+ * Will saturate at REFCOUNT_SATURATED and WARN.
-+ *
-+ * Provides no memory ordering, it is assumed the caller has guaranteed the
-+ * object memory to be stable (RCU, etc.). It does provide a control dependency
-+ * and thereby orders future stores. See the comment on top.
-+ *
-+ * Use of this function is not recommended for the normal reference counting
-+ * use case in which references are taken and released one at a time.  In these
-+ * cases, refcount_inc(), or one of its variants, should instead be used to
-+ * increment a reference count.
-+ *
-+ * Return: false if the passed refcount is 0, true otherwise
-+ */
- static inline __must_check bool refcount_add_not_zero(int i, refcount_t *r)
- {
- 	return __refcount_add_not_zero(i, r, NULL);
- }
- 
--/**
-- * refcount_add - add a value to a refcount
-- * @i: the value to add to the refcount
-- * @r: the refcount
-- *
-- * Similar to atomic_add(), but will saturate at REFCOUNT_SATURATED and WARN.
-- *
-- * Provides no memory ordering, it is assumed the caller has guaranteed the
-- * object memory to be stable (RCU, etc.). It does provide a control dependency
-- * and thereby orders future stores. See the comment on top.
-- *
-- * Use of this function is not recommended for the normal reference counting
-- * use case in which references are taken and released one at a time.  In these
-- * cases, refcount_inc(), or one of its variants, should instead be used to
-- * increment a reference count.
-- */
- static inline void __refcount_add(int i, refcount_t *r, int *oldp)
- {
- 	int old = atomic_fetch_add_relaxed(i, &r->refs);
-@@ -217,11 +201,32 @@ static inline void __refcount_add(int i, refcount_t *r, int *oldp)
- 		refcount_warn_saturate(r, REFCOUNT_ADD_OVF);
- }
- 
-+/**
-+ * refcount_add - add a value to a refcount
-+ * @i: the value to add to the refcount
-+ * @r: the refcount
-+ *
-+ * Similar to atomic_add(), but will saturate at REFCOUNT_SATURATED and WARN.
-+ *
-+ * Provides no memory ordering, it is assumed the caller has guaranteed the
-+ * object memory to be stable (RCU, etc.). It does provide a control dependency
-+ * and thereby orders future stores. See the comment on top.
-+ *
-+ * Use of this function is not recommended for the normal reference counting
-+ * use case in which references are taken and released one at a time.  In these
-+ * cases, refcount_inc(), or one of its variants, should instead be used to
-+ * increment a reference count.
-+ */
- static inline void refcount_add(int i, refcount_t *r)
- {
- 	__refcount_add(i, r, NULL);
- }
- 
-+static inline __must_check bool __refcount_inc_not_zero(refcount_t *r, int *oldp)
-+{
-+	return __refcount_add_not_zero(1, r, oldp);
-+}
-+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index e8b41756c9f9..f8785bdec79c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -705,7 +705,7 @@ void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
  /**
-  * refcount_inc_not_zero - increment a refcount unless it is 0
-  * @r: the refcount to increment
-@@ -235,16 +240,16 @@ static inline void refcount_add(int i, refcount_t *r)
+  * amdgpu_invalid_rreg - dummy reg read function
   *
-  * Return: true if the increment was successful, false otherwise
-  */
--static inline __must_check bool __refcount_inc_not_zero(refcount_t *r, int *oldp)
--{
--	return __refcount_add_not_zero(1, r, oldp);
--}
--
- static inline __must_check bool refcount_inc_not_zero(refcount_t *r)
- {
- 	return __refcount_inc_not_zero(r, NULL);
- }
- 
-+static inline void __refcount_inc(refcount_t *r, int *oldp)
-+{
-+	__refcount_add(1, r, oldp);
-+}
-+
- /**
-  * refcount_inc - increment a refcount
-  * @r: the refcount to increment
-@@ -257,36 +262,11 @@ static inline __must_check bool refcount_inc_not_zero(refcount_t *r)
-  * Will WARN if the refcount is 0, as this represents a possible use-after-free
-  * condition.
-  */
--static inline void __refcount_inc(refcount_t *r, int *oldp)
--{
--	__refcount_add(1, r, oldp);
--}
--
- static inline void refcount_inc(refcount_t *r)
- {
- 	__refcount_inc(r, NULL);
- }
- 
--/**
-- * refcount_sub_and_test - subtract from a refcount and test if it is 0
-- * @i: amount to subtract from the refcount
-- * @r: the refcount
-- *
-- * Similar to atomic_dec_and_test(), but it will WARN, return false and
-- * ultimately leak on underflow and will fail to decrement when saturated
-- * at REFCOUNT_SATURATED.
-- *
-- * Provides release memory ordering, such that prior loads and stores are done
-- * before, and provides an acquire ordering on success such that free()
-- * must come after.
-- *
-- * Use of this function is not recommended for the normal reference counting
-- * use case in which references are taken and released one at a time.  In these
-- * cases, refcount_dec(), or one of its variants, should instead be used to
-- * decrement a reference count.
-- *
-- * Return: true if the resulting refcount is 0, false otherwise
-- */
- static inline __must_check bool __refcount_sub_and_test(int i, refcount_t *r, int *oldp)
- {
- 	int old = atomic_fetch_sub_release(i, &r->refs);
-@@ -305,11 +285,36 @@ static inline __must_check bool __refcount_sub_and_test(int i, refcount_t *r, in
- 	return false;
- }
- 
-+/**
-+ * refcount_sub_and_test - subtract from a refcount and test if it is 0
-+ * @i: amount to subtract from the refcount
-+ * @r: the refcount
-+ *
-+ * Similar to atomic_dec_and_test(), but it will WARN, return false and
-+ * ultimately leak on underflow and will fail to decrement when saturated
-+ * at REFCOUNT_SATURATED.
-+ *
-+ * Provides release memory ordering, such that prior loads and stores are done
-+ * before, and provides an acquire ordering on success such that free()
-+ * must come after.
-+ *
-+ * Use of this function is not recommended for the normal reference counting
-+ * use case in which references are taken and released one at a time.  In these
-+ * cases, refcount_dec(), or one of its variants, should instead be used to
-+ * decrement a reference count.
-+ *
-+ * Return: true if the resulting refcount is 0, false otherwise
-+ */
- static inline __must_check bool refcount_sub_and_test(int i, refcount_t *r)
- {
- 	return __refcount_sub_and_test(i, r, NULL);
- }
- 
-+static inline __must_check bool __refcount_dec_and_test(refcount_t *r, int *oldp)
-+{
-+	return __refcount_sub_and_test(1, r, oldp);
-+}
-+
- /**
-  * refcount_dec_and_test - decrement a refcount and test if it is 0
-  * @r: the refcount
-@@ -323,26 +328,11 @@ static inline __must_check bool refcount_sub_and_test(int i, refcount_t *r)
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @reg: offset of register
   *
-  * Return: true if the resulting refcount is 0, false otherwise
+  * Dummy register read function.  Used for register blocks
+@@ -722,7 +722,7 @@ static uint32_t amdgpu_invalid_rreg(struct amdgpu_device *adev, uint32_t reg)
+ /**
+  * amdgpu_invalid_wreg - dummy reg write function
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @reg: offset of register
+  * @v: value to write to the register
+  *
+@@ -739,7 +739,7 @@ static void amdgpu_invalid_wreg(struct amdgpu_device *adev, uint32_t reg, uint32
+ /**
+  * amdgpu_invalid_rreg64 - dummy 64 bit reg read function
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @reg: offset of register
+  *
+  * Dummy register read function.  Used for register blocks
+@@ -756,7 +756,7 @@ static uint64_t amdgpu_invalid_rreg64(struct amdgpu_device *adev, uint32_t reg)
+ /**
+  * amdgpu_invalid_wreg64 - dummy reg write function
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @reg: offset of register
+  * @v: value to write to the register
+  *
+@@ -773,7 +773,7 @@ static void amdgpu_invalid_wreg64(struct amdgpu_device *adev, uint32_t reg, uint
+ /**
+  * amdgpu_block_invalid_rreg - dummy reg read function
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @block: offset of instance
+  * @reg: offset of register
+  *
+@@ -793,7 +793,7 @@ static uint32_t amdgpu_block_invalid_rreg(struct amdgpu_device *adev,
+ /**
+  * amdgpu_block_invalid_wreg - dummy reg write function
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @block: offset of instance
+  * @reg: offset of register
+  * @v: value to write to the register
+@@ -813,7 +813,7 @@ static void amdgpu_block_invalid_wreg(struct amdgpu_device *adev,
+ /**
+  * amdgpu_device_asic_init - Wrapper for atom asic_init
+  *
+- * @dev: drm_device pointer
++ * @adev: amdgpu_device pointer
+  *
+  * Does any asic specific work and then calls atom asic init.
   */
--static inline __must_check bool __refcount_dec_and_test(refcount_t *r, int *oldp)
--{
--	return __refcount_sub_and_test(1, r, oldp);
--}
--
- static inline __must_check bool refcount_dec_and_test(refcount_t *r)
- {
- 	return __refcount_dec_and_test(r, NULL);
- }
- 
--/**
-- * refcount_dec - decrement a refcount
-- * @r: the refcount
-- *
-- * Similar to atomic_dec(), it will WARN on underflow and fail to decrement
-- * when saturated at REFCOUNT_SATURATED.
-- *
-- * Provides release memory ordering, such that prior loads and stores are done
-- * before.
-- */
- static inline void __refcount_dec(refcount_t *r, int *oldp)
- {
- 	int old = atomic_fetch_sub_release(1, &r->refs);
-@@ -354,6 +344,16 @@ static inline void __refcount_dec(refcount_t *r, int *oldp)
- 		refcount_warn_saturate(r, REFCOUNT_DEC_LEAK);
- }
- 
-+/**
-+ * refcount_dec - decrement a refcount
-+ * @r: the refcount
-+ *
-+ * Similar to atomic_dec(), it will WARN on underflow and fail to decrement
-+ * when saturated at REFCOUNT_SATURATED.
-+ *
-+ * Provides release memory ordering, such that prior loads and stores are done
-+ * before.
-+ */
- static inline void refcount_dec(refcount_t *r)
- {
- 	__refcount_dec(r, NULL);
+@@ -827,7 +827,7 @@ static int amdgpu_device_asic_init(struct amdgpu_device *adev)
+ /**
+  * amdgpu_device_vram_scratch_init - allocate the VRAM scratch page
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  *
+  * Allocates a scratch page of VRAM for use by various things in the
+  * driver.
+@@ -844,7 +844,7 @@ static int amdgpu_device_vram_scratch_init(struct amdgpu_device *adev)
+ /**
+  * amdgpu_device_vram_scratch_fini - Free the VRAM scratch page
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  *
+  * Frees the VRAM scratch page.
+  */
+@@ -3011,7 +3011,7 @@ bool amdgpu_device_asic_has_dc_support(enum amd_asic_type asic_type)
+ /**
+  * amdgpu_device_has_dc_support - check if dc is supported
+  *
+- * @adev: amdgpu_device_pointer
++ * @adev: amdgpu_device pointer
+  *
+  * Returns true for supported, false for not supported
+  */
+@@ -4045,7 +4045,7 @@ static int amdgpu_device_recover_vram(struct amdgpu_device *adev)
+ /**
+  * amdgpu_device_reset_sriov - reset ASIC for SR-IOV vf
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @from_hypervisor: request from hypervisor
+  *
+  * do VF FLR and reinitialize Asic
+@@ -4100,7 +4100,7 @@ static int amdgpu_device_reset_sriov(struct amdgpu_device *adev,
+ /**
+  * amdgpu_device_has_job_running - check if there is any job in mirror list
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  *
+  * check if there is any job in mirror list
+  */
+@@ -4128,7 +4128,7 @@ bool amdgpu_device_has_job_running(struct amdgpu_device *adev)
+ /**
+  * amdgpu_device_should_recover_gpu - check if we should try GPU recovery
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  *
+  * Check amdgpu_gpu_recovery and SRIOV status to see if we should try to recover
+  * a hung GPU.
+@@ -4477,7 +4477,7 @@ static int amdgpu_device_suspend_display_audio(struct amdgpu_device *adev)
+ /**
+  * amdgpu_device_gpu_recover - reset the asic and recover scheduler
+  *
+- * @adev: amdgpu device pointer
++ * @adev: amdgpu_device pointer
+  * @job: which job trigger hang
+  *
+  * Attempt to reset the GPU if it has hung (all asics).
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index f203e4a6a3f2..731f3aa2e6ba 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -81,8 +81,8 @@ static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
+ /**
+  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
+  *
+- * @man: TTM memory type manager
+- * @p_size: maximum size of GTT
++ * @adev: amdgpu_device pointer
++ * @gtt_size: maximum size of GTT
+  *
+  * Allocate and initialize the GTT manager.
+  */
+@@ -123,7 +123,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+ /**
+  * amdgpu_gtt_mgr_fini - free and destroy GTT manager
+  *
+- * @man: TTM memory type manager
++ * @adev: amdgpu_device pointer
+  *
+  * Destroy and free the GTT manager, returns -EBUSY if ranges are still
+  * allocated inside it.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 01c1171afbe0..0c6b7c5ecfec 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -168,8 +168,7 @@ static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
+ /**
+  * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
+  *
+- * @man: TTM memory type manager
+- * @p_size: maximum size of VRAM
++ * @adev: amdgpu_device pointer
+  *
+  * Allocate and initialize the VRAM manager.
+  */
+@@ -199,7 +198,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+ /**
+  * amdgpu_vram_mgr_fini - free and destroy VRAM manager
+  *
+- * @man: TTM memory type manager
++ * @adev: amdgpu_device pointer
+  *
+  * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
+  * allocated inside it.
+@@ -229,7 +228,7 @@ void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
+ /**
+  * amdgpu_vram_mgr_vis_size - Calculate visible node size
+  *
+- * @adev: amdgpu device structure
++ * @adev: amdgpu_device pointer
+  * @node: MM node structure
+  *
+  * Calculate how many bytes of the MM node are inside visible VRAM
 -- 
 2.26.2
 
