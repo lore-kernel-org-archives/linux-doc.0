@@ -2,204 +2,327 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83536C56201
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E5FC4363A
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 18:37:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18101223BF
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603299462;
-	bh=lV/Q3JfadUm+TEjJJgiQ2XapWVprYd5h6OE3xBSuXak=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=XZ7hrH1fmtnPmAUaPM+xsaldBjcLIBj7cuJZs9wEZfrSecwOJrO0uNVSKIxFSmHoQ
-	 zq3ibC8Acp6JkCN0xmEMSeMC5l9anpF2GhGH9BbE1HV0YOEsXYV1FNVnKFRAxAzBeR
-	 m7ehQywIjWjtjz7S47/sjZgQbWb68p9Aw4ORiNxc=
+	by mail.kernel.org (Postfix) with ESMTP id 0A85C208C3
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 18:37:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQXuKx23"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437304AbgJUQ5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 12:57:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41154 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408853AbgJUQ5l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Oct 2020 12:57:41 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C88722249;
-        Wed, 21 Oct 2020 16:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603299459;
-        bh=lV/Q3JfadUm+TEjJJgiQ2XapWVprYd5h6OE3xBSuXak=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zUQNdfeqYhqzl0SmpumWfFo/hMRF+5R4PINrvdY6fuSXadQ1qxS5odjIUEI3iN6yJ
-         9Y9hm/zlpVsI+bX72W6pj9SJ3jGeHrnwV/L5eU9VvlOoHs6tENgaBEx7J8FA8AcpZX
-         dAwBig62reZpX8g4cCEH0tY1WpGyUycoQgvJ0gjM=
-Date:   Wed, 21 Oct 2020 18:58:19 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Evgeny Boger <boger@wirenboard.com>
-Subject: Re: Adding ABI to htmldocs - Was: Re: [PATCH 2/2] w1: w1_therm: Add
- support for GXCAS GX20MH01 device.
-Message-ID: <20201021165819.GA1361645@kroah.com>
-References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
- <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
- <20201006151915.77d044a4@coco.lan>
- <1561045277.20201007103227@wirenboard.ru>
- <20201007105702.67988846@coco.lan>
- <20201007090619.GA613204@kroah.com>
- <20201007130549.6ca57af0@coco.lan>
- <20201007114359.GA2167293@kroah.com>
- <20201007135934.4b6e598e@coco.lan>
- <20201021182843.522dd7e7@coco.lan>
+        id S2410557AbgJUShP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 14:37:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2410556AbgJUShP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Oct 2020 14:37:15 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59634C0613CE;
+        Wed, 21 Oct 2020 11:37:14 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id b127so3653084wmb.3;
+        Wed, 21 Oct 2020 11:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pDlQHi/rfDtXDyn1RgoMtt0ZMFpl/xYYH/AJUVM3sNs=;
+        b=NQXuKx23uhrXtGYhinLl7CAk6uKb5YX216ppDJt7laEC6FVnHh7y7Y2/en4ejsZLCz
+         yzTP7vWAcJGmQFp4wOXyCaXz1X0wXmW+8WHrEZBWty7kTDTDT7K5R7VVNcG5IAD0noQC
+         Df6yjM7yZT86O4/+Ku3e7sfQZBEIQmT5JZDCEfE0Ty8Gr8xOclq97y7ItEaxEvPDfAWm
+         LJ/s6+QUiOWbcnFysBKgIqJopO89nzs48oAfMk6x2rd0UPFQO9PnrTkSJNnbA9Ewq9BB
+         95vIUQZMGFLAKOhNArqX7K1eEJxrnjSW+dROnu18MOhNgMd9VltQ+WsbxJiNsRmzjRrF
+         WOwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pDlQHi/rfDtXDyn1RgoMtt0ZMFpl/xYYH/AJUVM3sNs=;
+        b=OXV1QGtpDyyC3nlaqUGdNQqImH0cLpKLqwscEclMCVwiNBQfTNlO34fBj6kPxZHI/m
+         5YREDGXYbnqwoyKHdJTn5rxIUiUauJzQdZbDBtHqiEhJCvRF8jXZA0X76vkTG0M1rnSL
+         y+yEENtt/Y0/PCKTHjNgfWjVIxQvbOkzQmUsFk2eahy1wF5H51PUoPASUwo8jiR9qATu
+         SYrQxbk5yAOmjA9Sz69JK9Q4SEFjhE8qZPYZgL7LgTvmNq1Tw4UliA/D75uBaDy7Z5fQ
+         B0J7GLYL7B9qy3u7VK23TGWfNOgS1aH/JTyowmDF8QiBCB8Y4UOCprzvLRAAKeTDDDOF
+         PoKw==
+X-Gm-Message-State: AOAM532z7hDOiFKCaqS6wyd7cpEyGEYEHILDOlF2aNzdSgN7u3XclMoG
+        8TkTSZqRKkF+FpVH2cfHsGftVjE7uJ0wRkWvjGk=
+X-Google-Smtp-Source: ABdhPJxzPuccmmb5vOFOTXSOSHTm+pFwQKaC34ofxdHpoEAi7LVjOYcnPl1ZN6D2s+A73DVP0fKoUCnSSPjfLybZdzA=
+X-Received: by 2002:a1c:4b05:: with SMTP id y5mr5019720wma.56.1603305432951;
+ Wed, 21 Oct 2020 11:37:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201021182843.522dd7e7@coco.lan>
+References: <cover.1603282193.git.mchehab+huawei@kernel.org> <8245658e2c6fb724e2ffbe6ead43b75bbdf8818d.1603282193.git.mchehab+huawei@kernel.org>
+In-Reply-To: <8245658e2c6fb724e2ffbe6ead43b75bbdf8818d.1603282193.git.mchehab+huawei@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Wed, 21 Oct 2020 14:37:00 -0400
+Message-ID: <CADnq5_Mm3ZZbE-Wh-VyjWjGUG7HMOawS=fLhoeSmOM03JGVTOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] drm: amdgpu: kernel-doc: update some adev parameters
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bernard Zhao <bernard@vivo.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        David Airlie <airlied@linux.ie>,
+        Colton Lewis <colton.w.lewis@protonmail.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Evan Quan <evan.quan@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Dennis Li <Dennis.Li@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 06:28:43PM +0200, Mauro Carvalho Chehab wrote:
-> Hi greg,
-> 
-> Em Wed, 7 Oct 2020 13:59:34 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> 
-> > Em Wed, 7 Oct 2020 13:43:59 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> > 
-> > > On Wed, Oct 07, 2020 at 01:05:49PM +0200, Mauro Carvalho Chehab wrote:  
-> > > > Em Wed, 7 Oct 2020 11:06:19 +0200
-> > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> > > >     
-> > > > > On Wed, Oct 07, 2020 at 10:57:02AM +0200, Mauro Carvalho Chehab wrote:    
-> > > > > > Em Wed, 7 Oct 2020 10:32:27 +0300
-> > > > > > Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
-> > > > > >       
-> > > > > > > Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
-> > > > > > >       
-> > > > > > > >> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
-> > > > > > > >> index f1148181f53e..00376501a5ef 100644
-> > > > > > > >> --- a/Documentation/w1/slaves/w1_therm.rst
-> > > > > > > >> +++ b/Documentation/w1/slaves/w1_therm.rst        
-> > > > > > >       
-> > > > > > > >>  
-> > > > > > > >> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
-> > > > > > > >>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
-> > > > > > > >>  conversion completion (normal power only) by generating read cycles on the bus
-> > > > > > > >>  after conversion starts. In parasite power mode this feature is not available.
-> > > > > > > >> -Feature bit masks may be combined (OR).
-> > > > > > > >> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
-> > > > > > > >> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
-> > > > > > > >> +        
-> > > > > > >       
-> > > > > > > > As warned by Sphinx, this cross-reference is broken:        
-> > > > > > >       
-> > > > > > > >         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
-> > > > > > > > undefined label: w1_therm (if the link has no caption the label must precede a section header)        
-> > > > > > > 
-> > > > > > > Would this be ok?      
-> > > > > > 
-> > > > > > Yeah, sure!
-> > > > > >       
-> > > > > > > 
-> > > > > > > "More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
-> > > > > > >       
-> > > > > > > > Not sure what you wanted to point here.        
-> > > > > > > 
-> > > > > > > A link to a driver's sysfs interface, but sysfs docs are text
-> > > > > > > files and seem to not be included in Sphynx Docs.      
-> > > > > > 
-> > > > > > I sent upstream sometime ago a patch series adding ABI to Sphinx, but I 
-> > > > > > was not merged, not sure why:
-> > > > > > 
-> > > > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v5.6      
-> > > > > 
-> > > > > I think the raft of different patches floating around at the time made
-> > > > > me totally confused as to what was, and was not, the latest versions.    
-> > > > 
-> > > > Yeah, there were lots of patches floating around that time.
-> > > > 
-> > > > I also recall that someone (Jeni?) asked if the best wouldn't be to
-> > > > just convert the ABI files to ReST directly.
-> > > >     
-> > > > > I'll be glad to look at them again, if you want to rebase after 5.10-rc1
-> > > > > is out and resend them, as I think this should be showing up in the
-> > > > > documentation.    
-> > > > 
-> > > > Surely. I'll rebase them after 5.10-rc1 and re-submit. 
-> > > > 
-> > > > What strategy do you prefer? Keep the files with the same format as
-> > > > today (allowing them to optionally have ReST markups) or to convert
-> > > > them to .rst directly?
-> > > > 
-> > > > In the latter case, the best would be to apply it as early as possible
-> > > > after 5.10-rc1, as it may cause conflicts with other patches being
-> > > > submitted for 5.11.    
-> > > 
-> > > The existing format if at all possible, doing wholesale changes is a
-> > > mess and wouldn't be recommended.  
-> > 
-> > Yeah, merging it would indeed be a mess. At long term, though, it could 
-> > be easier to maintain.
-> > 
-> > > I think you already fixed up the entries that had problems being parsed
-> > > in the past, if not, we can resolve those as well.  
-> > 
-> > Yes. The series start with fixes. I suspect several of them
-> > (if not all) were already merged, but if anything is missing, I can fix 
-> > at the upcoming rebased series.
-> 
-> Rebasing the patch series was easier than what I expected:
-> 
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v6
-> 
-> Yet, while fixing one build issue, I noticed that there are multiple
-> files defining the same ABI, with different contents.
-> 
-> Right now, scripts/get_abi.pl assumes that "what" is unique. Well, sorts
-> of. When it finds a duplicated entry, it merges the description, 
-> preserving the fields from the last parsed entry.
-> 
-> I ended adding a patch to detect those ABI duplication:
-> 
-> 	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=abi_patches_v6&id=6868914605cb0ebffe3fd07d344c246e1e4cd94e
-> 
-> I'm enclosing the results.
-> 
-> One such example is this one:
-> 
-> 	3 duplicated entries for /sys/class/leds/<led>/hw_pattern: on file(s) sysfs-class-led-trigger-pattern sysfs-class-led-driver-sc27xx sysfs-class-led-driver-el15203000
-> 
-> It sounds that different drivers define and use this ABI, but
-> each one with different meanings. 
-> 
-> There are even some cases where the same file define the same ABI twice:
-> 
-> 	2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_alert_min: on file(s) sysfs-class-power
-> 
-> Not sure what's the best way to document things like that, or if
-> the fix would be to drop/merge those.
-> 
-> Any ideas?
+Applied.  Thanks!
 
-We should merge them to be the correct representation.  The
-driver-specific ones for LED should just be dropped to use the
-class-generic one.
+Alex
 
-I guess just take them one at a time :)
-
-thanks,
-
-greg k-h
+On Wed, Oct 21, 2020 at 8:17 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Running "make htmldocs: produce lots of warnings on those files:
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+>
+> They're related to the repacement of some parameters by adev,
+> and due to a few renamed parameters.
+>
+> While here, uniform the name of the parameter for it to be
+> the same on all functions using a pointer to struct amdgpu_device.
+>
+> Update the kernel-doc documentation accordingly.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 28 ++++++++++----------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  |  6 ++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c |  7 +++--
+>  3 files changed, 20 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index e8b41756c9f9..f8785bdec79c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -705,7 +705,7 @@ void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_invalid_rreg - dummy reg read function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   *
+>   * Dummy register read function.  Used for register blocks
+> @@ -722,7 +722,7 @@ static uint32_t amdgpu_invalid_rreg(struct amdgpu_device *adev, uint32_t reg)
+>  /**
+>   * amdgpu_invalid_wreg - dummy reg write function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   * @v: value to write to the register
+>   *
+> @@ -739,7 +739,7 @@ static void amdgpu_invalid_wreg(struct amdgpu_device *adev, uint32_t reg, uint32
+>  /**
+>   * amdgpu_invalid_rreg64 - dummy 64 bit reg read function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   *
+>   * Dummy register read function.  Used for register blocks
+> @@ -756,7 +756,7 @@ static uint64_t amdgpu_invalid_rreg64(struct amdgpu_device *adev, uint32_t reg)
+>  /**
+>   * amdgpu_invalid_wreg64 - dummy reg write function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   * @v: value to write to the register
+>   *
+> @@ -773,7 +773,7 @@ static void amdgpu_invalid_wreg64(struct amdgpu_device *adev, uint32_t reg, uint
+>  /**
+>   * amdgpu_block_invalid_rreg - dummy reg read function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @block: offset of instance
+>   * @reg: offset of register
+>   *
+> @@ -793,7 +793,7 @@ static uint32_t amdgpu_block_invalid_rreg(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_block_invalid_wreg - dummy reg write function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @block: offset of instance
+>   * @reg: offset of register
+>   * @v: value to write to the register
+> @@ -813,7 +813,7 @@ static void amdgpu_block_invalid_wreg(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_device_asic_init - Wrapper for atom asic_init
+>   *
+> - * @dev: drm_device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Does any asic specific work and then calls atom asic init.
+>   */
+> @@ -827,7 +827,7 @@ static int amdgpu_device_asic_init(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_vram_scratch_init - allocate the VRAM scratch page
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Allocates a scratch page of VRAM for use by various things in the
+>   * driver.
+> @@ -844,7 +844,7 @@ static int amdgpu_device_vram_scratch_init(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_vram_scratch_fini - Free the VRAM scratch page
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Frees the VRAM scratch page.
+>   */
+> @@ -3011,7 +3011,7 @@ bool amdgpu_device_asic_has_dc_support(enum amd_asic_type asic_type)
+>  /**
+>   * amdgpu_device_has_dc_support - check if dc is supported
+>   *
+> - * @adev: amdgpu_device_pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Returns true for supported, false for not supported
+>   */
+> @@ -4045,7 +4045,7 @@ static int amdgpu_device_recover_vram(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_reset_sriov - reset ASIC for SR-IOV vf
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @from_hypervisor: request from hypervisor
+>   *
+>   * do VF FLR and reinitialize Asic
+> @@ -4100,7 +4100,7 @@ static int amdgpu_device_reset_sriov(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_device_has_job_running - check if there is any job in mirror list
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * check if there is any job in mirror list
+>   */
+> @@ -4128,7 +4128,7 @@ bool amdgpu_device_has_job_running(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_should_recover_gpu - check if we should try GPU recovery
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Check amdgpu_gpu_recovery and SRIOV status to see if we should try to recover
+>   * a hung GPU.
+> @@ -4477,7 +4477,7 @@ static int amdgpu_device_suspend_display_audio(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_gpu_recover - reset the asic and recover scheduler
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @job: which job trigger hang
+>   *
+>   * Attempt to reset the GPU if it has hung (all asics).
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index f203e4a6a3f2..731f3aa2e6ba 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -81,8 +81,8 @@ static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
+>  /**
+>   * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
+>   *
+> - * @man: TTM memory type manager
+> - * @p_size: maximum size of GTT
+> + * @adev: amdgpu_device pointer
+> + * @gtt_size: maximum size of GTT
+>   *
+>   * Allocate and initialize the GTT manager.
+>   */
+> @@ -123,7 +123,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>  /**
+>   * amdgpu_gtt_mgr_fini - free and destroy GTT manager
+>   *
+> - * @man: TTM memory type manager
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Destroy and free the GTT manager, returns -EBUSY if ranges are still
+>   * allocated inside it.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> index 01c1171afbe0..0c6b7c5ecfec 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> @@ -168,8 +168,7 @@ static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
+>  /**
+>   * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
+>   *
+> - * @man: TTM memory type manager
+> - * @p_size: maximum size of VRAM
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Allocate and initialize the VRAM manager.
+>   */
+> @@ -199,7 +198,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_vram_mgr_fini - free and destroy VRAM manager
+>   *
+> - * @man: TTM memory type manager
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
+>   * allocated inside it.
+> @@ -229,7 +228,7 @@ void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_vram_mgr_vis_size - Calculate visible node size
+>   *
+> - * @adev: amdgpu device structure
+> + * @adev: amdgpu_device pointer
+>   * @node: MM node structure
+>   *
+>   * Calculate how many bytes of the MM node are inside visible VRAM
+> --
+> 2.26.2
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
