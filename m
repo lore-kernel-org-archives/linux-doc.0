@@ -2,63 +2,61 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B912C4363A
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 09:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3DC1C561F8
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:00:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 537B722251
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 09:56:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60FB4222C8
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:00:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603274167;
-	bh=3XUhM3gn53XwSV8lX0RZcYImKqCOmEDaYHS2aoCH1oQ=;
+	s=default; t=1603274427;
+	bh=vMGHj7i4+owKzNMXhur9mOOxw32IG/TyxPr15+zBKSE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=iJOfVLCGN/5INQKMaIN/7hZAmZmC2B1fpGGaxuHu0iYIXGSrw/ROdHVi6KH4cVX5s
-	 wwq7jysl1TGP+BwBPn0XOKRAG/BM0sR8BN9XqxRker/91DP+y2+JEwvZycvQ6Oq+KK
-	 OpgxfUJPaNio16kFrrs9WJcRTZDS6hcoti5RJY3w=
+	b=hRrhr4SLXzgvsIlNJwR6V/rCgNhekalJeDkQy76u0btVkEjcADVfYD6gRZSDY6g8q
+	 Dm0XZIEDXha7fx8dLsva5uH3t+0mBlUPNeEM1WK1PNq+NkdB09R2WeaJeBzdIkvdG1
+	 QPnQnIzujDmOUXxq3PEMblTD4Tf76pQdrc0hX9H8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441602AbgJUJ4G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 05:56:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59342 "EHLO mail.kernel.org"
+        id S2387402AbgJUKA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 06:00:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35768 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2441601AbgJUJ4F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Oct 2020 05:56:05 -0400
+        id S2387394AbgJUKA0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Oct 2020 06:00:26 -0400
 Received: from coco.lan (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9D4512227F;
-        Wed, 21 Oct 2020 09:56:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4FAA821741;
+        Wed, 21 Oct 2020 10:00:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603274164;
-        bh=3XUhM3gn53XwSV8lX0RZcYImKqCOmEDaYHS2aoCH1oQ=;
+        s=default; t=1603274425;
+        bh=vMGHj7i4+owKzNMXhur9mOOxw32IG/TyxPr15+zBKSE=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=F6b2/Hvplwp6gqHefWYscY7mRhzksXqmvGu+MoMsSTwcyFEnXPioDBJ80ntAPr2X+
-         NiX57Se5Q0YkxqHkENkBosWtDdTucBU7ddGRiVsuJW4w2HRkQYhI2CwpMoqUDdMJMn
-         3Lb7EFZcXAGa8VaqnNkVnMCZjNNA0kLAjhVWgJHY=
-Date:   Wed, 21 Oct 2020 11:55:57 +0200
+        b=azHwE7cTBtqVKOXdRr2ULr/HOJ9dCNEgcwvfx8Jl0QEwIFLO1mJ2Ati631voYBNDj
+         LL6+gLcGFjJHsVA9d8jnOD5nDZ9zLGCTzAgGBKuLcERa+KqMKdxsn5MEwYHabnE1Xo
+         0hUh3rw46NMa7Ly0FwbqrBFqne8ZSb8sbeSpPMiE=
+Date:   Wed, 21 Oct 2020 12:00:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>
+To:     Rob Herring <robh@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        William Kucharski <william.kucharski@oracle.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Pouiller <jerome.pouiller@silabs.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, devel@driverdev.osuosl.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 10/24] mm: pagemap.h: fix two kernel-doc markups
-Message-ID: <20201021115557.24c83c35@coco.lan>
-In-Reply-To: <20201013122654.GE20115@casper.infradead.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
-        <54ea6dd0fc37c48aef3fc3ae454c54a80db313dc.1602590106.git.mchehab+huawei@kernel.org>
-        <20201013122654.GE20115@casper.infradead.org>
+Subject: Re: [PATCH 1/2] MAINTAINERS: fix broken doc refs due to yaml
+ conversion
+Message-ID: <20201021120017.3da0fe46@coco.lan>
+In-Reply-To: <20201013105239.348efc0c@coco.lan>
+References: <cover.1602245659.git.mchehab+huawei@kernel.org>
+        <ba7319ab47bc7e80a57667f700ab677ceaa3ca8c.1602245659.git.mchehab+huawei@kernel.org>
+        <20201012192114.GA1938842@bogus>
+        <20201013105239.348efc0c@coco.lan>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -67,99 +65,127 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matthew,
+Em Tue, 13 Oct 2020 10:52:39 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Em Tue, 13 Oct 2020 13:26:54 +0100
-Matthew Wilcox <willy@infradead.org> escreveu:
-
-> On Tue, Oct 13, 2020 at 02:14:37PM +0200, Mauro Carvalho Chehab wrote:
-> > Changeset 6c8adf8446a3 ("mm: add find_lock_head") renamed the
-> > index parameter, but forgot to update the kernel-doc markups
-> > accordingly.  
+> Em Mon, 12 Oct 2020 14:21:14 -0500
+> Rob Herring <robh@kernel.org> escreveu:
 > 
-> The patch is correct (thank you!), but the description here references
-> a git commit id that's only found in the -next tree and is unstable.
+> > On Fri, Oct 09, 2020 at 02:15:30PM +0200, Mauro Carvalho Chehab wrote:  
+> > > Several *.txt files got converted to yaml. Update their
+> > > references at MAINTAINERS file accordingly.
+> > > 
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > ---
+> > >  Documentation/devicetree/bindings/clock/hi6220-clock.txt | 2 +-
+> > >  MAINTAINERS                                              | 9 ++++-----
+> > >  .../devicetree/bindings/net/wireless/silabs,wfx.yaml     | 2 +-
+> > >  3 files changed, 6 insertions(+), 7 deletions(-)    
+> > 
+> > Doesn't apply for me.  
 > 
-> Andrew, can you fold this into the offending commit?
+> It is based on the top of -next, so perhaps it depends on some other
+> changes that aren't upstream yet and comes from other trees. 
+> 
+> I could try to split it, but I guess the easiest way is
+> to just push this one by the end of the merge window, together
+> with the remaining patches I have left, fixing the other doc
+> build issues.
+> 
+> Would that work for you?
 
-Patch already reached upstream. So, it gained a stable reference.
+It now applies cleanly on the top of upstream.
 
-So, I'm changing its description to:
-
-  Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-  Date:   Thu Sep 10 08:38:07 2020 +0200
-
-    locking/refcount: move kernel-doc markups to the proper place
-    
-    Changeset a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
-    added a set of functions starting with __ that have a new
-    parameter, adding a series of new warnings:
-    
-            $ ./scripts/kernel-doc -none include/linux/refcount.h
-            include/linux/refcount.h:169: warning: Function parameter or member 'oldp' not described in '__refcount_add_not_zero'
-            include/linux/refcount.h:208: warning: Function parameter or member 'oldp' not described in '__refcount_add'
-            include/linux/refcount.h:239: warning: Function parameter or member 'oldp' not described in '__refcount_inc_not_zero'
-            include/linux/refcount.h:261: warning: Function parameter or member 'oldp' not described in '__refcount_inc'
-            include/linux/refcount.h:291: warning: Function parameter or member 'oldp' not described in '__refcount_sub_and_test'
-            include/linux/refcount.h:327: warning: Function parameter or member 'oldp' not described in '__refcount_dec_and_test'
-            include/linux/refcount.h:347: warning: Function parameter or member 'oldp' not described in '__refcount_dec'
-    
-    The issue is that the kernel-doc markups are now misplaced,
-    as they should be added just before the functions.
-    
-    So, move the kernel-doc markups to the proper places,
-    in order to drop the warnings.
-    
-    It should be noticed that git show produces a crappy output,
-    for this patch without "--patience" flag.
-    
-    Fixes: a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
-    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-If ok for you, I should be sending it upstream on a next pull request
-for the documentation warning fix series.
+If it would be ok for you, I'll send this one together with the other
+pending doc warning fix patch series.
 
 Regards,
 Mauro
 
-> 
-> > Fixes: 6c8adf8446a3 ("mm: add find_lock_head")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  include/linux/pagemap.h | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> > index 7dd3523093db..932a260a29f2 100644
-> > --- a/include/linux/pagemap.h
-> > +++ b/include/linux/pagemap.h
-> > @@ -342,9 +342,9 @@ static inline struct page *find_get_page_flags(struct address_space *mapping,
-> >  /**
-> >   * find_lock_page - locate, pin and lock a pagecache page
-> >   * @mapping: the address_space to search
-> > - * @offset: the page index
-> > + * @index: the page index
-> >   *
-> > - * Looks up the page cache entry at @mapping & @offset.  If there is a
-> > + * Looks up the page cache entry at @mapping & @index.  If there is a
-> >   * page cache page, it is returned locked and with an increased
-> >   * refcount.
-> >   *
-> > @@ -361,9 +361,9 @@ static inline struct page *find_lock_page(struct address_space *mapping,
-> >  /**
-> >   * find_lock_head - Locate, pin and lock a pagecache page.
-> >   * @mapping: The address_space to search.
-> > - * @offset: The page index.
-> > + * @index: The page index.
-> >   *
-> > - * Looks up the page cache entry at @mapping & @offset.  If there is a
-> > + * Looks up the page cache entry at @mapping & @index.  If there is a
-> >   * page cache page, its head page is returned locked and with an increased
-> >   * refcount.
-> >   *
-> > -- 
-> > 2.26.2
-> >   
+
+[PATCH] MAINTAINERS: fix broken doc refs due to yaml conversion
+
+Several *.txt files got converted to yaml. Update their
+references at MAINTAINERS file accordingly.
+
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/devicetree/bindings/clock/hi6220-clock.txt b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
+index ef3deb7b86ea..17ac4a3dd26a 100644
+--- a/Documentation/devicetree/bindings/clock/hi6220-clock.txt
++++ b/Documentation/devicetree/bindings/clock/hi6220-clock.txt
+@@ -4,7 +4,7 @@ Clock control registers reside in different Hi6220 system controllers,
+ please refer the following document to know more about the binding rules
+ for these system controllers:
+ 
+-Documentation/devicetree/bindings/arm/hisilicon/hisilicon.txt
++Documentation/devicetree/bindings/arm/hisilicon/hisilicon.yaml
+ 
+ Required Properties:
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 17ca7c8490a9..2cfcfa010b06 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -978,7 +978,7 @@ M:	Michael Hennerich <Michael.Hennerich@analog.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Supported
+ W:	http://ez.analog.com/community/linux-device-drivers
+-F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.txt
++F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml
+ F:	drivers/iio/adc/ad7768-1.c
+ 
+ ANALOG DEVICES INC AD7780 DRIVER
+@@ -3847,7 +3847,7 @@ M:	Roger Quadros <rogerq@ti.com>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
+-F:	Documentation/devicetree/bindings/usb/cdns-usb3.txt
++F:	Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+ F:	drivers/usb/cdns3/
+ 
+ CADET FM/AM RADIO RECEIVER DRIVER
+@@ -7898,7 +7898,7 @@ HISILICON LPC BUS DRIVER
+ M:	john.garry@huawei.com
+ S:	Maintained
+ W:	http://www.hisilicon.com
+-F:	Documentation/devicetree/bindings/arm/hisilicon/hisilicon-low-pin-count.txt
++F:	Documentation/devicetree/bindings/arm/hisilicon/low-pin-count.yaml
+ F:	drivers/bus/hisi_lpc.c
+ 
+ HISILICON NETWORK SUBSYSTEM 3 DRIVER (HNS3)
+@@ -14872,7 +14872,6 @@ RENESAS ETHERNET DRIVERS
+ R:	Sergei Shtylyov <sergei.shtylyov@gmail.com>
+ L:	netdev@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+-F:	Documentation/devicetree/bindings/net/renesas,*.txt
+ F:	Documentation/devicetree/bindings/net/renesas,*.yaml
+ F:	drivers/net/ethernet/renesas/
+ F:	include/linux/sh_eth.h
+@@ -18060,7 +18059,7 @@ M:	Yu Chen <chenyu56@huawei.com>
+ M:	Binghui Wang <wangbinghui@hisilicon.com>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt
++F:	Documentation/devicetree/bindings/phy/hisilicon,hi3660-usb3.yaml
+ F:	drivers/phy/hisilicon/phy-hi3660-usb3.c
+ 
+ USB ISP116X DRIVER
+diff --git a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
+index 43b5630c0407..510edd12ed19 100644
+--- a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
++++ b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/silabs,wfx.yaml
+@@ -24,7 +24,7 @@ description:
+     In addition, it is recommended to declare a mmc-pwrseq on SDIO host above
+     WFx. Without it, you may encounter issues with warm boot. The mmc-pwrseq
+     should be compatible with mmc-pwrseq-simple. Please consult
+-    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.txt for more
++    Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml for more
+     information.
+ 
+   For SPI':'
+
 
 
 
