@@ -2,168 +2,153 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B3FC388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 03:21:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B78AC41604
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 04:06:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B343722253
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 03:21:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C35DB22240
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 04:06:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="a0HC8Xj1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vkK5aBA7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411676AbgJUDV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Oct 2020 23:21:27 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57188 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2411620AbgJUDV1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Oct 2020 23:21:27 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09L3ESZd175301;
-        Tue, 20 Oct 2020 23:21:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=v0Dn4h05hZpuQ0XCNNxFqCgcMKbDdVCE+TRGnwiRQds=;
- b=a0HC8Xj16Ify51dtoNWjH/uXUG33galGvhktg31bidLdpkJRh4AOBnZzTfJxFxvzoRZT
- rm8LhEoDjQnG85EWTqxnQYumtB+v4AzEY4KIdA0oa3BL3x8joeJV9vNS1otRazCQrzbP
- Qh8J82KSzeGLqn68vZXiCQnL0lyguQLFLSUSKpSnwiOBBVrE+SWqJfXsDA4q4I+4zWq4
- zdFXFc/jSqsJ4b7880ayf5pCz5WEEjWifEMOJVZ3Rz8xFUbensrm7nWn0suH3iDUUgtg
- o45Zf39hdcB9pR/RAK6x9XYKT0v/8zgHqBGX9eIAWnLjoQ0TZswbu0kr1UulgwbcIMJ2 2w== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 34acw986ds-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Oct 2020 23:21:11 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09L3Fa7R177307;
-        Tue, 20 Oct 2020 23:21:10 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 34acw986cx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Oct 2020 23:21:10 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09L3CGmP031758;
-        Wed, 21 Oct 2020 03:21:08 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma04ams.nl.ibm.com with ESMTP id 347r88bv5k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 21 Oct 2020 03:21:08 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 09L3L5tH33620310
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Oct 2020 03:21:05 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CF6A642047;
-        Wed, 21 Oct 2020 03:21:05 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B783D42045;
-        Wed, 21 Oct 2020 03:21:01 +0000 (GMT)
-Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.35.199])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 21 Oct 2020 03:21:01 +0000 (GMT)
-Message-ID: <8e07f9401c9f7e18fb1453b7b290472c0049c6e6.camel@linux.ibm.com>
-Subject: Re: [PATCH v7 1/4] KEYS: trusted: Add generic trusted keys framework
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Sumit Garg <sumit.garg@linaro.org>,
-        jarkko.sakkinen@linux.intel.com, jejb@linux.ibm.com
-Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org
-Date:   Tue, 20 Oct 2020 23:21:00 -0400
-In-Reply-To: <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
-References: <1602065268-26017-1-git-send-email-sumit.garg@linaro.org>
-         <1602065268-26017-2-git-send-email-sumit.garg@linaro.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.737
- definitions=2020-10-21_02:2020-10-20,2020-10-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- phishscore=0 spamscore=0 impostorscore=0 suspectscore=2 clxscore=1011
- malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010210025
+        id S1726466AbgJUEG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 00:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389673AbgJUEG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Oct 2020 00:06:27 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C3EC0613D4
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2020 21:06:26 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id r127so1044551lff.12
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2020 21:06:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A2ubgR/xKJQH50/QK8k/bko+epR3dyw4FQ+19tjcTls=;
+        b=vkK5aBA76cYVAnDOr9Oz2wpEcvNWLCUjDIHM/kvsQc2HBNhFgfTsGf7qEN/FiHATja
+         58pgjCaUH1VqmCTIvZ+HXK6ANa6NPywTzla7av1z//rGfiAShCjX5qqsbbarQwigrw8N
+         xfi9TXam7LQzeBHUVskuAdDU7MuQVbhGColTgyEXS9PEsJuFrS0h33KNHfuaMyhCKsxN
+         tXJBLIWOrgYRrHftPmaoTP23UqNqgbsgUvuy2gYf4d8SpszNe07GA4GyX9OIQNoWfwWf
+         Q3FzNmXXJHyIS0b6BZoS1u+J1AC5iykII/d4RQ82YDBbPD7jIXQzhRt78kLYr0I+a3/W
+         Zieg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A2ubgR/xKJQH50/QK8k/bko+epR3dyw4FQ+19tjcTls=;
+        b=GvAszvLoSZ9dnbj6ykBd1mhmj/cWbJAEzsc+Qci7pm2H7YzU5ma7Yi+xdcj59cRFGf
+         xqd+MdcJX8KzPG50XG8PQii/+oMiH/RmKpG8mtu9hRXYmD2/zFglqPjkg8rmbZj/uGuS
+         Duxf1lYS4kRPurI5Mmc962u7AfZ3xkzelCvez3fMkHyjhfkHAepFj6TTmrskNcNCwe9K
+         ao6KiW2D6QLvM4f6IW6YuRsGCWb4AOZF2FKs4PCyWp/44+dU0ANHvwgpf7T6iU6b74N8
+         3JIlfZykFImms5brRgMKbDpDs8ronr8uU+UYRGMOvt53vbHsNB0rVjqDlEdsj9+5KBG/
+         CAGA==
+X-Gm-Message-State: AOAM5327fVJoHStidXJo6WJIbXfAg9hjK5Q2blK4KomqjRSe3v4s7V4i
+        4c5cbO8tK5OuDl0DBoUfHC0T37NxKHJG4aQEdNT+Iw==
+X-Google-Smtp-Source: ABdhPJzQrd2XSvlsHfFEafig8QCbAKdHYRbbYcpHnQsgnUwZzRj10oPzZl6Xjw9AaCF82eWJlqJIP7T/3uT/B4J59x4=
+X-Received: by 2002:a19:97:: with SMTP id 145mr376244lfa.277.1603253184942;
+ Tue, 20 Oct 2020 21:06:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201013063743.32179-1-sjpark@amazon.com>
+In-Reply-To: <20201013063743.32179-1-sjpark@amazon.com>
+From:   David Gow <davidgow@google.com>
+Date:   Wed, 21 Oct 2020 12:06:13 +0800
+Message-ID: <CABVgOSm3RuJBrevk8W5T6fLVo=uCT5F0OUVLuVTu=TrPnPyxNg@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: kunit: Update Kconfig parts for KUNIT's
+ module support
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-10-07 at 15:37 +0530, Sumit Garg wrote:
+On Tue, Oct 13, 2020 at 2:38 PM 'SeongJae Park' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
+>
+> From: SeongJae Park <sjpark@amazon.de>
+>
+> If 'CONFIG_KUNIT=m', letting kunit tests that do not support loadable
+> module build depends on 'KUNIT' instead of 'KUNIT=y' result in compile
+> errors.  This commit updates the document for this.
+>
+> Fixes: 9fe124bf1b77 ("kunit: allow kunit to be loaded as a module")
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
-> +/*
-> + * trusted_destroy - clear and free the key's payload
-> + */
-> +static void trusted_destroy(struct key *key)
-> +{
-> +	kfree_sensitive(key->payload.data[0]);
-> +}
-> +
-> +struct key_type key_type_trusted = {
-> +	.name = "trusted",
-> +	.instantiate = trusted_instantiate,
-> +	.update = trusted_update,
-> +	.destroy = trusted_destroy,
-> +	.describe = user_describe,
-> +	.read = trusted_read,
-> +};
-> +EXPORT_SYMBOL_GPL(key_type_trusted);
-> +
-> +static int __init init_trusted(void)
-> +{
-> +	int i, ret = 0;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(trusted_key_sources); i++) {
-> +		if (trusted_key_source &&
-> +		    strncmp(trusted_key_source, trusted_key_sources[i].name,
-> +			    strlen(trusted_key_sources[i].name)))
-> +			continue;
-> +
-> +		trusted_key_ops = trusted_key_sources[i].ops;
-> +
-> +		ret = trusted_key_ops->init();
-> +		if (!ret)
-> +			break;
-> +	}
+Sorry for the delay in looking at this. Apart from another minuscule
+typo below, this looks good to me.
 
-In the case when the module paramater isn't specified and both TPM and
-TEE are enabled, trusted_key_ops is set to the last source initialized.
-After patch 2/4, the last trusted source initialized is TEE.  If the
-intention is to limit it to either TPM or TEE, then trusted_key_ops
-should have a default value, which could be overwritten at runtime. 
-That would address Luke Hind's concerns of making the decision at
-compile time.
+Reviewed-by: David Gow <davidgow@google.com>
 
-trusted_key_ops should be defined as __ro_after_init, like is currently
-done for other LSM structures.
+Cheers,
+-- David
 
+> ---
+>
+> Changes from v1
+> (https://lore.kernel.org/linux-kselftest/20201012105420.5945-1-sjpark@amazon.com/):
+> - Fix a typo (Marco Elver)
+>
+> ---
+>  Documentation/dev-tools/kunit/start.rst | 2 +-
+>  Documentation/dev-tools/kunit/usage.rst | 5 +++++
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+> index d23385e3e159..454f307813ea 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -197,7 +197,7 @@ Now add the following to ``drivers/misc/Kconfig``:
+>
+>         config MISC_EXAMPLE_TEST
+>                 bool "Test for my example"
+> -               depends on MISC_EXAMPLE && KUNIT
+> +               depends on MISC_EXAMPLE && KUNIT=y
+>
+>  and the following to ``drivers/misc/Makefile``:
+>
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 3c3fe8b5fecc..b331f5a5b0b9 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -556,6 +556,11 @@ Once the kernel is built and installed, a simple
+>
+>  ...will run the tests.
+>
+> +.. note::
+> +   Note that you should make your test depends on ``KUNIT=y`` in Kconfig if the
+nit: Grammatically, this should technically be either "depend" (2nd
+person), or something like "make sure [that] your test depends".
+
+> +   test does not support module build.  Otherwise, it will trigger compile
+> +   errors if ``CONFIG_KUNIT`` is ``m``.
 > +
-> +	/*
-> +	 * encrypted_keys.ko depends on successful load of this module even if
-> +	 * trusted key implementation is not found.
-> +	 */
-> +	if (ret == -ENODEV)
-> +		return 0;
-> +
-> +	return ret;
-> +}
-> +
-> +static void __exit cleanup_trusted(void)
-> +{
-> +	trusted_key_ops->exit();
 
-If the intention is really to support both TPM and TEE trusted keys at
-the same time, as James suggested, then the same "for" loop as in
-init_trusted() is needed here and probably elsewhere.
+Someday it'd be nice to better discuss the reasons a test suite might
+not be compilable as a module. It's probably outside the scope of this
+commit to do it properly, though.
 
-thanks,
-
-Mimi
-
+>  Writing new tests for other architectures
+>  -----------------------------------------
+>
+> --
+> 2.17.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20201013063743.32179-1-sjpark%40amazon.com.
