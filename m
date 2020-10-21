@@ -2,152 +2,204 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E8D6C388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83536C56201
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:57:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4231223C7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:56:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EV0zodmV"
+	by mail.kernel.org (Postfix) with ESMTP id 18101223BF
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603299462;
+	bh=lV/Q3JfadUm+TEjJJgiQ2XapWVprYd5h6OE3xBSuXak=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=XZ7hrH1fmtnPmAUaPM+xsaldBjcLIBj7cuJZs9wEZfrSecwOJrO0uNVSKIxFSmHoQ
+	 zq3ibC8Acp6JkCN0xmEMSeMC5l9anpF2GhGH9BbE1HV0YOEsXYV1FNVnKFRAxAzBeR
+	 m7ehQywIjWjtjz7S47/sjZgQbWb68p9Aw4ORiNxc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503237AbgJUQ4U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 12:56:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33876 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2503235AbgJUQ4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Oct 2020 12:56:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603299378;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YpWDrSQ0xS4iFl6zf0HLMlyff6mhU5Ears3TWXC/4Ho=;
-        b=EV0zodmVWO4hXI+oHamzrLId58LDwWPavX7LGPhFHP/vnA1PnSBP2qWLZ5OpGVL7hmHo8L
-        85RVMZY5Gualoog7fM41SHm0hGTBMxizUHmVaXmtOtekv0uEYTnoFNCb7XAtHbqbvUEUh0
-        0i+5f1fFbyR0mSMuC6yKvXD/9mRtNlQ=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-mrD2q8S0PUyaIFO2lDIUkg-1; Wed, 21 Oct 2020 12:56:14 -0400
-X-MC-Unique: mrD2q8S0PUyaIFO2lDIUkg-1
-Received: by mail-qv1-f72.google.com with SMTP id h12so1675551qvk.22
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2020 09:56:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:organization:user-agent:mime-version
-         :content-transfer-encoding;
-        bh=YpWDrSQ0xS4iFl6zf0HLMlyff6mhU5Ears3TWXC/4Ho=;
-        b=CDZ+a2/jINL8GjeQWtq89QGnmnAqh1GrH3NxFRwcaPtc1CP/gStGcPiJu/R4ftg/x0
-         aPLFORF04wDi7XL/xG6p4i3gAreMteO7tq/4Sg2AKQREH2RO1b+g5SXhLN1f/bNhLS5B
-         w61vyGKThDHn7eQx4g75cRlUsHtd4NLFFr7kgmjR5S+jZch2Rice4UAFmTlUYNIKBZk7
-         J/YHD6gEAG8RryX1m2h8EUsHuOgiDAChL/K0JhfpD1+LWFqRUqKalxE40qCHaOe0K7lg
-         CKtUT2NzbXRgiM18IEIjpA2ezo2vqsLqdgWrSqKqK/3BfPPdhJQJ/0eVmAZV73ULXRAE
-         FOYQ==
-X-Gm-Message-State: AOAM533VFdQbOIjzasoaw80dynYxNVviKWMVwh9BcMtr16+d2frU4MN8
-        wUY4KL9MWYJB0Tz5tkZ1geBdvoX3hr2IojL5uorD3AR4o93NgBGaIyXIUYtrjAFMMzTrNM+McmH
-        rbUwPtMs1rQd/F/YICk4K
-X-Received: by 2002:a05:620a:142d:: with SMTP id k13mr3922510qkj.315.1603299373817;
-        Wed, 21 Oct 2020 09:56:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2v8PeoZ/a94ls9zOIyKWksYLW/NAN8enNJ9jX43dkLHUQkSE464KGbP6E/4BzXTqrq+S0iw==
-X-Received: by 2002:a05:620a:142d:: with SMTP id k13mr3922487qkj.315.1603299373526;
-        Wed, 21 Oct 2020 09:56:13 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
-        by smtp.gmail.com with ESMTPSA id 19sm1575196qki.33.2020.10.21.09.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 09:56:12 -0700 (PDT)
-Message-ID: <54b001e1748fd3d80c711181521e5cf1ec6875eb.camel@redhat.com>
-Subject: Re: [PATCH v2 12/24] drm/dp: fix a kernel-doc issue at drm_edid.c
-From:   Lyude Paul <lyude@redhat.com>
+        id S2437304AbgJUQ5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 12:57:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41154 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2408853AbgJUQ5l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Oct 2020 12:57:41 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C88722249;
+        Wed, 21 Oct 2020 16:57:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603299459;
+        bh=lV/Q3JfadUm+TEjJJgiQ2XapWVprYd5h6OE3xBSuXak=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=zUQNdfeqYhqzl0SmpumWfFo/hMRF+5R4PINrvdY6fuSXadQ1qxS5odjIUEI3iN6yJ
+         9Y9hm/zlpVsI+bX72W6pj9SJ3jGeHrnwV/L5eU9VvlOoHs6tENgaBEx7J8FA8AcpZX
+         dAwBig62reZpX8g4cCEH0tY1WpGyUycoQgvJ0gjM=
+Date:   Wed, 21 Oct 2020 18:58:19 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+Cc:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= 
-        <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date:   Wed, 21 Oct 2020 12:56:11 -0400
-In-Reply-To: <20201021121108.51972144@coco.lan>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
-         <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
-         <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
-         <20201021121108.51972144@coco.lan>
-Organization: Red Hat
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        Akira Shimahara <akira215corp@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Evgeny Boger <boger@wirenboard.com>
+Subject: Re: Adding ABI to htmldocs - Was: Re: [PATCH 2/2] w1: w1_therm: Add
+ support for GXCAS GX20MH01 device.
+Message-ID: <20201021165819.GA1361645@kroah.com>
+References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
+ <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
+ <20201006151915.77d044a4@coco.lan>
+ <1561045277.20201007103227@wirenboard.ru>
+ <20201007105702.67988846@coco.lan>
+ <20201007090619.GA613204@kroah.com>
+ <20201007130549.6ca57af0@coco.lan>
+ <20201007114359.GA2167293@kroah.com>
+ <20201007135934.4b6e598e@coco.lan>
+ <20201021182843.522dd7e7@coco.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201021182843.522dd7e7@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ah, good point. It looks like you've already added the drm-misc-next and drm
-maintainers to here so as long as they're aware that should be fine
-
-On Wed, 2020-10-21 at 12:11 +0200, Mauro Carvalho Chehab wrote:
-> Hi Lyude,
+On Wed, Oct 21, 2020 at 06:28:43PM +0200, Mauro Carvalho Chehab wrote:
+> Hi greg,
 > 
-> Em Tue, 13 Oct 2020 15:49:11 -0400
-> Lyude Paul <lyude@redhat.com> escreveu:
+> Em Wed, 7 Oct 2020 13:59:34 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 > 
-> > wait, I think there's some confusion here. these patches have already been
-> > pushed
-> 
-> As the patch adding the warning was merged upstream at the 5.10 merge
-> window, the fixup one should also be added there, instead of waiting
-> until 5.11 ;-)
-> 
-> So, if OK for you, I'll send this upstream via my tree by the end of
-> the merge window, as our goal is that 5.10 won't have doc warnings.
-> 
-> Regards,
-> Mauro
+> > Em Wed, 7 Oct 2020 13:43:59 +0200
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 > > 
-> > On Tue, 2020-10-13 at 14:14 +0200, Mauro Carvalho Chehab wrote:
-> > > The name of the argument is different, causing those warnings:
+> > > On Wed, Oct 07, 2020 at 01:05:49PM +0200, Mauro Carvalho Chehab wrote:  
+> > > > Em Wed, 7 Oct 2020 11:06:19 +0200
+> > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> > > >     
+> > > > > On Wed, Oct 07, 2020 at 10:57:02AM +0200, Mauro Carvalho Chehab wrote:    
+> > > > > > Em Wed, 7 Oct 2020 10:32:27 +0300
+> > > > > > Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
+> > > > > >       
+> > > > > > > Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
+> > > > > > >       
+> > > > > > > >> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
+> > > > > > > >> index f1148181f53e..00376501a5ef 100644
+> > > > > > > >> --- a/Documentation/w1/slaves/w1_therm.rst
+> > > > > > > >> +++ b/Documentation/w1/slaves/w1_therm.rst        
+> > > > > > >       
+> > > > > > > >>  
+> > > > > > > >> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
+> > > > > > > >>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
+> > > > > > > >>  conversion completion (normal power only) by generating read cycles on the bus
+> > > > > > > >>  after conversion starts. In parasite power mode this feature is not available.
+> > > > > > > >> -Feature bit masks may be combined (OR).
+> > > > > > > >> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
+> > > > > > > >> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
+> > > > > > > >> +        
+> > > > > > >       
+> > > > > > > > As warned by Sphinx, this cross-reference is broken:        
+> > > > > > >       
+> > > > > > > >         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
+> > > > > > > > undefined label: w1_therm (if the link has no caption the label must precede a section header)        
+> > > > > > > 
+> > > > > > > Would this be ok?      
+> > > > > > 
+> > > > > > Yeah, sure!
+> > > > > >       
+> > > > > > > 
+> > > > > > > "More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
+> > > > > > >       
+> > > > > > > > Not sure what you wanted to point here.        
+> > > > > > > 
+> > > > > > > A link to a driver's sysfs interface, but sysfs docs are text
+> > > > > > > files and seem to not be included in Sphynx Docs.      
+> > > > > > 
+> > > > > > I sent upstream sometime ago a patch series adding ABI to Sphinx, but I 
+> > > > > > was not merged, not sure why:
+> > > > > > 
+> > > > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v5.6      
+> > > > > 
+> > > > > I think the raft of different patches floating around at the time made
+> > > > > me totally confused as to what was, and was not, the latest versions.    
+> > > > 
+> > > > Yeah, there were lots of patches floating around that time.
+> > > > 
+> > > > I also recall that someone (Jeni?) asked if the best wouldn't be to
+> > > > just convert the ABI files to ReST directly.
+> > > >     
+> > > > > I'll be glad to look at them again, if you want to rebase after 5.10-rc1
+> > > > > is out and resend them, as I think this should be showing up in the
+> > > > > documentation.    
+> > > > 
+> > > > Surely. I'll rebase them after 5.10-rc1 and re-submit. 
+> > > > 
+> > > > What strategy do you prefer? Keep the files with the same format as
+> > > > today (allowing them to optionally have ReST markups) or to convert
+> > > > them to .rst directly?
+> > > > 
+> > > > In the latter case, the best would be to apply it as early as possible
+> > > > after 5.10-rc1, as it may cause conflicts with other patches being
+> > > > submitted for 5.11.    
 > > > 
-> > > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Function parameter or
-> > > member
-> > > 'video_code' not described in 'drm_display_mode_from_cea_vic'
-> > > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Excess function parameter
-> > > 'vic' description in 'drm_display_mode_from_cea_vic'
-> > > 
-> > > Fixes: 7af655bce275 ("drm/dp: Add drm_dp_downstream_mode()")
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > >  drivers/gpu/drm/drm_edid.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > > index a82f37d44258..631125b46e04 100644
-> > > --- a/drivers/gpu/drm/drm_edid.c
-> > > +++ b/drivers/gpu/drm/drm_edid.c
-> > > @@ -3741,7 +3741,7 @@ drm_add_cmdb_modes(struct drm_connector
-> > > *connector, u8
-> > > svd)
-> > >  /**
-> > >   * drm_display_mode_from_cea_vic() - return a mode for CEA VIC
-> > >   * @dev: DRM device
-> > > - * @vic: CEA VIC of the mode
-> > > + * @video_code: CEA VIC of the mode
-> > >   *
-> > >   * Creates a new mode matching the specified CEA VIC.
-> > >   *  
+> > > The existing format if at all possible, doing wholesale changes is a
+> > > mess and wouldn't be recommended.  
+> > 
+> > Yeah, merging it would indeed be a mess. At long term, though, it could 
+> > be easier to maintain.
+> > 
+> > > I think you already fixed up the entries that had problems being parsed
+> > > in the past, if not, we can resolve those as well.  
+> > 
+> > Yes. The series start with fixes. I suspect several of them
+> > (if not all) were already merged, but if anything is missing, I can fix 
+> > at the upcoming rebased series.
 > 
+> Rebasing the patch series was easier than what I expected:
 > 
-> Thanks,
-> Mauro
+> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v6
 > 
--- 
-Cheers,
-	Lyude Paul (she/her)
-	Software Engineer at Red Hat
+> Yet, while fixing one build issue, I noticed that there are multiple
+> files defining the same ABI, with different contents.
+> 
+> Right now, scripts/get_abi.pl assumes that "what" is unique. Well, sorts
+> of. When it finds a duplicated entry, it merges the description, 
+> preserving the fields from the last parsed entry.
+> 
+> I ended adding a patch to detect those ABI duplication:
+> 
+> 	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=abi_patches_v6&id=6868914605cb0ebffe3fd07d344c246e1e4cd94e
+> 
+> I'm enclosing the results.
+> 
+> One such example is this one:
+> 
+> 	3 duplicated entries for /sys/class/leds/<led>/hw_pattern: on file(s) sysfs-class-led-trigger-pattern sysfs-class-led-driver-sc27xx sysfs-class-led-driver-el15203000
+> 
+> It sounds that different drivers define and use this ABI, but
+> each one with different meanings. 
+> 
+> There are even some cases where the same file define the same ABI twice:
+> 
+> 	2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_alert_min: on file(s) sysfs-class-power
+> 
+> Not sure what's the best way to document things like that, or if
+> the fix would be to drop/merge those.
+> 
+> Any ideas?
 
+We should merge them to be the correct representation.  The
+driver-specific ones for LED should just be dropped to use the
+class-generic one.
+
+I guess just take them one at a time :)
+
+thanks,
+
+greg k-h
