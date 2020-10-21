@@ -2,160 +2,261 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F7CC55179
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5A3C388F9
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:28:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 87B6822249
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:18:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8ukPSf8"
+	by mail.kernel.org (Postfix) with ESMTP id 1CD1121D7B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 16:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603297737;
+	bh=w5EAvrxq2Z0CHnjcFb4Bat5SWnJXjIKBKi55KhvfTAo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=V4cwcXi65imHB/wFSY+M+UyqdPZCRXIMC0MAryXqwNa/B6r8uzvdO9ydL9JPbzmDf
+	 pieLX3nflENqWrsYo10lIXTSr0tCM5tmHchcCW2PmzOdl5xAIMPQWD8n/MV4VMi5QI
+	 1B2d84jlgK38u0lE5SuWN49RlIa5TDrT26rg1ot4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2444410AbgJUQSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 12:18:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408858AbgJUQSm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Oct 2020 12:18:42 -0400
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0457AC0613CE;
-        Wed, 21 Oct 2020 09:18:42 -0700 (PDT)
-Received: by mail-qv1-xf42.google.com with SMTP id h11so1390014qvq.7;
-        Wed, 21 Oct 2020 09:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CzKXJwhnXsatpgfBxJJmFGrX5HyZBJEIKL9JIRR+g5s=;
-        b=D8ukPSf8Haz92tkcD9xdLoxLf3cJdNLzLMe6/3OB3u8gOfhMvE3Qfo/S4qoj6CMwUB
-         CZ8cDdHBYNIqhLqT+SRrsSnrd7VLJyYDNmeJmwJOBjquQ7OdjMayHLQxCv3aPOshtyQg
-         8CQckWQP0EUILR7vVRBnUjoieuQmEnLULrV2pcGbc2r5Ht60jY3nAwU0sykPICIzI50w
-         kjBO1cp7oSZG0DBPUSPHrkdqLgONIYnGzggt0nbs9cVkfszxI7NYzkmM0Qyl4aBZDyfN
-         +TYNtEPGEYAm2dBVeIyNPBL9m7PxnHHamzpgXRubnVuKht1f+I1Ja6sO48zFoNt/b3C3
-         3Qrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=CzKXJwhnXsatpgfBxJJmFGrX5HyZBJEIKL9JIRR+g5s=;
-        b=VdmROmS8+R6YdIe7MLbPkUnby02CfTP7UxSK3zKLh3oFOSeEtLlhtxQnxiA8QpZNFV
-         6ZMo0n6f3xV2XSfG0u5EUQ1ZQ0V+T+tm/8ordehQJxRMblThotQgBDv+S9jftSEAyenn
-         vQhtrA8D6ZmPgA/7x3s2b5lLrP1dKfI56G4z8+bp5/CxxOppmLzbjouZMXF6NtU68RCJ
-         suowD+LGkkAE/mJJ8SyjT3AqojKN7fOkg7Jjo8CeosFlLrWJ3rhd/qCw9qo1OH+dVhFX
-         FgChJfysxF9H8XL0tkP3mzzKoWsFv6zO/RzmJUoQVhSddX3kLv9o0QUcXqaj2pgyiQlJ
-         jitA==
-X-Gm-Message-State: AOAM530RljS1j0hbiScnpfS/iit6sI5IH3yk4NdSdtgiuHjjhHIYSgkk
-        CXRc1DGMZeKhhVk7EngV7qY=
-X-Google-Smtp-Source: ABdhPJzm4IIsqPihxypdU/hDH0/eZnfjM/QkTB3wKz8f9F9sCQeav7NdGj1QDwMCoX+46WaJUl131A==
-X-Received: by 2002:ad4:44b3:: with SMTP id n19mr3609929qvt.39.1603297121078;
-        Wed, 21 Oct 2020 09:18:41 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id m15sm1511256qtc.90.2020.10.21.09.18.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 09:18:39 -0700 (PDT)
-Sender: Arvind Sankar <niveditas98@gmail.com>
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Wed, 21 Oct 2020 12:18:37 -0400
-To:     Daniel Kiper <daniel.kiper@oracle.com>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
-Message-ID: <20201021161837.GA3795579@rani.riverdale.lan>
-References: <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
- <20200924173801.GA103726@rani.riverdale.lan>
- <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
- <20200925191842.GA643740@rani.riverdale.lan>
- <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
- <20201015182654.lgtht5fd2aaunczu@tomti.i.net-space.pl>
- <20201016205151.GA1618249@rani.riverdale.lan>
- <20201019145153.7b6cg3rzj7g4njz6@tomti.i.net-space.pl>
- <20201019171822.GD2701355@rani.riverdale.lan>
- <20201021152833.b3oys643ckcl5evq@tomti.i.net-space.pl>
+        id S2390862AbgJUQ24 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 12:28:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60062 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730602AbgJUQ2z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Oct 2020 12:28:55 -0400
+Received: from coco.lan (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BC58720870;
+        Wed, 21 Oct 2020 16:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603297733;
+        bh=JEj8379nMCU3yktHviIckNnQtk45Avq6ZL58P70Kuzc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=okhvgAZIK3l+ezdLV9hgu5Vg7qhQyE3rGlYXY9vBonicbrl6mZbArb4smLYppblxi
+         68/Q9CksnOoyBoYDXxPbVlutXVvsq8t6Nk44/p9veEDa9y4Po48tSXSnxS2ClmPEfg
+         Lx5JKf5ed4LSx/bwYdWd1n3oq6+QHN0dR0JYSMdk=
+Date:   Wed, 21 Oct 2020 18:28:43 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Akira Shimahara <akira215corp@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Evgeny Boger <boger@wirenboard.com>
+Subject: Adding ABI to htmldocs - Was: Re: [PATCH 2/2] w1: w1_therm: Add
+ support for GXCAS GX20MH01 device.
+Message-ID: <20201021182843.522dd7e7@coco.lan>
+In-Reply-To: <20201007135934.4b6e598e@coco.lan>
+References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
+        <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
+        <20201006151915.77d044a4@coco.lan>
+        <1561045277.20201007103227@wirenboard.ru>
+        <20201007105702.67988846@coco.lan>
+        <20201007090619.GA613204@kroah.com>
+        <20201007130549.6ca57af0@coco.lan>
+        <20201007114359.GA2167293@kroah.com>
+        <20201007135934.4b6e598e@coco.lan>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201021152833.b3oys643ckcl5evq@tomti.i.net-space.pl>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 05:28:33PM +0200, Daniel Kiper wrote:
-> On Mon, Oct 19, 2020 at 01:18:22PM -0400, Arvind Sankar wrote:
-> > On Mon, Oct 19, 2020 at 04:51:53PM +0200, Daniel Kiper wrote:
-> > > On Fri, Oct 16, 2020 at 04:51:51PM -0400, Arvind Sankar wrote:
-> > > > On Thu, Oct 15, 2020 at 08:26:54PM +0200, Daniel Kiper wrote:
-> > > > >
-> > > > > I am discussing with Ross the other option. We can create
-> > > > > .rodata.mle_header section and put it at fixed offset as
-> > > > > kernel_info is. So, we would have, e.g.:
-> > > > >
-> > > > > arch/x86/boot/compressed/vmlinux.lds.S:
-> > > > >         .rodata.kernel_info KERNEL_INFO_OFFSET : {
-> > > > >                 *(.rodata.kernel_info)
-> > > > >         }
-> > > > >         ASSERT(ABSOLUTE(kernel_info) == KERNEL_INFO_OFFSET, "kernel_info at bad address!")
-> > > > >
-> > > > >         .rodata.mle_header MLE_HEADER_OFFSET : {
-> > > > >                 *(.rodata.mle_header)
-> > > > >         }
-> > > > >         ASSERT(ABSOLUTE(mle_header) == MLE_HEADER_OFFSET, "mle_header at bad address!")
-> > > > >
-> > > > > arch/x86/boot/compressed/sl_stub.S:
-> > > > > #define mleh_rva(X) (((X) - mle_header) + MLE_HEADER_OFFSET)
-> > > > >
-> > > > >         .section ".rodata.mle_header", "a"
-> > > > >
-> > > > > SYM_DATA_START(mle_header)
-> > > > >         .long   0x9082ac5a    /* UUID0 */
-> > > > >         .long   0x74a7476f    /* UUID1 */
-> > > > >         .long   0xa2555c0f    /* UUID2 */
-> > > > >         .long   0x42b651cb    /* UUID3 */
-> > > > >         .long   0x00000034    /* MLE header size */
-> > > > >         .long   0x00020002    /* MLE version 2.2 */
-> > > > >         .long   mleh_rva(sl_stub_entry)    /* Linear entry point of MLE (virt. address) */
-> > > > >         .long   0x00000000    /* First valid page of MLE */
-> > > > >         .long   0x00000000    /* Offset within binary of first byte of MLE */
-> > > > >         .long   0x00000000    /* Offset within binary of last byte + 1 of MLE */
-> > > > >         .long   0x00000223    /* Bit vector of MLE-supported capabilities */
-> > > > >         .long   0x00000000    /* Starting linear address of command line (unused) */
-> > > > >         .long   0x00000000    /* Ending linear address of command line (unused) */
-> > > > > SYM_DATA_END(mle_header)
-> > > > >
-> > > > > Of course MLE_HEADER_OFFSET has to be defined as a constant somewhere.
-> > > > > Anyway, is it acceptable?
-> > >
-> > > What do you think about my MLE_HEADER_OFFSET and related stuff proposal?
-> > >
-> >
-> > I'm wondering if it would be easier to just allow relocations in these
-> > special "header" sections. I need to check how easy/hard it is to do
-> > that without triggering linker warnings.
-> 
-> Ross and I still bouncing some ideas. We came to the conclusion that
-> putting mle_header into kernel .rodata.kernel_info section or even
-> arch/x86/boot/compressed/kernel_info.S file would be the easiest thing
-> to do at this point. Of course I would suggest some renaming too. E.g.
-> .rodata.kernel_info to .rodata.kernel_headers, etc. Does it make sense
-> for you?
-> 
-> Daniel
+Hi greg,
 
-I haven't been able to come up with any different options that don't
-require post-processing of the kernel image. Allowing relocations in
-specific sections seems to not be possible with lld, and anyway would
-require the fields to be 64-bit sized so it doesn't really help.
+Em Wed, 7 Oct 2020 13:59:34 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Putting mle_header into kernel_info seems like a reasonable thing to me,
-and if you do that, putting it into kernel_info.S would seem to be
-necessary?  Would you also have a fixed field with the offset of the
-mle_header from kernel_info?  That seems nicer than having the
-bootloader scan the variable data for magic strings.
+> Em Wed, 7 Oct 2020 13:43:59 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> 
+> > On Wed, Oct 07, 2020 at 01:05:49PM +0200, Mauro Carvalho Chehab wrote:  
+> > > Em Wed, 7 Oct 2020 11:06:19 +0200
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> > >     
+> > > > On Wed, Oct 07, 2020 at 10:57:02AM +0200, Mauro Carvalho Chehab wrote:    
+> > > > > Em Wed, 7 Oct 2020 10:32:27 +0300
+> > > > > Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
+> > > > >       
+> > > > > > Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
+> > > > > >       
+> > > > > > >> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
+> > > > > > >> index f1148181f53e..00376501a5ef 100644
+> > > > > > >> --- a/Documentation/w1/slaves/w1_therm.rst
+> > > > > > >> +++ b/Documentation/w1/slaves/w1_therm.rst        
+> > > > > >       
+> > > > > > >>  
+> > > > > > >> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
+> > > > > > >>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
+> > > > > > >>  conversion completion (normal power only) by generating read cycles on the bus
+> > > > > > >>  after conversion starts. In parasite power mode this feature is not available.
+> > > > > > >> -Feature bit masks may be combined (OR).
+> > > > > > >> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
+> > > > > > >> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
+> > > > > > >> +        
+> > > > > >       
+> > > > > > > As warned by Sphinx, this cross-reference is broken:        
+> > > > > >       
+> > > > > > >         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
+> > > > > > > undefined label: w1_therm (if the link has no caption the label must precede a section header)        
+> > > > > > 
+> > > > > > Would this be ok?      
+> > > > > 
+> > > > > Yeah, sure!
+> > > > >       
+> > > > > > 
+> > > > > > "More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
+> > > > > >       
+> > > > > > > Not sure what you wanted to point here.        
+> > > > > > 
+> > > > > > A link to a driver's sysfs interface, but sysfs docs are text
+> > > > > > files and seem to not be included in Sphynx Docs.      
+> > > > > 
+> > > > > I sent upstream sometime ago a patch series adding ABI to Sphinx, but I 
+> > > > > was not merged, not sure why:
+> > > > > 
+> > > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v5.6      
+> > > > 
+> > > > I think the raft of different patches floating around at the time made
+> > > > me totally confused as to what was, and was not, the latest versions.    
+> > > 
+> > > Yeah, there were lots of patches floating around that time.
+> > > 
+> > > I also recall that someone (Jeni?) asked if the best wouldn't be to
+> > > just convert the ABI files to ReST directly.
+> > >     
+> > > > I'll be glad to look at them again, if you want to rebase after 5.10-rc1
+> > > > is out and resend them, as I think this should be showing up in the
+> > > > documentation.    
+> > > 
+> > > Surely. I'll rebase them after 5.10-rc1 and re-submit. 
+> > > 
+> > > What strategy do you prefer? Keep the files with the same format as
+> > > today (allowing them to optionally have ReST markups) or to convert
+> > > them to .rst directly?
+> > > 
+> > > In the latter case, the best would be to apply it as early as possible
+> > > after 5.10-rc1, as it may cause conflicts with other patches being
+> > > submitted for 5.11.    
+> > 
+> > The existing format if at all possible, doing wholesale changes is a
+> > mess and wouldn't be recommended.  
+> 
+> Yeah, merging it would indeed be a mess. At long term, though, it could 
+> be easier to maintain.
+> 
+> > I think you already fixed up the entries that had problems being parsed
+> > in the past, if not, we can resolve those as well.  
+> 
+> Yes. The series start with fixes. I suspect several of them
+> (if not all) were already merged, but if anything is missing, I can fix 
+> at the upcoming rebased series.
+
+Rebasing the patch series was easier than what I expected:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v6
+
+Yet, while fixing one build issue, I noticed that there are multiple
+files defining the same ABI, with different contents.
+
+Right now, scripts/get_abi.pl assumes that "what" is unique. Well, sorts
+of. When it finds a duplicated entry, it merges the description, 
+preserving the fields from the last parsed entry.
+
+I ended adding a patch to detect those ABI duplication:
+
+	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=abi_patches_v6&id=6868914605cb0ebffe3fd07d344c246e1e4cd94e
+
+I'm enclosing the results.
+
+One such example is this one:
+
+	3 duplicated entries for /sys/class/leds/<led>/hw_pattern: on file(s) sysfs-class-led-trigger-pattern sysfs-class-led-driver-sc27xx sysfs-class-led-driver-el15203000
+
+It sounds that different drivers define and use this ABI, but
+each one with different meanings. 
+
+There are even some cases where the same file define the same ABI twice:
+
+	2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_alert_min: on file(s) sysfs-class-power
+
+Not sure what's the best way to document things like that, or if
+the fix would be to drop/merge those.
+
+Any ideas?
+
+Thanks,
+Mauro
+
+$ ./scripts/get_abi.pl validate
+2 duplicated entries for /sys/class/infiniband/<device>/ports/<port-num>/counters/symbol_error, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_rcv_errors, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_rcv_remote_physical_errors, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_rcv_switch_relay_errors, /sys/class/infiniband/<device>/ports/<port-num>/counters/link_error_recovery, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_xmit_constraint_errors, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_rcv_contraint_errors, /sys/class/infiniband/<device>/ports/<port-num>/counters/local_link_integrity_errors, /sys/class/infiniband/<device>/ports/<port-num>/counters/excessive_buffer_overrun_errors, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_xmit_data, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_rcv_data, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_xmit_packets, /sys/c
+ lass/infiniband/<device>/ports/<port-num>/counters/port_rcv_packets, /sys/class/infiniband/<device>/ports/<port-num>/counters/unicast_rcv_packets, /sys/class/infiniband/<device>/ports/<port-num>/counters/unicast_xmit_packets, /sys/class/infiniband/<device>/ports/<port-num>/counters/multicast_rcv_packets, /sys/class/infiniband/<device>/ports/<port-num>/counters/multicast_xmit_packets, /sys/class/infiniband/<device>/ports/<port-num>/counters/link_downed, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_xmit_discards, /sys/class/infiniband/<device>/ports/<port-num>/counters/VL15_dropped, /sys/class/infiniband/<device>/ports/<port-num>/counters/port_xmit_wait: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/qibX/ports/N/sl2vl/[0-15]: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband_verbs/abi_version: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/backlight/<backlight>/ambient_light_zone: on file(s) sysfs-class-backlight-adp8860 sysfs-class-backlight-driver-adp8870
+3 duplicated entries for /sys/class/leds/<led>/hw_pattern: on file(s) sysfs-class-led-trigger-pattern sysfs-class-led-driver-sc27xx sysfs-class-led-driver-el15203000
+2 duplicated entries for /sys/bus/vmbus/devices/<UUID>/channels/<N>/cpu: on file(s) sysfs-bus-vmbus
+2 duplicated entries for /sys/class/infiniband/qibX/ports/N/CCMgtA/cc_settings_bin, /sys/class/infiniband/qibX/ports/N/CCMgtA/cc_table_bin: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/hfi1_X/hw_rev, /sys/class/infiniband/hfi1_X/board_id, /sys/class/infiniband/hfi1_X/nctxts, /sys/class/infiniband/hfi1_X/serial, /sys/class/infiniband/hfi1_X/chip_reset, /sys/class/infiniband/hfi1_X/boardversion, /sys/class/infiniband/hfi1_X/nfreectxts, /sys/class/infiniband/hfi1_X/tempsense: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/<hca>/ports/<port-number>/gid_attrs/ndevs/<gid-index>: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/hfi1_X/sdma_N/cpu_list, /sys/class/infiniband/hfi1_X/sdma_N/vl: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/bus/iio/devices/iio:deviceX/out_currentY_raw: on file(s) sysfs-bus-iio-light-lm3533-als sysfs-bus-iio-health-afe440x
+2 duplicated entries for /sys/class/infiniband/vmw_pvrdmaX/hw_rev, /sys/class/infiniband/vmw_pvrdmaX/hca_type, /sys/class/infiniband/vmw_pvrdmaX/board_id: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/ocrdmaX/hw_rev: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/mlx4_X/iov/<pci-slot-num>/ports/<m>/smi_enabled, /sys/class/infiniband/mlx4_X/iov/<pci-slot-num>/ports/<m>/enable_smi_admin: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/mlx4_X/iov/ports/<port-num>/gids/<n>, /sys/class/infiniband/mlx4_X/iov/ports/<port-num>/admin_guids/<n>, /sys/class/infiniband/mlx4_X/iov/ports/<port-num>/pkeys/<n>, /sys/class/infiniband/mlx4_X/iov/ports/<port-num>/mcgs/, /sys/class/infiniband/mlx4_X/iov/ports/<pci-slot-num>/ports/<m>/gid_idx/0, /sys/class/infiniband/mlx4_X/iov/ports/<pci-slot-num>/ports/<m>/pkey_idx/<n>: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/qibX/ports/N/linkstate/loopback, /sys/class/infiniband/qibX/ports/N/linkstate/led_override, /sys/class/infiniband/qibX/ports/N/linkstate/hrtbt_enable, /sys/class/infiniband/qibX/ports/N/linkstate/status, /sys/class/infiniband/qibX/ports/N/linkstate/status_str: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband_mad/umadN/ibdev, /sys/class/infiniband_mad/umadN/port, /sys/class/infiniband_mad/issmN/ibdev, /sys/class/infiniband_mad/issmN/port: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_alert_max: on file(s) sysfs-class-power
+2 duplicated entries for /sys/class/infiniband/mlx4_X/hw_rev, /sys/class/infiniband/mlx4_X/hca_type, /sys/class/infiniband/mlx4_X/board_id: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/<hca>/ports/<port-number>/gid_attrs/types/<gid-index>: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/power_supply/<supply_name>/current_max: on file(s) sysfs-class-power
+2 duplicated entries for /sys/class/infiniband/<device>/ports/<port-num>/link_layer: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/qedrX/hw_rev, /sys/class/infiniband/qedrX/hca_type: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/power_supply/<supply_name>/current_avg: on file(s) sysfs-class-power
+2 duplicated entries for /sys/class/infiniband/qibX/version, /sys/class/infiniband/qibX/hw_rev, /sys/class/infiniband/qibX/hca_type, /sys/class/infiniband/qibX/board_id, /sys/class/infiniband/qibX/boardversion, /sys/class/infiniband/qibX/nctxts, /sys/class/infiniband/qibX/localbus_info, /sys/class/infiniband/qibX/tempsense, /sys/class/infiniband/qibX/serial, /sys/class/infiniband/qibX/nfreectxts, /sys/class/infiniband/qibX/chip_reset: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity: on file(s) sysfs-bus-iio-distance-srf08 sysfs-bus-iio-proximity-as3935
+2 duplicated entries for /sys/class/infiniband/usnic_X/qpn/summary, /sys/class/infiniband/usnic_X/qpn/context: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/kernel/iommu_groups/reserved_regions: on file(s) sysfs-kernel-iommu_groups
+2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_max: on file(s) sysfs-class-power
+2 duplicated entries for /sys/class/infiniband_verbs/uverbsN/ibdev, /sys/class/infiniband_verbs/uverbsN/abi_version: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/bnxt_reX/hw_rev, /sys/class/infiniband/bnxt_reX/hca_type: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/mlx5_X/hw_rev, /sys/class/infiniband/mlx5_X/hca_type, /sys/class/infiniband/mlx5_X/reg_pages, /sys/class/infiniband/mlx5_X/fw_pages: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/<device-name>/hw_counters/lifespan, /sys/class/infiniband/<device-name>/ports/<port-num>/hw_counters/lifespan: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/cxgb4_X/hw_rev, /sys/class/infiniband/cxgb4_X/hca_type, /sys/class/infiniband/cxgb4_X/board_id: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/usnic_X/board_id, /sys/class/infiniband/usnic_X/config, /sys/class/infiniband/usnic_X/qp_per_vf, /sys/class/infiniband/usnic_X/max_vf, /sys/class/infiniband/usnic_X/cq_per_vf, /sys/class/infiniband/usnic_X/iface: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/leds/<led>/brightness: on file(s) sysfs-class-led sysfs-class-led-multicolor
+2 duplicated entries for /sys/class/infiniband/qibX/ports/N/diag_counters/rc_resends, /sys/class/infiniband/qibX/ports/N/diag_counters/seq_naks, /sys/class/infiniband/qibX/ports/N/diag_counters/rdma_seq, /sys/class/infiniband/qibX/ports/N/diag_counters/rnr_naks, /sys/class/infiniband/qibX/ports/N/diag_counters/other_naks, /sys/class/infiniband/qibX/ports/N/diag_counters/rc_timeouts, /sys/class/infiniband/qibX/ports/N/diag_counters/look_pkts, /sys/class/infiniband/qibX/ports/N/diag_counters/pkt_drops, /sys/class/infiniband/qibX/ports/N/diag_counters/dma_wait, /sys/class/infiniband/qibX/ports/N/diag_counters/unaligned: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode: on file(s) sysfs-bus-iio-timer-stm32 sysfs-bus-iio-lptimer-stm32
+2 duplicated entries for /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency: on file(s) sysfs-bus-iio-frequency-adf4371 sysfs-bus-iio
+2 duplicated entries for /sys/class/power_supply/<supply_name>/current_now: on file(s) sysfs-class-power
+2 duplicated entries for /sys/class/infiniband/ocrdmaX/hca_type: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/hfi1_X/ports/N/sc2vl/[0-31], /sys/class/infiniband/hfi1_X/ports/N/sl2sc/[0-31], /sys/class/infiniband/hfi1_X/ports/N/vl2mtu/[0-15]: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/c2port/c2portX/flash_erase: on file(s) sysfs-c2port
+2 duplicated entries for /sys/class/infiniband/i40iwX/hw_rev, /sys/class/infiniband/i40iwX/hca_type, /sys/class/infiniband/i40iwX/board_id: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_min: on file(s) sysfs-class-power
+2 duplicated entries for /sys/bus/w1/devices/.../eeprom: on file(s) sysfs-driver-w1_ds28e04 sysfs-driver-w1_therm
+2 duplicated entries for /sys/bus/iio/devices/iio:deviceX/in_count0_preset: on file(s) sysfs-bus-iio-timer-stm32 sysfs-bus-iio-lptimer-stm32
+2 duplicated entries for /sys/class/infiniband/<device>/ports/<port-num>/lid, /sys/class/infiniband/<device>/ports/<port-num>/rate, /sys/class/infiniband/<device>/ports/<port-num>/lid_mask_count, /sys/class/infiniband/<device>/ports/<port-num>/sm_sl, /sys/class/infiniband/<device>/ports/<port-num>/sm_lid, /sys/class/infiniband/<device>/ports/<port-num>/state, /sys/class/infiniband/<device>/ports/<port-num>/phys_state, /sys/class/infiniband/<device>/ports/<port-num>/cap_mask: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/<device>/node_desc: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/mthcaX/hw_rev, /sys/class/infiniband/mthcaX/hca_type, /sys/class/infiniband/mthcaX/board_id: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/leds/<led>/repeat: on file(s) sysfs-class-led-trigger-pattern sysfs-class-led-driver-el15203000
+2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_alert_min: on file(s) sysfs-class-power
+2 duplicated entries for /sys/class/infiniband/hfi1_X/ports/N/CCMgtA/cc_settings_bin, /sys/class/infiniband/hfi1_X/ports/N/CCMgtA/cc_table_bin, /sys/class/infiniband/hfi1_X/ports/N/CCMgtA/cc_prescan: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/power_supply/<supply_name>/temp: on file(s) sysfs-class-power
+2 duplicated entries for /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw, /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available: on file(s) sysfs-bus-iio-humidity-hdc2010 sysfs-bus-iio-humidity-hdc100x
+2 duplicated entries for /sys/class/infiniband_mad/abi_version: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/<device>/fw_ver: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/infiniband/<device>/node_type, /sys/class/infiniband/<device>/node_guid, /sys/class/infiniband/<device>/sys_image_guid: on file(s) sysfs-class-infiniband sysfs-class-infiniband.org
+2 duplicated entries for /sys/class/backlight/<backlight>/ambient_light_level: on file(s) sysfs-class-backlight-adp8860 sysfs-class-backlight-driver-adp8870
+2 duplicated entries for /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available: on file(s) sysfs-bus-iio-timer-stm32 sysfs-bus-iio-lptimer-stm32
+
+
