@@ -2,117 +2,93 @@ Return-Path: <SRS0=tqpN=D4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4896C388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B73FAC4363A
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 11:28:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F02322251
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 10:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603275079;
-	bh=0YoH9Rt5LN3yhFZ9E/sW8Awr/TJIiPrp0Hndf57OxeQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=lrkA1ZX3Z6tcsrCnJUuI37fD//vZpREy+abpjUeGowE3wv6SZmvU49WPgyj+Hsauu
-	 kAcYGxnxjl7G4HJ8kgtGt+NRSzJpE9fNQs32J5wuof8aWrxkYAiWWc8h2zNWNHrqaf
-	 /wnVBauJzVeMR690CNtJr/X/18n5J6r6HR4JgB68=
+	by mail.kernel.org (Postfix) with ESMTP id 442C821D43
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Oct 2020 11:28:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fVJCsOc6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409669AbgJUKLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Oct 2020 06:11:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48584 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405320AbgJUKLP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Oct 2020 06:11:15 -0400
-Received: from coco.lan (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9994F221FC;
-        Wed, 21 Oct 2020 10:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603275074;
-        bh=0YoH9Rt5LN3yhFZ9E/sW8Awr/TJIiPrp0Hndf57OxeQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GxvzkVb88rfqI6o5XMTbs8V7sRLU3+68wpcIkJuaPnmiDp+R5CF6Lp3rb2D3pKdyU
-         0eirdfRB/lnaXQVLI6DlL3a/CG+XkF7+qeJRcuo1uyssC6wCJLduWTWRduWHe/YYHz
-         XUruXt0Uq1AXCPQdaRxJQri1Q3AJ+Sm/lsEybh3s=
-Date:   Wed, 21 Oct 2020 12:11:08 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Lyude Paul <lyude@redhat.com>
+        id S2439449AbgJUL2X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Oct 2020 07:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439427AbgJUL2X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Oct 2020 07:28:23 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7680FC0613CE;
+        Wed, 21 Oct 2020 04:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=O6S/Lhgm4OaWo3MftaMh85Wk8y0wiXZg9HHid68XYgU=; b=fVJCsOc6i/0EX4+CLIvaXC2Pwd
+        flsQc1jsO9Gpk9AmO0y3WNcl6tJEkXVn9OH4iEPUmqXcVpCk0rW+bl1Wna4WkjfIGIpv1DZui86rK
+        aIOzLb7+ZIGE8ZqoS+UUDk0+Jp6wNn8m/2vRzKvzvwEcWpidbImeajl3FbRVrKDoXc+4zVNoyMhUt
+        TpJU/za81hk8LLeDEQiPAH4ncCV3eecYeiSqJ3MMOKxVUzohjHlcfWTyT0mexQ1+fltV6lwn8BZ2H
+        JRRf0pn1NOOfZI/Ao4fbMtsrYGmxnyDbPe5rhsPYP44XUj9FLEnHicabu853LSzEkfKJQ7rgivSx6
+        cH4CEMBA==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kVCHz-0001w4-E4; Wed, 21 Oct 2020 11:28:19 +0000
+Date:   Wed, 21 Oct 2020 12:28:19 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/24] drm/dp: fix a kernel-doc issue at drm_edid.c
-Message-ID: <20201021121108.51972144@coco.lan>
-In-Reply-To: <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        William Kucharski <william.kucharski@oracle.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 10/24] mm: pagemap.h: fix two kernel-doc markups
+Message-ID: <20201021112819.GJ20115@casper.infradead.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
-        <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
-        <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <54ea6dd0fc37c48aef3fc3ae454c54a80db313dc.1602590106.git.mchehab+huawei@kernel.org>
+ <20201013122654.GE20115@casper.infradead.org>
+ <20201021115557.24c83c35@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201021115557.24c83c35@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lyude,
-
-Em Tue, 13 Oct 2020 15:49:11 -0400
-Lyude Paul <lyude@redhat.com> escreveu:
-
-> wait, I think there's some confusion here. these patches have already been
-> pushed
-
-As the patch adding the warning was merged upstream at the 5.10 merge
-window, the fixup one should also be added there, instead of waiting
-until 5.11 ;-)
-
-So, if OK for you, I'll send this upstream via my tree by the end of
-the merge window, as our goal is that 5.10 won't have doc warnings.
-
-Regards,
-Mauro
+On Wed, Oct 21, 2020 at 11:55:57AM +0200, Mauro Carvalho Chehab wrote:
+> Hi Matthew,
 > 
+> Em Tue, 13 Oct 2020 13:26:54 +0100
+> Matthew Wilcox <willy@infradead.org> escreveu:
 > 
-> On Tue, 2020-10-13 at 14:14 +0200, Mauro Carvalho Chehab wrote:
-> > The name of the argument is different, causing those warnings:
+> > On Tue, Oct 13, 2020 at 02:14:37PM +0200, Mauro Carvalho Chehab wrote:
+> > > Changeset 6c8adf8446a3 ("mm: add find_lock_head") renamed the
+> > > index parameter, but forgot to update the kernel-doc markups
+> > > accordingly.  
 > > 
-> > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Function parameter or member
-> > 'video_code' not described in 'drm_display_mode_from_cea_vic'
-> > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Excess function parameter
-> > 'vic' description in 'drm_display_mode_from_cea_vic'
+> > The patch is correct (thank you!), but the description here references
+> > a git commit id that's only found in the -next tree and is unstable.
 > > 
-> > Fixes: 7af655bce275 ("drm/dp: Add drm_dp_downstream_mode()")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index a82f37d44258..631125b46e04 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -3741,7 +3741,7 @@ drm_add_cmdb_modes(struct drm_connector *connector, u8
-> > svd)
-> >  /**
-> >   * drm_display_mode_from_cea_vic() - return a mode for CEA VIC
-> >   * @dev: DRM device
-> > - * @vic: CEA VIC of the mode
-> > + * @video_code: CEA VIC of the mode
-> >   *
-> >   * Creates a new mode matching the specified CEA VIC.
-> >   *  
+> > Andrew, can you fold this into the offending commit?
+> 
+> Patch already reached upstream. So, it gained a stable reference.
+> 
+> So, I'm changing its description to:
+> 
+>   Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>   Date:   Thu Sep 10 08:38:07 2020 +0200
+> 
+>     locking/refcount: move kernel-doc markups to the proper place
 
+This is the wrong changelog?
 
-
-Thanks,
-Mauro
