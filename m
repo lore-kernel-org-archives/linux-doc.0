@@ -2,308 +2,193 @@ Return-Path: <SRS0=90uN=D5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B3BC388F7
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 20:38:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D31BC5517A
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 22:05:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F0F524658
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 20:38:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5E8524630
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 22:05:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f9PGL1+N"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="hwwAnd6H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S371567AbgJVUiR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Oct 2020 16:38:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S368936AbgJVUiR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Oct 2020 16:38:17 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DA45C0613D2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2020 13:38:17 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id y20so3103384iod.5
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2020 13:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2lVYOAl4LUMPDIC2IfXTNVJroC0jCdJ6IOEdTXgTOGs=;
-        b=f9PGL1+NkSHd+AFHE+639GCDeC7tOeUR1cE+6VlTblAJTBO7/7+Ox0+o16ekUqAoKZ
-         HkvAmgLUhF4qY6L8EUdQ0OxdY8CVw3z4sWpWDiYYfbgn3M589b9GnNkaFwU/LQbaQLSX
-         b0O3n7LGHzNITycz/eOa4CJx/FZtq6uGt1KbRM/FWCzJHwjL8M4ZijqQqYTG/Hq75gLV
-         dzqje8TCdvn3UAAJsHbhfOhabZNXlBgHv/5jkJHBbh+DyrOS6PsM91AeOCCMy6hCsROP
-         u3f2pMCtArm8bIfr/wu5Q/aPvDP/nUG8SOcyd+XS8xwv7u86filPnDnGSafMqJTRJKTQ
-         4TlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2lVYOAl4LUMPDIC2IfXTNVJroC0jCdJ6IOEdTXgTOGs=;
-        b=RoJy395c0tyBMGaBwcK35vLN1r2dOCTECCJ0FytZKAv3pKic/bEqZux0A+VV5vDu3A
-         77rM8IoGyvwV7rDYSolH/OBZXnU7V9vYTxYl8mfxlHhIoj25bPDIculqZGoLHM/d0U8o
-         TnEbMu0hXpr9raeT1lA2+GO5Z6Kh9yE1pfrJ4XvSp4c1lJr0ioy7srLigVBgrjiOmQPQ
-         UukwHIZDOwuoEYooqmi2Ovt0EC2tz0VREFPMJmLVcc8goWtx6qaypBS4zZn6w1euOAWI
-         /CPdPU8QUXcbqxfnUoOgcHKkWLkp/lFU5WsWkTJdIp6Wohw0yOVUf4O6G1aJ4FeoGpsz
-         t7JQ==
-X-Gm-Message-State: AOAM533rQYiWx7RwC35OlScyNu+U1kZBhxk771sjv31WULyGlkDWXEjm
-        Tko5gJiWLpz5Rs3AqYcEEmKFhwqBt6CRkWLxEWOABg==
-X-Google-Smtp-Source: ABdhPJwJNS0+iusvAHju9jlBTHAxqUSDKhTmXCvYMVnb88kenlna21YkXLyX3vo5qQPRD8jKxuINRNHK/h7r9wdvBKo=
-X-Received: by 2002:a6b:fa0e:: with SMTP id p14mr3151425ioh.208.1603399096068;
- Thu, 22 Oct 2020 13:38:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200924065606.3351177-1-lokeshgidra@google.com>
- <CA+EESO7kCqtJf+ApoOcceFT+NX8pBwGmOr0q0PVnJf9Dnkrp6A@mail.gmail.com>
- <20201008040141.GA17076@redhat.com> <CAFJ0LnGoD9NaKhbsohdXo5zt5nyMOX=g1aMRX0b0W1zBSNaSBg@mail.gmail.com>
-In-Reply-To: <CAFJ0LnGoD9NaKhbsohdXo5zt5nyMOX=g1aMRX0b0W1zBSNaSBg@mail.gmail.com>
-From:   Lokesh Gidra <lokeshgidra@google.com>
-Date:   Thu, 22 Oct 2020 13:38:04 -0700
-Message-ID: <CA+EESO56aj-N6drn3s4=F9wZmaZ_Vc0Jv7P1s+xPwLRJh-jtvg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Control over userfaultfd kernel-fault handling
-To:     Andrea Arcangeli <aarcange@redhat.com>
-Cc:     Nick Kralevich <nnk@google.com>, Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Kalesh Singh <kaleshsingh@google.com>,
-        Calin Juravle <calin@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S372671AbgJVWFC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Oct 2020 18:05:02 -0400
+Received: from m42-4.mailgun.net ([69.72.42.4]:47713 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S372667AbgJVWFC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Oct 2020 18:05:02 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1603404300; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=nKH7VLBQhE3Mu51emIZ9NIquRcR56rtwk5fWzTGhkoo=; b=hwwAnd6HANRKd8sL1YgTd4do4fFrDzbv2pFycqGbb9jlAqflsxxX9rUsq3MWWMM+7KImXmGk
+ 6xXLPaKhd28R1VEBHkWompyVi4vtVTxjjCWq+HC7M62DGUKfcSgsJsafauw1UIT8Q68O2YJ2
+ nD6k5yE0NjoCe3jErKkEMdTeKKk=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 5f9201dbbfed2afaa6864792 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 22 Oct 2020 22:04:11
+ GMT
+Sender: eberman=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3FE7EC433FF; Thu, 22 Oct 2020 22:04:10 +0000 (UTC)
+Received: from eberman-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: eberman)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id EA3F4C433C9;
+        Thu, 22 Oct 2020 22:04:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EA3F4C433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=eberman@codeaurora.org
+From:   Elliot Berman <eberman@codeaurora.org>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Elliot Berman <eberman@codeaurora.org>,
+        Trilok Soni <tsoni@codeaurora.org>,
+        Prasad Sodagudi <psodagud@codeaurora.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
+Date:   Thu, 22 Oct 2020 15:04:03 -0700
+Message-Id: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 8, 2020 at 4:22 PM Nick Kralevich <nnk@google.com> wrote:
->
-> On Wed, Oct 7, 2020 at 9:01 PM Andrea Arcangeli <aarcange@redhat.com> wro=
-te:
-> >
-> > Hello Lokesh,
-> >
-> > On Wed, Oct 07, 2020 at 01:26:55PM -0700, Lokesh Gidra wrote:
-> > > On Wed, Sep 23, 2020 at 11:56 PM Lokesh Gidra <lokeshgidra@google.com=
-> wrote:
-> > > >
-> > > > This patch series is split from [1]. The other series enables SELin=
-ux
-> > > > support for userfaultfd file descriptors so that its creation and
-> > > > movement can be controlled.
-> > > >
-> > > > It has been demonstrated on various occasions that suspending kerne=
-l
-> > > > code execution for an arbitrary amount of time at any access to
-> > > > userspace memory (copy_from_user()/copy_to_user()/...) can be explo=
-ited
-> > > > to change the intended behavior of the kernel. For instance, handli=
-ng
-> > > > page faults in kernel-mode using userfaultfd has been exploited in =
-[2, 3].
-> > > > Likewise, FUSE, which is similar to userfaultfd in this respect, ha=
-s been
-> > > > exploited in [4, 5] for similar outcome.
-> > > >
-> > > > This small patch series adds a new flag to userfaultfd(2) that allo=
-ws
-> > > > callers to give up the ability to handle kernel-mode faults with th=
-e
-> > > > resulting UFFD file object. It then adds a 'user-mode only' option =
-to
-> > > > the unprivileged_userfaultfd sysctl knob to require unprivileged
-> > > > callers to use this new flag.
-> > > >
-> > > > The purpose of this new interface is to decrease the chance of an
-> > > > unprivileged userfaultfd user taking advantage of userfaultfd to
-> > > > enhance security vulnerabilities by lengthening the race window in
-> > > > kernel code.
-> > > >
-> > > > [1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@goo=
-gle.com/
-> > > > [2] https://duasynt.com/blog/linux-kernel-heap-spray
-> > > > [3] https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit
-> >
-> > I've looking at those links and I've been trying to verify the link
-> > [3] is relevant.
-> >
-> > Specifically I've been trying to verify if 1) current state of the art
-> > modern SLUB randomization techniques already enabled in production and
-> > rightfully wasting some CPU in all enterprise kernels to prevent
-> > things like above to become an issue in practice 2) combined with the
-> > fact different memcg need to share the same kmemcaches (which was
-> > incidentally fixed a few months ago upstream) and 3) further
-> > robustness enhancements against exploits in the slub metadata, may
-> > already render the exploit [3] from 2016 irrelevant in practice.
->
-> It's quite possible that some other mitigation was helpful against the
-> technique used by this particular exploit. It's the nature of exploits
-> that they are fragile and will change as new soft mitigations are
-> introduced. The effectiveness of a particular exploit mitigation
-> change is orthogonal to the change presented here.
->
-> The purpose of this change is to prevent an attacker from suspending
-> kernel code execution and having kernel data structures in a
-> predictable state. This makes it harder for an attacker to "win" race
-> conditions against various kernel data structures. This change
-> compliments other kernel hardening changes such as the changes you've
-> referenced above. Focusing on one particular exploit somewhat misses
-> the point of this change.
->
-> >
-> > So I started by trying to reproduce [3] by building 4.5.1 with a
-> > .config with no robustness features and I booted it on fedora-32 or
-> > gentoo userland and I cannot even invoke call_usermodehelper. Calling
-> > socket(22, AF_INET, 0) won't invoke such function. Can you reproduce
-> > on 4.5.1? Which kernel .config should I use to build 4.5.1 in order
-> > for call_usermodehelper to be invoked by the exploit? Could you help
-> > to verify it?
->
-> I haven't tried to verify this myself. I wonder if the usermode
-> hardening changes also impacted this exploit? See
-> https://lkml.org/lkml/2017/1/16/468
->
-> But again, focusing on an exploit, which is inherently fragile in
-> nature and dependent on the state of the kernel tree at a particular
-> time, is unlikely to be useful to analyze this patch.
->
-> >
-> > It even has uninitialized variable spawning random perrors so it
-> > doesn't give a warm fuzzy feeling:
-> >
-> > =3D=3D=3D=3D
-> > int main(int argc, char **argv) {
-> >         void *region, *map;
-> >                       ^^^^^
-> >         pthread_t uffd_thread;
-> >         int uffd, msqid, i;
-> >
-> >         region =3D (void *)mmap((void *)0x40000000, 0x2000, PROT_READ|P=
-ROT_WRITE,
-> >                                MAP_FIXED|MAP_PRIVATE|MAP_ANON, -1, 0);
-> >
-> >         if (!region) {
-> >                 perror("mmap");
-> >                 exit(2);
-> >         }
-> >
-> >         setup_pagefault(region + 0x1000, 0x1000, 1);
-> >
-> >         printf("my pid =3D %d\n", getpid());
-> >
-> >         if (!map) {
-> >         ^^^^^^^^
-> >                 perror("mmap");
-> > =3D=3D=3D=3D
-> >
-> > The whole point of being able to reproduce on 4.5.1 is then to
-> > simulate if the same exploit would also reproduce on current kernels
-> > with all enterprise default robustness features enabled. Or did
-> > anybody already verify it?
-> >
-> > Anyway the links I was playing with are all in the cover letter, the
-> > cover letter is not as important as the actual patches. The actual
-> > patches looks fine to me.
->
-> That's great to hear.
->
-> >
-> > The only improvement I can think of is, what about to add a
-> > printk_once to suggest to toggle the sysctl if userfaultfd bails out
-> > because the process lacks the CAP_SYS_PTRACE capability? That would
-> > facilitate the /etc/sysctl.conf or tuned tweaking in case the apps
-> > aren't verbose enough.
-> >
-> > It's not relevant anymore with this latest patchset, but about the
-> > previous argument that seccomp couldn't be used in all Android
-> > processes because of performance concern, I'm slightly confused.
->
-> Seccomp causes more problems than just performance. Seccomp is not
-> designed for whole-of-system protections. Please see my other writeup
-> at https://lore.kernel.org/lkml/CAFJ0LnEo-7YUvgOhb4pHteuiUW+wPfzqbwXUCGAA=
-35ZMx11A-w@mail.gmail.com/
->
-> >
-> > https://android-developers.googleblog.com/2017/07/seccomp-filter-in-and=
-roid-o.html
-> >
-> > "Android O includes a single seccomp filter installed into zygote, the
-> > process from which all the Android applications are derived. Because
-> > the filter is installed into zygote=E2=80=94and therefore all apps=E2=
-=80=94the Android
-> > security team took extra caution to not break existing apps"
-> >
-> > Example:
-> >
-> > $ uname -mo
-> > aarch64 Android
-> > $ cat swapoff.c
-> > #include <sys/swap.h>
-> >
-> > int main()
-> > {
-> >         swapoff("");
-> > }
-> > $ gcc swapoff.c -o swapoff -O2
-> > $ ./swapoff
-> > Bad system call
-> > $
-> >
-> > It's hard to imagine what is more performance critical than the zygote
-> > process and the actual apps as above?
-> >
-> > It's also hard to imagine what kind of performance concern can arise
-> > by adding seccomp filters also to background system apps that
-> > generally should consume ~0% of CPU.
-> >
-> > If performance is really a concern, the BPF JIT representation with
-> > the bitmap to be able to run the filter in O(1) sounds a better
-> > solution than not adding ad-hoc filters and it's being worked on for
-> > x86-64 and can be ported to aarch64 too. Many of the standalone
-> > background processes likely wouldn't even use uffd at all so you could
-> > block the user initiated faults too that way.
-> >
-> > Ultimately because of issues as [3] (be them still relevant or not, to
-> > be double checked), no matter if through selinux, seccomp or a
-> > different sysctl value, without this patchset applied the default
-> > behavior of the userfaultfd syscall for all Linux binaries running on
-> > Android kernels, would deviate from the upstream kernel. So even if we
-> > would make the pipe mutex logic more complex the deviation would
-> > remain. Your patchset adds much less risk of breakage than adding a
-> > timeout to kernel initiated userfaults and it resolves all concerns as
-> > well as a timeout. We'll also make better use of the "0" value this
-> > way. So while I'm not certain this is the best for the long term, this
-> > looks the sweet spot for the short term to resolve many issues at
-> > once.
-> >
-> > Thanks!
-> > Andrea
-> >
->
->
-> --
-> Nick Kralevich | nnk@google.com
+In a heterogeneous multiprocessor system, specifying the 'maxcpus'
+parameter on kernel command line does not provide sufficient control
+over which CPUs are brought online at kernel boot time, since CPUs may
+have nonuniform performance characteristics. Thus, add bootcpus kernel
+parameter to control which CPUs should be brought online during kernel
+boot. When both maxcpus and bootcpus is set, the more restrictive of the
+two are booted.
 
-Hi Andrea,
+Signed-off-by: Elliot Berman <eberman@codeaurora.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  8 +++++++
+ include/linux/cpu.h                             |  2 +-
+ kernel/cpu.c                                    |  4 ++--
+ kernel/smp.c                                    | 28 +++++++++++++++++++++++--
+ 4 files changed, 37 insertions(+), 5 deletions(-)
 
-Did you get a chance to go through Nick's reply to your questions?
-Also, I sent another revision of this patch series which takes care of
-the printk that you suggested. Please take a look.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 65d047f..ea31af3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -449,6 +449,14 @@
+ 
+ 			See Documentation/admin-guide/bootconfig.rst
+ 
++	bootcpus=	[SMP]  List of processors that an SMP kernel
++			will bring up during bootup. Similar to maxcpus, except
++			as a cpu list as described above. The more restrictive
++			of maxcpus and bootcpus applies. If bootcpus=1-3 and
++			maxcpus=2, only processors 1 and 2 are booted. As with
++			maxcpus, you can bring up other plugged cpu by executing
++			"echo 1 > /sys/devices/system/cpu/cpuX/online"
++
+ 	bert_disable	[ACPI]
+ 			Disable BERT OS support on buggy BIOSes.
+ 
+diff --git a/include/linux/cpu.h b/include/linux/cpu.h
+index 8aa84c0..4146f71 100644
+--- a/include/linux/cpu.h
++++ b/include/linux/cpu.h
+@@ -95,7 +95,7 @@ void notify_cpu_starting(unsigned int cpu);
+ extern void cpu_maps_update_begin(void);
+ extern void cpu_maps_update_done(void);
+ int bringup_hibernate_cpu(unsigned int sleep_cpu);
+-void bringup_nonboot_cpus(unsigned int setup_max_cpus);
++void bringup_nonboot_cpus(unsigned int setup_max_cpus, cpumask_var_t boot_cpus);
+ 
+ #else	/* CONFIG_SMP */
+ #define cpuhp_tasks_frozen	0
+diff --git a/kernel/cpu.c b/kernel/cpu.c
+index 6ff2578..71f626b 100644
+--- a/kernel/cpu.c
++++ b/kernel/cpu.c
+@@ -1328,14 +1328,14 @@ int bringup_hibernate_cpu(unsigned int sleep_cpu)
+ 	return 0;
+ }
+ 
+-void bringup_nonboot_cpus(unsigned int setup_max_cpus)
++void bringup_nonboot_cpus(unsigned int setup_max_cpus, cpumask_var_t boot_cpus)
+ {
+ 	unsigned int cpu;
+ 
+ 	for_each_present_cpu(cpu) {
+ 		if (num_online_cpus() >= setup_max_cpus)
+ 			break;
+-		if (!cpu_online(cpu))
++		if (!cpu_online(cpu) && cpumask_test_cpu(cpu, boot_cpus))
+ 			cpu_up(cpu, CPUHP_ONLINE);
+ 	}
+ }
+diff --git a/kernel/smp.c b/kernel/smp.c
+index 4d17501..727e003 100644
+--- a/kernel/smp.c
++++ b/kernel/smp.c
+@@ -738,7 +738,7 @@ EXPORT_SYMBOL(smp_call_function);
+ /* Setup configured maximum number of CPUs to activate */
+ unsigned int setup_max_cpus = NR_CPUS;
+ EXPORT_SYMBOL(setup_max_cpus);
+-
++static cpumask_var_t boot_cpus;
+ 
+ /*
+  * Setup routine for controlling SMP activation
+@@ -787,6 +787,27 @@ static int __init maxcpus(char *str)
+ 
+ early_param("maxcpus", maxcpus);
+ 
++static int __init bootcpus(char *str)
++{
++	alloc_bootmem_cpumask_var(&boot_cpus);
++	if (cpulist_parse(str, boot_cpus) < 0) {
++		pr_warn("incorrect bootcpus mask\n");
++		return -EINVAL;
++	}
++	cpumask_set_cpu(smp_processor_id(), boot_cpus);
++	return 0;
++}
++
++early_param("bootcpus", bootcpus);
++
++static void __init boot_cpus_init(void)
++{
++	if (!cpumask_available(boot_cpus))
++		zalloc_cpumask_var(&boot_cpus, GFP_NOWAIT);
++	if (cpumask_empty(boot_cpus))
++		cpumask_setall(boot_cpus);
++}
++
+ /* Setup number of possible processor ids */
+ unsigned int nr_cpu_ids __read_mostly = NR_CPUS;
+ EXPORT_SYMBOL(nr_cpu_ids);
+@@ -804,10 +825,13 @@ void __init smp_init(void)
+ 
+ 	idle_threads_init();
+ 	cpuhp_threads_init();
++	boot_cpus_init();
+ 
+ 	pr_info("Bringing up secondary CPUs ...\n");
+ 
+-	bringup_nonboot_cpus(setup_max_cpus);
++	bringup_nonboot_cpus(setup_max_cpus, boot_cpus);
++
++	free_bootmem_cpumask_var(boot_cpus);
+ 
+ 	num_nodes = num_online_nodes();
+ 	num_cpus  = num_online_cpus();
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
