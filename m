@@ -2,111 +2,106 @@ Return-Path: <SRS0=90uN=D5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB1B1C388F7
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 13:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C886C388F9
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 14:27:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 537C8222E9
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 13:18:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="sPxj/eeS"
+	by mail.kernel.org (Postfix) with ESMTP id E69E624171
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Oct 2020 14:26:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2899459AbgJVNSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Oct 2020 09:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50506 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2899460AbgJVNSF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Oct 2020 09:18:05 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7492EC0613D4
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2020 06:18:05 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id p21so1019632pju.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2020 06:18:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=c5p1zV1CqKVH8prpsj7PEX/s64deTtbH6mLHz/sTWPo=;
-        b=sPxj/eeSkGniZwpwGV+0kEAq//Ks1jlWunt480rMLYVSZRIi4xZOoKAn9mkn5HYPkN
-         Fkw7AxIajl0UYvbLyw5iKfkrY3DUZs7/K5NVP0ecCTnIx4XoITfdeSBZU9NLP3nJbR+F
-         m/CP8lnN5y45pgRiZup/NSe3sXBPCK7l1KQFu1/5XhbAsdix6UTYgjsk5NHZUggsf+R+
-         buouCHVOu8EJVTknoEH0SXsWkVrr8c8UNxqUbrsdOW6XsWwDwjpR++Idct8cm2lU+IO3
-         4ycrvMIJ47PM0kZ2TAbRvP2JqSFxdRFAQ6RAz6wopnTtNzOjDYWuHQiGClajvFJGWlHo
-         G06Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=c5p1zV1CqKVH8prpsj7PEX/s64deTtbH6mLHz/sTWPo=;
-        b=gTZpT6wWTQKsQnUjv6gdl3gsg0GRfUIrEyXe4L1LtfxOMhT9/mu2boUg/0UWOMYoVL
-         ZfsVjSLXbIszTM2addKEYa86nuteNMoocOuCgHaaYjRu5dlYx7/iLXQ7blwrXMV6H8JS
-         cn7c3lRL796y1tyB094Tw8Z527gJbizC8Bp3T/AAehFSTeJfm6QiuOtDglDVZRm1k+iy
-         XHlKQZG/5BuDJJ/WF+pPZSPjFYv63cmoi3SLUvixgD53H++QX/GHEfDNSmLUK8b61SyQ
-         OzGb7ROzjuiZvF1VzlR9tXhunjEBMYmvF4fu6FNA5O2tlW5bkkqYZHPfwp/OPq8pnfos
-         xL+g==
-X-Gm-Message-State: AOAM531Q2WTmqlGZbYhkaj+nmGYVABd9PgBDY9XrePfbVo+U6g5jczKp
-        1IzC0NQBB0i3yw7jrSyqSD8rKQ==
-X-Google-Smtp-Source: ABdhPJxFrJ8OvG+hbFts8koI3B46u1glVYhDvP6t0s8IfoVfSWdoLhC5db0WuzzwbxtbgXYlT10aAw==
-X-Received: by 2002:a17:902:b40a:b029:d5:f77c:fb4e with SMTP id x10-20020a170902b40ab02900d5f77cfb4emr2576354plr.14.1603372684980;
-        Thu, 22 Oct 2020 06:18:04 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:4a0f:cfff:fe35:d61b])
-        by smtp.googlemail.com with ESMTPSA id w19sm2248589pfn.174.2020.10.22.06.18.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Oct 2020 06:18:04 -0700 (PDT)
-Subject: Re: [RESEND PATCH v18 0/4] overlayfs override_creds=off & nested get
- xattr fix
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-References: <20201021151903.652827-1-salyzyn@android.com>
- <20201022051914.GI857@sol.localdomain>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <ea67453d-e5de-7c3a-e1da-d1e5ac30b2dd@android.com>
-Date:   Thu, 22 Oct 2020 06:18:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S2895512AbgJVO04 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Oct 2020 10:26:56 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:33201 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2507932AbgJVO04 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Oct 2020 10:26:56 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1kVbYL-0002oL-Hu; Thu, 22 Oct 2020 14:26:53 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] docs/vm: trivial fixes to several spelling mistakes
+Date:   Thu, 22 Oct 2020 15:26:53 +0100
+Message-Id: <20201022142653.254429-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20201022051914.GI857@sol.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/21/20 10:19 PM, Eric Biggers wrote:
-> On Wed, Oct 21, 2020 at 08:18:59AM -0700, Mark Salyzyn wrote:
->> Mark Salyzyn (3):
->>    Add flags option to get xattr method paired to __vfs_getxattr
->>    overlayfs: handle XATTR_NOSECURITY flag for get xattr method
->>    overlayfs: override_creds=off option bypass creator_cred
->>
->> Mark Salyzyn + John Stultz (1):
->>    overlayfs: inode_owner_or_capable called during execv
->>
->> The first three patches address fundamental security issues that should
->> be solved regardless of the override_creds=off feature.
->>
->> The fourth adds the feature depends on these other fixes.
-> FYI, I didn't receive patch 4, and neither https://lkml.kernel.org/linux-fsdevel
-> nor https://lkml.kernel.org/linux-unionfs have it either.
->
-> - Eric
+From: Colin Ian King <colin.king@canonical.com>
 
-Resent again, thanks.
+Fix several spelling mistakes in vm documentation.
+
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ Documentation/vm/mmu_notifier.rst   | 2 +-
+ Documentation/vm/page_migration.rst | 2 +-
+ Documentation/vm/page_owner.rst     | 2 +-
+ Documentation/vm/slub.rst           | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/vm/mmu_notifier.rst b/Documentation/vm/mmu_notifier.rst
+index 47baa1cf28c5..df5d7777fc6b 100644
+--- a/Documentation/vm/mmu_notifier.rst
++++ b/Documentation/vm/mmu_notifier.rst
+@@ -89,7 +89,7 @@ they are write protected for COW (other case of B apply too).
+ 
+ So here because at time N+2 the clear page table entry was not pair with a
+ notification to invalidate the secondary TLB, the device see the new value for
+-addrB before seing the new value for addrA. This break total memory ordering
++addrB before seeing the new value for addrA. This break total memory ordering
+ for the device.
+ 
+ When changing a pte to write protect or to point to a new write protected page
+diff --git a/Documentation/vm/page_migration.rst b/Documentation/vm/page_migration.rst
+index 91a98a6b43bb..db9d7e5539cb 100644
+--- a/Documentation/vm/page_migration.rst
++++ b/Documentation/vm/page_migration.rst
+@@ -99,7 +99,7 @@ Steps:
+ 2. Ensure that writeback is complete.
+ 
+ 3. Lock the new page that we want to move to. It is locked so that accesses to
+-   this (not yet uptodate) page immediately block while the move is in progress.
++   this (not yet up-to-date) page immediately block while the move is in progress.
+ 
+ 4. All the page table references to the page are converted to migration
+    entries. This decreases the mapcount of a page. If the resulting
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 079f3f8c4784..02deac76673f 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -18,7 +18,7 @@ Although we already have tracepoint for tracing page allocation/free,
+ using it for analyzing who allocate each page is rather complex. We need
+ to enlarge the trace buffer for preventing overlapping until userspace
+ program launched. And, launched program continually dump out the trace
+-buffer for later analysis and it would change system behviour with more
++buffer for later analysis and it would change system behaviour with more
+ possibility rather than just keeping it in memory, so bad for debugging.
+ 
+ page owner can also be used for various purposes. For example, accurate
+diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
+index 289d231cee97..03f294a638bd 100644
+--- a/Documentation/vm/slub.rst
++++ b/Documentation/vm/slub.rst
+@@ -378,7 +378,7 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
+    can go unnoticed. To deal with that, ``slabinfo-gnuplot.sh`` has two
+    options to 'zoom-in'/'zoom-out':
+ 
+-   a) ``-s %d,%d`` -- overwrites the default image width and heigh
++   a) ``-s %d,%d`` -- overwrites the default image width and height
+    b) ``-r %d,%d`` -- specifies a range of samples to use (for example,
+       in ``slabinfo -X >> FOO_STATS; sleep 1;`` case, using a ``-r
+       40,60`` range will plot only samples collected between 40th and
+-- 
+2.27.0
 
