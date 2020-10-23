@@ -7,76 +7,52 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89634C55179
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 109C3C4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38FFF2466D
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:34:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6CDB24640
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603470899;
-	bh=kZEeYcZI3W9smR89Evx7xmR6MBrCXpfe2JhxTnfEpfQ=;
+	s=default; t=1603470901;
+	bh=7fApo5dMk1RYvHic8Q63yPyLUo2N5fli6iXRWozmflg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Aap6KXo+FF04B5e0fcQNwKp8b8Et20zxlyprc8VI1EQmJguWouMyJEtFVDNfosLdR
-	 +tMQYKN5TSovqdDjaltako2H56yCALUWFBMGe9IjZO4RXrNaM2CTgxZV3Zjl+jPFpM
-	 moDmzSKLYnleR1/3/nSKQR1uzEhwT0sI17REzjXw=
+	b=D/VINOdKcxh8tHAVc5v87IgPZslgV8aMvW3oFtw1X5f23vDVI69M3h8O4uB4ckxai
+	 rMqZFxF2zqkYErZA7/QTpoombE38Y9Ujbuor2g6MBXfHN4M2pUcsZgCMeBuCuwFgAt
+	 7ps4yIkh9854xeGmKLru//qsO1KbfztQLrtnp9RE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S465666AbgJWQdx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:33:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33728 "EHLO mail.kernel.org"
+        id S1751887AbgJWQdw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:33:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751843AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751838AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35A10246AB;
+        by mail.kernel.org (Postfix) with ESMTPSA id 1CFEC246A5;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=kZEeYcZI3W9smR89Evx7xmR6MBrCXpfe2JhxTnfEpfQ=;
+        bh=7fApo5dMk1RYvHic8Q63yPyLUo2N5fli6iXRWozmflg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zeCKaLRhBdgdFeMAVl+z9mL59X5f6WyaTti64EBzRXlr5omPLn8sqLd1EoWpN3DIR
-         JNdOUnlKWya97Qz3yUQbzYILlAuzpMnKczT3TrqHLdoSpi4YcLd1AZLgMXarTJRR/p
-         Izevu6sHkiN+QowG8M0j3sZJyK29MAmUWRBegKdA=
+        b=cMm6QTakQJr7Mn3pR5qZu4CBFKLSzpivPOhTn6Nu/ktgeBN941RCnSasdIGvPyZeB
+         SN+nLSG9ISf3PirMHdvnCFd+S2d/yU4zTukxwas8lHtstfg+3ACRJcw/+aJADhZugc
+         i/cMjSrQ1cWU+TDRYUBjz0RFccN1LBpD5qgqicKQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00f-002Aw9-Fd; Fri, 23 Oct 2020 18:33:45 +0200
+        id 1kW00f-002Awa-Ul; Fri, 23 Oct 2020 18:33:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Guillaume Nault <gnault@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Martin Varghese <martin.varghese@nokia.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Pravin B Shelar <pshelar@ovn.org>,
-        Sabrina Dubroca <sd@queasysnail.net>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Taehee Yoo <ap420073@gmail.com>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Yadu Kishore <kyk.segfault@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v3 19/56] net: datagram: fix some kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:06 +0200
-Message-Id: <c8850a0e48e2b873cdced4a580dc4c599728a273.1603469755.git.mchehab+huawei@kernel.org>
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chris Leech <cleech@redhat.com>, Lee Duncan <lduncan@suse.com>,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        open-iscsi@googlegroups.com
+Subject: [PATCH v3 27/56] scsi: fix some kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:33:14 +0200
+Message-Id: <8ed7f149f25a363eea76e514c253c4e337c59379.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -92,99 +68,106 @@ and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- net/core/datagram.c   | 2 +-
- net/core/dev.c        | 4 ++--
- net/core/skbuff.c     | 2 +-
- net/ethernet/eth.c    | 6 +++---
- net/sunrpc/rpc_pipe.c | 3 ++-
+ drivers/scsi/iscsi_tcp.c         | 4 ++--
+ drivers/scsi/libiscsi.c          | 2 +-
+ drivers/scsi/scsi_devinfo.c      | 3 ++-
+ drivers/scsi/scsi_lib.c          | 6 +++---
+ drivers/scsi/scsi_transport_fc.c | 2 +-
  5 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index 9fcaa544f11a..81809fa735a7 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -709,7 +709,7 @@ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *from)
- EXPORT_SYMBOL(zerocopy_sg_from_iter);
- 
- /**
-- *	skb_copy_and_csum_datagram_iter - Copy datagram to an iovec iterator
-+ *	skb_copy_and_csum_datagram - Copy datagram to an iovec iterator
-  *          and update a checksum.
-  *	@skb: buffer to copy
-  *	@offset: offset in the buffer to start copying from
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 751e5264fd49..75c879f8ab3f 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6915,7 +6915,7 @@ bool netdev_has_upper_dev(struct net_device *dev,
- EXPORT_SYMBOL(netdev_has_upper_dev);
- 
- /**
-- * netdev_has_upper_dev_all - Check if device is linked to an upper device
-+ * netdev_has_upper_dev_all_rcu - Check if device is linked to an upper device
-  * @dev: device
-  * @upper_dev: upper device to check
-  *
-@@ -8153,7 +8153,7 @@ EXPORT_SYMBOL(netdev_lower_dev_get_private);
- 
- 
- /**
-- * netdev_lower_change - Dispatch event about lower device state change
-+ * netdev_lower_state_changed - Dispatch event about lower device state change
-  * @lower_dev: device
-  * @lower_state_info: state to dispatch
-  *
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 1ba8f0163744..49da6b259444 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -837,7 +837,7 @@ EXPORT_SYMBOL(consume_skb);
- #endif
- 
- /**
-- *	consume_stateless_skb - free an skbuff, assuming it is stateless
-+ *	__consume_stateless_skb - free an skbuff, assuming it is stateless
-  *	@skb: buffer to free
-  *
-  *	Alike consume_skb(), but this variant assumes that this is the last
-diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
-index dac65180c4ef..4106373180c6 100644
---- a/net/ethernet/eth.c
-+++ b/net/ethernet/eth.c
-@@ -272,7 +272,7 @@ void eth_header_cache_update(struct hh_cache *hh,
- EXPORT_SYMBOL(eth_header_cache_update);
- 
- /**
-- * eth_header_parser_protocol - extract protocol from L2 header
-+ * eth_header_parse_protocol - extract protocol from L2 header
-  * @skb: packet to extract protocol from
-  */
- __be16 eth_header_parse_protocol(const struct sk_buff *skb)
-@@ -523,8 +523,8 @@ int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
- EXPORT_SYMBOL(eth_platform_get_mac_address);
- 
- /**
-- * Obtain the MAC address from an nvmem cell named 'mac-address' associated
-- * with given device.
-+ * nvmem_get_mac_address - Obtain the MAC address from an nvmem cell named
-+ * 'mac-address' associated with given device.
-  *
-  * @dev:	Device with which the mac-address cell is associated.
-  * @addrbuf:	Buffer to which the MAC address will be copied on success.
-diff --git a/net/sunrpc/rpc_pipe.c b/net/sunrpc/rpc_pipe.c
-index eadc0ede928c..8241f5a4a01c 100644
---- a/net/sunrpc/rpc_pipe.c
-+++ b/net/sunrpc/rpc_pipe.c
-@@ -781,7 +781,8 @@ static int rpc_rmdir_depopulate(struct dentry *dentry,
+diff --git a/drivers/scsi/iscsi_tcp.c b/drivers/scsi/iscsi_tcp.c
+index df47557a02a3..a9ce6298b935 100644
+--- a/drivers/scsi/iscsi_tcp.c
++++ b/drivers/scsi/iscsi_tcp.c
+@@ -180,7 +180,7 @@ static void iscsi_sw_tcp_state_change(struct sock *sk)
  }
  
  /**
-- * rpc_mkpipe - make an rpc_pipefs file for kernel<->userspace communication
-+ * rpc_mkpipe_dentry - make an rpc_pipefs file for kernel<->userspace
-+ *		       communication
-  * @parent: dentry of directory to create new "pipe" in
-  * @name: name of pipe
-  * @private: private data to associate with the pipe, for the caller's use
+- * iscsi_write_space - Called when more output buffer space is available
++ * iscsi_sw_tcp_write_space - Called when more output buffer space is available
+  * @sk: socket space is available for
+  **/
+ static void iscsi_sw_tcp_write_space(struct sock *sk)
+@@ -353,7 +353,7 @@ static int iscsi_sw_tcp_xmit(struct iscsi_conn *conn)
+ }
+ 
+ /**
+- * iscsi_tcp_xmit_qlen - return the number of bytes queued for xmit
++ * iscsi_sw_tcp_xmit_qlen - return the number of bytes queued for xmit
+  * @conn: iscsi connection
+  */
+ static inline int iscsi_sw_tcp_xmit_qlen(struct iscsi_conn *conn)
+diff --git a/drivers/scsi/libiscsi.c b/drivers/scsi/libiscsi.c
+index 1e9c3171fa9f..8a4552f09dfe 100644
+--- a/drivers/scsi/libiscsi.c
++++ b/drivers/scsi/libiscsi.c
+@@ -777,7 +777,7 @@ int iscsi_conn_send_pdu(struct iscsi_cls_conn *cls_conn, struct iscsi_hdr *hdr,
+ EXPORT_SYMBOL_GPL(iscsi_conn_send_pdu);
+ 
+ /**
+- * iscsi_cmd_rsp - SCSI Command Response processing
++ * iscsi_scsi_cmd_rsp - SCSI Command Response processing
+  * @conn: iscsi connection
+  * @hdr: iscsi header
+  * @task: scsi command task
+diff --git a/drivers/scsi/scsi_devinfo.c b/drivers/scsi/scsi_devinfo.c
+index ba84244c1b4f..d92cec12454c 100644
+--- a/drivers/scsi/scsi_devinfo.c
++++ b/drivers/scsi/scsi_devinfo.c
+@@ -559,7 +559,8 @@ static int scsi_dev_info_list_add_str(char *dev_list)
+ }
+ 
+ /**
+- * get_device_flags - get device specific flags from the dynamic device list.
++ * scsi_get_device_flags - get device specific flags from the dynamic
++ *	device list.
+  * @sdev:       &scsi_device to get flags for
+  * @vendor:	vendor name
+  * @model:	model name
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 97ff31ed2a44..f74db5160f23 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1502,7 +1502,7 @@ static void scsi_softirq_done(struct request *rq)
+ }
+ 
+ /**
+- * scsi_dispatch_command - Dispatch a command to the low-level driver.
++ * scsi_dispatch_cmd - Dispatch a command to the low-level driver.
+  * @cmd: command block we are dispatching.
+  *
+  * Return: nonzero return request was rejected and device's queue needs to be
+@@ -2364,7 +2364,7 @@ scsi_device_set_state(struct scsi_device *sdev, enum scsi_device_state state)
+ EXPORT_SYMBOL(scsi_device_set_state);
+ 
+ /**
+- * 	sdev_evt_emit - emit a single SCSI device uevent
++ * 	scsi_evt_emit - emit a single SCSI device uevent
+  *	@sdev: associated SCSI device
+  *	@evt: event to emit
+  *
+@@ -2412,7 +2412,7 @@ static void scsi_evt_emit(struct scsi_device *sdev, struct scsi_event *evt)
+ }
+ 
+ /**
+- * 	sdev_evt_thread - send a uevent for each scsi event
++ * 	scsi_evt_thread - send a uevent for each scsi event
+  *	@work: work struct for scsi_device
+  *
+  *	Dispatch queued events to their associated scsi_device kobjects
+diff --git a/drivers/scsi/scsi_transport_fc.c b/drivers/scsi/scsi_transport_fc.c
+index 2ff7f06203da..42a6dd3bd19f 100644
+--- a/drivers/scsi/scsi_transport_fc.c
++++ b/drivers/scsi/scsi_transport_fc.c
+@@ -629,7 +629,7 @@ fc_host_post_vendor_event(struct Scsi_Host *shost, u32 event_number,
+ EXPORT_SYMBOL(fc_host_post_vendor_event);
+ 
+ /**
+- * fc_host_rcv_fpin - routine to process a received FPIN.
++ * fc_host_fpin_rcv - routine to process a received FPIN.
+  * @shost:		host the FPIN was received on
+  * @fpin_len:		length of FPIN payload, in bytes
+  * @fpin_buf:		pointer to FPIN payload
 -- 
 2.26.2
 
