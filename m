@@ -2,230 +2,235 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E966FC55178
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 08:19:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 390CCC55178
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 08:59:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7513020EDD
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 08:19:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KdSPGpNl"
+	by mail.kernel.org (Postfix) with ESMTP id D627C2223F
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 08:59:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603443548;
+	bh=80m6FlU2KLhIeD33jpZ5MyAV4BAx15zyl8CzBDzSTns=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=xxoD895skAvIz7U4huTLUumbX5t8ZKgHiD7HXhjLAwTKNIRsVAOX5D5N6CdpLpSgt
+	 nmazpcH8otefKPm+H2IlNKzHXBkOCn0QLtDGDJ38MKK+b7VKmbRw38H/TVipMUuSqK
+	 cMigHyXyYF/cVXGAnYiReNqR2/QZVJ6Cb/sKBjpM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S375900AbgJWITw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 04:19:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56816 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S375885AbgJWITv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 04:19:51 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E069DC0613D2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2020 01:19:49 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id j7so772934wrt.9
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2020 01:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=c04+KAnI/YvtT+KXpxHEmQlq7f8efi6nrfby4HpMQ+M=;
-        b=KdSPGpNlX1wlRZC80Im3mkC0rHOX3I6+VHgDyeDFAsOwsVKlcD0ZlgvbenjZHwKgXb
-         L0FUqlQL5D3e3H/lmjXBb5lC5pBuw+0JjIc8xzDikPQxu+w8gIcNrpG2eXXKcDMoCkBG
-         FmlN3i4HcZH5JPkJroF3N5NLN0WLs/zf1AF0PY1Js104sOd+jRRVIEs/qmd0n/2ZQhm3
-         acdOcqtjMERwdLJkUU6OY/32SjyPFxK4nogplxj8eCp1OqH9pzFwn1LnMExE8C5KHtp8
-         Mg4R7KWZPYkZZKWKPBi0cSrHm8pY/dTaowehfa647U3JKXLgdVQXpJl2/bGCpzriNOWO
-         ZVQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=c04+KAnI/YvtT+KXpxHEmQlq7f8efi6nrfby4HpMQ+M=;
-        b=Iqwt50jyNdcE7q6O84Oi5HNHie1BeeDy34iZsyTwaPPVzaUVYIPTdekhzxxZhZRQLB
-         4KsMljuWk+ohAyKOh/cMUwmpDSNNPHSU/gVuMGwJdLs4jQV7avDeJXuGh5X8yKJGQGV4
-         SzeKOVnTrBFYCPFv2yz59EKlVGUqz6jOtF7g7wtPyg5iYCI/mwwowRMKnaJ2g2yf/1wZ
-         p/YGsd3zbwXRQSSnpGKssGfXpL1yRPCioxL9dGIbhk1FAQZ9JItfChJHrNybVbs1ZSBP
-         iagNnTMXdsV2gC79eDbCNacNeoz2Yk1TmaZSwJJ0jxtI/dJhpZYaRZJ6uE7gtOcaQJL7
-         D3DQ==
-X-Gm-Message-State: AOAM531l5dlpeZNnyUIad7WYqCrZAMMjGJDeve3ghpB0Vu2aWNXA1LCo
-        AB7owrsU/9ffHpW/h7FRInL1t8xJLjnRjLIqHuNwKw==
-X-Google-Smtp-Source: ABdhPJyx6xrzHENLvmCTKNKQGYNBnXcfF3pvPdkMAurICf9diwE560i3HqF33Tzi+YjwmeJj7wuwgbOA8/erWwn+wQM=
-X-Received: by 2002:a05:6000:1109:: with SMTP id z9mr1197789wrw.388.1603441188297;
- Fri, 23 Oct 2020 01:19:48 -0700 (PDT)
+        id S460929AbgJWI7I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 04:59:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44158 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S460927AbgJWI7I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 04:59:08 -0400
+Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BD0162168B;
+        Fri, 23 Oct 2020 08:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603443547;
+        bh=80m6FlU2KLhIeD33jpZ5MyAV4BAx15zyl8CzBDzSTns=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pih6UO6VL9gwi7OUQiwmP79WkAgYEpSg4F3CZVwSs0A7ry+jNntW3ulqmSxBG+T1v
+         QqpfBfWwwstKJyTWAEnRJoX43eex1Wd0T7VYbmkEiTuloqVutcB99j47wiIeZPEvSb
+         zpCZx8TE6/52CTBVVHThcyWlux0gzmHpQDPas3pM=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kVsue-001qqw-4h; Fri, 23 Oct 2020 10:59:04 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Jonathan Corbet" <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] kernel-doc: validate kernel-doc markup with the actual names
+Date:   Fri, 23 Oct 2020 10:59:02 +0200
+Message-Id: <ebd075324a26f07b801cc47465cff51e9bf5c115.1603443534.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201023081628.1296884-1-glider@google.com>
-In-Reply-To: <20201023081628.1296884-1-glider@google.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Fri, 23 Oct 2020 10:19:36 +0200
-Message-ID: <CAG_fn=Vu8Of2tMDsHsXroQNb++uKAnGg1vMAatCQAH2ZDSU=BA@mail.gmail.com>
-Subject: Re: [PATCH v4] x86: add failure injection to get/put/clear_user
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Marco Elver <elver@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Albert Linde <albert.linde@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(Albert's @google.com address is gone, removing it from CC list)
+Kernel-doc currently expects that the kernel-doc markup to come
+just before the function/enum/struct/union/typedef prototype.
 
-On Fri, Oct 23, 2020 at 10:16 AM Alexander Potapenko <glider@google.com> wr=
-ote:
->
-> From: Albert van der Linde <alinde@google.com>
->
-> To test fault-tolerance of user memory acceses in x86, add support for
-> fault injection.
->
-> Make both put_user() and get_user() fail with -EFAULT, and clear_user()
-> fail by not clearing any bytes.
->
-> Reviewed-by: Akinobu Mita <akinobu.mita@gmail.com>
-> Reviewed-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Albert van der Linde <alinde@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
->
-> ---
-> v2:
->  - no significant changes
->
-> v3:
->  - no changes
->
-> v4:
->  - instrument the new out-of-line implementations of get_user()/put_user(=
-)
->  - fix a minor checkpatch warning in the inline assembly
->
-> ---
-> ---
->  arch/x86/include/asm/uaccess.h | 36 ++++++++++++++++++++++------------
->  arch/x86/lib/usercopy_64.c     |  3 +++
->  2 files changed, 26 insertions(+), 13 deletions(-)
->
-> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uacces=
-s.h
-> index f13659523108..7041ebc48b75 100644
-> --- a/arch/x86/include/asm/uaccess.h
-> +++ b/arch/x86/include/asm/uaccess.h
-> @@ -5,6 +5,7 @@
->   * User space memory access functions
->   */
->  #include <linux/compiler.h>
-> +#include <linux/fault-inject-usercopy.h>
->  #include <linux/kasan-checks.h>
->  #include <linux/string.h>
->  #include <asm/asm.h>
-> @@ -126,11 +127,16 @@ extern int __get_user_bad(void);
->         int __ret_gu;                                                   \
->         register __inttype(*(ptr)) __val_gu asm("%"_ASM_DX);            \
->         __chk_user_ptr(ptr);                                            \
-> -       asm volatile("call __" #fn "_%P4"                               \
-> -                    : "=3Da" (__ret_gu), "=3Dr" (__val_gu),             =
-   \
-> -                       ASM_CALL_CONSTRAINT                             \
-> -                    : "0" (ptr), "i" (sizeof(*(ptr))));                \
-> -       (x) =3D (__force __typeof__(*(ptr))) __val_gu;                   =
- \
-> +       if (should_fail_usercopy()) {                                   \
-> +               (x) =3D 0;                                               =
- \
-> +               __ret_gu =3D -EFAULT;                                    =
- \
-> +       } else {                                                        \
-> +               asm volatile("call __" #fn "_%P4"                       \
-> +                            : "=3Da" (__ret_gu), "=3Dr" (__val_gu),     =
-   \
-> +                               ASM_CALL_CONSTRAINT                     \
-> +                            : "0" (ptr), "i" (sizeof(*(ptr))));        \
-> +               (x) =3D (__force __typeof__(*(ptr))) __val_gu;           =
- \
-> +       }                                                               \
->         __builtin_expect(__ret_gu, 0);                                  \
->  })
->
-> @@ -213,14 +219,18 @@ extern void __put_user_nocheck_8(void);
->         int __ret_pu;                                                   \
->         register __typeof__(*(ptr)) __val_pu asm("%"_ASM_AX);           \
->         __chk_user_ptr(ptr);                                            \
-> -       __val_pu =3D (x);                                                =
- \
-> -       asm volatile("call __" #fn "_%P[size]"                          \
-> -                    : "=3Dc" (__ret_pu),                                =
- \
-> -                       ASM_CALL_CONSTRAINT                             \
-> -                    : "0" (ptr),                                       \
-> -                      "r" (__val_pu),                                  \
-> -                      [size] "i" (sizeof(*(ptr)))                      \
-> -                    :"ebx");                                           \
-> +       if (unlikely(should_fail_usercopy())) {                         \
-> +               __ret_pu =3D -EFAULT;                                    =
- \
-> +       } else {                                                        \
-> +               __val_pu =3D (x);                                        =
- \
-> +               asm volatile("call __" #fn "_%P[size]"                  \
-> +                            : "=3Dc" (__ret_pu),                        =
- \
-> +                               ASM_CALL_CONSTRAINT                     \
-> +                            : "0" (ptr),                               \
-> +                              "r" (__val_pu),                          \
-> +                              [size] "i" (sizeof(*(ptr)))              \
-> +                            : "ebx");                                  \
-> +       }                                                               \
->         __builtin_expect(__ret_pu, 0);                                  \
->  })
->
-> diff --git a/arch/x86/lib/usercopy_64.c b/arch/x86/lib/usercopy_64.c
-> index 508c81e97ab1..5617b3864586 100644
-> --- a/arch/x86/lib/usercopy_64.c
-> +++ b/arch/x86/lib/usercopy_64.c
-> @@ -7,6 +7,7 @@
->   * Copyright 2002 Andi Kleen <ak@suse.de>
->   */
->  #include <linux/export.h>
-> +#include <linux/fault-inject-usercopy.h>
->  #include <linux/uaccess.h>
->  #include <linux/highmem.h>
->
-> @@ -50,6 +51,8 @@ EXPORT_SYMBOL(__clear_user);
->
->  unsigned long clear_user(void __user *to, unsigned long n)
->  {
-> +       if (should_fail_usercopy())
-> +               return n;
->         if (access_ok(to, n))
->                 return __clear_user(to, n);
->         return n;
-> --
-> 2.29.0.rc2.309.g374f81d7ae-goog
->
+Yet, if it find things like:
 
+	/**
+	 * refcount_add - add a value to a refcount
+	 * @i: the value to add to the refcount
+	 * @r: the refcount
+	 */
+	static inline void __refcount_add(int i, refcount_t *r, int *oldp);
+	static inline void refcount_add(int i, refcount_t *r);
 
---=20
-Alexander Potapenko
-Software Engineer
+Kernel-doc will do the wrong thing:
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+	foobar.h:6: warning: Function parameter or member 'oldp' not described in '__refcount_add'
+	.. c:function:: void __refcount_add (int i, refcount_t *r, int *oldp)
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+	   add a value to a refcount
+
+	**Parameters**
+
+	``int i``
+	  the value to add to the refcount
+
+	``refcount_t *r``
+	  the refcount
+
+	``int *oldp``
+	  *undescribed*
+
+Basically, it will document "__refcount_add" with the kernel-doc
+markup for refcount_add.
+
+If both functions have the same arguments, this won't even
+produce any warning!
+
+Add a logic to check if the kernel-doc identifier matches the actual
+name of the C function or data structure that will be documented.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc | 56 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 40 insertions(+), 16 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 99cd8418ff8a..7ffc54dfa5a0 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -382,6 +382,9 @@ my $inline_doc_state;
+ # 'function', 'struct', 'union', 'enum', 'typedef'
+ my $decl_type;
+ 
++# Name of the kernel-doc identifier for non-DOC markups
++my $identifier;
++
+ my $doc_start = '^/\*\*\s*$'; # Allow whitespace at end of comment start.
+ my $doc_end = '\*/';
+ my $doc_com = '\s*\*\s*';
+@@ -1203,6 +1206,11 @@ sub dump_struct($$) {
+ 	$declaration_name = $2;
+ 	my $members = $3;
+ 
++	if ($identifier ne $declaration_name) {
++	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
++	    return;
++	}
++
+ 	# ignore members marked private:
+ 	$members =~ s/\/\*\s*private:.*?\/\*\s*public:.*?\*\///gosi;
+ 	$members =~ s/\/\*\s*private:.*//gosi;
+@@ -1391,6 +1399,11 @@ sub dump_enum($$) {
+     }
+ 
+     if ($declaration_name) {
++	if ($identifier ne $declaration_name) {
++	    print STDERR "${file}:$.: warning: expecting prototype for enum $identifier. Prototype was for enum $declaration_name instead\n";
++	    return;
++	}
++
+ 	my %_members;
+ 
+ 	$members =~ s/\s+$//;
+@@ -1446,6 +1459,11 @@ sub dump_typedef($$) {
+ 	$declaration_name = $2;
+ 	my $args = $3;
+ 
++	if ($identifier ne $declaration_name) {
++	    print STDERR "${file}:$.: warning: expecting prototype for typedef $identifier. Prototype was for typedef $declaration_name instead\n";
++	    return;
++	}
++
+ 	create_parameterlist($args, ',', $file, $declaration_name);
+ 
+ 	output_declaration($declaration_name,
+@@ -1791,6 +1809,11 @@ sub dump_function($$) {
+ 	return;
+     }
+ 
++    if ($identifier ne $declaration_name) {
++	print STDERR "${file}:$.: warning: expecting prototype for $identifier(). Prototype was for $declaration_name() instead\n";
++	return;
++    }
++
+     my $prms = join " ", @parameterlist;
+     check_sections($file, $declaration_name, "function", $sectcheck, $prms);
+ 
+@@ -2036,7 +2059,6 @@ sub process_normal() {
+ #
+ sub process_name($$) {
+     my $file = shift;
+-    my $identifier;
+     my $descr;
+ 
+     if (/$doc_block/o) {
+@@ -2049,12 +2071,19 @@ sub process_name($$) {
+ 	} else {
+ 	    $section = $1;
+ 	}
+-    }
+-    elsif (/$doc_decl/o) {
++    } elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+-	if (/\s*([\w\s]+?)(\(\))?\s*-/) {
++	if (/\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
+ 	    $identifier = $1;
+ 	}
++	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
++	    $decl_type = $1;
++	    $identifier = $2;
++	} else {
++	    $decl_type = 'function';
++	    $identifier =~ s/\(\)//;
++	}
++	$identifier =~ s/\s+$//;
+ 
+ 	$state = STATE_BODY;
+ 	# if there's no @param blocks need to set up default section
+@@ -2062,7 +2091,7 @@ sub process_name($$) {
+ 	$contents = "";
+ 	$section = $section_default;
+ 	$new_start_line = $. + 1;
+-	if (/-(.*)/) {
++	if (/[-:](.*)/) {
+ 	    # strip leading/trailing/multiple spaces
+ 	    $descr= $1;
+ 	    $descr =~ s/^\s*//;
+@@ -2080,20 +2109,15 @@ sub process_name($$) {
+ 	    ++$warnings;
+ 	}
+ 
+-	if ($identifier =~ m/^struct\b/) {
+-	    $decl_type = 'struct';
+-	} elsif ($identifier =~ m/^union\b/) {
+-	    $decl_type = 'union';
+-	} elsif ($identifier =~ m/^enum\b/) {
+-	    $decl_type = 'enum';
+-	} elsif ($identifier =~ m/^typedef\b/) {
+-	    $decl_type = 'typedef';
+-	} else {
+-	    $decl_type = 'function';
++	if ($identifier eq "") {
++	    print STDERR "${file}:$.: warning: wrong kernel-doc identifier on line:\n";
++	    print STDERR $_;
++	    ++$warnings;
++	    $state = STATE_NORMAL;
+ 	}
+ 
+ 	if ($verbose) {
+-	    print STDERR "${file}:$.: info: Scanning doc for $identifier\n";
++	    print STDERR "${file}:$.: info: Scanning doc for $decl_type $identifier\n";
+ 	}
+     } else {
+ 	print STDERR "${file}:$.: warning: Cannot understand $_ on line $.",
+-- 
+2.26.2
+
