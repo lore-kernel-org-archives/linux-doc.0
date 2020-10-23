@@ -2,96 +2,140 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B8EEC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:27:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 818B7C55178
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:58:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 180412225E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603477633;
-	bh=SHsWHdBUCccwANbOdMKh6BI+Xq8sH14n3v81RpJpzcs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=rjVL9EU91ZQjrS9ORJJG1+n/frZioq1L97W0ebiX3mBcv4zkISTS8dX1DTSdCwnVS
-	 nLSz4RMKDhK+MbzrXcJVph0ZrM5Sy/gldkmPgY0XD+uenXbpVkEPX5VBgoBZHBeXZ5
-	 Yk+8YqJ1lArSfSLP9LKRcDm+1slhks5ZxIoB/FWI=
+	by mail.kernel.org (Postfix) with ESMTP id 2D99320BED
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:58:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oifvqLuP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754635AbgJWS1M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 14:27:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53464 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754617AbgJWS1M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 14:27:12 -0400
-Received: from localhost (cpc102338-sgyl38-2-0-cust404.18-2.cable.virginm.net [77.102.33.149])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 69E61208FE;
-        Fri, 23 Oct 2020 18:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603477631;
-        bh=SHsWHdBUCccwANbOdMKh6BI+Xq8sH14n3v81RpJpzcs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hHBq93VIB0psvOkcGOAESIUQKob826qkWXtHD3mIpwBtV6DVsicZvDLxw7ubUUoNF
-         LOlqCJtBWn5D00dAF2sliKQy678OT3kb5pod4RTx6x9iRHj1q09qMh8XZ+VAZwZmAZ
-         IbBaksxQFgvwb6VjbSEzrTA0ECjYkfBWPZ4lQCkU=
-Date:   Fri, 23 Oct 2020 19:26:58 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Baolin Wang <baolin.wang@linaro.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-        Vinod Koul <vkoul@kernel.org>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org, paulhsia <paulhsia@chromium.org>
-Subject: Re: [PATCH v3 48/56] sound: fix kernel-doc markups
-Message-ID: <20201023182658.GB5582@sirena.org.uk>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <535182d6f55d7a7de293dda9676df68f5f60afc6.1603469755.git.mchehab+huawei@kernel.org>
+        id S1751802AbgJWS6i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 14:58:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751530AbgJWS6i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 14:58:38 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E319AC0613CE;
+        Fri, 23 Oct 2020 11:58:37 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id t9so3255625wrq.11;
+        Fri, 23 Oct 2020 11:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HVVGoFH+W6TXbwZk/lJDswsi31Devdn0bKrhChGZkSw=;
+        b=oifvqLuPq3+kt6YtYbANPBM9dRUg1EIA7QF5vNUYPPyrBU78UHFhGUF1lQX0Xst+jG
+         X6tO/bqSp6e16Za1yek76z98m5+wzRq5h91bKIQfk8QYOy1JXaOh6HKiBN0XVQJEwCu9
+         +EnxXKRbZxJT7jGcJStMkFIu4lyQZr+EhL85UvUWW5qnj/k5VBzaedJvudGI2Pzt8mYd
+         yVO+CNJN6/IxTaDNL6Eff1uNe3MB1EosEM3e1BkZQugCyc938gn1tcgipCDXF1ndNY7L
+         wcqiTH2CjC5ieg7jYWpf1cY1pjK+ZGG4WZVSGlU1IiKhHP3j7/9hSVzMgjBD67tP8/W+
+         1aCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HVVGoFH+W6TXbwZk/lJDswsi31Devdn0bKrhChGZkSw=;
+        b=HQXqaXa6jf+9IKh/P5ef5xdqJJvvfgRij2PBaPTfzTAbzKfZ3+MoPUEBBlS8lUEJk+
+         fwogRfJb+63IQJLWCZrlUiJlE21NPAAPPNYjtEXNqq2XHKxhmb3rX7ZbDUf9HBmVYZC8
+         tQaFeFmwMEFKA/nemM8DrI5dK1bRlaXvltL2+BpDpOPjY/Ilw8LO8ABoCbf8hQSZWoPt
+         EPK34CgtTZL+3nvrvji9j+UpfdURrKMUO9l4qkaCfun4xq21gwTDzbNZEjz9aSslTQV2
+         dRYJ3Iv8tgYQQ1hoE1O1jswMwPSmTR50ZWYZSIp4LAHuxvnFkK80hZLp/UIaIv+45GMX
+         R95A==
+X-Gm-Message-State: AOAM533ur0hJ04Lfi0oZws1SYU81KQyWxHnPEGiCZgOpcCckdhDttE9R
+        IRBhkSJ9M0PZ4cEbOeZ0itmO0HYfi4eoJlL1YQI=
+X-Google-Smtp-Source: ABdhPJxhOalGy8AVCk6uFL0CL8XNNtHj2n59zH+OlgCHHeE/mvzoX8Mkq8zjdC575NT151N0gWOsX5KiiZu/oQ7WESg=
+X-Received: by 2002:adf:dd8f:: with SMTP id x15mr4374706wrl.124.1603479516631;
+ Fri, 23 Oct 2020 11:58:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
-Content-Disposition: inline
-In-Reply-To: <535182d6f55d7a7de293dda9676df68f5f60afc6.1603469755.git.mchehab+huawei@kernel.org>
-X-Cookie: Kleeneness is next to Godelness.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+ <632b3b11118969ff6fccb8a2f606c87fde41c138.1603469755.git.mchehab+huawei@kernel.org>
+ <ecb99629-f593-b389-60b3-dc6f1b306c8b@amd.com>
+In-Reply-To: <ecb99629-f593-b389-60b3-dc6f1b306c8b@amd.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Fri, 23 Oct 2020 14:58:24 -0400
+Message-ID: <CADnq5_OF2+QpPeBOXkR+JWkCog1ZAckejK2y2o4yf44U9Jrxgw@mail.gmail.com>
+Subject: Re: [PATCH v3 03/56] amdgpu: fix a few kernel-doc markup issues
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Evan Quan <evan.quan@amd.com>, Dennis Li <Dennis.Li@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Applied.  Thanks!
 
---LpQ9ahxlCli8rRTG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Alex
 
-On Fri, Oct 23, 2020 at 06:33:35PM +0200, Mauro Carvalho Chehab wrote:
-> Kernel-doc markups should use this format:
->         identifier - description
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---LpQ9ahxlCli8rRTG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+TIHIACgkQJNaLcl1U
-h9DZzwf/Zs3YIMTz+2DCrNUXLtzpAbvLLDsdBDOev3DuZWyEftdLOcoIHNmL7nDL
-ejx5PybpTjacNq8eH+dEUotHDdfpNd0Ul/1A2BCXwm4AT5H2WZJS8tuMkCIwDq9v
-zEM2HhZvUCH/OhOrDTMqSr6P8PcIC6A4++4+8p6T67OaPPzU1p6Rb/08F3O5RnU/
-0HSRVflv8ECJxMq9Zkg7GTi1UdTLARnabYNzGWJ8dYYCG0COFRbDGk51q4uA7P2h
-HtdItUw/+qKgD21DxLmrdTzibgI8WhbdQ/pwzgfkT8XLKflR5tWb5vGKEKBR34w0
-jVbNXPVnxqob45rcezJIEIR7pDNYew==
-=uqAN
------END PGP SIGNATURE-----
-
---LpQ9ahxlCli8rRTG--
+On Fri, Oct 23, 2020 at 12:38 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 23.10.20 um 18:32 schrieb Mauro Carvalho Chehab:
+> > A kernel-doc markup can't be mixed with a random comment,
+> > as it causes parsing problems.
+> >
+> > While here, change an invalid kernel-doc markup into
+> > a common comment.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 +++++---
+> >   1 file changed, 5 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/d=
+rm/amd/amdgpu/amdgpu_device.c
+> > index f8785bdec79c..1d4b54950528 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > @@ -239,9 +239,11 @@ bool amdgpu_device_supports_baco(struct drm_device=
+ *dev)
+> >       return amdgpu_asic_supports_baco(adev);
+> >   }
+> >
+> > +/*
+> > + * VRAM access helper functions
+> > + */
+> > +
+> >   /**
+> > - * VRAM access helper functions.
+> > - *
+> >    * amdgpu_device_vram_access - read/write a buffer in vram
+> >    *
+> >    * @adev: amdgpu_device pointer
+> > @@ -4497,7 +4499,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_devic=
+e *adev,
+> >       bool need_emergency_restart =3D false;
+> >       bool audio_suspended =3D false;
+> >
+> > -     /**
+> > +     /*
+> >        * Special case: RAS triggered and full reset isn't supported
+> >        */
+> >       need_emergency_restart =3D amdgpu_ras_need_emergency_restart(adev=
+);
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
