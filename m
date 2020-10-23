@@ -2,90 +2,202 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBCDC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6D4CC4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:22:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 619E322255
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:21:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="rAbqxPC2"
+	by mail.kernel.org (Postfix) with ESMTP id 6F526208FE
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:22:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603477352;
+	bh=g4Z1mEpWuSmzkjJ5L1e+SxSJ9L0l5TW+r7ryephYBoU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Y0apdwa8xijOOpZ+RP1rEH8hnvg6kd1PmQdkAa8BSzJ+Hez7vlfR6HQ7Km1tr3+DA
+	 X1IesPWrQ+pWf5fwnmgN1cSk50pBiRE+zzaKkMtbmy/j/M0YG7tRJRBkDF4ZneYauQ
+	 eowVwjg51E2rsaS+xMDvVRGbjcmYN3XA/+zKwLa8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S375850AbgJWSVD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 14:21:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750665AbgJWSVC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 14:21:02 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B62FC0613D2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2020 11:21:02 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id u19so2934645ion.3
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2020 11:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=P1VAgbL5Nu9xQpoma8IOMEGFKLYoq5WVSujqi1jyKgY=;
-        b=rAbqxPC2VQNEYRxnvNmkLskSPPyOEPbWivfmxBlTPA3qayf89gJOsA67iWwnyVmZly
-         YmyvWuRLcSU+rxm9DNZqJoJ7Dmg13gk7ZnGbnHxnq6WAJED74sQ/atQtQorP1Saeqvuh
-         GUS+1r/fHdngbqyNCRuFFdrnYcGJl2TYKvlwIni/wlCcNWHIkInPmjNOqzX7hob/sT6x
-         zmRDCzq1tBW4IYNHWMwuRLzaR0bDp/MWwj0A9PH4/zcs6kiwUki7NazXwgkdtph/M/RQ
-         6Ms22QS//vHIcFOBMrJa0BLEHlrkMhMSRn8uHWU5Zf9jD67kjdrku8pKDA6HNGFueQ2j
-         WaoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=P1VAgbL5Nu9xQpoma8IOMEGFKLYoq5WVSujqi1jyKgY=;
-        b=EszG64oyMDiNQg+JM35MWCMAbJpRsiyPPSG2nxTc5b3nFWpHDJ5y63Us8eWl4AGNOb
-         wL8mHOeugq2rYz3z9ZWS5ilXxlitKLU0oaksCK+K7ct203RAwBObKa21q/HTKLMLSZYx
-         oBlPrpO+JMBPVkeyhTp91jQQxsrHq2jacps/hkWHquAmBHkRqw0jtIkxL/21wDyz6tQl
-         2a9VNuMBZNLZZ20r1+h+R7JxEKAgw3zD/SGN5ZhpmTvpfzbInuzak9/ZAi4jSZkw4FTy
-         wr9SNsBkl5n1HkAyxEk6ffECDyEEezRgfQT1RxT8XmzbJZSEEjH/rWB/2e7nxlNjfpEO
-         MLOw==
-X-Gm-Message-State: AOAM531U3bCO76RU9upOKTp7Qe+G5VzltzbznsniFxHkmJtZHv0JA9b1
-        SWE+edEMILYA7Pn7/ZfM80OLxg==
-X-Google-Smtp-Source: ABdhPJx8qoQk7VQ7uKvt2wBD9BQFogJlh+zzJNIe/v80ZeH6np9XqS2RoBJfDU8kUNV1urnbNmbYTA==
-X-Received: by 2002:a05:6602:20c4:: with SMTP id 4mr2611908ioz.149.1603477261961;
-        Fri, 23 Oct 2020 11:21:01 -0700 (PDT)
-Received: from [192.168.1.30] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id c2sm1099963iot.52.2020.10.23.11.21.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Oct 2020 11:21:01 -0700 (PDT)
-Subject: Re: [PATCH v3 08/56] ata: fix some kernel-doc markups
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-ide@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        id S1754626AbgJWSWc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 14:22:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51888 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S460542AbgJWSWb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 14:22:31 -0400
+Received: from localhost (cpc102338-sgyl38-2-0-cust404.18-2.cable.virginm.net [77.102.33.149])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 58EE52072E;
+        Fri, 23 Oct 2020 18:22:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603477351;
+        bh=g4Z1mEpWuSmzkjJ5L1e+SxSJ9L0l5TW+r7ryephYBoU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gHrncFJOwMRSpgG4SXq5EHZGizsYd/kfWIaTNsKvXlK2soj26uM33RSr/0qi98Els
+         NIVT5OWXTfU3x2fxpSt4ZoW8RPXGgKF9zxfXJhKL//hW+TrtSk3gQzM9L6bg4vjePd
+         a1Qu+h5NpbMKQrSog1Hp1VYaXSUVJ9/erkkt78oI=
+Date:   Fri, 23 Oct 2020 19:22:18 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Chris Leech <cleech@redhat.com>,
+        Colin Cross <ccross@android.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.com>,
+        Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lee Duncan <lduncan@suse.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Malcolm Priestley <tvboxspy@gmail.com>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sebastian Reichel <sre@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>, x86@kernel.org
+Subject: Re: [PATCH v3 00/56] Fix several bad kernel-doc markups
+Message-ID: <20201023182218.GA5582@sirena.org.uk>
+Mail-Followup-To: Jakub Kicinski <kuba@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Anton Vorontsov <anton@enomsg.org>, Antti Palosaari <crope@iki.fi>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Borislav Petkov <bp@alien8.de>, Chris Leech <cleech@redhat.com>,
+        Colin Cross <ccross@android.com>, Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>, Evgeniy Polyakov <zbr@ioremap.net>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.com>,
+        Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Kees Cook <keescook@chromium.org>, Lee Duncan <lduncan@suse.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Malcolm Priestley <tvboxspy@gmail.com>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Maxime Ripard <mripard@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sebastian Reichel <sre@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomasz Figa <tfiga@chromium.org>, Tony Luck <tony.luck@intel.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>, x86@kernel.org
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <a7e159be08bcb0c42aa219cf99c2adfd4db0a9d9.1603469755.git.mchehab+huawei@kernel.org>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <25423969-161c-f471-2968-df4f3f9fd319@kernel.dk>
-Date:   Fri, 23 Oct 2020 12:21:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20201023111240.2cc72568@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
 MIME-Version: 1.0
-In-Reply-To: <a7e159be08bcb0c42aa219cf99c2adfd4db0a9d9.1603469755.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
+Content-Disposition: inline
+In-Reply-To: <20201023111240.2cc72568@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+X-Cookie: Kleeneness is next to Godelness.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/23/20 10:32 AM, Mauro Carvalho Chehab wrote:
-> Some functions have different names between their prototypes
-> and the kernel-doc markup.
 
-Applied, thanks.
+--2oS5YaxWCcQjTEyO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Oct 23, 2020 at 11:12:40AM -0700, Jakub Kicinski wrote:
+> On Fri, 23 Oct 2020 18:32:47 +0200 Mauro Carvalho Chehab wrote:
 
--- 
-Jens Axboe
+> > @maintainers: feel free to pick the patches and
+> > apply them directly on your trees, as all patches on=20
+> > this series are independent from the other ones.
 
+> Sorry Mauro, can I hassle you for resending 18-20 as a separate series
+> or just loose patches to netdev?
+
+> We got a bunch of checks run on all submissions and when folks CC only
+> a slice of a series to netdev the CI bot thinks the series is incomplete
+> and doesn't pick it up :(
+
+FWIW something similar with patches for different trees sent separately
+would also be helpful for my automation.
+
+--2oS5YaxWCcQjTEyO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+TH1kACgkQJNaLcl1U
+h9Ag8Qf+K2nlMzzzJryrbVZon7xJUysyeyKlZFW7M0QAHzunBi9F4QOkxoNMF7yZ
+ioQchiv1zhOwvC0SffxXvt9GF+jUL4bunjKVnl0PtMFooFjifrKEdi1/QNAP9h3O
+JASJ1cWy/sdM44aK7pq9VgXWO02bshk7uzOu4G2UoVw0/QKrRBlsgh1F8zhV4xMV
+QN7/oHhL3Bf0BepUbUEcU9luIdLotaaRiqmpwA+kmyBiyExWO3VDrv6GGfOi5/CZ
+NoYBHO/lyvqtpKa/h7uDitFhICtKZfHAp/yLiIka6uPN2ZCYiY2+E4j9X8eygiKQ
+lPWYN7NRV9paSOvyUXBWPTMOSgX31w==
+=WEQy
+-----END PGP SIGNATURE-----
+
+--2oS5YaxWCcQjTEyO--
