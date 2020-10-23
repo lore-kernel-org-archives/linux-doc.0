@@ -4,51 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF1CBC388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E454C4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8011F208C3
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4ACEC208C3
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603471116;
-	bh=6T96WIbhEdoUn7swuSEk+0sEbN+E2NxuoZFz3O2v1AU=;
+	s=default; t=1603471118;
+	bh=DkQPfqmarGLDfJetUgwz5TgWReIHtbqYm7uER2L8pCo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=OKkt4BSSSBEV3b46nTNQgbXW1NPDnft5Z+vc6sAV19mYf5q5oKkAyd5cdPT/nsejI
-	 dpTHmG8pKaZuMumDB97j1DfizHKUvO6eqy8Y46tKJdUqLPJOXcgLi4Fs74qg+zzw3F
-	 VDUF/igfPzXSw2FyHD194PHzoGsdWFqIc2D9+qdc=
+	b=ahPyTjDmSfiVvC3mddTGIQKVtyjdcHzLiV/rmccNveU2TA9YF9odxGsdp2WRWe7Cb
+	 tX0BmTA0NxPmV9Oh9e7WzmNlmcPirBiH26jmrtQIs6qks/iky3/o1FHVfi66L5pVVS
+	 ArbYTJFyOhiADvwLsIKpE20fwXCRIy8NbTrrgtzU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752296AbgJWQiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:38:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33220 "EHLO mail.kernel.org"
+        id S1751522AbgJWQih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:38:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33276 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750865AbgJWQdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 12:33:49 -0400
+        id S1751817AbgJWQds (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:33:48 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1825A2465B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 66D8824681;
         Fri, 23 Oct 2020 16:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470827;
-        bh=6T96WIbhEdoUn7swuSEk+0sEbN+E2NxuoZFz3O2v1AU=;
+        bh=DkQPfqmarGLDfJetUgwz5TgWReIHtbqYm7uER2L8pCo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JlpEBZhm4413VDb28h87ZUEs9QiiHwQo0nsys9AmJX0ew2+PvwD78rEK1IHxVTL7Q
-         8J4rhG3T1Dz7oQ1jH0aTK4rKjItSdNx0r0j980ZKQQX3+D7ofyW5wP0VbhH1UA1EDp
-         Xl+LSIzC9Kd0g6KmvXcgKzrSDRXlPHbpV9K23gjM=
+        b=FsAtcwMiQkBC5lIORYoN2TzrdIafHzX4AAHZMI+FtgxrZqmTUc5dg+LZolgd/4LTE
+         Mf0MTQw4jsvOTE+oAaEfbgE5J2gfNCFxAbJqTTKPDJjUVeFkArKF1HNGARZ7z867/g
+         XWet86fSunBpzPFtnwKnH8EBOAV0WlXwEasX4l4A=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00e-002Avd-Th; Fri, 23 Oct 2020 18:33:44 +0200
+        id 1kW00e-002AvO-LF; Fri, 23 Oct 2020 18:33:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 08/56] ata: fix some kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:32:55 +0200
-Message-Id: <a7e159be08bcb0c42aa219cf99c2adfd4db0a9d9.1603469755.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 01/56] scripts: kernel-doc: fix typedef parsing
+Date:   Fri, 23 Oct 2020 18:32:48 +0200
+Message-Id: <d0b2146c4ced3121342583bb3d962628fc96759b.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -59,55 +58,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some functions have different names between their prototypes
-and the kernel-doc markup.
+The include/linux/genalloc.h file defined this typedef:
+
+	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, unsigned long start_addr);
+
+Because it has a type composite of two words (unsigned long),
+the parser gets the typedef name wrong:
+
+.. c:macro:: long
+
+   **Typedef**: Allocation callback function type definition
+
+Fix the regex in order to accept composite types when
+defining a typedef for a function pointer.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/ata/libata-core.c | 2 +-
- drivers/ata/libata-eh.c   | 2 +-
- drivers/ata/libata-scsi.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index f546a5761c4f..61c762961ca8 100644
---- a/drivers/ata/libata-core.c
-+++ b/drivers/ata/libata-core.c
-@@ -5616,7 +5616,7 @@ int ata_host_start(struct ata_host *host)
- EXPORT_SYMBOL_GPL(ata_host_start);
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 99cd8418ff8a..311d213ee74d 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1438,7 +1438,7 @@ sub dump_typedef($$) {
+     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
  
- /**
-- *	ata_sas_host_init - Initialize a host struct for sas (ipr, libsas)
-+ *	ata_host_init - Initialize a host struct for sas (ipr, libsas)
-  *	@host:	host to initialize
-  *	@dev:	device host is attached to
-  *	@ops:	port_ops
-diff --git a/drivers/ata/libata-eh.c b/drivers/ata/libata-eh.c
-index d912eaa65c94..b6f92050e60c 100644
---- a/drivers/ata/libata-eh.c
-+++ b/drivers/ata/libata-eh.c
-@@ -1115,7 +1115,7 @@ void ata_eh_freeze_port(struct ata_port *ap)
- EXPORT_SYMBOL_GPL(ata_eh_freeze_port);
+     # Parse function prototypes
+-    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
++    if ($x =~ /typedef\s+(\w+\s*){1,}\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+ 	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
  
- /**
-- *	ata_port_thaw_port - EH helper to thaw port
-+ *	ata_eh_thaw_port - EH helper to thaw port
-  *	@ap: ATA port to thaw
-  *
-  *	Thaw frozen port @ap.
-diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-index 70431912dc63..48b8934970f3 100644
---- a/drivers/ata/libata-scsi.c
-+++ b/drivers/ata/libata-scsi.c
-@@ -1003,7 +1003,7 @@ void ata_scsi_sdev_config(struct scsi_device *sdev)
- }
- 
- /**
-- *	atapi_drain_needed - Check whether data transfer may overflow
-+ *	ata_scsi_dma_need_drain - Check whether data transfer may overflow
-  *	@rq: request to be checked
-  *
-  *	ATAPI commands which transfer variable length data to host
+ 	# Function typedefs
 -- 
 2.26.2
 
