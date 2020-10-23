@@ -7,57 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D18BC5517A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E8FC4363A
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:33:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 590D322460
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:33:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80E5124650
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603470830;
-	bh=0/UWmo2OH4egkc0d+jfY9c0BJNYEW+7AH+ub+Opgj/4=;
+	s=default; t=1603470829;
+	bh=kgtiFfCJTukdztBKrgaViUkGzaEuu7+QoSys6J4D4sM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=q2AKdF9eF6exOOppi3qDd93YIlElCIBpZEsDZYNbb3VTbQSvTXIJZxGu0NlIG6hfp
-	 nldZ9Jv0EClM9cS2mcW3T76ECy9FX8eQZyjLtB8+pkQ0ZY1re4cKl3ayoHkvHpgR9c
-	 UFJyB9c0WLGXGUijFtrYOXeH/QhiaxJGDJL3WHoo=
+	b=mwyN5g80elm0hQ8M7VJHjvAVQ//6XnTeXQN2EciiZp+/ns9f+oLyEEtoxY5VwtJH8
+	 qLIkoO4r11tG9c5oOCVWzkBBLZdkdHBIu7stxL6yEsgduvf5CIzKAilRQoaE1UOUID
+	 zgjNBZEbzZIHA0AvWB11KLWratovxULjvvtKF3AU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751824AbgJWQdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:33:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60994 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S461349AbgJWQds (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S460564AbgJWQds (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 23 Oct 2020 12:33:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32774 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S465514AbgJWQdr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:33:47 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E99952245A;
+        by mail.kernel.org (Postfix) with ESMTPSA id 000ED24641;
         Fri, 23 Oct 2020 16:33:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470827;
-        bh=0/UWmo2OH4egkc0d+jfY9c0BJNYEW+7AH+ub+Opgj/4=;
+        bh=kgtiFfCJTukdztBKrgaViUkGzaEuu7+QoSys6J4D4sM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sZg1q7gFJGgfohNDBGgJzKht142NNlZJvDf+/ueBEcZbLX7nxjWOUlEQG7pLuBFJT
-         EwLttIs3fnmNJXhFhUrbhaMlIiADJbSo0TGwEMxAjySl1Q8cfAiq3gjipgzgL3Xmsr
-         0MkwmF6SE6sYugqsTk3nocEVTROEFIQmm5w1GXxo=
+        b=YIQ+hkqmTrReQxWOiyFNCiuAvL+nLglsNdUkkVNme+SB26jpE5p50ZWEmLD3hsm03
+         ktGcUcY6pCodvrfhjVPRXFPbrQybMPyTaoaMpzS4U/3wExBtMdDlfkFsZ1ZwJoMVi+
+         Y7I9pXmXji14r4E32nZ+nazo2jx/sVGPU3umMhOA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00e-002AvW-Pv; Fri, 23 Oct 2020 18:33:44 +0200
+        id 1kW00e-002Avb-SD; Fri, 23 Oct 2020 18:33:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alexander Egorenkov <egorenar@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Julian Wiedmann <jwi@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: [PATCH v3 05/56] s390: fix kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:32:52 +0200
-Message-Id: <c4bf95fbd9c33a92eb60ef3d696d4cbe27882079.1603469755.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 07/56] block: blk-mq: fix a kernel-doc markup
+Date:   Fri, 23 Oct 2020 18:32:54 +0200
+Message-Id: <da771fd9e5281537f39c6e927a199b681ff6204f.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -68,43 +59,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-fix one typo:
-	ccw driver -> ccw_driver
-
-and one function rename.
+Fix a typo:
+	blk_mq_run_hw_queue -> blk_mq_run_hw_queues
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- arch/s390/include/asm/ccwdev.h | 2 +-
- arch/s390/include/asm/cio.h    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/blk-mq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/s390/include/asm/ccwdev.h b/arch/s390/include/asm/ccwdev.h
-index c0be5fe1ddba..069709b8e9e7 100644
---- a/arch/s390/include/asm/ccwdev.h
-+++ b/arch/s390/include/asm/ccwdev.h
-@@ -115,7 +115,7 @@ enum uc_todo {
- };
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 696450257ac1..bca2e3962262 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1664,7 +1664,7 @@ void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async)
+ EXPORT_SYMBOL(blk_mq_run_hw_queue);
  
  /**
-- * struct ccw driver - device driver for channel attached devices
-+ * struct ccw_driver - device driver for channel attached devices
-  * @ids: ids supported by this driver
-  * @probe: function called on probe
-  * @remove: function called on remove
-diff --git a/arch/s390/include/asm/cio.h b/arch/s390/include/asm/cio.h
-index 5c58756d6476..23dceb8d0453 100644
---- a/arch/s390/include/asm/cio.h
-+++ b/arch/s390/include/asm/cio.h
-@@ -329,7 +329,7 @@ struct ccw_dev_id {
- };
- 
- /**
-- * ccw_device_id_is_equal() - compare two ccw_dev_ids
-+ * ccw_dev_id_is_equal() - compare two ccw_dev_ids
-  * @dev_id1: a ccw_dev_id
-  * @dev_id2: another ccw_dev_id
-  * Returns:
+- * blk_mq_run_hw_queue - Run all hardware queues in a request queue.
++ * blk_mq_run_hw_queues - Run all hardware queues in a request queue.
+  * @q: Pointer to the request queue to run.
+  * @async: If we want to run the queue asynchronously.
+  */
 -- 
 2.26.2
 
