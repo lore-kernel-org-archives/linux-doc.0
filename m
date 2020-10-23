@@ -2,91 +2,86 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 863C7C4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 17:22:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59494C55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 17:27:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37B6F2098B
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 17:22:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05A8222201
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 17:27:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753321AbgJWRW2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 13:22:28 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51556 "EHLO ms.lwn.net"
+        id S1753425AbgJWR15 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 13:27:57 -0400
+Received: from mga04.intel.com ([192.55.52.120]:41726 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753320AbgJWRW2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 13:22:28 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2AA317C0;
-        Fri, 23 Oct 2020 17:22:28 +0000 (UTC)
-Date:   Fri, 23 Oct 2020 11:22:26 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
+        id S1753423AbgJWR15 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 13:27:57 -0400
+IronPort-SDR: DBGqSm2V+xhfI4GTirlBmDRT7WcD6MdDM+eT5UVRZKYY/RUgO8VtW6XX2OhhOFXbwRc54FQsZw
+ qbp2+oIFjmpw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="165116239"
+X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; 
+   d="scan'208";a="165116239"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 10:27:56 -0700
+IronPort-SDR: 1kVXpkMxato4KyiDoDyQk9vABZLEsZZcfmHWZYXBHrhlYCCRxUaf73r7zINuiBUEBrld2bX5rm
+ fpKPTFxMikuQ==
+X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; 
+   d="scan'208";a="321804002"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 10:27:52 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 92AF92030F; Fri, 23 Oct 2020 20:27:50 +0300 (EEST)
+Date:   Fri, 23 Oct 2020 20:27:50 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 01/56] scripts: kernel-doc: fix typedef parsing
-Message-ID: <20201023112226.4035e3f7@lwn.net>
-In-Reply-To: <d0b2146c4ced3121342583bb3d962628fc96759b.1603469755.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Abylay Ospan <aospan@netup.ru>, Antti Palosaari <crope@iki.fi>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Malcolm Priestley <tvboxspy@gmail.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rahul Gottipati <rahul.blr97@gmail.com>,
+        Sergey Kozlov <serjk@netup.ru>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 15/56] media: fix kernel-doc markups
+Message-ID: <20201023172750.GN2703@paasikivi.fi.intel.com>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-        <d0b2146c4ced3121342583bb3d962628fc96759b.1603469755.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+ <8eb0e3f5a47cfa412c1004f850ef092011d1a45f.1603469755.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8eb0e3f5a47cfa412c1004f850ef092011d1a45f.1603469755.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Oct 2020 18:32:48 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Thanks, Mauro!
 
-> The include/linux/genalloc.h file defined this typedef:
+On Fri, Oct 23, 2020 at 06:33:02PM +0200, Mauro Carvalho Chehab wrote:
+> Some identifiers have different names between their prototypes
+> and the kernel-doc markup. Seome seems to be due to cut-and-paste
+> related issues.
 > 
-> 	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, unsigned long start_addr);
-> 
-> Because it has a type composite of two words (unsigned long),
-> the parser gets the typedef name wrong:
-> 
-> .. c:macro:: long
-> 
->    **Typedef**: Allocation callback function type definition
-> 
-> Fix the regex in order to accept composite types when
-> defining a typedef for a function pointer.
+> Others need to be fixed, as kernel-doc markups should use this format:
+>         identifier - description
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  scripts/kernel-doc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 99cd8418ff8a..311d213ee74d 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -1438,7 +1438,7 @@ sub dump_typedef($$) {
->      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
->  
->      # Parse function prototypes
-> -    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-> +    if ($x =~ /typedef\s+(\w+\s*){1,}\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
 
-I sure wish we could find a way to make all these regexes more
-understandable and maintainable.  Reviewing a change like this is ... fun.
+On IPU3 and V4L2 bits:
 
-Anyway, it seems to work, but it does now include trailing whitespace in
-the type portion.  So, for example, from include/linux/xarray.h:
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-  typedef void (*xa_update_node_t)(struct xa_node *node);
+-- 
+Regards,
 
-The type is parsed as "void " where it was "void" before.  The only ill
-effect I can see is that some non-breaking spaces get inserted into the
-HTML output, but perhaps it's worth stripping off that trailing space
-anyway?
-
-Thanks,
-
-jon
+Sakari Ailus
