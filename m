@@ -4,54 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 097BDC6369E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:33:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89634C55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:34:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABA1924640
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:33:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38FFF2466D
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603470834;
-	bh=EYMl2u5G3tlfoX5HXXlEe/QfwoVAS1SQndK7owUVadA=;
+	s=default; t=1603470899;
+	bh=kZEeYcZI3W9smR89Evx7xmR6MBrCXpfe2JhxTnfEpfQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZFvREN34i1kyWU7iMq+I8dI2AFbfsr49xqHBoe6z+AP/CNhqgrJARtnq/YioyzEuy
-	 mrkrCC1li2j3ffn8GdlbtXoP/T7uHZIAE6fJQOuPN6d4NsGXg1oZJzCmEMBmfAMs1g
-	 ohBWgLHb65keY5u/GcyeXIciReK8JZIpBg0/Yxzc=
+	b=Aap6KXo+FF04B5e0fcQNwKp8b8Et20zxlyprc8VI1EQmJguWouMyJEtFVDNfosLdR
+	 +tMQYKN5TSovqdDjaltako2H56yCALUWFBMGe9IjZO4RXrNaM2CTgxZV3Zjl+jPFpM
+	 moDmzSKLYnleR1/3/nSKQR1uzEhwT0sI17REzjXw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S465514AbgJWQdx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S465666AbgJWQdx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 23 Oct 2020 12:33:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33132 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:33728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751873AbgJWQdv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 12:33:51 -0400
+        id S1751843AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E67B02465D;
+        by mail.kernel.org (Postfix) with ESMTPSA id 35A10246AB;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603470829;
-        bh=EYMl2u5G3tlfoX5HXXlEe/QfwoVAS1SQndK7owUVadA=;
+        s=default; t=1603470828;
+        bh=kZEeYcZI3W9smR89Evx7xmR6MBrCXpfe2JhxTnfEpfQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Xwa0v9hqZvQ1dEBdD3N04U75jYRrJ8PA2P4GzyYLZplUlSdSee1SJVijgy8iAwCkR
-         4S4Y3HbJ2CV7eCgotlXiMgo4FG8c9c0mfC7WLXEpGz5gK+/ByxvFKo8Cuq1htkiit+
-         8Ys/Kr7ZUwBjIixyHl0kKi+V14S29uSIbodv8b0o=
+        b=zeCKaLRhBdgdFeMAVl+z9mL59X5f6WyaTti64EBzRXlr5omPLn8sqLd1EoWpN3DIR
+         JNdOUnlKWya97Qz3yUQbzYILlAuzpMnKczT3TrqHLdoSpi4YcLd1AZLgMXarTJRR/p
+         Izevu6sHkiN+QowG8M0j3sZJyK29MAmUWRBegKdA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002Axv-RP; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00f-002Aw9-Fd; Fri, 23 Oct 2020 18:33:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>, Will Drewry <wad@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 55/56] selftests: kselftest_harness.h: partially fix kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:42 +0200
-Message-Id: <8d816b5a5f31600176fd9ad5e58c0a74bf79f8dd.1603469755.git.mchehab+huawei@kernel.org>
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Guillaume Nault <gnault@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Martin Varghese <martin.varghese@nokia.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Pravin B Shelar <pshelar@ovn.org>,
+        Sabrina Dubroca <sd@queasysnail.net>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Taehee Yoo <ap420073@gmail.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Yadu Kishore <kyk.segfault@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH v3 19/56] net: datagram: fix some kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:33:06 +0200
+Message-Id: <c8850a0e48e2b873cdced4a580dc4c599728a273.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -62,333 +87,104 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel-doc markups on this file are weird: they don't
-follow what's specified at:
-
-	Documentation/doc-guide/kernel-doc.rst
-
-In particular, markups should use this format:
-        identifier - description
-
-and not this:
-	identifier(args)
-
-The way the definitions are inside this file cause the
-parser to completely miss the identifier name of each
-function.
-
-This prevents improving the script to do some needed validation
-tests.
-
-Address this part. Yet, furter changes are needed in order
-for it to fully follow the specs.
+Some identifiers have different names between their prototypes
+and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/testing/selftests/kselftest_harness.h | 66 ++++++++++-----------
- 1 file changed, 33 insertions(+), 33 deletions(-)
+ net/core/datagram.c   | 2 +-
+ net/core/dev.c        | 4 ++--
+ net/core/skbuff.c     | 2 +-
+ net/ethernet/eth.c    | 6 +++---
+ net/sunrpc/rpc_pipe.c | 3 ++-
+ 5 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testing/selftests/kselftest_harness.h
-index f19804df244c..665d04f3b802 100644
---- a/tools/testing/selftests/kselftest_harness.h
-+++ b/tools/testing/selftests/kselftest_harness.h
-@@ -79,7 +79,7 @@
+diff --git a/net/core/datagram.c b/net/core/datagram.c
+index 9fcaa544f11a..81809fa735a7 100644
+--- a/net/core/datagram.c
++++ b/net/core/datagram.c
+@@ -709,7 +709,7 @@ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *from)
+ EXPORT_SYMBOL(zerocopy_sg_from_iter);
+ 
+ /**
+- *	skb_copy_and_csum_datagram_iter - Copy datagram to an iovec iterator
++ *	skb_copy_and_csum_datagram - Copy datagram to an iovec iterator
+  *          and update a checksum.
+  *	@skb: buffer to copy
+  *	@offset: offset in the buffer to start copying from
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 751e5264fd49..75c879f8ab3f 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -6915,7 +6915,7 @@ bool netdev_has_upper_dev(struct net_device *dev,
+ EXPORT_SYMBOL(netdev_has_upper_dev);
+ 
+ /**
+- * netdev_has_upper_dev_all - Check if device is linked to an upper device
++ * netdev_has_upper_dev_all_rcu - Check if device is linked to an upper device
+  * @dev: device
+  * @upper_dev: upper device to check
+  *
+@@ -8153,7 +8153,7 @@ EXPORT_SYMBOL(netdev_lower_dev_get_private);
+ 
+ 
+ /**
+- * netdev_lower_change - Dispatch event about lower device state change
++ * netdev_lower_state_changed - Dispatch event about lower device state change
+  * @lower_dev: device
+  * @lower_state_info: state to dispatch
+  *
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 1ba8f0163744..49da6b259444 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -837,7 +837,7 @@ EXPORT_SYMBOL(consume_skb);
  #endif
  
  /**
-- * TH_LOG(fmt, ...)
-+ * TH_LOG()
+- *	consume_stateless_skb - free an skbuff, assuming it is stateless
++ *	__consume_stateless_skb - free an skbuff, assuming it is stateless
+  *	@skb: buffer to free
   *
-  * @fmt: format string
-  * @...: optional arguments
-@@ -113,7 +113,7 @@
- 			__FILE__, __LINE__, _metadata->name, ##__VA_ARGS__)
+  *	Alike consume_skb(), but this variant assumes that this is the last
+diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
+index dac65180c4ef..4106373180c6 100644
+--- a/net/ethernet/eth.c
++++ b/net/ethernet/eth.c
+@@ -272,7 +272,7 @@ void eth_header_cache_update(struct hh_cache *hh,
+ EXPORT_SYMBOL(eth_header_cache_update);
  
  /**
-- * SKIP(statement, fmt, ...)
-+ * SKIP()
-  *
-  * @statement: statement to run after reporting SKIP
-  * @fmt: format string
-@@ -136,7 +136,7 @@
- } while (0)
- 
- /**
-- * TEST(test_name) - Defines the test function and creates the registration
-+ * TEST() - Defines the test function and creates the registration
-  * stub
-  *
-  * @test_name: test name
-@@ -155,7 +155,7 @@
- #define TEST(test_name) __TEST_IMPL(test_name, -1)
- 
- /**
-- * TEST_SIGNAL(test_name, signal)
-+ * TEST_SIGNAL()
-  *
-  * @test_name: test name
-  * @signal: signal number
-@@ -195,7 +195,7 @@
- 		struct __test_metadata __attribute__((unused)) *_metadata)
- 
- /**
-- * FIXTURE_DATA(datatype_name) - Wraps the struct name so we have one less
-+ * FIXTURE_DATA() - Wraps the struct name so we have one less
-  * argument to pass around
-  *
-  * @datatype_name: datatype name
-@@ -212,7 +212,7 @@
- #define FIXTURE_DATA(datatype_name) struct _test_data_##datatype_name
- 
- /**
-- * FIXTURE(fixture_name) - Called once per fixture to setup the data and
-+ * FIXTURE() - Called once per fixture to setup the data and
-  * register
-  *
-  * @fixture_name: fixture name
-@@ -239,7 +239,7 @@
- 	FIXTURE_DATA(fixture_name)
- 
- /**
-- * FIXTURE_SETUP(fixture_name) - Prepares the setup function for the fixture.
-+ * FIXTURE_SETUP() - Prepares the setup function for the fixture.
-  * *_metadata* is included so that EXPECT_* and ASSERT_* work correctly.
-  *
-  * @fixture_name: fixture name
-@@ -265,7 +265,7 @@
- 			__attribute__((unused)) *variant)
- 
- /**
-- * FIXTURE_TEARDOWN(fixture_name)
-+ * FIXTURE_TEARDOWN()
-  * *_metadata* is included so that EXPECT_* and ASSERT_* work correctly.
-  *
-  * @fixture_name: fixture name
-@@ -286,7 +286,7 @@
- 		FIXTURE_DATA(fixture_name) __attribute__((unused)) *self)
- 
- /**
-- * FIXTURE_VARIANT(fixture_name) - Optionally called once per fixture
-+ * FIXTURE_VARIANT() - Optionally called once per fixture
-  * to declare fixture variant
-  *
-  * @fixture_name: fixture name
-@@ -305,7 +305,7 @@
- #define FIXTURE_VARIANT(fixture_name) struct _fixture_variant_##fixture_name
- 
- /**
-- * FIXTURE_VARIANT_ADD(fixture_name, variant_name) - Called once per fixture
-+ * FIXTURE_VARIANT_ADD() - Called once per fixture
-  * variant to setup and register the data
-  *
-  * @fixture_name: fixture name
-@@ -339,7 +339,7 @@
- 		_##fixture_name##_##variant_name##_variant =
- 
- /**
-- * TEST_F(fixture_name, test_name) - Emits test registration and helpers for
-+ * TEST_F() - Emits test registration and helpers for
-  * fixture-based test cases
-  *
-  * @fixture_name: fixture name
-@@ -432,7 +432,7 @@
+- * eth_header_parser_protocol - extract protocol from L2 header
++ * eth_header_parse_protocol - extract protocol from L2 header
+  * @skb: packet to extract protocol from
   */
+ __be16 eth_header_parse_protocol(const struct sk_buff *skb)
+@@ -523,8 +523,8 @@ int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
+ EXPORT_SYMBOL(eth_platform_get_mac_address);
  
  /**
-- * ASSERT_EQ(expected, seen)
-+ * ASSERT_EQ()
+- * Obtain the MAC address from an nvmem cell named 'mac-address' associated
+- * with given device.
++ * nvmem_get_mac_address - Obtain the MAC address from an nvmem cell named
++ * 'mac-address' associated with given device.
   *
-  * @expected: expected value
-  * @seen: measured value
-@@ -443,7 +443,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, ==, 1)
+  * @dev:	Device with which the mac-address cell is associated.
+  * @addrbuf:	Buffer to which the MAC address will be copied on success.
+diff --git a/net/sunrpc/rpc_pipe.c b/net/sunrpc/rpc_pipe.c
+index eadc0ede928c..8241f5a4a01c 100644
+--- a/net/sunrpc/rpc_pipe.c
++++ b/net/sunrpc/rpc_pipe.c
+@@ -781,7 +781,8 @@ static int rpc_rmdir_depopulate(struct dentry *dentry,
+ }
  
  /**
-- * ASSERT_NE(expected, seen)
-+ * ASSERT_NE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -454,7 +454,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, !=, 1)
- 
- /**
-- * ASSERT_LT(expected, seen)
-+ * ASSERT_LT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -465,7 +465,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <, 1)
- 
- /**
-- * ASSERT_LE(expected, seen)
-+ * ASSERT_LE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -476,7 +476,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <=, 1)
- 
- /**
-- * ASSERT_GT(expected, seen)
-+ * ASSERT_GT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -487,7 +487,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >, 1)
- 
- /**
-- * ASSERT_GE(expected, seen)
-+ * ASSERT_GE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -498,7 +498,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >=, 1)
- 
- /**
-- * ASSERT_NULL(seen)
-+ * ASSERT_NULL()
-  *
-  * @seen: measured value
-  *
-@@ -508,7 +508,7 @@
- 	__EXPECT(NULL, "NULL", seen, #seen, ==, 1)
- 
- /**
-- * ASSERT_TRUE(seen)
-+ * ASSERT_TRUE()
-  *
-  * @seen: measured value
-  *
-@@ -518,7 +518,7 @@
- 	__EXPECT(0, "0", seen, #seen, !=, 1)
- 
- /**
-- * ASSERT_FALSE(seen)
-+ * ASSERT_FALSE()
-  *
-  * @seen: measured value
-  *
-@@ -528,7 +528,7 @@
- 	__EXPECT(0, "0", seen, #seen, ==, 1)
- 
- /**
-- * ASSERT_STREQ(expected, seen)
-+ * ASSERT_STREQ()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -539,7 +539,7 @@
- 	__EXPECT_STR(expected, seen, ==, 1)
- 
- /**
-- * ASSERT_STRNE(expected, seen)
-+ * ASSERT_STRNE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -550,7 +550,7 @@
- 	__EXPECT_STR(expected, seen, !=, 1)
- 
- /**
-- * EXPECT_EQ(expected, seen)
-+ * EXPECT_EQ()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -561,7 +561,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, ==, 0)
- 
- /**
-- * EXPECT_NE(expected, seen)
-+ * EXPECT_NE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -572,7 +572,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, !=, 0)
- 
- /**
-- * EXPECT_LT(expected, seen)
-+ * EXPECT_LT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -583,7 +583,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <, 0)
- 
- /**
-- * EXPECT_LE(expected, seen)
-+ * EXPECT_LE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -594,7 +594,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <=, 0)
- 
- /**
-- * EXPECT_GT(expected, seen)
-+ * EXPECT_GT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -605,7 +605,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >, 0)
- 
- /**
-- * EXPECT_GE(expected, seen)
-+ * EXPECT_GE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -616,7 +616,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >=, 0)
- 
- /**
-- * EXPECT_NULL(seen)
-+ * EXPECT_NULL()
-  *
-  * @seen: measured value
-  *
-@@ -626,7 +626,7 @@
- 	__EXPECT(NULL, "NULL", seen, #seen, ==, 0)
- 
- /**
-- * EXPECT_TRUE(seen)
-+ * EXPECT_TRUE()
-  *
-  * @seen: measured value
-  *
-@@ -636,7 +636,7 @@
- 	__EXPECT(0, "0", seen, #seen, !=, 0)
- 
- /**
-- * EXPECT_FALSE(seen)
-+ * EXPECT_FALSE()
-  *
-  * @seen: measured value
-  *
-@@ -646,7 +646,7 @@
- 	__EXPECT(0, "0", seen, #seen, ==, 0)
- 
- /**
-- * EXPECT_STREQ(expected, seen)
-+ * EXPECT_STREQ()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -657,7 +657,7 @@
- 	__EXPECT_STR(expected, seen, ==, 0)
- 
- /**
-- * EXPECT_STRNE(expected, seen)
-+ * EXPECT_STRNE()
-  *
-  * @expected: expected value
-  * @seen: measured value
+- * rpc_mkpipe - make an rpc_pipefs file for kernel<->userspace communication
++ * rpc_mkpipe_dentry - make an rpc_pipefs file for kernel<->userspace
++ *		       communication
+  * @parent: dentry of directory to create new "pipe" in
+  * @name: name of pipe
+  * @private: private data to associate with the pipe, for the caller's use
 -- 
 2.26.2
 
