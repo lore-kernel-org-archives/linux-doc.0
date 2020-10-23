@@ -7,72 +7,49 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 707AFC55179
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF11C55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BB0522210
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 758CE22210
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603470954;
-	bh=Sylq2e9ar6D8YYBJCExBwyy0BcyrCcVrtoDLcGb4uUw=;
+	s=default; t=1603470977;
+	bh=wFAn0R/tOd0Kse8l+Oi7WKhaA3ZlYRYbU5RUMjj5mUY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=hhJf43dLjl6wGVKiUbG74bWfIBrYFmKuGEyiRaohN59zv0p3DI+3j7jPTidbX0sJw
-	 EusVVkwjQlSCQJhd+ILVBgt0kHOEvTQE/yc9wRbtdQWA/+2wHbYQlOk6ts9NnYBaAm
-	 ZJwiHZ0ovQ5v08WFk/l0869PUlR/h/zBHIXpmaD4=
+	b=XERrIhP15ympCsyYAEwRXm+PTHXEHpOY0gptti1o9HjxZ3UU/iSzcuvq+2roMGfFy
+	 AgMCPyFlX2iRGGzdXg2Iyn/yhmW37ZgRQ/hM09yn8WyVCeoi2J7csR9+WKE4WGLXVZ
+	 v1kAUN5i+//HoMDYjRl5c+S3vcx9949i5YWbQJvE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S463315AbgJWQfx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:35:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33594 "EHLO mail.kernel.org"
+        id S465966AbgJWQfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:35:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33730 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751831AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751845AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C7AB24688;
-        Fri, 23 Oct 2020 16:33:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 38F79246AE;
+        Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=Sylq2e9ar6D8YYBJCExBwyy0BcyrCcVrtoDLcGb4uUw=;
+        bh=wFAn0R/tOd0Kse8l+Oi7WKhaA3ZlYRYbU5RUMjj5mUY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VUj6i8Y8HNWPeUNZ1P2n+KaKqel8o67TTEPI8blw1occ/hgvw4kX29dW0eNPMB98F
-         D5Jj74KlVqUrMRwMY8oilG0GrzBMJnif1KDrWcfyLxs8MDO4EWXxTAis3kVVTIrr+U
-         OuM5zzitEei8v+WFYPJubCiV710gjDlGR4Bzm10s=
+        b=KU9oAuoHnG9RRaRL/yHmNiCrFh+7U1K9d8gKjoak3zpb5iONPyeVfB+sKSIIpXMJd
+         Wx+zNnOLY+lwUbkrCDXq9wdUVxJJ5zZqNzZ2p6A8+80Pg3gDVes5heM5Tf5/Mto2Ul
+         QyAvW/kqeiL4AfAXWvUAFmYNunP3lGONZ6+VdAS0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00f-002Avm-2w; Fri, 23 Oct 2020 18:33:45 +0200
+        id 1kW00g-002Aws-6O; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>, Eric Anholt <eric@anholt.net>,
-        Imre Deak <imre.deak@intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Matt Roper <matthew.d.roper@intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Nirmoy Das <nirmoy.aiemd@gmail.com>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Steven Price <steven.price@arm.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Wambui Karuga <wambui.karugax@gmail.com>,
-        Yintian Tao <yttao@amd.com>, changzhu <Changfeng.Zhu@amd.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 12/56] drm: fix some kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:32:59 +0200
-Message-Id: <67949ee046ffcc9220c6dde4bd34eca5840ef504.1603469755.git.mchehab+huawei@kernel.org>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 34/56] fs: fix kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:33:21 +0200
+Message-Id: <eb5b1596a78485a6b60d73baea3ce50223c10dbb.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -83,358 +60,199 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
+Two markups are at the wrong place. Kernel-doc only
+support having the comment just before the identifier.
 
-Others need to be fixed, as kernel-doc markups should use this format:
-        identifier - description
+Also, some identifiers have different names between their
+prototypes and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c     | 2 +-
- drivers/gpu/drm/drm_connector.c               | 3 ++-
- drivers/gpu/drm/drm_dp_helper.c               | 2 +-
- drivers/gpu/drm/drm_framebuffer.c             | 2 +-
- drivers/gpu/drm/drm_gem.c                     | 4 ++--
- drivers/gpu/drm/drm_gem_vram_helper.c         | 2 +-
- drivers/gpu/drm/drm_mode_object.c             | 2 +-
- drivers/gpu/drm/drm_modes.c                   | 4 ++--
- drivers/gpu/drm/drm_scdc_helper.c             | 2 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
- drivers/gpu/drm/i915/i915_gem_evict.c         | 2 +-
- drivers/gpu/drm/i915/i915_perf.c              | 8 +++++---
- drivers/gpu/drm/scheduler/sched_main.c        | 2 +-
- drivers/gpu/drm/v3d/v3d_sched.c               | 2 +-
- drivers/gpu/drm/vc4/vc4_bo.c                  | 2 +-
- include/drm/drm_atomic_helper.h               | 4 ++--
- include/drm/drm_connector.h                   | 2 +-
- include/drm/drm_device.h                      | 2 +-
- include/drm/drm_dsc.h                         | 3 ++-
- include/drm/drm_gem_vram_helper.h             | 8 ++++----
- 20 files changed, 32 insertions(+), 28 deletions(-)
+ fs/dcache.c   | 72 +++++++++++++++++++++++++--------------------------
+ fs/inode.c    |  4 +--
+ fs/seq_file.c |  5 ++--
+ fs/super.c    | 12 ++++-----
+ 4 files changed, 47 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 9ad74045158e..ddcf5c2c8e6a 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -543,7 +543,7 @@ void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
- EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
- 
- /**
-- * __drm_atomic_helper_private_duplicate_state - copy atomic private state
-+ * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
-  * @obj: CRTC object
-  * @state: new private object state
-  *
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 717c4e7271b0..9dde11466cc2 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1427,7 +1427,8 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
- EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
- 
- /**
-- * drm_mode_attach_tv_margin_properties - attach TV connector margin properties
-+ * drm_connector_attach_tv_margin_properties - attach TV connector margin
-+ * 	properties
-  * @connector: DRM connector
-  *
-  * Called by a driver when it needs to attach TV margin props to a connector.
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index deeed73f4ed6..485c3e78ba98 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1084,7 +1084,7 @@ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- EXPORT_SYMBOL(drm_dp_subconnector_type);
- 
- /**
-- * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
-+ * drm_dp_set_subconnector_property - set subconnector for DP connector
-  * @connector: connector to set property on
-  * @status: connector status
-  * @dpcd: DisplayPort configuration data
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 2f5b0c2bb0fe..aca62ed51e82 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -552,7 +552,7 @@ int drm_mode_getfb(struct drm_device *dev,
+diff --git a/fs/dcache.c b/fs/dcache.c
+index ea0485861d93..6eabb48a49fc 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -456,23 +456,6 @@ static void d_lru_shrink_move(struct list_lru_one *lru, struct dentry *dentry,
+ 	list_lru_isolate_move(lru, &dentry->d_lru, list);
  }
  
- /**
-- * drm_mode_getfb2 - get extended FB info
-+ * drm_mode_getfb2_ioctl - get extended FB info
-  * @dev: drm device for the ioctl
-  * @data: data pointer for the ioctl
-  * @file_priv: drm file for the ioctl call
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 19d73868490e..74af32106cae 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -873,7 +873,7 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+-/**
+- * d_drop - drop a dentry
+- * @dentry: dentry to drop
+- *
+- * d_drop() unhashes the entry from the parent dentry hashes, so that it won't
+- * be found through a VFS lookup any more. Note that this is different from
+- * deleting the dentry - d_delete will try to mark the dentry negative if
+- * possible, giving a successful _negative_ lookup, while d_drop will
+- * just make the cache lookup fail.
+- *
+- * d_drop() is used mainly for stuff that wants to invalidate a dentry for some
+- * reason (NFS timeouts or autofs deletes).
+- *
+- * __d_drop requires dentry->d_lock
+- * ___d_drop doesn't mark dentry as "unhashed"
+- *   (dentry->d_hash.pprev will be LIST_POISON2, not NULL).
+- */
+ static void ___d_drop(struct dentry *dentry)
+ {
+ 	struct hlist_bl_head *b;
+@@ -501,6 +484,23 @@ void __d_drop(struct dentry *dentry)
  }
+ EXPORT_SYMBOL(__d_drop);
  
- /**
-- * drm_gem_open - implementation of the GEM_OPEN ioctl
-+ * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
-  * @dev: drm_device
-  * @data: ioctl data
-  * @file_priv: drm file-private structure
-@@ -918,7 +918,7 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
++/**
++ * d_drop - drop a dentry
++ * @dentry: dentry to drop
++ *
++ * d_drop() unhashes the entry from the parent dentry hashes, so that it won't
++ * be found through a VFS lookup any more. Note that this is different from
++ * deleting the dentry - d_delete will try to mark the dentry negative if
++ * possible, giving a successful _negative_ lookup, while d_drop will
++ * just make the cache lookup fail.
++ *
++ * d_drop() is used mainly for stuff that wants to invalidate a dentry for some
++ * reason (NFS timeouts or autofs deletes).
++ *
++ * __d_drop requires dentry->d_lock
++ * ___d_drop doesn't mark dentry as "unhashed"
++ *   (dentry->d_hash.pprev will be LIST_POISON2, not NULL).
++ */
+ void d_drop(struct dentry *dentry)
+ {
+ 	spin_lock(&dentry->d_lock);
+@@ -989,6 +989,25 @@ struct dentry *d_find_any_alias(struct inode *inode)
  }
+ EXPORT_SYMBOL(d_find_any_alias);
  
++static struct dentry *__d_find_alias(struct inode *inode)
++{
++	struct dentry *alias;
++
++	if (S_ISDIR(inode->i_mode))
++		return __d_find_any_alias(inode);
++
++	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
++		spin_lock(&alias->d_lock);
++ 		if (!d_unhashed(alias)) {
++			__dget_dlock(alias);
++			spin_unlock(&alias->d_lock);
++			return alias;
++		}
++		spin_unlock(&alias->d_lock);
++	}
++	return NULL;
++}
++
  /**
-- * gem_gem_open - initalizes GEM file-private structures at devnode open time
-+ * drm_gem_open - initalizes GEM file-private structures at devnode open time
-  * @dev: drm_device which is being opened by userspace
-  * @file_private: drm file-private structure to set up
-  *
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 50cad0e4a92e..e81f6954d233 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -640,7 +640,7 @@ static void drm_gem_vram_object_free(struct drm_gem_object *gem)
+  * d_find_alias - grab a hashed alias of inode
+  * @inode: inode in question
+@@ -1003,25 +1022,6 @@ EXPORT_SYMBOL(d_find_any_alias);
+  * If the inode has an IS_ROOT, DCACHE_DISCONNECTED alias, then prefer
+  * any other hashed alias over that one.
   */
+-static struct dentry *__d_find_alias(struct inode *inode)
+-{
+-	struct dentry *alias;
+-
+-	if (S_ISDIR(inode->i_mode))
+-		return __d_find_any_alias(inode);
+-
+-	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
+-		spin_lock(&alias->d_lock);
+- 		if (!d_unhashed(alias)) {
+-			__dget_dlock(alias);
+-			spin_unlock(&alias->d_lock);
+-			return alias;
+-		}
+-		spin_unlock(&alias->d_lock);
+-	}
+-	return NULL;
+-}
+-
+ struct dentry *d_find_alias(struct inode *inode)
+ {
+ 	struct dentry *de = NULL;
+diff --git a/fs/inode.c b/fs/inode.c
+index 9d78c37b00b8..aad3dcf2e259 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1496,7 +1496,7 @@ struct inode *find_inode_rcu(struct super_block *sb, unsigned long hashval,
+ EXPORT_SYMBOL(find_inode_rcu);
  
  /**
-- * drm_gem_vram_driver_create_dumb() - \
-+ * drm_gem_vram_driver_dumb_create() - \
- 	Implements &struct drm_driver.dumb_create
-  * @file:		the DRM file
-  * @dev:		the DRM device
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index db05f386a709..b26588b52795 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -115,7 +115,7 @@ void drm_mode_object_unregister(struct drm_device *dev,
+- * find_inode_by_rcu - Find an inode in the inode cache
++ * find_inode_by_ino_rcu - Find an inode in the inode cache
+  * @sb:		Super block of file system to search
+  * @ino:	The inode number to match
+  *
+@@ -1778,7 +1778,7 @@ static int update_time(struct inode *inode, struct timespec64 *time, int flags)
  }
  
  /**
-- * drm_lease_required - check types which must be leased to be used
-+ * drm_mode_object_lease_required - check types which must be leased to be used
-  * @type: type of object
+- *	touch_atime	-	update the access time
++ *	atime_needs_update	-	update the access time
+  *	@path: the &struct path to update
+  *	@inode: inode to update
   *
-  * Returns whether the provided type of drm_mode_object must
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 501b4fe55a3d..33fb2f05ce66 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1889,7 +1889,7 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
- EXPORT_SYMBOL(drm_mode_create_from_cmdline_mode);
+diff --git a/fs/seq_file.c b/fs/seq_file.c
+index 31219c1db17d..f0b933179a74 100644
+--- a/fs/seq_file.c
++++ b/fs/seq_file.c
+@@ -653,7 +653,8 @@ void seq_puts(struct seq_file *m, const char *s)
+ EXPORT_SYMBOL(seq_puts);
  
  /**
-- * drm_crtc_convert_to_umode - convert a drm_display_mode into a modeinfo
-+ * drm_mode_convert_to_umode - convert a drm_display_mode into a modeinfo
-  * @out: drm_mode_modeinfo struct to return to the user
-  * @in: drm_display_mode to use
-  *
-@@ -1941,7 +1941,7 @@ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
+- * A helper routine for putting decimal numbers without rich format of printf().
++ * seq_put_decimal_ull_width - A helper routine for putting decimal numbers
++ * 			       without rich format of printf().
+  * only 'unsigned long long' is supported.
+  * @m: seq_file identifying the buffer to which data should be written
+  * @delimiter: a string which is printed before the number
+@@ -1028,7 +1029,7 @@ struct hlist_node *seq_hlist_next_rcu(void *v,
+ EXPORT_SYMBOL(seq_hlist_next_rcu);
+ 
+ /**
+- * seq_hlist_start_precpu - start an iteration of a percpu hlist array
++ * seq_hlist_start_percpu - start an iteration of a percpu hlist array
+  * @head: pointer to percpu array of struct hlist_heads
+  * @cpu:  pointer to cpu "cursor"
+  * @pos:  start position of sequence
+diff --git a/fs/super.c b/fs/super.c
+index a51c2083cd6b..3f7a4c10ef0a 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -1820,12 +1820,6 @@ int freeze_super(struct super_block *sb)
+ }
+ EXPORT_SYMBOL(freeze_super);
+ 
+-/**
+- * thaw_super -- unlock filesystem
+- * @sb: the super to thaw
+- *
+- * Unlocks the filesystem and marks it writeable again after freeze_super().
+- */
+ static int thaw_super_locked(struct super_block *sb)
+ {
+ 	int error;
+@@ -1861,6 +1855,12 @@ static int thaw_super_locked(struct super_block *sb)
+ 	return 0;
  }
  
- /**
-- * drm_crtc_convert_umode - convert a modeinfo into a drm_display_mode
-+ * drm_mode_convert_umode - convert a modeinfo into a drm_display_mode
-  * @dev: drm device
-  * @out: drm_display_mode to return to the user
-  * @in: drm_mode_modeinfo to use
-diff --git a/drivers/gpu/drm/drm_scdc_helper.c b/drivers/gpu/drm/drm_scdc_helper.c
-index 311e71bbba5b..991b8c86d78d 100644
---- a/drivers/gpu/drm/drm_scdc_helper.c
-+++ b/drivers/gpu/drm/drm_scdc_helper.c
-@@ -125,7 +125,7 @@ ssize_t drm_scdc_write(struct i2c_adapter *adapter, u8 offset,
- EXPORT_SYMBOL(drm_scdc_write);
- 
- /**
-- * drm_scdc_check_scrambling_status - what is status of scrambling?
-+ * drm_scdc_get_scrambling_status - what is status of scrambling?
-  * @adapter: I2C adapter for DDC channel
-  *
-  * Reads the scrambler status over SCDC, and checks the
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index e08684e34078..8abbae8f8808 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -4531,7 +4531,7 @@ void intel_dpll_sanitize_state(struct drm_i915_private *i915)
- }
- 
- /**
-- * intel_shared_dpll_dump_hw_state - write hw_state to dmesg
-+ * intel_dpll_dump_hw_state - write hw_state to dmesg
-  * @dev_priv: i915 drm device
-  * @hw_state: hw state to be written to the log
-  *
-diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
-index 6501939929d5..e1a66c8245b8 100644
---- a/drivers/gpu/drm/i915/i915_gem_evict.c
-+++ b/drivers/gpu/drm/i915/i915_gem_evict.c
-@@ -238,7 +238,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
- }
- 
- /**
-- * i915_gem_evict_for_vma - Evict vmas to make room for binding a new one
-+ * i915_gem_evict_for_node - Evict vmas to make room for binding a new one
-  * @vm: address space to evict from
-  * @target: range (and color) to evict for
-  * @flags: additional flags to control the eviction algorithm
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index e94976976571..3ced82820483 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -625,7 +625,8 @@ static int append_oa_sample(struct i915_perf_stream *stream,
- }
- 
- /**
-- * Copies all buffered OA reports into userspace read() buffer.
-+ * gen8_append_oa_reports - Copies all buffered OA reports into
-+ *			    userspace read() buffer.
-  * @stream: An i915-perf stream opened for OA metrics
-  * @buf: destination buffer given by userspace
-  * @count: the number of bytes userspace wants to read
-@@ -917,7 +918,8 @@ static int gen8_oa_read(struct i915_perf_stream *stream,
- }
- 
- /**
-- * Copies all buffered OA reports into userspace read() buffer.
-+ * gen7_append_oa_reports - Copies all buffered OA reports into
-+ *			    userspace read() buffer.
-  * @stream: An i915-perf stream opened for OA metrics
-  * @buf: destination buffer given by userspace
-  * @count: the number of bytes userspace wants to read
-@@ -3227,7 +3229,7 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
- }
- 
- /**
-- * i915_perf_ioctl - support ioctl() usage with i915 perf stream FDs
-+ * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
-  * @stream: An i915 perf stream
-  * @cmd: the ioctl request
-  * @arg: the ioctl data
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 9a0d77a68018..c6332d75025e 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -446,7 +446,7 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
- EXPORT_SYMBOL(drm_sched_stop);
- 
- /**
-- * drm_sched_job_recovery - recover jobs after a reset
-+ * drm_sched_start - recover jobs after a reset
-  *
-  * @sched: scheduler instance
-  * @full_recovery: proceed with complete sched restart
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 0747614a78f0..f968f389633a 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -64,7 +64,7 @@ v3d_job_free(struct drm_sched_job *sched_job)
- }
- 
- /**
-- * Returns the fences that the job depends on, one by one.
-+ * v3d_job_dependency - Returns the fences that the job depends on, one by one.
-  *
-  * If placed in the scheduler's .dependency method, the corresponding
-  * .run_job won't be called until all of them have been signaled.
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 74ceebd62fbc..b8c04c6eb7f9 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -375,7 +375,7 @@ static struct vc4_bo *vc4_bo_get_from_cache(struct drm_device *dev,
- }
- 
- /**
-- * vc4_gem_create_object - Implementation of driver->gem_create_object.
-+ * vc4_create_object - Implementation of driver->gem_create_object.
-  * @dev: DRM device
-  * @size: Size in bytes of the memory the object will reference
-  *
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 85df04c8e62f..5f47720440fa 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -167,7 +167,7 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 	drm_for_each_plane_mask(plane, (crtc)->dev, (crtc)->state->plane_mask)
- 
- /**
-- * drm_crtc_atomic_state_for_each_plane - iterate over attached planes in new state
-+ * drm_atomic_crtc_state_for_each_plane - iterate over attached planes in new state
-  * @plane: the loop cursor
-  * @crtc_state: the incoming CRTC state
-  *
-@@ -180,7 +180,7 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask)
- 
- /**
-- * drm_crtc_atomic_state_for_each_plane_state - iterate over attached planes in new state
-+ * drm_atomic_crtc_state_for_each_plane_state - iterate over attached planes in new state
-  * @plane: the loop cursor
-  * @plane_state: loop cursor for the plane's state, must be const
-  * @crtc_state: the incoming CRTC state
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 928136556174..fcdc58d8b88b 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -84,7 +84,7 @@ enum drm_connector_status {
- };
- 
- /**
-- * enum drm_connector_registration_status - userspace registration status for
-+ * enum drm_connector_registration_state - userspace registration status for
-  * a &drm_connector
-  *
-  * This enum is used to track the status of initializing a connector and
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index f4f68e7a9149..3ae248938305 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -27,7 +27,7 @@ struct pci_controller;
- 
- 
- /**
-- * enum drm_switch_power - power state of drm device
-+ * enum switch_power_state - power state of drm device
-  */
- 
- enum switch_power_state {
-diff --git a/include/drm/drm_dsc.h b/include/drm/drm_dsc.h
-index 732f32740c86..53c51231b31c 100644
---- a/include/drm/drm_dsc.h
-+++ b/include/drm/drm_dsc.h
-@@ -273,7 +273,8 @@ struct drm_dsc_config {
- };
- 
- /**
-- * struct picture_parameter_set - Represents 128 bytes of Picture Parameter Set
-+ * struct drm_dsc_picture_parameter_set - Represents 128 bytes of
-+ * 	Picture Parameter Set
-  *
-  * The VESA DSC standard defines picture parameter set (PPS) which display
-  * stream compression encoders must communicate to decoders.
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index 62cc6e6c3a4f..9a67dcca1f4a 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -69,8 +69,8 @@ struct drm_gem_vram_object {
- };
- 
- /**
-- * Returns the container of type &struct drm_gem_vram_object
-- * for field bo.
-+ * drm_gem_vram_of_bo - Returns the container of type
-+ * &struct drm_gem_vram_object for field bo.
-  * @bo:		the VRAM buffer object
-  * Returns:	The containing GEM VRAM object
-  */
-@@ -81,8 +81,8 @@ static inline struct drm_gem_vram_object *drm_gem_vram_of_bo(
- }
- 
- /**
-- * Returns the container of type &struct drm_gem_vram_object
-- * for field gem.
-+ * drm_gem_vram_of_gem - Returns the container of type
-+ * &struct drm_gem_vram_object for field gem.
-  * @gem:	the GEM object
-  * Returns:	The containing GEM VRAM object
-  */
++/**
++ * thaw_super -- unlock filesystem
++ * @sb: the super to thaw
++ *
++ * Unlocks the filesystem and marks it writeable again after freeze_super().
++ */
+ int thaw_super(struct super_block *sb)
+ {
+ 	down_write(&sb->s_umount);
 -- 
 2.26.2
 
