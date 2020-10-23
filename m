@@ -7,52 +7,62 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D9FC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D72C388F9
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE784208C3
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EAA0208C3
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603471111;
-	bh=BKM7L17mY/AVYbaBekF/DbVRgqrXGbkET0zZgx6V5Lc=;
+	s=default; t=1603471114;
+	bh=HaCfxqyru0DdcvC8IaqpPspuh924AuGj1WtdVq8zJZY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=AJ1mDVydtON+D2jTG8gMuPr80oFTqvXfmd+jwqUxz7zV01kY5n4nAQCsER+VbyLIL
-	 0PwIGGP+fgG0MGLimf8ZJNvwWKVKUfXqLjpk+dUMq8xP6nz9hj71qPrFttXDtAS6yb
-	 0lFYXd2qSyph6fzLLVspkwMcmSzkkYug3RGKeFgw=
+	b=fwK6fiBHyFwCVWTTdN91d1ddOFd+EN6O0BcWdUCwXFw1St+/5DN/gh2HDvC5RBaWS
+	 MaUhaQhpw2m4s+SU/NmGGknWpRqn/8rHm+/v+R2oj/vgUnIZhUlXl/+3lSkSepwaPu
+	 VUKLia+QA0t8JR0NuRExilozbvEjJY1A+YzH+mRA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752306AbgJWQiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1752301AbgJWQiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 23 Oct 2020 12:38:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33314 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:33226 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751820AbgJWQdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751786AbgJWQdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:49 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AA81223EA;
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F227221F9;
         Fri, 23 Oct 2020 16:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470827;
-        bh=BKM7L17mY/AVYbaBekF/DbVRgqrXGbkET0zZgx6V5Lc=;
+        bh=HaCfxqyru0DdcvC8IaqpPspuh924AuGj1WtdVq8zJZY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ACHRRoOojGyvIszgvI+ucpIl9hmgrFdRnffyViygY61ouLCIkklOJ08lfUqrZ2tOT
-         y5s2W0xLg1TfwofyHpkDMud4m8qoY30JIXaftKaYcb9CRabNgler2YqVz5XmoXg6Cy
-         CpBxMVEW56BXk5h3ESAzWtBF18hSNmLcSBhzbUCA=
+        b=R4u0q4IZh/fVnK0DQVa8udilBLYSvmcPcVj9YoqkpECy4Q26duLXO1rS9QT8e13j2
+         nSc+IYl2c3Gn0gwt3LzZb1Vf+2Z0Ww4LZjptK0MtlpeaLbMxEqhX1ZKmRohBYy9w+K
+         onztKpMQAA+Qh61vlEWPpi+2XtgCepQoxxuRVo+Y=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00f-002Aw5-D2; Fri, 23 Oct 2020 18:33:45 +0200
+        id 1kW00f-002Avj-1O; Fri, 23 Oct 2020 18:33:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [PATCH v3 17/56] mtd: rawnand: fix a kernel-doc markup
-Date:   Fri, 23 Oct 2020 18:33:04 +0200
-Message-Id: <9ed47a57d12c40e73a9b01612ee119d39baa6236.1603469755.git.mchehab+huawei@kernel.org>
+        Alex Deucher <alexander.deucher@amd.com>,
+        Alex Sierra <alex.sierra@amd.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Bernard Zhao <bernard@vivo.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Jacob He <jacob.he@amd.com>,
+        Jonathan Kim <jonathan.kim@amd.com>,
+        Nirmoy Das <nirmoy.das@amd.com>, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        xinhui pan <xinhui.pan@amd.com>
+Subject: [PATCH v3 11/56] drm/amdgpu: fix some kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:32:58 +0200
+Message-Id: <ffc1f2d59fd5005f365eb5d178a2d890112bb6bb.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -63,42 +73,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
+Some functions have different names between their prototypes
 and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/mtd/nand/raw/nand_bbt.c | 2 +-
- include/linux/mtd/rawnand.h     | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c       | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
+ include/uapi/drm/amdgpu_drm.h                | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/nand_bbt.c b/drivers/mtd/nand/raw/nand_bbt.c
-index 344a24fd2ca8..dced32a126d9 100644
---- a/drivers/mtd/nand/raw/nand_bbt.c
-+++ b/drivers/mtd/nand/raw/nand_bbt.c
-@@ -1087,7 +1087,7 @@ static int nand_update_bbt(struct nand_chip *this, loff_t offs)
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index df110afa97bf..a5f73a267fe5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2166,7 +2166,7 @@ struct amdgpu_bo_va *amdgpu_vm_bo_add(struct amdgpu_device *adev,
+ 
  
  /**
-- * mark_bbt_regions - [GENERIC] mark the bad block table regions
-+ * mark_bbt_region - [GENERIC] mark the bad block table regions
-  * @this: the NAND device
-  * @td: bad block table descriptor
+- * amdgpu_vm_bo_insert_mapping - insert a new mapping
++ * amdgpu_vm_bo_insert_map - insert a new mapping
   *
-diff --git a/include/linux/mtd/rawnand.h b/include/linux/mtd/rawnand.h
-index aac07940de09..ace1ce70f5e4 100644
---- a/include/linux/mtd/rawnand.h
-+++ b/include/linux/mtd/rawnand.h
-@@ -1286,7 +1286,8 @@ static inline bool nand_is_slc(struct nand_chip *chip)
+  * @adev: amdgpu_device pointer
+  * @bo_va: bo_va to store the address
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 0c6b7c5ecfec..795bad307497 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -528,7 +528,7 @@ int amdgpu_vram_mgr_alloc_sgt(struct amdgpu_device *adev,
  }
  
  /**
-- * Check if the opcode's address should be sent only on the lower 8 bits
-+ * nand_opcode_8bits - Check if the opcode's address should be sent only on the
-+ *	lower 8 bits
-  * @command: opcode to check
+- * amdgpu_vram_mgr_alloc_sgt - allocate and fill a sg table
++ * amdgpu_vram_mgr_free_sgt - allocate and fill a sg table
+  *
+  * @adev: amdgpu device pointer
+  * @sgt: sg table to free
+diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
+index c5ff2b275fcd..791a1d597d2a 100644
+--- a/include/uapi/drm/amdgpu_drm.h
++++ b/include/uapi/drm/amdgpu_drm.h
+@@ -667,7 +667,7 @@ struct drm_amdgpu_cs_chunk_data {
+ 	};
+ };
+ 
+-/**
++/*
+  *  Query h/w info: Flag that this is integrated (a.h.a. fusion) GPU
+  *
   */
- static inline int nand_opcode_8bits(unsigned int command)
 -- 
 2.26.2
 
