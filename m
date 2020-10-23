@@ -7,56 +7,47 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F856C388F9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5C66C4363A
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E86022210
+	by mail.kernel.org (Postfix) with ESMTP id 6DEA1241A3
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1603471024;
-	bh=Sm6vVeuESnikWfRWcK3zY2aHGRQZbkVkNsFoA/Hs8Fs=;
+	bh=4cGQZu6GXTOYP+AFlrfRWtgyOlj2+ko5AakCb/DydP4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=WmH7Gse+Jx6SHAXi6YVeRqSPaaP9OENfkxO2VgiKe/eDlFqVbJQEye2TjfSCcK7So
-	 J4/uTf1r2wavKY9vyYGVy7yYAFDn/Q4N9EunVmihTl8jgrIElMpen+IxAH0p5yiB0t
-	 GIT6u4y3DFDTEnfIFyFeJ3qE/I5Jx9eKj2P1Y+W0=
+	b=o6Qfgoq2Yq/MopRTQqBNOa2r9iMIuKd3XNPibzMCOy3PnQ/qYk0O38Zw6F8waTGeA
+	 ifsEU4O73hjgyCWgqGlBUyC/hu1DI2WOGVp8GcDkXznQaJyWYIGz5X3qeafTLoPVAC
+	 nv52ZCKuvv1cC278pm4C6jk9bUEOSO1c9v7m377g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S463363AbgJWQhD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1751412AbgJWQhD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 23 Oct 2020 12:37:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33220 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:33164 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751841AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751851AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20AFF246A7;
+        by mail.kernel.org (Postfix) with ESMTPSA id 64BCA246BA;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=Sm6vVeuESnikWfRWcK3zY2aHGRQZbkVkNsFoA/Hs8Fs=;
+        bh=4cGQZu6GXTOYP+AFlrfRWtgyOlj2+ko5AakCb/DydP4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g2cgbOXqwo60/mWThB6DAqmhh9n1xCAhip126x4jhx1UfJX145E+eAbB15kIe8GKf
-         ne5PJoTUI1m6tVd3+sLsEw7Mk8W2S0eso9OEZPnWHUFnCwC4ltxAA0ciGbIPz4rAaA
-         3/jDiJxGEdi8pqp/h9ouAxUb4ff53Fuxamdgf9s0=
+        b=Lulq4D7WbTz6Btr9PN4P4SPxFi8Mxd1X26ceXOqcG+JNF84tqxbPROnMQLucLs5ow
+         +0YsGO1fBYyMfarzF6uoyPFR1/REnHortZJ+i2NiJ/Ws94zQclVhaEMJe8Nb8zDa3b
+         hOxUlFk8SVnu6B8Sxt146lNh0503BIAGEFanzWHM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00e-002AvS-O4; Fri, 23 Oct 2020 18:33:44 +0200
+        id 1kW00g-002AxD-D3; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>, Dennis Li <Dennis.Li@amd.com>,
-        Evan Quan <evan.quan@amd.com>,
-        Hawking Zhang <Hawking.Zhang@amd.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 03/56] amdgpu: fix a few kernel-doc markup issues
-Date:   Fri, 23 Oct 2020 18:32:50 +0200
-Message-Id: <632b3b11118969ff6fccb8a2f606c87fde41c138.1603469755.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 41/56] connector: fix a kernel-doc markup
+Date:   Fri, 23 Oct 2020 18:33:28 +0200
+Message-Id: <12a41727308652cf65e25ec48dd6f86b9f35e715.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -67,44 +58,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A kernel-doc markup can't be mixed with a random comment,
-as it causes parsing problems.
-
-While here, change an invalid kernel-doc markup into
-a common comment.
+A function has a different name between their prototype
+and its kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ include/linux/connector.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index f8785bdec79c..1d4b54950528 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -239,9 +239,11 @@ bool amdgpu_device_supports_baco(struct drm_device *dev)
- 	return amdgpu_asic_supports_baco(adev);
- }
+diff --git a/include/linux/connector.h b/include/linux/connector.h
+index cb732643471b..6bdb56662675 100644
+--- a/include/linux/connector.h
++++ b/include/linux/connector.h
+@@ -99,7 +99,7 @@ void cn_del_callback(struct cb_id *id);
+ int cn_netlink_send_mult(struct cn_msg *msg, u16 len, u32 portid, u32 group, gfp_t gfp_mask);
  
-+/*
-+ * VRAM access helper functions
-+ */
-+
  /**
-- * VRAM access helper functions.
-- *
-  * amdgpu_device_vram_access - read/write a buffer in vram
+- * cn_netlink_send_mult - Sends message to the specified groups.
++ * cn_netlink_send - Sends message to the specified groups.
   *
-  * @adev: amdgpu_device pointer
-@@ -4497,7 +4499,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 	bool need_emergency_restart = false;
- 	bool audio_suspended = false;
- 
--	/**
-+	/*
- 	 * Special case: RAS triggered and full reset isn't supported
- 	 */
- 	need_emergency_restart = amdgpu_ras_need_emergency_restart(adev);
+  * @msg:	message header(with attached data).
+  * @portid:	destination port.
 -- 
 2.26.2
 
