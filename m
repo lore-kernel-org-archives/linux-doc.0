@@ -2,75 +2,190 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0036EC388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 07:45:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F522C388F9
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 08:16:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 657F42177B
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 07:45:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28AA52223F
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 08:16:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VrC8dvAl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nDzHHzuu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S374624AbgJWHpt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 03:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
+        id S374740AbgJWIQg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 04:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S374437AbgJWHps (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 03:45:48 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13FCC0613CE;
-        Fri, 23 Oct 2020 00:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=C8iPz4vR/r/Z7txUMN6zv8MlJSlNHAYC9PuCCf3WrRc=; b=VrC8dvAl/nH2owuVmhXvcwABwo
-        lys5ud6TqV2KhOz+wIgITmag1I/hBL7cTPZmVjcnbdIYzfRmMKHtrKsyZzTfxehMo/aHDDuxQTg7K
-        3WtU17vINDxt+K4y4pjdOXAnYrqt+z9osguYycfcaTy6WgYtXLfTHOGe/hCWG982LWN7XbZ8hDdGc
-        6caMD8ui+guG7N9HBp/dFWACDEKIDMBAOl0+QiydHFpidY+/T1JUHcVCrlfqoX0uCe18bH68+Uhol
-        9TPNJQTsF1SeFyozEbRkTj8CY/KveJ30THdMFs3XyLgGNoMN+Ud7E8YZFd4oPGhOLa36SsLnvGsYp
-        mTma2OcQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kVrlg-0004Y1-2n; Fri, 23 Oct 2020 07:45:44 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 901C5300B22;
-        Fri, 23 Oct 2020 09:45:42 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 590CC203D09CB; Fri, 23 Oct 2020 09:45:42 +0200 (CEST)
-Date:   Fri, 23 Oct 2020 09:45:42 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Elliot Berman <eberman@codeaurora.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        Prasad Sodagudi <psodagud@codeaurora.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
-Message-ID: <20201023074542.GN2611@hirez.programming.kicks-ass.net>
-References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
+        with ESMTP id S374504AbgJWIQf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 04:16:35 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38BDC0613CE
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2020 01:16:35 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id o25so345316qtt.3
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2020 01:16:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=bCm9g8jcXgNZHZSC/xIRr4kSLYBexCpDEsc6joeepFo=;
+        b=nDzHHzuuY4+Qn8h9VBK+hQKJ2M5ExitXX5DXSUJQc61LT6/uljyOCVj5N7Vkr66Rl+
+         8QFZ5uVzSHpv2CfZWQtlc21toPyvl5r/0ondqAvctKOqxUpozCBkvB1Dsa0aexVky8XA
+         yDJe7lmCeIRKvc8AGGGZJ8MyYdks5CWn87vBHm9N0MDLnDsTbaaC6Lpg/D+doGJCIja9
+         24hus9xuLEkIi7Czbps0GubYleM2wSauB5cxdWAgT85L2roWZ+vEJC0WcczUJnaypQ97
+         OhRec1t0pyuoTgdwIedzNvJoTLn2JZlGj1W32cyRetkzCUAEaFnj6kLGCU5NUnUVrRdb
+         8hjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=bCm9g8jcXgNZHZSC/xIRr4kSLYBexCpDEsc6joeepFo=;
+        b=hvCoB+caoWPQuFeak8T8NQ7sZ7mDM4pY/S2nV5nshL2S46kIxeynWBCESyFp1c5gqP
+         prxmYVcDWGZwB70kkHYh6q326FVztIEodkgnO66ktt7Ji8hnzj7MQzPrAzvOjG/m6goc
+         vCFeXLvh+4N9YuqvB5L10PxHziWQ0E11u72OInWRGTgmJhb3JhkciIKyzESqgYRr80Ft
+         IjnNSnZDmva8F7pKMCZKhu+7xj9c1wG3FkjtN3cAaIMebjR9nHsnK2bsQbx8do0/2Y/l
+         I55gnS/DWRn1FkDCqEJFQ+7pieqzwTljCtoYGqoFy8AfiGQA+S+VTvN5e8cvXQEs8vQf
+         4Mdw==
+X-Gm-Message-State: AOAM532iDxuy+zc7yWqjR+aufPLtJBBHICxNX9QJaYM2juIMCLGe+my2
+        QLyu35wkx7HqzFjnkCuiqCtiAtk09r0=
+X-Google-Smtp-Source: ABdhPJy1fBXppRJkGFYZcpfRxOJ0Xx8LJjMo83rvtkGnO8uefQZOXktiGylDqXceHIJzaL1OXkuInOrPPRw=
+Sender: "glider via sendgmr" <glider@glider.muc.corp.google.com>
+X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:9ff])
+ (user=glider job=sendgmr) by 2002:a0c:a304:: with SMTP id u4mr1004964qvu.58.1603440994760;
+ Fri, 23 Oct 2020 01:16:34 -0700 (PDT)
+Date:   Fri, 23 Oct 2020 10:16:28 +0200
+Message-Id: <20201023081628.1296884-1-glider@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.0.rc2.309.g374f81d7ae-goog
+Subject: [PATCH v4] x86: add failure injection to get/put/clear_user
+From:   Alexander Potapenko <glider@google.com>
+To:     akpm@linux-foundation.org, bp@alien8.de, mingo@redhat.com,
+        corbet@lwn.net, tglx@linutronix.de, arnd@arndb.de
+Cc:     akinobu.mita@gmail.com, hpa@zytor.com, viro@zeniv.linux.org.uk,
+        glider@google.com, andreyknvl@google.com, dvyukov@google.com,
+        elver@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        x86@kernel.org, albert.linde@gmail.com,
+        Albert van der Linde <alinde@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 03:04:03PM -0700, Elliot Berman wrote:
-> In a heterogeneous multiprocessor system, specifying the 'maxcpus'
-> parameter on kernel command line does not provide sufficient control
-> over which CPUs are brought online at kernel boot time, since CPUs may
-> have nonuniform performance characteristics. Thus, add bootcpus kernel
-> parameter to control which CPUs should be brought online during kernel
-> boot. When both maxcpus and bootcpus is set, the more restrictive of the
-> two are booted.
+From: Albert van der Linde <alinde@google.com>
 
-Why would one wish to do so? Having the ability for abilities sake is no
-good.
+To test fault-tolerance of user memory acceses in x86, add support for
+fault injection.
+
+Make both put_user() and get_user() fail with -EFAULT, and clear_user()
+fail by not clearing any bytes.
+
+Reviewed-by: Akinobu Mita <akinobu.mita@gmail.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
+Signed-off-by: Albert van der Linde <alinde@google.com>
+Signed-off-by: Alexander Potapenko <glider@google.com>
+
+---
+v2:
+ - no significant changes
+
+v3:
+ - no changes
+
+v4:
+ - instrument the new out-of-line implementations of get_user()/put_user()
+ - fix a minor checkpatch warning in the inline assembly
+
+---
+---
+ arch/x86/include/asm/uaccess.h | 36 ++++++++++++++++++++++------------
+ arch/x86/lib/usercopy_64.c     |  3 +++
+ 2 files changed, 26 insertions(+), 13 deletions(-)
+
+diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+index f13659523108..7041ebc48b75 100644
+--- a/arch/x86/include/asm/uaccess.h
++++ b/arch/x86/include/asm/uaccess.h
+@@ -5,6 +5,7 @@
+  * User space memory access functions
+  */
+ #include <linux/compiler.h>
++#include <linux/fault-inject-usercopy.h>
+ #include <linux/kasan-checks.h>
+ #include <linux/string.h>
+ #include <asm/asm.h>
+@@ -126,11 +127,16 @@ extern int __get_user_bad(void);
+ 	int __ret_gu;							\
+ 	register __inttype(*(ptr)) __val_gu asm("%"_ASM_DX);		\
+ 	__chk_user_ptr(ptr);						\
+-	asm volatile("call __" #fn "_%P4"				\
+-		     : "=a" (__ret_gu), "=r" (__val_gu),		\
+-			ASM_CALL_CONSTRAINT				\
+-		     : "0" (ptr), "i" (sizeof(*(ptr))));		\
+-	(x) = (__force __typeof__(*(ptr))) __val_gu;			\
++	if (should_fail_usercopy()) {					\
++		(x) = 0;						\
++		__ret_gu = -EFAULT;					\
++	} else {							\
++		asm volatile("call __" #fn "_%P4"			\
++			     : "=a" (__ret_gu), "=r" (__val_gu),	\
++				ASM_CALL_CONSTRAINT			\
++			     : "0" (ptr), "i" (sizeof(*(ptr))));	\
++		(x) = (__force __typeof__(*(ptr))) __val_gu;		\
++	}								\
+ 	__builtin_expect(__ret_gu, 0);					\
+ })
+ 
+@@ -213,14 +219,18 @@ extern void __put_user_nocheck_8(void);
+ 	int __ret_pu;							\
+ 	register __typeof__(*(ptr)) __val_pu asm("%"_ASM_AX);		\
+ 	__chk_user_ptr(ptr);						\
+-	__val_pu = (x);							\
+-	asm volatile("call __" #fn "_%P[size]"				\
+-		     : "=c" (__ret_pu),					\
+-			ASM_CALL_CONSTRAINT				\
+-		     : "0" (ptr),					\
+-		       "r" (__val_pu),					\
+-		       [size] "i" (sizeof(*(ptr)))			\
+-		     :"ebx");						\
++	if (unlikely(should_fail_usercopy())) {				\
++		__ret_pu = -EFAULT;					\
++	} else {							\
++		__val_pu = (x);						\
++		asm volatile("call __" #fn "_%P[size]"			\
++			     : "=c" (__ret_pu),				\
++				ASM_CALL_CONSTRAINT			\
++			     : "0" (ptr),				\
++			       "r" (__val_pu),				\
++			       [size] "i" (sizeof(*(ptr)))		\
++			     : "ebx");					\
++	}								\
+ 	__builtin_expect(__ret_pu, 0);					\
+ })
+ 
+diff --git a/arch/x86/lib/usercopy_64.c b/arch/x86/lib/usercopy_64.c
+index 508c81e97ab1..5617b3864586 100644
+--- a/arch/x86/lib/usercopy_64.c
++++ b/arch/x86/lib/usercopy_64.c
+@@ -7,6 +7,7 @@
+  * Copyright 2002 Andi Kleen <ak@suse.de>
+  */
+ #include <linux/export.h>
++#include <linux/fault-inject-usercopy.h>
+ #include <linux/uaccess.h>
+ #include <linux/highmem.h>
+ 
+@@ -50,6 +51,8 @@ EXPORT_SYMBOL(__clear_user);
+ 
+ unsigned long clear_user(void __user *to, unsigned long n)
+ {
++	if (should_fail_usercopy())
++		return n;
+ 	if (access_ok(to, n))
+ 		return __clear_user(to, n);
+ 	return n;
+-- 
+2.29.0.rc2.309.g374f81d7ae-goog
+
