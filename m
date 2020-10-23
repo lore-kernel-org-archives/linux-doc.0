@@ -4,52 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D915C5517A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC9C8C56201
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1955222210
+	by mail.kernel.org (Postfix) with ESMTP id 5EC94241A3
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1603471042;
-	bh=cAV8X3oa0XUZKfbLmepFYYM7Z9KJI8I1jdNzSxjcxEU=;
+	bh=Hv3Ehg3kTw6mL0c8DIamVwpl0TjhhlhRQyeLYyTHoe0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ehrCBPdT9UQI6QOMGOTEXAysaG/6C9lp43MUpqfOfkztNk70kA+0+7u6x9izNMYcq
-	 LqzHrQAmZ3MvlB0vXeq9NLiGwQWhPecVR71hmbbP3CVBrp0vvHXnbTLHEunZjscpHh
-	 Mo17nK8aD6dsNtX+PE8NhCwlXzZBLlrp1PqqhGbE=
+	b=O2UQtlGfRfTzsMnhox2SnmnVe4wHwnnCx8OMSVIm0yl7JR9UTZ7QmnrumFVZW9bxx
+	 IGnoeQZbbuLWT8RcF6655dqCBOnXpS4wDVTUyZVkVatEoooIrDdHLNuqwlq+Mphv3P
+	 T5zPJmTtI4c9IavPpXbfSVwwMd1U92Vce9qk9cC4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751384AbgJWQhN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:37:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33228 "EHLO mail.kernel.org"
+        id S464096AbgJWQhM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:37:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33724 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751854AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751842AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63BC7246B7;
+        by mail.kernel.org (Postfix) with ESMTPSA id 33495246A9;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=cAV8X3oa0XUZKfbLmepFYYM7Z9KJI8I1jdNzSxjcxEU=;
+        bh=Hv3Ehg3kTw6mL0c8DIamVwpl0TjhhlhRQyeLYyTHoe0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Slrz+HybebCdFghNwDfZudtZHninKj5JJfVzYitTuVw/rvldBw5VKvTsYdhfrY2bF
-         VsIrjGt0uwuY4/Dm/hmFS9HnlrJhAVHsk+NWRBMfUTh31BCeJN9i02aSO0mxlDLmex
-         qBSoeBMBJ76JjUSARCCcudUCqEan9yqHEKjV61bk=
+        b=ACDS0rg2ZzKVKSkkIt/nbSZC2aXVth9Lg6KXYJ80ULPC4mmNTxgIrDQCKgpeZT/AB
+         zCb4Nk3UoukNIGd2TE52FlCojs+I+tL0fziMX4NdqZvtpRwj4BftFdlBegQWnaoWd+
+         r3yy5e7f7LEjxE+J/Wg9vK0Y4y0uQMDH6fSZMzhQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002AxB-CF; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00g-002Awk-3i; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Richard Gong <richard.gong@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 40/56] firmware: stratix10-svc: fix kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:27 +0200
-Message-Id: <f417f0605346b2d72b1a7f5b3989c9aca29729df.1603469755.git.mchehab+huawei@kernel.org>
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH v3 31/56] usb: dwc3: fix kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:33:18 +0200
+Message-Id: <0b964be3884def04fcd20ea5c12cb90d0014871c.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -60,66 +62,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some common comments marked, instead, with kernel-doc
-notation, which won't work.
+There is a common comment marked, instead, with kernel-doc
+notation.
 
-While here, rename an identifier, in order to match the
-function prototype below kernel-doc markup.
+Also, some identifiers have different names between their
+prototypes and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/firmware/intel/stratix10-svc-client.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/usb/dwc3/core.c        | 2 +-
+ drivers/usb/dwc3/core.h        | 2 +-
+ drivers/usb/gadget/composite.c | 2 +-
+ drivers/usb/typec/mux.c        | 2 +-
+ include/linux/usb/composite.h  | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
-index a93d85932eb9..ebc295647581 100644
---- a/include/linux/firmware/intel/stratix10-svc-client.h
-+++ b/include/linux/firmware/intel/stratix10-svc-client.h
-@@ -6,7 +6,7 @@
- #ifndef __STRATIX10_SVC_CLIENT_H
- #define __STRATIX10_SVC_CLIENT_H
- 
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index bdf0925da6b6..841daec70b6e 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
 -/**
 +/*
-  * Service layer driver supports client names
+  * core.c - DesignWare USB3 DRD Controller Core file
   *
-  * fpga: for FPGA configuration
-@@ -15,7 +15,7 @@
- #define SVC_CLIENT_FPGA			"fpga"
- #define SVC_CLIENT_RSU			"rsu"
- 
--/**
-+/*
-  * Status of the sent command, in bit number
-  *
-  * SVC_STATUS_OK:
-@@ -50,7 +50,7 @@
- #define SVC_STATUS_ERROR		5
- #define SVC_STATUS_NO_SUPPORT		6
- 
--/**
-+/*
-  * Flag bit for COMMAND_RECONFIG
-  *
-  * COMMAND_RECONFIG_FLAG_PARTIAL:
-@@ -58,7 +58,7 @@
-  */
- #define COMMAND_RECONFIG_FLAG_PARTIAL	1
- 
--/**
-+/*
-  * Timeout settings for service clients:
-  * timeout value used in Stratix10 FPGA manager driver.
-  * timeout value used in RSU driver
-@@ -218,7 +218,7 @@ void stratix10_svc_free_memory(struct stratix10_svc_chan *chan, void *kaddr);
- int stratix10_svc_send(struct stratix10_svc_chan *chan, void *msg);
+  * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 74323b10a64a..2f95f08ca511 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1277,7 +1277,7 @@ struct dwc3_event_type {
+ #define DWC3_DEPEVT_EPCMDCMPLT		0x07
  
  /**
-- * intel_svc_done() - complete service request
-+ * stratix10_svc_done() - complete service request
-  * @chan: service channel assigned to the client
+- * struct dwc3_event_depvt - Device Endpoint Events
++ * struct dwc3_event_depevt - Device Endpoint Events
+  * @one_bit: indicates this is an endpoint event (not used)
+  * @endpoint_number: number of the endpoint
+  * @endpoint_event: The event we have:
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index 05b176c82cc5..c6d455f2bb92 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -1245,7 +1245,7 @@ int usb_string_id(struct usb_composite_dev *cdev)
+ EXPORT_SYMBOL_GPL(usb_string_id);
+ 
+ /**
+- * usb_string_ids() - allocate unused string IDs in batch
++ * usb_string_ids_tab() - allocate unused string IDs in batch
+  * @cdev: the device whose string descriptor IDs are being allocated
+  * @str: an array of usb_string objects to assign numbers to
+  * Context: single threaded during gadget setup
+diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+index b069a5122aaa..cf720e944aaa 100644
+--- a/drivers/usb/typec/mux.c
++++ b/drivers/usb/typec/mux.c
+@@ -71,7 +71,7 @@ struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode)
+ EXPORT_SYMBOL_GPL(fwnode_typec_switch_get);
+ 
+ /**
+- * typec_put_switch - Release USB Type-C orientation switch
++ * typec_switch_put - Release USB Type-C orientation switch
+  * @sw: USB Type-C orientation switch
   *
-  * This function is used by service client to inform service layer that
+  * Decrement reference count for @sw.
+diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
+index 2040696d75b6..a2d229ab63ba 100644
+--- a/include/linux/usb/composite.h
++++ b/include/linux/usb/composite.h
+@@ -437,7 +437,7 @@ static inline struct usb_composite_driver *to_cdriver(
+ #define OS_STRING_IDX			0xEE
+ 
+ /**
+- * struct usb_composite_device - represents one composite usb gadget
++ * struct usb_composite_dev - represents one composite usb gadget
+  * @gadget: read-only, abstracts the gadget's usb peripheral controller
+  * @req: used for control responses; buffer is pre-allocated
+  * @os_desc_req: used for OS descriptors responses; buffer is pre-allocated
 -- 
 2.26.2
 
