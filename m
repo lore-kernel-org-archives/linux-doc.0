@@ -4,52 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD356C388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B00E6C55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84431241A3
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66BEC22210
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603471075;
-	bh=aze7TjC84Uc8SJubYPng7vvu1DjXQUzWlcB1MzITV/s=;
+	s=default; t=1603471093;
+	bh=5lHzpILvKYHOsmZv84lgfmyWVXRvs6xXURMjdZd7/44=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=2qJauwDsnz671wPWS/sBF9IYC+OLs8+uwmcFsb5CnrTwIls6c0yjvF2YFY73hS77E
-	 dvH1feJZcK3wlnBpTSPWgP1azWYCaWI49pCzzAV9sn26CUVsoGDSPw05+Q8DR8O4Os
-	 syOSqCaaSw7tEPUq49A8bwOsNgrEs2CgIyMBoOAI=
+	b=Rzb37R8w3OheMoI3QYTTBQbcx9YCjn5m9gQg+BLB5hLOf8KMut73YVIDFLoRRxIZm
+	 M9Z4SWRkw7gaIeGAKeXJL6Z0MDg5JtaeaFgWSR1VSU7kGUASlbnS7NXBvT1n4pHJ16
+	 KDOyrO8tznmlupJ0AROwcFwawvQE45bUsgBcoDsk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752266AbgJWQhz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:37:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33586 "EHLO mail.kernel.org"
+        id S1752258AbgJWQhy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:37:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33328 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751830AbgJWQdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751835AbgJWQdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:49 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C76F52468E;
+        by mail.kernel.org (Postfix) with ESMTPSA id 93C4E24684;
         Fri, 23 Oct 2020 16:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603470828;
-        bh=aze7TjC84Uc8SJubYPng7vvu1DjXQUzWlcB1MzITV/s=;
+        s=default; t=1603470827;
+        bh=5lHzpILvKYHOsmZv84lgfmyWVXRvs6xXURMjdZd7/44=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=e90TF8VCkorCRtM6nS/rGaOYyNg8zUk9M0V26eTmEwfcYP8i1I7eTEyjPbvQxBG2u
-         NmAa/1etwUe303x9xBYf7sUmmo1CTqadAmqO3LCWBMPpD9DyH4qFU4o0ZSp+S+Mbio
-         DElJDr6y+gAb7CZ0YZ6sjbvjxfJFqeVgQGy1Ys2c=
+        b=spattuVYgruS9/Gz1Mm2vLSehqbbHi5E9HrFTSo4vkhPN+/FZ71iEbcuhhUfQGD54
+         hdryU0YtDFgffXSwSqian18NGbzictPIKoUXzcJO+PQ9wZhzAyCYSa/mTfJ8W0R3j5
+         UXKhgGJ9BQoMLKXc9Ark3t7KAwy/6Gx+D9+Bwtmo=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00f-002AwN-Pl; Fri, 23 Oct 2020 18:33:45 +0200
+        id 1kW00f-002Aw7-EE; Fri, 23 Oct 2020 18:33:45 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 24/56] PNP: fix kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:11 +0200
-Message-Id: <1e3d69e0890a36303f4c804ae9c523df9f098d6a.1603469755.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v3 18/56] net: phy: fix kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:33:05 +0200
+Message-Id: <d23c5638c4fd0e7b9f294f2bf647d2386428eb7e.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -60,36 +63,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It sounds that there were function renames. Update the kernel-doc
-markups accordingly.
+Some functions have different names between their prototypes
+and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/pnp/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/phy/mdio_bus.c   | 2 +-
+ drivers/net/phy/phy-c45.c    | 2 +-
+ drivers/net/phy/phy.c        | 2 +-
+ drivers/net/phy/phy_device.c | 2 +-
+ drivers/net/phy/phylink.c    | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pnp/core.c b/drivers/pnp/core.c
-index 3bf18d718975..a50ab002e9e4 100644
---- a/drivers/pnp/core.c
-+++ b/drivers/pnp/core.c
-@@ -51,7 +51,7 @@ static void pnp_remove_protocol(struct pnp_protocol *protocol)
- }
+diff --git a/drivers/net/phy/mdio_bus.c b/drivers/net/phy/mdio_bus.c
+index 757e950fb745..e59067c64e97 100644
+--- a/drivers/net/phy/mdio_bus.c
++++ b/drivers/net/phy/mdio_bus.c
+@@ -472,7 +472,7 @@ static inline void of_mdiobus_link_mdiodev(struct mii_bus *mdio,
+ #endif
  
  /**
-- * pnp_protocol_register - adds a pnp protocol to the pnp layer
-+ * pnp_register_protocol - adds a pnp protocol to the pnp layer
-  * @protocol: pointer to the corresponding pnp_protocol structure
-  *
-  *  Ex protocols: ISAPNP, PNPBIOS, etc
-@@ -91,7 +91,7 @@ int pnp_register_protocol(struct pnp_protocol *protocol)
- }
+- * mdiobus_create_device_from_board_info - create a full MDIO device given
++ * mdiobus_create_device - create a full MDIO device given
+  * a mdio_board_info structure
+  * @bus: MDIO bus to create the devices on
+  * @bi: mdio_board_info structure describing the devices
+diff --git a/drivers/net/phy/phy-c45.c b/drivers/net/phy/phy-c45.c
+index bd11e62bfdfe..077f2929c45e 100644
+--- a/drivers/net/phy/phy-c45.c
++++ b/drivers/net/phy/phy-c45.c
+@@ -9,7 +9,7 @@
+ #include <linux/phy.h>
  
  /**
-- * pnp_protocol_unregister - removes a pnp protocol from the pnp layer
-+ * pnp_unregister_protocol - removes a pnp protocol from the pnp layer
-  * @protocol: pointer to the corresponding pnp_protocol structure
+- * genphy_c45_setup_forced - configures a forced speed
++ * genphy_c45_pma_setup_forced - configures a forced speed
+  * @phydev: target phy_device struct
   */
- void pnp_unregister_protocol(struct pnp_protocol *protocol)
+ int genphy_c45_pma_setup_forced(struct phy_device *phydev)
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index 35525a671400..71ed2596acf5 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -489,7 +489,7 @@ void phy_queue_state_machine(struct phy_device *phydev, unsigned long jiffies)
+ EXPORT_SYMBOL(phy_queue_state_machine);
+ 
+ /**
+- * phy_queue_state_machine - Trigger the state machine to run now
++ * phy_trigger_machine - Trigger the state machine to run now
+  *
+  * @phydev: the phy_device struct
+  */
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 5dab6be6fc38..ea5d5fb42d01 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -2735,7 +2735,7 @@ static int phy_get_int_delay_property(struct device *dev, const char *name)
+ #endif
+ 
+ /**
+- * phy_get_delay_index - returns the index of the internal delay
++ * phy_get_internal_delay - returns the index of the internal delay
+  * @phydev: phy_device struct
+  * @dev: pointer to the devices device struct
+  * @delay_values: array of delays the PHY supports
+diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+index fe2296fdda19..1318ccb62bd7 100644
+--- a/drivers/net/phy/phylink.c
++++ b/drivers/net/phy/phylink.c
+@@ -1649,7 +1649,7 @@ int phylink_ethtool_set_pauseparam(struct phylink *pl,
+ EXPORT_SYMBOL_GPL(phylink_ethtool_set_pauseparam);
+ 
+ /**
+- * phylink_ethtool_get_eee_err() - read the energy efficient ethernet error
++ * phylink_get_eee_err() - read the energy efficient ethernet error
+  *   counter
+  * @pl: a pointer to a &struct phylink returned from phylink_create().
+  *
 -- 
 2.26.2
 
