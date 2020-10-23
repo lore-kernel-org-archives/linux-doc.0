@@ -2,90 +2,67 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF2D0C388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:39:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B6A9C388F9
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:48:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24F7D2192A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:39:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sjZdRrrC"
+	by mail.kernel.org (Postfix) with ESMTP id 1ED752192A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753849AbgJWTjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 15:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750844AbgJWTjS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 15:39:18 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6EA6C0613CE;
-        Fri, 23 Oct 2020 12:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=T9q59dJKpQX8nTZH0b75mhaG2Wx0jHG0nvtcUF6WI3k=; b=sjZdRrrCEhq90m8iU3JACCux66
-        voAIF2q/rW8fOUuHcVnoo4PaWCMnNIWGlrD3P4+srGdqOhbVMxhfrbHolAU7k/RsbVUgd1yEq+y2a
-        Qf/UdmcasmKzinF/VmsPj+9pS/oZetKijsA1cW0qyipzO52AiuHtqxGL4t4PIhEXrFgYiO+6So04R
-        RFX9CiECcqpXYfE1P9ARMgSayOLxE32BGD/PnxwO13Ju/uotCzoScFVcPX3glbE/TaJedeMWo/k+K
-        hnR2CfLhf2cHBioIXu16bm72CDeqVakfKpyTIHy66U4L5RDLPYG/0rKKpJ7NjLAtykcfzqA/yn0qQ
-        avbu+W1Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kW2u5-0007SU-NN; Fri, 23 Oct 2020 19:39:09 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 157E798104F; Fri, 23 Oct 2020 21:39:07 +0200 (CEST)
-Date:   Fri, 23 Oct 2020 21:39:07 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S1754870AbgJWTsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 15:48:01 -0400
+Received: from ms.lwn.net ([45.79.88.28]:51894 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1754840AbgJWTsB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 15:48:01 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 996EA7DE;
+        Fri, 23 Oct 2020 19:47:59 +0000 (UTC)
+Date:   Fri, 23 Oct 2020 13:47:57 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Ard Biesheuvel <ardb@kernel.org>,
         Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
         Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 49/56] refcount.h: fix a kernel-doc markup
-Message-ID: <20201023193907.GI2974@worktop.programming.kicks-ass.net>
+Message-ID: <20201023134757.628f91b7@lwn.net>
+In-Reply-To: <20201023193907.GI2974@worktop.programming.kicks-ass.net>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <fd94a95cfe01b97190b6ffb9e942cb4bbeeaa6bf.1603469755.git.mchehab+huawei@kernel.org>
- <202010231039.DE05B63@keescook>
+        <fd94a95cfe01b97190b6ffb9e942cb4bbeeaa6bf.1603469755.git.mchehab+huawei@kernel.org>
+        <202010231039.DE05B63@keescook>
+        <20201023193907.GI2974@worktop.programming.kicks-ass.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202010231039.DE05B63@keescook>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 23, 2020 at 10:40:09AM -0700, Kees Cook wrote:
-> On Fri, Oct 23, 2020 at 06:33:36PM +0200, Mauro Carvalho Chehab wrote:
-> > The documented typedef just after the kernel-doc markup
-> > is named "refcount_struct".
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  include/linux/refcount.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-> > index 497990c69b0b..8f431b0e69e4 100644
-> > --- a/include/linux/refcount.h
-> > +++ b/include/linux/refcount.h
-> > @@ -101,7 +101,7 @@
-> >  struct mutex;
-> >  
-> >  /**
-> > - * struct refcount_t - variant of atomic_t specialized for reference counts
-> > + * struct refcount_struct - variant of atomic_t specialized for reference counts
-> 
-> Hm, this is a weird one. Yes, it's actually "struct refcount_struct",
-> but the usage should be refcount_t (through the typedef). I'm not sure
-> what the right way to document this is.
+On Fri, 23 Oct 2020 21:39:07 +0200
+Peter Zijlstra <peterz@infradead.org> wrote:
 
-Yeah, this is wrong. If this is due to a kernel doc warning, the kernel
-doc machinery is wrong *again*.
+> > >  /**
+> > > - * struct refcount_t - variant of atomic_t specialized for reference counts
+> > > + * struct refcount_struct - variant of atomic_t specialized for reference counts  
+> > 
+> > Hm, this is a weird one. Yes, it's actually "struct refcount_struct",
+> > but the usage should be refcount_t (through the typedef). I'm not sure
+> > what the right way to document this is.  
+> 
+> Yeah, this is wrong. If this is due to a kernel doc warning, the kernel
+> doc machinery is wrong *again*.
+
+...except that, since refcount_t is a typedef, "struct refcount_t" doesn't
+actually exist.  Whether it works properly after doing s/struct// remains
+to be seen...
+
+jon
