@@ -2,166 +2,368 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E9EEC55179
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:51:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E37EC388F9
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:57:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BF97241A4
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:51:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="AGUbVTGo"
+	by mail.kernel.org (Postfix) with ESMTP id 4718F20797
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:57:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752772AbgJWQvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:51:11 -0400
-Received: from mail-dm6nam10on2084.outbound.protection.outlook.com ([40.107.93.84]:35520
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752807AbgJWQvE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 12:51:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P3D29VhJHRMLemEI0Q/FHe3ZtV0oEO/9n4yI4X67oT7r2HFVLChpry0MVfoj77BOlvwdVT6dZq2YEuhmK6nrAcV+Kxkhxs8bkeIpMw+thuXJjUkDt/MfJ5F/HOPI1FmPqAB24yQUZl/4KiVD7jehFZt2y0nEgVeqaftgzcgSusPGFYvOb7kRxXfI24ck0OxbvYcnhebXd7POxRpnmIeqW6ulbBVG/C2uWUm41mqXD0RfMLIVoBRSvU0FNu8rpFVrjY6f21Sg/0vEqlisZ4a8Qcj1zchKK+LF0VemIbl8olIP3GBg0jcXBZL54SdjFZLQMEA1gyPeEKJZYWEt9qRwNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lb6xlH+YsIQLQra1S6TBPMNI9X0yX0l13txSZtFBGYk=;
- b=WTJHLhle0H6qOQ2srWU3A1tmT5vb1OmHLq9NDtSI8KevbeMrRnLIYSCb6A/tPHkc4PejHDFpgltmQYPIEXCoDiiQ0c9VDRJnctHDfgjWbOYzlLbw/mjC6lptJum/Motk5UawXilKfLHLKToBc5Zdo02TSRJ17zKoT50IMbt6SerI+5d9J+I/i4oLUqyXP013RQOYtKH6mLwtKI2n7SipsqQAP9CBKj+HeHikbkLvjx5yg8IVkuKkLuHT0NVgLOVixl1ZlzMFX6UuRxCrPbMMZEoLIRNSrmoml7oazbTL2CYSy/HUjvvt82Zi/ucOzA3dT9HVoUYLShVkcV7P7k4brw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lb6xlH+YsIQLQra1S6TBPMNI9X0yX0l13txSZtFBGYk=;
- b=AGUbVTGo9ov97LluCKr1swnUHrzAZnCtG96/IqvY9YudlZkxk2P1ekmCjH1s4tw/R576uSQOoX9EM/aMdOuczAGegQoe/u3imiSL5H7u+dxbvrokMMAX9Ij9lah5EBslO0nKUCYMWU6ZrKYBoyUerikAQ5EGqli7yFcnAXDGQBU=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2417.namprd12.prod.outlook.com (2603:10b6:207:45::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Fri, 23 Oct
- 2020 16:51:00 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3477.028; Fri, 23 Oct 2020
- 16:51:00 +0000
-Subject: Re: [PATCH v3 11/56] drm/amdgpu: fix some kernel-doc markups
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Alex Sierra <alex.sierra@amd.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Bernard Zhao <bernard@vivo.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Jacob He <jacob.he@amd.com>,
-        Jonathan Kim <jonathan.kim@amd.com>,
-        Nirmoy Das <nirmoy.das@amd.com>, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        xinhui pan <xinhui.pan@amd.com>
+        id S465293AbgJWQ5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:57:25 -0400
+Received: from mx2.suse.de ([195.135.220.15]:32800 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S461853AbgJWQ5Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:57:25 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 486C7AC48;
+        Fri, 23 Oct 2020 16:57:23 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id EB3C91E1348; Fri, 23 Oct 2020 18:57:22 +0200 (CEST)
+Date:   Fri, 23 Oct 2020 18:57:22 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.com>,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 35/56] jbd2: fix kernel-doc markups
+Message-ID: <20201023165722.GH9119@quack2.suse.cz>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <ffc1f2d59fd5005f365eb5d178a2d890112bb6bb.1603469755.git.mchehab+huawei@kernel.org>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <5e7a3500-a84a-1dfb-0841-bb624eba30c8@amd.com>
-Date:   Fri, 23 Oct 2020 18:50:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <ffc1f2d59fd5005f365eb5d178a2d890112bb6bb.1603469755.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM4PR0701CA0027.eurprd07.prod.outlook.com
- (2603:10a6:200:42::37) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ <ef76f7a51fbb1ff7d9d1ff36f5ce65f1c3e5e3c2.1603469755.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM4PR0701CA0027.eurprd07.prod.outlook.com (2603:10a6:200:42::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.7 via Frontend Transport; Fri, 23 Oct 2020 16:50:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: eae4bd9c-256f-4b08-8bda-08d87773d1a0
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2417:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB2417977C14AE775EA4961216831A0@BL0PR12MB2417.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: h8scQpRbzcT2TTnlvPEXmz8V++e2H+hT0LohqzgNjkPkS/A0KCvWsnGNAQ3ZsUTi8hHKE0aDQXCT0DD+DWrE8wEOLy45N+bmo39TA9b2un/LdxLE4/bqVBSFW/vl2G4TJ3kIaBbIvBnMrgK7qYjIZmSaOiSrdquP4N1fTXd/N6fYi1a5S2nGYYXZGibLuoDZ3nuY2KYw7e2GhqGwl2ymmFFkpqUWRmpb9FijdcVjlx0tzZBNL5t2b2ZaIhUe24RdKcwW7hGjoOp6b+VgQGA3S7JA20zybmLK7QUyXKI8CgL3onEm01A8kSuJqlcwsCJt5gMctSBOYwsTXopNvN8XJdVvVyCdlY0XBb9R9Uo6Mxcuf8Soli3BBN2akQ1cgbPS
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(39860400002)(366004)(396003)(346002)(86362001)(2906002)(478600001)(54906003)(83380400001)(66574015)(316002)(6486002)(8676002)(31686004)(186003)(2616005)(16526019)(8936002)(66556008)(66946007)(52116002)(4326008)(31696002)(110136005)(5660300002)(66476007)(7416002)(6666004)(36756003)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: tRk54PN/KWpnXgbWV+uUTlP4+b9JbqCBaTZL4ilWcG83MA9koGhT2E8lRFAaXrO8/ZH5o6N3wg11pQG48hEAIgzZE0EUh1IOQ1fnffWb1+ooRQWsRwtTtv1QCHvep/fzk5TXVVbZFQWVEegHYQ9k4pjfcXBKyIF3c5XwWlCcH9Wgmjr2jga5Yomu/gi3jpmkFoB+O9pu6+eLpaZkuMsPU4uamBGzygkljKnTfzdZIlntdpOwa0T1n+MHvJUmlFeEEnp3yjlwcWDkbYXVRtjtGS6RiaaJNOgs88lJO4I6uHSrDV+mdIJOjl17z4NQ3CzsvCxjd9XiDsNMGBsfDLV9TUL3OxYFtG+hlpVQ5BQ0XMauBAWo9P/bH5AFzMo9GGf+KdRhIykESYpccteRkSYax4AFOTCxUExI6YPSEZ6TeArYF5O0DuuDV4h5xI3EsnxnvG7xO6A+D1qlYOHUCNKou2TuU/9wsfX8fwKAdKconcKHXUcXyufQZtiicGR/iqAx39TPqeM5xG+0yyKoNvQ7zo21Ok+R6Yd9V8NglH9wsGMAV3fYoNi04kCzJizYFgitaC3BF4uJq9turwtoBtBy3nOyfx+aHkHTSAh5PkFqB9knTmokzb7EJH1t4PKSs0ZKjY/H+iptYQ6jxNpHqgAyThSFLRAHl2X6UzcKwnfzO0WeqTQ/1/GUFYV2xZ9OPiBaTrfecYOnNiegT7xKmii+Zw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eae4bd9c-256f-4b08-8bda-08d87773d1a0
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 16:50:59.8277
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 10tc9HHyD1mlCQ02XT8VEVaiJaC7ZF0PF0FSVrdmYcBmQkLLZmvChBvfaR8+tulP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2417
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef76f7a51fbb1ff7d9d1ff36f5ce65f1c3e5e3c2.1603469755.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 23.10.20 um 18:32 schrieb Mauro Carvalho Chehab:
-> Some functions have different names between their prototypes
-> and the kernel-doc markup.
->
+On Fri 23-10-20 18:33:22, Mauro Carvalho Chehab wrote:
+> Kernel-doc markup should use this format:
+>         identifier - description
+> 
+> They should not have any type before that, as otherwise
+> the parser won't do the right thing.
+> 
+> Also, some identifiers have different names between their
+> prototypes and the kernel-doc markup.
+> 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Acked-by: Christian König <christian.koenig@amd.com>
+Thanks for the patch. It looks good. You can add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c       | 2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
->   include/uapi/drm/amdgpu_drm.h                | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index df110afa97bf..a5f73a267fe5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2166,7 +2166,7 @@ struct amdgpu_bo_va *amdgpu_vm_bo_add(struct amdgpu_device *adev,
->   
->   
->   /**
-> - * amdgpu_vm_bo_insert_mapping - insert a new mapping
-> + * amdgpu_vm_bo_insert_map - insert a new mapping
->    *
->    * @adev: amdgpu_device pointer
->    * @bo_va: bo_va to store the address
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 0c6b7c5ecfec..795bad307497 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -528,7 +528,7 @@ int amdgpu_vram_mgr_alloc_sgt(struct amdgpu_device *adev,
->   }
->   
->   /**
-> - * amdgpu_vram_mgr_alloc_sgt - allocate and fill a sg table
-> + * amdgpu_vram_mgr_free_sgt - allocate and fill a sg table
->    *
->    * @adev: amdgpu device pointer
->    * @sgt: sg table to free
-> diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
-> index c5ff2b275fcd..791a1d597d2a 100644
-> --- a/include/uapi/drm/amdgpu_drm.h
-> +++ b/include/uapi/drm/amdgpu_drm.h
-> @@ -667,7 +667,7 @@ struct drm_amdgpu_cs_chunk_data {
->   	};
->   };
->   
-> -/**
-> +/*
->    *  Query h/w info: Flag that this is integrated (a.h.a. fusion) GPU
->    *
->    */
-
+>  fs/jbd2/journal.c     | 34 ++++++++++++++++++----------------
+>  fs/jbd2/transaction.c | 31 ++++++++++++++++---------------
+>  include/linux/jbd2.h  |  2 +-
+>  3 files changed, 35 insertions(+), 32 deletions(-)
+> 
+> diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+> index 0c7c42bd530f..f71848367ab6 100644
+> --- a/fs/jbd2/journal.c
+> +++ b/fs/jbd2/journal.c
+> @@ -566,12 +566,14 @@ static int __jbd2_journal_force_commit(journal_t *journal)
+>  }
+>  
+>  /**
+> - * Force and wait upon a commit if the calling process is not within
+> - * transaction.  This is used for forcing out undo-protected data which contains
+> - * bitmaps, when the fs is running out of space.
+> + * jbd2_journal_force_commit_nested - Force and wait upon a commit if the
+> + * calling process is not within transaction.
+>   *
+>   * @journal: journal to force
+>   * Returns true if progress was made.
+> + *
+> + * This is used for forcing out undo-protected data which contains
+> + * bitmaps, when the fs is running out of space.
+>   */
+>  int jbd2_journal_force_commit_nested(journal_t *journal)
+>  {
+> @@ -582,7 +584,7 @@ int jbd2_journal_force_commit_nested(journal_t *journal)
+>  }
+>  
+>  /**
+> - * int journal_force_commit() - force any uncommitted transactions
+> + * jbd2_journal_force_commit() - force any uncommitted transactions
+>   * @journal: journal to force
+>   *
+>   * Caller want unconditional commit. We can only force the running transaction
+> @@ -1899,7 +1901,7 @@ static int load_superblock(journal_t *journal)
+>  
+>  
+>  /**
+> - * int jbd2_journal_load() - Read journal from disk.
+> + * jbd2_journal_load() - Read journal from disk.
+>   * @journal: Journal to act on.
+>   *
+>   * Given a journal_t structure which tells us which disk blocks contain
+> @@ -1972,7 +1974,7 @@ int jbd2_journal_load(journal_t *journal)
+>  }
+>  
+>  /**
+> - * void jbd2_journal_destroy() - Release a journal_t structure.
+> + * jbd2_journal_destroy() - Release a journal_t structure.
+>   * @journal: Journal to act on.
+>   *
+>   * Release a journal_t structure once it is no longer in use by the
+> @@ -2050,7 +2052,7 @@ int jbd2_journal_destroy(journal_t *journal)
+>  
+>  
+>  /**
+> - *int jbd2_journal_check_used_features() - Check if features specified are used.
+> + * jbd2_journal_check_used_features() - Check if features specified are used.
+>   * @journal: Journal to check.
+>   * @compat: bitmask of compatible features
+>   * @ro: bitmask of features that force read-only mount
+> @@ -2085,7 +2087,7 @@ int jbd2_journal_check_used_features(journal_t *journal, unsigned long compat,
+>  }
+>  
+>  /**
+> - * int jbd2_journal_check_available_features() - Check feature set in journalling layer
+> + * jbd2_journal_check_available_features() - Check feature set in journalling layer
+>   * @journal: Journal to check.
+>   * @compat: bitmask of compatible features
+>   * @ro: bitmask of features that force read-only mount
+> @@ -2117,7 +2119,7 @@ int jbd2_journal_check_available_features(journal_t *journal, unsigned long comp
+>  }
+>  
+>  /**
+> - * int jbd2_journal_set_features() - Mark a given journal feature in the superblock
+> + * jbd2_journal_set_features() - Mark a given journal feature in the superblock
+>   * @journal: Journal to act on.
+>   * @compat: bitmask of compatible features
+>   * @ro: bitmask of features that force read-only mount
+> @@ -2201,7 +2203,7 @@ int jbd2_journal_set_features(journal_t *journal, unsigned long compat,
+>  }
+>  
+>  /*
+> - * jbd2_journal_clear_features () - Clear a given journal feature in the
+> + * jbd2_journal_clear_features() - Clear a given journal feature in the
+>   * 				    superblock
+>   * @journal: Journal to act on.
+>   * @compat: bitmask of compatible features
+> @@ -2230,7 +2232,7 @@ void jbd2_journal_clear_features(journal_t *journal, unsigned long compat,
+>  EXPORT_SYMBOL(jbd2_journal_clear_features);
+>  
+>  /**
+> - * int jbd2_journal_flush () - Flush journal
+> + * jbd2_journal_flush() - Flush journal
+>   * @journal: Journal to act on.
+>   *
+>   * Flush all data for a given journal to disk and empty the journal.
+> @@ -2305,7 +2307,7 @@ int jbd2_journal_flush(journal_t *journal)
+>  }
+>  
+>  /**
+> - * int jbd2_journal_wipe() - Wipe journal contents
+> + * jbd2_journal_wipe() - Wipe journal contents
+>   * @journal: Journal to act on.
+>   * @write: flag (see below)
+>   *
+> @@ -2346,7 +2348,7 @@ int jbd2_journal_wipe(journal_t *journal, int write)
+>  }
+>  
+>  /**
+> - * void jbd2_journal_abort () - Shutdown the journal immediately.
+> + * jbd2_journal_abort () - Shutdown the journal immediately.
+>   * @journal: the journal to shutdown.
+>   * @errno:   an error number to record in the journal indicating
+>   *           the reason for the shutdown.
+> @@ -2437,7 +2439,7 @@ void jbd2_journal_abort(journal_t *journal, int errno)
+>  }
+>  
+>  /**
+> - * int jbd2_journal_errno () - returns the journal's error state.
+> + * jbd2_journal_errno() - returns the journal's error state.
+>   * @journal: journal to examine.
+>   *
+>   * This is the errno number set with jbd2_journal_abort(), the last
+> @@ -2461,7 +2463,7 @@ int jbd2_journal_errno(journal_t *journal)
+>  }
+>  
+>  /**
+> - * int jbd2_journal_clear_err () - clears the journal's error state
+> + * jbd2_journal_clear_err() - clears the journal's error state
+>   * @journal: journal to act on.
+>   *
+>   * An error must be cleared or acked to take a FS out of readonly
+> @@ -2481,7 +2483,7 @@ int jbd2_journal_clear_err(journal_t *journal)
+>  }
+>  
+>  /**
+> - * void jbd2_journal_ack_err() - Ack journal err.
+> + * jbd2_journal_ack_err() - Ack journal err.
+>   * @journal: journal to act on.
+>   *
+>   * An error must be cleared or acked to take a FS out of readonly
+> diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+> index 43985738aa86..4cf88191b025 100644
+> --- a/fs/jbd2/transaction.c
+> +++ b/fs/jbd2/transaction.c
+> @@ -517,7 +517,7 @@ EXPORT_SYMBOL(jbd2__journal_start);
+>  
+>  
+>  /**
+> - * handle_t *jbd2_journal_start() - Obtain a new handle.
+> + * jbd2_journal_start() - Obtain a new handle.
+>   * @journal: Journal to start transaction on.
+>   * @nblocks: number of block buffer we might modify
+>   *
+> @@ -564,7 +564,7 @@ void jbd2_journal_free_reserved(handle_t *handle)
+>  EXPORT_SYMBOL(jbd2_journal_free_reserved);
+>  
+>  /**
+> - * int jbd2_journal_start_reserved() - start reserved handle
+> + * jbd2_journal_start_reserved() - start reserved handle
+>   * @handle: handle to start
+>   * @type: for handle statistics
+>   * @line_no: for handle statistics
+> @@ -618,7 +618,7 @@ int jbd2_journal_start_reserved(handle_t *handle, unsigned int type,
+>  EXPORT_SYMBOL(jbd2_journal_start_reserved);
+>  
+>  /**
+> - * int jbd2_journal_extend() - extend buffer credits.
+> + * jbd2_journal_extend() - extend buffer credits.
+>   * @handle:  handle to 'extend'
+>   * @nblocks: nr blocks to try to extend by.
+>   * @revoke_records: number of revoke records to try to extend by.
+> @@ -743,7 +743,7 @@ static void stop_this_handle(handle_t *handle)
+>  }
+>  
+>  /**
+> - * int jbd2_journal_restart() - restart a handle .
+> + * jbd2__journal_restart() - restart a handle .
+>   * @handle:  handle to restart
+>   * @nblocks: nr credits requested
+>   * @revoke_records: number of revoke record credits requested
+> @@ -813,7 +813,7 @@ int jbd2_journal_restart(handle_t *handle, int nblocks)
+>  EXPORT_SYMBOL(jbd2_journal_restart);
+>  
+>  /**
+> - * void jbd2_journal_lock_updates () - establish a transaction barrier.
+> + * jbd2_journal_lock_updates () - establish a transaction barrier.
+>   * @journal:  Journal to establish a barrier on.
+>   *
+>   * This locks out any further updates from being started, and blocks
+> @@ -872,7 +872,7 @@ void jbd2_journal_lock_updates(journal_t *journal)
+>  }
+>  
+>  /**
+> - * void jbd2_journal_unlock_updates (journal_t* journal) - release barrier
+> + * jbd2_journal_unlock_updates () - release barrier
+>   * @journal:  Journal to release the barrier on.
+>   *
+>   * Release a transaction barrier obtained with jbd2_journal_lock_updates().
+> @@ -1180,7 +1180,8 @@ static bool jbd2_write_access_granted(handle_t *handle, struct buffer_head *bh,
+>  }
+>  
+>  /**
+> - * int jbd2_journal_get_write_access() - notify intent to modify a buffer for metadata (not data) update.
+> + * jbd2_journal_get_write_access() - notify intent to modify a buffer
+> + *				     for metadata (not data) update.
+>   * @handle: transaction to add buffer modifications to
+>   * @bh:     bh to be used for metadata writes
+>   *
+> @@ -1224,7 +1225,7 @@ int jbd2_journal_get_write_access(handle_t *handle, struct buffer_head *bh)
+>   * unlocked buffer beforehand. */
+>  
+>  /**
+> - * int jbd2_journal_get_create_access () - notify intent to use newly created bh
+> + * jbd2_journal_get_create_access () - notify intent to use newly created bh
+>   * @handle: transaction to new buffer to
+>   * @bh: new buffer.
+>   *
+> @@ -1304,7 +1305,7 @@ int jbd2_journal_get_create_access(handle_t *handle, struct buffer_head *bh)
+>  }
+>  
+>  /**
+> - * int jbd2_journal_get_undo_access() -  Notify intent to modify metadata with
+> + * jbd2_journal_get_undo_access() -  Notify intent to modify metadata with
+>   *     non-rewindable consequences
+>   * @handle: transaction
+>   * @bh: buffer to undo
+> @@ -1381,7 +1382,7 @@ int jbd2_journal_get_undo_access(handle_t *handle, struct buffer_head *bh)
+>  }
+>  
+>  /**
+> - * void jbd2_journal_set_triggers() - Add triggers for commit writeout
+> + * jbd2_journal_set_triggers() - Add triggers for commit writeout
+>   * @bh: buffer to trigger on
+>   * @type: struct jbd2_buffer_trigger_type containing the trigger(s).
+>   *
+> @@ -1423,7 +1424,7 @@ void jbd2_buffer_abort_trigger(struct journal_head *jh,
+>  }
+>  
+>  /**
+> - * int jbd2_journal_dirty_metadata() -  mark a buffer as containing dirty metadata
+> + * jbd2_journal_dirty_metadata() -  mark a buffer as containing dirty metadata
+>   * @handle: transaction to add buffer to.
+>   * @bh: buffer to mark
+>   *
+> @@ -1591,7 +1592,7 @@ int jbd2_journal_dirty_metadata(handle_t *handle, struct buffer_head *bh)
+>  }
+>  
+>  /**
+> - * void jbd2_journal_forget() - bforget() for potentially-journaled buffers.
+> + * jbd2_journal_forget() - bforget() for potentially-journaled buffers.
+>   * @handle: transaction handle
+>   * @bh:     bh to 'forget'
+>   *
+> @@ -1760,7 +1761,7 @@ int jbd2_journal_forget(handle_t *handle, struct buffer_head *bh)
+>  }
+>  
+>  /**
+> - * int jbd2_journal_stop() - complete a transaction
+> + * jbd2_journal_stop() - complete a transaction
+>   * @handle: transaction to complete.
+>   *
+>   * All done for a particular handle.
+> @@ -2078,7 +2079,7 @@ __journal_try_to_free_buffer(journal_t *journal, struct buffer_head *bh)
+>  }
+>  
+>  /**
+> - * int jbd2_journal_try_to_free_buffers() - try to free page buffers.
+> + * jbd2_journal_try_to_free_buffers() - try to free page buffers.
+>   * @journal: journal for operation
+>   * @page: to try and free
+>   *
+> @@ -2409,7 +2410,7 @@ static int journal_unmap_buffer(journal_t *journal, struct buffer_head *bh,
+>  }
+>  
+>  /**
+> - * void jbd2_journal_invalidatepage()
+> + * jbd2_journal_invalidatepage()
+>   * @journal: journal to use for flush...
+>   * @page:    page to flush
+>   * @offset:  start of the range to invalidate
+> diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
+> index 3c5f76ce88f1..17bed9684cba 100644
+> --- a/include/linux/jbd2.h
+> +++ b/include/linux/jbd2.h
+> @@ -397,7 +397,7 @@ static inline void jbd_unlock_bh_journal_head(struct buffer_head *bh)
+>  #define JI_WAIT_DATA (1 << __JI_WAIT_DATA)
+>  
+>  /**
+> - * struct jbd_inode - The jbd_inode type is the structure linking inodes in
+> + * struct jbd2_inode - The jbd_inode type is the structure linking inodes in
+>   * ordered mode present in a transaction so that we can sync them during commit.
+>   */
+>  struct jbd2_inode {
+> -- 
+> 2.26.2
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
