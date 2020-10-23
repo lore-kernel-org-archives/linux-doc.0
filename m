@@ -7,50 +7,51 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 909D0C5DF9D
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17A41C4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3912622210
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF5B622210
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603470998;
-	bh=QtoGRTSylDJqRgGFl+2IEK4wws+paYf2E8QEhkhHbdI=;
+	s=default; t=1603471019;
+	bh=+yokCfZBHZQZytH1I9mxcfAei7oyJOP+8TqDL5TGlyc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ISUvkry0RJtGQ/8purl1Y/evseJ/DdKQRggl02CeApe3B+d2NbkpFWCI2w5OoOZQY
-	 a9FCYJE8muxs86kKJYqAEwecgHfVRnFE9cElR6fQDoN4WVf/nYAGkvbgKbA73eGG2E
-	 ivdy3lKMmlxvVXw5hBd6BZuRTQCAzXtoew29nHfQ=
+	b=16FAliHdXedRqr0uOZidOJfyS+l0/Se5ZGkFXYB2YojRxAD31JS1O2tSUDCwJRcv7
+	 CNkbZD6NrsAR/rhuXQwdbFmGTuWLrznwHwpDUZKZjflVuytduaPHzIit29fqf+1zQD
+	 36hUb1bRCFyslkD+MEskdU/Vavb9tkhswuZehDxA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752175AbgJWQgh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:36:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33226 "EHLO mail.kernel.org"
+        id S1751099AbgJWQgg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:36:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33132 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751840AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751850AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C45C24641;
+        by mail.kernel.org (Postfix) with ESMTPSA id 5694C246B2;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=QtoGRTSylDJqRgGFl+2IEK4wws+paYf2E8QEhkhHbdI=;
+        bh=+yokCfZBHZQZytH1I9mxcfAei7oyJOP+8TqDL5TGlyc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hEIB+q2tWBVixEjqnwpiMbiJeCp/19tHBnF+K+4L7lCcqpnSY2d5cQDUHnRqq8E3B
-         GYXKY5Gvf1/QwKaYsYY0ExUq9v7xK7WjiVF4T6LX4K4Z3LiIZ+S5lJI4DFIwSoyPBY
-         yDd8aKrlBhPYRJ0nItAd61UlPvnIkM5HOjgvwudA=
+        b=a0vWuH2Bni0XYil9FSemA/qforpzTLOg0gEYlG/7z+4OVU9nhiHSj9E6sPBM8Q6yO
+         MVRNBIqUfhLCl8n/RhXV3tUyRb6tFuL0FbQo2LjR2aHIf5YF7KuVIB7uDEtotcvXUY
+         pnArGmA62L3xdQIC3+cmJ3QPyvcGJrHGnV20Vtuw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002Awn-4Z; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00g-002Ax0-8z; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 32/56] video: fix some kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:19 +0200
-Message-Id: <8078dde13eac44d5361abb606e098abd724b2ccd.1603469755.git.mchehab+huawei@kernel.org>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 36/56] locks: fix a typo at a kernel-doc markup
+Date:   Fri, 23 Oct 2020 18:33:23 +0200
+Message-Id: <901134db80ae9763d3ce2bc42faa1b2105c29d7f.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -61,42 +62,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
+locks_delete_lock -> locks_delete_block
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/video/fbdev/core/fbcmap.c | 2 +-
- drivers/video/hdmi.c              | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ fs/locks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbcmap.c b/drivers/video/fbdev/core/fbcmap.c
-index e5ae33c1a8e8..757d5c3f620b 100644
---- a/drivers/video/fbdev/core/fbcmap.c
-+++ b/drivers/video/fbdev/core/fbcmap.c
-@@ -76,7 +76,7 @@ static const struct fb_cmap default_16_colors = {
- 
- 
- /**
-- *	fb_alloc_cmap - allocate a colormap
-+ *	fb_alloc_cmap_gfp - allocate a colormap
-  *	@cmap: frame buffer colormap structure
-  *	@len: length of @cmap
-  *	@transp: boolean, 1 if there is transparency, 0 otherwise
-diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
-index b7a1d6fae90d..e44b7cec95fd 100644
---- a/drivers/video/hdmi.c
-+++ b/drivers/video/hdmi.c
-@@ -1688,7 +1688,8 @@ static int hdmi_audio_infoframe_unpack(struct hdmi_audio_infoframe *frame,
+diff --git a/fs/locks.c b/fs/locks.c
+index 1f84a03601fe..f3c3ce82a455 100644
+--- a/fs/locks.c
++++ b/fs/locks.c
+@@ -750,7 +750,7 @@ static void __locks_wake_up_blocks(struct file_lock *blocker)
  }
  
  /**
-- * hdmi_vendor_infoframe_unpack() - unpack binary buffer to a HDMI vendor infoframe
-+ * hdmi_vendor_any_infoframe_unpack() - unpack binary buffer to a HDMI
-+ * 	vendor infoframe
-  * @frame: HDMI Vendor infoframe
-  * @buffer: source buffer
-  * @size: size of buffer
+- *	locks_delete_lock - stop waiting for a file lock
++ *	locks_delete_block - stop waiting for a file lock
+  *	@waiter: the lock which was waiting
+  *
+  *	lockd/nfsd need to disconnect the lock while working on it.
 -- 
 2.26.2
 
