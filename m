@@ -7,52 +7,49 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5388CC4363A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6AE7C5DF9D
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0610E22210
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6692122210
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1603470916;
-	bh=mdSdh5AGZt6OomnwQnDQKEOlC4NrmBkjBQ0E/tv2ezo=;
+	bh=uQxL4fjRXwR/EwQ2p4DPmP+oTqGlbr4Aye0gJB0dI5c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kEU9YXsB8X1iN3AufZByws3OJyGhlhfrLQlGVsMY4OxFTKDGkmq0JeyAXWz95BqmU
-	 0SYWONZBYifoJMVvCy1d8ayd1BiruCHIDSY8peXG3n3eUFkIjZA98+GoQURZLt2G5c
-	 cHTavGIG0Owp9HgN5xIcn7iVKBjv7bDhTToWyYnE=
+	b=JTAFB0FkrCQYXpo8beyKm6GJLpMh760ulJ1ebZfrr8j4x0WgjeTQMn0/WhYBBDlK5
+	 PvAZkhPWGipAroIXMfQLWW3wuTyg4Ipr/eakfjTPNSoUoekaskPU3P4cR0LtCFW7Bl
+	 pqrtZZHwq+DJIM6LuKwMAN0h5+YUlSx9QO5dZpuA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S465760AbgJWQfP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1750935AbgJWQfP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 23 Oct 2020 12:35:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33586 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:33226 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751863AbgJWQdv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751865AbgJWQdv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:51 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B4D37246DC;
+        by mail.kernel.org (Postfix) with ESMTPSA id BBA3F246E1;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=mdSdh5AGZt6OomnwQnDQKEOlC4NrmBkjBQ0E/tv2ezo=;
+        bh=uQxL4fjRXwR/EwQ2p4DPmP+oTqGlbr4Aye0gJB0dI5c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xAxL9zxTXBFGtdrarG7uuibMZOhjG5gKpg1OD8UyzeKOtxBxVfbz9TKwnYR8shj+8
-         ZbmH8Ss/WZdcFyhc3MyOZAkavbzReotyZxAAmORI3uTDXYLlFglulmkI2dqO/BjCcW
-         VqJIVAfgqmhUkWc9aK18X9f794OlP+b5rJEceXZc=
+        b=W2vDNg0Mz6RK6EHbm9ScUhhs2mzV1lMCKQdLZKZiNtlx1lZFI1F1CwqF2HXJq8AW6
+         8e9a95M1G9gbEf0i3a852U5t5wjg1/TAbdm3CJt2YjZsfWrmBwqINHWHGuOyvYuT0V
+         u3CFOd6SGHI7Ztaha5WFfr/a3SzihbcDkCZcq/j4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002Axl-Nf; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00g-002Axr-Q9; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 52/56] resource: fix kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:39 +0200
-Message-Id: <926c3c9de205325acf609ea5e28dd905bda9768b.1603469755.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v3 54/56] mm: fix kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:33:41 +0200
+Message-Id: <61d452a7006c9aca9bb352bfa6ed52537dba5060.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -66,78 +63,125 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Kernel-doc markups should use this format:
         identifier - description
 
-While here, fix a kernel-doc tag that was using, instead,
-a normal comment block.
+Fix some issues on mm files:
+
+1) The definition for get_user_pages_locked() doesn't follow
+   it. Also, it expects a short descrpition at the header,
+   followed by a long one, after the parameters. Fix it.
+
+2) Kernel-doc requires that a kernel-doc markup to be immediatly
+   below the function prototype, as otherwise it will rename it.
+   So, move get_pfnblock_flags_mask() description to the right
+   place.
+
+3) Make invalidate_mapping_pagevec() to also follow the
+   expected kernel-doc format.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/resource.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ mm/gup.c        | 24 +++++++++++++-----------
+ mm/page_alloc.c | 16 ++++++++--------
+ mm/truncate.c   | 10 ++++++++--
+ 3 files changed, 29 insertions(+), 21 deletions(-)
 
-diff --git a/kernel/resource.c b/kernel/resource.c
-index 3ae2f56cc79d..9738920abdca 100644
---- a/kernel/resource.c
-+++ b/kernel/resource.c
-@@ -320,9 +320,8 @@ int release_resource(struct resource *old)
- EXPORT_SYMBOL(release_resource);
+diff --git a/mm/gup.c b/mm/gup.c
+index 102877ed77a4..3dc7c0fe9231 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1926,7 +1926,19 @@ long get_user_pages(unsigned long start, unsigned long nr_pages,
+ EXPORT_SYMBOL(get_user_pages);
  
  /**
-- * Finds the lowest iomem resource that covers part of [@start..@end].  The
-- * caller must specify @start, @end, @flags, and @desc (which may be
-- * IORES_DESC_NONE).
-+ * find_next_iomem_res - Finds the lowest iomem resource that covers part of
-+ *			 [@start..@end].
-  *
-  * If a resource is found, returns 0 and @*res is overwritten with the part
-  * of the resource that's within [@start..@end]; if none is found, returns
-@@ -337,6 +336,9 @@ EXPORT_SYMBOL(release_resource);
-  * @desc:	descriptor the resource must have
-  * @first_lvl:	walk only the first level children, if set
-  * @res:	return ptr, if resource found
+- * get_user_pages_locked() is suitable to replace the form:
++ * get_user_pages_locked() - variant of get_user_pages()
 + *
-+ * The caller must specify @start, @end, @flags, and @desc
-+ * (which may be IORES_DESC_NONE).
-  */
- static int find_next_iomem_res(resource_size_t start, resource_size_t end,
- 			       unsigned long flags, unsigned long desc,
-@@ -416,11 +418,9 @@ static int __walk_iomem_res_desc(resource_size_t start, resource_size_t end,
- }
- 
- /**
-- * Walks through iomem resources and calls func() with matching resource
-- * ranges. This walks through whole tree and not just first level children.
-- * All the memory ranges which overlap start,end and also match flags and
-- * desc are valid candidates.
++ * @start:      starting user address
++ * @nr_pages:   number of pages from start to pin
++ * @gup_flags:  flags modifying lookup behaviour
++ * @pages:      array that receives pointers to the pages pinned.
++ *              Should be at least nr_pages long. Or NULL, if caller
++ *              only intends to ensure the pages are faulted in.
++ * @locked:     pointer to lock flag indicating whether lock is held and
++ *              subsequently whether VM_FAULT_RETRY functionality can be
++ *              utilised. Lock must initially be held.
++ *
++ * It is suitable to replace the form:
+  *
+  *      mmap_read_lock(mm);
+  *      do_something()
+@@ -1942,16 +1954,6 @@ EXPORT_SYMBOL(get_user_pages);
+  *      if (locked)
+  *          mmap_read_unlock(mm);
+  *
+- * @start:      starting user address
+- * @nr_pages:   number of pages from start to pin
+- * @gup_flags:  flags modifying lookup behaviour
+- * @pages:      array that receives pointers to the pages pinned.
+- *              Should be at least nr_pages long. Or NULL, if caller
+- *              only intends to ensure the pages are faulted in.
+- * @locked:     pointer to lock flag indicating whether lock is held and
+- *              subsequently whether VM_FAULT_RETRY functionality can be
+- *              utilised. Lock must initially be held.
 - *
-+ * walk_iomem_res_desc - Walks through iomem resources and calls func()
-+ *			 with matching resource ranges.
-+ * *
-  * @desc: I/O resource descriptor. Use IORES_DESC_NONE to skip @desc check.
-  * @flags: I/O resource flags
-  * @start: start addr
-@@ -428,6 +428,10 @@ static int __walk_iomem_res_desc(resource_size_t start, resource_size_t end,
-  * @arg: function argument for the callback @func
-  * @func: callback function that is called for each qualifying resource area
-  *
-+ * This walks through whole tree and not just first level children.
-+ * All the memory ranges which overlap start,end and also match flags and
-+ * desc are valid candidates.
-+ *
-  * NOTE: For a new descriptor search, define a new IORES_DESC in
-  * <linux/ioport.h> and set it in 'desc' of a target resource entry.
-  */
-@@ -1372,9 +1376,9 @@ static bool system_ram_resources_mergeable(struct resource *r1,
- 	       !r1->child && !r2->child;
+  * We can leverage the VM_FAULT_RETRY functionality in the page fault
+  * paths better by using either get_user_pages_locked() or
+  * get_user_pages_unlocked().
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 23f5066bd4a5..c94094ce1621 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -495,14 +495,6 @@ static inline int pfn_to_bitidx(struct page *page, unsigned long pfn)
+ 	return (pfn >> pageblock_order) * NR_PAGEBLOCK_BITS;
  }
  
--/*
+-/**
+- * get_pfnblock_flags_mask - Return the requested group of flags for the pageblock_nr_pages block of pages
+- * @page: The page within the block of interest
+- * @pfn: The target page frame number
+- * @mask: mask of bits that the caller is interested in
+- *
+- * Return: pageblock_bits flags
+- */
+ static __always_inline
+ unsigned long __get_pfnblock_flags_mask(struct page *page,
+ 					unsigned long pfn,
+@@ -521,6 +513,14 @@ unsigned long __get_pfnblock_flags_mask(struct page *page,
+ 	return (word >> bitidx) & mask;
+ }
+ 
 +/**
-  * merge_system_ram_resource - mark the System RAM resource mergeable and try to
-- * merge it with adjacent, mergeable resources
-+ * 	merge it with adjacent, mergeable resources
-  * @res: resource descriptor
-  *
-  * This interface is intended for memory hotplug, whereby lots of contiguous
++ * get_pfnblock_flags_mask - Return the requested group of flags for the pageblock_nr_pages block of pages
++ * @page: The page within the block of interest
++ * @pfn: The target page frame number
++ * @mask: mask of bits that the caller is interested in
++ *
++ * Return: pageblock_bits flags
++ */
+ unsigned long get_pfnblock_flags_mask(struct page *page, unsigned long pfn,
+ 					unsigned long mask)
+ {
+diff --git a/mm/truncate.c b/mm/truncate.c
+index 18cec39a9f53..58fa634cf4f8 100644
+--- a/mm/truncate.c
++++ b/mm/truncate.c
+@@ -637,9 +637,15 @@ unsigned long invalidate_mapping_pages(struct address_space *mapping,
+ EXPORT_SYMBOL(invalidate_mapping_pages);
+ 
+ /**
+- * This helper is similar with the above one, except that it accounts for pages
+- * that are likely on a pagevec and count them in @nr_pagevec, which will used by
++ * invalidate_mapping_pagevec - This helper is similar with
++ * invalidate_mapping_pages(), except that it accounts for pages tat are
++ * likely on a pagevec and count them in @nr_pagevec, which will used by
+  * the caller.
++ *
++ * @mapping: the address_space which holds the pages to invalidate
++ * @start: the offset 'from' which to invalidate
++ * @end: the offset 'to' which to invalidate (inclusive)
++ *
+  */
+ void invalidate_mapping_pagevec(struct address_space *mapping,
+ 		pgoff_t start, pgoff_t end, unsigned long *nr_pagevec)
 -- 
 2.26.2
 
