@@ -4,54 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17A41C4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F856C388F9
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF5B622210
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E86022210
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603471019;
-	bh=+yokCfZBHZQZytH1I9mxcfAei7oyJOP+8TqDL5TGlyc=;
+	s=default; t=1603471024;
+	bh=Sm6vVeuESnikWfRWcK3zY2aHGRQZbkVkNsFoA/Hs8Fs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=16FAliHdXedRqr0uOZidOJfyS+l0/Se5ZGkFXYB2YojRxAD31JS1O2tSUDCwJRcv7
-	 CNkbZD6NrsAR/rhuXQwdbFmGTuWLrznwHwpDUZKZjflVuytduaPHzIit29fqf+1zQD
-	 36hUb1bRCFyslkD+MEskdU/Vavb9tkhswuZehDxA=
+	b=WmH7Gse+Jx6SHAXi6YVeRqSPaaP9OENfkxO2VgiKe/eDlFqVbJQEye2TjfSCcK7So
+	 J4/uTf1r2wavKY9vyYGVy7yYAFDn/Q4N9EunVmihTl8jgrIElMpen+IxAH0p5yiB0t
+	 GIT6u4y3DFDTEnfIFyFeJ3qE/I5Jx9eKj2P1Y+W0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751099AbgJWQgg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:36:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33132 "EHLO mail.kernel.org"
+        id S463363AbgJWQhD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:37:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751850AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751841AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5694C246B2;
+        by mail.kernel.org (Postfix) with ESMTPSA id 20AFF246A7;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=+yokCfZBHZQZytH1I9mxcfAei7oyJOP+8TqDL5TGlyc=;
+        bh=Sm6vVeuESnikWfRWcK3zY2aHGRQZbkVkNsFoA/Hs8Fs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a0vWuH2Bni0XYil9FSemA/qforpzTLOg0gEYlG/7z+4OVU9nhiHSj9E6sPBM8Q6yO
-         MVRNBIqUfhLCl8n/RhXV3tUyRb6tFuL0FbQo2LjR2aHIf5YF7KuVIB7uDEtotcvXUY
-         pnArGmA62L3xdQIC3+cmJ3QPyvcGJrHGnV20Vtuw=
+        b=g2cgbOXqwo60/mWThB6DAqmhh9n1xCAhip126x4jhx1UfJX145E+eAbB15kIe8GKf
+         ne5PJoTUI1m6tVd3+sLsEw7Mk8W2S0eso9OEZPnWHUFnCwC4ltxAA0ciGbIPz4rAaA
+         3/jDiJxGEdi8pqp/h9ouAxUb4ff53Fuxamdgf9s0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002Ax0-8z; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00e-002AvS-O4; Fri, 23 Oct 2020 18:33:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 36/56] locks: fix a typo at a kernel-doc markup
-Date:   Fri, 23 Oct 2020 18:33:23 +0200
-Message-Id: <901134db80ae9763d3ce2bc42faa1b2105c29d7f.1603469755.git.mchehab+huawei@kernel.org>
+        Alex Deucher <alexander.deucher@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>, Dennis Li <Dennis.Li@amd.com>,
+        Evan Quan <evan.quan@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 03/56] amdgpu: fix a few kernel-doc markup issues
+Date:   Fri, 23 Oct 2020 18:32:50 +0200
+Message-Id: <632b3b11118969ff6fccb8a2f606c87fde41c138.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -62,26 +67,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-locks_delete_lock -> locks_delete_block
+A kernel-doc markup can't be mixed with a random comment,
+as it causes parsing problems.
+
+While here, change an invalid kernel-doc markup into
+a common comment.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- fs/locks.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/fs/locks.c b/fs/locks.c
-index 1f84a03601fe..f3c3ce82a455 100644
---- a/fs/locks.c
-+++ b/fs/locks.c
-@@ -750,7 +750,7 @@ static void __locks_wake_up_blocks(struct file_lock *blocker)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index f8785bdec79c..1d4b54950528 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -239,9 +239,11 @@ bool amdgpu_device_supports_baco(struct drm_device *dev)
+ 	return amdgpu_asic_supports_baco(adev);
  }
  
++/*
++ * VRAM access helper functions
++ */
++
  /**
-- *	locks_delete_lock - stop waiting for a file lock
-+ *	locks_delete_block - stop waiting for a file lock
-  *	@waiter: the lock which was waiting
+- * VRAM access helper functions.
+- *
+  * amdgpu_device_vram_access - read/write a buffer in vram
   *
-  *	lockd/nfsd need to disconnect the lock while working on it.
+  * @adev: amdgpu_device pointer
+@@ -4497,7 +4499,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 	bool need_emergency_restart = false;
+ 	bool audio_suspended = false;
+ 
+-	/**
++	/*
+ 	 * Special case: RAS triggered and full reset isn't supported
+ 	 */
+ 	need_emergency_restart = amdgpu_ras_need_emergency_restart(adev);
 -- 
 2.26.2
 
