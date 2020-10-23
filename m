@@ -7,49 +7,47 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA11DC388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C949CC55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A95422210
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72A9F241A3
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603470982;
-	bh=P3zSnx6ZmCHD9ZxQPeInvyPT0YcZ2FHK7jjvNzMmT6Q=;
+	s=default; t=1603470983;
+	bh=ik6XN/F9Yil/xxoz9W54cw08G8P+2xMgKORme/cmGbE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nvvd1u5+MANHrV1hfnDuSDL/rUYLBvbyd5tkz9/NoJOFKsT5xlG2VA+lVQ/BTnBcd
-	 7U+pCBKvkrH/3LV+YJqgMUP+d8ptLTqAB8d7OEbX8YowPRWJakf2lXw8EN1oSfbByY
-	 jMxwmWjpgGQgROGMzURDB6jXfUgkqBO3WqZ5foN4=
+	b=GBJ5VIxrgHotpWgVEd9uMe63Ih4xu6L7XHXXRW6RDnmmIDHQkSvATgmupycLzLQHA
+	 VWwdfxbIco6v6LFZ7bpBpqr41zdxoBUGr0ZZlt4RiXhio0vP5SkK2Syw8uFMF607jE
+	 /6/NfjdCbvFxjdc0R+Jf/R+BiBH23O0Ej01Nmysk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S465765AbgJWQgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:36:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33314 "EHLO mail.kernel.org"
+        id S465798AbgJWQgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:36:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33604 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751852AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751853AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 708BA246BF;
+        by mail.kernel.org (Postfix) with ESMTPSA id 6CDBB246BC;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=P3zSnx6ZmCHD9ZxQPeInvyPT0YcZ2FHK7jjvNzMmT6Q=;
+        bh=ik6XN/F9Yil/xxoz9W54cw08G8P+2xMgKORme/cmGbE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kTr4ch3uSrJlqbVMmuBIw8tSiXNayjHiMO00MDFZV7cvE4y4R5i7SNzaHeYntn78l
-         WN/Zby46AIOK/CG+UCZgU9oJ1pEqPI04QS5367trz/i6yeBowmssqhKIsfho6xHpW6
-         nrVKBWNrsO3WuzeAUTTLH+r4gKFVW/cwFxQP/oFs=
+        b=kCRWEuzHM6GkSZ1YvcZDl2Wletm6F+MvgN8ayvb3mjkVpHEM4BcByqkPa+uJ8O69E
+         l1DvvtayM6aC40idBS6fnyZshtpsIMqYay6TK3FtPAejKfT46t82VeMsusJ5bjLD4+
+         g6n4VqbwA6INoTLs8l/xkwZ2BSDmPp8tRMpKWYlA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002AxL-FJ; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00g-002AxH-Dm; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 44/56] genirq: fix kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:31 +0200
-Message-Id: <fb11ce8a55ecd41e118e5332318d8d6b92e56e26.1603469755.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 42/56] lib/crc7: fix a kernel-doc markup
+Date:   Fri, 23 Oct 2020 18:33:29 +0200
+Message-Id: <a8da359243b9b76f53e545682f1897e1c2b81963.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -60,41 +58,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
+A function has a different name between their prototype
+and its kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/irq/chip.c         | 2 +-
- kernel/irq/generic-chip.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ lib/crc7.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/irq/chip.c b/kernel/irq/chip.c
-index b9b9618e1aca..df75c3573dcb 100644
---- a/kernel/irq/chip.c
-+++ b/kernel/irq/chip.c
-@@ -61,7 +61,7 @@ int irq_set_chip(unsigned int irq, struct irq_chip *chip)
- EXPORT_SYMBOL(irq_set_chip);
+diff --git a/lib/crc7.c b/lib/crc7.c
+index 6a848d73e804..3848e313b722 100644
+--- a/lib/crc7.c
++++ b/lib/crc7.c
+@@ -51,7 +51,7 @@ const u8 crc7_be_syndrome_table[256] = {
+ EXPORT_SYMBOL(crc7_be_syndrome_table);
  
  /**
-- *	irq_set_type - set the irq trigger type for an irq
-+ *	irq_set_irq_type - set the irq trigger type for an irq
-  *	@irq:	irq number
-  *	@type:	IRQ_TYPE_{LEVEL,EDGE}_* value - see include/linux/irq.h
-  */
-diff --git a/kernel/irq/generic-chip.c b/kernel/irq/generic-chip.c
-index e2999a070a99..a23ac2bbf433 100644
---- a/kernel/irq/generic-chip.c
-+++ b/kernel/irq/generic-chip.c
-@@ -269,7 +269,7 @@ irq_gc_init_mask_cache(struct irq_chip_generic *gc, enum irq_gc_flags flags)
- }
- 
- /**
-- * __irq_alloc_domain_generic_chip - Allocate generic chips for an irq domain
-+ * __irq_alloc_domain_generic_chips - Allocate generic chips for an irq domain
-  * @d:			irq domain for which to allocate chips
-  * @irqs_per_chip:	Number of interrupts each chip handles (max 32)
-  * @num_ct:		Number of irq_chip_type instances associated with this
+- * crc7 - update the CRC7 for the data buffer
++ * crc7_be - update the CRC7 for the data buffer
+  * @crc:     previous CRC7 value
+  * @buffer:  data pointer
+  * @len:     number of bytes in the buffer
 -- 
 2.26.2
 
