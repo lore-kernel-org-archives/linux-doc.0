@@ -2,120 +2,144 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26212C4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:12:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98AD8C55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:18:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCC4B2225E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:12:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603476769;
-	bh=OjLr1mjuq4UW5kNHNZYNXdgGdSLN3kRdIP1BVQsC4ck=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=fBZ4/T0pf+iqfxzlqslEgOQmcIYaQBo/iVPYEJql21GU6+oUjFzyYM00NU+XZNEkM
-	 eOHIlTMkjjjAWhUZzeohdnsd3QFwVcLktZz8ZhrSqKNclzgp2coXJmI32neU9DSY8v
-	 1IB1adVOGk4U0GEZ7ww+oiYkf5t2D4K+HO6UM8bM=
+	by mail.kernel.org (Postfix) with ESMTP id 4AFC522254
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 18:18:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M74xl8cY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754506AbgJWSMs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 14:12:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49392 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754503AbgJWSMr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 14:12:47 -0400
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CDA712072E;
-        Fri, 23 Oct 2020 18:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603476766;
-        bh=OjLr1mjuq4UW5kNHNZYNXdgGdSLN3kRdIP1BVQsC4ck=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ef+p6HEEvPVo8v5QngBIAQhYkX0qhEejADO+VT1v5R9lNejGuZzL+2nXL4uRbXl6X
-         bmDz1nepqOG3vQQc9NEca/UPFa2RZxX8+NeCPW09aPDYFzro/xOKMuVOukSy7KSb6G
-         ALbrP8MkbDP0/YzIBU+vrz00kf4r1ZLHTg7GSdPc=
-Date:   Fri, 23 Oct 2020 11:12:40 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexandre Bounine <alex.bou9@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Antti Palosaari <crope@iki.fi>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Chris Leech <cleech@redhat.com>,
-        Colin Cross <ccross@android.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.com>,
-        Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Lee Duncan <lduncan@suse.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Malcolm Priestley <tvboxspy@gmail.com>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martyn Welch <martyn@welchs.me.uk>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Gong <richard.gong@linux.intel.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sebastian Reichel <sre@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>, x86@kernel.org
-Subject: Re: [PATCH v3 00/56] Fix several bad kernel-doc markups
-Message-ID: <20201023111240.2cc72568@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+        id S464914AbgJWSSK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 14:18:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37152 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S373222AbgJWSSJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 14:18:09 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D186C0613CE;
+        Fri, 23 Oct 2020 11:18:09 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id k9so2043325qki.6;
+        Fri, 23 Oct 2020 11:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ApmfhOk09K1c2h42K2OFIKlhksWgTdh0h8R2DYpKkGg=;
+        b=M74xl8cYZSW0prcIqN7ut2RW7gUef6hRHZUtdYXmWenCI8kT2/007Ghy3Mrdi9iigB
+         4VE1XBPu9F67xCjKCd2fMYwbIqPiRdV4BEOG27bbrxE1AQVuooKre/Fdg0ybBYHA6FTb
+         u65jpA9e30UACimGxh4X7eD807T0FNjv6VSdGcR6FcuXkoaq68HabDbflLJSuHI9QnRX
+         JB5CvNgyucygA77M8KwrS3aHkb2V4GHzJifwlATJqysjm1DE2RjpQUJ3ChXL99vUlOB+
+         P80OshneXOkR01/AVozsgWNvSLdd/wo3WSJ0sF0r8URRVb3ELgahRINkbLyykZya75U/
+         fzsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ApmfhOk09K1c2h42K2OFIKlhksWgTdh0h8R2DYpKkGg=;
+        b=frOzA4IraJ/uUkV7Tlg0MGFjgY5nYhZiN9MNi9p7YHt95KqUgcH+et/QhF2QMs5imS
+         HZVi9qx+cM4CcAICFBYCWvKxK2jPoOxw6FFw3UcQM31oH+bYQ5t5PXe9PH0VAL+bJer7
+         2kUgbW9iZVH5I3Xy8dIAzXLvRU+fwYqdAymgvmsSGQV0hfafuMbPwizVfAbml6Yse50H
+         uAH8FFpH/WjHS16C5SiW7ZquVIkYuoaH7ssNr1jXkeMaaOA9pzm7gYg2zbyygzeyPnwI
+         hoB7lDOYxAzgUNBQg6XYD+2Pe1Av/5jn8KxFGlRsItD0nQbrIOKAoG/wsRRAj621+sA4
+         S6XQ==
+X-Gm-Message-State: AOAM530pG+jpBpqRonaB8IgzLJ7xVNEWwncKytdM+9p1eouk5mpeCx73
+        6mHFK7/+ELEmz+PtHXCLU0s=
+X-Google-Smtp-Source: ABdhPJzL+Y/Y3v+RNMx6QZ7ufhfNcHgfgtL1CtQE+JhXLIEePvrmgG8+UqwAvHHf62Ohb9pq7QzyVA==
+X-Received: by 2002:a37:2c07:: with SMTP id s7mr3521015qkh.297.1603477088197;
+        Fri, 23 Oct 2020 11:18:08 -0700 (PDT)
+Received: from ubuntu-m3-large-x86 ([2604:1380:45d1:2600::3])
+        by smtp.gmail.com with ESMTPSA id z13sm1280146qkl.2.2020.10.23.11.18.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2020 11:18:07 -0700 (PDT)
+Date:   Fri, 23 Oct 2020 11:18:05 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Vasily Gorbik <gor@linux.ibm.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: remove unused OBJSIZE
+Message-ID: <20201023181805.GA3852821@ubuntu-m3-large-x86>
+References: <patch.git-ef02981ce9bc.your-ad-here.call-01603453662-ext-3714@work.hours>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <patch.git-ef02981ce9bc.your-ad-here.call-01603453662-ext-3714@work.hours>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Oct 2020 18:32:47 +0200 Mauro Carvalho Chehab wrote:
-> @maintainers: feel free to pick the patches and
-> apply them directly on your trees, as all patches on 
-> this series are independent from the other ones.
+On Fri, Oct 23, 2020 at 01:57:32PM +0200, Vasily Gorbik wrote:
+> The "size" tool has been solely used by s390 to enforce .bss section usage
+> restrictions in early startup code. Since commit 980d5f9ab36b ("s390/boot:
+> enable .bss section for compressed kernel") and commit 2e83e0eb85ca
+> ("s390: clean .bss before running uncompressed kernel") these restrictions
+> have been lifted for the decompressor and uncompressed kernel and the
+> size tool is now unused.
+> 
+> Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
 
-Sorry Mauro, can I hassle you for resending 18-20 as a separate series
-or just loose patches to netdev?
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
-We got a bunch of checks run on all submissions and when folks CC only
-a slice of a series to netdev the CI bot thinks the series is incomplete
-and doesn't pick it up :(
+Thanks for the patch!
+
+> ---
+>  Documentation/kbuild/llvm.rst | 5 ++---
+>  Makefile                      | 4 +---
+>  2 files changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index cf3ca236d2cc..21c847890d03 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -57,9 +57,8 @@ to enable them. ::
+>  They can be enabled individually. The full list of the parameters: ::
+>  
+>  	make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+> -	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \
+> -	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \
+> -	  HOSTLD=ld.lld
+> +	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+> +	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+>  
+>  Currently, the integrated assembler is disabled by default. You can pass
+>  ``LLVM_IAS=1`` to enable it.
+> diff --git a/Makefile b/Makefile
+> index d35a59f98e83..d2123c2c829a 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -433,7 +433,6 @@ NM		= llvm-nm
+>  OBJCOPY		= llvm-objcopy
+>  OBJDUMP		= llvm-objdump
+>  READELF		= llvm-readelf
+> -OBJSIZE		= llvm-size
+>  STRIP		= llvm-strip
+>  else
+>  CC		= $(CROSS_COMPILE)gcc
+> @@ -443,7 +442,6 @@ NM		= $(CROSS_COMPILE)nm
+>  OBJCOPY		= $(CROSS_COMPILE)objcopy
+>  OBJDUMP		= $(CROSS_COMPILE)objdump
+>  READELF		= $(CROSS_COMPILE)readelf
+> -OBJSIZE		= $(CROSS_COMPILE)size
+>  STRIP		= $(CROSS_COMPILE)strip
+>  endif
+>  PAHOLE		= pahole
+> @@ -509,7 +507,7 @@ KBUILD_LDFLAGS :=
+>  CLANG_FLAGS :=
+>  
+>  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
+> -export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+> +export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+>  export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+>  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+>  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+> -- 
+> 2.25.4
