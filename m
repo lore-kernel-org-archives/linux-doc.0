@@ -2,100 +2,90 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E76E8C388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF2D0C388F9
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:39:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9332B207FF
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:17:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24F7D2192A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 19:39:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sjZdRrrC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752993AbgJWTRV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 15:17:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
+        id S1753849AbgJWTjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 15:39:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752967AbgJWTRV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 15:17:21 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ADEAC0613CE;
-        Fri, 23 Oct 2020 12:17:21 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CCD597DE;
-        Fri, 23 Oct 2020 19:17:20 +0000 (UTC)
-Date:   Fri, 23 Oct 2020 13:17:19 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation fixes for 5.10
-Message-ID: <20201023131719.5fec285a@lwn.net>
-Organization: LWN.net
+        with ESMTP id S1750844AbgJWTjS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Oct 2020 15:39:18 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6EA6C0613CE;
+        Fri, 23 Oct 2020 12:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=T9q59dJKpQX8nTZH0b75mhaG2Wx0jHG0nvtcUF6WI3k=; b=sjZdRrrCEhq90m8iU3JACCux66
+        voAIF2q/rW8fOUuHcVnoo4PaWCMnNIWGlrD3P4+srGdqOhbVMxhfrbHolAU7k/RsbVUgd1yEq+y2a
+        Qf/UdmcasmKzinF/VmsPj+9pS/oZetKijsA1cW0qyipzO52AiuHtqxGL4t4PIhEXrFgYiO+6So04R
+        RFX9CiECcqpXYfE1P9ARMgSayOLxE32BGD/PnxwO13Ju/uotCzoScFVcPX3glbE/TaJedeMWo/k+K
+        hnR2CfLhf2cHBioIXu16bm72CDeqVakfKpyTIHy66U4L5RDLPYG/0rKKpJ7NjLAtykcfzqA/yn0qQ
+        avbu+W1Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kW2u5-0007SU-NN; Fri, 23 Oct 2020 19:39:09 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 157E798104F; Fri, 23 Oct 2020 21:39:07 +0200 (CEST)
+Date:   Fri, 23 Oct 2020 21:39:07 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
+        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 49/56] refcount.h: fix a kernel-doc markup
+Message-ID: <20201023193907.GI2974@worktop.programming.kicks-ass.net>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+ <fd94a95cfe01b97190b6ffb9e942cb4bbeeaa6bf.1603469755.git.mchehab+huawei@kernel.org>
+ <202010231039.DE05B63@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202010231039.DE05B63@keescook>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-4fb220da0dd03d3699776220d86ac84b38941c0c:
+On Fri, Oct 23, 2020 at 10:40:09AM -0700, Kees Cook wrote:
+> On Fri, Oct 23, 2020 at 06:33:36PM +0200, Mauro Carvalho Chehab wrote:
+> > The documented typedef just after the kernel-doc markup
+> > is named "refcount_struct".
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  include/linux/refcount.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+> > index 497990c69b0b..8f431b0e69e4 100644
+> > --- a/include/linux/refcount.h
+> > +++ b/include/linux/refcount.h
+> > @@ -101,7 +101,7 @@
+> >  struct mutex;
+> >  
+> >  /**
+> > - * struct refcount_t - variant of atomic_t specialized for reference counts
+> > + * struct refcount_struct - variant of atomic_t specialized for reference counts
+> 
+> Hm, this is a weird one. Yes, it's actually "struct refcount_struct",
+> but the usage should be refcount_t (through the typedef). I'm not sure
+> what the right way to document this is.
 
-  gpiolib: Update indentation in driver.rst for code excerpts (2020-10-12 13:15:34 -0600)
-
-are available in the Git repository at:
-
-  git://git.lwn.net/linux.git tags/docs-5.10-2
-
-for you to fetch changes up to 62af696471e58bdfcf416fd56f032a60853c2bae:
-
-  docs: Add two missing entries in vm sysctl index (2020-10-22 16:11:46 -0600)
-
-----------------------------------------------------------------
-A handful of late-arriving documentation fixes.
-
-----------------------------------------------------------------
-Bailu Lin (1):
-      Documentation: Chinese translation of Documentation/arm64/hugetlbpage.rst
-
-Colin Ian King (1):
-      docs/vm: trivial fixes to several spelling mistakes
-
-Fam Zheng (1):
-      docs: Add two missing entries in vm sysctl index
-
-Hui Su (1):
-      docs/cpu-load: format the example code.
-
-Kees Cook (2):
-      docs: deprecated.rst: Expand str*cpy() replacement notes
-      docs: lkdtm: Modernize and improve details
-
-Krzysztof Kozlowski (1):
-      docs: submitting-patches: describe preserving review/test tags
-
-Mauro Carvalho Chehab (1):
-      docs: driver-api: remove a duplicated index entry
-
-Wei Lin Chang (1):
-      Documentation: x86: fix a missing word in x86_64/mm.rst.
-
- Documentation/admin-guide/cpu-load.rst             | 63 +++++++++++-----------
- Documentation/admin-guide/sysctl/vm.rst            |  2 +
- Documentation/arm64/hugetlbpage.rst                |  2 +
- Documentation/driver-api/index.rst                 |  1 -
- Documentation/fault-injection/provoke-crashes.rst  | 56 +++++++++++--------
- Documentation/process/deprecated.rst               | 44 ++++++++-------
- Documentation/process/submitting-patches.rst       |  7 +++
- .../translations/zh_CN/arm64/hugetlbpage.rst       | 45 ++++++++++++++++
- Documentation/translations/zh_CN/arm64/index.rst   |  1 +
- Documentation/vm/mmu_notifier.rst                  |  2 +-
- Documentation/vm/page_migration.rst                |  2 +-
- Documentation/vm/page_owner.rst                    |  2 +-
- Documentation/vm/slub.rst                          |  2 +-
- Documentation/x86/x86_64/mm.rst                    |  2 +-
- 14 files changed, 154 insertions(+), 77 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/arm64/hugetlbpage.rst
+Yeah, this is wrong. If this is due to a kernel doc warning, the kernel
+doc machinery is wrong *again*.
