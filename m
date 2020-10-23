@@ -4,52 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB49C5DF9D
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9A8C55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BFE4241A4
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D0FC208C3
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603471066;
-	bh=Ify6hjJmLmH3/dY+Zjs+KW5ON5EvHvsN04EfiSRU+tk=;
+	s=default; t=1603471074;
+	bh=smXO7tg/HPUrSgy1Z0++7ANOY+Q92oVSUkhCLjgR2y4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=FKKC9HoRMA/XEmw1+/ADhwIig0+r13RlCetOPCgNzXD7TR03OldZ70XL12Sgehjxs
-	 KGI9adjTcUC2KRc9yZ4wpRCEp6/sy4vSaa7j0HnA8QZweYWeJpTqxHOwn+/XzAp8bh
-	 2/QAB+3+BJbGNMY1o+BDDeJlhS8RMVAp1YFeuHXs=
+	b=l/wJLPz74qqk74ENgSDbwhGR7sK/gBxK5dfSzq4StkDWkYYlVdTPfj1iXbsAtDgo/
+	 KfzF9RtibXq9ydQ1h4dkhUURZHFxW3KoPbvjLJKj3Q8JGS8i3TgHYO/E6qDxCRFJY6
+	 XoamU2rlkDLpYLbngyKdhIUkE0N+4XDW4wTrz9Ts=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752227AbgJWQhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:37:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33694 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751836AbgJWQdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S465941AbgJWQdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 23 Oct 2020 12:33:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32792 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S465570AbgJWQdr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:33:47 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 111952469C;
-        Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 042BA2464E;
+        Fri, 23 Oct 2020 16:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603470828;
-        bh=Ify6hjJmLmH3/dY+Zjs+KW5ON5EvHvsN04EfiSRU+tk=;
+        s=default; t=1603470827;
+        bh=smXO7tg/HPUrSgy1Z0++7ANOY+Q92oVSUkhCLjgR2y4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TjI7bXZnCCjIXvwHbPoXtn79kE4t2/WqrbiWK/5UXkqnP9Cq6uhfWC3dn4/uKzjoN
-         aNx0yqHr5/5bTRIrNjBqD8SlTApht4gbD43B8gH9SCVQK0avb9IhBd1A0ySQvr/6iO
-         pslyU5Gv5lwp9+o5+kNmMEHcZvc/it2UoxRGeBwU=
+        b=EUJaR5jhGbcV+UpetekyaCly8XbU75RekMoDxhft9juGXIsv/yp5RLkYFdhWmJ8qW
+         PkxI2WPS9eohr9XNOSZ/soArJXwmymB/Ap1UGZ7mPI/GQq+LNGaRzJOpuzlZuGvxo3
+         3sgKCtY5u80y2kvwzGwyMaxousoIyyacWUKdt6is=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002Awf-1e; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00e-002AvZ-Qn; Fri, 23 Oct 2020 18:33:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org
-Subject: [PATCH v3 29/56] spi: fix a typo inside a kernel-doc markup
-Date:   Fri, 23 Oct 2020 18:33:16 +0200
-Message-Id: <a103f4f48735caa1a09fad94c5d76e73e2ce37b8.1603469755.git.mchehab+huawei@kernel.org>
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Jonathan Corbet" <corbet@lwn.net>, Borislav Petkov <bp@alien8.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v3 06/56] x86: mtrr: fix a kernel-doc markup
+Date:   Fri, 23 Oct 2020 18:32:53 +0200
+Message-Id: <2217cd4ae9e561da2825485eb97de77c65741489.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -60,30 +62,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-spi_split_tranfers_maxsize -> spi_split_transfers_maxsize
+Kernel-doc markup should use this format:
+	identifier - description
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/spi/spi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/x86/kernel/cpu/mtrr/mtrr.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 0cab239d8e7f..22679c8645db 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -3193,9 +3193,9 @@ static int __spi_split_transfer_maxsize(struct spi_controller *ctlr,
+diff --git a/arch/x86/kernel/cpu/mtrr/mtrr.c b/arch/x86/kernel/cpu/mtrr/mtrr.c
+index 6a80f36b5d59..08a30c8e9431 100644
+--- a/arch/x86/kernel/cpu/mtrr/mtrr.c
++++ b/arch/x86/kernel/cpu/mtrr/mtrr.c
+@@ -813,7 +813,8 @@ void mtrr_ap_init(void)
  }
  
  /**
-- * spi_split_tranfers_maxsize - split spi transfers into multiple transfers
-- *                              when an individual transfer exceeds a
-- *                              certain size
-+ * spi_split_transfers_maxsize - split spi transfers into multiple transfers
-+ *                               when an individual transfer exceeds a
-+ *                               certain size
-  * @ctlr:    the @spi_controller for this transfer
-  * @msg:   the @spi_message to transform
-  * @maxsize:  the maximum when to apply this
+- * Save current fixed-range MTRR state of the first cpu in cpu_online_mask.
++ * mtrr_save_state - Save current fixed-range MTRR state of the first
++ *	cpu in cpu_online_mask.
+  */
+ void mtrr_save_state(void)
+ {
 -- 
 2.26.2
 
