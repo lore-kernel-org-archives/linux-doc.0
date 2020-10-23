@@ -7,53 +7,57 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9280AC5517A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3823DC55179
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F744241A3
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFA78241A3
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:35:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603470901;
-	bh=9Nh3/zUjIfiEVQ01kmUiyq82XA7e0shNpKQNIZuVNB0=;
+	s=default; t=1603470914;
+	bh=rItW9x31JNK0epQQegBAn1Gj/Xyt1H69mENmOqwza/Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=qsdxDxq4Z49E3vEBtsQSoanpH4xmVWtyuLfu3VzS0Q6NtDciGIyaWKXhNRUmTDql+
-	 dDQOXGitamqMSEAL0cEokjkjef6X+isxqTYmYczJgrRw5qm7N/Age8KM/2OF0sAQL0
-	 6FqL1/7Tj7yxPsav9zJydAGz6hc9brqY3BJq0X4k=
+	b=MLZlsED0Pc8PedrvDO4FynIy+aPY+IKdO6r0tCsLP85v/hRwNhm0a+Utgy8LDDyTz
+	 tePSk4CH5CafaXgbg28ksUNPS88hkdxjMgzyR8Zo3t8+zAPDy9dyiL8vDBujBD2V1o
+	 WXtxsQAVPkoBZbQbTF6NgYd9d4PQxSlcXqcj3fMc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751891AbgJWQdw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:33:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33694 "EHLO mail.kernel.org"
+        id S465527AbgJWQfE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:35:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33336 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751857AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 12:33:50 -0400
+        id S460729AbgJWQdv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:33:51 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 741E8246C0;
+        by mail.kernel.org (Postfix) with ESMTPSA id ED1C924706;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603470828;
-        bh=9Nh3/zUjIfiEVQ01kmUiyq82XA7e0shNpKQNIZuVNB0=;
+        s=default; t=1603470829;
+        bh=rItW9x31JNK0epQQegBAn1Gj/Xyt1H69mENmOqwza/Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PWKegXc41sR390mnbbSlOh1al/Q5gjHY78Ad/xOaAbLVBCVK1vslMxqoBCB/hDj3W
-         4Dw6BX6laEb6N4cvSjsDs4aRdIIMbLnNsbfwdbHB4DCxp2AdkbxX7Ojsq25RVSow8L
-         AZZm2SXXeKVYyoq4vm6tCALx78e5mlw+sKKXcdog=
+        b=SzI3oyhH9/LZ0/V8EuroC56RaZXZpviO+rugkXUBxXAFTeXVbfURNV+u9Af2fw9B6
+         ivzwN0j1YGhKc4oR50WDNJaENI+aNAqk9e0RQEuPtJc4fB4oY9jIlsmf96v8gqmINX
+         YKMszTP0AiYyNxmrmwSByiELMEsb0PTcUeRRN9UE=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002Ax7-BL; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00g-002Axp-P7; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Davidlohr Bueso <dbueso@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 39/56] completion: fix kernel-doc markups
-Date:   Fri, 23 Oct 2020 18:33:26 +0200
-Message-Id: <071fa0e17be1d7cfaf34440f4a5d302b05e28095.1603469755.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 53/56] shed: fix kernel-doc markup
+Date:   Fri, 23 Oct 2020 18:33:40 +0200
+Message-Id: <21eac4426e02193aab877564f7d7d99114627a46.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -64,55 +68,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kernel-doc only supports having the comment just before
-the identifier.
+Kernel-doc requires that a kernel-doc markup to be immediatly
+below the function prototype, as otherwise it will rename it.
+So, move sys_sched_yield() markup to the right place.
 
-The markup for init_completion is actually for
-__init_completion.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
----
-
-Thats said, IMHO, it would make sense to simply
-rename __init_completion() to init_completion() and drop
-this define:
-
-	 #define init_completion(x) __init_completion(x)
+Also fix the cpu_util() markup: Kernel-doc markups
+should use this format:
+        identifier - description
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/completion.h | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ kernel/sched/core.c | 16 ++++++++--------
+ kernel/sched/fair.c |  3 ++-
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/completion.h b/include/linux/completion.h
-index bf8e77001f18..ff354918dbf4 100644
---- a/include/linux/completion.h
-+++ b/include/linux/completion.h
-@@ -29,6 +29,14 @@ struct completion {
- };
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 8160ab5263f8..f7189247f007 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -6076,14 +6076,6 @@ SYSCALL_DEFINE3(sched_getaffinity, pid_t, pid, unsigned int, len,
+ 	return ret;
+ }
  
- #define init_completion_map(x, m) __init_completion(x)
-+
+-/**
+- * sys_sched_yield - yield the current processor to other threads.
+- *
+- * This function yields the current CPU to other tasks. If there are no
+- * other threads running on this CPU then this function will return.
+- *
+- * Return: 0.
+- */
+ static void do_sched_yield(void)
+ {
+ 	struct rq_flags rf;
+@@ -6105,6 +6097,14 @@ static void do_sched_yield(void)
+ 	schedule();
+ }
+ 
 +/**
-+ * init_completion - Initialize a dynamically allocated completion
-+ * @x:  pointer to completion structure that is to be initialized
++ * sys_sched_yield - yield the current processor to other threads.
 + *
-+ * This macro will initialize a dynamically created completion
-+ * structure.
++ * This function yields the current CPU to other tasks. If there are no
++ * other threads running on this CPU then this function will return.
++ *
++ * Return: 0.
 + */
- #define init_completion(x) __init_completion(x)
- static inline void complete_acquire(struct completion *x) {}
- static inline void complete_release(struct completion *x) {}
-@@ -76,7 +84,7 @@ static inline void complete_release(struct completion *x) {}
- #endif
+ SYSCALL_DEFINE0(sched_yield)
+ {
+ 	do_sched_yield();
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index aa4c6227cd6d..94386fcfafcf 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -6287,7 +6287,8 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+ }
  
  /**
-- * init_completion - Initialize a dynamically allocated completion
-+ * __init_completion - Initialize a dynamically allocated completion
-  * @x:  pointer to completion structure that is to be initialized
+- * Amount of capacity of a CPU that is (estimated to be) used by CFS tasks
++ * cpu_util - Amount of capacity of a CPU that is (estimated to be)
++ *	used by CFS tasks
+  * @cpu: the CPU to get the utilization of
   *
-  * This inline function will initialize a dynamically created completion
+  * The unit of the return value must be the one of capacity so we can compare
 -- 
 2.26.2
 
