@@ -2,85 +2,150 @@ Return-Path: <SRS0=PdnY=D6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57439C55179
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41840C4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 045AA241A3
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603471131;
-	bh=qvrL+WJvA1J1w+eeTkECSvPpdjf9tJvNl8jNov5K+O0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nVmyE8HlQKifRHRXinfw3H5KuIWYpO/XFGHP/EpA4E18fTW8GE9q8FAYv3DjGWXWN
-	 s7n1qIJk4of3nctVSi0Y1iw78exbYfTgXAb2qqViKhNbIE8HL7aMAf7tjwaIlm8G/M
-	 p5QZhxwb7t8PBbbREBk0Ugb+TTitsG8aQadHLFTM=
+	by mail.kernel.org (Postfix) with ESMTP id D4DF7208C3
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="An+TFKGz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751729AbgJWQii (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:38:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33218 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750862AbgJWQds (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 12:33:48 -0400
-Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 186C72465D;
-        Fri, 23 Oct 2020 16:33:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603470827;
-        bh=qvrL+WJvA1J1w+eeTkECSvPpdjf9tJvNl8jNov5K+O0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m1bC9+Rh+LLz9s/n6NW6Yk/vFR2c8wvMJBIn3FTNvShvhSuZmn7bvt6aOYO5EstMJ
-         mEK5l53kWheP3QbCDqmLK5by7uxOUp1pkZbkjB8xXlryWhb5pgHdN479aIynWqYfJj
-         ZuwwQghzozReULeIAVvdXCyDOQ15XxTZs6iNc71k=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kW00f-002Avs-4W; Fri, 23 Oct 2020 18:33:45 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Sebastian Reichel <sre@kernel.org>,
+        id S1750253AbgJWQiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:38:50 -0400
+Received: from mail-dm6nam12on2055.outbound.protection.outlook.com ([40.107.243.55]:46688
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S464531AbgJWQit (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:38:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=idTJ0BjCrHUOHAYjUTsC54cRzZJIz0gJcX5EG1+7BAvpdlHgvUGRn6k15f1/2hZfLIHYARMwQkx36ILIVUkJkUfWuSzrWqZ9oioKjpzI9/GTymZyRI7EJzs0Awpwwl3I89XsKN1ZG3hcsfJrggO/c5KlqNgCOSwEG2t5P29Z0TLtCM8VUe25WgS4ve7u4hb4wL7q5il/HJJfkiXXNC2Gbf9EA19KXV8QI8AwXzNbOrA3GYElR5rmb4bPPphARuNSFwwlF71iDHqgC7rH6BCgPrle5BZc/Zj8BufLTSqeNpaw+3J4ZWnUSvuMdSY8yW2EPTpqhaLCq4MqK/5hxZgowQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X4DrqDtPSnNUPbW1Da7SwRFtEuUOsRLtXyyuKxC4jF0=;
+ b=BBVf84BCOyaxka5hajjhowSZQ8H/cH2P2Vf8cTuIxv79HdlgrNIt39PMJfHjSWQrw7q1o+GgFuISDIAvpCVPUqWi5tP8G06xiYHlZj1A+ZW98CDa+3mf9Yy+XJIUMhdXUa0DXus7KBZMbjs57aZgpOUKH4SWix0yrKF0/PhAeYt1qHNsHuE9QWnOFKlRr6b0/QSUydy/i5jmXYTsJ8i9G2gT/33NH+7cB0wFMGDOWCjffcRH8zE+Kpnq3S3//1G4Ul7j/FChzV0RoYe0ManIUmDY+irqSIXIUGkDxWTQDE52s7HgwD4DllvkJwGA6krx7dqjnk0Xs8K5azeW7kJ0zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X4DrqDtPSnNUPbW1Da7SwRFtEuUOsRLtXyyuKxC4jF0=;
+ b=An+TFKGzN8SbrQLi4xiKe49EFHFXd6hDBzuiGZh3AcGYxRZwNofwguPu9bdvk/7+2hzzUzhBXO4J3vNDzDq6SVVmeaE3RN4r43xFjnmBiJb0pGW+nARmWTRkRrAQh2ksf7oow+xgY4lH/qqealvnkHGCeGJPK/oJCiYuS1+o88I=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4318.namprd12.prod.outlook.com (2603:10b6:208:1d8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Fri, 23 Oct
+ 2020 16:38:46 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3477.028; Fri, 23 Oct 2020
+ 16:38:46 +0000
+Subject: Re: [PATCH v3 03/56] amdgpu: fix a few kernel-doc markup issues
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>, Dennis Li <Dennis.Li@amd.com>,
+        Evan Quan <evan.quan@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 13/56] HSI: fix a kernel-doc markup
-Date:   Fri, 23 Oct 2020 18:33:00 +0200
-Message-Id: <3413b262be902163f9daed8f0ca4c32d6ed73c98.1603469755.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
+ <632b3b11118969ff6fccb8a2f606c87fde41c138.1603469755.git.mchehab+huawei@kernel.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <ecb99629-f593-b389-60b3-dc6f1b306c8b@amd.com>
+Date:   Fri, 23 Oct 2020 18:38:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <632b3b11118969ff6fccb8a2f606c87fde41c138.1603469755.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR04CA0132.eurprd04.prod.outlook.com
+ (2603:10a6:208:55::37) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR04CA0132.eurprd04.prod.outlook.com (2603:10a6:208:55::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Fri, 23 Oct 2020 16:38:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 51ec5735-a37b-435b-5f6b-08d877721c74
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4318:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB431803764B84C9A7D7A80150831A0@MN2PR12MB4318.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1060;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DlqryhEoO1L7KJ0DvWsnV0M4KcXExuf2+UXXkW3B2XfPyrldcYn1Mvsl0wOvV/ccZpJ72ysExWWaBx0fnGWZpfJqJPBLU25yel1Irc3hcyQcOeIhgS2KnM8YtgAnRYdaWr6SRlopLjr1cyTf7Erkw1sAL70iZwZAP0stccinlkPVuY0SWRemk/SoUmBUJiKLLJYLPZO9ITiuBFhuHYpV7EzfkYZxJSUvoN51IkjTbNKQ0/dxR8RKPQm5+r/MiKfQwrIsbAaqD8+GVjGGzLkntJwa5Niduaky5Xhxk6IZ/fDo29ZTxD7hVecMO/V6j7u3vljgX9RzFTv/wDMw1qE28eZPEAoT8QDvvT5w7C0ujg19O/z187xxZiOFINzENHxA
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(136003)(39860400002)(366004)(316002)(66946007)(6486002)(110136005)(478600001)(86362001)(31686004)(54906003)(36756003)(16526019)(8936002)(31696002)(8676002)(2616005)(4326008)(186003)(2906002)(66556008)(52116002)(66476007)(66574015)(6666004)(83380400001)(5660300002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: sw/qPRCwAvvMW+cjsvCoYitUPXvHGQxo0wJEc5TjscHFtQ2CXsXrZuELrx05Ye0hnJiElZvQkUwg5miXe9LYG2ex7T5mKO90qPY5IaixC7OKwgUPeLMvgAlGgktmZjmOwr+H/VlyElHxSwVFynK0tpc6XdaiAcO3VFpbJber854U6cR4R3Lm6xi2XHm0SPOfn2J6bD6WB1XmY6tvTZQTqZ3hEqv927DlefVfBnuJtdsSTBLWmfpPAwNceGKXnksVhnuuhhZ+E8z4ofBj8qkJ6yrcWnGbFnDrGSk2jvazFRWOocgVErRr31Ij5Ptp0FHG05gsHh7gZocqQVofN9JjrBWnRZkSF5d3Vbf7yYbFRVRN7sft5ZBrZ1W9RLkLIAI7VNMhPWCsgpREAaiWul7NwPJwhJBfbZVkU4515fI8A0PI2uN45y6fIwzkD/nUiUOsf03fCs+rin05NCRIurZuz1V4QCSCAclfRegq5hS6ANm1RjLr+mOh10HCqJiJNuYebFEb8gv76oL7H4k0qBPWh0buqwFoYGepLEW1HuknSUo9XJupCAt7gEi9wPTQ+Vwp+fYA6ZC4ZnHBDqSNQoaubn/mmg1gcuo5HfUFtz6iNct0zyWUr628bUjCFopAgd2cpp6A+b3CySTPPYUfpuSrjtkWPEU7RVuLcySs17iehRGleMbtTgiaripa1ry72wINi0KbcA29+ZJ0MQaKIrGRAQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51ec5735-a37b-435b-5f6b-08d877721c74
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 16:38:46.2809
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PG7yzvjAGPI8dfhortPP6Tzxd6BMl1SG7LKyMA4lLWsgA+E3tiWGCqSLk7vtyBJ4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4318
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A function has a different name between their prototype
-and its kernel-doc markup.
+Am 23.10.20 um 18:32 schrieb Mauro Carvalho Chehab:
+> A kernel-doc markup can't be mixed with a random comment,
+> as it causes parsing problems.
+>
+> While here, change an invalid kernel-doc markup into
+> a common comment.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/hsi/hsi_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Christian König <christian.koenig@amd.com>
 
-diff --git a/drivers/hsi/hsi_core.c b/drivers/hsi/hsi_core.c
-index 47f0208aa7c3..c3fb5beb846e 100644
---- a/drivers/hsi/hsi_core.c
-+++ b/drivers/hsi/hsi_core.c
-@@ -352,7 +352,7 @@ static void hsi_port_release(struct device *dev)
- }
- 
- /**
-- * hsi_unregister_port - Unregister an HSI port
-+ * hsi_port_unregister_clients - Unregister an HSI port
-  * @port: The HSI port to unregister
-  */
- void hsi_port_unregister_clients(struct hsi_port *port)
--- 
-2.26.2
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index f8785bdec79c..1d4b54950528 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -239,9 +239,11 @@ bool amdgpu_device_supports_baco(struct drm_device *dev)
+>   	return amdgpu_asic_supports_baco(adev);
+>   }
+>   
+> +/*
+> + * VRAM access helper functions
+> + */
+> +
+>   /**
+> - * VRAM access helper functions.
+> - *
+>    * amdgpu_device_vram_access - read/write a buffer in vram
+>    *
+>    * @adev: amdgpu_device pointer
+> @@ -4497,7 +4499,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+>   	bool need_emergency_restart = false;
+>   	bool audio_suspended = false;
+>   
+> -	/**
+> +	/*
+>   	 * Special case: RAS triggered and full reset isn't supported
+>   	 */
+>   	need_emergency_restart = amdgpu_ras_need_emergency_restart(adev);
 
