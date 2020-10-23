@@ -7,49 +7,50 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9EEC56201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 909D0C5DF9D
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 744DE241A3
+	by mail.kernel.org (Postfix) with ESMTP id 3912622210
 	for <linux-doc@archiver.kernel.org>; Fri, 23 Oct 2020 16:36:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1603470998;
-	bh=eksPX5hWIQ0X68hOaZK/G3AyPOBnQomK+GXPdk2P8yA=;
+	bh=QtoGRTSylDJqRgGFl+2IEK4wws+paYf2E8QEhkhHbdI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=trCvwAouEWirw2gxxyxHypKPicKlxqUZ/vByolgfq70pYKXSxuj+JF+l3FvNa3hq2
-	 HVIerwfDTisGFYC7SOpoofrBop6B5lH08MfrSP6RdQQVpOSpvkMZPRitcdbyZpeIhT
-	 c+HZrOkPcwssMLCPzcXx3iPdVWNiJwPuLb4m/+nw=
+	b=ISUvkry0RJtGQ/8purl1Y/evseJ/DdKQRggl02CeApe3B+d2NbkpFWCI2w5OoOZQY
+	 a9FCYJE8muxs86kKJYqAEwecgHfVRnFE9cElR6fQDoN4WVf/nYAGkvbgKbA73eGG2E
+	 ivdy3lKMmlxvVXw5hBd6BZuRTQCAzXtoew29nHfQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751895AbgJWQdx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Oct 2020 12:33:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33164 "EHLO mail.kernel.org"
+        id S1752175AbgJWQgh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:36:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33226 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751862AbgJWQdv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Oct 2020 12:33:51 -0400
+        id S1751840AbgJWQdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:33:50 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B5B71246DD;
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C45C24641;
         Fri, 23 Oct 2020 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603470828;
-        bh=eksPX5hWIQ0X68hOaZK/G3AyPOBnQomK+GXPdk2P8yA=;
+        bh=QtoGRTSylDJqRgGFl+2IEK4wws+paYf2E8QEhkhHbdI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=krYfzdRXT/KYjRJ/lU2pn0SLwaHCiiGta8OybwKiqba2bEKqsHApW738htG+miaKq
-         Z7D/Qy/vsx4QvxPkmQQRfZ0fWwNIkDwyB7pnxCq8JdNkQVvMyFUa/hE1vPkY3zwqdV
-         PRahBBXNC/SokOI6v/DVKsaSvLySrHXUZXRRaZlg=
+        b=hEIB+q2tWBVixEjqnwpiMbiJeCp/19tHBnF+K+4L7lCcqpnSY2d5cQDUHnRqq8E3B
+         GYXKY5Gvf1/QwKaYsYY0ExUq9v7xK7WjiVF4T6LX4K4Z3LiIZ+S5lJI4DFIwSoyPBY
+         yDd8aKrlBhPYRJ0nItAd61UlPvnIkM5HOjgvwudA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kW00g-002Axj-ML; Fri, 23 Oct 2020 18:33:46 +0200
+        id 1kW00g-002Awn-4Z; Fri, 23 Oct 2020 18:33:46 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Eric Paris <eparis@redhat.com>,
-        Paul Moore <paul@paul-moore.com>, linux-audit@redhat.com,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 51/56] audit: fix a kernel-doc markup
-Date:   Fri, 23 Oct 2020 18:33:38 +0200
-Message-Id: <8c04d5c5d0144019c2c38d7c3f31061d6b35d360.1603469755.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 32/56] video: fix some kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:33:19 +0200
+Message-Id: <8078dde13eac44d5361abb606e098abd724b2ccd.1603469755.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
@@ -60,27 +61,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-typo:
-	kauditd_print_skb -> kauditd_printk_skb
+Some identifiers have different names between their prototypes
+and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/audit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/core/fbcmap.c | 2 +-
+ drivers/video/hdmi.c              | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/audit.c b/kernel/audit.c
-index 68cee3bc8cfe..0be42cac086b 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -523,7 +523,7 @@ static int auditd_set(struct pid *pid, u32 portid, struct net *net)
+diff --git a/drivers/video/fbdev/core/fbcmap.c b/drivers/video/fbdev/core/fbcmap.c
+index e5ae33c1a8e8..757d5c3f620b 100644
+--- a/drivers/video/fbdev/core/fbcmap.c
++++ b/drivers/video/fbdev/core/fbcmap.c
+@@ -76,7 +76,7 @@ static const struct fb_cmap default_16_colors = {
+ 
+ 
+ /**
+- *	fb_alloc_cmap - allocate a colormap
++ *	fb_alloc_cmap_gfp - allocate a colormap
+  *	@cmap: frame buffer colormap structure
+  *	@len: length of @cmap
+  *	@transp: boolean, 1 if there is transparency, 0 otherwise
+diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+index b7a1d6fae90d..e44b7cec95fd 100644
+--- a/drivers/video/hdmi.c
++++ b/drivers/video/hdmi.c
+@@ -1688,7 +1688,8 @@ static int hdmi_audio_infoframe_unpack(struct hdmi_audio_infoframe *frame,
  }
  
  /**
-- * kauditd_print_skb - Print the audit record to the ring buffer
-+ * kauditd_printk_skb - Print the audit record to the ring buffer
-  * @skb: audit record
-  *
-  * Whatever the reason, this packet may not make it to the auditd connection
+- * hdmi_vendor_infoframe_unpack() - unpack binary buffer to a HDMI vendor infoframe
++ * hdmi_vendor_any_infoframe_unpack() - unpack binary buffer to a HDMI
++ * 	vendor infoframe
+  * @frame: HDMI Vendor infoframe
+  * @buffer: source buffer
+  * @size: size of buffer
 -- 
 2.26.2
 
