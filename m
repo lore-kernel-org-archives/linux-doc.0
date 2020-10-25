@@ -1,112 +1,99 @@
-Return-Path: <SRS0=S9Hd=D7=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=AsmQ=EA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A3F7C2D0A3
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Oct 2020 21:51:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC165C4363A
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Oct 2020 06:34:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F4136208B3
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Oct 2020 21:51:17 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="R3Y+v9EY"
+	by mail.kernel.org (Postfix) with ESMTP id 61A9521734
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Oct 2020 06:34:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603607680;
+	bh=DHAVWPlJGJCTJZ9CsWCzA3rvA+lIusM3kKdx+tyX6fo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=VwssvrS0MOZp286fA9BrrOqFv1Jn1cXnf2tfw4G1nzWKj6tO+2H2ubMVuRMHONgvW
+	 6J5qvTYKZNM/NtOXf8ZPFRTwS9MF8qAAxqhkFpAExwu574TR9GOn2/rpYCDPt8NaOI
+	 Y8A0x1BA16vQnox5K7kXYtNmUE26sTJX4efkA6AA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1764917AbgJXVvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 24 Oct 2020 17:51:17 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15571 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1764656AbgJXVvR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Oct 2020 17:51:17 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f94a1c00000>; Sat, 24 Oct 2020 14:50:56 -0700
-Received: from [172.27.0.17] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 24 Oct
- 2020 21:50:55 +0000
-Subject: Re: [PATCH v3 14/56] IB: fix kernel-doc markups
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        =?UTF-8?Q?H=c3=a5kon_Bugge?= <haakon.bugge@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Danit Goldberg <danitg@mellanox.com>,
-        "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>,
-        Divya Indi <divya.indi@oracle.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>,
-        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
-        Moni Shoua <monis@mellanox.com>,
-        Parav Pandit <parav@mellanox.com>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        "Ursula Braun" <ubraun@linux.ibm.com>,
-        Xi Wang <wangxi11@huawei.com>,
-        Yamin Friedman <yaminf@mellanox.com>,
-        <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <target-devel@vger.kernel.org>
+        id S1767683AbgJYGej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Oct 2020 02:34:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36392 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1767682AbgJYGej (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 25 Oct 2020 02:34:39 -0400
+Received: from kernel.org (unknown [87.70.96.83])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 05242208E4;
+        Sun, 25 Oct 2020 06:34:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603607678;
+        bh=DHAVWPlJGJCTJZ9CsWCzA3rvA+lIusM3kKdx+tyX6fo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pmlbfxZ+j/q/hY5jRPyNMUzRnNLx3K5+FS4fKo03SqXlwZP2qAGonHLVfqCKDGYN+
+         /z1iR03p5ZHcqBYge+UYXQvjID6/3t5D3rvEI6rvTAoViG+16CK5/jmGpE0R73XoRY
+         1zPQraL3j4U9GZeQX8B/w8dx9JaYQcaLEUOQa7ck=
+Date:   Sun, 25 Oct 2020 08:34:31 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v3 47/56] memblock: fix kernel-doc markups
+Message-ID: <20201025063431.GD392079@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <f201c81b58f7087425387672b24af5b85aa04b1a.1603469755.git.mchehab+huawei@kernel.org>
-From:   Max Gurtovoy <mgurtovoy@nvidia.com>
-Message-ID: <eec938e4-0a00-c35a-fc0d-8d0d4af30678@nvidia.com>
-Date:   Sun, 25 Oct 2020 00:50:23 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ <90f921afef8f60498a997a4a243bcf839b9142ca.1603469755.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <f201c81b58f7087425387672b24af5b85aa04b1a.1603469755.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1603576256; bh=Emn32IxixaWsl7kBQOXa8DNRipC33Bf2cppVn8UIwNw=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-         Content-Language:X-Originating-IP:X-ClientProxiedBy;
-        b=R3Y+v9EYFjOpNN2ihsQxxC6/4QnzJmwH32cc6MG6MG95WzmNKmqKD09UySA9+L7Mm
-         t4X71bz3h4v5lPjAO1e6sXuvg4NS889Ywpxopn4iR6iMefBpZ+H1FqummbNu9huIbS
-         Al9O464S7B4z1vzTGAElQz9Y7Lvmx086LaPq0PaMShJ9n5bxpux7ugexAlzSu9n1WY
-         vfkB3XQOYSFA9cZEZ/kJO222AImSgtFYyjEdKuj2UwThn/jmM0UtRWfayziURo3Vfd
-         Aldk+eJbOVGnjpDD9sQduNy39yOYy/SB0KrIGkurEfQqkWAevGQ0fGg7HgWthPjugs
-         Hqyp9H112QRhg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90f921afef8f60498a997a4a243bcf839b9142ca.1603469755.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Mauro, small fix for iser
-
-On 10/23/2020 7:33 PM, Mauro Carvalho Chehab wrote:
-> Some functions have different names between their prototypes
+On Fri, Oct 23, 2020 at 06:33:34PM +0200, Mauro Carvalho Chehab wrote:
+> Some identifiers have different names between their prototypes
 > and the kernel-doc markup.
->
-> Others need to be fixed, as kernel-doc markups should use this format:
->          identifier - description
->
+> 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->
-> diff --git a/drivers/infiniband/ulp/iser/iscsi_iser.c b/drivers/infiniband/ulp/iser/iscsi_iser.c
-> index 3690e28cc7ea..84cebf937680 100644
-> --- a/drivers/infiniband/ulp/iser/iscsi_iser.c
-> +++ b/drivers/infiniband/ulp/iser/iscsi_iser.c
-> @@ -739,7 +739,7 @@ iscsi_iser_set_param(struct iscsi_cls_conn *cls_conn,
->   }
->   
->   /**
-> - * iscsi_iser_set_param() - set class connection parameter
-> + * iscsi_iser_conn_get_stats() - set class connection parameter
 
-iscsi_iser_conn_get_stats() - get iscsi connection statistics
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
+> ---
+>  include/linux/memblock.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+> index ef131255cedc..95fe3cb71c54 100644
+> --- a/include/linux/memblock.h
+> +++ b/include/linux/memblock.h
+> @@ -272,7 +272,7 @@ void __next_mem_pfn_range_in_zone(u64 *idx, struct zone *zone,
+>  				  unsigned long *out_spfn,
+>  				  unsigned long *out_epfn);
+>  /**
+> - * for_each_free_mem_range_in_zone - iterate through zone specific free
+> + * for_each_free_mem_pfn_range_in_zone - iterate through zone specific free
+>   * memblock areas
+>   * @i: u64 used as loop variable
+>   * @zone: zone in which all of the memory blocks reside
+> @@ -292,7 +292,7 @@ void __next_mem_pfn_range_in_zone(u64 *idx, struct zone *zone,
+>  	     __next_mem_pfn_range_in_zone(&i, zone, p_start, p_end))
+>  
+>  /**
+> - * for_each_free_mem_range_in_zone_from - iterate through zone specific
+> + * for_each_free_mem_pfn_range_in_zone_from - iterate through zone specific
+>   * free memblock areas from a given point
+>   * @i: u64 used as loop variable
+>   * @zone: zone in which all of the memory blocks reside
+> -- 
+> 2.26.2
+> 
 
->    * @cls_conn:    iscsi class connection
->    * @stats:       iscsi stats to output
->    *
->   
+-- 
+Sincerely yours,
+Mike.
