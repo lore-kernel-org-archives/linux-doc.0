@@ -2,129 +2,70 @@ Return-Path: <SRS0=AsmQ=EA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F837C388F7
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Oct 2020 12:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3765C388F7
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Oct 2020 13:06:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2F4C223AE
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Oct 2020 12:21:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LHVC3ji/"
+	by mail.kernel.org (Postfix) with ESMTP id 8A8DD208E4
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Oct 2020 13:06:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415662AbgJYMVc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 25 Oct 2020 08:21:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393967AbgJYMVb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Oct 2020 08:21:31 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0EBCC0613CE;
-        Sun, 25 Oct 2020 05:21:30 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id p15so7092121ioh.0;
-        Sun, 25 Oct 2020 05:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g8KrN20/xQjVk7r3KMHGneSGRzTdCMB0+bYafbj2+Nw=;
-        b=LHVC3ji/HQ/64M2gA4rJz3OfH4a7SQjaJVtuTac1Ab2Zcx7nFxVZlPaedjqXhvfEaA
-         ooEjn7HUu8z7H5ZgYBtt/cVjehQD8ljUDbizr9Y8CQeZmkvZ2Uwa6U1c++kO4Do0ve7p
-         XKeqC0QdWMaT8MqlxHErI92hJ+YAe2+E/+eUuidVqRDpXlTOkilYRyzkbhcHCLRiawlt
-         dyl6VlQb9k3DanzjBNgEA4spIpXXbm3u+Gdo2EYMakaAtMxgOlrbGVHovWmoRDcvfRcF
-         Ak78UOfX22Jxyt0Zqxg8qf3d+DYE5DQ5wljNAoAdtf8Ini7QvsA6cR+CuIDv2/S4aCBl
-         HPBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g8KrN20/xQjVk7r3KMHGneSGRzTdCMB0+bYafbj2+Nw=;
-        b=NM3bzOn/6UudDFuZCvjUBovW6+9W1jrxW7Z5Xn4xjib55Rc/7BFIH8ZyqHF14dG7YQ
-         6W2W7w9BJe/STwqvGiutyiOa+f50hBiLzHumL7yLXis7UVu7tKT5xnq2F5Ws77CgSSER
-         REIEZ8kc898CAH7evM077WrZwzMFhphkFP6JVTAFgHS7pe3ziV2H2TPhUzUBzUFaGCaI
-         NUJWz2BPBBOUlPFAFyyIoPT9ZX/cf9yuuIiWA5Mu7mGWp6bQ0frnew4iDklLUFOsWpUi
-         fCLEPt0+MFlZG1Fa+xbZ8MbhW4n38Mn4KSm2F7oWn/KGlZnQ1ZBAlpcVS0VDHGC7SuJG
-         5Ybg==
-X-Gm-Message-State: AOAM530+C8XiUZkWOSA2EKbldtzwCLz0GIDwnbBZpafvKrgOSuYhYkTJ
-        QjnaZ6yXo4h2uSlnLJ72EGpBlffIJdwRA38y1rU=
-X-Google-Smtp-Source: ABdhPJy6c2KkPXC/FK5wQMUEVMVjPMh+JzTdlizPpffGzlz1YIKDPQek4r5GLpB4qHZWIWLzXEOzc9KiY4G+Lh0my3M=
-X-Received: by 2002:a05:6602:2f04:: with SMTP id q4mr7315858iow.75.1603628490048;
- Sun, 25 Oct 2020 05:21:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com>
- <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
-In-Reply-To: <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
-From:   "Oliver O'Halloran" <oohall@gmail.com>
-Date:   Sun, 25 Oct 2020 23:21:18 +1100
-Message-ID: <CAOSf1CG=Pvr8Yw_+6J3c4VOD0QJwv58iRtSAqBFpeZM6S=7Viw@mail.gmail.com>
-Subject: Re: [Skiboot] [PATCH 0/3] warn and suppress irqflood
-To:     Pingfan Liu <kernelfans@gmail.com>
+        id S1416163AbgJYNGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Oct 2020 09:06:48 -0400
+Received: from foss.arm.com ([217.140.110.172]:45730 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1416161AbgJYNGr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 25 Oct 2020 09:06:47 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C581812FC;
+        Sun, 25 Oct 2020 06:06:46 -0700 (PDT)
+Received: from e107158-lin (e107158-lin.cambridge.arm.com [10.1.194.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D00D3F66B;
+        Sun, 25 Oct 2020 06:06:45 -0700 (PDT)
+Date:   Sun, 25 Oct 2020 13:06:42 +0000
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Elliot Berman <eberman@codeaurora.org>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Maulik Shah <mkshah@codeaurora.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Lina Iyer <ilina@codeaurora.org>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        afzal mohammed <afzal.mohd.ma@gmail.com>,
-        Kexec Mailing List <kexec@lists.infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Trilok Soni <tsoni@codeaurora.org>,
+        Prasad Sodagudi <psodagud@codeaurora.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Valentin Schneider <valentin.schneider@arm.com>
+Subject: Re: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
+Message-ID: <20201025130642.yurgta7s63aecgrj@e107158-lin>
+References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 25, 2020 at 10:22 PM Pingfan Liu <kernelfans@gmail.com> wrote:
->
-> On Thu, Oct 22, 2020 at 4:37 PM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >
-> > On Thu, Oct 22 2020 at 13:56, Pingfan Liu wrote:
-> > > I hit a irqflood bug on powerpc platform, and two years ago, on a x86 platform.
-> > > When the bug happens, the kernel is totally occupies by irq.  Currently, there
-> > > may be nothing or just soft lockup warning showed in console. It is better
-> > > to warn users with irq flood info.
-> > >
-> > > In the kdump case, the kernel can move on by suppressing the irq flood.
-> >
-> > You're curing the symptom not the cause and the cure is just magic and
-> > can't work reliably.
-> Yeah, it is magic. But at least, it is better to printk something and
-> alarm users about what happens. With current code, it may show nothing
-> when system hangs.
-> >
-> > Where is that irq flood originated from and why is none of the
-> > mechanisms we have in place to shut it up working?
-> The bug originates from a driver tpm_i2c_nuvoton, which calls i2c-bus
-> driver (i2c-opal.c). After i2c_opal_send_request(), the bug is
-> triggered.
->
-> But things are complicated by introducing a firmware layer: Skiboot.
-> This software layer hides the detail of manipulating the hardware from
-> Linux.
->
-> I guess the software logic can not enter a sane state when kernel crashes.
->
-> Cc Skiboot and ppc64 community to see whether anyone has idea about it.
+Hi Elliot
 
-What system are you using?
+On 10/22/20 15:04, Elliot Berman wrote:
+> In a heterogeneous multiprocessor system, specifying the 'maxcpus'
+> parameter on kernel command line does not provide sufficient control
+> over which CPUs are brought online at kernel boot time, since CPUs may
+> have nonuniform performance characteristics. Thus, add bootcpus kernel
 
-There's an external interrupt pin which is supposed to be wired to the
-TPM. I think we bounce that interrupt to FW by default since the
-external interrupt is sometimes used for other system-specific
-purposes. Odds are FW doesn't know what to do with it so you
-effectively have an always-on LSI. I fixed a similar bug a while ago
-by having skiboot mask any interrupts it doesn't have a handler for,
-but I have no idea when that fix will land in a released FW build. Oh
-well.
+Are you seeing boot time issues on big.LITTLE systems that's why you need this
+extra config? If so it'll be good to elaborate on the problem. Scheduler should
+place the heavy tasks on bigs. It'll be good to understand what's failing in
+here as this might not be addressing the root cause.
+
+Thanks
+
+--
+Qais Yousef
+
+> parameter to control which CPUs should be brought online during kernel
+> boot. When both maxcpus and bootcpus is set, the more restrictive of the
+> two are booted.
