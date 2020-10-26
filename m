@@ -2,157 +2,172 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4694BC2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:23:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F23CDC2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:56:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1433B20809
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:23:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6A132222C
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603754633;
-	bh=AnGCdy1LGpyx1b6VZ6+U6ncx0PnIzIMcCvkHVlpC9MU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=vKl5DzDlCnmxvjVQpsv/+bF+yM5QdOdDvB9pFMZdhCdUxSY75QvhqU2li6f7ZoDCD
-	 MrjJFTwru2uWZREUscS4Dbs3UiiMMDWhKM0hZw/pbKgp99V2yeofRWsKFnxV98NfgG
-	 7AIdnX/RRYeBEwbj7R7jzLZoZb727x75/0AV1ZlA=
+	s=default; t=1603756566;
+	bh=12+N3Sl8anEqlF04IUgnWUIyuoEjcEJ7JjgNNWWKPJ8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=rx0wIUBq8wXkSE1Msu0/O5lI+gjBwVNrKje+FnJIyBt8QzbLKD4VFWgda2q8Tjfhv
+	 g+6AXb2DN5+sWC8Kd+oiKTSUftE0AsA9TNrbGOTGxTFoxtaHstZZzKQb1C9DjlgoBA
+	 IW1DUx+0cnCDQlY1kYY5R0m8jisdasUglmdmiqpk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404717AbgJZXXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 19:23:48 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:28022 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404500AbgJZXXr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 19:23:47 -0400
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 09QNNCb1020175;
-        Tue, 27 Oct 2020 08:23:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 09QNNCb1020175
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1603754593;
-        bh=kUhFWI4WsYDgPcCkl7UnZNZiYWnYQ9Bwztn+54+tYPg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mLJcQqGMY3sI5x/0HBbnk3MWxG/rQNjjSbrC0fKsRXZzPOVgDVdX+tjUznP/aCjf7
-         E+GMyS67jkwRFerMLEBgFnPpHa6FzBuefFBXz8Sw9gautf3UrwcthmXsV5yhODGTMo
-         BscrXdLmiyDJxKkJXtIBdEagJIJLx87RquEXI50QWF9aPIcnb57cJYV0a0huveXn2+
-         UifxuK3f1RS+gghmF0TEC0f+X7i7JMzT14s0qguB0ZfAMZdlcjqXTKHWdIhRbW/nMB
-         Mij/WLV4gMER9hDTPTXawx6Y3uGuILlj1h80EpsfCTlCNVTE0z3m7nOP9kDVXs+KlI
-         Jp/gW8s9O57QA==
-X-Nifty-SrcIP: [209.85.210.179]
-Received: by mail-pf1-f179.google.com with SMTP id a200so7054485pfa.10;
-        Mon, 26 Oct 2020 16:23:13 -0700 (PDT)
-X-Gm-Message-State: AOAM531zYVsNgmHcFqhLo5qvUwl4SCsu/qX3iA8WQ7bswJ9t8oQ7T6G3
-        q2UQhWU+Y+lX07BqcaC4h3aONrvII7/vdQadCns=
-X-Google-Smtp-Source: ABdhPJz8xafCjuSWKoYJgrmHRvjnmC1v42wxlgvZXWvr0PjykbuIZrN+qroqBZosBWNbIh3ZjoBTyujO7Bc8iTxztO0=
-X-Received: by 2002:a62:ac08:0:b029:163:ecb1:ea2b with SMTP id
- v8-20020a62ac080000b0290163ecb1ea2bmr162391pfe.63.1603754592351; Mon, 26 Oct
- 2020 16:23:12 -0700 (PDT)
+        id S2411020AbgJZX4B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 19:56:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2410956AbgJZXzr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 19:55:47 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0139121655;
+        Mon, 26 Oct 2020 23:55:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603756542;
+        bh=12+N3Sl8anEqlF04IUgnWUIyuoEjcEJ7JjgNNWWKPJ8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nyRPW1JGbcBM7xtXUMzs46mQBvVhAB/dQRLokASpD8uOPOCrnpvR5N44uOpT0MxzX
+         r8clV80Z1ZDRdL9V9G89EEjWgMwNTWr/Kn14sW/Oqrjbsin4VBNRLdwdQx98fpOqMW
+         AhBnjcIuOH4LPBG5s1L3jHbB7ofp/2WquSItDFuQ=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 21/80] media: videodev2.h: RGB BT2020 and HSV are always full range
+Date:   Mon, 26 Oct 2020 19:54:17 -0400
+Message-Id: <20201026235516.1025100-21-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
+References: <20201026235516.1025100-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <patch.git-ef02981ce9bc.your-ad-here.call-01603453662-ext-3714@work.hours>
- <20201023181805.GA3852821@ubuntu-m3-large-x86>
-In-Reply-To: <20201023181805.GA3852821@ubuntu-m3-large-x86>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 27 Oct 2020 08:22:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATuqqbd5MKWsFhOEAaGby6LZizSqAOVKX7+o-NiZ=ehcw@mail.gmail.com>
-Message-ID: <CAK7LNATuqqbd5MKWsFhOEAaGby6LZizSqAOVKX7+o-NiZ=ehcw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: remove unused OBJSIZE
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Vasily Gorbik <gor@linux.ibm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 24, 2020 at 3:18 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> On Fri, Oct 23, 2020 at 01:57:32PM +0200, Vasily Gorbik wrote:
-> > The "size" tool has been solely used by s390 to enforce .bss section usage
-> > restrictions in early startup code. Since commit 980d5f9ab36b ("s390/boot:
-> > enable .bss section for compressed kernel") and commit 2e83e0eb85ca
-> > ("s390: clean .bss before running uncompressed kernel") these restrictions
-> > have been lifted for the decompressor and uncompressed kernel and the
-> > size tool is now unused.
-> >
-> > Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
->
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Applied to linux-kbuild. Thanks.
+[ Upstream commit b305dfe2e93434b12d438434461b709641f62af4 ]
 
+The default RGB quantization range for BT.2020 is full range (just as for
+all the other RGB pixel encodings), not limited range.
 
->
-> Thanks for the patch!
->
-> > ---
-> >  Documentation/kbuild/llvm.rst | 5 ++---
-> >  Makefile                      | 4 +---
-> >  2 files changed, 3 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > index cf3ca236d2cc..21c847890d03 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -57,9 +57,8 @@ to enable them. ::
-> >  They can be enabled individually. The full list of the parameters: ::
-> >
-> >       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-> > -       OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \
-> > -       READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \
-> > -       HOSTLD=ld.lld
-> > +       OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> > +       HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> >
-> >  Currently, the integrated assembler is disabled by default. You can pass
-> >  ``LLVM_IAS=1`` to enable it.
-> > diff --git a/Makefile b/Makefile
-> > index d35a59f98e83..d2123c2c829a 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -433,7 +433,6 @@ NM                = llvm-nm
-> >  OBJCOPY              = llvm-objcopy
-> >  OBJDUMP              = llvm-objdump
-> >  READELF              = llvm-readelf
-> > -OBJSIZE              = llvm-size
-> >  STRIP                = llvm-strip
-> >  else
-> >  CC           = $(CROSS_COMPILE)gcc
-> > @@ -443,7 +442,6 @@ NM                = $(CROSS_COMPILE)nm
-> >  OBJCOPY              = $(CROSS_COMPILE)objcopy
-> >  OBJDUMP              = $(CROSS_COMPILE)objdump
-> >  READELF              = $(CROSS_COMPILE)readelf
-> > -OBJSIZE              = $(CROSS_COMPILE)size
-> >  STRIP                = $(CROSS_COMPILE)strip
-> >  endif
-> >  PAHOLE               = pahole
-> > @@ -509,7 +507,7 @@ KBUILD_LDFLAGS :=
-> >  CLANG_FLAGS :=
-> >
-> >  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
-> > -export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
-> > +export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
-> >  export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-> >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
-> >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
-> > --
-> > 2.25.4
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20201023181805.GA3852821%40ubuntu-m3-large-x86.
+Update the V4L2_MAP_QUANTIZATION_DEFAULT macro and documentation
+accordingly.
 
+Also mention that HSV is always full range and cannot be limited range.
 
+When RGB BT2020 was introduced in V4L2 it was not clear whether it should
+be limited or full range, but full range is the right (and consistent)
+choice.
 
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../media/uapi/v4l/colorspaces-defs.rst         |  9 ++++-----
+ .../media/uapi/v4l/colorspaces-details.rst      |  5 ++---
+ include/uapi/linux/videodev2.h                  | 17 ++++++++---------
+ 3 files changed, 14 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/media/uapi/v4l/colorspaces-defs.rst b/Documentation/media/uapi/v4l/colorspaces-defs.rst
+index e122bbe3d799d..aabb08130354a 100644
+--- a/Documentation/media/uapi/v4l/colorspaces-defs.rst
++++ b/Documentation/media/uapi/v4l/colorspaces-defs.rst
+@@ -36,8 +36,7 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+ :c:type:`v4l2_hsv_encoding` specifies which encoding is used.
+ 
+ .. note:: The default R'G'B' quantization is full range for all
+-   colorspaces except for BT.2020 which uses limited range R'G'B'
+-   quantization.
++   colorspaces. HSV formats are always full range.
+ 
+ .. tabularcolumns:: |p{6.7cm}|p{10.8cm}|
+ 
+@@ -169,8 +168,8 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+       - Details
+     * - ``V4L2_QUANTIZATION_DEFAULT``
+       - Use the default quantization encoding as defined by the
+-	colorspace. This is always full range for R'G'B' (except for the
+-	BT.2020 colorspace) and HSV. It is usually limited range for Y'CbCr.
++	colorspace. This is always full range for R'G'B' and HSV.
++	It is usually limited range for Y'CbCr.
+     * - ``V4L2_QUANTIZATION_FULL_RANGE``
+       - Use the full range quantization encoding. I.e. the range [0…1] is
+ 	mapped to [0…255] (with possible clipping to [1…254] to avoid the
+@@ -180,4 +179,4 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+     * - ``V4L2_QUANTIZATION_LIM_RANGE``
+       - Use the limited range quantization encoding. I.e. the range [0…1]
+ 	is mapped to [16…235]. Cb and Cr are mapped from [-0.5…0.5] to
+-	[16…240].
++	[16…240]. Limited Range cannot be used with HSV.
+diff --git a/Documentation/media/uapi/v4l/colorspaces-details.rst b/Documentation/media/uapi/v4l/colorspaces-details.rst
+index 8b0ba3668101d..fd0cf57691d87 100644
+--- a/Documentation/media/uapi/v4l/colorspaces-details.rst
++++ b/Documentation/media/uapi/v4l/colorspaces-details.rst
+@@ -377,9 +377,8 @@ Colorspace BT.2020 (V4L2_COLORSPACE_BT2020)
+ The :ref:`itu2020` standard defines the colorspace used by Ultra-high
+ definition television (UHDTV). The default transfer function is
+ ``V4L2_XFER_FUNC_709``. The default Y'CbCr encoding is
+-``V4L2_YCBCR_ENC_BT2020``. The default R'G'B' quantization is limited
+-range (!), and so is the default Y'CbCr quantization. The chromaticities
+-of the primary colors and the white reference are:
++``V4L2_YCBCR_ENC_BT2020``. The default Y'CbCr quantization is limited range.
++The chromaticities of the primary colors and the white reference are:
+ 
+ 
+ 
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 530638dffd934..3210b3c82a4a2 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -371,9 +371,9 @@ enum v4l2_hsv_encoding {
+ 
+ enum v4l2_quantization {
+ 	/*
+-	 * The default for R'G'B' quantization is always full range, except
+-	 * for the BT2020 colorspace. For Y'CbCr the quantization is always
+-	 * limited range, except for COLORSPACE_JPEG: this is full range.
++	 * The default for R'G'B' quantization is always full range.
++	 * For Y'CbCr the quantization is always limited range, except
++	 * for COLORSPACE_JPEG: this is full range.
+ 	 */
+ 	V4L2_QUANTIZATION_DEFAULT     = 0,
+ 	V4L2_QUANTIZATION_FULL_RANGE  = 1,
+@@ -382,14 +382,13 @@ enum v4l2_quantization {
+ 
+ /*
+  * Determine how QUANTIZATION_DEFAULT should map to a proper quantization.
+- * This depends on whether the image is RGB or not, the colorspace and the
+- * Y'CbCr encoding.
++ * This depends on whether the image is RGB or not, the colorspace.
++ * The Y'CbCr encoding is not used anymore, but is still there for backwards
++ * compatibility.
+  */
+ #define V4L2_MAP_QUANTIZATION_DEFAULT(is_rgb_or_hsv, colsp, ycbcr_enc) \
+-	(((is_rgb_or_hsv) && (colsp) == V4L2_COLORSPACE_BT2020) ? \
+-	 V4L2_QUANTIZATION_LIM_RANGE : \
+-	 (((is_rgb_or_hsv) || (colsp) == V4L2_COLORSPACE_JPEG) ? \
+-	 V4L2_QUANTIZATION_FULL_RANGE : V4L2_QUANTIZATION_LIM_RANGE))
++	(((is_rgb_or_hsv) || (colsp) == V4L2_COLORSPACE_JPEG) ? \
++	 V4L2_QUANTIZATION_FULL_RANGE : V4L2_QUANTIZATION_LIM_RANGE)
+ 
+ /*
+  * Deprecated names for opRGB colorspace (IEC 61966-2-5)
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
