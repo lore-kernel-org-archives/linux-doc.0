@@ -2,118 +2,157 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68953C2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 21:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4694BC2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:23:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 297D020795
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 21:21:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SToqhqmg";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6HgJyqSF"
+	by mail.kernel.org (Postfix) with ESMTP id 1433B20809
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:23:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603754633;
+	bh=AnGCdy1LGpyx1b6VZ6+U6ncx0PnIzIMcCvkHVlpC9MU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=vKl5DzDlCnmxvjVQpsv/+bF+yM5QdOdDvB9pFMZdhCdUxSY75QvhqU2li6f7ZoDCD
+	 MrjJFTwru2uWZREUscS4Dbs3UiiMMDWhKM0hZw/pbKgp99V2yeofRWsKFnxV98NfgG
+	 7AIdnX/RRYeBEwbj7R7jzLZoZb727x75/0AV1ZlA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731399AbgJZVVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 17:21:39 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:42604 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730958AbgJZVVj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 17:21:39 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1603747296;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1lkoWn6wcOFMTEOogm/Sqf3fEH2S/rX9rztcdNBPDfA=;
-        b=SToqhqmgRX6Vzs/Mym0aZ8Z2G4TzrKFFfjWUHtG0QByqKG7ws9EAw4uRf2Ez6PT9x8BAb1
-        LBx3QZEIElMIjEeCkYbCJcAYibNF2Euzo07v2OY9ozAlWswtrzGx/flOvT+pgmlM/7GVmn
-        B4zi7+m2VTjvxgcS0wZqGkdLdHtMdyoanfqbgoqEEe2kEU6FAtIzrVOHRDJ1OUacBlhCJf
-        QUWuZs4NjdYGVGoI2aVJqnvSHmVLtYBiXVK3Jhqs+vtPYGJixLArq98sI1j8AEU4ESs2zg
-        xjGdexISfRQCU6YtSrqom/9k80dBtcfzFOKxyeLNLUmwb4tJGhQcVSnlFjyEqw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1603747296;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1lkoWn6wcOFMTEOogm/Sqf3fEH2S/rX9rztcdNBPDfA=;
-        b=6HgJyqSFqo4iDdJgNJrQ9Jjj60Sy44P8+J6oyjZXgqpjmijD/kx/J8YwOJSirJ6rzSldOR
-        qQw34ev+pgekZpCg==
-To:     Guilherme Piccoli <gpiccoli@canonical.com>
-Cc:     Pingfan Liu <kernelfans@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        afzal mohammed <afzal.mohd.ma@gmail.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Maulik Shah <mkshah@codeaurora.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
-        Kexec Mailing List <kexec@lists.infradead.org>,
-        Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 0/3] warn and suppress irqflood
-In-Reply-To: <CAHD1Q_yvb43P+b6PUzK4a1jU+RH3Shv2=4bO69nh5VDWXgv-ww@mail.gmail.com>
-References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com> <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com> <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com> <87y2js3ghv.fsf@nanos.tec.linutronix.de> <CAHD1Q_yvb43P+b6PUzK4a1jU+RH3Shv2=4bO69nh5VDWXgv-ww@mail.gmail.com>
-Date:   Mon, 26 Oct 2020 22:21:36 +0100
-Message-ID: <87o8ko3cpr.fsf@nanos.tec.linutronix.de>
+        id S2404717AbgJZXXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 19:23:48 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:28022 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404500AbgJZXXr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 19:23:47 -0400
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 09QNNCb1020175;
+        Tue, 27 Oct 2020 08:23:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 09QNNCb1020175
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1603754593;
+        bh=kUhFWI4WsYDgPcCkl7UnZNZiYWnYQ9Bwztn+54+tYPg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mLJcQqGMY3sI5x/0HBbnk3MWxG/rQNjjSbrC0fKsRXZzPOVgDVdX+tjUznP/aCjf7
+         E+GMyS67jkwRFerMLEBgFnPpHa6FzBuefFBXz8Sw9gautf3UrwcthmXsV5yhODGTMo
+         BscrXdLmiyDJxKkJXtIBdEagJIJLx87RquEXI50QWF9aPIcnb57cJYV0a0huveXn2+
+         UifxuK3f1RS+gghmF0TEC0f+X7i7JMzT14s0qguB0ZfAMZdlcjqXTKHWdIhRbW/nMB
+         Mij/WLV4gMER9hDTPTXawx6Y3uGuILlj1h80EpsfCTlCNVTE0z3m7nOP9kDVXs+KlI
+         Jp/gW8s9O57QA==
+X-Nifty-SrcIP: [209.85.210.179]
+Received: by mail-pf1-f179.google.com with SMTP id a200so7054485pfa.10;
+        Mon, 26 Oct 2020 16:23:13 -0700 (PDT)
+X-Gm-Message-State: AOAM531zYVsNgmHcFqhLo5qvUwl4SCsu/qX3iA8WQ7bswJ9t8oQ7T6G3
+        q2UQhWU+Y+lX07BqcaC4h3aONrvII7/vdQadCns=
+X-Google-Smtp-Source: ABdhPJz8xafCjuSWKoYJgrmHRvjnmC1v42wxlgvZXWvr0PjykbuIZrN+qroqBZosBWNbIh3ZjoBTyujO7Bc8iTxztO0=
+X-Received: by 2002:a62:ac08:0:b029:163:ecb1:ea2b with SMTP id
+ v8-20020a62ac080000b0290163ecb1ea2bmr162391pfe.63.1603754592351; Mon, 26 Oct
+ 2020 16:23:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <patch.git-ef02981ce9bc.your-ad-here.call-01603453662-ext-3714@work.hours>
+ <20201023181805.GA3852821@ubuntu-m3-large-x86>
+In-Reply-To: <20201023181805.GA3852821@ubuntu-m3-large-x86>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 27 Oct 2020 08:22:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATuqqbd5MKWsFhOEAaGby6LZizSqAOVKX7+o-NiZ=ehcw@mail.gmail.com>
+Message-ID: <CAK7LNATuqqbd5MKWsFhOEAaGby6LZizSqAOVKX7+o-NiZ=ehcw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove unused OBJSIZE
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Vasily Gorbik <gor@linux.ibm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 26 2020 at 17:28, Guilherme Piccoli wrote:
-> On Mon, Oct 26, 2020 at 4:59 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->> It gets flooded right at the point where the crash kernel enables
->> interrupts in start_kernel(). At that point there is no device driver
->> and no interupt requested. All you can see on the console for this is
->>
->>  "common_interrupt: $VECTOR.$CPU No irq handler for vector"
->>
->> And contrary to Liu's patches which try to disable a requested interrupt
->> if too many of them arrive, the kernel cannot do anything because there
->> is nothing to disable in your case. That's why you needed to do the MSI
->> disable magic in the early PCI quirks which run before interrupts get
->> enabled.
+On Sat, Oct 24, 2020 at 3:18 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 >
-> Wow, thank you very much for this great explanation (without a
-> reproducer) - it's nice to hear somebody that deeply understands the
-> code! And double thanks for CCing Bjorn.
+> On Fri, Oct 23, 2020 at 01:57:32PM +0200, Vasily Gorbik wrote:
+> > The "size" tool has been solely used by s390 to enforce .bss section usage
+> > restrictions in early startup code. Since commit 980d5f9ab36b ("s390/boot:
+> > enable .bss section for compressed kernel") and commit 2e83e0eb85ca
+> > ("s390: clean .bss before running uncompressed kernel") these restrictions
+> > have been lifted for the decompressor and uncompressed kernel and the
+> > size tool is now unused.
+> >
+> > Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
+>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
-Understanding the code is only half of the picture. You need to
-understand how the hardware works or not :)
-
-> So, I don't want to hijack Liu's thread, but do you think it makes
-> sense to have my approach as a (debug) parameter to prevent such a
-> degenerate case?
-
-At least it makes sense to some extent even if it's incomplete. What
-bothers me is that it'd be x86 specific while the issue is pretty much
-architecture independent. I don't think that the APIC is special in that
-regard. Rogue MSIs should be able to bring down pretty much all
-architectures.
-
-> Or could we have something in core IRQ code to prevent irq flooding in
-> such scenarios, something "stronger" than disabling MSIs (APIC-level,
-> likely)?
-
-For your case? No. The APIC cannot be protected against rogue MSIs. The
-only cure is to disable interrupts or disable MSIs on all PCI[E] devices
-early on. Disabling interrupts is not so much of an option obviously :)
-
-Thanks,
-
-        tglx
+Applied to linux-kbuild. Thanks.
 
 
+>
+> Thanks for the patch!
+>
+> > ---
+> >  Documentation/kbuild/llvm.rst | 5 ++---
+> >  Makefile                      | 4 +---
+> >  2 files changed, 3 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> > index cf3ca236d2cc..21c847890d03 100644
+> > --- a/Documentation/kbuild/llvm.rst
+> > +++ b/Documentation/kbuild/llvm.rst
+> > @@ -57,9 +57,8 @@ to enable them. ::
+> >  They can be enabled individually. The full list of the parameters: ::
+> >
+> >       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+> > -       OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \
+> > -       READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \
+> > -       HOSTLD=ld.lld
+> > +       OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+> > +       HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+> >
+> >  Currently, the integrated assembler is disabled by default. You can pass
+> >  ``LLVM_IAS=1`` to enable it.
+> > diff --git a/Makefile b/Makefile
+> > index d35a59f98e83..d2123c2c829a 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -433,7 +433,6 @@ NM                = llvm-nm
+> >  OBJCOPY              = llvm-objcopy
+> >  OBJDUMP              = llvm-objdump
+> >  READELF              = llvm-readelf
+> > -OBJSIZE              = llvm-size
+> >  STRIP                = llvm-strip
+> >  else
+> >  CC           = $(CROSS_COMPILE)gcc
+> > @@ -443,7 +442,6 @@ NM                = $(CROSS_COMPILE)nm
+> >  OBJCOPY              = $(CROSS_COMPILE)objcopy
+> >  OBJDUMP              = $(CROSS_COMPILE)objdump
+> >  READELF              = $(CROSS_COMPILE)readelf
+> > -OBJSIZE              = $(CROSS_COMPILE)size
+> >  STRIP                = $(CROSS_COMPILE)strip
+> >  endif
+> >  PAHOLE               = pahole
+> > @@ -509,7 +507,7 @@ KBUILD_LDFLAGS :=
+> >  CLANG_FLAGS :=
+> >
+> >  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
+> > -export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+> > +export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+> >  export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+> >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+> > --
+> > 2.25.4
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20201023181805.GA3852821%40ubuntu-m3-large-x86.
 
 
+
+-- 
+Best Regards
+Masahiro Yamada
