@@ -2,106 +2,201 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 391A6C2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 14:53:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64282C4363A
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 14:53:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0011522263
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 14:53:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E2DD2463C
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 14:53:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GbcCABbn"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="S5keWXE5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1782148AbgJZOw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 10:52:56 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44846 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1782147AbgJZOw4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 10:52:56 -0400
-Received: by mail-wr1-f67.google.com with SMTP id t9so12920471wrq.11
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 07:52:54 -0700 (PDT)
+        id S1782161AbgJZOxN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 10:53:13 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:39784 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1782159AbgJZOxN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 10:53:13 -0400
+Received: by mail-pg1-f193.google.com with SMTP id o7so6200946pgv.6
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 07:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=p1ATpOW7fjmmAl8xtmCr7FlKnqWcx/tsWTiaC0juAts=;
-        b=GbcCABbn1MZFMyY8cJ/56fcj0+99V3U20gVd6W+DTtpqeh2pRBDHXc2kPz3NECc09R
-         SFP5KXC7nzZ4pSDHJ//lx3ABs34GR8mF22hsFPkOBHNHwua1ZmE3Ynpiu6ZfIuBcZ62T
-         et2Q84Pi+O672GcidITbxefBnFxMNBxiTbrHioJSoF5dEDws5lISknG0QmiQja3ga9Ii
-         u2PpyKc4BSOagB2n1WiDiDOZCs4kAZ9nZRuTuXs1OU+Bjz66ll7uoBXfY3V/QJf4l9g6
-         TItcw6UVuXLjA6W6bqHSIrlQDJnFMfnPh9QLhKDGfiH/AafJOirtwKmNyzkPbhnmghl9
-         R/vg==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VlMBblbmRytojibzU/j52EgLGR+Q0tdS6I4eRGdWIMU=;
+        b=S5keWXE59lJCym5FyqVjdIRlNh4zCQn0VXzBCqKMZJRBnLZ9UqU0LUvangA1dorBJ9
+         UHsbc4Hdtz+CCyV86RY7UhghNmkzNmS03Y4LKgLUF6ZFCGisycP4ts9xc58SiFm6EqNq
+         XejO0UZ5fCvtvNRNWLC52fbA0C75YORav6Gr61uAj6jpbOimbVjDtlXatXLgrqvkDfmd
+         +i/uf5BjGyCf/XTdBph9xA83PoSWzxegvIRxgX7I5sv6EAS09k1DEcOXsfRxmzfthXWQ
+         gVUHjOYu+xQ3iLc5r04JB3k0gkAKV6px9TE/vzlyhAu7Lez5Wm1T0/1wRXH5gkAnRECI
+         GCdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p1ATpOW7fjmmAl8xtmCr7FlKnqWcx/tsWTiaC0juAts=;
-        b=Bm6+GicDWnmO44OwgytnJWKv6nM9wtnzfMjt2sO4EkxYv8oShUHme7EZ4J9+neyE7T
-         u2NIy5wRMlOsUuLryJKLt+xctHALA3faGWKs585+WK5zPJLeGYngXGNmf8GarQ4rChpI
-         im8yvxtddo75OOIQzKonFIgyqtRTV54BBLLscay1l9359SrdHxrkxlm2IQGIg2wrJav9
-         RFQyAZdScQ9ipcizhmg/oqKCa9zN18pR98vymlecJxluQLznQdAziZbVHgFS9HZ5a+5F
-         xW4dKm1pZBcgYY01pj48sE8dcdAkeh0GEB9Yf72TVblPEVvz6oXf/6eBpIHoYvoJ9Ppj
-         mdLg==
-X-Gm-Message-State: AOAM532RzNykbtB8B9YJEmi5+TN2Zdhvphf7ubpNldRuRJOeLi4W3sWw
-        VNg6TmlFxSSU3iyiBfQ33JIsNg==
-X-Google-Smtp-Source: ABdhPJxdpFTwysYkqbRSmVcQK0EOy70eZY5M5Qd3me5h/gpBQEZ0sPw8BPz+c1sg2SluLFkLJ2uflg==
-X-Received: by 2002:adf:9dd1:: with SMTP id q17mr18548114wre.317.1603723973333;
-        Mon, 26 Oct 2020 07:52:53 -0700 (PDT)
-Received: from [192.168.86.34] (cpc86377-aztw32-2-0-cust226.18-1.cable.virginm.net. [92.233.226.227])
-        by smtp.googlemail.com with ESMTPSA id j9sm23341810wrp.59.2020.10.26.07.52.52
+        bh=VlMBblbmRytojibzU/j52EgLGR+Q0tdS6I4eRGdWIMU=;
+        b=E+aGdX6LrHPw1QUhlHEO9a1XcKUcq1kvLUx1gZ3iiFYAyxUH/6faWppuU8z6YVYEPj
+         bdepuaPWxeeeNB/mvSWsK9TVYAtdQ6rh1HtzkRNdiVkI8OPPSzgxJJYgmv4/dl/y+qXO
+         Tlsi7ab/kUinusZ26po9LKLH3GCHNAdASoETPrmlOw+6zXKtneETshR4+XOzoY28tB+C
+         h9lvIgmlRSB5rSgApZi/S8yKnGNZW78tXaWePEPkQOprDOLdQvTitD/50QhMEPmwjE00
+         sQ1d/OnoWUPgQkjjrVOC+lBcjUktDgvvb9/O++u8ClHiMYYqr403cyznYQVLyMnhQJvj
+         ybiQ==
+X-Gm-Message-State: AOAM531nc1bUH+ANlObe83cSs4vqjOX1is0aZQVqp7PyFib0ndCBagy8
+        qBztUiqHtTX9WGQpz4/DkKYMnw==
+X-Google-Smtp-Source: ABdhPJy5jPK58YPRIufu6al4DMwGRDvPaOtJSMZxZepTlg9IN7o4kftDFuksdY79WSCwX9uzlRXYiQ==
+X-Received: by 2002:a05:6a00:7cb:b029:152:94b3:b2ee with SMTP id n11-20020a056a0007cbb029015294b3b2eemr13653849pfu.58.1603723992276;
+        Mon, 26 Oct 2020 07:53:12 -0700 (PDT)
+Received: from localhost.localdomain ([103.136.220.89])
+        by smtp.gmail.com with ESMTPSA id x123sm12042726pfb.212.2020.10.26.07.53.03
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 26 Oct 2020 07:52:52 -0700 (PDT)
-Subject: Re: [PATCH v3 28/56] slimbus: fix a kernel-doc markup
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <7a581d05aec5ebbd02be27513de1c5e5a25b7922.1603469755.git.mchehab+huawei@kernel.org>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <7b37a351-9f11-e639-66d6-4ca251bcfeab@linaro.org>
-Date:   Mon, 26 Oct 2020 14:52:51 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 26 Oct 2020 07:53:11 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v2 00/19] Free some vmemmap pages of hugetlb page
+Date:   Mon, 26 Oct 2020 22:50:55 +0800
+Message-Id: <20201026145114.59424-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-In-Reply-To: <7a581d05aec5ebbd02be27513de1c5e5a25b7922.1603469755.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi all,
+
+This patch series will free some vmemmap pages(struct page structures)
+associated with each hugetlbpage when preallocated to save memory.
+
+Nowadays we track the status of physical page frames using `struct page`
+arranged in one or more arrays. And here exists one-to-one mapping between
+the physical page frame and the corresponding `struct page`.
+
+The hugetlbpage support is built on top of multiple page size support
+that is provided by most modern architectures. For example, x86 CPUs
+normally support 4K and 2M (1G if architecturally supported) page sizes.
+Every hugetlbpage has more than one `struct page`. The 2M hugetlbpage
+has 512 `struct page` and 1G hugetlbpage has 4096 `struct page`. But
+in the core of hugetlbpage only uses the first 4 `struct page` to store
+metadata associated with each hugetlbpage. The rest of the `struct page`
+are usually read the compound_head field which are all the same value.
+If we can free some struct page memory to buddy system so that we can
+save a lot of memory.
+
+When the system boot up, every 2M hugetlbpage has 512 `struct page` which
+is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
+
+   hugetlbpage                  struct pages(8 pages)          page frame(8 pages)
+  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+  |           |                     |     0     | -------------> |     0     |
+  |           |                     |     1     | -------------> |     1     |
+  |           |                     |     2     | -------------> |     2     |
+  |           |                     |     3     | -------------> |     3     |
+  |           |                     |     4     | -------------> |     4     |
+  |     2M    |                     |     5     | -------------> |     5     |
+  |           |                     |     6     | -------------> |     6     |
+  |           |                     |     7     | -------------> |     7     |
+  |           |                     +-----------+                +-----------+
+  |           |
+  |           |
+  +-----------+
 
 
-On 23/10/2020 17:33, Mauro Carvalho Chehab wrote:
-> Fix the name of the enum on its kernel-doc markup:
-> 	enum slim_ch_aux_fmt -> enum slim_ch_aux_bit_fmt
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   drivers/slimbus/slimbus.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/slimbus/slimbus.h b/drivers/slimbus/slimbus.h
-> index c73035915f1d..00a7f112574b 100644
-> --- a/drivers/slimbus/slimbus.h
-> +++ b/drivers/slimbus/slimbus.h
-> @@ -244,7 +244,7 @@ enum slim_ch_data_fmt {
->   };
->   
->   /**
-> - * enum slim_ch_aux_fmt: SLIMbus channel Aux Field format IDs according to
-> + * enum slim_ch_aux_bit_fmt: SLIMbus channel Aux Field format IDs according to
->    *	Table 63 of SLIMbus Spec 2.0
->    * @SLIM_CH_AUX_FMT_NOT_APPLICABLE: Undefined
->    * @SLIM_CH_AUX_FMT_ZCUV_TUNNEL_IEC60958: ZCUV for tunneling IEC60958
-> 
+When a hugetlbpage is preallocated, we can change the mapping from above to
+bellow.
 
-Applied thanks!
+   hugetlbpage                  struct pages(8 pages)          page frame(8 pages)
+  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+  |           |                     |     0     | -------------> |     0     |
+  |           |                     |     1     | -------------> |     1     |
+  |           |                     |     2     | -------------> +-----------+
+  |           |                     |     3     | -----------------^ ^ ^ ^ ^
+  |           |                     |     4     | -------------------+ | | |
+  |     2M    |                     |     5     | ---------------------+ | |
+  |           |                     |     6     | -----------------------+ |
+  |           |                     |     7     | -------------------------+
+  |           |                     +-----------+
+  |           |
+  |           |
+  +-----------+
 
-srini
+For tail pages, the value of compound_dtor is the same. So we can reuse
+first page of tail page structs. We map the virtual addresses of the
+remaining 6 pages of tail page structs to the first tail page struct,
+and then free these 6 pages. Therefore, we need to reserve at least 2
+pages as vmemmap areas.
+
+When a hugetlbpage is freed to the buddy system, we should allocate 6
+pages for vmemmap pages and restore the previous mapping relationship.
+
+If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
+substantial gain. On our server, run some SPDK/QEMU applications which
+will use 1000GB hugetlbpage. With this feature enabled, we can save
+~16GB(1G hugepage)/~11GB(2MB hugepage) memory.
+
+  changelog in v2:
+  1. Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+  2. Fix some typo and code style problems.
+  3. Remove unused handle_vmemmap_fault().
+  4. Merge some commits to one commit suggested by Mike.
+
+Muchun Song (19):
+  mm/memory_hotplug: Move bootmem info registration API to
+    bootmem_info.c
+  mm/memory_hotplug: Move {get,put}_page_bootmem() to bootmem_info.c
+  mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+  mm/hugetlb: Introduce nr_free_vmemmap_pages in the struct hstate
+  mm/hugetlb: Introduce pgtable allocation/freeing helpers
+  mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+  mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+  mm/hugetlb: Defer freeing of hugetlb pages
+  mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb
+    page
+  mm/hugetlb: Introduce remap_huge_page_pmd_vmemmap helper
+  mm/hugetlb: Use PG_slab to indicate split pmd
+  mm/hugetlb: Support freeing vmemmap pages of gigantic page
+  mm/hugetlb: Add a BUILD_BUG_ON to check if struct page size is a power
+    of two
+  mm/hugetlb: Clear PageHWPoison on the non-error memory page
+  mm/hugetlb: Flush work when dissolving hugetlb page
+  mm/hugetlb: Add a kernel parameter hugetlb_free_vmemmap
+  mm/hugetlb: Merge pte to huge pmd only for gigantic page
+  mm/hugetlb: Gather discrete indexes of tail page
+  mm/hugetlb: Add BUILD_BUG_ON to catch invalid usage of tail struct
+    page
+
+ .../admin-guide/kernel-parameters.txt         |   9 +
+ Documentation/admin-guide/mm/hugetlbpage.rst  |   3 +
+ arch/x86/include/asm/hugetlb.h                |  20 +
+ arch/x86/include/asm/pgtable_64_types.h       |   8 +
+ arch/x86/mm/init_64.c                         |   5 +-
+ fs/Kconfig                                    |  16 +
+ include/linux/bootmem_info.h                  |  65 ++
+ include/linux/hugetlb.h                       |  50 ++
+ include/linux/hugetlb_cgroup.h                |  15 +-
+ include/linux/memory_hotplug.h                |  27 -
+ mm/Makefile                                   |   1 +
+ mm/bootmem_info.c                             | 125 +++
+ mm/hugetlb.c                                  | 795 +++++++++++++++++-
+ mm/memory_hotplug.c                           | 116 ---
+ mm/sparse.c                                   |   1 +
+ 15 files changed, 1091 insertions(+), 165 deletions(-)
+ create mode 100644 include/linux/bootmem_info.h
+ create mode 100644 mm/bootmem_info.c
+
+-- 
+2.20.1
+
