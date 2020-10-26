@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A243CC4363A
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 15:54:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D336C4363A
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 16:02:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45CC122400
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 15:54:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06E4122404
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 16:02:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rJeT0U00"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ThBdvIzz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1773507AbgJZPy0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 11:54:26 -0400
-Received: from casper.infradead.org ([90.155.50.34]:44094 "EHLO
+        id S1773995AbgJZQCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 12:02:10 -0400
+Received: from casper.infradead.org ([90.155.50.34]:44296 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1422551AbgJZPy0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 11:54:26 -0400
+        with ESMTP id S1773903AbgJZQCA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 12:02:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=vyhHgvG7q8mR9uMvZeYLk5NHZwVRptJfoJ1pJf94u/w=; b=rJeT0U00ikfNjcJQtqCRsa7hOt
-        ivtgVTTtgl9kExGOJKtB+fnr1jwocDyAMRTBrHLj3PqfTPNX9b98nvCY9DAgh3rLcYZeexA4/ZqfY
-        3mlAR//t9KiagQl4WI6SHv+024l4eQ1sZxbXYxTUDArjJzaqnvuRblbwfVKGWkKZ/lPnGNER597k/
-        eJ39O0iHRxpCkmutShHNp12crRXubSmEg1dVWZk+zttJM00+w9do7Y32oOG0U0f9X9MjJR8OFmSZS
-        oa0m8qgXc2SzfJIB+ciMuBL8b8JOGt+3bv0/n0M9GJkGXY23IcT8PIvaRjbA+pCUTTGQmIDD4CmVq
-        r3ISWBeA==;
+        bh=8TVIxK2IWHpuqHBc4eLrHU3NsRBpnzeQBP922ubxUsY=; b=ThBdvIzzZaCa3Dx9qeQ/RMuIrV
+        YxcSthJvRwgK6//jhlniyzDTttj/bb1s0R7A+Non8lS7NnSx8n6JuV6djMUXUb5Drq2SX7GwZN+rC
+        +nJ8RjYgn61A3WTyOF3MWyiowabi2n295+OwN+D6dWMMR8aym4aRViWY6Aas2S5AVh3PDBvKZjxtK
+        w/Toe4KXEDwzlmkRoo6LllzoXnsFdGb6aajoewcbEwIvsSAEioTTR2rQBGT0+oftUAehBSQOyJo/Q
+        WVkeKxrqyt0ZUub6POVvN636iIwGT5r/veP0bNScYarjIgtcz2G9sny8tSFKCAQsLgrELajFJWfAo
+        E1pAQo7w==;
 Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kX4oh-0008HP-62; Mon, 26 Oct 2020 15:53:51 +0000
-Date:   Mon, 26 Oct 2020 15:53:51 +0000
+        id 1kX4wI-0000Pc-Uy; Mon, 26 Oct 2020 16:01:43 +0000
+Date:   Mon, 26 Oct 2020 16:01:42 +0000
 From:   Matthew Wilcox <willy@infradead.org>
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
@@ -46,20 +46,45 @@ Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 00/19] Free some vmemmap pages of hugetlb page
-Message-ID: <20201026155351.GS20115@casper.infradead.org>
+Subject: Re: [PATCH v2 07/19] mm/hugetlb: Free the vmemmap pages associated
+ with each hugetlb page
+Message-ID: <20201026160142.GT20115@casper.infradead.org>
 References: <20201026145114.59424-1-songmuchun@bytedance.com>
+ <20201026145114.59424-8-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201026145114.59424-1-songmuchun@bytedance.com>
+In-Reply-To: <20201026145114.59424-8-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 10:50:55PM +0800, Muchun Song wrote:
-> For tail pages, the value of compound_dtor is the same. So we can reuse
+On Mon, Oct 26, 2020 at 10:51:02PM +0800, Muchun Song wrote:
+> +static void split_vmemmap_pmd(pmd_t *pmd, pte_t *pte_p, unsigned long addr)
+> +{
+> +	struct mm_struct *mm = &init_mm;
+> +	struct page *page;
+> +	pmd_t old_pmd, _pmd;
+> +	int i;
+> +
+> +	old_pmd = READ_ONCE(*pmd);
+> +	page = pmd_page(old_pmd);
+> +	pmd_populate_kernel(mm, &_pmd, pte_p);
+> +
+> +	for (i = 0; i < VMEMMAP_HPAGE_NR; i++, addr += PAGE_SIZE) {
+> +		pte_t entry, *pte;
+> +
+> +		entry = mk_pte(page + i, PAGE_KERNEL);
 
-compound_dtor is only set on the first tail page.  compound_head is
-what you mean here, I think.
+I'd be happier if that were:
+
+	pgprot_t pgprot = PAGE_KERNEL;
+...
+	for (i = 0; i < VMEMMAP_HPAGE_NR; i++, addr += PAGE_SIZE) {
+		pte_t entry, *pte;
+
+		entry = mk_pte(page + i, pgprot);
+		pgprot = PAGE_KERNEL_RO;
+
+so that all subsequent tail pages are mapped read-only.
 
