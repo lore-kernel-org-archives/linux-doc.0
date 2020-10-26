@@ -2,61 +2,82 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3EAFC55178
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD73BC2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89875223AC
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E1DC22409
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603707309;
-	bh=5lHzpILvKYHOsmZv84lgfmyWVXRvs6xXURMjdZd7/44=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Dm1CCKxC3T0HyT3tt0GMBGf2jm794jDcRY5yVWW+ZTzvMQ9DPl1sG2ZrD5hqp1KqJ
-	 7WTAUB36IgNRAAfSAfsK/jYn+QxLXt4owfCqjZ7tAEsT9Aq2Upd9L5q71wLYbTCnDZ
-	 yCqVQ8n/2Vgl/eZrHmJAKl58lx0jEpuRYfGxWxTA=
+	s=default; t=1603707311;
+	bh=cm0DgYGOWrzWhAQoSMBRcvt64IJtdw58FGbr6XTCKpw=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=LTq9+QoakUZjHXUPBmbX4VXQbr8L4o/ybtuUNpg7K8PyhcF2j4i9TkfHpOVa/WUvR
+	 z6pwEcWA7t94QCxF/T6MbdijtmZB8M59IwBVr2O6C6SRLFxn+XmYw3h8NX439b1mAP
+	 AeryoyLqx2c8ZLwyDeIPAyTJUM+CjxwbnLrDroEw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1769222AbgJZKOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1769216AbgJZKOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 26 Oct 2020 06:14:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42462 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:42510 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1768384AbgJZJrm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 05:47:42 -0400
+        id S1768386AbgJZJrn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 05:47:43 -0400
 Received: from mail.kernel.org (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 296F320829;
+        by mail.kernel.org (Postfix) with ESMTPSA id EED8420704;
         Mon, 26 Oct 2020 09:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603705662;
-        bh=5lHzpILvKYHOsmZv84lgfmyWVXRvs6xXURMjdZd7/44=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NLuYqSTP+rjpp/Gk0N7/RDhjDA/lLDO46hHQZOMOfcTlw0IfBwDPSM5hU7ZbkcJt2
-         Vba4RKVcVAiByT35c3kIalyyYwL8IkWHLMTsyYc0DpqQLHh6fT74g6D4f2nl42wYQS
-         hFeL1vnx3GZ0Z/m2HUV8WQ1jP91hC4swqSqbrxmk=
+        s=default; t=1603705663;
+        bh=cm0DgYGOWrzWhAQoSMBRcvt64IJtdw58FGbr6XTCKpw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eVW0Kh9mJcqAGqXz7Tc5qsUNbIaIgFX/WeC+zatS7ooQ/8UicBHJZrmUAlCfzOi8Z
+         Z3G9pE4WncM6z5lBJRPa0MaxWCbcMvUk/odUc8x8beaV9WUD43rG5a1Gz65xeeQio6
+         y/a4IWfbub0GY/Z9+LwShaWH6G7ez+RfSXK9oIXs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kWz6J-0030t1-Lg; Mon, 26 Oct 2020 10:47:39 +0100
+        id 1kWz6J-0030sz-Ke; Mon, 26 Oct 2020 10:47:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
+        Mark Brown <broonie@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>, Andrii Nakryiko <andriin@fb.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Guillaume Nault <gnault@redhat.com>,
         Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Martin Varghese <martin.varghese@nokia.com>,
+        Maxim Mikityanskiy <maximmi@mellanox.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Pravin B Shelar <pshelar@ovn.org>,
         Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH RESEND 1/3] net: phy: fix kernel-doc markups
-Date:   Mon, 26 Oct 2020 10:47:36 +0100
-Message-Id: <d23c5638c4fd0e7b9f294f2bf647d2386428eb7e.1603705472.git.mchehab+huawei@kernel.org>
+        Sabrina Dubroca <sd@queasysnail.net>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Taehee Yoo <ap420073@gmail.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Yadu Kishore <kyk.segfault@gmail.com>,
+        linux-nfs@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH RESEND 0/3] Fix wrong identifiers on kernel-doc markups
+Date:   Mon, 26 Oct 2020 10:47:35 +0100
+Message-Id: <cover.1603705472.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603705472.git.mchehab+huawei@kernel.org>
-References: <cover.1603705472.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -64,83 +85,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some functions have different names between their prototypes
-and the kernel-doc markup.
+Hi Mark/Jakub,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/net/phy/mdio_bus.c   | 2 +-
- drivers/net/phy/phy-c45.c    | 2 +-
- drivers/net/phy/phy.c        | 2 +-
- drivers/net/phy/phy_device.c | 2 +-
- drivers/net/phy/phylink.c    | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+As you requested, I'm resending the three -net patches
+from the /56 patch series I sent last Friday:
 
-diff --git a/drivers/net/phy/mdio_bus.c b/drivers/net/phy/mdio_bus.c
-index 757e950fb745..e59067c64e97 100644
---- a/drivers/net/phy/mdio_bus.c
-+++ b/drivers/net/phy/mdio_bus.c
-@@ -472,7 +472,7 @@ static inline void of_mdiobus_link_mdiodev(struct mii_bus *mdio,
- #endif
- 
- /**
-- * mdiobus_create_device_from_board_info - create a full MDIO device given
-+ * mdiobus_create_device - create a full MDIO device given
-  * a mdio_board_info structure
-  * @bus: MDIO bus to create the devices on
-  * @bi: mdio_board_info structure describing the devices
-diff --git a/drivers/net/phy/phy-c45.c b/drivers/net/phy/phy-c45.c
-index bd11e62bfdfe..077f2929c45e 100644
---- a/drivers/net/phy/phy-c45.c
-+++ b/drivers/net/phy/phy-c45.c
-@@ -9,7 +9,7 @@
- #include <linux/phy.h>
- 
- /**
-- * genphy_c45_setup_forced - configures a forced speed
-+ * genphy_c45_pma_setup_forced - configures a forced speed
-  * @phydev: target phy_device struct
-  */
- int genphy_c45_pma_setup_forced(struct phy_device *phydev)
-diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-index 35525a671400..71ed2596acf5 100644
---- a/drivers/net/phy/phy.c
-+++ b/drivers/net/phy/phy.c
-@@ -489,7 +489,7 @@ void phy_queue_state_machine(struct phy_device *phydev, unsigned long jiffies)
- EXPORT_SYMBOL(phy_queue_state_machine);
- 
- /**
-- * phy_queue_state_machine - Trigger the state machine to run now
-+ * phy_trigger_machine - Trigger the state machine to run now
-  *
-  * @phydev: the phy_device struct
-  */
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 5dab6be6fc38..ea5d5fb42d01 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -2735,7 +2735,7 @@ static int phy_get_int_delay_property(struct device *dev, const char *name)
- #endif
- 
- /**
-- * phy_get_delay_index - returns the index of the internal delay
-+ * phy_get_internal_delay - returns the index of the internal delay
-  * @phydev: phy_device struct
-  * @dev: pointer to the devices device struct
-  * @delay_values: array of delays the PHY supports
-diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
-index fe2296fdda19..1318ccb62bd7 100644
---- a/drivers/net/phy/phylink.c
-+++ b/drivers/net/phy/phylink.c
-@@ -1649,7 +1649,7 @@ int phylink_ethtool_set_pauseparam(struct phylink *pl,
- EXPORT_SYMBOL_GPL(phylink_ethtool_set_pauseparam);
- 
- /**
-- * phylink_ethtool_get_eee_err() - read the energy efficient ethernet error
-+ * phylink_get_eee_err() - read the energy efficient ethernet error
-  *   counter
-  * @pl: a pointer to a &struct phylink returned from phylink_create().
-  *
+	[PATCH v3 00/56] Fix several bad kernel-doc markups
+
+They fix a few kernel-doc markups that are using different
+identifiers than the function/struct that they are actually
+documenting.
+
+This should help checking them via CI automation.
+
+Regards,
+Mauro
+
+Mauro Carvalho Chehab (3):
+  net: phy: fix kernel-doc markups
+  net: datagram: fix some kernel-doc markups
+  net: core: fix some kernel-doc markups
+
+ drivers/net/phy/mdio_bus.c   |  2 +-
+ drivers/net/phy/phy-c45.c    |  2 +-
+ drivers/net/phy/phy.c        |  2 +-
+ drivers/net/phy/phy_device.c |  2 +-
+ drivers/net/phy/phylink.c    |  2 +-
+ include/linux/netdevice.h    | 11 +++++++++--
+ net/core/datagram.c          |  2 +-
+ net/core/dev.c               |  4 ++--
+ net/core/skbuff.c            |  2 +-
+ net/ethernet/eth.c           |  6 +++---
+ net/sunrpc/rpc_pipe.c        |  3 ++-
+ 11 files changed, 23 insertions(+), 15 deletions(-)
+
 -- 
 2.26.2
+
 
