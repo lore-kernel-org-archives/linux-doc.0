@@ -2,61 +2,62 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07249C388F9
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 09:16:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC30C4363A
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:07:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7A7A22404
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 09:16:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40E2F222EC
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:07:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603703787;
-	bh=pQKLqfcjbVUih5iUhFZ84v4gYr3t3Bambb8ZkFTJ3Zw=;
+	s=default; t=1603706851;
+	bh=oRd2QZwcb5kvNpN6vkk7OPKwRr2fGcwBASgsEzTaYvA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=bSoQWeNe+0dYzx7LhpOLkX/ryo5kL4PQ2YK04n8G8IrQvL/7izNDVNOSwcVhobprH
-	 PUagO1rUBBQtdIxYSQ0kEtbGzTl/s97+rj0VHGJbpHiT7kJcJHFGWzf8+0e3UbVAA/
-	 wDGIDRJfS9V8tBCEt7jFYA0jCoo/CPCIYGfjVPPI=
+	b=W76WPZzpVm+4EboSv38yQ0B7P+eM/pLFW7s0FPTHQKQA+/GtQq7tSLqtlQjF5Et8m
+	 M7mQX1oXl6frZXQTFGRqKYXXjj341dbTOFjTrSmkGP3IyJi3a+/CFIU8xD42o4d/Hg
+	 c8v/1Z/ukDyBCB/wzMTtP1s9oW7CoGo8Kewa9il4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389382AbgJZJQ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 05:16:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33864 "EHLO mail.kernel.org"
+        id S1769070AbgJZKHa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 06:07:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51198 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725849AbgJZJQ1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 05:16:27 -0400
+        id S1768496AbgJZKHT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 06:07:19 -0400
 Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 953FD207C4;
-        Mon, 26 Oct 2020 09:16:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8ACE320723;
+        Mon, 26 Oct 2020 10:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603703786;
-        bh=pQKLqfcjbVUih5iUhFZ84v4gYr3t3Bambb8ZkFTJ3Zw=;
+        s=default; t=1603706838;
+        bh=oRd2QZwcb5kvNpN6vkk7OPKwRr2fGcwBASgsEzTaYvA=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=elxWFOMcqfnVmAhlV5sWGJKCdgouHiwhbeVhEKknu4LkmH19Xdhpziqc+xqxyEhMn
-         DybyKhwMR9cFPCmXPWmmFGhwskg6mJib7Vdfb7LmYwl+8+6MK8gLiMEEYJKh+cau1h
-         7r62rzHVjjWOLjplCuOMlvilqEwk7UMjUwn0JDnI=
-Date:   Mon, 26 Oct 2020 10:16:20 +0100
+        b=TPv71Y5NKNxjMYIif68gFIjqobO5fdY6L9BaEwJBedVyaDLWrQoaDngZoQCtEwg3o
+         B2+YfCA9bI17y/jzdCHJvb5ShDz81KP3GbFKIaPWAJGz5rVw06hSbNVlAby53bOqwi
+         armEP65itz4B6iICAzPXmWu/pEfe3lW+vY28HAv8=
+Date:   Mon, 26 Oct 2020 11:07:12 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 49/56] refcount.h: fix a kernel-doc markup
-Message-ID: <20201026101620.1a11ef3e@coco.lan>
-In-Reply-To: <20201026081059.GB2628@hirez.programming.kicks-ass.net>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 53/56] shed: fix kernel-doc markup
+Message-ID: <20201026110712.2f9cec69@coco.lan>
+In-Reply-To: <20201023135341.450727fc@gandalf.local.home>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-        <fd94a95cfe01b97190b6ffb9e942cb4bbeeaa6bf.1603469755.git.mchehab+huawei@kernel.org>
-        <202010231039.DE05B63@keescook>
-        <20201023193907.GI2974@worktop.programming.kicks-ass.net>
-        <20201023134757.628f91b7@lwn.net>
-        <20201024082827.08ad3010@coco.lan>
-        <20201026081059.GB2628@hirez.programming.kicks-ass.net>
+        <21eac4426e02193aab877564f7d7d99114627a46.1603469755.git.mchehab+huawei@kernel.org>
+        <20201023135341.450727fc@gandalf.local.home>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -65,120 +66,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 26 Oct 2020 09:10:59 +0100
-Peter Zijlstra <peterz@infradead.org> escreveu:
+Em Fri, 23 Oct 2020 13:53:41 -0400
+Steven Rostedt <rostedt@goodmis.org> escreveu:
 
-> On Sat, Oct 24, 2020 at 08:28:27AM +0200, Mauro Carvalho Chehab wrote:
-> > If the intent is to document the struct and its internal fields,
-> > this kernel-doc should work:
-> > 
-> > 	/**
-> > 	 * struct refcount_struct - variant of atomic_t specialized for reference counts
-> > 	 * @refs: atomic_t counter field
-> > 	 *
-> > 	 * The counter saturates at REFCOUNT_SATURATED and will not move once
-> > 	 * there. This avoids wrapping the counter and causing 'spurious'
-> > 	 * use-after-free bugs.
-> > 	 */
-> > 
-> > Which produces this result:  
+> On Fri, 23 Oct 2020 18:33:40 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> Who cares... :-(
-
-Anyone that would need to use refcount_t, instead of atomic_t.
-
+> > Kernel-doc requires that a kernel-doc markup to be immediatly
+> > below the function prototype, as otherwise it will rename it.
+> > So, move sys_sched_yield() markup to the right place.
+> > 
+> > Also fix the cpu_util() markup: Kernel-doc markups
+> > should use this format:
+> >         identifier - description  
 > 
-> > If you want both, then you would either split struct and typedef, e. g.
-> > with something like:
-> > 
-> > 	/**
-> > 	 * struct refcount_struct - variant of atomic_t specialized for reference counts
-> > 	 * @refs: atomic_t counter field
-> > 	 *
-> > 	 * The counter saturates at REFCOUNT_SATURATED and will not move once
-> > 	 * there. This avoids wrapping the counter and causing 'spurious'
-> > 	 * use-after-free bugs.
-> > 	 */
-> > 	struct refcount_struct {
-> > 	        atomic_t refs;
-> > 	};
-> > 
-> > 	/**
-> > 	 * typedef refcount_t - variant of atomic_t specialized for reference counts
-> > 	 * @refs: atomic_t counter field
-> > 	 *
-> > 	 * The counter saturates at REFCOUNT_SATURATED and will not move once
-> > 	 * there. This avoids wrapping the counter and causing 'spurious'
-> > 	 * use-after-free bugs.
-> > 	 */
-> > 	typedef struct refcount_struct refcount_t;
-> > 
-> > Or, you could add the member at the description field. E. g. something
-> > like this:
-> > 
-> > 	/**
-> > 	 * typedef refcount_t - variant of atomic_t specialized for reference counts
-> > 	 *
-> > 	 * The counter saturates at REFCOUNT_SATURATED and will not move once
-> > 	 * there. This avoids wrapping the counter and causing 'spurious'
-> > 	 * use-after-free bugs.
-> > 	 *
-> > 	 * Members:
-> > 	 *   ``refs``
-> > 	 *        atomic_t counter field
-> > 	 */
-> > 	typedef struct refcount_struct {
-> > 	        atomic_t refs;
-> > 	} refcount_t;
-> > 
-> > If you want to test it, you can run kernel-doc directly, to see how
-> > it will parse it. For ReST output, that's the syntax:
-> > 
-> > 	./scripts/kernel-doc --sphinx-version 3 include/linux/refcount.h  
+> The first change looks fine to me, but as I'm getting a new shed delivered
+> soon, I originally thought this email was about that delivery!
+
+:-)
+
+> I do have a nit about the second change.
 > 
-> I'll just go ahead and remove the superfluous * from the comment... It's
-> trivially clear what is meant. If the stupid tool can't deal with that,
-> I don't care.
+> > diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> > index aa4c6227cd6d..94386fcfafcf 100644
+> > --- a/kernel/sched/fair.c
+> > +++ b/kernel/sched/fair.c
+> > @@ -6287,7 +6287,8 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+> >  }
+> >  
+> >  /**
+> > - * Amount of capacity of a CPU that is (estimated to be) used by CFS tasks
+> > + * cpu_util - Amount of capacity of a CPU that is (estimated to be)
+> > + *	used by CFS tasks  
+> 
+> The description is to be a single line. The line break is ugly, and the 80
+> col rule, is more of a guideline, and not something that *has* to be done.
+> 
+> Either shorten it, or just let it go a little longer.
 
-The tool is not that stupid. What's wrong here is that the markup is
-asking kernel-doc to document the struct, instead documenting the typedef:
+Agreed, but there are already some other descriptions over there that have
+multiple lines[1]:
 
- 	/**
- 	 * struct refcount_t - variant of atomic_t specialized for reference counts
-...
+Anyway, on this specific case, I guess it can be easily shorten to
+80 columns without losing anything. Would that work for you?
 
-There is no such struct!
+	/**
+	 * cpu_util - Estimates the amount of capacity of a CPU used by CFS tasks.
 
-Just doing:
-
-	s/struct/typedef/
-
-will do what you intend to document.
-
-Thanks,
+Regards,
 Mauro
 
-[PATCH] refcount.h: fix a kernel-doc markup
+[1] like this one:
 
-The kernel-doc markup is wrong: it is asking the tool to document
-struct refcount_struct, instead of documenting typedef refcount_t.
-
-Fix it.
-    
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-index 0e3ee25eb156..f572c62261a8 100644
---- a/include/linux/refcount.h
-+++ b/include/linux/refcount.h
-@@ -101,7 +101,7 @@
- struct mutex;
- 
- /**
-- * struct refcount_t - variant of atomic_t specialized for reference counts
-+ * typedef refcount_t - variant of atomic_t specialized for reference counts
-  * @refs: atomic_t counter field
-  *
-  * The counter saturates at REFCOUNT_SATURATED and will not move once
-
+	/**
+	 * calculate_imbalance - Calculate the amount of imbalance present within the
+	 *			 groups of a given sched_domain during load balance.
+	 * @env: load balance environment
+	 * @sds: statistics of the sched_domain whose imbalance is to be calculated.
+	 */
 
