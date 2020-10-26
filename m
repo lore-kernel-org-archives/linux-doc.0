@@ -2,105 +2,113 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E4FC56201
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 14:56:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D96C4363A
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 15:06:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B761024640
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 14:56:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="woQEvtdr"
+	by mail.kernel.org (Postfix) with ESMTP id E4EFA22404
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 15:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1782282AbgJZO4O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 10:56:14 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39656 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1782239AbgJZO4N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 10:56:13 -0400
-Received: by mail-pf1-f196.google.com with SMTP id e15so6327492pfh.6
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 07:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=y9ZdVN328O2uwwSHT+BoNnojVOi64nld5Tda2i3ROBA=;
-        b=woQEvtdrgcTt5KtaGjhWCUPSi5xXh9iNMRclvDRN/w23XTX07a197EfeoZ6etseu0z
-         HXL0T0o7N85P/lN88MJhzuImQQEUAV19uolyMnF24miX1HhhOwQN4x1OSwzwcABZippj
-         sx5kYtTF7ynotAqfdIaeuIul+5NLTLcNH+hJZ5Zl0QrxrDp9QpufqvYhP/XCDhvx+qKW
-         ldXpXuvCHSoxZ3uCWj2AU9BS2PV3x4vWCWEVTSbazHORQVQBMXia8+x+c6Ixdb4bsFrp
-         4qa3zzyXPfaUUWH9vKMn/vx/Isj4VcNou4jTwTkZy6REvM7nlsw0BxOwKxHDX80gUb6M
-         AqHw==
+        id S1783159AbgJZPG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 11:06:56 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:56574 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727374AbgJZPG4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 11:06:56 -0400
+Received: from mail-ed1-f70.google.com ([209.85.208.70])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <guilherme.piccoli@canonical.com>)
+        id 1kX45F-0004Ok-S5
+        for linux-doc@vger.kernel.org; Mon, 26 Oct 2020 15:06:53 +0000
+Received: by mail-ed1-f70.google.com with SMTP id dn20so4503780edb.14
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 08:06:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=y9ZdVN328O2uwwSHT+BoNnojVOi64nld5Tda2i3ROBA=;
-        b=Ac+rZ3IsiHMd4coTgQyPHoD/NWf+mfg93QnVvbv2zanqDFM68PFq8HqZOhFK+7KGDl
-         9KHf/oknChGk2a7bWu1FubdiCn7LSvJOosAPrKmAxDc6AzuRfk8848Td0XjU3zugCMfI
-         e1Enf+hsUgaC1q7gYWiGFD8s+jYn4jf4bywnxNtTsLixcRD3SGYznUQJhcycqqWBFooV
-         jGVSw6voJj1HDn+cPoCK1hNRD3sEzXkqbyfBBT/c5KIFZpTU/oUXG1O7fiZrCYebPLZd
-         WoOkEBxK/6YTnrKv/OUd/BJPis3gabONfv3HLaQZ284i8Pa6S+QdgXAMEFTCrgeYF0Rk
-         Rt5A==
-X-Gm-Message-State: AOAM530uyF0LYSA6JMUylzl+5UrByDiufjKIlhuklHY6H2jb5jKnGdjo
-        qtiyx0+bMqfCJAbVyQao6tYBjQ==
-X-Google-Smtp-Source: ABdhPJybtxEw8eg2MrMPnbUEKzS1LAsNT2c0RtK4JcGJiJczRjV0Xm8NBFRBQb7sIRhVCjvqm2TQ+w==
-X-Received: by 2002:a65:67d0:: with SMTP id b16mr17133830pgs.335.1603724172489;
-        Mon, 26 Oct 2020 07:56:12 -0700 (PDT)
-Received: from localhost.localdomain ([103.136.220.89])
-        by smtp.gmail.com with ESMTPSA id x123sm12042726pfb.212.2020.10.26.07.56.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 26 Oct 2020 07:56:11 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v2 19/19] mm/hugetlb: Add BUILD_BUG_ON to catch invalid usage of tail struct page
-Date:   Mon, 26 Oct 2020 22:51:14 +0800
-Message-Id: <20201026145114.59424-20-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20201026145114.59424-1-songmuchun@bytedance.com>
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EnLWDCtLm8RMcdow/BSYVBH9rX7uMoRshyF3616LTAE=;
+        b=XQyeT2rWrwXmC/CQAG+VJGAL3fSUyk+qWXhpfrVSkePzLQyTG3lEudFZFr7qecz7jZ
+         jrBvfLI8dF/R0+MyQxKWQmoCXV+nsC2qMVJUrPOIyhS7OSCwJwF7debITFHSwA4hMQDR
+         NHCvIeuARi1SoNHODzL0ZXxBLIf/Ew8fD2DZGz0XIG//kdTxIvKA0cOaCRjnsg4oHYSa
+         FD3ZAZ5GRojtDeYAhUN7isttYRLC/LkxkFer0IAFies2Xa6dW9NsHpAJguxW7Y6wSIrz
+         IV6NkIYgYgVlZPpZevP/Tv5D+eIWAl7PWP8l3FD9BKKBgV3khvM8Qr/iwHW8BmWPH828
+         16Sw==
+X-Gm-Message-State: AOAM530vJ4u78WAsfHvrfqrFO2BaK30TX4xl6Z+EYku5s4Zq2gvF327b
+        vkC1DlRJmhIfTWS4PiMswkXgSXPQHQHFUU4b6BYxL3LPgYem2UA2Qn/V8joW+mlkZgkKMYe1Ban
+        77XW74LSSDZ6KgdXGX9kpyMa232L/m9v7bVqSwaLC2jpqZJ8HWaqR0g==
+X-Received: by 2002:a17:906:c7d9:: with SMTP id dc25mr16060135ejb.482.1603724813475;
+        Mon, 26 Oct 2020 08:06:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxy2+1nDxG6rQe5jCDR4OJ+uU4A2LI5vFUSrKkDIr9eqbArccXIMK+FWxloSfXRldQDtErReSz9wiiCYnUurTw=
+X-Received: by 2002:a17:906:c7d9:: with SMTP id dc25mr16060111ejb.482.1603724813209;
+ Mon, 26 Oct 2020 08:06:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com>
+ <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
+In-Reply-To: <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
+From:   Guilherme Piccoli <gpiccoli@canonical.com>
+Date:   Mon, 26 Oct 2020 12:06:17 -0300
+Message-ID: <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] warn and suppress irqflood
+To:     Pingfan Liu <kernelfans@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        afzal mohammed <afzal.mohd.ma@gmail.com>,
+        Lina Iyer <ilina@codeaurora.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Maulik Shah <mkshah@codeaurora.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
+        Kexec Mailing List <kexec@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are only `RESERVE_VMEMMAP_SIZE / sizeof(struct page)` struct pages
-can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP, so add a BUILD_BUG_ON
-to catch this invalid usage of tail struct page.
+On Sun, Oct 25, 2020 at 8:12 AM Pingfan Liu <kernelfans@gmail.com> wrote:
+>
+> On Thu, Oct 22, 2020 at 4:37 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+> >
+> > On Thu, Oct 22 2020 at 13:56, Pingfan Liu wrote:
+> > > I hit a irqflood bug on powerpc platform, and two years ago, on a x86 platform.
+> > > When the bug happens, the kernel is totally occupies by irq.  Currently, there
+> > > may be nothing or just soft lockup warning showed in console. It is better
+> > > to warn users with irq flood info.
+> > >
+> > > In the kdump case, the kernel can move on by suppressing the irq flood.
+> >
+> > You're curing the symptom not the cause and the cure is just magic and
+> > can't work reliably.
+> Yeah, it is magic. But at least, it is better to printk something and
+> alarm users about what happens. With current code, it may show nothing
+> when system hangs.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- mm/hugetlb.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks Pingfan and Thomas for the points - I'd like to have a
+mechanism in the kernel to warn users when an IRQ flood is potentially
+happening.
+Some time ago (2 years) we faced a similar issue in x86-64, a hard to
+debug problem in kdump, that eventually was narrowed to a buggy NIC FW
+flooding IRQs in kdump kernel, and no messages showed (although kernel
+changed a lot since that time, today we might have better IRQ
+handling/warning). We tried an early-boot fix, by disabling MSIs (as
+per PCI spec) early in x86 boot, but it wasn't accepted - Bjorn asked
+pertinent questions that I couldn't respond (I lost the reproducer)
+[0].
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 029b00ed52ed..b196373a2a39 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3955,6 +3955,8 @@ static int __init hugetlb_init(void)
- 
- #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
- 	BUILD_BUG_ON_NOT_POWER_OF_2(sizeof(struct page));
-+	BUILD_BUG_ON(NR_USED_SUBPAGE >=
-+		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
- #endif
- 
- 	if (!hugepages_supported()) {
--- 
-2.20.1
+Cheers,
 
+
+Guilherme
+
+[0] lore.kernel.org/linux-pci/20181018183721.27467-1-gpiccoli@canonical.com
