@@ -4,54 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42CD8C2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3EAFC55178
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB12F22400
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:14:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89875223AC
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603707277;
-	bh=gJmp8cTYgH9MZLys45Ah0xGqa1fV26E8JRNpZkLrsiQ=;
+	s=default; t=1603707309;
+	bh=5lHzpILvKYHOsmZv84lgfmyWVXRvs6xXURMjdZd7/44=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uXeDKXBvaF6tSkH+fnIjc2rRE8vs/OpYxrY2bZ9iHOXp1TKme6UZPkjB4aBOYz7G2
-	 9VgnNIJ61X2FsO3+EXxh6U/KMgusJqVQXgPr6cDZ47iQ56czcQkykAdmqFVmZqEcbX
-	 qog+hMPpO+gmqkYJRX5Cxn+t/O7kIjn5ANfumMck=
+	b=Dm1CCKxC3T0HyT3tt0GMBGf2jm794jDcRY5yVWW+ZTzvMQ9DPl1sG2ZrD5hqp1KqJ
+	 7WTAUB36IgNRAAfSAfsK/jYn+QxLXt4owfCqjZ7tAEsT9Aq2Upd9L5q71wLYbTCnDZ
+	 yCqVQ8n/2Vgl/eZrHmJAKl58lx0jEpuRYfGxWxTA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgJZKOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 06:14:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42606 "EHLO mail.kernel.org"
+        id S1769222AbgJZKOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 06:14:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42462 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1768388AbgJZJro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 05:47:44 -0400
+        id S1768384AbgJZJrm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 05:47:42 -0400
 Received: from mail.kernel.org (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9236B2242C;
-        Mon, 26 Oct 2020 09:47:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 296F320829;
+        Mon, 26 Oct 2020 09:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603705663;
-        bh=gJmp8cTYgH9MZLys45Ah0xGqa1fV26E8JRNpZkLrsiQ=;
+        s=default; t=1603705662;
+        bh=5lHzpILvKYHOsmZv84lgfmyWVXRvs6xXURMjdZd7/44=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MOwzvXelHyZJ9lbmhSYCx3ari6OvEMq8bTjsyQVlCItoJCNbePAzX5Llzjhs7RBsj
-         4RdHMEe5rAwgppwk6B1RFb8qFQyA5YLIIzd+xbivtX8SbI9UfuuOxQGlH2r7u4hyHF
-         R0HcrREOVpPXEtbppcBJFzI6CwllEdXb+MqKTY8I=
+        b=NLuYqSTP+rjpp/Gk0N7/RDhjDA/lLDO46hHQZOMOfcTlw0IfBwDPSM5hU7ZbkcJt2
+         Vba4RKVcVAiByT35c3kIalyyYwL8IkWHLMTsyYc0DpqQLHh6fT74g6D4f2nl42wYQS
+         hFeL1vnx3GZ0Z/m2HUV8WQ1jP91hC4swqSqbrxmk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kWz6J-0030t5-Nb; Mon, 26 Oct 2020 10:47:39 +0100
+        id 1kWz6J-0030t1-Lg; Mon, 26 Oct 2020 10:47:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mark Brown <broonie@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH RESEND 3/3] net: core: fix some kernel-doc markups
-Date:   Mon, 26 Oct 2020 10:47:38 +0100
-Message-Id: <492b5ee3aca655ffad6e95e61d9b4019e69b8e3a.1603705472.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH RESEND 1/3] net: phy: fix kernel-doc markups
+Date:   Mon, 26 Oct 2020 10:47:36 +0100
+Message-Id: <d23c5638c4fd0e7b9f294f2bf647d2386428eb7e.1603705472.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603705472.git.mchehab+huawei@kernel.org>
 References: <cover.1603705472.git.mchehab+huawei@kernel.org>
@@ -62,54 +64,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
+Some functions have different names between their prototypes
 and the kernel-doc markup.
-
-In the specific case of netif_subqueue_stopped(), keep the
-current markup for __netif_subqueue_stopped(), adding a
-new one for netif_subqueue_stopped().
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/netdevice.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/net/phy/mdio_bus.c   | 2 +-
+ drivers/net/phy/phy-c45.c    | 2 +-
+ drivers/net/phy/phy.c        | 2 +-
+ drivers/net/phy/phy_device.c | 2 +-
+ drivers/net/phy/phylink.c    | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 964b494b0e8d..db79ab7580dd 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1490,7 +1490,7 @@ struct net_device_ops {
- };
+diff --git a/drivers/net/phy/mdio_bus.c b/drivers/net/phy/mdio_bus.c
+index 757e950fb745..e59067c64e97 100644
+--- a/drivers/net/phy/mdio_bus.c
++++ b/drivers/net/phy/mdio_bus.c
+@@ -472,7 +472,7 @@ static inline void of_mdiobus_link_mdiodev(struct mii_bus *mdio,
+ #endif
  
  /**
-- * enum net_device_priv_flags - &struct net_device priv_flags
-+ * enum netdev_priv_flags - &struct net_device priv_flags
-  *
-  * These are the &struct net_device, they are only set internally
-  * by drivers and used in the kernel. These flags are invisible to
-@@ -3576,7 +3576,7 @@ static inline void netif_stop_subqueue(struct net_device *dev, u16 queue_index)
- }
+- * mdiobus_create_device_from_board_info - create a full MDIO device given
++ * mdiobus_create_device - create a full MDIO device given
+  * a mdio_board_info structure
+  * @bus: MDIO bus to create the devices on
+  * @bi: mdio_board_info structure describing the devices
+diff --git a/drivers/net/phy/phy-c45.c b/drivers/net/phy/phy-c45.c
+index bd11e62bfdfe..077f2929c45e 100644
+--- a/drivers/net/phy/phy-c45.c
++++ b/drivers/net/phy/phy-c45.c
+@@ -9,7 +9,7 @@
+ #include <linux/phy.h>
  
  /**
-- *	netif_subqueue_stopped - test status of subqueue
-+ *	__netif_subqueue_stopped - test status of subqueue
-  *	@dev: network device
-  *	@queue_index: sub queue index
-  *
-@@ -3590,6 +3590,13 @@ static inline bool __netif_subqueue_stopped(const struct net_device *dev,
- 	return netif_tx_queue_stopped(txq);
- }
+- * genphy_c45_setup_forced - configures a forced speed
++ * genphy_c45_pma_setup_forced - configures a forced speed
+  * @phydev: target phy_device struct
+  */
+ int genphy_c45_pma_setup_forced(struct phy_device *phydev)
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index 35525a671400..71ed2596acf5 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -489,7 +489,7 @@ void phy_queue_state_machine(struct phy_device *phydev, unsigned long jiffies)
+ EXPORT_SYMBOL(phy_queue_state_machine);
  
-+/**
-+ *	netif_subqueue_stopped - test status of subqueue
-+ *	@dev: network device
-+ *	@skb: sub queue buffer pointer
-+ *
-+ * Check individual transmit queue of a device with multiple transmit queues.
-+ */
- static inline bool netif_subqueue_stopped(const struct net_device *dev,
- 					  struct sk_buff *skb)
- {
+ /**
+- * phy_queue_state_machine - Trigger the state machine to run now
++ * phy_trigger_machine - Trigger the state machine to run now
+  *
+  * @phydev: the phy_device struct
+  */
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 5dab6be6fc38..ea5d5fb42d01 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -2735,7 +2735,7 @@ static int phy_get_int_delay_property(struct device *dev, const char *name)
+ #endif
+ 
+ /**
+- * phy_get_delay_index - returns the index of the internal delay
++ * phy_get_internal_delay - returns the index of the internal delay
+  * @phydev: phy_device struct
+  * @dev: pointer to the devices device struct
+  * @delay_values: array of delays the PHY supports
+diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+index fe2296fdda19..1318ccb62bd7 100644
+--- a/drivers/net/phy/phylink.c
++++ b/drivers/net/phy/phylink.c
+@@ -1649,7 +1649,7 @@ int phylink_ethtool_set_pauseparam(struct phylink *pl,
+ EXPORT_SYMBOL_GPL(phylink_ethtool_set_pauseparam);
+ 
+ /**
+- * phylink_ethtool_get_eee_err() - read the energy efficient ethernet error
++ * phylink_get_eee_err() - read the energy efficient ethernet error
+  *   counter
+  * @pl: a pointer to a &struct phylink returned from phylink_create().
+  *
 -- 
 2.26.2
 
