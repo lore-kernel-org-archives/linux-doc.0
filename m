@@ -7,122 +7,151 @@ X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E6FC2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 05:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BAC8C2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 07:03:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E2D42231B
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 05:55:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 623E922247
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 07:03:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603691748;
-	bh=NwqYhZ/xDwNlhSXG8TGaA11zmrf4vmrr4/1MfvVTn78=;
+	s=default; t=1603695808;
+	bh=2Xa2LNj1UxVTXRfHt20km3lyu+9+44qIrrqa/k+9HxQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=qaZxiPModpRrmO86T0hVl6a8eEDadImwcNuiZFzDSN1/JobsBZsPG+FYyflr6BXVF
-	 zjiEaUZktuaStHDiV0tEmgfWpHycqC9o6kfX9nfkfouwgd96Y4f2uEXFSjOyEi6G8C
-	 O0ww4Ag+KC2QSh8x3yQy1pR0wWsC5mHHnpQWqEKY=
+	b=0MaFP62kky6KTvCxv+ttTk1FJxgzl+rmGg9cAJoF+FVQh2pwZCLguS6wsfrJU79ZO
+	 c0bDnYL7W4Or04AOn9MAtVkMTObbAgXCC9g7/53hOX4VblwRr6r+45+ZYMWvOLIW7y
+	 MGXO6+Fa8KwPwo6dSg0agd8reXx8aai2nujmzIFc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1769998AbgJZFzr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 01:55:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51450 "EHLO mail.kernel.org"
+        id S1770195AbgJZHD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 03:03:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43190 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1769991AbgJZFzr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 01:55:47 -0400
+        id S1770188AbgJZHD1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 03:03:27 -0400
 Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 147FB20878;
-        Mon, 26 Oct 2020 05:55:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BBF522087C;
+        Mon, 26 Oct 2020 07:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603691746;
-        bh=NwqYhZ/xDwNlhSXG8TGaA11zmrf4vmrr4/1MfvVTn78=;
+        s=default; t=1603695806;
+        bh=2Xa2LNj1UxVTXRfHt20km3lyu+9+44qIrrqa/k+9HxQ=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=husNgAH+wT70FQ1Oz7EZf1cZWztgnDzIjE4uPsF1sIQrAN4Vbcl4cZfpcORdQXuWn
-         LwkmzsbGzoZmGsWfOC4ScJeeydwXO/EhD3Yvyay/evQc611z/vOPBhxU1BDNX5pJEc
-         G3TQD4QvGUVNLOc6DytEwxrjUTRCvhWhRIo6U+wo=
-Date:   Mon, 26 Oct 2020 06:55:42 +0100
+        b=tFgnSi576f5hF10ydqKK9SGHQ6ezZKC//WjDID8TFVMovZwhIxScYKgrwP8uzkrHQ
+         EGYcv3w9rBHG+Ne8Yew6T7g/cSARjIgVDKPqTJyNfiryWX3nSdkkKhSppViOZeNnTP
+         i06nYnsD8d5algFIkqoq/KAUpROjT9a+QqYUYlMw=
+Date:   Mon, 26 Oct 2020 08:03:22 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Joe Perches <joe@perches.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 01/56] scripts: kernel-doc: fix typedef parsing
-Message-ID: <20201026065542.709457a2@coco.lan>
-In-Reply-To: <20201023112226.4035e3f7@lwn.net>
+Message-ID: <20201026080322.4d0b26f5@coco.lan>
+In-Reply-To: <c0210eade81060382884e1f38ca7f71742d02b61.camel@perches.com>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
         <d0b2146c4ced3121342583bb3d962628fc96759b.1603469755.git.mchehab+huawei@kernel.org>
         <20201023112226.4035e3f7@lwn.net>
+        <c0210eade81060382884e1f38ca7f71742d02b61.camel@perches.com>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 23 Oct 2020 11:22:26 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Em Fri, 23 Oct 2020 11:01:35 -0700
+Joe Perches <joe@perches.com> escreveu:
 
-> On Fri, 23 Oct 2020 18:32:48 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > The include/linux/genalloc.h file defined this typedef:
-> > 
-> > 	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, unsigned long start_addr);
-> > 
-> > Because it has a type composite of two words (unsigned long),
-> > the parser gets the typedef name wrong:
-> > 
-> > .. c:macro:: long
-> > 
-> >    **Typedef**: Allocation callback function type definition
-> > 
-> > Fix the regex in order to accept composite types when
-> > defining a typedef for a function pointer.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  scripts/kernel-doc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> > index 99cd8418ff8a..311d213ee74d 100755
-> > --- a/scripts/kernel-doc
-> > +++ b/scripts/kernel-doc
-> > @@ -1438,7 +1438,7 @@ sub dump_typedef($$) {
-> >      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
-> >  
-> >      # Parse function prototypes
-> > -    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-> > +    if ($x =~ /typedef\s+(\w+\s*){1,}\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||  
-> 
-> I sure wish we could find a way to make all these regexes more
-> understandable and maintainable.  Reviewing a change like this is ... fun.
-> 
-> Anyway, it seems to work, but it does now include trailing whitespace in
-> the type portion.  So, for example, from include/linux/xarray.h:
-> 
->   typedef void (*xa_update_node_t)(struct xa_node *node);
-> 
-> The type is parsed as "void " where it was "void" before.  The only ill
-> effect I can see is that some non-breaking spaces get inserted into the
-> HTML output, but perhaps it's worth stripping off that trailing space
-> anyway?
+> On Fri, 2020-10-23 at 11:22 -0600, Jonathan Corbet wrote:
+> > On Fri, 23 Oct 2020 18:32:48 +0200
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >  =20
+> > > The include/linux/genalloc.h file defined this typedef:
+> > >=20
+> > > 	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned =
+long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *=
+pool, unsigned long start_addr); =20
+> []
+> > > diff --git a/scripts/kernel-doc b/scripts/kernel-doc =20
+> []
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# Parse function prototypes
+> > > -    if ($x =3D~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ =
+||
+> > > +    if ($x =3D~ /typedef\s+(\w+\s*){1,}\(\*\s*(\w\S+)\s*\)\s*\((.*)\=
+);/ || =20
+> >=20
+> > I sure wish we could find a way to make all these regexes more
+> > understandable and maintainable.  Reviewing a change like this is ... f=
+un. =20
+>=20
+> Perhaps using some of the checkpatch regex definitions like:
+>=20
+> $Type
+> $Ident
+> $balanced_parens
+>=20
+> would help improve readability.
 
-Yeah, this is one of the issues. There's another one, tough. While
-the above regex recognizes the typedef identifier, it only gets
-the last word of "unsigned long", in the case of something like:
+Well, this can help:
 
-	typedef unsigned long (*genpool_algo_t)(unsigned long *map);
 
-Here, we have no option but to use a hidden group, e. g. using
-this regex:
+	my $typedef_type =3D qr { ((?:\w+\s+){1,}) }x;
+	my $typedef_ident =3D qr { \*?\s*(\w\S+)\s* }x;
+	my $typedef_args =3D qr { \s*\((.*)\); }x;
 
-	typedef\s+((?:\w+\s*){1,})\(\*\s*(\w\S+)\s*\)\s*\((.*)\);
+	my $typedef1 =3D qr { typedef\s+$typedef_type\($typedef_ident\)$typedef_ar=
+gs }x;
+	my $typedef2 =3D qr { typedef\s+$typedef_type$typedef_ident$typedef_args }=
+x;
 
-I'm enclosing a second version with the above. 
+	# Parse function typedef prototypes
+	if ($x =3D~ $typedef1 || $x =3D~ $typedef2) {
+		...
 
-Yeah, reviewing it is even funnier, but regex101 can be used to
-double-check what the regex is doing:
+But, IMHO, this is as complicated as before, and makes harder
+to test the regex outside kernel_doc (like using regex101).
 
-	https://regex101.com/r/bPTm18/2
+A good thing is that it is easier to see the difference between
+the two typedef regexes.
+
+I'll place such optimization on a separate patch. This way, it
+should be easier to decide later if this is worth or not.
+
+Also, if we're willing to take such direction, it could make
+sense to use the same regexes for matching type, identifier
+and arguments inside the functions parser.
+
+> And the regex above doesn't quite work for spacing after typedef.
+> The regex should allow space between the open parenthesis and the *
+>=20
+> 	typedef <Type> ( * <Ident> ) (args...);
+>=20
+> And this regex does not find typedefs that use another typedef as <Ident>=
+ like:
+>=20
+> arch/s390/include/asm/debug.h:typedef int (debug_header_proc_t) (debug_in=
+fo_t *id,
+
+True. I guess that, in order to properly handle it, we should use this:
+
+    if ($x =3D~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);=
+/ ||
+	$x =3D~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
+
+The first check should now parse everything properly:
+
+	https://regex101.com/r/bPTm18/5
+
+And the second regex should also get multi-word types when parenthesis
+is not used, like:
+
+	typedef unsigned int debug_header_proc_t (debug_info_t *id, struct debug_v=
+iew *view, int area,debug_entry_t *entry, char *out_buf);
+	typedef unsigned int *debug_header_proc_t (debug_info_t *id, struct debug_=
+view *view, int area,debug_entry_t *entry, char *out_buf);
+
+
+https://regex101.com/r/Y56X1X/1
 
 Thanks,
 Mauro
@@ -131,7 +160,9 @@ Mauro
 
 The include/linux/genalloc.h file defined this typedef:
 
-	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, unsigned long start_addr);
+	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long s=
+ize,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, =
+unsigned long start_addr);
 
 Because it has a type composite of two words (unsigned long),
 the parser gets the typedef name wrong:
@@ -146,23 +177,28 @@ defining a typedef for a function pointer.
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 99cd8418ff8a..b37f3cf8a331 100755
+index 99cd8418ff8a..54832618eea0 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
 @@ -1438,13 +1438,14 @@ sub dump_typedef($$) {
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
- 
+     $x =3D~ s@/\*.*?\*/@@gos;	# strip comments.
+=20
      # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+    if ($x =~ /typedef\s+((?:\w+\s*){1,})\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
- 	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
- 
+-    if ($x =3D~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+-	$x =3D~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
++    if ($x =3D~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*(\w\S+)\s*\)\s*\((.*)\)=
+;/ ||
++	$x =3D~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
+=20
  	# Function typedefs
- 	$return_type = $1;
- 	$declaration_name = $2;
- 	my $args = $3;
-+	$return_type =~ s/\s+$//;
- 
+ 	$return_type =3D $1;
+ 	$declaration_name =3D $2;
+ 	my $args =3D $3;
++	$return_type =3D~ s/\s+$//;
+=20
  	create_parameterlist($args, ',', $file, $declaration_name);
- 
+=20
+
+
+
 
