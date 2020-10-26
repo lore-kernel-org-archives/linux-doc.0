@@ -2,144 +2,159 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE55C4363A
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 20:29:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C40C4363A
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 21:00:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F60721D41
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 20:29:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C92E21D42
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 21:00:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Pxi/eqHu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725872AbgJZU3R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 16:29:17 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:37054 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725868AbgJZU3R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 16:29:17 -0400
-Received: from mail-ed1-f70.google.com ([209.85.208.70])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <guilherme.piccoli@canonical.com>)
-        id 1kX97C-0003sh-Lt
-        for linux-doc@vger.kernel.org; Mon, 26 Oct 2020 20:29:14 +0000
-Received: by mail-ed1-f70.google.com with SMTP id t7so3918212edt.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 13:29:14 -0700 (PDT)
+        id S1729074AbgJZVA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 17:00:57 -0400
+Received: from mail-pj1-f73.google.com ([209.85.216.73]:56186 "EHLO
+        mail-pj1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729066AbgJZVA5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 17:00:57 -0400
+Received: by mail-pj1-f73.google.com with SMTP id r1so3581397pjp.5
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 14:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=8XFAGaMnZpaYT0ztE4+ED+zm8jGUSJs5c4zzKttTIPI=;
+        b=Pxi/eqHudvziXWScDyXkpvDK2QiIuvHS43rBVL+Xc70/Q5dzLbbxPT40atX3PLqd6o
+         dt9KJrBnICKVwr2NPng1LbI91rutUvaFzl1aozHG4HWDaRt7KhMYDAMmF6aDpxi7XDOk
+         QT2H3OusQXLTq3dTB30XF2gqpXpXBdHCpNyaj577OVJMu9CSNnnppB2U1z1+o6lHcOvZ
+         hWqD7IR8U14Mb86Cp4dMZKfsJ6/lDq6Ysaa7GKnVsTghUKku11fCzFnBpox4cDb6ReLG
+         Q6NUHNqunaSvXXK+IKxly7q+I5MTyAjJHGABlKn21sCz5g4Sn/TxGU86GcXbDF26gmpN
+         eHpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pBEYO4XpwYRaYgTmmtMnIBKfcuzOYxJIxnd6Dc7SwVo=;
-        b=B1ddCbcZeDMrrzyHah45bbgSiFpEhuk9MUI/9I37nrR/cfeplhb+LcRGNMNvZsrkSl
-         M0oNiDtA4R9QWX6g9/S2T5bUoCTrN4qRB3mFWq1lCahAP90Mj5vdFjBY0Fyg2oD4sLnQ
-         6/IMOwEXMGEMwfDnXTuvzzvFMiBTj6sp5SF5Oa4PEqKrGZd1CBAmzqgEAOmrj+WmOmp8
-         Uuupnz5VqCkxMwYrFnwHJRlpdWWAJUWOPNKCrca2SHtzz0ERKeN1QTvZB3uUyNoFEkJ7
-         0OiKUJ+MlllPO242IlKBkgH2NygR68FJTlVXO7OGRqRNgGOxAcio6Zw1ts7cFkXkX7vq
-         bjaA==
-X-Gm-Message-State: AOAM532UCl6vurqd7Ss8+mXZ31fP9iMuqgF/dhSBcfq3ZU4WQP7S5D3l
-        F0V3aBaotlPQqzYLzUYc9Z8jYxUFMyOiG/N5ccnF3s2QjIdr+BybyRurAzpJ6XwEl9pvyRduX3j
-        rxgDF8CHhLtMnmlTkq2q71sZrvRfQaXD1iPs/d1cuPZv4RMBkw1PN6g==
-X-Received: by 2002:a17:906:72cd:: with SMTP id m13mr18246190ejl.387.1603744152482;
-        Mon, 26 Oct 2020 13:29:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdSiJoWemUST4jJlevJDxhbD24GUf2WsP6pUei9p5YDGRPprwvS5OD5sx9fFb0y0Geb5r1UOtnZM/V2qblhL4=
-X-Received: by 2002:a17:906:72cd:: with SMTP id m13mr18246030ejl.387.1603744149971;
- Mon, 26 Oct 2020 13:29:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com>
- <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
- <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com> <87y2js3ghv.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <87y2js3ghv.fsf@nanos.tec.linutronix.de>
-From:   Guilherme Piccoli <gpiccoli@canonical.com>
-Date:   Mon, 26 Oct 2020 17:28:33 -0300
-Message-ID: <CAHD1Q_yvb43P+b6PUzK4a1jU+RH3Shv2=4bO69nh5VDWXgv-ww@mail.gmail.com>
-Subject: Re: [PATCH 0/3] warn and suppress irqflood
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Pingfan Liu <kernelfans@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        afzal mohammed <afzal.mohd.ma@gmail.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Maulik Shah <mkshah@codeaurora.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
-        Kexec Mailing List <kexec@lists.infradead.org>,
-        Bjorn Helgaas <helgaas@kernel.org>
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=8XFAGaMnZpaYT0ztE4+ED+zm8jGUSJs5c4zzKttTIPI=;
+        b=T4bqeAkHCZ6rxlyS+gcfq6WMgE0/D8cEGtDeiusxmrLAF6I/X0umbfSa3JkqXoQKgx
+         3euib79My+YHZs7KhiSE5P/v2VmBTJq1JSEq7+7ufMQuiPV/cl6xmmsYzB161dW3utI5
+         VTTTpk4ANCLSPESy9eEqCXSbLX1TaKTt0gb1eLMiIK4iCoM8yf4THnT4HCREZh3ESaiA
+         QsXdHf935oNllEjGmV0z4h3OG3BSGEYsoy/VDGMFzkm3+cDbjXfrpVNlvljSUPuO3HU2
+         UKusDKx6Mi+OBPPU7ZR7G0ldszCU4mpSl7W25O0jWc+aqaOi/3Nc3Npp0ArKugeabIpZ
+         RG6g==
+X-Gm-Message-State: AOAM532W3twgztD47uhHXhoU57j6Aq8Qpu6u1/SsN4wneb1dGbsVf+D7
+        Z2NnJupDEc0yTl4zKySTb0Tcb9t9FjXL2xkm2Q==
+X-Google-Smtp-Source: ABdhPJzoCc1eQDlxMsW2Ajct/JrdoHj+uuvNDeZHvYEyQxfSbIe9/4p6t0jstELt4ujFjAMh69PODMXwUc1F7f+XtA==
+Sender: "lokeshgidra via sendgmr" <lokeshgidra@lg.mtv.corp.google.com>
+X-Received: from lg.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:29dd])
+ (user=lokeshgidra job=sendgmr) by 2002:a17:90a:2e05:: with SMTP id
+ q5mr1854369pjd.0.1603746056083; Mon, 26 Oct 2020 14:00:56 -0700 (PDT)
+Date:   Mon, 26 Oct 2020 14:00:50 -0700
+Message-Id: <20201026210052.3775167-1-lokeshgidra@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+Subject: [PATCH v6 0/2] Control over userfaultfd kernel-fault handling
+From:   Lokesh Gidra <lokeshgidra@google.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Daniel Colascione <dancol@dancol.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kaleshsingh@google.com,
+        calin@google.com, surenb@google.com, nnk@google.com,
+        jeffv@google.com, kernel-team@android.com,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Nitin Gupta <nigupta@nvidia.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 4:59 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> On Mon, Oct 26 2020 at 12:06, Guilherme Piccoli wrote:
-> > On Sun, Oct 25, 2020 at 8:12 AM Pingfan Liu <kernelfans@gmail.com> wrote:
-> >
-> > Some time ago (2 years) we faced a similar issue in x86-64, a hard to
-> > debug problem in kdump, that eventually was narrowed to a buggy NIC FW
-> > flooding IRQs in kdump kernel, and no messages showed (although kernel
-> > changed a lot since that time, today we might have better IRQ
-> > handling/warning). We tried an early-boot fix, by disabling MSIs (as
-> > per PCI spec) early in x86 boot, but it wasn't accepted - Bjorn asked
-> > pertinent questions that I couldn't respond (I lost the reproducer)
-> > [0].
-> ...
-> > [0] lore.kernel.org/linux-pci/20181018183721.27467-1-gpiccoli@canonical.com
->
-> With that broken firmware the NIC continued to send MSI messages to the
-> vector/CPU which was assigned to it before the crash. But the crash
-> kernel has no interrupt descriptor for this vector installed. So Liu's
-> patches wont print anything simply because the interrupt core cannot
-> detect it.
->
-> To answer Bjorns still open question about when the point X is:
->
->   https://lore.kernel.org/linux-pci/20181023170343.GA4587@bhelgaas-glaptop.roam.corp.google.com/
->
-> It gets flooded right at the point where the crash kernel enables
-> interrupts in start_kernel(). At that point there is no device driver
-> and no interupt requested. All you can see on the console for this is
->
->  "common_interrupt: $VECTOR.$CPU No irq handler for vector"
->
-> And contrary to Liu's patches which try to disable a requested interrupt
-> if too many of them arrive, the kernel cannot do anything because there
-> is nothing to disable in your case. That's why you needed to do the MSI
-> disable magic in the early PCI quirks which run before interrupts get
-> enabled.
->
-> Also Liu's patch only works if:
->
->   1) CONFIG_IRQ_TIME_ACCOUNTING is enabled
->
->   2) the runaway interrupt has been requested by the relevant driver in
->      the dump kernel.
->
-> Especially #1 is not a sensible restriction.
->
-> Thanks,
->
->         tglx
+This patch series is split from [1]. The other series enables SELinux
+support for userfaultfd file descriptors so that its creation and
+movement can be controlled.
 
-Wow, thank you very much for this great explanation (without a
-reproducer) - it's nice to hear somebody that deeply understands the
-code! And double thanks for CCing Bjorn.
+It has been demonstrated on various occasions that suspending kernel
+code execution for an arbitrary amount of time at any access to
+userspace memory (copy_from_user()/copy_to_user()/...) can be exploited
+to change the intended behavior of the kernel. For instance, handling
+page faults in kernel-mode using userfaultfd has been exploited in [2, 3].
+Likewise, FUSE, which is similar to userfaultfd in this respect, has been
+exploited in [4, 5] for similar outcome.
 
-So, I don't want to hijack Liu's thread, but do you think it makes
-sense to have my approach as a (debug) parameter to prevent such a
-degenerate case? Or could we have something in core IRQ code to
-prevent irq flooding in such scenarios, something "stronger" than
-disabling MSIs (APIC-level, likely)?
+This small patch series adds a new flag to userfaultfd(2) that allows
+callers to give up the ability to handle kernel-mode faults with the
+resulting UFFD file object. It then adds a 'user-mode only' option to
+the unprivileged_userfaultfd sysctl knob to require unprivileged
+callers to use this new flag.
 
-Cheers,
+The purpose of this new interface is to decrease the chance of an
+unprivileged userfaultfd user taking advantage of userfaultfd to
+enhance security vulnerabilities by lengthening the race window in
+kernel code.
 
+[1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@google.com/
+[2] https://duasynt.com/blog/linux-kernel-heap-spray
+[3] https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit
+[4] https://googleprojectzero.blogspot.com/2016/06/exploiting-recursion-in-linux-kernel_20.html
+[5] https://bugs.chromium.org/p/project-zero/issues/detail?id=808
 
-Guilherme
+Changes since v5:
+
+  - Added printk_once when unprivileged_userfaultfd is set to 0 and
+    userfaultfd syscall is called without UFFD_USER_MODE_ONLY in the
+    absence of CAP_SYS_PTRACE capability.
+
+Changes since v4:
+
+  - Added warning when bailing out from handling kernel fault.
+
+Changes since v3:
+
+  - Modified the meaning of value '0' of unprivileged_userfaultfd
+    sysctl knob. Setting this knob to '0' now allows unprivileged users
+    to use userfaultfd, but can handle page faults in user-mode only.
+  - The default value of unprivileged_userfaultfd sysctl knob is changed
+    to '0'.
+
+Changes since v2:
+
+  - Removed 'uffd_flags' and directly used 'UFFD_USER_MODE_ONLY' in
+    userfaultfd().
+
+Changes since v1:
+
+  - Added external references to the threats from allowing unprivileged
+    users to handle page faults from kernel-mode.
+  - Removed the new sysctl knob restricting handling of page
+    faults from kernel-mode, and added an option for the same
+    in the existing 'unprivileged_userfaultfd' knob.
+
+Lokesh Gidra (2):
+  Add UFFD_USER_MODE_ONLY
+  Add user-mode only option to unprivileged_userfaultfd sysctl knob
+
+ Documentation/admin-guide/sysctl/vm.rst | 15 ++++++++++-----
+ fs/userfaultfd.c                        | 20 +++++++++++++++++---
+ include/uapi/linux/userfaultfd.h        |  9 +++++++++
+ 3 files changed, 36 insertions(+), 8 deletions(-)
+
+-- 
+2.29.0.rc1.297.gfa9743e501-goog
+
