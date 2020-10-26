@@ -2,190 +2,94 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04390C55178
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 093ACC56201
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:46:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBCC72240C
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603707313;
-	bh=kZEeYcZI3W9smR89Evx7xmR6MBrCXpfe2JhxTnfEpfQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=oPkUQRLvlhYH93gTmyjwdf41Lq0DhyRSszTuflUDZVaUC7XoxxSUvoARn5IH+e24o
-	 5sWy1Te5hnV4B2QjP7OUfNAlpBoNZsZ9PxNhWqc7sKh6at1scBPZTz67ot86npVYlQ
-	 q+ibpdO1r2yHL2LHVpAIBcfxjypdh9LIDD7zEMik=
+	by mail.kernel.org (Postfix) with ESMTP id 6890020878
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:46:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="z5MeP68s"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1769191AbgJZKOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 06:14:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42506 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1768387AbgJZJro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 05:47:44 -0400
-Received: from mail.kernel.org (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
+        id S1770261AbgJZKqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 06:46:30 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:50334 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1770920AbgJZKq3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 06:46:29 -0400
+X-Greylist: delayed 4081 seconds by postgrey-1.27 at vger.kernel.org; Mon, 26 Oct 2020 06:46:29 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=JyXZi/ERFgCbfx8pduwl1A0Zv/jNhz7fITwwiik2EAE=; b=z5MeP68s5Hpby0cnErRe3vB+nX
+        6uoKnjd5XfNZAB+yQSWF2NvVdlUE9oELbv3oy3DJf5tA2HjasYsJkpun3eH9EzHLR/2ng1fOwP6Rh
+        YnJQIZYLqWQBkCmZ9aWCWcsu15ute6d2QpEMjuSSRmwhj4VlYGuoJjNaBRAkp8kDfpeDbOPfuaJ9v
+        kVkSxjk4/ZN15Br9XwdmFQEkx37oSqNiHQQoQH8Sge2jgpMDfPxRrU3HgevSV6Gb2VxIeA6B0iyuc
+        HJVBw635zaje1ZEUcwghbGFg8QYviyfHusbtBEKyZODZ92MkRF9bRL/vVtiWQ/CaAErV+T2L83GWz
+        IW6kD3vw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kWyxL-0001px-I0; Mon, 26 Oct 2020 09:38:24 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EEDC02087C;
-        Mon, 26 Oct 2020 09:47:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603705663;
-        bh=kZEeYcZI3W9smR89Evx7xmR6MBrCXpfe2JhxTnfEpfQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1C6ZvuQvdGgw57lYmPQcZQ2LNdgRRVZV534pCf87iNQhUnFIB4yxOd+QnrsQrBUQH
-         deg4XKzJMCI8BfXmdjiQmIBZ6Rzp5ZcJsqpWI384HzSaNuMR2tGRwWffooWD3prUp1
-         YJ7AToqeixr/Qci/1Bu65uyzL2cMfbJLBcfMy21U=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kWz6J-0030t3-Mk; Mon, 26 Oct 2020 10:47:39 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Guillaume Nault <gnault@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Martin Varghese <martin.varghese@nokia.com>,
-        Maxim Mikityanskiy <maximmi@mellanox.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Pravin B Shelar <pshelar@ovn.org>,
-        Sabrina Dubroca <sd@queasysnail.net>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Taehee Yoo <ap420073@gmail.com>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Yadu Kishore <kyk.segfault@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH RESEND 2/3] net: datagram: fix some kernel-doc markups
-Date:   Mon, 26 Oct 2020 10:47:37 +0100
-Message-Id: <c8850a0e48e2b873cdced4a580dc4c599728a273.1603705472.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603705472.git.mchehab+huawei@kernel.org>
-References: <cover.1603705472.git.mchehab+huawei@kernel.org>
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 15DFE301179;
+        Mon, 26 Oct 2020 10:38:22 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0098320325EC8; Mon, 26 Oct 2020 10:38:21 +0100 (CET)
+Date:   Mon, 26 Oct 2020 10:38:21 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
+        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 49/56] refcount.h: fix a kernel-doc markup
+Message-ID: <20201026093821.GG2628@hirez.programming.kicks-ass.net>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+ <fd94a95cfe01b97190b6ffb9e942cb4bbeeaa6bf.1603469755.git.mchehab+huawei@kernel.org>
+ <202010231039.DE05B63@keescook>
+ <20201023193907.GI2974@worktop.programming.kicks-ass.net>
+ <20201023134757.628f91b7@lwn.net>
+ <20201024082827.08ad3010@coco.lan>
+ <20201026081059.GB2628@hirez.programming.kicks-ass.net>
+ <20201026101620.1a11ef3e@coco.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201026101620.1a11ef3e@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
+On Mon, Oct 26, 2020 at 10:16:20AM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 26 Oct 2020 09:10:59 +0100
+> Peter Zijlstra <peterz@infradead.org> escreveu:
+> 
+> > On Sat, Oct 24, 2020 at 08:28:27AM +0200, Mauro Carvalho Chehab wrote:
+> > > If the intent is to document the struct and its internal fields,
+> > > this kernel-doc should work:
+> > > 
+> > > 	/**
+> > > 	 * struct refcount_struct - variant of atomic_t specialized for reference counts
+> > > 	 * @refs: atomic_t counter field
+> > > 	 *
+> > > 	 * The counter saturates at REFCOUNT_SATURATED and will not move once
+> > > 	 * there. This avoids wrapping the counter and causing 'spurious'
+> > > 	 * use-after-free bugs.
+> > > 	 */
+> > > 
+> > > Which produces this result:  
+> > 
+> > Who cares... :-(
+> 
+> Anyone that would need to use refcount_t, instead of atomic_t.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- net/core/datagram.c   | 2 +-
- net/core/dev.c        | 4 ++--
- net/core/skbuff.c     | 2 +-
- net/ethernet/eth.c    | 6 +++---
- net/sunrpc/rpc_pipe.c | 3 ++-
- 5 files changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index 9fcaa544f11a..81809fa735a7 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -709,7 +709,7 @@ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *from)
- EXPORT_SYMBOL(zerocopy_sg_from_iter);
- 
- /**
-- *	skb_copy_and_csum_datagram_iter - Copy datagram to an iovec iterator
-+ *	skb_copy_and_csum_datagram - Copy datagram to an iovec iterator
-  *          and update a checksum.
-  *	@skb: buffer to copy
-  *	@offset: offset in the buffer to start copying from
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 751e5264fd49..75c879f8ab3f 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -6915,7 +6915,7 @@ bool netdev_has_upper_dev(struct net_device *dev,
- EXPORT_SYMBOL(netdev_has_upper_dev);
- 
- /**
-- * netdev_has_upper_dev_all - Check if device is linked to an upper device
-+ * netdev_has_upper_dev_all_rcu - Check if device is linked to an upper device
-  * @dev: device
-  * @upper_dev: upper device to check
-  *
-@@ -8153,7 +8153,7 @@ EXPORT_SYMBOL(netdev_lower_dev_get_private);
- 
- 
- /**
-- * netdev_lower_change - Dispatch event about lower device state change
-+ * netdev_lower_state_changed - Dispatch event about lower device state change
-  * @lower_dev: device
-  * @lower_state_info: state to dispatch
-  *
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 1ba8f0163744..49da6b259444 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -837,7 +837,7 @@ EXPORT_SYMBOL(consume_skb);
- #endif
- 
- /**
-- *	consume_stateless_skb - free an skbuff, assuming it is stateless
-+ *	__consume_stateless_skb - free an skbuff, assuming it is stateless
-  *	@skb: buffer to free
-  *
-  *	Alike consume_skb(), but this variant assumes that this is the last
-diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
-index dac65180c4ef..4106373180c6 100644
---- a/net/ethernet/eth.c
-+++ b/net/ethernet/eth.c
-@@ -272,7 +272,7 @@ void eth_header_cache_update(struct hh_cache *hh,
- EXPORT_SYMBOL(eth_header_cache_update);
- 
- /**
-- * eth_header_parser_protocol - extract protocol from L2 header
-+ * eth_header_parse_protocol - extract protocol from L2 header
-  * @skb: packet to extract protocol from
-  */
- __be16 eth_header_parse_protocol(const struct sk_buff *skb)
-@@ -523,8 +523,8 @@ int eth_platform_get_mac_address(struct device *dev, u8 *mac_addr)
- EXPORT_SYMBOL(eth_platform_get_mac_address);
- 
- /**
-- * Obtain the MAC address from an nvmem cell named 'mac-address' associated
-- * with given device.
-+ * nvmem_get_mac_address - Obtain the MAC address from an nvmem cell named
-+ * 'mac-address' associated with given device.
-  *
-  * @dev:	Device with which the mac-address cell is associated.
-  * @addrbuf:	Buffer to which the MAC address will be copied on success.
-diff --git a/net/sunrpc/rpc_pipe.c b/net/sunrpc/rpc_pipe.c
-index eadc0ede928c..8241f5a4a01c 100644
---- a/net/sunrpc/rpc_pipe.c
-+++ b/net/sunrpc/rpc_pipe.c
-@@ -781,7 +781,8 @@ static int rpc_rmdir_depopulate(struct dentry *dentry,
- }
- 
- /**
-- * rpc_mkpipe - make an rpc_pipefs file for kernel<->userspace communication
-+ * rpc_mkpipe_dentry - make an rpc_pipefs file for kernel<->userspace
-+ *		       communication
-  * @parent: dentry of directory to create new "pipe" in
-  * @name: name of pipe
-  * @private: private data to associate with the pipe, for the caller's use
--- 
-2.26.2
-
+They can read the .h file just fine today.
