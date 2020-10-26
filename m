@@ -4,91 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC14C388F9
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 17:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E15C2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 19:14:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA4D82070E
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 17:12:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9826320878
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 19:14:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KMYHIio0"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Iwae16Mn";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0LqayT//"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1787377AbgJZRM3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 13:12:29 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:34504 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1787215AbgJZRM3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 13:12:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=6BL74GG/GU7T+OZHWA4ZwCz98Vw3V+JJr/MYkeOc1pw=; b=KMYHIio0bD27ubImFg/uC09LdZ
-        ThlxstJV1PpLhIweeWjkIbu6I85HAlUOTHo0lBd8V8wR5woEWEB9hWGnGv+bnSh/UmMB23PNAQUwp
-        PvgxPDYtlI8CU5il6r3tJrozpU5+/odZQK5/APHnUzyrxL/m9H5RRrqSsbnpfUtcvO9L040izpkT7
-        5XoPdYkYQ5rVmodTu2F94mjEYaJFWLmHLpTD+ZSr0tZA6nHIFNsf1MVrm+QnvRu6RlK6XA6hSi1C5
-        QIfWyndmIdnnS68XgLd6PvV1T6bW3hyiS5CKJD4eB/tXJetGqEadYX2o36sRVAZVtID702biRTGhR
-        2wTYyCDg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kX62j-0000OZ-Hs; Mon, 26 Oct 2020 17:12:25 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 39F873006D0;
-        Mon, 26 Oct 2020 18:12:24 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2C5E02BAA7DD6; Mon, 26 Oct 2020 18:12:24 +0100 (CET)
-Date:   Mon, 26 Oct 2020 18:12:24 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
+        id S1792615AbgJZTNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 15:13:25 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41840 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404516AbgJZTE1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 15:04:27 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1603739065;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ts7OvCQ8neOrMW3H2L+mcvBibMfSxHH1JqOYqWTehYI=;
+        b=Iwae16MnPoQQ3di3i54xsNOXPTmY4XB5Us6Q5Mcp5mPbMb+1S9sSU/O0ATGNYnP6Q4U+nk
+        VsFQZbL2zGqCTbQDiNWroT7UwYcM8TQ7R3kAm3+x71jfSUmtjF8bbp6IUfwFc1cxpc17lZ
+        RSrtT725UR0Hm9RVqd9Al0egcvMyZzAfkTRjEfsG2skxCbAFy1C0+hyTbMwRmQM4OtfNwt
+        qCEsw0lFJjW2hp3xkp08nNOzv9tBreqbBzy9QA0adMF0BRpo/zpZshY/31ulS8AbnRqZID
+        +LYxzab5w9eSxfPsdO0telgj8o3Ry3VIAduZ/4N9Y/YjR/cwm22um56qBplY7A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1603739065;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ts7OvCQ8neOrMW3H2L+mcvBibMfSxHH1JqOYqWTehYI=;
+        b=0LqayT//imv88st5vOI0NJeAdqjtOjrMMYBenyRge7FnH3VcEBE6Y7XBmBg5bxzKbp4sOb
+        yhoLkREniCc8gyBQ==
 To:     psodagud@codeaurora.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Elliot Berman <eberman@codeaurora.org>,
+Cc:     Elliot Berman <eberman@codeaurora.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Trilok Soni <tsoni@codeaurora.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
-Message-ID: <20201026171224.GV2611@hirez.programming.kicks-ass.net>
-References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
- <87v9f04n8r.fsf@nanos.tec.linutronix.de>
- <a6d7f84679240fcf580520230a88c058@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <a6d7f84679240fcf580520230a88c058@codeaurora.org>
+References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org> <87v9f04n8r.fsf@nanos.tec.linutronix.de> <a6d7f84679240fcf580520230a88c058@codeaurora.org>
+Date:   Mon, 26 Oct 2020 20:04:25 +0100
+Message-ID: <8736204xmu.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 10:08:47AM -0700, psodagud@codeaurora.org wrote:
-> On 2020-10-23 14:59, Thomas Gleixner wrote:
-> > On Thu, Oct 22 2020 at 15:04, Elliot Berman wrote:
-> > > In a heterogeneous multiprocessor system, specifying the 'maxcpus'
-> > > parameter on kernel command line does not provide sufficient control
-> > > over which CPUs are brought online at kernel boot time, since CPUs may
-> > > have nonuniform performance characteristics. Thus, add bootcpus kernel
-> > > parameter to control which CPUs should be brought online during kernel
-> > > boot. When both maxcpus and bootcpus is set, the more restrictive of
-> > > the
-> > > two are booted.
-> > 
-> > What for? 'maxcpus' is a debug hack at best and outright dangerous on
-> > certain architectures. Why do we need more of that? Just let the machine
-> > boot and offline the CPUs from user space.
-> 
-> Hi Thomas and Peter,
-> 
-> Based on my understanding with maxcpus option provides, maximum no of CPUs
-> are brough up during the device boot up. There is a different case, in which
-> we want to restrict which CPUs to be brough up.
-> On a system with 8 cpus, if we set maxcpus as 3, cpu0, cpu1, and cpu2 are
-> brough up during the bootup.  For example, if we want to bring core0, core3
-> and core4 current maxcpu(as 3) setting would not help us.
-> On some platform we want the flexibility on which CPUs to bring up during
-> the device bootup. bootcpus command line is helping to bring specific CPUs
-> and these patches are working downstream.
+On Mon, Oct 26 2020 at 10:08, psodagud wrote:
+> Based on my understanding with maxcpus option provides, maximum no of 
+> CPUs are brough up during the device boot up. There is a different case, 
+> in which we want to restrict which CPUs to be brough up.
 
-That's a lot of words, but exactly 0 on _WHY_ you would want to do that.
+Again: What for? Why?
+
+> On a system with 8 cpus, if we set maxcpus as 3, cpu0, cpu1, and cpu2 
+> are brough up during the bootup.  For example, if we want to bring 
+> core0, core3 and core4 current maxcpu(as 3) setting would not help us.
+> On some platform we want the flexibility on which CPUs to bring up 
+> during the device bootup. bootcpus command line is helping to bring 
+> specific CPUs and these patches are working downstream.
+
+A lot of patches work downstream by some definition of work. But that
+does not make an argument to bring them upstream.
+
+Thanks,
+
+        tglx
