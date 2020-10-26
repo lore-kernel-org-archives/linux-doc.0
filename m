@@ -2,126 +2,114 @@ Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC30C4363A
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:07:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42CD8C2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:14:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40E2F222EC
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:07:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB12F22400
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 10:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603706851;
-	bh=oRd2QZwcb5kvNpN6vkk7OPKwRr2fGcwBASgsEzTaYvA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=W76WPZzpVm+4EboSv38yQ0B7P+eM/pLFW7s0FPTHQKQA+/GtQq7tSLqtlQjF5Et8m
-	 M7mQX1oXl6frZXQTFGRqKYXXjj341dbTOFjTrSmkGP3IyJi3a+/CFIU8xD42o4d/Hg
-	 c8v/1Z/ukDyBCB/wzMTtP1s9oW7CoGo8Kewa9il4=
+	s=default; t=1603707277;
+	bh=gJmp8cTYgH9MZLys45Ah0xGqa1fV26E8JRNpZkLrsiQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=uXeDKXBvaF6tSkH+fnIjc2rRE8vs/OpYxrY2bZ9iHOXp1TKme6UZPkjB4aBOYz7G2
+	 9VgnNIJ61X2FsO3+EXxh6U/KMgusJqVQXgPr6cDZ47iQ56czcQkykAdmqFVmZqEcbX
+	 qog+hMPpO+gmqkYJRX5Cxn+t/O7kIjn5ANfumMck=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1769070AbgJZKHa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 06:07:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51198 "EHLO mail.kernel.org"
+        id S1727772AbgJZKOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 06:14:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42606 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1768496AbgJZKHT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 06:07:19 -0400
-Received: from coco.lan (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
+        id S1768388AbgJZJro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 05:47:44 -0400
+Received: from mail.kernel.org (ip5f5ad5a1.dynamic.kabel-deutschland.de [95.90.213.161])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8ACE320723;
-        Mon, 26 Oct 2020 10:07:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9236B2242C;
+        Mon, 26 Oct 2020 09:47:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603706838;
-        bh=oRd2QZwcb5kvNpN6vkk7OPKwRr2fGcwBASgsEzTaYvA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TPv71Y5NKNxjMYIif68gFIjqobO5fdY6L9BaEwJBedVyaDLWrQoaDngZoQCtEwg3o
-         B2+YfCA9bI17y/jzdCHJvb5ShDz81KP3GbFKIaPWAJGz5rVw06hSbNVlAby53bOqwi
-         armEP65itz4B6iICAzPXmWu/pEfe3lW+vY28HAv8=
-Date:   Mon, 26 Oct 2020 11:07:12 +0100
+        s=default; t=1603705663;
+        bh=gJmp8cTYgH9MZLys45Ah0xGqa1fV26E8JRNpZkLrsiQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=MOwzvXelHyZJ9lbmhSYCx3ari6OvEMq8bTjsyQVlCItoJCNbePAzX5Llzjhs7RBsj
+         4RdHMEe5rAwgppwk6B1RFb8qFQyA5YLIIzd+xbivtX8SbI9UfuuOxQGlH2r7u4hyHF
+         R0HcrREOVpPXEtbppcBJFzI6CwllEdXb+MqKTY8I=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kWz6J-0030t5-Nb; Mon, 26 Oct 2020 10:47:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 53/56] shed: fix kernel-doc markup
-Message-ID: <20201026110712.2f9cec69@coco.lan>
-In-Reply-To: <20201023135341.450727fc@gandalf.local.home>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-        <21eac4426e02193aab877564f7d7d99114627a46.1603469755.git.mchehab+huawei@kernel.org>
-        <20201023135341.450727fc@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH RESEND 3/3] net: core: fix some kernel-doc markups
+Date:   Mon, 26 Oct 2020 10:47:38 +0100
+Message-Id: <492b5ee3aca655ffad6e95e61d9b4019e69b8e3a.1603705472.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1603705472.git.mchehab+huawei@kernel.org>
+References: <cover.1603705472.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 23 Oct 2020 13:53:41 -0400
-Steven Rostedt <rostedt@goodmis.org> escreveu:
+Some identifiers have different names between their prototypes
+and the kernel-doc markup.
 
-> On Fri, 23 Oct 2020 18:33:40 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > Kernel-doc requires that a kernel-doc markup to be immediatly
-> > below the function prototype, as otherwise it will rename it.
-> > So, move sys_sched_yield() markup to the right place.
-> > 
-> > Also fix the cpu_util() markup: Kernel-doc markups
-> > should use this format:
-> >         identifier - description  
-> 
-> The first change looks fine to me, but as I'm getting a new shed delivered
-> soon, I originally thought this email was about that delivery!
+In the specific case of netif_subqueue_stopped(), keep the
+current markup for __netif_subqueue_stopped(), adding a
+new one for netif_subqueue_stopped().
 
-:-)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ include/linux/netdevice.h | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-> I do have a nit about the second change.
-> 
-> > diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> > index aa4c6227cd6d..94386fcfafcf 100644
-> > --- a/kernel/sched/fair.c
-> > +++ b/kernel/sched/fair.c
-> > @@ -6287,7 +6287,8 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
-> >  }
-> >  
-> >  /**
-> > - * Amount of capacity of a CPU that is (estimated to be) used by CFS tasks
-> > + * cpu_util - Amount of capacity of a CPU that is (estimated to be)
-> > + *	used by CFS tasks  
-> 
-> The description is to be a single line. The line break is ugly, and the 80
-> col rule, is more of a guideline, and not something that *has* to be done.
-> 
-> Either shorten it, or just let it go a little longer.
-
-Agreed, but there are already some other descriptions over there that have
-multiple lines[1]:
-
-Anyway, on this specific case, I guess it can be easily shorten to
-80 columns without losing anything. Would that work for you?
-
-	/**
-	 * cpu_util - Estimates the amount of capacity of a CPU used by CFS tasks.
-
-Regards,
-Mauro
-
-[1] like this one:
-
-	/**
-	 * calculate_imbalance - Calculate the amount of imbalance present within the
-	 *			 groups of a given sched_domain during load balance.
-	 * @env: load balance environment
-	 * @sds: statistics of the sched_domain whose imbalance is to be calculated.
-	 */
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 964b494b0e8d..db79ab7580dd 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1490,7 +1490,7 @@ struct net_device_ops {
+ };
+ 
+ /**
+- * enum net_device_priv_flags - &struct net_device priv_flags
++ * enum netdev_priv_flags - &struct net_device priv_flags
+  *
+  * These are the &struct net_device, they are only set internally
+  * by drivers and used in the kernel. These flags are invisible to
+@@ -3576,7 +3576,7 @@ static inline void netif_stop_subqueue(struct net_device *dev, u16 queue_index)
+ }
+ 
+ /**
+- *	netif_subqueue_stopped - test status of subqueue
++ *	__netif_subqueue_stopped - test status of subqueue
+  *	@dev: network device
+  *	@queue_index: sub queue index
+  *
+@@ -3590,6 +3590,13 @@ static inline bool __netif_subqueue_stopped(const struct net_device *dev,
+ 	return netif_tx_queue_stopped(txq);
+ }
+ 
++/**
++ *	netif_subqueue_stopped - test status of subqueue
++ *	@dev: network device
++ *	@skb: sub queue buffer pointer
++ *
++ * Check individual transmit queue of a device with multiple transmit queues.
++ */
+ static inline bool netif_subqueue_stopped(const struct net_device *dev,
+ 					  struct sk_buff *skb)
+ {
+-- 
+2.26.2
 
