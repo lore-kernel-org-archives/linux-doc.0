@@ -1,55 +1,55 @@
-Return-Path: <SRS0=Bwbi=EB=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F23CDC2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1A8C2D0A3
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:06:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6A132222C
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Oct 2020 23:56:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6910D20791
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:06:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603756566;
-	bh=12+N3Sl8anEqlF04IUgnWUIyuoEjcEJ7JjgNNWWKPJ8=;
+	s=default; t=1603757207;
+	bh=6QfnvC4Bo1nyrqZvPlGsP1hwRIQeoxX+poOhfilRcV4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=rx0wIUBq8wXkSE1Msu0/O5lI+gjBwVNrKje+FnJIyBt8QzbLKD4VFWgda2q8Tjfhv
-	 g+6AXb2DN5+sWC8Kd+oiKTSUftE0AsA9TNrbGOTGxTFoxtaHstZZzKQb1C9DjlgoBA
-	 IW1DUx+0cnCDQlY1kYY5R0m8jisdasUglmdmiqpk=
+	b=z8fhHIH6pyaG4FBZqDZ6defTrHSckDUqGvT1efnOF2DcO7VP4Pd4o5IL9nMgOzEJV
+	 WlAtGLLMNYDrsbG2Itb28SWzgnVGtGW6VTsJZenoAHDmtRc7go09PHE+Y5GFjrUmZd
+	 Y+lzGFoMk9I9tRcHtc2GA0YAwvc+Vepf50uIGm10=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411020AbgJZX4B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 19:56:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34602 "EHLO mail.kernel.org"
+        id S2438815AbgJ0AGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 20:06:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53104 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2410956AbgJZXzr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 19:55:47 -0400
+        id S2437644AbgJ0AEg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 20:04:36 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0139121655;
-        Mon, 26 Oct 2020 23:55:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DC6DD217A0;
+        Tue, 27 Oct 2020 00:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603756542;
-        bh=12+N3Sl8anEqlF04IUgnWUIyuoEjcEJ7JjgNNWWKPJ8=;
+        s=default; t=1603757075;
+        bh=6QfnvC4Bo1nyrqZvPlGsP1hwRIQeoxX+poOhfilRcV4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nyRPW1JGbcBM7xtXUMzs46mQBvVhAB/dQRLokASpD8uOPOCrnpvR5N44uOpT0MxzX
-         r8clV80Z1ZDRdL9V9G89EEjWgMwNTWr/Kn14sW/Oqrjbsin4VBNRLdwdQx98fpOqMW
-         AhBnjcIuOH4LPBG5s1L3jHbB7ofp/2WquSItDFuQ=
+        b=Nb2vnkrviNDjP6tQtUOaJ01Jx0C4TVWJ+KPXawJmJxLf2Dd+CxgE6TC6XE4GtQgWG
+         9NqNrc5XZwvlg37gZmyeBVsCS7mjF0ovZ4Gv6B/mrOYv3UGFWSdqxj3ieJ7SoPReYC
+         3S88S9X6SwSfM9FXV6P/ZxRVO5dxbPYhVuT2Io24=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 21/80] media: videodev2.h: RGB BT2020 and HSV are always full range
-Date:   Mon, 26 Oct 2020 19:54:17 -0400
-Message-Id: <20201026235516.1025100-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 16/60] media: videodev2.h: RGB BT2020 and HSV are always full range
+Date:   Mon, 26 Oct 2020 20:03:31 -0400
+Message-Id: <20201027000415.1026364-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
-References: <20201026235516.1025100-1-sashal@kernel.org>
+In-Reply-To: <20201027000415.1026364-1-sashal@kernel.org>
+References: <20201027000415.1026364-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -85,10 +85,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 14 insertions(+), 17 deletions(-)
 
 diff --git a/Documentation/media/uapi/v4l/colorspaces-defs.rst b/Documentation/media/uapi/v4l/colorspaces-defs.rst
-index e122bbe3d799d..aabb08130354a 100644
+index f24615544792b..16e46bec80934 100644
 --- a/Documentation/media/uapi/v4l/colorspaces-defs.rst
 +++ b/Documentation/media/uapi/v4l/colorspaces-defs.rst
-@@ -36,8 +36,7 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+@@ -29,8 +29,7 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
  :c:type:`v4l2_hsv_encoding` specifies which encoding is used.
  
  .. note:: The default R'G'B' quantization is full range for all
@@ -96,9 +96,9 @@ index e122bbe3d799d..aabb08130354a 100644
 -   quantization.
 +   colorspaces. HSV formats are always full range.
  
- .. tabularcolumns:: |p{6.7cm}|p{10.8cm}|
+ .. tabularcolumns:: |p{6.0cm}|p{11.5cm}|
  
-@@ -169,8 +168,8 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+@@ -162,8 +161,8 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
        - Details
      * - ``V4L2_QUANTIZATION_DEFAULT``
        - Use the default quantization encoding as defined by the
@@ -109,17 +109,17 @@ index e122bbe3d799d..aabb08130354a 100644
      * - ``V4L2_QUANTIZATION_FULL_RANGE``
        - Use the full range quantization encoding. I.e. the range [0…1] is
  	mapped to [0…255] (with possible clipping to [1…254] to avoid the
-@@ -180,4 +179,4 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+@@ -173,4 +172,4 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
      * - ``V4L2_QUANTIZATION_LIM_RANGE``
        - Use the limited range quantization encoding. I.e. the range [0…1]
  	is mapped to [16…235]. Cb and Cr are mapped from [-0.5…0.5] to
 -	[16…240].
 +	[16…240]. Limited Range cannot be used with HSV.
 diff --git a/Documentation/media/uapi/v4l/colorspaces-details.rst b/Documentation/media/uapi/v4l/colorspaces-details.rst
-index 8b0ba3668101d..fd0cf57691d87 100644
+index 09fabf4cd4126..ca7176cae8dd8 100644
 --- a/Documentation/media/uapi/v4l/colorspaces-details.rst
 +++ b/Documentation/media/uapi/v4l/colorspaces-details.rst
-@@ -377,9 +377,8 @@ Colorspace BT.2020 (V4L2_COLORSPACE_BT2020)
+@@ -370,9 +370,8 @@ Colorspace BT.2020 (V4L2_COLORSPACE_BT2020)
  The :ref:`itu2020` standard defines the colorspace used by Ultra-high
  definition television (UHDTV). The default transfer function is
  ``V4L2_XFER_FUNC_709``. The default Y'CbCr encoding is
@@ -132,10 +132,10 @@ index 8b0ba3668101d..fd0cf57691d87 100644
  
  
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 530638dffd934..3210b3c82a4a2 100644
+index 1aae2e4b8f102..b73f4423bc09d 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -371,9 +371,9 @@ enum v4l2_hsv_encoding {
+@@ -362,9 +362,9 @@ enum v4l2_hsv_encoding {
  
  enum v4l2_quantization {
  	/*
@@ -148,7 +148,7 @@ index 530638dffd934..3210b3c82a4a2 100644
  	 */
  	V4L2_QUANTIZATION_DEFAULT     = 0,
  	V4L2_QUANTIZATION_FULL_RANGE  = 1,
-@@ -382,14 +382,13 @@ enum v4l2_quantization {
+@@ -373,14 +373,13 @@ enum v4l2_quantization {
  
  /*
   * Determine how QUANTIZATION_DEFAULT should map to a proper quantization.
