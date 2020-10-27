@@ -2,108 +2,160 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DB4AC388F9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 06:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40E3FC4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 07:07:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF83B2224E
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 06:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603781938;
-	bh=RamkjBG+ES+esN9QzAUVFGHCL9QxB93W5Vxkt02/DNE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=0yEkR/6AwkXXdY07bVQ75YuC8nIFkSimnzpIZ0myHBS9hCNUXVv4j+2uGz4W335Jh
-	 oct+0qi8TP3RN8VPYdKkSqvjKcNMPiLZtILvfbITEVKHi5HYgzA/MsOakE1D56lYfJ
-	 qjU7NmQOBOk2X9LafBCarXj2f2lTUiQNfsqowosY=
+	by mail.kernel.org (Postfix) with ESMTP id 071EF21556
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 07:07:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728547AbgJ0G6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 02:58:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35692 "EHLO mail.kernel.org"
+        id S2507307AbgJ0HHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 03:07:52 -0400
+Received: from mga11.intel.com ([192.55.52.93]:65353 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726134AbgJ0G6z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 02:58:55 -0400
-Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1C19120B1F;
-        Tue, 27 Oct 2020 06:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603781935;
-        bh=RamkjBG+ES+esN9QzAUVFGHCL9QxB93W5Vxkt02/DNE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=YRHeohhkTtmIkSjNa3HcGNkyXb/GC8JC7/7hfjYTHeZIZZWr+4df5oPcE32BqqdE8
-         VXzYwNhkh0fc7ipeoleXkkMS9YWF2Pr/etF9x1R/dBzqvE6KKi1whJilJ/ZdKU/NM3
-         nKXP6oCPJEj8GKQBdfYA2ff0VKmsCsWPfLGVt6io=
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 31/56] usb: dwc3: fix kernel-doc markups
-In-Reply-To: <0b964be3884def04fcd20ea5c12cb90d0014871c.1603469755.git.mchehab+huawei@kernel.org>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <0b964be3884def04fcd20ea5c12cb90d0014871c.1603469755.git.mchehab+huawei@kernel.org>
-Date:   Tue, 27 Oct 2020 08:58:47 +0200
-Message-ID: <87ft60dujc.fsf@kernel.org>
+        id S2505885AbgJ0HHw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 03:07:52 -0400
+IronPort-SDR: vyTdgkf3u2IPZkD9SH3BB9uJKsYl4xzB1c0bs1+RpUYmxXmcIHJDGd9Ia3LsyY1TqdhRNqTRqb
+ nG3TKpVWzf3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="164537062"
+X-IronPort-AV: E=Sophos;i="5.77,422,1596524400"; 
+   d="scan'208";a="164537062"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 00:07:51 -0700
+IronPort-SDR: A5IXsCcNEXQXEcg/oDhntuvq+fWDgRPE+ldHDsUxyxBUCd/F6AsJTG2smijql50iqT70s1/Kgh
+ K0bYXPlZ5eAw==
+X-IronPort-AV: E=Sophos;i="5.77,422,1596524400"; 
+   d="scan'208";a="468194512"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 00:07:50 -0700
+Date:   Tue, 27 Oct 2020 00:07:50 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 06/10] x86/entry: Move nmi entry/exit into common code
+Message-ID: <20201027070750.GM534324@iweiny-DESK2.sc.intel.com>
+References: <20201022222701.887660-1-ira.weiny@intel.com>
+ <20201022222701.887660-7-ira.weiny@intel.com>
+ <874kmk6298.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874kmk6298.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Fri, Oct 23, 2020 at 11:50:11PM +0200, Thomas Gleixner wrote:
+> On Thu, Oct 22 2020 at 15:26, ira weiny wrote:
+> 
+> > From: Thomas Gleixner <tglx@linutronix.de>
+> >
+> > Lockdep state handling on NMI enter and exit is nothing specific to X86. It's
+> > not any different on other architectures. Also the extra state type is not
+> > necessary, irqentry_state_t can carry the necessary information as well.
+> >
+> > Move it to common code and extend irqentry_state_t to carry lockdep
+> > state.
+> 
+> This lacks something like:
+> 
+>  [ Ira: Made the states a union as they are mutually exclusive and added
+>         the missing kernel doc ]
+
+Fair enough.  done.
+
+> 
+> Hrm.
+>  
+> >  #ifndef irqentry_state
+> >  typedef struct irqentry_state {
+> > -	bool	exit_rcu;
+> > +	union {
+> > +		bool	exit_rcu;
+> > +		bool	lockdep;
+> > +	};
+> >  } irqentry_state_t;
+> >  #endif
+> 
+>   -E_NO_KERNELDOC
+
+Adding: Paul McKenney
+
+I'm happy to write something but I'm very unfamiliar with this code.  So I'm
+getting confused what exactly exit_rcu is flagging.
+
+I can see that exit_rcu is a bad name for the state used in
+irqentry_nmi_[enter|exit]().  Furthermore, I see why 'lockdep' is a better
+name.  But similar lockdep handling is used in irqentry_exit() if exit_rcu is
+true...
 
 
-Hi Mauro,
+Given my limited knowledge; here is my proposed text:
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> There is a common comment marked, instead, with kernel-doc
-> notation.
->
-> Also, some identifiers have different names between their
-> prototypes and the kernel-doc markup.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/usb/dwc3/core.c        | 2 +-
->  drivers/usb/dwc3/core.h        | 2 +-
->  drivers/usb/gadget/composite.c | 2 +-
->  drivers/usb/typec/mux.c        | 2 +-
->  include/linux/usb/composite.h  | 2 +-
+/**
+ * struct irqentry_state - Opaque object for exception state storage
+ * @exit_rcu: Used exclusively in the irqentry_*() calls; tracks if the
+ *            exception hit the idle task which requires special handling,
+ *            including calling rcu_irq_exit(), when the exception exits.
+ * @lockdep: Used exclusively in the irqentry_nmi_*() calls; ensures lockdep
+ *           tracking is maintained if hardirqs were already enabled
+ *
+ * This opaque object is filled in by the irqentry_*_enter() functions and
+ * should be passed back into the corresponding irqentry_*_exit() functions
+ * when the exception is complete.
+ *
+ * Callers of irqentry_*_[enter|exit]() should consider this structure opaque
+ * and all members private.  Descriptions of the members are provided to aid in
+ * the maintenance of the irqentry_*() functions.
+ */
 
-mind breaking this into 4 commits? One for dwc3, one for
-gadget/composite, one for type/mux, and a final for composite.h.
 
-=2D-=20
-balbi
+Perhaps Paul can enlighten me on how exit_rcu is used beyond just flagging a
+call to rcu_irq_exit()?
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Why do we call lockdep_hardirqs_off() only when in the idle task?  That implies
+that regs_irqs_disabled() can only be false if we were in the idle task to
+match up the lockdep on/off calls.  This does not make sense to me because why
+do we need the extra check for exit_rcu?  I'm still trying to understand when
+regs_irqs_disabled() is false.
 
------BEGIN PGP SIGNATURE-----
 
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+XxScRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQa7/RAAtsPISo0jvA38qvCiaBG+0xB2vH45RPzI
-IB7UCKT0xkEo9Vonh3ub5KtgVL78H3U5HLYUWIqc2hhZlxRRyQaU2JZo+sDUwepx
-u6Hf/a4vR2AkDFaz3ZR3/S0ZhH1GGMGSUbPucJwGG7fz8BzQcBORQ845wRqKfZ/9
-8SB5Cr7Y4zgzf4hLe1pvfHgmROfpDuJfSf6lKq8FXHuKA+e7BgWxvIR4io5VGRFj
-AtqFX6sfWScuP77Rr6xM39SNAm3nAZ0TnhRtfhivaUqn6/PgHS/VLRKvSZ1ycQ1u
-g7X4736zyRHHbMnAWKSUrAZocubceU7HthLZPAhrRohvvRqwcX/B54iWKHn29I4p
-eBAEMw9LeWmHz7XuWPMFdgG+11SQG9s1Ah0Eh9z4uGeeTtRaDqzKFwTnIG75i4MK
-F4JwqRBZGKsH8JFq5kr2x6RT8hx1w/w7BCgY8yWs2XgcT3T1uSkwDb6n+I45mxg8
-Q3IKaER4GPcM4JUjV/3sCgPpHHpEY+/LfW4EIKFVXyGu8ohfEDsqQlSkZFr8FKBB
-FLZOnE2sUzbJVdxRJpfRWbApAJqMFDh4VZn5PmiXjPxtD5ckp903uctpJK3iPEBY
-FFofoeDmau1rIjYZVFhQVQcmSk1xaZCAUdkgXqCp/kK0Msv3R07WHNVrfaOFBtBa
-7I+hgoGT9/8=
-=oidC
------END PGP SIGNATURE-----
---=-=-=--
+        } else if (!regs_irqs_disabled(regs)) {
+...
+        } else {
+                /*
+                 * IRQ flags state is correct already. Just tell RCU if it
+                 * was not watching on entry.
+                 */
+                if (state.exit_rcu)
+                        rcu_irq_exit();
+        }
+
+Also, the comment in irqentry_enter() refers to irq_enter_from_user_mode() which
+does not seem to exist anymore.  So I'm not sure what careful sequence it is
+referring to.
+
+        /*
+         * If RCU is not watching then the same careful
+         * sequence vs. lockdep and tracing is required
+         * as in irq_enter_from_user_mode().
+         */
+
+?
+
+Ira
