@@ -2,70 +2,52 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB37CC388F9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 17:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BA7C4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 17:12:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88C2021D24
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 17:08:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="d5K55sgV"
+	by mail.kernel.org (Postfix) with ESMTP id EC8E720809
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 17:12:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1816670AbgJ0RIn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 13:08:43 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:41286 "EHLO z5.mailgun.us"
+        id S1817018AbgJ0RMQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 13:12:16 -0400
+Received: from mga07.intel.com ([134.134.136.100]:40472 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1816463AbgJ0RGu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 13:06:50 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1603818409; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=5pG35uJKp6em/LcuBe+x/98128f/lxYBlQLa1lAR/rI=; b=d5K55sgVRIfYV1dOToYrr5wVNLAytocGidH1ddFFoSra3wU4fqKFlmeBkXzi79b2W9rWtQ4h
- jcrWFSrpH4vZohw8APgZt1Ah8KhrDFecoDCUVosNdy30sd5PBxg5jWaA+7J7mZZBpB9S13IY
- d3ltksOlYZo2h9KKY4bBASnrKBQ=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 5f9853a8b317790c806aea53 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Oct 2020 17:06:48
- GMT
-Sender: eberman=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id CEEB6C38523; Tue, 27 Oct 2020 17:06:48 +0000 (UTC)
-Received: from [192.168.1.70] (cpe-76-167-231-33.san.res.rr.com [76.167.231.33])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: eberman)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 02277C4A61D;
-        Tue, 27 Oct 2020 17:06:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 02277C4A61D
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=eberman@codeaurora.org
-Subject: Re: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        linux-kernel@vger.kernel.org, psodagud@codeaurora.org,
-        linux-doc@vger.kernel.org, Qais Yousef <qais.yousef@arm.com>
-References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
- <87v9f04n8r.fsf@nanos.tec.linutronix.de>
- <a6d7f84679240fcf580520230a88c058@codeaurora.org>
- <20201026171224.GV2611@hirez.programming.kicks-ass.net>
-From:   Elliot Berman <eberman@codeaurora.org>
-Message-ID: <a9fa1f8d-52c7-adca-9087-160b1ecda6b8@codeaurora.org>
-Date:   Tue, 27 Oct 2020 10:06:46 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1786275AbgJ0RMN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 13:12:13 -0400
+IronPort-SDR: TkVPNnlHh87Qmna1IG0JUXndEZBmXEqMKIKmwG11ESwyskO78nt8bIkvsd1qQqB+YjwM//nYaq
+ 29qBgTDmcDzg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="232310100"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="232310100"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 10:12:11 -0700
+IronPort-SDR: HXsMrvAkjPUr8QiYpDno6fpZ8tfqF1mxLHLXQH6Xn3teK+iOteaHRF5Fr8kcllVbacPe5rOquO
+ BlWKPwfFKDNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="350662076"
+Received: from marshy.an.intel.com (HELO [10.122.105.159]) ([10.122.105.159])
+  by fmsmga004.fm.intel.com with ESMTP; 27 Oct 2020 10:12:11 -0700
+Subject: Re: [PATCH v3 40/56] firmware: stratix10-svc: fix kernel-doc markups
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+ <f417f0605346b2d72b1a7f5b3989c9aca29729df.1603469755.git.mchehab+huawei@kernel.org>
+From:   Richard Gong <richard.gong@linux.intel.com>
+Message-ID: <42c3c7bf-bbdb-cba8-af58-37fb3637f443@linux.intel.com>
+Date:   Tue, 27 Oct 2020 12:31:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201026171224.GV2611@hirez.programming.kicks-ass.net>
+In-Reply-To: <f417f0605346b2d72b1a7f5b3989c9aca29729df.1603469755.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -73,55 +55,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Acked-by: Richard Gong <richard.gong@linux.intel.com>
 
-On 10/26/2020 10:12 AM, Peter Zijlstra wrote:
-> On Mon, Oct 26, 2020 at 10:08:47AM -0700, psodagud@codeaurora.org wrote:
->> On 2020-10-23 14:59, Thomas Gleixner wrote:
->>> On Thu, Oct 22 2020 at 15:04, Elliot Berman wrote:
->>>> In a heterogeneous multiprocessor system, specifying the 'maxcpus'
->>>> parameter on kernel command line does not provide sufficient control
->>>> over which CPUs are brought online at kernel boot time, since CPUs may
->>>> have nonuniform performance characteristics. Thus, add bootcpus kernel
->>>> parameter to control which CPUs should be brought online during kernel
->>>> boot. When both maxcpus and bootcpus is set, the more restrictive of
->>>> the
->>>> two are booted.
->>>
->>> What for? 'maxcpus' is a debug hack at best and outright dangerous on
->>> certain architectures. Why do we need more of that? Just let the machine
->>> boot and offline the CPUs from user space.
->>
->> Hi Thomas and Peter,
->>
->> Based on my understanding with maxcpus option provides, maximum no of CPUs
->> are brough up during the device boot up. There is a different case, in which
->> we want to restrict which CPUs to be brough up.
->> On a system with 8 cpus, if we set maxcpus as 3, cpu0, cpu1, and cpu2 are
->> brough up during the bootup.  For example, if we want to bring core0, core3
->> and core4 current maxcpu(as 3) setting would not help us.
->> On some platform we want the flexibility on which CPUs to bring up during
->> the device bootup. bootcpus command line is helping to bring specific CPUs
->> and these patches are working downstream.
+On 10/23/20 11:33 AM, Mauro Carvalho Chehab wrote:
+> There are some common comments marked, instead, with kernel-doc
+> notation, which won't work.
 > 
-> That's a lot of words, but exactly 0 on _WHY_ you would want to do that.
+> While here, rename an identifier, in order to match the
+> function prototype below kernel-doc markup.
 > 
-
-We find the ability to limit the number of cpus brought online at bootup 
-useful, and to possibly later enable those cores. One use case is when 
-device is undergoing initial testing is to use bootcpus to limit bootup 
-to only a couple cores and later bring up the other cores for a 
-controlled stress test. A core brought up during boot is also running 
-device initialization. Besides being useful for SoC vendor bringup which 
-typically occurs downstream, this particular use case could be exercised 
-by developer of upstream support for a SoC when initial CPU settings are 
-being determined.
-
-Another use case is if user wishes to limit bootup only to the smaller 
-or bigger cores. maxcpus= is not sufficient here to ensure that only 
-those cores are booted since it limits only to the first N cores, which 
-may not be the desired small or big cores. User may want to bring up 
-only the smaller cores during bootup for thermal reasons. For instance, 
-device may be later sufficiently charged such that boot up of the bigger 
-cores is now permissible. Relying on thermal drivers to later take care 
-of putting core into lower power idle may not occur until much later in 
-boot (for instance, if the governor is a module).
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>   include/linux/firmware/intel/stratix10-svc-client.h | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
+> index a93d85932eb9..ebc295647581 100644
+> --- a/include/linux/firmware/intel/stratix10-svc-client.h
+> +++ b/include/linux/firmware/intel/stratix10-svc-client.h
+> @@ -6,7 +6,7 @@
+>   #ifndef __STRATIX10_SVC_CLIENT_H
+>   #define __STRATIX10_SVC_CLIENT_H
+>   
+> -/**
+> +/*
+>    * Service layer driver supports client names
+>    *
+>    * fpga: for FPGA configuration
+> @@ -15,7 +15,7 @@
+>   #define SVC_CLIENT_FPGA			"fpga"
+>   #define SVC_CLIENT_RSU			"rsu"
+>   
+> -/**
+> +/*
+>    * Status of the sent command, in bit number
+>    *
+>    * SVC_STATUS_OK:
+> @@ -50,7 +50,7 @@
+>   #define SVC_STATUS_ERROR		5
+>   #define SVC_STATUS_NO_SUPPORT		6
+>   
+> -/**
+> +/*
+>    * Flag bit for COMMAND_RECONFIG
+>    *
+>    * COMMAND_RECONFIG_FLAG_PARTIAL:
+> @@ -58,7 +58,7 @@
+>    */
+>   #define COMMAND_RECONFIG_FLAG_PARTIAL	1
+>   
+> -/**
+> +/*
+>    * Timeout settings for service clients:
+>    * timeout value used in Stratix10 FPGA manager driver.
+>    * timeout value used in RSU driver
+> @@ -218,7 +218,7 @@ void stratix10_svc_free_memory(struct stratix10_svc_chan *chan, void *kaddr);
+>   int stratix10_svc_send(struct stratix10_svc_chan *chan, void *msg);
+>   
+>   /**
+> - * intel_svc_done() - complete service request
+> + * stratix10_svc_done() - complete service request
+>    * @chan: service channel assigned to the client
+>    *
+>    * This function is used by service client to inform service layer that
+> 
