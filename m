@@ -2,164 +2,88 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D15C56201
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6D7C388F9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:56:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D944022264
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:23:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="TfOGSAIo"
+	by mail.kernel.org (Postfix) with ESMTP id 877E62224E
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:56:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603796194;
+	bh=qok04c1yw93ge0duivytYk/uZrYg8iX3aCLGN7vm3Bk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=k2sW4g2s6RCOzzVdGZ1iWQVEVxDm/NPx9hknvJl1KIkJMsvFUPuWPPKXWn82FU+zn
+	 2Ky97wI2dZ0J2VWUkrHBLP9kLFpPObOOLA4nZZgBmeSfg61hfJLtAZpG3vWRRusOK5
+	 AYE58LqfPbyqdn1tZiOfJX6iScoW1VV5w/s5P3HI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410331AbgJ0KW6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:22:58 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36362 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2410133AbgJ0KW6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 06:22:58 -0400
-Received: by mail-wr1-f68.google.com with SMTP id x7so1253412wrl.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2020 03:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kWfU0dsyfTV6Wn29xNZN4rB2izI9mNIuZ5x5HbFggb0=;
-        b=TfOGSAIo690wcW1CPshgXsDVYR5lDSaWjS8jI2wLXZffUxp7+0vANRr2T3ro0ATwGe
-         ttyqu6UNKdahyR70yZRCX2JEiCTn1X9YbHmksiOxYyA06n98V9UmrYRhyfVxiA8N1vBz
-         4zhY6iT9jp/nTy9vfeFVzZMkdmw8S18gzJboU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=kWfU0dsyfTV6Wn29xNZN4rB2izI9mNIuZ5x5HbFggb0=;
-        b=AtRKiTjvORVvYx3IHNEPcfwE6RPj/DCElQiA3CFKtAebASq2xr66VEHi3NNCo96ciL
-         t8Dv1cbFi6f3gT+/PKkD4H/54nHxfs4Tj8t7gXk+OE6K/j/UYB2qOHLtgf40y834lOen
-         +4eIX4bwKePlHgzAL15VGFvtrQYD2SjYn/KQ5aPpt1UPE0u0DP3fUP3hrjik1JhQlGTy
-         2sLcs3rOuvTUAcYeksU0CnZoRLyPkeV0lYjY3dFzsRtRqLp4A5bc7jWSFqyT7QF040mJ
-         svMHk7lnOC+uOa5KCYO7jQcWgLAKB2t9qcwEhHHwcVXNpf0R6igbCr68mNZY7ODdr6hC
-         THrg==
-X-Gm-Message-State: AOAM532q0SDEfDi20uEvN0jqKh9HRtDiSC9WTRH7u2mdf9CaInkBtUlt
-        Adb31pmEjlD7y4NV5TbZGD8b2kJ2olqPtQEE
-X-Google-Smtp-Source: ABdhPJydcxVBv/ADPzNa2jJ5qOWXsDx1BNtlSbm3Tn+0CBzU5+ltuST+K2UUh6w1jxJ+OjkENwSVng==
-X-Received: by 2002:a5d:4e48:: with SMTP id r8mr1880774wrt.141.1603794176106;
-        Tue, 27 Oct 2020 03:22:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id h3sm1403110wrw.78.2020.10.27.03.22.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 03:22:55 -0700 (PDT)
-Date:   Tue, 27 Oct 2020 11:22:53 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 31/32] drm: drm_print.h: fix kernel-doc markups
-Message-ID: <20201027102253.GK401619@phenom.ffwll.local>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <cover.1603791716.git.mchehab+huawei@kernel.org>
- <5b76c5625709aaaa3abee98faa620b9f3d27ff85.1603791716.git.mchehab+huawei@kernel.org>
+        id S2898807AbgJ0K4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:56:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37790 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2898806AbgJ0K43 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 06:56:29 -0400
+Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 365602224E;
+        Tue, 27 Oct 2020 10:56:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603796189;
+        bh=qok04c1yw93ge0duivytYk/uZrYg8iX3aCLGN7vm3Bk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=LSH8iBLi9pxk9tm4fS/w/Li3II69RgoIx7gy6zp3qBHfT4d37vR+CNSwSg+cSdcO5
+         tR6v2ws50ERPwhrvUbrrGUhsmysjwjNFBYcSPTcMtbHqZXAgv+4jplTfhfY2pOLoLq
+         cZMi6pKzy3pVlcVdcFsrAEkRWlDc3EO+B2UTlZt0=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kXMeO-003GLJ-4U; Tue, 27 Oct 2020 11:56:24 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] docs: Makefile: honor V=0 for docs building
+Date:   Tue, 27 Oct 2020 11:56:15 +0100
+Message-Id: <478c114a2399b68a18de94ee5f98649304f3903b.1603796153.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201016165504.3cc33889@canb.auug.org.au>
+References: <20201016165504.3cc33889@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5b76c5625709aaaa3abee98faa620b9f3d27ff85.1603791716.git.mchehab+huawei@kernel.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 10:51:35AM +0100, Mauro Carvalho Chehab wrote:
-> A kernel-doc markup should start with the identifier on its
-> first line.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reduce the number of displayed mesages when building the
+docs with V=0.
 
-I've merged all the drm patches, excluding the amdgpu ones, to
-drm-misc-fixes. Should land in -rc2.
+Suggested-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks for doing these patches.
--Daniel
-
-> ---
->  include/drm/drm_print.h | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index 1c9417430d08..f32d179e139d 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -338,7 +338,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->  		 const char *format, ...);
->  
->  /**
-> - * Error output.
-> + * DRM_DEV_ERROR() - Error output.
->   *
->   * @dev: device pointer
->   * @fmt: printf() like format string.
-> @@ -347,10 +347,12 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->  	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
->  
->  /**
-> - * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
-> + * DRM_DEV_ERROR_RATELIMITED() - Rate limited error output.
->   *
->   * @dev: device pointer
->   * @fmt: printf() like format string.
-> + *
-> + * Like DRM_ERROR() but won't flood the log.
->   */
->  #define DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)			\
->  ({									\
-> @@ -375,15 +377,27 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->  })
->  
->  /**
-> - * Debug output.
-> + * DRM_DEV_DEBUG() - Debug output for generic drm code
->   *
->   * @dev: device pointer
->   * @fmt: printf() like format string.
->   */
->  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
->  	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> +/**
-> + * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
-> + *
-> + * @dev: device pointer
-> + * @fmt: printf() like format string.
-> + */
->  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
->  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
-> +/**
-> + * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
-> + *
-> + * @dev: device pointer
-> + * @fmt: printf() like format string.
-> + */
->  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
->  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
->  
-> -- 
-> 2.26.2
-> 
-
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 6a59a13d3c53..61a7310b49e0 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -26,6 +26,10 @@ BUILDDIR      = $(obj)/output
+ PDFLATEX      = xelatex
+ LATEXOPTS     = -interaction=batchmode
+ 
++ifeq ($(KBUILD_VERBOSE),0)
++SPHINXOPTS    += "-q"
++endif
++
+ # User-friendly check for sphinx-build
+ HAVE_SPHINX := $(shell if which $(SPHINXBUILD) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.2
+
