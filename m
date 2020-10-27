@@ -2,119 +2,86 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A4C3C55178
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C12C2D0A3
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:06:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 252F72151B
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:59:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="slH7iqOC"
+	by mail.kernel.org (Postfix) with ESMTP id 2685321741
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603768010;
+	bh=+iDp6qGbupqnPeHLiPOQ4jGGEsxVPDaHzfEp/5i5qNY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=g9puZck22/VRFjHl/S3BlubHh842PRqfeDY17Jp8o67E2RI9fn+CR25aqS0El9zKJ
+	 COWRBRBJ+SWt+fxX96q+E/5XOqwTLQiHWjpOvvIWLrwPqrVf9wZSKaeqEXnte3K9t4
+	 xgr0wvW7n6ourBHw8DM0NTK5sV78lu4P0IyUbMSY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409908AbgJ0C7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 22:59:15 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:32935 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409910AbgJ0C7O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 22:59:14 -0400
-Received: by mail-pf1-f194.google.com with SMTP id j18so76854pfa.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 19:59:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2r/6wM2urus7RuK+nJNOIaHAlYFuE3iJoIvxfk3Ke04=;
-        b=slH7iqOCvbuRJpOoFTcLbTGUdbV0PTNzytfn6YhKrnJ0ZvHkh9I3aom/I3EGuJ5yF/
-         l4ufdqid2leBOdcUopOquocKGZ/EHVGg7Oh/tPDjjpbm8PtJL+JUG+gZi98oQPE23LoM
-         eMiTj4EVGIVGcA1cuA2v/FrmwMiAnDpvBHIncBVMzS83A5FDvM1pY0RNyHw2XX6fjgkZ
-         +VMqHnXIFr/ybLbdSel4j6JBIHw2l7p7LCUP2OHTl96MnRpCpQvJ8gkv3BWelgqBkUGd
-         VbbO0EkBJb5JlJS6ZVz3o7sK7ugIEBSqnLL2XzVzqQrWjC3+CRwq1lRut5CCXYclcazG
-         X0Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2r/6wM2urus7RuK+nJNOIaHAlYFuE3iJoIvxfk3Ke04=;
-        b=mbYzOtFWT2u+qOWJV8WEztwKYa+eGqKo5ZbsD/rLRD5h4wAYh3xK5OsqBQpBiyD6c8
-         YuQNnNM9zg0IL0Un9E7OQwHWJGPiW5aVeUcQLH34g0MVEE/ygMqjqReuvzDyrm73vkxS
-         +3Gk286wjyISdKVW9QbeabSGh4Bo+HtL1TQt8nXwud7vU2aml2y3MamBm9ihx8rYbnn/
-         +gvYdn1VSzMXKbLhS0cpRKeiOL3Avg+xXWPKQuxgAth23jlhj5hkH3XjBIYW8PYEwqaV
-         hZ1sC4ALdmfLSH9lf1rUvv/kjaqn5nrL/yDbvj5xnhTvMXOheyx13RA3zHmWsU1kAmsL
-         wOEA==
-X-Gm-Message-State: AOAM530Nz0mSQt8l9/V2RC8BB4URx3liKSLiwe60OIzAIpTsH5HFo7Gx
-        Y11Geb5WedD1tTL+LzA5uifYfk2YV5dTaCsFs3ibKA==
-X-Google-Smtp-Source: ABdhPJyWYIE4OTNvD1Li2UgYskyIXudRuzoDpQ5mbVNn2nBDoaVGbFjNKzwuIOmIbtQ3Tu3mU4VqlNbMc44uum/3l/c=
-X-Received: by 2002:a65:5383:: with SMTP id x3mr15962pgq.341.1603767552671;
- Mon, 26 Oct 2020 19:59:12 -0700 (PDT)
+        id S2437095AbgJ0DGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 23:06:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50622 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437086AbgJ0DGt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 23:06:49 -0400
+Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96EFB2151B;
+        Tue, 27 Oct 2020 03:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603768008;
+        bh=+iDp6qGbupqnPeHLiPOQ4jGGEsxVPDaHzfEp/5i5qNY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HCsnwhxLxrF/z65WpDtJGj9olkTBwiPJNDBfp6PAB4dqShk4SV2RdPHsBYlDMCw+Z
+         KpForSNsrZOwDSIme8N9a83a7847SkU5yka6ZU9J0X0PCZd5/NRulVeH5mgoEWUPwl
+         wAkWYdeCBQo5+HKdK2nRSLlIBQpMRo6lK+nRrh5o=
+Date:   Mon, 26 Oct 2020 20:06:46 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH RESEND 3/3] net: core: fix some kernel-doc markups
+Message-ID: <20201026200646.50dbb231@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <492b5ee3aca655ffad6e95e61d9b4019e69b8e3a.1603705472.git.mchehab+huawei@kernel.org>
+References: <cover.1603705472.git.mchehab+huawei@kernel.org>
+        <492b5ee3aca655ffad6e95e61d9b4019e69b8e3a.1603705472.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
- <20201026145114.59424-8-songmuchun@bytedance.com> <20201026160142.GT20115@casper.infradead.org>
-In-Reply-To: <20201026160142.GT20115@casper.infradead.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 27 Oct 2020 10:58:36 +0800
-Message-ID: <CAMZfGtX2p_M15i0pE7tTu3amPNof5PW2jJFUnXtGdGRyGydAtw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v2 07/19] mm/hugetlb: Free the vmemmap
- pages associated with each hugetlb page
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 12:01 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Mon, Oct 26, 2020 at 10:51:02PM +0800, Muchun Song wrote:
-> > +static void split_vmemmap_pmd(pmd_t *pmd, pte_t *pte_p, unsigned long addr)
-> > +{
-> > +     struct mm_struct *mm = &init_mm;
-> > +     struct page *page;
-> > +     pmd_t old_pmd, _pmd;
-> > +     int i;
-> > +
-> > +     old_pmd = READ_ONCE(*pmd);
-> > +     page = pmd_page(old_pmd);
-> > +     pmd_populate_kernel(mm, &_pmd, pte_p);
-> > +
-> > +     for (i = 0; i < VMEMMAP_HPAGE_NR; i++, addr += PAGE_SIZE) {
-> > +             pte_t entry, *pte;
-> > +
-> > +             entry = mk_pte(page + i, PAGE_KERNEL);
->
-> I'd be happier if that were:
->
->         pgprot_t pgprot = PAGE_KERNEL;
-> ...
->         for (i = 0; i < VMEMMAP_HPAGE_NR; i++, addr += PAGE_SIZE) {
->                 pte_t entry, *pte;
->
->                 entry = mk_pte(page + i, pgprot);
->                 pgprot = PAGE_KERNEL_RO;
->
-> so that all subsequent tail pages are mapped read-only.
->
+On Mon, 26 Oct 2020 10:47:38 +0100 Mauro Carvalho Chehab wrote:
+> Some identifiers have different names between their prototypes
+> and the kernel-doc markup.
+> 
+> In the specific case of netif_subqueue_stopped(), keep the
+> current markup for __netif_subqueue_stopped(), adding a
+> new one for netif_subqueue_stopped().
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Good idea, do this can catch some illegal operations. Thanks.
+> @@ -3590,6 +3590,13 @@ static inline bool __netif_subqueue_stopped(const struct net_device *dev,
+>  	return netif_tx_queue_stopped(txq);
+>  }
+>  
+> +/**
+> + *	netif_subqueue_stopped - test status of subqueue
+> + *	@dev: network device
+> + *	@skb: sub queue buffer pointer
 
+Ah, no: "socket buffer from which to get the mapping"
 
--- 
-Yours,
-Muchun
+> + *
+> + * Check individual transmit queue of a device with multiple transmit queues.
+> + */
+>  static inline bool netif_subqueue_stopped(const struct net_device *dev,
+>  					  struct sk_buff *skb)
+>  {
+
