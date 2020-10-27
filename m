@@ -7,51 +7,53 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F09C388F9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 730B8C388F9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 420FC2225C
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D6BC21D24
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603792880;
-	bh=nmVlHJl4ky1onYW7Dq+mrJQd7XAD9Hsjyr0pZ7lcwnE=;
+	s=default; t=1603792883;
+	bh=2vGt09zv9T52aqBWuiYyElX+A1oCUvIR/X33luu4RwQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Y4iznEt0+X+kF1pbDa2HImp8c+qDqnGwNBJ/JPs4R/5mrIAvMlgxm/v/grHICYkcp
-	 GCheC+OEvXsmIQPljGHHPZfSN4aOM7LkLtCZz/tWaoKhRtxMmPagrCuTOnq/rqHgda
-	 2veWG/AkyBCpyY5VFOJ3EI8weihesH+UrSy5zk+I=
+	b=qiqabAVPM8gKL4fQXHct0Btcdg5aY4/A7jDPAo5G8/2FMymiFeho8wFimx2brwcpa
+	 WWgGDL4mFXlPuZfMrgesrhhVYDRAgPAoZprWKMn9wGGSXC6WY7X/8s50c39cnO4aMa
+	 6y7VRAOqZava5DpVeo9qxqrq6G3YcfzmWbSmPM5k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896741AbgJ0KBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2896736AbgJ0KBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 27 Oct 2020 06:01:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42514 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:42810 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896053AbgJ0Jvn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 05:51:43 -0400
+        id S2896056AbgJ0Jvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 05:51:44 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BA9F424199;
+        by mail.kernel.org (Postfix) with ESMTPSA id E51882466D;
         Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603792301;
-        bh=nmVlHJl4ky1onYW7Dq+mrJQd7XAD9Hsjyr0pZ7lcwnE=;
+        s=default; t=1603792302;
+        bh=2vGt09zv9T52aqBWuiYyElX+A1oCUvIR/X33luu4RwQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gfA4ech+UxL7gl/KMolyJ45N5ZQ5YTWHlr0nl6u/lRLKHTorLbFYfForbQXrl1JpC
-         P/egqjtOJ+mjvCPGko4KCwjbgMVTgINy0wvgLWUMZu6OgJuK1/ceLnjnuA/zGWGAJi
-         WsubpSveoltMGUAGQjNzhN/6XOQ6f6YBwKJpn36Q=
+        b=Qd1Qbhi9SNYhd3MS6c2zdUNw6SCJi0pqLtuydjzJMEnhZ4RfuPbiFN8cjGVv/RgSG
+         IHFGzPNsZ1tYGQnQQx6ZbllYKaPokR2hBOigFXgYJAE75TrGWAZxnt43kfNtu8MqDP
+         cU2MmYr8rNREngpZ2J74l5k62yiygujH2Fm5HhXU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdj-003FFT-OF; Tue, 27 Oct 2020 10:51:39 +0100
+        id 1kXLdj-003FFc-Rl; Tue, 27 Oct 2020 10:51:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Harshad Shirwadkar <harshadshirwadkar@gmail.com>,
-        Jan Kara <jack@suse.com>, linux-ext4@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 23/32] jbd2: fix a kernel-doc markup
-Date:   Tue, 27 Oct 2020 10:51:27 +0100
-Message-Id: <6055927ada2015b55b413cdd2670533bdc9a8da2.1603791716.git.mchehab+huawei@kernel.org>
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 26/32] gpu: docs: amdgpu.rst: get rid of wrong kernel-doc markups
+Date:   Tue, 27 Oct 2020 10:51:30 +0100
+Message-Id: <bd070923591ae54f9587e7407b6291ac116952b2.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -62,32 +64,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel-doc markup that documents _fc_replay_callback is
-missing an asterisk, causing this warning:
+As reported by kernel-doc:
+    ./drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:1: warning: no structured comments found
+    ./drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1: warning: no structured comments found
 
-	../include/linux/jbd2.h:1271: warning: Function parameter or member 'j_fc_replay_callback' not described in 'journal_s'
+Those files only contain
 
-When building the docs.
+	/**
+	 * DOC:
+	 */
 
-Fixes: 609f928af48f ("jbd2: fast commit recovery path")
+markups, but they're included twice there: one to parse
+such markup, and another one to parse internal functions.
+
+In the case of amdgpu_xgmi.c, as it has just one such
+markup, we can simply include the file once, and let it
+parse the entire file without passing arguments to kernel-doc.
+
+This should place everything altogether.
+
+For amdgpu_ras.c, however, we need to remove the kernel-doc
+with just internal. This should be re-introduced if this
+file ever gets new non-DOC markups.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/jbd2.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/gpu/amdgpu.rst | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
-index fb3d71ad6eea..3c5f76ce88f1 100644
---- a/include/linux/jbd2.h
-+++ b/include/linux/jbd2.h
-@@ -1253,7 +1253,7 @@ struct journal_s
- 	 */
- 	void (*j_fc_cleanup_callback)(struct journal_s *journal, int);
+diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu.rst
+index 1f9ea8221f80..2062a6023678 100644
+--- a/Documentation/gpu/amdgpu.rst
++++ b/Documentation/gpu/amdgpu.rst
+@@ -83,10 +83,6 @@ AMDGPU XGMI Support
+ ===================
  
--	/*
-+	/**
- 	 * @j_fc_replay_callback:
- 	 *
- 	 * File-system specific function that performs replay of a fast
+ .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+-   :doc: AMDGPU XGMI Support
+-
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+-   :internal:
+ 
+ AMDGPU RAS Support
+ ==================
+@@ -124,9 +120,6 @@ RAS VRAM Bad Pages sysfs Interface
+ .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+    :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+-   :internal:
+-
+ Sample Code
+ -----------
+ Sample code for testing error injection can be found here:
 -- 
 2.26.2
 
