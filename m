@@ -2,112 +2,267 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D08C388F9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 733ABC388F9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:30:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCF4121655
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:16:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Rn4TkiR6"
+	by mail.kernel.org (Postfix) with ESMTP id 2311522284
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603798217;
+	bh=961zp8YP3Ph/5e1cBGv3GfPpdUC5CFeOssQ/7iZPL6c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=vquOjIgCkKE7Xxf7nvr3OelZLRiodmMAUl5cSwqdOHii6CNetfvTrZ5+5nSg5uDKc
+	 FfXvEwSzAPgx/O3pfPvy3z8w5psgQxKJp1H9+WFWCigNWGBup+6Zx0Xa43zfP6z95V
+	 ItoTdLCLTBRdz1FYKQDGySbCGa3h634pXT9h30Bs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2899068AbgJ0LQg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 07:16:36 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33158 "EHLO mx2.suse.de"
+        id S1749980AbgJ0LaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 07:30:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45262 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2899062AbgJ0LQf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 07:16:35 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1603797393;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GnxDeGmTMUPaCY3lsvPzLW9g+uQZ2HFO8L2cAvETF+M=;
-        b=Rn4TkiR6JDIP8AdqOgSa9mZ1yGMho72joE9GOMkfgcnsrjlqb9HUnkQBlgNyANXAKrrd6f
-        2haG6Pv0L6EC3DDnbg9CNZo7MiDiIDqM7KSHD1+eih8HczaYo67lds/KrkXvHZT7U5WUN6
-        SAq1gtwn2SkF4TmjL0q4qXKS6IzUgks=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 3739FAF06;
-        Tue, 27 Oct 2020 11:16:33 +0000 (UTC)
-Date:   Tue, 27 Oct 2020 12:16:32 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
+        id S1749975AbgJ0LaN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 07:30:13 -0400
+Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 98A5922265;
+        Tue, 27 Oct 2020 11:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603798212;
+        bh=961zp8YP3Ph/5e1cBGv3GfPpdUC5CFeOssQ/7iZPL6c=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=t+LMUjw9gvdRwfg60hai+Dx7XrGks1N/SAxFmRmvRv4Cf0w5VJIiUrfQd4UOgc3TZ
+         no57/TMTg+pUB5xAbGBf9AxLjF88mu0UIFOV1fJ0EEknHpithAt3B4XUdzJsemQzxj
+         NPemjoEI236GUI0LwuZJ2NIKKXMZd3fPz0hCsUxk=
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20201027111559.GC31882@alley>
-References: <20201023153527.36346-1-mark.rutland@arm.com>
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
+Subject: [PATCH 01/13] alpha: switch from DISCONTIGMEM to SPARSEMEM
+Date:   Tue, 27 Oct 2020 13:29:43 +0200
+Message-Id: <20201027112955.14157-2-rppt@kernel.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201027112955.14157-1-rppt@kernel.org>
+References: <20201027112955.14157-1-rppt@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201023153527.36346-1-mark.rutland@arm.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 2020-10-23 16:35:27, Mark Rutland wrote:
-> Add documentation for reliable stacktrace. This is intended to describe
-> the semantics and to be an aid for implementing architecture support for
-> HAVE_RELIABLE_STACKTRACE.
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-First, thanks a lot for putting this document together.
+Enable SPARSEMEM support on alpha and deprecate DISCONTIGMEM.
 
-I am not expert on stack unwinders and am not sure if some details
-should get corrected and added. I believe that it can be done by
-others more effectively.
+The required changes are mostly around moving duplicated definitions of
+page access and address conversion macros to a common place and making sure
+they are available for all memory models.
 
-Anyway, the document is well readable and provides a lot of useful
-information. I suggest only small change in the style, see below.
+The DISCONTINGMEM support is marked as BROKEN an will be removed in a
+couple of releases.
 
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ arch/alpha/Kconfig                 |  8 ++++++++
+ arch/alpha/include/asm/mmzone.h    | 14 ++------------
+ arch/alpha/include/asm/page.h      |  7 ++++---
+ arch/alpha/include/asm/pgtable.h   | 12 +++++-------
+ arch/alpha/include/asm/sparsemem.h | 18 ++++++++++++++++++
+ arch/alpha/kernel/setup.c          |  1 +
+ 6 files changed, 38 insertions(+), 22 deletions(-)
+ create mode 100644 arch/alpha/include/asm/sparsemem.h
 
-> diff --git a/Documentation/livepatch/reliable-stacktrace.rst b/Documentation/livepatch/reliable-stacktrace.rst
-> new file mode 100644
-> index 0000000000000..d296c93f6f0e0
-> --- /dev/null
-> +++ b/Documentation/livepatch/reliable-stacktrace.rst
-> +2. Requirements
-> +===============
-> +
-> +Architectures must implement one of the reliable stacktrace functions.
-> +Architectures using CONFIG_ARCH_STACKWALK should implement
-> +'arch_stack_walk_reliable', and other architectures should implement
-> +'save_stack_trace_tsk_reliable'.
-> +
-> +Principally, the reliable stacktrace function must ensure that either:
-> +
-> +* The trace includes all functions that the task may be returned to, and the
-> +  return code is zero to indicate that the trace is reliable.
-> +
-> +* The return code is non-zero to indicate that the trace is not reliable.
-> +
-> +.. note::
-> +   In some cases it is legitimate to omit specific functions from the trace,
-> +   but all other functions must be reported. These cases are described in
-> +   futher detail below.
-> +
-> +Secondly, the reliable stacktrace function should be robust to cases where the
-> +stack or other unwind state is corrupt or otherwise unreliable. The function
-> +should attempt to detect such cases and return a non-zero error code, and
-> +should not get stuck in an infinite loop or access memory in an unsafe way.
-> +Specific cases are described in further detail below.
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index d6e9fc7a7b19..aedf5c296f13 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -40,6 +40,7 @@ config ALPHA
+ 	select CPU_NO_EFFICIENT_FFS if !ALPHA_EV67
+ 	select MMU_GATHER_NO_RANGE
+ 	select SET_FS
++	select SPARSEMEM_EXTREME if SPARSEMEM
+ 	help
+ 	  The Alpha is a 64-bit general-purpose processor designed and
+ 	  marketed by the Digital Equipment Corporation of blessed memory,
+@@ -551,12 +552,19 @@ config NR_CPUS
+ 
+ config ARCH_DISCONTIGMEM_ENABLE
+ 	bool "Discontiguous Memory Support"
++	depends on BROKEN
+ 	help
+ 	  Say Y to support efficient handling of discontiguous physical memory,
+ 	  for architectures which are either NUMA (Non-Uniform Memory Access)
+ 	  or have huge holes in the physical address space for other reasons.
+ 	  See <file:Documentation/vm/numa.rst> for more.
+ 
++config ARCH_SPARSEMEM_ENABLE
++	bool "Sparse Memory Support"
++	help
++	  Say Y to support efficient handling of discontiguous physical memory,
++	  for systems that have huge holes in the physical address space.
++
+ config NUMA
+ 	bool "NUMA Support (EXPERIMENTAL)"
+ 	depends on DISCONTIGMEM && BROKEN
+diff --git a/arch/alpha/include/asm/mmzone.h b/arch/alpha/include/asm/mmzone.h
+index 9b521c857436..86644604d977 100644
+--- a/arch/alpha/include/asm/mmzone.h
++++ b/arch/alpha/include/asm/mmzone.h
+@@ -6,6 +6,8 @@
+ #ifndef _ASM_MMZONE_H_
+ #define _ASM_MMZONE_H_
+ 
++#ifdef CONFIG_DISCONTIGMEM
++
+ #include <asm/smp.h>
+ 
+ /*
+@@ -45,8 +47,6 @@ PLAT_NODE_DATA_LOCALNR(unsigned long p, int n)
+ }
+ #endif
+ 
+-#ifdef CONFIG_DISCONTIGMEM
+-
+ /*
+  * Following are macros that each numa implementation must define.
+  */
+@@ -68,11 +68,6 @@ PLAT_NODE_DATA_LOCALNR(unsigned long p, int n)
+ /* XXX: FIXME -- nyc */
+ #define kern_addr_valid(kaddr)	(0)
+ 
+-#define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+-
+-#define pmd_page(pmd)		(pfn_to_page(pmd_val(pmd) >> 32))
+-#define pte_pfn(pte)		(pte_val(pte) >> 32)
+-
+ #define mk_pte(page, pgprot)						     \
+ ({								 	     \
+ 	pte_t pte;                                                           \
+@@ -95,16 +90,11 @@ PLAT_NODE_DATA_LOCALNR(unsigned long p, int n)
+ 	__xx;                                                           \
+ })
+ 
+-#define page_to_pa(page)						\
+-	(page_to_pfn(page) << PAGE_SHIFT)
+-
+ #define pfn_to_nid(pfn)		pa_to_nid(((u64)(pfn) << PAGE_SHIFT))
+ #define pfn_valid(pfn)							\
+ 	(((pfn) - node_start_pfn(pfn_to_nid(pfn))) <			\
+ 	 node_spanned_pages(pfn_to_nid(pfn)))					\
+ 
+-#define virt_addr_valid(kaddr)	pfn_valid((__pa(kaddr) >> PAGE_SHIFT))
+-
+ #endif /* CONFIG_DISCONTIGMEM */
+ 
+ #endif /* _ASM_MMZONE_H_ */
+diff --git a/arch/alpha/include/asm/page.h b/arch/alpha/include/asm/page.h
+index e241bd88880f..268f99b4602b 100644
+--- a/arch/alpha/include/asm/page.h
++++ b/arch/alpha/include/asm/page.h
+@@ -83,12 +83,13 @@ typedef struct page *pgtable_t;
+ 
+ #define __pa(x)			((unsigned long) (x) - PAGE_OFFSET)
+ #define __va(x)			((void *)((unsigned long) (x) + PAGE_OFFSET))
+-#ifndef CONFIG_DISCONTIGMEM
++
+ #define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
++#define virt_addr_valid(kaddr)	pfn_valid((__pa(kaddr) >> PAGE_SHIFT))
+ 
++#ifdef CONFIG_FLATMEM
+ #define pfn_valid(pfn)		((pfn) < max_mapnr)
+-#define virt_addr_valid(kaddr)	pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
+-#endif /* CONFIG_DISCONTIGMEM */
++#endif /* CONFIG_FLATMEM */
+ 
+ #include <asm-generic/memory_model.h>
+ #include <asm-generic/getorder.h>
+diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
+index 660b14ce1317..8d856c62e22a 100644
+--- a/arch/alpha/include/asm/pgtable.h
++++ b/arch/alpha/include/asm/pgtable.h
+@@ -203,10 +203,10 @@ extern unsigned long __zero_page(void);
+  * Conversion functions:  convert a page and protection to a page entry,
+  * and a page entry and page directory to the page they refer to.
+  */
+-#ifndef CONFIG_DISCONTIGMEM
+-#define page_to_pa(page)	(((page) - mem_map) << PAGE_SHIFT)
+-
++#define page_to_pa(page)	(page_to_pfn(page) << PAGE_SHIFT)
+ #define pte_pfn(pte)	(pte_val(pte) >> 32)
++
++#ifndef CONFIG_DISCONTIGMEM
+ #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
+ #define mk_pte(page, pgprot)						\
+ ({									\
+@@ -236,10 +236,8 @@ pmd_page_vaddr(pmd_t pmd)
+ 	return ((pmd_val(pmd) & _PFN_MASK) >> (32-PAGE_SHIFT)) + PAGE_OFFSET;
+ }
+ 
+-#ifndef CONFIG_DISCONTIGMEM
+-#define pmd_page(pmd)	(mem_map + ((pmd_val(pmd) & _PFN_MASK) >> 32))
+-#define pud_page(pud)	(mem_map + ((pud_val(pud) & _PFN_MASK) >> 32))
+-#endif
++#define pmd_page(pmd)	(pfn_to_page(pmd_val(pmd) >> 32))
++#define pud_page(pud)	(pfn_to_page(pud_val(pud) >> 32))
+ 
+ extern inline unsigned long pud_page_vaddr(pud_t pgd)
+ { return PAGE_OFFSET + ((pud_val(pgd) & _PFN_MASK) >> (32-PAGE_SHIFT)); }
+diff --git a/arch/alpha/include/asm/sparsemem.h b/arch/alpha/include/asm/sparsemem.h
+new file mode 100644
+index 000000000000..a0820fd2d4b1
+--- /dev/null
++++ b/arch/alpha/include/asm/sparsemem.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _ASM_ALPHA_SPARSEMEM_H
++#define _ASM_ALPHA_SPARSEMEM_H
++
++#ifdef CONFIG_SPARSEMEM
++
++#define SECTION_SIZE_BITS	27
++
++/*
++ * According to "Alpha Architecture Reference Manual" physical
++ * addresses are at most 48 bits.
++ * https://download.majix.org/dec/alpha_arch_ref.pdf
++ */
++#define MAX_PHYSMEM_BITS	48
++
++#endif /* CONFIG_SPARSEMEM */
++
++#endif /* _ASM_ALPHA_SPARSEMEM_H */
+diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+index 916e42d74a86..03dda3beb3bd 100644
+--- a/arch/alpha/kernel/setup.c
++++ b/arch/alpha/kernel/setup.c
+@@ -648,6 +648,7 @@ setup_arch(char **cmdline_p)
+ 	/* Find our memory.  */
+ 	setup_memory(kernel_end);
+ 	memblock_set_bottom_up(true);
++	sparse_init();
+ 
+ 	/* First guess at cpu cache sizes.  Do this before init_arch.  */
+ 	determine_cpu_caches(cpu->type);
+-- 
+2.28.0
 
-Please, use imperative style when something is required for the
-reliability. For example, it means replacing all "should" with "must"
-in the above paragraph.
-
-I perfectly understand why you used "should". I use it heavily as
-well. But we really must motivate people to handle all corner
-cases here. ;-)
-
-Best Regards,
-Petr
