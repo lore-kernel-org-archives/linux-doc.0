@@ -2,172 +2,95 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D5DC55178
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF5F7C4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 01:55:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFB8421D7B
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603757405;
-	bh=wNjrpoPByKmGM1pKMhLwEeB1fFFK5Z3qMZXzoqDcn2Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZO3yjhaGdXjg8KaX+pNZ442LjosN/ztMBIscmEIhB3Qqn2xRgpQ5hbh6dAb5mb0DI
-	 rqaaAQWmBupGi5TE1jfD5mdU50yDmxSSgNYEcwhZP5UR1pTlGxCUwW3Elj3ZaWmog3
-	 AWvfkJx87ZD+t0uZd6fqOnHZfgpfmp4MR59E4B18=
+	by mail.kernel.org (Postfix) with ESMTP id 9564420872
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 01:55:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="msptYCNl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394027AbgJ0AKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 20:10:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58718 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439131AbgJ0AKE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 20:10:04 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4B8FA20791;
-        Tue, 27 Oct 2020 00:10:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603757404;
-        bh=wNjrpoPByKmGM1pKMhLwEeB1fFFK5Z3qMZXzoqDcn2Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z2/HP8kuYqWuhk5IqnjzCdHSINxI+kvdQJ3fa0F+noGx4HXGlTCOHAuRgw5IyCpHF
-         doZhJ68abWI8eWaothnzeqKEn46A2JY8+JVi3ZMEWwW2lj84KcYCzrDvGfLXrHfEwJ
-         80vyPsT2+CP87GPMNJbbA8DfbCBUmBXTQHzjnEjI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 14/46] media: videodev2.h: RGB BT2020 and HSV are always full range
-Date:   Mon, 26 Oct 2020 20:09:13 -0400
-Message-Id: <20201027000946.1026923-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000946.1026923-1-sashal@kernel.org>
-References: <20201027000946.1026923-1-sashal@kernel.org>
+        id S2504288AbgJ0BzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 21:55:13 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:52406 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2504286AbgJ0BzM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 21:55:12 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09R1o7Ob038782;
+        Tue, 27 Oct 2020 01:55:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=yDFM/K9yMuM00gw9MjFpaCvTdtdae5zoXTwTXSqDLD4=;
+ b=msptYCNlc4TwmW0hvLinA7e59rWYuzAKqeQQDB5dJ4Jh6Nw4lrVcjClp3ULF6mK3y8KO
+ IuL/R9gywy2vmNIGBg+ClKV7TKOyDlurqJa6BYkMxbwCEF6ms0JfwvhBPbpZuwHsnfON
+ QBCL/NRj0bhOZTtmSrLcmFrnXCatl+VZgplRsOhb7Por0I0+kHRWkpO5vGzRO0zV8gRT
+ hfMEDgkz+dmmNAAocR8BMkJpUQPJXCRi+z+kifDcajqpMZV07cGqUiQ92/qf2uDLuWZw
+ qHHupy/fZ11/jLlDwYe+sfHmVnqKKmL7ruoigM880tO4xCFrQNDyDSsAlov3DvtlZwjA UA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 34c9saqmfb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 27 Oct 2020 01:55:01 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09R1pHYS066907;
+        Tue, 27 Oct 2020 01:55:00 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3030.oracle.com with ESMTP id 34cx6vcwa7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Oct 2020 01:55:00 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09R1suW2030550;
+        Tue, 27 Oct 2020 01:54:56 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 26 Oct 2020 18:54:55 -0700
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chris Leech <cleech@redhat.com>, Lee Duncan <lduncan@suse.com>,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        open-iscsi@googlegroups.com
+Subject: Re: [PATCH v3 27/56] scsi: fix some kernel-doc markups
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq11rhk5t7e.fsf@ca-mkp.ca.oracle.com>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+        <8ed7f149f25a363eea76e514c253c4e337c59379.1603469755.git.mchehab+huawei@kernel.org>
+Date:   Mon, 26 Oct 2020 21:54:53 -0400
+In-Reply-To: <8ed7f149f25a363eea76e514c253c4e337c59379.1603469755.git.mchehab+huawei@kernel.org>
+        (Mauro Carvalho Chehab's message of "Fri, 23 Oct 2020 18:33:14 +0200")
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9786 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=969 mlxscore=0 suspectscore=1
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010270012
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9786 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0
+ mlxlogscore=985 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011 suspectscore=1
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010270012
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit b305dfe2e93434b12d438434461b709641f62af4 ]
+Mauro,
 
-The default RGB quantization range for BT.2020 is full range (just as for
-all the other RGB pixel encodings), not limited range.
+> Some identifiers have different names between their prototypes and the
+> kernel-doc markup.
 
-Update the V4L2_MAP_QUANTIZATION_DEFAULT macro and documentation
-accordingly.
+Applied to 5.11/scsi-staging, thanks!
 
-Also mention that HSV is always full range and cannot be limited range.
-
-When RGB BT2020 was introduced in V4L2 it was not clear whether it should
-be limited or full range, but full range is the right (and consistent)
-choice.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../media/uapi/v4l/colorspaces-defs.rst         |  9 ++++-----
- .../media/uapi/v4l/colorspaces-details.rst      |  5 ++---
- include/uapi/linux/videodev2.h                  | 17 ++++++++---------
- 3 files changed, 14 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/media/uapi/v4l/colorspaces-defs.rst b/Documentation/media/uapi/v4l/colorspaces-defs.rst
-index f24615544792b..16e46bec80934 100644
---- a/Documentation/media/uapi/v4l/colorspaces-defs.rst
-+++ b/Documentation/media/uapi/v4l/colorspaces-defs.rst
-@@ -29,8 +29,7 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
- :c:type:`v4l2_hsv_encoding` specifies which encoding is used.
- 
- .. note:: The default R'G'B' quantization is full range for all
--   colorspaces except for BT.2020 which uses limited range R'G'B'
--   quantization.
-+   colorspaces. HSV formats are always full range.
- 
- .. tabularcolumns:: |p{6.0cm}|p{11.5cm}|
- 
-@@ -162,8 +161,8 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
-       - Details
-     * - ``V4L2_QUANTIZATION_DEFAULT``
-       - Use the default quantization encoding as defined by the
--	colorspace. This is always full range for R'G'B' (except for the
--	BT.2020 colorspace) and HSV. It is usually limited range for Y'CbCr.
-+	colorspace. This is always full range for R'G'B' and HSV.
-+	It is usually limited range for Y'CbCr.
-     * - ``V4L2_QUANTIZATION_FULL_RANGE``
-       - Use the full range quantization encoding. I.e. the range [0…1] is
- 	mapped to [0…255] (with possible clipping to [1…254] to avoid the
-@@ -173,4 +172,4 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
-     * - ``V4L2_QUANTIZATION_LIM_RANGE``
-       - Use the limited range quantization encoding. I.e. the range [0…1]
- 	is mapped to [16…235]. Cb and Cr are mapped from [-0.5…0.5] to
--	[16…240].
-+	[16…240]. Limited Range cannot be used with HSV.
-diff --git a/Documentation/media/uapi/v4l/colorspaces-details.rst b/Documentation/media/uapi/v4l/colorspaces-details.rst
-index 09fabf4cd4126..ca7176cae8dd8 100644
---- a/Documentation/media/uapi/v4l/colorspaces-details.rst
-+++ b/Documentation/media/uapi/v4l/colorspaces-details.rst
-@@ -370,9 +370,8 @@ Colorspace BT.2020 (V4L2_COLORSPACE_BT2020)
- The :ref:`itu2020` standard defines the colorspace used by Ultra-high
- definition television (UHDTV). The default transfer function is
- ``V4L2_XFER_FUNC_709``. The default Y'CbCr encoding is
--``V4L2_YCBCR_ENC_BT2020``. The default R'G'B' quantization is limited
--range (!), and so is the default Y'CbCr quantization. The chromaticities
--of the primary colors and the white reference are:
-+``V4L2_YCBCR_ENC_BT2020``. The default Y'CbCr quantization is limited range.
-+The chromaticities of the primary colors and the white reference are:
- 
- 
- 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 1c095b5a99c58..b773e96b4a286 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -362,9 +362,9 @@ enum v4l2_hsv_encoding {
- 
- enum v4l2_quantization {
- 	/*
--	 * The default for R'G'B' quantization is always full range, except
--	 * for the BT2020 colorspace. For Y'CbCr the quantization is always
--	 * limited range, except for COLORSPACE_JPEG: this is full range.
-+	 * The default for R'G'B' quantization is always full range.
-+	 * For Y'CbCr the quantization is always limited range, except
-+	 * for COLORSPACE_JPEG: this is full range.
- 	 */
- 	V4L2_QUANTIZATION_DEFAULT     = 0,
- 	V4L2_QUANTIZATION_FULL_RANGE  = 1,
-@@ -373,14 +373,13 @@ enum v4l2_quantization {
- 
- /*
-  * Determine how QUANTIZATION_DEFAULT should map to a proper quantization.
-- * This depends on whether the image is RGB or not, the colorspace and the
-- * Y'CbCr encoding.
-+ * This depends on whether the image is RGB or not, the colorspace.
-+ * The Y'CbCr encoding is not used anymore, but is still there for backwards
-+ * compatibility.
-  */
- #define V4L2_MAP_QUANTIZATION_DEFAULT(is_rgb_or_hsv, colsp, ycbcr_enc) \
--	(((is_rgb_or_hsv) && (colsp) == V4L2_COLORSPACE_BT2020) ? \
--	 V4L2_QUANTIZATION_LIM_RANGE : \
--	 (((is_rgb_or_hsv) || (colsp) == V4L2_COLORSPACE_JPEG) ? \
--	 V4L2_QUANTIZATION_FULL_RANGE : V4L2_QUANTIZATION_LIM_RANGE))
-+	(((is_rgb_or_hsv) || (colsp) == V4L2_COLORSPACE_JPEG) ? \
-+	 V4L2_QUANTIZATION_FULL_RANGE : V4L2_QUANTIZATION_LIM_RANGE)
- 
- enum v4l2_priority {
- 	V4L2_PRIORITY_UNSET       = 0,  /* not initialized */
 -- 
-2.25.1
-
+Martin K. Petersen	Oracle Linux Engineering
