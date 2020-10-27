@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB3CFC55179
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7AEC63699
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:05:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 968682224A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:05:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03ED02076D
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:05:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J7MAP7wf"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IRarLlUh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757197AbgJ0SFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 14:05:42 -0400
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:37935 "EHLO
-        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1757204AbgJ0OQp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 10:16:45 -0400
-Received: by mail-qk1-f201.google.com with SMTP id q26so842739qki.5
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2020 07:16:44 -0700 (PDT)
+        id S1824768AbgJ0SFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 14:05:45 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:38801 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757236AbgJ0OQ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 10:16:56 -0400
+Received: by mail-qt1-f202.google.com with SMTP id 2so830943qtb.5
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2020 07:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=R5deNKQtKH9EZ+lgyHLcLWPCg/4T3AT3F5cjxg8+c98=;
-        b=J7MAP7wfDQOr4LWIH6tftHTKcUc6uD37PxJG1zcBDCOR+wXmeIb/33PMWYRR9a82kb
-         kRDLUZVuPiX0zRmYCwWVdotzKoTBUN2iV7DjN16C0J79AosvEnGB4ymg9JOxU1LuIKRp
-         edKXeUUzuhtn9P8Y6jVsM0fgcGwzjp1fEA2YbB4g7ettiykPLQICUVwCfyDl+56x6jSe
-         XLArJTyJ8ATAwbvce1X+reiqMEwARsSt+FlvICpAV3FVYp0R5WBXwC4K/LQBrZUFld5G
-         H08pwCYYTCfA4Ha/fZeG9Cm0fPDqnCoBhTLbBDAmPtiamV3slUe4MtmeGeNbKlzqmLcq
-         jEeQ==
+        bh=x+RgGWx6WmuUnhNyKBPsNyPRbPXI5weB/JaR3X2jDlo=;
+        b=IRarLlUhbjuKEVY4v5wCqJFgfVCFH1RvaSUkweXEyhK5G0Mvfo0EyvWzv54acHysbQ
+         JwMCWJgeVj998X9yiVTpEimvsUxSvzsIu3hacUHU9+m2pRiM3JHWmtxtpzgazgVhQxUj
+         DiDhfn1Vz+LW8hhdlxA0PkNQnW8c8+iFmw6d0M8J4+OueH4QiHzf9JaWGNYwqtcDTnOu
+         0mCb5opmR97Z2x3cKz7gjrcp5Oi5IxICTV3tpK1Me3CAqeXsywKujSkqeTsskfJrNNFC
+         HMR04s8JfZtcEWiN/eqXIeAFX7LPHhERPb+dxRKlj1LHHEU4IufAfT5wPadlKPfFzxw0
+         aGcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=R5deNKQtKH9EZ+lgyHLcLWPCg/4T3AT3F5cjxg8+c98=;
-        b=UFXPQaxVQIXfnQmPze1IXHiebbfil7Rkz7jlI22EgDh81L0By9PxrlVZzoU2zxUpiN
-         lMWWtfi53WJ2K0hdJ739eMQN56XWfgenkcY90cn65GoaRNSjYJ1LgQCnPs+mtdhZ1zQa
-         RkDHC1V2+DddqtMlJQ8tOEoyP7Yus9qXcpyUb64/j3JOkQlY7ZL+5Eh2BZhIDkRZ0aKI
-         jyb+3fpGJxzp0/PEpZZUbOBE6hNPkWGJhDK9EAXnGdp0WNTzqnH1hRoi7pmaN0iDqtV8
-         k/q2ppakKAttu9iXeu1Ff3raJxlFRYs/Ze8Gw1Lg0bKGbxTpDtChJZaFwj0NzcVeL5A3
-         D3BQ==
-X-Gm-Message-State: AOAM530kynGr+vBGJsm1Yz2FBAJBAvDC6Nj4n3ryKw7EEdr8doROmOXS
-        dPtoEbhbC9NkOYxI7tyC+ESnkDYdrw==
-X-Google-Smtp-Source: ABdhPJxSALpoLfwMbAEPuqV8a9vrlcvle2XnYiDbr+XSlCQ/PGc9XERM1y0SVkiLGyd+y7VW8SWszXj0HA==
+        bh=x+RgGWx6WmuUnhNyKBPsNyPRbPXI5weB/JaR3X2jDlo=;
+        b=XPvSGlVfV+NQ3D6DtRJygtK48/aj6+QOR9sMApyWToLEKRhUui5J+cj9NxDKr8Woqx
+         OewGuDI/bw8nC1wIDHX27DMqTPaPLz71/ymrwwVpRhP/lUiXIUe4ek+zMnCFsh+xRkpT
+         Izgzy43oReDB5IEIJTLcBIk+SiqnGoaKfWMUAjW4pJakAEdN1uxB8J0V4JtkvmbH5fy+
+         9IKImXaLuT1eDT6WR23wIJcRwGhNytnd8o1JinQ84njkJpQIqaqk/HT5vQjhXyboPZFs
+         7sFLtzjQj8kVWZIHqGrk7Z5/Q0tfOAm8Xd9Ujs2qVz2bg7xZfAEtIlD4uYGLEIMfkGbb
+         tw/w==
+X-Gm-Message-State: AOAM531heBuPo+Fw8c7NdKRtxY6xvHVJD0ESgzdujHVbq9n4eiJOaWn9
+        PFMc/4Vd/yZQF0ENgONk0M1Hv5J2Qw==
+X-Google-Smtp-Source: ABdhPJy9/J9EyDTxRSyiL+nXHCzl2oQHbQYkgsU+nA/JvgM37qOha03cr2i911KGoidJx+3055flIiCL5w==
 Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:ad4:54e9:: with SMTP id k9mr2692160qvx.60.1603808203591;
- Tue, 27 Oct 2020 07:16:43 -0700 (PDT)
-Date:   Tue, 27 Oct 2020 15:16:00 +0100
+ (user=elver job=sendgmr) by 2002:a05:6214:8c:: with SMTP id
+ n12mr2702548qvr.11.1603808213569; Tue, 27 Oct 2020 07:16:53 -0700 (PDT)
+Date:   Tue, 27 Oct 2020 15:16:04 +0100
 In-Reply-To: <20201027141606.426816-1-elver@google.com>
-Message-Id: <20201027141606.426816-4-elver@google.com>
+Message-Id: <20201027141606.426816-8-elver@google.com>
 Mime-Version: 1.0
 References: <20201027141606.426816-1-elver@google.com>
 X-Mailer: git-send-email 2.29.0.rc2.309.g374f81d7ae-goog
-Subject: [PATCH v5 3/9] arm64, kfence: enable KFENCE for ARM64
+Subject: [PATCH v5 7/9] kfence, Documentation: add KFENCE documentation
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
 Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
@@ -80,112 +80,352 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add architecture specific implementation details for KFENCE and enable
-KFENCE for the arm64 architecture. In particular, this implements the
-required interface in <asm/kfence.h>.
-
-KFENCE requires that attributes for pages from its memory pool can
-individually be set. Therefore, force the entire linear map to be mapped
-at page granularity. Doing so may result in extra memory allocated for
-page tables in case rodata=full is not set; however, currently
-CONFIG_RODATA_FULL_DEFAULT_ENABLED=y is the default, and the common case
-is therefore not affected by this change.
+Add KFENCE documentation in dev-tools/kfence.rst, and add to index.
 
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Co-developed-by: Alexander Potapenko <glider@google.com>
 Signed-off-by: Alexander Potapenko <glider@google.com>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v5:
-* Move generic page allocation code to core.c [suggested by Jann Horn].
-* Remove comment about HAVE_ARCH_KFENCE_STATIC_POOL, since we no longer
-  support static pools.
-* Force page granularity for the linear map [suggested by Mark Rutland].
----
- arch/arm64/Kconfig              |  1 +
- arch/arm64/include/asm/kfence.h | 19 +++++++++++++++++++
- arch/arm64/mm/fault.c           |  4 ++++
- arch/arm64/mm/mmu.c             |  7 ++++++-
- 4 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/include/asm/kfence.h
+v3:
+* Re-introduce reference to Documentation/dev-tools/kfence.rst.
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index f858c352f72a..2f8b32dddd8b 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -135,6 +135,7 @@ config ARM64
- 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
- 	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
-+	select HAVE_ARCH_KFENCE if (!ARM64_16K_PAGES && !ARM64_64K_PAGES)
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_MMAP_RND_BITS
- 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
-diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
+v2:
+* Many clarifications based on comments from Andrey Konovalov.
+* Document CONFIG_KFENCE_SAMPLE_INTERVAL=0 usage.
+* Make use-cases between KASAN and KFENCE clearer.
+* Be clearer about the fact the pool is fixed size.
+* Update based on reporting changes.
+* Explicitly mention max supported allocation size is PAGE_SIZE.
+---
+ Documentation/dev-tools/index.rst  |   1 +
+ Documentation/dev-tools/kfence.rst | 291 +++++++++++++++++++++++++++++
+ lib/Kconfig.kfence                 |   2 +
+ 3 files changed, 294 insertions(+)
+ create mode 100644 Documentation/dev-tools/kfence.rst
+
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index f7809c7b1ba9..1b1cf4f5c9d9 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -22,6 +22,7 @@ whole; patches welcome!
+    ubsan
+    kmemleak
+    kcsan
++   kfence
+    gdb-kernel-debugging
+    kgdb
+    kselftest
+diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
 new file mode 100644
-index 000000000000..5ac0f599cc9a
+index 000000000000..a2c4ed64f0af
 --- /dev/null
-+++ b/arch/arm64/include/asm/kfence.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/Documentation/dev-tools/kfence.rst
+@@ -0,0 +1,291 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#ifndef __ASM_KFENCE_H
-+#define __ASM_KFENCE_H
++Kernel Electric-Fence (KFENCE)
++==============================
 +
-+#include <asm/cacheflush.h>
++Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
++error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
++invalid-free errors.
 +
-+#define KFENCE_SKIP_ARCH_FAULT_HANDLER "el1_sync"
++KFENCE is designed to be enabled in production kernels, and has near zero
++performance overhead. Compared to KASAN, KFENCE trades performance for
++precision. The main motivation behind KFENCE's design, is that with enough
++total uptime KFENCE will detect bugs in code paths not typically exercised by
++non-production test workloads. One way to quickly achieve a large enough total
++uptime is when the tool is deployed across a large fleet of machines.
 +
-+static inline bool arch_kfence_init_pool(void) { return true; }
++Usage
++-----
 +
-+static inline bool kfence_protect_page(unsigned long addr, bool protect)
-+{
-+	set_memory_valid(addr, 1, !protect);
++To enable KFENCE, configure the kernel with::
 +
-+	return true;
-+}
++    CONFIG_KFENCE=y
 +
-+#endif /* __ASM_KFENCE_H */
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 94c99c1c19e3..ec8ed2943484 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -10,6 +10,7 @@
- #include <linux/acpi.h>
- #include <linux/bitfield.h>
- #include <linux/extable.h>
-+#include <linux/kfence.h>
- #include <linux/signal.h>
- #include <linux/mm.h>
- #include <linux/hardirq.h>
-@@ -312,6 +313,9 @@ static void __do_kernel_fault(unsigned long addr, unsigned int esr,
- 	    "Ignoring spurious kernel translation fault at virtual address %016lx\n", addr))
- 		return;
++To build a kernel with KFENCE support, but disabled by default (to enable, set
++``kfence.sample_interval`` to non-zero value), configure the kernel with::
++
++    CONFIG_KFENCE=y
++    CONFIG_KFENCE_SAMPLE_INTERVAL=0
++
++KFENCE provides several other configuration options to customize behaviour (see
++the respective help text in ``lib/Kconfig.kfence`` for more info).
++
++Tuning performance
++~~~~~~~~~~~~~~~~~~
++
++The most important parameter is KFENCE's sample interval, which can be set via
++the kernel boot parameter ``kfence.sample_interval`` in milliseconds. The
++sample interval determines the frequency with which heap allocations will be
++guarded by KFENCE. The default is configurable via the Kconfig option
++``CONFIG_KFENCE_SAMPLE_INTERVAL``. Setting ``kfence.sample_interval=0``
++disables KFENCE.
++
++The KFENCE memory pool is of fixed size, and if the pool is exhausted, no
++further KFENCE allocations occur. With ``CONFIG_KFENCE_NUM_OBJECTS`` (default
++255), the number of available guarded objects can be controlled. Each object
++requires 2 pages, one for the object itself and the other one used as a guard
++page; object pages are interleaved with guard pages, and every object page is
++therefore surrounded by two guard pages.
++
++The total memory dedicated to the KFENCE memory pool can be computed as::
++
++    ( #objects + 1 ) * 2 * PAGE_SIZE
++
++Using the default config, and assuming a page size of 4 KiB, results in
++dedicating 2 MiB to the KFENCE memory pool.
++
++Error reports
++~~~~~~~~~~~~~
++
++A typical out-of-bounds access looks like this::
++
++    ==================================================================
++    BUG: KFENCE: out-of-bounds in test_out_of_bounds_read+0xa3/0x22b
++
++    Out-of-bounds access at 0xffffffffb672efff (1B left of kfence-#17):
++     test_out_of_bounds_read+0xa3/0x22b
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    kfence-#17 [0xffffffffb672f000-0xffffffffb672f01f, size=32, cache=kmalloc-32] allocated in:
++     test_alloc+0xf3/0x25b
++     test_out_of_bounds_read+0x98/0x22b
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    CPU: 4 PID: 107 Comm: kunit_try_catch Not tainted 5.8.0-rc6+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    ==================================================================
++
++The header of the report provides a short summary of the function involved in
++the access. It is followed by more detailed information about the access and
++its origin. Note that, real kernel addresses are only shown for
++``CONFIG_DEBUG_KERNEL=y`` builds.
++
++Use-after-free accesses are reported as::
++
++    ==================================================================
++    BUG: KFENCE: use-after-free in test_use_after_free_read+0xb3/0x143
++
++    Use-after-free access at 0xffffffffb673dfe0 (in kfence-#24):
++     test_use_after_free_read+0xb3/0x143
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    kfence-#24 [0xffffffffb673dfe0-0xffffffffb673dfff, size=32, cache=kmalloc-32] allocated in:
++     test_alloc+0xf3/0x25b
++     test_use_after_free_read+0x76/0x143
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    freed in:
++     test_use_after_free_read+0xa8/0x143
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    CPU: 4 PID: 109 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    ==================================================================
++
++KFENCE also reports on invalid frees, such as double-frees::
++
++    ==================================================================
++    BUG: KFENCE: invalid free in test_double_free+0xdc/0x171
++
++    Invalid free of 0xffffffffb6741000:
++     test_double_free+0xdc/0x171
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    kfence-#26 [0xffffffffb6741000-0xffffffffb674101f, size=32, cache=kmalloc-32] allocated in:
++     test_alloc+0xf3/0x25b
++     test_double_free+0x76/0x171
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    freed in:
++     test_double_free+0xa8/0x171
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    CPU: 4 PID: 111 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    ==================================================================
++
++KFENCE also uses pattern-based redzones on the other side of an object's guard
++page, to detect out-of-bounds writes on the unprotected side of the object.
++These are reported on frees::
++
++    ==================================================================
++    BUG: KFENCE: memory corruption in test_kmalloc_aligned_oob_write+0xef/0x184
++
++    Corrupted memory at 0xffffffffb6797ff9 [ 0xac . . . . . . ] (in kfence-#69):
++     test_kmalloc_aligned_oob_write+0xef/0x184
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    kfence-#69 [0xffffffffb6797fb0-0xffffffffb6797ff8, size=73, cache=kmalloc-96] allocated in:
++     test_alloc+0xf3/0x25b
++     test_kmalloc_aligned_oob_write+0x57/0x184
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    CPU: 4 PID: 120 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    ==================================================================
++
++For such errors, the address where the corruption as well as the invalidly
++written bytes (offset from the address) are shown; in this representation, '.'
++denote untouched bytes. In the example above ``0xac`` is the value written to
++the invalid address at offset 0, and the remaining '.' denote that no following
++bytes have been touched. Note that, real values are only shown for
++``CONFIG_DEBUG_KERNEL=y`` builds; to avoid information disclosure for non-debug
++builds, '!' is used instead to denote invalidly written bytes.
++
++And finally, KFENCE may also report on invalid accesses to any protected page
++where it was not possible to determine an associated object, e.g. if adjacent
++object pages had not yet been allocated::
++
++    ==================================================================
++    BUG: KFENCE: invalid access in test_invalid_access+0x26/0xe0
++
++    Invalid access at 0xffffffffb670b00a:
++     test_invalid_access+0x26/0xe0
++     kunit_try_run_case+0x51/0x85
++     kunit_generic_run_threadfn_adapter+0x16/0x30
++     kthread+0x137/0x160
++     ret_from_fork+0x22/0x30
++
++    CPU: 4 PID: 124 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    ==================================================================
++
++DebugFS interface
++~~~~~~~~~~~~~~~~~
++
++Some debugging information is exposed via debugfs:
++
++* The file ``/sys/kernel/debug/kfence/stats`` provides runtime statistics.
++
++* The file ``/sys/kernel/debug/kfence/objects`` provides a list of objects
++  allocated via KFENCE, including those already freed but protected.
++
++Implementation Details
++----------------------
++
++Guarded allocations are set up based on the sample interval. After expiration
++of the sample interval, the next allocation through the main allocator (SLAB or
++SLUB) returns a guarded allocation from the KFENCE object pool (allocation
++sizes up to PAGE_SIZE are supported). At this point, the timer is reset, and
++the next allocation is set up after the expiration of the interval. To "gate" a
++KFENCE allocation through the main allocator's fast-path without overhead,
++KFENCE relies on static branches via the static keys infrastructure. The static
++branch is toggled to redirect the allocation to KFENCE.
++
++KFENCE objects each reside on a dedicated page, at either the left or right
++page boundaries selected at random. The pages to the left and right of the
++object page are "guard pages", whose attributes are changed to a protected
++state, and cause page faults on any attempted access. Such page faults are then
++intercepted by KFENCE, which handles the fault gracefully by reporting an
++out-of-bounds access.
++
++To detect out-of-bounds writes to memory within the object's page itself,
++KFENCE also uses pattern-based redzones. For each object page, a redzone is set
++up for all non-object memory. For typical alignments, the redzone is only
++required on the unguarded side of an object. Because KFENCE must honor the
++cache's requested alignment, special alignments may result in unprotected gaps
++on either side of an object, all of which are redzoned.
++
++The following figure illustrates the page layout::
++
++    ---+-----------+-----------+-----------+-----------+-----------+---
++       | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
++       | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
++       | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
++       | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
++       | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
++       | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
++    ---+-----------+-----------+-----------+-----------+-----------+---
++
++Upon deallocation of a KFENCE object, the object's page is again protected and
++the object is marked as freed. Any further access to the object causes a fault
++and KFENCE reports a use-after-free access. Freed objects are inserted at the
++tail of KFENCE's freelist, so that the least recently freed objects are reused
++first, and the chances of detecting use-after-frees of recently freed objects
++is increased.
++
++Interface
++---------
++
++The following describes the functions which are used by allocators as well page
++handling code to set up and deal with KFENCE allocations.
++
++.. kernel-doc:: include/linux/kfence.h
++   :functions: is_kfence_address
++               kfence_shutdown_cache
++               kfence_alloc kfence_free
++               kfence_ksize kfence_object_start
++               kfence_handle_page_fault
++
++Related Tools
++-------------
++
++In userspace, a similar approach is taken by `GWP-ASan
++<http://llvm.org/docs/GwpAsan.html>`_. GWP-ASan also relies on guard pages and
++a sampling strategy to detect memory unsafety bugs at scale. KFENCE's design is
++directly influenced by GWP-ASan, and can be seen as its kernel sibling. Another
++similar but non-sampling approach, that also inspired the name "KFENCE", can be
++found in the userspace `Electric Fence Malloc Debugger
++<https://linux.die.net/man/3/efence>`_.
++
++In the kernel, several tools exist to debug memory access errors, and in
++particular KASAN can detect all bug classes that KFENCE can detect. While KASAN
++is more precise, relying on compiler instrumentation, this comes at a
++performance cost.
++
++It is worth highlighting that KASAN and KFENCE are complementary, with
++different target environments. For instance, KASAN is the better debugging-aid,
++where test cases or reproducers exists: due to the lower chance to detect the
++error, it would require more effort using KFENCE to debug. Deployments at scale
++that cannot afford to enable KASAN, however, would benefit from using KFENCE to
++discover bugs due to code paths not exercised by test cases or fuzzers.
+diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+index 639b48cc75d4..3c4066aca4fc 100644
+--- a/lib/Kconfig.kfence
++++ b/lib/Kconfig.kfence
+@@ -14,6 +14,8 @@ menuconfig KFENCE
+ 	  to have negligible cost to permit enabling it in production
+ 	  environments.
  
-+	if (kfence_handle_page_fault(addr))
-+		return;
++	  See <file:Documentation/dev-tools/kfence.rst> for more details.
 +
- 	if (is_el1_permission_fault(addr, esr, regs)) {
- 		if (esr & ESR_ELx_WNR)
- 			msg = "write to read-only memory";
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 1c0f3e02f731..86be6d1a78ab 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -1449,7 +1449,12 @@ int arch_add_memory(int nid, u64 start, u64 size,
- {
- 	int ret, flags = 0;
- 
--	if (rodata_full || debug_pagealloc_enabled())
-+	/*
-+	 * KFENCE requires linear map to be mapped at page granularity, so that
-+	 * it is possible to protect/unprotect single pages in the KFENCE pool.
-+	 */
-+	if (rodata_full || debug_pagealloc_enabled() ||
-+	    IS_ENABLED(CONFIG_KFENCE))
- 		flags = NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
- 
- 	__create_pgd_mapping(swapper_pg_dir, start, __phys_to_virt(start),
+ 	  Note that, KFENCE is not a substitute for explicit testing with tools
+ 	  such as KASAN. KFENCE can detect a subset of bugs that KASAN can
+ 	  detect, albeit at very different performance profiles. If you can
 -- 
 2.29.0.rc2.309.g374f81d7ae-goog
 
