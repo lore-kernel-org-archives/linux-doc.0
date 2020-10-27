@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC8CBC55178
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:31:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50F6C55179
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:31:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 502AD22263
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:31:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5ABB4222EA
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 11:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603798279;
-	bh=+ecFmVmt/rsUVyb3hVXQX25qqx1MNuz8K3wp7M/7+rI=;
+	s=default; t=1603798302;
+	bh=Chq+OW8jPYeS0x1/w/NuhbNqJg7T410wGKW7Vwcmmh0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=x5TslbG4uUIUBnix0bCsRLD2MApuHAV4aZgqZULN1na4WLwTwD6JdIxaskJfWGHfV
-	 Bk9YTBvV6yApPPy6+Y1VaO980I5pwueVR023b/REkCW4DP+RiCbRAdBTmWAffKwywc
-	 bUeVmrrCyMyQIUC8U4HVMsYFtCvqrv81pirBc58Q=
+	b=UzLHxyDSZBmFHSS1MM9ScL78QuQsAHR5Lewi3Eyu4tr/vGQF0b9R3U3w0TW4FZG9g
+	 CANPdv1vPgIs4PJMkyyPrJ73D25jaN/CyOIPzlHjxCqQdCoyhDv4panXROMAL9hGMo
+	 Px/18hObxDc6wBF0Te0WCx8zpLoLBAkoy7pqXIFY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390841AbgJ0LbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 07:31:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46352 "EHLO mail.kernel.org"
+        id S2438032AbgJ0Lbg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 07:31:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46842 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437723AbgJ0LbJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 07:31:09 -0400
+        id S2899178AbgJ0Lbf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 07:31:35 -0400
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5B88622283;
-        Tue, 27 Oct 2020 11:31:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 78A2622283;
+        Tue, 27 Oct 2020 11:31:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603798267;
-        bh=+ecFmVmt/rsUVyb3hVXQX25qqx1MNuz8K3wp7M/7+rI=;
+        s=default; t=1603798294;
+        bh=Chq+OW8jPYeS0x1/w/NuhbNqJg7T410wGKW7Vwcmmh0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K5e82w/94BdRnluTzImlefPfKPSeSMKp+xB2kFrvXPb0oB6Ynh6TW11woagIP4LU6
-         AXzJA/0vniCcaywte/JbhdASXRfVqXWtE1809GUu50ovjsG3qZ2C6Z0MGJhIXqjLBL
-         FBq+ABlYaT3ESGxJUX/Buau6xyPFFEuwD0h2LN4g=
+        b=AC/jQYaY123wRTdPEyISNQSkrk6fK6qDgIgZMnbaYj/xrL1krmjOm1LUo+gXLR4O/
+         tvpoLxCRFDQgp+0/HxwTDihCaFuJJPQpjNci9DHja12IL0KC4fU5Ba+WHbgEJL1Jgn
+         IrewywqVQYbPHxnQr4exw1rwLPXvUWiSB9GpQpzY=
 From:   Mike Rapoport <rppt@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
@@ -58,9 +58,9 @@ Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
         linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
         linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
-Subject: [PATCH 09/13] arm, arm64: move free_unused_memmap() to generic mm
-Date:   Tue, 27 Oct 2020 13:29:51 +0200
-Message-Id: <20201027112955.14157-10-rppt@kernel.org>
+Subject: [PATCH 13/13] m68k: deprecate DISCONTIGMEM
+Date:   Tue, 27 Oct 2020 13:29:55 +0200
+Message-Id: <20201027112955.14157-14-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201027112955.14157-1-rppt@kernel.org>
 References: <20201027112955.14157-1-rppt@kernel.org>
@@ -72,365 +72,85 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-ARM and ARM64 free unused parts of the memory map just before the
-initialization of the page allocator. To allow holes in the memory map both
-architectures overload pfn_valid() and define HAVE_ARCH_PFN_VALID.
+DISCONTIGMEM was intended to provide more efficient support for systems
+with holes in their physical address space that FLATMEM did.
 
-Allowing holes in the memory map for FLATMEM may be useful for small
-machines, such as ARC and m68k and will enable those architectures to cease
-using DISCONTIGMEM and still support more than one memory bank.
+Yet, it's overhead in terms of the memory consumption seems to overweight
+the savings on the unused memory map.
 
-Move the functions that free unused memory map to generic mm and enable
-them in case HAVE_ARCH_PFN_VALID=y.
+For a ARAnyM system with 16 MBytes of FastRAM configured, the memory usage
+reported after page allocator initialization is
+
+Memory: 23828K/30720K available (3206K kernel code, 535K rwdata, 936K rodata, 768K init, 193K bss, 6892K reserved, 0K cma-reserved)
+
+and with DISCONTIGMEM disabled and with relatively large hole in the memory
+map it is:
+
+Memory: 23864K/30720K available (3197K kernel code, 516K rwdata, 936K rodata, 764K init, 179K bss, 6856K reserved, 0K cma-reserved)
+
+Moreover, since m68k already has custom pfn_valid() it is possible to
+define HAVE_ARCH_PFN_VALID to enable freeing of unused memory map. The
+minimal size of a hole that can be freed should not be less than
+MAX_ORDER_NR_PAGES so to achieve more substantial memory savings let m68k
+also define custom FORCE_MAX_ZONEORDER.
+
+With FORCE_MAX_ZONEORDER set to 9 memory usage becomes:
+
+Memory: 23880K/30720K available (3197K kernel code, 516K rwdata, 936K rodata, 764K init, 179K bss, 6840K reserved, 0K cma-reserved)
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/Kconfig         |  3 ++
- arch/arm/Kconfig     |  4 +--
- arch/arm/mm/init.c   | 78 ------------------------------------------
- arch/arm64/Kconfig   |  4 +--
- arch/arm64/mm/init.c | 68 -------------------------------------
- mm/memblock.c        | 80 ++++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 85 insertions(+), 152 deletions(-)
+ arch/m68k/Kconfig.cpu | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 56b6ccc0e32d..d715da18a8a9 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -1028,6 +1028,9 @@ config HAVE_STATIC_CALL_INLINE
- 	bool
- 	depends on HAVE_STATIC_CALL
+diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
+index 3af0fca03803..763bc80a27aa 100644
+--- a/arch/m68k/Kconfig.cpu
++++ b/arch/m68k/Kconfig.cpu
+@@ -21,6 +21,7 @@ choice
+ config M68KCLASSIC
+ 	bool "Classic M68K CPU family support"
+ 	select NEED_MULTIPLE_NODES if DISCONTIGMEM
++	select HAVE_ARCH_PFN_VALID if FLATMEM && !SINGLE_MEMORY_CHUNK
  
-+config HAVE_ARCH_PFN_VALID
-+	bool
+ config COLDFIRE
+ 	bool "Coldfire CPU family support"
+@@ -378,11 +379,34 @@ config SINGLE_MEMORY_CHUNK
+ 	help
+ 	  Ignore all but the first contiguous chunk of physical memory for VM
+ 	  purposes.  This will save a few bytes kernel size and may speed up
+-	  some operations.  Say N if not sure.
++	  some operations.
++	  When this option os set to N, you may want to lower "Maximum zone
++	  order" to save memory that could be wasted for unused memory map.
++	  Say N if not sure.
+ 
+ config ARCH_DISCONTIGMEM_ENABLE
++	depends on BROKEN
+ 	def_bool MMU && !SINGLE_MEMORY_CHUNK
+ 
++config FORCE_MAX_ZONEORDER
++	int "Maximum zone order" if ADVANCED
++	depends on !SINGLE_MEMORY_CHUNK
++	default "11"
++	help
++	  The kernel memory allocator divides physically contiguous memory
++	  blocks into "zones", where each zone is a power of two number of
++	  pages.  This option selects the largest power of two that the kernel
++	  keeps in the memory allocator.  If you need to allocate very large
++	  blocks of physically contiguous memory, then you may need to
++	  increase this value.
 +
- source "kernel/gcov/Kconfig"
- 
- source "scripts/gcc-plugins/Kconfig"
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 83adc46c1e67..495d42c5ecec 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -68,6 +68,7 @@ config ARM
- 	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
- 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
- 	select HAVE_ARCH_MMAP_RND_BITS if MMU
-+	select HAVE_ARCH_PFN_VALID
- 	select HAVE_ARCH_SECCOMP
- 	select HAVE_ARCH_SECCOMP_FILTER if AEABI && !OABI_COMPAT
- 	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
-@@ -1488,9 +1489,6 @@ config ARCH_SPARSEMEM_ENABLE
- 	bool
- 	select SPARSEMEM_STATIC if SPARSEMEM
- 
--config HAVE_ARCH_PFN_VALID
--	def_bool y
--
- config HIGHMEM
- 	bool "High Memory Support"
- 	depends on MMU
-diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
-index d57112a276f5..a04ac5ea7641 100644
---- a/arch/arm/mm/init.c
-+++ b/arch/arm/mm/init.c
-@@ -267,83 +267,6 @@ static inline void poison_init_mem(void *s, size_t count)
- 		*p++ = 0xe7fddef0;
- }
- 
--static inline void __init
--free_memmap(unsigned long start_pfn, unsigned long end_pfn)
--{
--	struct page *start_pg, *end_pg;
--	phys_addr_t pg, pgend;
--
--	/*
--	 * Convert start_pfn/end_pfn to a struct page pointer.
--	 */
--	start_pg = pfn_to_page(start_pfn - 1) + 1;
--	end_pg = pfn_to_page(end_pfn - 1) + 1;
--
--	/*
--	 * Convert to physical addresses, and
--	 * round start upwards and end downwards.
--	 */
--	pg = PAGE_ALIGN(__pa(start_pg));
--	pgend = __pa(end_pg) & PAGE_MASK;
--
--	/*
--	 * If there are free pages between these,
--	 * free the section of the memmap array.
--	 */
--	if (pg < pgend)
--		memblock_free_early(pg, pgend - pg);
--}
--
--/*
-- * The mem_map array can get very big.  Free the unused area of the memory map.
-- */
--static void __init free_unused_memmap(void)
--{
--	unsigned long start, end, prev_end = 0;
--	int i;
--
--	/*
--	 * This relies on each bank being in address order.
--	 * The banks are sorted previously in bootmem_init().
--	 */
--	for_each_mem_pfn_range(i, MAX_NUMNODES, &start, &end, NULL) {
--#ifdef CONFIG_SPARSEMEM
--		/*
--		 * Take care not to free memmap entries that don't exist
--		 * due to SPARSEMEM sections which aren't present.
--		 */
--		start = min(start,
--				 ALIGN(prev_end, PAGES_PER_SECTION));
--#else
--		/*
--		 * Align down here since the VM subsystem insists that the
--		 * memmap entries are valid from the bank start aligned to
--		 * MAX_ORDER_NR_PAGES.
--		 */
--		start = round_down(start, MAX_ORDER_NR_PAGES);
--#endif
--		/*
--		 * If we had a previous bank, and there is a space
--		 * between the current bank and the previous, free it.
--		 */
--		if (prev_end && prev_end < start)
--			free_memmap(prev_end, start);
--
--		/*
--		 * Align up here since the VM subsystem insists that the
--		 * memmap entries are valid from the bank end aligned to
--		 * MAX_ORDER_NR_PAGES.
--		 */
--		prev_end = ALIGN(end, MAX_ORDER_NR_PAGES);
--	}
--
--#ifdef CONFIG_SPARSEMEM
--	if (!IS_ALIGNED(prev_end, PAGES_PER_SECTION))
--		free_memmap(prev_end,
--			    ALIGN(prev_end, PAGES_PER_SECTION));
--#endif
--}
--
- static void __init free_highpages(void)
- {
- #ifdef CONFIG_HIGHMEM
-@@ -385,7 +308,6 @@ void __init mem_init(void)
- 	set_max_mapnr(pfn_to_page(max_pfn) - mem_map);
- 
- 	/* this will put all unused low memory onto the freelists */
--	free_unused_memmap();
- 	memblock_free_all();
- 
- #ifdef CONFIG_SA1111
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index f858c352f72a..b7e6a0c09d12 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -138,6 +138,7 @@ config ARM64
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_MMAP_RND_BITS
- 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
-+	select HAVE_ARCH_PFN_VALID
- 	select HAVE_ARCH_PREL32_RELOCATIONS
- 	select HAVE_ARCH_SECCOMP_FILTER
- 	select HAVE_ARCH_STACKLEAK
-@@ -1021,9 +1022,6 @@ config ARCH_SELECT_MEMORY_MODEL
- config ARCH_FLATMEM_ENABLE
- 	def_bool !NUMA
- 
--config HAVE_ARCH_PFN_VALID
--	def_bool y
--
- config HW_PERF_EVENTS
- 	def_bool y
- 	depends on ARM_PMU
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 095540667f0f..3d8328277bec 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -430,71 +430,6 @@ void __init bootmem_init(void)
- 	memblock_dump_all();
- }
- 
--#ifndef CONFIG_SPARSEMEM_VMEMMAP
--static inline void free_memmap(unsigned long start_pfn, unsigned long end_pfn)
--{
--	struct page *start_pg, *end_pg;
--	unsigned long pg, pgend;
--
--	/*
--	 * Convert start_pfn/end_pfn to a struct page pointer.
--	 */
--	start_pg = pfn_to_page(start_pfn - 1) + 1;
--	end_pg = pfn_to_page(end_pfn - 1) + 1;
--
--	/*
--	 * Convert to physical addresses, and round start upwards and end
--	 * downwards.
--	 */
--	pg = (unsigned long)PAGE_ALIGN(__pa(start_pg));
--	pgend = (unsigned long)__pa(end_pg) & PAGE_MASK;
--
--	/*
--	 * If there are free pages between these, free the section of the
--	 * memmap array.
--	 */
--	if (pg < pgend)
--		memblock_free(pg, pgend - pg);
--}
--
--/*
-- * The mem_map array can get very big. Free the unused area of the memory map.
-- */
--static void __init free_unused_memmap(void)
--{
--	unsigned long start, end, prev_end = 0;
--	int i;
--
--	for_each_mem_pfn_range(i, MAX_NUMNODES, &start, &end, NULL) {
--#ifdef CONFIG_SPARSEMEM
--		/*
--		 * Take care not to free memmap entries that don't exist due
--		 * to SPARSEMEM sections which aren't present.
--		 */
--		start = min(start, ALIGN(prev_end, PAGES_PER_SECTION));
--#endif
--		/*
--		 * If we had a previous bank, and there is a space between the
--		 * current bank and the previous, free it.
--		 */
--		if (prev_end && prev_end < start)
--			free_memmap(prev_end, start);
--
--		/*
--		 * Align up here since the VM subsystem insists that the
--		 * memmap entries are valid from the bank end aligned to
--		 * MAX_ORDER_NR_PAGES.
--		 */
--		prev_end = ALIGN(end, MAX_ORDER_NR_PAGES);
--	}
--
--#ifdef CONFIG_SPARSEMEM
--	if (!IS_ALIGNED(prev_end, PAGES_PER_SECTION))
--		free_memmap(prev_end, ALIGN(prev_end, PAGES_PER_SECTION));
--#endif
--}
--#endif	/* !CONFIG_SPARSEMEM_VMEMMAP */
--
- /*
-  * mem_init() marks the free areas in the mem_map and tells us how much memory
-  * is free.  This is done after various parts of the system have claimed their
-@@ -510,9 +445,6 @@ void __init mem_init(void)
- 
- 	set_max_mapnr(max_pfn - PHYS_PFN_OFFSET);
- 
--#ifndef CONFIG_SPARSEMEM_VMEMMAP
--	free_unused_memmap();
--#endif
- 	/* this will put all unused low memory onto the freelists */
- 	memblock_free_all();
- 
-diff --git a/mm/memblock.c b/mm/memblock.c
-index b68ee86788af..049df4163a97 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -1926,6 +1926,85 @@ static int __init early_memblock(char *p)
- }
- early_param("memblock", early_memblock);
- 
-+static void __init free_memmap(unsigned long start_pfn, unsigned long end_pfn)
-+{
-+	struct page *start_pg, *end_pg;
-+	phys_addr_t pg, pgend;
++	  For systems that have holes in their physical address space this
++	  value also defines the minimal size of the hole that allows
++	  freeing unused memory map.
 +
-+	/*
-+	 * Convert start_pfn/end_pfn to a struct page pointer.
-+	 */
-+	start_pg = pfn_to_page(start_pfn - 1) + 1;
-+	end_pg = pfn_to_page(end_pfn - 1) + 1;
++	  This config option is actually maximum order plus one. For example,
++	  a value of 11 means that the largest free memory block is 2^10 pages.
 +
-+	/*
-+	 * Convert to physical addresses, and round start upwards and end
-+	 * downwards.
-+	 */
-+	pg = PAGE_ALIGN(__pa(start_pg));
-+	pgend = __pa(end_pg) & PAGE_MASK;
-+
-+	/*
-+	 * If there are free pages between these, free the section of the
-+	 * memmap array.
-+	 */
-+	if (pg < pgend)
-+		memblock_free(pg, pgend - pg);
-+}
-+
-+/*
-+ * The mem_map array can get very big.  Free the unused area of the memory map.
-+ */
-+static void __init free_unused_memmap(void)
-+{
-+	unsigned long start, end, prev_end = 0;
-+	int i;
-+
-+	if (!IS_ENABLED(CONFIG_HAVE_ARCH_PFN_VALID) ||
-+	    IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP))
-+		return;
-+
-+	/*
-+	 * This relies on each bank being in address order.
-+	 * The banks are sorted previously in bootmem_init().
-+	 */
-+	for_each_mem_pfn_range(i, MAX_NUMNODES, &start, &end, NULL) {
-+#ifdef CONFIG_SPARSEMEM
-+		/*
-+		 * Take care not to free memmap entries that don't exist
-+		 * due to SPARSEMEM sections which aren't present.
-+		 */
-+		start = min(start, ALIGN(prev_end, PAGES_PER_SECTION));
-+#else
-+		/*
-+		 * Align down here since the VM subsystem insists that the
-+		 * memmap entries are valid from the bank start aligned to
-+		 * MAX_ORDER_NR_PAGES.
-+		 */
-+		start = round_down(start, MAX_ORDER_NR_PAGES);
-+#endif
-+
-+		/*
-+		 * If we had a previous bank, and there is a space
-+		 * between the current bank and the previous, free it.
-+		 */
-+		if (prev_end && prev_end < start)
-+			free_memmap(prev_end, start);
-+
-+		/*
-+		 * Align up here since the VM subsystem insists that the
-+		 * memmap entries are valid from the bank end aligned to
-+		 * MAX_ORDER_NR_PAGES.
-+		 */
-+		prev_end = ALIGN(end, MAX_ORDER_NR_PAGES);
-+	}
-+
-+#ifdef CONFIG_SPARSEMEM
-+	if (!IS_ALIGNED(prev_end, PAGES_PER_SECTION))
-+		free_memmap(prev_end, ALIGN(prev_end, PAGES_PER_SECTION));
-+#endif
-+}
-+
- static void __init __free_pages_memory(unsigned long start, unsigned long end)
- {
- 	int order;
-@@ -2012,6 +2091,7 @@ unsigned long __init memblock_free_all(void)
- {
- 	unsigned long pages;
- 
-+	free_unused_memmap();
- 	reset_all_zones_managed_pages();
- 
- 	pages = free_low_memory_core_early();
+ config 060_WRITETHROUGH
+ 	bool "Use write-through caching for 68060 supervisor accesses"
+ 	depends on ADVANCED && M68060
 -- 
 2.28.0
 
