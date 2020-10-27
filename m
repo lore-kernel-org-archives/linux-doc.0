@@ -6,57 +6,58 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B27C55178
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A4C3C55178
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:59:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B259721707
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:55:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 252F72151B
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:59:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="2MAHbHx0"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="slH7iqOC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408417AbgJ0Cy5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 22:54:57 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:34536 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408268AbgJ0Cy5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 22:54:57 -0400
-Received: by mail-pg1-f194.google.com with SMTP id t14so7208204pgg.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 19:54:55 -0700 (PDT)
+        id S2409908AbgJ0C7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 22:59:15 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:32935 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2409910AbgJ0C7O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 22:59:14 -0400
+Received: by mail-pf1-f194.google.com with SMTP id j18so76854pfa.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 19:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QZF0W4dH550EVE0uGKIEMc2tMXwcFBBpVdPSQqA2FHM=;
-        b=2MAHbHx0ohuPXh5dfEpWBJ1Wo1XpSybr0ZIK4nZml41vCIF1vUACcWxDhu7y1Ip5o3
-         m0rAzVo+jdRzscmsBgtSK5F2nx6US1AxlWhQAtnUMWANCNouKFShn7mkLrXt07PIt+29
-         Ae5VD9TY9vxoo8dkcC9NTOiEL8Jr88c0iFX8/xL9Pn+lGm23m5Rz1+DzuC8XTfFkVtKJ
-         6fUnFqiZ1EIcmk31nj/CL5qhZHrS0vi1keWT7Yy464+gAY9EObA83xx5sJFakBU8kQHf
-         18UOHryCI9Z/tLR3iV4lE1PlMYz1Txi+ifXGpBBrSLRLHYt0eNPb+u2WnrovgJpikVhS
-         0R+Q==
+        bh=2r/6wM2urus7RuK+nJNOIaHAlYFuE3iJoIvxfk3Ke04=;
+        b=slH7iqOCvbuRJpOoFTcLbTGUdbV0PTNzytfn6YhKrnJ0ZvHkh9I3aom/I3EGuJ5yF/
+         l4ufdqid2leBOdcUopOquocKGZ/EHVGg7Oh/tPDjjpbm8PtJL+JUG+gZi98oQPE23LoM
+         eMiTj4EVGIVGcA1cuA2v/FrmwMiAnDpvBHIncBVMzS83A5FDvM1pY0RNyHw2XX6fjgkZ
+         +VMqHnXIFr/ybLbdSel4j6JBIHw2l7p7LCUP2OHTl96MnRpCpQvJ8gkv3BWelgqBkUGd
+         VbbO0EkBJb5JlJS6ZVz3o7sK7ugIEBSqnLL2XzVzqQrWjC3+CRwq1lRut5CCXYclcazG
+         X0Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QZF0W4dH550EVE0uGKIEMc2tMXwcFBBpVdPSQqA2FHM=;
-        b=J+ThYYUhKZx6pzXijbvP7WAudYwiKXYv5ZlfS1a7NY6o2+tomL0m0SYE78RsIX8Lv8
-         SS1XmRsD1sW9fvmDj6qLa/OnQFTlPp1GMyNkMv+eYlZvk14OlzjXrBV0+tdW6useFr8t
-         V2OMPYHhF7E5afbcHZhwuLotQm7Fjs8g7B/UI9vTz9MoGAYBV4cu/d0TbPkIMdvorGRq
-         ahxNft64Nzu4au21ER2IN/kebfEXE2h95FH4iLMjW2LI5/bDZS9hN4TYWG0AUv01QSz/
-         DZhXISJyCqtIyPi+8798qBpTYcrzqlz/JqZvfNP/eGN0b/F33MPDtP4HFUSUSMB03CP+
-         4mYA==
-X-Gm-Message-State: AOAM5321Jrf5HKiZLmYgpBKCpCPuHShADeworIEuFYhkzIHbSM1AWxZ7
-        wFAKmIEaEghQyQD1wP4s2s/fQpI9X6DRtXpeJyn7Pw==
-X-Google-Smtp-Source: ABdhPJyUXYA2QbO5JVQ8aPVZ/qUZFKpo5APz2TO+UBNlY/I1gMKpDxJkGfjqKKIr9iRX+x23PthAvtxpgrmzfwJVtsM=
-X-Received: by 2002:a63:c851:: with SMTP id l17mr21924pgi.31.1603767295050;
- Mon, 26 Oct 2020 19:54:55 -0700 (PDT)
+        bh=2r/6wM2urus7RuK+nJNOIaHAlYFuE3iJoIvxfk3Ke04=;
+        b=mbYzOtFWT2u+qOWJV8WEztwKYa+eGqKo5ZbsD/rLRD5h4wAYh3xK5OsqBQpBiyD6c8
+         YuQNnNM9zg0IL0Un9E7OQwHWJGPiW5aVeUcQLH34g0MVEE/ygMqjqReuvzDyrm73vkxS
+         +3Gk286wjyISdKVW9QbeabSGh4Bo+HtL1TQt8nXwud7vU2aml2y3MamBm9ihx8rYbnn/
+         +gvYdn1VSzMXKbLhS0cpRKeiOL3Avg+xXWPKQuxgAth23jlhj5hkH3XjBIYW8PYEwqaV
+         hZ1sC4ALdmfLSH9lf1rUvv/kjaqn5nrL/yDbvj5xnhTvMXOheyx13RA3zHmWsU1kAmsL
+         wOEA==
+X-Gm-Message-State: AOAM530Nz0mSQt8l9/V2RC8BB4URx3liKSLiwe60OIzAIpTsH5HFo7Gx
+        Y11Geb5WedD1tTL+LzA5uifYfk2YV5dTaCsFs3ibKA==
+X-Google-Smtp-Source: ABdhPJyWYIE4OTNvD1Li2UgYskyIXudRuzoDpQ5mbVNn2nBDoaVGbFjNKzwuIOmIbtQ3Tu3mU4VqlNbMc44uum/3l/c=
+X-Received: by 2002:a65:5383:: with SMTP id x3mr15962pgq.341.1603767552671;
+ Mon, 26 Oct 2020 19:59:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201026145114.59424-1-songmuchun@bytedance.com> <20201026155351.GS20115@casper.infradead.org>
-In-Reply-To: <20201026155351.GS20115@casper.infradead.org>
+References: <20201026145114.59424-1-songmuchun@bytedance.com>
+ <20201026145114.59424-8-songmuchun@bytedance.com> <20201026160142.GT20115@casper.infradead.org>
+In-Reply-To: <20201026160142.GT20115@casper.infradead.org>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 27 Oct 2020 10:54:18 +0800
-Message-ID: <CAMZfGtU4VQ08dnxNBsFfxVEnuOZauOhGSLQpi++3fngc_qNqXQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v2 00/19] Free some vmemmap pages of
- hugetlb page
+Date:   Tue, 27 Oct 2020 10:58:36 +0800
+Message-ID: <CAMZfGtX2p_M15i0pE7tTu3amPNof5PW2jJFUnXtGdGRyGydAtw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v2 07/19] mm/hugetlb: Free the vmemmap
+ pages associated with each hugetlb page
 To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -79,16 +80,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 11:53 PM Matthew Wilcox <willy@infradead.org> wrote:
+On Tue, Oct 27, 2020 at 12:01 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> On Mon, Oct 26, 2020 at 10:50:55PM +0800, Muchun Song wrote:
-> > For tail pages, the value of compound_dtor is the same. So we can reuse
+> On Mon, Oct 26, 2020 at 10:51:02PM +0800, Muchun Song wrote:
+> > +static void split_vmemmap_pmd(pmd_t *pmd, pte_t *pte_p, unsigned long addr)
+> > +{
+> > +     struct mm_struct *mm = &init_mm;
+> > +     struct page *page;
+> > +     pmd_t old_pmd, _pmd;
+> > +     int i;
+> > +
+> > +     old_pmd = READ_ONCE(*pmd);
+> > +     page = pmd_page(old_pmd);
+> > +     pmd_populate_kernel(mm, &_pmd, pte_p);
+> > +
+> > +     for (i = 0; i < VMEMMAP_HPAGE_NR; i++, addr += PAGE_SIZE) {
+> > +             pte_t entry, *pte;
+> > +
+> > +             entry = mk_pte(page + i, PAGE_KERNEL);
 >
-> compound_dtor is only set on the first tail page.  compound_head is
-> what you mean here, I think.
+> I'd be happier if that were:
+>
+>         pgprot_t pgprot = PAGE_KERNEL;
+> ...
+>         for (i = 0; i < VMEMMAP_HPAGE_NR; i++, addr += PAGE_SIZE) {
+>                 pte_t entry, *pte;
+>
+>                 entry = mk_pte(page + i, pgprot);
+>                 pgprot = PAGE_KERNEL_RO;
+>
+> so that all subsequent tail pages are mapped read-only.
 >
 
-Yes, that's right.  Sorry for the confusion. Thanks.
+Good idea, do this can catch some illegal operations. Thanks.
+
 
 -- 
 Yours,
