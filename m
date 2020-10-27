@@ -4,56 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1B3C55179
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F3CC388F9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5ED692225C
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B64D62225C
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603792908;
-	bh=8mKeoT70W2C80dpgS/0uhSrxkN5L//sEcSOYWAnufuI=;
+	s=default; t=1603792922;
+	bh=GXxTZan9lCjKZoVF0lUNE8RECi6/oK6GikJCLqZEg9Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Ok4EiDNfK/jxh4F2J8Rf8RBK3nncsv3OS47mfnH69M5E3zEHry0prX1yo/LCvsuSL
-	 UP1aUeQiBRJsmRXxBmubO0WzcC3FKD6h25XqfhnraWoX4vZdYXLMTWi087jvlPM+18
-	 oS61yHLp2udYcvgK79EuU1LEIQLxGb54gq1qatdg=
+	b=1686ruOYXAZCb2BZjqGgDiq83CsoNS3kla5lUfPEK71rP459tT52z+phQ4sNGLj6W
+	 4dulIKaGI4uhvpr1iqspNRZCg5IE/3SANVR+guA8nH2QbMqLxyihUkYO96ujNPkh73
+	 9ApakflZjHQoiFz32/M2in9EEGHMDuohCYWcaLOo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896832AbgJ0KBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2896837AbgJ0KBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 27 Oct 2020 06:01:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42704 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:42612 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896047AbgJ0Jvn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2896037AbgJ0Jvn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 27 Oct 2020 05:51:43 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A473024181;
+        by mail.kernel.org (Postfix) with ESMTPSA id 5710A22403;
         Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603792301;
-        bh=8mKeoT70W2C80dpgS/0uhSrxkN5L//sEcSOYWAnufuI=;
+        bh=GXxTZan9lCjKZoVF0lUNE8RECi6/oK6GikJCLqZEg9Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Dcj+iBLDefcsZCffQDyU6g6cxqytgEQrWkycRYBjFTWCqdB/FMkkbU3mMweCLPsQF
-         N9u+dtnGjkheIafRCLhlzG67s122eo1WpCO57iTWYttcVLnkcrQWId/HxXTZ2yw/XA
-         aLH1B0GN7fSFOALlAhNLsPzap3r36Ebaz9E8FJow=
+        b=CA3IYj1Fzt6EDUWDkvZVmekclltK8XNXWCleUkiU9mCzICo8dgbIJjO8TabbYNfGm
+         dYvZXxQkPyXED1kP5TFCJFNzFcQf2TDIHlKznDzRTAsvbs629tWNadxZ6/4mp8bf7+
+         ZnOJZqrTJbkAZAhZy835FyGXOdfJC9u1oned1KQA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdj-003FFO-Lg; Tue, 27 Oct 2020 10:51:39 +0100
+        id 1kXLdj-003FEt-92; Tue, 27 Oct 2020 10:51:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        David Sterba <dsterba@suse.com>,
-        Goldwyn Rodrigues <rgoldwyn@suse.com>,
-        Johannes Thumshirn <jthumshirn@suse.de>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Nikolay Borisov <nborisov@suse.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 21/32] docs: fs: api-summary.rst: get rid of kernel-doc include
-Date:   Tue, 27 Oct 2020 10:51:25 +0100
-Message-Id: <d0a9fffedca102633c168adaf157f34288a4ea67.1603791716.git.mchehab+huawei@kernel.org>
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>, Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 11/32] drm/dp: fix kernel-doc warnings at drm_dp_helper.c
+Date:   Tue, 27 Oct 2020 10:51:15 +0100
+Message-Id: <03c9c8ba3f492aca76e2b4836803219cd9c971cf.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -64,41 +65,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The direct-io.c file used to have just two exported symbols:
+As warned by kernel-doc:
 
-	- dio_end_io()
-	- __blockdev_direct_IO()
+	./drivers/gpu/drm/drm_dp_helper.c:385: warning: Function parameter or member 'type' not described in 'drm_dp_downstream_is_type'
+	./drivers/gpu/drm/drm_dp_helper.c:886: warning: Function parameter or member 'dev' not described in 'drm_dp_downstream_mode'
 
-The first one was removed by changeset
-c33fe275b530 ("fs: remove no longer used dio_end_io()")
+Some function parameters weren't documented.
 
-And the last one is used on most places indirectly, via
-the inline macro blockdev_direct_IO() provided by fs.h.
-Yet, neither the macro or the function have kernel-doc
-markups.
-
-So, drop the inclusion of fs/direct-io.c at the docs.
-
-Fixes: c33fe275b530 ("fs: remove no longer used dio_end_io()")
+Fixes: 38784f6f8805 ("drm/dp: Add helpers to identify downstream facing port types")
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/api-summary.rst | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/drm_dp_helper.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/filesystems/api-summary.rst b/Documentation/filesystems/api-summary.rst
-index bbb0c1c0e5cf..a94f17d9b836 100644
---- a/Documentation/filesystems/api-summary.rst
-+++ b/Documentation/filesystems/api-summary.rst
-@@ -86,9 +86,6 @@ Other Functions
- .. kernel-doc:: fs/dax.c
-    :export:
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index b1c71af88579..deeed73f4ed6 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -374,6 +374,10 @@ static bool is_edid_digital_input_dp(const struct edid *edid)
+  * drm_dp_downstream_is_type() - is the downstream facing port of certain type?
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: port capabilities
++ * @type: port type to be checked. Can be:
++ * 	  %DP_DS_PORT_TYPE_DP, %DP_DS_PORT_TYPE_VGA, %DP_DS_PORT_TYPE_DVI,
++ * 	  %DP_DS_PORT_TYPE_HDMI, %DP_DS_PORT_TYPE_NON_EDID,
++ *	  %DP_DS_PORT_TYPE_DP_DUALMODE or %DP_DS_PORT_TYPE_WIRELESS.
+  *
+  * Caveat: Only works with DPCD 1.1+ port caps.
+  *
+@@ -870,6 +874,7 @@ EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
  
--.. kernel-doc:: fs/direct-io.c
--   :export:
--
- .. kernel-doc:: fs/libfs.c
-    :export:
- 
+ /**
+  * drm_dp_downstream_mode() - return a mode for downstream facing port
++ * @dev: DRM device
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: port capabilities
+  *
 -- 
 2.26.2
 
