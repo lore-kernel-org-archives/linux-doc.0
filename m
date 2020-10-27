@@ -4,54 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CED5C55179
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B3EEC4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A0F622202
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB2BD21707
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603792365;
-	bh=b5/4x56iBejmXLUUqhNaiUaWyC3ayX676A0Vu+/Ivjk=;
+	s=default; t=1603792372;
+	bh=SLlCxYtnKWjDjR6xkI87fNMGzcB0tiqNJ9pWSUh4OoY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lVwgx3HlqW+5GQpiAv3TShGOZ3+5lAStLmkpaL7hpA1QhSglG/PnYmJKxxJ/ECzIQ
-	 LlPrEqZMBTl8evOrIm1HzVzjyHPMJgNhMjTGlIqkuqEyXpJy1a+TiM8c4kFs2Dnver
-	 QUx340p0GHIGskyS+MbphxTMJ15C3rN5Gx4IFYJA=
+	b=M3ddyRoKeS8u1LuvDCBKxeiHtyYIjR42xfOA+3jQuIsjJpNeNiHjUPnipbWuSdQZ6
+	 Fbd98qOQ6xSd5DQmJ7ZpJgLHHjow3K/sERH8SRxlNW/bylyxPWP8yk1F+G1ffTjYaI
+	 cOj7VXbs453FjtFtd+prVq/yVvlCEzQt8g4iM2Ic=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896261AbgJ0Jwo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2896267AbgJ0Jwo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 27 Oct 2020 05:52:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42816 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:42516 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896059AbgJ0Jvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2896052AbgJ0Jvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 27 Oct 2020 05:51:44 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0E00724679;
-        Tue, 27 Oct 2020 09:51:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9EACB2417B;
+        Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603792302;
-        bh=b5/4x56iBejmXLUUqhNaiUaWyC3ayX676A0Vu+/Ivjk=;
+        s=default; t=1603792301;
+        bh=SLlCxYtnKWjDjR6xkI87fNMGzcB0tiqNJ9pWSUh4OoY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sP0eiRjvSMgIXYRfkjGb0M8t0fkxuG0pMj6J5Z3kUItZD1kiO3DEb2/EKoZl3er5Q
-         4ZWixBToVFHvzndJlmvWzy1akWtnMDF+Pv2aMVaStwJhb5Wj82u2h8DrqOFkM8cnAQ
-         nnMm4cpQHHXZI4dsyEEFcHtXnxf/dKRqis3Jlgy0=
+        b=nTjBO5wdjUKoc//FExBdD72S2llXTT2cXfLsNj7oOXz58Gu5gCFw4MMSJ62Rm4Dr6
+         twiYyF5XY6dcmdDFboOOunJY0AqNdcovFvL5ql2aF1hqNUddG2VUmelLA9fLppslX6
+         Q2JwaEo7QHEerBVI19z+rPlB/2qiWOHMwR0xnvmQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdj-003FFl-UW; Tue, 27 Oct 2020 10:51:39 +0100
+        id 1kXLdj-003FFH-Iz; Tue, 27 Oct 2020 10:51:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>, Will Drewry <wad@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 29/32] selftests: kselftest_harness.h: fix kernel-doc markups
-Date:   Tue, 27 Oct 2020 10:51:33 +0100
-Message-Id: <697640045663f1366beb15e76e78b420dac5f5a2.1603791716.git.mchehab+huawei@kernel.org>
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 19/32] locking/refcount: move kernel-doc markups to the proper place
+Date:   Tue, 27 Oct 2020 10:51:23 +0100
+Message-Id: <7985c31d1ace591bc5e1faa05c367f1295b78afd.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -62,219 +63,282 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel-doc markups there is violating the expected
-syntax, causing it to not parse the name of the
-markup identifier properly, preventing it to check
-if the kernel-doc matches the #define below each
-markup.
+Changeset a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
+added a set of functions starting with __ that have a new
+parameter, adding a series of new warnings:
 
+	$ ./scripts/kernel-doc -none include/linux/refcount.h
+	include/linux/refcount.h:169: warning: Function parameter or member 'oldp' not described in '__refcount_add_not_zero'
+	include/linux/refcount.h:208: warning: Function parameter or member 'oldp' not described in '__refcount_add'
+	include/linux/refcount.h:239: warning: Function parameter or member 'oldp' not described in '__refcount_inc_not_zero'
+	include/linux/refcount.h:261: warning: Function parameter or member 'oldp' not described in '__refcount_inc'
+	include/linux/refcount.h:291: warning: Function parameter or member 'oldp' not described in '__refcount_sub_and_test'
+	include/linux/refcount.h:327: warning: Function parameter or member 'oldp' not described in '__refcount_dec_and_test'
+	include/linux/refcount.h:347: warning: Function parameter or member 'oldp' not described in '__refcount_dec'
+
+The issue is that the kernel-doc markups are now misplaced,
+as they should be added just before the functions.
+
+So, move the kernel-doc markups to the proper places,
+in order to drop the warnings.
+
+It should be noticed that git show produces a crappy output,
+for this patch without "--patience" flag.
+
+Fixes: a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/testing/selftests/kselftest_harness.h | 44 ++++++++++-----------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ include/linux/refcount.h | 158 +++++++++++++++++++--------------------
+ 1 file changed, 79 insertions(+), 79 deletions(-)
 
-diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testing/selftests/kselftest_harness.h
-index f19804df244c..d747d6b1da1a 100644
---- a/tools/testing/selftests/kselftest_harness.h
-+++ b/tools/testing/selftests/kselftest_harness.h
-@@ -432,7 +432,7 @@
+diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+index 7fabb1af18e0..497990c69b0b 100644
+--- a/include/linux/refcount.h
++++ b/include/linux/refcount.h
+@@ -147,24 +147,6 @@ static inline unsigned int refcount_read(const refcount_t *r)
+ 	return atomic_read(&r->refs);
+ }
+ 
+-/**
+- * refcount_add_not_zero - add a value to a refcount unless it is 0
+- * @i: the value to add to the refcount
+- * @r: the refcount
+- *
+- * Will saturate at REFCOUNT_SATURATED and WARN.
+- *
+- * Provides no memory ordering, it is assumed the caller has guaranteed the
+- * object memory to be stable (RCU, etc.). It does provide a control dependency
+- * and thereby orders future stores. See the comment on top.
+- *
+- * Use of this function is not recommended for the normal reference counting
+- * use case in which references are taken and released one at a time.  In these
+- * cases, refcount_inc(), or one of its variants, should instead be used to
+- * increment a reference count.
+- *
+- * Return: false if the passed refcount is 0, true otherwise
+- */
+ static inline __must_check bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
+ {
+ 	int old = refcount_read(r);
+@@ -183,27 +165,29 @@ static inline __must_check bool __refcount_add_not_zero(int i, refcount_t *r, in
+ 	return old;
+ }
+ 
++/**
++ * refcount_add_not_zero - add a value to a refcount unless it is 0
++ * @i: the value to add to the refcount
++ * @r: the refcount
++ *
++ * Will saturate at REFCOUNT_SATURATED and WARN.
++ *
++ * Provides no memory ordering, it is assumed the caller has guaranteed the
++ * object memory to be stable (RCU, etc.). It does provide a control dependency
++ * and thereby orders future stores. See the comment on top.
++ *
++ * Use of this function is not recommended for the normal reference counting
++ * use case in which references are taken and released one at a time.  In these
++ * cases, refcount_inc(), or one of its variants, should instead be used to
++ * increment a reference count.
++ *
++ * Return: false if the passed refcount is 0, true otherwise
++ */
+ static inline __must_check bool refcount_add_not_zero(int i, refcount_t *r)
+ {
+ 	return __refcount_add_not_zero(i, r, NULL);
+ }
+ 
+-/**
+- * refcount_add - add a value to a refcount
+- * @i: the value to add to the refcount
+- * @r: the refcount
+- *
+- * Similar to atomic_add(), but will saturate at REFCOUNT_SATURATED and WARN.
+- *
+- * Provides no memory ordering, it is assumed the caller has guaranteed the
+- * object memory to be stable (RCU, etc.). It does provide a control dependency
+- * and thereby orders future stores. See the comment on top.
+- *
+- * Use of this function is not recommended for the normal reference counting
+- * use case in which references are taken and released one at a time.  In these
+- * cases, refcount_inc(), or one of its variants, should instead be used to
+- * increment a reference count.
+- */
+ static inline void __refcount_add(int i, refcount_t *r, int *oldp)
+ {
+ 	int old = atomic_fetch_add_relaxed(i, &r->refs);
+@@ -217,11 +201,32 @@ static inline void __refcount_add(int i, refcount_t *r, int *oldp)
+ 		refcount_warn_saturate(r, REFCOUNT_ADD_OVF);
+ }
+ 
++/**
++ * refcount_add - add a value to a refcount
++ * @i: the value to add to the refcount
++ * @r: the refcount
++ *
++ * Similar to atomic_add(), but will saturate at REFCOUNT_SATURATED and WARN.
++ *
++ * Provides no memory ordering, it is assumed the caller has guaranteed the
++ * object memory to be stable (RCU, etc.). It does provide a control dependency
++ * and thereby orders future stores. See the comment on top.
++ *
++ * Use of this function is not recommended for the normal reference counting
++ * use case in which references are taken and released one at a time.  In these
++ * cases, refcount_inc(), or one of its variants, should instead be used to
++ * increment a reference count.
++ */
+ static inline void refcount_add(int i, refcount_t *r)
+ {
+ 	__refcount_add(i, r, NULL);
+ }
+ 
++static inline __must_check bool __refcount_inc_not_zero(refcount_t *r, int *oldp)
++{
++	return __refcount_add_not_zero(1, r, oldp);
++}
++
+ /**
+  * refcount_inc_not_zero - increment a refcount unless it is 0
+  * @r: the refcount to increment
+@@ -235,16 +240,16 @@ static inline void refcount_add(int i, refcount_t *r)
+  *
+  * Return: true if the increment was successful, false otherwise
   */
+-static inline __must_check bool __refcount_inc_not_zero(refcount_t *r, int *oldp)
+-{
+-	return __refcount_add_not_zero(1, r, oldp);
+-}
+-
+ static inline __must_check bool refcount_inc_not_zero(refcount_t *r)
+ {
+ 	return __refcount_inc_not_zero(r, NULL);
+ }
  
++static inline void __refcount_inc(refcount_t *r, int *oldp)
++{
++	__refcount_add(1, r, oldp);
++}
++
  /**
-- * ASSERT_EQ(expected, seen)
-+ * ASSERT_EQ()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -443,7 +443,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, ==, 1)
+  * refcount_inc - increment a refcount
+  * @r: the refcount to increment
+@@ -257,36 +262,11 @@ static inline __must_check bool refcount_inc_not_zero(refcount_t *r)
+  * Will WARN if the refcount is 0, as this represents a possible use-after-free
+  * condition.
+  */
+-static inline void __refcount_inc(refcount_t *r, int *oldp)
+-{
+-	__refcount_add(1, r, oldp);
+-}
+-
+ static inline void refcount_inc(refcount_t *r)
+ {
+ 	__refcount_inc(r, NULL);
+ }
  
- /**
-- * ASSERT_NE(expected, seen)
-+ * ASSERT_NE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -454,7 +454,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, !=, 1)
+-/**
+- * refcount_sub_and_test - subtract from a refcount and test if it is 0
+- * @i: amount to subtract from the refcount
+- * @r: the refcount
+- *
+- * Similar to atomic_dec_and_test(), but it will WARN, return false and
+- * ultimately leak on underflow and will fail to decrement when saturated
+- * at REFCOUNT_SATURATED.
+- *
+- * Provides release memory ordering, such that prior loads and stores are done
+- * before, and provides an acquire ordering on success such that free()
+- * must come after.
+- *
+- * Use of this function is not recommended for the normal reference counting
+- * use case in which references are taken and released one at a time.  In these
+- * cases, refcount_dec(), or one of its variants, should instead be used to
+- * decrement a reference count.
+- *
+- * Return: true if the resulting refcount is 0, false otherwise
+- */
+ static inline __must_check bool __refcount_sub_and_test(int i, refcount_t *r, int *oldp)
+ {
+ 	int old = atomic_fetch_sub_release(i, &r->refs);
+@@ -305,11 +285,36 @@ static inline __must_check bool __refcount_sub_and_test(int i, refcount_t *r, in
+ 	return false;
+ }
  
- /**
-- * ASSERT_LT(expected, seen)
-+ * ASSERT_LT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -465,7 +465,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <, 1)
++/**
++ * refcount_sub_and_test - subtract from a refcount and test if it is 0
++ * @i: amount to subtract from the refcount
++ * @r: the refcount
++ *
++ * Similar to atomic_dec_and_test(), but it will WARN, return false and
++ * ultimately leak on underflow and will fail to decrement when saturated
++ * at REFCOUNT_SATURATED.
++ *
++ * Provides release memory ordering, such that prior loads and stores are done
++ * before, and provides an acquire ordering on success such that free()
++ * must come after.
++ *
++ * Use of this function is not recommended for the normal reference counting
++ * use case in which references are taken and released one at a time.  In these
++ * cases, refcount_dec(), or one of its variants, should instead be used to
++ * decrement a reference count.
++ *
++ * Return: true if the resulting refcount is 0, false otherwise
++ */
+ static inline __must_check bool refcount_sub_and_test(int i, refcount_t *r)
+ {
+ 	return __refcount_sub_and_test(i, r, NULL);
+ }
  
++static inline __must_check bool __refcount_dec_and_test(refcount_t *r, int *oldp)
++{
++	return __refcount_sub_and_test(1, r, oldp);
++}
++
  /**
-- * ASSERT_LE(expected, seen)
-+ * ASSERT_LE()
+  * refcount_dec_and_test - decrement a refcount and test if it is 0
+  * @r: the refcount
+@@ -323,26 +328,11 @@ static inline __must_check bool refcount_sub_and_test(int i, refcount_t *r)
   *
-  * @expected: expected value
-  * @seen: measured value
-@@ -476,7 +476,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <=, 1)
+  * Return: true if the resulting refcount is 0, false otherwise
+  */
+-static inline __must_check bool __refcount_dec_and_test(refcount_t *r, int *oldp)
+-{
+-	return __refcount_sub_and_test(1, r, oldp);
+-}
+-
+ static inline __must_check bool refcount_dec_and_test(refcount_t *r)
+ {
+ 	return __refcount_dec_and_test(r, NULL);
+ }
  
- /**
-- * ASSERT_GT(expected, seen)
-+ * ASSERT_GT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -487,7 +487,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >, 1)
+-/**
+- * refcount_dec - decrement a refcount
+- * @r: the refcount
+- *
+- * Similar to atomic_dec(), it will WARN on underflow and fail to decrement
+- * when saturated at REFCOUNT_SATURATED.
+- *
+- * Provides release memory ordering, such that prior loads and stores are done
+- * before.
+- */
+ static inline void __refcount_dec(refcount_t *r, int *oldp)
+ {
+ 	int old = atomic_fetch_sub_release(1, &r->refs);
+@@ -354,6 +344,16 @@ static inline void __refcount_dec(refcount_t *r, int *oldp)
+ 		refcount_warn_saturate(r, REFCOUNT_DEC_LEAK);
+ }
  
- /**
-- * ASSERT_GE(expected, seen)
-+ * ASSERT_GE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -498,7 +498,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >=, 1)
- 
- /**
-- * ASSERT_NULL(seen)
-+ * ASSERT_NULL()
-  *
-  * @seen: measured value
-  *
-@@ -508,7 +508,7 @@
- 	__EXPECT(NULL, "NULL", seen, #seen, ==, 1)
- 
- /**
-- * ASSERT_TRUE(seen)
-+ * ASSERT_TRUE()
-  *
-  * @seen: measured value
-  *
-@@ -518,7 +518,7 @@
- 	__EXPECT(0, "0", seen, #seen, !=, 1)
- 
- /**
-- * ASSERT_FALSE(seen)
-+ * ASSERT_FALSE()
-  *
-  * @seen: measured value
-  *
-@@ -528,7 +528,7 @@
- 	__EXPECT(0, "0", seen, #seen, ==, 1)
- 
- /**
-- * ASSERT_STREQ(expected, seen)
-+ * ASSERT_STREQ()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -539,7 +539,7 @@
- 	__EXPECT_STR(expected, seen, ==, 1)
- 
- /**
-- * ASSERT_STRNE(expected, seen)
-+ * ASSERT_STRNE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -550,7 +550,7 @@
- 	__EXPECT_STR(expected, seen, !=, 1)
- 
- /**
-- * EXPECT_EQ(expected, seen)
-+ * EXPECT_EQ()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -561,7 +561,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, ==, 0)
- 
- /**
-- * EXPECT_NE(expected, seen)
-+ * EXPECT_NE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -572,7 +572,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, !=, 0)
- 
- /**
-- * EXPECT_LT(expected, seen)
-+ * EXPECT_LT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -583,7 +583,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <, 0)
- 
- /**
-- * EXPECT_LE(expected, seen)
-+ * EXPECT_LE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -594,7 +594,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, <=, 0)
- 
- /**
-- * EXPECT_GT(expected, seen)
-+ * EXPECT_GT()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -605,7 +605,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >, 0)
- 
- /**
-- * EXPECT_GE(expected, seen)
-+ * EXPECT_GE()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -616,7 +616,7 @@
- 	__EXPECT(expected, #expected, seen, #seen, >=, 0)
- 
- /**
-- * EXPECT_NULL(seen)
-+ * EXPECT_NULL()
-  *
-  * @seen: measured value
-  *
-@@ -626,7 +626,7 @@
- 	__EXPECT(NULL, "NULL", seen, #seen, ==, 0)
- 
- /**
-- * EXPECT_TRUE(seen)
-+ * EXPECT_TRUE()
-  *
-  * @seen: measured value
-  *
-@@ -636,7 +636,7 @@
- 	__EXPECT(0, "0", seen, #seen, !=, 0)
- 
- /**
-- * EXPECT_FALSE(seen)
-+ * EXPECT_FALSE()
-  *
-  * @seen: measured value
-  *
-@@ -646,7 +646,7 @@
- 	__EXPECT(0, "0", seen, #seen, ==, 0)
- 
- /**
-- * EXPECT_STREQ(expected, seen)
-+ * EXPECT_STREQ()
-  *
-  * @expected: expected value
-  * @seen: measured value
-@@ -657,7 +657,7 @@
- 	__EXPECT_STR(expected, seen, ==, 0)
- 
- /**
-- * EXPECT_STRNE(expected, seen)
-+ * EXPECT_STRNE()
-  *
-  * @expected: expected value
-  * @seen: measured value
++/**
++ * refcount_dec - decrement a refcount
++ * @r: the refcount
++ *
++ * Similar to atomic_dec(), it will WARN on underflow and fail to decrement
++ * when saturated at REFCOUNT_SATURATED.
++ *
++ * Provides release memory ordering, such that prior loads and stores are done
++ * before.
++ */
+ static inline void refcount_dec(refcount_t *r)
+ {
+ 	__refcount_dec(r, NULL);
 -- 
 2.26.2
 
