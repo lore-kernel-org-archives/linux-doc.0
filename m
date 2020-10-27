@@ -7,54 +7,56 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F54C55179
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDE3BC4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16C582225C
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E80F20732
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603792938;
-	bh=6jY6pADWd4LdcEnG1rOTq/8tMFI7N/XzmAw3LP7tTK4=;
+	s=default; t=1603792949;
+	bh=4Bu6akfKjaahqyWEGXpzqa8kviAzcp1lUCJxl8zFrWQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=YwIiKUFYNra1Zio5KCKflw0LYBVvZ3j0h8X64qVgK0ULRWeUWau6UeVtVqCTK7zuV
-	 GeAkc2RwukCFGxtrC3u6eCcZcyVNEWN5Sm3q+Vn0aZdHP644G0F55fge2hLntib4pg
-	 nF6n8iLp7tta/uevUZNruwas2wh+Xvf70fE9rc4c=
+	b=OD2x1sYIlRzfAj8w28SRs8qxOSvGP7/mFEaOHHE1yRliUFmNGjpFGzi1EM5n6Kv76
+	 bdOrzvU3UzowMyTveUKn+alflXRyrryVrGfpM1igV3Gj9MC8vLYwYsKnn1eh8ubAkr
+	 AGU9hceMjZRchPQkgmj/Xa1sV7j+O2iRhcKkHirQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896873AbgJ0KCM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:02:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42484 "EHLO mail.kernel.org"
+        id S2896888AbgJ0KCS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:02:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42516 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896039AbgJ0Jvn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 05:51:43 -0400
+        id S2896031AbgJ0Jvm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 05:51:42 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7E72722450;
+        by mail.kernel.org (Postfix) with ESMTPSA id 49ADD223AB;
         Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603792301;
-        bh=6jY6pADWd4LdcEnG1rOTq/8tMFI7N/XzmAw3LP7tTK4=;
+        bh=4Bu6akfKjaahqyWEGXpzqa8kviAzcp1lUCJxl8zFrWQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZfD8/SnCaavrLFmSfAH4i3LD5o2sbMO+c4y4c0mnRVzRuBJtHXYvy5pj8QeT53Ej1
-         Idsf2GXv+nb/l+aes27qgYt3vjX1aOIEQB+/5ITdvk/9x/z12qJx3sVx7d1t0xfLyX
-         EGj29dK67SDHnVRh7B+zLRXtAwUm7FPn1Ix6M2WE=
+        b=vntfPDjZdT2gTCYKiegEGjUfFDRECf8mdyMsr1tqgA0lruUT8kyHr6xO4C/cZFEEk
+         GvZtryzyEdBNjQsBhau+bn/DlTHMjAq9d0tt6F4ltEadnvHmVoS3fTPoE7O5GOfnKD
+         NhT4fVuELY20BAiin4QgPu5X9l/8TMu9l/1vil1Y=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdj-003FF6-EK; Tue, 27 Oct 2020 10:51:39 +0100
+        id 1kXLdj-003FEr-8B; Tue, 27 Oct 2020 10:51:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Corentin Labbe <clabbe.montjoie@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Jeevan B <jeevan.b@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 15/32] crypto: sun8x-ce*: update entries to its documentation
-Date:   Tue, 27 Oct 2020 10:51:19 +0100
-Message-Id: <e3122e9575769bcf74bc2bdef08755209cb51971.1603791716.git.mchehab+huawei@kernel.org>
+        Oleg Vasilev <oleg.vasilev@intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 10/32] drm: kernel-doc: document drm_dp_set_subconnector_property() params
+Date:   Tue, 27 Oct 2020 10:51:14 +0100
+Message-Id: <0870be85a77bea4ba5cf1715010834289a4e10b1.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -65,55 +67,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The README file was converted to ReST format. Update the
-references for it accordingly.
+Changeset e5b92773287c ("drm: report dp downstream port type as a subconnector property")
+added a new function to the kAPI, but didn't add any documentation
+for the parameters for drm_dp_set_subconnector_property().
 
+Fixes: e5b92773287c ("drm: report dp downstream port type as a subconnector property")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 2 +-
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 2 +-
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_dp_helper.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-index fa2f1b4fad7b..a94bf28f858a 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-@@ -7,7 +7,7 @@
-  *
-  * This file add support for MD5 and SHA1/SHA224/SHA256/SHA384/SHA512.
-  *
-- * You could find the datasheet in Documentation/arm/sunxi/README
-+ * You could find the datasheet in Documentation/arm/sunxi.rst
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 90807a6b415c..b1c71af88579 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1028,7 +1028,8 @@ EXPORT_SYMBOL(drm_dp_downstream_debug);
+ 
+ /**
+  * drm_dp_subconnector_type() - get DP branch device type
+- *
++ * @dpcd: DisplayPort configuration data
++ * @port_cap: port capabilities
   */
- #include <linux/dma-mapping.h>
- #include <linux/pm_runtime.h>
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
-index 78503006949c..cfde9ee4356b 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
-@@ -7,7 +7,7 @@
+ enum drm_mode_subconnector
+ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+@@ -1079,6 +1080,10 @@ EXPORT_SYMBOL(drm_dp_subconnector_type);
+ 
+ /**
+  * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
++ * @connector: connector to set property on
++ * @status: connector status
++ * @dpcd: DisplayPort configuration data
++ * @port_cap: port capabilities
   *
-  * This file handle the PRNG
-  *
-- * You could find a link for the datasheet in Documentation/arm/sunxi/README
-+ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
+  * Called by a driver on every detect event.
   */
- #include "sun8i-ce.h"
- #include <linux/dma-mapping.h>
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-index 654328160d19..5b7af4498bd5 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-@@ -7,7 +7,7 @@
-  *
-  * This file handle the TRNG
-  *
-- * You could find a link for the datasheet in Documentation/arm/sunxi/README
-+ * You could find a link for the datasheet in Documentation/arm/sunxi.rst
-  */
- #include "sun8i-ce.h"
- #include <linux/dma-mapping.h>
 -- 
 2.26.2
 
