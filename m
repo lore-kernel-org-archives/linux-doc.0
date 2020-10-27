@@ -2,97 +2,186 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C7C9C4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 08:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5CDC4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 08:37:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA59C22265
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 08:00:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D6CD207C4
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 08:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603785613;
-	bh=XAql63pKUX6s4hxGe+dS12y311hL1/XWQiKxGStrVis=;
+	s=default; t=1603787870;
+	bh=lkiwEawc+TxmjSVpOpey8tJBySVltFZYq6R6cKzfXzs=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=v2u7fwxhQUnrfUY8nTydx1H5JQZ4ur3gDEcssAgFP0bgPnrjjpXNXltsmlVPFdFb4
-	 gbkAHqe2VX29gkMi4wfhHixb3pVgKxInOaXy5LK0eH5d0Y2+i0bQ3tIxth6ZTnpGSQ
-	 juocHq2uQ+z8H4w0cGyM36vV2pMfP5welDOWP22Q=
+	b=P5mZN0MqIbuzSjOHEY/AGUoRlfqw64sXeTS+JuVnefvmkJyue1pwIYqm81Ol9+I1P
+	 Za5HxoUldROBRwms7Y0/vXevYi1GuipZsAmB4H6ORPOr/CNsckLW4Nq9W8VX5Rv3G1
+	 zYt8SOT2U9Qh5QFsnX9+iGSzfdcNap41vEX4dYHI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390343AbgJ0IAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 04:00:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41134 "EHLO mail.kernel.org"
+        id S2894994AbgJ0Iht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 04:37:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45448 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390164AbgJ0IAM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 04:00:12 -0400
-Received: from coco.lan (unknown [95.90.213.175])
+        id S2894957AbgJ0Iht (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 04:37:49 -0400
+Received: from coco.lan (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 71BC82224E;
-        Tue, 27 Oct 2020 08:00:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F2D9121556;
+        Tue, 27 Oct 2020 08:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603785611;
-        bh=XAql63pKUX6s4hxGe+dS12y311hL1/XWQiKxGStrVis=;
+        s=default; t=1603787867;
+        bh=lkiwEawc+TxmjSVpOpey8tJBySVltFZYq6R6cKzfXzs=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=1i75/fswjGGmJRRS5Bw1xSU65pvHidYPbMB+zmxNAyJsrJQJUSmNQGfbjkW5OQlLz
-         0y3NgvRaghfKoRs4bCoy6m81ud2U2x3mtlx272fX053nviRizyVzgSUSlAeEro+EA9
-         B6rrrUYoVmMDbwshkSb8l5gWnklQ4FtGq/AKAlhY=
-Date:   Tue, 27 Oct 2020 09:00:02 +0100
+        b=eldRcZW2OSzX+3KHCBhryq5msVCv3rYrWLaah8JfyqUNIs4OJoDM79yqoaKGMoD7C
+         o+3KOKvyrYZ/pC0FVL65eCb3dbQLOnLrA88ZDb/T6nc33pj4AIAck53O/s5hBvvcxx
+         9/1yo3LR46oH390RV8fEbLbATF0/BKnvNM9Cbyxg=
+Date:   Tue, 27 Oct 2020 09:37:43 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v3 21/56] mac80211: fix kernel-doc markups
-Message-ID: <20201027090002.4a9bace4@coco.lan>
-In-Reply-To: <bee691201828c96cb5ac678d8ab65e8ecd934364.camel@sipsolutions.net>
+To:     Joe Perches <joe@perches.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 01/56] scripts: kernel-doc: fix typedef parsing
+Message-ID: <20201027093743.5ecaaf7b@coco.lan>
+In-Reply-To: <0b1436d7f3f4267d518013919edd351dba4bcc92.camel@perches.com>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-        <978d35eef2dc76e21c81931804e4eaefbd6d635e.1603469755.git.mchehab+huawei@kernel.org>
-        <bee691201828c96cb5ac678d8ab65e8ecd934364.camel@sipsolutions.net>
+        <d0b2146c4ced3121342583bb3d962628fc96759b.1603469755.git.mchehab+huawei@kernel.org>
+        <20201023112226.4035e3f7@lwn.net>
+        <c0210eade81060382884e1f38ca7f71742d02b61.camel@perches.com>
+        <20201026080322.4d0b26f5@coco.lan>
+        <0b1436d7f3f4267d518013919edd351dba4bcc92.camel@perches.com>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 27 Oct 2020 08:26:20 +0100
-Johannes Berg <johannes@sipsolutions.net> escreveu:
+Em Mon, 26 Oct 2020 20:55:35 -0700
+Joe Perches <joe@perches.com> escreveu:
 
-> On Fri, 2020-10-23 at 18:33 +0200, Mauro Carvalho Chehab wrote:
-> > Some identifiers have different names between their prototypes
-> > and the kernel-doc markup.
-> > 
-> > Others need to be fixed, as kernel-doc markups should use this format:
-> >         identifier - description
-> > 
-> > In the specific case of __sta_info_flush(), add a documentation
-> > for sta_info_flush(), as this one is the one used outside
-> > sta_info.c.  
-> 
-> Are you taking the entire series through some tree, or should I pick up
-> this patch?
+> On Mon, 2020-10-26 at 08:03 +0100, Mauro Carvalho Chehab wrote:
+> []
+> > Well, this can help:
+> > 	my $typedef_type =3D qr { ((?:\w+\s+){1,}) }x; =20
+>=20
+> unbounded captures are generally bad, I suggest a limit like {1,5}
 
-Feel free to pick the patch. IMO, this should work better for
-those patches, as it should help avoiding potential merge
-conflicts.
-> 
-> If you're going to take it:
-> 
-> Reviewed-by: Johannes Berg <johannes@sipsolutions.net>
+Ok. 5 is likely too low, if "*" starts to be counted as part of the type.
+Maybe 8 would be ok.
 
-Thanks for reviewing it!
+>=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0if ($x =3D~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*=
+(\w\S+)\s*\)\s*\((.*)\);/ ||
+> > 	$x =3D~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) { =20
+> []
+> > Fix the regex in order to accept composite types when
+> > defining a typedef for a function pointer. =20
+> []=20
+> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc =20
+> []
+> > @@ -1438,13 +1438,14 @@ sub dump_typedef($$) {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$x =3D~ s@/\*.*?\*/@@gos;	# strip comment=
+s.
+> > =C2=A0
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# Parse function prototypes
+> > -    if ($x =3D~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+> > -	$x =3D~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
+> > +    if ($x =3D~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*(\w\S+)\s*\)\s*\((.=
+*)\);/ ||
+> > +	$x =3D~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) { =
+=20
+>=20
+> This typedef does not allow * returns=C2=A0like
+>=20
+> 	const unsigned char *(*string)(args...);
+> or
+> 	unsigned char *const(*fn)(args...);
+> or
+> 	void *(*alloc)(args...);
 
-> 
-> johannes
-> 
-> 
+Supporting those shouldn't be hard. See enclosed.
 
+>=20
+> (not to mention the truly unusual stuff like the typedefs in
+>  tools/testing/selftests/bpf/progs/btf_dump_test_case_syntax.c)
+>=20
+> typedef void (* (*signal_t)(int, void (*)(int)))(int);
+> typedef char * (*fn_ptr_arr1_t[10])(int **);
+> typedef char * (* const (* const fn_ptr_arr2_t[5])())(char * (*)(int));
 
+Parsing those using a single regex, though, is a lot more complex.
+The logic would likely require some loop or a real lexical
+analyzer in order to properly parse it.
+
+In the specific case of userspace tools (and, in special, selftests),
+it is probably not worth the effort to add support for C expressions
+that only exists there, as those won't likely gain kernel-doc entries
+for their source code to become part of the Kernel documentation.
 
 Thanks,
 Mauro
+
+[PATH] scripts: kernel-doc: fix typedef parsing
+
+The include/linux/genalloc.h file defined this typedef:
+
+        typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned=
+ long size,unsigned long start,unsigned int nr,void *data, struct gen_pool =
+*pool, unsigned long start_addr);
+
+Because it has a type composite of two words (unsigned long),
+the parser gets the typedef name wrong:
+
+.. c:macro:: long
+
+   **Typedef**: Allocation callback function type definition
+
+Fix the regex in order to accept composite types when
+defining a typedef for a function pointer.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 99cd8418ff8a..f699cf05d409 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1431,20 +1431,25 @@ sub dump_enum($$) {
+     }
+ }
+=20
++my $typedef_type =3D qr { ((?:\s+[\w\*]+){1,8})\s* }x;
++my $typedef_ident =3D qr { \*?\s*(\w\S+)\s* }x;
++my $typedef_args =3D qr { \s*\((.*)\); }x;
++
++my $typedef1 =3D qr { typedef$typedef_type\($typedef_ident\)$typedef_args =
+}x;
++my $typedef2 =3D qr { typedef$typedef_type$typedef_ident$typedef_args }x;
++
+ sub dump_typedef($$) {
+     my $x =3D shift;
+     my $file =3D shift;
+=20
+     $x =3D~ s@/\*.*?\*/@@gos;	# strip comments.
+=20
+-    # Parse function prototypes
+-    if ($x =3D~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+-	$x =3D~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
+-
+-	# Function typedefs
++    # Parse function typedef prototypes
++    if ($x =3D~ $typedef1 || $x =3D~ $typedef2) {
+ 	$return_type =3D $1;
+ 	$declaration_name =3D $2;
+ 	my $args =3D $3;
++	$return_type =3D~ s/^\s+//;
+=20
+ 	create_parameterlist($args, ',', $file, $declaration_name);
+=20
+
+
