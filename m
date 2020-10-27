@@ -2,86 +2,92 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C12C2D0A3
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0296C4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:55:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2685321741
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603768010;
-	bh=+iDp6qGbupqnPeHLiPOQ4jGGEsxVPDaHzfEp/5i5qNY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=g9puZck22/VRFjHl/S3BlubHh842PRqfeDY17Jp8o67E2RI9fn+CR25aqS0El9zKJ
-	 COWRBRBJ+SWt+fxX96q+E/5XOqwTLQiHWjpOvvIWLrwPqrVf9wZSKaeqEXnte3K9t4
-	 xgr0wvW7n6ourBHw8DM0NTK5sV78lu4P0IyUbMSY=
+	by mail.kernel.org (Postfix) with ESMTP id 4EE72207F7
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:55:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437095AbgJ0DGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 23:06:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50622 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437086AbgJ0DGt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 23:06:49 -0400
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 96EFB2151B;
-        Tue, 27 Oct 2020 03:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603768008;
-        bh=+iDp6qGbupqnPeHLiPOQ4jGGEsxVPDaHzfEp/5i5qNY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HCsnwhxLxrF/z65WpDtJGj9olkTBwiPJNDBfp6PAB4dqShk4SV2RdPHsBYlDMCw+Z
-         KpForSNsrZOwDSIme8N9a83a7847SkU5yka6ZU9J0X0PCZd5/NRulVeH5mgoEWUPwl
-         wAkWYdeCBQo5+HKdK2nRSLlIBQpMRo6lK+nRrh5o=
-Date:   Mon, 26 Oct 2020 20:06:46 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
+        id S2503817AbgJ0Dzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 23:55:40 -0400
+Received: from smtprelay0103.hostedemail.com ([216.40.44.103]:38078 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2503802AbgJ0Dzj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 23:55:39 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 61476837F24A;
+        Tue, 27 Oct 2020 03:55:38 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: mouth68_4c0cee527279
+X-Filterd-Recvd-Size: 2500
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf16.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 27 Oct 2020 03:55:37 +0000 (UTC)
+Message-ID: <0b1436d7f3f4267d518013919edd351dba4bcc92.camel@perches.com>
+Subject: Re: [PATCH v3 01/56] scripts: kernel-doc: fix typedef parsing
+From:   Joe Perches <joe@perches.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH RESEND 3/3] net: core: fix some kernel-doc markups
-Message-ID: <20201026200646.50dbb231@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <492b5ee3aca655ffad6e95e61d9b4019e69b8e3a.1603705472.git.mchehab+huawei@kernel.org>
-References: <cover.1603705472.git.mchehab+huawei@kernel.org>
-        <492b5ee3aca655ffad6e95e61d9b4019e69b8e3a.1603705472.git.mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Date:   Mon, 26 Oct 2020 20:55:35 -0700
+In-Reply-To: <20201026080322.4d0b26f5@coco.lan>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+         <d0b2146c4ced3121342583bb3d962628fc96759b.1603469755.git.mchehab+huawei@kernel.org>
+         <20201023112226.4035e3f7@lwn.net>
+         <c0210eade81060382884e1f38ca7f71742d02b61.camel@perches.com>
+         <20201026080322.4d0b26f5@coco.lan>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 26 Oct 2020 10:47:38 +0100 Mauro Carvalho Chehab wrote:
-> Some identifiers have different names between their prototypes
-> and the kernel-doc markup.
+On Mon, 2020-10-26 at 08:03 +0100, Mauro Carvalho Chehab wrote:
+[]
+> Well, this can help:
+> 	my $typedef_type = qr { ((?:\w+\s+){1,}) }x;
+
+unbounded captures are generally bad, I suggest a limit like {1,5}
+
+>     if ($x =~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+> 	$x =~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
+[]
+> Fix the regex in order to accept composite types when
+> defining a typedef for a function pointer.
+[] 
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+[]
+> @@ -1438,13 +1438,14 @@ sub dump_typedef($$) {
+>      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
+>  
 > 
-> In the specific case of netif_subqueue_stopped(), keep the
-> current markup for __netif_subqueue_stopped(), adding a
-> new one for netif_subqueue_stopped().
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>      # Parse function prototypes
+> -    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+> -	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
+> +    if ($x =~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+> +	$x =~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
 
-> @@ -3590,6 +3590,13 @@ static inline bool __netif_subqueue_stopped(const struct net_device *dev,
->  	return netif_tx_queue_stopped(txq);
->  }
->  
-> +/**
-> + *	netif_subqueue_stopped - test status of subqueue
-> + *	@dev: network device
-> + *	@skb: sub queue buffer pointer
+This typedef does not allow * returns like
 
-Ah, no: "socket buffer from which to get the mapping"
+	const unsigned char *(*string)(args...);
+or
+	unsigned char *const(*fn)(args...);
+or
+	void *(*alloc)(args...);
 
-> + *
-> + * Check individual transmit queue of a device with multiple transmit queues.
-> + */
->  static inline bool netif_subqueue_stopped(const struct net_device *dev,
->  					  struct sk_buff *skb)
->  {
+(not to mention the truly unusual stuff like the typedefs in
+ tools/testing/selftests/bpf/progs/btf_dump_test_case_syntax.c)
+
+typedef void (* (*signal_t)(int, void (*)(int)))(int);
+typedef char * (*fn_ptr_arr1_t[10])(int **);
+typedef char * (* const (* const fn_ptr_arr2_t[5])())(char * (*)(int));
+
 
