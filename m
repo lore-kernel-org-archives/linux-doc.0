@@ -2,92 +2,108 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0296C4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DB4AC388F9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 06:58:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EE72207F7
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 03:55:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF83B2224E
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 06:58:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603781938;
+	bh=RamkjBG+ES+esN9QzAUVFGHCL9QxB93W5Vxkt02/DNE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=0yEkR/6AwkXXdY07bVQ75YuC8nIFkSimnzpIZ0myHBS9hCNUXVv4j+2uGz4W335Jh
+	 oct+0qi8TP3RN8VPYdKkSqvjKcNMPiLZtILvfbITEVKHi5HYgzA/MsOakE1D56lYfJ
+	 qjU7NmQOBOk2X9LafBCarXj2f2lTUiQNfsqowosY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503817AbgJ0Dzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 23:55:40 -0400
-Received: from smtprelay0103.hostedemail.com ([216.40.44.103]:38078 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2503802AbgJ0Dzj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 23:55:39 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 61476837F24A;
-        Tue, 27 Oct 2020 03:55:38 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: mouth68_4c0cee527279
-X-Filterd-Recvd-Size: 2500
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf16.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 27 Oct 2020 03:55:37 +0000 (UTC)
-Message-ID: <0b1436d7f3f4267d518013919edd351dba4bcc92.camel@perches.com>
-Subject: Re: [PATCH v3 01/56] scripts: kernel-doc: fix typedef parsing
-From:   Joe Perches <joe@perches.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 26 Oct 2020 20:55:35 -0700
-In-Reply-To: <20201026080322.4d0b26f5@coco.lan>
+        id S1728547AbgJ0G6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 02:58:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35692 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726134AbgJ0G6z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 02:58:55 -0400
+Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1C19120B1F;
+        Tue, 27 Oct 2020 06:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603781935;
+        bh=RamkjBG+ES+esN9QzAUVFGHCL9QxB93W5Vxkt02/DNE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=YRHeohhkTtmIkSjNa3HcGNkyXb/GC8JC7/7hfjYTHeZIZZWr+4df5oPcE32BqqdE8
+         VXzYwNhkh0fc7ipeoleXkkMS9YWF2Pr/etF9x1R/dBzqvE6KKi1whJilJ/ZdKU/NM3
+         nKXP6oCPJEj8GKQBdfYA2ff0VKmsCsWPfLGVt6io=
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 31/56] usb: dwc3: fix kernel-doc markups
+In-Reply-To: <0b964be3884def04fcd20ea5c12cb90d0014871c.1603469755.git.mchehab+huawei@kernel.org>
 References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-         <d0b2146c4ced3121342583bb3d962628fc96759b.1603469755.git.mchehab+huawei@kernel.org>
-         <20201023112226.4035e3f7@lwn.net>
-         <c0210eade81060382884e1f38ca7f71742d02b61.camel@perches.com>
-         <20201026080322.4d0b26f5@coco.lan>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+ <0b964be3884def04fcd20ea5c12cb90d0014871c.1603469755.git.mchehab+huawei@kernel.org>
+Date:   Tue, 27 Oct 2020 08:58:47 +0200
+Message-ID: <87ft60dujc.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-10-26 at 08:03 +0100, Mauro Carvalho Chehab wrote:
-[]
-> Well, this can help:
-> 	my $typedef_type = qr { ((?:\w+\s+){1,}) }x;
-
-unbounded captures are generally bad, I suggest a limit like {1,5}
-
->     if ($x =~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-> 	$x =~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
-[]
-> Fix the regex in order to accept composite types when
-> defining a typedef for a function pointer.
-[] 
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-[]
-> @@ -1438,13 +1438,14 @@ sub dump_typedef($$) {
->      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
->  
-> 
->      # Parse function prototypes
-> -    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-> -	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
-> +    if ($x =~ /typedef\s+((?:\w+\s+){1,})\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-> +	$x =~ /typedef\s+((?:\w+\s+){1,})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
-
-This typedef does not allow * returns like
-
-	const unsigned char *(*string)(args...);
-or
-	unsigned char *const(*fn)(args...);
-or
-	void *(*alloc)(args...);
-
-(not to mention the truly unusual stuff like the typedefs in
- tools/testing/selftests/bpf/progs/btf_dump_test_case_syntax.c)
-
-typedef void (* (*signal_t)(int, void (*)(int)))(int);
-typedef char * (*fn_ptr_arr1_t[10])(int **);
-typedef char * (* const (* const fn_ptr_arr2_t[5])())(char * (*)(int));
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 
+Hi Mauro,
+
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> There is a common comment marked, instead, with kernel-doc
+> notation.
+>
+> Also, some identifiers have different names between their
+> prototypes and the kernel-doc markup.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/usb/dwc3/core.c        | 2 +-
+>  drivers/usb/dwc3/core.h        | 2 +-
+>  drivers/usb/gadget/composite.c | 2 +-
+>  drivers/usb/typec/mux.c        | 2 +-
+>  include/linux/usb/composite.h  | 2 +-
+
+mind breaking this into 4 commits? One for dwc3, one for
+gadget/composite, one for type/mux, and a final for composite.h.
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+XxScRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQa7/RAAtsPISo0jvA38qvCiaBG+0xB2vH45RPzI
+IB7UCKT0xkEo9Vonh3ub5KtgVL78H3U5HLYUWIqc2hhZlxRRyQaU2JZo+sDUwepx
+u6Hf/a4vR2AkDFaz3ZR3/S0ZhH1GGMGSUbPucJwGG7fz8BzQcBORQ845wRqKfZ/9
+8SB5Cr7Y4zgzf4hLe1pvfHgmROfpDuJfSf6lKq8FXHuKA+e7BgWxvIR4io5VGRFj
+AtqFX6sfWScuP77Rr6xM39SNAm3nAZ0TnhRtfhivaUqn6/PgHS/VLRKvSZ1ycQ1u
+g7X4736zyRHHbMnAWKSUrAZocubceU7HthLZPAhrRohvvRqwcX/B54iWKHn29I4p
+eBAEMw9LeWmHz7XuWPMFdgG+11SQG9s1Ah0Eh9z4uGeeTtRaDqzKFwTnIG75i4MK
+F4JwqRBZGKsH8JFq5kr2x6RT8hx1w/w7BCgY8yWs2XgcT3T1uSkwDb6n+I45mxg8
+Q3IKaER4GPcM4JUjV/3sCgPpHHpEY+/LfW4EIKFVXyGu8ohfEDsqQlSkZFr8FKBB
+FLZOnE2sUzbJVdxRJpfRWbApAJqMFDh4VZn5PmiXjPxtD5ckp903uctpJK3iPEBY
+FFofoeDmau1rIjYZVFhQVQcmSk1xaZCAUdkgXqCp/kK0Msv3R07WHNVrfaOFBtBa
+7I+hgoGT9/8=
+=oidC
+-----END PGP SIGNATURE-----
+--=-=-=--
