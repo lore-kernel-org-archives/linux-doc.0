@@ -2,95 +2,94 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF5F7C4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 01:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B27C55178
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:55:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9564420872
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 01:55:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B259721707
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 02:55:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="msptYCNl"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="2MAHbHx0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504288AbgJ0BzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 21:55:13 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:52406 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2504286AbgJ0BzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 21:55:12 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09R1o7Ob038782;
-        Tue, 27 Oct 2020 01:55:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : mime-version :
- content-type; s=corp-2020-01-29;
- bh=yDFM/K9yMuM00gw9MjFpaCvTdtdae5zoXTwTXSqDLD4=;
- b=msptYCNlc4TwmW0hvLinA7e59rWYuzAKqeQQDB5dJ4Jh6Nw4lrVcjClp3ULF6mK3y8KO
- IuL/R9gywy2vmNIGBg+ClKV7TKOyDlurqJa6BYkMxbwCEF6ms0JfwvhBPbpZuwHsnfON
- QBCL/NRj0bhOZTtmSrLcmFrnXCatl+VZgplRsOhb7Por0I0+kHRWkpO5vGzRO0zV8gRT
- hfMEDgkz+dmmNAAocR8BMkJpUQPJXCRi+z+kifDcajqpMZV07cGqUiQ92/qf2uDLuWZw
- qHHupy/fZ11/jLlDwYe+sfHmVnqKKmL7ruoigM880tO4xCFrQNDyDSsAlov3DvtlZwjA UA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 34c9saqmfb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 27 Oct 2020 01:55:01 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09R1pHYS066907;
-        Tue, 27 Oct 2020 01:55:00 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3030.oracle.com with ESMTP id 34cx6vcwa7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 27 Oct 2020 01:55:00 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09R1suW2030550;
-        Tue, 27 Oct 2020 01:54:56 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 26 Oct 2020 18:54:55 -0700
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Chris Leech <cleech@redhat.com>, Lee Duncan <lduncan@suse.com>,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        open-iscsi@googlegroups.com
-Subject: Re: [PATCH v3 27/56] scsi: fix some kernel-doc markups
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq11rhk5t7e.fsf@ca-mkp.ca.oracle.com>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-        <8ed7f149f25a363eea76e514c253c4e337c59379.1603469755.git.mchehab+huawei@kernel.org>
-Date:   Mon, 26 Oct 2020 21:54:53 -0400
-In-Reply-To: <8ed7f149f25a363eea76e514c253c4e337c59379.1603469755.git.mchehab+huawei@kernel.org>
-        (Mauro Carvalho Chehab's message of "Fri, 23 Oct 2020 18:33:14 +0200")
+        id S2408417AbgJ0Cy5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 22:54:57 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:34536 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408268AbgJ0Cy5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Oct 2020 22:54:57 -0400
+Received: by mail-pg1-f194.google.com with SMTP id t14so7208204pgg.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2020 19:54:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QZF0W4dH550EVE0uGKIEMc2tMXwcFBBpVdPSQqA2FHM=;
+        b=2MAHbHx0ohuPXh5dfEpWBJ1Wo1XpSybr0ZIK4nZml41vCIF1vUACcWxDhu7y1Ip5o3
+         m0rAzVo+jdRzscmsBgtSK5F2nx6US1AxlWhQAtnUMWANCNouKFShn7mkLrXt07PIt+29
+         Ae5VD9TY9vxoo8dkcC9NTOiEL8Jr88c0iFX8/xL9Pn+lGm23m5Rz1+DzuC8XTfFkVtKJ
+         6fUnFqiZ1EIcmk31nj/CL5qhZHrS0vi1keWT7Yy464+gAY9EObA83xx5sJFakBU8kQHf
+         18UOHryCI9Z/tLR3iV4lE1PlMYz1Txi+ifXGpBBrSLRLHYt0eNPb+u2WnrovgJpikVhS
+         0R+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QZF0W4dH550EVE0uGKIEMc2tMXwcFBBpVdPSQqA2FHM=;
+        b=J+ThYYUhKZx6pzXijbvP7WAudYwiKXYv5ZlfS1a7NY6o2+tomL0m0SYE78RsIX8Lv8
+         SS1XmRsD1sW9fvmDj6qLa/OnQFTlPp1GMyNkMv+eYlZvk14OlzjXrBV0+tdW6useFr8t
+         V2OMPYHhF7E5afbcHZhwuLotQm7Fjs8g7B/UI9vTz9MoGAYBV4cu/d0TbPkIMdvorGRq
+         ahxNft64Nzu4au21ER2IN/kebfEXE2h95FH4iLMjW2LI5/bDZS9hN4TYWG0AUv01QSz/
+         DZhXISJyCqtIyPi+8798qBpTYcrzqlz/JqZvfNP/eGN0b/F33MPDtP4HFUSUSMB03CP+
+         4mYA==
+X-Gm-Message-State: AOAM5321Jrf5HKiZLmYgpBKCpCPuHShADeworIEuFYhkzIHbSM1AWxZ7
+        wFAKmIEaEghQyQD1wP4s2s/fQpI9X6DRtXpeJyn7Pw==
+X-Google-Smtp-Source: ABdhPJyUXYA2QbO5JVQ8aPVZ/qUZFKpo5APz2TO+UBNlY/I1gMKpDxJkGfjqKKIr9iRX+x23PthAvtxpgrmzfwJVtsM=
+X-Received: by 2002:a63:c851:: with SMTP id l17mr21924pgi.31.1603767295050;
+ Mon, 26 Oct 2020 19:54:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9786 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=969 mlxscore=0 suspectscore=1
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010270012
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9786 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0
- mlxlogscore=985 malwarescore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011 suspectscore=1
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010270012
+References: <20201026145114.59424-1-songmuchun@bytedance.com> <20201026155351.GS20115@casper.infradead.org>
+In-Reply-To: <20201026155351.GS20115@casper.infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 27 Oct 2020 10:54:18 +0800
+Message-ID: <CAMZfGtU4VQ08dnxNBsFfxVEnuOZauOhGSLQpi++3fngc_qNqXQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v2 00/19] Free some vmemmap pages of
+ hugetlb page
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Oct 26, 2020 at 11:53 PM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Mon, Oct 26, 2020 at 10:50:55PM +0800, Muchun Song wrote:
+> > For tail pages, the value of compound_dtor is the same. So we can reuse
+>
+> compound_dtor is only set on the first tail page.  compound_head is
+> what you mean here, I think.
+>
 
-Mauro,
-
-> Some identifiers have different names between their prototypes and the
-> kernel-doc markup.
-
-Applied to 5.11/scsi-staging, thanks!
+Yes, that's right.  Sorry for the confusion. Thanks.
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+Yours,
+Muchun
