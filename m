@@ -7,52 +7,53 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B3EEC4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75512C4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:00:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB2BD21707
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 268F0222C8
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603792372;
-	bh=SLlCxYtnKWjDjR6xkI87fNMGzcB0tiqNJ9pWSUh4OoY=;
+	s=default; t=1603792851;
+	bh=7iRzQ9FtMsadAedSe/m2uOK3R6zBKK4pf/UOJjIXzSM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=M3ddyRoKeS8u1LuvDCBKxeiHtyYIjR42xfOA+3jQuIsjJpNeNiHjUPnipbWuSdQZ6
-	 Fbd98qOQ6xSd5DQmJ7ZpJgLHHjow3K/sERH8SRxlNW/bylyxPWP8yk1F+G1ffTjYaI
-	 cOj7VXbs453FjtFtd+prVq/yVvlCEzQt8g4iM2Ic=
+	b=KZC7f5cKavn4KkVNZlc3iD+H7F3HvjkwyxIjPE+t8ZNLjhQjMYB1EuvxU9R61ELVa
+	 FqwMT6qqbs1V7Fn0EuIv1UVJh7ED4byxJrWx/NEgafEM/HWhe6QRKy4RW+OP7u/tmQ
+	 96R5M4B9v+9YoYYOGJJyNOEe6TxS8OC5qfBgTmL0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896267AbgJ0Jwo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 05:52:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42516 "EHLO mail.kernel.org"
+        id S2896698AbgJ0KAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:00:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42612 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896052AbgJ0Jvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2896065AbgJ0Jvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 27 Oct 2020 05:51:44 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9EACB2417B;
-        Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0D8DC24677;
+        Tue, 27 Oct 2020 09:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603792301;
-        bh=SLlCxYtnKWjDjR6xkI87fNMGzcB0tiqNJ9pWSUh4OoY=;
+        s=default; t=1603792302;
+        bh=7iRzQ9FtMsadAedSe/m2uOK3R6zBKK4pf/UOJjIXzSM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nTjBO5wdjUKoc//FExBdD72S2llXTT2cXfLsNj7oOXz58Gu5gCFw4MMSJ62Rm4Dr6
-         twiYyF5XY6dcmdDFboOOunJY0AqNdcovFvL5ql2aF1hqNUddG2VUmelLA9fLppslX6
-         Q2JwaEo7QHEerBVI19z+rPlB/2qiWOHMwR0xnvmQ=
+        b=Dcsblmz0EkVXN+vfJXxMzME789p5Ep83AyUYuExckEi++nLmuGrXGYKf6fuAZb9mB
+         Hzh7y+UgEnIONRwARO7M8zu6X8DbUj2CYUy+IAJRei33rZOzx2juH2dSni9X2bpUY8
+         sQk0IAHZvYVieBp/DkSc/RRJz6gtpNx56Qv7saQU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdj-003FFH-Iz; Tue, 27 Oct 2020 10:51:39 +0100
+        id 1kXLdk-003FFr-0G; Tue, 27 Oct 2020 10:51:40 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 19/32] locking/refcount: move kernel-doc markups to the proper place
-Date:   Tue, 27 Oct 2020 10:51:23 +0100
-Message-Id: <7985c31d1ace591bc5e1faa05c367f1295b78afd.1603791716.git.mchehab+huawei@kernel.org>
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 31/32] drm: drm_print.h: fix kernel-doc markups
+Date:   Tue, 27 Oct 2020 10:51:35 +0100
+Message-Id: <5b76c5625709aaaa3abee98faa620b9f3d27ff85.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -63,282 +64,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
-added a set of functions starting with __ that have a new
-parameter, adding a series of new warnings:
+A kernel-doc markup should start with the identifier on its
+first line.
 
-	$ ./scripts/kernel-doc -none include/linux/refcount.h
-	include/linux/refcount.h:169: warning: Function parameter or member 'oldp' not described in '__refcount_add_not_zero'
-	include/linux/refcount.h:208: warning: Function parameter or member 'oldp' not described in '__refcount_add'
-	include/linux/refcount.h:239: warning: Function parameter or member 'oldp' not described in '__refcount_inc_not_zero'
-	include/linux/refcount.h:261: warning: Function parameter or member 'oldp' not described in '__refcount_inc'
-	include/linux/refcount.h:291: warning: Function parameter or member 'oldp' not described in '__refcount_sub_and_test'
-	include/linux/refcount.h:327: warning: Function parameter or member 'oldp' not described in '__refcount_dec_and_test'
-	include/linux/refcount.h:347: warning: Function parameter or member 'oldp' not described in '__refcount_dec'
-
-The issue is that the kernel-doc markups are now misplaced,
-as they should be added just before the functions.
-
-So, move the kernel-doc markups to the proper places,
-in order to drop the warnings.
-
-It should be noticed that git show produces a crappy output,
-for this patch without "--patience" flag.
-
-Fixes: a435b9a14356 ("locking/refcount: Provide __refcount API to obtain the old value")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/refcount.h | 158 +++++++++++++++++++--------------------
- 1 file changed, 79 insertions(+), 79 deletions(-)
+ include/drm/drm_print.h | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-index 7fabb1af18e0..497990c69b0b 100644
---- a/include/linux/refcount.h
-+++ b/include/linux/refcount.h
-@@ -147,24 +147,6 @@ static inline unsigned int refcount_read(const refcount_t *r)
- 	return atomic_read(&r->refs);
- }
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 1c9417430d08..f32d179e139d 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -338,7 +338,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 		 const char *format, ...);
  
--/**
-- * refcount_add_not_zero - add a value to a refcount unless it is 0
-- * @i: the value to add to the refcount
-- * @r: the refcount
-- *
-- * Will saturate at REFCOUNT_SATURATED and WARN.
-- *
-- * Provides no memory ordering, it is assumed the caller has guaranteed the
-- * object memory to be stable (RCU, etc.). It does provide a control dependency
-- * and thereby orders future stores. See the comment on top.
-- *
-- * Use of this function is not recommended for the normal reference counting
-- * use case in which references are taken and released one at a time.  In these
-- * cases, refcount_inc(), or one of its variants, should instead be used to
-- * increment a reference count.
-- *
-- * Return: false if the passed refcount is 0, true otherwise
-- */
- static inline __must_check bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
- {
- 	int old = refcount_read(r);
-@@ -183,27 +165,29 @@ static inline __must_check bool __refcount_add_not_zero(int i, refcount_t *r, in
- 	return old;
- }
- 
-+/**
-+ * refcount_add_not_zero - add a value to a refcount unless it is 0
-+ * @i: the value to add to the refcount
-+ * @r: the refcount
-+ *
-+ * Will saturate at REFCOUNT_SATURATED and WARN.
-+ *
-+ * Provides no memory ordering, it is assumed the caller has guaranteed the
-+ * object memory to be stable (RCU, etc.). It does provide a control dependency
-+ * and thereby orders future stores. See the comment on top.
-+ *
-+ * Use of this function is not recommended for the normal reference counting
-+ * use case in which references are taken and released one at a time.  In these
-+ * cases, refcount_inc(), or one of its variants, should instead be used to
-+ * increment a reference count.
-+ *
-+ * Return: false if the passed refcount is 0, true otherwise
-+ */
- static inline __must_check bool refcount_add_not_zero(int i, refcount_t *r)
- {
- 	return __refcount_add_not_zero(i, r, NULL);
- }
- 
--/**
-- * refcount_add - add a value to a refcount
-- * @i: the value to add to the refcount
-- * @r: the refcount
-- *
-- * Similar to atomic_add(), but will saturate at REFCOUNT_SATURATED and WARN.
-- *
-- * Provides no memory ordering, it is assumed the caller has guaranteed the
-- * object memory to be stable (RCU, etc.). It does provide a control dependency
-- * and thereby orders future stores. See the comment on top.
-- *
-- * Use of this function is not recommended for the normal reference counting
-- * use case in which references are taken and released one at a time.  In these
-- * cases, refcount_inc(), or one of its variants, should instead be used to
-- * increment a reference count.
-- */
- static inline void __refcount_add(int i, refcount_t *r, int *oldp)
- {
- 	int old = atomic_fetch_add_relaxed(i, &r->refs);
-@@ -217,11 +201,32 @@ static inline void __refcount_add(int i, refcount_t *r, int *oldp)
- 		refcount_warn_saturate(r, REFCOUNT_ADD_OVF);
- }
- 
-+/**
-+ * refcount_add - add a value to a refcount
-+ * @i: the value to add to the refcount
-+ * @r: the refcount
-+ *
-+ * Similar to atomic_add(), but will saturate at REFCOUNT_SATURATED and WARN.
-+ *
-+ * Provides no memory ordering, it is assumed the caller has guaranteed the
-+ * object memory to be stable (RCU, etc.). It does provide a control dependency
-+ * and thereby orders future stores. See the comment on top.
-+ *
-+ * Use of this function is not recommended for the normal reference counting
-+ * use case in which references are taken and released one at a time.  In these
-+ * cases, refcount_inc(), or one of its variants, should instead be used to
-+ * increment a reference count.
-+ */
- static inline void refcount_add(int i, refcount_t *r)
- {
- 	__refcount_add(i, r, NULL);
- }
- 
-+static inline __must_check bool __refcount_inc_not_zero(refcount_t *r, int *oldp)
-+{
-+	return __refcount_add_not_zero(1, r, oldp);
-+}
-+
  /**
-  * refcount_inc_not_zero - increment a refcount unless it is 0
-  * @r: the refcount to increment
-@@ -235,16 +240,16 @@ static inline void refcount_add(int i, refcount_t *r)
+- * Error output.
++ * DRM_DEV_ERROR() - Error output.
   *
-  * Return: true if the increment was successful, false otherwise
-  */
--static inline __must_check bool __refcount_inc_not_zero(refcount_t *r, int *oldp)
--{
--	return __refcount_add_not_zero(1, r, oldp);
--}
--
- static inline __must_check bool refcount_inc_not_zero(refcount_t *r)
- {
- 	return __refcount_inc_not_zero(r, NULL);
- }
+  * @dev: device pointer
+  * @fmt: printf() like format string.
+@@ -347,10 +347,12 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
  
-+static inline void __refcount_inc(refcount_t *r, int *oldp)
-+{
-+	__refcount_add(1, r, oldp);
-+}
-+
  /**
-  * refcount_inc - increment a refcount
-  * @r: the refcount to increment
-@@ -257,36 +262,11 @@ static inline __must_check bool refcount_inc_not_zero(refcount_t *r)
-  * Will WARN if the refcount is 0, as this represents a possible use-after-free
-  * condition.
-  */
--static inline void __refcount_inc(refcount_t *r, int *oldp)
--{
--	__refcount_add(1, r, oldp);
--}
--
- static inline void refcount_inc(refcount_t *r)
- {
- 	__refcount_inc(r, NULL);
- }
- 
--/**
-- * refcount_sub_and_test - subtract from a refcount and test if it is 0
-- * @i: amount to subtract from the refcount
-- * @r: the refcount
-- *
-- * Similar to atomic_dec_and_test(), but it will WARN, return false and
-- * ultimately leak on underflow and will fail to decrement when saturated
-- * at REFCOUNT_SATURATED.
-- *
-- * Provides release memory ordering, such that prior loads and stores are done
-- * before, and provides an acquire ordering on success such that free()
-- * must come after.
-- *
-- * Use of this function is not recommended for the normal reference counting
-- * use case in which references are taken and released one at a time.  In these
-- * cases, refcount_dec(), or one of its variants, should instead be used to
-- * decrement a reference count.
-- *
-- * Return: true if the resulting refcount is 0, false otherwise
-- */
- static inline __must_check bool __refcount_sub_and_test(int i, refcount_t *r, int *oldp)
- {
- 	int old = atomic_fetch_sub_release(i, &r->refs);
-@@ -305,11 +285,36 @@ static inline __must_check bool __refcount_sub_and_test(int i, refcount_t *r, in
- 	return false;
- }
- 
-+/**
-+ * refcount_sub_and_test - subtract from a refcount and test if it is 0
-+ * @i: amount to subtract from the refcount
-+ * @r: the refcount
-+ *
-+ * Similar to atomic_dec_and_test(), but it will WARN, return false and
-+ * ultimately leak on underflow and will fail to decrement when saturated
-+ * at REFCOUNT_SATURATED.
-+ *
-+ * Provides release memory ordering, such that prior loads and stores are done
-+ * before, and provides an acquire ordering on success such that free()
-+ * must come after.
-+ *
-+ * Use of this function is not recommended for the normal reference counting
-+ * use case in which references are taken and released one at a time.  In these
-+ * cases, refcount_dec(), or one of its variants, should instead be used to
-+ * decrement a reference count.
-+ *
-+ * Return: true if the resulting refcount is 0, false otherwise
-+ */
- static inline __must_check bool refcount_sub_and_test(int i, refcount_t *r)
- {
- 	return __refcount_sub_and_test(i, r, NULL);
- }
- 
-+static inline __must_check bool __refcount_dec_and_test(refcount_t *r, int *oldp)
-+{
-+	return __refcount_sub_and_test(1, r, oldp);
-+}
-+
- /**
-  * refcount_dec_and_test - decrement a refcount and test if it is 0
-  * @r: the refcount
-@@ -323,26 +328,11 @@ static inline __must_check bool refcount_sub_and_test(int i, refcount_t *r)
+- * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
++ * DRM_DEV_ERROR_RATELIMITED() - Rate limited error output.
   *
-  * Return: true if the resulting refcount is 0, false otherwise
+  * @dev: device pointer
+  * @fmt: printf() like format string.
++ *
++ * Like DRM_ERROR() but won't flood the log.
   */
--static inline __must_check bool __refcount_dec_and_test(refcount_t *r, int *oldp)
--{
--	return __refcount_sub_and_test(1, r, oldp);
--}
--
- static inline __must_check bool refcount_dec_and_test(refcount_t *r)
- {
- 	return __refcount_dec_and_test(r, NULL);
- }
+ #define DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)			\
+ ({									\
+@@ -375,15 +377,27 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ })
  
--/**
-- * refcount_dec - decrement a refcount
-- * @r: the refcount
-- *
-- * Similar to atomic_dec(), it will WARN on underflow and fail to decrement
-- * when saturated at REFCOUNT_SATURATED.
-- *
-- * Provides release memory ordering, such that prior loads and stores are done
-- * before.
-- */
- static inline void __refcount_dec(refcount_t *r, int *oldp)
- {
- 	int old = atomic_fetch_sub_release(1, &r->refs);
-@@ -354,6 +344,16 @@ static inline void __refcount_dec(refcount_t *r, int *oldp)
- 		refcount_warn_saturate(r, REFCOUNT_DEC_LEAK);
- }
- 
+ /**
+- * Debug output.
++ * DRM_DEV_DEBUG() - Debug output for generic drm code
+  *
+  * @dev: device pointer
+  * @fmt: printf() like format string.
+  */
+ #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+ 	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
 +/**
-+ * refcount_dec - decrement a refcount
-+ * @r: the refcount
++ * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
 + *
-+ * Similar to atomic_dec(), it will WARN on underflow and fail to decrement
-+ * when saturated at REFCOUNT_SATURATED.
-+ *
-+ * Provides release memory ordering, such that prior loads and stores are done
-+ * before.
++ * @dev: device pointer
++ * @fmt: printf() like format string.
 + */
- static inline void refcount_dec(refcount_t *r)
- {
- 	__refcount_dec(r, NULL);
+ #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+ 	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
++/**
++ * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
++ *
++ * @dev: device pointer
++ * @fmt: printf() like format string.
++ */
+ #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+ 	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+ 
 -- 
 2.26.2
 
