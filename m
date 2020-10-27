@@ -2,120 +2,181 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BA7C4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 17:12:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA0AC55179
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:04:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC8E720809
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 17:12:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1073D22202
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:04:04 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4caFk+lC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lTRRlHFY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1817018AbgJ0RMQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 13:12:16 -0400
-Received: from mga07.intel.com ([134.134.136.100]:40472 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1786275AbgJ0RMN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 13:12:13 -0400
-IronPort-SDR: TkVPNnlHh87Qmna1IG0JUXndEZBmXEqMKIKmwG11ESwyskO78nt8bIkvsd1qQqB+YjwM//nYaq
- 29qBgTDmcDzg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="232310100"
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
-   d="scan'208";a="232310100"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 10:12:11 -0700
-IronPort-SDR: HXsMrvAkjPUr8QiYpDno6fpZ8tfqF1mxLHLXQH6Xn3teK+iOteaHRF5Fr8kcllVbacPe5rOquO
- BlWKPwfFKDNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
-   d="scan'208";a="350662076"
-Received: from marshy.an.intel.com (HELO [10.122.105.159]) ([10.122.105.159])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Oct 2020 10:12:11 -0700
-Subject: Re: [PATCH v3 40/56] firmware: stratix10-svc: fix kernel-doc markups
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <f417f0605346b2d72b1a7f5b3989c9aca29729df.1603469755.git.mchehab+huawei@kernel.org>
-From:   Richard Gong <richard.gong@linux.intel.com>
-Message-ID: <42c3c7bf-bbdb-cba8-af58-37fb3637f443@linux.intel.com>
-Date:   Tue, 27 Oct 2020 12:31:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1824172AbgJ0SDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 14:03:52 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:47242 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757354AbgJ0OSx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 10:18:53 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1603808330;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=bp5AhnmI6jiWnr53CzwF3Og28djxSNnmYmmHL2UuOt8=;
+        b=4caFk+lCP6PVdjBxaNFbTnShKMIwXnD+J+z7qE1HQdjW6s3bBKNN3Bs6728AGd9MPL0sTq
+        cYISE15GvnXPm9FGyuLiMR+CXo90PPIGeKy4DIMtc3s1N8yEU+cp0JemmMnvP0tmsvjdLD
+        Dgt9qUFlO4cIdf888uV1s5K3Wq1JXAGPw04msakKd7SPj/5U5SEsoekRKEZfOjEP+ikZ0v
+        roYhgpyqP6twzv+qYS4VFH5HHtA9R8ZukptrIJi9OkB7HMo5cY7HJ0fR8aK5O+PQSYaZkP
+        N7NhwIvmvA2WYXJ0FhoK7NEbPHOL9li9UV0eZaQcxedHi6C0wLyEmpV5NFsQmg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1603808330;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=bp5AhnmI6jiWnr53CzwF3Og28djxSNnmYmmHL2UuOt8=;
+        b=lTRRlHFYQ0djlr+fFdTRbzmeeMFyKa1T2J8cQAjJqIC+Llz0DlhTmFB4EFQ6PWRoIWCjfH
+        dmJid13IGhNMJAAA==
+To:     Ira Weiny <ira.weiny@intel.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 06/10] x86/entry: Move nmi entry/exit into common code
+In-Reply-To: <20201027070750.GM534324@iweiny-DESK2.sc.intel.com>
+References: <20201022222701.887660-1-ira.weiny@intel.com> <20201022222701.887660-7-ira.weiny@intel.com> <874kmk6298.fsf@nanos.tec.linutronix.de> <20201027070750.GM534324@iweiny-DESK2.sc.intel.com>
+Date:   Tue, 27 Oct 2020 15:18:50 +0100
+Message-ID: <87pn5321md.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <f417f0605346b2d72b1a7f5b3989c9aca29729df.1603469755.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Acked-by: Richard Gong <richard.gong@linux.intel.com>
+On Tue, Oct 27 2020 at 00:07, Ira Weiny wrote:
+> On Fri, Oct 23, 2020 at 11:50:11PM +0200, Thomas Gleixner wrote:
+>> >  #ifndef irqentry_state
+>> >  typedef struct irqentry_state {
+>> > -	bool	exit_rcu;
+>> > +	union {
+>> > +		bool	exit_rcu;
+>> > +		bool	lockdep;
+>> > +	};
+>> >  } irqentry_state_t;
+>> >  #endif
+>> 
+>>   -E_NO_KERNELDOC
+>
+> Adding: Paul McKenney
+>
+> I'm happy to write something but I'm very unfamiliar with this code.  So I'm
+> getting confused what exactly exit_rcu is flagging.
+>
+> I can see that exit_rcu is a bad name for the state used in
+> irqentry_nmi_[enter|exit]().  Furthermore, I see why 'lockdep' is a better
+> name.  But similar lockdep handling is used in irqentry_exit() if exit_rcu is
+> true...
 
-On 10/23/20 11:33 AM, Mauro Carvalho Chehab wrote:
-> There are some common comments marked, instead, with kernel-doc
-> notation, which won't work.
-> 
-> While here, rename an identifier, in order to match the
-> function prototype below kernel-doc markup.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   include/linux/firmware/intel/stratix10-svc-client.h | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
-> index a93d85932eb9..ebc295647581 100644
-> --- a/include/linux/firmware/intel/stratix10-svc-client.h
-> +++ b/include/linux/firmware/intel/stratix10-svc-client.h
-> @@ -6,7 +6,7 @@
->   #ifndef __STRATIX10_SVC_CLIENT_H
->   #define __STRATIX10_SVC_CLIENT_H
->   
-> -/**
-> +/*
->    * Service layer driver supports client names
->    *
->    * fpga: for FPGA configuration
-> @@ -15,7 +15,7 @@
->   #define SVC_CLIENT_FPGA			"fpga"
->   #define SVC_CLIENT_RSU			"rsu"
->   
-> -/**
-> +/*
->    * Status of the sent command, in bit number
->    *
->    * SVC_STATUS_OK:
-> @@ -50,7 +50,7 @@
->   #define SVC_STATUS_ERROR		5
->   #define SVC_STATUS_NO_SUPPORT		6
->   
-> -/**
-> +/*
->    * Flag bit for COMMAND_RECONFIG
->    *
->    * COMMAND_RECONFIG_FLAG_PARTIAL:
-> @@ -58,7 +58,7 @@
->    */
->   #define COMMAND_RECONFIG_FLAG_PARTIAL	1
->   
-> -/**
-> +/*
->    * Timeout settings for service clients:
->    * timeout value used in Stratix10 FPGA manager driver.
->    * timeout value used in RSU driver
-> @@ -218,7 +218,7 @@ void stratix10_svc_free_memory(struct stratix10_svc_chan *chan, void *kaddr);
->   int stratix10_svc_send(struct stratix10_svc_chan *chan, void *msg);
->   
->   /**
-> - * intel_svc_done() - complete service request
-> + * stratix10_svc_done() - complete service request
->    * @chan: service channel assigned to the client
->    *
->    * This function is used by service client to inform service layer that
-> 
+No, it's not similar at all. Lockdep state vs. interrupts and regular
+exceptions is always consistent.
+
+In the NMI case, that's not guaranteed because of
+
+       local_irq_disable()
+         arch_local_irq_disable()
+                                        <- NMI race window
+         trace_hardirqs_off()
+
+same the other way round
+
+       local_irq_enable()
+         trace_hardirqs_on()
+                                        <- NMI race window
+         arch_local_irq_enable()
+
+IOW, the hardware state and the lockdep state are not consistent.
+
+> /**
+>  * struct irqentry_state - Opaque object for exception state storage
+>  * @exit_rcu: Used exclusively in the irqentry_*() calls; tracks if the
+>  *            exception hit the idle task which requires special handling,
+>  *            including calling rcu_irq_exit(), when the exception
+>  exits.
+
+calls; signals whether the exit path has to invoke rcu_irq_exit().
+
+>  * @lockdep: Used exclusively in the irqentry_nmi_*() calls; ensures lockdep
+>  *           tracking is maintained if hardirqs were already enabled
+
+   ensures that lockdep state is restored correctly on exit from nmi.
+
+>  *
+>  * This opaque object is filled in by the irqentry_*_enter() functions and
+>  * should be passed back into the corresponding irqentry_*_exit()
+>  functions
+
+s/should/must/
+
+>  * when the exception is complete.
+>  *
+>  * Callers of irqentry_*_[enter|exit]() should consider this structure
+>  opaque
+
+s/should/must/
+
+>  * and all members private.  Descriptions of the members are provided to aid in
+>  * the maintenance of the irqentry_*() functions.
+>  */
+>
+> Perhaps Paul can enlighten me on how exit_rcu is used beyond just flagging a
+> call to rcu_irq_exit()?
+
+I can do that as well :) The only purpose is to invoke rcu_irq_exit()
+conditionally.
+
+> Why do we call lockdep_hardirqs_off() only when in the idle task?  That implies
+> that regs_irqs_disabled() can only be false if we were in the idle task to
+> match up the lockdep on/off calls.
+
+You're reading the code slightly wrong.
+
+> This does not make sense to me because why do we need the extra check
+> for exit_rcu?  I'm still trying to understand when regs_irqs_disabled() is false.
+
+It's false when the interrupted context had interrupts enabled.
+
+So we have the following scenarios:
+
+ Usermode   Idletask   irqs enabled  RCU entry  RCU exit
+   Y           N           Y		Y          Y
+
+   N           N           Y            N          N 
+   N           N           N            N          N
+   N           Y           Y            Y          Y
+   N           Y           N            Y          Y                       
+
+Now you might wonder about irqs enabled/disabled. This code is not only
+used for interrupts (device, ipi, local timer...) where interrupts are
+obviously enabled, it's also used for exception entry/exit. You can have
+e.g. pagefaults in interrupt disabled regions.
+
+> Also, the comment in irqentry_enter() refers to irq_enter_from_user_mode() which
+> does not seem to exist anymore.  So I'm not sure what careful sequence it is
+> referring to.
+
+That was renamed to irqentry_enter_from_user_mode() and the comment was
+not updated. Sorry for leaving this hard to solve puzzle around.
+
+Thanks,
+
+        tglx
