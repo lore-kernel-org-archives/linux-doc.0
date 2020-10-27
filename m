@@ -4,54 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA14C388F9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFCDC56201
 	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9953820732
+	by mail.kernel.org (Postfix) with ESMTP id 615C6206E5
 	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1603792961;
-	bh=rdpIjUCn8I2jWacOW9CCQKWVEkvFnGocny38ubnytOA=;
+	bh=61NJdUXvXA8bBUCLfymdDzSMs6SOOMfrxefki5XHE1A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=qxdnRFW9bJgCtHtNKjXN2DZEt9R4RcA0IZs8R91ogDrN+CVmgKsS9L/95y4PgqSVa
-	 oXjZUCQ4+uDOgKfu7j5M1woKyQ6yuRWUhZwASTqHpys2/cLILHJM5pJyE1f0OX9ASO
-	 HUQsPn08ew55IgJVt9ZEByWA/kFZ5myXBz7y3Adc=
+	b=0hyiMVxHTan01Cp0S6YDrRx+8i+F8J3gQ6eW+g3Slp0OdI/jDOciesbceJPo5/tMX
+	 uYRJpeZg8GbOQorK6REdTkn5ulbGWIqW8nUS+aSsfaSowkj1lUUB4ZRkZuoQblqTmr
+	 Vum7GoR4kvZVpddJYZv8AsKSNz2Wy0+HY8u0domg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410510AbgJ0KCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:02:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42510 "EHLO mail.kernel.org"
+        id S2896930AbgJ0KCf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:02:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42484 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896028AbgJ0Jvm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2896023AbgJ0Jvm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 27 Oct 2020 05:51:42 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A1AB222C8;
+        by mail.kernel.org (Postfix) with ESMTPSA id 1A98422284;
         Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603792301;
-        bh=rdpIjUCn8I2jWacOW9CCQKWVEkvFnGocny38ubnytOA=;
+        bh=61NJdUXvXA8bBUCLfymdDzSMs6SOOMfrxefki5XHE1A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fB49CDxy6mDdMY3SYyaxLTqXsoGx6b1zmyKbCnA0/NvLX5eP01XYHxYjO81zhNP0V
-         OErBV3RRLQtecfmpDT8cey5lMFOqvR4vSUSs8hfVa1gYRKY+ITjReSCuc6NLddr30J
-         GoRXJlVdsKGtJZg59tq0nR3UrHdxaO2z9puaCcIM=
+        b=VOO/UBun8AjmhL0t8cvOXHBFJZgsAteqzA5+nR2jfw1VD8A/Pz2RDn77L61HaE1ZM
+         2fHBP1Hai7stLXLn3NCXcV8oi6otGcfDEUCKT9k3WNQ5ZQjsx6H/nlYU2nh3/6fxvO
+         ijZl3H7ZqsfqHDZM0mQP5mIg48i0QFVnFz/w5ftw=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdj-003FEn-6R; Tue, 27 Oct 2020 10:51:39 +0100
+        id 1kXLdi-003FEZ-W9; Tue, 27 Oct 2020 10:51:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        Jacob Pan <jacob.pan.linux@gmail.com>,
-        Joerg Roedel <jroedel@suse.de>, Liu Yi L <yi.l.liu@intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 08/32] docs: userspace-api: add iommu.rst to the index file
-Date:   Tue, 27 Oct 2020 10:51:12 +0100
-Message-Id: <cc55219a551e29848e2282cd8939a4115067234c.1603791716.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 03/32] docs: hwmon: adm1266.rst: fix a broken reference
+Date:   Tue, 27 Oct 2020 10:51:07 +0100
+Message-Id: <3d64372dabcdcea144cdc9972c245812ea2a84cb.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -62,29 +61,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a new uAPI doc for IOMMU. Add it to the index file.
-Should address this warning:
+The reference was missing the extension, causing the
+check script to complain.
 
-	.../Documentation/userspace-api/iommu.rst: WARNING: document isn't included in any toctree
-
-Fixes: d0023e3ee28d ("docs: IOMMU user API")
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/userspace-api/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/hwmon/adm1266.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 69fc5167e648..acd2cc2a538d 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -22,6 +22,7 @@ place where this information is gathered.
-    spec_ctrl
-    accelerators/ocxl
-    ioctl/index
-+   iommu
-    media/index
+diff --git a/Documentation/hwmon/adm1266.rst b/Documentation/hwmon/adm1266.rst
+index 9257f8a48650..2b877011cfdf 100644
+--- a/Documentation/hwmon/adm1266.rst
++++ b/Documentation/hwmon/adm1266.rst
+@@ -20,7 +20,7 @@ ADM1266 is a sequencer that features voltage readback from 17 channels via an
+ integrated 12 bit SAR ADC, accessed using a PMBus interface.
  
- .. only::  subproject and html
+ The driver is a client driver to the core PMBus driver. Please see
+-Documentation/hwmon/pmbus for details on PMBus client drivers.
++Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+ 
+ 
+ Sysfs entries
 -- 
 2.26.2
 
