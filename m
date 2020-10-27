@@ -5,51 +5,51 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1A8C2D0A3
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:06:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D5DC55178
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:10:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6910D20791
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:06:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFB8421D7B
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 00:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603757207;
-	bh=6QfnvC4Bo1nyrqZvPlGsP1hwRIQeoxX+poOhfilRcV4=;
+	s=default; t=1603757405;
+	bh=wNjrpoPByKmGM1pKMhLwEeB1fFFK5Z3qMZXzoqDcn2Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=z8fhHIH6pyaG4FBZqDZ6defTrHSckDUqGvT1efnOF2DcO7VP4Pd4o5IL9nMgOzEJV
-	 WlAtGLLMNYDrsbG2Itb28SWzgnVGtGW6VTsJZenoAHDmtRc7go09PHE+Y5GFjrUmZd
-	 Y+lzGFoMk9I9tRcHtc2GA0YAwvc+Vepf50uIGm10=
+	b=ZO3yjhaGdXjg8KaX+pNZ442LjosN/ztMBIscmEIhB3Qqn2xRgpQ5hbh6dAb5mb0DI
+	 rqaaAQWmBupGi5TE1jfD5mdU50yDmxSSgNYEcwhZP5UR1pTlGxCUwW3Elj3ZaWmog3
+	 AWvfkJx87ZD+t0uZd6fqOnHZfgpfmp4MR59E4B18=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438815AbgJ0AGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Oct 2020 20:06:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53104 "EHLO mail.kernel.org"
+        id S2394027AbgJ0AKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Oct 2020 20:10:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58718 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437644AbgJ0AEg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Oct 2020 20:04:36 -0400
+        id S2439131AbgJ0AKE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Oct 2020 20:10:04 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DC6DD217A0;
-        Tue, 27 Oct 2020 00:04:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4B8FA20791;
+        Tue, 27 Oct 2020 00:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603757075;
-        bh=6QfnvC4Bo1nyrqZvPlGsP1hwRIQeoxX+poOhfilRcV4=;
+        s=default; t=1603757404;
+        bh=wNjrpoPByKmGM1pKMhLwEeB1fFFK5Z3qMZXzoqDcn2Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nb2vnkrviNDjP6tQtUOaJ01Jx0C4TVWJ+KPXawJmJxLf2Dd+CxgE6TC6XE4GtQgWG
-         9NqNrc5XZwvlg37gZmyeBVsCS7mjF0ovZ4Gv6B/mrOYv3UGFWSdqxj3ieJ7SoPReYC
-         3S88S9X6SwSfM9FXV6P/ZxRVO5dxbPYhVuT2Io24=
+        b=Z2/HP8kuYqWuhk5IqnjzCdHSINxI+kvdQJ3fa0F+noGx4HXGlTCOHAuRgw5IyCpHF
+         doZhJ68abWI8eWaothnzeqKEn46A2JY8+JVi3ZMEWwW2lj84KcYCzrDvGfLXrHfEwJ
+         80vyPsT2+CP87GPMNJbbA8DfbCBUmBXTQHzjnEjI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 16/60] media: videodev2.h: RGB BT2020 and HSV are always full range
-Date:   Mon, 26 Oct 2020 20:03:31 -0400
-Message-Id: <20201027000415.1026364-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 14/46] media: videodev2.h: RGB BT2020 and HSV are always full range
+Date:   Mon, 26 Oct 2020 20:09:13 -0400
+Message-Id: <20201027000946.1026923-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000415.1026364-1-sashal@kernel.org>
-References: <20201027000415.1026364-1-sashal@kernel.org>
+In-Reply-To: <20201027000946.1026923-1-sashal@kernel.org>
+References: <20201027000946.1026923-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -132,7 +132,7 @@ index 09fabf4cd4126..ca7176cae8dd8 100644
  
  
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 1aae2e4b8f102..b73f4423bc09d 100644
+index 1c095b5a99c58..b773e96b4a286 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
 @@ -362,9 +362,9 @@ enum v4l2_hsv_encoding {
@@ -166,8 +166,8 @@ index 1aae2e4b8f102..b73f4423bc09d 100644
 +	(((is_rgb_or_hsv) || (colsp) == V4L2_COLORSPACE_JPEG) ? \
 +	 V4L2_QUANTIZATION_FULL_RANGE : V4L2_QUANTIZATION_LIM_RANGE)
  
- /*
-  * Deprecated names for opRGB colorspace (IEC 61966-2-5)
+ enum v4l2_priority {
+ 	V4L2_PRIORITY_UNSET       = 0,  /* not initialized */
 -- 
 2.25.1
 
