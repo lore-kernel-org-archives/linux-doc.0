@@ -7,53 +7,51 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75512C4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:00:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F09C388F9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 268F0222C8
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:00:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 420FC2225C
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603792851;
-	bh=7iRzQ9FtMsadAedSe/m2uOK3R6zBKK4pf/UOJjIXzSM=;
+	s=default; t=1603792880;
+	bh=nmVlHJl4ky1onYW7Dq+mrJQd7XAD9Hsjyr0pZ7lcwnE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=KZC7f5cKavn4KkVNZlc3iD+H7F3HvjkwyxIjPE+t8ZNLjhQjMYB1EuvxU9R61ELVa
-	 FqwMT6qqbs1V7Fn0EuIv1UVJh7ED4byxJrWx/NEgafEM/HWhe6QRKy4RW+OP7u/tmQ
-	 96R5M4B9v+9YoYYOGJJyNOEe6TxS8OC5qfBgTmL0=
+	b=Y4iznEt0+X+kF1pbDa2HImp8c+qDqnGwNBJ/JPs4R/5mrIAvMlgxm/v/grHICYkcp
+	 GCheC+OEvXsmIQPljGHHPZfSN4aOM7LkLtCZz/tWaoKhRtxMmPagrCuTOnq/rqHgda
+	 2veWG/AkyBCpyY5VFOJ3EI8weihesH+UrSy5zk+I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896698AbgJ0KAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:00:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42612 "EHLO mail.kernel.org"
+        id S2896741AbgJ0KBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:01:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42514 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896065AbgJ0Jvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 05:51:44 -0400
+        id S2896053AbgJ0Jvn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Oct 2020 05:51:43 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0D8DC24677;
-        Tue, 27 Oct 2020 09:51:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BA9F424199;
+        Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603792302;
-        bh=7iRzQ9FtMsadAedSe/m2uOK3R6zBKK4pf/UOJjIXzSM=;
+        s=default; t=1603792301;
+        bh=nmVlHJl4ky1onYW7Dq+mrJQd7XAD9Hsjyr0pZ7lcwnE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Dcsblmz0EkVXN+vfJXxMzME789p5Ep83AyUYuExckEi++nLmuGrXGYKf6fuAZb9mB
-         Hzh7y+UgEnIONRwARO7M8zu6X8DbUj2CYUy+IAJRei33rZOzx2juH2dSni9X2bpUY8
-         sQk0IAHZvYVieBp/DkSc/RRJz6gtpNx56Qv7saQU=
+        b=gfA4ech+UxL7gl/KMolyJ45N5ZQ5YTWHlr0nl6u/lRLKHTorLbFYfForbQXrl1JpC
+         P/egqjtOJ+mjvCPGko4KCwjbgMVTgINy0wvgLWUMZu6OgJuK1/ceLnjnuA/zGWGAJi
+         WsubpSveoltMGUAGQjNzhN/6XOQ6f6YBwKJpn36Q=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdk-003FFr-0G; Tue, 27 Oct 2020 10:51:40 +0100
+        id 1kXLdj-003FFT-OF; Tue, 27 Oct 2020 10:51:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 31/32] drm: drm_print.h: fix kernel-doc markups
-Date:   Tue, 27 Oct 2020 10:51:35 +0100
-Message-Id: <5b76c5625709aaaa3abee98faa620b9f3d27ff85.1603791716.git.mchehab+huawei@kernel.org>
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Harshad Shirwadkar <harshadshirwadkar@gmail.com>,
+        Jan Kara <jack@suse.com>, linux-ext4@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 23/32] jbd2: fix a kernel-doc markup
+Date:   Tue, 27 Oct 2020 10:51:27 +0100
+Message-Id: <6055927ada2015b55b413cdd2670533bdc9a8da2.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -64,70 +62,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A kernel-doc markup should start with the identifier on its
-first line.
+The kernel-doc markup that documents _fc_replay_callback is
+missing an asterisk, causing this warning:
 
+	../include/linux/jbd2.h:1271: warning: Function parameter or member 'j_fc_replay_callback' not described in 'journal_s'
+
+When building the docs.
+
+Fixes: 609f928af48f ("jbd2: fast commit recovery path")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/drm/drm_print.h | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ include/linux/jbd2.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 1c9417430d08..f32d179e139d 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -338,7 +338,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 		 const char *format, ...);
+diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
+index fb3d71ad6eea..3c5f76ce88f1 100644
+--- a/include/linux/jbd2.h
++++ b/include/linux/jbd2.h
+@@ -1253,7 +1253,7 @@ struct journal_s
+ 	 */
+ 	void (*j_fc_cleanup_callback)(struct journal_s *journal, int);
  
- /**
-- * Error output.
-+ * DRM_DEV_ERROR() - Error output.
-  *
-  * @dev: device pointer
-  * @fmt: printf() like format string.
-@@ -347,10 +347,12 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
- 
- /**
-- * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
-+ * DRM_DEV_ERROR_RATELIMITED() - Rate limited error output.
-  *
-  * @dev: device pointer
-  * @fmt: printf() like format string.
-+ *
-+ * Like DRM_ERROR() but won't flood the log.
-  */
- #define DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)			\
- ({									\
-@@ -375,15 +377,27 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- })
- 
- /**
-- * Debug output.
-+ * DRM_DEV_DEBUG() - Debug output for generic drm code
-  *
-  * @dev: device pointer
-  * @fmt: printf() like format string.
-  */
- #define DRM_DEV_DEBUG(dev, fmt, ...)					\
- 	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-+/**
-+ * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
-+ *
-+ * @dev: device pointer
-+ * @fmt: printf() like format string.
-+ */
- #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
- 	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
-+/**
-+ * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
-+ *
-+ * @dev: device pointer
-+ * @fmt: printf() like format string.
-+ */
- #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
- 	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
- 
+-	/*
++	/**
+ 	 * @j_fc_replay_callback:
+ 	 *
+ 	 * File-system specific function that performs replay of a fast
 -- 
 2.26.2
 
