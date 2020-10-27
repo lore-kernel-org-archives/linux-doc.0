@@ -2,102 +2,66 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA78C55179
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 07:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7813C4363A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 07:54:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CC4B21D24
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 07:11:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9437820738
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 07:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2507352AbgJ0HLQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 03:11:16 -0400
-Received: from mga11.intel.com ([192.55.52.93]:1077 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390835AbgJ0HLQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Oct 2020 03:11:16 -0400
-IronPort-SDR: bHTFB4LiCz3fGH6e3b2LSe6mKCDgTCOvaCqFDV+G6jZoAuE8E8MUWl570i+9W+9q6V7eDYw1Mf
- xSZgrD4FjcWw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="164537400"
-X-IronPort-AV: E=Sophos;i="5.77,422,1596524400"; 
-   d="scan'208";a="164537400"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 00:11:15 -0700
-IronPort-SDR: yxpbvNXqR2ZH8VELzLKdveHPiLfaOg4FP6eotaVuipb+Li1gAU22E4WQmw0d7T2iCHSawR5QAw
- LXDe2LDQzbVA==
-X-IronPort-AV: E=Sophos;i="5.77,422,1596524400"; 
-   d="scan'208";a="535680174"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 00:11:15 -0700
-Date:   Tue, 27 Oct 2020 00:11:14 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 07/10] x86/entry: Pass irqentry_state_t by reference
-Message-ID: <20201027071114.GN534324@iweiny-DESK2.sc.intel.com>
-References: <20201022222701.887660-1-ira.weiny@intel.com>
- <20201022222701.887660-8-ira.weiny@intel.com>
- <87y2jw4ne6.fsf@nanos.tec.linutronix.de>
+        id S2508307AbgJ0Hyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 03:54:38 -0400
+Received: from s3.sipsolutions.net ([144.76.43.62]:60416 "EHLO
+        sipsolutions.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2508305AbgJ0Hyi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 03:54:38 -0400
+X-Greylist: delayed 1685 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Oct 2020 03:54:37 EDT
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.94)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1kXJNC-00DPj2-Mi; Tue, 27 Oct 2020 08:26:26 +0100
+Message-ID: <bee691201828c96cb5ac678d8ab65e8ecd934364.camel@sipsolutions.net>
+Subject: Re: [PATCH v3 21/56] mac80211: fix kernel-doc markups
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Date:   Tue, 27 Oct 2020 08:26:20 +0100
+In-Reply-To: <978d35eef2dc76e21c81931804e4eaefbd6d635e.1603469755.git.mchehab+huawei@kernel.org>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+         <978d35eef2dc76e21c81931804e4eaefbd6d635e.1603469755.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87y2jw4ne6.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 23, 2020 at 11:56:33PM +0200, Thomas Gleixner wrote:
-> On Thu, Oct 22 2020 at 15:26, ira weiny wrote:
-> > From: Ira Weiny <ira.weiny@intel.com>
-> >
-> > In preparation for adding PKS information to struct irqentry_state_t
-> > change all call sites and usages to pass the struct by reference
-> > instead of by value.
+On Fri, 2020-10-23 at 18:33 +0200, Mauro Carvalho Chehab wrote:
+> Some identifiers have different names between their prototypes
+> and the kernel-doc markup.
 > 
-> This still does not explain WHY you need to do that. 'Preparation' is a
-> pretty useless information.
+> Others need to be fixed, as kernel-doc markups should use this format:
+>         identifier - description
 > 
-> What is the actual reason for this? Just because PKS information feels
-> better that way?
-> 
-> Also what is PKS information? Changelogs have to make sense on their own
-> and not only in the context of a larger series of changes.
+> In the specific case of __sta_info_flush(), add a documentation
+> for sta_info_flush(), as this one is the one used outside
+> sta_info.c.
 
-I've reworded this to explain the addition of new members which would make
-passing by value less efficient with additional structure changes being added
-later in the series.
+Are you taking the entire series through some tree, or should I pick up
+this patch?
 
-> 
-> > While we are editing the call sites it is a good time to standardize on
-> > the name 'irq_state'.
-> 
->   While at it change all usage sites to consistently use the variable
->   name 'irq_state'.
-> 
-> Or something like that. See Documentation/process/...
+If you're going to take it:
 
-Sorry, bad habit.
+Reviewed-by: Johannes Berg <johannes@sipsolutions.net>
 
-Fixed.
+johannes
 
-Thanks,
-Ira
 
-> 
-> Thanks,
-> 
->         tglx
-> 
