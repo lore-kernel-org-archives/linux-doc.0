@@ -2,120 +2,99 @@ Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 663B2C4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 616B7C64E69
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:25:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA1FA2076D
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:08:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SOg6ccVg"
+	by mail.kernel.org (Postfix) with ESMTP id 0E92521D7B
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 18:25:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603823132;
+	bh=52YP5Ig84G0Jyxh/gVz6oEULb9EHVNk1fgI5EP7OBy4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=C4QcIYRvJrjKzRc2XfHmKCx5l/73ytNEiln6J0379NT4olHYv4y6ReTygO35WeI8S
+	 THhd/Q5kNwpkC/0tKVk+V0vb1m3dRm2ybwP+HMRh6KuB+QpYhyCuAEBGmdaqw4Sna3
+	 meHQ+2DIZ/sYRboINPyAGbYiNdDloQNGTd/O6OFU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1824773AbgJ0SFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 14:05:45 -0400
-Received: from mail-qt1-f201.google.com ([209.85.160.201]:39931 "EHLO
-        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1757245AbgJ0ORC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 10:17:02 -0400
-Received: by mail-qt1-f201.google.com with SMTP id f10so823040qtv.6
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2020 07:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=wCJj2niDD0UYdNAX1uGcFN6Y0ai150vISrExHKtf6C4=;
-        b=SOg6ccVglymms5JOu8kb9TjhZPPQVRckjEybAsgfjZHba22NrOs64rlZ3W8FFEQz3h
-         Fggr/3AHaCp4I7hjpha7d73zIxX9ecTUXrKxsayXOPBPUOihD6EHuYXbSBWXZG42D4CF
-         m4c0OJDG36Jo2U07bMeNvO8ft+c1T00fSobHFVrm9cbxxujspImo3rrRJSkC4SkhMi4M
-         UJ/brVr6l9opWX6HsPMi0wVXeJMUGMHCpd9eo3qJWZ0vtxgj1zHtAyDnU/6r7j6tN+rF
-         pSlNlMhPp5O0w0uATTXbeeAcUkUqZWXvwN6peu2XuP6y9PQqKJMiIv8S8b3j5CCzT4sX
-         5xCw==
+        id S1827456AbgJ0SYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 14:24:33 -0400
+Received: from mail-oo1-f65.google.com ([209.85.161.65]:45621 "EHLO
+        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1827330AbgJ0SYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 14:24:32 -0400
+Received: by mail-oo1-f65.google.com with SMTP id j41so463141oof.12;
+        Tue, 27 Oct 2020 11:24:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=wCJj2niDD0UYdNAX1uGcFN6Y0ai150vISrExHKtf6C4=;
-        b=XkWjW9MfJuwRuWCknF2PSZ5j+EX940mDAYyw3dp6ODE6BcBwM1a2fUpYH8damt1qsL
-         KwgGp/w7UwCz+VUNF1Wq2MrMk4KNrtHHdyiAkYKNvaRTF4fVUVFrlLoAIopcSWkx/65s
-         PD+iiGlTR+IU/x5CIDu7G5KXUNCfm38e94kTIOw6KhMlou+WBVcGfbGbcakYWw0DdQWE
-         Y+roF4nMQuzxOzzcOA8SmuSEBWdi42v/cKivgfh3M/aEAh64b+tVo2EsbpCjYX1+hWYD
-         UBQ8EKGWvTS+7V6rBt/yPmEBvxrFUIomaphvfef/7hYLPYwUn1pJKIKyt6FVP/d/iIBD
-         OUbA==
-X-Gm-Message-State: AOAM530U0CEYHK/RuFzxfypYulqIsQTsHY6VLdzYQ1iM/OQPaCptVBMY
-        lVu7EP540MEzEei+6ZlS/SZvxPXSYg==
-X-Google-Smtp-Source: ABdhPJy1oIs8UirQXTbJFz0vzFCEkdYbncmUw25FCexvHwdI/J7bZjUwk617PTSTiaklWVpfwpeGJ5Nb7w==
-Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:a0c:f8cd:: with SMTP id h13mr2597150qvo.10.1603808218321;
- Tue, 27 Oct 2020 07:16:58 -0700 (PDT)
-Date:   Tue, 27 Oct 2020 15:16:06 +0100
-In-Reply-To: <20201027141606.426816-1-elver@google.com>
-Message-Id: <20201027141606.426816-10-elver@google.com>
-Mime-Version: 1.0
-References: <20201027141606.426816-1-elver@google.com>
-X-Mailer: git-send-email 2.29.0.rc2.309.g374f81d7ae-goog
-Subject: [PATCH v5 9/9] MAINTAINERS: Add entry for KFENCE
-From:   Marco Elver <elver@google.com>
-To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
-Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
-        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
-        catalin.marinas@arm.com, cl@linux.com, dave.hansen@linux.intel.com,
-        rientjes@google.com, dvyukov@google.com, edumazet@google.com,
-        gregkh@linuxfoundation.org, hdanton@sina.com, mingo@redhat.com,
-        jannh@google.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
-        iamjoonsoo.kim@lge.com, joern@purestorage.com,
-        keescook@chromium.org, mark.rutland@arm.com, penberg@kernel.org,
-        peterz@infradead.org, sjpark@amazon.com, tglx@linutronix.de,
-        vbabka@suse.cz, will@kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
-        linux-mm@kvack.org, SeongJae Park <sjpark@amazon.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JK/7DVUQkZfUgaeA5ixT5hPkE29Eu8FLcSkV/JAkh7A=;
+        b=gE9EPrdKHu3GonDGsmfVfCi8Y5gRB4Qsn09KA7PVwLUuwQIGi17BBNpWEZAlrFymnr
+         zsz//YwI8PE5R+i4K8r3JmxR83dRMW9eL31/ej19aajYhuu9TBt0bNJn4nM+7fVX7PJX
+         84XBCxRAn1oUBgU+i4EPsMapu5eMxbcfSSZJHDfXL9I7fYm2ioG+bvr0LodNJWgcuJAe
+         QhGCovJbtN2wfNVYmXwwx7OP+6jDo6Ap8HieDUaTaYw+N0cWcCMurq5qFvGWWK5jkF4U
+         HsjW/O9kwci0XpkZ6wrQ7pmRvyS9RKqhL5uc9eFzFXtMhR6rSR+dnY9zyT+LmWpY+8CQ
+         EOmg==
+X-Gm-Message-State: AOAM531EQK3d8ZxdQTW3FT/Tm7AmoOf10t+MfuTHXv0cxAV9UTYlxUsD
+        CjBJsM4qdZ3Bnwa5+0empXwftHoH8sivGSLsz5Q=
+X-Google-Smtp-Source: ABdhPJztV7IBCmVLmFevDpdsKnKPMUOF8vFqYsOXZ2vQQC8OeuUIRS2fgbc8VMXrKYJP1sSr5PRI+JF7z7eQrp0KPX4=
+X-Received: by 2002:a4a:dc0d:: with SMTP id p13mr2747758oov.2.1603823071429;
+ Tue, 27 Oct 2020 11:24:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1603469755.git.mchehab+huawei@kernel.org> <1e3d69e0890a36303f4c804ae9c523df9f098d6a.1603469755.git.mchehab+huawei@kernel.org>
+In-Reply-To: <1e3d69e0890a36303f4c804ae9c523df9f098d6a.1603469755.git.mchehab+huawei@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 27 Oct 2020 19:24:20 +0100
+Message-ID: <CAJZ5v0jDbSMVJHeCn1tkTp8jjUP8PS1F7HCGPtTbaZKG+PFpTg@mail.gmail.com>
+Subject: Re: [PATCH v3 24/56] PNP: fix kernel-doc markups
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add entry for KFENCE maintainers.
+On Fri, Oct 23, 2020 at 6:38 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> It sounds that there were function renames. Update the kernel-doc
+> markups accordingly.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/pnp/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/pnp/core.c b/drivers/pnp/core.c
+> index 3bf18d718975..a50ab002e9e4 100644
+> --- a/drivers/pnp/core.c
+> +++ b/drivers/pnp/core.c
+> @@ -51,7 +51,7 @@ static void pnp_remove_protocol(struct pnp_protocol *protocol)
+>  }
+>
+>  /**
+> - * pnp_protocol_register - adds a pnp protocol to the pnp layer
+> + * pnp_register_protocol - adds a pnp protocol to the pnp layer
+>   * @protocol: pointer to the corresponding pnp_protocol structure
+>   *
+>   *  Ex protocols: ISAPNP, PNPBIOS, etc
+> @@ -91,7 +91,7 @@ int pnp_register_protocol(struct pnp_protocol *protocol)
+>  }
+>
+>  /**
+> - * pnp_protocol_unregister - removes a pnp protocol from the pnp layer
+> + * pnp_unregister_protocol - removes a pnp protocol from the pnp layer
+>   * @protocol: pointer to the corresponding pnp_protocol structure
+>   */
+>  void pnp_unregister_protocol(struct pnp_protocol *protocol)
+> --
 
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-Reviewed-by: SeongJae Park <sjpark@amazon.de>
-Co-developed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Marco Elver <elver@google.com>
----
-v4:
-* Split out from first patch.
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e73636b75f29..2a257c865795 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9753,6 +9753,17 @@ F:	include/linux/keyctl.h
- F:	include/uapi/linux/keyctl.h
- F:	security/keys/
- 
-+KFENCE
-+M:	Alexander Potapenko <glider@google.com>
-+M:	Marco Elver <elver@google.com>
-+R:	Dmitry Vyukov <dvyukov@google.com>
-+L:	kasan-dev@googlegroups.com
-+S:	Maintained
-+F:	Documentation/dev-tools/kfence.rst
-+F:	include/linux/kfence.h
-+F:	lib/Kconfig.kfence
-+F:	mm/kfence/
-+
- KFIFO
- M:	Stefani Seibold <stefani@seibold.net>
- S:	Maintained
--- 
-2.29.0.rc2.309.g374f81d7ae-goog
-
+Applied as 5.10-rc material, thanks!
