@@ -4,53 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFCDC56201
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 575A5C55179
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 615C6206E5
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0943821D24
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 10:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603792961;
-	bh=61NJdUXvXA8bBUCLfymdDzSMs6SOOMfrxefki5XHE1A=;
+	s=default; t=1603792963;
+	bh=WPnTGKEVQNENdM9VtW0rexICCGE8BPIBZcU+b1gSzLk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0hyiMVxHTan01Cp0S6YDrRx+8i+F8J3gQ6eW+g3Slp0OdI/jDOciesbceJPo5/tMX
-	 uYRJpeZg8GbOQorK6REdTkn5ulbGWIqW8nUS+aSsfaSowkj1lUUB4ZRkZuoQblqTmr
-	 Vum7GoR4kvZVpddJYZv8AsKSNz2Wy0+HY8u0domg=
+	b=MYgPGUCV+TtRDf5AzDdUz6Bgi6CDjLRpwtRyLDPC+zWe8HBHLgyOIKXKxyxzHedcM
+	 aCLoR4gyJ4CS0rH9HJpIiuE+BVmgIrEIxBbWPoQpLOYojU3mS6U+Cv2VNtNMetedaP
+	 4gEA2/IMgumcv3LPtnS0K/5rVvI+IvQ1pnyQU+ss=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896930AbgJ0KCf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:02:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42484 "EHLO mail.kernel.org"
+        id S2896007AbgJ0KCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:02:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42196 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896023AbgJ0Jvm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2896017AbgJ0Jvm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 27 Oct 2020 05:51:42 -0400
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de [95.90.213.175])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A98422284;
+        by mail.kernel.org (Postfix) with ESMTPSA id 1875A22282;
         Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603792301;
-        bh=61NJdUXvXA8bBUCLfymdDzSMs6SOOMfrxefki5XHE1A=;
+        bh=WPnTGKEVQNENdM9VtW0rexICCGE8BPIBZcU+b1gSzLk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VOO/UBun8AjmhL0t8cvOXHBFJZgsAteqzA5+nR2jfw1VD8A/Pz2RDn77L61HaE1ZM
-         2fHBP1Hai7stLXLn3NCXcV8oi6otGcfDEUCKT9k3WNQ5ZQjsx6H/nlYU2nh3/6fxvO
-         ijZl3H7ZqsfqHDZM0mQP5mIg48i0QFVnFz/w5ftw=
+        b=shzhb+p+qovXKFhWu0lsInsLbctFJIymCTgLamlAgSQFZ6vB+w9MZ1+SlIMT414lV
+         74mAM89uiB0lAYP5hYChEgDibxf+qU7voHqu3cqj+UFgSEh4evAWAtqEHFeRwSCzee
+         DjD5cIjCfE9hpNcMsJFPEJ847Aleitguaf9e256g=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXLdi-003FEZ-W9; Tue, 27 Oct 2020 10:51:39 +0100
+        id 1kXLdj-003FEe-2A; Tue, 27 Oct 2020 10:51:39 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 03/32] docs: hwmon: adm1266.rst: fix a broken reference
-Date:   Tue, 27 Oct 2020 10:51:07 +0100
-Message-Id: <3d64372dabcdcea144cdc9972c245812ea2a84cb.1603791716.git.mchehab+huawei@kernel.org>
+        Alexander Potapenko <glider@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v3 05/32] docs: kasan.rst: add two missing blank lines
+Date:   Tue, 27 Oct 2020 10:51:09 +0100
+Message-Id: <cd6c4280fe26b07f2c5e5ed2918e17e88bb03419.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -61,28 +63,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reference was missing the extension, causing the
-check script to complain.
+literal blocks should start and end with a blank line,
+as otherwise the parser complains and may do the wrong
+thing, as warned by Sphinx:
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+	Documentation/dev-tools/kasan.rst:298: WARNING: Literal block ends without a blank line; unexpected unindent.
+	Documentation/dev-tools/kasan.rst:303: WARNING: Literal block ends without a blank line; unexpected unindent.
+
+Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/hwmon/adm1266.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/dev-tools/kasan.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/hwmon/adm1266.rst b/Documentation/hwmon/adm1266.rst
-index 9257f8a48650..2b877011cfdf 100644
---- a/Documentation/hwmon/adm1266.rst
-+++ b/Documentation/hwmon/adm1266.rst
-@@ -20,7 +20,7 @@ ADM1266 is a sequencer that features voltage readback from 17 channels via an
- integrated 12 bit SAR ADC, accessed using a PMBus interface.
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index c09c9ca2ff1c..2b68addaadcd 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -295,11 +295,13 @@ print the number of the test and the status of the test:
+ pass::
  
- The driver is a client driver to the core PMBus driver. Please see
--Documentation/hwmon/pmbus for details on PMBus client drivers.
-+Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+         ok 28 - kmalloc_double_kzfree
++
+ or, if kmalloc failed::
  
+         # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
+         Expected ptr is not null, but is
+         not ok 4 - kmalloc_large_oob_right
++
+ or, if a KASAN report was expected, but not found::
  
- Sysfs entries
+         # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
 -- 
 2.26.2
 
