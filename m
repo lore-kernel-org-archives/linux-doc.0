@@ -2,94 +2,280 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3A3C56201
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E28C4363A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:35:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3973320725
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:35:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B9B320714
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:35:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MX4TukT1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Lr35cQtt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387961AbgJ1Wep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:34:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388428AbgJ1Wc5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:32:57 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24860C0613CF;
-        Wed, 28 Oct 2020 15:32:57 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 96A0CEC2;
-        Wed, 28 Oct 2020 17:46:25 +0000 (UTC)
-Date:   Wed, 28 Oct 2020 11:46:24 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        "Theodore Ts'o" <tytso@mit.edu>, Andrew Lunn <andrew@lunn.ch>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.com>,
-        Jean Delvare <jdelvare@suse.com>, Jens Axboe <axboe@kernel.dk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
+        id S2388237AbgJ1Wfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:35:42 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:57618 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732560AbgJ1We2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:34:28 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1603886321;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gw4bPdg7UIOF5tNu1YmicaVB3DTvzo6EZfXK3Th8+c4=;
+        b=MX4TukT1xfBkkrDuCYiqJwBBwTEdBuYeGp0aqmBiJx3tCI7IaWX44lUiRI+dQQTcZvt0IB
+        AJiKk4F+rCczmw5D1FZQrQ+P9f3GLgwLwTzvzUKt/1pV5KXCZO02Hy/8iM3bgmTl+Bh4OG
+        BjGVc0+FxB5aueTktxjp+0u89qtHbX9HhdTWK/Pz2mD8Ifn/NhsMxScTuhePEV1MgsUszr
+        Ezrk4At6VJXF+nJNtd9+UnUbKl7Se/VjPvArl3R7JZlp/gSenZ5mxlCHU4HR72XsvHl5y6
+        h/iAgzm8gZovAYkyghdVQYQPk+88K9XtTGhHi8/Ni5WmPa9TdjBsviFtX+qYgQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1603886321;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gw4bPdg7UIOF5tNu1YmicaVB3DTvzo6EZfXK3Th8+c4=;
+        b=Lr35cQttKvFG91m77VZgOyBgsMALCGkOZuui8Hc/E4FnPTx5SjHW8CAsvfrhwrCO5ZzZQP
+        7eIcfAheP6b200Cw==
+To:     Pingfan Liu <kernelfans@gmail.com>
+Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
+        LKML <linux-kernel@vger.kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 00/32] Documentation build fixes against v5.10-rc1
-Message-ID: <20201028114624.4a65f35e@lwn.net>
-In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
-References: <cover.1603791716.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        afzal mohammed <afzal.mohd.ma@gmail.com>,
+        Lina Iyer <ilina@codeaurora.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Maulik Shah <mkshah@codeaurora.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
+        Kexec Mailing List <kexec@lists.infradead.org>,
+        Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH 0/3] warn and suppress irqflood
+In-Reply-To: <CAFgQCTtnKB+p5uhRu3JpmBvHbQ8Vhv0TrKek9_3CWbtbcyM1Kw@mail.gmail.com>
+References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com> <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com> <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com> <87y2js3ghv.fsf@nanos.tec.linutronix.de> <CAFgQCTtnKB+p5uhRu3JpmBvHbQ8Vhv0TrKek9_3CWbtbcyM1Kw@mail.gmail.com>
+Date:   Wed, 28 Oct 2020 12:58:41 +0100
+Message-ID: <87tuueftou.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 27 Oct 2020 10:51:04 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Wed, Oct 28 2020 at 14:02, Pingfan Liu wrote:
+> On Tue, Oct 27, 2020 at 3:59 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>> Also Liu's patch only works if:
+>>
+>>   1) CONFIG_IRQ_TIME_ACCOUNTING is enabled
+>
+> I wonder whether it can not be a default option or not by the following method:
+>   DEFINE_STATIC_KEY_FALSE(irqtime_account), and enable it according to
+> a boot param.
 
-> This series contain the patches from a previous series I sent:
-> 
-> 	[PATCH v2 00/24] Documentation build fixes against next-20201013
-> 
-> Plus other patches I sent later, against other versions of linux-next between
-> 20201013 and v5.10-rc1.
-> 
-> It fixes most of the remaining documentation build warnings.
-> 
-> There were some changes from v2, as I changed some patches due to the
-> feedback received, and added reviewed-by/acked-by to several of them.
-> 
-> After this series, there will be just 3 warnings at include/kunit/test.h, whose
-> fixes were already applied by Shuah via her tree at linux-next. Hopefully, she
-> will be sending it upstream anytime toon. So, I dropped the fix from my trees.
-> 
-> The vast majority of patches here are also on my linux-next tree, as my
-> original plan were to send them upstream by the end of the merge window.
-> I'll drop from it once they get merged.
-> 
-> As those patches are fixes, I guess it should be ok to get them merged for 
-> -rc2 or -rc3.
+How so?
 
-I have tentatively applied these, minus the DRM/JBD patches that have been
-picked up elsewhere.  If all looks good, I'll push them up in the
-not-too-distant future.
+	config IRQ_TIME_ACCOUNTING
+		depends on HAVE_IRQ_TIME_ACCOUNTING && !VIRT_CPU_ACCOUNTING_NATIVE
+
+> This will have no impact on performance with the disabled branch.
+> Meanwhile users can easily turn on the option to detect an irq flood
+> without  recompiling the kernel.
+>
+> If it is doable, I will rework only on [1/2].
+
+See above :)
+
+>>   2) the runaway interrupt has been requested by the relevant driver in
+>>      the dump kernel.
+>
+> Yes, it raises a big challenge to my method. Kdump kernel miss the
+> whole picture of the first kernel's irq routing.
+
+Correct. If there is anything stale then you get what Guilherme
+observed. But the irq core can do nothing about that.
+
+Something like the completly untested below should work independent of
+config options.
 
 Thanks,
 
-jon
+        tglx
+---
+ include/linux/irqdesc.h |    4 ++
+ kernel/irq/manage.c     |    3 +
+ kernel/irq/spurious.c   |   74 +++++++++++++++++++++++++++++++++++-------------
+ 3 files changed, 61 insertions(+), 20 deletions(-)
+
+--- a/include/linux/irqdesc.h
++++ b/include/linux/irqdesc.h
+@@ -30,6 +30,8 @@ struct pt_regs;
+  * @tot_count:		stats field for non-percpu irqs
+  * @irq_count:		stats field to detect stalled irqs
+  * @last_unhandled:	aging timer for unhandled count
++ * @storm_count:	Counter for irq storm detection
++ * @storm_checked:	Timestamp for irq storm detection
+  * @irqs_unhandled:	stats field for spurious unhandled interrupts
+  * @threads_handled:	stats field for deferred spurious detection of threaded handlers
+  * @threads_handled_last: comparator field for deferred spurious detection of theraded handlers
+@@ -65,6 +67,8 @@ struct irq_desc {
+ 	unsigned int		tot_count;
+ 	unsigned int		irq_count;	/* For detecting broken IRQs */
+ 	unsigned long		last_unhandled;	/* Aging timer for unhandled count */
++	unsigned long		storm_count;
++	unsigned long		storm_checked;
+ 	unsigned int		irqs_unhandled;
+ 	atomic_t		threads_handled;
+ 	int			threads_handled_last;
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -1581,6 +1581,9 @@ static int
+ 	if (!shared) {
+ 		init_waitqueue_head(&desc->wait_for_threads);
+ 
++		/* Take a timestamp for interrupt storm detection */
++		desc->storm_checked = jiffies;
++
+ 		/* Setup the type (level, edge polarity) if configured: */
+ 		if (new->flags & IRQF_TRIGGER_MASK) {
+ 			ret = __irq_set_trigger(desc,
+--- a/kernel/irq/spurious.c
++++ b/kernel/irq/spurious.c
+@@ -21,6 +21,7 @@ static void poll_spurious_irqs(struct ti
+ static DEFINE_TIMER(poll_spurious_irq_timer, poll_spurious_irqs);
+ static int irq_poll_cpu;
+ static atomic_t irq_poll_active;
++static unsigned long irqstorm_limit __ro_after_init;
+ 
+ /*
+  * We wait here for a poller to finish.
+@@ -189,18 +190,21 @@ static inline int bad_action_ret(irqretu
+  * (The other 100-of-100,000 interrupts may have been a correctly
+  *  functioning device sharing an IRQ with the failing one)
+  */
+-static void __report_bad_irq(struct irq_desc *desc, irqreturn_t action_ret)
++static void __report_bad_irq(struct irq_desc *desc, irqreturn_t action_ret,
++			     bool storm)
+ {
+ 	unsigned int irq = irq_desc_get_irq(desc);
+ 	struct irqaction *action;
+ 	unsigned long flags;
+ 
+-	if (bad_action_ret(action_ret)) {
+-		printk(KERN_ERR "irq event %d: bogus return value %x\n",
+-				irq, action_ret);
+-	} else {
+-		printk(KERN_ERR "irq %d: nobody cared (try booting with "
++	if (!storm) {
++		if (bad_action_ret(action_ret)) {
++			pr_err("irq event %d: bogus return value %x\n",
++			       irq, action_ret);
++		} else {
++			pr_err("irq %d: nobody cared (try booting with "
+ 				"the \"irqpoll\" option)\n", irq);
++		}
+ 	}
+ 	dump_stack();
+ 	printk(KERN_ERR "handlers:\n");
+@@ -228,7 +232,7 @@ static void report_bad_irq(struct irq_de
+ 
+ 	if (count > 0) {
+ 		count--;
+-		__report_bad_irq(desc, action_ret);
++		__report_bad_irq(desc, action_ret, false);
+ 	}
+ }
+ 
+@@ -267,6 +271,33 @@ try_misrouted_irq(unsigned int irq, stru
+ 	return action && (action->flags & IRQF_IRQPOLL);
+ }
+ 
++static void disable_stuck_irq(struct irq_desc *desc, irqreturn_t action_ret,
++			      const char *reason, bool storm)
++{
++	__report_bad_irq(desc, action_ret, storm);
++	pr_emerg("Disabling %s IRQ #%d\n", reason, irq_desc_get_irq(desc));
++	desc->istate |= IRQS_SPURIOUS_DISABLED;
++	desc->depth++;
++	irq_disable(desc);
++}
++
++/* Interrupt storm detector for runaway interrupts (handled or not). */
++static bool irqstorm_detected(struct irq_desc *desc)
++{
++	unsigned long now = jiffies;
++
++	if (++desc->storm_count < irqstorm_limit) {
++		if (time_after(now, desc->storm_checked + HZ)) {
++			desc->storm_count = 0;
++			desc->storm_checked = now;
++		}
++		return false;
++	}
++
++	disable_stuck_irq(desc, IRQ_NONE, "runaway", true);
++	return true;
++}
++
+ #define SPURIOUS_DEFERRED	0x80000000
+ 
+ void note_interrupt(struct irq_desc *desc, irqreturn_t action_ret)
+@@ -403,24 +434,16 @@ void note_interrupt(struct irq_desc *des
+ 			desc->irqs_unhandled -= ok;
+ 	}
+ 
++	if (unlikely(irqstorm_limit && irqstorm_detected(desc)))
++		return;
++
+ 	desc->irq_count++;
+ 	if (likely(desc->irq_count < 100000))
+ 		return;
+ 
+ 	desc->irq_count = 0;
+ 	if (unlikely(desc->irqs_unhandled > 99900)) {
+-		/*
+-		 * The interrupt is stuck
+-		 */
+-		__report_bad_irq(desc, action_ret);
+-		/*
+-		 * Now kill the IRQ
+-		 */
+-		printk(KERN_EMERG "Disabling IRQ #%d\n", irq);
+-		desc->istate |= IRQS_SPURIOUS_DISABLED;
+-		desc->depth++;
+-		irq_disable(desc);
+-
++		disable_stuck_irq(desc, action_ret, "unhandled", false);
+ 		mod_timer(&poll_spurious_irq_timer,
+ 			  jiffies + POLL_SPURIOUS_IRQ_INTERVAL);
+ 	}
+@@ -462,5 +485,16 @@ static int __init irqpoll_setup(char *st
+ 				"performance\n");
+ 	return 1;
+ }
+-
+ __setup("irqpoll", irqpoll_setup);
++
++static int __init irqstorm_setup(char *arg)
++{
++	int res = kstrtoul(arg, 0, &irqstorm_limit);
++
++	if (!res) {
++		pr_info("Interrupt storm detector enabled. Limit=%lu / s\n",
++			irqstorm_limit);
++	}
++	return !!res;
++}
++__setup("irqstorm_limit", irqstorm_setup);
+
+
+
