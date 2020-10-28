@@ -2,209 +2,127 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6C13C56201
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:55:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1873C388F7
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:55:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6339D20790
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:55:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7661220790
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603932912;
-	bh=09tVPJRn0+l7Ow6+koYv0hv5ToJKSwF0zuzW+5gO3DA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dUJazSpZJFsEITNjsLH3FIo6DHQ0x0j55TdKX8BOhZFZmKQWMNQ29Me7i3mTvri1n
-	 hiNme8E2f2zm+7ET84A/aOHzJo9oGQYeLLBzqXnVfOTCC+XYZSt68TWdmLPk/EOhN7
-	 PGAqDPGPJXqxNgWFtyQNKF3cUBpkojVqkZamhDuQ=
+	s=default; t=1603932942;
+	bh=4Sd9H0iyDibm66VtOY/tpVPi01ikmzIRBw+3lZNBRkA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=V3XwtoAS5PJBxtwYvoMWzw7+ajBI7rInB1pfIVq2xQQBm4crNEOxlh4isaYhP3Z5Y
+	 Y4ZdpaPa7j5LX2lCtLj+KJQ0bXV5Zcr8Z62870aH1YmtYBG8vv7EnTuZpfp7PyggSY
+	 QTbEXWT1HBP+0HBwmnwz2Kaghw6JrqZvs0AjcD9g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731054AbgJ1WSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:18:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60518 "EHLO mail.kernel.org"
+        id S1731805AbgJ2AzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:55:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60546 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731767AbgJ1WRo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:44 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        id S1731643AbgJ1WRk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:40 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E1AB62478E;
-        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 087402479D;
+        Wed, 28 Oct 2020 14:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895015;
-        bh=09tVPJRn0+l7Ow6+koYv0hv5ToJKSwF0zuzW+5gO3DA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jQWg5xGwZWZX0SWuS7VmHJYM78yTxq3A5PyzzS7ZlJ0U1O/j5OyIOZrCgsLfLB82j
-         cS7o8u6RJ5kg25a4ys2mSu6Mi7gVvWc7vBL+FZEfzWFNGlJ5+0aGbDlQ+L2yEKHnZ2
-         fi2vRswcMs0j32e58mlee+yV4wXJvnHUmiC9Ywd8=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hlV-RX; Wed, 28 Oct 2020 15:23:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 17/33] docs: add ABI documentation to the admin-guide book
-Date:   Wed, 28 Oct 2020 15:23:15 +0100
-Message-Id: <f5898aac8cd8ba74092e557eef4fba5c04173f6e.1603893146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
+        s=default; t=1603895925;
+        bh=4Sd9H0iyDibm66VtOY/tpVPi01ikmzIRBw+3lZNBRkA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KGaDEITLa8T0x4V05EzNRarwdt3hxDWgQN16RmuXdjF4BTMRJajQ15BfJiUQuWvRX
+         bfgLI66sIN0EZ4e5bsVenI23KFXFIXacm5HLwS0ZkZEcZUkFJa32//fy0c8DRq6Uee
+         gxnN2jsoqzmFbwr0eRv5CHpXSJPolbpj1y6kw8z0=
+Date:   Wed, 28 Oct 2020 15:39:37 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Benson Leung <bleung@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Chao Yu <chao@kernel.org>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Colin Cross <ccross@android.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Peter Rosin <peda@axentia.se>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Tony Luck <tony.luck@intel.com>, Wu Hao <hao.wu@intel.com>
+Subject: Re: [PATCH 00/33] ABI: add it to the documentation build system
+Message-ID: <20201028143937.GA2302095@kroah.com>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+On Wed, Oct 28, 2020 at 03:22:58PM +0100, Mauro Carvalho Chehab wrote:
+> Hi Greg,
+> 
+> As requested, this is a rebased version on the top of v5.10-rc1
+> adding support for having the Linux ABI documentted inside
+> the Linux admin manual.
+> 
+> When compared with the version I sent years ago, this
+> version has:
+> 
+> - a logic to detect duplicated ABI symbols;
+> - it auto-generate cross-reference markups for ABI symbols,
+>   ABI files and .rst files;
+> - Other files from 5.10-rc1 required adjustments in order
+>   to be accepted by the script in rst-source mode;
+> - Some bug fixes.
+> 
+> PS.: I didn't try to merge it against linux-next yet. So,
+> I won't doubt that applying it could cause some conflicts.
+> 
+> Feel free to review it.
 
-As we don't want a generic Sphinx extension to execute commands,
-change the one proposed to Markus to call the abi_book.pl
-script.
+After applying the first 10 patches, and running it, I see a bunch of
+these types of warnings:
 
-Use a script to parse the Documentation/ABI directory and output
-it at the admin-guide.
+Use of uninitialized value $kernelversion in substitution (s///) at ./scripts/get_abi.pl line 444.
+Use of uninitialized value $users in substitution (s///) at ./scripts/get_abi.pl line 446.
+Use of uninitialized value $users in substitution (s///) at ./scripts/get_abi.pl line 447.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/admin-guide/abi-obsolete.rst | 10 ++++++++++
- Documentation/admin-guide/abi-removed.rst  |  4 ++++
- Documentation/admin-guide/abi-stable.rst   | 13 +++++++++++++
- Documentation/admin-guide/abi-testing.rst  | 19 +++++++++++++++++++
- Documentation/admin-guide/abi.rst          | 11 +++++++++++
- Documentation/admin-guide/index.rst        |  2 ++
- Documentation/conf.py                      |  3 ++-
- 7 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/abi-obsolete.rst
- create mode 100644 Documentation/admin-guide/abi-removed.rst
- create mode 100644 Documentation/admin-guide/abi-stable.rst
- create mode 100644 Documentation/admin-guide/abi-testing.rst
- create mode 100644 Documentation/admin-guide/abi.rst
+When doing something like:
+$ ./scripts/get_abi.pl search usb --dir Documentation/ABI/stable/
 
-diff --git a/Documentation/admin-guide/abi-obsolete.rst b/Documentation/admin-guide/abi-obsolete.rst
-new file mode 100644
-index 000000000000..cda9168445a5
---- /dev/null
-+++ b/Documentation/admin-guide/abi-obsolete.rst
-@@ -0,0 +1,10 @@
-+ABI obsolete symbols
-+====================
-+
-+Documents interfaces that are still remaining in the kernel, but are
-+marked to be removed at some later point in time.
-+
-+The description of the interface will document the reason why it is
-+obsolete and when it can be expected to be removed.
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/obsolete
-diff --git a/Documentation/admin-guide/abi-removed.rst b/Documentation/admin-guide/abi-removed.rst
-new file mode 100644
-index 000000000000..497978fc9632
---- /dev/null
-+++ b/Documentation/admin-guide/abi-removed.rst
-@@ -0,0 +1,4 @@
-+ABI removed symbols
-+===================
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/removed
-diff --git a/Documentation/admin-guide/abi-stable.rst b/Documentation/admin-guide/abi-stable.rst
-new file mode 100644
-index 000000000000..7495d7a35048
---- /dev/null
-+++ b/Documentation/admin-guide/abi-stable.rst
-@@ -0,0 +1,13 @@
-+ABI stable symbols
-+==================
-+
-+Documents the interfaces that the developer has defined to be stable.
-+
-+Userspace programs are free to use these interfaces with no
-+restrictions, and backward compatibility for them will be guaranteed
-+for at least 2 years.
-+
-+Most interfaces (like syscalls) are expected to never change and always
-+be available.
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/stable
-diff --git a/Documentation/admin-guide/abi-testing.rst b/Documentation/admin-guide/abi-testing.rst
-new file mode 100644
-index 000000000000..5c886fc50b9e
---- /dev/null
-+++ b/Documentation/admin-guide/abi-testing.rst
-@@ -0,0 +1,19 @@
-+ABI testing symbols
-+===================
-+
-+Documents interfaces that are felt to be stable,
-+as the main development of this interface has been completed.
-+
-+The interface can be changed to add new features, but the
-+current interface will not break by doing this, unless grave
-+errors or security problems are found in them.
-+
-+Userspace programs can start to rely on these interfaces, but they must
-+be aware of changes that can occur before these interfaces move to
-+be marked stable.
-+
-+Programs that use these interfaces are strongly encouraged to add their
-+name to the description of these interfaces, so that the kernel
-+developers can easily notify them if any changes occur.
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/testing
-diff --git a/Documentation/admin-guide/abi.rst b/Documentation/admin-guide/abi.rst
-new file mode 100644
-index 000000000000..3b9645c77469
---- /dev/null
-+++ b/Documentation/admin-guide/abi.rst
-@@ -0,0 +1,11 @@
-+=====================
-+Linux ABI description
-+=====================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   abi-stable
-+   abi-testing
-+   abi-obsolete
-+   abi-removed
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index ed1cf94ea50c..4e0c4ae44acd 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -18,6 +18,8 @@ etc.
-    devices
-    sysctl/index
- 
-+   abi
-+
- This section describes CPU vulnerabilities and their mitigations.
- 
- .. toctree::
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 7ee05fd4cb17..ed2b43ec7754 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -38,7 +38,8 @@ needs_sphinx = '1.3'
- # ones.
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
-               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
--              'maintainers_include', 'sphinx.ext.autosectionlabel' ]
-+              'maintainers_include', 'sphinx.ext.autosectionlabel',
-+              'kernel_abi']
- 
- #
- # cdomain is badly broken in Sphinx 3+.  Leaving it out generates *most*
--- 
-2.26.2
+Is that expected?
 
+thanks,
+
+greg k-h
