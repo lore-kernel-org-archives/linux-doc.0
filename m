@@ -2,118 +2,121 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3206C388F7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A00D7C4363A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FE1320791
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DBF920791
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603933211;
-	bh=UqKkjkU3C8hjvC1W+LqFgUbMLuvOs2IpZy0kfqzvfg8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=tn1wVCY3lskeuHXQSiuPLWDsilrLrKcGFaeoPjoRkjFiO0fey/ivPvogj+hQeCCme
-	 V+rzX3fyxObjR1iupIC6Pbv3oRQU/4Gn6o+5aPUgmRrslmBh2TeqWhT+1J99/aStAD
-	 0sSlcaCDVXgFUzPL7JtYApKM85NxYgvj+njkmP0E=
+	s=default; t=1603933232;
+	bh=q2VuirjQipFeCk6vMKPTQkByS8+2pDUDdvPQJahP3Ho=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=VEq+hglTDpTqRnAM7xddjQbvqSv+6wiaJKZtr/RkSrDtM8tX7bFmKMEvG9E6mHSMZ
+	 iQVHfA02l4fuoWAmn4crVZ3z/ox2fCIBcrdIgGt8roQuEvP6PN/n6z5jz+mwKrH6Sg
+	 02eZL6Y5W2T0jCkZxMR+PPoZnUZzDVRTkI36IrZo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403973AbgJ2BAK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 21:00:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60508 "EHLO mail.kernel.org"
+        id S1730210AbgJ2BAb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 21:00:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60526 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731540AbgJ1WR2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1731513AbgJ1WR2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 28 Oct 2020 18:17:28 -0400
-Received: from saruman (88-113-213-94.elisa-laajakaista.fi [88.113.213.94])
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20CD124686;
-        Wed, 28 Oct 2020 09:13:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C328724797;
+        Wed, 28 Oct 2020 14:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603876426;
-        bh=UqKkjkU3C8hjvC1W+LqFgUbMLuvOs2IpZy0kfqzvfg8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=SiqDCILD6wNTBvBAUFBGvQkVhqRg0wHVOhKgBhkS60qwShkLk8DFMALEblRSpnbIB
-         EIMNR2fIr0KDGQMRSDqL0H0lp93uxTLXT6T06snFWHAO6V3vHmPO7jE1ac9Bn0pNZG
-         FGjdn/lQj0YHUHSMEnp1oumNbtzNms+iXXqFlUqQ=
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        s=default; t=1603896149;
+        bh=q2VuirjQipFeCk6vMKPTQkByS8+2pDUDdvPQJahP3Ho=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hfoE8Wrgvgb9afpHW35evgTSo5OBKyoiDKUKEHe2SDglZt5Myn08zcSnY2BPOp0YP
+         oJlittf1FKBQR/s1pNC91tTLItG+n/4O/t7KGpxKiyrfBr8LATj+QfOPV7Hb4AYFHk
+         gDUoBpWmoch2u3j9znZhTWf20WjgMYgUuO8q5J0A=
+Date:   Wed, 28 Oct 2020 15:43:21 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Benson Leung <bleung@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Chao Yu <chao@kernel.org>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Colin Cross <ccross@android.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 31/56] usb: dwc3: fix kernel-doc markups
-In-Reply-To: <20201028090813.GB1947336@kroah.com>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <0b964be3884def04fcd20ea5c12cb90d0014871c.1603469755.git.mchehab+huawei@kernel.org>
- <87ft60dujc.fsf@kernel.org> <20201028090813.GB1947336@kroah.com>
-Date:   Wed, 28 Oct 2020 11:13:34 +0200
-Message-ID: <874kmen269.fsf@kernel.org>
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Peter Rosin <peda@axentia.se>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Tony Luck <tony.luck@intel.com>, Wu Hao <hao.wu@intel.com>
+Subject: Re: [PATCH 00/33] ABI: add it to the documentation build system
+Message-ID: <20201028144321.GA2302351@kroah.com>
+References: <cover.1603893146.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Wed, Oct 28, 2020 at 03:22:58PM +0100, Mauro Carvalho Chehab wrote:
+> Hi Greg,
+> 
+> As requested, this is a rebased version on the top of v5.10-rc1
+> adding support for having the Linux ABI documentted inside
+> the Linux admin manual.
+> 
+> When compared with the version I sent years ago, this
+> version has:
+> 
+> - a logic to detect duplicated ABI symbols;
+> - it auto-generate cross-reference markups for ABI symbols,
+>   ABI files and .rst files;
+> - Other files from 5.10-rc1 required adjustments in order
+>   to be accepted by the script in rst-source mode;
+> - Some bug fixes.
+> 
+> PS.: I didn't try to merge it against linux-next yet. So,
+> I won't doubt that applying it could cause some conflicts.
+> 
+> Feel free to review it.
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+In general, I like it.
 
-> On Tue, Oct 27, 2020 at 08:58:47AM +0200, Felipe Balbi wrote:
->>=20
->> Hi Mauro,
->>=20
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->> > There is a common comment marked, instead, with kernel-doc
->> > notation.
->> >
->> > Also, some identifiers have different names between their
->> > prototypes and the kernel-doc markup.
->> >
->> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->> > ---
->> >  drivers/usb/dwc3/core.c        | 2 +-
->> >  drivers/usb/dwc3/core.h        | 2 +-
->> >  drivers/usb/gadget/composite.c | 2 +-
->> >  drivers/usb/typec/mux.c        | 2 +-
->> >  include/linux/usb/composite.h  | 2 +-
->>=20
->> mind breaking this into 4 commits? One for dwc3, one for
->> gadget/composite, one for type/mux, and a final for composite.h.
->
-> I'll just take these all at once, it's easy enough :)
+If there's no complaints, I'd like to take all of the Documentation/ABI/
+updates in for 5.10-rc2 at the least, to make it easier to build on top
+of and to keep these types of mistakes from living longer than they
+should be.  And make merging easier with other trees over time.
 
-Sure thing, in that case:
+thanks,
 
-Acked-by: Felipe Balbi <balbi@kernel.org>
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl+ZNj4RHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQagOA//eyKwQho8ZS03MJ9gkVjfW8k7drtTAvLv
-tlCrKvWoTAD5NkAiTlbrtzZTxY8SHgYMiBItwXv9kKPpC5cLjoH7MbjDzWzQToSp
-YkqvksbI5s4RO/+Twl0qly1Nlp2l2pwMh/6iO3sh4rdonqCEg4ByRL2K4D1ALvG4
-i06dddOYUym21CX9d8FV6yebrKibdHfr8SAX51NhdyvVaGY2BzUF6qisRygtMzkf
-Ry4xkZRYsSBh6L/uGsLYQxtrvoKx5fsLKZHR6Zj8XsGYHA/gAMQ/SNOnl67klBLe
-ZriMVILmxRu4kOR8i9TOi7xLrDOkLBczrNCl3ZNaSHpmB86yFprOQVs7USjHjnjl
-0rCJYgmgK0zywCZC3FHH7tUL5WcWMR15hp40p56IkjalFd+cleXV1xjIu4kEuorX
-vj994var0ZVUariLvM6KuLn7T7pnFAEkhFhcoFDsdOkNHzI6wpBcijFLeKubthlv
-8dW3GQquRrOK6/ESE1CQAA6dAIls+QJmaWsMpWlf0Mos+6wZFZwbUjtLA9nFFY7Q
-1T0mYQVEgDZEvJIc8muWb8LS10nkQIiiVdRu+GfAqC+Efz+ysDhsqMtkelNHklx+
-NfnPcRbJfCngrrvHocL/4xteaDFPRaR2KegjmmIwaaEB4gl/72ZOCwD7A8habtN5
-TNXX4XBAyE8=
-=x6JJ
------END PGP SIGNATURE-----
---=-=-=--
+greg k-h
