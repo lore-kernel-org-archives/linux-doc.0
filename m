@@ -2,88 +2,243 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26557C55179
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:18:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEFAC388F7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C05CD206E3
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:18:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83BB8206D9
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603923483;
-	bh=N+NQkdWPKn2ZUTudXOvRWBS+Bm1QxJ7KxNnTg2lH5w0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=XOKF6oKEwWu764TLiuqJIDOdzXniwuw01WhLjb2HssKdRgnF4LxUf5D52lwfhjlGm
-	 Xqz3OybNmO180ri7YL5U9w3iqPPr1KfHCTzboYWBPlWBr+Np+qQACYmTNF3cwtDwGY
-	 RIJH0ZteaM3S8p4FZZO7D4M5yVEbWDCnU9z3/wyE=
+	s=default; t=1603923540;
+	bh=qhW1GvuIVCQ5vbQL0lfUWFV1EZgXyvxR2SiRM2TYiNo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=UhDr6Q/MmvoWp6gO5Zojnx99PR7sjIImbYdsybHe52v73aatQ9xB5lYjfnLAMkxmb
+	 W6/IrHxGtIrIpYFo20uN//zSJleefEBC7f/Cm7hXEzqSgLdEHrhwlWBHGQDlTq6ko1
+	 Kq6iWsqXw65mLArY3gk8kehhtxQ8es18b3vhF7LE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730753AbgJ1WSC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:18:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60508 "EHLO mail.kernel.org"
+        id S1731749AbgJ1WRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:17:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60502 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731691AbgJ1WRl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:41 -0400
-Received: from localhost (unknown [122.171.163.58])
+        id S1731711AbgJ1WRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:42 -0400
+Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B5336223B0;
-        Wed, 28 Oct 2020 06:05:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8C8692476B;
+        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603865102;
-        bh=N+NQkdWPKn2ZUTudXOvRWBS+Bm1QxJ7KxNnTg2lH5w0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HdBCODyFXQJPKZZCNVCFGMmwM+oAYK6nWAuoP3a0QN/qGX2xImUaCFJYl0icPzGTC
-         SXFKMDPGQGpMC9txs/LOurxUqaH6dM3GRg8N8p9H8B7L6ISdBFrzJJV/FtmVS9lpF/
-         4maXtsgQGkD8oSp2zImvIdnOtUjXCJpdUhtS2xJE=
-Date:   Wed, 28 Oct 2020 11:34:58 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Sudeep Dutt <sudeep.dutt@intel.com>, Arnd Bergmann <arnd@arndb.de>,
-        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sherry Sun <sherry.sun@nxp.com>,
-        Ashutosh Dixit <ashutosh.dixit@intel.com>,
-        Nikhil Rao <nikhil.rao@intel.com>
-Subject: Re: [PATCH char-misc-next 1/1] misc: mic: remove the MIC drivers
-Message-ID: <20201028060458.GK3550@vkoul-mobl>
-References: <8c1443136563de34699d2c084df478181c205db4.1603854416.git.sudeep.dutt@intel.com>
- <20201028055429.GA244117@kroah.com>
+        s=default; t=1603895014;
+        bh=qhW1GvuIVCQ5vbQL0lfUWFV1EZgXyvxR2SiRM2TYiNo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=yXmPCZDmwjT/81D0RBjxomLFFAINyAa/wbuvESwY2qhuer2e6xovStpgEfX5Lporl
+         FVFUWEU0nzAjRqcnMI7lQuSTGKiL46DXYpqTQOuuYcGiGGguT1ysLThCK4oJWA8ndE
+         kunekbkm/IWnEGEYdKttxe+rnwssT81PwJBBcHak=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kXmMO-003hlG-Iv; Wed, 28 Oct 2020 15:23:32 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 12/33] docs: kernel_abi.py: add a script to parse ABI documentation
+Date:   Wed, 28 Oct 2020 15:23:10 +0100
+Message-Id: <fbc723a2c49bd928f7845cba08e4996b9eb73142.1603893146.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
+References: <cover.1603893146.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201028055429.GA244117@kroah.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28-10-20, 06:54, Greg Kroah-Hartman wrote:
-> On Tue, Oct 27, 2020 at 08:14:15PM -0700, Sudeep Dutt wrote:
-> > This patch removes the MIC drivers from the kernel tree
-> > since the corresponding devices have been discontinued.
-> 
-> Does "discontinued" mean "never shipped a device so no one has access to
-> this hardware anymore", or does it mean "we stopped shipping devices and
-> there are customers with this?"
-> 
-> > Removing the dma and char-misc changes in one patch and
-> > merging via the char-misc tree is best to avoid any
-> > potential build breakage.
-> > 
-> > Cc: Nikhil Rao <nikhil.rao@intel.com>
-> > Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> > Signed-off-by: Sudeep Dutt <sudeep.dutt@intel.com>
-> 
-> I like deleting code, can this go into 5.10-final?
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-I would like that, if unused lets get it cleaned now rather than later
-:-)
+The ABI documentation is special: it is not plain text files,
+but, instead, files with an strict format, as specified by
+Documentation/ABI/README.
 
-Said that, for all dmaengine bits:
+Add a parser for it.
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/kernel_abi.py | 157 +++++++++++++++++++++++++++++
+ 1 file changed, 157 insertions(+)
+ create mode 100644 Documentation/sphinx/kernel_abi.py
 
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+new file mode 100644
+index 000000000000..f8e7a02066c2
+--- /dev/null
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -0,0 +1,157 @@
++# -*- coding: utf-8; mode: python -*-
++# SPDX-License-Identifier: GPL-2.0
++u"""
++    kernel-abi
++    ~~~~~~~~~~
++
++    Implementation of the ``kernel-abi`` reST-directive.
++
++    :copyright:  Copyright (C) 2016  Markus Heiser
++    :copyright:  Copyright (C) 2016-2020  Mauro Carvalho Chehab
++    :maintained-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
++    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
++
++    The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
++    scripts/get_abi.pl script to parse the Kernel ABI files.
++
++    Overview of directive's argument and options.
++
++    .. code-block:: rst
++
++        .. kernel-abi:: <ABI directory location>
++            :debug:
++
++    The argument ``<ABI directory location>`` is required. It contains the
++    location of the ABI files to be parsed.
++
++    ``debug``
++      Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
++      what reST is generated.
++
++"""
++
++import sys
++import os
++from os import path
++import subprocess
++
++from sphinx.ext.autodoc import AutodocReporter
++
++from docutils import nodes
++from docutils.parsers.rst import Directive, directives
++from docutils.statemachine import ViewList
++from docutils.utils.error_reporting import ErrorString
++
++
++__version__  = '1.0'
++
++# We can't assume that six is installed
++PY3 = sys.version_info[0] == 3
++PY2 = sys.version_info[0] == 2
++if PY3:
++    # pylint: disable=C0103, W0622
++    unicode     = str
++    basestring  = str
++
++def setup(app):
++
++    app.add_directive("kernel-abi", KernelCmd)
++    return dict(
++        version = __version__
++        , parallel_read_safe = True
++        , parallel_write_safe = True
++    )
++
++class KernelCmd(Directive):
++
++    u"""KernelABI (``kernel-abi``) directive"""
++
++    required_arguments = 1
++    optional_arguments = 0
++    has_content = False
++    final_argument_whitespace = True
++
++    option_spec = {
++        "debug"     : directives.flag
++    }
++
++    def warn(self, message, **replace):
++        replace["fname"]   = self.state.document.current_source
++        replace["line_no"] = replace.get("line_no", self.lineno)
++        message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
++        self.state.document.settings.env.app.warn(message, prefix="")
++
++    def run(self):
++
++        doc = self.state.document
++        if not doc.settings.file_insertion_enabled:
++            raise self.warning("docutils: file insertion disabled")
++
++        env = doc.settings.env
++        cwd = path.dirname(doc.current_source)
++        cmd = "get_abi.pl rest --dir "
++        cmd += self.arguments[0]
++
++        srctree = path.abspath(os.environ["srctree"])
++
++        fname = cmd
++
++        # extend PATH with $(srctree)/scripts
++        path_env = os.pathsep.join([
++            srctree + os.sep + "scripts",
++            os.environ["PATH"]
++        ])
++        shell_env = os.environ.copy()
++        shell_env["PATH"]    = path_env
++        shell_env["srctree"] = srctree
++
++        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
++        nodeList = self.nestedParse(lines, fname)
++        return nodeList
++
++    def runCmd(self, cmd, **kwargs):
++        u"""Run command ``cmd`` and return it's stdout as unicode."""
++
++        try:
++            proc = subprocess.Popen(
++                cmd
++                , stdout = subprocess.PIPE
++                , stderr = subprocess.PIPE
++                , universal_newlines = True
++                , **kwargs
++            )
++            out, err = proc.communicate()
++            if err:
++                self.warn(err)
++            if proc.returncode != 0:
++                raise self.severe(
++                    u"command '%s' failed with return code %d"
++                    % (cmd, proc.returncode)
++                )
++        except OSError as exc:
++            raise self.severe(u"problems with '%s' directive: %s."
++                              % (self.name, ErrorString(exc)))
++        return unicode(out)
++
++    def nestedParse(self, lines, fname):
++        content = ViewList()
++        node    = nodes.section()
++
++        if "debug" in self.options:
++            code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
++            for l in lines.split("\n"):
++                code_block += "\n    " + l
++            lines = code_block + "\n\n"
++
++        for c, l in enumerate(lines.split("\n")):
++            content.append(l, fname, c)
++
++        buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
++        self.state.memo.title_styles  = []
++        self.state.memo.section_level = 0
++        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
++        try:
++            self.state.nested_parse(content, 0, node, match_titles=1)
++        finally:
++            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++        return node.children
 -- 
-~Vinod
+2.26.2
+
