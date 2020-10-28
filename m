@@ -1,168 +1,112 @@
-Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5355C388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:45:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7BAC388F7
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:19:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BD2720EDD
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:45:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ujVTdN3a"
+	by mail.kernel.org (Postfix) with ESMTP id 448D4207DE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:19:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730136AbgJ1XpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 19:45:09 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:35284 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728530AbgJ1Xow (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 19:44:52 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SNaDvZ096206;
-        Wed, 28 Oct 2020 23:44:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=/1wXhSK1jawzXDWDiFn4sD8tOMsMcHZuwRWttfEpsBo=;
- b=ujVTdN3aiA8l72vkEvBqXJykL6YBnFEbP3iBuB+HsFwFVzcgAGCImhQty8poCRjD3EIH
- 5xFGOhihKgUnWcCjl+zTsnsnp6amXl3XFrbCxRZ+CoJYIdIVVo3S5RT6hDoenWyVyMwg
- ZHbkw5sYK4JMRKwl4iL+pviAEuWU+hcpFs+p23pocEtylwG4tg/NgXDNbXsc7vG1g402
- N/Ce6Bw77owwFFo0Ny2+vdjRO3B+qLeaoJaf5fgeks2dC7KmEJyiu4XD624ARPz4eF3k
- /2ygaiUnxd8+rVRsMb0FsiLNQMfwb9urmySe8sDphsYYEDwa3DGnsTD4kuoWxX19KjR7 Yw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 34dgm47tm3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 28 Oct 2020 23:44:23 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SNe76g041534;
-        Wed, 28 Oct 2020 23:42:22 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 34cx5ywkq8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Oct 2020 23:42:22 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09SNgGbb012295;
-        Wed, 28 Oct 2020 23:42:16 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 28 Oct 2020 16:42:15 -0700
-Subject: Re: [External] Re: [PATCH v2 05/19] mm/hugetlb: Introduce pgtable
- allocation/freeing helpers
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
- <20201026145114.59424-6-songmuchun@bytedance.com>
- <81a7a7f0-fe0e-42e4-8de0-9092b033addc@oracle.com>
- <CAMZfGtVV5eZS-LFtU89WSdMGCib8WX0AojkL-4X+_5yvuMz2Ew@mail.gmail.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <d3e4cc32-ce07-4ce2-789a-3c1df093c270@oracle.com>
-Date:   Wed, 28 Oct 2020 16:42:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1732813AbgJ2ATA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:19:00 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44093 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389212AbgJ1WpC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:45:02 -0400
+Received: by mail-ot1-f66.google.com with SMTP id m26so630838otk.11;
+        Wed, 28 Oct 2020 15:45:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+XN02PSejXD+FeqWTrgwKvG1TTSDYTM2yrZb6ygptq8=;
+        b=CVTjna5g2XVGfGso31JoRpR07nQGR1+pt3N1oUBEC3lOAK+ejuNtguI896SRlUKoEe
+         OlTsqTpasI16TzoW4+oF7UhbhIlkiOFHiVz2HUPn7J1xOONJnRpB8fnC4j7zYrfXTvT7
+         kamRM6QaiwLy5mNoE5XDdayATyai8Of5DS47OF9jhUkOtRqX4yTJI2XNH+rbJ1KE89/A
+         sqlgmdSdRyJ4gMKXJnsLDwBOUOlvhaO0GpgHtH2dvWkwp9pWszdr4H+S1aVLHmxcthF+
+         kQF3KJrVqm7w9vSYCVtT77kMiKHWr8JgYbcw1m806wTYPzDkkAx1VKhkPGCBJ3Mp9GLE
+         +fTg==
+X-Gm-Message-State: AOAM533RWsrc+p1DMUBcfN0cdBltY7Dc8+xwUahhPoFjpalh1aqdVeA3
+        HzDJ+0QrthseXpLO4O/gZxIxMj49XxaMysz7OImzPIFzXYsMhQ==
+X-Google-Smtp-Source: ABdhPJwVZzki+tgZs/Q8WXcxtVj9dxZr8/KAouxapBQlbbCT10SMVoqLjSjBsdSeiewzamwEvqLH3hEqv+123K4FYD8=
+X-Received: by 2002:a4a:5d84:: with SMTP id w126mr4993384ooa.1.1603877160928;
+ Wed, 28 Oct 2020 02:26:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMZfGtVV5eZS-LFtU89WSdMGCib8WX0AojkL-4X+_5yvuMz2Ew@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9788 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=2 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010280147
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9788 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- suspectscore=2 clxscore=1015 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010280146
+References: <20201027112955.14157-1-rppt@kernel.org> <20201027112955.14157-12-rppt@kernel.org>
+In-Reply-To: <20201027112955.14157-12-rppt@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 28 Oct 2020 10:25:49 +0100
+Message-ID: <CAMuHMdU4r4CJ1kBu7gx1jkputjDn2S8Lqkj7RPfa3XUnM1QOFg@mail.gmail.com>
+Subject: Re: [PATCH 11/13] m68k/mm: make node data and node setup depend on CONFIG_DISCONTIGMEM
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Linux MM <linux-mm@kvack.org>,
+        arcml <linux-snps-arc@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/28/20 12:26 AM, Muchun Song wrote:
-> On Wed, Oct 28, 2020 at 8:33 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->> On 10/26/20 7:51 AM, Muchun Song wrote:
->>
->> I see the following routines follow the pattern for vmemmap manipulation
->> in dax.
-> 
-> Did you mean move those functions to mm/sparse-vmemmap.c?
+Hi Mike,
 
-No.  Sorry, that was mostly a not to myself.
+On Tue, Oct 27, 2020 at 12:31 PM Mike Rapoport <rppt@kernel.org> wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+>
+> The pg_data_t node structures and their initialization currently depends on
+> !CONFIG_SINGLE_MEMORY_CHUNK. Since they are required only for DISCONTIGMEM
+> make this dependency explicit and replace usage of
+> CONFIG_SINGLE_MEMORY_CHUNK with CONFIG_DISCONTIGMEM where appropriate.
+>
+> The CONFIG_SINGLE_MEMORY_CHUNK was implicitly disabled on the ColdFire MMU
+> variant, although it always presumed a single memory bank. As there is no
+> actual need for DISCONTIGMEM in this case, make sure that ColdFire MMU
+> systems set CONFIG_SINGLE_MEMORY_CHUNK to 'y'.
+>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
->>> +static void vmemmap_pgtable_deposit(struct page *page, pte_t *pte_p)
->>> +{
->>> +     pgtable_t pgtable = virt_to_page(pte_p);
->>> +
->>> +     /* FIFO */
->>> +     if (!page_huge_pte(page))
->>> +             INIT_LIST_HEAD(&pgtable->lru);
->>> +     else
->>> +             list_add(&pgtable->lru, &page_huge_pte(page)->lru);
->>> +     page_huge_pte(page) = pgtable;
->>> +}
->>> +
->>> +static pte_t *vmemmap_pgtable_withdraw(struct page *page)
->>> +{
->>> +     pgtable_t pgtable;
->>> +
->>> +     /* FIFO */
->>> +     pgtable = page_huge_pte(page);
->>> +     if (unlikely(!pgtable))
->>> +             return NULL;
->>> +     page_huge_pte(page) = list_first_entry_or_null(&pgtable->lru,
->>> +                                                    struct page, lru);
->>> +     if (page_huge_pte(page))
->>> +             list_del(&pgtable->lru);
->>> +     return page_to_virt(pgtable);
->>> +}
->>> +
-...
->>> @@ -1783,6 +1892,14 @@ static struct page *alloc_fresh_huge_page(struct hstate *h,
->>>       if (!page)
->>>               return NULL;
->>>
->>> +     if (vmemmap_pgtable_prealloc(h, page)) {
->>> +             if (hstate_is_gigantic(h))
->>> +                     free_gigantic_page(page, huge_page_order(h));
->>> +             else
->>> +                     put_page(page);
->>> +             return NULL;
->>> +     }
->>> +
->>
->> It seems a bit strange that we will fail a huge page allocation if
->> vmemmap_pgtable_prealloc fails.  Not sure, but it almost seems like we shold
->> allow the allocation and log a warning?  It is somewhat unfortunate that
->> we need to allocate a page to free pages.
-> 
-> Yeah, it seems unfortunate. But if we allocate success, we can free some
-> vmemmap pages later. Like a compromise :) . If we can successfully allocate
-> a huge page, I also prefer to be able to successfully allocate another one page.
-> If we allow the allocation when vmemmap_pgtable_prealloc fails, we also
-> need to mark this page that vmemmap has not been released. Seems
-> increase complexity.
+Thanks for your patch!
 
-Yes, I think it is better to leave code as it is and avoid complexity.
+> ---
+>  arch/m68k/Kconfig.cpu           | 6 +++---
+>  arch/m68k/include/asm/page_mm.h | 2 +-
+>  arch/m68k/mm/init.c             | 4 ++--
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+
+Is there any specific reason you didn't convert the checks for
+CONFIG_SINGLE_MEMORY_CHUNK in arch/m68k/kernel/setup_mm.c
+and arch/m68k/include/asm/virtconvert.h?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Mike Kravetz
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
