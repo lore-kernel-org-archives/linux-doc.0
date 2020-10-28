@@ -4,114 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1267C388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 883F9C4363A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:03:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A475246CD
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:54:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3742A246CD
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:03:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603922091;
-	bh=QFs2Jd82B/duDQUbnrOcXLl4AkfxXTk1Jk6X3stA6do=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=fv++J6UtSWH9kMYfxrBIcpgRh678W84so+rEXAAGkzIkcahx3U9sXtW+m0o/IseT/
-	 fp/1knIPtKudNCZ22280FW8IwGKVM/pZUE/LFbSFRMFYG+NVQaq6hfMWV/lZ1F1rZu
-	 cQHsEkJ2v06bft9RsXi7MAAlI+ezSwk8AmQdJJxs=
+	s=default; t=1603922580;
+	bh=3FnfY0fopTr59guGzwZGYaUN3BeAH2JnTh3KcqqaSWc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=zAOcFoW/MKMPmCAb81aTjvs/Nv4vSxkmvm/sZ4I3mwkT2xBb1ekLeAkdDIetQ+b07
+	 dsEyn4dTSvDElkXeDWhm07OXIx0saMMVdipP6nX55fPVdajNpgQwC1hyQo/j6yIs/G
+	 c3AhIjWPDUDowp+rrxRkgWtZik2bGn2UN6q2IUnk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727931AbgJ1Vyt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 17:54:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45068 "EHLO mail.kernel.org"
+        id S1729519AbgJ1WC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:02:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50732 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728316AbgJ1VwZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:52:25 -0400
-Received: from coco.lan (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        id S1729513AbgJ1WCY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:02:24 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B0CD7221F9;
-        Wed, 28 Oct 2020 17:02:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E1AA824806;
+        Wed, 28 Oct 2020 18:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603904574;
-        bh=QFs2Jd82B/duDQUbnrOcXLl4AkfxXTk1Jk6X3stA6do=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DDcyzrtNeRJq/mgcxRz/Qmm1osfamHDMFcWkQzvkzAQ/KMh0jLtZ9L2Zkun233Cl3
-         KICdkhYyJCk/vV6k1Z5ZvM0yzJk8FmUzVg9VOZCCNUeFu5nvsGTGo74vsWVUMndbtO
-         DaHHU/7+KyxGUXl4M0OIM3wUEuJGBQ++WQ3Uywp8=
-Date:   Wed, 28 Oct 2020 18:02:47 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+        s=default; t=1603909500;
+        bh=3FnfY0fopTr59guGzwZGYaUN3BeAH2JnTh3KcqqaSWc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pB0UJvsTww9Cb4vodrmJCAzxjzi2PoTLOXTLTfQJYGLwxvuWCEzVoOUaK8yLQ0Gta
+         qwHGdjLx0+1jeYb5jaTQhIgO808j+07gw0LBEOVFqyL1z9xBMRC6kzsqP/73fOiJhQ
+         TN5Z4OEMNYJKBIk+RHT6NVXZyADftH5vwx0kaG0A=
+Date:   Wed, 28 Oct 2020 18:24:54 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/33] docs: kernel_abi.py: add a script to parse ABI
- documentation
-Message-ID: <20201028180247.14350c88@coco.lan>
-In-Reply-To: <20201028102103.35884c91@lwn.net>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
-        <fbc723a2c49bd928f7845cba08e4996b9eb73142.1603893146.git.mchehab+huawei@kernel.org>
-        <20201028102103.35884c91@lwn.net>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>, Andrii Nakryiko <andriin@fb.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Guillaume Nault <gnault@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Martin Varghese <martin.varghese@nokia.com>,
+        Maxim Mikityanskiy <maximmi@mellanox.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Pravin B Shelar <pshelar@ovn.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sabrina Dubroca <sd@queasysnail.net>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Taehee Yoo <ap420073@gmail.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Yadu Kishore <kyk.segfault@gmail.com>,
+        linux-nfs@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH RESEND 0/3] Fix wrong identifiers on kernel-doc markups
+Message-ID: <20201028182454.GA16143@sirena.org.uk>
+References: <cover.1603705472.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ikeVEW9yuYc//A+q"
+Content-Disposition: inline
+In-Reply-To: <cover.1603705472.git.mchehab+huawei@kernel.org>
+X-Cookie: They just buzzed and buzzed...buzzed.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 28 Oct 2020 10:21:03 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> So this is separate from the patch series itself in a way, but it brings a
-> question to mind:
-> 
-> On Wed, 28 Oct 2020 15:23:10 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > +# We can't assume that six is installed
-> > +PY3 = sys.version_info[0] == 3
-> > +PY2 = sys.version_info[0] == 2
-> > +if PY3:
-> > +    # pylint: disable=C0103, W0622
-> > +    unicode     = str
-> > +    basestring  = str  
-> 
-> I wonder how much longer we really need to support any of:
-> 
->  - Python < 3.n (where n=5 or 6 maybe)
->  - Sphinx < 1.7 or even some 2.x
-> 
-> We're carrying a certain and growing amount of cruft to handle these
-> cases.  I might start putting together a series to clean this up for 5.11
-> or so.
+--ikeVEW9yuYc//A+q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good point!
+On Mon, Oct 26, 2020 at 10:47:35AM +0100, Mauro Carvalho Chehab wrote:
+> Hi Mark/Jakub,
+>=20
+> As you requested, I'm resending the three -net patches
+> from the /56 patch series I sent last Friday:
 
-Yeah, 5.11 seems to be OK to drop support for legacy versions. In the case
-of Sphinx, Imagining that 5.11 would be released in about 4/5 months
-from now[1], I would move to 2.4.4 as the minimal recommended version.
+I was asking for you to do the same for the patches for my subsystems
+rather than resend the net patches to me - in general it's better to
+not to bundle things for multiple subsystems (or tangentially related
+changes in general) together like this.  Splitting things up makes it
+easier to find the relevant changes and means that automations that work
+with patch serieses don't have to deal with things that span multiple
+different trees when it's not required.
 
+--ikeVEW9yuYc//A+q
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-Yet, due to LTS distros, maybe it could make sense to support 1.7 versions
-for a longer time.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+Zt3UACgkQJNaLcl1U
+h9DjbAf/agKKFquaatNyS+9PsKXVvTKCZRLor3HaSfL2YuKiSVcuy9YH2azZEL+7
+CCbmpjmpsEKeKsGJqSgklV0iTDhpmjSRHcG7hvBdFyC2oHAoQOgQvl1sQ7+itktr
+Cjj6xWYMl9lBTxbdWXeI5m0cl3I+0LcJ5yB808GbpkpW6MoEUAyLvIOHBQjkfSMy
+FQC5359kfk65bfQjyIcHE+sgVc0+8j4zks5blibAQarOmpv5vF+z7TYd3OUrsnxJ
+KKZjxtwtTwzOQ7SRpz5NuX9gomuRDUNA0OTrsOQSMuxdYGlkPdeBlJoYnVNZZkD7
+ZIkRA2RvEZIZQTo7Z5BUtHYi7AEikQ==
+=a1MC
+-----END PGP SIGNATURE-----
 
-That's said, hopefully, Sphinx 3.3 would also be there about the same
-time, which should fix the remaining warnings with Sphinx 3.x.
-
-So, maybe for 5.11 or 5.12 we can drop the warning about Sphinx 3.x
-builds being experimental.
-
-Btw, we should probably also update this file:
-
-	Documentation/process/changes.rst
-
-It still mentions Sphinx 1.3 as the minimal one, and doesn't even
-mention the minimal Python version.
-
-[1] It was released in March, 2020. So, it will have one about year old
-    by the time 5.11 will be launched.
-
-Thanks,
-Mauro
+--ikeVEW9yuYc//A+q--
