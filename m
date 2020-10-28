@@ -2,134 +2,109 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA31C388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:22:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F039C55179
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:26:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EB7D206F4
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603923761;
-	bh=GiCl/xUCfPVPDTVlB/3S4Hm7u8cSqBu7i7gChQK+gmk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cxf5QkysGw1nqOXd3kz2gKtIQA1TNCS6xjXPNLZ5om3k4VqER/TaymQ11MChGOfkz
-	 WQ1qzHI+VJVytGPDaqX9qoFS7uwaL69CExErgTTwMMwiZmyxPZeVrYH0bbkDmse4dU
-	 y7ja3Pqe85lU/zXKpqhDQjfYTxxBmzJah10F0MtE=
+	by mail.kernel.org (Postfix) with ESMTP id 3A7D320706
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:26:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E91sXcD3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732658AbgJ1WWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:22:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36812 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732652AbgJ1WWX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:22:23 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7EF6524765;
-        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895014;
-        bh=GiCl/xUCfPVPDTVlB/3S4Hm7u8cSqBu7i7gChQK+gmk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1w/aQy1ZX0+KiUDleMPOtKxirCT00oiaifrnMHx1xcEUzZR8ZSuK7UG83FxEClzBi
-         N1YGuRfBB+S6QmcXnSDSNC+6/MO39HSx70DdIYJ/EOMSfsR8UKX347YDUMN0aHjFZy
-         obzyH6xB8XcW6rI6ZIhwqU2B66fwOQJfrTJzAOqY=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hl9-Fh; Wed, 28 Oct 2020 15:23:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/33] scripts: get_abi.pl: auto-generate cross references
-Date:   Wed, 28 Oct 2020 15:23:08 +0100
-Message-Id: <ee0997cbf70c60df9f861d4c1b9db8b32c8ac6cd.1603893146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
+        id S1733073AbgJ1W0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:26:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733054AbgJ1W0O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:26:14 -0400
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9546C0613CF;
+        Wed, 28 Oct 2020 15:26:13 -0700 (PDT)
+Received: by mail-oo1-xc41.google.com with SMTP id c25so254751ooe.13;
+        Wed, 28 Oct 2020 15:26:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FK45UsEFUJMqjnQFfEw2JOOplxSwJOaVgJWuuCrbxGQ=;
+        b=E91sXcD3l4E8upi2Jm/K8WbyFI3KhHE0/7BKcniyKEi8wGansk/FBJQXKyeuliJWJ9
+         79j4Yb2qaVaSSg4ylBSTEATL8LBRnAe8mpyKw62A3aYfuz9PHYeqFGG5hMxzuLF3VFmg
+         PacdQ8OzYXhFS5kXmSXCFwpFHteXnuCLXKad50LzlZRf+JhaZFs+amM6xZxb/dRFAWDq
+         9F2dh/o8LoqJaWAV/jFO/yPlZGwU6aFiUmE1bdzMLWC5MA5i8t0roAOdJfg3eeaya5y2
+         QHOCpB6K2J1MVmvDhivLgPod3NEk2BgYke05yKIHLEdw9/1CUGj5g0lJ3z+d6kYUBgRF
+         lc1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FK45UsEFUJMqjnQFfEw2JOOplxSwJOaVgJWuuCrbxGQ=;
+        b=iEfhjs47mnYBwG9QuxsnrNdEGpdp104L0J0FNt5b/OJSOMZxBbcXuBsNmEDcUHEi0B
+         9AlVXulnFnBMAeqqxgq+FjjM7gPeYVw+TOf0MNzrgsxPwtZ/9PPmuThceW2kXAOrsMSV
+         sp+dvVGQ+wF0sKQM9GbmTYhSCu3nWqOdYI7/ruU99GgrYuE7+2Oj2x1m1Q7EHQougtB5
+         PJCjGMH1D92Ji/rO+YOrGDrkh7r9LigJuaztSAZCXxqFL3NDAV+hWQOdYMnKf0Gv3kKn
+         z3cWFr3YlqoTK9Wjouug4bOYl5B0Q9LT1MZaqXMXekXdAogeCh6hdUgf99dO6IPOzVh4
+         5BdA==
+X-Gm-Message-State: AOAM531odZKYmLitr0y2bToIT0LMwNPdFmrWGHZN4vmVbYzOrXKmauTB
+        gqI1ZOBKXr6XKtg4wsBriKMWRiPwGb9PBefWU7vTNGui7tM=
+X-Google-Smtp-Source: ABdhPJzAWDKe7Om5QMAw8dmU/sek2nFcNeyNm7ZIqqXouZ54rMExbLH9ZQklwYJv4CtxUIyds2QUuSAPYJRVigCVm8w=
+X-Received: by 2002:a4a:a2ca:: with SMTP id r10mr4041487ool.90.1603851893453;
+ Tue, 27 Oct 2020 19:24:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <1597873980-204052-1-git-send-email-raphael.norwitz@nutanix.com> <d81c567970db5aefcc59d6f967c82f17@kernel.org>
+In-Reply-To: <d81c567970db5aefcc59d6f967c82f17@kernel.org>
+From:   Raphael Norwitz <raphael.s.norwitz@gmail.com>
+Date:   Tue, 27 Oct 2020 22:24:42 -0400
+Message-ID: <CAFubqFtywPbUtQ+T8widqoeaZyzRU6sJMiksKUQ0umQ7PTL5Kg@mail.gmail.com>
+Subject: Re: [PATCH] Fix typo in irq_domain documentation
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Raphael Norwitz <raphael.norwitz@nutanix.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are several cross-references that can be automatically
-generated:
+Ping - looks like this was never applied?
 
-	- References to .rst files inside Documentation/
-	- References to other ABI files;
-	- References to ABI symbols at /sys/*.
-
-Add a logic to automatically parse them and convert into
-cross references.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/get_abi.pl | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index b4868ee8e955..3cff7cdf1397 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -3,6 +3,7 @@
- 
- use strict;
- use warnings;
-+use utf8;
- use Pod::Usage;
- use Getopt::Long;
- use File::Find;
-@@ -272,6 +273,9 @@ sub create_labels {
- # Outputs the book on ReST format
- #
- 
-+# \b doesn't work well with paths. So, we need to define something else
-+my $bondary = qr { (?<![\w\/\`\{])(?=[\w\/\`\{])|(?<=[\w\/\`\{])(?![\w\/\`\{]) }x;
-+
- sub output_rest {
- 	create_labels();
- 
-@@ -342,6 +346,33 @@ sub output_rest {
- 
- 		if (!($desc =~ /^\s*$/)) {
- 			if ($description_is_rst) {
-+				# Enrich text by creating cross-references
-+
-+				$desc =~ s,Documentation/(?!devicetree)(\S+)\.rst,:doc:`/$1`,g;
-+
-+				my @matches = $desc =~ m,Documentation/ABI/([\w\/\-]+),;
-+				foreach my $f (@matches) {
-+					my $xref = $f;
-+					my $path = $f;
-+					$path =~ s,.*/(.*/.*),$1,;;
-+					$path =~ s,[/\-],_,g;;
-+					$xref .= " <abi_file_" . $path . ">";
-+					$desc =~ s,\bDocumentation/ABI/$f\b,:ref:`$xref`,g;
-+				}
-+
-+				@matches = $desc =~ m,$bondary(/sys/[^\s\.\,\;\:\*\s\`\'\(\)]+)$bondary,;
-+
-+				foreach my $s (@matches) {
-+					if (defined($data{$s}) && defined($data{$s}->{label})) {
-+						my $xref = $s;
-+
-+						$xref =~ s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
-+						$xref = ":ref:`$xref <" . $data{$s}->{label} . ">`";
-+
-+						$desc =~ s,$bondary$s$bondary,$xref,g;
-+					}
-+				}
-+
- 				print "$desc\n\n";
- 			} else {
- 				$desc =~ s/^\s+//;
--- 
-2.26.2
-
+On Tue, Aug 25, 2020 at 6:23 AM Marc Zyngier <maz@kernel.org> wrote:
+>
+> On 2020-08-19 22:53, Raphael Norwitz wrote:
+> > The irq_domain documentation states that "Here the interrupt number
+> > loose all kind of correspondence to hardware interrupt numbers:...".
+> > It's clear from the context that the author means to use "loses"
+> > instead
+> > of "loose". To avoid future confusion, this change fixes the
+> > aforementioned wording.
+> >
+> > Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> > ---
+> >  Documentation/core-api/irq/irq-domain.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/core-api/irq/irq-domain.rst
+> > b/Documentation/core-api/irq/irq-domain.rst
+> > index 096db12..eba5e41 100644
+> > --- a/Documentation/core-api/irq/irq-domain.rst
+> > +++ b/Documentation/core-api/irq/irq-domain.rst
+> > @@ -15,7 +15,7 @@ such as GPIO controllers avoid reimplementing
+> > identical callback
+> >  mechanisms as the IRQ core system by modelling their interrupt
+> >  handlers as irqchips, i.e. in effect cascading interrupt controllers.
+> >
+> > -Here the interrupt number loose all kind of correspondence to
+> > +Here the interrupt number loses all kind of correspondence to
+> >  hardware interrupt numbers: whereas in the past, IRQ numbers could
+> >  be chosen so they matched the hardware IRQ line into the root
+> >  interrupt controller (i.e. the component actually fireing the
+>
+> Acked-by: Marc Zyngier <maz@kernel.org>
+>
+>          M.
+> --
+> Jazz is not dead. It just smells funny...
