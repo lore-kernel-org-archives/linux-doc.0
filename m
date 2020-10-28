@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74EF5C5517A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9501BC4363A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B0822080D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:00:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49B9A20796
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603933259;
-	bh=V6QsyZd0PXEAsCDZS8qFtNNLXeIRdLWFm77WuVZ8lA4=;
+	s=default; t=1603933267;
+	bh=sG7DxcBFx0WTmu9b/Xo07LGFBwzzXb1v/PwdPGAsbeU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UYw/lBKC0Z6hWDw9a59ZbCvLmtaQLFBbHAJW+7nq9z5V6oPEjCf7Pi8r5PmRGE3x3
-	 OJxkffl1zU6nqTOdeHmaEUbYKcICbJ9x2EumEn7OmqdvDuLIClzBcGx552QR47RWIL
-	 S25WbU8SryBZBVuhx4BIPjWnITKm5q3q0czqASGM=
+	b=hGbNjaqH2bexBthBWanGxBJyE4A2HNM3hoOBSUw5sPMEzgyyIqXT2l9/825pb74/H
+	 3/IKlnT9HSqhKbL0nEOhak6t2tPS6ZUh/otbdIA+w89MV9YTZUqF5f/aAONgssciJi
+	 /po0kRTsMkakiKu+ES44wtGRc8XZ5tVV+dbLuzVU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730168AbgJ2BAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 21:00:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60506 "EHLO mail.kernel.org"
+        id S1731545AbgJ1WR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:17:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60502 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731527AbgJ1WR2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:28 -0400
+        id S1731512AbgJ1WR1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:27 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C075324779;
+        by mail.kernel.org (Postfix) with ESMTPSA id 9EABC2476C;
         Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603895014;
-        bh=V6QsyZd0PXEAsCDZS8qFtNNLXeIRdLWFm77WuVZ8lA4=;
+        bh=sG7DxcBFx0WTmu9b/Xo07LGFBwzzXb1v/PwdPGAsbeU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0XU6g0bjbDZZiP1h3QlLK7KrQqsR1fW8Zh8Zyty2Oj+TlyRc+LzEfJm7Dhr/kNv3p
-         8529FtRY6gS2gDn7GFvxuC6ifNQopDvYsrfzEi/sqglM4T5YB+W0WGNgg18DJisFju
-         DGnGY37w9rVKA+VTms7GAkxgDODh5lT7d/IrkL48=
+        b=lSxeqrXIceioIEcPe2aPxku+6Se4OlsR3goLHo+5mDm6nNj1ufRzuBeqtVpfnHsg+
+         NMKMKYmEo7AdPY4FYzApiKKD9Q4Ps3vfx4Xp+p9mkkbcOjes7/QODzUR9pgAWwmMLD
+         Ayn9Ov1vSwqM7wUNQaxJXvhYyJDbNjQYU2XdyLJ4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hlS-Pu; Wed, 28 Oct 2020 15:23:32 +0100
+        id 1kXmMO-003hlJ-Kg; Wed, 28 Oct 2020 15:23:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -48,9 +48,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 16/33] docs: kernel_abi.py: Handle with a lazy Sphinx parser
-Date:   Wed, 28 Oct 2020 15:23:14 +0100
-Message-Id: <4995a3d4e28b3dc50ecab3f3dee020b6005867d7.1603893146.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 13/33] docs: kernel_abi.py: fix UTF-8 support
+Date:   Wed, 28 Oct 2020 15:23:11 +0100
+Message-Id: <e84aa37199d3ec80e9685d985acbef2232195a49.1603893146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
@@ -63,116 +63,74 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-The Sphinx docutils parser is lazy: if the content is bigger than
-a certain number of lines, it silenlty stops parsing it,
-producing an incomplete content. This seems to be worse on newer
-Sphinx versions, like 2.0.
-
-So, change the logic to parse the contents per input file.
+The parser breaks with UTF-8 characters with Sphinx 1.4.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_abi.py | 39 ++++++++++++++++++++----------
- 1 file changed, 26 insertions(+), 13 deletions(-)
+ Documentation/sphinx/kernel_abi.py | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-index 096dec482e96..ce5f3b0ae811 100644
+index f8e7a02066c2..fe69c213716d 100644
 --- a/Documentation/sphinx/kernel_abi.py
 +++ b/Documentation/sphinx/kernel_abi.py
-@@ -37,6 +37,7 @@ import os
- import subprocess
+@@ -1,5 +1,7 @@
+ # -*- coding: utf-8; mode: python -*-
++# coding=utf-8
+ # SPDX-License-Identifier: GPL-2.0
++#
+ u"""
+     kernel-abi
+     ~~~~~~~~~~
+@@ -30,6 +32,7 @@ u"""
+ 
+ """
+ 
++import codecs
  import sys
- import re
-+import kernellog
- 
+ import os
  from os import path
+@@ -45,14 +48,6 @@ from docutils.utils.error_reporting import ErrorString
  
-@@ -80,12 +81,6 @@ class KernelCmd(Directive):
-         "debug"     : directives.flag
-     }
+ __version__  = '1.0'
  
--    def warn(self, message, **replace):
--        replace["fname"]   = self.state.document.current_source
--        replace["line_no"] = replace.get("line_no", self.lineno)
--        message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
--        self.state.document.settings.env.app.warn(message, prefix="")
+-# We can't assume that six is installed
+-PY3 = sys.version_info[0] == 3
+-PY2 = sys.version_info[0] == 2
+-if PY3:
+-    # pylint: disable=C0103, W0622
+-    unicode     = str
+-    basestring  = str
 -
-     def run(self):
+ def setup(app):
  
-         doc = self.state.document
-@@ -111,7 +106,7 @@ class KernelCmd(Directive):
-         shell_env["srctree"] = srctree
- 
-         lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
--        nodeList = self.nestedParse(lines, fname)
-+        nodeList = self.nestedParse(lines, self.arguments[0])
-         return nodeList
- 
-     def runCmd(self, cmd, **kwargs):
-@@ -138,9 +133,9 @@ class KernelCmd(Directive):
+     app.add_directive("kernel-abi", KernelCmd)
+@@ -117,12 +112,12 @@ class KernelCmd(Directive):
+                 cmd
+                 , stdout = subprocess.PIPE
+                 , stderr = subprocess.PIPE
+-                , universal_newlines = True
+                 , **kwargs
+             )
+             out, err = proc.communicate()
+-            if err:
+-                self.warn(err)
++
++            out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
++
+             if proc.returncode != 0:
+                 raise self.severe(
+                     u"command '%s' failed with return code %d"
+@@ -131,7 +126,7 @@ class KernelCmd(Directive):
+         except OSError as exc:
+             raise self.severe(u"problems with '%s' directive: %s."
                                % (self.name, ErrorString(exc)))
-         return out
+-        return unicode(out)
++        return out
  
--    def nestedParse(self, lines, f):
-+    def nestedParse(self, lines, fname):
+     def nestedParse(self, lines, fname):
          content = ViewList()
--        node    = nodes.section()
-+        node = nodes.section()
- 
-         if "debug" in self.options:
-             code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
-@@ -150,22 +145,42 @@ class KernelCmd(Directive):
- 
-         line_regex = re.compile("^#define LINENO (\S+)\#([0-9]+)$")
-         ln = 0
-+        n = 0
-+        f = fname
- 
-         for line in lines.split("\n"):
-+            n = n + 1
-             match = line_regex.search(line)
-             if match:
--                f = match.group(1)
-+                new_f = match.group(1)
-+
-+                # Sphinx parser is lazy: it stops parsing contents in the
-+                # middle, if it is too big. So, handle it per input file
-+                if new_f != f and content:
-+                    self.do_parse(content, node)
-+                    content = ViewList()
-+
-+                f = new_f
-+
-                 # sphinx counts lines from 0
-                 ln = int(match.group(2)) - 1
-             else:
-                 content.append(line, f, ln)
- 
--        buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
-+        kernellog.info(self.state.document.settings.env.app, "%s: parsed %i lines" % (fname, n))
- 
-+        if content:
-+            self.do_parse(content, node)
-+
-+        return node.children
-+
-+    def do_parse(self, content, node):
-         if Use_SSI:
-             with switch_source_input(self.state, content):
-                 self.state.nested_parse(content, 0, node, match_titles=1)
-         else:
-+            buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
-+
-             self.state.memo.title_styles  = []
-             self.state.memo.section_level = 0
-             self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
-@@ -173,5 +188,3 @@ class KernelCmd(Directive):
-                 self.state.nested_parse(content, 0, node, match_titles=1)
-             finally:
-                 self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
--
--        return node.children
 -- 
 2.26.2
 
