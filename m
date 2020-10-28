@@ -2,72 +2,140 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0111C388F7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:35:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B696CC4363A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:35:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B106B20790
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:35:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61B0320791
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:35:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603931712;
+	bh=/2HUC3Hs0ZsywFfEOKluCFO1WHQkw+dJbh2gNebVfbM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=hQk44PUdlUyrXPGdcBWzyIX5FqqF/S2dMZFjnjGiCLTZ0pLEKa09Ul8thgl+tdJKz
+	 cpz2lCUgwGVC3yYYtRCn3TAUk2rIOBz/VHybSdWW5oyaUwq6EJwfd+8l9/WEFGBgfg
+	 ZbqIJcDzoBtN83coRkC2xe8Cl3bUfzOXBfHkrJqo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731973AbgJ1WTb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:19:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53592 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732158AbgJ1WR5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:17:57 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46B69C0613CF;
-        Wed, 28 Oct 2020 15:17:57 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1731952AbgJ1WT3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:19:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60518 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731721AbgJ1WRn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:43 -0400
+Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2F34E49B;
-        Wed, 28 Oct 2020 16:21:04 +0000 (UTC)
-Date:   Wed, 28 Oct 2020 10:21:03 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        by mail.kernel.org (Postfix) with ESMTPSA id AB42D2476D;
+        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603895014;
+        bh=/2HUC3Hs0ZsywFfEOKluCFO1WHQkw+dJbh2gNebVfbM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=N024H8aL30eYYuIPNHW1x0prHj0RpKZNZbscx3NyWzwcPtIW/3CgIr1rxGUyia7fN
+         +SkN7yyf78kzze2jFWvCfvCnqE/5L3ZRSnuEDnhq4DmYIAYpQ/AlHzyS+WSyQTSZnc
+         ksSwiFxFfUpkKNR0hj1lhfrr0BGI6O+igINO99hg=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kXmMO-003hlM-MJ; Wed, 28 Oct 2020 15:23:32 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/33] docs: kernel_abi.py: add a script to parse ABI
- documentation
-Message-ID: <20201028102103.35884c91@lwn.net>
-In-Reply-To: <fbc723a2c49bd928f7845cba08e4996b9eb73142.1603893146.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 14/33] docs: kernel_abi.py: make it compatible with Sphinx 1.7+
+Date:   Wed, 28 Oct 2020 15:23:12 +0100
+Message-Id: <b51e7b564b8d8403ea537dba67c82db40b420257.1603893146.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
-        <fbc723a2c49bd928f7845cba08e4996b9eb73142.1603893146.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So this is separate from the patch series itself in a way, but it brings a
-question to mind:
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-On Wed, 28 Oct 2020 15:23:10 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+The same way kerneldoc.py needed changes to work with newer
+Sphinx, this script needs the same changes.
 
-> +# We can't assume that six is installed
-> +PY3 = sys.version_info[0] == 3
-> +PY2 = sys.version_info[0] == 2
-> +if PY3:
-> +    # pylint: disable=C0103, W0622
-> +    unicode     = str
-> +    basestring  = str
+While here, reorganize the include order to match kerneldoc.py.
 
-I wonder how much longer we really need to support any of:
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/kernel_abi.py | 39 +++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
 
- - Python < 3.n (where n=5 or 6 maybe)
- - Sphinx < 1.7 or even some 2.x
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index fe69c213716d..8601a3b75a28 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -33,18 +33,27 @@ u"""
+ """
+ 
+ import codecs
+-import sys
+ import os
+-from os import path
+ import subprocess
++import sys
+ 
+-from sphinx.ext.autodoc import AutodocReporter
++from os import path
+ 
+-from docutils import nodes
+-from docutils.parsers.rst import Directive, directives
++from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
++from docutils.parsers.rst import directives, Directive
+ from docutils.utils.error_reporting import ErrorString
+ 
++#
++# AutodocReporter is only good up to Sphinx 1.7
++#
++import sphinx
++
++Use_SSI = sphinx.__version__[:3] >= '1.7'
++if Use_SSI:
++    from sphinx.util.docutils import switch_source_input
++else:
++    from sphinx.ext.autodoc import AutodocReporter
+ 
+ __version__  = '1.0'
+ 
+@@ -142,11 +151,17 @@ class KernelCmd(Directive):
+             content.append(l, fname, c)
+ 
+         buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+-        self.state.memo.title_styles  = []
+-        self.state.memo.section_level = 0
+-        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
+-        try:
+-            self.state.nested_parse(content, 0, node, match_titles=1)
+-        finally:
+-            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++
++        if Use_SSI:
++            with switch_source_input(self.state, content):
++                self.state.nested_parse(content, 0, node, match_titles=1)
++        else:
++            self.state.memo.title_styles  = []
++            self.state.memo.section_level = 0
++            self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
++            try:
++                self.state.nested_parse(content, 0, node, match_titles=1)
++            finally:
++                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++
+         return node.children
+-- 
+2.26.2
 
-We're carrying a certain and growing amount of cruft to handle these
-cases.  I might start putting together a series to clean this up for 5.11
-or so.
-
-jon
