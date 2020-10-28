@@ -2,47 +2,47 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91E00C388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:48:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BBFDC4363A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:49:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 428E42245A
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:48:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C02E02245A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:49:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EcNJ1+7J"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GFAlwCKG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727827AbgJ1Vsb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 17:48:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49752 "EHLO
+        id S1727485AbgJ1VtO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 17:49:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23617 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727743AbgJ1VsP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 17:48:15 -0400
+        by vger.kernel.org with ESMTP id S1727464AbgJ1VtM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 17:49:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603921693;
+        s=mimecast20190719; t=1603921750;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=WnT8yDT00QyRsUEZ7gp5zTCd68WeeplEqh2AFWI8M0Q=;
-        b=EcNJ1+7JAVXNRy6zyZJdJq6Gzi/neB9ZBC1IZvsV3IzGWnXvjlKmEJm6tRlLeMvWw22kXZ
-        Askn1PKvw7M25ZspAqglkYJRw4gtBkcFXfHdAHOOuKL2CapWCBPoIaDoNr5p1cZGj6a9LS
-        zbZBOabc5lXoNub0Ltcax/KwmAx0Cwg=
+        bh=vRfli5Z5DUhcuyRlIgm4cbCOglHgREI9yrOIn+85HoI=;
+        b=GFAlwCKGoTzx9mf6V63YhHPBFIrZ3ARut8oZMHBjIy+5c3kkNJhQcTbvr0XxUep4aE63Js
+        FbLzmeaQLAxhSKnHkOQH7fwL6Ps94G94qnDXTLD3qSo0jDNonOVC+Bf8mtxD7S4Dz+R93A
+        WJtXZ2MgmJFj+G8rKi3LyYSYpWcXWS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-hjv0Nrk9NZSQqCrpIjV5fA-1; Wed, 28 Oct 2020 13:46:55 -0400
-X-MC-Unique: hjv0Nrk9NZSQqCrpIjV5fA-1
+ us-mta-306-VDuhqbblOD6oapEgFdZfoQ-1; Wed, 28 Oct 2020 13:47:02 -0400
+X-MC-Unique: VDuhqbblOD6oapEgFdZfoQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48008106B26F;
-        Wed, 28 Oct 2020 17:46:35 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00D1F18A0727;
+        Wed, 28 Oct 2020 17:46:40 +0000 (UTC)
 Received: from gerbillo.redhat.com (ovpn-115-68.ams2.redhat.com [10.36.115.68])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 48FDC6198D;
-        Wed, 28 Oct 2020 17:46:33 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EB78F6198D;
+        Wed, 28 Oct 2020 17:46:37 +0000 (UTC)
 From:   Paolo Abeni <pabeni@redhat.com>
 To:     netdev@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -51,9 +51,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
         linux-kselftest@vger.kernel.org,
         Marcelo Tosatti <mtosatti@redhat.com>
-Subject: [PATCH net-next 1/3] net/sysctl: factor-out netdev_rx_queue_set_rps_mask() helper
-Date:   Wed, 28 Oct 2020 18:46:01 +0100
-Message-Id: <30af9047229612189e454d4279cb669fe01db833.1603906564.git.pabeni@redhat.com>
+Subject: [PATCH net-next 3/3] self-tests: introduce self-tests for RPS default mask
+Date:   Wed, 28 Oct 2020 18:46:03 +0100
+Message-Id: <27a3dd523e015ba27ba5666ad727ff5d935ce3a8.1603906564.git.pabeni@redhat.com>
 In-Reply-To: <cover.1603906564.git.pabeni@redhat.com>
 References: <cover.1603906564.git.pabeni@redhat.com>
 MIME-Version: 1.0
@@ -63,107 +63,104 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Will simplify the following patch. No functional change
-intended.
+Ensure that RPS default mask changes take place on
+all newly created netns/devices and don't affect
+existing ones.
 
 Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 ---
- net/core/net-sysfs.c | 66 ++++++++++++++++++++++++--------------------
- 1 file changed, 36 insertions(+), 30 deletions(-)
+ tools/testing/selftests/net/Makefile          |  1 +
+ tools/testing/selftests/net/config            |  3 +
+ .../testing/selftests/net/rps_default_mask.sh | 57 +++++++++++++++++++
+ 3 files changed, 61 insertions(+)
+ create mode 100644 tools/testing/selftests/net/rps_default_mask.sh
 
-diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
-index 94fff0700bdd..b57426707216 100644
---- a/net/core/net-sysfs.c
-+++ b/net/core/net-sysfs.c
-@@ -737,42 +737,18 @@ static ssize_t show_rps_map(struct netdev_rx_queue *queue, char *buf)
- 	return len < PAGE_SIZE ? len : -EINVAL;
- }
- 
--static ssize_t store_rps_map(struct netdev_rx_queue *queue,
--			     const char *buf, size_t len)
-+static int netdev_rx_queue_set_rps_mask(struct netdev_rx_queue *queue,
-+					cpumask_var_t mask)
- {
--	struct rps_map *old_map, *map;
--	cpumask_var_t mask;
--	int err, cpu, i, hk_flags;
- 	static DEFINE_MUTEX(rps_map_mutex);
--
--	if (!capable(CAP_NET_ADMIN))
--		return -EPERM;
--
--	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
--		return -ENOMEM;
--
--	err = bitmap_parse(buf, len, cpumask_bits(mask), nr_cpumask_bits);
--	if (err) {
--		free_cpumask_var(mask);
--		return err;
--	}
--
--	if (!cpumask_empty(mask)) {
--		hk_flags = HK_FLAG_DOMAIN | HK_FLAG_WQ;
--		cpumask_and(mask, mask, housekeeping_cpumask(hk_flags));
--		if (cpumask_empty(mask)) {
--			free_cpumask_var(mask);
--			return -EINVAL;
--		}
--	}
-+	struct rps_map *old_map, *map;
-+	int cpu, i;
- 
- 	map = kzalloc(max_t(unsigned int,
- 			    RPS_MAP_SIZE(cpumask_weight(mask)), L1_CACHE_BYTES),
- 		      GFP_KERNEL);
--	if (!map) {
--		free_cpumask_var(mask);
-+	if (!map)
- 		return -ENOMEM;
--	}
- 
- 	i = 0;
- 	for_each_cpu_and(cpu, mask, cpu_online_mask)
-@@ -799,9 +775,39 @@ static ssize_t store_rps_map(struct netdev_rx_queue *queue,
- 
- 	if (old_map)
- 		kfree_rcu(old_map, rcu);
-+	return 0;
+diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
+index ef352477cac6..2531ec3e5027 100644
+--- a/tools/testing/selftests/net/Makefile
++++ b/tools/testing/selftests/net/Makefile
+@@ -21,6 +21,7 @@ TEST_PROGS += rxtimestamp.sh
+ TEST_PROGS += devlink_port_split.py
+ TEST_PROGS += drop_monitor_tests.sh
+ TEST_PROGS += vrf_route_leaking.sh
++TEST_PROGS += rps_default_mask.sh
+ TEST_PROGS_EXTENDED := in_netns.sh
+ TEST_GEN_FILES =  socket nettest
+ TEST_GEN_FILES += psock_fanout psock_tpacket msg_zerocopy reuseport_addr_any
+diff --git a/tools/testing/selftests/net/config b/tools/testing/selftests/net/config
+index 4d5df8e1eee7..5d467364f082 100644
+--- a/tools/testing/selftests/net/config
++++ b/tools/testing/selftests/net/config
+@@ -34,3 +34,6 @@ CONFIG_TRACEPOINTS=y
+ CONFIG_NET_DROP_MONITOR=m
+ CONFIG_NETDEVSIM=m
+ CONFIG_NET_FOU=m
++CONFIG_RPS=y
++CONFIG_SYSFS=y
++CONFIG_PROC_SYSCTL=y
+diff --git a/tools/testing/selftests/net/rps_default_mask.sh b/tools/testing/selftests/net/rps_default_mask.sh
+new file mode 100644
+index 000000000000..c81c0ac7ddfe
+--- /dev/null
++++ b/tools/testing/selftests/net/rps_default_mask.sh
+@@ -0,0 +1,57 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++readonly ksft_skip=4
++readonly cpus=$(nproc)
++ret=0
++
++[ $cpus -gt 2 ] || exit $ksft_skip
++
++readonly INITIAL_RPS_DEFAULT_MASK=$(cat /proc/sys/net/core/rps_default_mask)
++readonly NETNS="ns-$(mktemp -u XXXXXX)"
++
++setup() {
++	ip netns add "${NETNS}"
++	ip -netns "${NETNS}" link set lo up
 +}
 +
-+static ssize_t store_rps_map(struct netdev_rx_queue *queue,
-+			     const char *buf, size_t len)
-+{
-+	cpumask_var_t mask;
-+	int err, hk_flags;
++cleanup() {
++	echo $INITIAL_RPS_DEFAULT_MASK > /proc/sys/net/core/rps_default_mask
++	ip netns del $NETNS
++}
 +
-+	if (!capable(CAP_NET_ADMIN))
-+		return -EPERM;
++chk_rps() {
++	local rps_mask expected_rps_mask=$3
++	local dev_name=$2
++	local msg=$1
 +
-+	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
-+		return -ENOMEM;
++	rps_mask=$(ip netns exec $NETNS cat /sys/class/net/$dev_name/queues/rx-0/rps_cpus)
++	printf "%-60s" "$msg"
++	if [ $rps_mask -eq $expected_rps_mask ]; then
++		echo "[ ok ]"
++	else
++		echo "[fail] expected $expected_rps_mask found $rps_mask"
++		ret=1
++	fi
++}
 +
-+	err = bitmap_parse(buf, len, cpumask_bits(mask), nr_cpumask_bits);
-+	if (err)
-+		goto out;
- 
-+	if (!cpumask_empty(mask)) {
-+		hk_flags = HK_FLAG_DOMAIN | HK_FLAG_WQ;
-+		cpumask_and(mask, mask, housekeeping_cpumask(hk_flags));
-+		if (cpumask_empty(mask)) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+	}
++trap cleanup EXIT
 +
-+	err = netdev_rx_queue_set_rps_mask(queue, mask);
++echo 0 > /proc/sys/net/core/rps_default_mask
++setup
++chk_rps "empty rps_default_mask" lo 0
++cleanup
 +
-+out:
- 	free_cpumask_var(mask);
--	return len;
-+	return err ? : len;
- }
- 
- static ssize_t show_rps_dev_flow_table_cnt(struct netdev_rx_queue *queue,
++echo 1 > /proc/sys/net/core/rps_default_mask
++setup
++chk_rps "non zero rps_default_mask" lo 1
++
++echo 3 > /proc/sys/net/core/rps_default_mask
++chk_rps "changing rps_default_mask dont affect existing netns" lo 1
++
++ip -n $NETNS link add type veth
++ip -n $NETNS link set dev veth0 up
++ip -n $NETNS link set dev veth1 up
++chk_rps "changing rps_default_mask affect newly created devices" veth0 3
++chk_rps "changing rps_default_mask affect newly created devices[II]" veth1 3
++exit $ret
 -- 
 2.26.2
 
