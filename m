@@ -4,53 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A21C55179
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 050F8C5DF9D
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7465A206D4
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD232206ED
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603923565;
-	bh=9CndlUwYK0Pkv0BAJhbUAbfsUVYqfxdjd9QC1RfMLEA=;
+	s=default; t=1603923566;
+	bh=vQy4Wj2/128w8VuNXvSDUT+Qmy5LUeiCcDIUos7b3f4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XflcexyPi4nt9luNOrcXVyQUkiLl7iW34oS5QZlD06aQ/OUAhnEdjegE1pY4TDzyh
-	 bJF+w9WUtz3PlDoBfTjgR/WoU9ox7UaBhU2SBcUyzUw3MTURSc7r3ur39c04mThM1k
-	 RwiUVgrkZLrDkid3/pfGH9Xwq9mstd0R9/+n3jO8=
+	b=glYoyjtfZVkaoRKfNxQGS9S7WlR/HptfT5xZgVLT88t2RVYcJ1ESniDkYVP2gvctk
+	 haCTr6+4SgjHQwJM3r8fMTDKKktAmtgNNveJinXXzlkIs/boWGZSR3xNv7hWLsk/ZS
+	 OVoI0FwgsrDCUoq0WoqvG8dzRFTxKunf6yDbmVVk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731884AbgJ1WTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:19:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60514 "EHLO mail.kernel.org"
+        id S1731729AbgJ1WTZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:19:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60534 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731680AbgJ1WRl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:41 -0400
+        id S1731713AbgJ1WRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:42 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D875247A0;
-        Wed, 28 Oct 2020 14:23:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8AA762476A;
+        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895015;
-        bh=9CndlUwYK0Pkv0BAJhbUAbfsUVYqfxdjd9QC1RfMLEA=;
+        s=default; t=1603895014;
+        bh=vQy4Wj2/128w8VuNXvSDUT+Qmy5LUeiCcDIUos7b3f4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gGddvqoioYDmq06GNWPFY7BXiyO7rqK+RY+LxH9ijTdCYWwW98o02LfJR3SQcw5mh
-         kwlQ8KqMvscSj+CWGoYunTLuy7pPUCD05jWSf3Yi3sdjiLUKAftqSUllrXm/uLTKSk
-         GzQtOw5hZf2n1FTly0c0b29SYHkvPMXyGPZcOtS4=
+        b=zVfMYAjmSBc53Tsbh3NBmqK8JA2ZLm9p+EEme4M6SOGhFR1LSEhXTG8Z4uGDn53BW
+         0Qs6ieDJ9SQxGIUtiISc7/1jjuP+0IVk676G98339S+IKcd9eNmddL1dnIvnNKudd4
+         vm6Liq2Uvoe4NYqDpSOV/5GY6Jv9YiNfAz4tCVwU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXmMP-003hll-8o; Wed, 28 Oct 2020 15:23:33 +0100
+        id 1kXmMO-003hl6-EN; Wed, 28 Oct 2020 15:23:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 22/33] docs: ABI: create a 2-depth index for ABI
-Date:   Wed, 28 Oct 2020 15:23:20 +0100
-Message-Id: <d29ff27cb527af03ee6ac35f40e354ebe1c2cafe.1603893146.git.mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 09/33] scripts: get_abi.pl: use bold font for ABI definitions
+Date:   Wed, 28 Oct 2020 15:23:07 +0100
+Message-Id: <504787aba47002194da1eab14da18ab507e3d5ea.1603893146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
@@ -61,29 +59,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+As we're using tables, let's distinguish the ones used by ABI
+by using a bold font.
 
-That helps to identify what ABI files are adding titles.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/abi.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/get_abi.pl | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/admin-guide/abi.rst b/Documentation/admin-guide/abi.rst
-index 3b9645c77469..bcab3ef2597c 100644
---- a/Documentation/admin-guide/abi.rst
-+++ b/Documentation/admin-guide/abi.rst
-@@ -3,7 +3,7 @@ Linux ABI description
- =====================
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index f2c8a888148b..b4868ee8e955 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -300,6 +300,7 @@ sub output_rest {
+ 			my $len = 0;
  
- .. toctree::
--   :maxdepth: 1
-+   :maxdepth: 2
+ 			foreach my $name (@names) {
++				$name = "**$name**";
+ 				$len = length($name) if (length($name) > $len);
+ 			}
  
-    abi-stable
-    abi-testing
 -- 
 2.26.2
 
