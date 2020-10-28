@@ -2,104 +2,86 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61EC2C388F7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CF95C55179
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:03:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FEA5208C7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603936978;
-	bh=yVEfc4+gOF4s/3xGZTQCBpdsAOxojMx9ZF/7nK6oM/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ZXatTt6dc8BjqMMaYphrHWVvPETQ7aP0IRtBRQR98t5XeLJy52sWHMCQTY365icOs
-	 eziP0+PA7hsHq3LFnpa0Yta+GBgGQ2XrrqWft6tSMhgmhwJDkY9R0j71wOSEPaMzT6
-	 tGEO3wni2QxvYjFmyV+FajBbLXjm7RC7QKC0+Tx4=
+	by mail.kernel.org (Postfix) with ESMTP id E0248215A4
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726694AbgJ1Vsv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 17:48:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41568 "EHLO mail.kernel.org"
+        id S2391198AbgJ2CDA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 22:03:00 -0400
+Received: from namei.org ([65.99.196.166]:38520 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727683AbgJ1VrX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:47:23 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9637C247FD;
-        Wed, 28 Oct 2020 18:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603908538;
-        bh=yVEfc4+gOF4s/3xGZTQCBpdsAOxojMx9ZF/7nK6oM/I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E0YnPcnjOExKX6+eztVKyGMzzPpsfM8/XUjQvIDmiU3H8ekOh3AEAu/6VYxa7Yvxf
-         Wmw2Jkck3TiDXj+B8Xr2j/07yhl0fmpFIIzW00vaKKUnjA0Npv7L47E9eFwmEOhxWV
-         T6Bf/EknL7w8iqvyrUePpzRg3nJ/7Z0rM9BG4rf8=
-Date:   Wed, 28 Oct 2020 19:09:49 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     "Dutt, Sudeep" <sudeep.dutt@intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "sherry.sun@nxp.com" <sherry.sun@nxp.com>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "Rao, Nikhil" <nikhil.rao@intel.com>,
-        "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH char-misc-next 1/1] misc: mic: remove the MIC drivers
-Message-ID: <20201028180949.GB2831268@kroah.com>
-References: <8c1443136563de34699d2c084df478181c205db4.1603854416.git.sudeep.dutt@intel.com>
- <20201028055429.GA244117@kroah.com>
- <f64a1f67781441c8ed48b991afbf8dd2f9030289.camel@intel.com>
+        id S1727870AbgJ1Vsn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 17:48:43 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id 09S5VcJS027054;
+        Wed, 28 Oct 2020 05:31:38 GMT
+Date:   Wed, 28 Oct 2020 16:31:38 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+cc:     "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v22 09/12] arch: Wire up Landlock syscalls
+In-Reply-To: <20201027200358.557003-10-mic@digikod.net>
+Message-ID: <alpine.LRH.2.21.2010281631100.25689@namei.org>
+References: <20201027200358.557003-1-mic@digikod.net> <20201027200358.557003-10-mic@digikod.net>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f64a1f67781441c8ed48b991afbf8dd2f9030289.camel@intel.com>
+Content-Type: multipart/mixed; boundary="1665246916-1849052408-1603863098=:25689"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 05:22:01PM +0000, Dutt, Sudeep wrote:
-> On Wed, 2020-10-28 at 06:54 +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Oct 27, 2020 at 08:14:15PM -0700, Sudeep Dutt wrote:
-> > > This patch removes the MIC drivers from the kernel tree
-> > > since the corresponding devices have been discontinued.
-> > 
-> > Does "discontinued" mean "never shipped a device so no one has access
-> > to
-> > this hardware anymore", or does it mean "we stopped shipping devices
-> > and
-> > there are customers with this?"
-> 
-> Hi Greg,
-> 
-> We are not aware of any customers of the upstreamed MIC drivers. The 
-> drivers were upstreamed primarily to lay a foundation for enabling the
-> next generation MIC devices which did not ship.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Ok, thanks for the explanation.
+--1665246916-1849052408-1603863098=:25689
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
+On Tue, 27 Oct 2020, Mickaël Salaün wrote:
+
+> From: Mickaël Salaün <mic@linux.microsoft.com>
 > 
-> > > Removing the dma and char-misc changes in one patch and
-> > > merging via the char-misc tree is best to avoid any
-> > > potential build breakage.
-> > > 
-> > > Cc: Nikhil Rao <nikhil.rao@intel.com>
-> > > Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> > > Signed-off-by: Sudeep Dutt <sudeep.dutt@intel.com>
-> > 
-> > I like deleting code, can this go into 5.10-final?
+> Wire up the following system calls for all architectures:
+> * landlock_create_ruleset(2)
+> * landlock_add_rule(2)
+> * landlock_enforce_ruleset_current(2)
 > 
-> Yes, we would prefer this goes into v5.10. I am hoping you can carry
-> the Ack from Vinod and the Reviewed-by from Sherry but I can resend the
-> patch with those updates in the commit message if required. I did
-> verify that this patch passes allmodconfig and allyesconfig builds with
-> your latest char-misc-next tree.
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
 
-I can pick them up automatically, no worries, thanks!
+Acks from arch maintainers here would be appreciated.
 
-greg k-h
+-- 
+James Morris
+<jmorris@namei.org>
+
+--1665246916-1849052408-1603863098=:25689--
