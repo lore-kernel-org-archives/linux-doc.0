@@ -2,111 +2,168 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7BAC388F7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A1EBC55179
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:22:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 448D4207DE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:19:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EB4E2054F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:22:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="GxQ9oqbW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732813AbgJ2ATA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 20:19:00 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44093 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389212AbgJ1WpC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:45:02 -0400
-Received: by mail-ot1-f66.google.com with SMTP id m26so630838otk.11;
-        Wed, 28 Oct 2020 15:45:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+XN02PSejXD+FeqWTrgwKvG1TTSDYTM2yrZb6ygptq8=;
-        b=CVTjna5g2XVGfGso31JoRpR07nQGR1+pt3N1oUBEC3lOAK+ejuNtguI896SRlUKoEe
-         OlTsqTpasI16TzoW4+oF7UhbhIlkiOFHiVz2HUPn7J1xOONJnRpB8fnC4j7zYrfXTvT7
-         kamRM6QaiwLy5mNoE5XDdayATyai8Of5DS47OF9jhUkOtRqX4yTJI2XNH+rbJ1KE89/A
-         sqlgmdSdRyJ4gMKXJnsLDwBOUOlvhaO0GpgHtH2dvWkwp9pWszdr4H+S1aVLHmxcthF+
-         kQF3KJrVqm7w9vSYCVtT77kMiKHWr8JgYbcw1m806wTYPzDkkAx1VKhkPGCBJ3Mp9GLE
-         +fTg==
-X-Gm-Message-State: AOAM533RWsrc+p1DMUBcfN0cdBltY7Dc8+xwUahhPoFjpalh1aqdVeA3
-        HzDJ+0QrthseXpLO4O/gZxIxMj49XxaMysz7OImzPIFzXYsMhQ==
-X-Google-Smtp-Source: ABdhPJwVZzki+tgZs/Q8WXcxtVj9dxZr8/KAouxapBQlbbCT10SMVoqLjSjBsdSeiewzamwEvqLH3hEqv+123K4FYD8=
-X-Received: by 2002:a4a:5d84:: with SMTP id w126mr4993384ooa.1.1603877160928;
- Wed, 28 Oct 2020 02:26:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201027112955.14157-1-rppt@kernel.org> <20201027112955.14157-12-rppt@kernel.org>
-In-Reply-To: <20201027112955.14157-12-rppt@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 28 Oct 2020 10:25:49 +0100
-Message-ID: <CAMuHMdU4r4CJ1kBu7gx1jkputjDn2S8Lqkj7RPfa3XUnM1QOFg@mail.gmail.com>
-Subject: Re: [PATCH 11/13] m68k/mm: make node data and node setup depend on CONFIG_DISCONTIGMEM
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        id S2388933AbgJ2AWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:22:13 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1415 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388929AbgJ1WiG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:38:06 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f99be410000>; Wed, 28 Oct 2020 11:53:53 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
+ 2020 18:53:44 +0000
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by HQMAIL111.nvidia.com (172.20.187.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Wed, 28 Oct 2020 18:53:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LcFPQ+Lu8NRGsc0hU3VO841M6CUgCNfePBWPOyr7Mu/ITaRg2qLdcBVDaBoutJ+MJi+YnWPhqsLNdgqM6x3VTBPBmw45KJSnqz8+wchby8vCzGUm+0F/K4IswCk0mqK2Hsg9bQcGF0cxc8Uu2nCpLe6qKBZ0qwsEll/Nci5LiAn62B7M4avwENduf3soVOTritN5icZ7Jvcb+cozk1Uj4oIHOtFRxwij20ALkyvzNw1dc14FHEMqSmYkG4ONHobLPcl+UQOn8VVMvA2oartzz8E+/PLvirZERbw2ExSyNuUsjV8dkrA5Ajg/nIPuGkdKSCocxGssNS1iaOYOEcX3Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YjnFmVRHDs222kZEwa4GZhPlUPzdcatFGZwVKM3UH1Y=;
+ b=aIEJI9uCEee88f8BU0RUGu7nWdd4BSPP0LFdsbBZ9ib94UrfDpsqSzuQea2A/2vQ+KNZf61BLe3m8v3vd7wG453WyzYz/3oSPC89IyluEnDBlHleBqFaiZyQScRUKzWO7YkH565z2vDjDa2mCwtysSVVjarxPk+vwpsOSMf5By/C1UY1SZUw3zH+hthoFvKkaYWh9eo4pCnVBicrf8DVYRTL3pH6rF1h362uuXGWd3D+lJ+mK2GBxD49luzoB28vqU4lCYSYP68BH/IZrQr6w8jokg+RdEwaWcn4EE1S4SURejyK3YOHVtdQkRc9JKvXksfCa6Wr7xHbL3yS/JYsRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM5PR12MB1659.namprd12.prod.outlook.com (2603:10b6:4:11::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Wed, 28 Oct
+ 2020 18:53:42 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3499.027; Wed, 28 Oct 2020
+ 18:53:42 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
+        "Tom Lendacky" <thomas.lendacky@amd.com>
+CC:     Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Brijesh Singh <brijesh.singh@amd.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Tony Luck <tony.luck@intel.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Will Deacon <will@kernel.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        Linux MM <linux-mm@kvack.org>,
-        arcml <linux-snps-arc@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Dave Young" <dyoung@redhat.com>,
+        Alexander Potapenko <glider@google.com>,
+        <kasan-dev@googlegroups.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        <kvm@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-efi@vger.kernel.org>, Andy Lutomirski <luto@kernel.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        Matt Fleming <matt@codeblueprint.co.uk>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rik van Riel <riel@redhat.com>,
+        =?utf-8?b?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Toshimitsu Kani <toshi.kani@hpe.com>
+Subject: [PATCH rc] mm: always have io_remap_pfn_range() set pgprot_decrypted()
+Date:   Wed, 28 Oct 2020 15:53:40 -0300
+Message-ID: <0-v1-025d64bdf6c4+e-amd_sme_fix_jgg@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR11CA0021.namprd11.prod.outlook.com
+ (2603:10b6:208:23b::26) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR11CA0021.namprd11.prod.outlook.com (2603:10b6:208:23b::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend Transport; Wed, 28 Oct 2020 18:53:42 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kXqZo-00Aqpy-KK; Wed, 28 Oct 2020 15:53:40 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1603911233; bh=yzNe+Ngjn17ZkMrMdUy/PH/+E8Zp+x0w7K5TfBboL80=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
+         CC:Subject:Date:Message-ID:Content-Transfer-Encoding:Content-Type:
+         X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType;
+        b=GxQ9oqbWOYZZc4FRlIve/II9FoO+eC5e+4xuITgZ3PmGB86vTMQ/Q/wrJ8oFhRMWk
+         Tly5ybe6SFyveDQbbQ5RWRjONuTlTmeowg8WlhfqF8gnj50hvcJ+bT/TKT48c5V/0u
+         Fp5I1x7yeeK+jo6QjsG3NU/qh5cD6GVom0/mW7bAIDTRehIM9Gh/beB6Q0vknkQRf9
+         c2FLFuf30TFvgyBug/9yPLk33pvZFe/E4MwbYg/WBD9z8tkV2eaXByI6MSN3F7bk9O
+         N9lKPYUTMBxJF0FjPsI7NlCcaLL1OtPOkLuIqKVM5tHtrBfK9qb3LscKXWuC3oVWJl
+         ql2RTwL8QmW/w==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+The purpose of io_remap_pfn_range() is to map IO memory, such as a memory
+mapped IO exposed through a PCI BAR. IO devices do not understand
+encryption, so this memory must always be decrypted. Automatically call
+pgprot_decrypted() as part of the generic implementation.
 
-On Tue, Oct 27, 2020 at 12:31 PM Mike Rapoport <rppt@kernel.org> wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> The pg_data_t node structures and their initialization currently depends on
-> !CONFIG_SINGLE_MEMORY_CHUNK. Since they are required only for DISCONTIGMEM
-> make this dependency explicit and replace usage of
-> CONFIG_SINGLE_MEMORY_CHUNK with CONFIG_DISCONTIGMEM where appropriate.
->
-> The CONFIG_SINGLE_MEMORY_CHUNK was implicitly disabled on the ColdFire MMU
-> variant, although it always presumed a single memory bank. As there is no
-> actual need for DISCONTIGMEM in this case, make sure that ColdFire MMU
-> systems set CONFIG_SINGLE_MEMORY_CHUNK to 'y'.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+This fixes a bug where enabling AMD SME causes subsystems, such as RDMA,
+using io_remap_pfn_range() to expose BAR pages to user space to fail. The
+CPU will encrypt access to those BAR pages instead of passing unencrypted
+IO directly to the device.
 
-Thanks for your patch!
+Places not mapping IO should use remap_pfn_range().
 
-> ---
->  arch/m68k/Kconfig.cpu           | 6 +++---
->  arch/m68k/include/asm/page_mm.h | 2 +-
->  arch/m68k/mm/init.c             | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
+Cc: stable@kernel.org
+Fixes: aca20d546214 ("x86/mm: Add support to make use of Secure Memory Encr=
+yption")
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ include/linux/mm.h      | 9 +++++++++
+ include/linux/pgtable.h | 4 ----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-Is there any specific reason you didn't convert the checks for
-CONFIG_SINGLE_MEMORY_CHUNK in arch/m68k/kernel/setup_mm.c
-and arch/m68k/include/asm/virtconvert.h?
+I have a few other patches after this to remove some now-redundant pgprot_d=
+ecrypted()
+and to update vfio-pci to call io_remap_pfn_range()
 
-Gr{oetje,eeting}s,
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ef360fe70aafcf..db6ae4d3fb4edc 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2759,6 +2759,15 @@ static inline vm_fault_t vmf_insert_page(struct vm_a=
+rea_struct *vma,
+ 	return VM_FAULT_NOPAGE;
+ }
+=20
++#ifndef io_remap_pfn_range
++static inline int io_remap_pfn_range(struct vm_area_struct *vma,
++				     unsigned long addr, unsigned long pfn,
++				     unsigned long size, pgprot_t prot)
++{
++	return remap_pfn_range(vma, addr, pfn, size, pgprot_decrypted(prot));
++}
++#endif
++
+ static inline vm_fault_t vmf_error(int err)
+ {
+ 	if (err =3D=3D -ENOMEM)
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 38c33eabea8942..71125a4676c4a6 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1427,10 +1427,6 @@ typedef unsigned int pgtbl_mod_mask;
+=20
+ #endif /* !__ASSEMBLY__ */
+=20
+-#ifndef io_remap_pfn_range
+-#define io_remap_pfn_range remap_pfn_range
+-#endif
+-
+ #ifndef has_transparent_hugepage
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ #define has_transparent_hugepage() 1
+--=20
+2.28.0
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
