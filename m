@@ -2,250 +2,98 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE24C4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:57:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CED3DC4363A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:57:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D34AB20790
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:57:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84E5520791
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:57:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603933028;
-	bh=WDrW5cgGfVq5Sg/5CIYBmqthC9evi33PkL3XOL4x3Yo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kPGf2mrEx2sHX1WDCpbDxKDUQj6ebTLqTIiM8+JL6xZNtXYr0t6A9q8InsaAMwtsq
-	 9MhE2Ps0fxnK+DCWToewymVaL+uXZmDGkcdSO4QMOd4SY9QzQNu4qHNborHp7KPqvr
-	 XTTxxIVfKvJ7EUvNrKhR1FZcTKNT5Qw65UUxrYaM=
+	s=default; t=1603933034;
+	bh=gRejF2ll8OEp5JTX3hs4nwNi7qpEZn/Ri8YOjZpq59M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Zs7akF0jOaUVjqk/hdcdJRktO+EyXkzKPCpGeat0xfCPB6gVDsqrW058Gtjij+mBi
+	 vogxydPFJsu6Uouqa2/wFgI5UascbiVm6osCUc2zz0AqdLS4InFLWe3flKIrO6+Ma9
+	 2urTFxGYoPjNEBndXjeRpay/bV/vbvLG6QDm99RI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731642AbgJ1WRg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:17:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60532 "EHLO mail.kernel.org"
+        id S1726849AbgJ2A5I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:57:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60528 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731615AbgJ1WRg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1731625AbgJ1WRg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 28 Oct 2020 18:17:36 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A0EE24762;
-        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F1488222C8;
+        Wed, 28 Oct 2020 05:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895014;
-        bh=WDrW5cgGfVq5Sg/5CIYBmqthC9evi33PkL3XOL4x3Yo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0EcSjW/Kkoo2kAaMaQa0etxna29Fd3RaToT7PGvj7rbqmzrRR+zDlGh0ycCXs9Y7J
-         EcQjT27l29M6/GGJuJf5Dnw0ENQO5DsSVGDQ6ArH+Leq9SfHz47i3SYJG10PgUSaMp
-         nH3Frau/v/rLr4mcSz808Jmrlx/nYUjGV5hQluvs=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hky-9v; Wed, 28 Oct 2020 15:23:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/33] scripts: get_abi.pl: detect duplicated ABI definitions
-Date:   Wed, 28 Oct 2020 15:23:04 +0100
-Message-Id: <973ab227f500e3e7d4743523a40c5df8246b5fb0.1603893146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
+        s=default; t=1603864594;
+        bh=gRejF2ll8OEp5JTX3hs4nwNi7qpEZn/Ri8YOjZpq59M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HSv007bm95x5QYWP2rdBK3O70AiNEpllgLGxddLb29tAlYw/MwPmZMaP8gQT09sIW
+         4Od2e/41WSGCU56q5846xm5tFjxJlYx0iX8CivFB0oYNXbeVVYLgJXg3ua7lbj3p/F
+         GnSxbDckG+k8EaOMN3SpouOl41IyXx8tOKxQF0wY=
+Date:   Wed, 28 Oct 2020 06:56:28 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, devel@driverdev.osuosl.org,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
+        Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [RFC] wimax: move out to staging
+Message-ID: <20201028055628.GB244117@kroah.com>
+References: <20201027212448.454129-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201027212448.454129-1-arnd@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ABI should define only once each What. The current script
-logic assumes that.
+On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> There are no known users of this driver as of October 2020, and it will
+> be removed unless someone turns out to still need it in future releases.
+> 
+> According to https://en.wikipedia.org/wiki/List_of_WiMAX_networks, there
+> have been many public wimax networks, but it appears that these entries
+> are all stale, after everyone has migrated to LTE or discontinued their
+> service altogether.
+> 
+> NetworkManager appears to have dropped userspace support in 2015
+> https://bugzilla.gnome.org/show_bug.cgi?id=747846, the
+> www.linuxwimax.org
+> site had already shut down earlier.
+> 
+> WiMax is apparently still being deployed on airport campus networks
+> ("AeroMACS"), but in a frequency band that was not supported by the old
+> Intel 2400m (used in Sandy Bridge laptops and earlier), which is the
+> only driver using the kernel's wimax stack.
+> 
+> Move all files into drivers/staging/wimax, including the uapi header
+> files and documentation, to make it easier to remove it when it gets
+> to that. Only minimal changes are made to the source files, in order
+> to make it possible to port patches across the move.
+> 
+> Also remove the MAINTAINERS entry that refers to a broken mailing
+> list and website.
+> 
+> Suggested-by: Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-However, that's not the case, currently: there are several
-symbols with a generic definition, and per-driver ones.
+Is this ok for me to take through the staging tree?  If so, I need an
+ack from the networking maintainers.
 
-Better handle such cases, by preserving the cross-references
-with the files that define them, but also track such
-cases, producing warnings, as they should be fixed.
+If not, feel free to send it through the networking tree and add:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/get_abi.pl | 85 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 58 insertions(+), 27 deletions(-)
-
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index df2efad11d88..c88cb8ee6bfd 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -114,6 +114,8 @@ sub parse_abi {
- 				$space = "";
- 				$content =~ s/[,.;]$//;
- 
-+				push @{$symbols{$content}->{file}}, " $content:" . ($ln - 1);
-+
- 				if ($tag =~ m/what/) {
- 					$what .= ", " . $content;
- 				} else {
-@@ -121,7 +123,7 @@ sub parse_abi {
- 						parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
- 
- 						foreach my $w(split /, /, $what) {
--							$symbols{$w} = $what;
-+							$symbols{$w}->{xref} = $what;
- 						};
- 					}
- 
-@@ -139,8 +141,6 @@ sub parse_abi {
- 			if ($tag ne "" && $new_tag) {
- 				$tag = $new_tag;
- 
--				$data{$what}->{line_no} = $ln;
--
- 				if ($new_what) {
- 					@{$data{$what}->{label_list}} = @labels if ($data{$nametag}->{what});
- 					@labels = ();
-@@ -148,9 +148,19 @@ sub parse_abi {
- 					$new_what = 0;
- 
- 					$data{$what}->{type} = $type;
--					$data{$what}->{file} = $name;
--					$data{$what}->{filepath} = $file;
-+					if (!defined($data{$what}->{file})) {
-+						$data{$what}->{file} = $name;
-+						$data{$what}->{filepath} = $file;
-+					} else {
-+						if ($name ne $data{$what}->{file}) {
-+							$data{$what}->{file} .= " " . $name;
-+							$data{$what}->{filepath} .= " " . $file;
-+						}
-+					}
- 					print STDERR "\twhat: $what\n" if ($debug > 1);
-+					$data{$what}->{line_no} = $ln;
-+				} else {
-+					$data{$what}->{line_no} = $ln if (!defined($data{$what}->{line_no}));
- 				}
- 
- 				if (!$what) {
-@@ -218,7 +228,7 @@ sub parse_abi {
- 		parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
- 
- 		foreach my $w(split /, /,$what) {
--			$symbols{$w} = $what;
-+			$symbols{$w}->{xref} = $what;
- 		};
- 	}
- 	close IN;
-@@ -267,29 +277,20 @@ sub output_rest {
- 				$a cmp $b
- 			       } keys %data) {
- 		my $type = $data{$what}->{type};
--		my $file = $data{$what}->{file};
--		my $filepath = $data{$what}->{filepath};
-+
-+		my @file = split / /, $data{$what}->{file};
-+		my @filepath = split / /, $data{$what}->{filepath};
- 
- 		if ($enable_lineno) {
- 			printf "#define LINENO %s%s#%s\n\n",
--			       $prefix, $data{$what}->{file},
-+			       $prefix, $file[0],
- 			       $data{$what}->{line_no};
- 		}
- 
- 		my $w = $what;
- 		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
- 
--		$filepath =~ s,.*/(.*/.*),$1,;;
--		$filepath =~ s,[/\-],_,g;;
--		my $fileref = "abi_file_".$filepath;
--
--		if ($type eq "File") {
--			my $bar = $w;
--			$bar =~ s/./-/g;
--
--			print ".. _$fileref:\n\n";
--			print "$w\n$bar\n\n";
--		} else {
-+		if ($type ne "File") {
- 			printf ".. _%s:\n\n", $data{$what}->{label};
- 
- 			my @names = split /, /,$w;
-@@ -307,7 +308,26 @@ sub output_rest {
- 				print "+-" . "-" x $len . "-+\n";
- 			}
- 
--			print "\nDefined on file :ref:`$file <$fileref>`\n\n";
-+			print "\n";
-+		}
-+
-+		for (my $i = 0; $i < scalar(@filepath); $i++) {
-+			my $path = $filepath[$i];
-+			my $f = $file[$i];
-+
-+			$path =~ s,.*/(.*/.*),$1,;;
-+			$path =~ s,[/\-],_,g;;
-+			my $fileref = "abi_file_".$path;
-+
-+			if ($type eq "File") {
-+				my $bar = $w;
-+				$bar =~ s/./-/g;
-+
-+				print ".. _$fileref:\n\n";
-+				print "$w\n$bar\n\n";
-+			} else {
-+				print "Defined on file :ref:`$f <$fileref>`\n\n";
-+			}
- 		}
- 
- 		my $desc = "";
-@@ -343,7 +363,7 @@ sub output_rest {
- 			printf "Has the following ABI:\n\n";
- 
- 			foreach my $content(@{$data{$what}->{symbols}}) {
--				my $label = $data{$symbols{$content}}->{label};
-+				my $label = $data{$symbols{$content}->{xref}}->{label};
- 
- 				# Escape special chars from content
- 				$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
-@@ -387,7 +407,7 @@ sub search_symbols {
- 		printf "Date:\t\t\t%s\n", $date if ($date);
- 		printf "Contact:\t\t%s\n", $contact if ($contact);
- 		printf "Users:\t\t\t%s\n", $users if ($users);
--		print "Defined on file:\t$file\n\n";
-+		print "Defined on file(s):\t$file\n\n";
- 		print "Description:\n\n$desc";
- 	}
- }
-@@ -407,13 +427,24 @@ print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
- #
- # Handles the command
- #
--if ($cmd eq "rest") {
--	output_rest;
--} elsif ($cmd eq "search") {
-+if ($cmd eq "search") {
- 	search_symbols;
-+} else {
-+	if ($cmd eq "rest") {
-+		output_rest;
-+	}
-+
-+	# Warn about duplicated ABI entries
-+	foreach my $what(sort keys %symbols) {
-+		my @files = @{$symbols{$what}->{file}};
-+
-+		next if (scalar(@files) == 1);
-+
-+		printf STDERR "Warning: $what is defined %d times: @files\n",
-+		    scalar(@files);
-+	}
- }
- 
--
- __END__
- 
- =head1 NAME
--- 
-2.26.2
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
