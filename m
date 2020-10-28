@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B9EC4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB91C56202
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21553207DE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF4F320790
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603932981;
-	bh=Bc48DMVromEXcAPrh73xm9mJBiyt5U+xZVP6uUdJV0w=;
+	s=default; t=1603932982;
+	bh=jzHm1QtzfpxDKadw+V1YfSIgkojRb8DPJUFpqgleivE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=K4QK6iM9riimbhck/BYt9olcRC1T01aOLhKJSwNiO+n+cc4nVWeqUqtVRVn0EiFEI
-	 JEQJNZNLobKA57RvT6h3L0EkpR8zGjnh+2HPAzWZpKFGpUnOp9gyM78YVnLkiCmjLn
-	 u9wJ05Hp2Too2Ep68AwbFZ0rKdb11+o5qh0Wziek=
+	b=MBuvuhwRe+KJyaSTeAP8uW6WJo80G7grjGfwZqtq87xAmnJqoBl/YWSnLPA+4gMuC
+	 5X1AM307KI8mUQzvP8VzwAOE7GGoMCYZHg6XsZGVcxfoo1kwyK137IbpCpE/OYZS0+
+	 1J7esYNLiWAP3UM0bWxtYlYY9V8s4yZZxGY6LxNw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728023AbgJ2A4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 20:56:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60514 "EHLO mail.kernel.org"
+        id S2390999AbgJ2A4W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:56:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60534 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731639AbgJ1WRh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:37 -0400
+        id S1731623AbgJ1WRg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:36 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5785C247A5;
-        Wed, 28 Oct 2020 14:23:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 780782473F;
+        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895015;
-        bh=Bc48DMVromEXcAPrh73xm9mJBiyt5U+xZVP6uUdJV0w=;
+        s=default; t=1603895014;
+        bh=jzHm1QtzfpxDKadw+V1YfSIgkojRb8DPJUFpqgleivE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HO3nkyxxyd6+pZV93/SJ9jIABPlO+odqAzJUFoLkYg5jmyQ0TvIS3NuQ2Oh4HtJO+
-         Q1QX/ruyNRn5NwZjIp/VEl34NKIuZgU8yXW5oeDxKql2mLLEkTy9AqJtg00h9fD5me
-         vigLhKuMvqm0JKkJRfPqdyhmQLQwsReul1LkS3bg=
+        b=JswyOE4gDRTKpLISSXBMqRcrR6tNy8K+XUIamY0q15Ain5PW5AP9nle2v34paXMq1
+         s15zjiyAfatC7wvSBDrNEbPup6jHzwZVsVjE4cmFiM+ZCDeXlKfJrrysSXBnJj4lZ9
+         DMZWkMFhbPGBID+ikESfk3Sp57sA6O0/ZSwrihcA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXmMP-003hlp-Bx; Wed, 28 Oct 2020 15:23:33 +0100
+        id 1kXmMO-003hkp-3q; Wed, 28 Oct 2020 15:23:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -48,9 +48,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 24/33] docs: abi-testing.rst: enable --rst-sources when building docs
-Date:   Wed, 28 Oct 2020 15:23:22 +0100
-Message-Id: <5548e1ab29905a4e0e91e5b8926412a6ef9f7be3.1603893146.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 02/33] scripts: get_abi.pl: fix parsing on ReST mode
+Date:   Wed, 28 Oct 2020 15:23:00 +0100
+Message-Id: <c24fbeb384b36e00c34786a5a3686a83981f067d.1603893146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
@@ -63,24 +63,76 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Now that ABI/testing documents were fixed, add --rst-sources to
-the ABI/testing too.
+When the source ABI file is using ReST notation, the script
+should handle whitespaces and lines with care, as otherwise
+the file won't be properly recognized.
+
+Address the bugs that are on such part of the script.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/abi-testing.rst | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/get_abi.pl | 30 ++++++++++++++----------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/admin-guide/abi-testing.rst b/Documentation/admin-guide/abi-testing.rst
-index 5c886fc50b9e..b205b16a72d0 100644
---- a/Documentation/admin-guide/abi-testing.rst
-+++ b/Documentation/admin-guide/abi-testing.rst
-@@ -17,3 +17,4 @@ name to the description of these interfaces, so that the kernel
- developers can easily notify them if any changes occur.
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 107672cdacb3..0c403af86fd5 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -151,7 +151,8 @@ sub parse_abi {
+ 						$content = $2;
+ 					}
+ 					while ($space =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
+-					$data{$what}->{$tag} .= $content;
++
++					$data{$what}->{$tag} .= "$content\n" if ($content);
+ 				} else {
+ 					$data{$what}->{$tag} = $content;
+ 				}
+@@ -166,31 +167,28 @@ sub parse_abi {
+ 		}
  
- .. kernel-abi:: $srctree/Documentation/ABI/testing
-+   :rst:
+ 		if ($tag eq "description") {
++			my $content = $_;
++			while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
+ 			if (!$data{$what}->{description}) {
+-				s/^($space)//;
+-				if (m/^(\s*)(.*)/) {
+-					my $sp = $1;
+-					while ($sp =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
+-					my $content = "$sp$2";
+-
+-					$content =~ s/^($space)//;
+-
+-					$data{$what}->{$tag} .= "$content";
++				# Preserve initial spaces for the first line
++				if ($content =~ m/^(\s*)(.*)$/) {
++					$space = $1;
++					$content = $2;
+ 				}
++
++				$data{$what}->{$tag} .= "$content\n" if ($content);
+ 			} else {
+-				my $content = $_;
+ 				if (m/^\s*\n/) {
+ 					$data{$what}->{$tag} .= $content;
+ 					next;
+ 				}
+ 
+-				while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
+ 				$space = "" if (!($content =~ s/^($space)//));
+ 
+-				# Compress spaces with tabs
+-				$content =~ s<^ {8}> <\t>;
+-				$content =~ s<^ {1,7}\t> <\t>;
+-				$content =~ s< {1,7}\t> <\t>;
++#				# Compress spaces with tabs
++#				$content =~ s<^ {8}> <\t>;
++#				$content =~ s<^ {1,7}\t> <\t>;
++#				$content =~ s< {1,7}\t> <\t>;
+ 				$data{$what}->{$tag} .= $content;
+ 			}
+ 			next;
 -- 
 2.26.2
 
