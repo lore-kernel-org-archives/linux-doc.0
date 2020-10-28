@@ -2,100 +2,112 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DDBFC56202
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:33:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E839C56201
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:43:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C5AD24844
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:33:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="HcuodH5c"
+	by mail.kernel.org (Postfix) with ESMTP id 4DBD9246AB
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:43:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603921384;
+	bh=F55CaKuNqy8kbVd0WsJiDP97cLglVFbjvcBXO78m1Jc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=LZTcDyMr6nUUY6NnskMdQvc1hBjHC3QxRLJuViouZr0A3cOy0oBGvdRuAl4dm544o
+	 U4feZ+DsIzfQmQxSlkmRRNC92S2kd/+JPnP6DBfaj3pnVbLAA62FJgL3a232Eptqjb
+	 2kFTImc0oi1aKkprWPr+X4NeFIFp9CI8VNg0xd6I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbgJ1Vd4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 17:33:56 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53549 "EHLO ozlabs.org"
+        id S1725832AbgJ1VnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 17:43:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38136 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726309AbgJ1Vdu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:33:50 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1726097AbgJ1VmY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 17:42:24 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4CM1ZX30Xwz9sWH;
-        Thu, 29 Oct 2020 08:15:47 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1603919748;
-        bh=Odl+EFcAVABTumfQ8BQaRzjpGoHN+rUsQKG+dis+0Bs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HcuodH5cWtZtR1RWWV5U1uoljh7tQsT7VzoVhKGT9PQQHaoeqFKa/+bnbRnXu73Ws
-         YRpiwbHsDmgnpzkwFjy+sEQVy7HL6Ye3d6Z9I5nO6h9WRJJh4sJukK5ZUUV/fvgq2Q
-         teaLEK29z/xXVMZd9/5bTTRVZqMAR9wXss81u9N/BCSYdulPmFKNUgh5Wf3ZDWHUex
-         bFZjYlr2gaHk1kUs9hyxSxXj0hbhqzlqte4i9060ur8MV8cMZWsfgJISmKu+GiM32+
-         O3izm8vdCHZ34EUhpMivc30bRFj2gqz7dYacCC12DeDJ3Jx5fIb8LgUsMjb8rzrjQ9
-         Z+BUbmjnA8RnA==
-Date:   Thu, 29 Oct 2020 08:15:46 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
+        by mail.kernel.org (Postfix) with ESMTPSA id 9710E247F2;
+        Wed, 28 Oct 2020 16:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603904029;
+        bh=F55CaKuNqy8kbVd0WsJiDP97cLglVFbjvcBXO78m1Jc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YwXYBzDQhSs3ZjvP/WeJPKnySEt0WC4uog5M4PS0pidC9ifUHsxnMM2oiosuaLJHY
+         sggxQ+qPufRo5azbQpS3ONOXUbNKuF2lIia+ofFMLvDjkPIPwk0P6tVaWuKqhFKmAK
+         L+2/hcZBe2Vz45ClPLSW0hs0CCYaFEUhFznu/3sQ=
+Date:   Wed, 28 Oct 2020 17:54:35 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Makefile: honor V=0 for docs building
-Message-ID: <20201029081546.508a6922@canb.auug.org.au>
-In-Reply-To: <20201028111142.7cc8833a@lwn.net>
-References: <20201016165504.3cc33889@canb.auug.org.au>
-        <478c114a2399b68a18de94ee5f98649304f3903b.1603796153.git.mchehab+huawei@kernel.org>
-        <20201028111142.7cc8833a@lwn.net>
+        linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Benson Leung <bleung@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Chao Yu <chao@kernel.org>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Colin Cross <ccross@android.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Peter Rosin <peda@axentia.se>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Tony Luck <tony.luck@intel.com>, Wu Hao <hao.wu@intel.com>
+Subject: Re: [PATCH 00/33] ABI: add it to the documentation build system
+Message-ID: <20201028165435.GA2792004@kroah.com>
+References: <cover.1603893146.git.mchehab+huawei@kernel.org>
+ <20201028144321.GA2302351@kroah.com>
+ <20201028102246.6af578ee@lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xlMsaUz+iRSh5XzFR3ydpDN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201028102246.6af578ee@lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/xlMsaUz+iRSh5XzFR3ydpDN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, Oct 28, 2020 at 10:22:46AM -0600, Jonathan Corbet wrote:
+> On Wed, 28 Oct 2020 15:43:21 +0100
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > If there's no complaints, I'd like to take all of the Documentation/ABI/
+> > updates in for 5.10-rc2 at the least, to make it easier to build on top
+> > of and to keep these types of mistakes from living longer than they
+> > should be.  And make merging easier with other trees over time.
+> 
+> No complaints here, even if you want to take the whole set.  Feel free to
+> add:
+> 
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> 
+> ...if you like.
 
-Hi Jon,
+Great, I can do that, it's even easier that way, thanks!
 
-On Wed, 28 Oct 2020 11:11:42 -0600 Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Applied, thanks.  ...ahhh the silence....:)
-
-Thanks, indeed.
-
-For Aussies, though, the quote is "how's the serenity?"
-
-https://www.screenaustralia.gov.au/sa/screen-news/2015/10-11-the-castle-top=
--10-quotes
-(quote number 3)
-
-https://www.youtube.com/watch?v=3DC8WLuQOLq5Q
-
-:-)
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/xlMsaUz+iRSh5XzFR3ydpDN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+Z34IACgkQAVBC80lX
-0GxwoAgAlKVLI+xHdxpl7PuAL4AgOWlmvr9E/hQ48Uk3AhdtOJlb3KEMKbZ0yNti
-8mqmIWNLmZGWqJvFWpjLeYb36foLf09fzgMQkIxN4B0FhDpIil+ekY6UZ7dRBlWQ
-f+0m78jTuoYObEUynDsBRT/YghlOQ75pswGuqGa3M/2RyBwsCsq7BBRNZ+xOcMW4
-7Y00kxGMBO0zC4JuUOLdUu7uYmoO0i5Kv9hNOYY02oKjcImmv05dq9OO+BLa1mVq
-xmRKXZ8yijvxhpx1CmcKXYcMbjKOCnnrWt4YLuyTVzbsIzPEpXfvSinNSdVlg5yF
-mepuR+gNzoJ9CrK0sx2vVn3+jNLKcA==
-=B00H
------END PGP SIGNATURE-----
-
---Sig_/xlMsaUz+iRSh5XzFR3ydpDN--
+greg k-h
