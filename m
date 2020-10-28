@@ -1,58 +1,58 @@
-Return-Path: <SRS0=C3TA=EC=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49AEDC4363A
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 22:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C08D8C4363A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:33:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8E7020878
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Oct 2020 22:06:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 588FF24844
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 21:33:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Vzhp/ZRm"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="McOQVglH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505748AbgJ0WGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Oct 2020 18:06:04 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:37440 "EHLO
+        id S1726004AbgJ1Vd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 17:33:27 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:34104 "EHLO
         aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2505742AbgJ0WGE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Oct 2020 18:06:04 -0400
+        with ESMTP id S1725903AbgJ1VdK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 17:33:10 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09RLxgac183243;
-        Tue, 27 Oct 2020 22:03:44 GMT
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09S0Ttcr051191;
+        Wed, 28 Oct 2020 00:33:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=CrxcAKxlL6zTKrSy5aqsXey/yRGR5KD+DfWfZGHFeZE=;
- b=Vzhp/ZRmRv3MkRxXLZDa6adkxTJtQ7xwyJZoUgOJQ3e1IIDg/xm5McMNtfMKLEVNibPu
- Bc/l9I21h6c/nYgFHGUQiHTO+/HueN7Q2sQRFo1jK3zdR5RL8hPKLpAgZwU78cIXe1/R
- GzXEqh7MbuLAiG4nz3D3aCcnL2yFsJaYVcmz66j/l4xLXJBxW3XZa/TPEe6VwZe7+KPR
- 9DYYP1vMujDapkFKWb6vyH5wl4dR5s97EohbXRy0woLTTxchJzO4QbG7gRwjH9AOOLJl
- IJ8iNLGWwOKu2I+dBe0t2u2Nd/jV9azrN9jb7QqkpCl/cQM8nFTo9PVYVSbl5lEqSRpj Tw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 34c9savpnq-1
+ bh=I7qDefII2+bSQ604rE0AIGAq/Gpmoaje4mXejvoeaU4=;
+ b=McOQVglH8G19T3L/HUmbzxhk4qibgT0YI29VA1bWZw5G3QaS3HrS1iHx/MhISrNzP7Ms
+ YBOSbuoXxc06qJF8edMmIcfSwv08KGJHdybmxA0Hmbn1tQVGKEmcjay/yO7YLN5+A/nU
+ 835TX8IeSaYoEpVLr5mp5LBkKUMNLMLpL7tXgbHc/SttPCT6FRnTy5vAh10z4zAkOvQT
+ Uq3Y54sBBt+m540g2dj36ngqD+R/fE8rmTxuvLLcDeYYPP6eM5ko6IzDMsk8y69BiCDH
+ QeT1wuG3SECarTeZBTjpbMp9aJpl+fmXnK7Yeii7WSv5By1vmWvf0e2h4pzYydwXn0FO fw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2130.oracle.com with ESMTP id 34c9saw0yv-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 27 Oct 2020 22:03:44 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09RM04Rc051004;
-        Tue, 27 Oct 2020 22:03:44 GMT
+        Wed, 28 Oct 2020 00:33:09 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09S0QQFT157694;
+        Wed, 28 Oct 2020 00:33:09 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 34cx5xmprm-1
+        by aserp3030.oracle.com with ESMTP id 34cwun0ewc-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 27 Oct 2020 22:03:43 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09RM3WaA025266;
-        Tue, 27 Oct 2020 22:03:33 GMT
+        Wed, 28 Oct 2020 00:33:09 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09S0X06j021723;
+        Wed, 28 Oct 2020 00:33:01 GMT
 Received: from [192.168.2.112] (/50.38.35.18)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 27 Oct 2020 15:03:32 -0700
-Subject: Re: [PATCH v2 04/19] mm/hugetlb: Introduce nr_free_vmemmap_pages in
- the struct hstate
+        with ESMTP ; Tue, 27 Oct 2020 17:33:00 -0700
+Subject: Re: [PATCH v2 05/19] mm/hugetlb: Introduce pgtable allocation/freeing
+ helpers
 To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
@@ -66,62 +66,271 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org
 References: <20201026145114.59424-1-songmuchun@bytedance.com>
- <20201026145114.59424-5-songmuchun@bytedance.com>
+ <20201026145114.59424-6-songmuchun@bytedance.com>
 From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <344cbb0a-7b82-3d81-403a-1a2c1a7d6fb1@oracle.com>
-Date:   Tue, 27 Oct 2020 15:03:30 -0700
+Message-ID: <81a7a7f0-fe0e-42e4-8de0-9092b033addc@oracle.com>
+Date:   Tue, 27 Oct 2020 17:32:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20201026145114.59424-5-songmuchun@bytedance.com>
+In-Reply-To: <20201026145114.59424-6-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=2 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 bulkscore=0
+ spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=2
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010270127
+ definitions=main-2010280000
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 malwarescore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011 suspectscore=2
+ priorityscore=1501 spamscore=0 phishscore=0 clxscore=1015 suspectscore=2
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010270127
+ engine=8.12.0-2009150000 definitions=main-2010280000
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/26/20 7:50 AM, Muchun Song wrote:
-> If the size of hugetlb page is 2MB, we need 512 struct page structures
-> (8 pages) to be associated with it. As far as I know, we only use the
-> first 4 struct page structures.
-
-Use of first 4 struct page structures comes from HUGETLB_CGROUP_MIN_ORDER.
-You could point that out here.
-
-I thought about creating a HUGETLB_MIN_ORDER definition that could be used
-to calculate RESERVE_VMEMMAP_NR.  However, I think a hard coded value of
-2U as in the patch is OK.
-
-> For tail pages, the value of compound_dtor is the same. So we can reuse
-> first page of tail page structs. We map the virtual addresses of the
-> remaining 6 pages of tail page structs to the first tail page struct,
-> and then free these 6 pages. Therefore, we need to reserve at least 2
-> pages as vmemmap areas.
-> 
-> So we introduce a new nr_free_vmemmap_pages field in the hstate to
-> indicate how many vmemmap pages associated with a hugetlb page that we
-> can free to buddy system.
+On 10/26/20 7:51 AM, Muchun Song wrote:
+> On some architectures, the vmemmap areas use huge page mapping.
+> If we want to free the unused vmemmap pages, we have to split
+> the huge pmd firstly. So we should pre-allocate pgtable to split
+> huge pmd.
 > 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
->  include/linux/hugetlb.h |  3 +++
->  mm/hugetlb.c            | 35 +++++++++++++++++++++++++++++++++++
->  2 files changed, 38 insertions(+)
+>  arch/x86/include/asm/hugetlb.h |   5 ++
+>  include/linux/hugetlb.h        |  17 +++++
+>  mm/hugetlb.c                   | 117 +++++++++++++++++++++++++++++++++
+>  3 files changed, 139 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/hugetlb.h b/arch/x86/include/asm/hugetlb.h
+> index 1721b1aadeb1..f5e882f999cd 100644
+> --- a/arch/x86/include/asm/hugetlb.h
+> +++ b/arch/x86/include/asm/hugetlb.h
+> @@ -5,6 +5,11 @@
+>  #include <asm/page.h>
+>  #include <asm-generic/hugetlb.h>
+>  
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +#define VMEMMAP_HPAGE_SHIFT			PMD_SHIFT
+> +#define arch_vmemmap_support_huge_mapping()	boot_cpu_has(X86_FEATURE_PSE)
+> +#endif
+> +
+>  #define hugepages_supported() boot_cpu_has(X86_FEATURE_PSE)
+>  
+>  #endif /* _ASM_X86_HUGETLB_H */
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index eed3dd3bd626..ace304a6196c 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -593,6 +593,23 @@ static inline unsigned int blocks_per_huge_page(struct hstate *h)
+>  
+>  #include <asm/hugetlb.h>
+>  
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +#ifndef arch_vmemmap_support_huge_mapping
+> +static inline bool arch_vmemmap_support_huge_mapping(void)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+> +#ifndef VMEMMAP_HPAGE_SHIFT
+> +#define VMEMMAP_HPAGE_SHIFT		PMD_SHIFT
+> +#endif
+> +#define VMEMMAP_HPAGE_ORDER		(VMEMMAP_HPAGE_SHIFT - PAGE_SHIFT)
+> +#define VMEMMAP_HPAGE_NR		(1 << VMEMMAP_HPAGE_ORDER)
+> +#define VMEMMAP_HPAGE_SIZE		((1UL) << VMEMMAP_HPAGE_SHIFT)
+> +#define VMEMMAP_HPAGE_MASK		(~(VMEMMAP_HPAGE_SIZE - 1))
+> +#endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
+> +
+>  #ifndef is_hugepage_only_range
+>  static inline int is_hugepage_only_range(struct mm_struct *mm,
+>  					unsigned long addr, unsigned long len)
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index f1b2b733b49b..d6ae9b6876be 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1295,11 +1295,108 @@ static inline void destroy_compound_gigantic_page(struct page *page,
+>  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+>  #define RESERVE_VMEMMAP_NR	2U
+>  
+> +#define page_huge_pte(page)	((page)->pmd_huge_pte)
+> +
 
-Patch looks fine with updated commit message.
-Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+I am not good at function names.  The following suggestions may be too
+verbose.  However, they helped me understand purpose of routines.
+
+>  static inline unsigned int nr_free_vmemmap(struct hstate *h)
+
+	perhaps?	 	free_vmemmap_pages_per_hpage()
+
+>  {
+>  	return h->nr_free_vmemmap_pages;
+>  }
+>  
+> +static inline unsigned int nr_vmemmap(struct hstate *h)
+
+	perhaps?		vmemmap_pages_per_hpage()
+
+> +{
+> +	return nr_free_vmemmap(h) + RESERVE_VMEMMAP_NR;
+> +}
+> +
+> +static inline unsigned long nr_vmemmap_size(struct hstate *h)
+
+	perhaps?		vmemmap_pages_size_per_hpage()
+
+> +{
+> +	return (unsigned long)nr_vmemmap(h) << PAGE_SHIFT;
+> +}
+> +
+> +static inline unsigned int nr_pgtable(struct hstate *h)
+
+	perhaps?	pgtable_pages_to_prealloc_per_hpage()
+
+> +{
+> +	unsigned long vmemmap_size = nr_vmemmap_size(h);
+> +
+> +	if (!arch_vmemmap_support_huge_mapping())
+> +		return 0;
+> +
+> +	/*
+> +	 * No need pre-allocate page tabels when there is no vmemmap pages
+> +	 * to free.
+> +	 */
+> +	if (!nr_free_vmemmap(h))
+> +		return 0;
+> +
+> +	return ALIGN(vmemmap_size, VMEMMAP_HPAGE_SIZE) >> VMEMMAP_HPAGE_SHIFT;
+> +}
+> +
+> +static inline void vmemmap_pgtable_init(struct page *page)
+> +{
+> +	page_huge_pte(page) = NULL;
+> +}
+> +
+
+I see the following routines follow the pattern for vmemmap manipulation
+in dax.
+
+> +static void vmemmap_pgtable_deposit(struct page *page, pte_t *pte_p)
+> +{
+> +	pgtable_t pgtable = virt_to_page(pte_p);
+> +
+> +	/* FIFO */
+> +	if (!page_huge_pte(page))
+> +		INIT_LIST_HEAD(&pgtable->lru);
+> +	else
+> +		list_add(&pgtable->lru, &page_huge_pte(page)->lru);
+> +	page_huge_pte(page) = pgtable;
+> +}
+> +
+> +static pte_t *vmemmap_pgtable_withdraw(struct page *page)
+> +{
+> +	pgtable_t pgtable;
+> +
+> +	/* FIFO */
+> +	pgtable = page_huge_pte(page);
+> +	if (unlikely(!pgtable))
+> +		return NULL;
+> +	page_huge_pte(page) = list_first_entry_or_null(&pgtable->lru,
+> +						       struct page, lru);
+> +	if (page_huge_pte(page))
+> +		list_del(&pgtable->lru);
+> +	return page_to_virt(pgtable);
+> +}
+> +
+> +static int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
+> +{
+> +	int i;
+> +	pte_t *pte_p;
+> +	unsigned int nr = nr_pgtable(h);
+> +
+> +	if (!nr)
+> +		return 0;
+> +
+> +	vmemmap_pgtable_init(page);
+> +
+> +	for (i = 0; i < nr; i++) {
+> +		pte_p = pte_alloc_one_kernel(&init_mm);
+> +		if (!pte_p)
+> +			goto out;
+> +		vmemmap_pgtable_deposit(page, pte_p);
+> +	}
+> +
+> +	return 0;
+> +out:
+> +	while (i-- && (pte_p = vmemmap_pgtable_withdraw(page)))
+> +		pte_free_kernel(&init_mm, pte_p);
+> +	return -ENOMEM;
+> +}
+> +
+> +static inline void vmemmap_pgtable_free(struct hstate *h, struct page *page)
+> +{
+> +	pte_t *pte_p;
+> +
+> +	if (!nr_pgtable(h))
+> +		return;
+> +
+> +	while ((pte_p = vmemmap_pgtable_withdraw(page)))
+> +		pte_free_kernel(&init_mm, pte_p);
+> +}
+> +
+>  static void __init hugetlb_vmemmap_init(struct hstate *h)
+>  {
+>  	unsigned int order = huge_page_order(h);
+> @@ -1323,6 +1420,15 @@ static void __init hugetlb_vmemmap_init(struct hstate *h)
+>  static inline void hugetlb_vmemmap_init(struct hstate *h)
+>  {
+>  }
+> +
+> +static inline int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void vmemmap_pgtable_free(struct hstate *h, struct page *page)
+> +{
+> +}
+>  #endif
+>  
+>  static void update_and_free_page(struct hstate *h, struct page *page)
+> @@ -1531,6 +1637,9 @@ void free_huge_page(struct page *page)
+>  
+>  static void prep_new_huge_page(struct hstate *h, struct page *page, int nid)
+>  {
+> +	/* Must be called before the initialization of @page->lru */
+> +	vmemmap_pgtable_free(h, page);
+> +
+>  	INIT_LIST_HEAD(&page->lru);
+>  	set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
+>  	set_hugetlb_cgroup(page, NULL);
+> @@ -1783,6 +1892,14 @@ static struct page *alloc_fresh_huge_page(struct hstate *h,
+>  	if (!page)
+>  		return NULL;
+>  
+> +	if (vmemmap_pgtable_prealloc(h, page)) {
+> +		if (hstate_is_gigantic(h))
+> +			free_gigantic_page(page, huge_page_order(h));
+> +		else
+> +			put_page(page);
+> +		return NULL;
+> +	}
+> +
+
+It seems a bit strange that we will fail a huge page allocation if
+vmemmap_pgtable_prealloc fails.  Not sure, but it almost seems like we shold
+allow the allocation and log a warning?  It is somewhat unfortunate that
+we need to allocate a page to free pages.
+
+>  	if (hstate_is_gigantic(h))
+>  		prep_compound_gigantic_page(page, huge_page_order(h));
+>  	prep_new_huge_page(h, page, page_to_nid(page));
+> 
+
 
 -- 
 Mike Kravetz
