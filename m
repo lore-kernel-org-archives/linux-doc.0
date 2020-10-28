@@ -2,280 +2,105 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E28C4363A
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:35:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F32CAC55179
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:36:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B9B320714
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:35:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C8C620714
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:36:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MX4TukT1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Lr35cQtt"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="P1GfKVVu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388237AbgJ1Wfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:35:42 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57618 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732560AbgJ1We2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:34:28 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1603886321;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gw4bPdg7UIOF5tNu1YmicaVB3DTvzo6EZfXK3Th8+c4=;
-        b=MX4TukT1xfBkkrDuCYiqJwBBwTEdBuYeGp0aqmBiJx3tCI7IaWX44lUiRI+dQQTcZvt0IB
-        AJiKk4F+rCczmw5D1FZQrQ+P9f3GLgwLwTzvzUKt/1pV5KXCZO02Hy/8iM3bgmTl+Bh4OG
-        BjGVc0+FxB5aueTktxjp+0u89qtHbX9HhdTWK/Pz2mD8Ifn/NhsMxScTuhePEV1MgsUszr
-        Ezrk4At6VJXF+nJNtd9+UnUbKl7Se/VjPvArl3R7JZlp/gSenZ5mxlCHU4HR72XsvHl5y6
-        h/iAgzm8gZovAYkyghdVQYQPk+88K9XtTGhHi8/Ni5WmPa9TdjBsviFtX+qYgQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1603886321;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gw4bPdg7UIOF5tNu1YmicaVB3DTvzo6EZfXK3Th8+c4=;
-        b=Lr35cQttKvFG91m77VZgOyBgsMALCGkOZuui8Hc/E4FnPTx5SjHW8CAsvfrhwrCO5ZzZQP
-        7eIcfAheP6b200Cw==
-To:     Pingfan Liu <kernelfans@gmail.com>
-Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        afzal mohammed <afzal.mohd.ma@gmail.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Maulik Shah <mkshah@codeaurora.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
-        Kexec Mailing List <kexec@lists.infradead.org>,
-        Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 0/3] warn and suppress irqflood
-In-Reply-To: <CAFgQCTtnKB+p5uhRu3JpmBvHbQ8Vhv0TrKek9_3CWbtbcyM1Kw@mail.gmail.com>
-References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com> <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com> <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com> <87y2js3ghv.fsf@nanos.tec.linutronix.de> <CAFgQCTtnKB+p5uhRu3JpmBvHbQ8Vhv0TrKek9_3CWbtbcyM1Kw@mail.gmail.com>
-Date:   Wed, 28 Oct 2020 12:58:41 +0100
-Message-ID: <87tuueftou.fsf@nanos.tec.linutronix.de>
+        id S1730921AbgJ1WgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:36:01 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:45296 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387678AbgJ1WeB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:34:01 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SAYjhV164632;
+        Wed, 28 Oct 2020 10:35:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=ozdXlFYXaQsb4RcCSPg5tS7ML5aca7VnqAE1SSL3wjA=;
+ b=P1GfKVVuy2PBBO0yBlQ5B+bLVaz7tvTTRCvaaknjaUQEA7DlW4ozyJz5VqACPiBu6lZU
+ a3606LFOJZq6rlaI8QQCLWynTslU3zc6nJbl+Bi3yWSr/rVWtJhCj4xFBe9QeV6kNfcn
+ arlcsL69M7tNHqpEVGU/QVRsYXhqUvV1Rmb+sAL2CsNq7Bq+rLcKkKX2CB8nOnan32rh
+ sI+FCxbK8iSZRgY32flh4lhxmpGhDn930X3FSRgC3GaIHlxgyamYN4bbu3QMOv+2+3t5
+ /wCxd0+1Xm2JnqzrwQXVh2jnKo7pZrYYovphfQ2nVOJFTO/4LOERRxeWWm8PqcMEysoL Fg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 34dgm44698-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 28 Oct 2020 10:35:12 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SAQ5vv072316;
+        Wed, 28 Oct 2020 10:35:11 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 34cx5y6073-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 28 Oct 2020 10:35:11 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09SAZ5PP007506;
+        Wed, 28 Oct 2020 10:35:05 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 28 Oct 2020 03:35:03 -0700
+Date:   Wed, 28 Oct 2020 13:34:56 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devel@driverdev.osuosl.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
+        Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [RFC] wimax: move out to staging
+Message-ID: <20201028103456.GB1042@kadam>
+References: <20201027212448.454129-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201027212448.454129-1-arnd@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 mlxlogscore=999
+ suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010280070
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ suspectscore=0 clxscore=1011 mlxscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010280071
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 28 2020 at 14:02, Pingfan Liu wrote:
-> On Tue, Oct 27, 2020 at 3:59 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->> Also Liu's patch only works if:
->>
->>   1) CONFIG_IRQ_TIME_ACCOUNTING is enabled
->
-> I wonder whether it can not be a default option or not by the following method:
->   DEFINE_STATIC_KEY_FALSE(irqtime_account), and enable it according to
-> a boot param.
+On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> There are no known users of this driver as of October 2020, and it will
+> be removed unless someone turns out to still need it in future releases.
+> 
+> According to https://en.wikipedia.org/wiki/List_of_WiMAX_networks, there
+> have been many public wimax networks, but it appears that these entries
+> are all stale, after everyone has migrated to LTE or discontinued their
+> service altogether.
 
-How so?
+Wimax is still pretty common in Africa.  But you have to buy an outdoor
+antenae with all the software on it and an ethernet cable into your
+house.  I don't know what software the antennaes are using.  Probably
+Linux but with an out of tree kernel module is my guess.
 
-	config IRQ_TIME_ACCOUNTING
-		depends on HAVE_IRQ_TIME_ACCOUNTING && !VIRT_CPU_ACCOUNTING_NATIVE
-
-> This will have no impact on performance with the disabled branch.
-> Meanwhile users can easily turn on the option to detect an irq flood
-> without  recompiling the kernel.
->
-> If it is doable, I will rework only on [1/2].
-
-See above :)
-
->>   2) the runaway interrupt has been requested by the relevant driver in
->>      the dump kernel.
->
-> Yes, it raises a big challenge to my method. Kdump kernel miss the
-> whole picture of the first kernel's irq routing.
-
-Correct. If there is anything stale then you get what Guilherme
-observed. But the irq core can do nothing about that.
-
-Something like the completly untested below should work independent of
-config options.
-
-Thanks,
-
-        tglx
----
- include/linux/irqdesc.h |    4 ++
- kernel/irq/manage.c     |    3 +
- kernel/irq/spurious.c   |   74 +++++++++++++++++++++++++++++++++++-------------
- 3 files changed, 61 insertions(+), 20 deletions(-)
-
---- a/include/linux/irqdesc.h
-+++ b/include/linux/irqdesc.h
-@@ -30,6 +30,8 @@ struct pt_regs;
-  * @tot_count:		stats field for non-percpu irqs
-  * @irq_count:		stats field to detect stalled irqs
-  * @last_unhandled:	aging timer for unhandled count
-+ * @storm_count:	Counter for irq storm detection
-+ * @storm_checked:	Timestamp for irq storm detection
-  * @irqs_unhandled:	stats field for spurious unhandled interrupts
-  * @threads_handled:	stats field for deferred spurious detection of threaded handlers
-  * @threads_handled_last: comparator field for deferred spurious detection of theraded handlers
-@@ -65,6 +67,8 @@ struct irq_desc {
- 	unsigned int		tot_count;
- 	unsigned int		irq_count;	/* For detecting broken IRQs */
- 	unsigned long		last_unhandled;	/* Aging timer for unhandled count */
-+	unsigned long		storm_count;
-+	unsigned long		storm_checked;
- 	unsigned int		irqs_unhandled;
- 	atomic_t		threads_handled;
- 	int			threads_handled_last;
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -1581,6 +1581,9 @@ static int
- 	if (!shared) {
- 		init_waitqueue_head(&desc->wait_for_threads);
- 
-+		/* Take a timestamp for interrupt storm detection */
-+		desc->storm_checked = jiffies;
-+
- 		/* Setup the type (level, edge polarity) if configured: */
- 		if (new->flags & IRQF_TRIGGER_MASK) {
- 			ret = __irq_set_trigger(desc,
---- a/kernel/irq/spurious.c
-+++ b/kernel/irq/spurious.c
-@@ -21,6 +21,7 @@ static void poll_spurious_irqs(struct ti
- static DEFINE_TIMER(poll_spurious_irq_timer, poll_spurious_irqs);
- static int irq_poll_cpu;
- static atomic_t irq_poll_active;
-+static unsigned long irqstorm_limit __ro_after_init;
- 
- /*
-  * We wait here for a poller to finish.
-@@ -189,18 +190,21 @@ static inline int bad_action_ret(irqretu
-  * (The other 100-of-100,000 interrupts may have been a correctly
-  *  functioning device sharing an IRQ with the failing one)
-  */
--static void __report_bad_irq(struct irq_desc *desc, irqreturn_t action_ret)
-+static void __report_bad_irq(struct irq_desc *desc, irqreturn_t action_ret,
-+			     bool storm)
- {
- 	unsigned int irq = irq_desc_get_irq(desc);
- 	struct irqaction *action;
- 	unsigned long flags;
- 
--	if (bad_action_ret(action_ret)) {
--		printk(KERN_ERR "irq event %d: bogus return value %x\n",
--				irq, action_ret);
--	} else {
--		printk(KERN_ERR "irq %d: nobody cared (try booting with "
-+	if (!storm) {
-+		if (bad_action_ret(action_ret)) {
-+			pr_err("irq event %d: bogus return value %x\n",
-+			       irq, action_ret);
-+		} else {
-+			pr_err("irq %d: nobody cared (try booting with "
- 				"the \"irqpoll\" option)\n", irq);
-+		}
- 	}
- 	dump_stack();
- 	printk(KERN_ERR "handlers:\n");
-@@ -228,7 +232,7 @@ static void report_bad_irq(struct irq_de
- 
- 	if (count > 0) {
- 		count--;
--		__report_bad_irq(desc, action_ret);
-+		__report_bad_irq(desc, action_ret, false);
- 	}
- }
- 
-@@ -267,6 +271,33 @@ try_misrouted_irq(unsigned int irq, stru
- 	return action && (action->flags & IRQF_IRQPOLL);
- }
- 
-+static void disable_stuck_irq(struct irq_desc *desc, irqreturn_t action_ret,
-+			      const char *reason, bool storm)
-+{
-+	__report_bad_irq(desc, action_ret, storm);
-+	pr_emerg("Disabling %s IRQ #%d\n", reason, irq_desc_get_irq(desc));
-+	desc->istate |= IRQS_SPURIOUS_DISABLED;
-+	desc->depth++;
-+	irq_disable(desc);
-+}
-+
-+/* Interrupt storm detector for runaway interrupts (handled or not). */
-+static bool irqstorm_detected(struct irq_desc *desc)
-+{
-+	unsigned long now = jiffies;
-+
-+	if (++desc->storm_count < irqstorm_limit) {
-+		if (time_after(now, desc->storm_checked + HZ)) {
-+			desc->storm_count = 0;
-+			desc->storm_checked = now;
-+		}
-+		return false;
-+	}
-+
-+	disable_stuck_irq(desc, IRQ_NONE, "runaway", true);
-+	return true;
-+}
-+
- #define SPURIOUS_DEFERRED	0x80000000
- 
- void note_interrupt(struct irq_desc *desc, irqreturn_t action_ret)
-@@ -403,24 +434,16 @@ void note_interrupt(struct irq_desc *des
- 			desc->irqs_unhandled -= ok;
- 	}
- 
-+	if (unlikely(irqstorm_limit && irqstorm_detected(desc)))
-+		return;
-+
- 	desc->irq_count++;
- 	if (likely(desc->irq_count < 100000))
- 		return;
- 
- 	desc->irq_count = 0;
- 	if (unlikely(desc->irqs_unhandled > 99900)) {
--		/*
--		 * The interrupt is stuck
--		 */
--		__report_bad_irq(desc, action_ret);
--		/*
--		 * Now kill the IRQ
--		 */
--		printk(KERN_EMERG "Disabling IRQ #%d\n", irq);
--		desc->istate |= IRQS_SPURIOUS_DISABLED;
--		desc->depth++;
--		irq_disable(desc);
--
-+		disable_stuck_irq(desc, action_ret, "unhandled", false);
- 		mod_timer(&poll_spurious_irq_timer,
- 			  jiffies + POLL_SPURIOUS_IRQ_INTERVAL);
- 	}
-@@ -462,5 +485,16 @@ static int __init irqpoll_setup(char *st
- 				"performance\n");
- 	return 1;
- }
--
- __setup("irqpoll", irqpoll_setup);
-+
-+static int __init irqstorm_setup(char *arg)
-+{
-+	int res = kstrtoul(arg, 0, &irqstorm_limit);
-+
-+	if (!res) {
-+		pr_info("Interrupt storm detector enabled. Limit=%lu / s\n",
-+			irqstorm_limit);
-+	}
-+	return !!res;
-+}
-+__setup("irqstorm_limit", irqstorm_setup);
-
-
+regards,
+dan carpenter
 
