@@ -2,119 +2,310 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE3CC5DF9E
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:37:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A23C55179
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:53:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFDEF20790
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:37:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WDaDEm/H"
+	by mail.kernel.org (Postfix) with ESMTP id 24012207DE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603932824;
+	bh=kwkmiNSEQA9BqRwRpvTf/WssQkUD6Th0rlq3IkhA0gk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=lpPZrUFJ6NURwpTUM80G8keYc8W1AXupI4EZNF6MTsD2/5qGX3qT1Uis11Ol4LYdT
+	 NCSmyU3OSyPZBTG69IrCQSFtJK4fFppnNZuEG8ozBOVBUloM3fUIaYksZOHZ9ckf5k
+	 gzeTgH2s0c+7wMebK4X1+tP/kNi9R81Pc5uY3HMs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388652AbgJ2Aha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 20:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730542AbgJ2Agm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 20:36:42 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2632C0613CF;
-        Wed, 28 Oct 2020 17:36:41 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id h21so1520475iob.10;
-        Wed, 28 Oct 2020 17:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hj+EqoJ8khAy+Vvj816RirpNw6YjRUZJZt51nQOVs9A=;
-        b=WDaDEm/HR31rW3seXD21SpWBhLX18ll6nk59wfAMrgPjv7+fXCXdYMu+bbxwtZD3IH
-         reCyayIdO360QckMZOp7SrTSpAiFNwtYzuQuO6tJEr94/pjWHoT64GCDfGsr7//1c/y5
-         2452BZ1SMBbtpQXB/eaFAJ9zoEHxtjICIO/Fy4xLIjZaKQBwvkCgDq5B6TQnzPQRsPIr
-         fUHOx8m7k1oq5ilbErRMNM9z3vEvy66uVJ8W5hIBpMu9u1ixhrxmKD9EEpMO6P8Vus4v
-         eg3362JIW1W46MGWxiMJKSIFCEBHxdduO7FgVcPTvgRLmZ+gkfam/T2LquNGM7aZIJWb
-         52Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hj+EqoJ8khAy+Vvj816RirpNw6YjRUZJZt51nQOVs9A=;
-        b=uMEAJN2s7xhNKUfZxkcavkU6+vyc4b1iTvpzMxIIFUvdprIvyRb6REsy56gCAXrnH4
-         zIaT2OvtMU7InExs3JO1cERHeYJTPi/2EVGw21q/ld0PAbzfPl5l7fe89THQrZbhvXhm
-         P6dYLp4Y8ZeRbTiU+meOVa1xVG8hUE+nbOVv9agEibZHfZLPZ7JoehqAkg4bi7DhgJCY
-         RjnrLpzOzQS7TVfJN2hUdLW7NnOkVnMZgJZfGoOEtut2gBN3Ue0Exr72TxjmzgLM7Hx8
-         XQuSmYbpL9h63O1g0pTzUofybdd5agObdDKQwigox/J402E3+71xCxkrEuEb8LpHsJ3j
-         2j0w==
-X-Gm-Message-State: AOAM533D0ZlSGvZjR5us7Gq4WGrJ/+FfaI73txx3FzSGMk+ehXdGIEwz
-        RNkgoDJXRU1KmFD1fFMy/Ro1Df2ZBplMukcUgxQRfedhMg==
-X-Google-Smtp-Source: ABdhPJxyjvfm11vXjLtnOL7Ew8CVvRI3+5J1kk7AZqwoTBfvzm1Rvt4nRnK4vBW5cI+uszft4zpdV628LBBb1osqpZE=
-X-Received: by 2002:a92:85d5:: with SMTP id f204mr4716737ilh.45.1603864978212;
- Tue, 27 Oct 2020 23:02:58 -0700 (PDT)
+        id S1731890AbgJ1WTY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:19:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60524 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731614AbgJ1WRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:42 -0400
+Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 86FAF24768;
+        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603895014;
+        bh=kwkmiNSEQA9BqRwRpvTf/WssQkUD6Th0rlq3IkhA0gk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RsOxKR9pEfAwUZzWX0VPem4WT1UQsIo62IhxzWB9U50+OjhwyRiVpyNivK0AoWUUJ
+         Bi/IPZXbgs1FVW49nTyys9MojMDuDnz2VtZ8PH0RW9U4QPj1+WiMCiulHtHittz5bK
+         H2MJbv6JIZ3CtirsutMRgDPXa9sv+U1Gqe+FYzuk=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kXmMO-003hkv-8F; Wed, 28 Oct 2020 15:23:32 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 05/33] scripts: get_abi.pl: cleanup ABI cross-reference logic
+Date:   Wed, 28 Oct 2020 15:23:03 +0100
+Message-Id: <2574d9c4c129591db1b2a9b9bbd479acef9d1b08.1603893146.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
+References: <cover.1603893146.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com>
- <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
- <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com> <87y2js3ghv.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <87y2js3ghv.fsf@nanos.tec.linutronix.de>
-From:   Pingfan Liu <kernelfans@gmail.com>
-Date:   Wed, 28 Oct 2020 14:02:45 +0800
-Message-ID: <CAFgQCTtnKB+p5uhRu3JpmBvHbQ8Vhv0TrKek9_3CWbtbcyM1Kw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] warn and suppress irqflood
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        afzal mohammed <afzal.mohd.ma@gmail.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Maulik Shah <mkshah@codeaurora.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
-        Kexec Mailing List <kexec@lists.infradead.org>,
-        Bjorn Helgaas <helgaas@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 3:59 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-[...]
->
-> And contrary to Liu's patches which try to disable a requested interrupt
-> if too many of them arrive, the kernel cannot do anything because there
-> is nothing to disable in your case. That's why you needed to do the MSI
-> disable magic in the early PCI quirks which run before interrupts get
-> enabled.
->
-> Also Liu's patch only works if:
->
->   1) CONFIG_IRQ_TIME_ACCOUNTING is enabled
+Right now, the cross-references are generated on a single
+step, when doing ReST output.
 
-I wonder whether it can not be a default option or not by the following method:
-  DEFINE_STATIC_KEY_FALSE(irqtime_account), and enable it according to
-a boot param.
+While this is nice optimization, it prevents auto-creating
+cross-references for ABI symbols.
 
-This will have no impact on performance with the disabled branch.
-Meanwhile users can easily turn on the option to detect an irq flood
-without  recompiling the kernel.
+So, split it into a separate logic.
 
-If it is doable, I will rework only on [1/2].
->
->   2) the runaway interrupt has been requested by the relevant driver in
->      the dump kernel.
+While here, turn on Perl warnings, as it helps to debug
+problems inside the script.
 
-Yes, it raises a big challenge to my method. Kdump kernel miss the
-whole picture of the first kernel's irq routing.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/get_abi.pl | 122 +++++++++++++++++++++++++--------------------
+ 1 file changed, 69 insertions(+), 53 deletions(-)
 
-Thanks,
-Pingfan
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index bd018eb3815b..df2efad11d88 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -2,15 +2,16 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ use strict;
++use warnings;
+ use Pod::Usage;
+ use Getopt::Long;
+ use File::Find;
+ use Fcntl ':mode';
+ 
+-my $help;
+-my $man;
+-my $debug;
+-my $enable_lineno;
++my $help = 0;
++my $man = 0;
++my $debug = 0;
++my $enable_lineno = 0;
+ my $prefix="Documentation/ABI";
+ 
+ #
+@@ -40,6 +41,7 @@ pod2usage(2) if ($cmd eq "search" && !$arg);
+ require Data::Dumper if ($debug);
+ 
+ my %data;
++my %symbols;
+ 
+ #
+ # Displays an error message, printing file name and line
+@@ -76,12 +78,12 @@ sub parse_abi {
+ 
+ 	my $what;
+ 	my $new_what;
+-	my $tag;
++	my $tag = "";
+ 	my $ln;
+ 	my $xrefs;
+ 	my $space;
+ 	my @labels;
+-	my $label;
++	my $label = "";
+ 
+ 	print STDERR "Opening $file\n" if ($debug > 1);
+ 	open IN, $file;
+@@ -110,10 +112,18 @@ sub parse_abi {
+ 
+ 			if ($new_tag =~ m/what/) {
+ 				$space = "";
++				$content =~ s/[,.;]$//;
++
+ 				if ($tag =~ m/what/) {
+ 					$what .= ", " . $content;
+ 				} else {
+-					parse_error($file, $ln, "What '$what' doesn't have a description", "") if ($what && !$data{$what}->{description});
++					if ($what) {
++						parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
++
++						foreach my $w(split /, /, $what) {
++							$symbols{$w} = $what;
++						};
++					}
+ 
+ 					$what = $content;
+ 					$label = $content;
+@@ -122,7 +132,7 @@ sub parse_abi {
+ 				push @labels, [($content, $label)];
+ 				$tag = $new_tag;
+ 
+-				push @{$data{$nametag}->{xrefs}}, [($content, $label)] if ($data{$nametag}->{what});
++				push @{$data{$nametag}->{symbols}}, $content if ($data{$nametag}->{what});
+ 				next;
+ 			}
+ 
+@@ -132,7 +142,7 @@ sub parse_abi {
+ 				$data{$what}->{line_no} = $ln;
+ 
+ 				if ($new_what) {
+-					@{$data{$what}->{label}} = @labels if ($data{$nametag}->{what});
++					@{$data{$what}->{label_list}} = @labels if ($data{$nametag}->{what});
+ 					@labels = ();
+ 					$label = "";
+ 					$new_what = 0;
+@@ -203,36 +213,24 @@ sub parse_abi {
+ 		# Everything else is error
+ 		parse_error($file, $ln, "Unexpected line:", $_);
+ 	}
+-	$data{$nametag}->{description} =~ s/^\n+//;
++	$data{$nametag}->{description} =~ s/^\n+// if ($data{$nametag}->{description});
++	if ($what) {
++		parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
++
++		foreach my $w(split /, /,$what) {
++			$symbols{$w} = $what;
++		};
++	}
+ 	close IN;
+ }
+ 
+-#
+-# Outputs the book on ReST format
+-#
++sub create_labels {
++	my %labels;
+ 
+-my %labels;
++	foreach my $what (keys %data) {
++		next if ($data{$what}->{file} eq "File");
+ 
+-sub output_rest {
+-	foreach my $what (sort {
+-				($data{$a}->{type} eq "File") cmp ($data{$b}->{type} eq "File") ||
+-				$a cmp $b
+-			       } keys %data) {
+-		my $type = $data{$what}->{type};
+-		my $file = $data{$what}->{file};
+-		my $filepath = $data{$what}->{filepath};
+-
+-		if ($enable_lineno) {
+-			printf "#define LINENO %s%s#%s\n\n",
+-			       $prefix, $data{$what}->{file},
+-			       $data{$what}->{line_no};
+-		}
+-
+-		my $w = $what;
+-		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
+-
+-
+-		foreach my $p (@{$data{$what}->{label}}) {
++		foreach my $p (@{$data{$what}->{label_list}}) {
+ 			my ($content, $label) = @{$p};
+ 			$label = "abi_" . $label . " ";
+ 			$label =~ tr/A-Z/a-z/;
+@@ -249,16 +247,39 @@ sub output_rest {
+ 			}
+ 			$labels{$label} = 1;
+ 
+-			$data{$what}->{label} .= $label;
+-
+-			printf ".. _%s:\n\n", $label;
++			$data{$what}->{label} = $label;
+ 
+ 			# only one label is enough
+ 			last;
+ 		}
++	}
++}
+ 
++#
++# Outputs the book on ReST format
++#
+ 
+-		$filepath =~ s,.*/(.*/.*),\1,;;
++sub output_rest {
++	create_labels();
++
++	foreach my $what (sort {
++				($data{$a}->{type} eq "File") cmp ($data{$b}->{type} eq "File") ||
++				$a cmp $b
++			       } keys %data) {
++		my $type = $data{$what}->{type};
++		my $file = $data{$what}->{file};
++		my $filepath = $data{$what}->{filepath};
++
++		if ($enable_lineno) {
++			printf "#define LINENO %s%s#%s\n\n",
++			       $prefix, $data{$what}->{file},
++			       $data{$what}->{line_no};
++		}
++
++		my $w = $what;
++		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
++
++		$filepath =~ s,.*/(.*/.*),$1,;;
+ 		$filepath =~ s,[/\-],_,g;;
+ 		my $fileref = "abi_file_".$filepath;
+ 
+@@ -269,8 +290,9 @@ sub output_rest {
+ 			print ".. _$fileref:\n\n";
+ 			print "$w\n$bar\n\n";
+ 		} else {
+-			my @names = split /\s*,\s*/,$w;
++			printf ".. _%s:\n\n", $data{$what}->{label};
+ 
++			my @names = split /, /,$w;
+ 			my $len = 0;
+ 
+ 			foreach my $name (@names) {
+@@ -284,12 +306,13 @@ sub output_rest {
+ 				printf "| %s", $name . " " x ($len - length($name)) . " |\n";
+ 				print "+-" . "-" x $len . "-+\n";
+ 			}
+-			print "\n";
++
++			print "\nDefined on file :ref:`$file <$fileref>`\n\n";
+ 		}
+ 
+-		print "Defined on file :ref:`$file <$fileref>`\n\n" if ($type ne "File");
+-
+-		my $desc = $data{$what}->{description};
++		my $desc = "";
++		$desc = $data{$what}->{description} if (defined($data{$what}->{description}));
++		$desc =~ s/\s+$/\n/;
+ 
+ 		if (!($desc =~ /^\s*$/)) {
+ 			if ($description_is_rst) {
+@@ -316,18 +339,11 @@ sub output_rest {
+ 			print "DESCRIPTION MISSING for $what\n\n" if (!$data{$what}->{is_file});
+ 		}
+ 
+-		if ($data{$what}->{xrefs}) {
++		if ($data{$what}->{symbols}) {
+ 			printf "Has the following ABI:\n\n";
+ 
+-			foreach my $p(@{$data{$what}->{xrefs}}) {
+-				my ($content, $label) = @{$p};
+-				$label = "abi_" . $label . " ";
+-				$label =~ tr/A-Z/a-z/;
+-
+-				# Convert special chars to "_"
+-				$label =~s/([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff])/_/g;
+-				$label =~ s,_+,_,g;
+-				$label =~ s,_$,,;
++			foreach my $content(@{$data{$what}->{symbols}}) {
++				my $label = $data{$symbols{$content}}->{label};
+ 
+ 				# Escape special chars from content
+ 				$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
+-- 
+2.26.2
+
