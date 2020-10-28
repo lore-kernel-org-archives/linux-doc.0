@@ -5,52 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B859C55179
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A6BC5517A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBD9620791
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 144F120791
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 01:01:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603933285;
-	bh=BSLIz8E0JZ7idq+zhtY5XcS7wRuz1+joqryrudORZZ8=;
+	s=default; t=1603933301;
+	bh=YqWvLG/HlVMMTDoxlArrGqJGoB3hGxiNvQNMWzmgHsI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=J/zYYwnG5d1JLBI4MLVoUvMqW1iFF0N5ci72Qw1yVzwkrZW8/wq28gfQylaQO8Y+7
-	 YG+cW2jEoVQeKuOPfNWrmiHHDiHfC+o1o1VAbNkOmihAS48ko4DTb3CFDy2Nu+zUWC
-	 GufkSeibjwPngFsIvae9CCJOk/Nsl4QnJ9rfAkq8=
+	b=ys6HIkV8r+ijmz4ot1xZ2aHzCerNFQsEnFZ9Sqb9Rmw5ljOGGtyWzXA0mLYSe98JI
+	 kx7LX8T4Zjj/W54bMn0bWCFbTSdhyo0XHpMa7sYuXpeh212/g05LwSLRhMmkGIYbZo
+	 WhNHdwc3vttoAMk4GRQN7FbPzKYRbFXiP/UMxWKg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730602AbgJ2BBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 21:01:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60514 "EHLO mail.kernel.org"
+        id S1730812AbgJ2BBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 21:01:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60470 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731526AbgJ1WR1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:27 -0400
+        id S1731485AbgJ1WRX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:23 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1BDDA247DB;
-        Wed, 28 Oct 2020 14:23:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95DF8247BF;
+        Wed, 28 Oct 2020 14:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895016;
-        bh=BSLIz8E0JZ7idq+zhtY5XcS7wRuz1+joqryrudORZZ8=;
+        s=default; t=1603895015;
+        bh=YqWvLG/HlVMMTDoxlArrGqJGoB3hGxiNvQNMWzmgHsI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LL4ovI/4qm0nZwmyaqsCoP00BXE7PgYw9sV9kCxAHePFVnnrw0C7FUpYRCOpLOS8V
-         Ggha1JDCLfm3MQ53lRRwu2wfdTljqkmX7cHkSFqXVL76BW33ZLdglHXZN6EZOOBIco
-         gHxh56CYwHMHTIvXJlSCMr0O5ufw1hb6kFT+wHbQ=
+        b=bpoeatvNSyNRCdqK1dq4YsN5UKoiMHbM/HVm4w394g+4AUxwntJqDbxhLLheG8E+5
+         0hcyBUk6PSRUb3JT9SfETt3lqxxFWl66r9w0cCvBJ/MsvSFPhymuG4tN3xdzw9MBkd
+         9YLd/DGT3edQaadPcfTBM+j0eKAbgQWy3Iwga0Uo=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXmMQ-003hmG-2B; Wed, 28 Oct 2020 15:23:34 +0100
+        id 1kXmMP-003hls-E5; Wed, 28 Oct 2020 15:23:33 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org
-Subject: [PATCH 33/33] docs: ABI: unify /sys/class/leds/<led>/max_brightness documentation
-Date:   Wed, 28 Oct 2020 15:23:31 +0100
-Message-Id: <2c95a4d8d1b4be2f839464ebc63bfcee6b70276a.1603893146.git.mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Changbin Du <changbin.du@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Peter Enderborg <peter.enderborg@sony.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 25/33] docs: Kconfig/Makefile: add a check for broken ABI files
+Date:   Wed, 28 Oct 2020 15:23:23 +0100
+Message-Id: <f97df0ea6dd59cf5fe1655c71eb34af71c67d20c.1603893146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
@@ -61,102 +68,116 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This ABI is defined twice, one for normal leds and another
-one for multicolor ones.
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Ensure that just one definition is there at ABI.
+The files under Documentation/ABI should follow the syntax
+as defined at Documentation/ABI/README.
 
+Allow checking if they're following the syntax by running
+the ABI parser script on COMPILE_TEST.
+
+With that, when there's a problem with a file under
+Documentation/ABI, it would produce a warning like:
+
+	Warning: file ./Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats#14:
+		What '/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor' doesn't have a description
+	Warning: file ./Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats#21:
+		What '/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal' doesn't have a description
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-led     | 25 ++++++++++++++++---
- .../ABI/testing/sysfs-class-led-multicolor    | 23 +++++------------
- 2 files changed, 28 insertions(+), 20 deletions(-)
+ Documentation/Kconfig  | 10 ++++++++++
+ Documentation/Makefile |  5 +++++
+ lib/Kconfig.debug      |  2 ++
+ scripts/get_abi.pl     | 14 +++++++++++---
+ 4 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
-index 0ed5c2629c6f..2e24ac3bd7ef 100644
---- a/Documentation/ABI/testing/sysfs-class-led
-+++ b/Documentation/ABI/testing/sysfs-class-led
-@@ -3,9 +3,26 @@ Date:		March 2006
- KernelVersion:	2.6.17
- Contact:	Richard Purdie <rpurdie@rpsys.net>
- Description:
--		Set the brightness of the LED. Most LEDs don't
--		have hardware brightness support, so will just be turned on for
--		non-zero brightness settings. The value is between 0 and
-+		Set the brightness of the LED.
-+
-+		Most LEDs don't have hardware brightness support, so will
-+		just be turned on for non-zero brightness settings.
-+
-+		.. Note::
-+
-+		  For multicolor LEDs, writing to this file will update all
-+		  LEDs within the group to a calculated percentage of what
-+		  each color LED intensity is set to.
-+
-+		  The percentage is calculated for each grouped LED via
-+		  the equation below::
-+
-+		    led_brightness = brightness * multi_intensity/max_brightness
-+
-+		  For additional details please refer to
-+		  Documentation/leds/leds-class-multicolor.rst.
-+
-+		The value is between 0 and
- 		/sys/class/leds/<led>/max_brightness.
+diff --git a/Documentation/Kconfig b/Documentation/Kconfig
+index 66046fa1c341..e549a61f4d96 100644
+--- a/Documentation/Kconfig
++++ b/Documentation/Kconfig
+@@ -10,4 +10,14 @@ config WARN_MISSING_DOCUMENTS
  
- 		Writing 0 to this file clears active trigger.
-@@ -13,6 +30,8 @@ Description:
- 		Writing non-zero to this file while trigger is active changes the
- 		top brightness trigger is going to use.
+ 	   If unsure, select 'N'.
  
-+
-+
- What:		/sys/class/leds/<led>/max_brightness
- Date:		March 2006
- KernelVersion:	2.6.17
-diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-index eeeddcbdbbe3..16fc827b10cb 100644
---- a/Documentation/ABI/testing/sysfs-class-led-multicolor
-+++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-@@ -1,20 +1,3 @@
--What:		/sys/class/leds/<led>/brightness
--Date:		March 2020
--KernelVersion:	5.9
--Contact:	Dan Murphy <dmurphy@ti.com>
--Description:	read/write
--		Writing to this file will update all LEDs within the group to a
--		calculated percentage of what each color LED intensity is set
--		to. The percentage is calculated for each grouped LED via the
--		equation below:
--
--		led_brightness = brightness * multi_intensity/max_brightness
--
--		For additional details please refer to
--		Documentation/leds/leds-class-multicolor.rst.
--
--		The value of the LED is from 0 to
--		/sys/class/leds/<led>/max_brightness.
++config WARN_ABI_ERRORS
++	bool "Warn if there are errors at ABI files"
++	depends on COMPILE_TEST
++	help
++	   The files under Documentation/ABI should follow what's
++	   described at Documentation/ABI/README. Yet, as they're manually
++	   written, it would be possible that some of those files would
++	   have errors that would break them for being parsed by
++	   scripts/get_abi.pl. Add a check to verify them.
  
- What:		/sys/class/leds/<led>/multi_index
- Date:		March 2020
-@@ -25,6 +8,9 @@ Description:	read
- 		as an array of strings as they are indexed in the
- 		multi_intensity file.
++	   If unsure, select 'N'.
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 4e47dff8b315..61a7310b49e0 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -10,6 +10,11 @@ ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
+ $(shell $(srctree)/scripts/documentation-file-ref-check --warn)
+ endif
  
-+		For additional details please refer to
-+		Documentation/leds/leds-class-multicolor.rst.
++# Check for broken ABI files
++ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
++$(shell $(srctree)/scripts/get_abi.pl validate --dir $(srctree)/Documentation/ABI)
++endif
 +
- What:		/sys/class/leds/<led>/multi_intensity
- Date:		March 2020
- KernelVersion:	5.9
-@@ -33,3 +19,6 @@ Description:	read/write
- 		This file contains array of integers. Order of components is
- 		described by the multi_index array. The maximum intensity should
- 		not exceed /sys/class/leds/<led>/max_brightness.
+ # You can set these variables from the command line.
+ SPHINXBUILD   = sphinx-build
+ SPHINXOPTS    =
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index d7a7bc3b6098..c789b39ed527 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2446,4 +2446,6 @@ config HYPERV_TESTING
+ 
+ endmenu # "Kernel Testing and Coverage"
+ 
++source "Documentation/Kconfig"
 +
-+		For additional details please refer to
-+		Documentation/leds/leds-class-multicolor.rst.
+ endmenu # Kernel hacking
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 3cff7cdf1397..413349789145 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -50,7 +50,15 @@ my %symbols;
+ sub parse_error($$$$) {
+ 	my ($file, $ln, $msg, $data) = @_;
+ 
+-	print STDERR "file $file#$ln: $msg at\n\t$data";
++	$data =~ s/\s+$/\n/;
++
++	print STDERR "Warning: file $file#$ln:\n\t$msg";
++
++	if ($data ne "") {
++		print STDERR ". Line\n\t\t$data";
++	} else {
++	    print STDERR "\n";
++	}
+ }
+ 
+ #
+@@ -110,7 +118,7 @@ sub parse_abi {
+ 
+ 			# Invalid, but it is a common mistake
+ 			if ($new_tag eq "where") {
+-				parse_error($file, $ln, "tag 'Where' is invalid. Should be 'What:' instead", $_);
++				parse_error($file, $ln, "tag 'Where' is invalid. Should be 'What:' instead", "");
+ 				$new_tag = "what";
+ 			}
+ 
+@@ -225,7 +233,7 @@ sub parse_abi {
+ 		}
+ 
+ 		# Everything else is error
+-		parse_error($file, $ln, "Unexpected line:", $_);
++		parse_error($file, $ln, "Unexpected content", $_);
+ 	}
+ 	$data{$nametag}->{description} =~ s/^\n+// if ($data{$nametag}->{description});
+ 	if ($what) {
 -- 
 2.26.2
 
