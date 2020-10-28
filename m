@@ -2,243 +2,102 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEFAC388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B13C4C6369E
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83BB8206D9
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60E71206D4
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603923540;
-	bh=qhW1GvuIVCQ5vbQL0lfUWFV1EZgXyvxR2SiRM2TYiNo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UhDr6Q/MmvoWp6gO5Zojnx99PR7sjIImbYdsybHe52v73aatQ9xB5lYjfnLAMkxmb
-	 W6/IrHxGtIrIpYFo20uN//zSJleefEBC7f/Cm7hXEzqSgLdEHrhwlWBHGQDlTq6ko1
-	 Kq6iWsqXw65mLArY3gk8kehhtxQ8es18b3vhF7LE=
+	s=default; t=1603923563;
+	bh=+zcA/6pTJEiqhEIB6b9u13iGz/vyrIiNkbw5+OfR3RU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=c2U77CXlK0BNPUR5jJ50mjYlYu7RcyQM2ZiirDxuTQgJmdZaeLAnT3xlMGTQVbDKb
+	 2Ka8MQOpqSZU0pSZ54XOV++/mfneLXFSeXk7pg7FN7VBuJsv+QQsPt8SJ4s0xlF+SC
+	 LnnMCjXKVeJ/4mkDwijdTRMjkMRubWKoC6EEM0H0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731749AbgJ1WRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:17:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60502 "EHLO mail.kernel.org"
+        id S1731875AbgJ1WTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:19:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60526 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731711AbgJ1WRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:42 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1731661AbgJ1WRk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:40 -0400
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8C8692476B;
-        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 03F3B24746;
+        Wed, 28 Oct 2020 13:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895014;
-        bh=qhW1GvuIVCQ5vbQL0lfUWFV1EZgXyvxR2SiRM2TYiNo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yXmPCZDmwjT/81D0RBjxomLFFAINyAa/wbuvESwY2qhuer2e6xovStpgEfX5Lporl
-         FVFUWEU0nzAjRqcnMI7lQuSTGKiL46DXYpqTQOuuYcGiGGguT1ysLThCK4oJWA8ndE
-         kunekbkm/IWnEGEYdKttxe+rnwssT81PwJBBcHak=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hlG-Iv; Wed, 28 Oct 2020 15:23:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 12/33] docs: kernel_abi.py: add a script to parse ABI documentation
-Date:   Wed, 28 Oct 2020 15:23:10 +0100
-Message-Id: <fbc723a2c49bd928f7845cba08e4996b9eb73142.1603893146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
+        s=default; t=1603891239;
+        bh=+zcA/6pTJEiqhEIB6b9u13iGz/vyrIiNkbw5+OfR3RU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=G8BbRQyz/59LYY1N42cxCAJhwL18YtebLWmX5CIxnlOO5I2ajUNwDm2lyKa9cslSa
+         vQY7OdvwsOhagPj5BoHEV4HJ3tuxYWcLqCNhIwoKiuqVpk4NL3i1jX9p2cUUbEdOPy
+         KA+YZ6F+a9vywgLP/ys9YSb7KiyrzgLubZq7l5gU=
+Received: by mail-lj1-f169.google.com with SMTP id y16so6313501ljk.1;
+        Wed, 28 Oct 2020 06:20:38 -0700 (PDT)
+X-Gm-Message-State: AOAM531qtEGQyjQZNPEI+7miht5Sk4MoSM67qEH1C1l57DZrXm/xXlS7
+        oOomT8wRdnYUKjE+uVX/fyMQpQB09iU1+rS5Wkg=
+X-Google-Smtp-Source: ABdhPJwPj+jJVO+NGNXNwzAOQ7QC4CMa7GE7JJfMww785BE/4plVH+2GBu818TRJNl+lheV7rkZknd5yyXXDquGphqE=
+X-Received: by 2002:a2e:b8c8:: with SMTP id s8mr3141184ljp.189.1603891237138;
+ Wed, 28 Oct 2020 06:20:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20201027212448.454129-1-arnd@kernel.org> <20201028103456.GB1042@kadam>
+In-Reply-To: <20201028103456.GB1042@kadam>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Wed, 28 Oct 2020 14:20:20 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a03Oi-hKh9Db95K_ou_Lk5svWAo5HV8ZgxuktJi2RWS2A@mail.gmail.com>
+Message-ID: <CAK8P3a03Oi-hKh9Db95K_ou_Lk5svWAo5HV8ZgxuktJi2RWS2A@mail.gmail.com>
+Subject: Re: [RFC] wimax: move out to staging
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
+        Johannes Berg <johannes@sipsolutions.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+On Wed, Oct 28, 2020 at 11:34 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > There are no known users of this driver as of October 2020, and it will
+> > be removed unless someone turns out to still need it in future releases.
+> >
+> > According to https://en.wikipedia.org/wiki/List_of_WiMAX_networks, there
+> > have been many public wimax networks, but it appears that these entries
+> > are all stale, after everyone has migrated to LTE or discontinued their
+> > service altogether.
+>
+> Wimax is still pretty common in Africa.  But you have to buy an outdoor
+> antenae with all the software on it and an ethernet cable into your
+> house.
 
-The ABI documentation is special: it is not plain text files,
-but, instead, files with an strict format, as specified by
-Documentation/ABI/README.
+Ah, good to know, thanks for the information. I'll include that when
+I resend the patch, which I have to do anyway to avoid a small
+regression. I did a look at a couple of African ISPs that seemed to
+all have discontinued service, but I suppose I should have looked
+more carefully.
 
-Add a parser for it.
+>  I don't know what software the antennaes are using.  Probably
+> Linux but with an out of tree kernel module is my guess.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/sphinx/kernel_abi.py | 157 +++++++++++++++++++++++++++++
- 1 file changed, 157 insertions(+)
- create mode 100644 Documentation/sphinx/kernel_abi.py
+Right, it seems very unlikely that they would be using the old
+Intel drivers, and it's also unlikely that they are updating those
+boxes to new kernels. I found a firmware image for Huawei
+BM623m, which runs a proprietary kernel module for the wimax
+stack on an MT7108 (arm926) phone chip running a
+linux-2.6.26.8-rt16 kernel.
 
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-new file mode 100644
-index 000000000000..f8e7a02066c2
---- /dev/null
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -0,0 +1,157 @@
-+# -*- coding: utf-8; mode: python -*-
-+# SPDX-License-Identifier: GPL-2.0
-+u"""
-+    kernel-abi
-+    ~~~~~~~~~~
-+
-+    Implementation of the ``kernel-abi`` reST-directive.
-+
-+    :copyright:  Copyright (C) 2016  Markus Heiser
-+    :copyright:  Copyright (C) 2016-2020  Mauro Carvalho Chehab
-+    :maintained-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
-+
-+    The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
-+    scripts/get_abi.pl script to parse the Kernel ABI files.
-+
-+    Overview of directive's argument and options.
-+
-+    .. code-block:: rst
-+
-+        .. kernel-abi:: <ABI directory location>
-+            :debug:
-+
-+    The argument ``<ABI directory location>`` is required. It contains the
-+    location of the ABI files to be parsed.
-+
-+    ``debug``
-+      Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
-+      what reST is generated.
-+
-+"""
-+
-+import sys
-+import os
-+from os import path
-+import subprocess
-+
-+from sphinx.ext.autodoc import AutodocReporter
-+
-+from docutils import nodes
-+from docutils.parsers.rst import Directive, directives
-+from docutils.statemachine import ViewList
-+from docutils.utils.error_reporting import ErrorString
-+
-+
-+__version__  = '1.0'
-+
-+# We can't assume that six is installed
-+PY3 = sys.version_info[0] == 3
-+PY2 = sys.version_info[0] == 2
-+if PY3:
-+    # pylint: disable=C0103, W0622
-+    unicode     = str
-+    basestring  = str
-+
-+def setup(app):
-+
-+    app.add_directive("kernel-abi", KernelCmd)
-+    return dict(
-+        version = __version__
-+        , parallel_read_safe = True
-+        , parallel_write_safe = True
-+    )
-+
-+class KernelCmd(Directive):
-+
-+    u"""KernelABI (``kernel-abi``) directive"""
-+
-+    required_arguments = 1
-+    optional_arguments = 0
-+    has_content = False
-+    final_argument_whitespace = True
-+
-+    option_spec = {
-+        "debug"     : directives.flag
-+    }
-+
-+    def warn(self, message, **replace):
-+        replace["fname"]   = self.state.document.current_source
-+        replace["line_no"] = replace.get("line_no", self.lineno)
-+        message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
-+        self.state.document.settings.env.app.warn(message, prefix="")
-+
-+    def run(self):
-+
-+        doc = self.state.document
-+        if not doc.settings.file_insertion_enabled:
-+            raise self.warning("docutils: file insertion disabled")
-+
-+        env = doc.settings.env
-+        cwd = path.dirname(doc.current_source)
-+        cmd = "get_abi.pl rest --dir "
-+        cmd += self.arguments[0]
-+
-+        srctree = path.abspath(os.environ["srctree"])
-+
-+        fname = cmd
-+
-+        # extend PATH with $(srctree)/scripts
-+        path_env = os.pathsep.join([
-+            srctree + os.sep + "scripts",
-+            os.environ["PATH"]
-+        ])
-+        shell_env = os.environ.copy()
-+        shell_env["PATH"]    = path_env
-+        shell_env["srctree"] = srctree
-+
-+        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
-+        nodeList = self.nestedParse(lines, fname)
-+        return nodeList
-+
-+    def runCmd(self, cmd, **kwargs):
-+        u"""Run command ``cmd`` and return it's stdout as unicode."""
-+
-+        try:
-+            proc = subprocess.Popen(
-+                cmd
-+                , stdout = subprocess.PIPE
-+                , stderr = subprocess.PIPE
-+                , universal_newlines = True
-+                , **kwargs
-+            )
-+            out, err = proc.communicate()
-+            if err:
-+                self.warn(err)
-+            if proc.returncode != 0:
-+                raise self.severe(
-+                    u"command '%s' failed with return code %d"
-+                    % (cmd, proc.returncode)
-+                )
-+        except OSError as exc:
-+            raise self.severe(u"problems with '%s' directive: %s."
-+                              % (self.name, ErrorString(exc)))
-+        return unicode(out)
-+
-+    def nestedParse(self, lines, fname):
-+        content = ViewList()
-+        node    = nodes.section()
-+
-+        if "debug" in self.options:
-+            code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
-+            for l in lines.split("\n"):
-+                code_block += "\n    " + l
-+            lines = code_block + "\n\n"
-+
-+        for c, l in enumerate(lines.split("\n")):
-+            content.append(l, fname, c)
-+
-+        buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
-+        self.state.memo.title_styles  = []
-+        self.state.memo.section_level = 0
-+        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
-+        try:
-+            self.state.nested_parse(content, 0, node, match_titles=1)
-+        finally:
-+            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
-+        return node.children
--- 
-2.26.2
-
+       Arnd
