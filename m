@@ -2,137 +2,134 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB91C56202
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F69C56201
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF4F320790
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF4C420724
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:56:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603932982;
-	bh=jzHm1QtzfpxDKadw+V1YfSIgkojRb8DPJUFpqgleivE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=MBuvuhwRe+KJyaSTeAP8uW6WJo80G7grjGfwZqtq87xAmnJqoBl/YWSnLPA+4gMuC
-	 5X1AM307KI8mUQzvP8VzwAOE7GGoMCYZHg6XsZGVcxfoo1kwyK137IbpCpE/OYZS0+
-	 1J7esYNLiWAP3UM0bWxtYlYY9V8s4yZZxGY6LxNw=
+	s=default; t=1603933005;
+	bh=3DtSsbNWZaTf7v/7udK+AIDJ92sxyETNXeC2IzpbaLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=mHrZn2fQoO0rD9TsB00rMlLqaLSIuleh4d12TTZKHgtNIoDP83NiyLL0nurALgeJs
+	 kMIWgopxHuzZNB9sL3oUCtvv0RioFq0DL0x6t7LHfI1k+WbXKhcM2Q1p1vqavyQDfH
+	 Gmt7nIk+A1tn+HxfXa/hGu3C9ZI+y3ZjPOgIAOgw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390999AbgJ2A4W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2391011AbgJ2A4W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 28 Oct 2020 20:56:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60534 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:60524 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731623AbgJ1WRg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1731618AbgJ1WRg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 28 Oct 2020 18:17:36 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+Received: from kernel.org (unknown [87.70.96.83])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 780782473F;
-        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7666B246B2;
+        Wed, 28 Oct 2020 11:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895014;
-        bh=jzHm1QtzfpxDKadw+V1YfSIgkojRb8DPJUFpqgleivE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JswyOE4gDRTKpLISSXBMqRcrR6tNy8K+XUIamY0q15Ain5PW5AP9nle2v34paXMq1
-         s15zjiyAfatC7wvSBDrNEbPup6jHzwZVsVjE4cmFiM+ZCDeXlKfJrrysSXBnJj4lZ9
-         DMZWkMFhbPGBID+ikESfk3Sp57sA6O0/ZSwrihcA=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hkp-3q; Wed, 28 Oct 2020 15:23:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 02/33] scripts: get_abi.pl: fix parsing on ReST mode
-Date:   Wed, 28 Oct 2020 15:23:00 +0100
-Message-Id: <c24fbeb384b36e00c34786a5a3686a83981f067d.1603893146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
+        s=default; t=1603883801;
+        bh=3DtSsbNWZaTf7v/7udK+AIDJ92sxyETNXeC2IzpbaLk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nNqIykwPXzPeiPb6AYNYHQQXiJyXiYtwLr73B//voWR8TZa6Eb5++4CieyFXxEh1h
+         1/1jSd7uHggtcYYQ6K5jPMWeaE8D3Si3dAD3bEDewru+HlpqXxaIyeUj0n/GkzF1sK
+         d2ZhRYNYGHxIcFCusFeRPJXtjEnybkIYxxUOxr+4=
+Date:   Wed, 28 Oct 2020 13:16:31 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Linux MM <linux-mm@kvack.org>,
+        arcml <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH 11/13] m68k/mm: make node data and node setup depend on
+ CONFIG_DISCONTIGMEM
+Message-ID: <20201028111631.GF1428094@kernel.org>
+References: <20201027112955.14157-1-rppt@kernel.org>
+ <20201027112955.14157-12-rppt@kernel.org>
+ <CAMuHMdU4r4CJ1kBu7gx1jkputjDn2S8Lqkj7RPfa3XUnM1QOFg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU4r4CJ1kBu7gx1jkputjDn2S8Lqkj7RPfa3XUnM1QOFg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Hi Geert,
 
-When the source ABI file is using ReST notation, the script
-should handle whitespaces and lines with care, as otherwise
-the file won't be properly recognized.
+On Wed, Oct 28, 2020 at 10:25:49AM +0100, Geert Uytterhoeven wrote:
+> Hi Mike,
+> 
+> On Tue, Oct 27, 2020 at 12:31 PM Mike Rapoport <rppt@kernel.org> wrote:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> >
+> > The pg_data_t node structures and their initialization currently depends on
+> > !CONFIG_SINGLE_MEMORY_CHUNK. Since they are required only for DISCONTIGMEM
+> > make this dependency explicit and replace usage of
+> > CONFIG_SINGLE_MEMORY_CHUNK with CONFIG_DISCONTIGMEM where appropriate.
+> >
+> > The CONFIG_SINGLE_MEMORY_CHUNK was implicitly disabled on the ColdFire MMU
+> > variant, although it always presumed a single memory bank. As there is no
+> > actual need for DISCONTIGMEM in this case, make sure that ColdFire MMU
+> > systems set CONFIG_SINGLE_MEMORY_CHUNK to 'y'.
+> >
+> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> Thanks for your patch!
+> 
+> > ---
+> >  arch/m68k/Kconfig.cpu           | 6 +++---
+> >  arch/m68k/include/asm/page_mm.h | 2 +-
+> >  arch/m68k/mm/init.c             | 4 ++--
+> >  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> Is there any specific reason you didn't convert the checks for
+> CONFIG_SINGLE_MEMORY_CHUNK in arch/m68k/kernel/setup_mm.c
 
-Address the bugs that are on such part of the script.
+In arch/m68k/kernel/setup_mm.c the CONFIG_SINGLE_MEMORY_CHUNK is needed
+for the case when a system has two banks, the kernel is loaded into the
+second bank and so the first bank cannot be used as normal memory. It
+does not matter what memory model will be used in this case. 
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/get_abi.pl | 30 ++++++++++++++----------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
-
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 107672cdacb3..0c403af86fd5 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -151,7 +151,8 @@ sub parse_abi {
- 						$content = $2;
- 					}
- 					while ($space =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
--					$data{$what}->{$tag} .= $content;
-+
-+					$data{$what}->{$tag} .= "$content\n" if ($content);
- 				} else {
- 					$data{$what}->{$tag} = $content;
- 				}
-@@ -166,31 +167,28 @@ sub parse_abi {
- 		}
+> and arch/m68k/include/asm/virtconvert.h?
  
- 		if ($tag eq "description") {
-+			my $content = $_;
-+			while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
- 			if (!$data{$what}->{description}) {
--				s/^($space)//;
--				if (m/^(\s*)(.*)/) {
--					my $sp = $1;
--					while ($sp =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
--					my $content = "$sp$2";
--
--					$content =~ s/^($space)//;
--
--					$data{$what}->{$tag} .= "$content";
-+				# Preserve initial spaces for the first line
-+				if ($content =~ m/^(\s*)(.*)$/) {
-+					$space = $1;
-+					$content = $2;
- 				}
-+
-+				$data{$what}->{$tag} .= "$content\n" if ($content);
- 			} else {
--				my $content = $_;
- 				if (m/^\s*\n/) {
- 					$data{$what}->{$tag} .= $content;
- 					next;
- 				}
- 
--				while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
- 				$space = "" if (!($content =~ s/^($space)//));
- 
--				# Compress spaces with tabs
--				$content =~ s<^ {8}> <\t>;
--				$content =~ s<^ {1,7}\t> <\t>;
--				$content =~ s< {1,7}\t> <\t>;
-+#				# Compress spaces with tabs
-+#				$content =~ s<^ {8}> <\t>;
-+#				$content =~ s<^ {1,7}\t> <\t>;
-+#				$content =~ s< {1,7}\t> <\t>;
- 				$data{$what}->{$tag} .= $content;
- 			}
- 			next;
+I remember I had build errors and troubles with include file
+dependencies if I changed it there, but I might be mistaken. I'll
+recheck again.
+
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
 -- 
-2.26.2
-
+Sincerely yours,
+Mike.
