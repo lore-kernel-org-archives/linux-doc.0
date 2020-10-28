@@ -2,351 +2,100 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1F5C55179
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:05:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC9CC4363A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:14:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A7CD2076D
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:05:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1EA720759
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:14:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="086mSmYN"
+	dkim=pass (2048-bit key) header.d=paul-moore-com.20150623.gappssmtp.com header.i=@paul-moore-com.20150623.gappssmtp.com header.b="xGxWf1sY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389962AbgJ1XEn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 19:04:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60924 "EHLO
+        id S2390212AbgJ1XOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 19:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729986AbgJ1XBG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 19:01:06 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E26AC0613CF
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2020 16:01:06 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id c72so1295150oig.9
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2020 16:01:06 -0700 (PDT)
+        with ESMTP id S1730263AbgJ1XOg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 19:14:36 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1295C0613CF
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2020 16:14:35 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id 23so1050336ljv.7
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2020 16:14:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mFVMIrLdCxV+8cp8GWoWf3/5fAgqPZAXfATkx0X3HRI=;
-        b=086mSmYNIKquvUs/3FC33XpsVOTW3Qu76/x5SHnCISOWO7PoMcOtMKpnf6YwvyXtWB
-         aVkxPco0eXT5sebizGVALWfK7l/mloGkmvFhYSfkvujPlWMxB92gkENSYqGfl/x6A47O
-         3ZsD+s4AZackwpMGyzvoCgDtJebFSPTaVA7tlY8X+3YCmb15eBdQgtNLDFbvShQ5GLna
-         lNq6bCm/nv0eq30LsJk1kNX7UMGNtOS00lVj+I8U5Hd583ZZjtjGuemnrMdPZlxe+XdA
-         cwmZsRIQWvOaEfEo/LFog+Pqh9o1/M8GEIQcLQWrazWaiqpdou1KIDcg3GmFkasnHgel
-         ZjrQ==
+        bh=uP/JEghnSGmj7e6AesSlvrZCV6WUBdPW7UyUOd9YPjI=;
+        b=xGxWf1sYuQimA8Pb3JOW0Wj0BHMIJCwn1gMWtOQy75nP6RaEoOq5C/GkmXVi7pHKQj
+         JQ7bvUzAW0JZrXHMEn6KLifhrkFXf/U+agkeQOIAgrfBy0MRN1A7wsUEVG/59kaV8fJG
+         BuzwSFP8yoA5JQmdAV/2ctelQ4BILa1EQC4ju8/13mBjAWU+WvL2gkKqqiBJHgwYWfLt
+         JdZRj5Gs/OERhjmHPr+eDxQN87UPieTnau6amvhohFijsraX4+FiMqA24NPddFbiG83O
+         DEN322EhEyA2xNoTK71H29NH8ZgHWk8I0D6k3VymVMJP3jgQ2rL9e825nsEH+EaHXORU
+         oI3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mFVMIrLdCxV+8cp8GWoWf3/5fAgqPZAXfATkx0X3HRI=;
-        b=S5m8nAODq67amDyH1QxtnMYR/lQaF88Auq1jGzhqsV7/Ntg3TY97BLEFcVo13tJvDf
-         vvL8uRytZ6uUvlTLgJalI/yu/GejEsmz5xYZ0rrmV57T716My368DRk/5zFZ11JcNimG
-         vPeio42lHYauu1UVwQCnDec4glmcOiA6p2kFDztHEJGZafa9dBOhYo4RM2eZvA2DQrZl
-         lJPoYB/Z8qMZFoVRvKqyebXbaPRkLvgmt/sGSFoC3vrbDrvqIXAYp6W56RpSiN/Xddzc
-         10CjubZQelStuBEnSe+HQJ4vlUtAuYJp6KuqhSOZ/2NEDLywMaAcELdi1uxq3t0kPRDd
-         javw==
-X-Gm-Message-State: AOAM5331OL7wLTasooEQn/UCbf1f6DJsHcGJn+OKgzZCDkVdpjYVoMty
-        H9GrJ2E7vKL6hNJJoCokQ9g56YBLnl+OxwDyvkCPAtB93kP+QXXU
-X-Google-Smtp-Source: ABdhPJz39oMPi6YrX9/B/1ZjqP5C8IWRl2J8WjAA1b9U6+Ei/bQPgo8wmN0cxwmD0qErFckBlhXeahkf6JuLDLeWbzA=
-X-Received: by 2002:a17:90b:198d:: with SMTP id mv13mr5681238pjb.13.1603870040809;
- Wed, 28 Oct 2020 00:27:20 -0700 (PDT)
+        bh=uP/JEghnSGmj7e6AesSlvrZCV6WUBdPW7UyUOd9YPjI=;
+        b=g2FQLlKgtmXyFAfkBQOoZbUxwmBPhRY0vFNGKeEvG6PZ83jUk+S8AT6G9RklYKw2wV
+         M5Dg3bFFZViD5iXHt2ACDr2JjtybQBT5QF9f8LWuHqiFLL7zFQyf3aVokpKODj3XAdND
+         qTclihV1WU5s3ReyF1aVJfJc1BvOYiMa7aMYBsgF4B6A0YZCzyRux3q+W8dgLwiNKJvO
+         f9xZeqsFxu4Fa9At9V9D3ET6mhxyAwBteHKNDcX0DSZZ/z8A5gRWLu1nELRbqkTx3T1K
+         01mBXQP48CIdGQkNr598kCyUjLY2M3kqILJ3QD7DfsnJTRbKV/OokPuBRLcRtlzhjQkV
+         uCgQ==
+X-Gm-Message-State: AOAM531yDtW3PXqaI+boli+T4bqjfNfZ5MmcBPrIPkw0XkWq/TzLA5E8
+        lHmbZ9v2PhjpPW2W3HrNM+kpTpM0GIooJzLz6u8jhGtJjg==
+X-Google-Smtp-Source: ABdhPJxy3tTKM5QLQXt5ygim35ZXlLtmSNyEsb2Vs87VSTGD8dpJf1fiQCjE/MH+lUa0LAsHp33dW1sarczD6VGn2D8=
+X-Received: by 2002:a17:906:25cc:: with SMTP id n12mr4949548ejb.488.1603846795601;
+ Tue, 27 Oct 2020 17:59:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
- <20201026145114.59424-6-songmuchun@bytedance.com> <81a7a7f0-fe0e-42e4-8de0-9092b033addc@oracle.com>
-In-Reply-To: <81a7a7f0-fe0e-42e4-8de0-9092b033addc@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 28 Oct 2020 15:26:44 +0800
-Message-ID: <CAMZfGtVV5eZS-LFtU89WSdMGCib8WX0AojkL-4X+_5yvuMz2Ew@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v2 05/19] mm/hugetlb: Introduce pgtable
- allocation/freeing helpers
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
+ <8c04d5c5d0144019c2c38d7c3f31061d6b35d360.1603469755.git.mchehab+huawei@kernel.org>
+ <CAHC9VhQ88cuU-0QdpYJyJZE3FU-3graP=N9n9eiG4Kj2tDbiBQ@mail.gmail.com> <20201025233820.7f946e1c@coco.lan>
+In-Reply-To: <20201025233820.7f946e1c@coco.lan>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 27 Oct 2020 20:59:44 -0400
+Message-ID: <CAHC9VhTZtTXO8Woo_cCdBbg9Nq5A-vBdoOJo7gNUk+RRNBbeaw@mail.gmail.com>
+Subject: Re: [PATCH v3 51/56] audit: fix a kernel-doc markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Eric Paris <eparis@redhat.com>, linux-audit@redhat.com,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 8:33 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+On Sun, Oct 25, 2020 at 6:38 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> Em Sun, 25 Oct 2020 18:10:44 -0400
+> Paul Moore <paul@paul-moore.com> escreveu:
 >
-> On 10/26/20 7:51 AM, Muchun Song wrote:
-> > On some architectures, the vmemmap areas use huge page mapping.
-> > If we want to free the unused vmemmap pages, we have to split
-> > the huge pmd firstly. So we should pre-allocate pgtable to split
-> > huge pmd.
+> > On Fri, Oct 23, 2020 at 12:33 PM Mauro Carvalho Chehab
+> > <mchehab+huawei@kernel.org> wrote:
+> > >
+> > > typo:
+> > >         kauditd_print_skb -> kauditd_printk_skb
+> > >
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > ---
+> > >  kernel/audit.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  arch/x86/include/asm/hugetlb.h |   5 ++
-> >  include/linux/hugetlb.h        |  17 +++++
-> >  mm/hugetlb.c                   | 117 +++++++++++++++++++++++++++++++++
-> >  3 files changed, 139 insertions(+)
-> >
-> > diff --git a/arch/x86/include/asm/hugetlb.h b/arch/x86/include/asm/hugetlb.h
-> > index 1721b1aadeb1..f5e882f999cd 100644
-> > --- a/arch/x86/include/asm/hugetlb.h
-> > +++ b/arch/x86/include/asm/hugetlb.h
-> > @@ -5,6 +5,11 @@
-> >  #include <asm/page.h>
-> >  #include <asm-generic/hugetlb.h>
-> >
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +#define VMEMMAP_HPAGE_SHIFT                  PMD_SHIFT
-> > +#define arch_vmemmap_support_huge_mapping()  boot_cpu_has(X86_FEATURE_PSE)
-> > +#endif
-> > +
-> >  #define hugepages_supported() boot_cpu_has(X86_FEATURE_PSE)
-> >
-> >  #endif /* _ASM_X86_HUGETLB_H */
-> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> > index eed3dd3bd626..ace304a6196c 100644
-> > --- a/include/linux/hugetlb.h
-> > +++ b/include/linux/hugetlb.h
-> > @@ -593,6 +593,23 @@ static inline unsigned int blocks_per_huge_page(struct hstate *h)
-> >
-> >  #include <asm/hugetlb.h>
-> >
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +#ifndef arch_vmemmap_support_huge_mapping
-> > +static inline bool arch_vmemmap_support_huge_mapping(void)
-> > +{
-> > +     return false;
-> > +}
-> > +#endif
-> > +
-> > +#ifndef VMEMMAP_HPAGE_SHIFT
-> > +#define VMEMMAP_HPAGE_SHIFT          PMD_SHIFT
-> > +#endif
-> > +#define VMEMMAP_HPAGE_ORDER          (VMEMMAP_HPAGE_SHIFT - PAGE_SHIFT)
-> > +#define VMEMMAP_HPAGE_NR             (1 << VMEMMAP_HPAGE_ORDER)
-> > +#define VMEMMAP_HPAGE_SIZE           ((1UL) << VMEMMAP_HPAGE_SHIFT)
-> > +#define VMEMMAP_HPAGE_MASK           (~(VMEMMAP_HPAGE_SIZE - 1))
-> > +#endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
-> > +
-> >  #ifndef is_hugepage_only_range
-> >  static inline int is_hugepage_only_range(struct mm_struct *mm,
-> >                                       unsigned long addr, unsigned long len)
-> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> > index f1b2b733b49b..d6ae9b6876be 100644
-> > --- a/mm/hugetlb.c
-> > +++ b/mm/hugetlb.c
-> > @@ -1295,11 +1295,108 @@ static inline void destroy_compound_gigantic_page(struct page *page,
-> >  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> >  #define RESERVE_VMEMMAP_NR   2U
-> >
-> > +#define page_huge_pte(page)  ((page)->pmd_huge_pte)
-> > +
+> > Looks good to me, nice catch.  Would you like me to pull this into the
+> > audit tree or are you intending this to get pulled in as part of the
+> > larger patchset somewhere else?
 >
-> I am not good at function names.  The following suggestions may be too
-> verbose.  However, they helped me understand purpose of routines.
->
-> >  static inline unsigned int nr_free_vmemmap(struct hstate *h)
->
->         perhaps?                free_vmemmap_pages_per_hpage()
->
-> >  {
-> >       return h->nr_free_vmemmap_pages;
-> >  }
-> >
-> > +static inline unsigned int nr_vmemmap(struct hstate *h)
->
->         perhaps?                vmemmap_pages_per_hpage()
->
-> > +{
-> > +     return nr_free_vmemmap(h) + RESERVE_VMEMMAP_NR;
-> > +}
-> > +
-> > +static inline unsigned long nr_vmemmap_size(struct hstate *h)
->
->         perhaps?                vmemmap_pages_size_per_hpage()
->
-> > +{
-> > +     return (unsigned long)nr_vmemmap(h) << PAGE_SHIFT;
-> > +}
-> > +
-> > +static inline unsigned int nr_pgtable(struct hstate *h)
->
->         perhaps?        pgtable_pages_to_prealloc_per_hpage()
+> Feel free to apply it directly via audit tree.
 
-Good suggestions. Thanks. I will apply this.
-
->
-> > +{
-> > +     unsigned long vmemmap_size = nr_vmemmap_size(h);
-> > +
-> > +     if (!arch_vmemmap_support_huge_mapping())
-> > +             return 0;
-> > +
-> > +     /*
-> > +      * No need pre-allocate page tabels when there is no vmemmap pages
-> > +      * to free.
-> > +      */
-> > +     if (!nr_free_vmemmap(h))
-> > +             return 0;
-> > +
-> > +     return ALIGN(vmemmap_size, VMEMMAP_HPAGE_SIZE) >> VMEMMAP_HPAGE_SHIFT;
-> > +}
-> > +
-> > +static inline void vmemmap_pgtable_init(struct page *page)
-> > +{
-> > +     page_huge_pte(page) = NULL;
-> > +}
-> > +
->
-> I see the following routines follow the pattern for vmemmap manipulation
-> in dax.
-
-Did you mean move those functions to mm/sparse-vmemmap.c?
-
->
-> > +static void vmemmap_pgtable_deposit(struct page *page, pte_t *pte_p)
-> > +{
-> > +     pgtable_t pgtable = virt_to_page(pte_p);
-> > +
-> > +     /* FIFO */
-> > +     if (!page_huge_pte(page))
-> > +             INIT_LIST_HEAD(&pgtable->lru);
-> > +     else
-> > +             list_add(&pgtable->lru, &page_huge_pte(page)->lru);
-> > +     page_huge_pte(page) = pgtable;
-> > +}
-> > +
-> > +static pte_t *vmemmap_pgtable_withdraw(struct page *page)
-> > +{
-> > +     pgtable_t pgtable;
-> > +
-> > +     /* FIFO */
-> > +     pgtable = page_huge_pte(page);
-> > +     if (unlikely(!pgtable))
-> > +             return NULL;
-> > +     page_huge_pte(page) = list_first_entry_or_null(&pgtable->lru,
-> > +                                                    struct page, lru);
-> > +     if (page_huge_pte(page))
-> > +             list_del(&pgtable->lru);
-> > +     return page_to_virt(pgtable);
-> > +}
-> > +
-> > +static int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
-> > +{
-> > +     int i;
-> > +     pte_t *pte_p;
-> > +     unsigned int nr = nr_pgtable(h);
-> > +
-> > +     if (!nr)
-> > +             return 0;
-> > +
-> > +     vmemmap_pgtable_init(page);
-> > +
-> > +     for (i = 0; i < nr; i++) {
-> > +             pte_p = pte_alloc_one_kernel(&init_mm);
-> > +             if (!pte_p)
-> > +                     goto out;
-> > +             vmemmap_pgtable_deposit(page, pte_p);
-> > +     }
-> > +
-> > +     return 0;
-> > +out:
-> > +     while (i-- && (pte_p = vmemmap_pgtable_withdraw(page)))
-> > +             pte_free_kernel(&init_mm, pte_p);
-> > +     return -ENOMEM;
-> > +}
-> > +
-> > +static inline void vmemmap_pgtable_free(struct hstate *h, struct page *page)
-> > +{
-> > +     pte_t *pte_p;
-> > +
-> > +     if (!nr_pgtable(h))
-> > +             return;
-> > +
-> > +     while ((pte_p = vmemmap_pgtable_withdraw(page)))
-> > +             pte_free_kernel(&init_mm, pte_p);
-> > +}
-> > +
-> >  static void __init hugetlb_vmemmap_init(struct hstate *h)
-> >  {
-> >       unsigned int order = huge_page_order(h);
-> > @@ -1323,6 +1420,15 @@ static void __init hugetlb_vmemmap_init(struct hstate *h)
-> >  static inline void hugetlb_vmemmap_init(struct hstate *h)
-> >  {
-> >  }
-> > +
-> > +static inline int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
-> > +{
-> > +     return 0;
-> > +}
-> > +
-> > +static inline void vmemmap_pgtable_free(struct hstate *h, struct page *page)
-> > +{
-> > +}
-> >  #endif
-> >
-> >  static void update_and_free_page(struct hstate *h, struct page *page)
-> > @@ -1531,6 +1637,9 @@ void free_huge_page(struct page *page)
-> >
-> >  static void prep_new_huge_page(struct hstate *h, struct page *page, int nid)
-> >  {
-> > +     /* Must be called before the initialization of @page->lru */
-> > +     vmemmap_pgtable_free(h, page);
-> > +
-> >       INIT_LIST_HEAD(&page->lru);
-> >       set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
-> >       set_hugetlb_cgroup(page, NULL);
-> > @@ -1783,6 +1892,14 @@ static struct page *alloc_fresh_huge_page(struct hstate *h,
-> >       if (!page)
-> >               return NULL;
-> >
-> > +     if (vmemmap_pgtable_prealloc(h, page)) {
-> > +             if (hstate_is_gigantic(h))
-> > +                     free_gigantic_page(page, huge_page_order(h));
-> > +             else
-> > +                     put_page(page);
-> > +             return NULL;
-> > +     }
-> > +
->
-> It seems a bit strange that we will fail a huge page allocation if
-> vmemmap_pgtable_prealloc fails.  Not sure, but it almost seems like we shold
-> allow the allocation and log a warning?  It is somewhat unfortunate that
-> we need to allocate a page to free pages.
-
-Yeah, it seems unfortunate. But if we allocate success, we can free some
-vmemmap pages later. Like a compromise :) . If we can successfully allocate
-a huge page, I also prefer to be able to successfully allocate another one page.
-If we allow the allocation when vmemmap_pgtable_prealloc fails, we also
-need to mark this page that vmemmap has not been released. Seems
-increase complexity.
-
-Thanks.
-
->
-> >       if (hstate_is_gigantic(h))
-> >               prep_compound_gigantic_page(page, huge_page_order(h));
-> >       prep_new_huge_page(h, page, page_to_nid(page));
-> >
->
->
-> --
-> Mike Kravetz
-
-
+I just merged it into audit/next, you should see it shortly.  Thanks!
 
 -- 
-Yours,
-Muchun
+paul moore
+www.paul-moore.com
