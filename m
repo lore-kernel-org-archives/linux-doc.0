@@ -2,203 +2,105 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B117C388F7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E5CEC4363A
 	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:58:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0502320791
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:58:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 350A1207DE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:58:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1603933105;
-	bh=frQPh95E8HRn9ZnqjsC3ZJ+933VuymG+SYH3O260e+o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=DD25Wj4RpLEhwnI1919dS6CEW2R+/RVSR3tsElxQOuYWHMC2s8iXRI/HtbMUrCIDI
-	 CMCInDnLcS9BS2dWO2LGcQ+P+WYctffTyB8HbKDoEnrems1Wa8VGrfoOFpmTTI2y7T
-	 f+BnDOYtt3K5YbTM41kn4Ix056Cm9k2lpxinMDyg=
+	bh=utf67EdxIsrYU5HAUJdkhYRVW67PKxkveGsT+//j2js=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=117LN/XMqUE4CKCDNV8y4AkCPDOiMCtcQS2FJZbuXaDtThvBAgdTEFndEXEBGf7+1
+	 wlbByuDz6iyavess306eLf1ruMDstgwTDX6oDfzBK+UzN/QLC8HqPbOa56+H6KwR5E
+	 TBgvRkNFtd4+A0PsT1VgKB5wHZDS4the9VIwmDsI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403839AbgJ2A6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2403834AbgJ2A6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 28 Oct 2020 20:58:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60526 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:60510 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731579AbgJ1WRc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1731580AbgJ1WRc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 28 Oct 2020 18:17:32 -0400
-Received: from coco.lan (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D94CC247B1;
-        Wed, 28 Oct 2020 15:10:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DBD652478B;
+        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603897842;
-        bh=frQPh95E8HRn9ZnqjsC3ZJ+933VuymG+SYH3O260e+o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=weN6FXtBng9K18ddo1TKfapkVnWm0vxYEwEBfwOCQApwdpzsfIDnzXV9vSmiu7+eP
-         B96JFlb81bjwmSe9bFURwP5sgpUwhpeiWIU/5wjJzPxHypUwAvcsGTalnS7d+up+9Q
-         jg81B/KNSMj7pbCUxEWpjU2CLsur2W6HVKaBXB5M=
-Date:   Wed, 28 Oct 2020 16:10:30 +0100
+        s=default; t=1603895015;
+        bh=utf67EdxIsrYU5HAUJdkhYRVW67PKxkveGsT+//j2js=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hHc8VebZJkGO9OBFNDnFHRp6wL+5K+njBomOa2uYTFTU232qLZg+B4xQ0rv9vLo87
+         Mqs7u0roypnstIRZ9ZS8pK9dvXvOHYKfuulT+6siZelYPYoVq/zqWoKFC+kau7+hXn
+         KYgvEHirM3B1j0PwXia9kkoTBnJoRPOnMVMYWNrA=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kXmMO-003hlX-TC; Wed, 28 Oct 2020 15:23:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Benson Leung <bleung@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Chao Yu <chao@kernel.org>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Colin Cross <ccross@android.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Peter Rosin <peda@axentia.se>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Richard Gong <richard.gong@linux.intel.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Tony Luck <tony.luck@intel.com>, Wu Hao <hao.wu@intel.com>
-Subject: Re: [PATCH 00/33] ABI: add it to the documentation build system
-Message-ID: <20201028161030.4e88b297@coco.lan>
-In-Reply-To: <20201028143937.GA2302095@kroah.com>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 18/33] docs: ABI: README: specify that files should be ReST compatible
+Date:   Wed, 28 Oct 2020 15:23:16 +0100
+Message-Id: <5e3c2f89e22849f2dbbbac35088e285f5d051278.1603893146.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
-        <20201028143937.GA2302095@kroah.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 28 Oct 2020 15:39:37 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-> On Wed, Oct 28, 2020 at 03:22:58PM +0100, Mauro Carvalho Chehab wrote:
-> > Hi Greg,
-> > 
-> > As requested, this is a rebased version on the top of v5.10-rc1
-> > adding support for having the Linux ABI documentted inside
-> > the Linux admin manual.
-> > 
-> > When compared with the version I sent years ago, this
-> > version has:
-> > 
-> > - a logic to detect duplicated ABI symbols;
-> > - it auto-generate cross-reference markups for ABI symbols,
-> >   ABI files and .rst files;
-> > - Other files from 5.10-rc1 required adjustments in order
-> >   to be accepted by the script in rst-source mode;
-> > - Some bug fixes.
-> > 
-> > PS.: I didn't try to merge it against linux-next yet. So,
-> > I won't doubt that applying it could cause some conflicts.
-> > 
-> > Feel free to review it.  
-> 
-> After applying the first 10 patches, and running it, I see a bunch of
-> these types of warnings:
-> 
-> Use of uninitialized value $kernelversion in substitution (s///) at ./scripts/get_abi.pl line 444.
-> Use of uninitialized value $users in substitution (s///) at ./scripts/get_abi.pl line 446.
-> Use of uninitialized value $users in substitution (s///) at ./scripts/get_abi.pl line 447.
+As we plan to remove the escaping code from the scripts/get_abi.pl,
+specify at the ABI README file that the content of the file should
+be ReST compatible.
 
-Hmm.. I didn't test search after adding "use warnings".
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/ABI/README | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-The thing is that "use warnings" was added on one of get_abi.pl
-patches, just to be sure that some ABI parsers were 100%.
-
-That makes perl very pedantic, as it won't accept things like:
-
-	my $foo;
-	...
-	my $bar = $foo;
-
-Without "warnings", $bar will be undefined, and everything
-works properly, but, when this used, the above will still
-work properly, but will start producing warnings like the
-one you're seeing.
-
-I'm enclosing a diff addressing it for "search" mode.
-
-It should be fold on this patch:
-
-	scripts: get_abi.pl: cleanup ABI cross-reference logic
-
-Which is the one that added "use warnings".
-
-Feel free to fold it there. Otherwise, I'll fold it and
-send you on a v2 of this series.
-
-> 
-> When doing something like:
-> $ ./scripts/get_abi.pl search usb --dir Documentation/ABI/stable/
-> 
-> Is that expected?
-> 
-> thanks,
-> 
-> greg k-h
-
-
-Thanks,
-Mauro
-
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index bdef3e5c35c7..00b6ddec0ebb 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -442,17 +442,20 @@ sub search_symbols {
+diff --git a/Documentation/ABI/README b/Documentation/ABI/README
+index 3121029dce21..8bac9cb09a6d 100644
+--- a/Documentation/ABI/README
++++ b/Documentation/ABI/README
+@@ -32,7 +32,7 @@ The different levels of stability are:
+ 	layout of the files below for details on how to do this.)
  
- 		print "\n$what\n$bar\n\n";
+   obsolete/
+-  	This directory documents interfaces that are still remaining in
++	This directory documents interfaces that are still remaining in
+ 	the kernel, but are marked to be removed at some later point in
+ 	time.  The description of the interface will document the reason
+ 	why it is obsolete and when it can be expected to be removed.
+@@ -58,6 +58,14 @@ Users:		All users of this interface who wish to be notified when
+ 		be changed further.
  
--		my $kernelversion = $data{$what}->{kernelversion};
--		my $contact = $data{$what}->{contact};
--		my $users = $data{$what}->{users};
--		my $date = $data{$what}->{date};
--		my $desc = $data{$what}->{description};
--		$kernelversion =~ s/^\s+//;
--		$contact =~ s/^\s+//;
--		$users =~ s/^\s+//;
--		$users =~ s/\n//g;
--		$date =~ s/^\s+//;
--		$desc =~ s/^\s+//;
-+		my $kernelversion = $data{$what}->{kernelversion} if (defined($data{$what}->{kernelversion}));
-+		my $contact = $data{$what}->{contact} if (defined($data{$what}->{contact}));
-+		my $users = $data{$what}->{users} if (defined($data{$what}->{users}));
-+		my $date = $data{$what}->{date} if (defined($data{$what}->{date}));
-+		my $desc = $data{$what}->{description} if (defined($data{$what}->{description}));
+ 
++Note:
++   The fields should be use a simple notation, compatible with ReST markup.
++   Also, the file **should not** have a top-level index, like::
 +
-+		$kernelversion =~ s/^\s+// if ($kernelversion);
-+		$contact =~ s/^\s+// if ($contact);
-+		if ($users) {
-+			$users =~ s/^\s+//;
-+			$users =~ s/\n//g;
-+		}
-+		$date =~ s/^\s+// if ($date);
-+		$desc =~ s/^\s+// if ($desc);
++	===
++	foo
++	===
++
+ How things move between levels:
  
- 		printf "Kernel version:\t\t%s\n", $kernelversion if ($kernelversion);
- 		printf "Date:\t\t\t%s\n", $date if ($date);
-
+ Interfaces in stable may move to obsolete, as long as the proper
+-- 
+2.26.2
 
