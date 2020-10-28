@@ -7,48 +7,50 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A23C55179
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B800C5DF9D
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:53:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24012207DE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:53:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A44620791
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:53:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603932824;
-	bh=kwkmiNSEQA9BqRwRpvTf/WssQkUD6Th0rlq3IkhA0gk=;
+	s=default; t=1603932825;
+	bh=RbVYiyu/rnWFPmPj9R4bvXieqOVYpclyWM2vnETsDtk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lpPZrUFJ6NURwpTUM80G8keYc8W1AXupI4EZNF6MTsD2/5qGX3qT1Uis11Ol4LYdT
-	 NCSmyU3OSyPZBTG69IrCQSFtJK4fFppnNZuEG8ozBOVBUloM3fUIaYksZOHZ9ckf5k
-	 gzeTgH2s0c+7wMebK4X1+tP/kNi9R81Pc5uY3HMs=
+	b=gfA61wsyVBTawB76dpDLeq1B/96SRY8nmydTeUR/voT/MNYYdl7lFxK+b+guzo6vv
+	 j4OMjqoCWPgVu+anb64K8gnXyb7oYQJpinSd6oJbLKca5PG6quzv2epu7u7M5oPNsj
+	 yov3RipjP+taTJPCyKfzH8MfrZL534AYg3NWXJiU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731890AbgJ1WTY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:19:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60524 "EHLO mail.kernel.org"
+        id S1731736AbgJ1WTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 18:19:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60522 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731614AbgJ1WRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:42 -0400
+        id S1731696AbgJ1WRl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:41 -0400
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 86FAF24768;
+        by mail.kernel.org (Postfix) with ESMTPSA id B23DB2476E;
         Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1603895014;
-        bh=kwkmiNSEQA9BqRwRpvTf/WssQkUD6Th0rlq3IkhA0gk=;
+        bh=RbVYiyu/rnWFPmPj9R4bvXieqOVYpclyWM2vnETsDtk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RsOxKR9pEfAwUZzWX0VPem4WT1UQsIo62IhxzWB9U50+OjhwyRiVpyNivK0AoWUUJ
-         Bi/IPZXbgs1FVW49nTyys9MojMDuDnz2VtZ8PH0RW9U4QPj1+WiMCiulHtHittz5bK
-         H2MJbv6JIZ3CtirsutMRgDPXa9sv+U1Gqe+FYzuk=
+        b=kTNF5Pqjd1M4SY1bzV51A86oc9KUrFY736pMM1/DVy3MTp/dGcJf0MYBTmbhqw7zS
+         a+jCuxZJgdr4Qb7aPUFKeGMWoA1w2EssdpleQJ2EdNYC58dwDKja4JKyT3kdRAhWrQ
+         RTnicPpRM+JELSNJml6ExltnvUR0o8oL43wEo6HM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hkv-8F; Wed, 28 Oct 2020 15:23:32 +0100
+        id 1kXmMO-003hlP-OH; Wed, 28 Oct 2020 15:23:32 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/33] scripts: get_abi.pl: cleanup ABI cross-reference logic
-Date:   Wed, 28 Oct 2020 15:23:03 +0100
-Message-Id: <2574d9c4c129591db1b2a9b9bbd479acef9d1b08.1603893146.git.mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 15/33] docs: kernel_abi.py: use --enable-lineno for get_abi.pl
+Date:   Wed, 28 Oct 2020 15:23:13 +0100
+Message-Id: <7ae62dc8a05ece0b1c04a57dde0ad25d62d13742.1603893146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
 References: <cover.1603893146.git.mchehab+huawei@kernel.org>
@@ -59,253 +61,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, the cross-references are generated on a single
-step, when doing ReST output.
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-While this is nice optimization, it prevents auto-creating
-cross-references for ABI symbols.
+Just like kernel-doc extension, we need to be able to identify
+what part of an imported document has issues, as reporting them
+as:
 
-So, split it into a separate logic.
+	get_abi.pl rest --dir $srctree/Documentation/ABI/obsolete --rst-source:1689: ERROR: Unexpected indentation.
 
-While here, turn on Perl warnings, as it helps to debug
-problems inside the script.
+Makes a lot harder for someone to fix.
 
+It should be noticed that it the line which will be reported is
+the line where the "What:" definition is, and not the line
+with actually has an error.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 122 +++++++++++++++++++++++++--------------------
- 1 file changed, 69 insertions(+), 53 deletions(-)
+ Documentation/sphinx/kernel_abi.py | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index bd018eb3815b..df2efad11d88 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -2,15 +2,16 @@
- # SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index 8601a3b75a28..096dec482e96 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -36,6 +36,7 @@ import codecs
+ import os
+ import subprocess
+ import sys
++import re
  
- use strict;
-+use warnings;
- use Pod::Usage;
- use Getopt::Long;
- use File::Find;
- use Fcntl ':mode';
+ from os import path
  
--my $help;
--my $man;
--my $debug;
--my $enable_lineno;
-+my $help = 0;
-+my $man = 0;
-+my $debug = 0;
-+my $enable_lineno = 0;
- my $prefix="Documentation/ABI";
+@@ -93,7 +94,7 @@ class KernelCmd(Directive):
  
- #
-@@ -40,6 +41,7 @@ pod2usage(2) if ($cmd eq "search" && !$arg);
- require Data::Dumper if ($debug);
+         env = doc.settings.env
+         cwd = path.dirname(doc.current_source)
+-        cmd = "get_abi.pl rest --dir "
++        cmd = "get_abi.pl rest --enable-lineno --dir "
+         cmd += self.arguments[0]
  
- my %data;
-+my %symbols;
+         srctree = path.abspath(os.environ["srctree"])
+@@ -137,7 +138,7 @@ class KernelCmd(Directive):
+                               % (self.name, ErrorString(exc)))
+         return out
  
- #
- # Displays an error message, printing file name and line
-@@ -76,12 +78,12 @@ sub parse_abi {
+-    def nestedParse(self, lines, fname):
++    def nestedParse(self, lines, f):
+         content = ViewList()
+         node    = nodes.section()
  
- 	my $what;
- 	my $new_what;
--	my $tag;
-+	my $tag = "";
- 	my $ln;
- 	my $xrefs;
- 	my $space;
- 	my @labels;
--	my $label;
-+	my $label = "";
+@@ -147,8 +148,17 @@ class KernelCmd(Directive):
+                 code_block += "\n    " + l
+             lines = code_block + "\n\n"
  
- 	print STDERR "Opening $file\n" if ($debug > 1);
- 	open IN, $file;
-@@ -110,10 +112,18 @@ sub parse_abi {
- 
- 			if ($new_tag =~ m/what/) {
- 				$space = "";
-+				$content =~ s/[,.;]$//;
+-        for c, l in enumerate(lines.split("\n")):
+-            content.append(l, fname, c)
++        line_regex = re.compile("^#define LINENO (\S+)\#([0-9]+)$")
++        ln = 0
 +
- 				if ($tag =~ m/what/) {
- 					$what .= ", " . $content;
- 				} else {
--					parse_error($file, $ln, "What '$what' doesn't have a description", "") if ($what && !$data{$what}->{description});
-+					if ($what) {
-+						parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
-+
-+						foreach my $w(split /, /, $what) {
-+							$symbols{$w} = $what;
-+						};
-+					}
++        for line in lines.split("\n"):
++            match = line_regex.search(line)
++            if match:
++                f = match.group(1)
++                # sphinx counts lines from 0
++                ln = int(match.group(2)) - 1
++            else:
++                content.append(line, f, ln)
  
- 					$what = $content;
- 					$label = $content;
-@@ -122,7 +132,7 @@ sub parse_abi {
- 				push @labels, [($content, $label)];
- 				$tag = $new_tag;
+         buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
  
--				push @{$data{$nametag}->{xrefs}}, [($content, $label)] if ($data{$nametag}->{what});
-+				push @{$data{$nametag}->{symbols}}, $content if ($data{$nametag}->{what});
- 				next;
- 			}
- 
-@@ -132,7 +142,7 @@ sub parse_abi {
- 				$data{$what}->{line_no} = $ln;
- 
- 				if ($new_what) {
--					@{$data{$what}->{label}} = @labels if ($data{$nametag}->{what});
-+					@{$data{$what}->{label_list}} = @labels if ($data{$nametag}->{what});
- 					@labels = ();
- 					$label = "";
- 					$new_what = 0;
-@@ -203,36 +213,24 @@ sub parse_abi {
- 		# Everything else is error
- 		parse_error($file, $ln, "Unexpected line:", $_);
- 	}
--	$data{$nametag}->{description} =~ s/^\n+//;
-+	$data{$nametag}->{description} =~ s/^\n+// if ($data{$nametag}->{description});
-+	if ($what) {
-+		parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
-+
-+		foreach my $w(split /, /,$what) {
-+			$symbols{$w} = $what;
-+		};
-+	}
- 	close IN;
- }
- 
--#
--# Outputs the book on ReST format
--#
-+sub create_labels {
-+	my %labels;
- 
--my %labels;
-+	foreach my $what (keys %data) {
-+		next if ($data{$what}->{file} eq "File");
- 
--sub output_rest {
--	foreach my $what (sort {
--				($data{$a}->{type} eq "File") cmp ($data{$b}->{type} eq "File") ||
--				$a cmp $b
--			       } keys %data) {
--		my $type = $data{$what}->{type};
--		my $file = $data{$what}->{file};
--		my $filepath = $data{$what}->{filepath};
--
--		if ($enable_lineno) {
--			printf "#define LINENO %s%s#%s\n\n",
--			       $prefix, $data{$what}->{file},
--			       $data{$what}->{line_no};
--		}
--
--		my $w = $what;
--		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
--
--
--		foreach my $p (@{$data{$what}->{label}}) {
-+		foreach my $p (@{$data{$what}->{label_list}}) {
- 			my ($content, $label) = @{$p};
- 			$label = "abi_" . $label . " ";
- 			$label =~ tr/A-Z/a-z/;
-@@ -249,16 +247,39 @@ sub output_rest {
- 			}
- 			$labels{$label} = 1;
- 
--			$data{$what}->{label} .= $label;
--
--			printf ".. _%s:\n\n", $label;
-+			$data{$what}->{label} = $label;
- 
- 			# only one label is enough
- 			last;
- 		}
-+	}
-+}
- 
-+#
-+# Outputs the book on ReST format
-+#
- 
--		$filepath =~ s,.*/(.*/.*),\1,;;
-+sub output_rest {
-+	create_labels();
-+
-+	foreach my $what (sort {
-+				($data{$a}->{type} eq "File") cmp ($data{$b}->{type} eq "File") ||
-+				$a cmp $b
-+			       } keys %data) {
-+		my $type = $data{$what}->{type};
-+		my $file = $data{$what}->{file};
-+		my $filepath = $data{$what}->{filepath};
-+
-+		if ($enable_lineno) {
-+			printf "#define LINENO %s%s#%s\n\n",
-+			       $prefix, $data{$what}->{file},
-+			       $data{$what}->{line_no};
-+		}
-+
-+		my $w = $what;
-+		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
-+
-+		$filepath =~ s,.*/(.*/.*),$1,;;
- 		$filepath =~ s,[/\-],_,g;;
- 		my $fileref = "abi_file_".$filepath;
- 
-@@ -269,8 +290,9 @@ sub output_rest {
- 			print ".. _$fileref:\n\n";
- 			print "$w\n$bar\n\n";
- 		} else {
--			my @names = split /\s*,\s*/,$w;
-+			printf ".. _%s:\n\n", $data{$what}->{label};
- 
-+			my @names = split /, /,$w;
- 			my $len = 0;
- 
- 			foreach my $name (@names) {
-@@ -284,12 +306,13 @@ sub output_rest {
- 				printf "| %s", $name . " " x ($len - length($name)) . " |\n";
- 				print "+-" . "-" x $len . "-+\n";
- 			}
--			print "\n";
-+
-+			print "\nDefined on file :ref:`$file <$fileref>`\n\n";
- 		}
- 
--		print "Defined on file :ref:`$file <$fileref>`\n\n" if ($type ne "File");
--
--		my $desc = $data{$what}->{description};
-+		my $desc = "";
-+		$desc = $data{$what}->{description} if (defined($data{$what}->{description}));
-+		$desc =~ s/\s+$/\n/;
- 
- 		if (!($desc =~ /^\s*$/)) {
- 			if ($description_is_rst) {
-@@ -316,18 +339,11 @@ sub output_rest {
- 			print "DESCRIPTION MISSING for $what\n\n" if (!$data{$what}->{is_file});
- 		}
- 
--		if ($data{$what}->{xrefs}) {
-+		if ($data{$what}->{symbols}) {
- 			printf "Has the following ABI:\n\n";
- 
--			foreach my $p(@{$data{$what}->{xrefs}}) {
--				my ($content, $label) = @{$p};
--				$label = "abi_" . $label . " ";
--				$label =~ tr/A-Z/a-z/;
--
--				# Convert special chars to "_"
--				$label =~s/([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff])/_/g;
--				$label =~ s,_+,_,g;
--				$label =~ s,_$,,;
-+			foreach my $content(@{$data{$what}->{symbols}}) {
-+				my $label = $data{$symbols{$content}}->{label};
- 
- 				# Escape special chars from content
- 				$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
 -- 
 2.26.2
 
