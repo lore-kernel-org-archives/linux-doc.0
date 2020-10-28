@@ -2,107 +2,177 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABF8C4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:11:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1DC0C5517A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:44:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5542C20738
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:11:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 689562076B
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 02:44:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgJ2CLq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 22:11:46 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39660 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726827AbgJ1Vgn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 17:36:43 -0400
-Received: by mail-lf1-f68.google.com with SMTP id 184so673379lfd.6;
-        Wed, 28 Oct 2020 14:36:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IJ/1u3561E6mMIfNICLY2s/NugY/WQD7O6Mrlmn0Hsg=;
-        b=EDxqe/JRW7wHEr7E1J2zF5OK08poCt6hNmvLZ0LEvJoqmYzaZQOHCEtNYw5qRPV5VC
-         yn/NBFEcRRwmsp19F+k0OuqO280SjFWFZGHHnkhKA+h69kRT2Uti45JAMoYq1Ho5sG/g
-         72fg4yyCpkmqBiM05SPOVGWz8ZWKUGcHCGQeqhghPo4dgAqjtHA1H4jX9gvzCtL06t5+
-         VvhjxC765mswwlye6mxlHTZAoVO17h+Gda7A0qEH0ENcr/d9OZRUeoFCCDBnR68c+vjM
-         oa9XC0GuIBvJPh4ilpqfEKP0DDf5qXcwmYTKIpDBpPFqT4KnoFjHnn9wNfCVeeGkdpIB
-         UQVw==
-X-Gm-Message-State: AOAM5315q6PCrFPkeEp20topQoAJ0MNx6L/RBqnfT+M9HmgkEovojE5W
-        TGx5pZYfBEP4EEKJLccXNTe1wLZO0sD2NRe1PQSVOOyd
-X-Google-Smtp-Source: ABdhPJyXpf89lCPGYFZaY8h+h/+oPb5/uuHIuKvMA2YLEzqIyFtpe9ibvh4k+NwwFMqSBXRjCwz+PPzbuyu2OUfH7nw=
-X-Received: by 2002:ac2:5329:: with SMTP id f9mr2819996lfh.525.1603900518718;
- Wed, 28 Oct 2020 08:55:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
-In-Reply-To: <1603404243-5536-1-git-send-email-eberman@codeaurora.org>
-From:   Sudeep Holla <sudeep.holla@arm.com>
-Date:   Wed, 28 Oct 2020 15:55:06 +0000
-Message-ID: <CAPKp9ubYYtteYc7SDdDBPFpt3ErJpYeykQ49ey_hJbZ0yQEQSg@mail.gmail.com>
-Subject: Re: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
-To:     Elliot Berman <eberman@codeaurora.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+        id S1726325AbgJ1VeI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 17:34:08 -0400
+Received: from mail-m1272.qiye.163.com ([115.236.127.2]:7159 "EHLO
+        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726460AbgJ1VeH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 17:34:07 -0400
+Received: from ubuntu.localdomain (unknown [58.250.176.229])
+        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id EB3D0B02446;
+        Wed, 28 Oct 2020 21:48:49 +0800 (CST)
+From:   Bailu Lin <bailu.lin@vivo.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        Prasad Sodagudi <psodagud@codeaurora.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Bailu Lin <bailu.lin@vivo.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kernel@vivo.com
+Subject: [PATCH] Documentation: Chinese translation of  Documentation/arm64/perf.rst
+Date:   Wed, 28 Oct 2020 06:48:24 -0700
+Message-Id: <20201028134831.79592-1-bailu.lin@vivo.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZHh9PSx9MH0oaTU8fVkpNS0hDQklCSEtPTkJVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ODI6Dyo6ET8eDS4CGE1RTzQW
+        GkhPCjlVSlVKTUtIQ0JJQkhLQ0JLVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
+        VUlOS1VKTE1VSUlCWVdZCAFZQU5OTkI3Bg++
+X-HM-Tid: 0a756f77e6ed98b7kuuueb3d0b02446
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 23, 2020 at 7:24 AM Elliot Berman <eberman@codeaurora.org> wrote:
->
-> In a heterogeneous multiprocessor system, specifying the 'maxcpus'
-> parameter on kernel command line does not provide sufficient control
-> over which CPUs are brought online at kernel boot time, since CPUs may
-> have nonuniform performance characteristics. Thus, add bootcpus kernel
-> parameter to control which CPUs should be brought online during kernel
-> boot. When both maxcpus and bootcpus is set, the more restrictive of the
-> two are booted.
->
-> Signed-off-by: Elliot Berman <eberman@codeaurora.org>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  8 +++++++
->  include/linux/cpu.h                             |  2 +-
->  kernel/cpu.c                                    |  4 ++--
->  kernel/smp.c                                    | 28 +++++++++++++++++++++++--
->  4 files changed, 37 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 65d047f..ea31af3 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -449,6 +449,14 @@
->
->                         See Documentation/admin-guide/bootconfig.rst
->
-> +       bootcpus=       [SMP]  List of processors that an SMP kernel
-> +                       will bring up during bootup. Similar to maxcpus, except
-> +                       as a cpu list as described above. The more restrictive
-> +                       of maxcpus and bootcpus applies. If bootcpus=1-3 and
-> +                       maxcpus=2, only processors 1 and 2 are booted. As with
-> +                       maxcpus, you can bring up other plugged cpu by executing
-> +                       "echo 1 > /sys/devices/system/cpu/cpuX/online"
-> +
+This is a Chinese translated version of
+ Documentation/arm64/perf.rst
 
-There is a fundamental assumption here that the user of this cmdline
-understands how
-the logical cpu numbers are allocated for the physical cpus. Based on
-the discussion
-I understand that you want to boot specific physical cpus for whatever
-reasons and
-here you want to specify the logical cpu numbers for them. So NACK for
-that concept
-alone irrespective of whether this concept as a whole is acceptable or not.
+Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+---
+ Documentation/arm64/perf.rst                  |  2 +
+ .../translations/zh_CN/arm64/index.rst        |  1 +
+ .../translations/zh_CN/arm64/perf.rst         | 85 +++++++++++++++++++
+ 3 files changed, 88 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/arm64/perf.rst
 
+diff --git a/Documentation/arm64/perf.rst b/Documentation/arm64/perf.rst
+index 9c76a97baf28..b567f177d385 100644
+--- a/Documentation/arm64/perf.rst
++++ b/Documentation/arm64/perf.rst
+@@ -1,5 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++.. _perf_index:
++
+ =====================
+ Perf Event Attributes
+ =====================
+diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
+index e31a6090384d..f51fed166326 100644
+--- a/Documentation/translations/zh_CN/arm64/index.rst
++++ b/Documentation/translations/zh_CN/arm64/index.rst
+@@ -15,3 +15,4 @@ ARM64 架构
+ 
+     amu
+     hugetlbpage
++    perf
+diff --git a/Documentation/translations/zh_CN/arm64/perf.rst b/Documentation/translations/zh_CN/arm64/perf.rst
+new file mode 100644
+index 000000000000..be8269dd5d9a
+--- /dev/null
++++ b/Documentation/translations/zh_CN/arm64/perf.rst
+@@ -0,0 +1,85 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/arm64/perf.rst <perf_index>`
++
++Translator: Bailu Lin <bailu.lin@vivo.com>
++
++=============
++Perf 事件属性
++=============
++
++:作者: Andrew Murray <andrew.murray@arm.com>
++:日期: 2019-03-06
++
++exclude_user
++------------
++
++该属性排除用户空间。
++
++用户空间始终运行在 EL0，因此该属性将排除 EL0。
++
++
++exclude_kernel
++--------------
++
++该属性排除内核空间。
++
++打开 VHE 时内核运行在 EL2，不打开 VHE 时内核运行在 EL1。客户端
++内核总是运行在 EL1。
++
++对于主机端，该属性排除 EL1 和 VHE 上的 EL2。
++
++对于客户端，该属性排除 EL1。请注意客户端从来不会运行在 EL2。
++
++
++exclude_hv
++----------
++
++该属性排除虚拟机监控器。
++
++对于 VHE 主机端该属性将被忽略，因为此时主机端内核是虚拟机监控器。
++
++对于 non-VHE 主机端该属性将排除 EL2，因为虚拟机监控器运行在 EL2
++的任何代码主要用于客户端和主机端的切换。
++
++对于客户端该属性无效。请注意客户端从来不会运行在 EL2。
++
++
++exclude_host / exclude_guest
++----------------------------
++
++这些属性分别排除了 KVM 主机端和客户端。
++
++KVM 主机端可能运行在 EL0（用户空间），EL1（non-VHE 内核）和
++EL2（VHE 内核 或 non-VHE 虚拟机监控器）。
++
++KVM 客户端可能运行在 EL0（用户空间）和 EL1（内核）。
++
++由于主机端和客户端之间重叠的异常级别，我们不能仅仅依靠 PMU 的硬件异
++常过滤机制-因此我们必须启用/禁用对于客户端进入和退出的计数。而这在
++VHE 和 non-VHE 系统上表现不同。
++
++对于 non-VHE 系统的 exclude_host 属性排除 EL2 -  在进入和退出客户
++端时，我们会根据 exclude_host 和 exclude_guest 属性在适当的情况下
++禁用/启用该事件。
++
++对于 VHE 系统的 exclude_guest 属性排除 EL1，而对其中的 exclude_host
++属性同时排除 EL0，EL2。在进入和退出客户端时，我们会适当地根据
++exclude_host 和 exclude_guest 属性包括/排除 EL0。
++
++以上声明也适用于在 not-VHE 客户端使用这些属性时，但是请注意客户端从
++来不会运行在 EL2。
++
++
++准确性
++------
++
++在 non-VHE 主机端上，我们在 EL2 进入/退出主机端/客户端的切换时启用/
++关闭计数器 -但是在启用/禁用计数器和进入/退出客户端之间存在一段延时。
++对于 exclude_host， 我们可以通过过滤 EL2 消除在客户端进入/退出边界
++上用于计数客户端事件的主机端事件计数器。但是当使用 !exclude_hv 时，
++在客户端进入/退出有一个小的暗窗口无法捕获到主机端的事件。
++
++在VHE系统尚没有暗窗口。
 -- 
-Regards,
-Sudeep
+2.20.1
+
