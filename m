@@ -2,105 +2,77 @@ Return-Path: <SRS0=KUUv=ED=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F32CAC55179
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4634C55179
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:02:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C8C620714
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 22:36:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="P1GfKVVu"
+	by mail.kernel.org (Postfix) with ESMTP id 62D9C2076E
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Oct 2020 23:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730921AbgJ1WgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:36:01 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:45296 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387678AbgJ1WeB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 18:34:01 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SAYjhV164632;
-        Wed, 28 Oct 2020 10:35:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=ozdXlFYXaQsb4RcCSPg5tS7ML5aca7VnqAE1SSL3wjA=;
- b=P1GfKVVuy2PBBO0yBlQ5B+bLVaz7tvTTRCvaaknjaUQEA7DlW4ozyJz5VqACPiBu6lZU
- a3606LFOJZq6rlaI8QQCLWynTslU3zc6nJbl+Bi3yWSr/rVWtJhCj4xFBe9QeV6kNfcn
- arlcsL69M7tNHqpEVGU/QVRsYXhqUvV1Rmb+sAL2CsNq7Bq+rLcKkKX2CB8nOnan32rh
- sI+FCxbK8iSZRgY32flh4lhxmpGhDn930X3FSRgC3GaIHlxgyamYN4bbu3QMOv+2+3t5
- /wCxd0+1Xm2JnqzrwQXVh2jnKo7pZrYYovphfQ2nVOJFTO/4LOERRxeWWm8PqcMEysoL Fg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 34dgm44698-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 28 Oct 2020 10:35:12 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SAQ5vv072316;
-        Wed, 28 Oct 2020 10:35:11 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 34cx5y6073-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Oct 2020 10:35:11 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09SAZ5PP007506;
-        Wed, 28 Oct 2020 10:35:05 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 28 Oct 2020 03:35:03 -0700
-Date:   Wed, 28 Oct 2020 13:34:56 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
-        Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: [RFC] wimax: move out to staging
-Message-ID: <20201028103456.GB1042@kadam>
-References: <20201027212448.454129-1-arnd@kernel.org>
+        id S2389193AbgJ1XC4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 19:02:56 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:38197 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390036AbgJ1XCy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 19:02:54 -0400
+Received: by mail-oi1-f195.google.com with SMTP id 9so1325781oir.5;
+        Wed, 28 Oct 2020 16:02:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=sagH2PC7EpAdxZ16EOxRiHafef79Ay2C4If7MRpdFD0=;
+        b=Nz0ttXFrHIcLoy97TmVDG7kAHkYFuo6+WSXIdmd04tIqm6uQCyK01QTkDoGxO4mtDc
+         GABXqBbzTeo82bYn0shcMol1SaiqkAQcwnP1zoYNvqoAILOUsJ+2VInPQA42DLFOu4br
+         4FkBADVJi4yX5Rdtw1HcJyxKIFUD33clieZZf94TwD7hjwxcKsV6fTUEh0HNP/9THWIV
+         wGdgfnRt6bfJPA33vwqCnrArxXeE0K+K5fCpmfjqY5TY+Ddla3a16IREtwyiPzypDqkR
+         jWnSVs4zl4fNfj8c9W5NDlUcEt4YTlEtqEkPe27I7qnXhriV5H4JmFjA2Tv55/FhJwlW
+         HV8A==
+X-Gm-Message-State: AOAM530X/rcZRLWud+4PoNwF/K85lQGwW4p+HO6Gnuq5TyoQuAZw6Shu
+        Ie0ebjPZqf/oh30SVZmG+MsjbU/IJMdOdg==
+X-Google-Smtp-Source: ABdhPJzwP4whIftiW07KfvAjZq1D49sITEhoT4+ERP5oeO9yebeFDCJZV91m0/iZE3SZH34ESlMiAQ==
+X-Received: by 2002:a17:90b:3798:: with SMTP id mz24mr4821149pjb.46.1603856924004;
+        Tue, 27 Oct 2020 20:48:44 -0700 (PDT)
+Received: from [192.168.3.218] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
+        by smtp.gmail.com with ESMTPSA id j19sm3867964pfn.107.2020.10.27.20.48.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2020 20:48:43 -0700 (PDT)
+Subject: Re: [PATCH v3 20/32] IB/srpt: docs: add a description for cq_size
+ member
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Max Gurtovoy <maxg@mellanox.com>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Yamin Friedman <yaminf@mellanox.com>,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        target-devel@vger.kernel.org,
+        Brendan Higgins <brendanhiggins@google.com>
+References: <cover.1603791716.git.mchehab+huawei@kernel.org>
+ <df0e5f0e866b91724299ef569a2da8115e48c0cf.1603791716.git.mchehab+huawei@kernel.org>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <67ba1e15-87cc-18dd-48f1-6224cefe7105@acm.org>
+Date:   Tue, 27 Oct 2020 20:48:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201027212448.454129-1-arnd@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010280070
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- suspectscore=0 clxscore=1011 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010280071
+In-Reply-To: <df0e5f0e866b91724299ef569a2da8115e48c0cf.1603791716.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> There are no known users of this driver as of October 2020, and it will
-> be removed unless someone turns out to still need it in future releases.
-> 
-> According to https://en.wikipedia.org/wiki/List_of_WiMAX_networks, there
-> have been many public wimax networks, but it appears that these entries
-> are all stale, after everyone has migrated to LTE or discontinued their
-> service altogether.
+On 10/27/20 2:51 AM, Mauro Carvalho Chehab wrote:
+> Add a description for it.
 
-Wimax is still pretty common in Africa.  But you have to buy an outdoor
-antenae with all the software on it and an ethernet cable into your
-house.  I don't know what software the antennaes are using.  Probably
-Linux but with an out of tree kernel module is my guess.
+It seems like my Reviewed-by tag is missing? See also
+https://lore.kernel.org/linux-rdma/cb5944e2-bdea-e320-d4d1-2f9bc9539a19@acm.org/
 
-regards,
-dan carpenter
-
+Bart.
