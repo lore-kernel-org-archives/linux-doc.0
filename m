@@ -2,163 +2,119 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A51B3C56202
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE3CC5DF9E
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:37:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5454A207DE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603931717;
-	bh=NRMZX29YVCu0ORIWLWhn6hs++4gSkLS1kLJbY6PTCEY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=NqhSOruYrJgJGV5XgMt767gK0G65pwcWuaLXNDDVl/pqTk96JTowK2RrtDok1mwHd
-	 XacAMGR4KzjprPgJVClv9vgGXqUAgihSuhud2x5V4GYCQTPrva+Toi0i31y2tZcRTm
-	 iljFiQLo7zUNq507lEPYRB5Tn/AzJ3lv+FUjt7rI=
+	by mail.kernel.org (Postfix) with ESMTP id EFDEF20790
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 00:37:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WDaDEm/H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731922AbgJ1WT1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Oct 2020 18:19:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60532 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731712AbgJ1WRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:42 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8888624769;
-        Wed, 28 Oct 2020 14:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895014;
-        bh=NRMZX29YVCu0ORIWLWhn6hs++4gSkLS1kLJbY6PTCEY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=osXSflY5o7f4g5dtfnUHYEjP48BHPufx7SiIieZcxHPogwu6w3WLB0lWRBWSdjlnR
-         IgXzO4CmpaIqRLhD+4o6o9v5vZGmTGs/UgtXAGsrJ05EYtna33+QcK6HCTmhCyZ4nm
-         fuAyToHUK8KwqhDynKA5PPf5O3DY53NYxPInsuoU=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kXmMO-003hkr-5J; Wed, 28 Oct 2020 15:23:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 03/33] scripts: get_abi.pl: Allow optionally record from where a line came from
-Date:   Wed, 28 Oct 2020 15:23:01 +0100
-Message-Id: <3df72157b53d8e858b46b6a4f9574cef48baad55.1603893146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
+        id S2388652AbgJ2Aha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:37:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48130 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730542AbgJ2Agm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Oct 2020 20:36:42 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2632C0613CF;
+        Wed, 28 Oct 2020 17:36:41 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id h21so1520475iob.10;
+        Wed, 28 Oct 2020 17:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hj+EqoJ8khAy+Vvj816RirpNw6YjRUZJZt51nQOVs9A=;
+        b=WDaDEm/HR31rW3seXD21SpWBhLX18ll6nk59wfAMrgPjv7+fXCXdYMu+bbxwtZD3IH
+         reCyayIdO360QckMZOp7SrTSpAiFNwtYzuQuO6tJEr94/pjWHoT64GCDfGsr7//1c/y5
+         2452BZ1SMBbtpQXB/eaFAJ9zoEHxtjICIO/Fy4xLIjZaKQBwvkCgDq5B6TQnzPQRsPIr
+         fUHOx8m7k1oq5ilbErRMNM9z3vEvy66uVJ8W5hIBpMu9u1ixhrxmKD9EEpMO6P8Vus4v
+         eg3362JIW1W46MGWxiMJKSIFCEBHxdduO7FgVcPTvgRLmZ+gkfam/T2LquNGM7aZIJWb
+         52Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hj+EqoJ8khAy+Vvj816RirpNw6YjRUZJZt51nQOVs9A=;
+        b=uMEAJN2s7xhNKUfZxkcavkU6+vyc4b1iTvpzMxIIFUvdprIvyRb6REsy56gCAXrnH4
+         zIaT2OvtMU7InExs3JO1cERHeYJTPi/2EVGw21q/ld0PAbzfPl5l7fe89THQrZbhvXhm
+         P6dYLp4Y8ZeRbTiU+meOVa1xVG8hUE+nbOVv9agEibZHfZLPZ7JoehqAkg4bi7DhgJCY
+         RjnrLpzOzQS7TVfJN2hUdLW7NnOkVnMZgJZfGoOEtut2gBN3Ue0Exr72TxjmzgLM7Hx8
+         XQuSmYbpL9h63O1g0pTzUofybdd5agObdDKQwigox/J402E3+71xCxkrEuEb8LpHsJ3j
+         2j0w==
+X-Gm-Message-State: AOAM533D0ZlSGvZjR5us7Gq4WGrJ/+FfaI73txx3FzSGMk+ehXdGIEwz
+        RNkgoDJXRU1KmFD1fFMy/Ro1Df2ZBplMukcUgxQRfedhMg==
+X-Google-Smtp-Source: ABdhPJxyjvfm11vXjLtnOL7Ew8CVvRI3+5J1kk7AZqwoTBfvzm1Rvt4nRnK4vBW5cI+uszft4zpdV628LBBb1osqpZE=
+X-Received: by 2002:a92:85d5:: with SMTP id f204mr4716737ilh.45.1603864978212;
+ Tue, 27 Oct 2020 23:02:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com>
+ <871rhq7j1h.fsf@nanos.tec.linutronix.de> <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
+ <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com> <87y2js3ghv.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87y2js3ghv.fsf@nanos.tec.linutronix.de>
+From:   Pingfan Liu <kernelfans@gmail.com>
+Date:   Wed, 28 Oct 2020 14:02:45 +0800
+Message-ID: <CAFgQCTtnKB+p5uhRu3JpmBvHbQ8Vhv0TrKek9_3CWbtbcyM1Kw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] warn and suppress irqflood
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        afzal mohammed <afzal.mohd.ma@gmail.com>,
+        Lina Iyer <ilina@codeaurora.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Maulik Shah <mkshah@codeaurora.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
+        Kexec Mailing List <kexec@lists.infradead.org>,
+        Bjorn Helgaas <helgaas@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+On Tue, Oct 27, 2020 at 3:59 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+[...]
+>
+> And contrary to Liu's patches which try to disable a requested interrupt
+> if too many of them arrive, the kernel cannot do anything because there
+> is nothing to disable in your case. That's why you needed to do the MSI
+> disable magic in the early PCI quirks which run before interrupts get
+> enabled.
+>
+> Also Liu's patch only works if:
+>
+>   1) CONFIG_IRQ_TIME_ACCOUNTING is enabled
 
-The get_abi.pl reads a lot of files and can join them on a
-single output file. Store where each "What:" output came from,
-in order to be able to optionally display it.
+I wonder whether it can not be a default option or not by the following method:
+  DEFINE_STATIC_KEY_FALSE(irqtime_account), and enable it according to
+a boot param.
 
-This is useful for the Sphinx extension, with can now be
-able to blame what ABI file has issues, and on what line
-the What: description with problems begin.
+This will have no impact on performance with the disabled branch.
+Meanwhile users can easily turn on the option to detect an irq flood
+without  recompiling the kernel.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/get_abi.pl | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+If it is doable, I will rework only on [1/2].
+>
+>   2) the runaway interrupt has been requested by the relevant driver in
+>      the dump kernel.
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 0c403af86fd5..6a4d387ebf3b 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -10,6 +10,7 @@ use Fcntl ':mode';
- my $help;
- my $man;
- my $debug;
-+my $enable_lineno;
- my $prefix="Documentation/ABI";
- 
- #
-@@ -19,6 +20,7 @@ my $description_is_rst = 0;
- 
- GetOptions(
- 	"debug|d+" => \$debug,
-+	"enable-lineno" => \$enable_lineno,
- 	"rst-source!" => \$description_is_rst,
- 	"dir=s" => \$prefix,
- 	'help|?' => \$help,
-@@ -67,6 +69,7 @@ sub parse_abi {
- 	$data{$nametag}->{file} = $name;
- 	$data{$nametag}->{filepath} = $file;
- 	$data{$nametag}->{is_file} = 1;
-+	$data{$nametag}->{line_no} = 1;
- 
- 	my $type = $file;
- 	$type =~ s,.*/(.*)/.*,$1,;
-@@ -126,6 +129,8 @@ sub parse_abi {
- 			if ($tag ne "" && $new_tag) {
- 				$tag = $new_tag;
- 
-+				$data{$what}->{line_no} = $ln;
-+
- 				if ($new_what) {
- 					@{$data{$what}->{label}} = @labels if ($data{$nametag}->{what});
- 					@labels = ();
-@@ -221,6 +226,12 @@ sub output_rest {
- 		my $file = $data{$what}->{file};
- 		my $filepath = $data{$what}->{filepath};
- 
-+		if ($enable_lineno) {
-+			printf "#define LINENO %s%s#%s\n\n",
-+			       $prefix, $data{$what}->{file},
-+			       $data{$what}->{line_no};
-+		}
-+
- 		my $w = $what;
- 		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
- 
-@@ -369,6 +380,10 @@ sub search_symbols {
- 	}
- }
- 
-+# Ensure that the prefix will always end with a slash
-+# While this is not needed for find, it makes the patch nicer
-+# with --enable-lineno
-+$prefix =~ s,/?$,/,;
- 
- #
- # Parses all ABI files located at $prefix dir
-@@ -395,7 +410,8 @@ abi_book.pl - parse the Linux ABI files and produce a ReST book.
- 
- =head1 SYNOPSIS
- 
--B<abi_book.pl> [--debug] [--man] [--help] --[(no-)rst-source] [--dir=<dir>] <COMAND> [<ARGUMENT>]
-+B<abi_book.pl> [--debug] [--enable-lineno] [--man] [--help]
-+	       [--(no-)rst-source] [--dir=<dir>] <COMAND> [<ARGUMENT>]
- 
- Where <COMMAND> can be:
- 
-@@ -425,6 +441,10 @@ selecting between a rst-compliant source ABI (--rst-source), or a
- plain text that may be violating ReST spec, so it requres some escaping
- logic (--no-rst-source).
- 
-+=item B<--enable-lineno>
-+
-+Enable output of #define LINENO lines.
-+
- =item B<--debug>
- 
- Put the script in verbose mode, useful for debugging. Can be called multiple
--- 
-2.26.2
+Yes, it raises a big challenge to my method. Kdump kernel miss the
+whole picture of the first kernel's irq routing.
 
+Thanks,
+Pingfan
