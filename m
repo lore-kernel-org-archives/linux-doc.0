@@ -2,241 +2,99 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 178D3C2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B915C4363A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:26:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5D2520756
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:16:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2D6820825
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:26:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603988790;
+	bh=AGbrClZ+VS8MDj4+qu/P79fbZI0a9Y/wZY03UqXvbIQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=Uwfxy3YnCV93JG1zbM6ph6wIRmw0M9P9zmhX1UPRo1eW0xCrkXWkKcRyhhUHnu8qs
+	 5/NH+cDN6zjmAPdhYRSk1ZJJw/QslgArJovtmInTrJaHBvA52Sy/InBiblmn41Tvnq
+	 WQ2Rx/V6y46Qzf5/3lfzDEm6nQvgX2QTAXDapttc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbgJ2QQC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 12:16:02 -0400
-Received: from foss.arm.com ([217.140.110.172]:40076 "EHLO foss.arm.com"
+        id S1725841AbgJ2Q03 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 12:26:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725859AbgJ2QQC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:16:02 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90AA6139F;
-        Thu, 29 Oct 2020 09:16:00 -0700 (PDT)
-Received: from [10.57.13.20] (unknown [10.57.13.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 490853F66E;
-        Thu, 29 Oct 2020 09:15:56 -0700 (PDT)
-Subject: Re: [PATCH v3 0/4] Clarify abstract scale usage for power values in
- Energy Model, EAS and IPA
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
-        morten.rasmussen@arm.com, Quentin Perret <qperret@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>
-References: <20201019140601.3047-1-lukasz.luba@arm.com>
- <CAD=FV=UYeo_rWBDRu-53Aw2OeY1NCgCuUJkocRM8xL+OCbJDug@mail.gmail.com>
- <62430cb9-eaab-b215-0eec-d35d3c625406@arm.com>
- <CAD=FV=VA=tYzvb2-WQOJz7UGq-459R4+6xfuPQ-h-iMCKPP9vQ@mail.gmail.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <3ba6ff0a-b4b0-159d-4d38-296652a80b08@arm.com>
-Date:   Thu, 29 Oct 2020 16:15:54 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1725764AbgJ2Q02 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:26:28 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9A74321481;
+        Thu, 29 Oct 2020 16:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603988787;
+        bh=AGbrClZ+VS8MDj4+qu/P79fbZI0a9Y/wZY03UqXvbIQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=1J75wL+fenl4QtKgToscDvcdRQgeJ9ckPQzCnFCgel1JGTOeHbz6thszvlkzq7Yc0
+         afy5SOlJVefndRFGV2SkdGCmJhln4lVP1Vq8/bs74oxMQ9ihBEJRfif0zHcMKHy4By
+         5P4ZjX7werGj7uRVG5cn2B9QiF1paJuVsL9yFAfs=
+Received: by mail-qk1-f177.google.com with SMTP id x20so2457693qkn.1;
+        Thu, 29 Oct 2020 09:26:27 -0700 (PDT)
+X-Gm-Message-State: AOAM532oZamSEpPYosHYFHQHUkwyYgYUxY5Lm21ImTSJdy9BaEYArJ5h
+        HE0ZknshwMjCJBJGMId7nHUPIVJKUR68E6tnii4=
+X-Google-Smtp-Source: ABdhPJyKhwYeabEUTLeiqjDrdTiy26Ddcp+Fv2Yu27W3qNBlCpIN9wtSAH4ct8Pp5ZNA5hi9rwB4IlEYlt8RC94tdJo=
+X-Received: by 2002:a05:620a:b13:: with SMTP id t19mr4215522qkg.3.1603988786437;
+ Thu, 29 Oct 2020 09:26:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=VA=tYzvb2-WQOJz7UGq-459R4+6xfuPQ-h-iMCKPP9vQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201027212448.454129-1-arnd@kernel.org> <20201028055628.GB244117@kroah.com>
+ <20201029085627.698080a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201029085627.698080a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Thu, 29 Oct 2020 17:26:09 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0+C450705M2-mHtvoS1Ogb4YiBCq830d1KAgodKpWK4A@mail.gmail.com>
+Message-ID: <CAK8P3a0+C450705M2-mHtvoS1Ogb4YiBCq830d1KAgodKpWK4A@mail.gmail.com>
+Subject: Re: [RFC] wimax: move out to staging
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
+        Johannes Berg <johannes@sipsolutions.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+n Thu, Oct 29, 2020 at 4:56 PM Jakub Kicinski <kuba@kernel.org> wrote:
+> On Wed, 28 Oct 2020 06:56:28 +0100 Greg Kroah-Hartman wrote:
+> > On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
+> >
+> > Is this ok for me to take through the staging tree?  If so, I need an
+> > ack from the networking maintainers.
+> >
+> > If not, feel free to send it through the networking tree and add:
+> >
+> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> Thinking about it now - we want this applied to -next, correct?
+> In that case it may be better if we take it. The code is pretty dead
+> but syzbot and the trivial fix crowd don't know it, so I may slip,
+> apply something and we'll have a conflict.
 
+I think git will deal with a merge between branches containing
+the move vs fix, so it should work either way.
 
-On 10/29/20 3:39 PM, Doug Anderson wrote:
-> Hi,
-> 
-> On Thu, Oct 29, 2020 at 5:37 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->>
->> On 10/20/20 1:15 AM, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Mon, Oct 19, 2020 at 7:06 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->>>>
->>>> Hi all,
->>>>
->>>> The Energy Model supports power values expressed in an abstract scale.
->>>> This has an impact on Intelligent Power Allocation (IPA) and should be
->>>> documented properly. Kernel sub-systems like EAS, IPA and DTPM
->>>> (new comming PowerCap framework) would use the new flag to capture
->>>> potential miss-configuration where the devices have registered different
->>>> power scales, thus cannot operate together.
->>>>
->>>> There was a discussion below v2 of this patch series, which might help
->>>> you to get context of these changes [2].
->>>>
->>>> The agreed approach is to have the DT as a source of power values expressed
->>>> always in milli-Watts and the only way to submit with abstract scale values
->>>> is via the em_dev_register_perf_domain() API.
->>>>
->>>> Changes:
->>>> v3:
->>>> - added boolean flag to struct em_perf_domain and registration function
->>>>     indicating if EM holds real power values in milli-Watts (suggested by
->>>>     Daniel and aggreed with Quentin)
->>>> - updated documentation regarding this new flag
->>>> - dropped DT binding change for 'sustainable-power'
->>>> - added more maintainers on CC (due to patch 1/4 touching different things)
->>>> v2 [2]:
->>>> - updated sustainable power section in IPA documentation
->>>> - updated DT binding for the 'sustainable-power'
->>>> v1 [1]:
->>>> - simple documenation update with new 'abstract scale' in EAS, EM, IPA
->>>>
->>>> Regards,
->>>> Lukasz Luba
->>>>
->>>> [1] https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
->>>> [2] https://lore.kernel.org/lkml/20201002114426.31277-1-lukasz.luba@arm.com/
->>>>
->>>> Lukasz Luba (4):
->>>>     PM / EM: Add a flag indicating units of power values in Energy Model
->>>>     docs: Clarify abstract scale usage for power values in Energy Model
->>>>     PM / EM: update the comments related to power scale
->>>>     docs: power: Update Energy Model with new flag indicating power scale
->>>>
->>>>    .../driver-api/thermal/power_allocator.rst    | 13 +++++++-
->>>>    Documentation/power/energy-model.rst          | 30 +++++++++++++++----
->>>>    Documentation/scheduler/sched-energy.rst      |  5 ++++
->>>>    drivers/cpufreq/scmi-cpufreq.c                |  3 +-
->>>>    drivers/opp/of.c                              |  2 +-
->>>>    include/linux/energy_model.h                  | 20 ++++++++-----
->>>>    kernel/power/energy_model.c                   | 26 ++++++++++++++--
->>>>    7 files changed, 81 insertions(+), 18 deletions(-)
->>>
->>> While I don't feel like I have enough skin in the game to make any
->>> demands, I'm definitely not a huge fan of this series still.  I am a
->>> fan of documenting reality, but (to me) trying to mix stuff like this
->>> is just going to be adding needless complexity.  From where I'm
->>> standing, it's a lot more of a pain to specify these types of numbers
->>> in the firmware than it is to specify them in the device tree.  They
->>
->> When you have SCMI, you receive power values from FW directly, not using
->> DT.
->>
->>> are harder to customize per board, harder to spin, and harder to
->>> specify constraints for everything in the system (all heat generators,
->>> all cooling devices, etc).  ...and since we already have a way to
->>> specify this type of thing in the device tree and that's super easy
->>> for people to do, we're going to end up with weird mixes / matches of
->>> numbers coming from different locations and now we've got to figure
->>> out which numbers we can use when and which to ignore.  Ick.
->>
->> This is not that bad as you described. When you have SCMI and FW
->> all your perf domains should be aligned to the same scale.
->> In example, you have 4 little CPU, 3 big CPUs, 1 super big CPU,
->> 1 GPU, 1 DSP. For all of them the SCMI get_power callback should return
->> consistent values. You don't have to specify anything else or rev-eng.
->> Then a client like EAS would use those values from CPUs to estimate
->> energy and this works fine. Another client: IPA, which would use
->> all of them and also works fine.
-> 
-> I guess I'm confused.  When using SCMI and FW, are there already code
-> paths to get the board-specific "sustainable-power" from SCMI and FW?
-> 
-> I know that "sustainable-power" is not truly necessary.  IIRC some of
-> the code assumes that the lowest power state of all components must be
-> sustainable and uses that.  However, though this makes the code work,
-> it's far from ideal.  I don't want to accept a mediocre solution here.
+A downside of having the move in net-next would be that
+you'd get trivial fixes send to Greg, but him being unable to
+apply them to his tree because the code is elsewhere.
 
-As you said, sustainable power would be estimated when it is not coming
-from DT. Currently it would be done based on lowest allowed OPPs. I am
-trying to address this by marking OPP as sustainable [1]. The estimation 
-would be more accurate (and also the derived coefficients).
+If you think it helps, I could prepare a pull request with this one
+patch (and probably the bugfix I sent first that triggered it), and
+then you can both merge the branch into net-next as well
+as staging-next.
 
-> 
-> In any case, I'm saying that even if "sustainable-power" can come from
-> firmware, it's not as ideal of a place for it to live.  Maybe my
-> experience on Chromebooks is different from the rest of upstream, but
-> it's generally quite easy to adjust the device tree for a board and
-> much harder to convince firmware folks to put a board-specific table
-> of values.
-
-The sysfs (which is there) is even easier for this adjustment than DT.
-
-> 
-> 
->>> In my opinion the only way to allow for mixing and matching the
->>> bogoWatts and real Watts would be to actually have units and the
->>> ability to provide a conversion factor somewhere.  Presumably that
->>> might give you a chance of mixing and matching if someone wants to
->>> provide some stuff in device tree and get other stuff from the
->>> firmware.  Heck, I guess you could even magically figure out a
->>> conversion factor if someone provides device tree numbers for
->>> something that was already registered in SCMI, assuming all the SCMI
->>> numbers are consistent with each other...
->>
->> What you demand here is another code path, just to support revers
->> engineered power values for SCMI devices, which are stored in DT.
->> Then the SCMI protocol code and drivers should take them into account
->> and abandon standard implementation and use these values to provide
->> 'hacked' power numbers to EM. Am I right?
->> It is not going to happen.
-> 
-> Quite honestly, all I want to be able to do is to provide a
-> board-specific "sustainable-power" and have it match with the
-> power-coefficients.  Thus:
-> 
-> * If device tree accepted abstract scale, we'd be done and I'd shut
-> up.  ...but Rob has made it quite clear that this is a no-go.
-> 
-> * If it was super easy to add all these values into firmware for a
-> board and we could totally remove these from the device tree, I'd
-> grumble a bit about firmware being a terrible place for this but at
-> least we'd have a solution and we'd be done and I'd shut up.  NOTE: I
-> don't know ATF terribly well, but I'd guess that this needs to go
-> there?  Presumably part of this is convincing firmware folks to add
-> this board-specific value there...
-
-The SCMI spec that we are talking supports 'sustained performance'
-level for each performance domain. You can check doc [2] table 11
-for the definition. In SCMI there is no concept of 'sustainable-power'
-which would substitute the missing DT value. But we can estimate it
-more accurately based on sustainable OPP.
-You can check how I am going to feed that FW value into the OPP in patch
-4/4 of [3]. I am also working on improved estimation patch set v4 for
-IPA (some description of an issue in v2 [4], latest v3 is here [5]),
-which is using the proposed sustainable OPP concept (Viresh mentioned
-he would like to see the user of that).
-
-As you can see, I am not going to leave you with this issue ;)
-
-Regards,
-Lukasz
-
-
-[1] 
-https://lore.kernel.org/linux-pm/20201028140847.1018-1-lukasz.luba@arm.com/
-[2] https://developer.arm.com/documentation/den0056/b
-[3] 
-https://lore.kernel.org/linux-pm/20201028140847.1018-5-lukasz.luba@arm.com/
-[4] 
-https://lore.kernel.org/linux-pm/5f682bbb-b250-49e6-dbb7-aea522a58595@arm.com/
-[5] https://lore.kernel.org/lkml/20201009135850.14727-1-lukasz.luba@arm.com/
-
-> 
-> -Doug
-> 
+      Arnd
