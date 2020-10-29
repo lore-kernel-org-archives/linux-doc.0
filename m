@@ -6,54 +6,40 @@ X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B915C4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:26:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F36C55179
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:32:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2D6820825
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:26:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C821220790
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 16:32:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603988790;
-	bh=AGbrClZ+VS8MDj4+qu/P79fbZI0a9Y/wZY03UqXvbIQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=Uwfxy3YnCV93JG1zbM6ph6wIRmw0M9P9zmhX1UPRo1eW0xCrkXWkKcRyhhUHnu8qs
-	 5/NH+cDN6zjmAPdhYRSk1ZJJw/QslgArJovtmInTrJaHBvA52Sy/InBiblmn41Tvnq
-	 WQ2Rx/V6y46Qzf5/3lfzDEm6nQvgX2QTAXDapttc=
+	s=default; t=1603989129;
+	bh=9qhq57YW26n72bx0xGHlYkeFUw8S8iXUH+E7GrcU/d0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=y+HbPEnbNCQ3i7I1iqSYfjGHJ1KomLMvpH2irozFUj9pWeZaI1ajE750fA6UzQUs6
+	 aEp2NabpVjoWH0nw/k2mmzguz2oEMwPBnVRvFiajEc6fEG1AXXfisRRKfaE//gtsWr
+	 d3gDfVQDQ1tJe4Du5eUmm7FZgHRNfhlh1x0W0fCY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725841AbgJ2Q03 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 12:26:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45312 "EHLO mail.kernel.org"
+        id S1727082AbgJ2Qbz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 12:31:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47798 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725764AbgJ2Q02 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:26:28 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1727075AbgJ2QaU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:30:20 -0400
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9A74321481;
-        Thu, 29 Oct 2020 16:26:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A842E20790;
+        Thu, 29 Oct 2020 16:30:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603988787;
-        bh=AGbrClZ+VS8MDj4+qu/P79fbZI0a9Y/wZY03UqXvbIQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=1J75wL+fenl4QtKgToscDvcdRQgeJ9ckPQzCnFCgel1JGTOeHbz6thszvlkzq7Yc0
-         afy5SOlJVefndRFGV2SkdGCmJhln4lVP1Vq8/bs74oxMQ9ihBEJRfif0zHcMKHy4By
-         5P4ZjX7werGj7uRVG5cn2B9QiF1paJuVsL9yFAfs=
-Received: by mail-qk1-f177.google.com with SMTP id x20so2457693qkn.1;
-        Thu, 29 Oct 2020 09:26:27 -0700 (PDT)
-X-Gm-Message-State: AOAM532oZamSEpPYosHYFHQHUkwyYgYUxY5Lm21ImTSJdy9BaEYArJ5h
-        HE0ZknshwMjCJBJGMId7nHUPIVJKUR68E6tnii4=
-X-Google-Smtp-Source: ABdhPJyKhwYeabEUTLeiqjDrdTiy26Ddcp+Fv2Yu27W3qNBlCpIN9wtSAH4ct8Pp5ZNA5hi9rwB4IlEYlt8RC94tdJo=
-X-Received: by 2002:a05:620a:b13:: with SMTP id t19mr4215522qkg.3.1603988786437;
- Thu, 29 Oct 2020 09:26:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201027212448.454129-1-arnd@kernel.org> <20201028055628.GB244117@kroah.com>
- <20201029085627.698080a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201029085627.698080a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Thu, 29 Oct 2020 17:26:09 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0+C450705M2-mHtvoS1Ogb4YiBCq830d1KAgodKpWK4A@mail.gmail.com>
-Message-ID: <CAK8P3a0+C450705M2-mHtvoS1Ogb4YiBCq830d1KAgodKpWK4A@mail.gmail.com>
-Subject: Re: [RFC] wimax: move out to staging
-To:     Jakub Kicinski <kuba@kernel.org>
+        s=default; t=1603989019;
+        bh=9qhq57YW26n72bx0xGHlYkeFUw8S8iXUH+E7GrcU/d0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=RTrNaTsY/n9cT4d2kzaUUdjJl1Qe6hy0UVi5cERrFdZ4x9yGkPVT3KsH9hOTl+xT6
+         Nl7zLXZIhvuR2tzd/kokkwdVIJqs33gIeNgbj7cIM4JYi4ODaqN78gzUCahvRRp/7e
+         VxmGh66H6uGi4/k+rW2q03PCMg4SkBKorJz9dD3w=
+Date:   Thu, 29 Oct 2020 09:30:17 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
@@ -64,37 +50,49 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
         Johannes Berg <johannes@sipsolutions.net>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC] wimax: move out to staging
+Message-ID: <20201029093017.01e7b1a2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <CAK8P3a0+C450705M2-mHtvoS1Ogb4YiBCq830d1KAgodKpWK4A@mail.gmail.com>
+References: <20201027212448.454129-1-arnd@kernel.org>
+        <20201028055628.GB244117@kroah.com>
+        <20201029085627.698080a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <CAK8P3a0+C450705M2-mHtvoS1Ogb4YiBCq830d1KAgodKpWK4A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-n Thu, Oct 29, 2020 at 4:56 PM Jakub Kicinski <kuba@kernel.org> wrote:
-> On Wed, 28 Oct 2020 06:56:28 +0100 Greg Kroah-Hartman wrote:
-> > On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
+On Thu, 29 Oct 2020 17:26:09 +0100 Arnd Bergmann wrote:
+> n Thu, Oct 29, 2020 at 4:56 PM Jakub Kicinski <kuba@kernel.org> wrote:
+> > On Wed, 28 Oct 2020 06:56:28 +0100 Greg Kroah-Hartman wrote:  
+> > > On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
+> > >
+> > > Is this ok for me to take through the staging tree?  If so, I need an
+> > > ack from the networking maintainers.
+> > >
+> > > If not, feel free to send it through the networking tree and add:
+> > >
+> > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>  
 > >
-> > Is this ok for me to take through the staging tree?  If so, I need an
-> > ack from the networking maintainers.
-> >
-> > If not, feel free to send it through the networking tree and add:
-> >
-> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> Thinking about it now - we want this applied to -next, correct?
-> In that case it may be better if we take it. The code is pretty dead
-> but syzbot and the trivial fix crowd don't know it, so I may slip,
-> apply something and we'll have a conflict.
+> > Thinking about it now - we want this applied to -next, correct?
+> > In that case it may be better if we take it. The code is pretty dead
+> > but syzbot and the trivial fix crowd don't know it, so I may slip,
+> > apply something and we'll have a conflict.  
+> 
+> I think git will deal with a merge between branches containing
+> the move vs fix, so it should work either way.
+> 
+> A downside of having the move in net-next would be that
+> you'd get trivial fixes send to Greg, but him being unable to
+> apply them to his tree because the code is elsewhere.
+> 
+> If you think it helps, I could prepare a pull request with this one
+> patch (and probably the bugfix I sent first that triggered it), and
+> then you can both merge the branch into net-next as well
+> as staging-next.
 
-I think git will deal with a merge between branches containing
-the move vs fix, so it should work either way.
+If you wouldn't mind branch sounds like the best solution.
 
-A downside of having the move in net-next would be that
-you'd get trivial fixes send to Greg, but him being unable to
-apply them to his tree because the code is elsewhere.
-
-If you think it helps, I could prepare a pull request with this one
-patch (and probably the bugfix I sent first that triggered it), and
-then you can both merge the branch into net-next as well
-as staging-next.
-
-      Arnd
+Acked-by: Jakub Kicinski <kuba@kernel.org>
