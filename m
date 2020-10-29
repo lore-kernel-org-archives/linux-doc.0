@@ -2,125 +2,299 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C680C4742C
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 22:12:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 708EAC55179
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 23:54:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3C2521548
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 22:12:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A2CB20838
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 23:54:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fzOwRKHY"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="SQWqXp17"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725785AbgJ2WMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 18:12:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbgJ2WMe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 18:12:34 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 181E2C0613D2;
-        Thu, 29 Oct 2020 15:12:00 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id t25so5873823ejd.13;
-        Thu, 29 Oct 2020 15:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kL0Yi6GqHZd0HFiCnH2b3WCCTf5AQEQ2NzzoThy/rtE=;
-        b=fzOwRKHY/12iFmIoU80+6gMBemG8HPQ+jsLdIeT115e2c19w8gSdjfTT79hvaL+Iup
-         YekYWWhuhjaa4RG3NzExAjNYT5xiAB6DqrE9nfcCDbRg/IR3+6L3TuRhMhiRrjiVCINF
-         XaJIHxpVDC1xodQqJB6/4Hc+dsh95tPyQn0dWI7lBihg9B4F+YzoG2hTVXvcyubEkrfE
-         VicbtpESfCHiJOKf+dnrvVILEJVabbbDLy6KPWUDuanEasNUfzqka0dc5Li3FGxzWJnb
-         u7SnhCjYIp/OLFOtTxndNCVAGV0Te7z/KvzI7yeX58BIUhR74bQjek+MO30jH9CwR4Nk
-         416Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kL0Yi6GqHZd0HFiCnH2b3WCCTf5AQEQ2NzzoThy/rtE=;
-        b=SG3nWm7nyneqxOb5CJhmmzXvY7gyPiPLm4PD0qxW+A536e4a/cZ+/xlrJi2P07ys9m
-         vTweXw3J0UmIQOJwVpOSOX2pcUzaCcUW4CJU9Rz+048L8RRaB5/ADNrml1sgQFl3FYhd
-         xXFXl9rnW5FgJnXqLyS54ckLWY7S2LxNvfosH80D9RtS7lvbDwhkoMh4nAAAOIfx8Pfa
-         h9hENobnTDYbm+N3JEpLfq7UPQznRYyFfPRKEJx5y5/VSZD7eoLaFUkQ/ZRw3PmKaz5M
-         jEP3t9dYRzRY5P8MMNsiU/6qhdu/VlACxsXHV7uyryxixmkYibfaGRH566cEk9Rchy5k
-         iybw==
-X-Gm-Message-State: AOAM53378sMs3vpv1YFd8lFXtifmXvBtu2qXzhIownUqkbDEg+AHGq4Y
-        7OX4WGPCAdJDviwBA4i70DPln+1i80o=
-X-Google-Smtp-Source: ABdhPJxSiAqkMUh9hKBJQrc4HLomMJONGvB4r3lqUPx+fdOrNK5fZTFCsiQgF0vq9gQ5rYuLknFgGA==
-X-Received: by 2002:a17:906:4e19:: with SMTP id z25mr6503286eju.44.1604009518582;
-        Thu, 29 Oct 2020 15:11:58 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:5806:1c4:f304:93f0? ([2a01:110f:b59:fd00:5806:1c4:f304:93f0])
-        by smtp.gmail.com with ESMTPSA id o15sm2114369ejm.38.2020.10.29.15.11.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2020 15:11:57 -0700 (PDT)
-Subject: Re: [PATCH 33/33] docs: ABI: unify
- /sys/class/leds/<led>/max_brightness documentation
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Dan Murphy <dmurphy@ti.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
- <2c95a4d8d1b4be2f839464ebc63bfcee6b70276a.1603893146.git.mchehab+huawei@kernel.org>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <514e13de-b6f6-1df1-ddfe-5a1a2ca8fb87@gmail.com>
-Date:   Thu, 29 Oct 2020 23:11:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1726009AbgJ2Xyq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 19:54:46 -0400
+Received: from m42-4.mailgun.net ([69.72.42.4]:58783 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725794AbgJ2Xyq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Oct 2020 19:54:46 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1604015684; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=UKnFIdqE4c4/eK5bgPM/Go9F5VvlHNdTmmj4BroznaM=; b=SQWqXp17dfocq4YEeh3nc/snl1h9KzZQoV9g0csmFSN44SwC1GbK5YDue4yxfCvFNVUKfskg
+ hxY0AUDA69MCpBuVriQ4otGuxqs14STxH9CL7pno/iGQKBVy7e0SYIYD49qE+8HMCqcuWKKG
+ ypBJhEHDsolQOhMNU/X2qvZp2WE=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f9b5644c3d7c9858aa41264 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Oct 2020 23:54:44
+ GMT
+Sender: sidgup=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 38C2CC433F0; Thu, 29 Oct 2020 23:54:44 +0000 (UTC)
+Received: from [192.168.1.10] (cpe-75-83-25-192.socal.res.rr.com [75.83.25.192])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sidgup)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4C46BC433C6;
+        Thu, 29 Oct 2020 23:54:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4C46BC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
+Subject: Re: [PATCH v6 2/4] remoteproc: coredump: Add minidump functionality
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     agross@kernel.org, ohad@wizery.com,
+        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+References: <1601690757-25726-1-git-send-email-sidgup@codeaurora.org>
+ <1601690757-25726-3-git-send-email-sidgup@codeaurora.org>
+ <20201026210912.GA4611@builder.lan>
+From:   Siddharth Gupta <sidgup@codeaurora.org>
+Message-ID: <ad4c375b-7051-bcce-a86c-febb72267caa@codeaurora.org>
+Date:   Thu, 29 Oct 2020 16:54:41 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <2c95a4d8d1b4be2f839464ebc63bfcee6b70276a.1603893146.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20201026210912.GA4611@builder.lan>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
 
-Patch title needs fixing:
+On 10/26/2020 2:09 PM, Bjorn Andersson wrote:
+> On Fri 02 Oct 21:05 CDT 2020, Siddharth Gupta wrote:
+>
+>> This change adds a new kind of core dump mechanism which instead of dumping
+>> entire program segments of the firmware, dumps sections of the remoteproc
+>> memory which are sufficient to allow debugging the firmware. This function
+>> thus uses section headers instead of program headers during creation of the
+>> core dump elf.
+>>
+>> Signed-off-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
+>> Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+>> ---
+>>   drivers/remoteproc/remoteproc_coredump.c    | 132 ++++++++++++++++++++++++++++
+>>   drivers/remoteproc/remoteproc_elf_helpers.h |  27 ++++++
+>>   include/linux/remoteproc.h                  |   1 +
+>>   3 files changed, 160 insertions(+)
+>>
+>> diff --git a/drivers/remoteproc/remoteproc_coredump.c b/drivers/remoteproc/remoteproc_coredump.c
+>> index bb15a29..e7d1394 100644
+>> --- a/drivers/remoteproc/remoteproc_coredump.c
+>> +++ b/drivers/remoteproc/remoteproc_coredump.c
+>> @@ -13,6 +13,8 @@
+>>   #include "remoteproc_internal.h"
+>>   #include "remoteproc_elf_helpers.h"
+>>   
+>> +#define MAX_STRTBL_SIZE 512
+>> +
+>>   struct rproc_coredump_state {
+>>   	struct rproc *rproc;
+>>   	void *header;
+>> @@ -323,3 +325,133 @@ void rproc_coredump(struct rproc *rproc)
+>>   	 */
+>>   	wait_for_completion(&dump_state.dump_done);
+>>   }
+>> +
+>> +/**
+>> + * rproc_minidump() - perform minidump
+>> + * @rproc:	rproc handle
+>> + *
+>> + * This function will generate an ELF header for the registered sections of
+>> + * segments and create a devcoredump device associated with rproc. Based on
+>> + * the coredump configuration this function will directly copy the segments
+>> + * from device memory to userspace or copy segments from device memory to
+>> + * a separate buffer, which can then be read by userspace.
+>> + * The first approach avoids using extra vmalloc memory. But it will stall
+>> + * recovery flow until dump is read by userspace.
+>> + */
+>> +void rproc_minidump(struct rproc *rproc)
+> Just to confirm, this does the same thing as rproc_coredump() with the
+> difference that instead of storing the segments in program headers, you
+> reference them using section headers?
 
-s/max_brightness/brightness/
+Yes, that is correct.
 
-On 10/28/20 3:23 PM, Mauro Carvalho Chehab wrote:
-> This ABI is defined twice, one for normal leds and another
-> one for multicolor ones.
-> 
-> Ensure that just one definition is there at ABI.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   Documentation/ABI/testing/sysfs-class-led     | 25 ++++++++++++++++---
->   .../ABI/testing/sysfs-class-led-multicolor    | 23 +++++------------
->   2 files changed, 28 insertions(+), 20 deletions(-)
-> 
-[...]
-> +
->   What:		/sys/class/leds/<led>/max_brightness
->   Date:		March 2006
->   KernelVersion:	2.6.17
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> index eeeddcbdbbe3..16fc827b10cb 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -1,20 +1,3 @@
-> -What:		/sys/class/leds/<led>/brightness
-> -Date:		March 2020
-> -KernelVersion:	5.9
-> -Contact:	Dan Murphy <dmurphy@ti.com>
-> -Description:	read/write
-> -		Writing to this file will update all LEDs within the group to a
-> -		calculated percentage of what each color LED intensity is set
-> -		to. The percentage is calculated for each grouped LED via the
-> -		equation below:
+>
+>> +{
+>> +	struct rproc_dump_segment *segment;
+>> +	void *shdr;
+>> +	void *ehdr;
+>> +	size_t data_size;
+>> +	size_t offset;
+>> +	void *data;
+>> +	u8 class = rproc->elf_class;
+>> +	int shnum;
+>> +	struct rproc_coredump_state dump_state;
+>> +	unsigned int dump_conf = rproc->dump_conf;
+>> +	char *str_tbl = "STR_TBL";
+>> +
+>> +	if (list_empty(&rproc->dump_segments) ||
+>> +	    dump_conf == RPROC_COREDUMP_DISABLED)
+>> +		return;
+>> +
+>> +	if (class == ELFCLASSNONE) {
+>> +		dev_err(&rproc->dev, "Elf class is not set\n");
+>> +		return;
+>> +	}
+>> +
+>> +	/*
+>> +	 * We allocate two extra section headers. The first one is null.
+>> +	 * Second section header is for the string table. Also space is
+>> +	 * allocated for string table.
+>> +	 */
+>> +	data_size = elf_size_of_hdr(class) + 2 * elf_size_of_shdr(class) +
+>> +		    MAX_STRTBL_SIZE;
+> Once you start populating the string table there's no checks that this
+> isn't overrun.
+I will update the code to dynamically allocate space for the STRTBL.
+>
+> But really
+>
+>> +	shnum = 2;
+>> +
+>> +	list_for_each_entry(segment, &rproc->dump_segments, node) {
+>> +		data_size += elf_size_of_shdr(class);
+>> +		if (dump_conf == RPROC_COREDUMP_DEFAULT)
+>> +			data_size += segment->size;
+>> +		shnum++;
+>> +	}
+>> +
+>> +	data = vmalloc(data_size);
+>> +	if (!data)
+>> +		return;
+>> +
+>> +	ehdr = data;
+>> +	memset(ehdr, 0, elf_size_of_hdr(class));
+>> +	/* e_ident field is common for both elf32 and elf64 */
+>> +	elf_hdr_init_ident(ehdr, class);
+>> +
+>> +	elf_hdr_set_e_type(class, ehdr, ET_CORE);
+>> +	elf_hdr_set_e_machine(class, ehdr, rproc->elf_machine);
+>> +	elf_hdr_set_e_version(class, ehdr, EV_CURRENT);
+>> +	elf_hdr_set_e_entry(class, ehdr, rproc->bootaddr);
+>> +	elf_hdr_set_e_shoff(class, ehdr, elf_size_of_hdr(class));
+>> +	elf_hdr_set_e_ehsize(class, ehdr, elf_size_of_hdr(class));
+>> +	elf_hdr_set_e_shentsize(class, ehdr, elf_size_of_shdr(class));
+>> +	elf_hdr_set_e_shnum(class, ehdr, shnum);
+>> +	elf_hdr_set_e_shstrndx(class, ehdr, 1);
+>> +
+>> +	/* Set the first section header as null and move to the next one. */
+>> +	shdr = data + elf_hdr_get_e_shoff(class, ehdr);
+>> +	memset(shdr, 0, elf_size_of_shdr(class));
+>> +	shdr += elf_size_of_shdr(class);
+>> +
+>> +	/* Initialize the string table. */
+>> +	offset = elf_hdr_get_e_shoff(class, ehdr) +
+>> +		 elf_size_of_shdr(class) * elf_hdr_get_e_shnum(class, ehdr);
+>> +	memset(data + offset, 0, MAX_STRTBL_SIZE);
+>> +
+>> +	/* Fill in the string table section header. */
+>> +	memset(shdr, 0, elf_size_of_shdr(class));
+>> +	elf_shdr_set_sh_type(class, shdr, SHT_STRTAB);
+>> +	elf_shdr_set_sh_offset(class, shdr, offset);
+>> +	elf_shdr_set_sh_size(class, shdr, MAX_STRTBL_SIZE);
+>> +	elf_shdr_set_sh_entsize(class, shdr, 0);
+>> +	elf_shdr_set_sh_flags(class, shdr, 0);
+>> +	elf_shdr_set_sh_name(class, shdr, set_section_name(str_tbl, ehdr, class));
+>> +	offset += elf_shdr_get_sh_size(class, shdr);
+>> +	shdr += elf_size_of_shdr(class);
+> I assume this last part creates the null entry? How about mentioning
+> that in a comment - and perhaps why there needs to be a null entry.
+Okay sure. I will add that comment.
+>
+>> +
+>> +	list_for_each_entry(segment, &rproc->dump_segments, node) {
+>> +		memset(shdr, 0, elf_size_of_shdr(class));
+>> +		elf_shdr_set_sh_type(class, shdr, SHT_PROGBITS);
+>> +		elf_shdr_set_sh_offset(class, shdr, offset);
+>> +		elf_shdr_set_sh_addr(class, shdr, segment->da);
+>> +		elf_shdr_set_sh_size(class, shdr, segment->size);
+>> +		elf_shdr_set_sh_entsize(class, shdr, 0);
+>> +		elf_shdr_set_sh_flags(class, shdr, SHF_WRITE);
+>> +		elf_shdr_set_sh_name(class, shdr,
+>> +				     set_section_name(segment->priv, ehdr, class));
+>> +
+>> +		/* No need to copy segments for inline dumps */
+>> +		if (dump_conf == RPROC_COREDUMP_DEFAULT)
+>> +			rproc_copy_segment(rproc, data + offset, segment, 0,
+>> +					   segment->size);
+>> +		offset += elf_shdr_get_sh_size(class, shdr);
+>> +		shdr += elf_size_of_shdr(class);
+>> +	}
+>> +
+>> +	if (dump_conf == RPROC_COREDUMP_DEFAULT) {
+>> +		dev_coredumpv(&rproc->dev, data, data_size, GFP_KERNEL);
+>> +		return;
+>> +	}
+>> +
+>> +	/* Initialize the dump state struct to be used by rproc_coredump_read */
+>> +	dump_state.rproc = rproc;
+>> +	dump_state.header = data;
+>> +	init_completion(&dump_state.dump_done);
+>> +
+>> +	dev_coredumpm(&rproc->dev, NULL, &dump_state, data_size, GFP_KERNEL,
+>> +		      rproc_coredump_read, rproc_coredump_free);
+>> +
+>> +	/* Wait until the dump is read and free is called. Data is freed
+>> +	 * by devcoredump framework automatically after 5 minutes.
+>> +	 */
+>> +	wait_for_completion(&dump_state.dump_done);
+>> +}
+>> +EXPORT_SYMBOL(rproc_minidump);
+>> diff --git a/drivers/remoteproc/remoteproc_elf_helpers.h b/drivers/remoteproc/remoteproc_elf_helpers.h
+>> index 4b6be7b..d83ebca 100644
+>> --- a/drivers/remoteproc/remoteproc_elf_helpers.h
+>> +++ b/drivers/remoteproc/remoteproc_elf_helpers.h
+>> @@ -11,6 +11,7 @@
+>>   #include <linux/elf.h>
+>>   #include <linux/types.h>
+>>   
+>> +#define MAX_NAME_LENGTH 16
+> This name is too generic. Why is it 16?
 
+I will update the name to  MAX_SHDR_NAME_LEN. In our usecase we didn't 
+expect a length of the section name to exceed
+16 characters (MAX_REGION_NAME_LENGTH defined in qcom_minidump.h in 
+patch 03/04). It might change later if users
+want to increase the size. What would you prefer the max name length for 
+the section header to be?
 
--- 
-Best regards,
-Jacek Anaszewski
+>
+>> +static inline unsigned int set_section_name(const char *name, void *ehdr,
+>> +					    u8 class)
+>> +{
+>> +	u16 shstrndx = elf_hdr_get_e_shstrndx(class, ehdr);
+>> +	void *shdr;
+>> +	char *strtab;
+>> +	static int strtable_idx = 1;
+> This can't be static as this will only start at 1 on the first
+> invocation of rproc_minidump().
+>
+> I think it would be perfectly fine if you simply scan the string list to
+> find the next available slot.
+Right. I will update this as well.
+>
+>> +	int idx, ret = 0;
+> No need to initialize ret as the first usage is an assignment.
+>
+> Regards,
+> Bjorn
+
+I will make this change as well.
+
+Thanks,
+Siddharth
+
