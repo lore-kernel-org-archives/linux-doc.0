@@ -2,75 +2,84 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE395C4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 17:16:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75AB1C2D0A3
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 17:39:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91C4F20796
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 17:16:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F43C20796
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 17:39:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JNLfL+q2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725777AbgJ2RQd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 13:16:33 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:56842 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgJ2RQd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 13:16:33 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4A6E11C0B7A; Thu, 29 Oct 2020 18:16:30 +0100 (CET)
-Date:   Thu, 29 Oct 2020 18:16:29 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 33/33] docs: ABI: unify
- /sys/class/leds/<led>/max_brightness documentation
-Message-ID: <20201029171629.GA23031@duo.ucw.cz>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
- <2c95a4d8d1b4be2f839464ebc63bfcee6b70276a.1603893146.git.mchehab+huawei@kernel.org>
+        id S1727288AbgJ2RjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 13:39:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50414 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725971AbgJ2RjH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 13:39:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603993147;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AE8iG4REro15Im3TL5Naa7NUzTu8WebRiVJY/Ow6g80=;
+        b=JNLfL+q2RgtgnkVSvL8NoQwm+5CTHiXNrsQPQvpzFbltdu1Fr+2N4r1PcUgZhwvdDd7E8o
+        7AgYryNTBSbce1euEJTyM5j9yWE8dkv8rxk3hlZAk3OMbHsVWvnos0GnrgeqFiTVUz0xcO
+        wD3aIRuqhEpcYtl6g4+uJAu5rwzOPjA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-9SpVsVVpP3WLKtG8tVAufA-1; Thu, 29 Oct 2020 13:39:02 -0400
+X-MC-Unique: 9SpVsVVpP3WLKtG8tVAufA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F86C807342;
+        Thu, 29 Oct 2020 17:39:01 +0000 (UTC)
+Received: from ovpn-115-9.ams2.redhat.com (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5C9B3614F5;
+        Thu, 29 Oct 2020 17:38:58 +0000 (UTC)
+Message-ID: <8fad8d1ae7554fe4f752f86016a0a0f2eaca8f89.camel@redhat.com>
+Subject: Re: [PATCH net-next 2/3] net/core: introduce default_rps_mask netns
+ attribute
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Date:   Thu, 29 Oct 2020 18:38:57 +0100
+In-Reply-To: <20201029081632.2516a39b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <cover.1603906564.git.pabeni@redhat.com>
+         <9e86568c264696dbe0fd44b2a8662bd233e2c3e8.1603906564.git.pabeni@redhat.com>
+         <20201029081632.2516a39b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
-Content-Disposition: inline
-In-Reply-To: <2c95a4d8d1b4be2f839464ebc63bfcee6b70276a.1603893146.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 2020-10-29 at 08:16 -0700, Jakub Kicinski wrote:
+> On Wed, 28 Oct 2020 18:46:02 +0100 Paolo Abeni wrote:
+> > @@ -46,6 +47,54 @@ int sysctl_devconf_inherit_init_net __read_mostly;
+> >  EXPORT_SYMBOL(sysctl_devconf_inherit_init_net);
+> >  
+> >  #ifdef CONFIG_RPS
+> > +struct cpumask rps_default_mask;
+> 
+> net/core/sysctl_net_core.c:50:16: warning: symbol 'rps_default_mask' was not declared. Should it be static?
 
---Dxnq1zWXvFF0Q93v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the feedback! I'll address that in v2.
 
-On Wed 2020-10-28 15:23:31, Mauro Carvalho Chehab wrote:
-> This ABI is defined twice, one for normal leds and another
-> one for multicolor ones.
->=20
-> Ensure that just one definition is there at ABI.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cheers,
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+Paolo
 
---=20
-http://www.livejournal.com/~pavelmachek
-
---Dxnq1zWXvFF0Q93v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX5r47QAKCRAw5/Bqldv6
-8s1oAKC0G725MNSzdT2m55zX+va7YYSddwCfZQAimF33+PaK+2UTeBGnISx8DH4=
-=pu9C
------END PGP SIGNATURE-----
-
---Dxnq1zWXvFF0Q93v--
