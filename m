@@ -2,236 +2,192 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E5CC5DF9D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 07:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB03C55178
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 08:07:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E91DD214DB
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 07:44:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oUly++na"
+	by mail.kernel.org (Postfix) with ESMTP id 91D6920796
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 08:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730209AbgJ2HkJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 03:40:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727316AbgJ2HYw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 03:24:52 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF152C05BD14;
-        Wed, 28 Oct 2020 23:26:19 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id x13so1488076pfa.9;
-        Wed, 28 Oct 2020 23:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=N3XX0uSvnfZ3G2nWpfjOMRu++gpGLVSi+ubPYjUwWYM=;
-        b=oUly++naKV0LQYVh+Amd3XknEENV8SGuUrv/eNBs2fzjayE/725qcLB6fNESQyOG7T
-         8MSr1XfRtnCl+GJukHyDkm1s0Mx5MbzFcXSPuRRunofVdJhSFGXfME5+3U4nGu/Q4p75
-         lCIzmj4sRoZa1zLxcsIKuvAALyr1e73mZ0JMI4oHv1nnd5tgs6Bg7V5qrwgD/hTXMuSD
-         2dA5Y0T15s7JEC0MwwhIlWbrQQQx6dFExARveXWK0JELa+bJLkdrn6Z1Ptdjv1cn2999
-         IjxlNE2sPUx9prAUY7xZxCrj2OnSRyC7kh6inrSzpEFpq2o7/wcFCAmpulLS0pHPpP5J
-         v4Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=N3XX0uSvnfZ3G2nWpfjOMRu++gpGLVSi+ubPYjUwWYM=;
-        b=p/Hj7vau4q2l+e1qOJRti+LJrQXRkGLwvKvf+84Y+ZAlkDiYWk/NC/jszsgTCdMS+N
-         pWnl5e/NmX4RFvUiwWhck1DSj4FMZaYtbvwWr1UNCVEqCIuHbW76kC22qQAL4blsDnKR
-         kwkQEkoUPDk0gXGdJIcbBd9vhQQPrr66j5btmRf1Bk8M4KOpg5KBtvRfAH99DPOGOY1G
-         NwlUIs2gsaXqLCKC7VIA5tU3G/p+1mzGwF/lC4AU42JA2U4komoByYcmMyEM/j0onwUi
-         xvEgBwwFu4In69KL/tRPWiYGarYSDar+uHAwI52rClsss4QrpSOeFun/bbVXB8oL6KTY
-         vwxA==
-X-Gm-Message-State: AOAM533fvKhNu7uFll24PBV2mO24kaFy624xPoHeiy4SK0/1YwhE+BvA
-        1kUVoL9Dq4/BUI9uWzP6fA==
-X-Google-Smtp-Source: ABdhPJxlhBd/gb7H+y95w78BSUar9DtgF2a0JmSRzY4uddMUBsat1zay9WPDGHVjeve3MHWaIiEefQ==
-X-Received: by 2002:a62:4e0f:0:b029:156:13e0:efa7 with SMTP id c15-20020a624e0f0000b029015613e0efa7mr2652788pfb.73.1603952779448;
-        Wed, 28 Oct 2020 23:26:19 -0700 (PDT)
-Received: from x1pad ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id v125sm1568409pfv.75.2020.10.28.23.26.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 23:26:18 -0700 (PDT)
-Date:   Thu, 29 Oct 2020 14:26:00 +0800
-From:   Pingfan Liu <kernelfans@gmail.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>, Marc Zyngier <maz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        afzal mohammed <afzal.mohd.ma@gmail.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Maulik Shah <mkshah@codeaurora.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S1726714AbgJ2IHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 04:07:54 -0400
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:42069 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726755AbgJ2IHp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 04:07:45 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=alimailimapcm10staff010182156082;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UDWlh5N_1603951038;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UDWlh5N_1603951038)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 29 Oct 2020 13:57:18 +0800
+Subject: Re: [PATCH] Documentation: Chinese translation of
+ Documentation/arm64/perf.rst
+To:     Bailu Lin <bailu.lin@vivo.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-doc@vger.kernel.org,
-        Kexec Mailing List <kexec@lists.infradead.org>,
-        Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 0/3] warn and suppress irqflood
-Message-ID: <20201029062600.GA71783@x1pad>
-References: <1603346163-21645-1-git-send-email-kernelfans@gmail.com>
- <871rhq7j1h.fsf@nanos.tec.linutronix.de>
- <CAFgQCTvFwvvtPE0Eow4cebCEe5OD5OhgAQarckpbFc38Bphaag@mail.gmail.com>
- <CAHD1Q_x99XW1zDr5HpVR27F_ksHLkaxc2W83e-N6F_xLYKyGbQ@mail.gmail.com>
- <87y2js3ghv.fsf@nanos.tec.linutronix.de>
- <CAFgQCTtnKB+p5uhRu3JpmBvHbQ8Vhv0TrKek9_3CWbtbcyM1Kw@mail.gmail.com>
- <87tuueftou.fsf@nanos.tec.linutronix.de>
+        Harry Wei <harryxiyou@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kernel@vivo.com
+References: <20201028134831.79592-1-bailu.lin@vivo.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <85fe8e8a-96f2-cd6a-a107-ebbfc50a46bf@linux.alibaba.com>
+Date:   Thu, 29 Oct 2020 13:55:13 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tuueftou.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <20201028134831.79592-1-bailu.lin@vivo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 12:58:41PM +0100, Thomas Gleixner wrote:
-> On Wed, Oct 28 2020 at 14:02, Pingfan Liu wrote:
-> > On Tue, Oct 27, 2020 at 3:59 AM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >> Also Liu's patch only works if:
-> >>
-> >>   1) CONFIG_IRQ_TIME_ACCOUNTING is enabled
-> >
-> > I wonder whether it can not be a default option or not by the following method:
-> >   DEFINE_STATIC_KEY_FALSE(irqtime_account), and enable it according to
-> > a boot param.
+
+
+在 2020/10/28 下午9:48, Bailu Lin 写道:
+> This is a Chinese translated version of
+>  Documentation/arm64/perf.rst
 > 
-> How so?
+> Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+> ---
+>  Documentation/arm64/perf.rst                  |  2 +
+>  .../translations/zh_CN/arm64/index.rst        |  1 +
+>  .../translations/zh_CN/arm64/perf.rst         | 85 +++++++++++++++++++
+>  3 files changed, 88 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/arm64/perf.rst
 > 
-> 	config IRQ_TIME_ACCOUNTING
-> 		depends on HAVE_IRQ_TIME_ACCOUNTING && !VIRT_CPU_ACCOUNTING_NATIVE
-> 
-Look closely at the two config value:
--1. HAVE_IRQ_TIME_ACCOUNTING, it is selected by most of the popular arches, and
-can be further relaxed.
-   It implies sched_clock() is fast enough for sampling. With current code, the
-variable sched_clock_irqtime=0 can be used to turn off irqtime accounting on
-some arches with slow sched_clock(). And it can be even better by using
-DEFINE_STATIC_KEY_FALSE(sched_clock_irqtime)
-   So the pre-requirement can be relaxed as "depends on !VIRT_CPU_ACCOUNTING_NATIVE"
-In case that I can not express clearly, could you have a look at the demo patch?
-
-   That patch _assumes_ that irqtime accounting costs much and is not turned on by
-default. If turned on, it will cost an extra jmp than current implement.
-And I think it is critical to my [1/3] whether this assumption is reasonable.
-
--2. For VIRT_CPU_ACCOUNTING_NATIVE, it can only be selected by powerpc and ia64
-
-In fact, I have a seperate patch for powerpc with
-CONFIG_VIRT_CPU_ACCOUNTING_NATIVE to utilize my [1/3].
-
----
-diff --git a/init/Kconfig b/init/Kconfig
-index c944691..16d168b 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -490,7 +490,7 @@ endchoice
- 
- config IRQ_TIME_ACCOUNTING
- 	bool "Fine granularity task level IRQ time accounting"
--	depends on HAVE_IRQ_TIME_ACCOUNTING && !VIRT_CPU_ACCOUNTING_NATIVE
-+	depends on !VIRT_CPU_ACCOUNTING_NATIVE
- 	help
- 	  Select this option to enable fine granularity task irq time
- 	  accounting. This is done by reading a timestamp on each
-diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index 5a55d23..3ab7e1d 100644
---- a/kernel/sched/cputime.c
-+++ b/kernel/sched/cputime.c
-@@ -19,7 +19,7 @@
-  */
- DEFINE_PER_CPU(struct irqtime, cpu_irqtime);
- 
--static int sched_clock_irqtime;
-+DEFINE_STATIC_KEY_FALSE(sched_clock_irqtime);
- 
- void enable_sched_clock_irqtime(void)
- {
-@@ -49,13 +49,14 @@ static void irqtime_account_delta(struct irqtime *irqtime, u64 delta,
-  */
- void irqtime_account_irq(struct task_struct *curr)
- {
--	struct irqtime *irqtime = this_cpu_ptr(&cpu_irqtime);
-+	struct irqtime *irqtime;
- 	s64 delta;
- 	int cpu;
- 
--	if (!sched_clock_irqtime)
-+	if (static_branch_unlikely(&sched_clock_irqtime))
- 		return;
- 
-+	irqtime = this_cpu_ptr(&cpu_irqtime);
- 	cpu = smp_processor_id();
- 	delta = sched_clock_cpu(cpu) - irqtime->irq_start_time;
- 	irqtime->irq_start_time += delta;
-@@ -84,16 +85,7 @@ static u64 irqtime_tick_accounted(u64 maxtime)
- 	return delta;
- }
- 
--#else /* CONFIG_IRQ_TIME_ACCOUNTING */
--
--#define sched_clock_irqtime	(0)
--
--static u64 irqtime_tick_accounted(u64 dummy)
--{
--	return 0;
--}
--
--#endif /* !CONFIG_IRQ_TIME_ACCOUNTING */
-+#endif
- 
- static inline void task_group_account_field(struct task_struct *p, int index,
- 					    u64 tmp)
-@@ -475,7 +467,7 @@ void account_process_tick(struct task_struct *p, int user_tick)
- 	if (vtime_accounting_enabled_this_cpu())
- 		return;
- 
--	if (sched_clock_irqtime) {
-+	if (static_branch_unlikely(&sched_clock_irqtime))
- 		irqtime_account_process_tick(p, user_tick, 1);
- 		return;
- 	}
-@@ -504,7 +496,7 @@ void account_idle_ticks(unsigned long ticks)
- {
- 	u64 cputime, steal;
- 
--	if (sched_clock_irqtime) {
-+	if (static_branch_unlikely(&sched_clock_irqtime))
- 		irqtime_account_idle_ticks(ticks);
- 		return;
- 	}
--- 
-2.7.5
-
-[...]
+> diff --git a/Documentation/arm64/perf.rst b/Documentation/arm64/perf.rst
+> index 9c76a97baf28..b567f177d385 100644
+> --- a/Documentation/arm64/perf.rst
+> +++ b/Documentation/arm64/perf.rst
+> @@ -1,5 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> +.. _perf_index:
 > +
-> +static int __init irqstorm_setup(char *arg)
-> +{
-> +	int res = kstrtoul(arg, 0, &irqstorm_limit);
+>  =====================
+>  Perf Event Attributes
+>  =====================
+> diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
+> index e31a6090384d..f51fed166326 100644
+> --- a/Documentation/translations/zh_CN/arm64/index.rst
+> +++ b/Documentation/translations/zh_CN/arm64/index.rst
+> @@ -15,3 +15,4 @@ ARM64 架构
+>  
+>      amu
+>      hugetlbpage
+> +    perf
+> diff --git a/Documentation/translations/zh_CN/arm64/perf.rst b/Documentation/translations/zh_CN/arm64/perf.rst
+> new file mode 100644
+> index 000000000000..be8269dd5d9a
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/arm64/perf.rst
+> @@ -0,0 +1,85 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +	if (!res) {
-> +		pr_info("Interrupt storm detector enabled. Limit=%lu / s\n",
-> +			irqstorm_limit);
-> +	}
-> +	return !!res;
-> +}
-> +__setup("irqstorm_limit", irqstorm_setup);
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/arm64/perf.rst <perf_index>`
+> +
+> +Translator: Bailu Lin <bailu.lin@vivo.com>
+> +
+> +=============
+> +Perf 事件属性
+> +=============
+> +
+> +:作者: Andrew Murray <andrew.murray@arm.com>
+> +:日期: 2019-03-06
+> +
+> +exclude_user
+> +------------
+> +
+> +该属性排除用户空间。
+> +
+> +用户空间始终运行在 EL0，因此该属性将排除 EL0。
+> +
+> +
+> +exclude_kernel
+> +--------------
+> +
+> +该属性排除内核空间。
+> +
+> +打开 VHE 时内核运行在 EL2，不打开 VHE 时内核运行在 EL1。客户端
 
-This configuration independent method looks appealing. And I am glad to have a try.
+guest kernel could be better translated as '客户内核' ? 
+'客户端' is easy to confuse with aonther word 'client'
+So shall we better to use 客户， or 客户机 for 'guest/guest machine'
 
-But irqstorm_limit may be a hard choice. Maybe by formula:
-instruction-percpu-per-second / insn num of irq failed path ?  It is hard to
-estimate "instruction-percpu-per-second".
+And 'host' here means 宿主/宿主机 better than 主机。 
 
-Thanks,
-Pingfan
+Also couple wiki tranlates hypervisor as 虚拟机监视器
+
+> +内核总是运行在 EL1。
+> +
+> +对于主机端，该属性排除 EL1 和 VHE 上的 EL2。
+> +
+> +对于客户端，该属性排除 EL1。请注意客户端从来不会运行在 EL2。
+> +
+> +
+> +exclude_hv
+> +----------
+> +
+> +该属性排除虚拟机监控器。
+> +
+> +对于 VHE 主机端该属性将被忽略，因为此时主机端内核是虚拟机监控器。
+
+s/此时/我们认为/
+
+> +
+> +对于 non-VHE 主机端该属性将排除 EL2，因为虚拟机监控器运行在 EL2
+> +的任何代码主要用于客户端和主机端的切换。
+> +
+> +对于客户端该属性无效。请注意客户端从来不会运行在 EL2。
+> +
+> +
+> +exclude_host / exclude_guest
+> +----------------------------
+> +
+> +这些属性分别排除了 KVM 主机端和客户端。
+> +
+> +KVM 主机端可能运行在 EL0（用户空间），EL1（non-VHE 内核）和
+> +EL2（VHE 内核 或 non-VHE 虚拟机监控器）。
+> +
+> +KVM 客户端可能运行在 EL0（用户空间）和 EL1（内核）。
+> +
+> +由于主机端和客户端之间重叠的异常级别，我们不能仅仅依靠 PMU 的硬件异
+> +常过滤机制-因此我们必须启用/禁用对于客户端进入和退出的计数。而这在
+> +VHE 和 non-VHE 系统上表现不同。
+> +
+> +对于 non-VHE 系统的 exclude_host 属性排除 EL2 -  在进入和退出客户
+> +端时，我们会根据 exclude_host 和 exclude_guest 属性在适当的情况下
+> +禁用/启用该事件。
+> +
+> +对于 VHE 系统的 exclude_guest 属性排除 EL1，而对其中的 exclude_host
+> +属性同时排除 EL0，EL2。在进入和退出客户端时，我们会适当地根据
+> +exclude_host 和 exclude_guest 属性包括/排除 EL0。
+> +
+> +以上声明也适用于在 not-VHE 客户端使用这些属性时，但是请注意客户端从
+> +来不会运行在 EL2。
+> +
+> +
+> +准确性
+> +------
+> +
+> +在 non-VHE 主机端上，我们在 EL2 进入/退出主机端/客户端的切换时启用/
+> +关闭计数器 -但是在启用/禁用计数器和进入/退出客户端之间存在一段延时。
+> +对于 exclude_host， 我们可以通过过滤 EL2 消除在客户端进入/退出边界
+> +上用于计数客户端事件的主机端事件计数器。但是当使用 !exclude_hv 时，
+> +在客户端进入/退出有一个小的暗窗口无法捕获到主机端的事件。
+> +
+> +在VHE系统尚没有暗窗口。
+> 
+
+暗窗口 maynot the best, but I have no better on blackout window..
+
+Thanks
+Alex
