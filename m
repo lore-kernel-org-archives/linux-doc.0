@@ -2,152 +2,833 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C90CC4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 13:42:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F9FC56201
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 13:47:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41E9F20759
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 13:42:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="u91kGQbe"
+	by mail.kernel.org (Postfix) with ESMTP id A7B0220756
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 13:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603979257;
+	bh=mHjFsMsxseYuIcJJ6yzTk4zkvt8SA0PPVLfHGEj8u9o=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=FzvCBdhzYqfoZ28ixTbz9kkwcBpjgc1c5SbcHwR18bERUYzUz3rfBuOAaChJ79CNv
+	 4T7WIyte29UB1xFCHE0LP+qWc/gzSCJZb+WPXK75w1FKm3gBDbFyLZJVPUKDCVkyP0
+	 Biev/F+x90o9cPIpmxstYp/eF3XANXe+GcbWFdvo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727009AbgJ2Nmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 09:42:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57826 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727473AbgJ2Nmc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 09:42:32 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B88CC0613D7
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 06:42:25 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id x7so2835964wrl.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 06:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2sP4gGJw9r+NchdLRSOmNItoBGxNPh2amTUBIn7g1jk=;
-        b=u91kGQbepRwV6CBnVlOo0b3Ay7d1EQjInWPDaaj4wkoOWUdXCTegxWaE3ozKnEknUB
-         +eYQOPliDFDGe80DJ/8LITnX6yLVfq8u7VFgkdgLmvf80pGeEyBiRuILrAkce9CwKmMP
-         ZSY6JlkFzTNHrTvnmYu/d643GMWgnWY7jCLoUDvXYUapiXviuOdxZR81vsfu5y57B6Z0
-         8UkMQ/wNdD/r963I3Kh+77LgbrWItHBm+eBdbeFb6184nZ8LBMH/92yDE7rli3UzGcCz
-         zx8zJLy44lTPIJ465U32VxI9n9tPWlXzfTJBOB8Bxsq9UAgyvcuWLj6du6M2jyOr8FLD
-         36uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2sP4gGJw9r+NchdLRSOmNItoBGxNPh2amTUBIn7g1jk=;
-        b=hLLi9lMvj21jyyxafgB5/Ciwtu53+4hXB0I4/dvOnuU1SJc8nidJQ2sPkg8cGSCwnj
-         289pUK/Kaks+vh1we+8ebgxeXoDl2tT9oli+7yITDbpZZVRxmGGvD7HHzcJAOUPHj4Ou
-         lCd0PqHCDxbtSlRDM0qUaiyV25iVCECco9TqcGL8i4IJSAxrmLFJ1tFcANgLUsfj0Qmj
-         SRT8uZRI1TIN9teh6zmpYQGolxzAJE3EIpiq/HDN5fkgRbbUedzBTAYTiw7bRiGRwYOr
-         Fe7/xQw+iiUrxSump67gGct4CcTWOMSJya/j4p/t81Y47jCs6hNUdna2iBOmRe9TYx0p
-         cwEA==
-X-Gm-Message-State: AOAM531VnGuvr9oiCeWfKsRFtxVaJAfvFNyPyoVEdqXBTpoTkFjB1JCQ
-        ZEGBkWoWu0Jm9EI+RGIWlwDpdSceyvp0IHzErp/8PQ==
-X-Google-Smtp-Source: ABdhPJxlhKZ1GF2ca/c147WlPJkNLJQNEKvj7ya7bC4/MHkljcImyn5PVlyfBmI32r9hjW/QIf8ThBed7ik1ZNmL2wA=
-X-Received: by 2002:a5d:69d1:: with SMTP id s17mr5870417wrw.398.1603978944137;
- Thu, 29 Oct 2020 06:42:24 -0700 (PDT)
+        id S1727441AbgJ2Nrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 09:47:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34426 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725554AbgJ2Nrc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Oct 2020 09:47:32 -0400
+Received: from localhost.localdomain (HSI-KBW-46-223-126-90.hsi.kabel-badenwuerttemberg.de [46.223.126.90])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C580F206E9;
+        Thu, 29 Oct 2020 13:47:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603979249;
+        bh=mHjFsMsxseYuIcJJ6yzTk4zkvt8SA0PPVLfHGEj8u9o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pYAivs0sCJmrRwwqxwwWDHHWoDmIa1IY5mzXz6OVkQpc0KtwLKa5n2kCFiwBLBjtI
+         SwSDA+ZLrOC5BlqZW3S6LsAyAScdWTGcenCm3yzb0vCpW83DDHk/YwmnZwn7PY514p
+         KLjod38nmRxfewL8A5HStwrNewLkliEq2iYPrxlQ=
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, devel@driverdev.osuosl.org
+Subject: [PATCH, net -> staging, v2] wimax: move out to staging
+Date:   Thu, 29 Oct 2020 14:43:05 +0100
+Message-Id: <20201029134722.3965095-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
- <20201026145114.59424-5-songmuchun@bytedance.com> <20201029132621.GA2842@linux>
-In-Reply-To: <20201029132621.GA2842@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 29 Oct 2020 21:41:46 +0800
-Message-ID: <CAMZfGtWr94M0_MgBYzMX=OmHx+1s9VWCGLGzVMU38Cp-bmBk5g@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v2 04/19] mm/hugetlb: Introduce
- nr_free_vmemmap_pages in the struct hstate
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 9:26 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Mon, Oct 26, 2020 at 10:50:59PM +0800, Muchun Song wrote:
-> > If the size of hugetlb page is 2MB, we need 512 struct page structures
-> > (8 pages) to be associated with it. As far as I know, we only use the
-> > first 4 struct page structures.
->
-> As Mike pointed out, better describe what those "4" mean.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Yeah, thanks.
+There are no known users of this driver as of October 2020, and it will
+be removed unless someone turns out to still need it in future releases.
 
->
-> > For tail pages, the value of compound_dtor is the same. So we can reuse
->
-> I might be missing something, but HUGETLB_PAGE_DTOR is only set on the
-> first tail, right?
+According to https://en.wikipedia.org/wiki/List_of_WiMAX_networks, there
+have been many public wimax networks, but it appears that many of these
+have migrated to LTE or discontinued their service altogether.
+As most PCs and phones lack WiMAX hardware support, the remaining
+networks tend to use standalone routers. These almost certainly
+run Linux, but not a modern kernel or the mainline wimax driver stack.
 
-Sorry for confusion. Here I mean the `compound_head` is the same.
+NetworkManager appears to have dropped userspace support in 2015
+https://bugzilla.gnome.org/show_bug.cgi?id=747846, the
+www.linuxwimax.org
+site had already shut down earlier.
 
->
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +#define RESERVE_VMEMMAP_NR   2U
->
-> Although you can get that from the changelog, maybe a brief comment explaining
-> why RESERVE_VMEMMAP_NR == 2.
-> > +
-> > +static inline unsigned int nr_free_vmemmap(struct hstate *h)
-> > +{
-> > +     return h->nr_free_vmemmap_pages;
-> > +}
->
-> Better add this in the patch that is used?
+WiMax is apparently still being deployed on airport campus networks
+("AeroMACS"), but in a frequency band that was not supported by the old
+Intel 2400m (used in Sandy Bridge laptops and earlier), which is the
+only driver using the kernel's wimax stack.
 
-OK, I will do it. thanks.
+Move all files into drivers/staging/wimax, including the uapi header
+files and documentation, to make it easier to remove it when it gets
+to that. Only minimal changes are made to the source files, in order
+to make it possible to port patches across the move.
 
->
-> > +     if (vmemmap_pages > RESERVE_VMEMMAP_NR)
-> > +             h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
-> > +     else
-> > +             h->nr_free_vmemmap_pages = 0;
->
-> Can we really have an scenario where we end up with vmemmap_pages < RESERVE_VMEMMAP_NR?
+Also remove the MAINTAINERS entry that refers to a broken mailing
+list and website.
 
-I think that this is impossible. On the safe side, I do this comparison.
-Do you think we should remove this comparison? Is that right?
+Suggested-by: Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+changes in v2:
+- fix a build regression
+- add more information about remaining networks (Dan Carpenter)_
 
->
-> > +
-> > +     pr_info("HugeTLB: can free %d vmemmap pages for %s\n",
-> > +             h->nr_free_vmemmap_pages, h->name);
->
-> I do not think this is useful unless debugging situations, so I would either
-> scratch that or make it pr_debug.
+For v1, Greg said he'd appply the patch when he gets an Ack
+from the maintainers.
 
-Thanks for your suggestions.
+Inaky, Johannes, Jakub: are you happy with this version?
+---
+ Documentation/admin-guide/index.rst           |  1 -
+ Documentation/networking/kapi.rst             | 21 ------------------
+ .../translations/zh_CN/admin-guide/index.rst  |  1 -
+ MAINTAINERS                                   | 22 -------------------
+ drivers/net/Kconfig                           |  2 --
+ drivers/net/Makefile                          |  1 -
+ drivers/net/wimax/Kconfig                     | 18 ---------------
+ drivers/net/wimax/Makefile                    |  2 --
+ drivers/staging/Kconfig                       |  2 ++
+ drivers/staging/Makefile                      |  1 +
+ .../staging/wimax/Documentation}/i2400m.rst   |  0
+ .../staging/wimax/Documentation}/index.rst    |  0
+ .../staging/wimax/Documentation}/wimax.rst    |  0
+ {net => drivers/staging}/wimax/Kconfig        |  6 +++++
+ {net => drivers/staging}/wimax/Makefile       |  2 ++
+ drivers/staging/wimax/TODO                    | 18 +++++++++++++++
+ {net => drivers/staging}/wimax/debug-levels.h |  2 +-
+ {net => drivers/staging}/wimax/debugfs.c      |  2 +-
+ drivers/{net => staging}/wimax/i2400m/Kconfig |  0
+ .../{net => staging}/wimax/i2400m/Makefile    |  0
+ .../{net => staging}/wimax/i2400m/control.c   |  2 +-
+ .../wimax/i2400m/debug-levels.h               |  2 +-
+ .../{net => staging}/wimax/i2400m/debugfs.c   |  0
+ .../{net => staging}/wimax/i2400m/driver.c    |  2 +-
+ drivers/{net => staging}/wimax/i2400m/fw.c    |  0
+ .../wimax/i2400m/i2400m-usb.h                 |  0
+ .../{net => staging}/wimax/i2400m/i2400m.h    |  4 ++--
+ .../staging/wimax/i2400m/linux-wimax-i2400m.h |  0
+ .../{net => staging}/wimax/i2400m/netdev.c    |  0
+ .../{net => staging}/wimax/i2400m/op-rfkill.c |  2 +-
+ drivers/{net => staging}/wimax/i2400m/rx.c    |  0
+ drivers/{net => staging}/wimax/i2400m/sysfs.c |  0
+ drivers/{net => staging}/wimax/i2400m/tx.c    |  0
+ .../wimax/i2400m/usb-debug-levels.h           |  2 +-
+ .../{net => staging}/wimax/i2400m/usb-fw.c    |  0
+ .../{net => staging}/wimax/i2400m/usb-notif.c |  0
+ .../{net => staging}/wimax/i2400m/usb-rx.c    |  0
+ .../{net => staging}/wimax/i2400m/usb-tx.c    |  0
+ drivers/{net => staging}/wimax/i2400m/usb.c   |  2 +-
+ {net => drivers/staging}/wimax/id-table.c     |  2 +-
+ .../staging/wimax/linux-wimax-debug.h         |  2 +-
+ .../staging/wimax/linux-wimax.h               |  0
+ .../staging/wimax/net-wimax.h                 |  2 +-
+ {net => drivers/staging}/wimax/op-msg.c       |  2 +-
+ {net => drivers/staging}/wimax/op-reset.c     |  4 ++--
+ {net => drivers/staging}/wimax/op-rfkill.c    |  4 ++--
+ {net => drivers/staging}/wimax/op-state-get.c |  4 ++--
+ {net => drivers/staging}/wimax/stack.c        |  2 +-
+ .../staging}/wimax/wimax-internal.h           |  2 +-
+ net/Kconfig                                   |  2 --
+ net/Makefile                                  |  1 -
+ 51 files changed, 51 insertions(+), 93 deletions(-)
+ delete mode 100644 drivers/net/wimax/Kconfig
+ delete mode 100644 drivers/net/wimax/Makefile
+ rename {Documentation/admin-guide/wimax => drivers/staging/wimax/Documentation}/i2400m.rst (100%)
+ rename {Documentation/admin-guide/wimax => drivers/staging/wimax/Documentation}/index.rst (100%)
+ rename {Documentation/admin-guide/wimax => drivers/staging/wimax/Documentation}/wimax.rst (100%)
+ rename {net => drivers/staging}/wimax/Kconfig (94%)
+ rename {net => drivers/staging}/wimax/Makefile (83%)
+ create mode 100644 drivers/staging/wimax/TODO
+ rename {net => drivers/staging}/wimax/debug-levels.h (96%)
+ rename {net => drivers/staging}/wimax/debugfs.c (97%)
+ rename drivers/{net => staging}/wimax/i2400m/Kconfig (100%)
+ rename drivers/{net => staging}/wimax/i2400m/Makefile (100%)
+ rename drivers/{net => staging}/wimax/i2400m/control.c (99%)
+ rename drivers/{net => staging}/wimax/i2400m/debug-levels.h (96%)
+ rename drivers/{net => staging}/wimax/i2400m/debugfs.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/driver.c (99%)
+ rename drivers/{net => staging}/wimax/i2400m/fw.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/i2400m-usb.h (100%)
+ rename drivers/{net => staging}/wimax/i2400m/i2400m.h (99%)
+ rename include/uapi/linux/wimax/i2400m.h => drivers/staging/wimax/i2400m/linux-wimax-i2400m.h (100%)
+ rename drivers/{net => staging}/wimax/i2400m/netdev.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/op-rfkill.c (99%)
+ rename drivers/{net => staging}/wimax/i2400m/rx.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/sysfs.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/tx.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/usb-debug-levels.h (95%)
+ rename drivers/{net => staging}/wimax/i2400m/usb-fw.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/usb-notif.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/usb-rx.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/usb-tx.c (100%)
+ rename drivers/{net => staging}/wimax/i2400m/usb.c (99%)
+ rename {net => drivers/staging}/wimax/id-table.c (99%)
+ rename include/linux/wimax/debug.h => drivers/staging/wimax/linux-wimax-debug.h (99%)
+ rename include/uapi/linux/wimax.h => drivers/staging/wimax/linux-wimax.h (100%)
+ rename include/net/wimax.h => drivers/staging/wimax/net-wimax.h (99%)
+ rename {net => drivers/staging}/wimax/op-msg.c (99%)
+ rename {net => drivers/staging}/wimax/op-reset.c (98%)
+ rename {net => drivers/staging}/wimax/op-rfkill.c (99%)
+ rename {net => drivers/staging}/wimax/op-state-get.c (96%)
+ rename {net => drivers/staging}/wimax/stack.c (99%)
+ rename {net => drivers/staging}/wimax/wimax-internal.h (99%)
 
->
->
-> --
-> Oscar Salvador
-> SUSE L3
-
-
-
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index ed1cf94ea50c..d53986a424c4 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -115,7 +115,6 @@ configure specific aspects of kernel behavior to your liking.
+    unicode
+    vga-softcursor
+    video-output
+-   wimax/index
+    xfs
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/networking/kapi.rst b/Documentation/networking/kapi.rst
+index d198fa5eaacd..ea55f462cefa 100644
+--- a/Documentation/networking/kapi.rst
++++ b/Documentation/networking/kapi.rst
+@@ -83,27 +83,6 @@ SUN RPC subsystem
+ .. kernel-doc:: net/sunrpc/clnt.c
+    :export:
+ 
+-WiMAX
+------
+-
+-.. kernel-doc:: net/wimax/op-msg.c
+-   :export:
+-
+-.. kernel-doc:: net/wimax/op-reset.c
+-   :export:
+-
+-.. kernel-doc:: net/wimax/op-rfkill.c
+-   :export:
+-
+-.. kernel-doc:: net/wimax/stack.c
+-   :export:
+-
+-.. kernel-doc:: include/net/wimax.h
+-   :internal:
+-
+-.. kernel-doc:: include/uapi/linux/wimax.h
+-   :internal:
+-
+ Network device support
+ ======================
+ 
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index ed5ab7e37f38..48bbd3ebad48 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -114,7 +114,6 @@ Todolist:
+    unicode
+    vga-softcursor
+    video-output
+-   wimax/index
+    xfs
+ 
+ .. only::  subproject and html
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b8a905354ee9..8b481cb9b964 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9082,16 +9082,6 @@ W:	https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi.git
+ F:	drivers/net/wireless/intel/iwlwifi/
+ 
+-INTEL WIRELESS WIMAX CONNECTION 2400
+-M:	Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+-M:	linux-wimax@intel.com
+-L:	wimax@linuxwimax.org (subscribers-only)
+-S:	Supported
+-W:	http://linuxwimax.org
+-F:	Documentation/admin-guide/wimax/i2400m.rst
+-F:	drivers/net/wimax/i2400m/
+-F:	include/uapi/linux/wimax/i2400m.h
+-
+ INTEL WMI SLIM BOOTLOADER (SBL) FIRMWARE UPDATE DRIVER
+ M:	Jithu Joseph <jithu.joseph@intel.com>
+ R:	Maurice Ma <maurice.ma@intel.com>
+@@ -18912,18 +18902,6 @@ S:	Supported
+ W:	https://wireless.wiki.kernel.org/en/users/Drivers/wil6210
+ F:	drivers/net/wireless/ath/wil6210/
+ 
+-WIMAX STACK
+-M:	Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+-M:	linux-wimax@intel.com
+-L:	wimax@linuxwimax.org (subscribers-only)
+-S:	Supported
+-W:	http://linuxwimax.org
+-F:	Documentation/admin-guide/wimax/wimax.rst
+-F:	include/linux/wimax/debug.h
+-F:	include/net/wimax.h
+-F:	include/uapi/linux/wimax.h
+-F:	net/wimax/
+-
+ WINBOND CIR DRIVER
+ M:	David Härdeman <david@hardeman.nu>
+ S:	Maintained
+diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
+index c3dbe64e628e..c0af2dc8b938 100644
+--- a/drivers/net/Kconfig
++++ b/drivers/net/Kconfig
+@@ -489,8 +489,6 @@ source "drivers/net/usb/Kconfig"
+ 
+ source "drivers/net/wireless/Kconfig"
+ 
+-source "drivers/net/wimax/Kconfig"
+-
+ source "drivers/net/wan/Kconfig"
+ 
+ source "drivers/net/ieee802154/Kconfig"
+diff --git a/drivers/net/Makefile b/drivers/net/Makefile
+index 72e18d505d1a..b27e8633c305 100644
+--- a/drivers/net/Makefile
++++ b/drivers/net/Makefile
+@@ -66,7 +66,6 @@ obj-$(CONFIG_NET_SB1000) += sb1000.o
+ obj-$(CONFIG_SUNGEM_PHY) += sungem_phy.o
+ obj-$(CONFIG_WAN) += wan/
+ obj-$(CONFIG_WLAN) += wireless/
+-obj-$(CONFIG_WIMAX) += wimax/
+ obj-$(CONFIG_IEEE802154) += ieee802154/
+ 
+ obj-$(CONFIG_VMXNET3) += vmxnet3/
+diff --git a/drivers/net/wimax/Kconfig b/drivers/net/wimax/Kconfig
+deleted file mode 100644
+index 2249e3d77a76..000000000000
+--- a/drivers/net/wimax/Kconfig
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# WiMAX LAN device drivers configuration
+-#
+-
+-
+-comment "Enable WiMAX (Networking options) to see the WiMAX drivers"
+-	depends on WIMAX = n
+-
+-if WIMAX
+-
+-menu "WiMAX Wireless Broadband devices"
+-
+-source "drivers/net/wimax/i2400m/Kconfig"
+-
+-endmenu
+-
+-endif
+diff --git a/drivers/net/wimax/Makefile b/drivers/net/wimax/Makefile
+deleted file mode 100644
+index b4575bacf994..000000000000
+--- a/drivers/net/wimax/Makefile
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_WIMAX_I2400M)	+= i2400m/
+diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+index 2d0310448eba..443ca3f3cdf0 100644
+--- a/drivers/staging/Kconfig
++++ b/drivers/staging/Kconfig
+@@ -114,6 +114,8 @@ source "drivers/staging/kpc2000/Kconfig"
+ 
+ source "drivers/staging/qlge/Kconfig"
+ 
++source "drivers/staging/wimax/Kconfig"
++
+ source "drivers/staging/wfx/Kconfig"
+ 
+ source "drivers/staging/hikey9xx/Kconfig"
+diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+index 757a892ab5b9..dc45128ef525 100644
+--- a/drivers/staging/Makefile
++++ b/drivers/staging/Makefile
+@@ -47,5 +47,6 @@ obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo/
+ obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
+ obj-$(CONFIG_KPC2000)		+= kpc2000/
+ obj-$(CONFIG_QLGE)		+= qlge/
++obj-$(CONFIG_WIMAX)		+= wimax/
+ obj-$(CONFIG_WFX)		+= wfx/
+ obj-y				+= hikey9xx/
+diff --git a/Documentation/admin-guide/wimax/i2400m.rst b/drivers/staging/wimax/Documentation/i2400m.rst
+similarity index 100%
+rename from Documentation/admin-guide/wimax/i2400m.rst
+rename to drivers/staging/wimax/Documentation/i2400m.rst
+diff --git a/Documentation/admin-guide/wimax/index.rst b/drivers/staging/wimax/Documentation/index.rst
+similarity index 100%
+rename from Documentation/admin-guide/wimax/index.rst
+rename to drivers/staging/wimax/Documentation/index.rst
+diff --git a/Documentation/admin-guide/wimax/wimax.rst b/drivers/staging/wimax/Documentation/wimax.rst
+similarity index 100%
+rename from Documentation/admin-guide/wimax/wimax.rst
+rename to drivers/staging/wimax/Documentation/wimax.rst
+diff --git a/net/wimax/Kconfig b/drivers/staging/wimax/Kconfig
+similarity index 94%
+rename from net/wimax/Kconfig
+rename to drivers/staging/wimax/Kconfig
+index d13762bc4abc..ded8b70b25ee 100644
+--- a/net/wimax/Kconfig
++++ b/drivers/staging/wimax/Kconfig
+@@ -22,6 +22,8 @@ menuconfig WIMAX
+ 
+ 	  If unsure, it is safe to select M (module).
+ 
++if WIMAX
++
+ config WIMAX_DEBUG_LEVEL
+ 	int "WiMAX debug level"
+ 	depends on WIMAX
+@@ -38,3 +40,7 @@ config WIMAX_DEBUG_LEVEL
+ 	  If set at zero, this will compile out all the debug code.
+ 
+ 	  It is recommended that it is left at 8.
++
++source "drivers/staging/wimax/i2400m/Kconfig"
++
++endif
+diff --git a/net/wimax/Makefile b/drivers/staging/wimax/Makefile
+similarity index 83%
+rename from net/wimax/Makefile
+rename to drivers/staging/wimax/Makefile
+index c2a71ae487ac..0e3f988656aa 100644
+--- a/net/wimax/Makefile
++++ b/drivers/staging/wimax/Makefile
+@@ -11,3 +11,5 @@ wimax-y :=		\
+ 	stack.o
+ 
+ wimax-$(CONFIG_DEBUG_FS) += debugfs.o
++
++obj-$(CONFIG_WIMAX_I2400M)	+= i2400m/
+diff --git a/drivers/staging/wimax/TODO b/drivers/staging/wimax/TODO
+new file mode 100644
+index 000000000000..26e4cb9e9599
+--- /dev/null
++++ b/drivers/staging/wimax/TODO
+@@ -0,0 +1,18 @@
++There are no known users of this driver as of October 2020, and it will
++be removed unless someone turns out to still need it in future releases.
++
++According to https://en.wikipedia.org/wiki/List_of_WiMAX_networks, there
++have been many public wimax networks, but it appears that many of these
++have migrated to LTE or discontinued their service altogether.  As most
++PCs and phones lack WiMAX hardware support, the remaining networks tend
++to use standalone routers. These almost certainly run Linux, but not a
++modern kernel or the mainline wimax driver stack.
++
++NetworkManager appears to have dropped userspace support in 2015
++https://bugzilla.gnome.org/show_bug.cgi?id=747846, the www.linuxwimax.org
++site had already shut down earlier.
++
++WiMax is apparently still being deployed on airport campus networks
++("AeroMACS"), but in a frequency band that was not supported by the old
++Intel 2400m (used in Sandy Bridge laptops and earlier), which is the
++only driver using the kernel's wimax stack.
+diff --git a/net/wimax/debug-levels.h b/drivers/staging/wimax/debug-levels.h
+similarity index 96%
+rename from net/wimax/debug-levels.h
+rename to drivers/staging/wimax/debug-levels.h
+index ebc287cde336..b854802d1d00 100644
+--- a/net/wimax/debug-levels.h
++++ b/drivers/staging/wimax/debug-levels.h
+@@ -13,7 +13,7 @@
+ #define D_MODULENAME wimax
+ #define D_MASTER CONFIG_WIMAX_DEBUG_LEVEL
+ 
+-#include <linux/wimax/debug.h>
++#include "linux-wimax-debug.h"
+ 
+ /* List of all the enabled modules */
+ enum d_module {
+diff --git a/net/wimax/debugfs.c b/drivers/staging/wimax/debugfs.c
+similarity index 97%
+rename from net/wimax/debugfs.c
+rename to drivers/staging/wimax/debugfs.c
+index 3c54bb6b925a..e11bff61ffcf 100644
+--- a/net/wimax/debugfs.c
++++ b/drivers/staging/wimax/debugfs.c
+@@ -7,7 +7,7 @@
+  * Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+  */
+ #include <linux/debugfs.h>
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include "wimax-internal.h"
+ 
+ #define D_SUBMODULE debugfs
+diff --git a/drivers/net/wimax/i2400m/Kconfig b/drivers/staging/wimax/i2400m/Kconfig
+similarity index 100%
+rename from drivers/net/wimax/i2400m/Kconfig
+rename to drivers/staging/wimax/i2400m/Kconfig
+diff --git a/drivers/net/wimax/i2400m/Makefile b/drivers/staging/wimax/i2400m/Makefile
+similarity index 100%
+rename from drivers/net/wimax/i2400m/Makefile
+rename to drivers/staging/wimax/i2400m/Makefile
+diff --git a/drivers/net/wimax/i2400m/control.c b/drivers/staging/wimax/i2400m/control.c
+similarity index 99%
+rename from drivers/net/wimax/i2400m/control.c
+rename to drivers/staging/wimax/i2400m/control.c
+index 180d5f417bdc..8b533b1a3da4 100644
+--- a/drivers/net/wimax/i2400m/control.c
++++ b/drivers/staging/wimax/i2400m/control.c
+@@ -77,7 +77,7 @@
+ #include "i2400m.h"
+ #include <linux/kernel.h>
+ #include <linux/slab.h>
+-#include <linux/wimax/i2400m.h>
++#include "linux-wimax-i2400m.h"
+ #include <linux/export.h>
+ #include <linux/moduleparam.h>
+ 
+diff --git a/drivers/net/wimax/i2400m/debug-levels.h b/drivers/staging/wimax/i2400m/debug-levels.h
+similarity index 96%
+rename from drivers/net/wimax/i2400m/debug-levels.h
+rename to drivers/staging/wimax/i2400m/debug-levels.h
+index 00942bb1489b..a317e9fbb734 100644
+--- a/drivers/net/wimax/i2400m/debug-levels.h
++++ b/drivers/staging/wimax/i2400m/debug-levels.h
+@@ -13,7 +13,7 @@
+ #define D_MODULENAME i2400m
+ #define D_MASTER CONFIG_WIMAX_I2400M_DEBUG_LEVEL
+ 
+-#include <linux/wimax/debug.h>
++#include "../linux-wimax-debug.h"
+ 
+ /* List of all the enabled modules */
+ enum d_module {
+diff --git a/drivers/net/wimax/i2400m/debugfs.c b/drivers/staging/wimax/i2400m/debugfs.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/debugfs.c
+rename to drivers/staging/wimax/i2400m/debugfs.c
+diff --git a/drivers/net/wimax/i2400m/driver.c b/drivers/staging/wimax/i2400m/driver.c
+similarity index 99%
+rename from drivers/net/wimax/i2400m/driver.c
+rename to drivers/staging/wimax/i2400m/driver.c
+index ecb3fccca603..dc8939ff78c0 100644
+--- a/drivers/net/wimax/i2400m/driver.c
++++ b/drivers/staging/wimax/i2400m/driver.c
+@@ -50,7 +50,7 @@
+  */
+ #include "i2400m.h"
+ #include <linux/etherdevice.h>
+-#include <linux/wimax/i2400m.h>
++#include "linux-wimax-i2400m.h"
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/suspend.h>
+diff --git a/drivers/net/wimax/i2400m/fw.c b/drivers/staging/wimax/i2400m/fw.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/fw.c
+rename to drivers/staging/wimax/i2400m/fw.c
+diff --git a/drivers/net/wimax/i2400m/i2400m-usb.h b/drivers/staging/wimax/i2400m/i2400m-usb.h
+similarity index 100%
+rename from drivers/net/wimax/i2400m/i2400m-usb.h
+rename to drivers/staging/wimax/i2400m/i2400m-usb.h
+diff --git a/drivers/net/wimax/i2400m/i2400m.h b/drivers/staging/wimax/i2400m/i2400m.h
+similarity index 99%
+rename from drivers/net/wimax/i2400m/i2400m.h
+rename to drivers/staging/wimax/i2400m/i2400m.h
+index a3733a6d14f5..de22cc6f2c5c 100644
+--- a/drivers/net/wimax/i2400m/i2400m.h
++++ b/drivers/staging/wimax/i2400m/i2400m.h
+@@ -156,8 +156,8 @@
+ #include <linux/completion.h>
+ #include <linux/rwsem.h>
+ #include <linux/atomic.h>
+-#include <net/wimax.h>
+-#include <linux/wimax/i2400m.h>
++#include "../net-wimax.h"
++#include "linux-wimax-i2400m.h"
+ #include <asm/byteorder.h>
+ 
+ enum {
+diff --git a/include/uapi/linux/wimax/i2400m.h b/drivers/staging/wimax/i2400m/linux-wimax-i2400m.h
+similarity index 100%
+rename from include/uapi/linux/wimax/i2400m.h
+rename to drivers/staging/wimax/i2400m/linux-wimax-i2400m.h
+diff --git a/drivers/net/wimax/i2400m/netdev.c b/drivers/staging/wimax/i2400m/netdev.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/netdev.c
+rename to drivers/staging/wimax/i2400m/netdev.c
+diff --git a/drivers/net/wimax/i2400m/op-rfkill.c b/drivers/staging/wimax/i2400m/op-rfkill.c
+similarity index 99%
+rename from drivers/net/wimax/i2400m/op-rfkill.c
+rename to drivers/staging/wimax/i2400m/op-rfkill.c
+index 5c79f052cad2..fbddf2e18c14 100644
+--- a/drivers/net/wimax/i2400m/op-rfkill.c
++++ b/drivers/staging/wimax/i2400m/op-rfkill.c
+@@ -18,7 +18,7 @@
+  *   switch (coming from sysfs, the wimax stack or user space).
+  */
+ #include "i2400m.h"
+-#include <linux/wimax/i2400m.h>
++#include "linux-wimax-i2400m.h"
+ #include <linux/slab.h>
+ 
+ 
+diff --git a/drivers/net/wimax/i2400m/rx.c b/drivers/staging/wimax/i2400m/rx.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/rx.c
+rename to drivers/staging/wimax/i2400m/rx.c
+diff --git a/drivers/net/wimax/i2400m/sysfs.c b/drivers/staging/wimax/i2400m/sysfs.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/sysfs.c
+rename to drivers/staging/wimax/i2400m/sysfs.c
+diff --git a/drivers/net/wimax/i2400m/tx.c b/drivers/staging/wimax/i2400m/tx.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/tx.c
+rename to drivers/staging/wimax/i2400m/tx.c
+diff --git a/drivers/net/wimax/i2400m/usb-debug-levels.h b/drivers/staging/wimax/i2400m/usb-debug-levels.h
+similarity index 95%
+rename from drivers/net/wimax/i2400m/usb-debug-levels.h
+rename to drivers/staging/wimax/i2400m/usb-debug-levels.h
+index b6f7335de765..8fd0111560f6 100644
+--- a/drivers/net/wimax/i2400m/usb-debug-levels.h
++++ b/drivers/staging/wimax/i2400m/usb-debug-levels.h
+@@ -13,7 +13,7 @@
+ #define D_MODULENAME i2400m_usb
+ #define D_MASTER CONFIG_WIMAX_I2400M_DEBUG_LEVEL
+ 
+-#include <linux/wimax/debug.h>
++#include "../linux-wimax-debug.h"
+ 
+ /* List of all the enabled modules */
+ enum d_module {
+diff --git a/drivers/net/wimax/i2400m/usb-fw.c b/drivers/staging/wimax/i2400m/usb-fw.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/usb-fw.c
+rename to drivers/staging/wimax/i2400m/usb-fw.c
+diff --git a/drivers/net/wimax/i2400m/usb-notif.c b/drivers/staging/wimax/i2400m/usb-notif.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/usb-notif.c
+rename to drivers/staging/wimax/i2400m/usb-notif.c
+diff --git a/drivers/net/wimax/i2400m/usb-rx.c b/drivers/staging/wimax/i2400m/usb-rx.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/usb-rx.c
+rename to drivers/staging/wimax/i2400m/usb-rx.c
+diff --git a/drivers/net/wimax/i2400m/usb-tx.c b/drivers/staging/wimax/i2400m/usb-tx.c
+similarity index 100%
+rename from drivers/net/wimax/i2400m/usb-tx.c
+rename to drivers/staging/wimax/i2400m/usb-tx.c
+diff --git a/drivers/net/wimax/i2400m/usb.c b/drivers/staging/wimax/i2400m/usb.c
+similarity index 99%
+rename from drivers/net/wimax/i2400m/usb.c
+rename to drivers/staging/wimax/i2400m/usb.c
+index b684e97ac976..3b84dd7b5567 100644
+--- a/drivers/net/wimax/i2400m/usb.c
++++ b/drivers/staging/wimax/i2400m/usb.c
+@@ -49,7 +49,7 @@
+  *   usb_reset_device()
+  */
+ #include "i2400m-usb.h"
+-#include <linux/wimax/i2400m.h>
++#include "linux-wimax-i2400m.h"
+ #include <linux/debugfs.h>
+ #include <linux/slab.h>
+ #include <linux/module.h>
+diff --git a/net/wimax/id-table.c b/drivers/staging/wimax/id-table.c
+similarity index 99%
+rename from net/wimax/id-table.c
+rename to drivers/staging/wimax/id-table.c
+index 02eee37b7e31..0e6f4aa87bc9 100644
+--- a/net/wimax/id-table.c
++++ b/drivers/staging/wimax/id-table.c
+@@ -28,7 +28,7 @@
+ #include <net/genetlink.h>
+ #include <linux/netdevice.h>
+ #include <linux/list.h>
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include "wimax-internal.h"
+ 
+ 
+diff --git a/include/linux/wimax/debug.h b/drivers/staging/wimax/linux-wimax-debug.h
+similarity index 99%
+rename from include/linux/wimax/debug.h
+rename to drivers/staging/wimax/linux-wimax-debug.h
+index cdae052bcdcd..5b5ec405143b 100644
+--- a/include/linux/wimax/debug.h
++++ b/drivers/staging/wimax/linux-wimax-debug.h
+@@ -60,7 +60,7 @@
+  *     #define D_MODULENAME modulename
+  *     #define D_MASTER 10
+  *
+- *     #include <linux/wimax/debug.h>
++ *     #include "linux-wimax-debug.h"
+  *
+  *     enum d_module {
+  *             D_SUBMODULE_DECLARE(submodule_1),
+diff --git a/include/uapi/linux/wimax.h b/drivers/staging/wimax/linux-wimax.h
+similarity index 100%
+rename from include/uapi/linux/wimax.h
+rename to drivers/staging/wimax/linux-wimax.h
+diff --git a/include/net/wimax.h b/drivers/staging/wimax/net-wimax.h
+similarity index 99%
+rename from include/net/wimax.h
+rename to drivers/staging/wimax/net-wimax.h
+index f6e31d2f47aa..f578e345e2bd 100644
+--- a/include/net/wimax.h
++++ b/drivers/staging/wimax/net-wimax.h
+@@ -236,7 +236,7 @@
+ #ifndef __NET__WIMAX_H__
+ #define __NET__WIMAX_H__
+ 
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include <net/genetlink.h>
+ #include <linux/netdevice.h>
+ 
+diff --git a/net/wimax/op-msg.c b/drivers/staging/wimax/op-msg.c
+similarity index 99%
+rename from net/wimax/op-msg.c
+rename to drivers/staging/wimax/op-msg.c
+index 6460b5785758..e20ac7d84e82 100644
+--- a/net/wimax/op-msg.c
++++ b/drivers/staging/wimax/op-msg.c
+@@ -60,7 +60,7 @@
+ #include <linux/slab.h>
+ #include <net/genetlink.h>
+ #include <linux/netdevice.h>
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include <linux/security.h>
+ #include <linux/export.h>
+ #include "wimax-internal.h"
+diff --git a/net/wimax/op-reset.c b/drivers/staging/wimax/op-reset.c
+similarity index 98%
+rename from net/wimax/op-reset.c
+rename to drivers/staging/wimax/op-reset.c
+index 9899b2e56721..b3f000cbe112 100644
+--- a/net/wimax/op-reset.c
++++ b/drivers/staging/wimax/op-reset.c
+@@ -13,9 +13,9 @@
+  * disconnect and reconnect the device).
+  */
+ 
+-#include <net/wimax.h>
++#include "net-wimax.h"
+ #include <net/genetlink.h>
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include <linux/security.h>
+ #include <linux/export.h>
+ #include "wimax-internal.h"
+diff --git a/net/wimax/op-rfkill.c b/drivers/staging/wimax/op-rfkill.c
+similarity index 99%
+rename from net/wimax/op-rfkill.c
+rename to drivers/staging/wimax/op-rfkill.c
+index 248d10b60b05..78b294481a59 100644
+--- a/net/wimax/op-rfkill.c
++++ b/drivers/staging/wimax/op-rfkill.c
+@@ -45,9 +45,9 @@
+  * wimax_rfkill_rm()            [called by wimax_dev_add/rm()]
+  */
+ 
+-#include <net/wimax.h>
++#include "net-wimax.h"
+ #include <net/genetlink.h>
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include <linux/security.h>
+ #include <linux/rfkill.h>
+ #include <linux/export.h>
+diff --git a/net/wimax/op-state-get.c b/drivers/staging/wimax/op-state-get.c
+similarity index 96%
+rename from net/wimax/op-state-get.c
+rename to drivers/staging/wimax/op-state-get.c
+index 5bc712de1563..c5bfbed505f5 100644
+--- a/net/wimax/op-state-get.c
++++ b/drivers/staging/wimax/op-state-get.c
+@@ -10,9 +10,9 @@
+  *  Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+  */
+ 
+-#include <net/wimax.h>
++#include "net-wimax.h"
+ #include <net/genetlink.h>
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include <linux/security.h>
+ #include "wimax-internal.h"
+ 
+diff --git a/net/wimax/stack.c b/drivers/staging/wimax/stack.c
+similarity index 99%
+rename from net/wimax/stack.c
+rename to drivers/staging/wimax/stack.c
+index 3a62af3f80bf..ace24a6dfd2d 100644
+--- a/net/wimax/stack.c
++++ b/drivers/staging/wimax/stack.c
+@@ -39,7 +39,7 @@
+ #include <linux/gfp.h>
+ #include <net/genetlink.h>
+ #include <linux/netdevice.h>
+-#include <linux/wimax.h>
++#include "linux-wimax.h"
+ #include <linux/module.h>
+ #include "wimax-internal.h"
+ 
+diff --git a/net/wimax/wimax-internal.h b/drivers/staging/wimax/wimax-internal.h
+similarity index 99%
+rename from net/wimax/wimax-internal.h
+rename to drivers/staging/wimax/wimax-internal.h
+index 40751207296c..a6b6990642a1 100644
+--- a/net/wimax/wimax-internal.h
++++ b/drivers/staging/wimax/wimax-internal.h
+@@ -22,7 +22,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/device.h>
+-#include <net/wimax.h>
++#include "net-wimax.h"
+ 
+ 
+ /*
+diff --git a/net/Kconfig b/net/Kconfig
+index d6567162c1cf..f4c32d982af6 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -386,8 +386,6 @@ source "net/mac80211/Kconfig"
+ 
+ endif # WIRELESS
+ 
+-source "net/wimax/Kconfig"
+-
+ source "net/rfkill/Kconfig"
+ source "net/9p/Kconfig"
+ source "net/caif/Kconfig"
+diff --git a/net/Makefile b/net/Makefile
+index 5744bf1997fd..d96b0aa8f39f 100644
+--- a/net/Makefile
++++ b/net/Makefile
+@@ -66,7 +66,6 @@ obj-$(CONFIG_MAC802154)		+= mac802154/
+ ifeq ($(CONFIG_NET),y)
+ obj-$(CONFIG_SYSCTL)		+= sysctl_net.o
+ endif
+-obj-$(CONFIG_WIMAX)		+= wimax/
+ obj-$(CONFIG_DNS_RESOLVER)	+= dns_resolver/
+ obj-$(CONFIG_CEPH_LIB)		+= ceph/
+ obj-$(CONFIG_BATMAN_ADV)	+= batman-adv/
 -- 
-Yours,
-Muchun
+2.27.0
+
