@@ -2,195 +2,230 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E1FC4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04129C4363A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:40:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6637820E65
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:25:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86E9120759
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:40:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Um/m2vHR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P/lP5sQL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgJ2PZp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 11:25:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45720 "EHLO
+        id S1728373AbgJ2PkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 11:40:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728007AbgJ2PZp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 11:25:45 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC5BC0613D5
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 08:25:45 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id f9so1978703qkg.13
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 08:25:45 -0700 (PDT)
+        with ESMTP id S1728239AbgJ2PkM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 11:40:12 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E06C0613CF
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 08:40:12 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id h5so1766577vsp.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 08:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=HvgcHzvgNIHPBHqniJljI4Ra8aRcuzZdi/nFEGJJmlk=;
-        b=Um/m2vHRRFZAYWoO06a+XLlpac03GEvrXOXS1V20I2AKQk4w5GkBfkGV/46D8ZpN5S
-         BWxWNch8CArb5m/vTHZUEc4EfIYBgA+rxQqiC+T2dHpCn3nvzQ05mU5/q+kNNCP5ViVw
-         ONGRXSiS594/R1bUFbRO1aGw4Tv9iiF20MUy8dmo0sXdejh5PBrAyNONbIyx3LRdQXi+
-         ut87BXzrd+IhzK3P7N72GV1q5E0T5rZ6Uhw2+wi94u4KLMo5i3+3MH67qqSG3M9NZPt6
-         c1RlmzZytANnC76GOxqvpz1TgczJ+bazkHTJ1b6CtG+nALo7EOjOUE98IZH7TJFubCbt
-         ILAQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2PMHyXzjLDVufRa8llaIrw5zRwzBKgxCN4FbP7BnEq4=;
+        b=P/lP5sQLk86gvHr/EOl7JEAHhbrjf9ZAKB+VtrTxgzscmNq+bid4ufB7kd6fMviv/T
+         UvYhLTKMfuIxZhqeFP/RG8xw8oy1+uFSZy6oG4+hhma964i/elIzVv+QKJJjRH9+h0Nf
+         sasD8bU8GhS1TI9LHvOqF5glI/RA+wY8sbkhg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=HvgcHzvgNIHPBHqniJljI4Ra8aRcuzZdi/nFEGJJmlk=;
-        b=Nb6rFZlx5fCZiHniBFI7mae//yhRcgyevinlt+JHpGQKB/cQap6/qhpsjxfGi/j9Ck
-         i8D2xALxagWqgCi3jmwCQQ3ItuKXwYLQg5pHxlRnjG/RujoTLQ5EBBh24N8pcv06dp5F
-         KzAahAdJQrGHm+XrFMTPmLELU/N2DSXMr0EQnKXx1YTl9r/qcuSW6Nao0loYp4SMV7FX
-         hq9H/FQdFOeL9baVuynkC0FZlYdMZK0uHgkBi+28U99Vx5TcJwegEsR1olbdPCz+582y
-         AvFrNaZfajUp37ge0yvO24rFdSsZHLM6BNxkGjZGQs98XGflF+b4NHfQKsvFHZBS4HA8
-         41BA==
-X-Gm-Message-State: AOAM533lpG0R/gyEsIb6kODIDPFlP6pTSEgHWFv0lGR2STbXWDVIKbLJ
-        d3kMYehhE5BlQkZDL8NKUW70wTiiqp0=
-X-Google-Smtp-Source: ABdhPJxXWDsknf/Rb1rtb69rxvbDaZbMZ5tivJ14O17u25JSH7WJ9sVZ532+dseKBdIafTNKXVhMMmXELQA=
-Sender: "glider via sendgmr" <glider@glider.muc.corp.google.com>
-X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:9ff])
- (user=glider job=sendgmr) by 2002:ad4:4770:: with SMTP id d16mr2851186qvx.61.1603985144473;
- Thu, 29 Oct 2020 08:25:44 -0700 (PDT)
-Date:   Thu, 29 Oct 2020 16:25:39 +0100
-Message-Id: <20201029152539.3766146-1-glider@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v5] x86: add failure injection to get/put/clear_user
-From:   Alexander Potapenko <glider@google.com>
-To:     akpm@linux-foundation.org, bp@alien8.de, mingo@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, arnd@arndb.de
-Cc:     akinobu.mita@gmail.com, hpa@zytor.com, viro@zeniv.linux.org.uk,
-        glider@google.com, andreyknvl@google.com, dvyukov@google.com,
-        elver@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        x86@kernel.org, albert.linde@gmail.com
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2PMHyXzjLDVufRa8llaIrw5zRwzBKgxCN4FbP7BnEq4=;
+        b=DWYGVgS399c3sUbAd8I2wS+pFv9fv/oAskOFaONaEhDNFlcB1oJIkg7T8HDca+Ezco
+         94Z5HVdytZsErMl+0uin8a05kszxQIcxYzUYlJVbBLGETMvB9FCkpyYiV1n6M7bw/VIO
+         ibBx9swZVE7dQAI+Z5QSIyo9AGeiWNWmcgYXdlxd3UfZdpYWybWoB6gAq+Pjvkhj8kxw
+         6nhgYkd2C3T4GDVbtXo/6beSKu9PJssj0FiSxFs+bnfpl0lC1GORimqDBwAQ9avPRJ19
+         r2+oiTdT1Tow3YsD0OQfO50PlNIR3/iU8/tt5cOxuMzEAcRG2mIwCg6o13n0+YpmM0O4
+         Y16A==
+X-Gm-Message-State: AOAM5323+P8xoyrYW/jZDZwqAlPoj1EHaOdp7pHqfgs8ZcDL2lpukLtL
+        eydcfsDADaT5175H4t7Md/rkLO3kTy7J4A==
+X-Google-Smtp-Source: ABdhPJx6dqF2TPlto9d+M2oerjFSvHgmIcGO32alRUqmR8eBYXkuOS+neTsOdoX+uuAtLcUpAfskUQ==
+X-Received: by 2002:a67:a41:: with SMTP id 62mr2125289vsk.33.1603986010641;
+        Thu, 29 Oct 2020 08:40:10 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id h24sm334815uab.8.2020.10.29.08.40.08
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Oct 2020 08:40:09 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id u7so1734697vsq.11
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 08:40:08 -0700 (PDT)
+X-Received: by 2002:a67:b405:: with SMTP id x5mr3619420vsl.4.1603986008362;
+ Thu, 29 Oct 2020 08:40:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201019140601.3047-1-lukasz.luba@arm.com> <CAD=FV=UYeo_rWBDRu-53Aw2OeY1NCgCuUJkocRM8xL+OCbJDug@mail.gmail.com>
+ <62430cb9-eaab-b215-0eec-d35d3c625406@arm.com>
+In-Reply-To: <62430cb9-eaab-b215-0eec-d35d3c625406@arm.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 29 Oct 2020 08:39:56 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VA=tYzvb2-WQOJz7UGq-459R4+6xfuPQ-h-iMCKPP9vQ@mail.gmail.com>
+Message-ID: <CAD=FV=VA=tYzvb2-WQOJz7UGq-459R4+6xfuPQ-h-iMCKPP9vQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
+        morten.rasmussen@arm.com, Quentin Perret <qperret@google.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Albert van der Linde <alinde@google.com>
+Hi,
 
-To test fault-tolerance of user memory acceses in x86, add support for
-fault injection.
+On Thu, Oct 29, 2020 at 5:37 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>
+> On 10/20/20 1:15 AM, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Mon, Oct 19, 2020 at 7:06 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+> >>
+> >> Hi all,
+> >>
+> >> The Energy Model supports power values expressed in an abstract scale.
+> >> This has an impact on Intelligent Power Allocation (IPA) and should be
+> >> documented properly. Kernel sub-systems like EAS, IPA and DTPM
+> >> (new comming PowerCap framework) would use the new flag to capture
+> >> potential miss-configuration where the devices have registered different
+> >> power scales, thus cannot operate together.
+> >>
+> >> There was a discussion below v2 of this patch series, which might help
+> >> you to get context of these changes [2].
+> >>
+> >> The agreed approach is to have the DT as a source of power values expressed
+> >> always in milli-Watts and the only way to submit with abstract scale values
+> >> is via the em_dev_register_perf_domain() API.
+> >>
+> >> Changes:
+> >> v3:
+> >> - added boolean flag to struct em_perf_domain and registration function
+> >>    indicating if EM holds real power values in milli-Watts (suggested by
+> >>    Daniel and aggreed with Quentin)
+> >> - updated documentation regarding this new flag
+> >> - dropped DT binding change for 'sustainable-power'
+> >> - added more maintainers on CC (due to patch 1/4 touching different things)
+> >> v2 [2]:
+> >> - updated sustainable power section in IPA documentation
+> >> - updated DT binding for the 'sustainable-power'
+> >> v1 [1]:
+> >> - simple documenation update with new 'abstract scale' in EAS, EM, IPA
+> >>
+> >> Regards,
+> >> Lukasz Luba
+> >>
+> >> [1] https://lore.kernel.org/linux-doc/20200929121610.16060-1-lukasz.luba@arm.com/
+> >> [2] https://lore.kernel.org/lkml/20201002114426.31277-1-lukasz.luba@arm.com/
+> >>
+> >> Lukasz Luba (4):
+> >>    PM / EM: Add a flag indicating units of power values in Energy Model
+> >>    docs: Clarify abstract scale usage for power values in Energy Model
+> >>    PM / EM: update the comments related to power scale
+> >>    docs: power: Update Energy Model with new flag indicating power scale
+> >>
+> >>   .../driver-api/thermal/power_allocator.rst    | 13 +++++++-
+> >>   Documentation/power/energy-model.rst          | 30 +++++++++++++++----
+> >>   Documentation/scheduler/sched-energy.rst      |  5 ++++
+> >>   drivers/cpufreq/scmi-cpufreq.c                |  3 +-
+> >>   drivers/opp/of.c                              |  2 +-
+> >>   include/linux/energy_model.h                  | 20 ++++++++-----
+> >>   kernel/power/energy_model.c                   | 26 ++++++++++++++--
+> >>   7 files changed, 81 insertions(+), 18 deletions(-)
+> >
+> > While I don't feel like I have enough skin in the game to make any
+> > demands, I'm definitely not a huge fan of this series still.  I am a
+> > fan of documenting reality, but (to me) trying to mix stuff like this
+> > is just going to be adding needless complexity.  From where I'm
+> > standing, it's a lot more of a pain to specify these types of numbers
+> > in the firmware than it is to specify them in the device tree.  They
+>
+> When you have SCMI, you receive power values from FW directly, not using
+> DT.
+>
+> > are harder to customize per board, harder to spin, and harder to
+> > specify constraints for everything in the system (all heat generators,
+> > all cooling devices, etc).  ...and since we already have a way to
+> > specify this type of thing in the device tree and that's super easy
+> > for people to do, we're going to end up with weird mixes / matches of
+> > numbers coming from different locations and now we've got to figure
+> > out which numbers we can use when and which to ignore.  Ick.
+>
+> This is not that bad as you described. When you have SCMI and FW
+> all your perf domains should be aligned to the same scale.
+> In example, you have 4 little CPU, 3 big CPUs, 1 super big CPU,
+> 1 GPU, 1 DSP. For all of them the SCMI get_power callback should return
+> consistent values. You don't have to specify anything else or rev-eng.
+> Then a client like EAS would use those values from CPUs to estimate
+> energy and this works fine. Another client: IPA, which would use
+> all of them and also works fine.
 
-Make both put_user() and get_user() fail with -EFAULT, and clear_user()
-fail by not clearing any bytes.
+I guess I'm confused.  When using SCMI and FW, are there already code
+paths to get the board-specific "sustainable-power" from SCMI and FW?
 
-Reviewed-by: Akinobu Mita <akinobu.mita@gmail.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Albert van der Linde <alinde@google.com>
-Signed-off-by: Alexander Potapenko <glider@google.com>
+I know that "sustainable-power" is not truly necessary.  IIRC some of
+the code assumes that the lowest power state of all components must be
+sustainable and uses that.  However, though this makes the code work,
+it's far from ideal.  I don't want to accept a mediocre solution here.
 
----
-v2:
- - no significant changes
+In any case, I'm saying that even if "sustainable-power" can come from
+firmware, it's not as ideal of a place for it to live.  Maybe my
+experience on Chromebooks is different from the rest of upstream, but
+it's generally quite easy to adjust the device tree for a board and
+much harder to convince firmware folks to put a board-specific table
+of values.
 
-v3:
- - no changes
 
-v4:
- - instrument the new out-of-line implementations of get_user()/put_user()
- - fix a minor checkpatch warning in the inline assembly
+> > In my opinion the only way to allow for mixing and matching the
+> > bogoWatts and real Watts would be to actually have units and the
+> > ability to provide a conversion factor somewhere.  Presumably that
+> > might give you a chance of mixing and matching if someone wants to
+> > provide some stuff in device tree and get other stuff from the
+> > firmware.  Heck, I guess you could even magically figure out a
+> > conversion factor if someone provides device tree numbers for
+> > something that was already registered in SCMI, assuming all the SCMI
+> > numbers are consistent with each other...
+>
+> What you demand here is another code path, just to support revers
+> engineered power values for SCMI devices, which are stored in DT.
+> Then the SCMI protocol code and drivers should take them into account
+> and abandon standard implementation and use these values to provide
+> 'hacked' power numbers to EM. Am I right?
+> It is not going to happen.
 
-v5:
- - rebase after another change to put_user()
- - fix an issue reported by kernel test robot <lkp@intel.com>
+Quite honestly, all I want to be able to do is to provide a
+board-specific "sustainable-power" and have it match with the
+power-coefficients.  Thus:
 
----
----
- arch/x86/include/asm/uaccess.h | 38 +++++++++++++++++++++-------------
- arch/x86/lib/usercopy_64.c     |  3 +++
- 2 files changed, 27 insertions(+), 14 deletions(-)
+* If device tree accepted abstract scale, we'd be done and I'd shut
+up.  ...but Rob has made it quite clear that this is a no-go.
 
-diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-index c9fa7be3df82..036467b850f8 100644
---- a/arch/x86/include/asm/uaccess.h
-+++ b/arch/x86/include/asm/uaccess.h
-@@ -5,6 +5,7 @@
-  * User space memory access functions
-  */
- #include <linux/compiler.h>
-+#include <linux/fault-inject-usercopy.h>
- #include <linux/kasan-checks.h>
- #include <linux/string.h>
- #include <asm/asm.h>
-@@ -126,11 +127,16 @@ extern int __get_user_bad(void);
- 	int __ret_gu;							\
- 	register __inttype(*(ptr)) __val_gu asm("%"_ASM_DX);		\
- 	__chk_user_ptr(ptr);						\
--	asm volatile("call __" #fn "_%P4"				\
--		     : "=a" (__ret_gu), "=r" (__val_gu),		\
--			ASM_CALL_CONSTRAINT				\
--		     : "0" (ptr), "i" (sizeof(*(ptr))));		\
--	(x) = (__force __typeof__(*(ptr))) __val_gu;			\
-+	if (should_fail_usercopy()) {					\
-+		(x) = 0;						\
-+		__ret_gu = -EFAULT;					\
-+	} else {							\
-+		asm volatile("call __" #fn "_%P4"			\
-+			     : "=a" (__ret_gu), "=r" (__val_gu),	\
-+				ASM_CALL_CONSTRAINT			\
-+			     : "0" (ptr), "i" (sizeof(*(ptr))));	\
-+		(x) = (__force __typeof__(*(ptr))) __val_gu;		\
-+	}								\
- 	__builtin_expect(__ret_gu, 0);					\
- })
- 
-@@ -220,15 +226,19 @@ extern void __put_user_nocheck_8(void);
- 	void __user *__ptr_pu;						\
- 	register __typeof__(*(ptr)) __val_pu asm("%"_ASM_AX);		\
- 	__chk_user_ptr(ptr);						\
--	__ptr_pu = (ptr);						\
--	__val_pu = (x);							\
--	asm volatile("call __" #fn "_%P[size]"				\
--		     : "=c" (__ret_pu),					\
--			ASM_CALL_CONSTRAINT				\
--		     : "0" (__ptr_pu),					\
--		       "r" (__val_pu),					\
--		       [size] "i" (sizeof(*(ptr)))			\
--		     :"ebx");						\
-+	if (unlikely(should_fail_usercopy())) {				\
-+		__ret_pu = -EFAULT;					\
-+	} else {							\
-+		__ptr_pu = (ptr);					\
-+		__val_pu = (x);						\
-+		asm volatile("call __" #fn "_%P[size]"			\
-+			     : "=c" (__ret_pu),				\
-+				ASM_CALL_CONSTRAINT			\
-+			     : "0" (__ptr_pu),				\
-+			       "r" (__val_pu),				\
-+			       [size] "i" (sizeof(*(ptr)))		\
-+			     : "ebx");					\
-+	}								\
- 	__builtin_expect(__ret_pu, 0);					\
- })
- 
-diff --git a/arch/x86/lib/usercopy_64.c b/arch/x86/lib/usercopy_64.c
-index 508c81e97ab1..5617b3864586 100644
---- a/arch/x86/lib/usercopy_64.c
-+++ b/arch/x86/lib/usercopy_64.c
-@@ -7,6 +7,7 @@
-  * Copyright 2002 Andi Kleen <ak@suse.de>
-  */
- #include <linux/export.h>
-+#include <linux/fault-inject-usercopy.h>
- #include <linux/uaccess.h>
- #include <linux/highmem.h>
- 
-@@ -50,6 +51,8 @@ EXPORT_SYMBOL(__clear_user);
- 
- unsigned long clear_user(void __user *to, unsigned long n)
- {
-+	if (should_fail_usercopy())
-+		return n;
- 	if (access_ok(to, n))
- 		return __clear_user(to, n);
- 	return n;
--- 
-2.29.1.341.ge80a0c044ae-goog
+* If it was super easy to add all these values into firmware for a
+board and we could totally remove these from the device tree, I'd
+grumble a bit about firmware being a terrible place for this but at
+least we'd have a solution and we'd be done and I'd shut up.  NOTE: I
+don't know ATF terribly well, but I'd guess that this needs to go
+there?  Presumably part of this is convincing firmware folks to add
+this board-specific value there...
 
+-Doug
