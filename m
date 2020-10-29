@@ -2,56 +2,57 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79398C4363A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58010C4363A
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:56:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 170FA2087D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0162820825
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 15:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603986227;
-	bh=o1di1FVImlZ/WX+SlakEAVThYj8EXzI8/Bg5Th32ku8=;
+	s=default; t=1603986995;
+	bh=UIYyaC9mWXzASi/e/U7uoy/4dyXW1LiDvKm13VKMy4s=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=UoTgA7i7lSC/cnsPWs7kF2jGvTgVSptXoEH3gKfanEdXb4A+L7T6orMHa5bERGcAv
-	 nInLIb39gQZs0wG4KjZ43foavgAB0aojLImwHK0ABCDoNn/TxujEynGOoa1HOEfGbd
-	 N/x2gH2KBFibVR99aopPi+ciKqb/xTEdaSjgwKy4=
+	b=j8qOgXjCgTtX8nE7x9UISmTunllr30P8jV1+p0LYngmHO1aZ39rXxfQt/Rrciga0f
+	 JYaJeMwQIPQYNhazPthRS+q8hJTfNE9F3qgs+TkUlir7FF2z0eM+SQGM7avbwYJRhJ
+	 RFPzS/EKv01VKIfnARAvZLsLEVgfa+pEx3OHpcYI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728150AbgJ2Pnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 11:43:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52714 "EHLO mail.kernel.org"
+        id S1728491AbgJ2P4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 11:56:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58332 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728068AbgJ2Pnq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Oct 2020 11:43:46 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        id S1728450AbgJ2P4a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Oct 2020 11:56:30 -0400
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5C0FE207DE;
-        Thu, 29 Oct 2020 15:43:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7CDFD206B2;
+        Thu, 29 Oct 2020 15:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603986225;
-        bh=o1di1FVImlZ/WX+SlakEAVThYj8EXzI8/Bg5Th32ku8=;
+        s=default; t=1603986989;
+        bh=UIYyaC9mWXzASi/e/U7uoy/4dyXW1LiDvKm13VKMy4s=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=l4hybExPWaf0ngZ+C35lvfGL68apV2vl5vII4bJRU6NFYB4LTLepBAohgyvCEP31y
-         WDOO+veusBuPjFmKem+hXNHKU/IjWFmG+U4PITbZ+8tsgcXEALLlvztYydL48+8+i3
-         m9smIHJaPJiyz5Jd3+PAerrmLrhPVZeiBL7S8qYU=
-Date:   Thu, 29 Oct 2020 15:43:36 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 45/56] iio: fix a kernel-doc markup
-Message-ID: <20201029154336.1837bd0a@archlinux>
-In-Reply-To: <46622c3bdcffb76e79719f0fe5011c2952960b32.1603469755.git.mchehab+huawei@kernel.org>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
-        <46622c3bdcffb76e79719f0fe5011c2952960b32.1603469755.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        b=PEI41i3ZoJhIeG7S0wdP61pqF6ebSRk+K7bVoA6WcmUVOTRSP7TeVEngKZIxFm9IC
+         2/I5TlPAOE902RPm+CL85tl7glSA+edgRpHtIKvbE1fbSh4qpma6ZuyY5n37A+3biq
+         QpqmaTuKGayA9PYTEjoam2qco5dRtw+uf4nTXBeA=
+Date:   Thu, 29 Oct 2020 08:56:27 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        devel@driverdev.osuosl.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>,
+        Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [RFC] wimax: move out to staging
+Message-ID: <20201029085627.698080a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201028055628.GB244117@kroah.com>
+References: <20201027212448.454129-1-arnd@kernel.org>
+        <20201028055628.GB244117@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -59,35 +60,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Oct 2020 18:33:32 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> A function has a different name between their prototype
-> and its kernel-doc markup.
+On Wed, 28 Oct 2020 06:56:28 +0100 Greg Kroah-Hartman wrote:
+> On Tue, Oct 27, 2020 at 10:20:13PM +0100, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> > 
+> > There are no known users of this driver as of October 2020, and it will
+> > be removed unless someone turns out to still need it in future releases.
+> > 
+> > According to https://en.wikipedia.org/wiki/List_of_WiMAX_networks, there
+> > have been many public wimax networks, but it appears that these entries
+> > are all stale, after everyone has migrated to LTE or discontinued their
+> > service altogether.
+> > 
+> > NetworkManager appears to have dropped userspace support in 2015
+> > https://bugzilla.gnome.org/show_bug.cgi?id=747846, the
+> > www.linuxwimax.org
+> > site had already shut down earlier.
+> > 
+> > WiMax is apparently still being deployed on airport campus networks
+> > ("AeroMACS"), but in a frequency band that was not supported by the old
+> > Intel 2400m (used in Sandy Bridge laptops and earlier), which is the
+> > only driver using the kernel's wimax stack.
+> > 
+> > Move all files into drivers/staging/wimax, including the uapi header
+> > files and documentation, to make it easier to remove it when it gets
+> > to that. Only minimal changes are made to the source files, in order
+> > to make it possible to port patches across the move.
+> > 
+> > Also remove the MAINTAINERS entry that refers to a broken mailing
+> > list and website.
+> > 
+> > Suggested-by: Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>  
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Applied to the togreg branch of iio.git.
-
-Thanks,
-
-Jonathan
-
-> ---
->  include/linux/iio/trigger.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Is this ok for me to take through the staging tree?  If so, I need an
+> ack from the networking maintainers.
 > 
-> diff --git a/include/linux/iio/trigger.h b/include/linux/iio/trigger.h
-> index cad8325903f9..f930c4ccf378 100644
-> --- a/include/linux/iio/trigger.h
-> +++ b/include/linux/iio/trigger.h
-> @@ -97,7 +97,7 @@ static inline struct iio_trigger *iio_trigger_get(struct iio_trigger *trig)
->  }
->  
->  /**
-> - * iio_device_set_drvdata() - Set trigger driver data
-> + * iio_trigger_set_drvdata() - Set trigger driver data
->   * @trig: IIO trigger structure
->   * @data: Driver specific data
->   *
+> If not, feel free to send it through the networking tree and add:
+> 
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
+Thinking about it now - we want this applied to -next, correct? 
+In that case it may be better if we take it. The code is pretty dead
+but syzbot and the trivial fix crowd don't know it, so I may slip,
+apply something and we'll have a conflict.
