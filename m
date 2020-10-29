@@ -2,169 +2,106 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6168C55178
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 10:04:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1277C55179
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 10:04:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 744AC20790
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 10:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603965845;
-	bh=lsFw3OOqgVhP+yvjAUcffFTse7k37g09prNTuvTfXMA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=yCGZzmUfkDiVRx+MrEWNiT7UnnJBZfcsTI70tlIewaERSon7BkFbwfFm21FOLFRpv
-	 6qUU+biiskZIm4Fo7tVfPOhPMuGcmiBxP579xJ62zFqJxDBHNuI9GadculDH505IO0
-	 deQ2tRqxeF/Z2XnhBT2jrfdaUuMigzstKKGdwyFc=
+	by mail.kernel.org (Postfix) with ESMTP id 800F82076E
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 10:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725775AbgJ2KEC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 06:04:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45244 "EHLO mail.kernel.org"
+        id S1726114AbgJ2KEu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 06:04:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59074 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725765AbgJ2KEC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Oct 2020 06:04:02 -0400
-Received: from coco.lan (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1C955206E3;
-        Thu, 29 Oct 2020 10:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603965841;
-        bh=lsFw3OOqgVhP+yvjAUcffFTse7k37g09prNTuvTfXMA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=EIRZlzcK0Ha52CG9CUUqZCCnW21XlR1KefcFtyDGms+ygaOAPTnebxZK5GYE867ps
-         nEHNsHoGiuLnQIuQRUWMI3qHLBBpiNfWpMJq/k74zHThwDntICO9NbgZasJ4SiO3jV
-         oaFfZfWRjKuyDh4oICuaviZsGxygwwHozLARW8D4=
-Date:   Thu, 29 Oct 2020 11:03:53 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Divya Bharathi <divya27392@gmail.com>
-Cc:     dvhart@infradead.org, LKML <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        Divya Bharathi <divya.bharathi@dell.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        mark gross <mgross@linux.intel.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Prasanth KSR <prasanth.ksr@dell.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7] Introduce support for Systems Management Driver over
- WMI for Dell Systems
-Message-ID: <20201029110353.6c8dfb61@coco.lan>
-In-Reply-To: <20201029090114.64daf4e3@coco.lan>
-References: <20201027134944.316730-1-divya.bharathi@dell.com>
-        <20201029090114.64daf4e3@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726110AbgJ2KEu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Oct 2020 06:04:50 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 9B12EAB0E;
+        Thu, 29 Oct 2020 10:04:48 +0000 (UTC)
+Date:   Thu, 29 Oct 2020 11:04:48 +0100 (CET)
+From:   Miroslav Benes <mbenes@suse.cz>
+To:     Mark Rutland <mark.rutland@arm.com>
+cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
+In-Reply-To: <20201023153527.36346-1-mark.rutland@arm.com>
+Message-ID: <alpine.LSU.2.21.2010291104330.1688@pobox.suse.cz>
+References: <20201023153527.36346-1-mark.rutland@arm.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 29 Oct 2020 09:01:14 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hi,
 
-> Em Tue, 27 Oct 2020 19:19:44 +0530
-> Divya Bharathi <divya27392@gmail.com> escreveu:
-> 
-> > The Dell WMI Systems Management Driver provides a sysfs
-> > interface for systems management to enable BIOS configuration
-> > capability on certain Dell Systems.
-> > 
-> > This driver allows user to configure Dell systems with a
-> > uniform common interface. To facilitate this, the patch
-> > introduces a generic way for driver to be able to create
-> > configurable BIOS Attributes available in Setup (F2) screen.
-> > 
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Cc: mark gross <mgross@linux.intel.com>
-> > 
-> > Co-developed-by: Mario Limonciello <mario.limonciello@dell.com>
-> > Signed-off-by: Mario Limonciello <mario.limonciello@dell.com>
-> > Co-developed-by: Prasanth KSR <prasanth.ksr@dell.com>
-> > Signed-off-by: Prasanth KSR <prasanth.ksr@dell.com>
-> > Signed-off-by: Divya Bharathi <divya.bharathi@dell.com>
-> > ---  
-> 
-> 
-> > +What:		/sys/class/firmware-attributes/*/authentication/
-> > +Date:		February 2021
-> > +KernelVersion:	5.11
-> > +Contact:	Divya Bharathi <Divya.Bharathi@Dell.com>,
-> > +		Mario Limonciello <mario.limonciello@dell.com>,
-> > +		Prasanth KSR <prasanth.ksr@dell.com>
-> > +
-> > +		Devices support various authentication mechanisms which can be exposed
-> > +		as a separate configuration object.
-> > +
-> > +		For example a "BIOS Admin" password and "System" Password can be set,
-> > +		reset or cleared using these attributes.
-> > +		- An "Admin" password is used for preventing modification to the BIOS
-> > +		  settings.
-> > +		- A "System" password is required to boot a machine.
-> > +  
-> 
-> This is adding a new warning:
-> 
-> 	$ ./scripts/get_abi.pl validate
-> 	Warning: file Documentation/ABI/testing/sysfs-class-firmware-attributes#172:
-> 		What '/sys/class/firmware-attributes/*/authentication/' doesn't have a description
-> 
-> Because you forgot to add a Description: tag.
-> 
-> Feel free to either add the enclosed tag to the tree which added this into
-> linux-next, or to fold id with the original patch.
-> 
-> Thanks,
-> Mauro
-> 
-> ABI: docs: sysfs-class-firmware-attributes: add a missing tag
->     
-> The Description:  tag is missing, causing this warning with
-> scripts/get_abi.pl:
->     
-> 	Warning: file Documentation/ABI/testing/sysfs-class-firmware-attributes#172:
-> 		 What '/sys/class/firmware-attributes/*/authentication/' doesn't have a description
->     
-> Fixes: e8a60aa7404b ("platform/x86: Introduce support for Systems Management Driver over WMI for Dell Systems")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-firmware-attributes b/Documentation/ABI/testing/sysfs-class-firmware-attributes
-> index 04a15c72e883..ea1837f1f3c2 100644
-> --- a/Documentation/ABI/testing/sysfs-class-firmware-attributes
-> +++ b/Documentation/ABI/testing/sysfs-class-firmware-attributes
-> @@ -113,7 +113,7 @@ KernelVersion:	5.11
->  Contact:	Divya Bharathi <Divya.Bharathi@Dell.com>,
->  		Mario Limonciello <mario.limonciello@dell.com>,
->  		Prasanth KSR <prasanth.ksr@dell.com>
-> -
-> +Description:
->  		Devices support various authentication mechanisms which can be exposed
->  		as a separate configuration object.
->  
-> 
+On Fri, 23 Oct 2020, Mark Rutland wrote:
 
-There are a few other warnings produced by it, when generating the
-ABI output, so, I sent a new patch covering all warnings.
+> Add documentation for reliable stacktrace. This is intended to describe
+> the semantics and to be an aid for implementing architecture support for
+> HAVE_RELIABLE_STACKTRACE.
 
-If you want to test the ABI file generation, the patchset is at:
+thanks a lot for doing the work!
 
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v7
+> Unwinding is a subtle area, and architectures vary greatly in both
+> implementation and the set of concerns that affect them, so I've tried
+> to avoid making this too specific to any given architecture. I've used
+> examples from both x86_64 and arm64 to explain corner cases in more
+> detail, but I've tried to keep the descriptions sufficient for those who
+> are unfamiliar with the particular architecture.
 
-You can easily build just the sysfs firmware attribute class ABI with
-something like this:
+Yes, I think it is a good approach. We can always add more details later, 
+but it would probably cause more confusion for those unfamiliar.
 
-	$ mkdir -p fodir && cp Documentation/ABI/testing/sysfs-class-firmware-attributes fodir/ && ./scripts/get_abi.pl rest -dir fodir/ --rst-source >Documentation/foo/abi.rst && make SPHINXDIRS=foo htmldocs
+> I've tried to give rationale for all the recommendations/requirements,
+> since that makes it easier to spot nearby issues, or when a check
+> happens to catch a few things at once. I believe what I have written is
+> sound, but as some of this was reverse-engineered I may have missed
+> things worth noting.
+> 
+> I've made a few assumptions about preferred behaviour, notably:
+> 
+> * If you can reliably unwind through exceptions, you should (as x86_64
+>   does).
 
-You can also see it at:
+Yes, it does. I think (and Josh will correct me if I am wrong here), that 
+even at the beginning the intention was to improve the reliability of 
+unwinding in general. Both x86_64 and s390x are the case. _reliable() 
+interface only takes an advantage of that. As you pointed out in the 
+document, unwinding through exceptions is not necessary. It can be 
+reported as unreliable and we can deal with that later. But it is always 
+better to do it if possible.
 
-	http://www.infradead.org/~mchehab/kernel_docs/foo/abi.html
+powerpc is an exception to the approach, because it implements its 
+_reliable() API from the scratch.
 
+> * It's fine to omit ftrace_return_to_handler and other return
+>   trampolines so long as these are not subject to patching and the
+>   original return address is reported. Most architectures do this for
+>   ftrace_return_handler, but not other return trampolines.
 
-Thanks,
-Mauro
+Yes. Patching a trampoline is not something I can imagine, so that should 
+not be a problem. But one never knows and we may run into a problem here 
+easily. I don't remember if we even audited all the trampolines. And new 
+ones are introduced all the time.
+
+> * For cases where link register unreliability could result in duplicate
+>   entries in the trace or an inverted trace, I've assumed this should be
+>   treated as unreliable. This specific case shouldn't matter to
+>   livepatching, but I assume that that we want a reliable trace to have
+>   the correct order.
+
+Agreed.
+
+Thanks
+Miroslav
