@@ -2,165 +2,175 @@ Return-Path: <SRS0=jIxK=EE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A31C2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 09:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A872C55178
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 09:30:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D05F2072C
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 09:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603962458;
-	bh=Gla487go1VrkmhiLWBVHX3FdQtKupPqvUz9Fe4VLBlw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=OWkeK8yFafNrRzRVpa8eWWLGE0TXiCBz871tXRwkMS8XDoVknkzFeUbYV6SNBe/BI
-	 UmV40JVBUpB62Pu8LkrFQI/Fg6hR76xTKzxETN12YVnSOoa4bep0OhftZ3Ry+eLP7q
-	 6rSQYm7MQuxyH8YDPPpmL/vWoLVNhZqqJ7RoccRs=
+	by mail.kernel.org (Postfix) with ESMTP id 444EA20796
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Oct 2020 09:30:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725613AbgJ2JHh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 05:07:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52396 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725372AbgJ2JHh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Oct 2020 05:07:37 -0400
-Received: from coco.lan (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E3E64206D9;
-        Thu, 29 Oct 2020 09:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603962456;
-        bh=Gla487go1VrkmhiLWBVHX3FdQtKupPqvUz9Fe4VLBlw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=E9tz59pEzlwn2SAmW0HovgPF33m/qtgLVhGRLFLo5Mkec9wlPtmF/oPqD7fNr9trZ
-         GlCnF+ra0M41d7UBDnnj90bfNUUIY408OZk0K6CHeP41K3BYx4B2/9xnkQsEImpdE8
-         S54iav4Sm1Sap+e+zNcQ16Aw7/AVCaIXGO0QnGx8=
-Date:   Thu, 29 Oct 2020 10:07:21 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Benson Leung <bleung@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Chao Yu <chao@kernel.org>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Colin Cross <ccross@android.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Cameron <jic23@kernel.org>,
+        id S1725801AbgJ2JaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 05:30:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726690AbgJ2JaK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 05:30:10 -0400
+Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc09])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5368CC0613CF;
+        Thu, 29 Oct 2020 02:30:10 -0700 (PDT)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CMKsq0bfrzljf95;
+        Thu, 29 Oct 2020 10:30:07 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CMKsn1t98zlh8Tj;
+        Thu, 29 Oct 2020 10:30:05 +0100 (CET)
+Subject: Re: [PATCH v22 01/12] landlock: Add object management
+To:     Jann Horn <jannh@google.com>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Peter Rosin <peda@axentia.se>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Richard Gong <richard.gong@linux.intel.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Tony Luck <tony.luck@intel.com>, Wu Hao <hao.wu@intel.com>,
-        Divya Bharathi <divya27392@gmail.com>,
-        platform-driver-x86@vger.kernel.org,
-        Divya Bharathi <divya.bharathi@dell.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        mark gross <mgross@linux.intel.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Prasanth KSR <prasanth.ksr@dell.com>
-Subject: Re: [PATCH 00/33] ABI: add it to the documentation build system
-Message-ID: <20201029100721.0fe83761@coco.lan>
-In-Reply-To: <20201028144321.GA2302351@kroah.com>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
-        <20201028144321.GA2302351@kroah.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20201027200358.557003-1-mic@digikod.net>
+ <20201027200358.557003-2-mic@digikod.net>
+ <CAG48ez3CKa12SFHjVUPnYzJm2E7OBWnuh3JzVMrsvqdcMS1A8A@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <afa8e978-d22c-f06a-d57b-e0d1a9918062@digikod.net>
+Date:   Thu, 29 Oct 2020 10:30:04 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAG48ez3CKa12SFHjVUPnYzJm2E7OBWnuh3JzVMrsvqdcMS1A8A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 28 Oct 2020 15:43:21 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-> On Wed, Oct 28, 2020 at 03:22:58PM +0100, Mauro Carvalho Chehab wrote:
-> > Hi Greg,
-> > 
-> > As requested, this is a rebased version on the top of v5.10-rc1
-> > adding support for having the Linux ABI documentted inside
-> > the Linux admin manual.
-> > 
-> > When compared with the version I sent years ago, this
-> > version has:
-> > 
-> > - a logic to detect duplicated ABI symbols;
-> > - it auto-generate cross-reference markups for ABI symbols,
-> >   ABI files and .rst files;
-> > - Other files from 5.10-rc1 required adjustments in order
-> >   to be accepted by the script in rst-source mode;
-> > - Some bug fixes.
-> > 
-> > PS.: I didn't try to merge it against linux-next yet. So,
-> > I won't doubt that applying it could cause some conflicts.
-> > 
-> > Feel free to review it.  
+On 29/10/2020 02:05, Jann Horn wrote:
+> On Tue, Oct 27, 2020 at 9:04 PM Mickaël Salaün <mic@digikod.net> wrote:
+>> A Landlock object enables to identify a kernel object (e.g. an inode).
+>> A Landlock rule is a set of access rights allowed on an object.  Rules
+>> are grouped in rulesets that may be tied to a set of processes (i.e.
+>> subjects) to enforce a scoped access-control (i.e. a domain).
+>>
+>> Because Landlock's goal is to empower any process (especially
+>> unprivileged ones) to sandbox themselves, we cannot rely on a
+>> system-wide object identification such as file extended attributes.
+>> Indeed, we need innocuous, composable and modular access-controls.
+>>
+>> The main challenge with these constraints is to identify kernel objects
+>> while this identification is useful (i.e. when a security policy makes
+>> use of this object).  But this identification data should be freed once
+>> no policy is using it.  This ephemeral tagging should not and may not be
+>> written in the filesystem.  We then need to manage the lifetime of a
+>> rule according to the lifetime of its objects.  To avoid a global lock,
+>> this implementation make use of RCU and counters to safely reference
+>> objects.
+>>
+>> A following commit uses this generic object management for inodes.
+>>
+>> Cc: James Morris <jmorris@namei.org>
+>> Cc: Jann Horn <jannh@google.com>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Cc: Serge E. Hallyn <serge@hallyn.com>
+>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
 > 
-> In general, I like it.
+> Reviewed-by: Jann Horn <jannh@google.com>
+
+Thanks for the review.
+
 > 
-> If there's no complaints, I'd like to take all of the Documentation/ABI/
-> updates in for 5.10-rc2 at the least, to make it easier to build on top
-> of and to keep these types of mistakes from living longer than they
-> should be.  And make merging easier with other trees over time.
+> except for some minor nits:
+> 
+> [...]
+>> diff --git a/security/landlock/object.c b/security/landlock/object.c
+> [...]
+>> +void landlock_put_object(struct landlock_object *const object)
+>> +{
+>> +       /*
+>> +        * The call to @object->underops->release(object) might sleep e.g.,
+> 
+> s/ e.g.,/, e.g./
 
-I rebased today on the top of linux-next. All patches applied as-is.
+I indeed prefer the comma preceding the "e.g.", but it seems that there
+is a difference between UK english and US english:
+https://english.stackexchange.com/questions/16172/should-i-always-use-a-comma-after-e-g-or-i-e
+Looking at the kernel documentation makes it clear:
+$ git grep -F 'e.g. ' | wc -l
+1179
+$ git grep -F 'e.g., ' | wc -l
+160
 
-There's just a few new warnings due to a single patch, added via
-platform-driver-x86:
+I'll apply your fix in the whole patch series.
 
-	[PATCH v7] Introduce support for Systems Management Driver over WMI for Dell Systems
+> 
+>> +        * because of iput().
+>> +        */
+>> +       might_sleep();
+>> +       if (!object)
+>> +               return;
+> [...]
+>> +}
+>> diff --git a/security/landlock/object.h b/security/landlock/object.h
+> [...]
+>> +struct landlock_object {
+>> +       /**
+>> +        * @usage: This counter is used to tie an object to the rules matching
+>> +        * it or to keep it alive while adding a new rule.  If this counter
+>> +        * reaches zero, this struct must not be modified, but this counter can
+>> +        * still be read from within an RCU read-side critical section.  When
+>> +        * adding a new rule to an object with a usage counter of zero, we must
+>> +        * wait until the pointer to this object is set to NULL (or recycled).
+>> +        */
+>> +       refcount_t usage;
+>> +       /**
+>> +        * @lock: Guards against concurrent modifications.  This lock must be
+> 
+> s/must be/must be held/ ?
 
-(plus, it generated a get_abi.pl warning, due to a description added there
-without Description:)
+Right.
 
-The ReST warnings are:
+> 
+>> +        * from the time @usage drops to zero until any weak references from
+>> +        * @underobj to this object have been cleaned up.
+>> +        *
+>> +        * Lock ordering: inode->i_lock nests inside this.
+>> +        */
+>> +       spinlock_t lock;
+> [...]
+>> +};
+>> +
+>> +struct landlock_object *landlock_create_object(
+>> +               const struct landlock_object_underops *const underops,
+>> +               void *const underojb);
+> 
+> nit: "underobj"
+> 
 
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:2: WARNING: Title underline too short.
-
-	Dell specific class extensions
-	--------------------------
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:2: WARNING: Unexpected indentation.
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:2: WARNING: Unexpected indentation.
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:2: WARNING: Block quote ends without a blank line; unexpected unindent.
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:173: WARNING: Unexpected indentation.
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:173: WARNING: Unexpected indentation.
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:173: WARNING: Block quote ends without a blank line; unexpected unindent.
-	/devel/v4l/docs/Documentation/ABI/testing/sysfs-class-firmware-attributes:111: WARNING: Inline emphasis start-string without end-string.
-
-Without looking at the file, from the warnings, I suspect
-that adding a few blank before/after indented lines should be
-enough to fix them.
-
-I'll prepare a separate patch to the file author, fixing those,
-to be merged via the platform-driver-x86 git tree.
-
-Thanks,
-Mauro
+Good catch!
