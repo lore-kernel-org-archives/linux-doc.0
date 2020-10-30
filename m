@@ -2,137 +2,127 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CBBC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC71C4742C
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 03:03:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D4482076E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:59:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E79D720731
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 03:03:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="Fw4m2smg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AybJN8x6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726608AbgJ3C7j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 22:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40726 "EHLO
+        id S1726237AbgJ3DDH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 23:03:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbgJ3C7h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 22:59:37 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB157C0613CF
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:59:36 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id x13so4021588pfa.9
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:59:36 -0700 (PDT)
+        with ESMTP id S1726157AbgJ3DDG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 23:03:06 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDAC7C0613D4
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 20:03:05 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id l2so6043610lfk.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 20:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PacvAjHwgz1W/0KZrRopBKHXPnOrWBvk3OdH8B4Ar6U=;
-        b=Fw4m2smg/K/alu/8ExRJ3g4CTjiomNaZ4C8ynioPCJc+br9KXpGqY+GKjYbAah8E52
-         erQS1Tae/ldrTjhlKTBJZmsZndAUYE2E0n5K4B8tKYf1MUrhAX7r7NwCdH4IKioXV56Y
-         O4iHIIq1iGaWl3WBnmK6K1AYWSmsZEky22+vDhbjun63JOCwgR2LBsN/RaY9rgoZVZg8
-         xL5tsKE+/dBOVWPTThOwSotcFMPcRKrPh4XZNxIZrCooREKYdTr8A8/H3TQKK++i8QTR
-         zZ5h2mMmwD7vmyJLwiSJJcmqpAjoNYpn8aINi+o2rw6547qX7kmULFPjPOX/2TWYk3Ra
-         oG4Q==
+         :cc:content-transfer-encoding;
+        bh=qetmnWNVsQksjakl8dXjUkaIoxiVzA6keFiGM2ap5AY=;
+        b=AybJN8x6VEeLGCBEBx81sKm96EvpYJ8EOMN+ehVaa6kd1osmMtolGYpNiB+P0jXeBh
+         JKcVuff4V9jHq7LjenAGN4DP3DoekAwTcbRvi61IrciA2+MhWuRptX/cfrMWp2rh9BUL
+         WfSbatM3Au8j1fzzyV3HW0euf/Cis4dc9BCinMZ0G63d+e5Ck9hSrP0cmSaexwCaLIK9
+         WfxfJxdjfpqlNROWMWoWk7G1JjCULiMI0/IvyTkN/Ok5//vRUceaGL6seL1jFZ9UpPZ/
+         9JxTapyOGkoyBE2PhKDWHY3u4CBkCKKhDihE7xCjbPZeuq44+LhTw7iHPhvtRuHFZqre
+         rTQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PacvAjHwgz1W/0KZrRopBKHXPnOrWBvk3OdH8B4Ar6U=;
-        b=BOWJJG+gNhObTkS6wG/HC9AinOd/HTs9nd2FDANFQhZcp+kesb03xW43S0O7ITK2XX
-         ddq9AV1OgQiIRK4P4BoWj+VDtl0H6orIEk+SH1zBAg8bmbJ7a1JwLPB17qaSl68BRRsQ
-         S6HHbcgAZ4b4KdPC4g1aXOZLWoQBof38zJo2uU1TcsBcG892vZfyrUGJnWd8BSYtdO10
-         /sWcIfO3LububZrjo+qE+dok1o2mLTB48P1K8rQCMG0emP1jioZWec76PEiuKUH63y6z
-         c5691d6lDBieJhE6lnxfeWVxiNHjmbIYGs9/LjaElO9jHJLqn7hYZIX0vwp/IFqOKLT3
-         wXmw==
-X-Gm-Message-State: AOAM5337tChJj8Z5ss+AF3+WV+S5a+0s+ZVE3vcJ0o+R0NdK5JkF2ZpB
-        YNvpWCjdJ/ZrWzsafvjCMefmZXgxFPjJa6SdaEI1fQ==
-X-Google-Smtp-Source: ABdhPJxei/552yatkJNpugavx1a8LhPgVhlouDAUvQRrA7YwMCj73kV355oTLvUbOYPCrAsiA+OaoL7mkx2lvCx/5JM=
-X-Received: by 2002:aa7:9095:0:b029:164:75c4:5d15 with SMTP id
- i21-20020aa790950000b029016475c45d15mr7331085pfa.49.1604026776404; Thu, 29
- Oct 2020 19:59:36 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qetmnWNVsQksjakl8dXjUkaIoxiVzA6keFiGM2ap5AY=;
+        b=RIe6H//2eOZSVbnlyLM5Cg9JOR1wgl8agZE8/loIqTOGPdBCf+ensjq1juAHrOqpJR
+         YlNTWL4qUKNWFhJYlFmay3WUnfemR8mjkh6a68tlXfsFakvI73D3qvdFzGqz8+w5CkUc
+         j5qScckG9qC2ayTKAFl+wjVh25kotEu6eGxSIz8awjaRX5IpS82xaNYbPDksnCP5f2CP
+         34PGFrqO29FfG9icO+A0QPqVmMO/32FunWEzwaZgI/cQNm1SithDi+maaQf0eNWHbFcM
+         /RboCAi7njy2D049heHOAuHqaKoSv6sfxywZQB2KvwyUpCVvnWn/L3c4QGyFgJZHSjxb
+         K6Fw==
+X-Gm-Message-State: AOAM530vIsbFYMeh7z0/CPlHpe4t0uMLpfcTY+3RAA9BE2wdUofRCY9C
+        K32OOx171aA3IsMKwMlRViSa5rrU3xoMWVkKG9rX2A==
+X-Google-Smtp-Source: ABdhPJzYTNXH60XmJevS1nU77QTkbnJdxDa2BUkj+JK2GK03XFm5dsruLADHPeQtCXNc8JlilkKNtelCRS8CC6e1sv0=
+X-Received: by 2002:a19:c357:: with SMTP id t84mr39422lff.34.1604026983869;
+ Thu, 29 Oct 2020 20:03:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
- <20201026145114.59424-8-songmuchun@bytedance.com> <8658f431-56c4-9774-861a-9c3b54d1910a@oracle.com>
- <CAMZfGtUUkkkeENXOOLPacverqyudxntTenMKrtpfHnLOBJaX5Q@mail.gmail.com> <21ea37f2-38ca-ce5f-6039-0ee388092f1d@oracle.com>
-In-Reply-To: <21ea37f2-38ca-ce5f-6039-0ee388092f1d@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 30 Oct 2020 10:58:59 +0800
-Message-ID: <CAMZfGtUcknh5Atms=JGWnM-mNodW6n3PV=8TgA865zMZZK-ZpQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v2 07/19] mm/hugetlb: Free the vmemmap
- pages associated with each hugetlb page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20201027200358.557003-1-mic@digikod.net> <20201027200358.557003-2-mic@digikod.net>
+ <CAG48ez3CKa12SFHjVUPnYzJm2E7OBWnuh3JzVMrsvqdcMS1A8A@mail.gmail.com> <afa8e978-d22c-f06a-d57b-e0d1a9918062@digikod.net>
+In-Reply-To: <afa8e978-d22c-f06a-d57b-e0d1a9918062@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 30 Oct 2020 04:02:37 +0100
+Message-ID: <CAG48ez0eXxjRJ2S3pbYqEsp8xVCdHQMKrPg9WHPB_Rv_kWC_nA@mail.gmail.com>
+Subject: Re: [PATCH v22 01/12] landlock: Add object management
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 6:00 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+On Thu, Oct 29, 2020 at 10:30 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
+ wrote:
+> On 29/10/2020 02:05, Jann Horn wrote:
+> > On Tue, Oct 27, 2020 at 9:04 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
+et> wrote:
+> >> A Landlock object enables to identify a kernel object (e.g. an inode).
+> >> A Landlock rule is a set of access rights allowed on an object.  Rules
+> >> are grouped in rulesets that may be tied to a set of processes (i.e.
+> >> subjects) to enforce a scoped access-control (i.e. a domain).
+[...]
+> >> diff --git a/security/landlock/object.c b/security/landlock/object.c
+> > [...]
+> >> +void landlock_put_object(struct landlock_object *const object)
+> >> +{
+> >> +       /*
+> >> +        * The call to @object->underops->release(object) might sleep =
+e.g.,
+> >
+> > s/ e.g.,/, e.g./
 >
-> On 10/28/20 11:13 PM, Muchun Song wrote:
-> > On Thu, Oct 29, 2020 at 7:42 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
-> >>
-> >> On 10/26/20 7:51 AM, Muchun Song wrote:
-> >>> +
-> >>> +static inline spinlock_t *vmemmap_pmd_lockptr(pmd_t *pmd)
-> >>> +{
-> >>> +     static DEFINE_SPINLOCK(pgtable_lock);
-> >>> +
-> >>> +     return &pgtable_lock;
-> >>> +}
-> >>
-> >> This is just a global lock.  Correct?  And hugetlb specific?
-> >
-> > Yes, it is a global lock. Originally, I wanted to use the pmd lock(e.g.
-> > pmd_lockptr()). But we need to allocate memory for the spinlock and
-> > initialize it when ALLOC_SPLIT_PTLOCKS. It may increase the
-> > complexity.
-> >
-> > And I think that here alloc/free hugetlb pages is not a frequent operation.
-> > So I finally use a global lock. Maybe it is enough.
-> >
-> >>
-> >> It should be OK as the page table entries for huegtlb pages will not
-> >> overlap with other entries.
-> >
-> > Does "hugetlb specific" mean the pmd lock? or per hugetlb lock?
-> > If it is pmd lock, this is fine to me. If not, it may not be enough.
-> > Because the lock also guards the splitting of pmd pgtable.
+> I indeed prefer the comma preceding the "e.g.", but it seems that there
+> is a difference between UK english and US english:
+> https://english.stackexchange.com/questions/16172/should-i-always-use-a-c=
+omma-after-e-g-or-i-e
+> Looking at the kernel documentation makes it clear:
+> $ git grep -F 'e.g. ' | wc -l
+> 1179
+> $ git grep -F 'e.g., ' | wc -l
+> 160
 >
-> By "hugetlb specific", I was trying to say that only hugetlb code would
-> use this lock.  It is not a concern now.  However, there has been talk
-> about other code doing something similar to remove struct pages.  If that
-> ever happens then we will need a different locking scheme.
+> I'll apply your fix in the whole patch series.
 
-Agreed, It is not a concern now :)
-
->
-> Disregard my statement about there being no overlap.  I was confusing
-> page tables for huge pages with page tables for mappings mmap entries
-> of huge pages.
-> --
-> Mike Kravetz
-
-
-
--- 
-Yours,
-Muchun
+Ooh, sorry. I didn't realize that that's valid in UK English...
