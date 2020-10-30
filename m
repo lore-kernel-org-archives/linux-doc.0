@@ -2,185 +2,127 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A93DC5517A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:00:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E44CEC4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:12:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8CE32087E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:00:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D51E221EB
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:12:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=android.com header.i=@android.com header.b="NahNG3Pv"
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="AZpHaiGn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726424AbgJ3QAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 12:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbgJ3QAi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 12:00:38 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC93C0613D2
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 09:00:38 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id x23so3167286plr.6
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 09:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=kKt7pHAKQpnFJF12jxzi9fLLgrjsbw4l8hL54Ww6iU8=;
-        b=NahNG3PvD8Awiwv/sUn2qOB5hiM+g/VNjnR6xA9UfRw77lqHX8DS5k2mmtDndEYvNd
-         TcyBWTeyzvogkivnYN2KpUOchUBCBDW7MYh6c9gQrk7yQwNRehqBlVy9stqHFQCKXAxp
-         mAruZcvz17zbcOVZyupeN2LEHIVlEcuF0kA6OM7kluy4kBKGICzQO7TRVFtGhRYgm4G/
-         epGDpjWJAhgVJvmjQl9VvC9Y+rMPrLfKjO1W8hFKx/Hsjx8kxaBOgURdl7CPgVj/ADZE
-         Ry2cFQhksssN5Qc2L5GciynEZYukVYwGVdv+MPS8Jl7m/B6eenSqJIp3iOM3sAYOmzCD
-         qFnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=kKt7pHAKQpnFJF12jxzi9fLLgrjsbw4l8hL54Ww6iU8=;
-        b=FadxIDUs5MPFHOqKDhcPLykGSzW/vWemiHalgNGcOC5hkYxmPTmJ/1vCy6VnuuiIM1
-         f0PnU1+fMZ9jcCTfQ+2dVMo286MQg3+7I1ffPEH8hdowN4Og4El19+J/8jQV+M9x799h
-         V0EMKiBmwR9p5D61ftSQH4nAlcaeIqB7jxpAFEASrc6VS6yZjjl3EVJcug2N3WHEyX1t
-         EKh1+Laryf/xq1We/d/mSDHXWQg0C1MZ2bk+v0gjq1y8s55+im0a5RPTSjOz5KNUonF0
-         vU2yCDmcWM0cXSSGuaHK59IbnvNg6F6e1SgWuXX1QCY7Pt1abyp8EJLlZQUdgrPsaVVl
-         Pp2g==
-X-Gm-Message-State: AOAM530o89KUT0s5qrdATIKT2wV1sLVgo9RJmwDsgTobLuAZv8RIYV2k
-        q60Y8VLHnoSIfP9MwRKir9oqbA==
-X-Google-Smtp-Source: ABdhPJyFHNJ15LoD22fVBqJzTUJvOmXvhHBsh0O/WA1uU8bivi1QJRg5Mzi9O6wFnruxqZUW2T202g==
-X-Received: by 2002:a17:902:8f87:b029:d6:8da3:96ec with SMTP id z7-20020a1709028f87b02900d68da396ecmr7812217plo.55.1604073637475;
-        Fri, 30 Oct 2020 09:00:37 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:4a0f:cfff:fe35:d61b])
-        by smtp.googlemail.com with ESMTPSA id e20sm6058721pgr.54.2020.10.30.09.00.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2020 09:00:36 -0700 (PDT)
-Subject: Re: [RESEND PATCH v18 2/4] overlayfs: handle XATTR_NOSECURITY flag
- for get xattr method
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     linux-kernel@vger.kernel.org,
-        kernel-team <kernel-team@android.com>,
-        linux-fsdevel@vger.kernel.org,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>, linux-doc@vger.kernel.org,
-        SElinux list <selinux@vger.kernel.org>
-References: <20201021151903.652827-1-salyzyn@android.com>
- <20201021151903.652827-3-salyzyn@android.com>
- <CAJfpegtMoD85j5namV592sJD23QeUMD=+tq4SvFDqjVxsAszYQ@mail.gmail.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <2fd64e4f-c573-c841-abb6-ec0908f78cdd@android.com>
-Date:   Fri, 30 Oct 2020 09:00:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726913AbgJ3QM2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 12:12:28 -0400
+Received: from mail-40134.protonmail.ch ([185.70.40.134]:54873 "EHLO
+        mail-40134.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726708AbgJ3QM1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 12:12:27 -0400
+Date:   Fri, 30 Oct 2020 16:12:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1604074344;
+        bh=nZFU7sIE3OBpOLAtFFlRweFOldbgDSjhQVlNwfhVLsY=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=AZpHaiGnT4e8hXxTciEAL5zFCmMelbrGmugbp7pEQ8UvpEL1ZkerXeiy20k3LDDiR
+         miuH4x4UaCMbKA85MB07bqi2L6++nuB9my8EsjETUHuvHM2+38rtNrS7HeIN22n2Xd
+         E0L7+syEE0dyQ9sAygHet+gUXkUWIhL8zh4hO5GA=
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: Re: [PATCH RFC] docs: fix automarkup regression on Python 2
+Message-ID: <C6QCQWW476W5.15PKD7G7AG16G@ArchWay>
 MIME-Version: 1.0
-In-Reply-To: <CAJfpegtMoD85j5namV592sJD23QeUMD=+tq4SvFDqjVxsAszYQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/30/20 8:07 AM, Miklos Szeredi wrote:
-> On Wed, Oct 21, 2020 at 5:19 PM Mark Salyzyn <salyzyn@android.com> wrote:
->> Because of the overlayfs getxattr recursion, the incoming inode fails
->> to update the selinux sid resulting in avc denials being reported
->> against a target context of u:object_r:unlabeled:s0.
->>
->> Solution is to respond to the XATTR_NOSECURITY flag in get xattr
->> method that calls the __vfs_getxattr handler instead so that the
->> context can be read in, rather than being denied with an -EACCES
->> when vfs_getxattr handler is called.
->>
->> For the use case where access is to be blocked by the security layer.
->>
->> The path then would be security(dentry) ->
->> __vfs_getxattr({dentry...XATTR_NOSECURITY}) ->
->> handler->get({dentry...XATTR_NOSECURITY}) ->
->> __vfs_getxattr({realdentry...XATTR_NOSECURITY}) ->
->> lower_handler->get({realdentry...XATTR_NOSECURITY}) which
->> would report back through the chain data and success as expected,
->> the logging security layer at the top would have the data to
->> determine the access permissions and report back to the logs and
->> the caller that the target context was blocked.
->>
->> For selinux this would solve the cosmetic issue of the selinux log
->> and allow audit2allow to correctly report the rule needed to address
->> the access problem.
->>
->> Check impure, opaque, origin & meta xattr with no sepolicy audit
->> (using __vfs_getxattr) since these operations are internal to
->> overlayfs operations and do not disclose any data.  This became
->> an issue for credential override off since sys_admin would have
->> been required by the caller; whereas would have been inherently
->> present for the creator since it performed the mount.
->>
->> This is a change in operations since we do not check in the new
->> ovl_do_getxattr function if the credential override is off or not.
->> Reasoning is that the sepolicy check is unnecessary overhead,
->> especially since the check can be expensive.
->>
->> Because for override credentials off, this affects _everyone_ that
->> underneath performs private xattr calls without the appropriate
->> sepolicy permissions and sys_admin capability.  Providing blanket
->> support for sys_admin would be bad for all possible callers.
->>
->> For the override credentials on, this will affect only the mounter,
->> should it lack sepolicy permissions. Not considered a security
->> problem since mounting by definition has sys_admin capabilities,
->> but sepolicy contexts would still need to be crafted.
-> This would be a problem when unprivileged mounting of overlay is
-> introduced.  I'd really like to avoid weakening the current security
-> model.
-
-The current security model does not deal with non-overlapping security 
-contexts between init (which on android has MAC permissions only when 
-necessary, only enough permissions to perform the mount and other 
-mundane operations, missing exec and read permissions in key spots) and 
-user calls.
-
-We are only weakening (that is actually an incorrect statement, security 
-is there, just not double security of both mounter and caller) the 
-security around calls that retrieve the xattr for administrative and 
-internal purposes. No data is exposed to the caller that it would not 
-otherwise have permissions for.
-
-This patch becomes necessary when matched with the PATCH v18 3/4 of the 
-series which fixes the user space break introduced in ~4.6 that formerly 
-used the callers credentials for all accesses in all places. Security is 
-weakened already as-is in overlayfs with all the overriding of the 
-credentials for internal accesses to overlayfs mechanics based on the 
-mounter credentials. Using the mounter credentials as a wider security 
-hole is the problem, at least with PATCH v18 3/4 of the series we go 
-back optionally to only using the caller's credentials to perform the 
-operations. Admittedly some of the internal operations like mknod are 
-privileged, but at least in Android's use case we are not using them 
-with callers without the necessary credentials.
-
-Android does not give the mounter more credentials than the callers, 
-there is very little overlap in the MAC security.
-
-> The big API churn in the 1/4 patch also seems excessive considering
-> that this seems to be mostly a cosmetic issue for android.  Am I
-> missing something?
-
-Breaks sepolicy, it no longer has access to the context data at the 
-overlayfs security boundary.
-
-unknown is a symptom of being denied based on the denial to xattr data 
-from the underlying filesystem layer. Being denied the security context 
-of the target is not a good thing within the sepolicy security layer.
-
+On Fri Oct 30, 2020 at 12:51 PM -03, Jonathan Corbet wrote:
 >
-> Thanks,
-> Miklos
+> It turns out that the Python 2 re module lacks the ASCII flag, so don't
+> try
+> to use it there.
+>
+> Fixes: f66e47f98c1e ("docs: automarkup.py: Fix regexes to solve sphinx 3
+> warnings")
+> Reported-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+> Documentation/sphinx/automarkup.py | 20 ++++++++++++++------
+> 1 file changed, 14 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/sphinx/automarkup.py
+> b/Documentation/sphinx/automarkup.py
+> index 409dbc4100de..3e81ebab26ed 100644
+> --- a/Documentation/sphinx/automarkup.py
+> +++ b/Documentation/sphinx/automarkup.py
+> @@ -15,6 +15,14 @@ else:
+> import re
+> from itertools import chain
+>
+> +#
+> +# Python 2 lacks re.ASCII...
+> +#
+> +try:
+> + ascii_p3 =3D re.ASCII
+> +except AttributeError:
+> + ascii_p3 =3D 0
+> +
+> #
+> # Regex nastiness. Of course.
+> # Try to identify "function()" that's not already marked up some
+> @@ -22,22 +30,22 @@ from itertools import chain
+> # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
+> # bit tries to restrict matches to things that won't create trouble.
+> #
+> -RE_function =3D re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=3Dre.ASCII)
+> +RE_function =3D re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=3Dascii_p3)
+>
+> #
+> # Sphinx 2 uses the same :c:type role for struct, union, enum and
+> typedef
+> #
+> RE_generic_type =3D
+> re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_]\w+)',
+> - flags=3Dre.ASCII)
+> + flags=3Dascii_p3)
+>
+> #
+> # Sphinx 3 uses a different C role for each one of struct, union, enum
+> and
+> # typedef
+> #
+> -RE_struct =3D re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCI=
+I)
+> -RE_union =3D re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
+> -RE_enum =3D re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
+> -RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)',
+> flags=3Dre.ASCII)
+> +RE_struct =3D re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=3Dascii_p=
+3)
+> +RE_union =3D re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=3Dascii_p3)
+> +RE_enum =3D re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=3Dascii_p3)
+> +RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)',
+> flags=3Dascii_p3)
+>
+> #
+> # Detects a reference to a documentation page of the form
+> Documentation/... with
+> --
+> 2.26.2
 
+Looks good to me.
+
+Thanks,
+N=C3=ADcolas
 
