@@ -2,57 +2,89 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EF2AC6369E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D7CC5DF9D
 	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6A9620665
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E59920719
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1604043739;
-	bh=7PCvqYXC5ML2vix9Gp7G4GlJhwEuCM/vJUI8pbqFTEM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jCueD7Z8SfZ80xApXvOD91+9/RkKKQftTO8laYkbZ/YBQbe1jTiIoL8SAtPHtQqZe
-	 GsqH8NOTCHc4gvHoyW47PVKsixV51jQ2rXywFI7+tZMCseCWbAvl7QCKv7laEKa37S
-	 Wphw7hEOBNJ6uazwhPrQGEd40u8KHLK2CpOuNpoI=
+	bh=0UYypCdHLbZlJqSzMLfOs5fJTxAkpdPSOMCa7LOKKwE=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=A44BynO+6y8cNJWuCybwMBW9LodFq55kQGzV8ptmyW8CM5pUDoZjI79O5TSFDiYdJ
+	 narL1EOhZh+4QAzbPC/mSIO6Ti1LbHRgJhPBBTIS8CB9glS54A40R0L+L1Q9DLPbPW
+	 sFvwGJe13JKw6Bdda6CVV0t4ZFY6o/KLtDee/drw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726089AbgJ3HmJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 03:42:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52132 "EHLO mail.kernel.org"
+        id S1726243AbgJ3HmK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 03:42:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51656 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726105AbgJ3HlG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726069AbgJ3HlG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 30 Oct 2020 03:41:06 -0400
 Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EBDD124124;
-        Fri, 30 Oct 2020 07:41:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D90B422273;
+        Fri, 30 Oct 2020 07:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604043664;
-        bh=7PCvqYXC5ML2vix9Gp7G4GlJhwEuCM/vJUI8pbqFTEM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CTO7VCUO1KnhgYoLRZrLva8riG0EdimGryt9UYaQLrkG3haipz1bZgZpQYv4UQYF8
-         B9qvqc23tzBVMSKCGEFk9g3+QBGdazbQUwKVeAzkfJdgiXlB7Q+Qs0MgD5rMt7E+S/
-         sW8IH6kBq4NaXNlE1P56ovOfYSxExrY2z2lMWPm4=
+        s=default; t=1604043663;
+        bh=0UYypCdHLbZlJqSzMLfOs5fJTxAkpdPSOMCa7LOKKwE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=g5zhe32Wrt7lDEux+6lyk/vc4J0RW/KhWhrzezhY2Ln+IoDQ0NF28C3NkgUowagOF
+         3BNvIHc4ox9XDj3qIrTakEhNLDHboSSNL4DN3EtHbrzCoPAY7V/Zc8GExQ1o/Qex0m
+         PXep27uxkHtBWsKaCnuiwQUKjUmCV/pyB05r/eRs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kYP1x-004Ogr-V1; Fri, 30 Oct 2020 08:41:01 +0100
+        id 1kYP1w-004OfF-66; Fri, 30 Oct 2020 08:41:00 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Benson Leung <bleung@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Chao Yu <chao@kernel.org>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Colin Cross <ccross@android.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Peter Rosin <peda@axentia.se>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Richard Gong <richard.gong@linux.intel.com>,
         Sebastian Reichel <sre@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH v2 35/39] docs: ABI: sysfs-class-power: unify duplicated properties
-Date:   Fri, 30 Oct 2020 08:40:54 +0100
-Message-Id: <bcdf5f76326ea48a990a7cac612af216c387537d.1604042072.git.mchehab+huawei@kernel.org>
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Tony Luck <tony.luck@intel.com>, Wu Hao <hao.wu@intel.com>
+Subject: [PATCH v2 00/39] ABI: add it to the documentation build system
+Date:   Fri, 30 Oct 2020 08:40:19 +0100
+Message-Id: <cover.1604042072.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1604042072.git.mchehab+huawei@kernel.org>
-References: <cover.1604042072.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -60,568 +92,330 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ABI is not supposed to have duplicated entries, as warned
-by get_abi.pl:
+Hi Greg,
 
-	$ ./scripts/get_abi.pl validate 2>&1|grep sysfs-class-power
-	Warning: /sys/class/power_supply/<supply_name>/current_avg is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:108  Documentation/ABI/testing/sysfs-class-power:391
-	Warning: /sys/class/power_supply/<supply_name>/current_max is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:121  Documentation/ABI/testing/sysfs-class-power:404
-	Warning: /sys/class/power_supply/<supply_name>/current_now is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:130  Documentation/ABI/testing/sysfs-class-power:414
-	Warning: /sys/class/power_supply/<supply_name>/temp is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:281  Documentation/ABI/testing/sysfs-class-power:493
-	Warning: /sys/class/power_supply/<supply_name>/temp_alert_max is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:291  Documentation/ABI/testing/sysfs-class-power:505
-	Warning: /sys/class/power_supply/<supply_name>/temp_alert_min is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:306  Documentation/ABI/testing/sysfs-class-power:521
-	Warning: /sys/class/power_supply/<supply_name>/temp_max is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:322  Documentation/ABI/testing/sysfs-class-power:537
-	Warning: /sys/class/power_supply/<supply_name>/temp_min is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:333  Documentation/ABI/testing/sysfs-class-power:547
-	Warning: /sys/class/power_supply/<supply_name>/voltage_max is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:356  Documentation/ABI/testing/sysfs-class-power:571
-	Warning: /sys/class/power_supply/<supply_name>/voltage_min is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:367  Documentation/ABI/testing/sysfs-class-power:581
-	Warning: /sys/class/power_supply/<supply_name>/voltage_now is defined 2 times:  Documentation/ABI/testing/sysfs-class-power:378  Documentation/ABI/testing/sysfs-class-power:591
+That's the second version of the ABI documentation patches,
+adding support for having the Linux ABI documentted inside
+the Linux admin manual.
 
-Yet, both USB and Battery share a common set of charging-related
-properties.
+When compared with the version I sent years ago, this
+version has:
 
-Unify the entries for such properties in order to avoid
-duplication, while preserving the battery and USB-specific
-data properly documented.
+- a logic to detect duplicated ABI symbols;
+- it auto-generate cross-reference markups for ABI symbols,
+  ABI files and .rst files;
+- Other files from 5.10-rc1 required adjustments in order
+  to be accepted by the script in rst-source mode;
+- Some bug fixes.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/ABI/testing/sysfs-class-power | 486 +++++++++-----------
- 1 file changed, 223 insertions(+), 263 deletions(-)
+v2:
+- fixed pedantic warnings with "search command;
+- fixed the duplicated warning output in order to report properly the files;
+- added a few more patches addressing ABI duplication.
 
-diff --git a/Documentation/ABI/testing/sysfs-class-power b/Documentation/ABI/testing/sysfs-class-power
-index d68ad528a8e5..ca830c6cd809 100644
---- a/Documentation/ABI/testing/sysfs-class-power
-+++ b/Documentation/ABI/testing/sysfs-class-power
-@@ -36,7 +36,229 @@ Description:
- 		Access: Read
- 		Valid values: "Battery", "UPS", "Mains", "USB", "Wireless"
- 
--===== Battery Properties =====
-+**Battery and USB properties**
-+
-+What:		/sys/class/power_supply/<supply_name>/current_avg
-+Date:		May 2007
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports an average IBAT current reading for the battery, over
-+		  a fixed period. Normally devices will provide a fixed interval
-+		  in which they average readings to smooth out the reported
-+		  value.
-+
-+		USB:
-+
-+		  Reports an average IBUS current reading over a fixed period.
-+		  Normally devices will provide a fixed interval in which they
-+		  average readings to smooth out the reported value.
-+
-+		Access: Read
-+
-+		Valid values: Represented in microamps. Negative values are
-+		used for discharging batteries, positive values for charging
-+		batteries and for USB IBUS current.
-+
-+What:		/sys/class/power_supply/<supply_name>/current_max
-+Date:		October 2010
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports the maximum IBAT current allowed into the battery.
-+
-+		USB:
-+
-+		  Reports the maximum IBUS current the supply can support.
-+
-+		Access: Read
-+		Valid values: Represented in microamps
-+
-+What: 		/sys/class/power_supply/<supply_name>/current_now
-+Date:		May 2007
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+
-+		Battery:
-+
-+		  Reports an instant, single IBAT current reading for the
-+		  battery. This value is not averaged/smoothed.
-+
-+		  Access: Read
-+
-+		USB:
-+
-+		  Reports the IBUS current supplied now. This value is generally
-+		  read-only reporting, unless the 'online' state of the supply
-+		  is set to be programmable, in which case this value can be set
-+		  within the reported min/max range.
-+
-+		  Access: Read, Write
-+
-+		Valid values: Represented in microamps. Negative values are
-+		used for discharging batteries, positive values for charging
-+		batteries and for USB IBUS current.
-+
-+What:		/sys/class/power_supply/<supply_name>/temp
-+Date:		May 2007
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports the current TBAT battery temperature reading.
-+
-+		USB:
-+
-+		  Reports the current supply temperature reading. This would
-+		  normally be the internal temperature of the device itself
-+		  (e.g TJUNC temperature of an IC)
-+
-+		Access: Read
-+
-+		Valid values: Represented in 1/10 Degrees Celsius
-+
-+What:		/sys/class/power_supply/<supply_name>/temp_alert_max
-+Date:		July 2012
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Maximum TBAT temperature trip-wire value where the supply will
-+		  notify user-space of the event.
-+
-+		USB:
-+
-+		  Maximum supply temperature trip-wire value where the supply
-+		  will notify user-space of the event.
-+
-+		This is normally used for the charging scenario where
-+		user-space needs to know if the temperature has crossed an
-+		upper threshold so it can take appropriate action (e.g. warning
-+		user that the temperature is critically high, and charging has
-+		stopped).
-+
-+		Access: Read
-+
-+		Valid values: Represented in 1/10 Degrees Celsius
-+
-+What:		/sys/class/power_supply/<supply_name>/temp_alert_min
-+Date:		July 2012
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+
-+		Battery:
-+
-+		  Minimum TBAT temperature trip-wire value where the supply will
-+		  notify user-space of the event.
-+
-+		USB:
-+
-+		  Minimum supply temperature trip-wire value where the supply
-+		  will notify user-space of the event.
-+
-+		This is normally used for the charging scenario where user-space
-+		needs to know if the temperature has crossed a lower threshold
-+		so it can take appropriate action (e.g. warning user that
-+		temperature level is high, and charging current has been
-+		reduced accordingly to remedy the situation).
-+
-+		Access: Read
-+
-+		Valid values: Represented in 1/10 Degrees Celsius
-+
-+What:		/sys/class/power_supply/<supply_name>/temp_max
-+Date:		July 2014
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports the maximum allowed TBAT battery temperature for
-+		  charging.
-+
-+		USB:
-+
-+		  Reports the maximum allowed supply temperature for operation.
-+
-+		Access: Read
-+
-+		Valid values: Represented in 1/10 Degrees Celsius
-+
-+What:		/sys/class/power_supply/<supply_name>/temp_min
-+Date:		July 2014
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports the minimum allowed TBAT battery temperature for
-+		  charging.
-+
-+		USB:
-+
-+		  Reports the minimum allowed supply temperature for operation.
-+
-+		Access: Read
-+
-+		Valid values: Represented in 1/10 Degrees Celsius
-+
-+What:		/sys/class/power_supply/<supply_name>/voltage_max,
-+Date:		January 2008
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports the maximum safe VBAT voltage permitted for the
-+		  battery, during charging.
-+
-+		USB:
-+
-+		  Reports the maximum VBUS voltage the supply can support.
-+
-+		Access: Read
-+
-+		Valid values: Represented in microvolts
-+
-+What:		/sys/class/power_supply/<supply_name>/voltage_min,
-+Date:		January 2008
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports the minimum safe VBAT voltage permitted for the
-+		  battery, during discharging.
-+
-+		USB:
-+
-+		  Reports the minimum VBUS voltage the supply can support.
-+
-+		Access: Read
-+
-+		Valid values: Represented in microvolts
-+
-+What:		/sys/class/power_supply/<supply_name>/voltage_now,
-+Date:		May 2007
-+Contact:	linux-pm@vger.kernel.org
-+Description:
-+		Battery:
-+
-+		  Reports an instant, single VBAT voltage reading for the
-+		  battery. This value is not averaged/smoothed.
-+
-+		  Access: Read
-+
-+		USB:
-+
-+		  Reports the VBUS voltage supplied now. This value is generally
-+		  read-only reporting, unless the 'online' state of the supply
-+		  is set to be programmable, in which case this value can be set
-+		  within the reported min/max range.
-+
-+		  Access: Read, Write
-+
-+		Valid values: Represented in microvolts
-+
-+**Battery Properties**
- 
- What:		/sys/class/power_supply/<supply_name>/capacity
- Date:		May 2007
-@@ -106,40 +328,6 @@ Description:
- 			      "Unknown", "Critical", "Low", "Normal", "High",
- 			      "Full"
- 
--What:		/sys/class/power_supply/<supply_name>/current_avg
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports an average IBAT current reading for the battery, over a
--		fixed period. Normally devices will provide a fixed interval in
--		which they average readings to smooth out the reported value.
--
--		Access: Read
--
--		Valid values: Represented in microamps. Negative values are used
--		for discharging batteries, positive values for charging batteries.
--
--What:		/sys/class/power_supply/<supply_name>/current_max
--Date:		October 2010
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the maximum IBAT current allowed into the battery.
--
--		Access: Read
--		Valid values: Represented in microamps
--
--What:		/sys/class/power_supply/<supply_name>/current_now
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports an instant, single IBAT current reading for the battery.
--		This value is not averaged/smoothed.
--
--		Access: Read
--
--		Valid values: Represented in microamps. Negative values are used
--		for discharging batteries, positive values for charging batteries.
--
- What:		/sys/class/power_supply/<supply_name>/charge_control_limit
- Date:		Oct 2012
- Contact:	linux-pm@vger.kernel.org
-@@ -279,68 +467,6 @@ Description:
- 			      "Unknown", "NiMH", "Li-ion", "Li-poly", "LiFe",
- 			      "NiCd", "LiMn"
- 
--What:		/sys/class/power_supply/<supply_name>/temp
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the current TBAT battery temperature reading.
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_alert_max
--Date:		July 2012
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Maximum TBAT temperature trip-wire value where the supply will
--		notify user-space of the event. This is normally used for the
--		battery charging scenario where user-space needs to know the
--		battery temperature has crossed an upper threshold so it can
--		take appropriate action (e.g. warning user that battery level is
--		critically high, and charging has stopped).
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_alert_min
--Date:		July 2012
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Minimum TBAT temperature trip-wire value where the supply will
--		notify user-space of the event. This is normally used for the
--		battery charging scenario where user-space needs to know the
--		battery temperature has crossed a lower threshold so it can take
--		appropriate action (e.g. warning user that battery level is
--		high, and charging current has been reduced accordingly to
--		remedy the situation).
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_max
--Date:		July 2014
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the maximum allowed TBAT battery temperature for
--		charging.
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_min
--Date:		July 2014
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the minimum allowed TBAT battery temperature for
--		charging.
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
- 
- What:		/sys/class/power_supply/<supply_name>/voltage_avg,
- Date:		May 2007
-@@ -354,77 +480,8 @@ Description:
- 
- 		Valid values: Represented in microvolts
- 
--What:		/sys/class/power_supply/<supply_name>/voltage_max,
--Date:		January 2008
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the maximum safe VBAT voltage permitted for the battery,
--		during charging.
--
--		Access: Read
--
--		Valid values: Represented in microvolts
--
--What:		/sys/class/power_supply/<supply_name>/voltage_min,
--Date:		January 2008
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the minimum safe VBAT voltage permitted for the battery,
--		during discharging.
--
--		Access: Read
--
--		Valid values: Represented in microvolts
--
--What:		/sys/class/power_supply/<supply_name>/voltage_now,
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports an instant, single VBAT voltage reading for the battery.
--		This value is not averaged/smoothed.
--
--		Access: Read
--
--		Valid values: Represented in microvolts
--
- **USB Properties**
- 
--What:		/sys/class/power_supply/<supply_name>/current_avg
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports an average IBUS current reading over a fixed period.
--		Normally devices will provide a fixed interval in which they
--		average readings to smooth out the reported value.
--
--		Access: Read
--
--		Valid values: Represented in microamps
--
--
--What: 		/sys/class/power_supply/<supply_name>/current_max
--Date:		October 2010
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the maximum IBUS current the supply can support.
--
--		Access: Read
--
--		Valid values: Represented in microamps
--
--What: 		/sys/class/power_supply/<supply_name>/current_now
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the IBUS current supplied now. This value is generally
--		read-only reporting, unless the 'online' state of the supply
--		is set to be programmable, in which case this value can be set
--		within the reported min/max range.
--
--		Access: Read, Write
--
--		Valid values: Represented in microamps
--
- What:		/sys/class/power_supply/<supply_name>/input_current_limit
- Date:		July 2014
- Contact:	linux-pm@vger.kernel.org
-@@ -491,70 +548,6 @@ Description:
- 			2: Online Programmable - Programmable Voltage Supply
- 			== ==================================================
- 
--What:		/sys/class/power_supply/<supply_name>/temp
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the current supply temperature reading. This would
--		normally be the internal temperature of the device itself (e.g
--		TJUNC temperature of an IC)
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_alert_max
--Date:		July 2012
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Maximum supply temperature trip-wire value where the supply will
--		notify user-space of the event. This is normally used for the
--		charging scenario where user-space needs to know the supply
--		temperature has crossed an upper threshold so it can take
--		appropriate action (e.g. warning user that the supply
--		temperature is critically high, and charging has stopped to
--		remedy the situation).
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_alert_min
--Date:		July 2012
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Minimum supply temperature trip-wire value where the supply will
--		notify user-space of the event. This is normally used for the
--		charging scenario where user-space needs to know the supply
--		temperature has crossed a lower threshold so it can take
--		appropriate action (e.g. warning user that the supply
--		temperature is high, and charging current has been reduced
--		accordingly to remedy the situation).
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_max
--Date:		July 2014
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the maximum allowed supply temperature for operation.
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
--What:		/sys/class/power_supply/<supply_name>/temp_min
--Date:		July 2014
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the mainimum allowed supply temperature for operation.
--
--		Access: Read
--
--		Valid values: Represented in 1/10 Degrees Celsius
--
- What: 		/sys/class/power_supply/<supply_name>/usb_type
- Date:		March 2018
- Contact:	linux-pm@vger.kernel.org
-@@ -569,39 +562,6 @@ Description:
- 			      "Unknown", "SDP", "DCP", "CDP", "ACA", "C", "PD",
- 			      "PD_DRP", "PD_PPS", "BrickID"
- 
--What: 		/sys/class/power_supply/<supply_name>/voltage_max
--Date:		January 2008
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the maximum VBUS voltage the supply can support.
--
--		Access: Read
--
--		Valid values: Represented in microvolts
--
--What: 		/sys/class/power_supply/<supply_name>/voltage_min
--Date:		January 2008
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the minimum VBUS voltage the supply can support.
--
--		Access: Read
--
--		Valid values: Represented in microvolts
--
--What: 		/sys/class/power_supply/<supply_name>/voltage_now
--Date:		May 2007
--Contact:	linux-pm@vger.kernel.org
--Description:
--		Reports the VBUS voltage supplied now. This value is generally
--		read-only reporting, unless the 'online' state of the supply
--		is set to be programmable, in which case this value can be set
--		within the reported min/max range.
--
--		Access: Read, Write
--
--		Valid values: Represented in microvolts
--
- **Device Specific Properties**
- 
- What:		/sys/class/power/ds2760-battery.*/charge_now
+Mauro Carvalho Chehab (39):
+  scripts: get_abi.pl: change script to allow parsing in ReST mode
+  scripts: get_abi.pl: fix parsing on ReST mode
+  scripts: get_abi.pl: Allow optionally record from where a line came
+    from
+  scripts: get_abi.pl: improve its parser to better catch up indentation
+  scripts: get_abi.pl: cleanup ABI cross-reference logic
+  scripts: get_abi.pl: detect duplicated ABI definitions
+  scripts: get_abi.pl: output users in ReST format
+  scripts: get_abi.pl: prevent duplicated file names
+  scripts: get_abi.pl: use bold font for ABI definitions
+  scripts: get_abi.pl: auto-generate cross references
+  docs: kernellog.py: add support for info()
+  docs: kernel_abi.py: add a script to parse ABI documentation
+  docs: kernel_abi.py: fix UTF-8 support
+  docs: kernel_abi.py: make it compatible with Sphinx 1.7+
+  docs: kernel_abi.py: use --enable-lineno for get_abi.pl
+  docs: kernel_abi.py: Handle with a lazy Sphinx parser
+  docs: add ABI documentation to the admin-guide book
+  docs: ABI: README: specify that files should be ReST compatible
+  docs: ABI: stable: make files ReST compatible
+  docs: ABI: testing: make the files compatible with ReST output
+  docs: ABI: sysfs-uevent: make it compatible with ReST output
+  docs: ABI: make it parse ABI/stable as ReST-compatible files
+  docs: ABI: create a 2-depth index for ABI
+  docs: ABI: don't escape ReST-incompatible chars from obsolete and
+    removed
+  docs: abi-testing.rst: enable --rst-sources when building docs
+  docs: Kconfig/Makefile: add a check for broken ABI files
+  docs: ABI: convert testing/configfs-acpi to ReST
+  docs: ABI: fix syntax to be parsed using ReST notation
+  docs: ABI: vdso: use the right format for ABI
+  docs: ABI: sysfs-bus-nvdimm: use the right format for ABI
+  docs: ABI: cleanup several ABI documents
+  docs: ABI: change read/write attributes
+  docs: ABI: stable: remove a duplicated documentation
+  docs: ABI: unify /sys/class/leds/<led>/brightness documentation
+  docs: ABI: sysfs-class-power: unify duplicated properties
+  docs: ABI: sysfs-c2port: remove a duplicated entry
+  docs: ABI: sysfs-class-backlight: unify ABI documentation
+  docs: ABI: sysfs-class-led-trigger-pattern: remove hw_pattern
+    duplication
+  scripts: get_abi.pl: assume ReST format by default
+
+ Documentation/ABI/README                      |  10 +-
+ Documentation/ABI/obsolete/sysfs-class-dax    |   8 +-
+ .../ABI/obsolete/sysfs-driver-hid-roccat-pyra |   3 +
+ Documentation/ABI/obsolete/sysfs-gpio         |   2 +
+ Documentation/ABI/removed/devfs               |   1 +
+ Documentation/ABI/removed/raw1394             |   1 +
+ Documentation/ABI/removed/sysfs-class-rfkill  |   2 +-
+ Documentation/ABI/removed/video1394           |   1 +
+ Documentation/ABI/stable/firewire-cdev        |  67 ++-
+ Documentation/ABI/stable/sysfs-acpi-pmprofile |  26 +-
+ Documentation/ABI/stable/sysfs-bus-firewire   |   3 +
+ Documentation/ABI/stable/sysfs-bus-nvmem      |  19 +-
+ Documentation/ABI/stable/sysfs-bus-usb        |   6 +-
+ Documentation/ABI/stable/sysfs-bus-vmbus      |   7 -
+ Documentation/ABI/stable/sysfs-bus-w1         |   1 +
+ .../ABI/stable/sysfs-class-backlight          |   1 +
+ .../ABI/stable/sysfs-class-infiniband         |  93 +++-
+ Documentation/ABI/stable/sysfs-class-rfkill   |  13 +-
+ Documentation/ABI/stable/sysfs-class-tpm      |  94 ++--
+ Documentation/ABI/stable/sysfs-devices        |   5 +-
+ .../ABI/stable/sysfs-driver-firmware-zynqmp   |  62 ++-
+ Documentation/ABI/stable/sysfs-driver-ib_srp  |   1 +
+ Documentation/ABI/stable/sysfs-driver-speakup |   4 +
+ .../ABI/stable/sysfs-firmware-efi-vars        |   4 +
+ .../ABI/stable/sysfs-firmware-opal-dump       |   5 +
+ .../ABI/stable/sysfs-firmware-opal-elog       |   2 +
+ Documentation/ABI/stable/sysfs-hypervisor-xen |   3 +
+ Documentation/ABI/stable/vdso                 |  11 +-
+ Documentation/ABI/testing/configfs-acpi       |  34 +-
+ Documentation/ABI/testing/configfs-most       | 135 +++--
+ .../ABI/testing/configfs-spear-pcie-gadget    |  36 +-
+ Documentation/ABI/testing/configfs-usb-gadget |  83 +--
+ .../ABI/testing/configfs-usb-gadget-ecm       |  12 +-
+ .../ABI/testing/configfs-usb-gadget-eem       |  10 +-
+ .../ABI/testing/configfs-usb-gadget-hid       |  10 +-
+ .../ABI/testing/configfs-usb-gadget-loopback  |   6 +-
+ .../testing/configfs-usb-gadget-mass-storage  |  18 +-
+ .../ABI/testing/configfs-usb-gadget-midi      |  14 +-
+ .../ABI/testing/configfs-usb-gadget-printer   |   6 +-
+ .../ABI/testing/configfs-usb-gadget-rndis     |  16 +-
+ .../testing/configfs-usb-gadget-sourcesink    |  18 +-
+ .../ABI/testing/configfs-usb-gadget-subset    |  10 +-
+ .../ABI/testing/configfs-usb-gadget-uac1      |  18 +-
+ .../ABI/testing/configfs-usb-gadget-uac2      |  14 +-
+ .../ABI/testing/configfs-usb-gadget-uvc       | 220 ++++----
+ .../ABI/testing/debugfs-cec-error-inj         |   2 +-
+ .../ABI/testing/debugfs-driver-habanalabs     |  12 +-
+ Documentation/ABI/testing/debugfs-ec          |  11 +-
+ Documentation/ABI/testing/debugfs-moxtet      |  30 +-
+ .../ABI/testing/debugfs-pfo-nx-crypto         |  28 +-
+ Documentation/ABI/testing/debugfs-pktcdvd     |  13 +-
+ .../ABI/testing/debugfs-turris-mox-rwtm       |  15 +-
+ Documentation/ABI/testing/debugfs-wilco-ec    |  21 +-
+ Documentation/ABI/testing/dell-smbios-wmi     |  32 +-
+ Documentation/ABI/testing/dev-kmsg            |  27 +-
+ Documentation/ABI/testing/evm                 |  17 +-
+ Documentation/ABI/testing/gpio-cdev           |  13 +-
+ Documentation/ABI/testing/ima_policy          |  30 +-
+ Documentation/ABI/testing/procfs-diskstats    |  46 +-
+ Documentation/ABI/testing/procfs-smaps_rollup |  48 +-
+ Documentation/ABI/testing/pstore              |  19 +-
+ Documentation/ABI/testing/sysfs-block         |  38 +-
+ Documentation/ABI/testing/sysfs-block-device  |   2 +
+ Documentation/ABI/testing/sysfs-block-rnbd    |   4 +-
+ Documentation/ABI/testing/sysfs-bus-acpi      |  19 +-
+ .../testing/sysfs-bus-coresight-devices-cti   |  60 +-
+ .../testing/sysfs-bus-coresight-devices-etb10 |  21 +-
+ .../testing/sysfs-bus-coresight-devices-etm3x |  10 +-
+ .../testing/sysfs-bus-coresight-devices-etm4x |  76 +--
+ .../testing/sysfs-bus-coresight-devices-stm   |   2 +-
+ .../testing/sysfs-bus-coresight-devices-tmc   |  20 +-
+ Documentation/ABI/testing/sysfs-bus-css       |   3 +
+ Documentation/ABI/testing/sysfs-bus-dfl       |   2 +
+ .../sysfs-bus-event_source-devices-dfl_fme    |  14 +-
+ .../sysfs-bus-event_source-devices-format     |   3 +-
+ .../sysfs-bus-event_source-devices-hv_24x7    |   6 +-
+ .../sysfs-bus-event_source-devices-hv_gpci    |   7 +-
+ Documentation/ABI/testing/sysfs-bus-fcoe      |  68 ++-
+ Documentation/ABI/testing/sysfs-bus-fsl-mc    |  12 +-
+ .../ABI/testing/sysfs-bus-i2c-devices-fsa9480 |  26 +-
+ .../ABI/testing/sysfs-bus-i2c-devices-pca954x |  27 +-
+ Documentation/ABI/testing/sysfs-bus-i3c       |   2 +
+ Documentation/ABI/testing/sysfs-bus-iio       |  30 +-
+ .../sysfs-bus-iio-adc-envelope-detector       |   5 +-
+ .../ABI/testing/sysfs-bus-iio-adc-hi8435      |   5 +
+ .../ABI/testing/sysfs-bus-iio-adc-stm32       |   3 +
+ .../ABI/testing/sysfs-bus-iio-cros-ec         |   2 +-
+ .../ABI/testing/sysfs-bus-iio-dfsdm-adc-stm32 |   8 +-
+ .../ABI/testing/sysfs-bus-iio-distance-srf08  |   7 +-
+ .../testing/sysfs-bus-iio-frequency-ad9523    |   2 +
+ .../testing/sysfs-bus-iio-frequency-adf4371   |  10 +-
+ .../ABI/testing/sysfs-bus-iio-health-afe440x  |  12 +-
+ .../ABI/testing/sysfs-bus-iio-light-isl29018  |   6 +-
+ .../ABI/testing/sysfs-bus-iio-lptimer-stm32   |  29 +-
+ .../sysfs-bus-iio-magnetometer-hmc5843        |  19 +-
+ .../sysfs-bus-iio-temperature-max31856        |  19 +-
+ .../ABI/testing/sysfs-bus-iio-timer-stm32     | 137 +++--
+ .../testing/sysfs-bus-intel_th-devices-gth    |  11 +-
+ .../testing/sysfs-bus-intel_th-devices-msc    |   4 +
+ Documentation/ABI/testing/sysfs-bus-most      |   6 +-
+ .../ABI/testing/sysfs-bus-moxtet-devices      |   6 +-
+ Documentation/ABI/testing/sysfs-bus-nfit      |   2 +-
+ Documentation/ABI/testing/sysfs-bus-nvdimm    |   6 +
+ Documentation/ABI/testing/sysfs-bus-papr-pmem |  23 +-
+ Documentation/ABI/testing/sysfs-bus-pci       |  22 +-
+ .../testing/sysfs-bus-pci-devices-aer_stats   | 119 ++--
+ .../ABI/testing/sysfs-bus-pci-devices-catpt   |   1 +
+ .../testing/sysfs-bus-pci-drivers-ehci_hcd    |   4 +-
+ Documentation/ABI/testing/sysfs-bus-rapidio   |  23 +-
+ Documentation/ABI/testing/sysfs-bus-rbd       |  37 +-
+ Documentation/ABI/testing/sysfs-bus-siox      |   3 +
+ .../ABI/testing/sysfs-bus-thunderbolt         |  58 +-
+ Documentation/ABI/testing/sysfs-bus-usb       |  32 +-
+ .../testing/sysfs-bus-usb-devices-usbsevseg   |   7 +-
+ Documentation/ABI/testing/sysfs-bus-vfio-mdev |  10 +-
+ Documentation/ABI/testing/sysfs-c2port        |   7 -
+ .../ABI/testing/sysfs-class-backlight         |  60 ++
+ .../ABI/testing/sysfs-class-backlight-adp8860 |  21 +-
+ .../sysfs-class-backlight-driver-adp8870      |  30 +-
+ .../sysfs-class-backlight-driver-lm3533       |  26 +-
+ Documentation/ABI/testing/sysfs-class-bdi     |   1 -
+ .../ABI/testing/sysfs-class-chromeos          |  15 +-
+ Documentation/ABI/testing/sysfs-class-cxl     |  23 +-
+ Documentation/ABI/testing/sysfs-class-devfreq |   6 +-
+ Documentation/ABI/testing/sysfs-class-devlink |  30 +-
+ Documentation/ABI/testing/sysfs-class-extcon  |  34 +-
+ .../ABI/testing/sysfs-class-fpga-manager      |   5 +-
+ Documentation/ABI/testing/sysfs-class-gnss    |   2 +
+ Documentation/ABI/testing/sysfs-class-led     |  28 +-
+ .../testing/sysfs-class-led-driver-el15203000 | 130 -----
+ .../ABI/testing/sysfs-class-led-driver-lm3533 |  44 +-
+ .../ABI/testing/sysfs-class-led-driver-sc27xx |  22 -
+ .../ABI/testing/sysfs-class-led-flash         |  27 +-
+ .../ABI/testing/sysfs-class-led-multicolor    |  23 +-
+ .../testing/sysfs-class-led-trigger-netdev    |   7 +
+ .../testing/sysfs-class-led-trigger-pattern   |   4 +-
+ .../testing/sysfs-class-led-trigger-usbport   |   1 +
+ .../ABI/testing/sysfs-class-leds-gt683r       |   8 +-
+ Documentation/ABI/testing/sysfs-class-mic     |  52 +-
+ Documentation/ABI/testing/sysfs-class-net     |  61 +-
+ .../ABI/testing/sysfs-class-net-cdc_ncm       |   6 +-
+ .../ABI/testing/sysfs-class-net-phydev        |   2 +
+ Documentation/ABI/testing/sysfs-class-ocxl    |  17 +-
+ Documentation/ABI/testing/sysfs-class-pktcdvd |  36 +-
+ Documentation/ABI/testing/sysfs-class-power   | 525 +++++++++---------
+ .../ABI/testing/sysfs-class-power-mp2629      |   1 +
+ .../ABI/testing/sysfs-class-power-twl4030     |  33 +-
+ .../ABI/testing/sysfs-class-power-wilco       |  18 +-
+ Documentation/ABI/testing/sysfs-class-rapidio |  46 +-
+ Documentation/ABI/testing/sysfs-class-rc      |  30 +-
+ .../ABI/testing/sysfs-class-regulator         |  36 +-
+ .../ABI/testing/sysfs-class-remoteproc        |  14 +-
+ .../ABI/testing/sysfs-class-rnbd-client       |  93 ++--
+ ...ysfs-class-rtc-rtc0-device-rtc_calibration |   1 +
+ .../ABI/testing/sysfs-class-rtrs-client       |  23 +-
+ .../ABI/testing/sysfs-class-scsi_host         |   7 +-
+ Documentation/ABI/testing/sysfs-class-typec   |  12 +-
+ Documentation/ABI/testing/sysfs-class-uwb_rc  |  13 +-
+ .../ABI/testing/sysfs-class-watchdog          |   7 +-
+ Documentation/ABI/testing/sysfs-dev           |   7 +-
+ .../ABI/testing/sysfs-devices-mapping         |  41 +-
+ .../ABI/testing/sysfs-devices-memory          |  15 +-
+ .../testing/sysfs-devices-platform-ACPI-TAD   |   4 +
+ .../sysfs-devices-platform-_UDC_-gadget       |  10 +-
+ .../ABI/testing/sysfs-devices-platform-docg3  |  10 +-
+ .../ABI/testing/sysfs-devices-platform-ipmi   |  52 +-
+ .../sysfs-devices-platform-sh_mobile_lcdc_fb  |   8 +-
+ .../sysfs-devices-platform-stratix10-rsu      |  10 +
+ .../ABI/testing/sysfs-devices-system-cpu      | 101 ++--
+ .../ABI/testing/sysfs-devices-system-ibm-rtl  |   6 +-
+ .../testing/sysfs-driver-bd9571mwv-regulator  |   4 +
+ Documentation/ABI/testing/sysfs-driver-genwqe |  11 +-
+ .../ABI/testing/sysfs-driver-hid-lenovo       |  10 +
+ .../testing/sysfs-driver-hid-logitech-lg4ff   |  18 +-
+ .../ABI/testing/sysfs-driver-hid-ntrig        |  13 +-
+ .../ABI/testing/sysfs-driver-hid-roccat-kone  |  19 +
+ .../ABI/testing/sysfs-driver-hid-wiimote      |  12 +-
+ .../ABI/testing/sysfs-driver-input-exc3000    |   2 +
+ .../ABI/testing/sysfs-driver-jz4780-efuse     |   6 +-
+ .../ABI/testing/sysfs-driver-pciback          |   6 +-
+ .../ABI/testing/sysfs-driver-samsung-laptop   |  13 +-
+ .../ABI/testing/sysfs-driver-toshiba_acpi     |  26 +
+ .../ABI/testing/sysfs-driver-toshiba_haps     |   2 +
+ Documentation/ABI/testing/sysfs-driver-ufs    | 228 ++++++--
+ .../ABI/testing/sysfs-driver-w1_ds28e17       |   3 +
+ .../ABI/testing/sysfs-driver-w1_therm         |  75 ++-
+ Documentation/ABI/testing/sysfs-driver-wacom  |   4 +-
+ Documentation/ABI/testing/sysfs-firmware-acpi | 237 ++++----
+ .../ABI/testing/sysfs-firmware-dmi-entries    |  50 +-
+ .../ABI/testing/sysfs-firmware-efi-esrt       |  28 +-
+ .../testing/sysfs-firmware-efi-runtime-map    |  14 +-
+ Documentation/ABI/testing/sysfs-firmware-gsmi |   2 +-
+ .../ABI/testing/sysfs-firmware-memmap         |  16 +-
+ .../ABI/testing/sysfs-firmware-qemu_fw_cfg    |  20 +-
+ Documentation/ABI/testing/sysfs-firmware-sfi  |   6 +-
+ .../ABI/testing/sysfs-firmware-sgi_uv         |   6 +-
+ .../testing/sysfs-firmware-turris-mox-rwtm    |  10 +-
+ Documentation/ABI/testing/sysfs-fs-ext4       |   4 +-
+ Documentation/ABI/testing/sysfs-fs-f2fs       |  48 +-
+ .../ABI/testing/sysfs-hypervisor-xen          |  13 +-
+ .../ABI/testing/sysfs-kernel-boot_params      |  23 +-
+ .../ABI/testing/sysfs-kernel-mm-hugepages     |  12 +-
+ Documentation/ABI/testing/sysfs-kernel-mm-ksm |   5 +-
+ Documentation/ABI/testing/sysfs-kernel-slab   |   3 +
+ Documentation/ABI/testing/sysfs-module        |  17 +-
+ .../ABI/testing/sysfs-platform-asus-laptop    |  21 +-
+ .../ABI/testing/sysfs-platform-asus-wmi       |   1 +
+ Documentation/ABI/testing/sysfs-platform-at91 |  10 +-
+ .../ABI/testing/sysfs-platform-dell-laptop    |  10 +-
+ .../ABI/testing/sysfs-platform-dell-smbios    |   4 +-
+ .../ABI/testing/sysfs-platform-dfl-fme        |  14 +-
+ Documentation/ABI/testing/sysfs-platform-dptf |  11 +-
+ .../ABI/testing/sysfs-platform-eeepc-laptop   |  14 +-
+ .../testing/sysfs-platform-i2c-demux-pinctrl  |   4 +-
+ .../ABI/testing/sysfs-platform-ideapad-laptop |   9 +-
+ .../sysfs-platform-intel-wmi-sbl-fw-update    |   1 +
+ .../sysfs-platform-intel-wmi-thunderbolt      |   1 +
+ Documentation/ABI/testing/sysfs-platform-kim  |   1 +
+ .../testing/sysfs-platform-mellanox-bootctl   |  50 +-
+ .../testing/sysfs-platform-phy-rcar-gen3-usb2 |  10 +-
+ .../ABI/testing/sysfs-platform-renesas_usb3   |  10 +-
+ .../ABI/testing/sysfs-platform-sst-atom       |  13 +-
+ .../ABI/testing/sysfs-platform-usbip-vudc     |  11 +-
+ .../ABI/testing/sysfs-platform-wilco-ec       |   1 +
+ Documentation/ABI/testing/sysfs-power         |  21 +-
+ Documentation/ABI/testing/sysfs-profiling     |   2 +-
+ Documentation/ABI/testing/sysfs-ptp           |   2 +-
+ Documentation/ABI/testing/sysfs-uevent        |  28 +-
+ Documentation/ABI/testing/sysfs-wusb_cbaf     |   3 +-
+ Documentation/ABI/testing/usb-charger-uevent  |  82 +--
+ Documentation/ABI/testing/usb-uevent          |  32 +-
+ Documentation/Kconfig                         |  10 +
+ Documentation/Makefile                        |   5 +
+ Documentation/admin-guide/abi-obsolete.rst    |  11 +
+ Documentation/admin-guide/abi-removed.rst     |   5 +
+ Documentation/admin-guide/abi-stable.rst      |  14 +
+ Documentation/admin-guide/abi-testing.rst     |  20 +
+ Documentation/admin-guide/abi.rst             |  11 +
+ Documentation/admin-guide/index.rst           |   2 +
+ Documentation/conf.py                         |   3 +-
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-el15203000.rst        | 140 +++++
+ Documentation/leds/leds-sc27xx.rst            |  27 +
+ Documentation/sphinx/kernel_abi.py            | 194 +++++++
+ Documentation/sphinx/kernellog.py             |   6 +-
+ lib/Kconfig.debug                             |   2 +
+ scripts/get_abi.pl                            | 367 ++++++++----
+ 247 files changed, 4107 insertions(+), 2463 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-sc27xx
+ create mode 100644 Documentation/admin-guide/abi-obsolete.rst
+ create mode 100644 Documentation/admin-guide/abi-removed.rst
+ create mode 100644 Documentation/admin-guide/abi-stable.rst
+ create mode 100644 Documentation/admin-guide/abi-testing.rst
+ create mode 100644 Documentation/admin-guide/abi.rst
+ create mode 100644 Documentation/leds/leds-el15203000.rst
+ create mode 100644 Documentation/leds/leds-sc27xx.rst
+ create mode 100644 Documentation/sphinx/kernel_abi.py
+
 -- 
 2.26.2
+
 
