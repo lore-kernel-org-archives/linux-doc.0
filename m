@@ -2,100 +2,100 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CF2C4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 12:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCE1C00A89
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 12:41:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1F7A221FF
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 12:36:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE1A52071A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 12:41:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726055AbgJ3MgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 08:36:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45192 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725891AbgJ3MgY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 08:36:24 -0400
-X-Greylist: delayed 438 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Oct 2020 05:36:23 PDT
-Received: from smtp2-2.goneo.de (smtp2.goneo.de [IPv6:2001:1640:5::8:33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A294C0613CF
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 05:36:23 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id 58C4A23F789;
-        Fri, 30 Oct 2020 13:29:01 +0100 (CET)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ZCtrefz9eu7S; Fri, 30 Oct 2020 13:29:00 +0100 (CET)
-Received: from [192.168.1.127] (dyndsl-085-016-042-167.ewe-ip-backbone.de [85.16.42.167])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id 9BF6123F856;
-        Fri, 30 Oct 2020 13:28:59 +0100 (CET)
-Subject: Re: excess bolding in html
-To:     Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <31362b3b-469f-1f74-d929-b6faa7ae4e30@infradead.org>
- <20201030083748.4db9848b@coco.lan>
- <20201030113147.GG27442@casper.infradead.org>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <db164a2a-83f1-efd0-1c73-a4a77785bb59@darmarit.de>
-Date:   Fri, 30 Oct 2020 13:28:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726434AbgJ3Mld (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 08:41:33 -0400
+Received: from smtp-1909.mail.infomaniak.ch ([185.125.25.9]:55325 "EHLO
+        smtp-1909.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725891AbgJ3Mld (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 08:41:33 -0400
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CN24C353wzlhbLm;
+        Fri, 30 Oct 2020 13:41:31 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CN2494vmzzlh8TR;
+        Fri, 30 Oct 2020 13:41:29 +0100 (CET)
+Subject: Re: [PATCH v22 08/12] landlock: Add syscall implementations
+To:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20201027200358.557003-1-mic@digikod.net>
+ <20201027200358.557003-9-mic@digikod.net>
+ <CAG48ez1San538w=+He309vHg4pBSCvAf7e5xeHdqeOHA6qwitw@mail.gmail.com>
+ <de287149-ff42-40ca-5bd1-f48969880a06@digikod.net>
+ <CAG48ez1FQVkt78129WozBwFbVhAPyAr9oJAHFHAbbNxEBr9h1g@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <163f298b-b492-fee0-b475-102ae8170419@digikod.net>
+Date:   Fri, 30 Oct 2020 13:41:29 +0100
+User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <20201030113147.GG27442@casper.infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAG48ez1FQVkt78129WozBwFbVhAPyAr9oJAHFHAbbNxEBr9h1g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 30.10.20 um 12:31 schrieb Matthew Wilcox:
-> On Fri, Oct 30, 2020 at 08:37:48AM +0100, Mauro Carvalho Chehab wrote:
->> Just changing the kernel-doc markup at kernel/futex.c:
+
+On 30/10/2020 04:07, Jann Horn wrote:
+> On Thu, Oct 29, 2020 at 12:30 PM Mickaël Salaün <mic@digikod.net> wrote:
+>> On 29/10/2020 02:06, Jann Horn wrote:
+>>> On Tue, Oct 27, 2020 at 9:04 PM Mickaël Salaün <mic@digikod.net> wrote:
+>>>> These 3 system calls are designed to be used by unprivileged processes
+>>>> to sandbox themselves:
+> [...]
+>>>> +       /*
+>>>> +        * Similar checks as for seccomp(2), except that an -EPERM may be
+>>>> +        * returned.
+>>>> +        */
+>>>> +       if (!task_no_new_privs(current)) {
+>>>> +               err = security_capable(current_cred(), current_user_ns(),
+>>>> +                               CAP_SYS_ADMIN, CAP_OPT_NOAUDIT);
+>>>
+>>> I think this should be ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN)?
 >>
->> 	/**
->> 	 * futex_setup_timer - set up the sleeping hrtimer.
->> 	 * @time:	ptr to the given timeout value
->> 	 * @timeout:	the hrtimer_sleeper structure to be set up
->> 	 * @flags:	futex flags
->> 	 * @range_ns:	optional range in ns
->> 	 *
->> 	 * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
->> 	 *	   value given
->> 	 */
->>
->> To:
->>
->> ...
->> 	 * Return:
->> 	 *
->> 	 * Initialized hrtimer_sleeper structure or NULL if no timeout
->> 	 * value given
->> 	 */
->>
->> Should fix it.
+>> Right. The main difference is that ns_capable*() set PF_SUPERPRIV in
+>> current->flags. I guess seccomp should use ns_capable_noaudit() as well?
 > 
-> Or just remove the indent.
+> Yeah. That seccomp code is from commit e2cfabdfd0756, with commit date
+> in April 2012, while ns_capable_noaudit() was introduced in commit
+> 98f368e9e263, with commit date in June 2016; the seccomp code predates
+> the availability of that API.
 > 
->   * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
->   * value given.
+> Do you want to send a patch to Kees for that, or should I?
+> 
 
-To add my 2 cent:
-
-The return value should be described in a dedicated section
-named "Return:", like shown im Mauro's example (compare [1]).
-
-For on-liners I think it is OK to use the short form (compare [2]).
-
-[1] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#return-values
-[2] 
-https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#function-documentation
-
--- Markus --
-
+I found another case of this inconsistency in ptrace. I sent patches:
+https://lore.kernel.org/lkml/20201030123849.770769-1-mic@digikod.net/
