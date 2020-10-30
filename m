@@ -2,158 +2,231 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3F8C4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 13:47:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8810EC4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:00:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD222206CB
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 13:47:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ADogkMye"
+	by mail.kernel.org (Postfix) with ESMTP id 203752076E
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604066428;
+	bh=SQY9btLcVx02wKeES278fkHq50CU5n16gUg7TTg7C4k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=zb5N+aH2kTxMgvP99RoQgdxk4kwPgBOCTP7d0BBuZPh1bNbU+LlFG8u7qYvNAlzDE
+	 +LSgZWQuUMb3MUut562PXCETjx6eiDBHt6/6RY7QiIjwetr40UsCYdnJdqC8pabwSI
+	 qr6N9C3RABNTQ+5m/gbj2vChlnOn4NYCLlyny7a8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbgJ3NrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 09:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726226AbgJ3NrA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 09:47:00 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C276C0613D2
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 06:46:53 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id s21so6738649oij.0
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 06:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=L9KsQ649Ydk+F62S7OnKir8xMXm76fswU9q4GRYaxwA=;
-        b=ADogkMyeqzMi65mLW89eeqxIGlmWBYfTZ3bx3nTmGY2wkQ6ew8sNjqD3uCULVKqUBx
-         onwBT2ZjgdJeC+Ep0EzvoTvRnAW+7Iiyz/5yg7sD3QireG2CCRHS4HyyFb0a9sVm4Gkx
-         oK82pyK24ABm86duxNdYoH4hRNUNuqmxLkaaFdx57gQBJ1bVnIgROlYmlYkkJWUifom+
-         jVyfyKxvVyc1QRuPHf7ZI42FxPpsi/MDAFg5vR+O2aNlLtDCXRhTiwTAI53bIKW7tEOt
-         sxaK6rXBYliu3y15wi8dcdrb3eape6+JDJFEJWvX3eZs2nbse3syqEqt/L1LVuSMUunF
-         HVTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L9KsQ649Ydk+F62S7OnKir8xMXm76fswU9q4GRYaxwA=;
-        b=o4W7HEoYb0DGtV7JsjUGRIIlu6qwUBfI8zju4R3z1yVAPCxt+iNkc3/P4QNMHRQPvz
-         lspE8h0zm0rBOxgUP0XPLirTJYun7GVPc6ncJoWSqwslPFWHeggd4s9sVPHg2OP1vqOX
-         09dE6Ae0rrrFsZwdJgiyU8lNK+hjsfZM2TkEwGHcjJjmlzipoczHRzDA0bLAb6o/Qvwz
-         9O6bg2ayOXhfYBRV+oQlVQfmlApFbBsmwhlkY5QkjCTNrtr3la5H/XsqNOVI5jC4nI0g
-         TAiwJ+/7Wr5XBkVsL5QhIvXK77JY6HTc77xfQGRiVVHuuEuvAxx5pyKcySBfCaEc05Xj
-         liPw==
-X-Gm-Message-State: AOAM533ukAkmcS1c2xV16U6CCMwaeHLmQ7m/2kuGZpXlYQJ/KEP7q8bH
-        nfhj6hOzkcGIZJVNZF5RZUBnL4NFFzwJQWlHS0Ph/w==
-X-Google-Smtp-Source: ABdhPJxtllrD/ti+v3NOGXiV4JmOCXFOuYxncPEQf23c9uErySYb6wPEvDGJEVT3VNX7Kda0gfhJ/kKTgntzgs7XD78=
-X-Received: by 2002:a54:4812:: with SMTP id j18mr1740133oij.70.1604065612340;
- Fri, 30 Oct 2020 06:46:52 -0700 (PDT)
+        id S1726645AbgJ3OA1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 10:00:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49846 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726224AbgJ3OA1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Oct 2020 10:00:27 -0400
+Received: from coco.lan (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8B2A62072C;
+        Fri, 30 Oct 2020 14:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604066426;
+        bh=SQY9btLcVx02wKeES278fkHq50CU5n16gUg7TTg7C4k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SBC9F+DRm12fAdUx4LAFRz3vENqpfGMsDwloEa1LJ5v23VRMLbJxqFtYknmMTxwn2
+         9hHp6N+ByHhuCF+dIYl4Opt5bElP4fwxlxaOmrS+VZuzxrhwXBocz0i6oLgcmcspzy
+         QrFErBG0xZXDJ9n0LMVifLwvFVDp5Ymo9yKS9Mp4=
+Date:   Fri, 30 Oct 2020 15:00:19 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: excess bolding in html
+Message-ID: <20201030150019.1cc6db7d@coco.lan>
+In-Reply-To: <20201030125313.GH27442@casper.infradead.org>
+References: <31362b3b-469f-1f74-d929-b6faa7ae4e30@infradead.org>
+        <20201030083748.4db9848b@coco.lan>
+        <20201030113147.GG27442@casper.infradead.org>
+        <db164a2a-83f1-efd0-1c73-a4a77785bb59@darmarit.de>
+        <20201030125313.GH27442@casper.infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-7-elver@google.com>
- <CAG48ez0N5iKCmg-JEwZ2oKw3zUA=5EdsL0CMi6biwLbtqFXqCA@mail.gmail.com>
-In-Reply-To: <CAG48ez0N5iKCmg-JEwZ2oKw3zUA=5EdsL0CMi6biwLbtqFXqCA@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 30 Oct 2020 14:46:40 +0100
-Message-ID: <CANpmjNONPovgW6d4srQNQ-S-tiYCSxot7fmh=HDOdcRwO32z6A@mail.gmail.com>
-Subject: Re: [PATCH v6 6/9] kfence, kasan: make KFENCE compatible with KASAN
-To:     Jann Horn <jannh@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 30 Oct 2020 at 03:50, Jann Horn <jannh@google.com> wrote:
->
-> On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
-> > We make KFENCE compatible with KASAN for testing KFENCE itself. In
-> > particular, KASAN helps to catch any potential corruptions to KFENCE
-> > state, or other corruptions that may be a result of freepointer
-> > corruptions in the main allocators.
-> >
-> > To indicate that the combination of the two is generally discouraged,
-> > CONFIG_EXPERT=y should be set. It also gives us the nice property that
-> > KFENCE will be build-tested by allyesconfig builds.
-> >
-> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Co-developed-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
->
-> Reviewed-by: Jann Horn <jannh@google.com>
+Em Fri, 30 Oct 2020 12:53:13 +0000
+Matthew Wilcox <willy@infradead.org> escreveu:
 
-Thanks!
+> On Fri, Oct 30, 2020 at 01:28:59PM +0100, Markus Heiser wrote:
+> > Am 30.10.20 um 12:31 schrieb Matthew Wilcox:  
+> > > On Fri, Oct 30, 2020 at 08:37:48AM +0100, Mauro Carvalho Chehab wrote:  
+> > > > Just changing the kernel-doc markup at kernel/futex.c:
+> > > > 
+> > > > 	/**
+> > > > 	 * futex_setup_timer - set up the sleeping hrtimer.
+> > > > 	 * @time:	ptr to the given timeout value
+> > > > 	 * @timeout:	the hrtimer_sleeper structure to be set up
+> > > > 	 * @flags:	futex flags
+> > > > 	 * @range_ns:	optional range in ns
+> > > > 	 *
+> > > > 	 * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
+> > > > 	 *	   value given
+> > > > 	 */
+> > > > 
+> > > > To:
+> > > > 
+> > > > ...
+> > > > 	 * Return:
+> > > > 	 *
+> > > > 	 * Initialized hrtimer_sleeper structure or NULL if no timeout
+> > > > 	 * value given
+> > > > 	 */
+> > > > 
+> > > > Should fix it.  
+> > > 
+> > > Or just remove the indent.
+> > > 
+> > >   * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
+> > >   * value given.  
+> > 
+> > To add my 2 cent:
+> > 
+> > The return value should be described in a dedicated section
+> > named "Return:", like shown im Mauro's example (compare [1]).
+> > 
+> > For on-liners I think it is OK to use the short form (compare [2]).
+> > 
+> > [1] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#return-values
+> > [2] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#function-documentation  
 
-> with one nit:
->
-> [...]
-> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> [...]
-> > @@ -141,6 +142,14 @@ void kasan_unpoison_shadow(const void *address, size_t size)
-> >          */
-> >         address = reset_tag(address);
-> >
-> > +       /*
-> > +        * We may be called from SL*B internals, such as ksize(): with a size
-> > +        * not a multiple of machine-word size, avoid poisoning the invalid
-> > +        * portion of the word for KFENCE memory.
-> > +        */
-> > +       if (is_kfence_address(address))
-> > +               return;
->
-> It might be helpful if you could add a comment that explains that
-> kasan_poison_object_data() does not need a similar guard because
-> kasan_poison_object_data() is always paired with
-> kasan_unpoison_object_data() - that threw me off a bit at first.
+Yeah, I would use myself something like:
 
-Well, KFENCE objects should never be poisoned/unpoisoned because the
-kasan_alloc and free hooks have a kfence guard, and none of the code
-in sl*b.c that does kasan_{poison,unpoison}_object_data() should be
-executed for KFENCE objects.
+	Return: foo
 
-But I just noticed that kernel/scs.c seems to kasan_poison and
-unpoison objects, and keeps them poisoned for most of the object
-lifetime. I think we better add a kfence guard to
-kasan_poison_shadow() as well.
+only for single-line returns, using:
+
+	Return:
+
+	foo
+	bar
+
+for multi-line ones.
+
+-
+
+Anyway, I tried the enclosed patch. With that, it should now recognize 
+kernel-doc markups with:
+
+ 	 * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
+ 	 *	   value given
+
+And:
+
+	 * Returns: 0 on success, -ENOSPC if no suitable hole is found, -EINTR if
+	 * asked to wait for eviction and interrupted.
+	 */
+	(this example came from drivers/gpu/drm/i915/i915_gem_gtt.c)
+
+I only did a fast check here, in order to verify if it won't be
+producing additional warnings. I didn't check the html output.
+Just the resulting ReST from kernel-doc and the "make htmldocs" warnings.
+
+PS.: This handles only "Note(s)" and "Return(s)" sections.
+     Description and @var: are already handled using a different
+     logic elsewhere.
+
+     This could likely be generalized, but more work (and tests)
+     are required.
 
 Thanks,
--- Marco
+Mauro
+
+[PATCH] scripts: kernel-doc: better handle spaces after section markups
+
+Better handle things like:
+
+	* Return: foo
+	*         description
+
+Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index f699cf05d409..a91a2420cccf 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -389,7 +389,7 @@ my $doc_com_body = '\s*\* ?';
+ my $doc_decl = $doc_com . '(\w+)';
+ # @params and a strictly limited set of supported section names
+ my $doc_sect = $doc_com .
+-    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
++    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)(\s*:)(.*)';
+ my $doc_content = $doc_com_body . '(.*)';
+ my $doc_block = $doc_com . 'DOC:\s*(.*)?';
+ my $doc_inline_start = '^\s*/\*\*\s*$';
+@@ -865,8 +865,21 @@ sub output_highlight_rst {
+     my $in_literal = 0;
+     my $litprefix;
+     my $block = "";
++    my $spaces = "";
++    my $first = 1;
+ 
+     foreach $line (split "\n",$input) {
++        if ($first) {
++		$spaces = $1 if ($line =~ (m/^(\s+)/));
++		$first = 0;
++        }
++
++        if ($spaces ne "") {
++		if (!($line =~ s/^$spaces//)) {
++		    $spaces = "";
++		}
++        }
++
+ 	#
+ 	# If we're in a literal block, see if we should drop out
+ 	# of it.  Otherwise pass the line straight through unmunged.
+@@ -2135,8 +2148,9 @@ sub process_body($$) {
+     }
+ 
+     if (/$doc_sect/i) { # case insensitive for supported section names
++	my $spaces = "$1$2";
+ 	$newsection = $1;
+-	$newcontents = $2;
++	$newcontents = $3;
+ 
+ 	# map the supported section names to the canonical names
+ 	if ($newsection =~ m/^description$/i) {
+@@ -2161,11 +2175,20 @@ sub process_body($$) {
+ 
+ 	$in_doc_sect = 1;
+ 	$state = STATE_BODY;
+-	$contents = $newcontents;
+ 	$new_start_line = $.;
+-	while (substr($contents, 0, 1) eq " ") {
+-	    $contents = substr($contents, 1);
++
++	if ($newsection =~ m/(return|note)/i) {
++	    $spaces =~ s/\S/ /g;
++	    $newcontents = $spaces . $newcontents;
++	    $newcontents =~ s/^\s+$//;
++	    $contents = $newcontents;
++	} else {
++	    $contents = $newcontents;
++	    while (substr($newcontents, 0, 1) eq " ") {
++		$newcontents = substr($newcontents, 1);
++	    }
+ 	}
++
+ 	if ($contents ne "") {
+ 	    $contents .= "\n";
+ 	}
+
+
