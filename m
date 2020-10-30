@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E26DC64E7A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F1C7C63777
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:43:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEF0922203
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:43:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E66D122203
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:43:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604043807;
-	bh=H4pEh9TBapA8dg7TRdVpM0OPVrYCqcd1OlzpIt3AmsQ=;
+	s=default; t=1604043808;
+	bh=q8TP3G5WkwV93/rKCUnR+k0y6b7QqTyywOgaz5FNE3E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=2Sye69pNmphylVe/2+LeYpCmdqq7hhO2ybSWSmhLdWc4YF7oAkFxSH/oG/uHLd8pg
-	 Pq+BsYDkLSArOtCgunJP85k5aosTxPy72AEiQW86Vy+Tv3vfmmYHWjWDTNMJi5InN8
-	 QTahy44CaKXaKVPwKjln9Au7YmEqGmxLYdiCndkw=
+	b=UUsIXOi0I6HOTtaS43lGyndWvo/ZsyYpqtINJ6i5g58hzYULPutPyXXUXV2JtSpqt
+	 qdWKkmaW9qr/ZjHw63mNiyYuhgEDJn0dpTv0hzNp2u5neCGbR/aoZi9FxJlle6MlUv
+	 PBUHbRo24gkmC4Ff2OBUaX1hznwMCZpiNfBTwCyM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726109AbgJ3HlF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 03:41:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51638 "EHLO mail.kernel.org"
+        id S1725823AbgJ3Hn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 03:43:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726050AbgJ3HlE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726070AbgJ3HlE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 30 Oct 2020 03:41:04 -0400
 Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 855F42222C;
-        Fri, 30 Oct 2020 07:41:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1A4D522284;
+        Fri, 30 Oct 2020 07:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604043662;
-        bh=H4pEh9TBapA8dg7TRdVpM0OPVrYCqcd1OlzpIt3AmsQ=;
+        s=default; t=1604043663;
+        bh=q8TP3G5WkwV93/rKCUnR+k0y6b7QqTyywOgaz5FNE3E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Qj5z1I/vyMUEQreMW1E/WyluSvScLcGLaQx6cz+c3/aGBS6sKFIuvdFBhLK9nvLFr
-         Wu53R/idtzR4hukXPT717nDNicqoyVkJvvyky9WoIo44GxfZQtV5u2vDUV2gwfLw/z
-         7oD2aE/F+q+YErUtGTmGsJ3DpRwgnfRBVfpUpunw=
+        b=bZMxN35oGFkNQCKep6Jy5lkaIjZAdW9fLaj4MMqs1fx1ocRwcX6Dj9aq5Fp3P+mTH
+         g0bRJSxTKd+zFwSNV3V6H7OTTvCooJUzn+5J1eoZqWKa4h+l+XdoHo3TxtsBINby0W
+         JhOCgcn21tp413U+vO95wyWeU5eSa51UjWFYxc+g=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kYP1w-004Ofi-KP; Fri, 30 Oct 2020 08:41:00 +0100
+        id 1kYP1x-004OgF-4Y; Fri, 30 Oct 2020 08:41:01 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/39] docs: kernel_abi.py: add a script to parse ABI documentation
-Date:   Fri, 30 Oct 2020 08:40:31 +0100
-Message-Id: <48abf1a410237e63f85354a8cd7027fdf25657bf.1604042072.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 21/39] docs: ABI: sysfs-uevent: make it compatible with ReST output
+Date:   Fri, 30 Oct 2020 08:40:40 +0100
+Message-Id: <63904cc9b6a8581c5fc2ea1dca5d925874c67372.1604042072.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1604042072.git.mchehab+huawei@kernel.org>
 References: <cover.1604042072.git.mchehab+huawei@kernel.org>
@@ -58,181 +58,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ABI documentation is special: it is not plain text files,
-but, instead, files with an strict format, as specified by
-Documentation/ABI/README.
-
-Add a parser for it.
+- Replace " by ``, in order to use monospaced fonts;
+- mark literal blocks as such.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_abi.py | 157 +++++++++++++++++++++++++++++
- 1 file changed, 157 insertions(+)
- create mode 100644 Documentation/sphinx/kernel_abi.py
+ Documentation/ABI/testing/sysfs-uevent | 28 +++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-new file mode 100644
-index 000000000000..f8e7a02066c2
---- /dev/null
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -0,0 +1,157 @@
-+# -*- coding: utf-8; mode: python -*-
-+# SPDX-License-Identifier: GPL-2.0
-+u"""
-+    kernel-abi
-+    ~~~~~~~~~~
+diff --git a/Documentation/ABI/testing/sysfs-uevent b/Documentation/ABI/testing/sysfs-uevent
+index aa39f8d7bcdf..0b6227706b35 100644
+--- a/Documentation/ABI/testing/sysfs-uevent
++++ b/Documentation/ABI/testing/sysfs-uevent
+@@ -6,42 +6,46 @@ Description:
+                 Enable passing additional variables for synthetic uevents that
+                 are generated by writing /sys/.../uevent file.
+ 
+-                Recognized extended format is ACTION [UUID [KEY=VALUE ...].
++                Recognized extended format is::
+ 
+-                The ACTION is compulsory - it is the name of the uevent action
+-                ("add", "change", "remove"). There is no change compared to
+-                previous functionality here. The rest of the extended format
+-                is optional.
++			ACTION [UUID [KEY=VALUE ...]
 +
-+    Implementation of the ``kernel-abi`` reST-directive.
++                The ACTION is compulsory - it is the name of the uevent
++                action (``add``, ``change``, ``remove``). There is no change
++                compared to previous functionality here. The rest of the
++                extended format is optional.
+ 
+                 You need to pass UUID first before any KEY=VALUE pairs.
+-                The UUID must be in "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
++                The UUID must be in ``xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx``
+                 format where 'x' is a hex digit. The UUID is considered to be
+                 a transaction identifier so it's possible to use the same UUID
+                 value for one or more synthetic uevents in which case we
+                 logically group these uevents together for any userspace
+                 listeners. The UUID value appears in uevent as
+-                "SYNTH_UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" environment
++                ``SYNTH_UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`` environment
+                 variable.
+ 
+                 If UUID is not passed in, the generated synthetic uevent gains
+-                "SYNTH_UUID=0" environment variable automatically.
++                ``SYNTH_UUID=0`` environment variable automatically.
+ 
+                 The KEY=VALUE pairs can contain alphanumeric characters only.
 +
-+    :copyright:  Copyright (C) 2016  Markus Heiser
-+    :copyright:  Copyright (C) 2016-2020  Mauro Carvalho Chehab
-+    :maintained-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
+                 It's possible to define zero or more pairs - each pair is then
+                 delimited by a space character ' '. Each pair appears in
+-                synthetic uevent as "SYNTH_ARG_KEY=VALUE". That means the KEY
+-                name gains "SYNTH_ARG_" prefix to avoid possible collisions
++                synthetic uevent as ``SYNTH_ARG_KEY=VALUE``. That means the KEY
++                name gains ``SYNTH_ARG_`` prefix to avoid possible collisions
+                 with existing variables.
+ 
+-                Example of valid sequence written to the uevent file:
++                Example of valid sequence written to the uevent file::
+ 
+                     add fe4d7c9d-b8c6-4a70-9ef1-3d8a58d18eed A=1 B=abc
+ 
+-                This generates synthetic uevent including these variables:
++                This generates synthetic uevent including these variables::
+ 
+                     ACTION=add
+                     SYNTH_ARG_A=1
+                     SYNTH_ARG_B=abc
+                     SYNTH_UUID=fe4d7c9d-b8c6-4a70-9ef1-3d8a58d18eed
 +
-+    The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
-+    scripts/get_abi.pl script to parse the Kernel ABI files.
-+
-+    Overview of directive's argument and options.
-+
-+    .. code-block:: rst
-+
-+        .. kernel-abi:: <ABI directory location>
-+            :debug:
-+
-+    The argument ``<ABI directory location>`` is required. It contains the
-+    location of the ABI files to be parsed.
-+
-+    ``debug``
-+      Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
-+      what reST is generated.
-+
-+"""
-+
-+import sys
-+import os
-+from os import path
-+import subprocess
-+
-+from sphinx.ext.autodoc import AutodocReporter
-+
-+from docutils import nodes
-+from docutils.parsers.rst import Directive, directives
-+from docutils.statemachine import ViewList
-+from docutils.utils.error_reporting import ErrorString
-+
-+
-+__version__  = '1.0'
-+
-+# We can't assume that six is installed
-+PY3 = sys.version_info[0] == 3
-+PY2 = sys.version_info[0] == 2
-+if PY3:
-+    # pylint: disable=C0103, W0622
-+    unicode     = str
-+    basestring  = str
-+
-+def setup(app):
-+
-+    app.add_directive("kernel-abi", KernelCmd)
-+    return dict(
-+        version = __version__
-+        , parallel_read_safe = True
-+        , parallel_write_safe = True
-+    )
-+
-+class KernelCmd(Directive):
-+
-+    u"""KernelABI (``kernel-abi``) directive"""
-+
-+    required_arguments = 1
-+    optional_arguments = 0
-+    has_content = False
-+    final_argument_whitespace = True
-+
-+    option_spec = {
-+        "debug"     : directives.flag
-+    }
-+
-+    def warn(self, message, **replace):
-+        replace["fname"]   = self.state.document.current_source
-+        replace["line_no"] = replace.get("line_no", self.lineno)
-+        message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
-+        self.state.document.settings.env.app.warn(message, prefix="")
-+
-+    def run(self):
-+
-+        doc = self.state.document
-+        if not doc.settings.file_insertion_enabled:
-+            raise self.warning("docutils: file insertion disabled")
-+
-+        env = doc.settings.env
-+        cwd = path.dirname(doc.current_source)
-+        cmd = "get_abi.pl rest --dir "
-+        cmd += self.arguments[0]
-+
-+        srctree = path.abspath(os.environ["srctree"])
-+
-+        fname = cmd
-+
-+        # extend PATH with $(srctree)/scripts
-+        path_env = os.pathsep.join([
-+            srctree + os.sep + "scripts",
-+            os.environ["PATH"]
-+        ])
-+        shell_env = os.environ.copy()
-+        shell_env["PATH"]    = path_env
-+        shell_env["srctree"] = srctree
-+
-+        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
-+        nodeList = self.nestedParse(lines, fname)
-+        return nodeList
-+
-+    def runCmd(self, cmd, **kwargs):
-+        u"""Run command ``cmd`` and return it's stdout as unicode."""
-+
-+        try:
-+            proc = subprocess.Popen(
-+                cmd
-+                , stdout = subprocess.PIPE
-+                , stderr = subprocess.PIPE
-+                , universal_newlines = True
-+                , **kwargs
-+            )
-+            out, err = proc.communicate()
-+            if err:
-+                self.warn(err)
-+            if proc.returncode != 0:
-+                raise self.severe(
-+                    u"command '%s' failed with return code %d"
-+                    % (cmd, proc.returncode)
-+                )
-+        except OSError as exc:
-+            raise self.severe(u"problems with '%s' directive: %s."
-+                              % (self.name, ErrorString(exc)))
-+        return unicode(out)
-+
-+    def nestedParse(self, lines, fname):
-+        content = ViewList()
-+        node    = nodes.section()
-+
-+        if "debug" in self.options:
-+            code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
-+            for l in lines.split("\n"):
-+                code_block += "\n    " + l
-+            lines = code_block + "\n\n"
-+
-+        for c, l in enumerate(lines.split("\n")):
-+            content.append(l, fname, c)
-+
-+        buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
-+        self.state.memo.title_styles  = []
-+        self.state.memo.section_level = 0
-+        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
-+        try:
-+            self.state.nested_parse(content, 0, node, match_titles=1)
-+        finally:
-+            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
-+        return node.children
+ Users:
+                 udev, userspace tools generating synthetic uevents
 -- 
 2.26.2
 
