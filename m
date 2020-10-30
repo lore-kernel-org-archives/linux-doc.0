@@ -2,109 +2,154 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7BDC55178
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 607D7C4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:22:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCF8F22241
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:20:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09E6222241
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:22:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="R+UUfoG/"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wU+xx2bx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727096AbgJ3PU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 11:20:28 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34002 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726939AbgJ3PUB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:20:01 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1604071168;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zv/iNs6u+OAVTN6Z3tpw+QZN/vz+QgMEfXWWRVkKQ6E=;
-        b=R+UUfoG/3XkhueB/gzlPBD52A8W9HKac1+wTtnDPhRinOG85/Dxhy8JHQSqRIPITisYifO
-        CMreeeSXvfAyLRjbnpYQWZoD/bW6C5a4R0M9OcV6arcpIyHMTHodeECwMjyZQRoqHy/ttf
-        +650j7jJ5z99FuNB3awlOy6N38PfsgU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 53630AE2C;
-        Fri, 30 Oct 2020 15:19:28 +0000 (UTC)
-Date:   Fri, 30 Oct 2020 16:19:26 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v2 00/19] Free some vmemmap pages of
- hugetlb page
-Message-ID: <20201030151926.GL1478@dhcp22.suse.cz>
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
- <20201030091445.GF1478@dhcp22.suse.cz>
- <CAMZfGtUoEeJTBYwxYjWJEreHefcO81WhhnvRO7vTb_k+zPCHrg@mail.gmail.com>
+        id S1727033AbgJ3PWy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 11:22:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43026 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727021AbgJ3PWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 11:22:53 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0D1C0613CF
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:22:52 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id i6so8396060lfd.1
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5sSkbnbDNPQyj7tIyOHf0OZ0EnyY+U+Tr7Q/pQTsliQ=;
+        b=wU+xx2bxR8RyIDjURsVJrhnOKOfcFiQYDMWEvIaeuyW5aGNhZqWf1dtpN2n4F3NsJU
+         HppUrs7H0lk2qIrSgTeFcNiE1h+/1/elHdKv2wBA/d3Cb+Yn/qVc5aHqDX2kTRM0FlS3
+         nIVVV0Oy4OkmdCIJ8AKJt8+jrvs0gfNjrKK5kQeR4X3twWg+3zGMFU4Hyzs987aPU5DC
+         1OTUdauKuFPZWjob1v3N8JTmx5MTcCoWOPGmX0D5W73tJhSWN3+F5ksSdNjv+Chq4veK
+         oyNBDfrWv3q2nrzVucDlW9OJlVKLQCeMpMTrtiyse23US5OjWuYJC8Eg07Fh6gR6Kzqd
+         NT1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5sSkbnbDNPQyj7tIyOHf0OZ0EnyY+U+Tr7Q/pQTsliQ=;
+        b=Tfp05ZXodBzLKaiD/RBOb80ETcIAV/pQ37L4vP3ho3xF1Ux0cG6fbX2RJbVSNzRgT4
+         qlx7nA4FPUiY7b7sQNAYlA4TIahvlxiFNpwcbxHlsyRQJ+aeLQpwlfmLlvJzh6C26Tq/
+         WH0/PqwyQalOWDPEOELIHVFPF79g/mzoRUkCxwVVVYwWUZQEIhY6EctzmlgAZsuJ0cyw
+         ZkJEk8Vyb1OHpN5Hd04SeRrqU7lVRBGRbuOwchv2gdzZdkbi13+JPaT1Bceti9aqiiRm
+         fUfTekDGXxutyGNtOIj1YJDuoAVCXBYW+le1IW41+HbOX+RYSuEa8At/gGZ8JdlO/EWG
+         Yc0g==
+X-Gm-Message-State: AOAM533nBowbSLDaWTBjzs/h85dR55ntEF5GnawFXihtUFc/uGPtwo2U
+        /JCwy2MMOorrQQK7dPtRHP+AsvsOS70/zk9h0ZEN8Q==
+X-Google-Smtp-Source: ABdhPJwLZMfK+/wKcVf/f3wxYqaH0PlYsimcp5h9RqJlxCzfH0SY3Zlp7ANGGJQDqEL2L9l6kszh99qZ39iPqxje9Z8=
+X-Received: by 2002:a05:6512:51a:: with SMTP id o26mr1098326lfb.381.1604071371166;
+ Fri, 30 Oct 2020 08:22:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtUoEeJTBYwxYjWJEreHefcO81WhhnvRO7vTb_k+zPCHrg@mail.gmail.com>
+References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-3-elver@google.com>
+ <CAG48ez1n7FrRA8Djq5685KcUJp1YgW0qijtBYNm2c9ZqQ1M4rw@mail.gmail.com> <CANpmjNNBoiL2=JDD=vC5dB_TPW1Ybe5k7SqqhvUE2B7GmzRLyg@mail.gmail.com>
+In-Reply-To: <CANpmjNNBoiL2=JDD=vC5dB_TPW1Ybe5k7SqqhvUE2B7GmzRLyg@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 30 Oct 2020 16:22:24 +0100
+Message-ID: <CAG48ez1=uad2yMeffArw7Nem3Hea3pnL9rqAFsB7fFzBd+4Hcw@mail.gmail.com>
+Subject: Re: [PATCH v6 2/9] x86, kfence: enable KFENCE for x86
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 30-10-20 18:24:25, Muchun Song wrote:
-> On Fri, Oct 30, 2020 at 5:14 PM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Mon 26-10-20 22:50:55, Muchun Song wrote:
-> > > If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
-> > > substantial gain. On our server, run some SPDK/QEMU applications which
-> > > will use 1000GB hugetlbpage. With this feature enabled, we can save
-> > > ~16GB(1G hugepage)/~11GB(2MB hugepage) memory.
+On Fri, Oct 30, 2020 at 2:00 PM Marco Elver <elver@google.com> wrote:
+> On Fri, 30 Oct 2020 at 03:49, Jann Horn <jannh@google.com> wrote:
+> > On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
+> > > Add architecture specific implementation details for KFENCE and enable
+> > > KFENCE for the x86 architecture. In particular, this implements the
+> > > required interface in <asm/kfence.h> for setting up the pool and
+> > > providing helper functions for protecting and unprotecting pages.
+> > >
+> > > For x86, we need to ensure that the pool uses 4K pages, which is done
+> > > using the set_memory_4k() helper function.
+> > >
+> > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> > > Co-developed-by: Marco Elver <elver@google.com>
+> > > Signed-off-by: Marco Elver <elver@google.com>
+> > > Signed-off-by: Alexander Potapenko <glider@google.com>
 > > [...]
-> > >  15 files changed, 1091 insertions(+), 165 deletions(-)
-> > >  create mode 100644 include/linux/bootmem_info.h
-> > >  create mode 100644 mm/bootmem_info.c
-> >
-> > This is a neat idea but the code footprint is really non trivial. To a
-> > very tricky code which hugetlb is unfortunately.
-> >
-> > Saving 1,6% of memory is definitely interesting especially for 1GB pages
-> > which tend to be more static and where the savings are more visible.
-> >
-> > Anyway, I haven't seen any runtime overhead analysis here. What is the
-> > price to modify the vmemmap page tables and make them pte rather than
-> > pmd based (especially for 2MB hugetlb). Also, how expensive is the
-> > vmemmap page tables reconstruction on the freeing path?
-> 
-> Yeah, I haven't tested the remapping overhead of reserving a hugetlb
-> page. I can do that. But the overhead is not on the allocation/freeing of
-> each hugetlb page, it is only once when we reserve some hugetlb pages
-> through /proc/sys/vm/nr_hugepages. Once the reservation is successful,
-> the subsequent allocation, freeing and using are the same as before
-> (not patched).
+> > > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> > [...]
+> > > @@ -725,6 +726,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
+> > >         if (IS_ENABLED(CONFIG_EFI))
+> > >                 efi_recover_from_page_fault(address);
+> > >
+> > > +       if (kfence_handle_page_fault(address))
+> > > +               return;
+[...]
+> > Unrelated sidenote: Since we're hooking after exception fixup
+> > handling, the debug-only KFENCE_STRESS_TEST_FAULTS can probably still
+> > cause some behavioral differences through spurious faults in places
+> > like copy_user_enhanced_fast_string (where the exception table entries
+> > are used even if the *kernel* pointer, not the user pointer, causes a
+> > fault). But since KFENCE_STRESS_TEST_FAULTS is exclusively for KFENCE
+> > development, the difference might not matter. And ordering them the
+> > other way around definitely isn't possible, because the kernel relies
+> > on being able to fixup OOB reads. So there probably isn't really
+> > anything we can do better here; it's just something to keep in mind.
+> > Maybe you can add a little warning to the help text for that Kconfig
+> > entry that warns people about this?
+>
+> Thanks for pointing it out, but that option really is *only* to stress
+> kfence with concurrent allocations/frees/page faults. If anybody
+> enables this option for anything other than testing kfence, it's their
+> own fault. ;-)
 
-Yes, that is quite clear. Except for the hugetlb overcommit and
-migration if the pool is depeleted. Maybe few other cases.
+Sounds fair. :P
 
-> So I think that the overhead is acceptable.
+> I'll try to add a generic note to the Kconfig entry, but what you
+> mention here seems quite x86-specific.
 
-Having some numbers for a such a large feature is really needed.
--- 
-Michal Hocko
-SUSE Labs
+(FWIW, I think it could currently also happen on arm64 in the rare
+cases where KERNEL_DS is used. But luckily Christoph Hellwig has
+already gotten rid of most places that did that.)
