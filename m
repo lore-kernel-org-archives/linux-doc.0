@@ -2,84 +2,162 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1B3C4741F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 09:15:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5004FC4742C
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 09:50:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9170920728
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 09:15:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="q7TfBcI4"
+	by mail.kernel.org (Postfix) with ESMTP id 01CA3207DE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 09:50:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726027AbgJ3JPB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 05:15:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48598 "EHLO mx2.suse.de"
+        id S1726198AbgJ3JuV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 05:50:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:57686 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725784AbgJ3JPA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 05:15:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1604049299;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EfN1LEPDQQrCoeNpouMKenj2gqt+0jwF5CDIrEYva5o=;
-        b=q7TfBcI4eS1iDErBTa1jW+j0t/DPQOdxbihxnM0kHmI4wW08NtMFb7qJXO6QW/2t70oHUA
-        3UBNWjnkVIC6C14TPAXzV1sNwqLK/l28bvD01lu9Cv8ataUtQSpwSk63wVflfWVvxzqxEi
-        oBclMLQzKTnqLhHFCJ7y1Y3vpix+kOY=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 37793AD19;
-        Fri, 30 Oct 2020 09:14:59 +0000 (UTC)
-Date:   Fri, 30 Oct 2020 10:14:45 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 00/19] Free some vmemmap pages of hugetlb page
-Message-ID: <20201030091445.GF1478@dhcp22.suse.cz>
-References: <20201026145114.59424-1-songmuchun@bytedance.com>
+        id S1725876AbgJ3JuV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Oct 2020 05:50:21 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDF5F143D;
+        Fri, 30 Oct 2020 02:50:19 -0700 (PDT)
+Received: from [10.57.18.142] (unknown [10.57.18.142])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E76493F719;
+        Fri, 30 Oct 2020 02:49:51 -0700 (PDT)
+Subject: Re: [PATCH v2 31/39] docs: ABI: cleanup several ABI documents
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+        =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= 
+        <marmarek@invisiblethingslab.com>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>,
+        Alexander Antonov <alexander.antonov@linux.intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Asutosh Das <asutoshd@codeaurora.org>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Chao Yu <chao@kernel.org>,
+        Christian Gromm <christian.gromm@microchip.com>,
+        Colin Cross <ccross@android.com>, Dan Murphy <dmurphy@ti.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Danil Kipnis <danil.kipnis@cloud.ionos.com>,
+        David Sterba <dsterba@suse.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dongsheng Yang <dongsheng.yang@easystack.cn>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Jack Wang <jinpu.wang@cloud.ionos.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Jonas Meurer <jonas@freesources.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kajol Jain <kjain@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Khlebnikov <koct9i@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Oded Gabbay <oded.gabbay@gmail.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Oleh Kravchenko <oleg@kaa.org.ua>, Pavel Machek <pavel@ucw.cz>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Peter Chen <peter.chen@nxp.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Roman Sudarikov <roman.sudarikov@linux.intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>, Tony Luck <tony.luck@intel.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
+        Wu Hao <hao.wu@intel.com>, ceph-devel@vger.kernel.org,
+        coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+References: <cover.1604042072.git.mchehab+huawei@kernel.org>
+ <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <22fc421c-1998-04d5-a7fb-54467644bf13@arm.com>
+Date:   Fri, 30 Oct 2020 09:49:49 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201026145114.59424-1-songmuchun@bytedance.com>
+In-Reply-To: <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 26-10-20 22:50:55, Muchun Song wrote:
-> If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
-> substantial gain. On our server, run some SPDK/QEMU applications which
-> will use 1000GB hugetlbpage. With this feature enabled, we can save
-> ~16GB(1G hugepage)/~11GB(2MB hugepage) memory.
-[...]
->  15 files changed, 1091 insertions(+), 165 deletions(-)
->  create mode 100644 include/linux/bootmem_info.h
->  create mode 100644 mm/bootmem_info.c
+On 10/30/20 7:40 AM, Mauro Carvalho Chehab wrote:
+> There are some ABI documents that, while they don't generate
+> any warnings, they have issues when parsed by get_abi.pl script
+> on its output result.
+> 
+> Address them, in order to provide a clean output.
+> 
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for IIO
+> Reviewed-by: Tom Rix <trix@redhat.com> # for fpga-manager
+> Reviewed-By: Kajol Jain<kjain@linux.ibm.com> # for sysfs-bus-event_source-devices-hv_gpci and sysfs-bus-event_source-devices-hv_24x7
+> Acked-by: Oded Gabbay <oded.gabbay@gmail.com> # for Habanalabs
+> Acked-by: Vaibhav Jain <vaibhav@linux.ibm.com> # for sysfs-bus-papr-pmem
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-This is a neat idea but the code footprint is really non trivial. To a
-very tricky code which hugetlb is unfortunately.
 
-Saving 1,6% of memory is definitely interesting especially for 1GB pages
-which tend to be more static and where the savings are more visible.
 
-Anyway, I haven't seen any runtime overhead analysis here. What is the
-price to modify the vmemmap page tables and make them pte rather than
-pmd based (especially for 2MB hugetlb). Also, how expensive is the
-vmemmap page tables reconstruction on the freeing path?
+>   .../testing/sysfs-bus-coresight-devices-etb10 |   5 +-
+For the above,
 
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
