@@ -2,300 +2,312 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC74FC00A89
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 19:03:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BAE6C55178
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 19:16:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C37B2072C
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 19:03:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EDFE20797
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 19:16:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RCDhFlYv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727393AbgJ3TCq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 15:02:46 -0400
-Received: from mga11.intel.com ([192.55.52.93]:30179 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727137AbgJ3TCp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 15:02:45 -0400
-IronPort-SDR: 1U7UVF1iMmQGq3X+hQ2KkALNK+YbzF38PzJwOVwLRVVzjuxh6c8TTiHLM8Qqww2GO23lXxpfS2
- uCoB7kwy2F8Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9790"; a="165154807"
-X-IronPort-AV: E=Sophos;i="5.77,434,1596524400"; 
-   d="scan'208";a="165154807"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2020 12:02:44 -0700
-IronPort-SDR: GbRNYe2qdx5ld/FufN7RCKbNuIA2/flLKlX427Jbbos8V9aZKG9KRfzVco7y9Jad81NfWUp6OY
- y1FiUz2QJeyA==
-X-IronPort-AV: E=Sophos;i="5.77,434,1596524400"; 
-   d="scan'208";a="537167648"
-Received: from kingelix-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local) ([10.252.139.120])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2020 12:02:43 -0700
-From:   Ben Widawsky <ben.widawsky@intel.com>
-To:     linux-mm <linux-mm@kvack.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH 02/12] mm/mempolicy: convert single preferred_node to full nodemask
-Date:   Fri, 30 Oct 2020 12:02:28 -0700
-Message-Id: <20201030190238.306764-3-ben.widawsky@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201030190238.306764-1-ben.widawsky@intel.com>
-References: <20201030190238.306764-1-ben.widawsky@intel.com>
+        id S1727311AbgJ3TQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 15:16:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727385AbgJ3TQY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 15:16:24 -0400
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56DDAC0613CF
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 12:16:24 -0700 (PDT)
+Received: by mail-oo1-xc43.google.com with SMTP id n16so1846493ooj.2
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 12:16:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IphFE7ilzXNXur1141KXwIQedEFrpv7O0T6mxNfExvI=;
+        b=RCDhFlYvuzkhj0RbKq2lgBPQSykTVOFnWK/WcFtrtTkVR3x5GXOu2PzFzOLGUOmzJj
+         mB78wvCQ1fsVzChzlkxfqZuhpB+sUy5eafmPUGWeOXt+v/gjbzoB7Q/okyjNyzjJSmU3
+         1PasmJcynTSBoknvZQcDTfUVzO9DXaGOOxUcj4fkSyZtYxa5BdcYmYAcTI7jNHVkctHj
+         ZGx547ln5g2kzS1n66nWW0Qhw0ot8uV8tRQiKxp4ivjtCokA/pKy3E9j18NwhrMoD3b8
+         NFxNVhnauAqXsTFULPRBgYMnAD4frbaY+pkRAbGZKq/sh30IrkkXj6jxp41ah2AujTN8
+         DMDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IphFE7ilzXNXur1141KXwIQedEFrpv7O0T6mxNfExvI=;
+        b=IR4JYUC2ZSjLMeN0Q4dBWlMYitnvRwO0+fUFRg+rFtYrWX31S0Nta7hyj2lg2qQ45K
+         emdJg3SoZSFANDAf4guwMJ1x9nKQ1jVUFlaZiVEwxNhbbzoaApbStUM55EYiFnADYsHa
+         tG1b2hbrdtSclQJOHMh4kzOdHja/CTpPw9KsUUxOZLEeUkIleqLffJ1iJMqvgrzYA4DJ
+         5yParrLcIxKRymKU5wUCuebfl7mZBGv7YxgteEVnSHH9Ep8XO0r3EKja798iJ1vi4/MH
+         DCuT/T3/LIoHpwRuyJFpBgc1Viro6sqeyFvw3W2+1Ml2ZSAcNj6R7UvPZxGEigjw3Rms
+         TKeA==
+X-Gm-Message-State: AOAM532So/l9ouUh9Tt5VwdlGKOefiKPA37YkkU7JA5dNu+9SLilSkYz
+        yEi4PCnaqHmzswVRD8E8UKJqx3HNUmjMxzN9hDBt9g==
+X-Google-Smtp-Source: ABdhPJz+Ar79arAMWb4nHKtD5m+2c2HoTc65MlGNrFoHz2E+7j17Ls4jvjkLcU+UEA7bPTumYtOoXF4YQOvbudM+bJY=
+X-Received: by 2002:a4a:b28b:: with SMTP id k11mr3076579ooo.54.1604085383351;
+ Fri, 30 Oct 2020 12:16:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-2-elver@google.com>
+ <CAG48ez0TgomTec+r188t0ddYVZtivOkL1DvR3owiuDTBtgPNzA@mail.gmail.com>
+In-Reply-To: <CAG48ez0TgomTec+r188t0ddYVZtivOkL1DvR3owiuDTBtgPNzA@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 30 Oct 2020 20:16:11 +0100
+Message-ID: <CANpmjNPFXutFT6QmTej2bCDGVP+QgBngws1fOEz=s_Q_sAJbOQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/9] mm: add Kernel Electric-Fence infrastructure
+To:     Jann Horn <jannh@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Hansen <dave.hansen@linux.intel.com>
+On Fri, 30 Oct 2020 at 03:49, Jann Horn <jannh@google.com> wrote:
+> On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
+> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> > low-overhead sampling-based memory safety error detector of heap
+> > use-after-free, invalid-free, and out-of-bounds access errors.
+> [...]
+> > diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+> [...]
+> > +/**
+> > + * is_kfence_address() - check if an address belongs to KFENCE pool
+> > + * @addr: address to check
+> > + *
+> > + * Return: true or false depending on whether the address is within the KFENCE
+> > + * object range.
+> > + *
+> > + * KFENCE objects live in a separate page range and are not to be intermixed
+> > + * with regular heap objects (e.g. KFENCE objects must never be added to the
+> > + * allocator freelists). Failing to do so may and will result in heap
+> > + * corruptions, therefore is_kfence_address() must be used to check whether
+> > + * an object requires specific handling.
+> > + */
+>
+> It might be worth noting in the comment that this is one of the few
+> parts of KFENCE that are highly performance-sensitive, since that was
+> an important point during the review.
 
-The NUMA APIs currently allow passing in a "preferred node" as a
-single bit set in a nodemask.  If more than one bit it set, bits
-after the first are ignored.  Internally, this is implemented as
-a single integer: mempolicy->preferred_node.
+Done, thanks.
 
-This single node is generally OK for location-based NUMA where
-memory being allocated will eventually be operated on by a single
-CPU.  However, in systems with multiple memory types, folks want
-to target a *type* of memory instead of a location.  For instance,
-someone might want some high-bandwidth memory but do not care about
-the CPU next to which it is allocated.  Or, they want a cheap,
-high capacity allocation and want to target all NUMA nodes which
-have persistent memory in volatile mode.  In both of these cases,
-the application wants to target a *set* of nodes, but does not
-want strict MPOL_BIND behavior as that could lead to OOM killer or
-SIGSEGV.
+> > +static __always_inline bool is_kfence_address(const void *addr)
+> > +{
+> > +       /*
+> > +        * The non-NULL check is required in case the __kfence_pool pointer was
+> > +        * never initialized; keep it in the slow-path after the range-check.
+> > +        */
+> > +       return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && addr);
+> > +}
+> [...]
+> > diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> [...]
+> > +config KFENCE_STRESS_TEST_FAULTS
+> > +       int "Stress testing of fault handling and error reporting"
+> > +       default 0
+> > +       depends on EXPERT
+> > +       help
+> > +         The inverse probability with which to randomly protect KFENCE object
+> > +         pages, resulting in spurious use-after-frees. The main purpose of
+> > +         this option is to stress test KFENCE with concurrent error reports
+> > +         and allocations/frees. A value of 0 disables stress testing logic.
+> > +
+> > +         The option is only to test KFENCE; set to 0 if you are unsure.
+> [...]
+> > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> [...]
+> > +#ifndef CONFIG_KFENCE_STRESS_TEST_FAULTS /* Only defined with CONFIG_EXPERT. */
+> > +#define CONFIG_KFENCE_STRESS_TEST_FAULTS 0
+> > +#endif
+>
+> I think you can make this prettier by writing the Kconfig
+> appropriately. See e.g. ARCH_MMAP_RND_BITS:
+>
+> config ARCH_MMAP_RND_BITS
+>   int "Number of bits to use for ASLR of mmap base address" if EXPERT
+>   range ARCH_MMAP_RND_BITS_MIN ARCH_MMAP_RND_BITS_MAX
+>   default ARCH_MMAP_RND_BITS_DEFAULT if ARCH_MMAP_RND_BITS_DEFAULT
+>   default ARCH_MMAP_RND_BITS_MIN
+>   depends on HAVE_ARCH_MMAP_RND_BITS
+>
+> So instead of 'depends on EXPERT', I think the proper way would be to
+> append ' if EXPERT' to the line
+> 'int "Stress testing of fault handling and error reporting"', so that
+> only whether the option is user-visible depends on EXPERT, and
+> non-EXPERT configs automatically use the default value.
 
-To get that behavior, a MPOL_PREFERRED mode is desirable, but one
-that honors multiple nodes to be set in the nodemask.
+I guess the idea was to not pollute the config in non-EXPERT configs,
+but it probably doesn't matter much. Changed it to the suggested
+cleaner approach.
 
-The first step in that direction is to be able to internally store
-multiple preferred nodes, which is implemented in this patch.
+> [...]
+> > +static inline unsigned long metadata_to_pageaddr(const struct kfence_metadata *meta)
+> > +{
+> > +       unsigned long offset = (meta - kfence_metadata + 1) * PAGE_SIZE * 2;
+> > +       unsigned long pageaddr = (unsigned long)&__kfence_pool[offset];
+> > +
+> > +       /* The checks do not affect performance; only called from slow-paths. */
+> > +
+> > +       /* Only call with a pointer into kfence_metadata. */
+> > +       if (KFENCE_WARN_ON(meta < kfence_metadata ||
+> > +                          meta >= kfence_metadata + CONFIG_KFENCE_NUM_OBJECTS))
+> > +               return 0;
+> > +
+> > +       /*
+> > +        * This metadata object only ever maps to 1 page; verify the calculation
+> > +        * happens and that the stored address was not corrupted.
+>
+> nit: This reads a bit weirdly to me. Maybe "; verify that the stored
+> address is in the expected range"? But feel free to leave it as-is if
+> you prefer it that way.
 
-This should not have any function changes and just switches the
-internal representation of mempolicy->preferred_node from an
-integer to a nodemask called 'mempolicy->preferred_nodes'.
+Hmm, that really sounds weird... I've changed it. :-)
 
-This is not a pie-in-the-sky dream for an API.  This was a response to a
-specific ask of more than one group at Intel.  Specifically:
+> > +        */
+> > +       if (KFENCE_WARN_ON(ALIGN_DOWN(meta->addr, PAGE_SIZE) != pageaddr))
+> > +               return 0;
+> > +
+> > +       return pageaddr;
+> > +}
+> [...]
+> > +/* __always_inline this to ensure we won't do an indirect call to fn. */
+> > +static __always_inline void for_each_canary(const struct kfence_metadata *meta, bool (*fn)(u8 *))
+> > +{
+> > +       const unsigned long pageaddr = ALIGN_DOWN(meta->addr, PAGE_SIZE);
+> > +       unsigned long addr;
+> > +
+> > +       lockdep_assert_held(&meta->lock);
+> > +
+> > +       /* Check left of object. */
+> > +       for (addr = pageaddr; addr < meta->addr; addr++) {
+> > +               if (!fn((u8 *)addr))
+> > +                       break;
+>
+> It could be argued that "return" instead of "break" would be cleaner
+> here if the API is supposed to be "invoke fn() on each canary byte,
+> but stop when fn() returns false". But I suppose it doesn't really
+> matter, so either way is fine.
 
-1. There are existing libraries that target memory types such as
-   https://github.com/memkind/memkind.  These are known to suffer
-   from SIGSEGV's when memory is low on targeted memory "kinds" that
-   span more than one node.  The MCDRAM on a Xeon Phi in "Cluster on
-   Die" mode is an example of this.
-2. Volatile-use persistent memory users want to have a memory policy
-   which is targeted at either "cheap and slow" (PMEM) or "expensive and
-   fast" (DRAM).  However, they do not want to experience allocation
-   failures when the targeted type is unavailable.
-3. Allocate-then-run.  Generally, we let the process scheduler decide
-   on which physical CPU to run a task.  That location provides a
-   default allocation policy, and memory availability is not generally
-   considered when placing tasks.  For situations where memory is
-   valuable and constrained, some users want to allocate memory first,
-   *then* allocate close compute resources to the allocation.  This is
-   the reverse of the normal (CPU) model.  Accelerators such as GPUs
-   that operate on core-mm-managed memory are interested in this model.
+Hmm, perhaps if there are corruptions on either side of an object
+printing both errors (which includes indications of which bytes were
+corrupted) might give more insights into what went wrong. Printing
+errors for every canary byte on one side didn't make much sense
+though, hence the break.
 
-v2:
-Fix spelling errors in commit message. (Ben)
-clang-format. (Ben)
-Integrated bit from another patch. (Ben)
-Update the docs to reflect the internal data structure change (Ben)
-Don't advertise MPOL_PREFERRED_MANY in UAPI until we can handle it (Ben)
-Added more to the commit message (Dave)
+Until we see this in the wild, let's err on the side of "more
+information might be better".
 
-Link: https://lore.kernel.org/r/20200630212517.308045-3-ben.widawsky@intel.com
-Co-developed-by: Ben Widawsky <ben.widawsky@intel.com>
-Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
----
- .../admin-guide/mm/numa_memory_policy.rst     |  6 +--
- include/linux/mempolicy.h                     |  4 +-
- mm/mempolicy.c                                | 40 ++++++++++---------
- 3 files changed, 27 insertions(+), 23 deletions(-)
+> > +       }
+> > +
+> > +       /* Check right of object. */
+> > +       for (addr = meta->addr + meta->size; addr < pageaddr + PAGE_SIZE; addr++) {
+> > +               if (!fn((u8 *)addr))
+> > +                       break;
+> > +       }
+> > +}
+> > +
+> > +static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp)
+> > +{
+> [...]
+> > +       /* Set required struct page fields. */
+> > +       page = virt_to_page(meta->addr);
+> > +       page->slab_cache = cache;
+> > +       if (IS_ENABLED(CONFIG_SLUB))
+> > +               page->objects = 1;
+> > +       if (IS_ENABLED(CONFIG_SLAB))
+> > +               page->s_mem = addr;
+>
+> Maybe move the last 4 lines over into the "hooks for SLAB" and "hooks
+> for SLUB" patches?
 
-diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
-index 067a90a1499c..1ad020c459b8 100644
---- a/Documentation/admin-guide/mm/numa_memory_policy.rst
-+++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
-@@ -205,9 +205,9 @@ MPOL_PREFERRED
- 	of increasing distance from the preferred node based on
- 	information provided by the platform firmware.
- 
--	Internally, the Preferred policy uses a single node--the
--	preferred_node member of struct mempolicy.  When the internal
--	mode flag MPOL_F_LOCAL is set, the preferred_node is ignored
-+	Internally, the Preferred policy uses a nodemask--the
-+	preferred_nodes member of struct mempolicy.  When the internal
-+	mode flag MPOL_F_LOCAL is set, the preferred_nodes are ignored
- 	and the policy is interpreted as local allocation.  "Local"
- 	allocation policy can be viewed as a Preferred policy that
- 	starts at the node containing the cpu where the allocation
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index 5f1c74df264d..23ee10556b82 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -47,8 +47,8 @@ struct mempolicy {
- 	unsigned short mode; 	/* See MPOL_* above */
- 	unsigned short flags;	/* See set_mempolicy() MPOL_F_* above */
- 	union {
--		short 		 preferred_node; /* preferred */
--		nodemask_t	 nodes;		/* interleave/bind */
-+		nodemask_t preferred_nodes; /* preferred */
-+		nodemask_t nodes; /* interleave/bind */
- 		/* undefined for default */
- 	} v;
- 	union {
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index e24f0133ff1f..ba3bc4f28d27 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -205,7 +205,7 @@ static int mpol_new_preferred(struct mempolicy *pol, const nodemask_t *nodes)
- 	else if (nodes_empty(*nodes))
- 		return -EINVAL;			/*  no allowed nodes */
- 	else
--		pol->v.preferred_node = first_node(*nodes);
-+		pol->v.preferred_nodes = nodemask_of_node(first_node(*nodes));
- 	return 0;
- }
- 
-@@ -345,22 +345,26 @@ static void mpol_rebind_preferred(struct mempolicy *pol,
- 						const nodemask_t *nodes)
- {
- 	nodemask_t tmp;
-+	nodemask_t preferred_node;
-+
-+	/* MPOL_PREFERRED uses only the first node in the mask */
-+	preferred_node = nodemask_of_node(first_node(*nodes));
- 
- 	if (pol->flags & MPOL_F_STATIC_NODES) {
- 		int node = first_node(pol->w.user_nodemask);
- 
- 		if (node_isset(node, *nodes)) {
--			pol->v.preferred_node = node;
-+			pol->v.preferred_nodes = nodemask_of_node(node);
- 			pol->flags &= ~MPOL_F_LOCAL;
- 		} else
- 			pol->flags |= MPOL_F_LOCAL;
- 	} else if (pol->flags & MPOL_F_RELATIVE_NODES) {
- 		mpol_relative_nodemask(&tmp, &pol->w.user_nodemask, nodes);
--		pol->v.preferred_node = first_node(tmp);
-+		pol->v.preferred_nodes = tmp;
- 	} else if (!(pol->flags & MPOL_F_LOCAL)) {
--		pol->v.preferred_node = node_remap(pol->v.preferred_node,
--						   pol->w.cpuset_mems_allowed,
--						   *nodes);
-+		nodes_remap(tmp, pol->v.preferred_nodes,
-+			    pol->w.cpuset_mems_allowed, preferred_node);
-+		pol->v.preferred_nodes = tmp;
- 		pol->w.cpuset_mems_allowed = *nodes;
- 	}
- }
-@@ -912,7 +916,7 @@ static void get_policy_nodemask(struct mempolicy *p, nodemask_t *nodes)
- 		break;
- 	case MPOL_PREFERRED:
- 		if (!(p->flags & MPOL_F_LOCAL))
--			node_set(p->v.preferred_node, *nodes);
-+			*nodes = p->v.preferred_nodes;
- 		/* else return empty node mask for local allocation */
- 		break;
- 	default:
-@@ -1885,9 +1889,9 @@ nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *policy)
- /* Return the node id preferred by the given mempolicy, or the given id */
- static int policy_node(gfp_t gfp, struct mempolicy *policy, int nd)
- {
--	if (policy->mode == MPOL_PREFERRED && !(policy->flags & MPOL_F_LOCAL))
--		nd = policy->v.preferred_node;
--	else {
-+	if (policy->mode == MPOL_PREFERRED && !(policy->flags & MPOL_F_LOCAL)) {
-+		nd = first_node(policy->v.preferred_nodes);
-+	} else {
- 		/*
- 		 * __GFP_THISNODE shouldn't even be used with the bind policy
- 		 * because we might easily break the expectation to stay on the
-@@ -1932,7 +1936,7 @@ unsigned int mempolicy_slab_node(void)
- 		/*
- 		 * handled MPOL_F_LOCAL above
- 		 */
--		return policy->v.preferred_node;
-+		return first_node(policy->v.preferred_nodes);
- 
- 	case MPOL_INTERLEAVE:
- 		return interleave_nodes(policy);
-@@ -2066,7 +2070,7 @@ bool init_nodemask_of_mempolicy(nodemask_t *mask)
- 		if (mempolicy->flags & MPOL_F_LOCAL)
- 			nid = numa_node_id();
- 		else
--			nid = mempolicy->v.preferred_node;
-+			nid = first_node(mempolicy->v.preferred_nodes);
- 		init_nodemask_of_node(mask, nid);
- 		break;
- 
-@@ -2204,7 +2208,7 @@ alloc_pages_vma(gfp_t gfp, int order, struct vm_area_struct *vma,
- 		 * node in its nodemask, we allocate the standard way.
- 		 */
- 		if (pol->mode == MPOL_PREFERRED && !(pol->flags & MPOL_F_LOCAL))
--			hpage_node = pol->v.preferred_node;
-+			hpage_node = first_node(pol->v.preferred_nodes);
- 
- 		nmask = policy_nodemask(gfp, pol);
- 		if (!nmask || node_isset(hpage_node, *nmask)) {
-@@ -2343,7 +2347,7 @@ bool __mpol_equal(struct mempolicy *a, struct mempolicy *b)
- 		/* a's ->flags is the same as b's */
- 		if (a->flags & MPOL_F_LOCAL)
- 			return true;
--		return a->v.preferred_node == b->v.preferred_node;
-+		return nodes_equal(a->v.preferred_nodes, b->v.preferred_nodes);
- 	default:
- 		BUG();
- 		return false;
-@@ -2487,7 +2491,7 @@ int mpol_misplaced(struct page *page, struct vm_area_struct *vma, unsigned long
- 		if (pol->flags & MPOL_F_LOCAL)
- 			polnid = numa_node_id();
- 		else
--			polnid = pol->v.preferred_node;
-+			polnid = first_node(pol->v.preferred_nodes);
- 		break;
- 
- 	case MPOL_BIND:
-@@ -2804,7 +2808,7 @@ void __init numa_policy_init(void)
- 			.refcnt = ATOMIC_INIT(1),
- 			.mode = MPOL_PREFERRED,
- 			.flags = MPOL_F_MOF | MPOL_F_MORON,
--			.v = { .preferred_node = nid, },
-+			.v = { .preferred_nodes = nodemask_of_node(nid), },
- 		};
- 	}
- 
-@@ -2970,7 +2974,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
- 	if (mode != MPOL_PREFERRED)
- 		new->v.nodes = nodes;
- 	else if (nodelist)
--		new->v.preferred_node = first_node(nodes);
-+		new->v.preferred_nodes = nodemask_of_node(first_node(nodes));
- 	else
- 		new->flags |= MPOL_F_LOCAL;
- 
-@@ -3023,7 +3027,7 @@ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
- 		if (flags & MPOL_F_LOCAL)
- 			mode = MPOL_LOCAL;
- 		else
--			node_set(pol->v.preferred_node, nodes);
-+			nodes_or(nodes, nodes, pol->v.preferred_nodes);
- 		break;
- 	case MPOL_BIND:
- 	case MPOL_INTERLEAVE:
--- 
-2.29.2
+Done.
 
+> [...]
+> > +}
+> [...]
+> > diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+> [...]
+> > +/*
+> > + * Get the number of stack entries to skip get out of MM internals. @type is
+>
+> s/to skip get out/to skip to get out/ ?
+
+Done.
+
+> > + * optional, and if set to NULL, assumes an allocation or free stack.
+> > + */
+> > +static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries,
+> > +                           const enum kfence_error_type *type)
+> [...]
+> > +void kfence_report_error(unsigned long address, const struct kfence_metadata *meta,
+> > +                        enum kfence_error_type type)
+> > +{
+> [...]
+> > +       case KFENCE_ERROR_CORRUPTION: {
+> > +               size_t bytes_to_show = 16;
+> > +
+> > +               pr_err("BUG: KFENCE: memory corruption in %pS\n\n", (void *)stack_entries[skipnr]);
+> > +               pr_err("Corrupted memory at 0x" PTR_FMT " ", (void *)address);
+> > +
+> > +               if (address < meta->addr)
+> > +                       bytes_to_show = min(bytes_to_show, meta->addr - address);
+> > +               print_diff_canary((u8 *)address, bytes_to_show);
+>
+> If the object was located on the right side, but with 1 byte padding
+> to the right due to alignment, and a 1-byte OOB write had clobbered
+> the canary byte on the right side, we would later detect a
+> KFENCE_ERROR_CORRUPTION at offset 0xfff inside the page, right? In
+> that case, I think we'd end up trying to read 15 canary bytes from the
+> following guard page and take a page fault?
+>
+> You may want to do something like:
+>
+> unsigned long canary_end = (address < meta->addr) ? meta->addr :
+> address | (PAGE_SIZE-1);
+> bytes_to_show = min(bytes_to_show, canary_end);
+
+print_diff_canary() calculates max_addr using PAGE_ALIGN(), and we
+won't read from the next page. I think I'll move all this logic into
+print_diff_canary() to simplify.
+
+Thanks,
+-- Marco
