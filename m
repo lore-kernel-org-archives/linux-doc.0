@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBF3BC5DF9D
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:43:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D99C63777
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:44:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 991E720719
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:43:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 866DF2222C
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604043836;
-	bh=HsQrvMBX9g/P57FAc200KohyjAOyDkJuLSjGrLD/nt0=;
+	s=default; t=1604043842;
+	bh=12b0aTvv2o71y42fIZIMv68yxDHDKeFNYBl4enXZe7o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Z7QSD5fZGOskwG2c0iCXd07qzuL/v7ogWObmHkXa2rFZ6mPMm5DHQTPCMK/Ulvyz3
-	 nhyv7qnqWI1ODtqyzcxWEExQvTia5i+HiGipsgiA1Yi+HO3tvNGVbDFhHpyzPnM/nj
-	 zcA9F3wcgSxdlqyG2ESG3o5Gts0WnXFyxf3GCjTY=
+	b=UkPyZker3btpM4wS+JkQrWfPHQwKp+lIZsis8JloZXi0Y7JZOwOuf0Eb82rhMc7tF
+	 oPhtXs9bemkbHkHFjMkZHJhuE6rxlv17C7zWNcGi+YZh3HbusiU8z2eVaP6apaf//f
+	 YJ/DwgkAx5RC8AcngHOgbhAoDQ3Szo1cYJzyF3/k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbgJ3Hns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 03:43:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51656 "EHLO mail.kernel.org"
+        id S1726045AbgJ3HlD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 03:41:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51426 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726055AbgJ3HlE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 03:41:04 -0400
+        id S1725933AbgJ3HlD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Oct 2020 03:41:03 -0400
 Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 92B0022241;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7903D221EB;
         Fri, 30 Oct 2020 07:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1604043662;
-        bh=HsQrvMBX9g/P57FAc200KohyjAOyDkJuLSjGrLD/nt0=;
+        bh=12b0aTvv2o71y42fIZIMv68yxDHDKeFNYBl4enXZe7o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=y7O16yBoirOEcmh5N9y39zIab9pa/8tymPab3WFVw8fTb7Y5Z1EYKg5xeWPg471RG
-         cueG03neEHze3+rIdHs18ucusjPikqGWFjJQ90LpS9F6Rf7cBniKE6jBbiiLr+3s/V
-         KinUq410zdQSxRRppOzw2RajjNY9EnP3r1ggvrTE=
+        b=T5U7Q5Q4fjuafi3SkB8cg+BmY6n5bSWT1nwU1A6YhY8gAI1BAM4Hn6Th9wT2UBZY5
+         lICulJeSJFwhpyZ/72KJJe3T0IIB5MJczJyc8LYOEj278uuD+/WmiRCVXM48yNyKMW
+         D1L2kKoUaJc3qn/5GLMofMfBbfOhfzBMWUW0oink=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kYP1w-004Ofc-Hw; Fri, 30 Oct 2020 08:41:00 +0100
+        id 1kYP1w-004OfW-FY; Fri, 30 Oct 2020 08:41:00 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -49,9 +49,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Oded Gabbay <oded.gabbay@gmail.com>, Tom Rix <trix@redhat.com>,
         Vaibhav Jain <vaibhav@linux.ibm.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/39] scripts: get_abi.pl: auto-generate cross references
-Date:   Fri, 30 Oct 2020 08:40:29 +0100
-Message-Id: <abe756d4f94fb6ffcc3dd3902a766c7c3990ea89.1604042072.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 08/39] scripts: get_abi.pl: prevent duplicated file names
+Date:   Fri, 30 Oct 2020 08:40:27 +0100
+Message-Id: <ef760f68f54e132c4be52f0027189b4ba31554ec.1604042072.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1604042072.git.mchehab+huawei@kernel.org>
 References: <cover.1604042072.git.mchehab+huawei@kernel.org>
@@ -62,77 +62,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are several cross-references that can be automatically
-generated:
-
-	- References to .rst files inside Documentation/
-	- References to other ABI files;
-	- References to ABI symbols at /sys/*.
-
-Add a logic to automatically parse them and convert into
-cross references.
+The same filename may exist on multiple directories within
+ABI. Create separate entries at the internal database for
+each of them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ scripts/get_abi.pl | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 12a23f9a2f86..ff4f9f82ecad 100755
+index e5a5588a8639..5612f019fae0 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -3,6 +3,7 @@
+@@ -65,7 +65,10 @@ sub parse_abi {
+ 	my $name = $file;
+ 	$name =~ s,.*/,,;
  
- use strict;
- use warnings;
-+use utf8;
- use Pod::Usage;
- use Getopt::Long;
- use File::Find;
-@@ -272,6 +273,9 @@ sub create_labels {
- # Outputs the book on ReST format
- #
+-	my $nametag = "File $name";
++	my $fn = $file;
++	$fn =~ s,Documentation/ABI/,,;
++
++	my $nametag = "File $fn";
+ 	$data{$nametag}->{what} = "File $name";
+ 	$data{$nametag}->{type} = "File";
+ 	$data{$nametag}->{file} = $name;
+@@ -320,16 +323,18 @@ sub output_rest {
+ 			my $fileref = "abi_file_".$path;
  
-+# \b doesn't work well with paths. So, we need to define something else
-+my $bondary = qr { (?<![\w\/\`\{])(?=[\w\/\`\{])|(?<=[\w\/\`\{])(?![\w\/\`\{]) }x;
-+
- sub output_rest {
- 	create_labels();
- 
-@@ -342,6 +346,33 @@ sub output_rest {
- 
- 		if (!($desc =~ /^\s*$/)) {
- 			if ($description_is_rst) {
-+				# Enrich text by creating cross-references
-+
-+				$desc =~ s,Documentation/(?!devicetree)(\S+)\.rst,:doc:`/$1`,g;
-+
-+				my @matches = $desc =~ m,Documentation/ABI/([\w\/\-]+),;
-+				foreach my $f (@matches) {
-+					my $xref = $f;
-+					my $path = $f;
-+					$path =~ s,.*/(.*/.*),$1,;;
-+					$path =~ s,[/\-],_,g;;
-+					$xref .= " <abi_file_" . $path . ">";
-+					$desc =~ s,\bDocumentation/ABI/$f\b,:ref:`$xref`,g;
-+				}
-+
-+				@matches = $desc =~ m,$bondary(/sys/[^\s\.\,\;\:\*\s\`\'\(\)]+)$bondary,;
-+
-+				foreach my $s (@matches) {
-+					if (defined($data{$s}) && defined($data{$s}->{label})) {
-+						my $xref = $s;
-+
-+						$xref =~ s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
-+						$xref = ":ref:`$xref <" . $data{$s}->{label} . ">`";
-+
-+						$desc =~ s,$bondary$s$bondary,$xref,g;
-+					}
-+				}
-+
- 				print "$desc\n\n";
+ 			if ($type eq "File") {
+-				my $bar = $w;
+-				$bar =~ s/./-/g;
+-
+ 				print ".. _$fileref:\n\n";
+-				print "$w\n$bar\n\n";
  			} else {
- 				$desc =~ s/^\s+//;
+ 				print "Defined on file :ref:`$f <$fileref>`\n\n";
+ 			}
+ 		}
+ 
++		if ($type eq "File") {
++			my $bar = $w;
++			$bar =~ s/./-/g;
++			print "$w\n$bar\n\n";
++		}
++
+ 		my $desc = "";
+ 		$desc = $data{$what}->{description} if (defined($data{$what}->{description}));
+ 		$desc =~ s/\s+$/\n/;
 -- 
 2.26.2
 
