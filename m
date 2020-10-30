@@ -2,108 +2,134 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C214CC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:48:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02193C55178
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:07:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65AD320724
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:48:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74ED22071A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:07:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qf9/fa8h"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="FDk8YZ+1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbgJ3OsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 10:48:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37368 "EHLO
+        id S1726259AbgJ3PHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 11:07:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726908AbgJ3OrS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 10:47:18 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41E38C0613D5;
-        Fri, 30 Oct 2020 07:47:18 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id v5so3097701wmh.1;
-        Fri, 30 Oct 2020 07:47:18 -0700 (PDT)
+        with ESMTP id S1726642AbgJ3PHM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 11:07:12 -0400
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F7FC0613D7
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:07:12 -0700 (PDT)
+Received: by mail-vk1-xa41.google.com with SMTP id d125so1515126vkh.10
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yv878rTp+0D5cIZqocum8pL6tSDhQfB1mTNsXlZia/Y=;
-        b=Qf9/fa8h74YiCbs7zwnGcwOpz6o1PwzN9PTPXA3VPMQQtAIYjMHodiQhCPfMn0eiIC
-         qFpqraDXJB+/hCxq7GMciGXKTYoVEYi5nnzshZblc0tRtbfgpCETM1tTa55FVrRjdM+K
-         /4fC5b+uNyDEc+ShErN/X2rHwA62jn4WaIBbjKqt3HJVeQoBSnm3iBbvVd8Iku33E6eU
-         +2QTdSmIHXXbC1C9iP3F9OKZBoLrawGVLfnrB+wpR9T+01a5wZ//eLHI+hh5KyJ0wOLk
-         PSOxSuKEUfCsOFIAT1lLiKdMzUMCZQyvH3WME8RVNZaFNiMWLNxh59wlGRWIVwnk2lRm
-         S+GQ==
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qezUIHlvY9fFOmo2+xA2K+Ux6IJAtG5C7ju4HZIADck=;
+        b=FDk8YZ+1U0Xp/Ygw40EpV0XeoQqT33eCNWvzOPeOzuhtVGoPz8+inv5IWSqFU5QEQb
+         fbZH8kjd/7GZgBHweJS80LprkSJvRuThB5A2PYwcRJ19ifGSQ+mXOsFOxCp0TrHprMN8
+         Ow0nVKYl2sgjqAIi19jAw5kAX//XFX1+xWk6o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=yv878rTp+0D5cIZqocum8pL6tSDhQfB1mTNsXlZia/Y=;
-        b=XB1RHv+LhqoQM6foVwQio5BQPmsnPNImwtbMyjAEFEtv+/wyFU/e3fwNpUL1naGu8K
-         eVs8qleedAVlqSs+1zgoyKxiHsZcjwVG4XtJ3D5uuhDJMry4lCYykSB/lUxo5N/BpHtU
-         iF6CjV22K1sVLyokFeBspSdRL8QuqAU8AgpOahoV2qHkYV04XoToczqelO7irbC0bBvG
-         TSOFnwyDXmCeeqxoYpzjYIIpdjh2O235BEb0VbLSORtgo3Aq32EBuWnWO2IuNdcFbyXG
-         x+V0EGg0U6GNlBUhuApJC+IDoHKmQtRmnC5mm9By8AquHaPxXXB05tUJ4xDu0Xwl4ZfJ
-         PBlg==
-X-Gm-Message-State: AOAM530uQt381fNUJR2USHG7htl/BktZQPwUoCI8tnvXDKsY8E9gG+iP
-        MsVvwdjPa+hCj63xH1inFML8D4tpjIo=
-X-Google-Smtp-Source: ABdhPJzTTKLP1QTAVhwJcksp2JlOiPZqM+tT7gG7SIRUNgDcbllgwaXbp91W+jyVullmRTprpvNu0w==
-X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr3069054wmk.136.1604069236541;
-        Fri, 30 Oct 2020 07:47:16 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id p21sm5058785wmc.28.2020.10.30.07.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 07:47:15 -0700 (PDT)
-Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net
-Cc:     Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH 1/2] kernel-doc: Handle function typedefs that return pointers
-Date:   Fri, 30 Oct 2020 15:47:12 +0100
-Message-Id: <20201030144713.201372-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201030144713.201372-1-pbonzini@redhat.com>
-References: <20201030144713.201372-1-pbonzini@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qezUIHlvY9fFOmo2+xA2K+Ux6IJAtG5C7ju4HZIADck=;
+        b=aapjYFnoJ+IkMT7FEZuJ35iucmZOgDuABuh6K4nBAegdMD3wfT6bLP+5WcUiQlAQgT
+         k24ebOouR6Ms7+L70XYt0e+ZIGrjFIEOvPzXWKgJxgvLgP2HlhIP9hAdXFtBE7B1OoY1
+         iYY9OAmnAyTQsgSSXmQNhXYy8baAP1YYk77TbWDS+e9h2Qk1kRZoagcPLguwcCRtGgcf
+         lRu98sWU1C3bFQ/omlWgQ2GlfRB6ayEXDesU2k1rlLLc0oXSCRrto9Fr8L2mCvk3e8pl
+         j7gF3JQI+orD+v1rywMwbliEat6gZ59MtURMybRfHlGPFW3u94wzKtVplXM3G3p9rRdw
+         gwQA==
+X-Gm-Message-State: AOAM533VltZJrNCuw7dmEcsULt0AZp/bQkv9yJdx35mARp1JTcPX8i03
+        d/eeMiNxGR1CfEFUG34RLjDS/XKwbfxRci2TT+c8Cg==
+X-Google-Smtp-Source: ABdhPJw6zBNZsPXoxIh2VrRKYWDLkA+cMVV5G3SLLuH30LfxgNrHG7rsMDRqvHz08mcMwgVJkAuegVhMmIf8qGqUmJE=
+X-Received: by 2002:ac5:c80e:: with SMTP id y14mr7299032vkl.3.1604070430985;
+ Fri, 30 Oct 2020 08:07:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201021151903.652827-1-salyzyn@android.com> <20201021151903.652827-3-salyzyn@android.com>
+In-Reply-To: <20201021151903.652827-3-salyzyn@android.com>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Fri, 30 Oct 2020 16:07:00 +0100
+Message-ID: <CAJfpegtMoD85j5namV592sJD23QeUMD=+tq4SvFDqjVxsAszYQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH v18 2/4] overlayfs: handle XATTR_NOSECURITY flag
+ for get xattr method
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel@vger.kernel.org,
+        kernel-team <kernel-team@android.com>,
+        linux-fsdevel@vger.kernel.org,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Amir Goldstein <amir73il@gmail.com>, linux-doc@vger.kernel.org,
+        SElinux list <selinux@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+On Wed, Oct 21, 2020 at 5:19 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>
+> Because of the overlayfs getxattr recursion, the incoming inode fails
+> to update the selinux sid resulting in avc denials being reported
+> against a target context of u:object_r:unlabeled:s0.
+>
+> Solution is to respond to the XATTR_NOSECURITY flag in get xattr
+> method that calls the __vfs_getxattr handler instead so that the
+> context can be read in, rather than being denied with an -EACCES
+> when vfs_getxattr handler is called.
+>
+> For the use case where access is to be blocked by the security layer.
+>
+> The path then would be security(dentry) ->
+> __vfs_getxattr({dentry...XATTR_NOSECURITY}) ->
+> handler->get({dentry...XATTR_NOSECURITY}) ->
+> __vfs_getxattr({realdentry...XATTR_NOSECURITY}) ->
+> lower_handler->get({realdentry...XATTR_NOSECURITY}) which
+> would report back through the chain data and success as expected,
+> the logging security layer at the top would have the data to
+> determine the access permissions and report back to the logs and
+> the caller that the target context was blocked.
+>
+> For selinux this would solve the cosmetic issue of the selinux log
+> and allow audit2allow to correctly report the rule needed to address
+> the access problem.
+>
+> Check impure, opaque, origin & meta xattr with no sepolicy audit
+> (using __vfs_getxattr) since these operations are internal to
+> overlayfs operations and do not disclose any data.  This became
+> an issue for credential override off since sys_admin would have
+> been required by the caller; whereas would have been inherently
+> present for the creator since it performed the mount.
+>
+> This is a change in operations since we do not check in the new
+> ovl_do_getxattr function if the credential override is off or not.
+> Reasoning is that the sepolicy check is unnecessary overhead,
+> especially since the check can be expensive.
+>
+> Because for override credentials off, this affects _everyone_ that
+> underneath performs private xattr calls without the appropriate
+> sepolicy permissions and sys_admin capability.  Providing blanket
+> support for sys_admin would be bad for all possible callers.
+>
+> For the override credentials on, this will affect only the mounter,
+> should it lack sepolicy permissions. Not considered a security
+> problem since mounting by definition has sys_admin capabilities,
+> but sepolicy contexts would still need to be crafted.
 
-One example that was not being parsed correctly by kernel-doc is:
+This would be a problem when unprivileged mounting of overlay is
+introduced.  I'd really like to avoid weakening the current security
+model.
 
-  typedef Object *(ObjectPropertyResolve)(Object *obj,
-                                          void *opaque,
-                                          const char *part);
+The big API churn in the 1/4 patch also seems excessive considering
+that this seems to be mostly a cosmetic issue for android.  Am I
+missing something?
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/kernel-doc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f68d76dd97ba..5b5caa7642f7 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1302,8 +1302,8 @@ sub dump_typedef($$) {
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
- 
-     # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
--	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
-+    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
- 
- 	# Function typedefs
- 	$return_type = $1;
--- 
-2.28.0
-
-
+Thanks,
+Miklos
