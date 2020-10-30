@@ -5,240 +5,250 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC8A6C4741F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99CE4C4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A40020719
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A6A520719
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604043740;
-	bh=laqfKgYIOZkUNXl8RbAmpD7Q4frs1RmcXkjACWIQfJw=;
+	s=default; t=1604043749;
+	bh=V5DPYhc49mlxP3YFnJP/L8cYMprKFZhjzhQ2U2Q0q9A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zVGJI2sA2VcCiBoY/WPkJ7SwHJ4MfhEXbvQe1ToGSq1Il4gYDxJIWiTmkpeLVG/YF
-	 mJOfDtQMS2ySTQOCnhy2UkwR9RYTvQOYvA4wzNPw9OoR365O895sodkXbk1/JpkKMq
-	 TM3AmHGOcevSYy+puP8vjpeH5sD02z526mUPDBxM=
+	b=e7EQ8J4qzDV68xFFWWWpcFE845A0FWtNl4c9FbkFso3mYJ0XmibEATk5jw55l3HBu
+	 99GRDpwhsT4RWcZEyTeIFMiIfbcdu/OUghYZyxTHMYA9vWxiEVwLuNiAfhvQqPY2sA
+	 TjnUQHMIazwtlJOkHMXeLFB39RMUcQbkAl+EITeI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726011AbgJ3HmT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 03:42:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51638 "EHLO mail.kernel.org"
+        id S1726263AbgJ3HmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 03:42:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52052 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726101AbgJ3HlG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726095AbgJ3HlG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 30 Oct 2020 03:41:06 -0400
 Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1188B2415B;
-        Fri, 30 Oct 2020 07:41:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9E33722456;
+        Fri, 30 Oct 2020 07:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604043664;
-        bh=laqfKgYIOZkUNXl8RbAmpD7Q4frs1RmcXkjACWIQfJw=;
+        s=default; t=1604043663;
+        bh=V5DPYhc49mlxP3YFnJP/L8cYMprKFZhjzhQ2U2Q0q9A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FL9ZuXNn8Q9elmy6sIUFm4wj5f/9GQy6wetZUEm3ih4849MQ616Dr0o2iJtEXnD6r
-         E66jYp5wti8IGBK524rceDsoPnA31rgoH6ww91ZSW8gDR/5IUkBSzDayXttL3UgCYa
-         hoXt1ME6ysZ6pyXUW5Lju93c4hX/zMvXyqL6XeFk=
+        b=bTb6mB0K1PZPTGNRA9isFrkAePQJlFh67Vm02ZEqFDHcCm9Ljj9NoXk+RsBNsDnHu
+         1cByqZjJNgTxVT7UyHvtZqYfDpBvZXmaNtdy7v05ns8nhEFNmbCjYKFBZLz9MTROsy
+         IjChAWgXqLCFEBmc6BsBuczkDaO+FDygmVzm1Lh0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kYP1y-004Ogv-0f; Fri, 30 Oct 2020 08:41:02 +0100
+        id 1kYP1w-004OfR-DA; Fri, 30 Oct 2020 08:41:00 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 37/39] docs: ABI: sysfs-class-backlight: unify ABI documentation
-Date:   Fri, 30 Oct 2020 08:40:56 +0100
-Message-Id: <342195ad5a819d9bcfcebc133c77ab69b4211672.1604042072.git.mchehab+huawei@kernel.org>
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>, Tom Rix <trix@redhat.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 06/39] scripts: get_abi.pl: detect duplicated ABI definitions
+Date:   Fri, 30 Oct 2020 08:40:25 +0100
+Message-Id: <d7a73b8b3aae5b2bff9279996ff9ca4cdfc89196.1604042072.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1604042072.git.mchehab+huawei@kernel.org>
 References: <cover.1604042072.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Both adp8860 and adp8870 define some extensions to the
-backlight class. This causes warnings:
+The ABI should define only once each What. The current script
+logic assumes that.
 
-	Warning: /sys/class/backlight/<backlight>/ambient_light_level is defined 2 times:  /sys/class/backlight/<backlight>/ambient_light_level:8  /sys/class/backlight/<backlight>/ambient_light_level:30
-	Warning: /sys/class/backlight/<backlight>/ambient_light_zone is defined 2 times:  /sys/class/backlight/<backlight>/ambient_light_zone:18  /sys/class/backlight/<backlight>/ambient_light_zone:40
+However, that's not the case, currently: there are several
+symbols with a generic definition, and per-driver ones.
 
-As ABI definitions shouldn't be duplicated.
-
-Unfortunately, the ABI is dependent on the specific device
-features. As such, ambient_light_level range is somewhat
-different among the supported devices.
-
-The ambient_light_zone is even worse: the meanings of each
-preset are different, and there's no ABI to retrieve
-the supported types nor their meanins. Unfortunately,
-it is too late to fix it without causing regressions,
-as this has been used since Kernel v2.6.35.
-
-Rewrite those ABI documentation using the current documentation
-as a reference, and double-checking at the datasheets:
-
-	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP8870.pdf
-	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP8860.pdf
-
-in order to properly document the differences between those two
-drivers.
+Better handle such cases, by preserving the cross-references
+with the files that define them, but also track such
+cases, producing warnings, as they should be fixed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../ABI/testing/sysfs-class-backlight         | 60 +++++++++++++++++++
- .../ABI/testing/sysfs-class-backlight-adp8860 | 21 +------
- .../sysfs-class-backlight-driver-adp8870      | 30 +---------
- 3 files changed, 65 insertions(+), 46 deletions(-)
+ scripts/get_abi.pl | 85 +++++++++++++++++++++++++++++++---------------
+ 1 file changed, 58 insertions(+), 27 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-backlight b/Documentation/ABI/testing/sysfs-class-backlight
-index 3ab175a3f5cb..1fc86401bf95 100644
---- a/Documentation/ABI/testing/sysfs-class-backlight
-+++ b/Documentation/ABI/testing/sysfs-class-backlight
-@@ -24,3 +24,63 @@ Description:
- 		non-linear
- 		  The brightness changes non-linearly with each step. Brightness
- 		  controls should use a linear mapping for a linear perception.
-+
-+What:		/sys/class/backlight/<backlight>/ambient_light_level
-+Date:		Apr, 2010
-+KernelVersion:	v2.6.35
-+Contact:	Michael Hennerich <michael.hennerich@analog.com>
-+Description:
-+		(RO) Get conversion value of the light sensor.
-+
-+		The value is automatically updated every 80 ms when the
-+		light sensor is enabled.
-+
-+		The value range is device-driver specific:
-+
-+		For ADP8870:
-+
-+		  It returns integer between 0 (dark) and 8000 (max ambient
-+		  brightness).
-+
-+		For ADP8860:
-+
-+		  It returns a 13-bits integer.
-+
-+What:		/sys/class/backlight/<backlight>/ambient_light_zone
-+Date:		Apr, 2010
-+KernelVersion:	v2.6.35
-+Contact:	Michael Hennerich <michael.hennerich@analog.com>,
-+		device-drivers-devel@blackfin.uclinux.org
-+
-+Description:
-+		(RW) Read or write the specific brightness level at which the
-+		backlight operates.
-+
-+		The value meaning is device-driver specific:
-+
-+		For ADP8860:
-+
-+		  ==	==========================
-+		   0	Off: Backlight set to 0 mA
-+		   1	Level 1: daylight
-+		   2	Level 2: bright
-+		   3	Level 3: dark
-+		  ==	==========================
-+
-+		For ADP8870:
-+
-+		  ==	==========================
-+		   0	Off: Backlight set to 0 mA
-+		   1	Level 1: daylight
-+		   2	Level 2: bright
-+		   3	Level 3: office
-+		   4	Level 4: indoor
-+		   5	Level 5: dark
-+		  ==	==========================
-+
-+		Writing 0 returns to normal/automatic ambient light level
-+		operation.
-+
-+		It can be enabled by writing the value stored in
-+		/sys/class/backlight/<backlight>/max_brightness to
-+		/sys/class/backlight/<backlight>/brightness.
-diff --git a/Documentation/ABI/testing/sysfs-class-backlight-adp8860 b/Documentation/ABI/testing/sysfs-class-backlight-adp8860
-index 54d61c788b1b..6610ac73f9ba 100644
---- a/Documentation/ABI/testing/sysfs-class-backlight-adp8860
-+++ b/Documentation/ABI/testing/sysfs-class-backlight-adp8860
-@@ -6,25 +6,8 @@ adp8860, adp8861 and adp8863 devices: daylight (level 1), office (level 2) and
- dark (level 3). By default the brightness operates at the daylight brightness
- level.
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index d134cc1692ee..1d1408fad130 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -114,6 +114,8 @@ sub parse_abi {
+ 				$space = "";
+ 				$content =~ s/[,.;]$//;
  
--What:		/sys/class/backlight/<backlight>/ambient_light_level
--Date:		Apr, 2010
--KernelVersion:	v2.6.35
--Contact:	Michael Hennerich <michael.hennerich@analog.com>
--Description:
--		(RO) 13-bit conversion value for the first light sensor—high
--		byte (Bit 12 to Bit 8). The value is updated every 80 ms (when
--		the light sensor is enabled).
--
--
--What:		/sys/class/backlight/<backlight>/ambient_light_zone
--Date:		Apr, 2010
--KernelVersion:	v2.6.35
--Contact:	Michael Hennerich <michael.hennerich@analog.com>
--Description:
--		(RW) Read or write the specific level at which the backlight
--		operates. Value "0" enables automatic ambient light sensing, and
--		values "1", "2" or "3" set the control to daylight, office or
--		dark respectively.
-+See also /sys/class/backlight/<backlight>/ambient_light_level and
-+/sys/class/backlight/<backlight>/ambient_light_zone.
- 
- 
- What:		/sys/class/backlight/<backlight>/l1_daylight_max
-diff --git a/Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870 b/Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870
-index 33e648808117..b08ca912cad4 100644
---- a/Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870
-+++ b/Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870
-@@ -1,3 +1,6 @@
-+See also /sys/class/backlight/<backlight>/ambient_light_level and
-+/sys/class/backlight/<backlight>/ambient_light_zone.
++				push @{$symbols{$content}->{file}}, " $file:" . ($ln - 1);
 +
- What:		/sys/class/backlight/<backlight>/<ambient light zone>_max
- What:		/sys/class/backlight/<backlight>/l1_daylight_max
- What:		/sys/class/backlight/<backlight>/l2_bright_max
-@@ -27,30 +30,3 @@ Description:
- 		set to 0. Full off when the backlight is disabled.
- 		This file will also show the dim brightness level stored for
- 		this <ambient light zone>.
+ 				if ($tag =~ m/what/) {
+ 					$what .= ", " . $content;
+ 				} else {
+@@ -121,7 +123,7 @@ sub parse_abi {
+ 						parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
+ 
+ 						foreach my $w(split /, /, $what) {
+-							$symbols{$w} = $what;
++							$symbols{$w}->{xref} = $what;
+ 						};
+ 					}
+ 
+@@ -139,8 +141,6 @@ sub parse_abi {
+ 			if ($tag ne "" && $new_tag) {
+ 				$tag = $new_tag;
+ 
+-				$data{$what}->{line_no} = $ln;
 -
--What:		/sys/class/backlight/<backlight>/ambient_light_level
--Date:		May 2011
--KernelVersion:	3.0
--Contact:	device-drivers-devel@blackfin.uclinux.org
--Description:
--		Get conversion value of the light sensor.
--		This value is updated every 80 ms (when the light sensor
--		is enabled). Returns integer between 0 (dark) and
--		8000 (max ambient brightness)
+ 				if ($new_what) {
+ 					@{$data{$what}->{label_list}} = @labels if ($data{$nametag}->{what});
+ 					@labels = ();
+@@ -148,9 +148,19 @@ sub parse_abi {
+ 					$new_what = 0;
+ 
+ 					$data{$what}->{type} = $type;
+-					$data{$what}->{file} = $name;
+-					$data{$what}->{filepath} = $file;
++					if (!defined($data{$what}->{file})) {
++						$data{$what}->{file} = $name;
++						$data{$what}->{filepath} = $file;
++					} else {
++						if ($name ne $data{$what}->{file}) {
++							$data{$what}->{file} .= " " . $name;
++							$data{$what}->{filepath} .= " " . $file;
++						}
++					}
+ 					print STDERR "\twhat: $what\n" if ($debug > 1);
++					$data{$what}->{line_no} = $ln;
++				} else {
++					$data{$what}->{line_no} = $ln if (!defined($data{$what}->{line_no}));
+ 				}
+ 
+ 				if (!$what) {
+@@ -218,7 +228,7 @@ sub parse_abi {
+ 		parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
+ 
+ 		foreach my $w(split /, /,$what) {
+-			$symbols{$w} = $what;
++			$symbols{$w}->{xref} = $what;
+ 		};
+ 	}
+ 	close IN;
+@@ -267,29 +277,20 @@ sub output_rest {
+ 				$a cmp $b
+ 			       } keys %data) {
+ 		my $type = $data{$what}->{type};
+-		my $file = $data{$what}->{file};
+-		my $filepath = $data{$what}->{filepath};
++
++		my @file = split / /, $data{$what}->{file};
++		my @filepath = split / /, $data{$what}->{filepath};
+ 
+ 		if ($enable_lineno) {
+ 			printf "#define LINENO %s%s#%s\n\n",
+-			       $prefix, $data{$what}->{file},
++			       $prefix, $file[0],
+ 			       $data{$what}->{line_no};
+ 		}
+ 
+ 		my $w = $what;
+ 		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
+ 
+-		$filepath =~ s,.*/(.*/.*),$1,;;
+-		$filepath =~ s,[/\-],_,g;;
+-		my $fileref = "abi_file_".$filepath;
 -
--What:		/sys/class/backlight/<backlight>/ambient_light_zone
--Date:		May 2011
--KernelVersion:	3.0
--Contact:	device-drivers-devel@blackfin.uclinux.org
--Description:
--		Get/Set current ambient light zone. Reading returns
--		integer between 1..5 (1 = daylight, 2 = bright, ..., 5 = dark).
--		Writing a value between 1..5 forces the backlight controller
--		to enter the corresponding ambient light zone.
--		Writing 0 returns to normal/automatic ambient light level
--		operation. The ambient light sensing feature on these devices
--		is an extension to the API documented in
--		Documentation/ABI/stable/sysfs-class-backlight.
--		It can be enabled by writing the value stored in
--		/sys/class/backlight/<backlight>/max_brightness to
--		/sys/class/backlight/<backlight>/brightness.
+-		if ($type eq "File") {
+-			my $bar = $w;
+-			$bar =~ s/./-/g;
+-
+-			print ".. _$fileref:\n\n";
+-			print "$w\n$bar\n\n";
+-		} else {
++		if ($type ne "File") {
+ 			printf ".. _%s:\n\n", $data{$what}->{label};
+ 
+ 			my @names = split /, /,$w;
+@@ -307,7 +308,26 @@ sub output_rest {
+ 				print "+-" . "-" x $len . "-+\n";
+ 			}
+ 
+-			print "\nDefined on file :ref:`$file <$fileref>`\n\n";
++			print "\n";
++		}
++
++		for (my $i = 0; $i < scalar(@filepath); $i++) {
++			my $path = $filepath[$i];
++			my $f = $file[$i];
++
++			$path =~ s,.*/(.*/.*),$1,;;
++			$path =~ s,[/\-],_,g;;
++			my $fileref = "abi_file_".$path;
++
++			if ($type eq "File") {
++				my $bar = $w;
++				$bar =~ s/./-/g;
++
++				print ".. _$fileref:\n\n";
++				print "$w\n$bar\n\n";
++			} else {
++				print "Defined on file :ref:`$f <$fileref>`\n\n";
++			}
+ 		}
+ 
+ 		my $desc = "";
+@@ -343,7 +363,7 @@ sub output_rest {
+ 			printf "Has the following ABI:\n\n";
+ 
+ 			foreach my $content(@{$data{$what}->{symbols}}) {
+-				my $label = $data{$symbols{$content}}->{label};
++				my $label = $data{$symbols{$content}->{xref}}->{label};
+ 
+ 				# Escape special chars from content
+ 				$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
+@@ -390,7 +410,7 @@ sub search_symbols {
+ 		printf "Date:\t\t\t%s\n", $date if ($date);
+ 		printf "Contact:\t\t%s\n", $contact if ($contact);
+ 		printf "Users:\t\t\t%s\n", $users if ($users);
+-		print "Defined on file:\t$file\n\n";
++		print "Defined on file(s):\t$file\n\n";
+ 		print "Description:\n\n$desc";
+ 	}
+ }
+@@ -410,13 +430,24 @@ print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
+ #
+ # Handles the command
+ #
+-if ($cmd eq "rest") {
+-	output_rest;
+-} elsif ($cmd eq "search") {
++if ($cmd eq "search") {
+ 	search_symbols;
++} else {
++	if ($cmd eq "rest") {
++		output_rest;
++	}
++
++	# Warn about duplicated ABI entries
++	foreach my $what(sort keys %symbols) {
++		my @files = @{$symbols{$what}->{file}};
++
++		next if (scalar(@files) == 1);
++
++		printf STDERR "Warning: $what is defined %d times: @files\n",
++		    scalar(@files);
++	}
+ }
+ 
+-
+ __END__
+ 
+ =head1 NAME
 -- 
 2.26.2
 
