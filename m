@@ -7,59 +7,51 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27243C71155
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B0FC64EBC
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE2F122203
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E41BA22228
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604043776;
-	bh=6ZzWvVhM6TiNtqeTrvq9+vr1edorS5bkenDHNR3lcN4=;
+	s=default; t=1604043778;
+	bh=xZL+H15izrbGtr5KqY6QX8NVwThRYtTxS7Af3m3hYcE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=MioCs7lxsMTH5WuNH/4Y7bBGAmD350WOkMSeGoimP0z7b9wy4Vx+TEa7Z+WVr8pL4
-	 QR/JHF2rdhMpRy6ee6JihacpsbzFzzaUBqd3q29PnmukXvH/QlHST+kWH6A5zCAXR0
-	 m90UPQzBaV/xJByuFDIfBefceQsemgHQTtMsGF78=
+	b=CENcx2+nNqyLJ0qf02S2hIJcB93YlIPc7PrD3z13H7khzTaWCPmhnEiU3m5BTlq9p
+	 VqTW9aMIyj58sYjhkg7Xd1g3kbInwCgTFaKA7Q90+tWcbO9upXlZzERHxiOkmsotS6
+	 sufFNBHUYd+h0t7dK20eX9KZS8NKHm0ghFRab2Mc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbgJ3Hmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 03:42:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51630 "EHLO mail.kernel.org"
+        id S1726423AbgJ3Hm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 03:42:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726091AbgJ3HlF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726068AbgJ3HlF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 30 Oct 2020 03:41:05 -0400
 Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 86B3422447;
-        Fri, 30 Oct 2020 07:41:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BFECD22255;
+        Fri, 30 Oct 2020 07:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1604043663;
-        bh=6ZzWvVhM6TiNtqeTrvq9+vr1edorS5bkenDHNR3lcN4=;
+        bh=xZL+H15izrbGtr5KqY6QX8NVwThRYtTxS7Af3m3hYcE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HTNO96N+uIkHe3btRL+uh/7J+5Yg+ASWSJWdxJbc5RqgBD88zaAsfGvpoy2o0JsYb
-         MvOHy3+EkgSeYOGCyAmenB+T5ptgATmU4qpJxH7siZWCzd7FJlAEhhV/nmIeMD9MrF
-         CoE8rC02nsDVyrWKxbzefYueQbCMKCXTWxli8Hkk=
+        b=CyosOInF3V42KLcajhq/WMYy6wk7LkGZ/SfzxiuJlPfD3ZpQiWxX1K1paLIEN2Lgw
+         KLBEVwhvAjX13vgic7uX2fpRf1a2LFjwJzc1BVwFObl3GNd4lXJiAoCenZEWX7mkb7
+         AHKEdDPNpzcVjqxCf478xzYCnI6bLP/zKdibe1NI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kYP1x-004OgQ-Bb; Fri, 30 Oct 2020 08:41:01 +0100
+        id 1kYP1w-004Ofz-Q6; Fri, 30 Oct 2020 08:41:00 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Changbin Du <changbin.du@intel.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Peter Enderborg <peter.enderborg@sony.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Tom Rix <trix@redhat.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 26/39] docs: Kconfig/Makefile: add a check for broken ABI files
-Date:   Fri, 30 Oct 2020 08:40:45 +0100
-Message-Id: <57a38de85cb4b548857207cf1fc1bf1ee08613c9.1604042072.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 17/39] docs: add ABI documentation to the admin-guide book
+Date:   Fri, 30 Oct 2020 08:40:36 +0100
+Message-Id: <5651482b06500e69a1acdf92152f90a203e6521d.1604042072.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1604042072.git.mchehab+huawei@kernel.org>
 References: <cover.1604042072.git.mchehab+huawei@kernel.org>
@@ -70,113 +62,143 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The files under Documentation/ABI should follow the syntax
-as defined at Documentation/ABI/README.
+As we don't want a generic Sphinx extension to execute commands,
+change the one proposed to Markus to call the abi_book.pl
+script.
 
-Allow checking if they're following the syntax by running
-the ABI parser script on COMPILE_TEST.
-
-With that, when there's a problem with a file under
-Documentation/ABI, it would produce a warning like:
-
-	Warning: file ./Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats#14:
-		What '/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor' doesn't have a description
-	Warning: file ./Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats#21:
-		What '/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal' doesn't have a description
+Use a script to parse the Documentation/ABI directory and output
+it at the admin-guide.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Kconfig  | 10 ++++++++++
- Documentation/Makefile |  5 +++++
- lib/Kconfig.debug      |  2 ++
- scripts/get_abi.pl     | 14 +++++++++++---
- 4 files changed, 28 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/abi-obsolete.rst | 10 ++++++++++
+ Documentation/admin-guide/abi-removed.rst  |  4 ++++
+ Documentation/admin-guide/abi-stable.rst   | 13 +++++++++++++
+ Documentation/admin-guide/abi-testing.rst  | 19 +++++++++++++++++++
+ Documentation/admin-guide/abi.rst          | 11 +++++++++++
+ Documentation/admin-guide/index.rst        |  2 ++
+ Documentation/conf.py                      |  3 ++-
+ 7 files changed, 61 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/abi-obsolete.rst
+ create mode 100644 Documentation/admin-guide/abi-removed.rst
+ create mode 100644 Documentation/admin-guide/abi-stable.rst
+ create mode 100644 Documentation/admin-guide/abi-testing.rst
+ create mode 100644 Documentation/admin-guide/abi.rst
 
-diff --git a/Documentation/Kconfig b/Documentation/Kconfig
-index 66046fa1c341..e549a61f4d96 100644
---- a/Documentation/Kconfig
-+++ b/Documentation/Kconfig
-@@ -10,4 +10,14 @@ config WARN_MISSING_DOCUMENTS
- 
- 	   If unsure, select 'N'.
- 
-+config WARN_ABI_ERRORS
-+	bool "Warn if there are errors at ABI files"
-+	depends on COMPILE_TEST
-+	help
-+	   The files under Documentation/ABI should follow what's
-+	   described at Documentation/ABI/README. Yet, as they're manually
-+	   written, it would be possible that some of those files would
-+	   have errors that would break them for being parsed by
-+	   scripts/get_abi.pl. Add a check to verify them.
- 
-+	   If unsure, select 'N'.
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 4e47dff8b315..61a7310b49e0 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -10,6 +10,11 @@ ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
- $(shell $(srctree)/scripts/documentation-file-ref-check --warn)
- endif
- 
-+# Check for broken ABI files
-+ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
-+$(shell $(srctree)/scripts/get_abi.pl validate --dir $(srctree)/Documentation/ABI)
-+endif
+diff --git a/Documentation/admin-guide/abi-obsolete.rst b/Documentation/admin-guide/abi-obsolete.rst
+new file mode 100644
+index 000000000000..cda9168445a5
+--- /dev/null
++++ b/Documentation/admin-guide/abi-obsolete.rst
+@@ -0,0 +1,10 @@
++ABI obsolete symbols
++====================
 +
- # You can set these variables from the command line.
- SPHINXBUILD   = sphinx-build
- SPHINXOPTS    =
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 537cf3c2937d..60f92c14d496 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2449,4 +2449,6 @@ config HYPERV_TESTING
- 
- endmenu # "Kernel Testing and Coverage"
- 
-+source "Documentation/Kconfig"
++Documents interfaces that are still remaining in the kernel, but are
++marked to be removed at some later point in time.
 +
- endmenu # Kernel hacking
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index ff4f9f82ecad..f6adf4b38a2b 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -50,7 +50,15 @@ my %symbols;
- sub parse_error($$$$) {
- 	my ($file, $ln, $msg, $data) = @_;
++The description of the interface will document the reason why it is
++obsolete and when it can be expected to be removed.
++
++.. kernel-abi:: $srctree/Documentation/ABI/obsolete
+diff --git a/Documentation/admin-guide/abi-removed.rst b/Documentation/admin-guide/abi-removed.rst
+new file mode 100644
+index 000000000000..497978fc9632
+--- /dev/null
++++ b/Documentation/admin-guide/abi-removed.rst
+@@ -0,0 +1,4 @@
++ABI removed symbols
++===================
++
++.. kernel-abi:: $srctree/Documentation/ABI/removed
+diff --git a/Documentation/admin-guide/abi-stable.rst b/Documentation/admin-guide/abi-stable.rst
+new file mode 100644
+index 000000000000..7495d7a35048
+--- /dev/null
++++ b/Documentation/admin-guide/abi-stable.rst
+@@ -0,0 +1,13 @@
++ABI stable symbols
++==================
++
++Documents the interfaces that the developer has defined to be stable.
++
++Userspace programs are free to use these interfaces with no
++restrictions, and backward compatibility for them will be guaranteed
++for at least 2 years.
++
++Most interfaces (like syscalls) are expected to never change and always
++be available.
++
++.. kernel-abi:: $srctree/Documentation/ABI/stable
+diff --git a/Documentation/admin-guide/abi-testing.rst b/Documentation/admin-guide/abi-testing.rst
+new file mode 100644
+index 000000000000..5c886fc50b9e
+--- /dev/null
++++ b/Documentation/admin-guide/abi-testing.rst
+@@ -0,0 +1,19 @@
++ABI testing symbols
++===================
++
++Documents interfaces that are felt to be stable,
++as the main development of this interface has been completed.
++
++The interface can be changed to add new features, but the
++current interface will not break by doing this, unless grave
++errors or security problems are found in them.
++
++Userspace programs can start to rely on these interfaces, but they must
++be aware of changes that can occur before these interfaces move to
++be marked stable.
++
++Programs that use these interfaces are strongly encouraged to add their
++name to the description of these interfaces, so that the kernel
++developers can easily notify them if any changes occur.
++
++.. kernel-abi:: $srctree/Documentation/ABI/testing
+diff --git a/Documentation/admin-guide/abi.rst b/Documentation/admin-guide/abi.rst
+new file mode 100644
+index 000000000000..3b9645c77469
+--- /dev/null
++++ b/Documentation/admin-guide/abi.rst
+@@ -0,0 +1,11 @@
++=====================
++Linux ABI description
++=====================
++
++.. toctree::
++   :maxdepth: 1
++
++   abi-stable
++   abi-testing
++   abi-obsolete
++   abi-removed
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index ed1cf94ea50c..4e0c4ae44acd 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -18,6 +18,8 @@ etc.
+    devices
+    sysctl/index
  
--	print STDERR "file $file#$ln: $msg at\n\t$data";
-+	$data =~ s/\s+$/\n/;
++   abi
 +
-+	print STDERR "Warning: file $file#$ln:\n\t$msg";
-+
-+	if ($data ne "") {
-+		print STDERR ". Line\n\t\t$data";
-+	} else {
-+	    print STDERR "\n";
-+	}
- }
+ This section describes CPU vulnerabilities and their mitigations.
+ 
+ .. toctree::
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 7ee05fd4cb17..ed2b43ec7754 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -38,7 +38,8 @@ needs_sphinx = '1.3'
+ # ones.
+ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+-              'maintainers_include', 'sphinx.ext.autosectionlabel' ]
++              'maintainers_include', 'sphinx.ext.autosectionlabel',
++              'kernel_abi']
  
  #
-@@ -110,7 +118,7 @@ sub parse_abi {
- 
- 			# Invalid, but it is a common mistake
- 			if ($new_tag eq "where") {
--				parse_error($file, $ln, "tag 'Where' is invalid. Should be 'What:' instead", $_);
-+				parse_error($file, $ln, "tag 'Where' is invalid. Should be 'What:' instead", "");
- 				$new_tag = "what";
- 			}
- 
-@@ -225,7 +233,7 @@ sub parse_abi {
- 		}
- 
- 		# Everything else is error
--		parse_error($file, $ln, "Unexpected line:", $_);
-+		parse_error($file, $ln, "Unexpected content", $_);
- 	}
- 	$data{$nametag}->{description} =~ s/^\n+// if ($data{$nametag}->{description});
- 	if ($what) {
+ # cdomain is badly broken in Sphinx 3+.  Leaving it out generates *most*
 -- 
 2.26.2
 
