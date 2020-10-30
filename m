@@ -2,64 +2,64 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C7DC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:50:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F458C4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:50:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 637EC2087E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:50:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C98722087E
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:50:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="faQ03KFX"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iW5ihpg+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726306AbgJ3CuQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 22:50:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
+        id S1726325AbgJ3CuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 22:50:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbgJ3CuQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 22:50:16 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8264C0613D2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:50:15 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id d25so5309340ljc.11
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:50:15 -0700 (PDT)
+        with ESMTP id S1726237AbgJ3CuW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 22:50:22 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C364C0613CF
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:50:22 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id 23so5335082ljv.7
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:50:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=29/mvfnx5ijMJBRqUvdSEy/Y/vTbwUpvdNL7Ey86vSQ=;
-        b=faQ03KFXKTqcZsL9fNFS449tMLuSCnxgJhFtKnocwN9b8EWh6TdCML+T98o4vgW7Bu
-         XCQiDVChwaKfpII7QJ2X4N5GwQ1TPBeAjfsX/8MLjFClRaQq+OqOOfP+roZR/UGlXVbb
-         4YgxL9/KNeIMCBpTL8YLMVECSbAzn3aDvGoLs04L1RJZGeLUvrTQRykq5sSoL1e+g9wg
-         h7UL/N4Xs7ifr6BQXsfIqsuv9NA8kAuUtAe3XL1FrrBskNV6jNxlegPBEkzQoyGx4ZGK
-         XDJ6FzSnZVFU10lqVIb2wCF7ByrUQ9rGD6xhdqwFvzrziUaCOySrO9CoTcPqUBJKDnBT
-         MNUQ==
+        bh=eoeNB3Dm2STEtOexs69p6fZG9+pIZ5Rd4jeKPI0aVt4=;
+        b=iW5ihpg+JZ2/yUGtXbJNyGMMZriSOPNnlB3GV0zM6Mtiktse/EwhBGbcQZZZH+ocfG
+         NIT3WX1VqpVPxzoCFCmcm/hhAjRxrvU8gEV93fe18PhNgE9efkKNdPSP8gfmcdtWBm1N
+         OQ7Z0YYCFk04/U1vmuBGnc+qG8/Xvq/lsaJisf8R/NdH5ptqdSzdU7GtM5g0B/XxZDGA
+         T6jCTxwdy4DPM0lyH2V7LTXTzDAkoXeOz8/h6SQSRRkYvUoQI9+aWZPlx3ktWrQWzZKI
+         kpcS4PF3e5vY/XCoaUzT2Pkgy/aTXlK2UX9nqYk1u+GlsEirxu4Ku5nYzo9Cd4kuqBpi
+         ESfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=29/mvfnx5ijMJBRqUvdSEy/Y/vTbwUpvdNL7Ey86vSQ=;
-        b=GO2WQVz0jRSqxXiuVg+B3a7AcvPh/jdMM5MSDCMkQ7vsGeRZ202bcqSJeYZUYJnn5t
-         ZHYwNGiWZ1cXr5ix2oMKgoyEqihZjAeiNTTywyqaMX2v/2sVgtgUjbo6+dKaMMGSicS5
-         3yIFvna5Vu8+oCIL5s1C8SZME+4NV0z2BVnzBXi1NfyBbgF98wBbwWvX2q+vfc7q4kI7
-         BULG9TYiRLj6sD5oBENSFJvOQHE8fltVoEgeXLIl9H52XRTkj+PRR1OV8m+BUMHEdrWe
-         0XblVbd31huIueHC9K5O1g5PExPvJHXHpTzS1NUnzlRZ7GCM3KCSL9S01y22PWFgiE6i
-         J4lQ==
-X-Gm-Message-State: AOAM533eZVsHE19toaj8EsDUr1vl12YDm5vNAC41PpJPihmUug2sRdlt
-        f8ev6Kb6IZh1rGwdLeefGgVL+dF72b818oAEeMfW5Q==
-X-Google-Smtp-Source: ABdhPJy0sA1WwM3kiKvHJaFMz/TR3IbjqMOlo5/1P3W63q7nS9+CEqGgFqxqrIzS0II1dZBsMQzuyhJLO08x8Y27c1k=
-X-Received: by 2002:a2e:9f13:: with SMTP id u19mr101336ljk.160.1604026214056;
- Thu, 29 Oct 2020 19:50:14 -0700 (PDT)
+        bh=eoeNB3Dm2STEtOexs69p6fZG9+pIZ5Rd4jeKPI0aVt4=;
+        b=Z1AZdDZhcRYM/JE3hOlxpKmXbqdWZzQEkC6jSgPfuR1FqZ8rk+NZ1jhe+1RjLKLs4K
+         99dB2RtsDV/PiVWbS8W3v3WFnR3UvFwMYsEo9w3Lnj2yOx7IMe+FgUwMYUWbEkP39/Fo
+         QCWg/08nmx8sqohb+8NyDfdzqqH0FhPiJPv6D6wguyXkZxaiOfgrRI+QPW33SVzNTX5r
+         NKPj8FxnngUmz9SDc7TPkJtPz2vwtPPNXUZaTiVGc/4HHewTJnLcuDyv4DE+uI66I4YL
+         KOzgxxHBuWDNTiDbEv+zt9O3GQ5OJWft/onjlJ48xgHcP3kHxSYz7HpfLB76hRoyBHdJ
+         lgzQ==
+X-Gm-Message-State: AOAM530W59cv3PFITtH9fvdgJMEc8mvbJIl+36BshJe9qs5T9+uKK9xx
+        i4l6UVB9wMx8RSCvH6lmKfrcPpD6mdz8dhJggASxFw==
+X-Google-Smtp-Source: ABdhPJzeE3oggLRKXmuhnJNQcjEqRcQBQF55b9TKu2lm5R+dh/rb0VPrh3CNfN76ySyQwy3jzXL4HMhNES1XqkD5gAQ=
+X-Received: by 2002:a2e:b888:: with SMTP id r8mr99590ljp.138.1604026220407;
+ Thu, 29 Oct 2020 19:50:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-7-elver@google.com>
-In-Reply-To: <20201029131649.182037-7-elver@google.com>
+References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-8-elver@google.com>
+In-Reply-To: <20201029131649.182037-8-elver@google.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Fri, 30 Oct 2020 03:49:47 +0100
-Message-ID: <CAG48ez0N5iKCmg-JEwZ2oKw3zUA=5EdsL0CMi6biwLbtqFXqCA@mail.gmail.com>
-Subject: Re: [PATCH v6 6/9] kfence, kasan: make KFENCE compatible with KASAN
+Date:   Fri, 30 Oct 2020 03:49:53 +0100
+Message-ID: <CAG48ez2ak7mWSSJJ3Zxd+cK1c5uZVqeF2zZ9HLtmXEoiG5=m-Q@mail.gmail.com>
+Subject: Re: [PATCH v6 7/9] kfence, Documentation: add KFENCE documentation
 To:     Marco Elver <elver@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
@@ -101,40 +101,66 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
-> We make KFENCE compatible with KASAN for testing KFENCE itself. In
-> particular, KASAN helps to catch any potential corruptions to KFENCE
-> state, or other corruptions that may be a result of freepointer
-> corruptions in the main allocators.
->
-> To indicate that the combination of the two is generally discouraged,
-> CONFIG_EXPERT=y should be set. It also gives us the nice property that
-> KFENCE will be build-tested by allyesconfig builds.
->
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
+> Add KFENCE documentation in dev-tools/kfence.rst, and add to index.
+[...]
+> +The KFENCE memory pool is of fixed size, and if the pool is exhausted, no
+> +further KFENCE allocations occur. With ``CONFIG_KFENCE_NUM_OBJECTS`` (default
+> +255), the number of available guarded objects can be controlled. Each object
+> +requires 2 pages, one for the object itself and the other one used as a guard
+> +page; object pages are interleaved with guard pages, and every object page is
+> +therefore surrounded by two guard pages.
+> +
+> +The total memory dedicated to the KFENCE memory pool can be computed as::
+> +
+> +    ( #objects + 1 ) * 2 * PAGE_SIZE
 
-Reviewed-by: Jann Horn <jannh@google.com>
+Plus memory overhead from shattered hugepages. With the default object
+count, on x86, we allocate 2MiB of memory pool, but if we have to
+shatter a 2MiB hugepage for that, we may cause the allocation of one
+extra page table, or 4KiB. Of course that's pretty much negligible.
+But on arm64 it's worse, because there we have to disable hugepages in
+the linear map completely. So on a device with 4GiB memory, we might
+end up with something on the order of 4GiB/2MiB * 0x1000 bytes = 8MiB
+of extra L1 page tables that wouldn't have been needed otherwise -
+significantly more than the default memory pool size.
 
-with one nit:
+If the memory overhead is documented, this detail should probably be
+documented, too.
+
+> +Using the default config, and assuming a page size of 4 KiB, results in
+> +dedicating 2 MiB to the KFENCE memory pool.
+[...]
+> +For such errors, the address where the corruption as well as the invalidly
+
+nit: "the address where the corruption occurred" or "the address of
+the corruption"
+
+> +written bytes (offset from the address) are shown; in this representation, '.'
+> +denote untouched bytes. In the example above ``0xac`` is the value written to
+> +the invalid address at offset 0, and the remaining '.' denote that no following
+> +bytes have been touched. Note that, real values are only shown for
+> +``CONFIG_DEBUG_KERNEL=y`` builds; to avoid information disclosure for non-debug
+> +builds, '!' is used instead to denote invalidly written bytes.
+[...]
+> +KFENCE objects each reside on a dedicated page, at either the left or right
+> +page boundaries selected at random. The pages to the left and right of the
+> +object page are "guard pages", whose attributes are changed to a protected
+> +state, and cause page faults on any attempted access. Such page faults are then
+> +intercepted by KFENCE, which handles the fault gracefully by reporting an
+> +out-of-bounds access.
+
+... and marking the page as accessible so that the faulting code can
+continue (wrongly) executing.
+
 
 [...]
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-[...]
-> @@ -141,6 +142,14 @@ void kasan_unpoison_shadow(const void *address, size_t size)
->          */
->         address = reset_tag(address);
->
-> +       /*
-> +        * We may be called from SL*B internals, such as ksize(): with a size
-> +        * not a multiple of machine-word size, avoid poisoning the invalid
-> +        * portion of the word for KFENCE memory.
-> +        */
-> +       if (is_kfence_address(address))
-> +               return;
+> +Interface
+> +---------
+> +
+> +The following describes the functions which are used by allocators as well page
 
-It might be helpful if you could add a comment that explains that
-kasan_poison_object_data() does not need a similar guard because
-kasan_poison_object_data() is always paired with
-kasan_unpoison_object_data() - that threw me off a bit at first.
+nit: "as well as"?
+
+
+
+> +handling code to set up and deal with KFENCE allocations.
