@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C00C64E75
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC23C64E90
 	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F1BD2223F
+	by mail.kernel.org (Postfix) with ESMTP id 3B8CF22245
 	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1604043774;
-	bh=fDqsojMQXaXU2zybp/ZgveYNlutB+XD1RHDYBF/LUWE=;
+	bh=FP3F4ZgL5XCH4fGqHCJkgaGUhs4N/I/277tGvHvCmsY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RXpzTelxUkJ2XTkVHeNa477Nez67B/7j/0Gc96G4qu2edNl2wm1pj6U30KwTYcl/j
-	 6KUFSfFvb/63RAVbITxc+CUruWYkD5U7pX2CLBWeeOJm0zcZV43TzhXI9JrLV7I9lc
-	 upkj56bVe8Vw5VqUbI4gkiM3weMrwgs1YYywmG7s=
+	b=jB6fUX6DCt+PXQu5OtSTaBg53xZ4HIekBzaqIC7Kl40OoJ9xRthZam3fbW7mDKMgN
+	 Z2LSBZdWFQrgjdKOuz1MZ0yhFAkeO+TzpjE9EsfpyvEwas33XQVbEL6kniopKfaat6
+	 9h3qYMHCHWiGPz/lCea0sKBzZyRc3lXaM4ItZLH4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726325AbgJ3Hmm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 03:42:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51860 "EHLO mail.kernel.org"
+        id S1726334AbgJ3Hmn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 03:42:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51994 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726102AbgJ3HlF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726088AbgJ3HlF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 30 Oct 2020 03:41:05 -0400
 Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0FF052415A;
-        Fri, 30 Oct 2020 07:41:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 63B9622400;
+        Fri, 30 Oct 2020 07:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604043664;
-        bh=fDqsojMQXaXU2zybp/ZgveYNlutB+XD1RHDYBF/LUWE=;
+        s=default; t=1604043663;
+        bh=FP3F4ZgL5XCH4fGqHCJkgaGUhs4N/I/277tGvHvCmsY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DDApKqsYH5zqyZRq+2HZrxIJKm6kdo+nIu+SatK1lr5dB99Dd8x2s34S9n+q8XJry
-         kIN9fGgRW0f62Fp5+VgWjWtW0rX2J51nXS3eUSR0LahmJnyDIFHql4vYWUrKQIdzG6
-         ss/ems9Wt8KGFw+onEqPJCQB6m57E/MHbMr9RpWk=
+        b=UXzxs/nlrS13EdTNsTRSK/h/RFOc2XD7SlAoOXDuxlx9+FidlLgUqfZUYITnUqDnS
+         anZX/PFUAEixCDB2vSrgbwus68qavwqqb/KmXGhtQ0jK3RAcDqvBjePhwO3q6MLKMW
+         1FF+RuGlstYZWgEOqWUU15wW1DKGExIDTRuv4PnM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kYP1x-004Ogt-WA; Fri, 30 Oct 2020 08:41:02 +0100
+        id 1kYP1x-004OgT-DD; Fri, 30 Oct 2020 08:41:01 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rodolfo Giometti <giometti@linux.it>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 36/39] docs: ABI: sysfs-c2port: remove a duplicated entry
-Date:   Fri, 30 Oct 2020 08:40:55 +0100
-Message-Id: <4ea2b31ddc76161fbae004f2f2ed91dfb757703f.1604042072.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 27/39] docs: ABI: convert testing/configfs-acpi to ReST
+Date:   Fri, 30 Oct 2020 08:40:46 +0100
+Message-Id: <f56daf94b80f1051438e8c787ba04552adb66e67.1604042072.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1604042072.git.mchehab+huawei@kernel.org>
 References: <cover.1604042072.git.mchehab+huawei@kernel.org>
@@ -61,37 +61,63 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As warned by scripts/get_abi.pl:
-	Warning: /sys/class/c2port/c2portX/flash_erase is defined 2 times:  Documentation/ABI/testing/sysfs-c2port:60  Documentation/ABI/testing/sysfs-c2port:68
-
-This entry was added twice at the same patch. Probalby a
-cut-and paste issue.
-
-Fixes: 4e17e1db9647 ("Add c2 port support")
+There are some problems with this file when a ReST content
+is produced. Fix it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-c2port | 7 -------
- 1 file changed, 7 deletions(-)
+ Documentation/ABI/testing/configfs-acpi | 34 ++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-c2port b/Documentation/ABI/testing/sysfs-c2port
-index 716cffc457e9..f7b8cf6e4398 100644
---- a/Documentation/ABI/testing/sysfs-c2port
-+++ b/Documentation/ABI/testing/sysfs-c2port
-@@ -66,13 +66,6 @@ Description:
- 		the "erase" command on the on-board flash of the connected
- 		micro.
+diff --git a/Documentation/ABI/testing/configfs-acpi b/Documentation/ABI/testing/configfs-acpi
+index 4ab4e99aa863..c09b640c3cb1 100644
+--- a/Documentation/ABI/testing/configfs-acpi
++++ b/Documentation/ABI/testing/configfs-acpi
+@@ -14,7 +14,8 @@ Description:
+ 		This group contains the configuration for user defined ACPI
+ 		tables. The attributes of a user define table are:
  
--What:		/sys/class/c2port/c2portX/flash_erase
--Date:		October 2008
--Contact:	Rodolfo Giometti <giometti@linux.it>
--Description:
--		The /sys/class/c2port/c2portX/flash_erase file show the
--		on-board flash size of the connected micro.
--
- What:		/sys/class/c2port/c2portX/reset
- Date:		October 2008
- Contact:	Rodolfo Giometti <giometti@linux.it>
+-		aml 		- a binary attribute that the user can use to
++		aml
++			      - a binary attribute that the user can use to
+ 				fill in the ACPI aml definitions. Once the aml
+ 				data is written to this file and the file is
+ 				closed the table will be loaded and ACPI devices
+@@ -26,11 +27,26 @@ Description:
+ 		The rest of the attributes are read-only and are valid only
+ 		after the table has been loaded by filling the aml entry:
+ 
+-		signature 	- ASCII table signature
+-		length 		- length of table in bytes, including the header
+-		revision 	- ACPI Specification minor version number
+-		oem_id 		- ASCII OEM identification
+-		oem_table_id 	- ASCII OEM table identification
+-		oem_revision 	- OEM revision number
+-		asl_compiler_id - ASCII ASL compiler vendor ID
+-		asl_compiler_revision - ASL compiler version
++		signature
++				- ASCII table signature
++
++		length
++				- length of table in bytes, including the header
++
++		revision
++				- ACPI Specification minor version number
++
++		oem_id
++				- ASCII OEM identification
++
++		oem_table_id
++				- ASCII OEM table identification
++
++		oem_revision
++				- OEM revision number
++
++		asl_compiler_id
++				- ASCII ASL compiler vendor ID
++
++		asl_compiler_revision
++				- ASL compiler version
 -- 
 2.26.2
 
