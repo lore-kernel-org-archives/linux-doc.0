@@ -2,66 +2,66 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 607D7C4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3939FC00A89
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:42:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09E6222241
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:22:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4D9920657
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:42:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wU+xx2bx"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DTRV++Wj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727033AbgJ3PWy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 11:22:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43026 "EHLO
+        id S1726837AbgJ3PmL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 11:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727021AbgJ3PWx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 11:22:53 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0D1C0613CF
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:22:52 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id i6so8396060lfd.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:22:52 -0700 (PDT)
+        with ESMTP id S1726792AbgJ3PmK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 11:42:10 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13280C0613D2
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:42:10 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id 9so7063730oir.5
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5sSkbnbDNPQyj7tIyOHf0OZ0EnyY+U+Tr7Q/pQTsliQ=;
-        b=wU+xx2bxR8RyIDjURsVJrhnOKOfcFiQYDMWEvIaeuyW5aGNhZqWf1dtpN2n4F3NsJU
-         HppUrs7H0lk2qIrSgTeFcNiE1h+/1/elHdKv2wBA/d3Cb+Yn/qVc5aHqDX2kTRM0FlS3
-         nIVVV0Oy4OkmdCIJ8AKJt8+jrvs0gfNjrKK5kQeR4X3twWg+3zGMFU4Hyzs987aPU5DC
-         1OTUdauKuFPZWjob1v3N8JTmx5MTcCoWOPGmX0D5W73tJhSWN3+F5ksSdNjv+Chq4veK
-         oyNBDfrWv3q2nrzVucDlW9OJlVKLQCeMpMTrtiyse23US5OjWuYJC8Eg07Fh6gR6Kzqd
-         NT1g==
+        bh=jliMwvFbMuf3FmeyCOZHebsGYCHgE565UHogT5/5F4c=;
+        b=DTRV++Wj97wRkgJERXq0rJLt5u61M6aqsGpPrrOnjKGZx0REQwXzkR/pMuc8yZvrEZ
+         g2R1TVm26ePxCZVC0YEei38ODl21B1c3cWcMr2+PJorWGXwMP6J5U0Ntm+10TM2p6tJV
+         CpCTQDAOD8oVls4YRHUrINL85+YtP9RuBxOGPHozp/ye9UomJjfrAgkI4rC1viw6jBG1
+         u1uT9ybUrxa3TuQUNEFsK7bR9VjHCl2kWaOmTzJSlRJDGUptBLq263qR0rJJEHAyP3Aj
+         vpPFDPfu3rWEXImVRC/Ipfyq5ldHGwmYoQ/ppzDNpXCJDsezNiAo0JKRBtZ5i7/I6ZB9
+         zmgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5sSkbnbDNPQyj7tIyOHf0OZ0EnyY+U+Tr7Q/pQTsliQ=;
-        b=Tfp05ZXodBzLKaiD/RBOb80ETcIAV/pQ37L4vP3ho3xF1Ux0cG6fbX2RJbVSNzRgT4
-         qlx7nA4FPUiY7b7sQNAYlA4TIahvlxiFNpwcbxHlsyRQJ+aeLQpwlfmLlvJzh6C26Tq/
-         WH0/PqwyQalOWDPEOELIHVFPF79g/mzoRUkCxwVVVYwWUZQEIhY6EctzmlgAZsuJ0cyw
-         ZkJEk8Vyb1OHpN5Hd04SeRrqU7lVRBGRbuOwchv2gdzZdkbi13+JPaT1Bceti9aqiiRm
-         fUfTekDGXxutyGNtOIj1YJDuoAVCXBYW+le1IW41+HbOX+RYSuEa8At/gGZ8JdlO/EWG
-         Yc0g==
-X-Gm-Message-State: AOAM533nBowbSLDaWTBjzs/h85dR55ntEF5GnawFXihtUFc/uGPtwo2U
-        /JCwy2MMOorrQQK7dPtRHP+AsvsOS70/zk9h0ZEN8Q==
-X-Google-Smtp-Source: ABdhPJwLZMfK+/wKcVf/f3wxYqaH0PlYsimcp5h9RqJlxCzfH0SY3Zlp7ANGGJQDqEL2L9l6kszh99qZ39iPqxje9Z8=
-X-Received: by 2002:a05:6512:51a:: with SMTP id o26mr1098326lfb.381.1604071371166;
- Fri, 30 Oct 2020 08:22:51 -0700 (PDT)
+        bh=jliMwvFbMuf3FmeyCOZHebsGYCHgE565UHogT5/5F4c=;
+        b=V182IU6MRU7KuEvX3Luw5hhrsdP9wuL8KGAsBXg0I2EzyRswkyfrnpj2KMkWeN6H2j
+         /o7OXvm3NKpC4ZIIr7eWBoONk/ilzI2lcRi8EqDaJNri4cuUpmf3d4ez82ce5D3EI7Dt
+         5o2/LyrAvQDbnA5IpARqjw7ss8lNxI6fqoeS7lZ+Erl6QahRY8E0wUkio8FhwlK2zP9m
+         /vqIjpTwglXqXxHDtou6dXdTI1TP9WHFk6sHIm5hFHxmGwcSsTeJTCvzmNIvDQg28f4z
+         /yrf9dtdOdzp2U+YHHfsPOGJLkO/dxRT2SKZ2rtSSLChtnJS3dd27j/+CxQGvKPXogUI
+         ktxw==
+X-Gm-Message-State: AOAM530dl11jUMV8QvNyymGSrlCjUo3xVerOzFOgBTHT5yMZO9EV//vm
+        WQ46rHpVR6881PqUZ0MIBNABDyEXZYZb9fQ6WrWxvA==
+X-Google-Smtp-Source: ABdhPJz78rXAmUYJT2EaihG4wO2tbRCMfvht01XOnXsfIeEuKEo7TR1erogbgNJurtY7525vFsiGR0VO98zOblDC/OA=
+X-Received: by 2002:aca:6206:: with SMTP id w6mr2138653oib.121.1604072528251;
+ Fri, 30 Oct 2020 08:42:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-3-elver@google.com>
- <CAG48ez1n7FrRA8Djq5685KcUJp1YgW0qijtBYNm2c9ZqQ1M4rw@mail.gmail.com> <CANpmjNNBoiL2=JDD=vC5dB_TPW1Ybe5k7SqqhvUE2B7GmzRLyg@mail.gmail.com>
-In-Reply-To: <CANpmjNNBoiL2=JDD=vC5dB_TPW1Ybe5k7SqqhvUE2B7GmzRLyg@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 30 Oct 2020 16:22:24 +0100
-Message-ID: <CAG48ez1=uad2yMeffArw7Nem3Hea3pnL9rqAFsB7fFzBd+4Hcw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/9] x86, kfence: enable KFENCE for x86
-To:     Marco Elver <elver@google.com>
+References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-5-elver@google.com>
+ <CAG48ez1DxttDs6vj61c0jSGSbhoUmAW9_OSBSENrC-=hz-d+HA@mail.gmail.com>
+In-Reply-To: <CAG48ez1DxttDs6vj61c0jSGSbhoUmAW9_OSBSENrC-=hz-d+HA@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 30 Oct 2020 16:41:56 +0100
+Message-ID: <CANpmjNOPmgeVLb5COyE734F-1NNSU4vfok-8AQuDoAcLnQ=PbQ@mail.gmail.com>
+Subject: Re: [PATCH v6 4/9] mm, kfence: insert KFENCE hooks for SLAB
+To:     Jann Horn <jannh@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
         "H . Peter Anvin" <hpa@zytor.com>,
@@ -102,54 +102,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 2:00 PM Marco Elver <elver@google.com> wrote:
-> On Fri, 30 Oct 2020 at 03:49, Jann Horn <jannh@google.com> wrote:
-> > On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
-> > > Add architecture specific implementation details for KFENCE and enable
-> > > KFENCE for the x86 architecture. In particular, this implements the
-> > > required interface in <asm/kfence.h> for setting up the pool and
-> > > providing helper functions for protecting and unprotecting pages.
-> > >
-> > > For x86, we need to ensure that the pool uses 4K pages, which is done
-> > > using the set_memory_4k() helper function.
-> > >
-> > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > > Co-developed-by: Marco Elver <elver@google.com>
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> > > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > [...]
-> > > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> > [...]
-> > > @@ -725,6 +726,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
-> > >         if (IS_ENABLED(CONFIG_EFI))
-> > >                 efi_recover_from_page_fault(address);
-> > >
-> > > +       if (kfence_handle_page_fault(address))
-> > > +               return;
-[...]
-> > Unrelated sidenote: Since we're hooking after exception fixup
-> > handling, the debug-only KFENCE_STRESS_TEST_FAULTS can probably still
-> > cause some behavioral differences through spurious faults in places
-> > like copy_user_enhanced_fast_string (where the exception table entries
-> > are used even if the *kernel* pointer, not the user pointer, causes a
-> > fault). But since KFENCE_STRESS_TEST_FAULTS is exclusively for KFENCE
-> > development, the difference might not matter. And ordering them the
-> > other way around definitely isn't possible, because the kernel relies
-> > on being able to fixup OOB reads. So there probably isn't really
-> > anything we can do better here; it's just something to keep in mind.
-> > Maybe you can add a little warning to the help text for that Kconfig
-> > entry that warns people about this?
+On Fri, 30 Oct 2020 at 03:49, Jann Horn <jannh@google.com> wrote:
+> On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
+> > Inserts KFENCE hooks into the SLAB allocator.
+> [...]
+> > diff --git a/mm/slab.c b/mm/slab.c
+> [...]
+> > @@ -3416,6 +3427,11 @@ static void cache_flusharray(struct kmem_cache *cachep, struct array_cache *ac)
+> >  static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
+> >                                          unsigned long caller)
+> >  {
+> > +       if (kfence_free(objp)) {
+> > +               kmemleak_free_recursive(objp, cachep->flags);
+> > +               return;
+> > +       }
 >
-> Thanks for pointing it out, but that option really is *only* to stress
-> kfence with concurrent allocations/frees/page faults. If anybody
-> enables this option for anything other than testing kfence, it's their
-> own fault. ;-)
+> This looks dodgy. Normally kmemleak is told that an object is being
+> freed *before* the object is actually released. I think that if this
+> races really badly, we'll make kmemleak stumble over this bit in
+> create_object():
+>
+> kmemleak_stop("Cannot insert 0x%lx into the object search tree
+> (overlaps existing)\n",
+>       ptr);
 
-Sounds fair. :P
+Good catch. Although extremely unlikely, let's just avoid it by moving
+the freeing after.
 
-> I'll try to add a generic note to the Kconfig entry, but what you
-> mention here seems quite x86-specific.
-
-(FWIW, I think it could currently also happen on arm64 in the rare
-cases where KERNEL_DS is used. But luckily Christoph Hellwig has
-already gotten rid of most places that did that.)
+>
+> > +
+> >         /* Put the object into the quarantine, don't touch it for now. */
+> >         if (kasan_slab_free(cachep, objp, _RET_IP_))
+> >                 return;
