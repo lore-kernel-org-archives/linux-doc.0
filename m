@@ -5,49 +5,53 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4403C56202
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:44:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E5DC56201
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:44:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5410722228
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:44:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DDBA22203
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 07:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604043843;
-	bh=3HPs9V4LyZWsqBD2jNw1LuSmkShwz9oTnGCChEtnW1E=;
+	s=default; t=1604043842;
+	bh=n3afBc/Xu0UQI+iYPCaANZ8L/mTWQPp7mjkXXUXg5lE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Ta716meHLT/kWUrXMSIOTNupC3KGWzAr5kfTRYuPHAy1/z5BzbEaAikuwa8yvBxxT
-	 lvm7KmC/nIhcYIm2ErSJePCAAn10To4GSGA8PBpnnyOb/dgcOEvXffna4z7NVQhNhe
-	 4rFK961GlgOktZbpmYvMs5O0bJk65Y0FuVqtcatc=
+	b=e+225TNcX/hlunbpR/CSA/f8P9skGmurGyqmS4qXUceroMxnN3SpqqUp6yOs7Qo2I
+	 9B9vNsLIiIkFGjqElAMHGIw43UfCnlt983zaYQKreaGkHgWHbIGL1lGYBRqnYQnnLY
+	 I/1tGRdHoG4+z3boLL/mefR0p1DDdeZgH0YY+fbg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726055AbgJ3HoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 03:44:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51442 "EHLO mail.kernel.org"
+        id S1726414AbgJ3Hn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 03:43:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51434 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725999AbgJ3HlD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1725960AbgJ3HlD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 30 Oct 2020 03:41:03 -0400
 Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8306822210;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7DE6722203;
         Fri, 30 Oct 2020 07:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1604043662;
-        bh=3HPs9V4LyZWsqBD2jNw1LuSmkShwz9oTnGCChEtnW1E=;
+        bh=n3afBc/Xu0UQI+iYPCaANZ8L/mTWQPp7mjkXXUXg5lE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FmlMoNMOolDBuDiDdD3pEKkfQ9HTIJgUJdQglKxq+hXx+eGGwpfptXYYPocaRvDxG
-         RLMxVtNxJ3Nm4wgH+bo+qm/wt/ris0/yJI9H/pdiKQNJ5RHwCALPkAEcl6CY2Y4opm
-         ADLP9Z5HsBYMK0uJaUUcgs5Zhrv2sCF8RYlsbV98=
+        b=T2qIsGV29264bd8ZwqmEpKVL1VcqE477dxWM/dTT21xYYGMfwkvDbl6qW/AQpz3V0
+         AopEwnDufxBbjEHT4pzjg2jrLczXBF9jbUB0oVf6G7Ae2UnchCb5I/Id7fHJSsBy4i
+         2tbW8FGfZS4f1K2ImlcXj+WUVyn16dW2gZl2Di30=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kYP1w-004Ofl-LU; Fri, 30 Oct 2020 08:41:00 +0100
+        id 1kYP1w-004OfN-B3; Fri, 30 Oct 2020 08:41:00 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 13/39] docs: kernel_abi.py: fix UTF-8 support
-Date:   Fri, 30 Oct 2020 08:40:32 +0100
-Message-Id: <9e7c8e3b0efaa1ae0536da6493ab438bd3f9fe58.1604042072.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>, Tom Rix <trix@redhat.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 04/39] scripts: get_abi.pl: improve its parser to better catch up indentation
+Date:   Fri, 30 Oct 2020 08:40:23 +0100
+Message-Id: <eb458bb30be0e5a89192d6057b2e8a7e910dbcb8.1604042072.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1604042072.git.mchehab+huawei@kernel.org>
 References: <cover.1604042072.git.mchehab+huawei@kernel.org>
@@ -58,73 +62,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The parser breaks with UTF-8 characters with Sphinx 1.4.
+The original parser for indentation were relying on having
+just one description for each "what". However, that's not
+the case: there are a number of ABI symbols that got defined
+multiple times.
+
+Improve the parser for it to better handle descriptions
+if entries are duplicated.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_abi.py | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ scripts/get_abi.pl | 42 +++++++++++++++++++-----------------------
+ 1 file changed, 19 insertions(+), 23 deletions(-)
 
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-index f8e7a02066c2..fe69c213716d 100644
---- a/Documentation/sphinx/kernel_abi.py
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -1,5 +1,7 @@
- # -*- coding: utf-8; mode: python -*-
-+# coding=utf-8
- # SPDX-License-Identifier: GPL-2.0
-+#
- u"""
-     kernel-abi
-     ~~~~~~~~~~
-@@ -30,6 +32,7 @@ u"""
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 6a4d387ebf3b..bd018eb3815b 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -147,17 +147,19 @@ sub parse_abi {
+ 					parse_error($file, $ln, "'What:' should come first:", $_);
+ 					next;
+ 				}
+-				if ($tag eq "description") {
+-					# Preserve initial spaces for the first line
++				if ($new_tag eq "description") {
++					$sep =~ s,:, ,;
+ 					$content = ' ' x length($new_tag) . $sep . $content;
+-					$content =~ s,^(\s*):,$1 ,;
+-					if ($content =~ m/^(\s*)(.*)$/) {
++					while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
++					if ($content =~ m/^(\s*)(\S.*)$/) {
++						# Preserve initial spaces for the first line
+ 						$space = $1;
+-						$content = $2;
++						$content = "$2\n";
++						$data{$what}->{$tag} .= $content;
++					} else {
++						undef($space);
+ 					}
+-					while ($space =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
  
- """
- 
-+import codecs
- import sys
- import os
- from os import path
-@@ -45,14 +48,6 @@ from docutils.utils.error_reporting import ErrorString
- 
- __version__  = '1.0'
- 
--# We can't assume that six is installed
--PY3 = sys.version_info[0] == 3
--PY2 = sys.version_info[0] == 2
--if PY3:
--    # pylint: disable=C0103, W0622
--    unicode     = str
--    basestring  = str
+-					$data{$what}->{$tag} .= "$content\n" if ($content);
+ 				} else {
+ 					$data{$what}->{$tag} = $content;
+ 				}
+@@ -174,28 +176,22 @@ sub parse_abi {
+ 		if ($tag eq "description") {
+ 			my $content = $_;
+ 			while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
+-			if (!$data{$what}->{description}) {
++			if (m/^\s*\n/) {
++				$data{$what}->{$tag} .= "\n";
++				next;
++			}
++
++			if (!defined($space)) {
+ 				# Preserve initial spaces for the first line
+-				if ($content =~ m/^(\s*)(.*)$/) {
++				if ($content =~ m/^(\s*)(\S.*)$/) {
+ 					$space = $1;
+-					$content = $2;
++					$content = "$2\n";
+ 				}
 -
- def setup(app):
- 
-     app.add_directive("kernel-abi", KernelCmd)
-@@ -117,12 +112,12 @@ class KernelCmd(Directive):
-                 cmd
-                 , stdout = subprocess.PIPE
-                 , stderr = subprocess.PIPE
--                , universal_newlines = True
-                 , **kwargs
-             )
-             out, err = proc.communicate()
--            if err:
--                self.warn(err)
+-				$data{$what}->{$tag} .= "$content\n" if ($content);
+ 			} else {
+-				if (m/^\s*\n/) {
+-					$data{$what}->{$tag} .= $content;
+-					next;
+-				}
+-
+ 				$space = "" if (!($content =~ s/^($space)//));
+-
+-#				# Compress spaces with tabs
+-#				$content =~ s<^ {8}> <\t>;
+-#				$content =~ s<^ {1,7}\t> <\t>;
+-#				$content =~ s< {1,7}\t> <\t>;
+-				$data{$what}->{$tag} .= $content;
+ 			}
++			$data{$what}->{$tag} .= $content;
 +
-+            out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
-+
-             if proc.returncode != 0:
-                 raise self.severe(
-                     u"command '%s' failed with return code %d"
-@@ -131,7 +126,7 @@ class KernelCmd(Directive):
-         except OSError as exc:
-             raise self.severe(u"problems with '%s' directive: %s."
-                               % (self.name, ErrorString(exc)))
--        return unicode(out)
-+        return out
- 
-     def nestedParse(self, lines, fname):
-         content = ViewList()
+ 			next;
+ 		}
+ 		if (m/^\s*(.*)/) {
 -- 
 2.26.2
 
