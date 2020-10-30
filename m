@@ -2,127 +2,189 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E44CEC4741F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12AD8C5517A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:43:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D51E221EB
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:12:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C7DA20797
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 16:43:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="AZpHaiGn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="INVfZz/f"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbgJ3QM2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 12:12:28 -0400
-Received: from mail-40134.protonmail.ch ([185.70.40.134]:54873 "EHLO
-        mail-40134.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726708AbgJ3QM1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 12:12:27 -0400
-Date:   Fri, 30 Oct 2020 16:12:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1604074344;
-        bh=nZFU7sIE3OBpOLAtFFlRweFOldbgDSjhQVlNwfhVLsY=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=AZpHaiGnT4e8hXxTciEAL5zFCmMelbrGmugbp7pEQ8UvpEL1ZkerXeiy20k3LDDiR
-         miuH4x4UaCMbKA85MB07bqi2L6++nuB9my8EsjETUHuvHM2+38rtNrS7HeIN22n2Xd
-         E0L7+syEE0dyQ9sAygHet+gUXkUWIhL8zh4hO5GA=
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: Re: [PATCH RFC] docs: fix automarkup regression on Python 2
-Message-ID: <C6QCQWW476W5.15PKD7G7AG16G@ArchWay>
+        id S1727264AbgJ3QnI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 12:43:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727265AbgJ3QnH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 12:43:07 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7F47C0613D2
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 09:43:05 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id f16so7085725ilr.0
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 09:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NZmqGfCg08N6iXx9q7TVWlSnhQqIDOwOjzOwbvXDxjI=;
+        b=INVfZz/fkvsZivy8jdRFY4jjuumPUnT03fIMmAZxhr2j3OQtTxmqWeMui9FFLMvZFz
+         QB2ePhBsJkuNysGjMHbU9DiLLxlLmss4JFzjBmUNAkJoiiGzYBFH/upOKm0AUQMizu+W
+         okAB9PgkVOM5lyq7RfM3eZWziu4Lw6xFmIPsA3WEdWrepzCLkMsPGFysW4PIdG4Ix46W
+         ABDHiqA089OjzR7YGXqWWnY73UPmGi5ssu5dObic6I8EipSHtDNSFTIEabkYZFtOUw53
+         gKZFvyCe8mIA4cQPQ5Ji/NguzzOPrnGBpJ5jXdtWnz2BLO+k8PETRjkg1JznRZelvTOY
+         uyUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NZmqGfCg08N6iXx9q7TVWlSnhQqIDOwOjzOwbvXDxjI=;
+        b=e2MFOFCv8o2am9WEwzt12aDKjB0l/EpPt4JeNeW8Y7baE/KMPwYyxaTyh6smHoDGN/
+         sW505zTikFkNW94XsuenfGwm/m2TXcFEEmhWa3/hHSd4uabMWepNeCM4K71UtnoKa/zR
+         TXKTSU0b8gKyNYp8nZrAX2TjL0oFJj9LjT95l5dKuPK3C1Pqb3aAWJrS6V3+43+oXMOI
+         U2mh630x0ukhmtCavKlrUpw9LNZ7+Yoc/A2wTuC+jLD2Ysqs6uVwBsJRnXAHrS9fj5k1
+         R6ll/1X7AUDH2ZQZ/kbXFmzFvpERzbsucxJ/c1GPcVUCVlMdNHxAUuTECnwlpAjhkg9d
+         xHhg==
+X-Gm-Message-State: AOAM530OnmzqmBBdMvQaHPopFVyZgzS3cq6W02UZIKM6zMAsuSvdrTZm
+        SGLUh6t3pEDBQFBRBrhqa4D7TvAjIDMA4bvvd/Dx0KD6MhWIUQ==
+X-Google-Smtp-Source: ABdhPJwYf7SWuKIRh8xsBOBodbVLmuU+KCM1QaVpZsez95JZOYKTbDYung3PLxm+lfmttII+vBXdnzsUUs8NHjrseg0=
+X-Received: by 2002:a92:6403:: with SMTP id y3mr2528711ilb.72.1604076184121;
+ Fri, 30 Oct 2020 09:43:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <cover.1604042072.git.mchehab+huawei@kernel.org> <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
+In-Reply-To: <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Fri, 30 Oct 2020 10:42:53 -0600
+Message-ID: <CANLsYkxc2uzA57Hg5OX31JOx08JCZfynzebjABv=6H01796xGA@mail.gmail.com>
+Subject: Re: [PATCH v2 31/39] docs: ABI: cleanup several ABI documents
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
+        =?UTF-8?Q?Marek_Marczykowski=2DG=C3=B3recki?= 
+        <marmarek@invisiblethingslab.com>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+        Alexander Antonov <alexander.antonov@linux.intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Asutosh Das <asutoshd@codeaurora.org>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Chao Yu <chao@kernel.org>,
+        Christian Gromm <christian.gromm@microchip.com>,
+        Colin Cross <ccross@android.com>, Dan Murphy <dmurphy@ti.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Danil Kipnis <danil.kipnis@cloud.ionos.com>,
+        David Sterba <dsterba@suse.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dongsheng Yang <dongsheng.yang@easystack.cn>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Jack Wang <jinpu.wang@cloud.ionos.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Jonas Meurer <jonas@freesources.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kajol Jain <kjain@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Khlebnikov <koct9i@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Oded Gabbay <oded.gabbay@gmail.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Oleh Kravchenko <oleg@kaa.org.ua>, Pavel Machek <pavel@ucw.cz>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Peter Chen <peter.chen@nxp.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Roman Sudarikov <roman.sudarikov@linux.intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>, Tony Luck <tony.luck@intel.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
+        Wu Hao <hao.wu@intel.com>, ceph-devel@vger.kernel.org,
+        Coresight ML <coresight@lists.linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-f2fs-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-iio@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri Oct 30, 2020 at 12:51 PM -03, Jonathan Corbet wrote:
+On Fri, 30 Oct 2020 at 01:41, Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> It turns out that the Python 2 re module lacks the ASCII flag, so don't
-> try
-> to use it there.
+> There are some ABI documents that, while they don't generate
+> any warnings, they have issues when parsed by get_abi.pl script
+> on its output result.
 >
-> Fixes: f66e47f98c1e ("docs: automarkup.py: Fix regexes to solve sphinx 3
-> warnings")
-> Reported-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> Address them, in order to provide a clean output.
+>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for IIO
+> Reviewed-by: Tom Rix <trix@redhat.com> # for fpga-manager
+> Reviewed-By: Kajol Jain<kjain@linux.ibm.com> # for sysfs-bus-event_source-devices-hv_gpci and sysfs-bus-event_source-devices-hv_24x7
+> Acked-by: Oded Gabbay <oded.gabbay@gmail.com> # for Habanalabs
+> Acked-by: Vaibhav Jain <vaibhav@linux.ibm.com> # for sysfs-bus-papr-pmem
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> Documentation/sphinx/automarkup.py | 20 ++++++++++++++------
-> 1 file changed, 14 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/sphinx/automarkup.py
-> b/Documentation/sphinx/automarkup.py
-> index 409dbc4100de..3e81ebab26ed 100644
-> --- a/Documentation/sphinx/automarkup.py
-> +++ b/Documentation/sphinx/automarkup.py
-> @@ -15,6 +15,14 @@ else:
-> import re
-> from itertools import chain
->
-> +#
-> +# Python 2 lacks re.ASCII...
-> +#
-> +try:
-> + ascii_p3 =3D re.ASCII
-> +except AttributeError:
-> + ascii_p3 =3D 0
-> +
-> #
-> # Regex nastiness. Of course.
-> # Try to identify "function()" that's not already marked up some
-> @@ -22,22 +30,22 @@ from itertools import chain
-> # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
-> # bit tries to restrict matches to things that won't create trouble.
-> #
-> -RE_function =3D re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=3Dre.ASCII)
-> +RE_function =3D re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=3Dascii_p3)
->
-> #
-> # Sphinx 2 uses the same :c:type role for struct, union, enum and
-> typedef
-> #
-> RE_generic_type =3D
-> re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_]\w+)',
-> - flags=3Dre.ASCII)
-> + flags=3Dascii_p3)
->
-> #
-> # Sphinx 3 uses a different C role for each one of struct, union, enum
-> and
-> # typedef
-> #
-> -RE_struct =3D re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCI=
-I)
-> -RE_union =3D re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
-> -RE_enum =3D re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=3Dre.ASCII)
-> -RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)',
-> flags=3Dre.ASCII)
-> +RE_struct =3D re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=3Dascii_p=
-3)
-> +RE_union =3D re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=3Dascii_p3)
-> +RE_enum =3D re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=3Dascii_p3)
-> +RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)',
-> flags=3Dascii_p3)
->
-> #
-> # Detects a reference to a documentation page of the form
-> Documentation/... with
-> --
-> 2.26.2
 
-Looks good to me.
+>  .../testing/sysfs-bus-coresight-devices-etb10 |   5 +-
 
-Thanks,
-N=C3=ADcolas
+For the CoreSight part:
 
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
