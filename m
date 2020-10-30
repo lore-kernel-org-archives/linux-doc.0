@@ -2,164 +2,151 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 362CFC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 13:00:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4204DC4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 13:33:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6E3A22210
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 13:00:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EcnjjxiP"
+	by mail.kernel.org (Postfix) with ESMTP id E01102083B
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 13:33:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbgJ3NAX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 09:00:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48922 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbgJ3NAX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 09:00:23 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7677C0613CF
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 06:00:22 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id m22so5460047ots.4
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 06:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6fvLoA2ACGsw9h6fUs2eRqYp5Vxv5mvJOqpZ7bS2dDQ=;
-        b=EcnjjxiP6NX5FOHbnvNYmhlYHqWJtONYAPuq8+BRYNiuIp2YO2/sOS9Osbx/2Z8fds
-         cavi4AMu92psgd64iFC5tpy/7TL45oFgxjicTtltEsKFVUt6JXV7p81kQyb3ejUqk/EZ
-         BlY3uE1nOqTBTw7LncwS2dhHg3Wxa2kxCH5MYvtBdvp2960pONdBmb/43b2Jd5fu6jCL
-         PI2m8wzHjpVcycrn2PKUUwJ4Jv4DGkEDw+gaz8pqzhGls/nj8/37bYUnvxGLUdJWy4Hl
-         PEqSbyNGilparldS8VWKLveX96xtr9BDYwGalBxqK2owNxr2aqbxS0yZ5FG4yrq3UV7S
-         AaoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6fvLoA2ACGsw9h6fUs2eRqYp5Vxv5mvJOqpZ7bS2dDQ=;
-        b=V+QliHJUa+Dg5P2lYFTgu039Wolhz/qsWtU58Sb1UHUDMYm70NFOvPbV6svSdexn8E
-         ax00wAKUmgLndOQuTbcjvFsDfSfORMiZYkBsZwGXJyT+PsTNPdu1BpZU0CjeyDa5eA3O
-         HRbkVl3dGhRQH2JnhBWX9MZ/DWgpq68Qk07ZqdA3uT3Zp8Q7nNDY0itJSjpUg8mBQzJk
-         Yd5/EKppOE9Ue6GkpwDeeQYcv2tudtMPxjYcqPB6LK7EkWco51BtxxcQOv6u7MuxlLgD
-         3W9NEJmuQmhBiSEJ1m5K5lAbPf1lb0+emTC782QjGb7iQT8tdVtH0uagppcjgwcXbvSU
-         lUsw==
-X-Gm-Message-State: AOAM533dsej/uglQN6J+UZuko8ZKLBSdvcn/AJ0g77rFH4wum1LL+V5C
-        kZEZe3227dczaha+qZsIITX9JWw/10SqUQcQMabXDg==
-X-Google-Smtp-Source: ABdhPJxj4Rs5DNTy+vw/V05OM5YDz/tZETESyDNcoLpIRJD7NMZYysv3LfHiHlF2FEKmKL84lRszy3dIgD1ASah43lM=
-X-Received: by 2002:a9d:34d:: with SMTP id 71mr1421371otv.251.1604062821578;
- Fri, 30 Oct 2020 06:00:21 -0700 (PDT)
+        id S1726178AbgJ3Nd5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 09:33:57 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60230 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725939AbgJ3Nd5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 09:33:57 -0400
+Received: from [IPv6:2003:c7:cf1c:4d00:58b3:6683:91ae:b6a8] (p200300c7cf1c4d0058b3668391aeb6a8.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:4d00:58b3:6683:91ae:b6a8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 06CB61F45FE1;
+        Fri, 30 Oct 2020 13:33:54 +0000 (GMT)
+Subject: Re: [PATCH v2 1/5] docs: automarkup.py: Use new C roles in Sphinx 3
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@protonmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+References: <20201013231218.2750109-1-nfraprado@protonmail.com>
+ <20201013231218.2750109-2-nfraprado@protonmail.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <5053e824-625b-5a76-d862-2c855c79c427@collabora.com>
+Date:   Fri, 30 Oct 2020 14:33:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-3-elver@google.com>
- <CAG48ez1n7FrRA8Djq5685KcUJp1YgW0qijtBYNm2c9ZqQ1M4rw@mail.gmail.com>
-In-Reply-To: <CAG48ez1n7FrRA8Djq5685KcUJp1YgW0qijtBYNm2c9ZqQ1M4rw@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 30 Oct 2020 14:00:09 +0100
-Message-ID: <CANpmjNNBoiL2=JDD=vC5dB_TPW1Ybe5k7SqqhvUE2B7GmzRLyg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/9] x86, kfence: enable KFENCE for x86
-To:     Jann Horn <jannh@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201013231218.2750109-2-nfraprado@protonmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 30 Oct 2020 at 03:49, Jann Horn <jannh@google.com> wrote:
-> On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
-> > Add architecture specific implementation details for KFENCE and enable
-> > KFENCE for the x86 architecture. In particular, this implements the
-> > required interface in <asm/kfence.h> for setting up the pool and
-> > providing helper functions for protecting and unprotecting pages.
-> >
-> > For x86, we need to ensure that the pool uses 4K pages, which is done
-> > using the set_memory_4k() helper function.
-> >
-> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Co-developed-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> [...]
-> > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> [...]
-> > @@ -725,6 +726,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
-> >         if (IS_ENABLED(CONFIG_EFI))
-> >                 efi_recover_from_page_fault(address);
-> >
-> > +       if (kfence_handle_page_fault(address))
-> > +               return;
->
-> We can also get to this point due to an attempt to execute a data
-> page. That's very unlikely (given that the same thing would also crash
-> if you tried to do it with normal heap memory, and KFENCE allocations
-> are extremely rare); but we might want to try to avoid handling such
-> faults as KFENCE faults, since KFENCE will assume that it has resolved
-> the fault and retry execution of the faulting instruction. Once kernel
-> protection keys are introduced, those might cause the same kind of
-> trouble.
->
-> So we might want to gate this on a check like "if ((error_code &
-> X86_PF_PROT) == 0)" (meaning "only handle the fault if the fault was
-> caused by no page being present", see enum x86_pf_error_code).
+Hi
 
-Good point. Will fix in v7.
+Am 14.10.20 um 01:13 schrieb Nícolas F. R. A. Prado:
+> While Sphinx 2 used a single c:type role for struct, union, enum and
+> typedef, Sphinx 3 uses a specific role for each one.
+> To keep backward compatibility, detect the Sphinx version and use the
+> correct roles for that version.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@protonmail.com>
+> ---
+>   Documentation/sphinx/automarkup.py | 55 ++++++++++++++++++++++++++----
+>   1 file changed, 49 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+> index a1b0f554cd82..db13fb15cedc 100644
+> --- a/Documentation/sphinx/automarkup.py
+> +++ b/Documentation/sphinx/automarkup.py
+> @@ -23,7 +23,21 @@ from itertools import chain
+>   # bit tries to restrict matches to things that won't create trouble.
+>   #
+>   RE_function = re.compile(r'(([\w_][\w\d_]+)\(\))')
+> -RE_type = re.compile(r'(struct|union|enum|typedef)\s+([\w_][\w\d_]+)')
+> +
+> +#
+> +# Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
+> +#
+> +RE_generic_type = re.compile(r'(struct|union|enum|typedef)\s+([\w_][\w\d_]+)')
+> +
+> +#
+> +# Sphinx 3 uses a different C role for each one of struct, union, enum and
+> +# typedef
+> +#
+> +RE_struct = re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+> +RE_union = re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+> +RE_enum = re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+> +RE_typedef = re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
 
-> Unrelated sidenote: Since we're hooking after exception fixup
-> handling, the debug-only KFENCE_STRESS_TEST_FAULTS can probably still
-> cause some behavioral differences through spurious faults in places
-> like copy_user_enhanced_fast_string (where the exception table entries
-> are used even if the *kernel* pointer, not the user pointer, causes a
-> fault). But since KFENCE_STRESS_TEST_FAULTS is exclusively for KFENCE
-> development, the difference might not matter. And ordering them the
-> other way around definitely isn't possible, because the kernel relies
-> on being able to fixup OOB reads. So there probably isn't really
-> anything we can do better here; it's just something to keep in mind.
-> Maybe you can add a little warning to the help text for that Kconfig
-> entry that warns people about this?
+I use ubuntu 18.04, my default python is 2.7,
+when running 'make htmldocs' with that fix I get:
 
-Thanks for pointing it out, but that option really is *only* to stress
-kfence with concurrent allocations/frees/page faults. If anybody
-enables this option for anything other than testing kfence, it's their
-own fault. ;-)
-I'll try to add a generic note to the Kconfig entry, but what you
-mention here seems quite x86-specific.
+AttributeError: 'module' object has no attribute 'ASCII'
 
 Thanks,
--- Marco
+Dafna
+
+> +
+>   #
+>   # Detects a reference to a documentation page of the form Documentation/... with
+>   # an optional extension
+> @@ -48,9 +62,22 @@ def markup_refs(docname, app, node):
+>       #
+>       # Associate each regex with the function that will markup its matches
+>       #
+> -    markup_func = {RE_type: markup_c_ref,
+> -                   RE_function: markup_c_ref,
+> -                   RE_doc: markup_doc_ref}
+> +    markup_func_sphinx2 = {RE_doc: markup_doc_ref,
+> +                           RE_function: markup_c_ref,
+> +                           RE_generic_type: markup_c_ref}
+> +
+> +    markup_func_sphinx3 = {RE_doc: markup_doc_ref,
+> +                           RE_function: markup_c_ref,
+> +                           RE_struct: markup_c_ref,
+> +                           RE_union: markup_c_ref,
+> +                           RE_enum: markup_c_ref,
+> +                           RE_typedef: markup_c_ref}
+> +
+> +    if sphinx.version_info[0] >= 3:
+> +        markup_func = markup_func_sphinx3
+> +    else:
+> +        markup_func = markup_func_sphinx2
+> +
+>       match_iterators = [regex.finditer(t) for regex in markup_func]
+>       #
+>       # Sort all references by the starting position in text
+> @@ -79,8 +106,24 @@ def markup_refs(docname, app, node):
+>   # type_name) with an appropriate cross reference.
+>   #
+>   def markup_c_ref(docname, app, match):
+> -    class_str = {RE_function: 'c-func', RE_type: 'c-type'}
+> -    reftype_str = {RE_function: 'function', RE_type: 'type'}
+> +    class_str = {RE_function: 'c-func',
+> +                 # Sphinx 2 only
+> +                 RE_generic_type: 'c-type',
+> +                 # Sphinx 3+ only
+> +                 RE_struct: 'c-struct',
+> +                 RE_union: 'c-union',
+> +                 RE_enum: 'c-enum',
+> +                 RE_typedef: 'c-type',
+> +                 }
+> +    reftype_str = {RE_function: 'function',
+> +                   # Sphinx 2 only
+> +                   RE_generic_type: 'type',
+> +                   # Sphinx 3+ only
+> +                   RE_struct: 'struct',
+> +                   RE_union: 'union',
+> +                   RE_enum: 'enum',
+> +                   RE_typedef: 'type',
+> +                   }
+>   
+>       cdom = app.env.domains['c']
+>       #
+> 
