@@ -2,97 +2,103 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A74ADC4741F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:39:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F83C4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:48:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4ADEC2076E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:39:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35DB220727
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:48:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LWE3y7rR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MwEdcgHr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726854AbgJ3Ojo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 10:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36150 "EHLO
+        id S1726931AbgJ3OsE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 10:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbgJ3Ojn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 10:39:43 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2BAAC0613CF;
-        Fri, 30 Oct 2020 07:39:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=/nuHOYGzfdSAxG5g3XnaFq7PaodpHm2ctY0x0q4Q3jE=; b=LWE3y7rRfF9Ta8lyu4v8Uz1Mj4
-        4Zr3VB2IFdAlpLSmIkkuCpNhrTt4ew2Irzas0nMtK3qQgCIIFJQZP/Np9qt0MFFGqUE2VHV9wMCJI
-        44IbPDGbsAadlu0w421qlDB/5dEaja94mzcpRfeKjazUq7kMDQstW5y9isdYG9GfqEVk18YJAxEcZ
-        9uU9L1LBS45FH35mzVCis8Zr2scX9zvWEzEuiC1j1fsTu53/cm9lRKDSiZiv7Kmzt2kUbkioH8Yp9
-        SL31I+fVVXXyGlVrrJLnl2PY0Y0odAcEhBweZQckD62XuIcDrd9liaC7UHi+hIMFc4K4kJ2jrMJDF
-        KuIBvFUQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kYVZ3-0008Ba-Je; Fri, 30 Oct 2020 14:39:37 +0000
-Date:   Fri, 30 Oct 2020 14:39:37 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
-        <nfraprado@protonmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
-        andrealmeid@collabora.com
-Subject: Re: Python 2.7 support and automarkup.py - Was: Re: [PATCH v2 1/5]
- docs: automarkup.py: Use new C roles in Sphinx 3
-Message-ID: <20201030143937.GK27442@casper.infradead.org>
-References: <20201013231218.2750109-1-nfraprado@protonmail.com>
- <20201013231218.2750109-2-nfraprado@protonmail.com>
- <5053e824-625b-5a76-d862-2c855c79c427@collabora.com>
- <20201030151026.3afd7997@coco.lan>
- <20201030081440.47a74dad@lwn.net>
+        with ESMTP id S1726929AbgJ3OrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 10:47:21 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6704C0613D6;
+        Fri, 30 Oct 2020 07:47:19 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id k125so2721568wmf.0;
+        Fri, 30 Oct 2020 07:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zUO5L8kmRzG695X/RNL/pM4ak1YR1L4D/l4ZGPiKS4s=;
+        b=MwEdcgHri63X6/zT4qETBnCFUxXPSOp0QZQDn7N6gV2mUSRWqaX2Sl86N7s73XyyX/
+         hVmmLdPeRjWMq0ECnGE9KITW3ub00SdtWXfTXXdrB5RQK12j2C6D5tSXM/uK874jB3g/
+         frrogVDPPf+Xd+5V1pU5vnZlLA/NqTc/64xwFY8XT7aOlEQbS4P8ONrT8UwzzM+vpGbO
+         0QmlFr8qAuQ18WVIGORA1ydY2RjPJxK5wrIT7a3pJXu/UEg8rJz1gujho/NxvUjq4NCa
+         GllFFVgFOae3txoe4peuW6LKIxNVy+YDh3xC2LyOE868W9DKSq6udM6KeaUH3CoRRYc0
+         v64w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=zUO5L8kmRzG695X/RNL/pM4ak1YR1L4D/l4ZGPiKS4s=;
+        b=D7rc1mzUpkXsQk62zjwRn2idCy4KUpXR/KdjPJy+7AKFJ6cpe/ondZ0Dcjlx48XVre
+         ILFC/IKautH9zT+dbFbACeLOrV6Zu1FqVD4uS8SRflB1KK5CxrDE0d2VEQ9wCZPtFyxE
+         3NmST4loSV/CdaVUayFsAUbs1mQYrnhrMVF+huEkDhzJJui+ALceP/WydPiFewlCSFEA
+         2U7ZDP2fiGnUbp4qrpwAQVrE+Oi+6O2agQSh5nivW5/bHof4+ZQPaUQW4pVEtybtCfKc
+         WkDO6a/Sx2zeitmY1vQqCo3iwWFfeM2jwdSvhsbqIYQUod0CWUo2lXwMJHqfABWEAx6o
+         vnrg==
+X-Gm-Message-State: AOAM532LQjiwRN/kQ0jZpLphZW8U5/w34xKtsDleHD7vymUlkbWjHCey
+        ZJLCiZGIOOzZw9XvheQyY0CXYfDge0k=
+X-Google-Smtp-Source: ABdhPJyzxDkBZiBsJYDrfCsgqEI1far515sbaNTQRxLUQe6vYaik0FWVX68HwfGKp4i6KXSJvOJO9Q==
+X-Received: by 2002:a1c:9e12:: with SMTP id h18mr3080430wme.11.1604069238122;
+        Fri, 30 Oct 2020 07:47:18 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id p21sm5058785wmc.28.2020.10.30.07.47.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 07:47:17 -0700 (PDT)
+Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+Cc:     Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH 2/2] kernel-doc: Handle function typedefs without asterisks
+Date:   Fri, 30 Oct 2020 15:47:13 +0100
+Message-Id: <20201030144713.201372-3-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201030144713.201372-1-pbonzini@redhat.com>
+References: <20201030144713.201372-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201030081440.47a74dad@lwn.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 08:14:40AM -0600, Jonathan Corbet wrote:
-> On Fri, 30 Oct 2020 15:10:26 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > I see a few alternatives:
-> > 
-> > 1) fix automarkup.py for it to work again with python 2.7;
-> > 
-> > 2) conf.py could gain some logic to disable automarkup with
-> >    Python < 3;
-> > 
-> > 3) scripts/sphinx-pre-install already detects Python version. 
-> >    It should likely be easy to ask the user to use python 3.x,
-> >    if an older version is detected.
-> > 
-> > Doing (1) or (2) will require an additional step when we raise
-> > the bar for Python version.
-> 
-> We haven't dropped support for Python 2 yet, so this constitutes a
-> regression.  My own approach would be something like this at the top of
-> automarkup.py:
-> 
-> 	if python2:
-> 	    ascii = 0
-> 	else:
-> 	    ascii = re.ASCII
-> 
-> ...then s/re.ASCII/ascii/ throughout.  I can probably put together
-> something later this morning.
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-Could we have a warning somewhere that python 2.7 is going to produce
-inferior docs?
+Example of typedef that was not parsed by kernel-doc:
 
-Alternatively, https://docs.python.org/2/library/re.html suggests
-using "The third-party regex module".
+  typedef void (ObjectUnparent)(Object *obj);
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 5b5caa7642f7..1a9c918aa653 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1302,7 +1302,7 @@ sub dump_typedef($$) {
+     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
+ 
+     # Parse function prototypes
+-    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
++    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+ 	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
+ 
+ 	# Function typedefs
+-- 
+2.28.0
+
