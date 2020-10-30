@@ -2,134 +2,101 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02193C55178
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:07:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAD7C4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:07:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74ED22071A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:07:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65B9F2075E
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:07:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="FDk8YZ+1"
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="qYlIUahx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbgJ3PHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 11:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726642AbgJ3PHM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 11:07:12 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F7FC0613D7
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:07:12 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id d125so1515126vkh.10
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:07:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qezUIHlvY9fFOmo2+xA2K+Ux6IJAtG5C7ju4HZIADck=;
-        b=FDk8YZ+1U0Xp/Ygw40EpV0XeoQqT33eCNWvzOPeOzuhtVGoPz8+inv5IWSqFU5QEQb
-         fbZH8kjd/7GZgBHweJS80LprkSJvRuThB5A2PYwcRJ19ifGSQ+mXOsFOxCp0TrHprMN8
-         Ow0nVKYl2sgjqAIi19jAw5kAX//XFX1+xWk6o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qezUIHlvY9fFOmo2+xA2K+Ux6IJAtG5C7ju4HZIADck=;
-        b=aapjYFnoJ+IkMT7FEZuJ35iucmZOgDuABuh6K4nBAegdMD3wfT6bLP+5WcUiQlAQgT
-         k24ebOouR6Ms7+L70XYt0e+ZIGrjFIEOvPzXWKgJxgvLgP2HlhIP9hAdXFtBE7B1OoY1
-         iYY9OAmnAyTQsgSSXmQNhXYy8baAP1YYk77TbWDS+e9h2Qk1kRZoagcPLguwcCRtGgcf
-         lRu98sWU1C3bFQ/omlWgQ2GlfRB6ayEXDesU2k1rlLLc0oXSCRrto9Fr8L2mCvk3e8pl
-         j7gF3JQI+orD+v1rywMwbliEat6gZ59MtURMybRfHlGPFW3u94wzKtVplXM3G3p9rRdw
-         gwQA==
-X-Gm-Message-State: AOAM533VltZJrNCuw7dmEcsULt0AZp/bQkv9yJdx35mARp1JTcPX8i03
-        d/eeMiNxGR1CfEFUG34RLjDS/XKwbfxRci2TT+c8Cg==
-X-Google-Smtp-Source: ABdhPJw6zBNZsPXoxIh2VrRKYWDLkA+cMVV5G3SLLuH30LfxgNrHG7rsMDRqvHz08mcMwgVJkAuegVhMmIf8qGqUmJE=
-X-Received: by 2002:ac5:c80e:: with SMTP id y14mr7299032vkl.3.1604070430985;
- Fri, 30 Oct 2020 08:07:10 -0700 (PDT)
+        id S1726708AbgJ3PHk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 11:07:40 -0400
+Received: from mail-02.mail-europe.com ([51.89.119.103]:45458 "EHLO
+        mail-02.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726239AbgJ3PHj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 11:07:39 -0400
+Date:   Fri, 30 Oct 2020 15:07:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1604070453;
+        bh=dO067Du616gppn3odIoUv7mhFuoUfCE7iufuNp8y+eI=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=qYlIUahx2xPgGksqR1/dQ0PntZ6lRV40wZ0fKYI7xJpV57g54vt66C8tbNs5ZBGPC
+         Oc9i1HTKF05vRyzfYz4BLdMHQpVGbyEItvAsfNRmIFv5npaEeFXsSLFj1ORJA3TirJ
+         lcc7Tj+wneJRehrfeSZR71Uwc4g0PXRSTTVNO44M=
+To:     Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: Re: Python 2.7 support and automarkup.py - Was: Re: [PATCH v2 1/5] docs: automarkup.py: Use new C roles in Sphinx 3
+Message-ID: <C6QBFCF3JXER.2W4KLG5ZMXH13@ArchWay>
 MIME-Version: 1.0
-References: <20201021151903.652827-1-salyzyn@android.com> <20201021151903.652827-3-salyzyn@android.com>
-In-Reply-To: <20201021151903.652827-3-salyzyn@android.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Fri, 30 Oct 2020 16:07:00 +0100
-Message-ID: <CAJfpegtMoD85j5namV592sJD23QeUMD=+tq4SvFDqjVxsAszYQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH v18 2/4] overlayfs: handle XATTR_NOSECURITY flag
- for get xattr method
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel@vger.kernel.org,
-        kernel-team <kernel-team@android.com>,
-        linux-fsdevel@vger.kernel.org,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>, linux-doc@vger.kernel.org,
-        SElinux list <selinux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 5:19 PM Mark Salyzyn <salyzyn@android.com> wrote:
+On Fri Oct 30, 2020 at 11:39 AM -03, Matthew Wilcox wrote:
 >
-> Because of the overlayfs getxattr recursion, the incoming inode fails
-> to update the selinux sid resulting in avc denials being reported
-> against a target context of u:object_r:unlabeled:s0.
+> On Fri, Oct 30, 2020 at 08:14:40AM -0600, Jonathan Corbet wrote:
+> > On Fri, 30 Oct 2020 15:10:26 +0100
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >
+> > > I see a few alternatives:
+> > >
+> > > 1) fix automarkup.py for it to work again with python 2.7;
+> > >
+> > > 2) conf.py could gain some logic to disable automarkup with
+> > >    Python < 3;
+> > >
+> > > 3) scripts/sphinx-pre-install already detects Python version.
+> > >    It should likely be easy to ask the user to use python 3.x,
+> > >    if an older version is detected.
+> > >
+> > > Doing (1) or (2) will require an additional step when we raise
+> > > the bar for Python version.
+> >
+> > We haven't dropped support for Python 2 yet, so this constitutes a
+> > regression.  My own approach would be something like this at the top of
+> > automarkup.py:
+> >
+> > =09if python2:
+> > =09    ascii =3D 0
+> > =09else:
+> > =09    ascii =3D re.ASCII
+> >
+> > ...then s/re.ASCII/ascii/ throughout.  I can probably put together
+> > something later this morning.
 >
-> Solution is to respond to the XATTR_NOSECURITY flag in get xattr
-> method that calls the __vfs_getxattr handler instead so that the
-> context can be read in, rather than being denied with an -EACCES
-> when vfs_getxattr handler is called.
->
-> For the use case where access is to be blocked by the security layer.
->
-> The path then would be security(dentry) ->
-> __vfs_getxattr({dentry...XATTR_NOSECURITY}) ->
-> handler->get({dentry...XATTR_NOSECURITY}) ->
-> __vfs_getxattr({realdentry...XATTR_NOSECURITY}) ->
-> lower_handler->get({realdentry...XATTR_NOSECURITY}) which
-> would report back through the chain data and success as expected,
-> the logging security layer at the top would have the data to
-> determine the access permissions and report back to the logs and
-> the caller that the target context was blocked.
->
-> For selinux this would solve the cosmetic issue of the selinux log
-> and allow audit2allow to correctly report the rule needed to address
-> the access problem.
->
-> Check impure, opaque, origin & meta xattr with no sepolicy audit
-> (using __vfs_getxattr) since these operations are internal to
-> overlayfs operations and do not disclose any data.  This became
-> an issue for credential override off since sys_admin would have
-> been required by the caller; whereas would have been inherently
-> present for the creator since it performed the mount.
->
-> This is a change in operations since we do not check in the new
-> ovl_do_getxattr function if the credential override is off or not.
-> Reasoning is that the sepolicy check is unnecessary overhead,
-> especially since the check can be expensive.
->
-> Because for override credentials off, this affects _everyone_ that
-> underneath performs private xattr calls without the appropriate
-> sepolicy permissions and sys_admin capability.  Providing blanket
-> support for sys_admin would be bad for all possible callers.
->
-> For the override credentials on, this will affect only the mounter,
-> should it lack sepolicy permissions. Not considered a security
-> problem since mounting by definition has sys_admin capabilities,
-> but sepolicy contexts would still need to be crafted.
+> Could we have a warning somewhere that python 2.7 is going to produce
+> inferior docs?
 
-This would be a problem when unprivileged mounting of overlay is
-introduced.  I'd really like to avoid weakening the current security
-model.
+But I don't expect the docs to have inferior quality using python 2.7.
+The fix proposed by Jon should be enough to solve the issue.
 
-The big API churn in the 1/4 patch also seems excessive considering
-that this seems to be mostly a cosmetic issue for android.  Am I
-missing something?
+>
+> Alternatively, https://docs.python.org/2/library/re.html suggests
+> using "The third-party regex module".
+
+I still think Jon's solution would be better, as it doesn't add any additio=
+nal
+dependency.
+In the end the issue is just python 2 defaults to ASCII while python 3 defa=
+ults
+to unicode.
 
 Thanks,
-Miklos
+N=C3=ADcolas
+
