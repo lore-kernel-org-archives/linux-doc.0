@@ -2,231 +2,69 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8810EC4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 169DFC00A89
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:00:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 203752076E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604066428;
-	bh=SQY9btLcVx02wKeES278fkHq50CU5n16gUg7TTg7C4k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=zb5N+aH2kTxMgvP99RoQgdxk4kwPgBOCTP7d0BBuZPh1bNbU+LlFG8u7qYvNAlzDE
-	 +LSgZWQuUMb3MUut562PXCETjx6eiDBHt6/6RY7QiIjwetr40UsCYdnJdqC8pabwSI
-	 qr6N9C3RABNTQ+5m/gbj2vChlnOn4NYCLlyny7a8=
+	by mail.kernel.org (Postfix) with ESMTP id C15CD221EB
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:00:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726645AbgJ3OA1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 10:00:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49846 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726224AbgJ3OA1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 10:00:27 -0400
-Received: from coco.lan (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
+        id S1726784AbgJ3OA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 10:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726101AbgJ3OA5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 10:00:57 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCCD4C0613CF;
+        Fri, 30 Oct 2020 07:00:57 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8B2A62072C;
-        Fri, 30 Oct 2020 14:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604066426;
-        bh=SQY9btLcVx02wKeES278fkHq50CU5n16gUg7TTg7C4k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SBC9F+DRm12fAdUx4LAFRz3vENqpfGMsDwloEa1LJ5v23VRMLbJxqFtYknmMTxwn2
-         9hHp6N+ByHhuCF+dIYl4Opt5bElP4fwxlxaOmrS+VZuzxrhwXBocz0i6oLgcmcspzy
-         QrFErBG0xZXDJ9n0LMVifLwvFVDp5Ymo9yKS9Mp4=
-Date:   Fri, 30 Oct 2020 15:00:19 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: excess bolding in html
-Message-ID: <20201030150019.1cc6db7d@coco.lan>
-In-Reply-To: <20201030125313.GH27442@casper.infradead.org>
-References: <31362b3b-469f-1f74-d929-b6faa7ae4e30@infradead.org>
-        <20201030083748.4db9848b@coco.lan>
-        <20201030113147.GG27442@casper.infradead.org>
-        <db164a2a-83f1-efd0-1c73-a4a77785bb59@darmarit.de>
-        <20201030125313.GH27442@casper.infradead.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        by ms.lwn.net (Postfix) with ESMTPSA id 434942DC;
+        Fri, 30 Oct 2020 14:00:57 +0000 (UTC)
+Date:   Fri, 30 Oct 2020 08:00:56 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: Re: [PATCH v2 1/5] docs: automarkup.py: Use new C roles in Sphinx 3
+Message-ID: <20201030080056.6cd9d1f8@lwn.net>
+In-Reply-To: <5053e824-625b-5a76-d862-2c855c79c427@collabora.com>
+References: <20201013231218.2750109-1-nfraprado@protonmail.com>
+        <20201013231218.2750109-2-nfraprado@protonmail.com>
+        <5053e824-625b-5a76-d862-2c855c79c427@collabora.com>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 30 Oct 2020 12:53:13 +0000
-Matthew Wilcox <willy@infradead.org> escreveu:
+On Fri, 30 Oct 2020 14:33:52 +0100
+Dafna Hirschfeld <dafna.hirschfeld@collabora.com> wrote:
 
-> On Fri, Oct 30, 2020 at 01:28:59PM +0100, Markus Heiser wrote:
-> > Am 30.10.20 um 12:31 schrieb Matthew Wilcox:  
-> > > On Fri, Oct 30, 2020 at 08:37:48AM +0100, Mauro Carvalho Chehab wrote:  
-> > > > Just changing the kernel-doc markup at kernel/futex.c:
-> > > > 
-> > > > 	/**
-> > > > 	 * futex_setup_timer - set up the sleeping hrtimer.
-> > > > 	 * @time:	ptr to the given timeout value
-> > > > 	 * @timeout:	the hrtimer_sleeper structure to be set up
-> > > > 	 * @flags:	futex flags
-> > > > 	 * @range_ns:	optional range in ns
-> > > > 	 *
-> > > > 	 * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
-> > > > 	 *	   value given
-> > > > 	 */
-> > > > 
-> > > > To:
-> > > > 
-> > > > ...
-> > > > 	 * Return:
-> > > > 	 *
-> > > > 	 * Initialized hrtimer_sleeper structure or NULL if no timeout
-> > > > 	 * value given
-> > > > 	 */
-> > > > 
-> > > > Should fix it.  
-> > > 
-> > > Or just remove the indent.
-> > > 
-> > >   * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
-> > >   * value given.  
-> > 
-> > To add my 2 cent:
-> > 
-> > The return value should be described in a dedicated section
-> > named "Return:", like shown im Mauro's example (compare [1]).
-> > 
-> > For on-liners I think it is OK to use the short form (compare [2]).
-> > 
-> > [1] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#return-values
-> > [2] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#function-documentation  
+> > +RE_struct = re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+> > +RE_union = re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+> > +RE_enum = re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+> > +RE_typedef = re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=re.ASCII)  
+> 
+> I use ubuntu 18.04, my default python is 2.7,
+> when running 'make htmldocs' with that fix I get:
+> 
+> AttributeError: 'module' object has no attribute 'ASCII'
 
-Yeah, I would use myself something like:
+Argh...it seems that re.ASCII is Python3 only.
 
-	Return: foo
+For the short term, I guess we'll need to hack in some sort of workaround.
+The not-so-long-term intent, though, is to leave Python 2 behind.
 
-only for single-line returns, using:
+Thanks for the report,
 
-	Return:
-
-	foo
-	bar
-
-for multi-line ones.
-
--
-
-Anyway, I tried the enclosed patch. With that, it should now recognize 
-kernel-doc markups with:
-
- 	 * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
- 	 *	   value given
-
-And:
-
-	 * Returns: 0 on success, -ENOSPC if no suitable hole is found, -EINTR if
-	 * asked to wait for eviction and interrupted.
-	 */
-	(this example came from drivers/gpu/drm/i915/i915_gem_gtt.c)
-
-I only did a fast check here, in order to verify if it won't be
-producing additional warnings. I didn't check the html output.
-Just the resulting ReST from kernel-doc and the "make htmldocs" warnings.
-
-PS.: This handles only "Note(s)" and "Return(s)" sections.
-     Description and @var: are already handled using a different
-     logic elsewhere.
-
-     This could likely be generalized, but more work (and tests)
-     are required.
-
-Thanks,
-Mauro
-
-[PATCH] scripts: kernel-doc: better handle spaces after section markups
-
-Better handle things like:
-
-	* Return: foo
-	*         description
-
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f699cf05d409..a91a2420cccf 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -389,7 +389,7 @@ my $doc_com_body = '\s*\* ?';
- my $doc_decl = $doc_com . '(\w+)';
- # @params and a strictly limited set of supported section names
- my $doc_sect = $doc_com .
--    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
-+    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)(\s*:)(.*)';
- my $doc_content = $doc_com_body . '(.*)';
- my $doc_block = $doc_com . 'DOC:\s*(.*)?';
- my $doc_inline_start = '^\s*/\*\*\s*$';
-@@ -865,8 +865,21 @@ sub output_highlight_rst {
-     my $in_literal = 0;
-     my $litprefix;
-     my $block = "";
-+    my $spaces = "";
-+    my $first = 1;
- 
-     foreach $line (split "\n",$input) {
-+        if ($first) {
-+		$spaces = $1 if ($line =~ (m/^(\s+)/));
-+		$first = 0;
-+        }
-+
-+        if ($spaces ne "") {
-+		if (!($line =~ s/^$spaces//)) {
-+		    $spaces = "";
-+		}
-+        }
-+
- 	#
- 	# If we're in a literal block, see if we should drop out
- 	# of it.  Otherwise pass the line straight through unmunged.
-@@ -2135,8 +2148,9 @@ sub process_body($$) {
-     }
- 
-     if (/$doc_sect/i) { # case insensitive for supported section names
-+	my $spaces = "$1$2";
- 	$newsection = $1;
--	$newcontents = $2;
-+	$newcontents = $3;
- 
- 	# map the supported section names to the canonical names
- 	if ($newsection =~ m/^description$/i) {
-@@ -2161,11 +2175,20 @@ sub process_body($$) {
- 
- 	$in_doc_sect = 1;
- 	$state = STATE_BODY;
--	$contents = $newcontents;
- 	$new_start_line = $.;
--	while (substr($contents, 0, 1) eq " ") {
--	    $contents = substr($contents, 1);
-+
-+	if ($newsection =~ m/(return|note)/i) {
-+	    $spaces =~ s/\S/ /g;
-+	    $newcontents = $spaces . $newcontents;
-+	    $newcontents =~ s/^\s+$//;
-+	    $contents = $newcontents;
-+	} else {
-+	    $contents = $newcontents;
-+	    while (substr($newcontents, 0, 1) eq " ") {
-+		$newcontents = substr($newcontents, 1);
-+	    }
- 	}
-+
- 	if ($contents ne "") {
- 	    $contents .= "\n";
- 	}
-
-
+jon
