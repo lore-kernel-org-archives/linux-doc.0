@@ -2,183 +2,268 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2633C55178
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 17:27:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B301C00A89
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 17:30:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4450C2075E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 17:27:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0EBBA208B6
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 17:30:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="UWWtqWmX"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rYhzrMuh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727205AbgJ3R1t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 13:27:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11348 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727139AbgJ3R1s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 13:27:48 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09UH4JbG086980;
-        Fri, 30 Oct 2020 13:26:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=kRv/mdN0gxrWM4bjmBGarbvn1q9ZLkvFoS6y5DzvQks=;
- b=UWWtqWmXJl3nSrq5VxzL3fA7gftqPT2l/7zujH5kX5UvHZQ2eMEv18xIFli+pDzv7TND
- NhYhOuFvYct9W6WTKfBbUytZ8/Cf+k1x8aeC7Oe5QD8YYyP+4VpoSpOUMvDWDIAhxnB6
- c5FhsgKRalTM6aUBHcNHDfpT9wtGJzgUJ5nY4j/m0uXK5U6stXBYO3eHSNoVzcotT/Xy
- 9WS3NIpRpBYAz5DKkKDBBTsOJC2EE7S2Jsz0m9qB01bvBxEWMhFx70vhSmjAfeVZzs6/
- v05iYc3aUMt+dm/aSv5oejFCOaASxJm22fB+sZfWIK+97WfQXSV6rjYLkmgp0HqWCmHh bQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 34gm93xm0w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Oct 2020 13:26:38 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09UH5286089727;
-        Fri, 30 Oct 2020 13:26:37 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 34gm93xm01-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Oct 2020 13:26:37 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-        by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09UHH2Ts031290;
-        Fri, 30 Oct 2020 17:26:35 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma01fra.de.ibm.com with ESMTP id 34dwh0jff3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Oct 2020 17:26:35 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 09UHQWf831130076
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Oct 2020 17:26:32 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 81EE111C05C;
-        Fri, 30 Oct 2020 17:26:32 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 60F4211C050;
-        Fri, 30 Oct 2020 17:26:30 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.85.67])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 30 Oct 2020 17:26:30 +0000 (GMT)
-Subject: Re: [PATCH v2 20/39] docs: ABI: testing: make the files compatible
- with ReST output
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier@javigon.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Benson Leung <bleung@chromium.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Bruno Meneguele <bmeneg@redhat.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Konstantin Khlebnikov <koct9i@gmail.com>,
-        Kranthi Kuntala <kranthi.kuntala@intel.com>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Len Brown <lenb@kernel.org>,
-        Leonid Maksymchuk <leonmaxx@gmail.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Nayna Jain <nayna@linux.ibm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Oleh Kravchenko <oleg@kaa.org.ua>,
-        Orson Zhai <orsonzhai@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Peter Rosin <peda@axentia.se>, Petr Mladek <pmladek@suse.com>,
-        Philippe Bergheaud <felix@linux.ibm.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-pm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        netdev@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <cover.1604042072.git.mchehab+huawei@kernel.org>
- <58cf3c2d611e0197fb215652719ebd82ca2658db.1604042072.git.mchehab+huawei@kernel.org>
-From:   Frederic Barrat <fbarrat@linux.ibm.com>
-Message-ID: <94520e35-6b73-c951-206e-0031d41ebf83@linux.ibm.com>
-Date:   Fri, 30 Oct 2020 18:26:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S1726815AbgJ3Ra3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 13:30:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727370AbgJ3Ra2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 13:30:28 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD053C0613D2
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 10:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=aCDWSM3+qiVQKEzFFAdYpj4Re0LyBLD/h0QcWSQlF38=; b=rYhzrMuh7CKLNsm5Kon7vvOLGy
+        FNArv+ZY4XFJ24QN86QxcEq58pdyO66yhhDX5tY0Ds5nCKvbsfsEtdgy5oXsu2Zy77Q6kEdXkf7W7
+        9rtsDeWwidJb4KLBVGonx4WyyftU+XmSPbZW+zBO81qBxMz1bfpnZZGFFTNQ7C+LbyPPKegll6DK+
+        sHHX/rXiC5ngdX1AUR2oR/WpqnLo5gk1FZANsW9v4G++pZGPnUuNK/jI4iUszWdgrgG5SCS0eZYAd
+        DAu7GEx+rgLsLU7m7U5vv7Gheza7Sp3ZNBinyxELKUM4rgQ9izNusIbvVID7U4rt2CzDxqVYx517C
+        +icn3NHQ==;
+Received: from [2601:1c0:6280:3f0::371c]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kYYEL-0002bI-85; Fri, 30 Oct 2020 17:30:26 +0000
+Subject: Re: excess bolding in html
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <31362b3b-469f-1f74-d929-b6faa7ae4e30@infradead.org>
+ <20201030083748.4db9848b@coco.lan>
+ <20201030113147.GG27442@casper.infradead.org>
+ <db164a2a-83f1-efd0-1c73-a4a77785bb59@darmarit.de>
+ <20201030125313.GH27442@casper.infradead.org>
+ <20201030150019.1cc6db7d@coco.lan>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b4e9dad2-c501-623e-4c2d-66e9170a4b9e@infradead.org>
+Date:   Fri, 30 Oct 2020 10:30:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <58cf3c2d611e0197fb215652719ebd82ca2658db.1604042072.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201030150019.1cc6db7d@coco.lan>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-10-30_07:2020-10-30,2020-10-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 malwarescore=0 bulkscore=0
- phishscore=0 clxscore=1011 mlxlogscore=999 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010300122
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Mauro,
+Thanks for the patch.
 
-
-Le 30/10/2020 à 08:40, Mauro Carvalho Chehab a écrit :
-> Some files over there won't parse well by Sphinx.
+On 10/30/20 7:00 AM, Mauro Carvalho Chehab wrote:
+> Em Fri, 30 Oct 2020 12:53:13 +0000
+> Matthew Wilcox <willy@infradead.org> escreveu:
 > 
-> Fix them.
+>> On Fri, Oct 30, 2020 at 01:28:59PM +0100, Markus Heiser wrote:
+>>> Am 30.10.20 um 12:31 schrieb Matthew Wilcox:  
+>>>> On Fri, Oct 30, 2020 at 08:37:48AM +0100, Mauro Carvalho Chehab wrote:  
+>>>>> Just changing the kernel-doc markup at kernel/futex.c:
+>>>>>
+>>>>> 	/**
+>>>>> 	 * futex_setup_timer - set up the sleeping hrtimer.
+>>>>> 	 * @time:	ptr to the given timeout value
+>>>>> 	 * @timeout:	the hrtimer_sleeper structure to be set up
+>>>>> 	 * @flags:	futex flags
+>>>>> 	 * @range_ns:	optional range in ns
+>>>>> 	 *
+>>>>> 	 * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
+>>>>> 	 *	   value given
+>>>>> 	 */
+>>>>>
+>>>>> To:
+>>>>>
+>>>>> ...
+>>>>> 	 * Return:
+>>>>> 	 *
+>>>>> 	 * Initialized hrtimer_sleeper structure or NULL if no timeout
+>>>>> 	 * value given
+>>>>> 	 */
+>>>>>
+>>>>> Should fix it.  
+>>>>
+>>>> Or just remove the indent.
+>>>>
+>>>>   * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
+>>>>   * value given.  
+>>>
+>>> To add my 2 cent:
+>>>
+>>> The return value should be described in a dedicated section
+>>> named "Return:", like shown im Mauro's example (compare [1]).
+>>>
+>>> For on-liners I think it is OK to use the short form (compare [2]).
+>>>
+>>> [1] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#return-values
+>>> [2] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#function-documentation  
 > 
-> Acked-by: Jonathan Cameron<Jonathan.Cameron@huawei.com>  # for IIO
-> Signed-off-by: Mauro Carvalho Chehab<mchehab+huawei@kernel.org>
-> ---
-...
->   Documentation/ABI/testing/sysfs-class-cxl     |  15 +-
-...
->   Documentation/ABI/testing/sysfs-class-ocxl    |   3 +
+> Yeah, I would use myself something like:
+> 
+> 	Return: foo
+> 
+> only for single-line returns, using:
+> 
+> 	Return:
+> 
+> 	foo
+> 	bar
+> 
+> for multi-line ones.
+> 
+> -
+> 
+> Anyway, I tried the enclosed patch. With that, it should now recognize 
+> kernel-doc markups with:
+> 
+>  	 * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
+>  	 *	   value given
+> 
+> And:
+> 
+> 	 * Returns: 0 on success, -ENOSPC if no suitable hole is found, -EINTR if
+> 	 * asked to wait for eviction and interrupted.
+> 	 */
+> 	(this example came from drivers/gpu/drm/i915/i915_gem_gtt.c)
+> 
+> I only did a fast check here, in order to verify if it won't be
+> producing additional warnings. I didn't check the html output.
+> Just the resulting ReST from kernel-doc and the "make htmldocs" warnings.
+> 
+> PS.: This handles only "Note(s)" and "Return(s)" sections.
+>      Description and @var: are already handled using a different
+>      logic elsewhere.
+> 
+>      This could likely be generalized, but more work (and tests)
+>      are required.
+> 
+> Thanks,
+> Mauro
 
 
-Patches 20, 28 and 31 look good for cxl and ocxl.
-Acked-by: Frederic Barrat <fbarrat@linux.ibm.com>
+I can confirm that the bolding in struct hrtimer_sleeper * futex_setup_timer()
+is fixed after applying this patch.
 
-   Fred
+OTOH, the bolding for int seq_open() remains as it was previously.
+The only way that I could eliminate it was a small source file patch:
+
+---
+ fs/seq_file.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+--- linux-next-20201030.orig/fs/seq_file.c
++++ linux-next-20201030/fs/seq_file.c
+@@ -47,7 +47,9 @@ static void *seq_buf_alloc(unsigned long
+  *	ERR_PTR(error).  In the end of sequence they return %NULL. ->show()
+  *	returns 0 in case of success and negative number in case of error.
+  *	Returning SEQ_SKIP means "discard this element and move on".
+- *	Note: seq_open() will allocate a struct seq_file and store its
++ *
++ *	Note:
++ *	seq_open() will allocate a struct seq_file and store its
+  *	pointer in @file->private_data. This pointer should not be modified.
+  */
+ int seq_open(struct file *file, const struct seq_operations *op)
+
+
+> [PATCH] scripts: kernel-doc: better handle spaces after section markups
+> 
+> Better handle things like:
+> 
+> 	* Return: foo
+> 	*         description
+> 
+> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index f699cf05d409..a91a2420cccf 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -389,7 +389,7 @@ my $doc_com_body = '\s*\* ?';
+>  my $doc_decl = $doc_com . '(\w+)';
+>  # @params and a strictly limited set of supported section names
+>  my $doc_sect = $doc_com .
+> -    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
+> +    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)(\s*:)(.*)';
+>  my $doc_content = $doc_com_body . '(.*)';
+>  my $doc_block = $doc_com . 'DOC:\s*(.*)?';
+>  my $doc_inline_start = '^\s*/\*\*\s*$';
+> @@ -865,8 +865,21 @@ sub output_highlight_rst {
+>      my $in_literal = 0;
+>      my $litprefix;
+>      my $block = "";
+> +    my $spaces = "";
+> +    my $first = 1;
+>  
+>      foreach $line (split "\n",$input) {
+> +        if ($first) {
+> +		$spaces = $1 if ($line =~ (m/^(\s+)/));
+> +		$first = 0;
+> +        }
+> +
+> +        if ($spaces ne "") {
+> +		if (!($line =~ s/^$spaces//)) {
+> +		    $spaces = "";
+> +		}
+> +        }
+> +
+>  	#
+>  	# If we're in a literal block, see if we should drop out
+>  	# of it.  Otherwise pass the line straight through unmunged.
+> @@ -2135,8 +2148,9 @@ sub process_body($$) {
+>      }
+>  
+>      if (/$doc_sect/i) { # case insensitive for supported section names
+> +	my $spaces = "$1$2";
+>  	$newsection = $1;
+> -	$newcontents = $2;
+> +	$newcontents = $3;
+>  
+>  	# map the supported section names to the canonical names
+>  	if ($newsection =~ m/^description$/i) {
+> @@ -2161,11 +2175,20 @@ sub process_body($$) {
+>  
+>  	$in_doc_sect = 1;
+>  	$state = STATE_BODY;
+> -	$contents = $newcontents;
+>  	$new_start_line = $.;
+> -	while (substr($contents, 0, 1) eq " ") {
+> -	    $contents = substr($contents, 1);
+> +
+> +	if ($newsection =~ m/(return|note)/i) {
+> +	    $spaces =~ s/\S/ /g;
+> +	    $newcontents = $spaces . $newcontents;
+> +	    $newcontents =~ s/^\s+$//;
+> +	    $contents = $newcontents;
+> +	} else {
+> +	    $contents = $newcontents;
+> +	    while (substr($newcontents, 0, 1) eq " ") {
+> +		$newcontents = substr($newcontents, 1);
+> +	    }
+>  	}
+> +
+>  	if ($contents ne "") {
+>  	    $contents .= "\n";
+>  	}
+> 
+> 
+
+
+-- 
+~Randy
+
