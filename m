@@ -2,103 +2,107 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F51C4741F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6174BC4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:51:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00A7E20A8B
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:47:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C29320A8B
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 15:51:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgJ3Prz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 11:47:55 -0400
-Received: from foss.arm.com ([217.140.110.172]:38052 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726384AbgJ3Prz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:47:55 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70122139F;
-        Fri, 30 Oct 2020 08:47:54 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.53.28])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 164E83F719;
-        Fri, 30 Oct 2020 08:47:47 -0700 (PDT)
-Date:   Fri, 30 Oct 2020 15:47:45 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Marco Elver <elver@google.com>
-Cc:     akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
-        paulmck@kernel.org, andreyknvl@google.com, aryabinin@virtuozzo.com,
-        luto@kernel.org, bp@alien8.de, catalin.marinas@arm.com,
-        cl@linux.com, dave.hansen@linux.intel.com, rientjes@google.com,
-        dvyukov@google.com, edumazet@google.com,
-        gregkh@linuxfoundation.org, hdanton@sina.com, mingo@redhat.com,
-        jannh@google.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
-        iamjoonsoo.kim@lge.com, joern@purestorage.com,
-        keescook@chromium.org, penberg@kernel.org, peterz@infradead.org,
-        sjpark@amazon.com, tglx@linutronix.de, vbabka@suse.cz,
-        will@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: [PATCH v6 3/9] arm64, kfence: enable KFENCE for ARM64
-Message-ID: <20201030154745.GD50718@C02TD0UTHF1T.local>
-References: <20201029131649.182037-1-elver@google.com>
- <20201029131649.182037-4-elver@google.com>
+        id S1727134AbgJ3Pv2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 11:51:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47740 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726384AbgJ3Pv2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 11:51:28 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99572C0613CF
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 08:51:28 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 303942E7;
+        Fri, 30 Oct 2020 15:51:28 +0000 (UTC)
+Date:   Fri, 30 Oct 2020 09:51:27 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        "=?UTF-8?B?TsOtY29s?= =?UTF-8?B?YXM=?= F. R. A. Prado" 
+        <nfraprado@protonmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: [PATCH RFC] docs: fix automarkup regression on Python 2
+Message-ID: <20201030095127.70f19d75@lwn.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201029131649.182037-4-elver@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 02:16:43PM +0100, Marco Elver wrote:
-> Add architecture specific implementation details for KFENCE and enable
-> KFENCE for the arm64 architecture. In particular, this implements the
-> required interface in <asm/kfence.h>.
-> 
-> KFENCE requires that attributes for pages from its memory pool can
-> individually be set. Therefore, force the entire linear map to be mapped
-> at page granularity. Doing so may result in extra memory allocated for
-> page tables in case rodata=full is not set; however, currently
-> CONFIG_RODATA_FULL_DEFAULT_ENABLED=y is the default, and the common case
-> is therefore not affected by this change.
-> 
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Co-developed-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
-> v5:
-> * Move generic page allocation code to core.c [suggested by Jann Horn].
-> * Remove comment about HAVE_ARCH_KFENCE_STATIC_POOL, since we no longer
->   support static pools.
-> * Force page granularity for the linear map [suggested by Mark Rutland].
-> ---
->  arch/arm64/Kconfig              |  1 +
->  arch/arm64/include/asm/kfence.h | 19 +++++++++++++++++++
->  arch/arm64/mm/fault.c           |  4 ++++
->  arch/arm64/mm/mmu.c             |  7 ++++++-
->  4 files changed, 30 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm64/include/asm/kfence.h
-> 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index f858c352f72a..2f8b32dddd8b 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -135,6 +135,7 @@ config ARM64
->  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
->  	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
->  	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
-> +	select HAVE_ARCH_KFENCE if (!ARM64_16K_PAGES && !ARM64_64K_PAGES)
+It turns out that the Python 2 re module lacks the ASCII flag, so don't try
+to use it there.
 
-Why does this depend on the page size?
+Fixes: f66e47f98c1e ("docs: automarkup.py: Fix regexes to solve sphinx 3 warnings")
+Reported-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/sphinx/automarkup.py | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-If this is functional, but has a larger overhead on 16K or 64K, I'd
-suggest removing the dependency, and just updating the Kconfig help text
-to explain that.
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+index 409dbc4100de..3e81ebab26ed 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -15,6 +15,14 @@ else:
+ import re
+ from itertools import chain
+ 
++#
++# Python 2 lacks re.ASCII...
++#
++try:
++    ascii_p3 = re.ASCII
++except AttributeError:
++    ascii_p3 = 0
++
+ #
+ # Regex nastiness.  Of course.
+ # Try to identify "function()" that's not already marked up some
+@@ -22,22 +30,22 @@ from itertools import chain
+ # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
+ # bit tries to restrict matches to things that won't create trouble.
+ #
+-RE_function = re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=re.ASCII)
++RE_function = re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=ascii_p3)
+ 
+ #
+ # Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
+ #
+ RE_generic_type = re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_]\w+)',
+-                             flags=re.ASCII)
++                             flags=ascii_p3)
+ 
+ #
+ # Sphinx 3 uses a different C role for each one of struct, union, enum and
+ # typedef
+ #
+-RE_struct = re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+-RE_union = re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+-RE_enum = re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+-RE_typedef = re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
++RE_struct = re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
++RE_union = re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
++RE_enum = re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
++RE_typedef = re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
+ 
+ #
+ # Detects a reference to a documentation page of the form Documentation/... with
+-- 
+2.26.2
 
-Otherwise, this patch looks fine to me.
-
-Thanks,
-Mark.
