@@ -2,64 +2,64 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52009C2D0A3
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:49:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C23DBC4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:49:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB42C2087D
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:49:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63CF120782
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 02:49:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SUW+4c/G"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hvIenZ/1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbgJ3Ctu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Oct 2020 22:49:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39156 "EHLO
+        id S1726204AbgJ3Ctz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Oct 2020 22:49:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbgJ3Ctt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 22:49:49 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E77C0613CF
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:49:48 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id a9so5979246lfc.7
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:49:48 -0700 (PDT)
+        with ESMTP id S1725861AbgJ3Ctz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Oct 2020 22:49:55 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF01C0613D2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:49:54 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id 23so5334271ljv.7
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2020 19:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=iyTdtZ1FYlfsFiUutt0GVS7r1yGxXmwfsMwCFfiA6Mo=;
-        b=SUW+4c/GNE2jYgqJQV5kCIdiJARuhagFhX6ggUAoYxWGbqSqx02k4o9Tbnm3CNpKFs
-         FF3l0+3VB4TT6FMDYhi8KoTZnmVhyAbOsiYPc2Bzhqu3IkAa+nt2nmOuGJNcaOoeFFmH
-         eImGHLnDZLkLEAwPK9vvuFXDgePNGK/8A91nKOP3jpox4HFLofcCdk+6+QhiVVmuN0nV
-         MZ6YymaPmdL9ktRdNMeFZfQ9UpwoeXvweWZv24EzEw5oxsjbIJrrzW8NPseQLz2KIB0S
-         kvTPc+Ur9VsGUKlMApEFPWvIkmBYzIGWhA62E8vNbVv/qjnouitKYK9OQtDpL3SCfgQc
-         wFMA==
+        bh=U5VSV5EOvuuPrA9xNEsowWeAohxv+a7+9KVx3Owvda8=;
+        b=hvIenZ/1jqtu8F4Mb0B2dqX3Djjzd9dPzPPm8fbk2Mwd/NiwUcIzSfqkEPHxiORqR4
+         +aIvclP1ZbKKnv1jUCg3tzYc1GiM+hF5IUs+OyqfQTZGlXr41lEV7y2wJ1kdGO2BiXSB
+         CKLDb8KGnWVabTZglW8tiyCFheuiAIuURPJ3/ELAuGlWcjQkQcVSyidXoFP60SqKgX3z
+         tH+yqOICZSjxMeDIYwrUjgqaMnrV0SnB8jWmiQrNeNpYXJtm9WinMf3SuKfo3NvBCNlv
+         9Mnu1Jv1KkGDPn/5sd9AUaPRKa0PB7F2Oy/sF9S4C1kUCxmLNOD4HhVn5Xig2k+O/kSY
+         LxOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iyTdtZ1FYlfsFiUutt0GVS7r1yGxXmwfsMwCFfiA6Mo=;
-        b=SyAZnUSsdAYBNmDO+R4jxJjCB5HXGcVM4nvQ4tXDJoOq7HJmNWhwXplV8+QRm8NnCu
-         sKXczhRVhZnzU+lTAEX23ozG/H4XD7o0dzl0IQ0QY8TtU832lgEknakMLjqJCVLYRI5w
-         yxAEabeWckDT7LerzYLotOxI1EOVlmbvow4uSQBL6fJtiF7APY/u6jnp4fUCv9n0UjRG
-         WZQapGeXHiVZuRR/gEtvAODGMNpVoNUgdwDV2uY6dI86/jvzGh4npNwVzB0hIR2WDyr/
-         XRqGgmx4ryNB4+uwYwA4HEBwuWIQDkLBf8WACPOaMFtKHjUIuhZRAI/EssBz7uNSP76P
-         93Vg==
-X-Gm-Message-State: AOAM531TLrbFVyuR6ZAjjNxv4WOts6ehQRwOXrAz0wHR1HGSAixrN3qR
-        roAgLvdw9FXEEKYUdIQYYMzt+RgOzxnXUW39nBDnRg==
-X-Google-Smtp-Source: ABdhPJz0jmO93efSvKGBuuwFlhC4NS3zSciN4aPqYzgeBthjdtsZqkNkjTWffgFn28Gq3ZSltgk0QyJUydfGIqk06xw=
-X-Received: by 2002:a19:ef07:: with SMTP id n7mr22380lfh.482.1604026186911;
- Thu, 29 Oct 2020 19:49:46 -0700 (PDT)
+        bh=U5VSV5EOvuuPrA9xNEsowWeAohxv+a7+9KVx3Owvda8=;
+        b=McSLpJIelCPSm8n3NVo+BE9+jUdTueDX3slp39UUCoV/1CyRZclcmXU/WDPtjfkGr+
+         ihlNYDqGKSwnZxTk0IHYfufVIdlMynbLnvLra7C67c2c0BhCqTbKX+ZfUGX1+gmOrTVI
+         7fiiwzq10V1tQvA8MLX8I9XvHLkgqovhBkWEn9OeYnbRD3AAeTfjZf1ECgsBwC2+8cb7
+         eEifLs9N6g7bVdOcx1+Y3RcHEGyNT+kRUPuIrt/bEFlvEWiumjsXtK9ZnVm7GASkaw9D
+         0nKQQcthhdzQKRzU7LKEtu7n/dOyWgamUy5ULoqZiKFop4nM2obxRpBfttLVHdZNoPk1
+         n2qQ==
+X-Gm-Message-State: AOAM533DIcUkLlLO1VthW57u1jxN4YG6TFUYXXvr9qE5X1ZXDgLQkMTV
+        CPtE7WEfY8l2GP45U23QQFLGzeAf4JGMjMFNzRMB0A==
+X-Google-Smtp-Source: ABdhPJy5BCp9b2onPlMEzZvXxzY2+7KT6JF4Piv/BGIOWQ/jH5h8osPXMpnQh5s0vTKqhfe/Bc0g9m3Dzk03z8KGets=
+X-Received: by 2002:a2e:8816:: with SMTP id x22mr82450ljh.377.1604026192956;
+ Thu, 29 Oct 2020 19:49:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-3-elver@google.com>
-In-Reply-To: <20201029131649.182037-3-elver@google.com>
+References: <20201029131649.182037-1-elver@google.com> <20201029131649.182037-4-elver@google.com>
+In-Reply-To: <20201029131649.182037-4-elver@google.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Fri, 30 Oct 2020 03:49:19 +0100
-Message-ID: <CAG48ez1n7FrRA8Djq5685KcUJp1YgW0qijtBYNm2c9ZqQ1M4rw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/9] x86, kfence: enable KFENCE for x86
+Date:   Fri, 30 Oct 2020 03:49:26 +0100
+Message-ID: <CAG48ez11T4gXHkhgnM7eWc1EJQ5u7NQup4ADy75c1uUVPeWGSg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/9] arm64, kfence: enable KFENCE for ARM64
 To:     Marco Elver <elver@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
@@ -102,60 +102,40 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Oct 29, 2020 at 2:17 PM Marco Elver <elver@google.com> wrote:
 > Add architecture specific implementation details for KFENCE and enable
-> KFENCE for the x86 architecture. In particular, this implements the
-> required interface in <asm/kfence.h> for setting up the pool and
-> providing helper functions for protecting and unprotecting pages.
+> KFENCE for the arm64 architecture. In particular, this implements the
+> required interface in <asm/kfence.h>.
 >
-> For x86, we need to ensure that the pool uses 4K pages, which is done
-> using the set_memory_4k() helper function.
->
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
+> KFENCE requires that attributes for pages from its memory pool can
+> individually be set. Therefore, force the entire linear map to be mapped
+> at page granularity. Doing so may result in extra memory allocated for
+> page tables in case rodata=full is not set; however, currently
+> CONFIG_RODATA_FULL_DEFAULT_ENABLED=y is the default, and the common case
+> is therefore not affected by this change.
 [...]
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
 [...]
-> @@ -725,6 +726,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
->         if (IS_ENABLED(CONFIG_EFI))
->                 efi_recover_from_page_fault(address);
+> +       select HAVE_ARCH_KFENCE if (!ARM64_16K_PAGES && !ARM64_64K_PAGES)
+
+"if ARM64_4K_PAGES"?
+
+[...]
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+[...]
+> @@ -312,6 +313,9 @@ static void __do_kernel_fault(unsigned long addr, unsigned int esr,
+>             "Ignoring spurious kernel translation fault at virtual address %016lx\n", addr))
+>                 return;
 >
-> +       if (kfence_handle_page_fault(address))
+> +       if (kfence_handle_page_fault(addr))
 > +               return;
 
-We can also get to this point due to an attempt to execute a data
-page. That's very unlikely (given that the same thing would also crash
-if you tried to do it with normal heap memory, and KFENCE allocations
-are extremely rare); but we might want to try to avoid handling such
-faults as KFENCE faults, since KFENCE will assume that it has resolved
-the fault and retry execution of the faulting instruction. Once kernel
-protection keys are introduced, those might cause the same kind of
-trouble.
-
-So we might want to gate this on a check like "if ((error_code &
-X86_PF_PROT) == 0)" (meaning "only handle the fault if the fault was
-caused by no page being present", see enum x86_pf_error_code).
-
-
-Unrelated sidenote: Since we're hooking after exception fixup
-handling, the debug-only KFENCE_STRESS_TEST_FAULTS can probably still
-cause some behavioral differences through spurious faults in places
-like copy_user_enhanced_fast_string (where the exception table entries
-are used even if the *kernel* pointer, not the user pointer, causes a
-fault). But since KFENCE_STRESS_TEST_FAULTS is exclusively for KFENCE
-development, the difference might not matter. And ordering them the
-other way around definitely isn't possible, because the kernel relies
-on being able to fixup OOB reads. So there probably isn't really
-anything we can do better here; it's just something to keep in mind.
-Maybe you can add a little warning to the help text for that Kconfig
-entry that warns people about this?
+As in the X86 case, we may want to ensure that this doesn't run for
+permission faults, only for non-present pages. Maybe move this down
+into the third branch of the "if" block below (neither permission
+fault nor NULL deref)?
 
 
 
 > +
->  oops:
->         /*
->          * Oops. The kernel tried to access some bad page. We'll have to
-> --
-> 2.29.1.341.ge80a0c044ae-goog
->
+>         if (is_el1_permission_fault(addr, esr, regs)) {
+>                 if (esr & ESR_ELx_WNR)
+>                         msg = "write to read-only memory";
