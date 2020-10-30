@@ -2,159 +2,132 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F38C4363A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:19:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E87DC4741F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:33:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91D01221EB
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:19:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F7D8206D4
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 14:33:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604067576;
-	bh=IvxDEHweFp2efRJhOUMWQE0L08hytg3HwZCxZxPTYT0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ScPLVFx+M7NLKIqJvWbG5ZKDlkkCKbidl96QdkMbNUZ/lEdYqHZteQLS7+GzwYtgQ
-	 xPZwKoQVbtZIbDHFeKo5HMcg1HTnUjXmRX4LnUOSbiMC+4Bp4DBS26bLODGfR8hwLb
-	 gXhKPSafOb+s6DQMjqm6KjeKpTbzh2nKJhq6psh4=
+	s=default; t=1604068431;
+	bh=xZ9yHsuB2hPXuy3JqC/OE4gG5VHhflemNQJjmVCIeog=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=JKFD2NkomWsVsv7JUX3/PN0SD5oPBCJ+H0kgqmXpef+NBCgZtNgVjVlNkrb0zvFbi
+	 Asb6qI2v1I1AGj2vigaUF+FjR4x/4VNsj4lADeHRaPuI78qzVSv+u9DBVBdwOnGCix
+	 dRN/7C4XmLDZ/BQNrgTw5hRvMWqjqqatvePyiRmI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbgJ3OTg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 10:19:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58058 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725975AbgJ3OTg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 10:19:36 -0400
-Received: from mail.kernel.org (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A1FAD2076E;
-        Fri, 30 Oct 2020 14:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604067574;
-        bh=IvxDEHweFp2efRJhOUMWQE0L08hytg3HwZCxZxPTYT0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=03sa/iIctBfY09k9N5sWYiZ5/mJ92P3xx8LXlxp6vguzqfeTPz5g6qkyKqKu1+qeb
-         CrW7gQC9R25aSBFsBHb+NZb73RPkPt4dMwrB8aA6MzyKY2YYT1wNRDGTUdzbOxSbqv
-         E41IXBuaNdghgdg5Gd6+FuUK/CH90/gg8l9LZsWg=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kYVFb-004TfQ-3S; Fri, 30 Oct 2020 15:19:31 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH RFC] scripts: kernel-doc: better handle spaces after section markups
-Date:   Fri, 30 Oct 2020 15:19:29 +0100
-Message-Id: <e4d09fabc22c6b62a485779966d4022afbfbdee5.1604067396.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201030150019.1cc6db7d@coco.lan>
-References: <20201030150019.1cc6db7d@coco.lan>
+        id S1726178AbgJ3Odu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 10:33:50 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:44320 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725939AbgJ3Odu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 10:33:50 -0400
+Received: by mail-oi1-f196.google.com with SMTP id k27so6810445oij.11;
+        Fri, 30 Oct 2020 07:33:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7uDnmH/1wuwyzpYaFsPZUp73EW9NEF1HmJXwYciKPjU=;
+        b=i1cqH6JZn+iFmtl8lmxDn/teyQwqlESAKOQYnnYGVjEEVdI7HvUJKRPofbSQjShlN8
+         3XBF+qgafdUiNteawUvQxZdhjw8FEU+0MMWALaQLZp2CLXMeqi3P/sNWWY7MmIJsWKxw
+         7Yd0LiRcuWgr78+aATrGfYGI3a4Fq5GHDCyZGuTwSAQqxivTH90ZeoOiecOh1plD2AAn
+         JWMeFPlzX5Mi5kuwFC3j6LMnW5y9kR7iIYmu6espu1k34KieKigNyHHbJ3KqpKp42Lbc
+         WWaRjUWEjpjCsePfw5ASbDp79bJOwgcxbEwjFIpMiE40XliAv4+7CimYi1UdYbnQZ5uZ
+         Ge/g==
+X-Gm-Message-State: AOAM532wvMzrmue83sYJg7LI77ptOEsYsg9dmJshDwcyClraMxKTpvEm
+        TxEel1qCnEfv2LdEgVkikDZGkzSToRjUvT4ivVQ=
+X-Google-Smtp-Source: ABdhPJwoigk8hKZ9PUi2XNypHmQ2bImzkHi3fJBeQ7mfChhlYaxX/LbtQsfYuKpRTsGfxrIrOtNC9ztZDCv9sX0Z5hE=
+X-Received: by 2002:aca:30d7:: with SMTP id w206mr1833906oiw.69.1604068428127;
+ Fri, 30 Oct 2020 07:33:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1604042072.git.mchehab+huawei@kernel.org> <f56daf94b80f1051438e8c787ba04552adb66e67.1604042072.git.mchehab+huawei@kernel.org>
+In-Reply-To: <f56daf94b80f1051438e8c787ba04552adb66e67.1604042072.git.mchehab+huawei@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 30 Oct 2020 15:33:36 +0100
+Message-ID: <CAJZ5v0jM7Q-kozwSp9-EoZv8BUqbys2SmFoCizOJOSHbE-Bfeg@mail.gmail.com>
+Subject: Re: [PATCH v2 27/39] docs: ABI: convert testing/configfs-acpi to ReST
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Better handle things like:
+On Fri, Oct 30, 2020 at 8:42 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> There are some problems with this file when a ReST content
+> is produced. Fix it.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-	* Return: foo
-	*         description
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+and I assume this to go in via the documentation tree.
 
-I already posted this as part of a reply to Randy/Matthew.
-
-As said there, I only did a fast check here, in order to verify if it
- won't be producing additional warnings. I didn't check the html
-output. Just the resulting ReST from kernel-doc and the
-"make htmldocs" warnings.
-
-Yet, let me post in separate, just in case someone has enough
-time/bandwidth to test if this is working properly and it is not
-causing regressions.
-
-Feel free to either use, modify or drop it ;-)
-
- scripts/kernel-doc | 33 ++++++++++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 5 deletions(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f699cf05d409..a91a2420cccf 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -389,7 +389,7 @@ my $doc_com_body = '\s*\* ?';
- my $doc_decl = $doc_com . '(\w+)';
- # @params and a strictly limited set of supported section names
- my $doc_sect = $doc_com .
--    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
-+    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)(\s*:)(.*)';
- my $doc_content = $doc_com_body . '(.*)';
- my $doc_block = $doc_com . 'DOC:\s*(.*)?';
- my $doc_inline_start = '^\s*/\*\*\s*$';
-@@ -865,8 +865,21 @@ sub output_highlight_rst {
-     my $in_literal = 0;
-     my $litprefix;
-     my $block = "";
-+    my $spaces = "";
-+    my $first = 1;
- 
-     foreach $line (split "\n",$input) {
-+        if ($first) {
-+		$spaces = $1 if ($line =~ (m/^(\s+)/));
-+		$first = 0;
-+        }
-+
-+        if ($spaces ne "") {
-+		if (!($line =~ s/^$spaces//)) {
-+		    $spaces = "";
-+		}
-+        }
-+
- 	#
- 	# If we're in a literal block, see if we should drop out
- 	# of it.  Otherwise pass the line straight through unmunged.
-@@ -2135,8 +2148,9 @@ sub process_body($$) {
-     }
- 
-     if (/$doc_sect/i) { # case insensitive for supported section names
-+	my $spaces = "$1$2";
- 	$newsection = $1;
--	$newcontents = $2;
-+	$newcontents = $3;
- 
- 	# map the supported section names to the canonical names
- 	if ($newsection =~ m/^description$/i) {
-@@ -2161,11 +2175,20 @@ sub process_body($$) {
- 
- 	$in_doc_sect = 1;
- 	$state = STATE_BODY;
--	$contents = $newcontents;
- 	$new_start_line = $.;
--	while (substr($contents, 0, 1) eq " ") {
--	    $contents = substr($contents, 1);
-+
-+	if ($newsection =~ m/(return|note)/i) {
-+	    $spaces =~ s/\S/ /g;
-+	    $newcontents = $spaces . $newcontents;
-+	    $newcontents =~ s/^\s+$//;
-+	    $contents = $newcontents;
-+	} else {
-+	    $contents = $newcontents;
-+	    while (substr($newcontents, 0, 1) eq " ") {
-+		$newcontents = substr($newcontents, 1);
-+	    }
- 	}
-+
- 	if ($contents ne "") {
- 	    $contents .= "\n";
- 	}
--- 
-2.26.2
-
-
+> ---
+>  Documentation/ABI/testing/configfs-acpi | 34 ++++++++++++++++++-------
+>  1 file changed, 25 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/configfs-acpi b/Documentation/ABI/testing/configfs-acpi
+> index 4ab4e99aa863..c09b640c3cb1 100644
+> --- a/Documentation/ABI/testing/configfs-acpi
+> +++ b/Documentation/ABI/testing/configfs-acpi
+> @@ -14,7 +14,8 @@ Description:
+>                 This group contains the configuration for user defined ACPI
+>                 tables. The attributes of a user define table are:
+>
+> -               aml             - a binary attribute that the user can use to
+> +               aml
+> +                             - a binary attribute that the user can use to
+>                                 fill in the ACPI aml definitions. Once the aml
+>                                 data is written to this file and the file is
+>                                 closed the table will be loaded and ACPI devices
+> @@ -26,11 +27,26 @@ Description:
+>                 The rest of the attributes are read-only and are valid only
+>                 after the table has been loaded by filling the aml entry:
+>
+> -               signature       - ASCII table signature
+> -               length          - length of table in bytes, including the header
+> -               revision        - ACPI Specification minor version number
+> -               oem_id          - ASCII OEM identification
+> -               oem_table_id    - ASCII OEM table identification
+> -               oem_revision    - OEM revision number
+> -               asl_compiler_id - ASCII ASL compiler vendor ID
+> -               asl_compiler_revision - ASL compiler version
+> +               signature
+> +                               - ASCII table signature
+> +
+> +               length
+> +                               - length of table in bytes, including the header
+> +
+> +               revision
+> +                               - ACPI Specification minor version number
+> +
+> +               oem_id
+> +                               - ASCII OEM identification
+> +
+> +               oem_table_id
+> +                               - ASCII OEM table identification
+> +
+> +               oem_revision
+> +                               - OEM revision number
+> +
+> +               asl_compiler_id
+> +                               - ASCII ASL compiler vendor ID
+> +
+> +               asl_compiler_revision
+> +                               - ASL compiler version
+> --
+> 2.26.2
+>
