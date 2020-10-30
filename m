@@ -2,184 +2,226 @@ Return-Path: <SRS0=p3aP=EF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF61C64E7A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 10:10:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 238B6C4363A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 10:18:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90427221FA
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 10:10:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604052602;
-	bh=nY70Min4E7MUGYz9J7zA0EKOEj/k9pNAzXLi2/4ZMkk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=oCxB7INv9nwox9Y/S8h2y0DgckGz3VaKTR8BQF6rSbWvRS6dFHloOurw8+Q0qt0Qo
-	 RUkyKM/VLw4whCDm6Tb77B/RNWzdwGKIObG79zJIM3frJEPPGmqfTxJJNFy2cgocp7
-	 bq/Kcu7/tufHu0m0TwnZbap5yYEtZOXC74Qi2LwY=
+	by mail.kernel.org (Postfix) with ESMTP id A55A420825
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Oct 2020 10:18:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xNIZ8cVB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726592AbgJ3KJw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Oct 2020 06:09:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48572 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726482AbgJ3KJt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Oct 2020 06:09:49 -0400
-Received: from coco.lan (unknown [95.90.213.187])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D913322210;
-        Fri, 30 Oct 2020 10:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604052587;
-        bh=nY70Min4E7MUGYz9J7zA0EKOEj/k9pNAzXLi2/4ZMkk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UNBtt1Tx2c8WK/B9Q0efliEgvZY5yYooQin4TVgBsznntS8ZFwkniWxmzY7RzT79m
-         oK9xtt1aioR8FC0aS3pTXQ0Xn3bEUZCk6NmIqh/YY+rYfGes9W0TlZNagZzinCUs9H
-         0mgCmN5om/0DWDTaU4Jmu0IJpLLZxtrFVkEu873I=
-Date:   Fri, 30 Oct 2020 11:09:25 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Fabrice Gasnier <fabrice.gasnier@st.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Javier =?UTF-8?B?R29uesOhbGV6?= <javier@javigon.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Benson Leung <bleung@chromium.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Bruno Meneguele <bmeneg@redhat.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Konstantin Khlebnikov <koct9i@gmail.com>,
-        Kranthi Kuntala <kranthi.kuntala@intel.com>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Len Brown <lenb@kernel.org>,
-        Leonid Maksymchuk <leonmaxx@gmail.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Nayna Jain <nayna@linux.ibm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Oleh Kravchenko <oleg@kaa.org.ua>,
-        Orson Zhai <orsonzhai@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Peter Rosin <peda@axentia.se>, Petr Mladek <pmladek@suse.com>,
-        Philippe Bergheaud <felix@linux.ibm.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        <linux-acpi@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-pm@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-usb@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <netdev@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 20/39] docs: ABI: testing: make the files compatible
- with ReST output
-Message-ID: <20201030110925.3e09d59e@coco.lan>
-In-Reply-To: <5326488b-4185-9d67-fc09-79b911fbb3b8@st.com>
-References: <cover.1604042072.git.mchehab+huawei@kernel.org>
-        <58cf3c2d611e0197fb215652719ebd82ca2658db.1604042072.git.mchehab+huawei@kernel.org>
-        <5326488b-4185-9d67-fc09-79b911fbb3b8@st.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726277AbgJ3KSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Oct 2020 06:18:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52068 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726171AbgJ3KSu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Oct 2020 06:18:50 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 995EEC0613D8
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 03:18:49 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id l8so2422191wmg.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2020 03:18:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9QnPAe/9TEZoI6Lq3d/QkgDd9m9jvfSBzhcmPvWbSw4=;
+        b=xNIZ8cVBFbQ6bdjtq0Hmby0tUGqrogQ55WzB1NVugGBAxs6/uT7n7bTbHZG26skP/6
+         vlBkhqQR3eH1Jh1mHIOKSojs8X8EfyS4S5Ck3WuvfBx1L89a7KWXB1WgMOpYcxRRC805
+         I8j5s11o2aY3ulzx31MvrsaxIp5/9ov5SiZtTelhDB/pbex1AhTA5GLWYI5Z0McJChPO
+         6MSvuxHNMhRWEGuowKnaPUgqPITviOE1D8Qtsg/3XDpv4nDGSkZ1i1Rw2Eg5Ycwrc1IC
+         nZKvLRX+YDV7cPfrsoulWOqh6TJHwmx7YwkkL5kkvarpIlary1jzpnkRuyFGG4A0wPnn
+         7PRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9QnPAe/9TEZoI6Lq3d/QkgDd9m9jvfSBzhcmPvWbSw4=;
+        b=c3tBLZ/oMMtbxJ8T09Ap0oxNke3AET6puVVfBygLpz5N0XPTGwH/uaGe4aZlc6jSDI
+         mlyNxoYEZwzM9VOYAUHO9RVsgPdDEUzlr2IbV3OMM9eKZAt1x2BkeVb5Roolbb/ty6RW
+         hb9RiEmex26q83yHtiPJt2RD0DuojBK18C0T6JvlF+EK1yyXKtgNWjKlA47ObZmOZcdZ
+         dmFxEiyQgap3k1+SGUHfHHFVUFG/8OnHFKhmFNIiIctGg0TqvGsbhnrAnZRqf3e6YY3K
+         8XKnac7NIfJuHNeE8593MmF0BzDzGmqo10vUpFq9WwrEhAx/AL+AZT+73Wwxix8ZmZap
+         OIHA==
+X-Gm-Message-State: AOAM533sf199O1jBCm0hSGib5vp07EwVoan/hh/yPN7wQlWKKTUKt/on
+        rFFgO/J/jaLEVYFyDC7QU9BRGg==
+X-Google-Smtp-Source: ABdhPJzmWJXNv2J4SwRd2WDFh46KarNhPjy8eGcF6DQVOctpW3uaD4eXLFO5VUk+d7zrIy//n4cEUA==
+X-Received: by 2002:a1c:1d51:: with SMTP id d78mr1755124wmd.60.1604053128250;
+        Fri, 30 Oct 2020 03:18:48 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+        by smtp.gmail.com with ESMTPSA id r28sm10482662wrr.81.2020.10.30.03.18.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 03:18:47 -0700 (PDT)
+Date:   Fri, 30 Oct 2020 11:18:27 +0100
+From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
+To:     Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc:     Jacob Pan <jacob.pan.linux@gmail.com>,
+        iommu@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Yi Liu <yi.l.liu@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
+        Yi Sun <yi.y.sun@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 01/14] docs: Document IO Address Space ID (IOASID) APIs
+Message-ID: <20201030101827.GB122147@myrica>
+References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1601329121-36979-2-git-send-email-jacob.jun.pan@linux.intel.com>
+ <20201020135809.GA1515830@myrica>
+ <20201026140506.1349dbb5@jacob-builder>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201026140506.1349dbb5@jacob-builder>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 30 Oct 2020 10:19:12 +0100
-Fabrice Gasnier <fabrice.gasnier@st.com> escreveu:
+On Mon, Oct 26, 2020 at 02:05:06PM -0700, Jacob Pan wrote:
+> > This looks good to me, with small comments below.
+> > 
+> Can I add your Reviewed-by tag after addressing the comments?
 
-> Hi Mauro,
+Yes sure, this took forever to review so I'm happy not to do another pass :)
+
+
+> > > +Each IOASID set is created with a token, which can be one of the
+> > > +following token types:
+> > > +
+> > > + - IOASID_SET_TYPE_NULL (Arbitrary u64 value)  
+> > 
+> > Maybe NULL isn't the best name then. NONE?
+> > 
+> Agreed, 'NONE' makes more sense.
+
+Although patch 5 only allows a NULL token for this type. So the name seems
+fine, you could just fix this description.
+
+
+> > > +IOASID core has the notion of "custom allocator" such that guest can
+> > > +register virtual command allocator that precedes the default one.  
+> > 
+> > "Supersedes", rather than "precedes"?
+> > 
+> My understanding is that 'supersede' means replace something but 'precede'
+> means get in front of something. I do want to emphasis that the custom
+> allocator takes precedence over the default allocator.
+
+Right it's ambiguous. The custom allocator does entirely replace the
+allocation action, but the default one is still used for storage. Anyway,
+you can leave this.
+
+
+> > > +Let's examine the IOASID life cycle again when free happens *before*
+> > > +unbind. This could be a result of misbehaving guests or crash. Assuming
+> > > +VFIO cannot enforce unbind->free order. Notice that the setup part up
+> > > +until step #12 is identical to the normal case, the flow below starts
+> > > +with step 13.
+> > > +
+> > > +::
+> > > +
+> > > +     VFIO        IOMMU        KVM        VDCM        IOASID       Ref
+> > > +   ..................................................................
+> > > +   13 -------- GUEST STARTS DMA --------------------------
+> > > +   14 -------- *GUEST MISBEHAVES!!!* ----------------
+> > > +   15 ioasid_free()
+> > > +   16                                             ioasid_notify(FREE)
+> > > +   17                                             mark_free_pending
+> > > (1)  
+> > 
+> > Could we use superscript ¹²³⁴ for footnotes? These look like function
+> > parameters
+> > 
+> yes, much better
 > 
-> [...]
+> > > +   18                          kvm_nb_handler(FREE)
+> > > +   19                          vmcs_update_atomic()
+> > > +   20                          ioasid_put_locked()   ->           3
+> > > +   21                                   vdcm_nb_handler(FREE)
+> > > +   22            iomm_nb_handler(FREE)  
+> > 
+> > iommu_nb_handler
+> > 
+> got it
 > 
-> >  
-> > +What:		/sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
-> > +KernelVersion:	4.12
-> > +Contact:	benjamin.gaignard@st.com
-> > +Description:
-> > +		Reading returns the list possible quadrature modes.
-> > +
-> > +What:		/sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode
-> > +KernelVersion:	4.12
-> > +Contact:	benjamin.gaignard@st.com
-> > +Description:
-> > +		Configure the device counter quadrature modes:
-> > +
-> > +		channel_A:
-> > +			Encoder A input servers as the count input and B as
-> > +			the UP/DOWN direction control input.
-> > +
-> > +		channel_B:
-> > +			Encoder B input serves as the count input and A as
-> > +			the UP/DOWN direction control input.
-> > +
-> > +		quadrature:
-> > +			Encoder A and B inputs are mixed to get direction
-> > +			and count with a scale of 0.25.
-> > +  
+> > > +   23 ioasid_free() returns(2)          schedule_work()           2  
+> > 
+> > I completely lost track here, couldn't figure out in which direction to
+> > read the diagram. What work is scheduled?
+> The time line goes downward but we only control the notification order in
+> terms of when the events are received. Some completions are async thus out
+> of order done by work items. The only in-order completion is the KVM update
+> of its PASID translation table.
 > 
-
-Hi Fabrice,
-
-> I just noticed that since Jonathan question in v1.
+> After #23, the async works are scheduled to complete clean up work outside
+> the spinlock(held by the caller of the atomic notifier).
 > 
-> Above ABI has been moved in the past as discussed in [1]. You can take a
-> look at:
-> b299d00 IIO: stm32: Remove quadrature related functions from trigger driver
+> Any suggestions to improve the readability of the time line?
+
+Maybe explain what happens from line 23: ioasid_free() schedules... a FREE
+notification? Which happens on line 24 (corresponding to the second
+schedule_work()?) and is handled by (a) VDCM to clear the device context
+and (b) IOMMU to clear the PASID context, both ending up dropping their
+ref.
+
 > 
-> Could you please remove the above chunk ?
+> > Why does the IOMMU driver drop
+> > its reference to the IOASID before unbdind_gpasid()?
+> > 
+> This is the exception case where userspace issues IOASID free before
+> unbind_gpasid(). The equivalent of unbind is performed in the IOASID_FREE
+> notification handler. In IOASID_FREE handler, reference is dropped and
+> private data deleted. After that, if unbind comes to IOMMU driver, it will
+> not find IOASID private data therefore just return.
+
+Right ok. As you noted below the damage is caused by and limited to the
+guest, so I think it's fine.
+
 > 
-> With that, for the stm32 part:
-> Acked-by: Fabrice Gasnier <fabrice.gasnier@st.com>
+> > > +   24            schedule_work()        vdev_clear_wk(hpasid)
+> > > +   25            teardown_pasid_wk()
+> > > +   26                                   ioasid_put() ->           1
+> > > +   27            ioasid_put()                                     0
+> > > +   28                                                 Reclaimed
+> > > +   29 unbind_gpasid()
+> > > +   30            iommu_unbind()->ioasid_find() Fails(3)
+> > > +   -------------- New Life Cycle Begin ----------------------------
+> > > +
+> > > +Note:
+> > > +
+> > > +1. By marking IOASID FREE_PENDING at step #17, no new references can be
+> > > +   held. ioasid_get/find() will return -ENOENT;  
+> > 
+> > s/held/taken
+> > 
+> Got it.
+> 
+> > Thanks,
+> > Jean
+> > 
+> > > +2. After step #23, all events can go out of order. Shall not affect
+> > > +   the outcome.
+> > > +3. IOMMU driver fails to find private data for unbinding. If unbind is
+> > > +   called after the same IOASID is allocated for the same guest again,
+> > > +   this is a programming error. The damage is limited to the guest
+> > > +   itself since unbind performs permission checking based on the
+> > > +   IOASID set associated with the guest process.
 
+"guest process" can be confusing (process run by the guest?), just "guest"
+might be better.
 
-Hmm... probably those were re-introduced due to a rebase. This
-series were originally written about 1,5 years ago.
-
-I'll drop those hunks.
-
-Thanks!
-Mauro
+Thanks,
+Jean
