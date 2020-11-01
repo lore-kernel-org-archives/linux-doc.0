@@ -1,72 +1,96 @@
-Return-Path: <SRS0=jeLJ=EG=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=kFr3=EH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B4BFC388F7
-	for <linux-doc@archiver.kernel.org>; Sat, 31 Oct 2020 20:05:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F1BC4741F
+	for <linux-doc@archiver.kernel.org>; Sun,  1 Nov 2020 03:44:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BE2F206F9
-	for <linux-doc@archiver.kernel.org>; Sat, 31 Oct 2020 20:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604174749;
-	bh=1Spt7E/h+lOQId9KrMw1DcEaITriY24WYnLpjKmK2nY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=l6v3xV9hzTho23t5LFkl+FLTMzUSPCBXcmkI5KB9o+8uZLX7hMvUyS6Qxah45Dw9g
-	 jxppc3n8aZ7Ncmph62fZ0j3UOarHZVJo2mqfhFxSM7AoWJHyV+h8RYPerqb2XhpWus
-	 9CsdtPRFS90tgOy2S2koJ9USI0ZOSfdcY2pykP90=
+	by mail.kernel.org (Postfix) with ESMTP id CAD4A22269
+	for <linux-doc@archiver.kernel.org>; Sun,  1 Nov 2020 03:44:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1wTGLVB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728567AbgJaUFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 31 Oct 2020 16:05:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33766 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728561AbgJaUFs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 31 Oct 2020 16:05:48 -0400
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 47CA0206F7;
-        Sat, 31 Oct 2020 20:05:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604174747;
-        bh=1Spt7E/h+lOQId9KrMw1DcEaITriY24WYnLpjKmK2nY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=P14brFCOSpQW65Dbdx5U7se86/FZiSqKzg4jcdn4ytDHfpGGaWGUhXkfdWp4g1nEg
-         ct+ZRPM3QAII1WWxbGoaBzAjOw07Cgx667qA/1efhlIPAle9uBia0Pc3BljgyDlVEb
-         is27XL0W4OVlI0eaFhJX4/ZcXoBzySkEaO8gqfCY=
-Date:   Sat, 31 Oct 2020 13:05:46 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Anand K Mistry <amistry@google.com>
-Cc:     linux-fsdevel@vger.kernel.org, asteinhauser@google.com,
-        joelaf@google.com, tglx@linutronix.de,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        id S1726763AbgKADoA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 31 Oct 2020 23:44:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726761AbgKADn7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 31 Oct 2020 23:43:59 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43A58C0617A6;
+        Sat, 31 Oct 2020 20:43:58 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id p17so5028026pli.13;
+        Sat, 31 Oct 2020 20:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RWhh4AQGtQyXAUal3s0IPj8u2MkPIp06XrwZM/82Xxw=;
+        b=U1wTGLVBrtlrgIg9PT1MmTn9ya3aoRmHPdf7g/HsLoAMzNTCq+v2aDGxLHggEkV5TB
+         w/keIsdAm88YFZ/RF0oGKGwhitRBV9UkvGAXKJ09WjA9yThNbd5UEwMl1JOGnHn6YHcd
+         nBQto2zCAxcJU+IUEuMp9JEBCOgCDm5SU+TFQuyFq89yjJVTU7koDyEZaoluU92OpMEi
+         fodCQVSJH4sNBdxnK2h3auwYZNFC0dUHVX8o1dmbs2aReGOBr9z9NiEe4gthR8fbEljH
+         xiUSVqCcXyxBxlxL0C1RqMDwwddBd5s6p3Xogi/2wWXuF58xV+t3OvgB8g4XSNnY2nyS
+         zK0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RWhh4AQGtQyXAUal3s0IPj8u2MkPIp06XrwZM/82Xxw=;
+        b=R+3tN9G9EI2lNowNhyJ8AGoFkZYZ+9wQN/9PvV9Qzz+heccv4MUA78GhAENE1It/Ur
+         yyX6Ka5TJePJMOK8T/X7x/zvdYMXQTsi6KVlJRWa/7hoOPEF3XX8tBRhpuNoTNPb73dZ
+         0Gsaw5tXu5SaquG8zUC6dzZZN16lcUstCyyuJ3RBoQJ7WbsPl+kN1G3U+NN27KHbShy9
+         g6CVzol12DLaeQ52RFC34ZDTSMQApwGZjszJTGTsn/OdQIgiLdh0V9vaXy+J2VWb5sgf
+         eP7ypiYFFj/gegRRkk1kT/Yhu5KKQtWVnotAlbiPLTdK7zKI+DiEuJc/v875OfTpJShC
+         ozYw==
+X-Gm-Message-State: AOAM53318f1TuX6Iql/IdSb0u+iappg4//PfXC9YC5Ty+tzR0b5Try5u
+        aMPNOJLz053qsrJLJqPK3OE=
+X-Google-Smtp-Source: ABdhPJy1g0+ZPdQfXjE4aSqe8H4vdpeG9uW+GdWGtJCpMPJBm55grn2tfClL8W+Tsj4wcovxgwdryQ==
+X-Received: by 2002:a17:90a:be11:: with SMTP id a17mr10620694pjs.181.1604202237306;
+        Sat, 31 Oct 2020 20:43:57 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id f4sm3139860pjo.29.2020.10.31.20.43.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2020 20:43:56 -0700 (PDT)
+Date:   Sat, 31 Oct 2020 20:43:54 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@kernel.org>, NeilBrown <neilb@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] proc: Provide details on indirect branch speculation
-Message-Id: <20201031130546.d2b94345008e807f548dc068@linux-foundation.org>
-In-Reply-To: <20201030172731.1.I7782b0cedb705384a634cfd8898eb7523562da99@changeid>
-References: <20201030172731.1.I7782b0cedb705384a634cfd8898eb7523562da99@changeid>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>
+Subject: Re: [PATCH v2 31/39] docs: ABI: cleanup several ABI documents
+Message-ID: <20201101034012.GH2547185@dtor-ws>
+References: <cover.1604042072.git.mchehab+huawei@kernel.org>
+ <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 30 Oct 2020 17:27:54 +1100 Anand K Mistry <amistry@google.com> wrote:
+On Fri, Oct 30, 2020 at 08:40:50AM +0100, Mauro Carvalho Chehab wrote:
+> There are some ABI documents that, while they don't generate
+> any warnings, they have issues when parsed by get_abi.pl script
+> on its output result.
+> 
+> Address them, in order to provide a clean output.
+> 
 
-> Similar to speculation store bypass, show information about the indirect
-> branch speculation mode of a task in /proc/$pid/status.
+...
 
-Why is this considered useful?
+>  .../ABI/testing/sysfs-driver-input-exc3000    |   2 +
+
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Thanks.
+
+-- 
+Dmitry
