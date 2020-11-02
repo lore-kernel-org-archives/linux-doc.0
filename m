@@ -6,78 +6,98 @@ X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B48E3C2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 22:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9C5C388F9
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 23:27:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5896B20870
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 22:54:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E733223BF
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 23:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604357690;
-	bh=3rPNv3tweACEerZlH7qePNfQB72W6JIlqdUQEZAtz+k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=0wasP7peCixLzOeRn+fk+hCe8imMvXkcjeR19VMf+ay/YvKHrsznBEKgbJxoTPoDD
-	 +B14wJEfbaytmoblsHqjCb+1C/8VF34zTWaJz0HvZFQDJF+lsaLt3wRkNfmZAMcMES
-	 /CInB5SRpwhJ6qsREXtnXv+3cehkHPtQyyf7MJNM=
+	s=default; t=1604359674;
+	bh=UuAkJfEzaECXbsjNNFRbJE8yk5SU++cPwgM2Re7WKuU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:List-ID:From;
+	b=aMLKzJLt8biZ8eNZYKL9uAKFrQRj4XZuKQsSbPkUlfxmcOaH5ycfDyezPIS6AUVFt
+	 YKirmwKheh1cHR+uqDMPDM7tZCzX8c6/d/cDvd/+dpkKGogilngwFCrEnJ4KeNAb1o
+	 3niM13Yq7okI0c+BcRuxNHEuGv2eA8j53ZPHzfmE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725952AbgKBWyt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Nov 2020 17:54:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57758 "EHLO mail.kernel.org"
+        id S1725952AbgKBX1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Nov 2020 18:27:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33798 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725940AbgKBWyt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Nov 2020 17:54:49 -0500
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.1])
+        id S1725841AbgKBX1x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Nov 2020 18:27:53 -0500
+Received: from lt-jalone-7480.mtl.com (c-24-6-56-119.hsd1.ca.comcast.net [24.6.56.119])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33B8A20786;
-        Mon,  2 Nov 2020 22:54:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7C1A322268;
+        Mon,  2 Nov 2020 23:27:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604357688;
-        bh=3rPNv3tweACEerZlH7qePNfQB72W6JIlqdUQEZAtz+k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ErX3h4pRsvT/GRay17JR/7/1aeDtq5vYxn2LkRiHz6rYQECdXusz7+ecxH2zEaCbc
-         bs4HfO2UTfhHCSUB0qEQ/yzeIFmV6sg5xXk5YVJA/SBpJpm9JX5+stm2we2DL7KoYk
-         YhigXpmuKF6ahrMro1UPsFVS3Dn+7llRhVa9EbCo=
-Date:   Mon, 2 Nov 2020 14:54:47 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Paolo Abeni <pabeni@redhat.com>
+        s=default; t=1604359673;
+        bh=UuAkJfEzaECXbsjNNFRbJE8yk5SU++cPwgM2Re7WKuU=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=Zi9hhVtgXC2SYgH3NSRVhpt8luwsK69GiYg87Yp9c50ApYFjrBOAfr3aONNyJymwS
+         BBmRZm9GSjNQp32Ct2c0hKBm0EFsUJbw/OkmlKfjEWchLBkasdjwAKtl1kPA1UK4bi
+         PdUfBaYXGGaF5iR+LzspG2kDhs/RjglNlyB70t3k=
+Message-ID: <33cde8903dbe09a8abda1cd2ae7a9d3fdc2bc5e8.camel@kernel.org>
+Subject: Re: [PATCH net-next v2 0/3] net: introduce rps_default_mask
+From:   Saeed Mahameed <saeed@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
 Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         "David S. Miller" <davem@davemloft.net>,
         Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
         linux-kselftest@vger.kernel.org,
         Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH net-next v2 0/3] net: introduce rps_default_mask
-Message-ID: <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <cover.1604055792.git.pabeni@redhat.com>
+Date:   Mon, 02 Nov 2020 15:27:51 -0800
+In-Reply-To: <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
 References: <cover.1604055792.git.pabeni@redhat.com>
+         <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 30 Oct 2020 12:16:00 +0100 Paolo Abeni wrote:
-> Real-time setups try hard to ensure proper isolation between time
-> critical applications and e.g. network processing performed by the
-> network stack in softirq and RPS is used to move the softirq 
-> activity away from the isolated core.
-> 
-> If the network configuration is dynamic, with netns and devices
-> routinely created at run-time, enforcing the correct RPS setting
-> on each newly created device allowing to transient bad configuration
-> became complex.
-> 
-> These series try to address the above, introducing a new
-> sysctl knob: rps_default_mask. The new sysctl entry allows
-> configuring a systemwide RPS mask, to be enforced since receive 
-> queue creation time without any fourther per device configuration
-> required.
-> 
-> Additionally, a simple self-test is introduced to check the 
-> rps_default_mask behavior.
+On Mon, 2020-11-02 at 14:54 -0800, Jakub Kicinski wrote:
+> On Fri, 30 Oct 2020 12:16:00 +0100 Paolo Abeni wrote:
+> > Real-time setups try hard to ensure proper isolation between time
+> > critical applications and e.g. network processing performed by the
+> > network stack in softirq and RPS is used to move the softirq 
+> > activity away from the isolated core.
+> > 
+> > If the network configuration is dynamic, with netns and devices
+> > routinely created at run-time, enforcing the correct RPS setting
+> > on each newly created device allowing to transient bad
+> > configuration
+> > became complex.
+> > 
+> > These series try to address the above, introducing a new
+> > sysctl knob: rps_default_mask. The new sysctl entry allows
+> > configuring a systemwide RPS mask, to be enforced since receive 
+> > queue creation time without any fourther per device configuration
+> > required.
+> > 
 
-RPS is disabled by default, the processing is going to happen wherever
-the IRQ is mapped, and one would hope that the IRQ is not mapped to the
-core where the critical processing runs.
+The whole thing can be replaced with a user daemon scripts that
+monitors all newly created devices and assign to them whatever rps mask
+(call it default).
 
-Would you mind elaborating further on the use case?
+So why do we need this special logic in kernel ? 
+
+I am not sure about this, but if rps queues sysfs are available before
+the netdev is up, then you can also use udevd to assign the rps masks
+before such devices are even brought up, so you would avoid the race
+conditions that you described, which are not really clear to me to be
+honest.
+
+> > Additionally, a simple self-test is introduced to check the 
+> > rps_default_mask behavior.
+> 
+> RPS is disabled by default, the processing is going to happen
+> wherever
+> the IRQ is mapped, and one would hope that the IRQ is not mapped to
+> the
+> core where the critical processing runs.
+> 
+> Would you mind elaborating further on the use case?
+
