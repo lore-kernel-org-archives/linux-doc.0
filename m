@@ -2,52 +2,69 @@ Return-Path: <SRS0=BR+k=EI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CE9CC00A89
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85107C55178
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:37:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC38421D91
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:27:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604338069;
-	bh=Hs0TE/m5HmzsI6Nthw5SOQ1gCx61jcc7T8YTmy9qrWI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=HTZDlexstEc/J4xmHe0oNpB6m9cCHtYSdAd7nk0W/PUtHxPpCOouQTcrJ0xa+AxYF
-	 d4QjfK3AytqQYTtjM8Bi2WIhCtIU9rz1lyzUcP8qSedgAdTSaxgT7zZrIvptr73FcE
-	 mIRNUGxMtxjCmFiMqLJ+t383tqARr+2flTZGre2U=
+	by mail.kernel.org (Postfix) with ESMTP id 4BD6B208A9
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:37:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727524AbgKBR1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Nov 2020 12:27:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46480 "EHLO mail.kernel.org"
+        id S1727869AbgKBRh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Nov 2020 12:37:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58612 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727288AbgKBR1s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Nov 2020 12:27:48 -0500
-Received: from coco.lan (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
+        id S1727693AbgKBRh2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Nov 2020 12:37:28 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 774382225E;
-        Mon,  2 Nov 2020 17:27:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604338068;
-        bh=Hs0TE/m5HmzsI6Nthw5SOQ1gCx61jcc7T8YTmy9qrWI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=P1h7S18uykcFGTKKb8/NvRoCporawkXfnZGgvho1GP+cE1pT6VmXxvLAQHF7LE0yd
-         sT95aFyvBoPNMotChIuel2cHuo+3wR+M0g8WpS4D6h5YHCtMji7xsQhADj6q8jFVDl
-         i3f+uu4cdnLbMhA7HfOp+J46VKI7AWVoXGvKNGWQ=
-Date:   Mon, 2 Nov 2020 18:27:43 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v1] scripts: kernel-doc: Restore anonymous enum parsing
-Message-ID: <20201102182743.77b4c8df@coco.lan>
-In-Reply-To: <20201102170637.36138-1-andriy.shevchenko@linux.intel.com>
-References: <20201102170637.36138-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5BC1F207BB;
+        Mon,  2 Nov 2020 17:37:23 +0000 (UTC)
+Date:   Mon, 2 Nov 2020 12:37:21 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>, Guo Ren <guoren@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-csky@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, live-patching@vger.kernel.org
+Subject: Re: [PATCH 11/11 v2] ftrace: Add recording of functions that caused
+ recursion
+Message-ID: <20201102123721.4fcce2cb@gandalf.local.home>
+In-Reply-To: <20201102164147.GJ20201@alley>
+References: <20201030213142.096102821@goodmis.org>
+        <20201030214014.801706340@goodmis.org>
+        <20201102164147.GJ20201@alley>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -55,40 +72,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon,  2 Nov 2020 19:06:37 +0200
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
+On Mon, 2 Nov 2020 17:41:47 +0100
+Petr Mladek <pmladek@suse.com> wrote:
 
-> The commit d38c8cfb0571 ("scripts: kernel-doc: add support for typedef enum")
-> broke anonymous enum parsing. Restore it by relying on members rather than
-> its name.
+> > +	i = atomic_read(&nr_records);
+> > +	smp_mb__after_atomic();
+> > +	if (i < 0)
+> > +		cmpxchg(&recursed_functions[index].ip, ip, 0);
+> > +	else if (i <= index)
+> > +		atomic_cmpxchg(&nr_records, i, index + 1);  
 > 
-> Fixes: d38c8cfb0571 ("scripts: kernel-doc: add support for typedef enum")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> This looks weird. It would shift nr_records past the record added
+> in this call. It might skip many slots that were zeroed when clearing.
+> Also we do not know if our entry was not zeroed as well.
 
-Patch looks ok to me. Do you have an example about using it for
-anonymous enum?
+nr_records always holds the next position to write to.
 
-> ---
->  scripts/kernel-doc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index f699cf05d409..9b6ddeb097e9 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -1390,7 +1390,7 @@ sub dump_enum($$) {
->  	$members = $2;
->      }
->  
-> -    if ($declaration_name) {
-> +    if ($members) {
->  	my %_members;
->  
->  	$members =~ s/\s+$//;
+	index = nr_records;
+	recursed_functions[index].ip = ip;
+	nr_records++;
 
+Before clearing, we have:
+
+	nr_records = -1;
+	smp_mb();
+	memset(recursed_functions, 0);
+	smp_wmb();
+	nr_records = 0;
+
+When we enter this function:
+
+	i = nr_records;
+	smp_mb();
+	if (i < 0)
+		return;
 
 
-Thanks,
-Mauro
+Thus, we just stopped all new updates while clearing the records.
+
+But what about if something is currently updating?
+
+	i = nr_records;
+	smp_mb();
+	if (i < 0)
+		cmpxchg(recursed_functions, ip, 0);
+
+The above shows that if the current updating process notices that the
+clearing happens, it will clear the function it added.
+
+	else if (i <= index)
+		cmpxchg(nr_records, i, index + 1);
+
+This makes sure that nr_records only grows if it is greater or equal to
+zero.
+
+The only race that I see that can happen, is the one in the comment I
+showed. And that is after enabling the recursed functions again after
+clearing, one CPU could add a function while another CPU that just added
+that same function could be just exiting this routine, notice that a
+clearing of the array happened, and remove its function (which was the same
+as the one just happened). So we get a "zero" in the array. If this
+happens, it is likely that that function will recurse again and will be
+added later.
+
+-- Steve
