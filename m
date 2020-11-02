@@ -2,63 +2,61 @@ Return-Path: <SRS0=BR+k=EI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 064B1C388F9
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 10:32:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA85C00A89
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 10:32:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6CAB223EA
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 10:32:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1EFD20760
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 10:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604313146;
-	bh=cdD+P63da3bSzKkXW5DTy6aAw0tIAR4tLACFzMENEc8=;
+	s=default; t=1604313154;
+	bh=QUaGIBoAWPb8+PT+LW3xf4ASGlV2LfNoMZjtoIDfME8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kTgp0gvxuQIjfV0nE3QVDrEhRunndJln3TwcTtbGmD+rkJJntv6JwOKFzZEjazuYM
-	 5fPlC5kKQKD3tNTXnb9uZ8bIjahxvQfkXGUY1ubNzm3PQJ8lJFNL0J+Q//1b7KyupO
-	 sRVP5XUuty+HEltGADDMWA6ro4YYtS2acqYQ52yo=
+	b=QLCyAW7h75ua3STyV0XQ1iDFuRdpgbdOoUJXy+5SMxC/s0ExMoFcAROYSTzHUf20V
+	 iiCEsQPWRFFiK2aXFG4r8jV0drCvdj2N737EBursLZ2GlahULIqasYYRH8HWs9fTKq
+	 QYWzxUa1ZWWCg6Awgn3vnLQcCXjeKGBvWL+RVh0w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728405AbgKBKc0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Nov 2020 05:32:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57430 "EHLO mail.kernel.org"
+        id S1728316AbgKBKc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Nov 2020 05:32:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57516 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728156AbgKBKcZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Nov 2020 05:32:25 -0500
+        id S1728511AbgKBKc1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Nov 2020 05:32:27 -0500
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A7C1F2225E;
-        Mon,  2 Nov 2020 10:32:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4D4E2223BE;
+        Mon,  2 Nov 2020 10:32:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604313144;
-        bh=cdD+P63da3bSzKkXW5DTy6aAw0tIAR4tLACFzMENEc8=;
+        s=default; t=1604313146;
+        bh=QUaGIBoAWPb8+PT+LW3xf4ASGlV2LfNoMZjtoIDfME8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sjgUkmQVY8qNtQpkefM08kuhsuKuC5H5CsoYsqhEq7pB/ZWHC1i8AB5oozHqiwLQi
-         7LRMqJRm5uGflSxPsPhr/RLQlev0ffkwSjBZCH48pkfiM6CkI+0172Q7RfrLKxDD5h
-         AnJBLBoJ3/IHANwOF+tBTEZKt9gAU3p7sL2A7IY4=
+        b=Jh8zHrLElk5jGAdQLOhXbDwJ34GKZDZhs2tgIYkspzeyp0AnSLmnSPOCLRULrT4JF
+         Pd98UhejS9F8EoKm8LHj6LPilIB4ruys0m4Z+GRWrEL936pYlJGzIkLiy3v8C7veMS
+         pZBnI3hBTyVMs5QZfjAMUtqHTGjs+aXdiJdgLNxA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kZX8P-005tuX-PC; Mon, 02 Nov 2020 11:32:21 +0100
+        id 1kZX8P-005tug-UJ; Mon, 02 Nov 2020 11:32:21 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Lunn <andrew@lunn.ch>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linus Torvalds" <torvalds@linux-foundation.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
         Cezary Rojewski <cezary.rojewski@intel.com>,
-        Dan Murphy <dmurphy@ti.com>, Ilya Dryomov <idryomov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>, Tom Rix <trix@redhat.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: [PATCH 0/5] Some fixes for ABI documentation
-Date:   Mon,  2 Nov 2020 11:32:11 +0100
-Message-Id: <cover.1604312590.git.mchehab+huawei@kernel.org>
+        Oded Gabbay <oded.gabbay@gmail.com>
+Subject: [PATCH 4/5] scripts: get_abi.pl: Don't let ABI files to create subtitles
+Date:   Mon,  2 Nov 2020 11:32:15 +0100
+Message-Id: <6c62ef5c01d39dee8d891f8390c816d2a889670a.1604312590.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <ff1301ed-6040-3aac-c057-7f37184604d3@infradead.org>
-References: <ff1301ed-6040-3aac-c057-7f37184604d3@infradead.org>
+In-Reply-To: <cover.1604312590.git.mchehab+huawei@kernel.org>
+References: <cover.1604312590.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -66,44 +64,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+The ReST output should only contain documentation titles
+automatically created by the script.
 
-This small series contain fixes against Kernel 5.10-rc2.
+There are two reasons for that:
 
-It is meant to address the issue reported by Randy, with regards
-to some "SEVERE" docutils warnings that it is causing the build
-to fail for him.
+1) Consistency.
 
-I was not able to reproduce the bug myself, but fixing it is easy.
+   just a handful ABI docs define titles
 
-While here, I noticed a few typos at a few sysfs ABI entries.
-The first two patches address them.
+2) To avoid critical errors.
 
-The third patch fixes a small issue: I added a new ReST file
-at the ABI series, but the index file didn't receive the update.
+   Docutils (which is the basis for Sphinx) allows a free
+   assign of documentation title markups. So, one document
+   could be doing things like:
 
-The forth patch is the one that actually fix the reported issue.
+	Level 1
+	=======
 
-While here, I added small change at get_abi.pl, for it to generate
-some index entries for the symbols. That sounded to me a
-natural change after having patch 4 removing some ABI indexes.
-This patch should make life easier for people looking for a symbol 
-inside the ABI books.
+	Level 2
+	-------
 
-Mauro Carvalho Chehab (5):
-  docs: ABI: sysfs-driver-dma-ioatdma: what starts with /sys
-  docs: ABI: sysfs-class-net: fix a typo
-  docs: leds: index.rst: add a missing file
-  scripts: get_abi.pl: Don't let ABI files to create subtitles
-  scripts: get_api.pl: Add sub-titles to ABI output
+   While another one could do the reverse:
 
- .../ABI/stable/sysfs-driver-dma-ioatdma       | 10 ++++----
- Documentation/ABI/testing/sysfs-class-net     |  2 +-
- Documentation/leds/index.rst                  |  1 +
- scripts/get_abi.pl                            | 23 +++++++++++++++++++
- 4 files changed, 30 insertions(+), 6 deletions(-)
+	Level 1
+	-------
 
+	Level 2
+	=======
+
+   But the same document can't mix.
+
+   As the output of get_abi.pl will join contents from multiple
+   files, if they don't define the levels on a consistent errors,
+   errors like this can happen:
+
+	Sphinx parallel build error:
+	docutils.utils.SystemMessage: /home/rdunlap/lnx/lnx-510-rc2/Documentation/ABI/testing/sysfs-bus-rapidio:2: (SEVERE/4) Title level inconsistent:
+
+	Attributes Common for All RapidIO Devices
+	-----------------------------------------
+
+   Which cause some versions of Sphinx to go into an endless
+   loop.
+
+   It should be noticed that an alternative to that would
+   be to replace all title occurrences by a single markup,
+   but that will make the parser more complex, and, due to
+   (1) it would generate an inconsistent output.
+
+   So, better to just remove the titles defined at the ABI
+   files from the output.
+
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/get_abi.pl | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 2cb592f8eba4..459f169f834c 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -352,6 +352,12 @@ sub output_rest {
+ 
+ 		if (!($desc =~ /^\s*$/)) {
+ 			if ($description_is_rst) {
++				# Remove title markups from the description
++				# Having titles inside ABI files will only work if extra
++				# care would be taken in order to strictly follow the same
++				# level order for each markup.
++				$desc =~ s/\n[\-\*\=\^\~]+\n/\n\n/g;
++
+ 				# Enrich text by creating cross-references
+ 
+ 				$desc =~ s,Documentation/(?!devicetree)(\S+)\.rst,:doc:`/$1`,g;
 -- 
 2.26.2
-
 
