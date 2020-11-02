@@ -2,104 +2,301 @@ Return-Path: <SRS0=BR+k=EI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A25C00A89
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 15:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90194C55178
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 16:41:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6653322258
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 15:38:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D711222BA
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 16:41:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HpXpF1Iu"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Ujz9LMja"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726385AbgKBPiW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Nov 2020 10:38:22 -0500
-Received: from m12-12.163.com ([220.181.12.12]:49015 "EHLO m12-12.163.com"
+        id S1727262AbgKBQlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Nov 2020 11:41:53 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59286 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726014AbgKBPiW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Nov 2020 10:38:22 -0500
-X-Greylist: delayed 946 seconds by postgrey-1.27 at vger.kernel.org; Mon, 02 Nov 2020 10:38:20 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=bxxfv
-        9QsqkbmxwfyzAF36u41WO4BWk6RMHqGjFs9RGQ=; b=HpXpF1IuLg/Mi8dh/7JI7
-        7aGzPE2LKjcW4yJgWKsL99ALbK0+q0SC14WqttzUxN+SV1RpxbYbWfzrAEXKhcNT
-        tPylUlog14dyU8munfrzMxs3d9qYR6CuNVTbe7kEOTufkNDZohoDxvbscB/3m/QZ
-        lJIZNb5+sxE53BeirmBtn8=
-Received: from localhost (unknown [101.228.30.230])
-        by smtp8 (Coremail) with SMTP id DMCowAAn82jsI6BfwibeUg--.53019S2;
-        Mon, 02 Nov 2020 23:21:17 +0800 (CST)
-Date:   Mon, 2 Nov 2020 23:21:16 +0800
-From:   Hui Su <sh_def@163.com>
-To:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     sh_def@163.com
-Subject: [PATCH] Docs/cgroup: update the cgroup-v1 docs
-Message-ID: <20201102152116.GA186491@rlk>
+        id S1727139AbgKBQlw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Nov 2020 11:41:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1604335310;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZZ1+8t7uf1F7l3ZBHb45iCoO7eWd2o1ycVfihIUusH8=;
+        b=Ujz9LMjaN8SJhVxn50rnawrrA86tblFVcms0tvPZ6z30qdXkdWdaV8CVc/AUzHzdbFv1V2
+        IhoFIoAHPiRb7IWyVB1j/sUcCmK6cyUWjPXJIQKp023Mx82tNgLktFrqUxCnDxWjn5Juhp
+        fYdZ2HuY/J5qgBTErdjQxOEKWWeOSL4=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 13AC8AC65;
+        Mon,  2 Nov 2020 16:41:50 +0000 (UTC)
+Date:   Mon, 2 Nov 2020 17:41:47 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>, Guo Ren <guoren@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-csky@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, live-patching@vger.kernel.org
+Subject: Re: [PATCH 11/11 v2] ftrace: Add recording of functions that caused
+ recursion
+Message-ID: <20201102164147.GJ20201@alley>
+References: <20201030213142.096102821@goodmis.org>
+ <20201030214014.801706340@goodmis.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-CM-TRANSID: DMCowAAn82jsI6BfwibeUg--.53019S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AryfCr43CF1DJFy3CFy5CFg_yoW8uF1xpr
-        1DA347X345Wwn0qryvy342ga4S9aykua17KFyrGrnYyrnxJr4vqFy2vr1UAFyvkF9xAFZx
-        Xry3ur43ua1jy37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRDPEhUUUUU=
-X-Originating-IP: [101.228.30.230]
-X-CM-SenderInfo: xvkbvvri6rljoofrz/1tbiMQLQX1UMWNE16AAAsx
+In-Reply-To: <20201030214014.801706340@goodmis.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since 'commit 69d0206c793a ("cgroup: bring some sanity to
-naming around cg_cgroup_link")', 'cg_cgroup_link' has been
-changed to 'cgrp_cset_link'.
-so as its element 'cgrp_link_list' and 'cg_link_list'.
+On Fri 2020-10-30 17:31:53, Steven Rostedt wrote:
+> From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+> 
+> This adds CONFIG_FTRACE_RECORD_RECURSION that will record to a file
+> "recursed_functions" all the functions that caused recursion while a
+> callback to the function tracer was running.
+> 
 
-Since commit 47cfcd092245 ("cgroup: kill cgroup_[un]lock()"),
-cgroup_lock/cgroup_unlock have been killed.
+> --- /dev/null
+> +++ b/kernel/trace/trace_recursion_record.c
+> @@ -0,0 +1,220 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/seq_file.h>
+> +#include <linux/kallsyms.h>
+> +#include <linux/module.h>
+> +#include <linux/ftrace.h>
+> +#include <linux/fs.h>
+> +
+> +#include "trace_output.h"
+> +
+> +struct recursed_functions {
+> +	unsigned long		ip;
+> +	unsigned long		parent_ip;
+> +};
+> +
+> +static struct recursed_functions recursed_functions[CONFIG_FTRACE_RECORD_RECURSION_SIZE];
 
-So update the cgroup-v1 Docs.
-
-Signed-off-by: Hui Su <sh_def@163.com>
----
- Documentation/admin-guide/cgroup-v1/cgroups.rst | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v1/cgroups.rst b/Documentation/admin-guide/cgroup-v1/cgroups.rst
-index b0688011ed06..c28316a7dd28 100644
---- a/Documentation/admin-guide/cgroup-v1/cgroups.rst
-+++ b/Documentation/admin-guide/cgroup-v1/cgroups.rst
-@@ -270,10 +270,10 @@ css_set is allocated. The appropriate existing css_set is located by
- looking into a hash table.
- 
- To allow access from a cgroup to the css_sets (and hence tasks)
--that comprise it, a set of cg_cgroup_link objects form a lattice;
--each cg_cgroup_link is linked into a list of cg_cgroup_links for
--a single cgroup on its cgrp_link_list field, and a list of
--cg_cgroup_links for a single css_set on its cg_link_list.
-+that comprise it, a set of cgrp_cset_link objects form a lattice;
-+each cgrp_cset_link is linked into a list of cgrp_cset_links for
-+a single cgroup on its cset_link field, and a list of
-+cgrp_cset_links for a single css_set on its cgrp_link.
- 
- Thus the set of tasks in a cgroup can be listed by iterating over
- each css_set that references the cgroup, and sub-iterating over
-@@ -523,10 +523,7 @@ cgroup. It may also be taken to prevent cgroups from being
- modified, but more specific locks may be more appropriate in that
- situation.
- 
--See kernel/cgroup.c for more details.
--
--Subsystems can take/release the cgroup_mutex via the functions
--cgroup_lock()/cgroup_unlock().
-+See kernel/cgroup/cgroup.c for more details.
- 
- Accessing a task's cgroup pointer may be done in the following ways:
- - while holding cgroup_mutex
--- 
-2.29.0
+The code tries to be lockless safe as much as possible. It would make
+sense to allign the array.
 
 
+> +static atomic_t nr_records;
+> +
+> +/*
+> + * Cache the last found function. Yes, updates to this is racey, but
+> + * so is memory cache ;-)
+> + */
+> +static unsigned long cached_function;
+> +
+> +void ftrace_record_recursion(unsigned long ip, unsigned long parent_ip)
+> +{
+> +	int index;
+> +	int i = 0;
+> +	unsigned long old;
+> +
+> + again:
+> +	/* First check the last one recorded */
+> +	if (ip == cached_function)
+> +		return;
+> +
+> +	index = atomic_read(&nr_records);
+> +	/* nr_records is -1 when clearing records */
+> +	smp_mb__after_atomic();
+> +	if (index < 0)
+> +		return;
+> +
+> +	/* See below */
+> +	if (i > index)
+> +		index = i;
+
+This looks like a complicated way to do index++ via "i" variable.
+I guess that it was needed only in some older variant of the code.
+See below.
+
+> +	if (index >= CONFIG_FTRACE_RECORD_RECURSION_SIZE)
+> +		return;
+> +
+> +	for (i = index - 1; i >= 0; i--) {
+> +		if (recursed_functions[i].ip == ip) {
+> +			cached_function = ip;
+> +			return;
+> +		}
+> +	}
+> +
+> +	cached_function = ip;
+> +
+> +	/*
+> +	 * We only want to add a function if it hasn't been added before.
+> +	 * Add to the current location before incrementing the count.
+> +	 * If it fails to add, then increment the index (save in i)
+> +	 * and try again.
+> +	 */
+> +	old = cmpxchg(&recursed_functions[index].ip, 0, ip);
+> +	if (old != 0) {
+> +		/* Did something else already added this for us? */
+> +		if (old == ip)
+> +			return;
+> +		/* Try the next location (use i for the next index) */
+> +		i = index + 1;
+
+What about
+
+		index++;
+
+We basically want to run the code again with index + 1 limit.
+
+Maybe, it even does not make sense to check the array again
+and we should just try to store the value into the next slot.
+
+> +		goto again;
+> +	}
+> +
+> +	recursed_functions[index].parent_ip = parent_ip;
+
+WRITE_ONCE() ?
+
+> +
+> +	/*
+> +	 * It's still possible that we could race with the clearing
+> +	 *    CPU0                                    CPU1
+> +	 *    ----                                    ----
+> +	 *                                       ip = func
+> +	 *  nr_records = -1;
+> +	 *  recursed_functions[0] = 0;
+> +	 *                                       i = -1
+> +	 *                                       if (i < 0)
+> +	 *  nr_records = 0;
+> +	 *  (new recursion detected)
+> +	 *      recursed_functions[0] = func
+> +	 *                                            cmpxchg(recursed_functions[0],
+> +	 *                                                    func, 0)
+> +	 *
+> +	 * But the worse that could happen is that we get a zero in
+> +	 * the recursed_functions array, and it's likely that "func" will
+> +	 * be recorded again.
+> +	 */
+> +	i = atomic_read(&nr_records);
+> +	smp_mb__after_atomic();
+> +	if (i < 0)
+> +		cmpxchg(&recursed_functions[index].ip, ip, 0);
+> +	else if (i <= index)
+> +		atomic_cmpxchg(&nr_records, i, index + 1);
+
+This looks weird. It would shift nr_records past the record added
+in this call. It might skip many slots that were zeroed when clearing.
+Also we do not know if our entry was not zeroed as well.
+
+I would suggest to do it some other way (not even compile tested):
+
+void ftrace_record_recursion(unsigned long ip, unsigned long parent_ip)
+{
+	int index, old_index;
+	int i = 0;
+	unsigned long old_ip;
+
+ again:
+	/* First check the last one recorded. */
+	if (ip == READ_ONCE(cached_function))
+		return;
+
+	index = atomic_read(&nr_records);
+	/* nr_records is -1 when clearing records. */
+	smp_mb__after_atomic();
+	if (index < 0)
+		return;
+
+	/* Already cached? */
+	for (i = index - 1; i >= 0; i--) {
+		if (recursed_functions[i].ip == ip) {
+			WRITE_ONCE(cached_function, ip);
+			return;
+		}
+	}
+
+	if (index >= CONFIG_FTRACE_RECORD_RECURSION_SIZE)
+		return;
+
+	/*
+	 * Try to reserve the slot. It might be already taken
+	 * or the entire cache cleared.
+	 */
+	old_index = atomic_cmpxchg(&nr_records, index, index + 1);
+	if (old_index != index)
+		goto again;
+
+	/*
+	 * Be careful. The entire cache might have been cleared and reused in
+	 * the meantime. Replace only empty slot.
+	 */
+	old_ip = cmpxchg(&recursed_functions[index].ip, 0, ip);
+	if (old_ip != 0)
+		goto again;
+
+	old_ip = cmpxchg(&recursed_functions[index].parent_ip, 0, parrent_ip);
+	if (old_ip != 0)
+		goto again;
+
+	/*
+	 * No ip is better than non-consistent one. The race with
+	 * clearing should be rare and not worth a perfect solution.
+	 */
+	if (READ_ONCE(recursed_functions[index].ip) != ip) {
+		cmpxchg(&recursed_functions[index].ip, ip, 0UL)
+		goto again;
+	}
+}
+
+The last check probably is not needed. Inconsistent entries
+should be prevented by the way how this func is called:
+
+		static atomic_t paranoid_test;				\
+		if (!atomic_read(&paranoid_test)) {			\
+			atomic_inc(&paranoid_test);			\
+			ftrace_record_recursion(ip, pip);		\
+			atomic_dec(&paranoid_test);			\
+		}							\
+
+
+
+
+The rest of the patchset looks fine. I do not feel comfortable to give
+it Reviewed-by because I did not review it in depth.
+
+I spent more time with the above lockless code. I took it is a
+training. I need to improve this skill to feel more comfortable with
+the lockless printk ring buffer ;-)
+
+Best Regards,
+Petr
