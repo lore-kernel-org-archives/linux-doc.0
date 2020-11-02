@@ -2,184 +2,117 @@ Return-Path: <SRS0=BR+k=EI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89780C55178
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C3FC00A89
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:47:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D22822226
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:46:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6DAE21534
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Nov 2020 17:47:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aPd+GJ7X"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725968AbgKBRqR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Nov 2020 12:46:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60378 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725768AbgKBRqN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Nov 2020 12:46:13 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11A0822226;
-        Mon,  2 Nov 2020 17:46:07 +0000 (UTC)
-Date:   Mon, 2 Nov 2020 12:46:06 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>, Guo Ren <guoren@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-csky@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, live-patching@vger.kernel.org
-Subject: Re: [PATCH 11/11 v2] ftrace: Add recording of functions that caused
- recursion
-Message-ID: <20201102124606.72bd89c5@gandalf.local.home>
-In-Reply-To: <20201102123721.4fcce2cb@gandalf.local.home>
-References: <20201030213142.096102821@goodmis.org>
-        <20201030214014.801706340@goodmis.org>
-        <20201102164147.GJ20201@alley>
-        <20201102123721.4fcce2cb@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1725824AbgKBRro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Nov 2020 12:47:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51760 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725768AbgKBRrn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Nov 2020 12:47:43 -0500
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D62C0617A6
+        for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2020 09:47:43 -0800 (PST)
+Received: by mail-oi1-x242.google.com with SMTP id 9so15488837oir.5
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2020 09:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ta8nke5A5mobw52bQz/6c9ICTuEFY5bZssEx/BCuN+U=;
+        b=aPd+GJ7X7SpgqrcQU40H4fMr+1SBaIGBTLYglypXsKQf3Nx/gTNlZ5SPgt6G7O3ybS
+         2haR7/p6QYCrANpqnFpaFwUWysuD9yuJdn1q0XoHILq7HKBztKF44nLSFPpL8er3tIyn
+         Poa4Um7y3fL5e8o7IeroI9y1tez+RwdQSjg4Fknq5t9ESSBR2Pjr6Yv2M8K6pE3zlt0s
+         zqPZtuXoZaVmdNFgoAlMbYgc+IPhskrfPvQO+m+SHIvpJtPAXrcOjf6ZTjEOYwDS7wYY
+         rCZqdmNl/QFUhYKXLVnl9o/YptMDUIf4rqjxR/BF7dJQtV8g40W7VmK2BOZ3fyW8vwLs
+         xXxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ta8nke5A5mobw52bQz/6c9ICTuEFY5bZssEx/BCuN+U=;
+        b=UY2he1SUSjAtMvhYYwDNjjSvrPwz3Ywx9WVJ9bxMoVvHhkL/6ei9L1JieqMPIAKcDE
+         E3Awu/600owV8CMfqnwK84QYhZ8V1woi0VigoWNRtjXF442J1APtEbHsdXZjYzNH+Q5g
+         pdAMWfGm4PHbAY1QSrLtjuLwPEINMVgjMizgWq3kM4HW830CEo/trHbn8yhLQLOETKoH
+         WdEQYL/TusW4Onb1d1bHBh8YOw4RIE90nWJjP9kosAYyCLoGmbz7Eeg+5lisGlE4CCPA
+         a4u3jt3VNWAg7hioIvKVH/Fj8iWal9YpxsH2B9Jay1/YC6MqIZJxLw8l0iW3rXZBO7aF
+         7fiQ==
+X-Gm-Message-State: AOAM530G9d+9PJZZXB19KZcTXFRNm3Ts/1JJPTTh1VdufFqpFXuIdPiY
+        IQoiKdzD8f5gFnS1Hph5czWk6hcei8movg==
+X-Google-Smtp-Source: ABdhPJxXvHPb/Z0m00NEXuUGbpnQdMiSETV2s6AftgGLyCuMxVSYXQjN11p6yK5xF1LNSrj3NSX0nA==
+X-Received: by 2002:aca:b145:: with SMTP id a66mr11230119oif.92.1604339263266;
+        Mon, 02 Nov 2020 09:47:43 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id w70sm748613oiw.29.2020.11.02.09.47.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2020 09:47:42 -0800 (PST)
+Date:   Mon, 2 Nov 2020 11:47:40 -0600
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Siddharth Gupta <sidgup@codeaurora.org>
+Cc:     agross@kernel.org, ohad@wizery.com,
+        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] remoteproc: coredump: Add minidump functionality
+Message-ID: <20201102174740.GA223412@builder.lan>
+References: <1601690757-25726-1-git-send-email-sidgup@codeaurora.org>
+ <1601690757-25726-3-git-send-email-sidgup@codeaurora.org>
+ <20201026210912.GA4611@builder.lan>
+ <ad4c375b-7051-bcce-a86c-febb72267caa@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ad4c375b-7051-bcce-a86c-febb72267caa@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2 Nov 2020 12:37:21 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Thu 29 Oct 18:54 CDT 2020, Siddharth Gupta wrote:
 
-
-> The only race that I see that can happen, is the one in the comment I
-> showed. And that is after enabling the recursed functions again after
-> clearing, one CPU could add a function while another CPU that just added
-> that same function could be just exiting this routine, notice that a
-> clearing of the array happened, and remove its function (which was the same
-> as the one just happened). So we get a "zero" in the array. If this
-> happens, it is likely that that function will recurse again and will be
-> added later.
+> 
+> On 10/26/2020 2:09 PM, Bjorn Andersson wrote:
+> > On Fri 02 Oct 21:05 CDT 2020, Siddharth Gupta wrote:
+[..]
+> > > diff --git a/drivers/remoteproc/remoteproc_elf_helpers.h b/drivers/remoteproc/remoteproc_elf_helpers.h
+> > > index 4b6be7b..d83ebca 100644
+> > > --- a/drivers/remoteproc/remoteproc_elf_helpers.h
+> > > +++ b/drivers/remoteproc/remoteproc_elf_helpers.h
+> > > @@ -11,6 +11,7 @@
+> > >   #include <linux/elf.h>
+> > >   #include <linux/types.h>
+> > > +#define MAX_NAME_LENGTH 16
+> > This name is too generic. Why is it 16?
+> 
+> I will update the name to  MAX_SHDR_NAME_LEN. In our usecase we didn't
+> expect a length of the section name to exceed
+> 16 characters (MAX_REGION_NAME_LENGTH defined in qcom_minidump.h in patch
+> 03/04). It might change later if users
+> want to increase the size. What would you prefer the max name length for the
+> section header to be?
 > 
 
-Updated version of this function:
+If you calculate the size of the region based on the strings I don't see
+why you need to limit it here - and you shouldn't use a bounded version
+of strcpy in this case either.
 
--- Steve
+I don't think this part of the code should truncate the strings, if we
+need to sanitize the strings make sure to do that when you populate the
+list.
 
-
-void ftrace_record_recursion(unsigned long ip, unsigned long parent_ip)
-{
-	int index = 0;
-	int i;
-	unsigned long old;
-
- again:
-	/* First check the last one recorded */
-	if (ip == cached_function)
-		return;
-
-	i = atomic_read(&nr_records);
-	/* nr_records is -1 when clearing records */
-	smp_mb__after_atomic();
-	if (i < 0)
-		return;
-
-	/*
-	 * If there's two writers and this writer comes in second,
-	 * the cmpxchg() below to update the ip will fail. Then this
-	 * writer will try again. It is possible that index will now
-	 * be greater than nr_records. This is because the writer
-	 * that succeeded has not updated the nr_records yet.
-	 * This writer could keep trying again until the other writer
-	 * updates nr_records. But if the other writer takes an
-	 * interrupt, and that interrupt locks up that CPU, we do
-	 * not want this CPU to lock up due to the recursion protection,
-	 * and have a bug report showing this CPU as the cause of
-	 * locking up the computer. To not lose this record, this
-	 * writer will simply use the next position to update the
-	 * recursed_functions, and it will update the nr_records
-	 * accordingly.
-	 */
-	if (index < i)
-		index = i;
-	if (index >= CONFIG_FTRACE_RECORD_RECURSION_SIZE)
-		return;
-
-	for (i = index - 1; i >= 0; i--) {
-		if (recursed_functions[i].ip == ip) {
-			cached_function = ip;
-			return;
-		}
-	}
-
-	cached_function = ip;
-
-	/*
-	 * We only want to add a function if it hasn't been added before.
-	 * Add to the current location before incrementing the count.
-	 * If it fails to add, then increment the index (save in i)
-	 * and try again.
-	 */
-	old = cmpxchg(&recursed_functions[index].ip, 0, ip);
-	if (old != 0) {
-		/* Did something else already added this for us? */
-		if (old == ip)
-			return;
-		/* Try the next location (use i for the next index) */
-		index++;
-		goto again;
-	}
-
-	recursed_functions[index].parent_ip = parent_ip;
-
-	/*
-	 * It's still possible that we could race with the clearing
-	 *    CPU0                                    CPU1
-	 *    ----                                    ----
-	 *                                       ip = func
-	 *  nr_records = -1;
-	 *  recursed_functions[0] = 0;
-	 *                                       i = -1
-	 *                                       if (i < 0)
-	 *  nr_records = 0;
-	 *  (new recursion detected)
-	 *      recursed_functions[0] = func
-	 *                                            cmpxchg(recursed_functions[0],
-	 *                                                    func, 0)
-	 *
-	 * But the worse that could happen is that we get a zero in
-	 * the recursed_functions array, and it's likely that "func" will
-	 * be recorded again.
-	 */
-	i = atomic_read(&nr_records);
-	smp_mb__after_atomic();
-	if (i < 0)
-		cmpxchg(&recursed_functions[index].ip, ip, 0);
-	else if (i <= index)
-		atomic_cmpxchg(&nr_records, i, index + 1);
-}
+Thanks,
+Bjorn
