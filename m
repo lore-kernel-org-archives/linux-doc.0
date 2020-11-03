@@ -2,73 +2,152 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6894AC388F7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6FC2C388F9
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:02:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DED722226
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:30:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57ED2223EA
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:02:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WUvK9hiB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728718AbgKCPaI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 10:30:08 -0500
-Received: from ms.lwn.net ([45.79.88.28]:46094 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728750AbgKCPaH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Nov 2020 10:30:07 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 09910384;
-        Tue,  3 Nov 2020 15:30:06 +0000 (UTC)
-Date:   Tue, 3 Nov 2020 08:30:06 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation fixes for 5.10-rc3
-Message-ID: <20201103083006.06d519fc@lwn.net>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1727688AbgKCQCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 11:02:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727323AbgKCQCY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 11:02:24 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C1DC0617A6
+        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 08:02:24 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id e7so14557805pfn.12
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 08:02:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=8p0zAqijMFY2LZHySc9B1ski8j200B9xN63VufhvfZE=;
+        b=WUvK9hiBfaewCF9lu/rnHA/ky1TO9SLKq5ubWrc5NfyBQalP1EDJFCgB620q5hzm8P
+         w7RqbA90o7pWxpiD+JQTGkZj/vELhrwHlo53vmxaXkdrHs56KSdUT8cmWchK9SdOLPsb
+         MIyRS6VCBLK3GkPdVZpsjiuVJ8eZo29MM7dRDd/oC3PF2hJu9WHHNg8Q3/eeqDnEVe8M
+         u5s/UYCObUpv8BdQ2ssY0JMUat1++qs66Y2pTlhfDXutXg95e2WmlZ0amNC2BUaQsQfu
+         T+70gsyMITdKOD5SRY5wpAN6KRH2geAbi9LnGmLunPGcay45ZutIZULvHh8iF/s+a1Js
+         Z2xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8p0zAqijMFY2LZHySc9B1ski8j200B9xN63VufhvfZE=;
+        b=rYPPNPWnj5+M3U2hCKdhuFng/ECHbJL85yj8tPAPqIr6ParI1KIqlhAm0WpF1WjhrB
+         L4ec7b7lW7H4k5SIcvDpiyENo/jHv4i6PIBWrSAA0Drz+rzCWXf+oFSV4PwJMYdmOSZ/
+         uwqNxEG2acdf4ligoVMp0uaHytJVDgJ1QHRkPdPGBq8wVDW/iK3G2qh8/tIEHY/Y4In5
+         LcWvwCbRJxkfNIOuZxThdMDrK5DDTtM7Xge825C0hTn74fYVc/CaZOV2eRN8PIjcGmNr
+         jw+OdHVRaPWYYrXeN/z0zalVkTBg+/DjUhIWuyisVi9krg5H/1U91hJHRGkCzDJ+TCYx
+         JY9Q==
+X-Gm-Message-State: AOAM530wGBJFM5TCHXNpUdM5FO4MoX4yvkzV42xa35cXBo2Mct3bbUPw
+        xdDZY8HMaINx/xBDRk41G4q9Hg==
+X-Google-Smtp-Source: ABdhPJzP+u5vyjCsNCaso/eSJbT/0D07SqbTdgo7fO1H1p7jSMwcJ3JjzNbr2nmtIaOIuGQqaoxE5Q==
+X-Received: by 2002:a63:5466:: with SMTP id e38mr17855102pgm.23.1604419343676;
+        Tue, 03 Nov 2020 08:02:23 -0800 (PST)
+Received: from localhost.localdomain ([122.173.169.225])
+        by smtp.gmail.com with ESMTPSA id j140sm8471006pfd.216.2020.11.03.08.02.14
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Nov 2020 08:02:22 -0800 (PST)
+From:   Sumit Garg <sumit.garg@linaro.org>
+To:     jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com,
+        jejb@linux.ibm.com
+Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
+        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
+        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
+        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
+        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org,
+        Sumit Garg <sumit.garg@linaro.org>
+Subject: [PATCH v8 0/4] Introduce TEE based Trusted Keys support
+Date:   Tue,  3 Nov 2020 21:31:42 +0530
+Message-Id: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-3650b228f83adda7e5ee532e2b90429c03f7b9ec:
+Add support for TEE based trusted keys where TEE provides the functionality
+to seal and unseal trusted keys using hardware unique key. Also, this is
+an alternative in case platform doesn't possess a TPM device.
 
-  Linux 5.10-rc1 (2020-10-25 15:14:11 -0700)
+This patch-set has been tested with OP-TEE based early TA which is already
+merged in upstream [1].
 
-are available in the Git repository at:
+[1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
 
-  git://git.lwn.net/linux.git tags/docs-5.10-3
+Changes in v8:
+1. Added static calls support instead of indirect calls.
+2. Documented trusted keys source module parameter.
+3. Refined patch #1 commit message discription.
+4. Addressed misc. comments on patch #2.
+5. Added myself as Trusted Keys co-maintainer instead.
+6. Rebased to latest tpmdd master.
 
-for you to fetch changes up to 4f3e69060dc9cc8f14ad9e172ada7120dc76445b:
+Changes in v7:
+1. Added a trusted.source module parameter in order to enforce user's
+   choice in case a particular platform posses both TPM and TEE.
+2. Refine commit description for patch #1.
 
-  docs: fix automarkup regression on Python 2 (2020-11-03 08:22:00 -0700)
+Changes in v6:
+1. Revert back to dynamic detection of trust source.
+2. Drop author mention from trusted_core.c and trusted_tpm1.c files.
+3. Rebased to latest tpmdd/master.
 
-----------------------------------------------------------------
-A small number of fixes, plus a build tweak to respect the desire for
-silence in V=0 builds.
+Changes in v5:
+1. Drop dynamic detection of trust source and use compile time flags
+   instead.
+2. Rename trusted_common.c -> trusted_core.c.
+3. Rename callback: cleanup() -> exit().
+4. Drop "tk" acronym.
+5. Other misc. comments.
+6. Added review tags for patch #3 and #4.
 
-----------------------------------------------------------------
-Jonathan Corbet (1):
-      docs: fix automarkup regression on Python 2
+Changes in v4:
+1. Pushed independent TEE features separately:
+  - Part of recent TEE PR: https://lkml.org/lkml/2020/5/4/1062
+2. Updated trusted-encrypted doc with TEE as a new trust source.
+3. Rebased onto latest tpmdd/master.
 
-Mauro Carvalho Chehab (3):
-      docs: Makefile: honor V=0 for docs building
-      scripts: kernel-doc: fix typedef parsing
-      scripts: kernel-doc: split typedef complex regex
+Changes in v3:
+1. Update patch #2 to support registration of multiple kernel pages.
+2. Incoporate dependency patch #4 in this patch-set:
+   https://patchwork.kernel.org/patch/11091435/
 
-Wilken Gottwalt (1):
-      documentation: arm: sunxi: add Allwinner H6 documents
+Changes in v2:
+1. Add reviewed-by tags for patch #1 and #2.
+2. Incorporate comments from Jens for patch #3.
+3. Switch to use generic trusted keys framework.
 
- Documentation/Makefile             |  4 ++++
- Documentation/arm/sunxi.rst        | 10 ++++++++++
- Documentation/sphinx/automarkup.py | 20 ++++++++++++++------
- scripts/kernel-doc                 | 15 ++++++++++-----
- 4 files changed, 38 insertions(+), 11 deletions(-)
+Sumit Garg (4):
+  KEYS: trusted: Add generic trusted keys framework
+  KEYS: trusted: Introduce TEE based Trusted Keys
+  doc: trusted-encrypted: updates with TEE as a new trust source
+  MAINTAINERS: Add myself as Trusted Keys co-maintainer
+
+ Documentation/admin-guide/kernel-parameters.txt   |  12 +
+ Documentation/security/keys/trusted-encrypted.rst | 203 +++++++++++--
+ MAINTAINERS                                       |   2 +
+ include/keys/trusted-type.h                       |  47 +++
+ include/keys/trusted_tee.h                        |  55 ++++
+ include/keys/trusted_tpm.h                        |  17 +-
+ security/keys/trusted-keys/Makefile               |   2 +
+ security/keys/trusted-keys/trusted_core.c         | 354 ++++++++++++++++++++++
+ security/keys/trusted-keys/trusted_tee.c          | 278 +++++++++++++++++
+ security/keys/trusted-keys/trusted_tpm1.c         | 336 ++++----------------
+ 10 files changed, 979 insertions(+), 327 deletions(-)
+ create mode 100644 include/keys/trusted_tee.h
+ create mode 100644 security/keys/trusted-keys/trusted_core.c
+ create mode 100644 security/keys/trusted-keys/trusted_tee.c
+
+-- 
+2.7.4
+
