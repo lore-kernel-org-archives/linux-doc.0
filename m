@@ -2,91 +2,108 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1DAC388F7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:10:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2729C2D0A3
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:17:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 739C92080D
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:10:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74CDD223C7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:17:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kSOrZCkd";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0XFyqK39"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oDO+8A43"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731648AbgKCWKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 17:10:11 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:45012 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729764AbgKCWKJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 17:10:09 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1604441407;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8fYu6MuaJ0Ok/Y49A6p/r2wWyaAYSztubvJXZfAJjx8=;
-        b=kSOrZCkd+5bm3VUzBCKp+nXf6Jm7gHJqEst/8Y8Y7kCKavfTO6EsO6Fbfu5IWFm7Yh0rOh
-        ViOh1ai4o5f0PzkGC6gnQU0hccQS3A0dsAu6zIpTriXCVe8LYJKI0b83pLLX4BemllgEQ6
-        +IQR9J0bMajTKl5Wq0d2SPBn9SWwC3qrE+PB++4G0G8IfyOx9BoLgfM6EkEutRo8WTxhwq
-        MlO0X8D6Jsn2qbEWzgvUE1Zb1jqzlTRrYhfELhwbbtuWglFP6/4tTy4CG7I7hp5vG+2T3N
-        IPrsCMkaOm0iBHMsLlRmPUmfvf6Gy5W+vaq7iru3s8Ka7+yMQ3SgEgROjA8WHw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1604441407;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8fYu6MuaJ0Ok/Y49A6p/r2wWyaAYSztubvJXZfAJjx8=;
-        b=0XFyqK39HcF4/ENuNbZFJU0QS3/l+9z7UfPcGscjnLvY1kuRMumepPSyYBcqHw+YIi3h5E
-        hih5bXfXsCTgC8Cw==
-To:     Sudeep Holla <sudeep.holla@arm.com>,
-        Elliot Berman <eberman@codeaurora.org>
-Cc:     Qais Yousef <qais.yousef@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        linux-kernel@vger.kernel.org, psodagud@codeaurora.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
-In-Reply-To: <20201030174531.ywwkcntq4ge33lrh@bogus>
-References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org> <87v9f04n8r.fsf@nanos.tec.linutronix.de> <a6d7f84679240fcf580520230a88c058@codeaurora.org> <20201026171224.GV2611@hirez.programming.kicks-ass.net> <a9fa1f8d-52c7-adca-9087-160b1ecda6b8@codeaurora.org> <20201028145516.23lm66mora5b3wqr@e107158-lin> <20201028151558.odxwolnwbes2gihi@bogus> <cb175d84-7a89-344d-0dd8-76bf4ece9e3b@codeaurora.org> <20201030174531.ywwkcntq4ge33lrh@bogus>
-Date:   Tue, 03 Nov 2020 23:10:06 +0100
-Message-ID: <871rha148x.fsf@nanos.tec.linutronix.de>
+        id S1729665AbgKCWRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 17:17:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729466AbgKCWRk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 17:17:40 -0500
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DA34C061A04
+        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 14:17:39 -0800 (PST)
+Received: by mail-lj1-x244.google.com with SMTP id 23so20743422ljv.7
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 14:17:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1oYKXAN5GCNK52qKASABkZS4MsOww72x3szPS4VEUtM=;
+        b=oDO+8A43pqsEdpFwep2lqes7WkU1VVBO3F6WnCbaHxb3MX4QnoEw9cx5MceFMPFccv
+         w/Spe4LXupBhmXcIEiHoP6MNqnoRimNc+UWR6RGvVYasygrQdgTXfWRwbY/ApwsoSKSB
+         MOFARBshPTNfVOtqJLAArPNY7eq0fe402dEWg3GeBu21SisinttG6Ro/KF7G9Zv+51/v
+         8pLLm7Czirbm2NGXxg7j8H3jTEOq+YZPyih9FiXDM2bsIQ27EXa+qkaVZ3DVgMQ8kONa
+         1VhMutiL6QyCTzpeH21STdkZ6ab4guePdNBu6c7qjXpMHJdoth41JoReEpIEklcZa14o
+         pIBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1oYKXAN5GCNK52qKASABkZS4MsOww72x3szPS4VEUtM=;
+        b=koxFTzQzyb5to/fLUE6fnr1A9d4i9PgNyknpb6VUQ4Ry+IgS/tzHqWTTVz25Tm519v
+         1OhCGiu9AA/K3ROpPK9NxZ2xxZRrmx63vEoyjjIWpw22dfwPvZrcPejlZV7cQ/217xqU
+         kqd7iZlMYX2oWcs+YMyYZonlaUHj38F6STmIlVf6sNnnBoLq5cyTMPxZ5RcgGVOh3YXa
+         x8Ea04eRkK1cLdSVS5zTf7ztDiBZNxuri3mqd9ArcuSzqMZTqteZKMYeNdWiaMYLu1o0
+         qmrHRzwFpqbPHzr6MCLF4x5mFyeXrDcTMy9lbqeq8YMpyC8p39Z7A4M6+ZMgJK6FisfC
+         SlIw==
+X-Gm-Message-State: AOAM533o4EufsP8sa9Ul3x4cdwymfrlpPXMIvuzpOF1s8+ZHelSVEgUA
+        aF04VauGmwrJsCz1nM/po2bIqi28npuxqP6C1OxkhA==
+X-Google-Smtp-Source: ABdhPJzxANwwy8DCO260MRj79UklNQaawFfHnT4W/UwZLqOVM8XdlsOH3LfgzXzugsbmFvH5JnQM130bEYQPeCf+jqc=
+X-Received: by 2002:a2e:9a17:: with SMTP id o23mr10126372lji.242.1604441858170;
+ Tue, 03 Nov 2020 14:17:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20201103175841.3495947-1-elver@google.com> <20201103175841.3495947-2-elver@google.com>
+In-Reply-To: <20201103175841.3495947-2-elver@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 3 Nov 2020 23:17:11 +0100
+Message-ID: <CAG48ez3rNvqRuU7o1f_Jd3sNZVD+nLSry4rbwMR_VHEXmj6pvA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/9] mm: add Kernel Electric-Fence infrastructure
+To:     Marco Elver <elver@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        SeongJae Park <sjpark@amazon.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 30 2020 at 17:45, Sudeep Holla wrote:
-> On Thu, Oct 29, 2020 at 02:37:06PM -0700, Elliot Berman wrote:
->> In the case where commercial device is using feature for thermal, device
->> should boot multiple small cores. Booting only one core means we would not
->> be able to use all possible cores to maximum extent possible in this thermal
->> case.
->
-> I understood that point. But you haven't responded on my logical vs physical
-> number argument. I am clearly NACKing this patch as is for just usage of
-> logical CPU IDs in the command line while your intention is to control
-> the physical CPUs. So once again, NACK for that reason.
+On Tue, Nov 3, 2020 at 6:58 PM Marco Elver <elver@google.com> wrote:
+> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> low-overhead sampling-based memory safety error detector of heap
+> use-after-free, invalid-free, and out-of-bounds access errors.
 
-Correct. And no, we are not going to add a command line option to select
-physical CPU ids.
-
-There are two ways to solve that:
-
-  1) The firmware can tell the kernel whether a CPU should be brought up
-     or not, e.g. by failing the bootup request.
-
-  2) The kernel has a way to figure out the current thermal and/or power
-     budget early in the boot process and sorts out which and how many
-     CPUs fit into that limit.
-
-Thanks,
-
-        tglx
-
+Reviewed-by: Jann Horn <jannh@google.com>
