@@ -2,108 +2,111 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C13C2D0A3
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D628C55178
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:03:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D634022370
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:03:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yogn/KZ7"
+	by mail.kernel.org (Postfix) with ESMTP id D50BD2242E
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:03:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgKCQDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 11:03:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33790 "EHLO
+        id S1728275AbgKCQDv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 11:03:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728257AbgKCQDM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 11:03:12 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B11C061A04
-        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 08:03:11 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id g11so2249227pll.13
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 08:03:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=zDggAsDI739UznsdJGV123TENJ6R94pJsrrMJ096A5w=;
-        b=Yogn/KZ7ijrqJ0T2z6E6jJ/rsJS/CsbY+bDuFIpVxXfqjMcWW2r08cwmXmAnkPO8Zk
-         c7p/xjaHTOXmoh8uNv5PKN9wLS4o5WIjsMHsU1kQq5RaEOxjg0bxrN7YquTnw/jETLzN
-         6O2kQyddalRqkFMq+FMzq6T1IBEUisid1qQEJQGyA09dLUaAvuP+4K8B6p04KoC/t/yB
-         dY4VycxSHAP9qayaKCSYcfYI4XUqe8Z6W/dVieZiJG51iCGiehSC/g42n2M4ylVHfJhE
-         gz+Q5wKalOZ/rS17Pyx2kfsZINr2mm7Q13P09PN8q5rP4/huSmsGxOCUU2wKZv1EorO5
-         8GDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=zDggAsDI739UznsdJGV123TENJ6R94pJsrrMJ096A5w=;
-        b=HBcXhgxaUnyCzYYCP2/t5a1ZjfOl+G/8h5j95k3Uhx+lNTS1giNlFartU+NBhdcwtj
-         dalHwzf9iZJ40HVtAVdPM4GZGDtiXGFeYZZ7TKiwpENRolE6lyVwPqzr33Gqj0i2m+q2
-         7pLIykSRlecmxTJbU+HSXi9mvnZ6O5lOq5Heg0hJY3hv9crhmlAW7rhmlN+qbJXr1p63
-         gDxcuIS/SQkdDj6kMNVs+lExbzpRh38zTe2wcqDzAz5bIqp88OTEwHce1ydPD/KgKMqq
-         bNwELI4/FsOVuea4EYiqgHSLJBEmHNBSTJwwhxCptvxuU86+y9IA4UcXeHdYMNeHIEV4
-         vhjg==
-X-Gm-Message-State: AOAM533ZO/1mTDgaACl4NsJIjNpQUasfislsh0vZfh53yOtgV0y5hJZc
-        8OlZW4GgYs7gojUpvMniyB4aJw==
-X-Google-Smtp-Source: ABdhPJzq35Qf86wUQrahPKwseE7thoRB6fMPDxpfeiSBGzmY3jo07CAGFTuARsNI+6+8+yZsb+pOVQ==
-X-Received: by 2002:a17:902:6942:b029:d6:18b0:8a with SMTP id k2-20020a1709026942b02900d618b0008amr25452573plt.23.1604419391553;
-        Tue, 03 Nov 2020 08:03:11 -0800 (PST)
-Received: from localhost.localdomain ([122.173.169.225])
-        by smtp.gmail.com with ESMTPSA id j140sm8471006pfd.216.2020.11.03.08.03.01
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 Nov 2020 08:03:10 -0800 (PST)
-From:   Sumit Garg <sumit.garg@linaro.org>
-To:     jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com,
-        jejb@linux.ibm.com
-Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org,
-        Sumit Garg <sumit.garg@linaro.org>
-Subject: [PATCH v8 4/4] MAINTAINERS: Add myself as Trusted Keys co-maintainer
-Date:   Tue,  3 Nov 2020 21:31:46 +0530
-Message-Id: <1604419306-26105-5-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+        with ESMTP id S1728264AbgKCQDv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 11:03:51 -0500
+Received: from smtp-42ae.mail.infomaniak.ch (smtp-42ae.mail.infomaniak.ch [IPv6:2001:1600:4:17::42ae])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E70C061A47
+        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 08:03:50 -0800 (PST)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CQZMm1C8kzlhqv5;
+        Tue,  3 Nov 2020 17:03:48 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4CQZMk0bzXzlh8TS;
+        Tue,  3 Nov 2020 17:03:46 +0100 (CET)
+Subject: Re: [PATCH v22 07/12] landlock: Support filesystem access-control
+To:     Jann Horn <jannh@google.com>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20201027200358.557003-1-mic@digikod.net>
+ <20201027200358.557003-8-mic@digikod.net>
+ <CAG48ez1xMfxkwhXK4b1BB4GrTVauNzfwPoCutn9axKt_PFRSVQ@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <056d8f1a-b45f-379f-d81a-8c13a1536c3f@digikod.net>
+Date:   Tue, 3 Nov 2020 17:03:45 +0100
+User-Agent: 
+MIME-Version: 1.0
+In-Reply-To: <CAG48ez1xMfxkwhXK4b1BB4GrTVauNzfwPoCutn9axKt_PFRSVQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a Trusted Keys co-maintainer entry in order to support TEE based
-Trusted Keys framework.
 
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+On 29/10/2020 02:06, Jann Horn wrote:
+> (On Tue, Oct 27, 2020 at 9:04 PM Mickaël Salaün <mic@digikod.net> wrote:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e73636b..52687bb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9732,11 +9732,13 @@ KEYS-TRUSTED
- M:	James Bottomley <jejb@linux.ibm.com>
- M:	Jarkko Sakkinen <jarkko@kernel.org>
- M:	Mimi Zohar <zohar@linux.ibm.com>
-+M:	Sumit Garg <sumit.garg@linaro.org>
- L:	linux-integrity@vger.kernel.org
- L:	keyrings@vger.kernel.org
- S:	Supported
- F:	Documentation/security/keys/trusted-encrypted.rst
- F:	include/keys/trusted-type.h
-+F:	include/keys/trusted_tee.h
- F:	include/keys/trusted_tpm.h
- F:	security/keys/trusted-keys/
- 
--- 
-2.7.4
+>> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+> [...]
+>> +static inline u32 get_file_access(const struct file *const file)
+>> +{
+>> +       u32 access = 0;
+>> +
+>> +       if (file->f_mode & FMODE_READ) {
+>> +               /* A directory can only be opened in read mode. */
+>> +               if (S_ISDIR(file_inode(file)->i_mode))
+>> +                       return LANDLOCK_ACCESS_FS_READ_DIR;
+>> +               access = LANDLOCK_ACCESS_FS_READ_FILE;
+>> +       }
+>> +       /*
+>> +        * A LANDLOCK_ACCESS_FS_APPEND could be added but we also need to check
+>> +        * fcntl(2).
+>> +        */
+> 
+> Once https://lore.kernel.org/linux-api/20200831153207.GO3265@brightrain.aerifal.cx/
+> lands, pwritev2() with RWF_NOAPPEND will also be problematic for
+> classifying "write" vs "append"; you may want to include that in the
+> comment. (Or delete the comment.)
 
+Contrary to fcntl(2), pwritev2(2) doesn't seems to modify the file
+description. Otherwise, other LSMs would need to be patched.
+I'll remove this comment anyway.
+
+> 
+>> +       if (file->f_mode & FMODE_WRITE)
+>> +               access |= LANDLOCK_ACCESS_FS_WRITE_FILE;
+>> +       /* __FMODE_EXEC is indeed part of f_flags, not f_mode. */
+>> +       if (file->f_flags & __FMODE_EXEC)
+>> +               access |= LANDLOCK_ACCESS_FS_EXECUTE;
+>> +       return access;
+>> +}
+> [...]
+> 
