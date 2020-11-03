@@ -5,46 +5,46 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CC0C55178
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D0E1C4742C
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7D9B208B6
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DEFB20731
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="QZ38XXZo"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="MOfaBTqF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728228AbgKCM6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 07:58:25 -0500
-Received: from m42-4.mailgun.net ([69.72.42.4]:16929 "EHLO m42-4.mailgun.net"
+        id S1729131AbgKCM6g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 07:58:36 -0500
+Received: from m42-4.mailgun.net ([69.72.42.4]:26274 "EHLO m42-4.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729010AbgKCM6Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Nov 2020 07:58:24 -0500
+        id S1729095AbgKCM6c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Nov 2020 07:58:32 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1604408302; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1604408310; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=ObqWOTpheK3mm0bfxZD76ibrbEOYwcqvFAOyd+uof3c=; b=QZ38XXZoqYEWVhmWpAus45NaTDqAlzHY0A5OhyT0iZFZPl1GP3tLgH/+7Q224EMvUoT+mnu2
- UfmoLF1YD20dv40gmEl0ZM7lhIE709KYC9Wn6JexWiuRFu2fnfLzbe1Fpc3VNVZl1u9fy3/a
- ++y0FimbEG9dcAKGU71uZA/4plU=
+ bh=EKZ+yFNfbwC66+rp+MUF5603nUwBjux7TbBt+fLB8hM=; b=MOfaBTqFna7T8Am+bGtOEEdRIRN5C0UyoeY0mI5eIyYu9v4h+UyV6Cs+p0vHljTArd7sWUMw
+ hZ6AoC9Od6ivDsHjkXa1eRYlTaFxRZDsbkx7pSfnw+A/+AdEez0rAhOOtXgb/aJkoMH5insL
+ 7SrbDENrcvcBNCkgMuzyNEgdTWU=
 X-Mailgun-Sending-Ip: 69.72.42.4
 X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5fa153ecb64b1c5b78f96c5f (version=TLS1.2,
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 5fa153ec75bebe827ae93afb (version=TLS1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Nov 2020 12:58:19
  GMT
 Sender: sidgup=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 722ACC3854B; Tue,  3 Nov 2020 09:19:33 +0000 (UTC)
+        id 0D75DC38537; Tue,  3 Nov 2020 09:19:32 +0000 (UTC)
 Received: from sidgup-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: sidgup)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A367FC3853E;
-        Tue,  3 Nov 2020 09:19:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A367FC3853E
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D2D8DC38537;
+        Tue,  3 Nov 2020 09:19:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D2D8DC38537
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
 From:   Siddharth Gupta <sidgup@codeaurora.org>
@@ -54,10 +54,10 @@ Cc:     Siddharth Gupta <sidgup@codeaurora.org>,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
         psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org, Gurbir Arora <gurbaror@codeaurora.org>
-Subject: [PATCH v7 3/4] remoteproc: qcom: Add capability to collect minidumps
-Date:   Tue,  3 Nov 2020 01:19:19 -0800
-Message-Id: <1604395160-12443-4-git-send-email-sidgup@codeaurora.org>
+        linux-doc@vger.kernel.org
+Subject: [PATCH v7 2/4] remoteproc: coredump: Add minidump functionality
+Date:   Tue,  3 Nov 2020 01:19:18 -0800
+Message-Id: <1604395160-12443-3-git-send-email-sidgup@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
 References: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
@@ -65,248 +65,229 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds support for collecting minidump in the event of remoteproc
-crash. Parse the minidump table based on remoteproc's unique minidump-id,
-read all memory regions from the remoteproc's minidump table entry and
-expose the memory to userspace. The remoteproc platform driver can choose
-to collect a full/mini dump by specifying the coredump op.
+This change adds a new kind of core dump mechanism which instead of dumping
+entire program segments of the firmware, dumps sections of the remoteproc
+memory which are sufficient to allow debugging the firmware. This function
+thus uses section headers instead of program headers during creation of the
+core dump elf.
 
-Co-developed-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
 Signed-off-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
-Co-developed-by: Gurbir Arora <gurbaror@codeaurora.org>
-Signed-off-by: Gurbir Arora <gurbaror@codeaurora.org>
 Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
 ---
- drivers/remoteproc/qcom_minidump.h |  64 +++++++++++++++++++++++
- drivers/remoteproc/qcom_q6v5_pas.c | 104 ++++++++++++++++++++++++++++++++++++-
- 2 files changed, 166 insertions(+), 2 deletions(-)
- create mode 100644 drivers/remoteproc/qcom_minidump.h
+ drivers/remoteproc/remoteproc_coredump.c    | 140 ++++++++++++++++++++++++++++
+ drivers/remoteproc/remoteproc_elf_helpers.h |  26 ++++++
+ include/linux/remoteproc.h                  |   1 +
+ 3 files changed, 167 insertions(+)
 
-diff --git a/drivers/remoteproc/qcom_minidump.h b/drivers/remoteproc/qcom_minidump.h
-new file mode 100644
-index 0000000..5857d06
---- /dev/null
-+++ b/drivers/remoteproc/qcom_minidump.h
-@@ -0,0 +1,64 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
-+ */
-+
-+#ifndef __QCOM_MINIDUMP_H
-+#define __QCOM_MINIDUMP_H
-+
-+#define MAX_NUM_OF_SS           10
-+#define MAX_REGION_NAME_LENGTH  16
-+#define SBL_MINIDUMP_SMEM_ID	602
-+#define MD_REGION_VALID		('V' << 24 | 'A' << 16 | 'L' << 8 | 'I' << 0)
-+#define MD_SS_ENCR_DONE		('D' << 24 | 'O' << 16 | 'N' << 8 | 'E' << 0)
-+#define MD_SS_ENABLED		('E' << 24 | 'N' << 16 | 'B' << 8 | 'L' << 0)
-+
-+/**
-+ * struct minidump_region - Minidump region
-+ * @name		: Name of the region to be dumped
-+ * @seq_num:		: Use to differentiate regions with same name.
-+ * @valid		: This entry to be dumped (if set to 1)
-+ * @address		: Physical address of region to be dumped
-+ * @size		: Size of the region
-+ */
-+struct minidump_region {
-+	char	name[MAX_REGION_NAME_LENGTH];
-+	__le32	seq_num;
-+	__le32	valid;
-+	__le64	address;
-+	__le64	size;
-+};
-+
-+/**
-+ * struct minidump_subsystem_toc: Subsystem's SMEM Table of content
-+ * @status : Subsystem toc init status
-+ * @enabled : if set to 1, this region would be copied during coredump
-+ * @encryption_status: Encryption status for this subsystem
-+ * @encryption_required : Decides to encrypt the subsystem regions or not
-+ * @ss_region_count : Number of regions added in this subsystem toc
-+ * @md_ss_smem_regions_baseptr : regions base pointer of the subsystem
-+ */
-+struct minidump_subsystem_toc {
-+	__le32	status;
-+	__le32	enabled;
-+	__le32	encryption_status;
-+	__le32	encryption_required;
-+	__le32	ss_region_count;
-+	__le64	md_ss_smem_regions_baseptr;
-+};
-+
-+/**
-+ * struct minidump_global_toc: Global Table of Content
-+ * @md_toc_init : Global Minidump init status
-+ * @md_revision : Minidump revision
-+ * @md_enable_status : Minidump enable status
-+ * @md_ss_toc : Array of subsystems toc
-+ */
-+struct minidump_global_toc {
-+	__le32				status;
-+	__le32				md_revision;
-+	__le32				enabled;
-+	struct minidump_subsystem_toc	md_ss_toc[MAX_NUM_OF_SS];
-+};
-+
-+#endif
-diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
-index 3837f23..349f725 100644
---- a/drivers/remoteproc/qcom_q6v5_pas.c
-+++ b/drivers/remoteproc/qcom_q6v5_pas.c
-@@ -28,11 +28,13 @@
- #include "qcom_pil_info.h"
- #include "qcom_q6v5.h"
- #include "remoteproc_internal.h"
-+#include "qcom_minidump.h"
- 
- struct adsp_data {
- 	int crash_reason_smem;
- 	const char *firmware_name;
- 	int pas_id;
-+	unsigned int minidump_id;
- 	bool has_aggre2_clk;
- 	bool auto_boot;
- 
-@@ -63,6 +65,7 @@ struct qcom_adsp {
- 	int proxy_pd_count;
- 
- 	int pas_id;
-+	unsigned int minidump_id;
- 	int crash_reason_smem;
- 	bool has_aggre2_clk;
- 	const char *info_name;
-@@ -116,6 +119,88 @@ static void adsp_pds_disable(struct qcom_adsp *adsp, struct device **pds,
- 	}
+diff --git a/drivers/remoteproc/remoteproc_coredump.c b/drivers/remoteproc/remoteproc_coredump.c
+index 34530dc..a6c0099 100644
+--- a/drivers/remoteproc/remoteproc_coredump.c
++++ b/drivers/remoteproc/remoteproc_coredump.c
+@@ -323,3 +323,143 @@ void rproc_coredump(struct rproc *rproc)
+ 	 */
+ 	wait_for_completion(&dump_state.dump_done);
  }
- 
-+static void adsp_minidump_cleanup(struct rproc *rproc)
++
++/**
++ * rproc_minidump() - perform minidump
++ * @rproc:	rproc handle
++ *
++ * This function will generate an ELF header for the registered sections of
++ * segments and create a devcoredump device associated with rproc. Based on
++ * the coredump configuration this function will directly copy the segments
++ * from device memory to userspace or copy segments from device memory to
++ * a separate buffer, which can then be read by userspace.
++ * The first approach avoids using extra vmalloc memory. But it will stall
++ * recovery flow until dump is read by userspace.
++ */
++void rproc_minidump(struct rproc *rproc)
 +{
-+	struct rproc_dump_segment *entry, *tmp;
++	struct rproc_dump_segment *segment;
++	void *shdr;
++	void *ehdr;
++	size_t data_size;
++	size_t strtbl_size = 0;
++	size_t strtbl_index = 1;
++	size_t offset;
++	void *data;
++	u8 class = rproc->elf_class;
++	int shnum;
++	struct rproc_coredump_state dump_state;
++	unsigned int dump_conf = rproc->dump_conf;
++	char *str_tbl = "STR_TBL";
 +
-+	list_for_each_entry_safe(entry, tmp, &rproc->dump_segments, node) {
-+		list_del(&entry->node);
-+		kfree(entry->priv);
-+		kfree(entry);
-+	}
-+}
++	if (list_empty(&rproc->dump_segments) ||
++	    dump_conf == RPROC_COREDUMP_DISABLED)
++		return;
 +
-+static void adsp_add_minidump_segments(struct rproc *rproc,
-+				       struct minidump_subsystem_toc *minidump_ss)
-+{
-+	struct minidump_region __iomem *ptr;
-+	struct minidump_region region;
-+	int seg_cnt, i;
-+	dma_addr_t da;
-+	size_t size;
-+	char *name;
-+
-+	if (!list_empty(&rproc->dump_segments)) {
-+		dev_err(&rproc->dev, "dump segment list already populated\n");
++	if (class == ELFCLASSNONE) {
++		dev_err(&rproc->dev, "Elf class is not set\n");
 +		return;
 +	}
 +
-+	seg_cnt = le32_to_cpu(minidump_ss->ss_region_count);
-+	ptr = ioremap((unsigned long)le64_to_cpu(minidump_ss->md_ss_smem_regions_baseptr),
-+		      seg_cnt * sizeof(struct minidump_region));
-+
-+	if (!ptr)
-+		return;
-+
-+	for (i = 0; i < seg_cnt; i++) {
-+		memcpy_fromio(&region, ptr + i, sizeof(region));
-+		if (region.valid == MD_REGION_VALID) {
-+			name = kmalloc(MAX_REGION_NAME_LENGTH, GFP_KERNEL);
-+			strlcpy(name, region.name, MAX_REGION_NAME_LENGTH);
-+			da = le64_to_cpu(region.address);
-+			size = le32_to_cpu(region.size);
-+			rproc_coredump_add_custom_segment(rproc, da, size, NULL, name);
-+		}
-+	}
-+
-+	iounmap(ptr);
-+}
-+
-+static void adsp_dump(struct rproc *rproc)
-+{
-+	struct qcom_adsp *adsp = rproc->priv;
-+	struct minidump_subsystem_toc *minidump_ss;
-+	struct minidump_global_toc *minidump_toc;
-+
-+	/* Get Global minidump ToC*/
-+	minidump_toc = qcom_smem_get(QCOM_SMEM_HOST_ANY, SBL_MINIDUMP_SMEM_ID, NULL);
-+
-+	/* check if global table pointer exists and init is set */
-+	if (IS_ERR(minidump_toc) || !minidump_toc->status) {
-+		dev_err(&rproc->dev, "SMEM is not initialized.\n");
-+		return;
-+	}
-+
-+	/* Get subsystem table of contents using the minidump id */
-+	minidump_ss = &minidump_toc->md_ss_toc[adsp->minidump_id];
-+
-+	/**
-+	 * Collect minidump if SS ToC is valid and segment table
-+	 * is initialized in memory and encryption status is set.
++	/*
++	 * We allocate two extra section headers. The first one is null.
++	 * Second section header is for the string table. Also space is
++	 * allocated for string table.
 +	 */
-+	if (minidump_ss->md_ss_smem_regions_baseptr == 0 ||
-+	    le32_to_cpu(minidump_ss->status) != 1 ||
-+	    le32_to_cpu(minidump_ss->enabled) != MD_SS_ENABLED ||
-+	    le32_to_cpu(minidump_ss->encryption_status) != MD_SS_ENCR_DONE) {
-+		dev_err(&rproc->dev, "Minidump not ready!! Aborting\n");
++	data_size = elf_size_of_hdr(class) + 2 * elf_size_of_shdr(class);
++	shnum = 2;
++
++	/* the extra byte is for the null character at index 0 */
++	strtbl_size += strlen(str_tbl) + 2;
++
++	list_for_each_entry(segment, &rproc->dump_segments, node) {
++		data_size += elf_size_of_shdr(class);
++		strtbl_size += strlen(segment->priv) + 1;
++		if (dump_conf == RPROC_COREDUMP_ENABLED)
++			data_size += segment->size;
++		shnum++;
++	}
++
++	data_size += strtbl_size;
++
++	data = vmalloc(data_size);
++	if (!data)
++		return;
++
++	ehdr = data;
++	memset(ehdr, 0, elf_size_of_hdr(class));
++	/* e_ident field is common for both elf32 and elf64 */
++	elf_hdr_init_ident(ehdr, class);
++
++	elf_hdr_set_e_type(class, ehdr, ET_CORE);
++	elf_hdr_set_e_machine(class, ehdr, rproc->elf_machine);
++	elf_hdr_set_e_version(class, ehdr, EV_CURRENT);
++	elf_hdr_set_e_entry(class, ehdr, rproc->bootaddr);
++	elf_hdr_set_e_shoff(class, ehdr, elf_size_of_hdr(class));
++	elf_hdr_set_e_ehsize(class, ehdr, elf_size_of_hdr(class));
++	elf_hdr_set_e_shentsize(class, ehdr, elf_size_of_shdr(class));
++	elf_hdr_set_e_shnum(class, ehdr, shnum);
++	elf_hdr_set_e_shstrndx(class, ehdr, 1);
++
++	/*
++	 * The zeroth index of the section header is reserved and is rarely used.
++	 * Set the section header as null (SHN_UNDEF) and move to the next one.
++	 */
++	shdr = data + elf_hdr_get_e_shoff(class, ehdr);
++	memset(shdr, 0, elf_size_of_shdr(class));
++	shdr += elf_size_of_shdr(class);
++
++	/* Initialize the string table. */
++	offset = elf_hdr_get_e_shoff(class, ehdr) +
++		 elf_size_of_shdr(class) * elf_hdr_get_e_shnum(class, ehdr);
++	memset(data + offset, 0, strtbl_size);
++
++	/* Fill in the string table section header. */
++	memset(shdr, 0, elf_size_of_shdr(class));
++	elf_shdr_set_sh_type(class, shdr, SHT_STRTAB);
++	elf_shdr_set_sh_offset(class, shdr, offset);
++	elf_shdr_set_sh_size(class, shdr, strtbl_size);
++	elf_shdr_set_sh_entsize(class, shdr, 0);
++	elf_shdr_set_sh_flags(class, shdr, 0);
++	elf_shdr_set_sh_name(class, shdr, set_section_name(str_tbl, ehdr, class, &strtbl_index));
++	offset += elf_shdr_get_sh_size(class, shdr);
++	shdr += elf_size_of_shdr(class);
++
++	list_for_each_entry(segment, &rproc->dump_segments, node) {
++		memset(shdr, 0, elf_size_of_shdr(class));
++		elf_shdr_set_sh_type(class, shdr, SHT_PROGBITS);
++		elf_shdr_set_sh_offset(class, shdr, offset);
++		elf_shdr_set_sh_addr(class, shdr, segment->da);
++		elf_shdr_set_sh_size(class, shdr, segment->size);
++		elf_shdr_set_sh_entsize(class, shdr, 0);
++		elf_shdr_set_sh_flags(class, shdr, SHF_WRITE);
++		elf_shdr_set_sh_name(class, shdr,
++				     set_section_name(segment->priv, ehdr, class, &strtbl_index));
++
++		/* No need to copy segments for inline dumps */
++		if (dump_conf == RPROC_COREDUMP_ENABLED)
++			rproc_copy_segment(rproc, data + offset, segment, 0,
++					   segment->size);
++		offset += elf_shdr_get_sh_size(class, shdr);
++		shdr += elf_size_of_shdr(class);
++	}
++
++	if (dump_conf == RPROC_COREDUMP_ENABLED) {
++		dev_coredumpv(&rproc->dev, data, data_size, GFP_KERNEL);
 +		return;
 +	}
 +
-+	adsp_add_minidump_segments(rproc, minidump_ss);
-+	rproc_minidump(rproc);
-+	adsp_minidump_cleanup(rproc);
++	/* Initialize the dump state struct to be used by rproc_coredump_read */
++	dump_state.rproc = rproc;
++	dump_state.header = data;
++	init_completion(&dump_state.dump_done);
++
++	dev_coredumpm(&rproc->dev, NULL, &dump_state, data_size, GFP_KERNEL,
++		      rproc_coredump_read, rproc_coredump_free);
++
++	/* Wait until the dump is read and free is called. Data is freed
++	 * by devcoredump framework automatically after 5 minutes.
++	 */
++	wait_for_completion(&dump_state.dump_done);
++}
++EXPORT_SYMBOL(rproc_minidump);
+diff --git a/drivers/remoteproc/remoteproc_elf_helpers.h b/drivers/remoteproc/remoteproc_elf_helpers.h
+index 4b6be7b..fa669ad 100644
+--- a/drivers/remoteproc/remoteproc_elf_helpers.h
++++ b/drivers/remoteproc/remoteproc_elf_helpers.h
+@@ -65,6 +65,7 @@ ELF_GEN_FIELD_GET_SET(hdr, e_type, u16)
+ ELF_GEN_FIELD_GET_SET(hdr, e_version, u32)
+ ELF_GEN_FIELD_GET_SET(hdr, e_ehsize, u32)
+ ELF_GEN_FIELD_GET_SET(hdr, e_phentsize, u16)
++ELF_GEN_FIELD_GET_SET(hdr, e_shentsize, u16)
+ 
+ ELF_GEN_FIELD_GET_SET(phdr, p_paddr, u64)
+ ELF_GEN_FIELD_GET_SET(phdr, p_vaddr, u64)
+@@ -75,6 +76,9 @@ ELF_GEN_FIELD_GET_SET(phdr, p_offset, u64)
+ ELF_GEN_FIELD_GET_SET(phdr, p_flags, u32)
+ ELF_GEN_FIELD_GET_SET(phdr, p_align, u64)
+ 
++ELF_GEN_FIELD_GET_SET(shdr, sh_type, u32)
++ELF_GEN_FIELD_GET_SET(shdr, sh_flags, u32)
++ELF_GEN_FIELD_GET_SET(shdr, sh_entsize, u16)
+ ELF_GEN_FIELD_GET_SET(shdr, sh_size, u64)
+ ELF_GEN_FIELD_GET_SET(shdr, sh_offset, u64)
+ ELF_GEN_FIELD_GET_SET(shdr, sh_name, u32)
+@@ -93,4 +97,26 @@ ELF_STRUCT_SIZE(shdr)
+ ELF_STRUCT_SIZE(phdr)
+ ELF_STRUCT_SIZE(hdr)
+ 
++static inline unsigned int set_section_name(const char *name, void *ehdr, u8 class, size_t *index)
++{
++	u16 shstrndx = elf_hdr_get_e_shstrndx(class, ehdr);
++	void *shdr;
++	char *strtab;
++	size_t idx, ret;
++
++	shdr = ehdr + elf_size_of_hdr(class) + shstrndx * elf_size_of_shdr(class);
++	strtab = ehdr + elf_shdr_get_sh_offset(class, shdr);
++	idx = index ? *index : 0;
++	if (!strtab || !name)
++		return 0;
++
++	ret = idx;
++	strcpy((strtab + idx), name);
++	idx += strlen(name) + 1;
++	if (index)
++		*index = idx;
++
++	return ret;
 +}
 +
- static int adsp_load(struct rproc *rproc, const struct firmware *fw)
- {
- 	struct qcom_adsp *adsp = (struct qcom_adsp *)rproc->priv;
-@@ -258,6 +343,15 @@ static const struct rproc_ops adsp_ops = {
- 	.panic = adsp_panic,
- };
- 
-+static const struct rproc_ops adsp_minidump_ops = {
-+	.start = adsp_start,
-+	.stop = adsp_stop,
-+	.da_to_va = adsp_da_to_va,
-+	.load = adsp_load,
-+	.panic = adsp_panic,
-+	.coredump = adsp_dump,
-+};
-+
- static int adsp_init_clock(struct qcom_adsp *adsp)
- {
- 	int ret;
-@@ -398,8 +492,13 @@ static int adsp_probe(struct platform_device *pdev)
- 	if (ret < 0 && ret != -EINVAL)
- 		return ret;
- 
--	rproc = rproc_alloc(&pdev->dev, pdev->name, &adsp_ops,
--			    fw_name, sizeof(*adsp));
-+	if (desc->minidump_id)
-+		rproc = rproc_alloc(&pdev->dev, pdev->name, &adsp_minidump_ops, fw_name,
-+				    sizeof(*adsp));
-+	else
-+		rproc = rproc_alloc(&pdev->dev, pdev->name, &adsp_ops, fw_name,
-+				    sizeof(*adsp));
-+
- 	if (!rproc) {
- 		dev_err(&pdev->dev, "unable to allocate remoteproc\n");
- 		return -ENOMEM;
-@@ -411,6 +510,7 @@ static int adsp_probe(struct platform_device *pdev)
- 	adsp = (struct qcom_adsp *)rproc->priv;
- 	adsp->dev = &pdev->dev;
- 	adsp->rproc = rproc;
-+	adsp->minidump_id = desc->minidump_id;
- 	adsp->pas_id = desc->pas_id;
- 	adsp->has_aggre2_clk = desc->has_aggre2_clk;
- 	adsp->info_name = desc->sysmon_name;
+ #endif /* REMOTEPROC_ELF_LOADER_H */
+diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+index a419878..844021e 100644
+--- a/include/linux/remoteproc.h
++++ b/include/linux/remoteproc.h
+@@ -656,6 +656,7 @@ rproc_of_resm_mem_entry_init(struct device *dev, u32 of_resm_idx, size_t len,
+ int rproc_boot(struct rproc *rproc);
+ void rproc_shutdown(struct rproc *rproc);
+ void rproc_report_crash(struct rproc *rproc, enum rproc_crash_type type);
++void rproc_minidump(struct rproc *rproc);
+ int rproc_coredump_add_segment(struct rproc *rproc, dma_addr_t da, size_t size);
+ int rproc_coredump_add_custom_segment(struct rproc *rproc,
+ 				      dma_addr_t da, size_t size,
 -- 
 Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
