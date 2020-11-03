@@ -2,48 +2,49 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A280C2D0A3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 909F5C388F7
 	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1EC620731
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 518E9207BB
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="vifi6kFD"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="xS8wsbrJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729103AbgKCM63 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729010AbgKCM63 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 3 Nov 2020 07:58:29 -0500
-Received: from z5.mailgun.us ([104.130.96.5]:33589 "EHLO z5.mailgun.us"
+Received: from m42-4.mailgun.net ([69.72.42.4]:26954 "EHLO m42-4.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729079AbgKCM62 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728027AbgKCM62 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 3 Nov 2020 07:58:28 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1604408308; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=Vl1gSkuYNKu59mDRMCZ/CekkC7CyDy0hSBNDzA19YYI=; b=vifi6kFD0RI0DwYATPWpcZzMbPVay5IlUkg2YzJZNV7NnIhoNgohCYOm3/43upqtnR+Phj0m
- DRV3ve8gVqea+P6zYzTXoABkZc6mO35ipl77u94gY4qfYXQnMKiT0n3QIqHAvn0ddEw0DF3T
- VlS3UUjEbXvVLlv6VqwW6s3k/x8=
-X-Mailgun-Sending-Ip: 104.130.96.5
+ s=smtp; t=1604408307; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=Yy1YShYoIqM2gl9uWMg2YQQbSpcTlCitlQYEwQYlOoE=; b=xS8wsbrJ8n37V6xnizLA9ifAVj4klMqMeSkCbOjPeaCR0O7wHe+Ub+JwY2N/0J0h8Sq49sKq
+ i7YSuOnZf099IxX/B/CPfmcn2AC/7fUH8UEWY/B+vLwhOBDpBXEEci3Sfgpfp9lQoxYx+dP5
+ 40ABKZoKf0t1PTkjoopKTGxmAdk=
+X-Mailgun-Sending-Ip: 69.72.42.4
 X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5fa153ecb64b1c5b78f96c52 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Nov 2020 12:58:20
+ 5fa153eb8646b0f268f352c8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Nov 2020 12:58:19
  GMT
 Sender: sidgup=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 46297C3853C; Tue,  3 Nov 2020 09:19:30 +0000 (UTC)
+        id E6DFDC4A61D; Tue,  3 Nov 2020 09:19:33 +0000 (UTC)
 Received: from sidgup-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: sidgup)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2C27CC38537;
-        Tue,  3 Nov 2020 09:19:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2C27CC38537
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7534CC38545;
+        Tue,  3 Nov 2020 09:19:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7534CC38545
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
 From:   Siddharth Gupta <sidgup@codeaurora.org>
@@ -54,82 +55,37 @@ Cc:     Siddharth Gupta <sidgup@codeaurora.org>,
         linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
         psodagud@codeaurora.org, rishabhb@codeaurora.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v7 0/4] Introduce mini-dump support for remoteproc
-Date:   Tue,  3 Nov 2020 01:19:16 -0800
-Message-Id: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
+Subject: [PATCH v7 4/4] remoteproc: qcom: Add minidump id for sm8150 modem
+Date:   Tue,  3 Nov 2020 01:19:20 -0800
+Message-Id: <1604395160-12443-5-git-send-email-sidgup@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
+References: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sometimes firmware sizes can be in tens of MB's and reading all the memory
-during coredump can consume lot of time and memory.
+Add minidump id for modem in sm8150 chipset so that the regions to be
+included in the coredump generated upon a crash is based on the minidump
+tables in SMEM instead of those in the ELF header.
 
-Introducing support for mini-dumps. Mini-dump contains smallest amount of
-useful information, that could help to debug subsystem crashes.
+Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+---
+ drivers/remoteproc/qcom_q6v5_pas.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-During bootup memory is allocated in SMEM (Shared memory) in the form of a
-table that contains the physical addresses and sizes of the regions that
-are supposed to be collected during coredump. This memory is shared amongst
-all processors in a Qualcomm platform, so all remoteprocs fill in their
-entry in the global table once they are out of reset.
-
-This patch series adds support for parsing the global minidump table and
-uses the current coredump frameork to expose this memory to userspace
-during remoteproc's recovery.
-
-This patch series also integrates the patch:
-https://patchwork.kernel.org/patch/11695541/ sent by Siddharth.
-
-Changelog:
-v6 -> v7:
-- The STR_TAB size is calculated dynamically now instead of a predefined size.
-- Added comments to indicate details about the reserved null section header. More
-  details can be found at https://refspecs.linuxfoundation.org/elf/elf.pdf.
-
-v5 -> v6:
-- Removed priv_cleanup operation from rproc_ops. The dump_segments list is
-  updated and cleaned up each time minidump is invoked.
-- Split patch #2 into 2 parts - one that adds the rproc_minidump function, and
-  the other that uses the new function in the qcom_q6v5_pas driver.
-- Updated structs in qcom_minidump to explicitly indicate the endianness of the
-  data stored in SMEM, also updated member names.
-- Read the global table of contents in SMEM each time adsp_minidump is invoked.
-
-v4 -> v5:
-- Fixed adsp_add_minidump_segments to read IO memory using appropriate functions.
-
-v3 -> v4:
-- Made adsp_priv_cleanup a static function.
-
-v2 -> v3:
-- Refactored code to remove dependency on Qualcomm configs.
-- Renamed do_rproc_minidump to rproc_minidump and marked as exported
-  symbol.
-
-v1 -> v2:
-- 3 kernel test robot warnings have been resolved.
-- Introduced priv_cleanup op in order to making the cleaning of
-  private elements used by the remoteproc more readable.
-- Removed rproc_cleanup_priv as it is no longer needed.
-- Switched to if/else format for rproc_alloc in order to keep 
-  the static const decalaration of adsp_minidump_ops.
-
-Siddharth Gupta (4):
-  remoteproc: core: Add ops to enable custom coredump functionality
-  remoteproc: coredump: Add minidump functionality
-  remoteproc: qcom: Add capability to collect minidumps
-  remoteproc: qcom: Add minidump id for sm8150 modem
-
- drivers/remoteproc/qcom_minidump.h          |  64 +++++++++++++
- drivers/remoteproc/qcom_q6v5_pas.c          | 105 ++++++++++++++++++++-
- drivers/remoteproc/remoteproc_core.c        |   6 +-
- drivers/remoteproc/remoteproc_coredump.c    | 140 ++++++++++++++++++++++++++++
- drivers/remoteproc/remoteproc_elf_helpers.h |  26 ++++++
- include/linux/remoteproc.h                  |   3 +
- 6 files changed, 341 insertions(+), 3 deletions(-)
- create mode 100644 drivers/remoteproc/qcom_minidump.h
-
+diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+index 349f725..23f4532 100644
+--- a/drivers/remoteproc/qcom_q6v5_pas.c
++++ b/drivers/remoteproc/qcom_q6v5_pas.c
+@@ -707,6 +707,7 @@ static const struct adsp_data mpss_resource_init = {
+ 	.crash_reason_smem = 421,
+ 	.firmware_name = "modem.mdt",
+ 	.pas_id = 4,
++	.minidump_id = 3,
+ 	.has_aggre2_clk = false,
+ 	.auto_boot = false,
+ 	.active_pd_names = (char*[]){
 -- 
 Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
