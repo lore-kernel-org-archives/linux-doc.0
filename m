@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E82C0C388F7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C92CC5DF9D
 	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 17:59:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A01B022264
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 17:59:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D172521D91
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 17:59:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rhyK8dme"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dwz6Vbt8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729078AbgKCR7K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 12:59:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52076 "EHLO
+        id S1728720AbgKCR7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 12:59:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729077AbgKCR7G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 12:59:06 -0500
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com [IPv6:2a00:1450:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85158C061A04
-        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 09:59:04 -0800 (PST)
-Received: by mail-wr1-x449.google.com with SMTP id p12so580911wrx.3
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 09:59:04 -0800 (PST)
+        with ESMTP id S1728982AbgKCR7L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 12:59:11 -0500
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C074C0617A6
+        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 09:59:09 -0800 (PST)
+Received: by mail-qk1-x74a.google.com with SMTP id t64so1537502qkd.5
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 09:59:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=EipKG0yUMWWV8YDScCe0e6tWyMQpyXBYPjRJqBhcvjE=;
-        b=rhyK8dmeE4dr53sE/uFWlN822DH2Ol7TeauJlUCwqh+ZLQsbWqThh2kjRX2zk/paPH
-         syHVvKdmaEtyOfdrMpsJQweFzziLkIb/Hk12rHvcTXldeC5fZki04zFMcZBI1sAEFD5Z
-         XCwrDGuPC+IWcrKKBHAxkj+JLHrWsy+pe436HAI2geGW2qXuNbmqfoVnyyEaKMO0PJWV
-         HGfir6YJZVg7TAUN8YD8wsnNaH5hZO/2fMYWREJQ02X8h+UyBFFZaJ2xlOSQqKoYHCw/
-         Zw995f0aCY225MLi+FnNDAOWrKur5U9VO6RaMD0Wdpg3x8fCsj+qfoIyN5AvgqTEUJH9
-         xTFg==
+        bh=G0Sh650oHkforl26PXMO/X+HZUi2ibltrnsBpzPVls4=;
+        b=Dwz6Vbt8Nf0u5ZQ5YpR1fAfcrMpaXA86lXdRSO1dPVMxdtb+vW0DtcQidofUQKzXDx
+         GhYUPNTU5onZ/INcZaIvR6cWRAKZuiO0tu5yG9fbPzZAXKfLyn7x4K6qOQBCiM7HHxR0
+         2zX507ycA7Wm4aKWa5b/q0i03tXT24JdpK1LtM7P7jCLcX1gNYaAX8JSOlJFK/1oGDYG
+         zybUZhrfUgpky4qeG/8O0WFM+JNYItjU615tNpsEika98gMfrX8eI8eaT0hpQ02NO/kT
+         83JVgtrqJOcZ7gVXUj22NcX7u8b4APuEj5zbcKgr76lOkTUuLS2xqzLEPZt99OTCqPsp
+         K3sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=EipKG0yUMWWV8YDScCe0e6tWyMQpyXBYPjRJqBhcvjE=;
-        b=ZxxtXvGXyyRJoDGWWGekLDi1Oz88ftqZaTkRe8e8f0BlNjmY23dBMdP9H7srLrb04I
-         mftWJmOwlOKFpoIxh5dMHskLjDM5q6GfPDn9/XT1rIHnQqvYnpfl0HJzzkdqc+yvjKxh
-         BqJ/j4kWc9lXzQEycsxjXG6B0KF3IeVx7+JHIdHhNi9oonvfB5rZVkx0fq+YHe31w733
-         WVngCs7TaTnHYFwRLtYofTBSAUB1ztKj1muoT97uw77NXy/GCx6RzvIMrCIDxchcBgab
-         PHNSr5MG21d5kT1ZxXx+4bWm0XLMKsBqNMgLgKdZFKavj72suGe9DaB+I2fxZmqi7cmr
-         oDUQ==
-X-Gm-Message-State: AOAM530twCDlj3OK1CBAS8N8uHgRuhxy1ya9YkvkrkuLv3Wp+3jocUPN
-        0BTir9xNOTrzYRNf8kT3Hk+J+g5skw==
-X-Google-Smtp-Source: ABdhPJyhqKceIRNwBh1BUeRkNhloGmf2vhHYB+pCac/9CNlh5VLKBpOkM4qnvi8yfN9phagGWV06vmmobA==
+        bh=G0Sh650oHkforl26PXMO/X+HZUi2ibltrnsBpzPVls4=;
+        b=N3/VpY+Db5xzxX7AdV5ruIO3vjaOmf+rzLKIQTqya1PkOxWL9l7+AIZY7sOtekerQ5
+         OZWxEq+M/KFNV/tCgzrnEx9ckq070LWWo9QP6Vpvcuwvde6CAxnnkYWUqTaOuLEDYs2m
+         pHkGu/A2s4KuhA71h++DxkYgLamlQb2HvdNLidOFCCZ/6z3i19SkXOarDO2GFXbVS6H6
+         1kLaQhGiU1CWtxxHbPkdKMq8s3qzKdd3Ox2FdUhPP1coVO1EMrQo+ccymRy9LYVFIS/m
+         jiaHveYmRZ+dogQxZIv+hivJeTNMgjPPMNtANz2HDspB9+s6KRnZOCFG4F2jFrNC8t0z
+         G+Tw==
+X-Gm-Message-State: AOAM533kgEA8EGrs4GyXNQRJJGO+i32DEApBvbBiW5CToZ+eyMr5IRZb
+        k4hByJlif8Zt7wsUbZJwJwZ0e9FbMw==
+X-Google-Smtp-Source: ABdhPJzleoubaMvc2Cot7fYH9dYNVtZ6T0RKS0RLEVCHTkhr4FmALd8Z0dunknImpBLDzIyF8VOmH7KZ1g==
 Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:a7b:c401:: with SMTP id k1mr353453wmi.120.1604426343066;
- Tue, 03 Nov 2020 09:59:03 -0800 (PST)
-Date:   Tue,  3 Nov 2020 18:58:35 +0100
+ (user=elver job=sendgmr) by 2002:a0c:b610:: with SMTP id f16mr28390524qve.36.1604426348447;
+ Tue, 03 Nov 2020 09:59:08 -0800 (PST)
+Date:   Tue,  3 Nov 2020 18:58:37 +0100
 In-Reply-To: <20201103175841.3495947-1-elver@google.com>
-Message-Id: <20201103175841.3495947-4-elver@google.com>
+Message-Id: <20201103175841.3495947-6-elver@google.com>
 Mime-Version: 1.0
 References: <20201103175841.3495947-1-elver@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v7 3/9] arm64, kfence: enable KFENCE for ARM64
+Subject: [PATCH v7 5/9] mm, kfence: insert KFENCE hooks for SLUB
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
 Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
@@ -83,116 +83,281 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add architecture specific implementation details for KFENCE and enable
-KFENCE for the arm64 architecture. In particular, this implements the
-required interface in <asm/kfence.h>.
+From: Alexander Potapenko <glider@google.com>
 
-KFENCE requires that attributes for pages from its memory pool can
-individually be set. Therefore, force the entire linear map to be mapped
-at page granularity. Doing so may result in extra memory allocated for
-page tables in case rodata=full is not set; however, currently
-CONFIG_RODATA_FULL_DEFAULT_ENABLED=y is the default, and the common case
-is therefore not affected by this change.
+Inserts KFENCE hooks into the SLUB allocator.
+
+To pass the originally requested size to KFENCE, add an argument
+'orig_size' to slab_alloc*(). The additional argument is required to
+preserve the requested original size for kmalloc() allocations, which
+uses size classes (e.g. an allocation of 272 bytes will return an object
+of size 512). Therefore, kmem_cache::size does not represent the
+kmalloc-caller's requested size, and we must introduce the argument
+'orig_size' to propagate the originally requested size to KFENCE.
+
+Without the originally requested size, we would not be able to detect
+out-of-bounds accesses for objects placed at the end of a KFENCE object
+page if that object is not equal to the kmalloc-size class it was
+bucketed into.
+
+When KFENCE is disabled, there is no additional overhead, since
+slab_alloc*() functions are __always_inline.
 
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-Co-developed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Alexander Potapenko <glider@google.com>
+Reviewed-by: Jann Horn <jannh@google.com>
+Co-developed-by: Marco Elver <elver@google.com>
 Signed-off-by: Marco Elver <elver@google.com>
+Signed-off-by: Alexander Potapenko <glider@google.com>
 ---
 v7:
-* Remove dependency on page size [reported by Mark Rutland].
-* fault normally on permission faults [reported by Jann Horn].
+* Revert unused orig_size [reported by Jann Horn].
+* Add Jann's Reviewed-by.
+* Use __kfence_free() where we know is_kfence_address() is true.
+* Re-add SLUB-specific code setting page->objects.
 
 v5:
-* Move generic page allocation code to core.c [suggested by Jann Horn].
-* Remove comment about HAVE_ARCH_KFENCE_STATIC_POOL, since we no longer
-  support static pools.
-* Force page granularity for the linear map [suggested by Mark Rutland].
----
- arch/arm64/Kconfig              |  1 +
- arch/arm64/include/asm/kfence.h | 19 +++++++++++++++++++
- arch/arm64/mm/fault.c           |  4 ++++
- arch/arm64/mm/mmu.c             |  7 ++++++-
- 4 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/include/asm/kfence.h
+* Fix obj_to_index for kfence objects.
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 1d466addb078..e524c07c3eda 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -135,6 +135,7 @@ config ARM64
- 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
- 	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
-+	select HAVE_ARCH_KFENCE
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_MMAP_RND_BITS
- 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
-diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
-new file mode 100644
-index 000000000000..5ac0f599cc9a
---- /dev/null
-+++ b/arch/arm64/include/asm/kfence.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __ASM_KFENCE_H
-+#define __ASM_KFENCE_H
-+
-+#include <asm/cacheflush.h>
-+
-+#define KFENCE_SKIP_ARCH_FAULT_HANDLER "el1_sync"
-+
-+static inline bool arch_kfence_init_pool(void) { return true; }
-+
-+static inline bool kfence_protect_page(unsigned long addr, bool protect)
-+{
-+	set_memory_valid(addr, 1, !protect);
-+
-+	return true;
-+}
-+
-+#endif /* __ASM_KFENCE_H */
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 1ee94002801f..2d60204b4ed2 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -10,6 +10,7 @@
- #include <linux/acpi.h>
- #include <linux/bitfield.h>
- #include <linux/extable.h>
+v3:
+* Rewrite patch description to clarify need for 'orig_size'
+  [reported by Christopher Lameter].
+---
+ include/linux/slub_def.h |  3 ++
+ mm/kfence/core.c         |  2 ++
+ mm/slub.c                | 60 ++++++++++++++++++++++++++++++----------
+ 3 files changed, 51 insertions(+), 14 deletions(-)
+
+diff --git a/include/linux/slub_def.h b/include/linux/slub_def.h
+index 1be0ed5befa1..dcde82a4434c 100644
+--- a/include/linux/slub_def.h
++++ b/include/linux/slub_def.h
+@@ -7,6 +7,7 @@
+  *
+  * (C) 2007 SGI, Christoph Lameter
+  */
 +#include <linux/kfence.h>
- #include <linux/signal.h>
- #include <linux/mm.h>
- #include <linux/hardirq.h>
-@@ -322,6 +323,9 @@ static void __do_kernel_fault(unsigned long addr, unsigned int esr,
- 	} else if (addr < PAGE_SIZE) {
- 		msg = "NULL pointer dereference";
- 	} else {
-+		if (kfence_handle_page_fault(addr))
-+			return;
+ #include <linux/kobject.h>
+ #include <linux/reciprocal_div.h>
+ 
+@@ -185,6 +186,8 @@ static inline unsigned int __obj_to_index(const struct kmem_cache *cache,
+ static inline unsigned int obj_to_index(const struct kmem_cache *cache,
+ 					const struct page *page, void *obj)
+ {
++	if (is_kfence_address(obj))
++		return 0;
+ 	return __obj_to_index(cache, page_address(page), obj);
+ }
+ 
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 721fd6318c91..9d597013cd5d 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -313,6 +313,8 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
+ 	/* Set required struct page fields. */
+ 	page = virt_to_page(meta->addr);
+ 	page->slab_cache = cache;
++	if (IS_ENABLED(CONFIG_SLUB))
++		page->objects = 1;
+ 	if (IS_ENABLED(CONFIG_SLAB))
+ 		page->s_mem = addr;
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index b30be2385d1c..c15998718ea5 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -27,6 +27,7 @@
+ #include <linux/ctype.h>
+ #include <linux/debugobjects.h>
+ #include <linux/kallsyms.h>
++#include <linux/kfence.h>
+ #include <linux/memory.h>
+ #include <linux/math64.h>
+ #include <linux/fault-inject.h>
+@@ -1553,6 +1554,11 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+ 	void *old_tail = *tail ? *tail : *head;
+ 	int rsize;
+ 
++	if (is_kfence_address(next)) {
++		slab_free_hook(s, next);
++		return true;
++	}
 +
- 		msg = "paging request";
+ 	/* Head and tail of the reconstructed freelist */
+ 	*head = NULL;
+ 	*tail = NULL;
+@@ -2805,7 +2811,7 @@ static __always_inline void maybe_wipe_obj_freeptr(struct kmem_cache *s,
+  * Otherwise we can simply pick the next object from the lockless free list.
+  */
+ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+-		gfp_t gfpflags, int node, unsigned long addr)
++		gfp_t gfpflags, int node, unsigned long addr, size_t orig_size)
+ {
+ 	void *object;
+ 	struct kmem_cache_cpu *c;
+@@ -2816,6 +2822,11 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+ 	s = slab_pre_alloc_hook(s, &objcg, 1, gfpflags);
+ 	if (!s)
+ 		return NULL;
++
++	object = kfence_alloc(s, orig_size, gfpflags);
++	if (unlikely(object))
++		goto out;
++
+ redo:
+ 	/*
+ 	 * Must read kmem_cache cpu data via this cpu ptr. Preemption is
+@@ -2888,20 +2899,21 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+ 	if (unlikely(slab_want_init_on_alloc(gfpflags, s)) && object)
+ 		memset(object, 0, s->object_size);
+ 
++out:
+ 	slab_post_alloc_hook(s, objcg, gfpflags, 1, &object);
+ 
+ 	return object;
+ }
+ 
+ static __always_inline void *slab_alloc(struct kmem_cache *s,
+-		gfp_t gfpflags, unsigned long addr)
++		gfp_t gfpflags, unsigned long addr, size_t orig_size)
+ {
+-	return slab_alloc_node(s, gfpflags, NUMA_NO_NODE, addr);
++	return slab_alloc_node(s, gfpflags, NUMA_NO_NODE, addr, orig_size);
+ }
+ 
+ void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
+ {
+-	void *ret = slab_alloc(s, gfpflags, _RET_IP_);
++	void *ret = slab_alloc(s, gfpflags, _RET_IP_, s->object_size);
+ 
+ 	trace_kmem_cache_alloc(_RET_IP_, ret, s->object_size,
+ 				s->size, gfpflags);
+@@ -2913,7 +2925,7 @@ EXPORT_SYMBOL(kmem_cache_alloc);
+ #ifdef CONFIG_TRACING
+ void *kmem_cache_alloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
+ {
+-	void *ret = slab_alloc(s, gfpflags, _RET_IP_);
++	void *ret = slab_alloc(s, gfpflags, _RET_IP_, size);
+ 	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags);
+ 	ret = kasan_kmalloc(s, ret, size, gfpflags);
+ 	return ret;
+@@ -2924,7 +2936,7 @@ EXPORT_SYMBOL(kmem_cache_alloc_trace);
+ #ifdef CONFIG_NUMA
+ void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags, int node)
+ {
+-	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_);
++	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_, s->object_size);
+ 
+ 	trace_kmem_cache_alloc_node(_RET_IP_, ret,
+ 				    s->object_size, s->size, gfpflags, node);
+@@ -2938,7 +2950,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *s,
+ 				    gfp_t gfpflags,
+ 				    int node, size_t size)
+ {
+-	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_);
++	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_, size);
+ 
+ 	trace_kmalloc_node(_RET_IP_, ret,
+ 			   size, s->size, gfpflags, node);
+@@ -2972,6 +2984,9 @@ static void __slab_free(struct kmem_cache *s, struct page *page,
+ 
+ 	stat(s, FREE_SLOWPATH);
+ 
++	if (kfence_free(head))
++		return;
++
+ 	if (kmem_cache_debug(s) &&
+ 	    !free_debug_processing(s, page, head, tail, cnt, addr))
+ 		return;
+@@ -3216,6 +3231,13 @@ int build_detached_freelist(struct kmem_cache *s, size_t size,
+ 		df->s = cache_from_obj(s, object); /* Support for memcg */
  	}
  
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 1c0f3e02f731..86be6d1a78ab 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -1449,7 +1449,12 @@ int arch_add_memory(int nid, u64 start, u64 size,
- {
- 	int ret, flags = 0;
++	if (is_kfence_address(object)) {
++		slab_free_hook(df->s, object);
++		__kfence_free(object);
++		p[size] = NULL; /* mark object processed */
++		return size;
++	}
++
+ 	/* Start new detached freelist */
+ 	df->page = page;
+ 	set_freepointer(df->s, object, NULL);
+@@ -3291,8 +3313,14 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+ 	c = this_cpu_ptr(s->cpu_slab);
  
--	if (rodata_full || debug_pagealloc_enabled())
-+	/*
-+	 * KFENCE requires linear map to be mapped at page granularity, so that
-+	 * it is possible to protect/unprotect single pages in the KFENCE pool.
-+	 */
-+	if (rodata_full || debug_pagealloc_enabled() ||
-+	    IS_ENABLED(CONFIG_KFENCE))
- 		flags = NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
+ 	for (i = 0; i < size; i++) {
+-		void *object = c->freelist;
++		void *object = kfence_alloc(s, s->object_size, flags);
  
- 	__create_pgd_mapping(swapper_pg_dir, start, __phys_to_virt(start),
++		if (unlikely(object)) {
++			p[i] = object;
++			continue;
++		}
++
++		object = c->freelist;
+ 		if (unlikely(!object)) {
+ 			/*
+ 			 * We may have removed an object from c->freelist using
+@@ -3963,7 +3991,7 @@ void *__kmalloc(size_t size, gfp_t flags)
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
+ 
+-	ret = slab_alloc(s, flags, _RET_IP_);
++	ret = slab_alloc(s, flags, _RET_IP_, size);
+ 
+ 	trace_kmalloc(_RET_IP_, ret, size, s->size, flags);
+ 
+@@ -4011,7 +4039,7 @@ void *__kmalloc_node(size_t size, gfp_t flags, int node)
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
+ 
+-	ret = slab_alloc_node(s, flags, node, _RET_IP_);
++	ret = slab_alloc_node(s, flags, node, _RET_IP_, size);
+ 
+ 	trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);
+ 
+@@ -4037,6 +4065,7 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
+ 	struct kmem_cache *s;
+ 	unsigned int offset;
+ 	size_t object_size;
++	bool is_kfence = is_kfence_address(ptr);
+ 
+ 	ptr = kasan_reset_tag(ptr);
+ 
+@@ -4049,10 +4078,13 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
+ 			       to_user, 0, n);
+ 
+ 	/* Find offset within object. */
+-	offset = (ptr - page_address(page)) % s->size;
++	if (is_kfence)
++		offset = ptr - kfence_object_start(ptr);
++	else
++		offset = (ptr - page_address(page)) % s->size;
+ 
+ 	/* Adjust for redzone and reject if within the redzone. */
+-	if (kmem_cache_debug_flags(s, SLAB_RED_ZONE)) {
++	if (!is_kfence && kmem_cache_debug_flags(s, SLAB_RED_ZONE)) {
+ 		if (offset < s->red_left_pad)
+ 			usercopy_abort("SLUB object in left red zone",
+ 				       s->name, to_user, offset, n);
+@@ -4461,7 +4493,7 @@ void *__kmalloc_track_caller(size_t size, gfp_t gfpflags, unsigned long caller)
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
+ 
+-	ret = slab_alloc(s, gfpflags, caller);
++	ret = slab_alloc(s, gfpflags, caller, size);
+ 
+ 	/* Honor the call site pointer we received. */
+ 	trace_kmalloc(caller, ret, size, s->size, gfpflags);
+@@ -4492,7 +4524,7 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t gfpflags,
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
+ 
+-	ret = slab_alloc_node(s, gfpflags, node, caller);
++	ret = slab_alloc_node(s, gfpflags, node, caller, size);
+ 
+ 	/* Honor the call site pointer we received. */
+ 	trace_kmalloc_node(caller, ret, size, s->size, gfpflags, node);
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
