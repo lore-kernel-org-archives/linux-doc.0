@@ -7,59 +7,59 @@ X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BA4C388F7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51CF1C388F9
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:18:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03844223AC
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:17:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16D4B223C7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:18:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dhSpxBoI"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Syi5K4Qt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729860AbgKCWRu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 17:17:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35994 "EHLO
+        id S1729966AbgKCWR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 17:17:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729828AbgKCWRt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 17:17:49 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355DEC061A04
-        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 14:17:49 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id s30so2126730lfc.4
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 14:17:49 -0800 (PST)
+        with ESMTP id S1729085AbgKCWRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 17:17:55 -0500
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724B3C061A04
+        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 14:17:55 -0800 (PST)
+Received: by mail-lj1-x242.google.com with SMTP id o13so12474667ljj.11
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 14:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uu8Iml3WkQaK4KYJrSEtvCll/mhluTTPnzMhsFMYnPU=;
-        b=dhSpxBoI6DBXUfSTOC1CtjK6uDXPygJ1S0k1dOCffUBkvoV7Ih5Ur72GNZ2koaw4Ub
-         CtZWAidfQrB3+J2hCBi5Q0em6HRnAawyJIhg5CmBgrDTMa8HnfVjuHFKjjUcQZ1y8naN
-         1Gflt/XeMglY0pNk+yWuq2vEAVU+JmZNSGuhWwJnvvJs8Ni1fm5pBcyLpOsHHYw6dOv6
-         Hr8TBSf4GbmVNPL/l3U+WfZfAO1jeq+Hvx2iMV0koW4m2b/YfoyuUsceU9/axNfJGcXP
-         Oz24nL67cXWE04NZlnaIYtF8yKRAGekvEw17+w+G9UsDh+f3wdLnMqNL30GK5mZzJqpd
-         WINw==
+        bh=YdCtwbqMAyOyGH0CTbWZbzS3jok6JKd1ti4BRTFY2CQ=;
+        b=Syi5K4QtbQmsVKQreoJMI67JfTtNeBwyJGgNHs5/l8LirTZcgUymPH9ZkuqsuVoHSi
+         njcQFA+9ndjY5DFHyaiesqLCeohkhCicpG1nFs6yGRNWFYI4nQ1M+/Rw/DKpaaN/6EHw
+         3IrihZljAgYQ8fefQ9BNL0kAqXdeNfodiarJ9DcqXAKdYjvirhsQCCYuX/6RG3WJ6BfI
+         DdB0unYf1/rAkex2nEfEiHVr4WvG6VG/GY6wuiaR0DN0xBHChJbby3VHhAvCHEOIhgtx
+         CeS8hL24PxrffNrhqJIWIu04krjnKPFLTcqqau7BBAJXLtHfU16GwFapDDmMlwFe/eYd
+         N2XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uu8Iml3WkQaK4KYJrSEtvCll/mhluTTPnzMhsFMYnPU=;
-        b=NCNHryPbXc65EjC3tiLFO2OHC83fsA0+vSArwI+eqldWgTaYT0CfBQpuUojjoai/7P
-         AIgf4B7sw0tY6pdxmMJ/1GKWmijfXR/lrBvFolnXkMXCbBhsCTDpHkVygFFAK0bFwunI
-         kvnrWSmHOLTU6OncIYOynvRp47deLM1oaY4FBZxO8Xbqs0SGB8CrTU5h0E7DeYnl5Bj5
-         HY75fCs8YwrLwkHKzxBsxD5TGPlWcdMV78APRsKJJ4G/Bwzr9hakPXQQT4N0bpwIAz1F
-         3Z1STjagy9Nw3fktgQQXTsEoEEy4qFF5IZupp5Hlh8t0+4lzLQ9tsubK7AV2sY4TOs4M
-         X14Q==
-X-Gm-Message-State: AOAM531Q5Fx2HYQBqZ06P4QXTG3wEoDq4/i6ESC81vqOG05GhdGeK9xg
-        VAE39zQyOfG9HMpqkaclmDJrTZNgj4hSVKwBqMxt5A==
-X-Google-Smtp-Source: ABdhPJzITc+oz0+9ZFNrPS7EoJ+JENLNGcgV5+6wlPXwd/VZQ9//BD+1mjKKLveDWFezTP2Ffc+c+zXd5cRZPYL9W5Q=
-X-Received: by 2002:a19:c357:: with SMTP id t84mr7777784lff.34.1604441867188;
- Tue, 03 Nov 2020 14:17:47 -0800 (PST)
+        bh=YdCtwbqMAyOyGH0CTbWZbzS3jok6JKd1ti4BRTFY2CQ=;
+        b=bEd2exTXRXVdy8tQABQTgtyfggvXM+NJ0VfIbk0ztHuikTwDR/AY6e2GLYXnVYV8OE
+         feVMWi/NNeYUU55WI5xjhkW3VJ5KipWbjtdbqW6PyvCE/54r6AalyYYTIrUDBUSfovit
+         fvJSgccH64m3MXDPQKj7xq7w4kE5Iwsmra/jT4mRwGD7zA1/sXI9PnWEL30YK1C0rJpE
+         UIUH+cqIx6cfOvSBTAJ4+PA6HPbSgSdb/94wQ4LPiMqmjucgw6k1s6tdYuTXPzhtUi+I
+         7bSkd8g7iLkAjYL43yYp4A+YBpWYk/E9AWM1j/ijJfa8rERHPWsTB3UtHigR8D45QrKY
+         Bd7Q==
+X-Gm-Message-State: AOAM532gm56dJbLXEo0Qhz+uNTMDNXwqJ9b+xEnoXxsjIDusyPHUDB1D
+        6dkfH1jIHlh2+HA0dCQ+PZeZzlYNyzcSi+kIZqkFXA==
+X-Google-Smtp-Source: ABdhPJwqqJGhaA3LrQ9gKploTm4XfKyPF3dSnpWL5/VLaLkfLNDvHlDSES6Yl3ycBU489bw5LRJA3NvGR8tWbXI9tYE=
+X-Received: by 2002:a2e:8816:: with SMTP id x22mr8822321ljh.377.1604441873724;
+ Tue, 03 Nov 2020 14:17:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20201103175841.3495947-1-elver@google.com> <20201103175841.3495947-3-elver@google.com>
-In-Reply-To: <20201103175841.3495947-3-elver@google.com>
+References: <20201103175841.3495947-1-elver@google.com> <20201103175841.3495947-4-elver@google.com>
+In-Reply-To: <20201103175841.3495947-4-elver@google.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Tue, 3 Nov 2020 23:17:20 +0100
-Message-ID: <CAG48ez3ZeHbDUv_rgMrmEr7PJEzaVCgAV4SVi6A9aj6GzSh0jQ@mail.gmail.com>
-Subject: Re: [PATCH v7 2/9] x86, kfence: enable KFENCE for x86
+Date:   Tue, 3 Nov 2020 23:17:26 +0100
+Message-ID: <CAG48ez34gt7_itkCHiz6z__oepD89=sYWu11=3aq8ASV8ph5pQ@mail.gmail.com>
+Subject: Re: [PATCH v7 3/9] arm64, kfence: enable KFENCE for ARM64
 To:     Marco Elver <elver@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
@@ -103,16 +103,19 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, Nov 3, 2020 at 6:59 PM Marco Elver <elver@google.com> wrote:
 > Add architecture specific implementation details for KFENCE and enable
-> KFENCE for the x86 architecture. In particular, this implements the
-> required interface in <asm/kfence.h> for setting up the pool and
-> providing helper functions for protecting and unprotecting pages.
+> KFENCE for the arm64 architecture. In particular, this implements the
+> required interface in <asm/kfence.h>.
 >
-> For x86, we need to ensure that the pool uses 4K pages, which is done
-> using the set_memory_4k() helper function.
+> KFENCE requires that attributes for pages from its memory pool can
+> individually be set. Therefore, force the entire linear map to be mapped
+> at page granularity. Doing so may result in extra memory allocated for
+> page tables in case rodata=full is not set; however, currently
+> CONFIG_RODATA_FULL_DEFAULT_ENABLED=y is the default, and the common case
+> is therefore not affected by this change.
 >
 > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
+> Co-developed-by: Alexander Potapenko <glider@google.com>
 > Signed-off-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
 
 Reviewed-by: Jann Horn <jannh@google.com>
