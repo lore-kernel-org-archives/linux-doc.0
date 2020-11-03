@@ -2,88 +2,66 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C588C388F7
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 21:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6799CC388F9
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 21:51:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9F56207BC
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 21:24:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="a+KaNNfb"
+	by mail.kernel.org (Postfix) with ESMTP id 159E72245F
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 21:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604440275;
+	bh=Og6lxizNQCDNp2Hd0PAecoYd+XEuC/t6QNr6YJTh7Io=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=XyTrQfZzZTjcGwg02xsGYFBUUjy/zkuXu0OE0jF+urzjOB3vDZPtcke1/Ah20XoMd
+	 pj3wnL68LVjH7/kJNwtHQSV4MbW5NP3aj/m8bv1xjwn/DnOT5sdsBfocvVq43p/pGh
+	 N7OZXik7tXOluWTXtOh8mDdzNYGOCIdoyXv4gKZI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730581AbgKCVYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 16:24:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730178AbgKCVYg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 16:24:36 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606C1C0613D1;
-        Tue,  3 Nov 2020 13:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=OTpGkkPVLBqbuJKuUynXBJXRcpvpXyRlR7kNaipl1g0=; b=a+KaNNfb2mVrCm1dq9NVVz+odZ
-        dvqawNcTbxQSpsvdaZ8nL6kisjevYihXuUJF2z4lP92tQqlv/LhumY0XjYepewKztLrOD0zRcjwLX
-        euBLlfQCduNg9c3F/XONx14QVIzRmq+lO9t3G3MkaXRkuw4VYwO3YHrmTtsxe9kBJ6Y6QvH2Ll4Wl
-        xIoPa44txA/PG3m06s1qOSiTbA0dxjGTtbUDK8kAyFXbma4mx3qc/v/VXiRZnZJnLBdhZ10mRRE6Z
-        rbWXMIPJSWPo7uL81/qrQuZ3aD7TcsORr59fNVxxMevMOz1tiB0mpj44uR0tmBRnBhzy8KcfjdN/1
-        ZHegQFNQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ka3n6-00010w-DI; Tue, 03 Nov 2020 21:24:32 +0000
-Date:   Tue, 3 Nov 2020 21:24:32 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+        id S1731508AbgKCVvN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 16:51:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37936 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730199AbgKCVvL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Nov 2020 16:51:11 -0500
 Subject: Re: [GIT PULL] Docs-build warning fixes for 5.10-rc3
-Message-ID: <20201103212432.GI27442@casper.infradead.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604440270;
+        bh=Og6lxizNQCDNp2Hd0PAecoYd+XEuC/t6QNr6YJTh7Io=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=oMCx4yVoPcYXyLLRFEXNRs3JiDV3Vrl9YTswQd/p+VacEzNiUEu2j4gZqnz8WELsC
+         8YJ/nJunh+EKzuX41HQG0YMPA4JHsGQATwmiysGTUbdLFOI22k+0SucEU16zTmQgom
+         U89Sp7amiJLMnCPebSVSRLuNGIHEKOhHKPGfMzTE=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20201103124420.46bf5a37@lwn.net>
 References: <20201103124420.46bf5a37@lwn.net>
- <CAHk-=wghhw0SpqSKKUqt5eum=UfLD3Qa0suoRxLy_cJc4hChug@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wghhw0SpqSKKUqt5eum=UfLD3Qa0suoRxLy_cJc4hChug@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20201103124420.46bf5a37@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git docs-5.10-warnings
+X-PR-Tracked-Commit-Id: 6fee9372e0af63f557ad234663d8248f3caefc37
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e6b0bd61a73718886c2df16762f0a5dba485fc10
+Message-Id: <160444027054.10573.14101545655716938289.pr-tracker-bot@kernel.org>
+Date:   Tue, 03 Nov 2020 21:51:10 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 03, 2020 at 01:18:27PM -0800, Linus Torvalds wrote:
-> On Tue, Nov 3, 2020 at 11:44 AM Jonathan Corbet <corbet@lwn.net> wrote:
-> >
-> > This pull contains a series of warning fixes from Mauro; once applied, the
-> > number of warnings from the once-noisy docs build process is nearly zero.
-> > Getting to this point has required a lot of work; once there, hopefully we
-> > can keep things that way.
-> 
-> I wonder if it is quiet enough that we could make new doc build noise
-> trigger some kind of linux-next warning?
+The pull request you sent on Tue, 3 Nov 2020 12:44:20 -0700:
 
-We can move checkdoc out of W=1 ... something like this?
+> git://git.lwn.net/linux.git docs-5.10-warnings
 
-+++ b/scripts/Makefile.build
-@@ -103,9 +103,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
-         cmd_force_checksrc = $(CHECK) $(CHECKFLAGS) $(c_flags) $<
- endif
- 
--ifneq ($(KBUILD_EXTRA_WARN),)
--  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
--endif
-+cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
- 
- # Compile C sources (.c)
- # ---------------------------------------------------------------------------
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e6b0bd61a73718886c2df16762f0a5dba485fc10
 
-although people might whinge if it increases kernel build time noticably
-(I haven't checked if it does).
+Thank you!
 
-It won't catch all the things that actually running Sphinx will, but
-it catches the common things (forgot to update the docs after changing a
-function parameter, for example)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
