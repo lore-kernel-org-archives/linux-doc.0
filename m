@@ -2,111 +2,104 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D628C55178
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84085C388F9
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:14:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D50BD2242E
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:03:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28D4C223C7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728275AbgKCQDv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 11:03:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728264AbgKCQDv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 11:03:51 -0500
-Received: from smtp-42ae.mail.infomaniak.ch (smtp-42ae.mail.infomaniak.ch [IPv6:2001:1600:4:17::42ae])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E70C061A47
-        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 08:03:50 -0800 (PST)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CQZMm1C8kzlhqv5;
-        Tue,  3 Nov 2020 17:03:48 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4CQZMk0bzXzlh8TS;
-        Tue,  3 Nov 2020 17:03:46 +0100 (CET)
-Subject: Re: [PATCH v22 07/12] landlock: Support filesystem access-control
-To:     Jann Horn <jannh@google.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1727109AbgKCQO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 11:14:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48350 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725993AbgKCQO1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Nov 2020 11:14:27 -0500
+Received: from rorschach.local.home (unknown [172.58.235.9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3326C223AB;
+        Tue,  3 Nov 2020 16:14:15 +0000 (UTC)
+Date:   Tue, 3 Nov 2020 11:14:10 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>, Guo Ren <guoren@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201027200358.557003-1-mic@digikod.net>
- <20201027200358.557003-8-mic@digikod.net>
- <CAG48ez1xMfxkwhXK4b1BB4GrTVauNzfwPoCutn9axKt_PFRSVQ@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <056d8f1a-b45f-379f-d81a-8c13a1536c3f@digikod.net>
-Date:   Tue, 3 Nov 2020 17:03:45 +0100
-User-Agent: 
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-csky@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, live-patching@vger.kernel.org
+Subject: Re: [PATCH 11/11 v2.2] ftrace: Add recording of functions that
+ caused recursion
+Message-ID: <20201103111410.64feac6c@rorschach.local.home>
+In-Reply-To: <20201103141043.GO20201@alley>
+References: <20201030213142.096102821@goodmis.org>
+        <20201030214014.801706340@goodmis.org>
+        <20201102164147.GJ20201@alley>
+        <20201102123721.4fcce2cb@gandalf.local.home>
+        <20201102124606.72bd89c5@gandalf.local.home>
+        <20201102142254.7e148f8a@gandalf.local.home>
+        <20201103141043.GO20201@alley>
+X-Mailer: Claws Mail 3.17.4git76 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez1xMfxkwhXK4b1BB4GrTVauNzfwPoCutn9axKt_PFRSVQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 3 Nov 2020 15:10:43 +0100
+Petr Mladek <pmladek@suse.com> wrote:
 
-On 29/10/2020 02:06, Jann Horn wrote:
-> (On Tue, Oct 27, 2020 at 9:04 PM Mickaël Salaün <mic@digikod.net> wrote:
-
->> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> [...]
->> +static inline u32 get_file_access(const struct file *const file)
->> +{
->> +       u32 access = 0;
->> +
->> +       if (file->f_mode & FMODE_READ) {
->> +               /* A directory can only be opened in read mode. */
->> +               if (S_ISDIR(file_inode(file)->i_mode))
->> +                       return LANDLOCK_ACCESS_FS_READ_DIR;
->> +               access = LANDLOCK_ACCESS_FS_READ_FILE;
->> +       }
->> +       /*
->> +        * A LANDLOCK_ACCESS_FS_APPEND could be added but we also need to check
->> +        * fcntl(2).
->> +        */
+> BTW: What is actually the purpose of paranoid_test, please?
 > 
-> Once https://lore.kernel.org/linux-api/20200831153207.GO3265@brightrain.aerifal.cx/
-> lands, pwritev2() with RWF_NOAPPEND will also be problematic for
-> classifying "write" vs "append"; you may want to include that in the
-> comment. (Or delete the comment.)
-
-Contrary to fcntl(2), pwritev2(2) doesn't seems to modify the file
-description. Otherwise, other LSMs would need to be patched.
-I'll remove this comment anyway.
-
+> It prevents nested ftrace_record_recursion() calls on the same CPU
+> (recursion, nesting from IRQ, NMI context).
 > 
->> +       if (file->f_mode & FMODE_WRITE)
->> +               access |= LANDLOCK_ACCESS_FS_WRITE_FILE;
->> +       /* __FMODE_EXEC is indeed part of f_flags, not f_mode. */
->> +       if (file->f_flags & __FMODE_EXEC)
->> +               access |= LANDLOCK_ACCESS_FS_EXECUTE;
->> +       return access;
->> +}
-> [...]
+> Parallel calls from different CPUs are still possible:
 > 
+> CPU0					CPU1
+> if (!atomic_read(&paranoid_test))	if (!atomic_read(&paranoid_test))
+>    // passes				  // passes
+>    atomic_inc(&paranoid_test);            atomic_inc(&paranoid_test);
+> 
+> 
+> I do not see how a nested call could cause crash while a parallel
+> one would be OK.
+> 
+
+Yeah, I should make that per cpu, but was lazy. ;-)
+
+It was added at the end.
+
+I'll update that to a per cpu, and local inc operations.
+
+-- Steve
