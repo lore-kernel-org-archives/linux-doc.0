@@ -2,93 +2,73 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F91C388F9
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6894AC388F7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:30:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0DEF22370
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:24:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rrVlj56y"
+	by mail.kernel.org (Postfix) with ESMTP id 3DED722226
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:30:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728316AbgKCPYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 10:24:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55834 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728293AbgKCPY3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 10:24:29 -0500
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755B1C0617A6
-        for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2020 07:24:27 -0800 (PST)
-Received: by mail-oo1-xc36.google.com with SMTP id c25so4277285ooe.13
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2020 07:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=N71Zs4qg4W+XUXzJvJITvEfPb9AWspIlQairrp1whfg=;
-        b=rrVlj56yk2trpBYSpi4k2yd1xCK2bo7zfyPwMRTDKgj2zJFZf+rsg3l64hS6mNlXsJ
-         /lsnCjsBYlscUhZQjxreix9yr1FDyyJ44isM98ku6PfR5nfH8ewfPGTyJoG+z8DaKf3B
-         GC0lFyYci0jWLRuivuAjfzCGQfauYD+FIBoJ65Z0ysgZFvM7r9APNUcj/A/ERVF2MbLf
-         yty4WBGjCP2WpSIZHr96/NF2lvOu9gyd0kH5dNJE6T16tbnf8/wDcP2ZEnVaZTeW+uv8
-         AOywb/DHyLh7Si/JMqeCh4eS5XqaKQQMWQhjlysMgge2i4X83N4I6vLqLPfg4x7OeC6p
-         Yirg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=N71Zs4qg4W+XUXzJvJITvEfPb9AWspIlQairrp1whfg=;
-        b=MTfX7bPp/vIfx5Elv6PZSsnCskdrhyhhxq1XzBpU3HHnhBX+X4jesC8xDHeJjCMUzN
-         3gHepwj28rNKxUJQa35LQ3LYjlkaeKukgQhY0Tou8TlzShHtkF27RPFbbP0i3qH9b1jN
-         1+xsuwHkYDrhiQ1lLJTIvERWYo+i525e9NZDz800oa5ysZ5cgfQ4jlJ9nhe4yBku5M0Y
-         Is0EIVPP3WF3+fxLM4+S37nhN/LBy8jPWiUWZhV5Icel9sSVsn0sYk440OSLsr5DehvX
-         fT2gXQSY5Pdvmg6rWSGLHpRk+KYy+6Urns0Wt5AWf/AcBbaDjunCGwS/AKyfEpHq7Aq7
-         UHVA==
-X-Gm-Message-State: AOAM533EDiQRaLXBSA9V32PWgnbBR0KuNEOxKjuBsU0UBnyBJGtxdqLX
-        wOHCEf1oTNVv2St1Swh0WVdDlg==
-X-Google-Smtp-Source: ABdhPJwU2NP+qjv7T5X33Bc5Qb64pjBRUiEN1Yk0nWz/TQ1GhwOuIu9xrFu+5vjm7/EyqQJ1LvpBNw==
-X-Received: by 2002:a4a:6b1a:: with SMTP id g26mr10661391ooc.13.1604417066733;
-        Tue, 03 Nov 2020 07:24:26 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id v5sm4548511otb.44.2020.11.03.07.24.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2020 07:24:25 -0800 (PST)
-Date:   Tue, 3 Nov 2020 09:24:23 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 30/33] docs: ABI: cleanup several ABI documents
-Message-ID: <20201103004241.GD223412@builder.lan>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
- <95ef2cf3a58f4e50f17d9e58e0d9440ad14d0427.1603893146.git.mchehab+huawei@kernel.org>
+        id S1728718AbgKCPaI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 10:30:08 -0500
+Received: from ms.lwn.net ([45.79.88.28]:46094 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728750AbgKCPaH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Nov 2020 10:30:07 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 09910384;
+        Tue,  3 Nov 2020 15:30:06 +0000 (UTC)
+Date:   Tue, 3 Nov 2020 08:30:06 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 5.10-rc3
+Message-ID: <20201103083006.06d519fc@lwn.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <95ef2cf3a58f4e50f17d9e58e0d9440ad14d0427.1603893146.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 28 Oct 09:23 CDT 2020, Mauro Carvalho Chehab wrote:
-[..]
->  .../ABI/testing/sysfs-class-remoteproc        |  14 +-
+The following changes since commit
+3650b228f83adda7e5ee532e2b90429c03f7b9ec:
 
-for this:
+  Linux 5.10-rc1 (2020-10-25 15:14:11 -0700)
 
-Acked-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+are available in the Git repository at:
 
-Thanks,
-Bjorn
+  git://git.lwn.net/linux.git tags/docs-5.10-3
+
+for you to fetch changes up to 4f3e69060dc9cc8f14ad9e172ada7120dc76445b:
+
+  docs: fix automarkup regression on Python 2 (2020-11-03 08:22:00 -0700)
+
+----------------------------------------------------------------
+A small number of fixes, plus a build tweak to respect the desire for
+silence in V=0 builds.
+
+----------------------------------------------------------------
+Jonathan Corbet (1):
+      docs: fix automarkup regression on Python 2
+
+Mauro Carvalho Chehab (3):
+      docs: Makefile: honor V=0 for docs building
+      scripts: kernel-doc: fix typedef parsing
+      scripts: kernel-doc: split typedef complex regex
+
+Wilken Gottwalt (1):
+      documentation: arm: sunxi: add Allwinner H6 documents
+
+ Documentation/Makefile             |  4 ++++
+ Documentation/arm/sunxi.rst        | 10 ++++++++++
+ Documentation/sphinx/automarkup.py | 20 ++++++++++++++------
+ scripts/kernel-doc                 | 15 ++++++++++-----
+ 4 files changed, 38 insertions(+), 11 deletions(-)
