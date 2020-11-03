@@ -2,151 +2,148 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 096D1C388F9
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A115C388F7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:52:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85C2B20870
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:48:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="JV5wydhV";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="JV5wydhV"
+	by mail.kernel.org (Postfix) with ESMTP id D8C4022280
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 16:52:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604422368;
+	bh=ATUgDepSx8znfuwBCpbqINr4q8BPefrp2EOWlxQiwf0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=YTrGgnCNS8SXxBQLdZsqS/CMC6df3O++dsTfOVMIqrqKveZk/dKr5HMfj7Eb0CU7u
+	 J6PB7WNaggqZ5VJaLHXJc1uE87CzF75TUGF50jMgOkMNBIHMgIJpUcm2TWUs463Ujy
+	 hy01pe2U2htu/FBGuwzFmmbXXX+rU78pMM42HHqw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728340AbgKCQsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 11:48:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725997AbgKCQsT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 11:48:19 -0500
-X-Greylist: delayed 543 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 03 Nov 2020 08:48:19 PST
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B18EC0613D1;
-        Tue,  3 Nov 2020 08:48:19 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id C69BA128003B;
-        Tue,  3 Nov 2020 08:39:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1604421554;
-        bh=HGUTyhqFV7T0x144FbiJ+dIW4PRgOPfbbL2emrIeZSI=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=JV5wydhVcXN14b9so+1nEsuOqf/5654vfvCb3lKpcdvyNBGgNCjRZKR10SdqBr0zJ
-         ZWHyYISVZXNaOIX7U/vHlBX3vhZn1ppqUUUAemdXH7gs1LjXrGnB4mcr1mhjCIX2BQ
-         xIdn8A920w3BZhKsFhf9SsMnD1NHOkCYO8XZe3os=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id q32PP5ReTDhX; Tue,  3 Nov 2020 08:39:14 -0800 (PST)
-Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::527])
+        id S1728206AbgKCQws (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 11:52:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58018 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727999AbgKCQws (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Nov 2020 11:52:48 -0500
+Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.5])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 9FFF5128002F;
-        Tue,  3 Nov 2020 08:39:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1604421554;
-        bh=HGUTyhqFV7T0x144FbiJ+dIW4PRgOPfbbL2emrIeZSI=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=JV5wydhVcXN14b9so+1nEsuOqf/5654vfvCb3lKpcdvyNBGgNCjRZKR10SdqBr0zJ
-         ZWHyYISVZXNaOIX7U/vHlBX3vhZn1ppqUUUAemdXH7gs1LjXrGnB4mcr1mhjCIX2BQ
-         xIdn8A920w3BZhKsFhf9SsMnD1NHOkCYO8XZe3os=
-Message-ID: <c0ee04a93a8d679f5e9ee7eea6467b32bb7063d6.camel@HansenPartnership.com>
-Subject: Re: [RFC Patch 1/2] KVM: SVM: Create SEV cgroup controller.
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Sean Christopherson <sean.j.christopherson@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Vipin Sharma <vipinsh@google.com>, thomas.lendacky@amd.com,
-        pbonzini@redhat.com, tj@kernel.org, lizefan@huawei.com,
-        joro@8bytes.org, corbet@lwn.net, brijesh.singh@amd.com,
-        jon.grimm@amd.com, eric.vantassell@amd.com, gingell@google.com,
-        rientjes@google.com, kvm@vger.kernel.org, x86@kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Erdem Aktas <erdemaktas@google.com>
-Date:   Tue, 03 Nov 2020 08:39:12 -0800
-In-Reply-To: <20200922012227.GA26483@linux.intel.com>
-References: <20200922004024.3699923-1-vipinsh@google.com>
-         <20200922004024.3699923-2-vipinsh@google.com>
-         <94c3407d-07ca-8eaf-4073-4a5e2a3fb7b8@infradead.org>
-         <20200922012227.GA26483@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        by mail.kernel.org (Postfix) with ESMTPSA id 961E920870;
+        Tue,  3 Nov 2020 16:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604422367;
+        bh=ATUgDepSx8znfuwBCpbqINr4q8BPefrp2EOWlxQiwf0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=U7qwLuRDXQeVl45mOrGV5DelyKEA5ux4Uyj0Dyjj5HcYPgjIyGK95KTG1rc303hgo
+         79NR5ue3xm2GfDt5nuig5H2iyhJxzPE4H/DH/Jw7sHeGs/dEZKsvUMBeVPJx47a3KM
+         4Q/JqmNC6gb2CIefRPEi7lwCSNzUvfwYjo18S0qs=
+Date:   Tue, 3 Nov 2020 08:52:45 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Paolo Abeni <pabeni@redhat.com>
+Cc:     Saeed Mahameed <saeed@kernel.org>, netdev@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Subject: Re: [PATCH net-next v2 0/3] net: introduce rps_default_mask
+Message-ID: <20201103085245.3397defa@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <86c37d881a93d5690faf20de3bccceca1493fd74.camel@redhat.com>
+References: <cover.1604055792.git.pabeni@redhat.com>
+        <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+        <86c37d881a93d5690faf20de3bccceca1493fd74.camel@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-09-21 at 18:22 -0700, Sean Christopherson wrote:
-> On Mon, Sep 21, 2020 at 06:04:04PM -0700, Randy Dunlap wrote:
-> > Hi,
+On Tue, 03 Nov 2020 16:22:07 +0100 Paolo Abeni wrote:
+> On Mon, 2020-11-02 at 14:54 -0800, Jakub Kicinski wrote:
+> > On Fri, 30 Oct 2020 12:16:00 +0100 Paolo Abeni wrote:  
+> > > Real-time setups try hard to ensure proper isolation between time
+> > > critical applications and e.g. network processing performed by the
+> > > network stack in softirq and RPS is used to move the softirq 
+> > > activity away from the isolated core.
+> > > 
+> > > If the network configuration is dynamic, with netns and devices
+> > > routinely created at run-time, enforcing the correct RPS setting
+> > > on each newly created device allowing to transient bad configuration
+> > > became complex.
+> > > 
+> > > These series try to address the above, introducing a new
+> > > sysctl knob: rps_default_mask. The new sysctl entry allows
+> > > configuring a systemwide RPS mask, to be enforced since receive 
+> > > queue creation time without any fourther per device configuration
+> > > required.
+> > > 
+> > > Additionally, a simple self-test is introduced to check the 
+> > > rps_default_mask behavior.  
 > > 
-> > On 9/21/20 5:40 PM, Vipin Sharma wrote:
-> > > diff --git a/init/Kconfig b/init/Kconfig
-> > > index d6a0b31b13dc..1a57c362b803 100644
-> > > --- a/init/Kconfig
-> > > +++ b/init/Kconfig
-> > > @@ -1101,6 +1101,20 @@ config CGROUP_BPF
-> > >  	  BPF_CGROUP_INET_INGRESS will be executed on the ingress path
-> > > of
-> > >  	  inet sockets.
-> > >  
-> > > +config CGROUP_SEV
-> > > +	bool "SEV ASID controller"
-> > > +	depends on KVM_AMD_SEV
-> > > +	default n
-> > > +	help
-> > > +	  Provides a controller for AMD SEV ASIDs. This controller
-> > > limits and
-> > > +	  shows the total usage of SEV ASIDs used in encrypted VMs on
-> > > AMD
-> > > +	  processors. Whenever a new encrypted VM is created using SEV
-> > > on an
-> > > +	  AMD processor, this controller will check the current limit
-> > > in the
-> > > +	  cgroup to which the task belongs and will deny the SEV ASID
-> > > if the
-> > > +	  cgroup has already reached its limit.
-> > > +
-> > > +	  Say N if unsure.
+> > RPS is disabled by default, the processing is going to happen wherever
+> > the IRQ is mapped, and one would hope that the IRQ is not mapped to the
+> > core where the critical processing runs.
 > > 
-> > Something here (either in the bool prompt string or the help text)
-> > should let a reader know w.t.h. SEV means.
-> > 
-> > Without having to look in other places...
+> > Would you mind elaborating further on the use case?  
 > 
-> ASIDs too.  I'd also love to see more info in the docs and/or cover
-> letter to explain why ASID management on SEV requires a cgroup.  I
-> know what an ASID is, and have a decent idea of how KVM manages ASIDs
-> for legacy VMs, but I know nothing about why ASIDs are limited for
-> SEV and not legacy VMs.
+> On Mon, 2020-11-02 at 15:27 -0800, Saeed Mahameed wrote:
+> > The whole thing can be replaced with a user daemon scripts that
+> > monitors all newly created devices and assign to them whatever rps mask
+> > (call it default).
+> > 
+> > So why do we need this special logic in kernel ? 
+> > 
+> > I am not sure about this, but if rps queues sysfs are available before
+> > the netdev is up, then you can also use udevd to assign the rps masks
+> > before such devices are even brought up, so you would avoid the race
+> > conditions that you described, which are not really clear to me to be
+> > honest.  
+> 
+> Thank you for the feedback.
+> 
+> Please allow me to answer you both here, as your questions are related.
+> 
+> The relevant use case is an host running containers (with the related
+> orchestration tools) in a RT environment. Virtual devices (veths, ovs
+> ports, etc.) are created by the orchestration tools at run-time.
+> Critical processes are allowed to send packets/generate outgoing
+> network traffic - but any interrupt is moved away from the related
+> cores, so that usual incoming network traffic processing does not
+> happen there.
+> 
+> Still an xmit operation on a virtual devices may be transmitted via ovs
+> or veth, with the relevant forwarding operation happening in a softirq
+> on the same CPU originating the packet. 
+> 
+> RPS is configured (even) on such virtual devices to move away the
+> forwarding from the relevant CPUs.
+> 
+> As Saeed noted, such configuration could be possibly performed via some
+> user-space daemon monitoring network devices and network namespaces
+> creation. That will be anyway prone to some race: the orchestation tool
+> may create and enable the netns and virtual devices before the daemon
+> has properly set the RPS mask.
+> 
+> In the latter scenario some packet forwarding could still slip in the
+> relevant CPU, causing measurable latency. In all non RT scenarios the
+> above will be likely irrelevant, but in the RT context that is not
+> acceptable - e.g. it causes in real environments latency above the
+> defined limits, while the proposed patches avoid the issue.
+> 
+> Do you see any other simple way to avoid the above race?
+> 
+> Please let me know if the above answers your doubts,
 
-Well, also, why would we only have a cgroup for ASIDs but not MSIDs?
+Thanks, that makes it clearer now.
 
-For the reader at home a Space ID (SID) is simply a tag that can be
-placed on a cache line to control things like flushing.  Intel and AMD
-use MSIDs which are allocated per process to allow fast context
-switching by flushing all the process pages using a flush by SID. 
-ASIDs are also used by both Intel and AMD to control nested/extended
-paging of virtual machines, so ASIDs are allocated per VM.  So far it's
-universal.
+Depending on how RT-aware your container management is it may or may not
+be the right place to configure this, as it creates the veth interface.
+Presumably it's the container management which does the placement of
+the tasks to cores, why is it not setting other attributes, like RPS?
 
-AMD invented a mechanism for tying their memory encryption technology
-to the ASID asserted on the memory bus, so now they can do encrypted
-virtual machines since each VM is tagged by ASID which the memory
-encryptor sees.  It is suspected that the forthcoming intel TDX
-technology to encrypt VMs will operate in the same way as well.  This
-isn't everything you have to do to get an encrypted VM, but it's a core
-part of it.
-
-The problem with SIDs (both A and M) is that they get crammed into
-spare bits in the CPU (like the upper bits of %CR3 for MSID) so we
-don't have enough of them to do a 1:1 mapping of MSID to process or
-ASID to VM.  Thus we have to ration them somewhat, which is what I
-assume this patch is about?
-
-James
-
-
+Also I wonder if it would make sense to turn this knob into something
+more generic. When we arrive at the threaded NAPIs - could it make
+sense for the threads to inherit your mask as the CPUs they are allowed
+to run on?
