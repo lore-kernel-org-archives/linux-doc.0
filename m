@@ -2,166 +2,126 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E8FC388F2
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 10:40:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCDFC2D0A3
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1184F22409
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 10:40:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADA7D208B6
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 12:58:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="XSdNy7mx"
+	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="QKtG3m9z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727328AbgKCKky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 05:40:54 -0500
-Received: from mx2.suse.de ([195.135.220.15]:50220 "EHLO mx2.suse.de"
+        id S1729035AbgKCM6U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 07:58:20 -0500
+Received: from z5.mailgun.us ([104.130.96.5]:44438 "EHLO z5.mailgun.us"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726388AbgKCKkx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Nov 2020 05:40:53 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1604400051;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OpLXhG7xm+V2xdBg1+KjOIVd448NLhIB6otcbwQQTDI=;
-        b=XSdNy7mxSwPPbuLKLXZRfCFfjOJHautUQu++n50tMCvpfkaBXlr+bOunNRM8+xoxvQYvi5
-        mY40GKHAydPd5jnotGgN8FQylfnmTxCAY7Xg9pOTx1xVd1OxQtnbCqyriarK0Ndrtzt94h
-        IzlzFUKI+hnTAEK+ASYY8dP7/EOox/U=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CFA08ACD8;
-        Tue,  3 Nov 2020 10:40:50 +0000 (UTC)
-Date:   Tue, 3 Nov 2020 11:40:49 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>, Guo Ren <guoren@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-csky@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, live-patching@vger.kernel.org
-Subject: Re: [PATCH 11/11 v2] ftrace: Add recording of functions that caused
- recursion
-Message-ID: <20201103104049.GN20201@alley>
-References: <20201030213142.096102821@goodmis.org>
- <20201030214014.801706340@goodmis.org>
- <20201102164147.GJ20201@alley>
- <20201102120907.457ad2f7@gandalf.local.home>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201102120907.457ad2f7@gandalf.local.home>
+        id S1729005AbgKCM6U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Nov 2020 07:58:20 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1604408299; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=wip3SqxPDZ8IG7Sc4+GAbXTApb3DFMxp79tDHTBbQ88=; b=QKtG3m9z0s2BF8lCAx7n88uHv16HD1xVWd7g8lUdAC2VbBF0S61y/78ZDyA/8S+1x3nrKt2P
+ ZPXE+CaTpoCdETtpHYydJpsAUwCz73cebXitHMw51E1jPQH3FUnNPRa5yhdoOPcYODGBd6iK
+ xyeONYhFdYV91MjyYHKVpKgkg6E=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5fa153eb875877e3ed9a2b59 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Nov 2020 12:58:19
+ GMT
+Sender: sidgup=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 49B7BC38543; Tue,  3 Nov 2020 09:19:31 +0000 (UTC)
+Received: from sidgup-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sidgup)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0B1C7C4A61D;
+        Tue,  3 Nov 2020 09:19:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0B1C7C4A61D
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
+From:   Siddharth Gupta <sidgup@codeaurora.org>
+To:     agross@kernel.org, bjorn.andersson@linaro.org, ohad@wizery.com,
+        linux-remoteproc@vger.kernel.org
+Cc:     Siddharth Gupta <sidgup@codeaurora.org>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v7 1/4] remoteproc: core: Add ops to enable custom coredump functionality
+Date:   Tue,  3 Nov 2020 01:19:17 -0800
+Message-Id: <1604395160-12443-2-git-send-email-sidgup@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
+References: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 2020-11-02 12:09:07, Steven Rostedt wrote:
-> On Mon, 2 Nov 2020 17:41:47 +0100
-> Petr Mladek <pmladek@suse.com> wrote:
-> 
-> > On Fri 2020-10-30 17:31:53, Steven Rostedt wrote:
-> > > From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
-> > > 
-> > > This adds CONFIG_FTRACE_RECORD_RECURSION that will record to a file
-> > > "recursed_functions" all the functions that caused recursion while a
-> > > callback to the function tracer was running.
-> > >   
-> > 
-> > > --- /dev/null
-> > > +++ b/kernel/trace/trace_recursion_record.c
-> > > +	if (index >= CONFIG_FTRACE_RECORD_RECURSION_SIZE)
-> > > +		return;
-> > > +
-> > > +	for (i = index - 1; i >= 0; i--) {
-> > > +		if (recursed_functions[i].ip == ip) {
-> > > +			cached_function = ip;
-> > > +			return;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	cached_function = ip;
-> > > +
-> > > +	/*
-> > > +	 * We only want to add a function if it hasn't been added before.
-> > > +	 * Add to the current location before incrementing the count.
-> > > +	 * If it fails to add, then increment the index (save in i)
-> > > +	 * and try again.
-> > > +	 */
-> > > +	old = cmpxchg(&recursed_functions[index].ip, 0, ip);
-> > > +	if (old != 0) {
-> > > +		/* Did something else already added this for us? */
-> > > +		if (old == ip)
-> > > +			return;
-> > > +		/* Try the next location (use i for the next index) */
-> > > +		i = index + 1;  
-> > 
-> > What about
-> > 
-> > 		index++;
-> > 
-> > We basically want to run the code again with index + 1 limit.
-> 
-> But something else could update nr_records, and we want to use that if
-> nr_records is greater than i.
-> 
-> Now, we could swap the use case, and have
-> 
-> 	int index = 0;
-> 
-> 	[..]
-> 	i = atomic_read(&nr_records);
-> 	if (i > index)
-> 		index = i;
-> 
-> 	[..]
-> 
-> 		index++;
-> 		goto again;
-> 
-> 
-> > 
-> > Maybe, it even does not make sense to check the array again
-> > and we should just try to store the value into the next slot.
-> 
-> We do this dance to prevent duplicates.
+Each remoteproc might have different requirements for coredumps and might
+want to choose the type of dumps it wants to collect. This change allows
+remoteproc drivers to specify their own custom dump function to be executed
+in place of rproc_coredump. If the coredump op is not specified by the
+remoteproc driver it will be set to rproc_coredump by default.
 
-I see.
+Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+---
+ drivers/remoteproc/remoteproc_core.c | 6 +++++-
+ include/linux/remoteproc.h           | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-My code was wrong. It reserved slot for the new "ip" by cmpxchg
-on nr_records. The "ip" was stored later so that any parallel
-call need not see that it is a dumplicate.
+diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+index dab2c0f..eba7543 100644
+--- a/drivers/remoteproc/remoteproc_core.c
++++ b/drivers/remoteproc/remoteproc_core.c
+@@ -1704,7 +1704,7 @@ int rproc_trigger_recovery(struct rproc *rproc)
+ 		goto unlock_mutex;
+ 
+ 	/* generate coredump */
+-	rproc_coredump(rproc);
++	rproc->ops->coredump(rproc);
+ 
+ 	/* load firmware */
+ 	ret = request_firmware(&firmware_p, rproc->firmware, dev);
+@@ -2126,6 +2126,10 @@ static int rproc_alloc_ops(struct rproc *rproc, const struct rproc_ops *ops)
+ 	if (!rproc->ops)
+ 		return -ENOMEM;
+ 
++	/* Default to rproc_coredump if no coredump function is specified */
++	if (!rproc->ops->coredump)
++		rproc->ops->coredump = rproc_coredump;
++
+ 	if (rproc->ops->load)
+ 		return 0;
+ 
+diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+index 3fa3ba6..a419878 100644
+--- a/include/linux/remoteproc.h
++++ b/include/linux/remoteproc.h
+@@ -375,6 +375,7 @@ enum rsc_handling_status {
+  * @get_boot_addr:	get boot address to entry point specified in firmware
+  * @panic:	optional callback to react to system panic, core will delay
+  *		panic at least the returned number of milliseconds
++ * @coredump:	  collect firmware dump after the subsystem is shutdown
+  */
+ struct rproc_ops {
+ 	int (*prepare)(struct rproc *rproc);
+@@ -393,6 +394,7 @@ struct rproc_ops {
+ 	int (*sanity_check)(struct rproc *rproc, const struct firmware *fw);
+ 	u64 (*get_boot_addr)(struct rproc *rproc, const struct firmware *fw);
+ 	unsigned long (*panic)(struct rproc *rproc);
++	void (*coredump)(struct rproc *rproc);
+ };
+ 
+ /**
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Your code reserves the slot by cmpxchg of "ip".
-Any parallel call would fail to take the slot and see
-the "ip" in the next iteration.
-
-Best Regards,
-Petr
