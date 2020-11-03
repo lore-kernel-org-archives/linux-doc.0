@@ -2,499 +2,251 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D145C2D0A3
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 06:50:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DF7C2D0A3
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 07:58:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C7A5222EC
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 06:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604386231;
-	bh=MAxrnbt5VIvXOwsvpicABX0MkmmlreTcaHNcZhiy7CA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=nJkNCH2FjoGbil0D1ociiInzTHMHTHkhc5EfYtsQInxPZkO2H6wMZoHys5uN4ncEe
-	 q/NIS9ajMaQ348YN4PMdKvgHkcSXx/e9R5MQe4eL2jriR+AmudzbT2rW+vGVmnBTeR
-	 9clLevKn8bPgAEsxP4NF7zT8babZh9HzaQpYXqX0=
+	by mail.kernel.org (Postfix) with ESMTP id 525F322384
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 07:58:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="LcwWEOdf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbgKCGub (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 01:50:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39398 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725982AbgKCGua (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Nov 2020 01:50:30 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0DB9822277;
-        Tue,  3 Nov 2020 06:50:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604386229;
-        bh=MAxrnbt5VIvXOwsvpicABX0MkmmlreTcaHNcZhiy7CA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EsTSPVC9j10ih+q2EMTVwZOtdEAKNetrRW9ikYC4jlFJLRmZmVAyccU2hmWR1dfRo
-         xKq0jVFsgjWZJtFD6+CK7uJCJr0rUzMJPiUqcRVXHxZXU73KRvLO+wozvcpayScpkP
-         ExKkmRj244rGFoo2ONBt0S+ylaBIu8qbUKYtgJCk=
-Date:   Tue, 3 Nov 2020 07:50:24 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     ira.weiny@intel.com
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH V2 05/10] x86/pks: Add PKS kernel API
-Message-ID: <20201103065024.GC75930@kroah.com>
-References: <20201102205320.1458656-1-ira.weiny@intel.com>
- <20201102205320.1458656-6-ira.weiny@intel.com>
+        id S1726312AbgKCH6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 02:58:52 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:35374 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725982AbgKCH6v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 02:58:51 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A37wWCg121425;
+        Tue, 3 Nov 2020 01:58:32 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1604390312;
+        bh=9ur+xq0E036quUpkLpCo7JJNZVUnUVc2aT5Zysuzg/g=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=LcwWEOdfHJVS1z6a205bmF7N6abZiNqgufSHTJtn/CHbBCWnGfSc1JkEEl4buCJIh
+         +TFeNtBTwI+2eRat7jYHeSXIjd5mxITkunYLOy2CXy7jjkhHfkcthqO9x9RQcgbRDD
+         Xcj+ynYwn1mjO2tKjssrhKjRKIk3LX5oUHhbHQ+4=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A37wWGB069124
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Nov 2020 01:58:32 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 3 Nov
+ 2020 01:58:32 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 3 Nov 2020 01:58:32 -0600
+Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A37wQED028806;
+        Tue, 3 Nov 2020 01:58:26 -0600
+Subject: Re: [PATCH v7 00/18] Implement NTB Controller using multiple PCI EP
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>, Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>,
+        <alanmikhak@gmail.com>, <alan.mikhak@sifive.com>
+References: <20200930153519.7282-1-kishon@ti.com>
+ <fe2db298-2116-7f52-80bd-a3d01a9a1521@ti.com>
+ <72ebe7db-86cd-6827-03ff-bde32c10dc7e@ti.com>
+ <20201020131843.GA25784@e121166-lin.cambridge.arm.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <27b4ae15-03ce-e2f1-a0b5-65db7c7dd71e@ti.com>
+Date:   Tue, 3 Nov 2020 13:28:25 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201102205320.1458656-6-ira.weiny@intel.com>
+In-Reply-To: <20201020131843.GA25784@e121166-lin.cambridge.arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 02, 2020 at 12:53:15PM -0800, ira.weiny@intel.com wrote:
-> From: Fenghua Yu <fenghua.yu@intel.com>
-> 
-> PKS allows kernel users to define domains of page mappings which have
-> additional protections beyond the paging protections.
-> 
-> Add an API to allocate, use, and free a protection key which identifies
-> such a domain.  Export 5 new symbols pks_key_alloc(), pks_mknoaccess(),
-> pks_mkread(), pks_mkrdwr(), and pks_key_free().  Add 2 new macros;
-> PAGE_KERNEL_PKEY(key) and _PAGE_PKEY(pkey).
-> 
-> Update the protection key documentation to cover pkeys on supervisor
-> pages.
-> 
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
-> 
-> ---
-> Changes from V1
-> 	Per Dave Hansen
-> 		Add flags to pks_key_alloc() to help future proof the
-> 		interface if/when the key space is exhausted.
-> 
-> Changes from RFC V3
-> 	Per Dave Hansen
-> 		Put WARN_ON_ONCE in pks_key_free()
-> 		s/pks_mknoaccess/pks_mk_noaccess/
-> 		s/pks_mkread/pks_mk_readonly/
-> 		s/pks_mkrdwr/pks_mk_readwrite/
-> 		Change return pks_key_alloc() to EOPNOTSUPP when not
-> 			supported or configured
-> 	Per Peter Zijlstra
-> 		Remove unneeded preempt disable/enable
-> ---
->  Documentation/core-api/protection-keys.rst | 102 ++++++++++++++---
->  arch/x86/include/asm/pgtable_types.h       |  12 ++
->  arch/x86/include/asm/pkeys.h               |  11 ++
->  arch/x86/include/asm/pkeys_common.h        |   4 +
->  arch/x86/mm/pkeys.c                        | 126 +++++++++++++++++++++
->  include/linux/pgtable.h                    |   4 +
->  include/linux/pkeys.h                      |  24 ++++
->  7 files changed, 265 insertions(+), 18 deletions(-)
-> 
-> diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
-> index ec575e72d0b2..c4e6c480562f 100644
-> --- a/Documentation/core-api/protection-keys.rst
-> +++ b/Documentation/core-api/protection-keys.rst
-> @@ -4,25 +4,33 @@
->  Memory Protection Keys
->  ======================
->  
-> -Memory Protection Keys for Userspace (PKU aka PKEYs) is a feature
-> -which is found on Intel's Skylake (and later) "Scalable Processor"
-> -Server CPUs. It will be available in future non-server Intel parts
-> -and future AMD processors.
-> -
-> -For anyone wishing to test or use this feature, it is available in
-> -Amazon's EC2 C5 instances and is known to work there using an Ubuntu
-> -17.04 image.
-> -
->  Memory Protection Keys provides a mechanism for enforcing page-based
->  protections, but without requiring modification of the page tables
-> -when an application changes protection domains.  It works by
-> -dedicating 4 previously ignored bits in each page table entry to a
-> -"protection key", giving 16 possible keys.
-> +when an application changes protection domains.
-> +
-> +PKeys Userspace (PKU) is a feature which is found on Intel's Skylake "Scalable
-> +Processor" Server CPUs and later.  And It will be available in future
-> +non-server Intel parts and future AMD processors.
-> +
-> +Future Intel processors will support Protection Keys for Supervisor pages
-> +(PKS).
-> +
-> +For anyone wishing to test or use user space pkeys, it is available in Amazon's
-> +EC2 C5 instances and is known to work there using an Ubuntu 17.04 image.
-> +
-> +pkeys work by dedicating 4 previously Reserved bits in each page table entry to
-> +a "protection key", giving 16 possible keys.  User and Supervisor pages are
-> +treated separately.
-> +
-> +Protections for each page are controlled with per CPU registers for each type
-> +of page User and Supervisor.  Each of these 32 bit register stores two separate
-> +bits (Access Disable and Write Disable) for each key.
->  
-> -There is also a new user-accessible register (PKRU) with two separate
-> -bits (Access Disable and Write Disable) for each key.  Being a CPU
-> -register, PKRU is inherently thread-local, potentially giving each
-> -thread a different set of protections from every other thread.
-> +For Userspace the register is user-accessible (rdpkru/wrpkru).  For
-> +Supervisor, the register (MSR_IA32_PKRS) is accessible only to the kernel.
-> +
-> +Being a CPU register, pkeys are inherently thread-local, potentially giving
-> +each thread an independent set of protections from every other thread.
->  
->  There are two new instructions (RDPKRU/WRPKRU) for reading and writing
->  to the new register.  The feature is only available in 64-bit mode,
-> @@ -30,8 +38,11 @@ even though there is theoretically space in the PAE PTEs.  These
->  permissions are enforced on data access only and have no effect on
->  instruction fetches.
->  
-> -Syscalls
-> -========
-> +For kernel space rdmsr/wrmsr are used to access the kernel MSRs.
-> +
-> +
-> +Syscalls for user space keys
-> +============================
->  
->  There are 3 system calls which directly interact with pkeys::
->  
-> @@ -98,3 +109,58 @@ with a read()::
->  The kernel will send a SIGSEGV in both cases, but si_code will be set
->  to SEGV_PKERR when violating protection keys versus SEGV_ACCERR when
->  the plain mprotect() permissions are violated.
-> +
-> +
-> +Kernel API for PKS support
-> +==========================
-> +
-> +The following interface is used to allocate, use, and free a pkey which defines
-> +a 'protection domain' within the kernel.  Setting a pkey value in a supervisor
-> +mapping adds that mapping to the protection domain.
-> +
-> +        int pks_key_alloc(const char * const pkey_user, int flags);
-> +        #define PAGE_KERNEL_PKEY(pkey)
-> +        #define _PAGE_KEY(pkey)
-> +        void pks_mk_noaccess(int pkey);
-> +        void pks_mk_readonly(int pkey);
-> +        void pks_mk_readwrite(int pkey);
-> +        void pks_key_free(int pkey);
-> +
-> +pks_key_alloc() allocates keys dynamically to allow better use of the limited
-> +key space.  'flags' alter the allocation based on the users need.  Currently
-> +they can request an exclusive key.
-> +
-> +Callers of pks_key_alloc() _must_ be prepared for it to fail and take
-> +appropriate action.  This is due mainly to the fact that PKS may not be
-> +available on all arch's.  Failure to check the return of pks_key_alloc() and
-> +using any of the rest of the API is undefined.
-> +
-> +Kernel users must set the PTE permissions in the page table entries for the
-> +mappings they want to protect.  This can be done with PAGE_KERNEL_PKEY() or
-> +_PAGE_KEY().
-> +
-> +The pks_mk*() family of calls allows kernel users the ability to change the
-> +protections for the domain identified by the pkey specified.  3 states are
-> +available pks_mk_noaccess(), pks_mk_readonly(), and pks_mk_readwrite() which
-> +set the access to none, read, and read/write respectively.
-> +
-> +Finally, pks_key_free() allows a user to return the key to the allocator for
-> +use by others.
-> +
-> +The interface maintains pks_mk_noaccess() (Access Disabled (AD=1)) for all keys
-> +not currently allocated.  Therefore, the user can depend on access being
-> +disabled when pks_key_alloc() returns a key and the user should remove mappings
-> +from the domain (remove the pkey from the PTE) prior to calling pks_key_free().
-> +
-> +It should be noted that the underlying WRMSR(MSR_IA32_PKRS) is not serializing
-> +but still maintains ordering properties similar to WRPKRU.  Thus it is safe to
-> +immediately use a mapping when the pks_mk*() functions returns.
-> +
-> +The current SDM section on PKRS needs updating but should be the same as that
-> +of WRPKRU.  So to quote from the WRPKRU text:
-> +
-> +	WRPKRU will never execute transiently. Memory accesses
-> +	affected by PKRU register will not execute (even transiently)
-> +	until all prior executions of WRPKRU have completed execution
-> +	and updated the PKRU register.
-> +
-> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-> index 816b31c68550..c9fdfbdcbbfb 100644
-> --- a/arch/x86/include/asm/pgtable_types.h
-> +++ b/arch/x86/include/asm/pgtable_types.h
-> @@ -73,6 +73,12 @@
->  			 _PAGE_PKEY_BIT2 | \
->  			 _PAGE_PKEY_BIT3)
->  
-> +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> +#define _PAGE_PKEY(pkey)	(_AT(pteval_t, pkey) << _PAGE_BIT_PKEY_BIT0)
-> +#else
-> +#define _PAGE_PKEY(pkey)	(_AT(pteval_t, 0))
-> +#endif
-> +
->  #if defined(CONFIG_X86_64) || defined(CONFIG_X86_PAE)
->  #define _PAGE_KNL_ERRATUM_MASK (_PAGE_DIRTY | _PAGE_ACCESSED)
->  #else
-> @@ -229,6 +235,12 @@ enum page_cache_mode {
->  #define PAGE_KERNEL_IO		__pgprot_mask(__PAGE_KERNEL_IO)
->  #define PAGE_KERNEL_IO_NOCACHE	__pgprot_mask(__PAGE_KERNEL_IO_NOCACHE)
->  
-> +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> +#define PAGE_KERNEL_PKEY(pkey)	__pgprot_mask(__PAGE_KERNEL | _PAGE_PKEY(pkey))
-> +#else
-> +#define PAGE_KERNEL_PKEY(pkey) PAGE_KERNEL
-> +#endif
-> +
->  #endif	/* __ASSEMBLY__ */
->  
->  /*         xwr */
-> diff --git a/arch/x86/include/asm/pkeys.h b/arch/x86/include/asm/pkeys.h
-> index 4526245b03e5..f84351b4ac7c 100644
-> --- a/arch/x86/include/asm/pkeys.h
-> +++ b/arch/x86/include/asm/pkeys.h
-> @@ -3,6 +3,7 @@
->  #define _ASM_X86_PKEYS_H
->  
->  #include <asm/pkeys_common.h>
-> +#include <asm-generic/mman-common.h>
->  
->  #define ARCH_DEFAULT_PKEY	0
->  
-> @@ -138,4 +139,14 @@ static inline int vma_pkey(struct vm_area_struct *vma)
->  
->  u32 update_pkey_val(u32 pk_reg, int pkey, unsigned int flags);
->  
-> +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> +int pks_key_alloc(const char *const pkey_user, int flags);
-> +void pks_key_free(int pkey);
-> +
-> +void pks_mk_noaccess(int pkey);
-> +void pks_mk_readonly(int pkey);
-> +void pks_mk_readwrite(int pkey);
-> +
-> +#endif /* CONFIG_ARCH_HAS_SUPERVISOR_PKEYS */
-> +
->  #endif /*_ASM_X86_PKEYS_H */
-> diff --git a/arch/x86/include/asm/pkeys_common.h b/arch/x86/include/asm/pkeys_common.h
-> index 801a75615209..cd492c23b28c 100644
-> --- a/arch/x86/include/asm/pkeys_common.h
-> +++ b/arch/x86/include/asm/pkeys_common.h
-> @@ -26,6 +26,10 @@
->  			 PKR_AD_KEY(10) | PKR_AD_KEY(11) | PKR_AD_KEY(12) | \
->  			 PKR_AD_KEY(13) | PKR_AD_KEY(14) | PKR_AD_KEY(15))
->  
-> +/*  PKS supports 16 keys. Key 0 is reserved for the kernel. */
-> +#define        PKS_KERN_DEFAULT_KEY    0
-> +#define        PKS_NUM_KEYS            16
-> +
->  #ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
->  void write_pkrs(u32 new_pkrs);
->  #else
-> diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
-> index 76a62419c446..0dc77409957a 100644
-> --- a/arch/x86/mm/pkeys.c
-> +++ b/arch/x86/mm/pkeys.c
-> @@ -3,6 +3,9 @@
->   * Intel Memory Protection Keys management
->   * Copyright (c) 2015, Intel Corporation.
->   */
-> +#undef pr_fmt
-> +#define pr_fmt(fmt) "x86/pkeys: " fmt
-> +
->  #include <linux/debugfs.h>		/* debugfs_create_u32()		*/
->  #include <linux/mm_types.h>             /* mm_struct, vma, etc...       */
->  #include <linux/pkeys.h>                /* PKEY_*                       */
-> @@ -231,6 +234,7 @@ u32 update_pkey_val(u32 pk_reg, int pkey, unsigned int flags)
->  
->  	return pk_reg;
->  }
-> +EXPORT_SYMBOL_GPL(update_pkey_val);
->  
->  DEFINE_PER_CPU(u32, pkrs_cache);
->  
-> @@ -262,3 +266,125 @@ void write_pkrs(u32 new_pkrs)
->  	}
->  	put_cpu_ptr(pkrs);
->  }
-> +EXPORT_SYMBOL_GPL(write_pkrs);
-> +
-> +/**
-> + * Do not call this directly, see pks_mk*() below.
-> + *
-> + * @pkey: Key for the domain to change
-> + * @protection: protection bits to be used
-> + *
-> + * Protection utilizes the same protection bits specified for User pkeys
-> + *     PKEY_DISABLE_ACCESS
-> + *     PKEY_DISABLE_WRITE
-> + *
-> + */
-> +static inline void pks_update_protection(int pkey, unsigned long protection)
-> +{
-> +	current->thread.saved_pkrs = update_pkey_val(current->thread.saved_pkrs,
-> +						     pkey, protection);
-> +	write_pkrs(current->thread.saved_pkrs);
-> +}
-> +
-> +/**
-> + * PKS access control functions
-> + *
-> + * Change the access of the domain specified by the pkey.  These are global
-> + * updates.  They only affects the current running thread.  It is undefined and
-> + * a bug for users to call this without having allocated a pkey and using it as
-> + * pkey here.
-> + *
-> + * pks_mk_noaccess()
-> + *     Disable all access to the domain
-> + * pks_mk_readonly()
-> + *     Make the domain Read only
-> + * pks_mk_readwrite()
-> + *     Make the domain Read/Write
-> + *
-> + * @pkey the pkey for which the access should change.
-> + *
-> + */
-> +void pks_mk_noaccess(int pkey)
-> +{
-> +	pks_update_protection(pkey, PKEY_DISABLE_ACCESS);
-> +}
-> +EXPORT_SYMBOL_GPL(pks_mk_noaccess);
-> +
-> +void pks_mk_readonly(int pkey)
-> +{
-> +	pks_update_protection(pkey, PKEY_DISABLE_WRITE);
-> +}
-> +EXPORT_SYMBOL_GPL(pks_mk_readonly);
-> +
-> +void pks_mk_readwrite(int pkey)
-> +{
-> +	pks_update_protection(pkey, 0);
-> +}
-> +EXPORT_SYMBOL_GPL(pks_mk_readwrite);
-> +
-> +static const char pks_key_user0[] = "kernel";
-> +
-> +/* Store names of allocated keys for debug.  Key 0 is reserved for the kernel.  */
-> +static const char *pks_key_users[PKS_NUM_KEYS] = {
-> +	pks_key_user0
-> +};
-> +
-> +/*
-> + * Each key is represented by a bit.  Bit 0 is set for key 0 and reserved for
-> + * its use.  We use ulong for the bit operations but only 16 bits are used.
-> + */
-> +static unsigned long pks_key_allocation_map = 1 << PKS_KERN_DEFAULT_KEY;
-> +
-> +/*
-> + * pks_key_alloc - Allocate a PKS key
-> + * @pkey_user: String stored for debugging of key exhaustion.  The caller is
-> + *             responsible to maintain this memory until pks_key_free().
-> + * @flags: Flags to modify behavior: see pks_alloc_flags
-> + *
-> + * Returns: pkey if success
-> + *          -EOPNOTSUPP if pks is not supported or not enabled
-> + *          -ENOSPC if no keys are available (even for sharing)
-> + */
-> +int pks_key_alloc(const char * const pkey_user, int flags)
-> +{
-> +	int nr;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_PKS))
-> +		return -EOPNOTSUPP;
-> +
-> +	while (1) {
-> +		nr = find_first_zero_bit(&pks_key_allocation_map, PKS_NUM_KEYS);
-> +		if (nr >= PKS_NUM_KEYS) {
-> +			pr_info("Cannot allocate supervisor key for %s.\n",
-> +				pkey_user);
-> +			return -ENOSPC;
-> +		}
-> +		if (!test_and_set_bit_lock(nr, &pks_key_allocation_map))
-> +			break;
-> +	}
-> +
-> +	/* for debugging key exhaustion */
-> +	pks_key_users[nr] = pkey_user;
-> +
-> +	return nr;
-> +}
-> +EXPORT_SYMBOL_GPL(pks_key_alloc);
-> +
-> +/*
-> + * pks_key_free - Free a previously allocate PKS key
-> + * @pkey: Key to be free'ed
-> + */
-> +void pks_key_free(int pkey)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_PKS))
-> +		return;
-> +
-> +	if (WARN_ON_ONCE(pkey >= PKS_NUM_KEYS || pkey <= PKS_KERN_DEFAULT_KEY))
-> +		return;
-> +
-> +	/* Restore to default of no access */
-> +	pks_mk_noaccess(pkey);
-> +	pks_key_users[pkey] = NULL;
-> +	__clear_bit(pkey, &pks_key_allocation_map);
-> +}
-> +EXPORT_SYMBOL_GPL(pks_key_free);
-> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-> index 38c33eabea89..cd72d73e8e1c 100644
-> --- a/include/linux/pgtable.h
-> +++ b/include/linux/pgtable.h
-> @@ -1402,6 +1402,10 @@ static inline bool arch_has_pfn_modify_check(void)
->  # define PAGE_KERNEL_EXEC PAGE_KERNEL
->  #endif
->  
-> +#ifndef PAGE_KERNEL_PKEY
-> +#define PAGE_KERNEL_PKEY(pkey) PAGE_KERNEL
-> +#endif
-> +
->  /*
->   * Page Table Modification bits for pgtbl_mod_mask.
->   *
-> diff --git a/include/linux/pkeys.h b/include/linux/pkeys.h
-> index 2955ba976048..0959a4c0ca64 100644
-> --- a/include/linux/pkeys.h
-> +++ b/include/linux/pkeys.h
-> @@ -50,4 +50,28 @@ static inline void copy_init_pkru_to_fpregs(void)
->  
->  #endif /* ! CONFIG_ARCH_HAS_PKEYS */
->  
-> +#define PKS_FLAG_EXCLUSIVE 0x00
-> +
-> +#ifndef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> +static inline int pks_key_alloc(const char * const pkey_user, int flags)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +static inline void pks_key_free(int pkey)
-> +{
-> +}
-> +static inline void pks_mk_noaccess(int pkey)
-> +{
-> +	WARN_ON_ONCE(1);
++Alan
 
-So for panic-on-warn systems, this is ok to reboot the box?
+Hi Jon Mason, Allen Hubbe, Dave Jiang,
 
-Are you sure, that feels odd...
+On 20/10/20 6:48 pm, Lorenzo Pieralisi wrote:
+> On Tue, Oct 20, 2020 at 01:45:45PM +0530, Kishon Vijay Abraham I wrote:
+>> Hi,
+>>
+>> On 05/10/20 11:27 am, Kishon Vijay Abraham I wrote:
+>>> Hi Jon Mason, Allen Hubbe, Dave Jiang,
+>>>
+>>> On 30/09/20 9:05 pm, Kishon Vijay Abraham I wrote:
+>>>> This series is about implementing SW defined Non-Transparent Bridge (NTB)
+>>>> using multiple endpoint (EP) instances. This series has been tested using
+>>>> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
+>>>> on the other end. However there is nothing platform specific for the NTB
+>>>> functionality.
+>>>
+>>> This series has two patches that adds to drivers/ntb/ directory.
+>>> [PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-Transparent
+>>> Bridge and [PATCH v7 16/18] NTB: tool: Enable the NTB/PCIe link on the
+>>> local or remote side of bridge.
+>>>
+>>> If you can review and Ack the above patches, Lorenzo can queue it along
+>>> with the rest of the series.
 
-greg k-h
+Would you be able to review and Ack the NTB parts of this series?
+>>>
+>>> Thanks for your help in advance.
+>>
+>> Gentle ping on this series.
+> 
+> I am not queueing any more patches for this merge window - we postpone
+> this series to v5.11 and in the interim it would be good to define some
+> possible users.
 
+Alan, Do you have a system where you can test this series? It only needs
+two endpoint instances on a single system.
+
+Thanks
+Kishon
+
+> 
+> Thanks,
+> Lorenzo
+> 
+>> Thanks
+>> Kishon
+>>>
+>>> Best Regards,
+>>> Kishon
+>>>
+>>>>
+>>>> This was presented in Linux Plumbers Conference. Link to presentation
+>>>> and video can be found @ [1]
+>>>>
+>>>> RFC patch series can be found @ [2]
+>>>> v1 patch series can be found @ [3]
+>>>> v2 patch series can be found @ [4]
+>>>> v3 patch series can be found @ [5]
+>>>> v4 patch series can be found @ [6]
+>>>> v5 patch series can be found @ [7]
+>>>> v6 patch series can be found @ [8]
+>>>>
+>>>> Changes from v6:
+>>>> 1) Fixed issues when multiple NTB devices are creating using multiple
+>>>>    functions
+>>>> 2) Fixed issue with writing scratchpad register
+>>>> 3) Created a video demo @ [9]
+>>>>
+>>>> Changes from v5:
+>>>> 1) Fixed a formatting issue in Kconfig pointed out by Randy
+>>>> 2) Checked for Error or Null in pci_epc_add_epf()
+>>>>
+>>>> Changes from v4:
+>>>> 1) Fixed error condition checks in pci_epc_add_epf()
+>>>>
+>>>> Changes from v3:
+>>>> 1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
+>>>>
+>>>> Changes from v2:
+>>>> 1) Add support for the user to create sub-directory of 'EPF Device'
+>>>>    directory (for endpoint function specific configuration using
+>>>>    configfs).
+>>>> 2) Add documentation for NTB specific attributes in configfs
+>>>> 3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
+>>>>    driver
+>>>> 4) Other documentation fixes
+>>>>
+>>>> Changes from v1:
+>>>> 1) As per Rob's comment, removed support for creating NTB function
+>>>>    device from DT
+>>>> 2) Add support to create NTB EPF device using configfs (added support in
+>>>>    configfs to associate primary and secondary EPC with EPF.
+>>>>
+>>>> Changes from RFC:
+>>>> 1) Converted the DT binding patches to YAML schema and merged the
+>>>>    DT binding patches together
+>>>> 2) NTB documentation is converted to .rst
+>>>> 3) One HOST can now interrupt the other HOST using MSI-X interrupts
+>>>> 4) Added support for teardown of memory window and doorbell
+>>>>    configuration
+>>>> 5) Add support to provide support 64-bit memory window size from
+>>>>    DT
+>>>>
+>>>> [1] -> https://linuxplumbersconf.org/event/4/contributions/395/
+>>>> [2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
+>>>> [3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
+>>>> [4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
+>>>> [5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
+>>>> [6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
+>>>> [7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
+>>>> [8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
+>>>> [9] -> https://youtu.be/dLKKxrg5-rY
+>>>>
+>>>> Kishon Vijay Abraham I (18):
+>>>>   Documentation: PCI: Add specification for the *PCI NTB* function
+>>>>     device
+>>>>   PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+>>>>     BAR
+>>>>   PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+>>>>   PCI: endpoint: Make *_free_bar() to return error codes on failure
+>>>>   PCI: endpoint: Remove unused pci_epf_match_device()
+>>>>   PCI: endpoint: Add support to associate secondary EPC with EPF
+>>>>   PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+>>>>   PCI: endpoint: Add pci_epc_ops to map MSI irq
+>>>>   PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
+>>>>     specific attrs
+>>>>   PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
+>>>>     directory
+>>>>   PCI: cadence: Implement ->msi_map_irq() ops
+>>>>   PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
+>>>>   PCI: endpoint: Add EP function driver to provide NTB functionality
+>>>>   PCI: Add TI J721E device to pci ids
+>>>>   NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+>>>>   NTB: tool: Enable the NTB/PCIe link on the local or remote side of
+>>>>     bridge
+>>>>   Documentation: PCI: Add configfs binding documentation for pci-ntb
+>>>>     endpoint function
+>>>>   Documentation: PCI: Add userguide for PCI endpoint NTB function
+>>>>
+>>>>  .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
+>>>>  Documentation/PCI/endpoint/index.rst          |    3 +
+>>>>  .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
+>>>>  .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
+>>>>  Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
+>>>>  drivers/misc/pci_endpoint_test.c              |    1 -
+>>>>  drivers/ntb/hw/Kconfig                        |    1 +
+>>>>  drivers/ntb/hw/Makefile                       |    1 +
+>>>>  drivers/ntb/hw/epf/Kconfig                    |    6 +
+>>>>  drivers/ntb/hw/epf/Makefile                   |    1 +
+>>>>  drivers/ntb/hw/epf/ntb_hw_epf.c               |  755 ++++++
+>>>>  drivers/ntb/test/ntb_tool.c                   |    1 +
+>>>>  .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
+>>>>  drivers/pci/endpoint/functions/Kconfig        |   12 +
+>>>>  drivers/pci/endpoint/functions/Makefile       |    1 +
+>>>>  drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
+>>>>  drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
+>>>>  drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
+>>>>  drivers/pci/endpoint/pci-epc-core.c           |  130 +-
+>>>>  drivers/pci/endpoint/pci-epf-core.c           |  105 +-
+>>>>  include/linux/pci-epc.h                       |   39 +-
+>>>>  include/linux/pci-epf.h                       |   28 +-
+>>>>  include/linux/pci_ids.h                       |    1 +
+>>>>  23 files changed, 3934 insertions(+), 73 deletions(-)
+>>>>  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
+>>>>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
+>>>>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+>>>>  create mode 100644 drivers/ntb/hw/epf/Kconfig
+>>>>  create mode 100644 drivers/ntb/hw/epf/Makefile
+>>>>  create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+>>>>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
+>>>>
