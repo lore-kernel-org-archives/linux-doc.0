@@ -2,310 +2,143 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CDDEC56201
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 14:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54E07C388F7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:22:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BC0E22264
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 14:11:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 031E620757
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 15:22:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="IN3VErPd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LoRG864A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729549AbgKCOKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 09:10:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53118 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729420AbgKCOKr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Nov 2020 09:10:47 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1604412645;
+        id S1728153AbgKCPWk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 10:22:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60908 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728116AbgKCPWS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 10:22:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1604416936;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ba9qeE3P97TbQ2yvwB2ubaFiLUcB36w6IpkZF8tbKnk=;
-        b=IN3VErPdp1WBPWe8s7Z/Hom6zeEPN00JGakf0pmbE0tHXmmxXEWD5++Vr61N/M6YEB54w7
-        TkpVK9DRs5pQGU2sXeGrOyjWu6VljkU4rvLr/rLgtbNpT6gEfg2GSAQckNPRAvbykm4vni
-        bo/mIe9ANXQW2mhX2JkXe/I7Xbftp1o=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C3BEFABF4;
-        Tue,  3 Nov 2020 14:10:44 +0000 (UTC)
-Date:   Tue, 3 Nov 2020 15:10:43 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>, Guo Ren <guoren@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-csky@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, live-patching@vger.kernel.org
-Subject: Re: [PATCH 11/11 v2.2] ftrace: Add recording of functions that
- caused recursion
-Message-ID: <20201103141043.GO20201@alley>
-References: <20201030213142.096102821@goodmis.org>
- <20201030214014.801706340@goodmis.org>
- <20201102164147.GJ20201@alley>
- <20201102123721.4fcce2cb@gandalf.local.home>
- <20201102124606.72bd89c5@gandalf.local.home>
- <20201102142254.7e148f8a@gandalf.local.home>
+        bh=lChGiPw5PKK8M2mjuLILlsWFMRIa+6Y0yf5fTgLfNzg=;
+        b=LoRG864AsubBWCpAi7nOG5NqXPK4y87TDHSWcqnLGPbXdiU9DvR952BiyNh/iOWL6XJg+O
+        WH+CkOIc9OTbW9OdpeATipz/K2eRL+tAi5VvOCiek509/kPfkOVlZ0vorrpSRSRjLHVFlX
+        jU+/fedqwDwD+p8LGQNdrP3j4X6++VA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-82-1LuhBAQYPcKtH7EjtH9oPA-1; Tue, 03 Nov 2020 10:22:13 -0500
+X-MC-Unique: 1LuhBAQYPcKtH7EjtH9oPA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A38E5F9C5;
+        Tue,  3 Nov 2020 15:22:11 +0000 (UTC)
+Received: from ovpn-114-173.ams2.redhat.com (ovpn-114-173.ams2.redhat.com [10.36.114.173])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0A0795B4BB;
+        Tue,  3 Nov 2020 15:22:08 +0000 (UTC)
+Message-ID: <86c37d881a93d5690faf20de3bccceca1493fd74.camel@redhat.com>
+Subject: Re: [PATCH net-next v2 0/3] net: introduce rps_default_mask
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>, Saeed Mahameed <saeed@kernel.org>
+Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Date:   Tue, 03 Nov 2020 16:22:07 +0100
+In-Reply-To: <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+References: <cover.1604055792.git.pabeni@redhat.com>
+         <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201102142254.7e148f8a@gandalf.local.home>
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 2020-11-02 14:23:14, Steven Rostedt wrote:
-> From c532ff6b048dd4a12943b05c7b8ce30666c587c8 Mon Sep 17 00:00:00 2001
-> From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
-> Date: Thu, 29 Oct 2020 15:27:06 -0400
-> Subject: [PATCH] ftrace: Add recording of functions that caused recursion
+On Mon, 2020-11-02 at 14:54 -0800, Jakub Kicinski wrote:
+> On Fri, 30 Oct 2020 12:16:00 +0100 Paolo Abeni wrote:
+> > Real-time setups try hard to ensure proper isolation between time
+> > critical applications and e.g. network processing performed by the
+> > network stack in softirq and RPS is used to move the softirq 
+> > activity away from the isolated core.
+> > 
+> > If the network configuration is dynamic, with netns and devices
+> > routinely created at run-time, enforcing the correct RPS setting
+> > on each newly created device allowing to transient bad configuration
+> > became complex.
+> > 
+> > These series try to address the above, introducing a new
+> > sysctl knob: rps_default_mask. The new sysctl entry allows
+> > configuring a systemwide RPS mask, to be enforced since receive 
+> > queue creation time without any fourther per device configuration
+> > required.
+> > 
+> > Additionally, a simple self-test is introduced to check the 
+> > rps_default_mask behavior.
 > 
-> This adds CONFIG_FTRACE_RECORD_RECURSION that will record to a file
-> "recursed_functions" all the functions that caused recursion while a
-> callback to the function tracer was running.
+> RPS is disabled by default, the processing is going to happen wherever
+> the IRQ is mapped, and one would hope that the IRQ is not mapped to the
+> core where the critical processing runs.
 > 
-> diff --git a/include/linux/trace_recursion.h b/include/linux/trace_recursion.h
-> index ac3d73484cb2..1cba5fe8777a 100644
-> --- a/include/linux/trace_recursion.h
-> +++ b/include/linux/trace_recursion.h
-> @@ -142,7 +142,28 @@ static __always_inline int trace_get_context_bit(void)
->  			pc & HARDIRQ_MASK ? TRACE_CTX_IRQ : TRACE_CTX_SOFTIRQ;
->  }
->  
-> -static __always_inline int trace_test_and_set_recursion(int start, int max)
-> +#ifdef CONFIG_FTRACE_RECORD_RECURSION
-> +extern void ftrace_record_recursion(unsigned long ip, unsigned long parent_ip);
-> +/*
-> +* The paranoid_test check can cause dropped reports (unlikely), but
-> +* if the recursion is common, it will likely still be recorded later.
-> +* But the paranoid_test is needed to make sure we don't crash.
-> +*/
-> +# define do_ftrace_record_recursion(ip, pip)				\
-> +	do {								\
-> +		static atomic_t paranoid_test;				\
-> +		if (!atomic_read(&paranoid_test)) {			\
-> +			atomic_inc(&paranoid_test);			\
-> +			ftrace_record_recursion(ip, pip);		\
-> +			atomic_dec(&paranoid_test);			\
+> Would you mind elaborating further on the use case?
 
-BTW: What is actually the purpose of paranoid_test, please?
+On Mon, 2020-11-02 at 15:27 -0800, Saeed Mahameed wrote:
+> The whole thing can be replaced with a user daemon scripts that
+> monitors all newly created devices and assign to them whatever rps mask
+> (call it default).
+> 
+> So why do we need this special logic in kernel ? 
+> 
+> I am not sure about this, but if rps queues sysfs are available before
+> the netdev is up, then you can also use udevd to assign the rps masks
+> before such devices are even brought up, so you would avoid the race
+> conditions that you described, which are not really clear to me to be
+> honest.
 
-It prevents nested ftrace_record_recursion() calls on the same CPU
-(recursion, nesting from IRQ, NMI context).
+Thank you for the feedback.
 
-Parallel calls from different CPUs are still possible:
+Please allow me to answer you both here, as your questions are related.
 
-CPU0					CPU1
-if (!atomic_read(&paranoid_test))	if (!atomic_read(&paranoid_test))
-   // passes				  // passes
-   atomic_inc(&paranoid_test);            atomic_inc(&paranoid_test);
+The relevant use case is an host running containers (with the related
+orchestration tools) in a RT environment. Virtual devices (veths, ovs
+ports, etc.) are created by the orchestration tools at run-time.
+Critical processes are allowed to send packets/generate outgoing
+network traffic - but any interrupt is moved away from the related
+cores, so that usual incoming network traffic processing does not
+happen there.
 
+Still an xmit operation on a virtual devices may be transmitted via ovs
+or veth, with the relevant forwarding operation happening in a softirq
+on the same CPU originating the packet. 
 
-I do not see how a nested call could cause crash while a parallel
-one would be OK.
+RPS is configured (even) on such virtual devices to move away the
+forwarding from the relevant CPUs.
 
+As Saeed noted, such configuration could be possibly performed via some
+user-space daemon monitoring network devices and network namespaces
+creation. That will be anyway prone to some race: the orchestation tool
+may create and enable the netns and virtual devices before the daemon
+has properly set the RPS mask.
 
-> --- /dev/null
-> +++ b/kernel/trace/trace_recursion_record.c
-> @@ -0,0 +1,236 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/seq_file.h>
-> +#include <linux/kallsyms.h>
-> +#include <linux/module.h>
-> +#include <linux/ftrace.h>
-> +#include <linux/fs.h>
-> +
-> +#include "trace_output.h"
-> +
-> +struct recursed_functions {
-> +	unsigned long		ip;
-> +	unsigned long		parent_ip;
-> +};
-> +
-> +static struct recursed_functions recursed_functions[CONFIG_FTRACE_RECORD_RECURSION_SIZE];
-> +static atomic_t nr_records;
-> +
-> +/*
-> + * Cache the last found function. Yes, updates to this is racey, but
-> + * so is memory cache ;-)
-> + */
-> +static unsigned long cached_function;
-> +
-> +void ftrace_record_recursion(unsigned long ip, unsigned long parent_ip)
-> +{
-> +	int index = 0;
-> +	int i;
-> +	unsigned long old;
-> +
-> + again:
-> +	/* First check the last one recorded */
-> +	if (ip == cached_function)
-> +		return;
-> +
-> +	i = atomic_read(&nr_records);
-> +	/* nr_records is -1 when clearing records */
-> +	smp_mb__after_atomic();
-> +	if (i < 0)
-> +		return;
-> +
-> +	/*
-> +	 * If there's two writers and this writer comes in second,
-> +	 * the cmpxchg() below to update the ip will fail. Then this
-> +	 * writer will try again. It is possible that index will now
-> +	 * be greater than nr_records. This is because the writer
-> +	 * that succeeded has not updated the nr_records yet.
-> +	 * This writer could keep trying again until the other writer
-> +	 * updates nr_records. But if the other writer takes an
-> +	 * interrupt, and that interrupt locks up that CPU, we do
-> +	 * not want this CPU to lock up due to the recursion protection,
-> +	 * and have a bug report showing this CPU as the cause of
-> +	 * locking up the computer. To not lose this record, this
-> +	 * writer will simply use the next position to update the
-> +	 * recursed_functions, and it will update the nr_records
-> +	 * accordingly.
-> +	 */
-> +	if (index < i)
-> +		index = i;
-> +	if (index >= CONFIG_FTRACE_RECORD_RECURSION_SIZE)
-> +		return;
-> +
-> +	for (i = index - 1; i >= 0; i--) {
-> +		if (recursed_functions[i].ip == ip) {
-> +			cached_function = ip;
-> +			return;
-> +		}
-> +	}
-> +
-> +	cached_function = ip;
-> +
-> +	/*
-> +	 * We only want to add a function if it hasn't been added before.
-> +	 * Add to the current location before incrementing the count.
-> +	 * If it fails to add, then increment the index (save in i)
-> +	 * and try again.
-> +	 */
-> +	old = cmpxchg(&recursed_functions[index].ip, 0, ip);
-> +	if (old != 0) {
-> +		/* Did something else already added this for us? */
-> +		if (old == ip)
-> +			return;
-> +		/* Try the next location (use i for the next index) */
-> +		index++;
-> +		goto again;
-> +	}
-> +
-> +	recursed_functions[index].parent_ip = parent_ip;
-> +
-> +	/*
-> +	 * It's still possible that we could race with the clearing
-> +	 *    CPU0                                    CPU1
-> +	 *    ----                                    ----
-> +	 *                                       ip = func
-> +	 *  nr_records = -1;
-> +	 *  recursed_functions[0] = 0;
-> +	 *                                       i = -1
-> +	 *                                       if (i < 0)
-> +	 *  nr_records = 0;
-> +	 *  (new recursion detected)
-> +	 *      recursed_functions[0] = func
-> +	 *                                            cmpxchg(recursed_functions[0],
-> +	 *                                                    func, 0)
-> +	 *
-> +	 * But the worse that could happen is that we get a zero in
-> +	 * the recursed_functions array, and it's likely that "func" will
-> +	 * be recorded again.
-> +	 */
-> +	i = atomic_read(&nr_records);
-> +	smp_mb__after_atomic();
-> +	if (i < 0)
-> +		cmpxchg(&recursed_functions[index].ip, ip, 0);
-> +	else if (i <= index)
-> +		atomic_cmpxchg(&nr_records, i, index + 1);
+In the latter scenario some packet forwarding could still slip in the
+relevant CPU, causing measurable latency. In all non RT scenarios the
+above will be likely irrelevant, but in the RT context that is not
+acceptable - e.g. it causes in real environments latency above the
+defined limits, while the proposed patches avoid the issue.
 
-Are you aware of the following race, please?
+Do you see any other simple way to avoid the above race?
 
-CPU0					CPU1
+Please let me know if the above answers your doubts,
 
-ftrace_record_recursion()
+Paolo
 
-   i = atomic_read(&nr_records);
-   // i = 20   (for example)
-   if (i < index)
-     index = i;
-     // index = 20;
-
-					recursed_function_open()
-					atomic_set(&nr_records, -1);
-					memset(recursed_functions, 0, );
-					atomic_set(&nr_records, 0);
-
-   // successfully store ip at index == 20
-   cmpxchg(&recursed_functions[index].ip, 0, ip);
-   recursed_functions[index].parent_ip = parent_ip;
-
-   // check race with clearing
-   i = atomic_read(&nr_records);
-   // i == 0
-   if (i < 0)
-      // no
-   else
-	atomic_cmpxchg(&nr_records, i, index + 1);
-
-RESULT:
-
-   + nr_records == 21
-   + and slots 0..19 are zeroed
-
-
-I played with the code and ended with head entangled by chicken & egg
-like problems.
-
-I believe that a solution might be a combined atomic variable from
-nr_records + cleanup_count.
-
-ftrace_record_recursion() would be allowed to increase nr_records
-only when cleanup_count is still the same. cleanup_count would
-be incremented together with clearing nr_records.
-
-
-Well, I am not sure if it is worth the effort. The race is rather
-theoretical. In the worst case, the cache might contain many
-zero values.
-
-Anyway, it is yet another experience for me that lockless algorithms
-are more tricky that one would expect.
-
-Best Regards,
-Petr
