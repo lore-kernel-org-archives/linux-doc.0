@@ -2,66 +2,91 @@ Return-Path: <SRS0=f+/j=EJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6799CC388F9
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 21:51:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1DAC388F7
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:10:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 159E72245F
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 21:51:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604440275;
-	bh=Og6lxizNQCDNp2Hd0PAecoYd+XEuC/t6QNr6YJTh7Io=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=XyTrQfZzZTjcGwg02xsGYFBUUjy/zkuXu0OE0jF+urzjOB3vDZPtcke1/Ah20XoMd
-	 pj3wnL68LVjH7/kJNwtHQSV4MbW5NP3aj/m8bv1xjwn/DnOT5sdsBfocvVq43p/pGh
-	 N7OZXik7tXOluWTXtOh8mDdzNYGOCIdoyXv4gKZI=
+	by mail.kernel.org (Postfix) with ESMTP id 739C92080D
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Nov 2020 22:10:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kSOrZCkd";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0XFyqK39"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731508AbgKCVvN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 16:51:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37936 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730199AbgKCVvL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Nov 2020 16:51:11 -0500
-Subject: Re: [GIT PULL] Docs-build warning fixes for 5.10-rc3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604440270;
-        bh=Og6lxizNQCDNp2Hd0PAecoYd+XEuC/t6QNr6YJTh7Io=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=oMCx4yVoPcYXyLLRFEXNRs3JiDV3Vrl9YTswQd/p+VacEzNiUEu2j4gZqnz8WELsC
-         8YJ/nJunh+EKzuX41HQG0YMPA4JHsGQATwmiysGTUbdLFOI22k+0SucEU16zTmQgom
-         U89Sp7amiJLMnCPebSVSRLuNGIHEKOhHKPGfMzTE=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20201103124420.46bf5a37@lwn.net>
-References: <20201103124420.46bf5a37@lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20201103124420.46bf5a37@lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git docs-5.10-warnings
-X-PR-Tracked-Commit-Id: 6fee9372e0af63f557ad234663d8248f3caefc37
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: e6b0bd61a73718886c2df16762f0a5dba485fc10
-Message-Id: <160444027054.10573.14101545655716938289.pr-tracker-bot@kernel.org>
-Date:   Tue, 03 Nov 2020 21:51:10 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+        id S1731648AbgKCWKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Nov 2020 17:10:11 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:45012 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729764AbgKCWKJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Nov 2020 17:10:09 -0500
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1604441407;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8fYu6MuaJ0Ok/Y49A6p/r2wWyaAYSztubvJXZfAJjx8=;
+        b=kSOrZCkd+5bm3VUzBCKp+nXf6Jm7gHJqEst/8Y8Y7kCKavfTO6EsO6Fbfu5IWFm7Yh0rOh
+        ViOh1ai4o5f0PzkGC6gnQU0hccQS3A0dsAu6zIpTriXCVe8LYJKI0b83pLLX4BemllgEQ6
+        +IQR9J0bMajTKl5Wq0d2SPBn9SWwC3qrE+PB++4G0G8IfyOx9BoLgfM6EkEutRo8WTxhwq
+        MlO0X8D6Jsn2qbEWzgvUE1Zb1jqzlTRrYhfELhwbbtuWglFP6/4tTy4CG7I7hp5vG+2T3N
+        IPrsCMkaOm0iBHMsLlRmPUmfvf6Gy5W+vaq7iru3s8Ka7+yMQ3SgEgROjA8WHw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1604441407;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8fYu6MuaJ0Ok/Y49A6p/r2wWyaAYSztubvJXZfAJjx8=;
+        b=0XFyqK39HcF4/ENuNbZFJU0QS3/l+9z7UfPcGscjnLvY1kuRMumepPSyYBcqHw+YIi3h5E
+        hih5bXfXsCTgC8Cw==
+To:     Sudeep Holla <sudeep.holla@arm.com>,
+        Elliot Berman <eberman@codeaurora.org>
+Cc:     Qais Yousef <qais.yousef@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Trilok Soni <tsoni@codeaurora.org>,
+        linux-kernel@vger.kernel.org, psodagud@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] smp: Add bootcpus parameter to boot subset of CPUs
+In-Reply-To: <20201030174531.ywwkcntq4ge33lrh@bogus>
+References: <1603404243-5536-1-git-send-email-eberman@codeaurora.org> <87v9f04n8r.fsf@nanos.tec.linutronix.de> <a6d7f84679240fcf580520230a88c058@codeaurora.org> <20201026171224.GV2611@hirez.programming.kicks-ass.net> <a9fa1f8d-52c7-adca-9087-160b1ecda6b8@codeaurora.org> <20201028145516.23lm66mora5b3wqr@e107158-lin> <20201028151558.odxwolnwbes2gihi@bogus> <cb175d84-7a89-344d-0dd8-76bf4ece9e3b@codeaurora.org> <20201030174531.ywwkcntq4ge33lrh@bogus>
+Date:   Tue, 03 Nov 2020 23:10:06 +0100
+Message-ID: <871rha148x.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Tue, 3 Nov 2020 12:44:20 -0700:
+On Fri, Oct 30 2020 at 17:45, Sudeep Holla wrote:
+> On Thu, Oct 29, 2020 at 02:37:06PM -0700, Elliot Berman wrote:
+>> In the case where commercial device is using feature for thermal, device
+>> should boot multiple small cores. Booting only one core means we would not
+>> be able to use all possible cores to maximum extent possible in this thermal
+>> case.
+>
+> I understood that point. But you haven't responded on my logical vs physical
+> number argument. I am clearly NACKing this patch as is for just usage of
+> logical CPU IDs in the command line while your intention is to control
+> the physical CPUs. So once again, NACK for that reason.
 
-> git://git.lwn.net/linux.git docs-5.10-warnings
+Correct. And no, we are not going to add a command line option to select
+physical CPU ids.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/e6b0bd61a73718886c2df16762f0a5dba485fc10
+There are two ways to solve that:
 
-Thank you!
+  1) The firmware can tell the kernel whether a CPU should be brought up
+     or not, e.g. by failing the bootup request.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+  2) The kernel has a way to figure out the current thermal and/or power
+     budget early in the boot process and sorts out which and how many
+     CPUs fit into that limit.
+
+Thanks,
+
+        tglx
+
