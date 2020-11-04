@@ -2,57 +2,82 @@ Return-Path: <SRS0=J8tN=EK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB99C2D0A3
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:40:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 926E5C2D0A3
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:45:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF8D820870
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:40:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4104221527
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:45:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729897AbgKDWkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Nov 2020 17:40:32 -0500
-Received: from ms.lwn.net ([45.79.88.28]:52412 "EHLO ms.lwn.net"
+        id S1728565AbgKDWp4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Nov 2020 17:45:56 -0500
+Received: from mga01.intel.com ([192.55.52.88]:34372 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728565AbgKDWkc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Nov 2020 17:40:32 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B8AA22E7;
-        Wed,  4 Nov 2020 22:40:31 +0000 (UTC)
-Date:   Wed, 4 Nov 2020 15:40:30 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [GIT PULL] Docs-build warning fixes for 5.10-rc3
-Message-ID: <20201104154030.5d107c6c@lwn.net>
-In-Reply-To: <20201105090652.003eb7bf@canb.auug.org.au>
-References: <20201103124420.46bf5a37@lwn.net>
-        <CAHk-=wghhw0SpqSKKUqt5eum=UfLD3Qa0suoRxLy_cJc4hChug@mail.gmail.com>
-        <20201105090652.003eb7bf@canb.auug.org.au>
-Organization: LWN.net
+        id S1728065AbgKDWpz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Nov 2020 17:45:55 -0500
+IronPort-SDR: KMCZvvaIwhvmGRrlFVZjUgxPPRBL0DkjgjLSeuQrYFjXgzH2p3I3QEfvgLi2grV6tcGl+We3Q2
+ nRP7lSGIyR8g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="187165107"
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; 
+   d="scan'208";a="187165107"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 14:45:55 -0800
+IronPort-SDR: Yu6Av8YfU+hmZkASLaufD19grQq9zs+wMzuJdOarI6DsD7ekyU5JCuR4WDdbdtEa4Ih697xK7O
+ BUokPLMnwCjg==
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; 
+   d="scan'208";a="539110386"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 14:45:54 -0800
+Date:   Wed, 4 Nov 2020 14:45:54 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH V2 00/10] PKS: Add Protection Keys Supervisor (PKS)
+ support
+Message-ID: <20201104224554.GE1531489@iweiny-DESK2.sc.intel.com>
+References: <20201102205320.1458656-1-ira.weiny@intel.com>
+ <871rhb8h73.fsf@nanos.tec.linutronix.de>
+ <20201104174643.GC1531489@iweiny-DESK2.sc.intel.com>
+ <87k0v0lr4r.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87k0v0lr4r.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 5 Nov 2020 09:06:52 +1100
-Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+On Wed, Nov 04, 2020 at 11:00:04PM +0100, Thomas Gleixner wrote:
+> On Wed, Nov 04 2020 at 09:46, Ira Weiny wrote:
+> > On Tue, Nov 03, 2020 at 12:36:16AM +0100, Thomas Gleixner wrote:
+> >> This is the wrong ordering, really.
+> >> 
+> >>      x86/entry: Move nmi entry/exit into common code
+> >> 
+> >> is a general cleanup and has absolutely nothing to do with PKRS.So this
+> >> wants to go first.
+> >
+> > Sorry, yes this should be a pre-patch.
+> 
+> I picked it out of the series and applied it to tip core/entry as I have
+> other stuff coming up in that area. 
 
-> There is currently one message produced in your tree (after I add all
-> the "pending fixes") and I have reported that this morning.  So things
-> are looking pretty good now - a lot of good work over the past couple
-> of releases.
+Thanks!  I'll rebase to that tree.
 
-The credit for that really belongs to Mauro.  Much appreciated!
+I assume you fixed the spelling error?  Sorry about that.
 
-jon
+Ira
