@@ -2,179 +2,135 @@ Return-Path: <SRS0=J8tN=EK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BDCC2D0A3
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 15:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39DFAC4741F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 17:36:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CBA02074F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 15:17:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDE3320759
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 17:36:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H4vUVRsl"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JgTVihE2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730399AbgKDPRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Nov 2020 10:17:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52972 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726796AbgKDPRC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Nov 2020 10:17:02 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01FEC0613D3
-        for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2020 07:17:01 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id s9so22426014wro.8
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2020 07:17:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3oz+jge3s+KLxPkjd9JJaeKDtMt4BIAKRrZrd3MFLg0=;
-        b=H4vUVRslVGswQktW6uTlKz4ERUC7RF0H6BU61qylvAbEAF9gd3bft3mtlaPRXGvPXX
-         foxhvpjekNSIn5xpv18qmgCbZGa2qJX4NkLO+XFyIt5IIJ54iq+mWbP448RHhfQkIR2Q
-         opqQxhNzu/y44xFfEPnzXdmo12N/9WlKQ+7hZeKXG0i8ki1OperdYUhucZqgo/VFEKb+
-         BWfaMz/ggp0YPke5eVHns+YjWZW/lhYoNh95CMcPZhzsNAxxJJOcF3PbgLk0vuqC8ySX
-         UXThh30Q7yQtu19I7M/iW6LU9U7u6CV4bIqONIoA/g3d1eW1TOISqbf2ndQDKQDYIWyc
-         QZ9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3oz+jge3s+KLxPkjd9JJaeKDtMt4BIAKRrZrd3MFLg0=;
-        b=j1ThpxweHucewR/YdacSu/W81YZS1uPpZqBwgMxrB5SVrXqx91QiZd4eS3yM7KZT4i
-         AMr/HR8JGMPqXd9QmAG71VWNE3BQGID+6MjFa5jiKVZHrO0n9OUN2hwqrm3k9jzGVJ+T
-         WQ+KhysR3IpnTeu5pBhUomUoS1jEWOBwRwb7wUAxBkEQxlp4ogpvc8hWkej0rbHb5Wvu
-         EDkDL9/0AwWGvnr9eBy4H/5S+0MdXax7ptSZrwdcIIR3Q5CtTeJTRQKRKu5vX3F6ZxWl
-         H13dNICrFp2wOvGSw0DjzwCDtZBQH4mF/cDs6+dgb4lB01e7Ny0AZFPNbPKCbgQkUS7s
-         H0pQ==
-X-Gm-Message-State: AOAM5314kLUTFCH6lW2zmRSZ1hPUnyrx+oawuQHEglTeXp/FPYdQhJCK
-        AcL1EF1GP1fbfi0aPtk6J1LuYXhfQJcT8qgpn02hvQ==
-X-Google-Smtp-Source: ABdhPJyDgXGI/PJcCnAYlipgyUWtUpd2n0eMy2oUke7ZUq3ABr2ft1z4Yy2zt0k/xLyq/L7e1MvnVurfagWCQ2rLFmQ=
-X-Received: by 2002:adf:e486:: with SMTP id i6mr32693599wrm.397.1604503020514;
- Wed, 04 Nov 2020 07:17:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20201103175841.3495947-1-elver@google.com> <20201103163103.109deb9d49a140032d67434f@linux-foundation.org>
- <CANpmjNM1HQ_TwqJ6Ad=Mr=oKVnud-qzD=-LhchPAouu1RDHLqw@mail.gmail.com>
-In-Reply-To: <CANpmjNM1HQ_TwqJ6Ad=Mr=oKVnud-qzD=-LhchPAouu1RDHLqw@mail.gmail.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Wed, 4 Nov 2020 16:16:49 +0100
-Message-ID: <CAG_fn=UJJqPiVi-rfih0XTSQOqQ15Pn+c5Ecj-4QKyoT8pRqdA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/9] KFENCE: A low-overhead sampling-based memory
- safety error detector
-To:     Marco Elver <elver@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Jann Horn <jannh@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        id S1730127AbgKDRgU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Nov 2020 12:36:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36057 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730209AbgKDRgU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Nov 2020 12:36:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1604511378;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Egp5/piH9cLQbhOxqBiQ6oUXBo8D99rZQxLNpy2SM8g=;
+        b=JgTVihE2urYmSTbc+eD5bMkiY/6E3tSxzc+hiVAebZPri/g+SqINY6xb0vjsIdVsM3Ou6h
+        amw78FihQbHWrF3NvaZIqwFcx+xGps1l6wsECzVYs3v+q6oy+bZtJgGTlv8lZXHvrAXzwE
+        YR4fiS4X2SOUfNodaJoYh5uKWMPPVb0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-Bbwo2LBhNzG7tSnCvjq0hw-1; Wed, 04 Nov 2020 12:36:14 -0500
+X-MC-Unique: Bbwo2LBhNzG7tSnCvjq0hw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E287F804745;
+        Wed,  4 Nov 2020 17:36:12 +0000 (UTC)
+Received: from ovpn-114-21.ams2.redhat.com (ovpn-114-21.ams2.redhat.com [10.36.114.21])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C7D781084273;
+        Wed,  4 Nov 2020 17:36:09 +0000 (UTC)
+Message-ID: <79c58e6cf23196b73887b20802daebd59fe89476.camel@redhat.com>
+Subject: Re: [PATCH net-next v2 0/3] net: introduce rps_default_mask
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Saeed Mahameed <saeed@kernel.org>, netdev@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        SeongJae Park <sjpark@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Date:   Wed, 04 Nov 2020 18:36:08 +0100
+In-Reply-To: <20201103085245.3397defa@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+References: <cover.1604055792.git.pabeni@redhat.com>
+         <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+         <86c37d881a93d5690faf20de3bccceca1493fd74.camel@redhat.com>
+         <20201103085245.3397defa@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 4, 2020 at 1:36 PM Marco Elver <elver@google.com> wrote:
->
-> On Wed, 4 Nov 2020 at 01:31, Andrew Morton <akpm@linux-foundation.org> wr=
-ote:
-> > On Tue,  3 Nov 2020 18:58:32 +0100 Marco Elver <elver@google.com> wrote=
-:
-> >
-> > > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE i=
-s a
-> > > low-overhead sampling-based memory safety error detector of heap
-> > > use-after-free, invalid-free, and out-of-bounds access errors.  This
-> > > series enables KFENCE for the x86 and arm64 architectures, and adds
-> > > KFENCE hooks to the SLAB and SLUB allocators.
-> > >
-> > > KFENCE is designed to be enabled in production kernels, and has near
-> > > zero performance overhead. Compared to KASAN, KFENCE trades performan=
-ce
-> > > for precision. The main motivation behind KFENCE's design, is that wi=
-th
-> > > enough total uptime KFENCE will detect bugs in code paths not typical=
-ly
-> > > exercised by non-production test workloads. One way to quickly achiev=
-e a
-> > > large enough total uptime is when the tool is deployed across a large
-> > > fleet of machines.
-> >
-> > Has kfence detected any kernel bugs yet?  What is its track record?
->
-> Not yet, but once we deploy in various production kernels, we expect
-> to find new bugs (we'll report back with results once deployed).
-> Especially in drivers or subsystems that syzkaller+KASAN can't touch,
-> e.g. where real devices are required to get coverage. We expect to
-> have first results on this within 3 months, and can start backports
-> now that KFENCE for mainline is being finalized. This will likely also
-> make it into Android, but deployment there will take much longer.
->
-> The story is similar with the user space version of the tool
-> (GWP-ASan), where results started to materialize once it was deployed
-> across the fleet.
->
-> > Will a kfence merge permit us to remove some other memory debugging
-> > subsystem?  We seem to have rather a lot of them.
->
-> Nothing obvious I think. KFENCE is unique in that it is meant for
-> production fleets of machines (with ~zero overhead and no new HW
-> features), with the caveat that due to it being sampling based, it's
-> not so suitable for single machine testing. The other debugging tools
-> are suitable for the latter, but not former.
+On Tue, 2020-11-03 at 08:52 -0800, Jakub Kicinski wrote:
+> On Tue, 03 Nov 2020 16:22:07 +0100 Paolo Abeni wrote:
+> > The relevant use case is an host running containers (with the related
+> > orchestration tools) in a RT environment. Virtual devices (veths, ovs
+> > ports, etc.) are created by the orchestration tools at run-time.
+> > Critical processes are allowed to send packets/generate outgoing
+> > network traffic - but any interrupt is moved away from the related
+> > cores, so that usual incoming network traffic processing does not
+> > happen there.
+> > 
+> > Still an xmit operation on a virtual devices may be transmitted via ovs
+> > or veth, with the relevant forwarding operation happening in a softirq
+> > on the same CPU originating the packet. 
+> > 
+> > RPS is configured (even) on such virtual devices to move away the
+> > forwarding from the relevant CPUs.
+> > 
+> > As Saeed noted, such configuration could be possibly performed via some
+> > user-space daemon monitoring network devices and network namespaces
+> > creation. That will be anyway prone to some race: the orchestation tool
+> > may create and enable the netns and virtual devices before the daemon
+> > has properly set the RPS mask.
+> > 
+> > In the latter scenario some packet forwarding could still slip in the
+> > relevant CPU, causing measurable latency. In all non RT scenarios the
+> > above will be likely irrelevant, but in the RT context that is not
+> > acceptable - e.g. it causes in real environments latency above the
+> > defined limits, while the proposed patches avoid the issue.
+> > 
+> > Do you see any other simple way to avoid the above race?
+> > 
+> > Please let me know if the above answers your doubts,
+> 
+> Thanks, that makes it clearer now.
+> 
+> Depending on how RT-aware your container management is it may or may not
+> be the right place to configure this, as it creates the veth interface.
+> Presumably it's the container management which does the placement of
+> the tasks to cores, why is it not setting other attributes, like RPS?
 
-Agreeing with everything Marco said I can only add that it would be
-nice to have a separate discussion about the existing memory debugging
-subsystems and the need to remove any of them.
-Having many tools in a toolbox does not hurt, but we need to ensure
-that all the tools in question are visible to the users (so that
-people know when and how to use them), can find important bugs and do
-not duplicate each other.
+The container orchestration is quite complex, and I'm unsure isolation
+and networking configuration are performed (or can be performed) by the
+same precess (without an heavy refactor).
 
+On the flip hand, the global rps mask knob looked quite
+straightforward to me.
 
-> Thanks,
-> -- Marco
+Possibly I can reduce the amount of new code introduced by this
+patchset removing some code duplication
+between rps_default_mask_sysctl() and flow_limit_cpu_sysctl(). Would
+that make this change more acceptable? Or should I drop this
+altogether?
 
+> Also I wonder if it would make sense to turn this knob into something
+> more generic. When we arrive at the threaded NAPIs - could it make
+> sense for the threads to inherit your mask as the CPUs they are allowed
+> to run on?
 
+I personally *think* this would be fine - and good. But isn't a bit
+premature discussing the integration of 2 missing pieces ? :)
 
---=20
-Alexander Potapenko
-Software Engineer
+Thanks,
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+Paolo
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
