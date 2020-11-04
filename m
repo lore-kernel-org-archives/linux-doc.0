@@ -7,79 +7,110 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE5CDC55178
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36EEAC2D0A3
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:07:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44AD920825
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:00:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA76B2074B
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:07:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uWGK10Qu";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4RHQiyW6"
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="Qi4eAzLw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732154AbgKDWAw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Nov 2020 17:00:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60032 "EHLO
+        id S1732131AbgKDWHD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Nov 2020 17:07:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732151AbgKDWAH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Nov 2020 17:00:07 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C699CC0613D3;
-        Wed,  4 Nov 2020 14:00:06 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1604527204;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=AcDsYZoZ0HQ8m/eP7LfmBFx38dKfFr6Bky2Op7UAmTc=;
-        b=uWGK10QusV8XBgAEcXVFwB1s7DNqNR5bL2JxVVUikjP6JCw35Az+lH5kDWr/WVmnsV5f1a
-        v9VKhuFzImQ6xYFX7YxIzcIJ8YdpvepoHsQWKeEDjnDCubBPSFXYO8t/8LEmfdY1e0a1LQ
-        zW4GmgphvtE89rP0MbRj0SVvzfkZIg3CNxaDvYoK0I/s21xPkV1Yp9dLyQ5pB8PaIUff08
-        VcFY0hmUO0WpT6iFhQYDoHl8KvFDJbuIcKAgCcldgqvZIvkM8szgbdWQ3TGu/eRovgBYXP
-        cx196hdriOCOBkZ0zIsChUhB5+Elt6carE/r29w1GPSqqLChVCIne7K15cElzw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1604527204;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=AcDsYZoZ0HQ8m/eP7LfmBFx38dKfFr6Bky2Op7UAmTc=;
-        b=4RHQiyW6VNGm/O/DAJIaIeOw+XnqzvzEWcSqFGUfKYoL99s98K8xSO9iHJpE1NVxJhZwIu
-        pTGKWcex2mU6TyAg==
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH V2 00/10] PKS: Add Protection Keys Supervisor (PKS) support
-In-Reply-To: <20201104174643.GC1531489@iweiny-DESK2.sc.intel.com>
-References: <20201102205320.1458656-1-ira.weiny@intel.com> <871rhb8h73.fsf@nanos.tec.linutronix.de> <20201104174643.GC1531489@iweiny-DESK2.sc.intel.com>
-Date:   Wed, 04 Nov 2020 23:00:04 +0100
-Message-ID: <87k0v0lr4r.fsf@nanos.tec.linutronix.de>
+        with ESMTP id S1727098AbgKDWHD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Nov 2020 17:07:03 -0500
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DCAC0613D3;
+        Wed,  4 Nov 2020 14:07:02 -0800 (PST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4CRLNF0XJ9z9sVD;
+        Thu,  5 Nov 2020 09:06:53 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1604527618;
+        bh=XNrDkiWCKc4iCIZ3KeqYm4bkz+Kp3eURpmIVbbP0CmQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Qi4eAzLwSgoTvmNevqeXAknL/UDcy6E14Sx3nkthZre3VjBBqULpmHX5j+wAKKGLT
+         ipqLXT4Jb0qBDsr3At11FLGpGh0JDSUe/uPB3iLFjBy5l23rWHExudPiiQ6AtF//BQ
+         G/zkRA/Xcqnk2mJVWh73NeFpCJDxm5RH3W8RhMvV5zG08EmxY2ENbgmaHL8jEaM/EB
+         DxrGKF8OBz6weRyovbSBQLncMAWu4uJht1RjG2tjf9WGpSXhLmCZKwK0GJLZPSTtA1
+         ew6oQyjjxVYQwYQ+Z1N/brHOVQp03w2Urz0gYil7+97SmZ/Ry32EcFpLprwbZCEWTq
+         gmy8ZlEa0p+aQ==
+Date:   Thu, 5 Nov 2020 09:06:52 +1100
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [GIT PULL] Docs-build warning fixes for 5.10-rc3
+Message-ID: <20201105090652.003eb7bf@canb.auug.org.au>
+In-Reply-To: <CAHk-=wghhw0SpqSKKUqt5eum=UfLD3Qa0suoRxLy_cJc4hChug@mail.gmail.com>
+References: <20201103124420.46bf5a37@lwn.net>
+        <CAHk-=wghhw0SpqSKKUqt5eum=UfLD3Qa0suoRxLy_cJc4hChug@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="Sig_/ecORw=5CeK5vORwvDFwXsH+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 04 2020 at 09:46, Ira Weiny wrote:
-> On Tue, Nov 03, 2020 at 12:36:16AM +0100, Thomas Gleixner wrote:
->> This is the wrong ordering, really.
->> 
->>      x86/entry: Move nmi entry/exit into common code
->> 
->> is a general cleanup and has absolutely nothing to do with PKRS.So this
->> wants to go first.
+--Sig_/ecORw=5CeK5vORwvDFwXsH+
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi Linus,
+
+On Tue, 3 Nov 2020 13:18:27 -0800 Linus Torvalds <torvalds@linux-foundation=
+.org> wrote:
 >
-> Sorry, yes this should be a pre-patch.
+> On Tue, Nov 3, 2020 at 11:44 AM Jonathan Corbet <corbet@lwn.net> wrote:
+> >
+> > This pull contains a series of warning fixes from Mauro; once applied, =
+the
+> > number of warnings from the once-noisy docs build process is nearly zer=
+o.
+> > Getting to this point has required a lot of work; once there, hopefully=
+ we
+> > can keep things that way. =20
+>=20
+> I wonder if it is quiet enough that we could make new doc build noise
+> trigger some kind of linux-next warning?
+>=20
+> I know Stephen was at least looking at doc build warnings justding by
+> the thread a couple of weeks ago.
 
-I picked it out of the series and applied it to tip core/entry as I have
-other stuff coming up in that area. 
+What I am currently doing is a "make htmldocs" on your tree and then again
+on the whole linux-next release and reporting changes.
 
-Thanks,
+There is currently one message produced in your tree (after I add all
+the "pending fixes") and I have reported that this morning.  So things
+are looking pretty good now - a lot of good work over the past couple
+of releases.
 
-        tglx
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/ecORw=5CeK5vORwvDFwXsH+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+jJfwACgkQAVBC80lX
+0Gzxuwf+JpGXNXFZbWpCRtB04o2eTjMf+hFrlK3ZDRJ4Q+ADrAf9N5/q4/cryqsZ
+GoV4Mjh6eJe3tsAgAStL3D6uRs7VVGQLrCfsEiarMkCofyqnAglxsGrZh+3XptyQ
+SzIV7G3SlLkMEaVSbXlQaFjaRVBKbyTHdNV3O/iGaiN6tkv+WBAsoRO1bgO+gCyv
+3qzaZAbLETHubnEWEX1WWQ/7tV4rQsrhzHdrLNIvCVNt7p/W6b3pI5mMULe9NN+T
+ZjNPtwJhMi89t5RxyIn+slzkNcFUYeqPDD0IJoQ/3/wyWmh+o747W6Ilni0fj8Tz
+klftHvgE11NNOZpYXyL+jr5WHooLqA==
+=UprJ
+-----END PGP SIGNATURE-----
+
+--Sig_/ecORw=5CeK5vORwvDFwXsH+--
