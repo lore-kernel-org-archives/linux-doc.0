@@ -2,90 +2,85 @@ Return-Path: <SRS0=J8tN=EK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 729BBC4742C
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 00:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E93C2D0A3
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 10:58:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36CF7223EA
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 00:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604449988;
-	bh=PJ+R6XPlsYAvbfPPVfH/b36l9Qxf3mjjxVF2HSd4mPY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=sc+EegN6gKVk4P4yDRiAX6m5pQR/nsipE7I54i9JtQuh/p6xw5ycwodr1a1DJISQS
-	 gGytvsf8ViEcGFkoJoRnNfzjnu2S7qAzK2sQk9gPVe0fAAcA1d0DKwbc0tP6CRa7aB
-	 8JsU54MhkIfV2Y8hfS4uqQ36ayXSyy96MtahXjPs=
+	by mail.kernel.org (Postfix) with ESMTP id A5AD022409
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 10:58:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729893AbgKDAbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Nov 2020 19:31:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47680 "EHLO mail.kernel.org"
+        id S1729383AbgKDK64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Nov 2020 05:58:56 -0500
+Received: from foss.arm.com ([217.140.110.172]:35264 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729890AbgKDAbJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Nov 2020 19:31:09 -0500
-Received: from X1 (unknown [208.106.6.120])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 42824223EA;
-        Wed,  4 Nov 2020 00:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604449867;
-        bh=PJ+R6XPlsYAvbfPPVfH/b36l9Qxf3mjjxVF2HSd4mPY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ER7zLL0fsJywguzjfs3PdQZTmOgVAwtAz5yE5+b1SdacnLAOa3OQtAGteR5rW7qCD
-         Ywc7Z9rUQo9Vi+5FVv3vDhZ6WcR6fNJM16p3Tc2cdLZyMHI3nO70s8Q5UgVBzUwL0U
-         RpnJUxRfACjNdutK4tXoVqBpsWdb3+kUMVEy2qI4=
-Date:   Tue, 3 Nov 2020 16:31:03 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Marco Elver <elver@google.com>
-Cc:     glider@google.com, hpa@zytor.com, paulmck@kernel.org,
-        andreyknvl@google.com, aryabinin@virtuozzo.com, luto@kernel.org,
-        bp@alien8.de, catalin.marinas@arm.com, cl@linux.com,
-        dave.hansen@linux.intel.com, rientjes@google.com,
-        dvyukov@google.com, edumazet@google.com,
-        gregkh@linuxfoundation.org, hdanton@sina.com, mingo@redhat.com,
-        jannh@google.com, Jonathan.Cameron@huawei.com, corbet@lwn.net,
-        iamjoonsoo.kim@lge.com, joern@purestorage.com,
-        keescook@chromium.org, mark.rutland@arm.com, penberg@kernel.org,
-        peterz@infradead.org, sjpark@amazon.com, tglx@linutronix.de,
-        vbabka@suse.cz, will@kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v7 0/9] KFENCE: A low-overhead sampling-based memory
- safety error detector
-Message-Id: <20201103163103.109deb9d49a140032d67434f@linux-foundation.org>
-In-Reply-To: <20201103175841.3495947-1-elver@google.com>
-References: <20201103175841.3495947-1-elver@google.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1726344AbgKDK64 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Nov 2020 05:58:56 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 503241474;
+        Wed,  4 Nov 2020 02:58:55 -0800 (PST)
+Received: from [10.57.20.87] (unknown [10.57.20.87])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EF4A3F718;
+        Wed,  4 Nov 2020 02:58:45 -0800 (PST)
+Subject: Re: [PATCH v4 0/4] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+To:     rafael@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, robh+dt@kernel.org,
+        amitk@kernel.org, corbet@lwn.net, daniel.lezcano@linaro.org,
+        Dietmar.Eggemann@arm.com, morten.rasmussen@arm.com,
+        qperret@google.com, dianders@chromium.org, mka@chromium.org,
+        rnayak@codeaurora.org, sudeep.holla@arm.com,
+        viresh.kumar@linaro.org, sboyd@kernel.org, nm@ti.com
+References: <20201103090600.29053-1-lukasz.luba@arm.com>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <9382ea70-cc50-7b78-f5de-716678bdefbf@arm.com>
+Date:   Wed, 4 Nov 2020 10:58:43 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20201103090600.29053-1-lukasz.luba@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  3 Nov 2020 18:58:32 +0100 Marco Elver <elver@google.com> wrote:
+Hi Rafael,
 
-> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> low-overhead sampling-based memory safety error detector of heap
-> use-after-free, invalid-free, and out-of-bounds access errors.  This
-> series enables KFENCE for the x86 and arm64 architectures, and adds
-> KFENCE hooks to the SLAB and SLUB allocators.
+On 11/3/20 9:05 AM, Lukasz Luba wrote:
+> Hi all,
 > 
-> KFENCE is designed to be enabled in production kernels, and has near
-> zero performance overhead. Compared to KASAN, KFENCE trades performance
-> for precision. The main motivation behind KFENCE's design, is that with
-> enough total uptime KFENCE will detect bugs in code paths not typically
-> exercised by non-production test workloads. One way to quickly achieve a
-> large enough total uptime is when the tool is deployed across a large
-> fleet of machines.
+> The Energy Model supports power values expressed in an abstract scale.
+> This has an impact on Intelligent Power Allocation (IPA) and should be
+> documented properly. Kernel sub-systems like EAS, IPA and DTPM
+> (new comming PowerCap framework) would use the new flag to capture
+> potential miss-configuration where the devices have registered different
+> power scales, thus cannot operate together.
+> 
+> There was a discussion below v2 of this patch series, which might help
+> you to get context of these changes [2].
+> 
+> The agreed approach is to have the DT as a source of power values expressed
+> always in milli-Watts and the only way to submit with abstract scale values
+> is via the em_dev_register_perf_domain() API.
+> 
+> Changes:
+> v4:
+> - change bool to int type for 'miliwatts' in struct em_perf_domain
+>    (suggested by Quentin)
+> - removed one sentence from patch 2/4 in IPA doc power_allocator.rst
+>    (suggested by Quentin)
+> - added reviewed-by from Quentin to 1/4, 3/4, 4/4 patches
 
-Has kfence detected any kernel bugs yet?  What is its track record?
+There was no major objections in the v3 and this v4 just addressed
+minor comments. The important discussions mostly happen in v2.
 
-Will a kfence merge permit us to remove some other memory debugging
-subsystem?  We seem to have rather a lot of them.
+Could you take the patches via your tree, please?
 
+Regards,
+Lukasz
