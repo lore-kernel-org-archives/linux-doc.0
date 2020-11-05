@@ -2,87 +2,205 @@ Return-Path: <SRS0=kdU1=EL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C076C4741F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 12:55:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6075AC00A89
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 13:25:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32CB720756
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 12:55:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 141C1206ED
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 13:25:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728371AbgKEMzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Nov 2020 07:55:41 -0500
-Received: from foss.arm.com ([217.140.110.172]:59928 "EHLO foss.arm.com"
+        id S1730501AbgKENZQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Nov 2020 08:25:16 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40974 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726067AbgKEMzl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:55:41 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAED4142F;
-        Thu,  5 Nov 2020 04:55:40 -0800 (PST)
-Received: from [10.57.22.37] (unknown [10.57.22.37])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A18D3F719;
-        Thu,  5 Nov 2020 04:55:36 -0800 (PST)
-Subject: Re: [PATCH v4 1/4] PM / EM: Add a flag indicating units of power
- values in Energy Model
-To:     Morten Rasmussen <morten.rasmussen@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, robh+dt@kernel.org,
-        amitk@kernel.org, corbet@lwn.net, daniel.lezcano@linaro.org,
-        Dietmar.Eggemann@arm.com, qperret@google.com,
-        dianders@chromium.org, mka@chromium.org, rnayak@codeaurora.org,
-        rafael@kernel.org, sudeep.holla@arm.com, viresh.kumar@linaro.org,
-        sboyd@kernel.org, nm@ti.com
-References: <20201103090600.29053-1-lukasz.luba@arm.com>
- <20201103090600.29053-2-lukasz.luba@arm.com>
- <20201105091759.GA8237@e123083-lin>
- <876ca521-1576-63c5-9af5-b000f52cc17b@arm.com>
- <20201105105633.GB8237@e123083-lin>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <7740a2a1-2e6a-1e04-91ff-364ea21540d6@arm.com>
-Date:   Thu, 5 Nov 2020 12:55:34 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726067AbgKENXq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Nov 2020 08:23:46 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 3FDAAABDE;
+        Thu,  5 Nov 2020 13:23:45 +0000 (UTC)
+Date:   Thu, 5 Nov 2020 14:23:41 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 05/19] mm/hugetlb: Introduce pgtable
+ allocation/freeing helpers
+Message-ID: <20201105132337.GA7552@linux>
+References: <20201026145114.59424-1-songmuchun@bytedance.com>
+ <20201026145114.59424-6-songmuchun@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <20201105105633.GB8237@e123083-lin>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201026145114.59424-6-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Oct 26, 2020 at 10:51:00PM +0800, Muchun Song wrote:
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +#define VMEMMAP_HPAGE_SHIFT			PMD_SHIFT
+> +#define arch_vmemmap_support_huge_mapping()	boot_cpu_has(X86_FEATURE_PSE)
+
+I do not think you need this.
+We already have hugepages_supported().
+
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +#ifndef arch_vmemmap_support_huge_mapping
+> +static inline bool arch_vmemmap_support_huge_mapping(void)
+> +{
+> +	return false;
+> +}
+
+Same as above
+
+>  static inline unsigned int nr_free_vmemmap(struct hstate *h)
+>  {
+>  	return h->nr_free_vmemmap_pages;
+>  }
+>  
+> +static inline unsigned int nr_vmemmap(struct hstate *h)
+> +{
+> +	return nr_free_vmemmap(h) + RESERVE_VMEMMAP_NR;
+> +}
+> +
+> +static inline unsigned long nr_vmemmap_size(struct hstate *h)
+> +{
+> +	return (unsigned long)nr_vmemmap(h) << PAGE_SHIFT;
+> +}
+> +
+> +static inline unsigned int nr_pgtable(struct hstate *h)
+> +{
+> +	unsigned long vmemmap_size = nr_vmemmap_size(h);
+> +
+> +	if (!arch_vmemmap_support_huge_mapping())
+> +		return 0;
+> +
+> +	/*
+> +	 * No need pre-allocate page tabels when there is no vmemmap pages
+> +	 * to free.
+> +	 */
+> +	if (!nr_free_vmemmap(h))
+> +		return 0;
+> +
+> +	return ALIGN(vmemmap_size, VMEMMAP_HPAGE_SIZE) >> VMEMMAP_HPAGE_SHIFT;
+> +}
+
+IMHO, Mike's naming suggestion fit much better.
+
+> +static void vmemmap_pgtable_deposit(struct page *page, pte_t *pte_p)
+> +{
+> +	pgtable_t pgtable = virt_to_page(pte_p);
+> +
+> +	/* FIFO */
+> +	if (!page_huge_pte(page))
+> +		INIT_LIST_HEAD(&pgtable->lru);
+> +	else
+> +		list_add(&pgtable->lru, &page_huge_pte(page)->lru);
+> +	page_huge_pte(page) = pgtable;
+> +}
+
+I think it would make more sense if this took a pgtable argument
+instead of a pte_t *.
+
+> +static pte_t *vmemmap_pgtable_withdraw(struct page *page)
+> +{
+> +	pgtable_t pgtable;
+> +
+> +	/* FIFO */
+> +	pgtable = page_huge_pte(page);
+> +	if (unlikely(!pgtable))
+> +		return NULL;
+
+AFAICS, above check only needs to be run once.
+It think we can move it to vmemmap_pgtable_free, can't we?
+
+> +	page_huge_pte(page) = list_first_entry_or_null(&pgtable->lru,
+> +						       struct page, lru);
+> +	if (page_huge_pte(page))
+> +		list_del(&pgtable->lru);
+> +	return page_to_virt(pgtable);
+> +}
+
+At the risk of adding more code, I think it would be nice to return a
+pagetable_t?
+So it is more coherent with the name of the function and with what
+we are doing.
+
+It is a pitty we cannot converge these and pgtable_trans_huge_*.
+They share some code but it is different enough.
+
+> +static int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
+> +{
+> +	int i;
+> +	pte_t *pte_p;
+> +	unsigned int nr = nr_pgtable(h);
+> +
+> +	if (!nr)
+> +		return 0;
+> +
+> +	vmemmap_pgtable_init(page);
+
+Maybe just open code this one?
+
+> +static inline void vmemmap_pgtable_free(struct hstate *h, struct page *page)
+> +{
+> +	pte_t *pte_p;
+> +
+> +	if (!nr_pgtable(h))
+> +		return;
+> +
+> +	while ((pte_p = vmemmap_pgtable_withdraw(page)))
+> +		pte_free_kernel(&init_mm, pte_p);
+
+As mentioned above, move the pgtable_t check from vmemmap_pgtable_withdraw
+in here.
+
+  
+>  static void prep_new_huge_page(struct hstate *h, struct page *page, int nid)
+>  {
+> +	/* Must be called before the initialization of @page->lru */
+> +	vmemmap_pgtable_free(h, page);
+> +
+>  	INIT_LIST_HEAD(&page->lru);
+>  	set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
+>  	set_hugetlb_cgroup(page, NULL);
+> @@ -1783,6 +1892,14 @@ static struct page *alloc_fresh_huge_page(struct hstate *h,
+>  	if (!page)
+>  		return NULL;
+>  
+> +	if (vmemmap_pgtable_prealloc(h, page)) {
+> +		if (hstate_is_gigantic(h))
+> +			free_gigantic_page(page, huge_page_order(h));
+> +		else
+> +			put_page(page);
+> +		return NULL;
+> +	}
+> +
+
+I must confess I am bit puzzled.
+
+IIUC, in this patch we are just adding the helpers to create/tear the page
+tables.
+I do not think we actually need to call vmemmap_pgtable_prealloc/vmemmap_pgtable_free, do we?
+In the end, we are just allocating pages for pagetables and then free them shortly.
+
+I think it would make more sense to add the calls when they need to be?
 
 
-On 11/5/20 10:56 AM, Morten Rasmussen wrote:
-> On Thu, Nov 05, 2020 at 10:09:05AM +0000, Lukasz Luba wrote:
->>
->>
->> On 11/5/20 9:18 AM, Morten Rasmussen wrote:
->>> On Tue, Nov 03, 2020 at 09:05:57AM +0000, Lukasz Luba wrote:
->>>> @@ -79,7 +82,8 @@ struct em_data_callback {
->>>>    struct em_perf_domain *em_cpu_get(int cpu);
->>>>    struct em_perf_domain *em_pd_get(struct device *dev);
->>>>    int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
->>>> -				struct em_data_callback *cb, cpumask_t *span);
->>>> +				struct em_data_callback *cb, cpumask_t *spani,
->>>
->>> "spani" looks like a typo?
->>>
->>
->> Good catch, yes, the vim 'i'.
->>
->> Thank you Morten. I will resend this patch when you don't
->> find other issues in the rest of patches.
-> 
-> The rest of the series looks okay to me.
-
-Thank you for checking the whole series. I have re-sent this patch only.
-
-Lukasz
-
-> 
-> Morten
-> 
+-- 
+Oscar Salvador
+SUSE L3
