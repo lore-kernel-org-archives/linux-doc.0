@@ -2,149 +2,109 @@ Return-Path: <SRS0=kdU1=EL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89584C55179
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 05:07:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C39C00A89
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 05:57:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F17F21D81
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 05:07:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604552869;
-	bh=nk1WdBkWqE96DNUgpPnEgglR9AlimFCtq6FRxMGc7xE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=iW5Fdm1Z4jTaYA7rrrHkDR7ZkoDHuwSQX9d5nSlbeOlyEH1IRZjczwzQin0oHxk7F
-	 GlvaoomYCvPNZc+n8eim+dgt+tZSdJwQMAlTiRA4rL4zOEu/GyViNk7XIzkfqW77JN
-	 4LzbSanTAwHbYGgMrw6GeVnTA9wS/60f1OvgYU10=
+	by mail.kernel.org (Postfix) with ESMTP id D126E20825
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 05:57:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="es3AODzU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728538AbgKEFHp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Nov 2020 00:07:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44886 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725275AbgKEFHp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Nov 2020 00:07:45 -0500
-Received: from kernel.org (83-245-197-237.elisa-laajakaista.fi [83.245.197.237])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4B0532151B;
-        Thu,  5 Nov 2020 05:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604552864;
-        bh=nk1WdBkWqE96DNUgpPnEgglR9AlimFCtq6FRxMGc7xE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MycmoIqlkHNfLdg/4eGDLGTmTVseEVmjDsa9Y+lDCzshvrSFnTMbODg/YOsr8jpvp
-         bt3wEVqbRwnfEdZ1sVqbgB2ur0kJqMOeax8TzItcBA907CqmsfE2TIGpctankw3exh
-         yiE528psxV5h9SfQ3XD2GJfPmeipD8HjJcN770T4=
-Date:   Thu, 5 Nov 2020 07:07:36 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com,
-        jejb@linux.ibm.com, dhowells@redhat.com, jens.wiklander@linaro.org,
-        corbet@lwn.net, jmorris@namei.org, serge@hallyn.com,
-        casey@schaufler-ca.com, janne.karhunen@gmail.com,
-        daniel.thompson@linaro.org, Markus.Wamser@mixed-mode.de,
-        lhinds@redhat.com, keyrings@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org
-Subject: Re: [PATCH v8 0/4] Introduce TEE based Trusted Keys support
-Message-ID: <20201105050736.GA702944@kernel.org>
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+        id S1726330AbgKEF5V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Nov 2020 00:57:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725287AbgKEF5U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Nov 2020 00:57:20 -0500
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938AFC0613CF
+        for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2020 21:57:20 -0800 (PST)
+Received: by mail-io1-xd42.google.com with SMTP id n129so622432iod.5
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2020 21:57:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nlTE+5QXS18sXrL6D4KQC5d2Bo1EFlNxgmWgYZ7DFg0=;
+        b=es3AODzU2iUwcMpdIoRei0G4xKF+9OIyQfwllwFlnnpZE/XGBckaMTNLqvyff3OMfh
+         7fL5m4b7S5cqyUKDD2Sz636oDz0+VI4byMjn+0Juv9bMu4gAGckOrRbgjEEti1efFylk
+         dM6xxdr7/56jwpUQjHYKF8577HHYmC9h5DaNkOdYgnUXso32u9Zyd/bDyzT4FIXZYSpR
+         MyoSgTWB2GokYpPKlN6T73/VFFo/o4HXWCd61mxB3RafmWXJo40GECeT0ySAtWFxpR70
+         PHoPq0QLbtHPOzkRAbufWD6odojj6Q9NWQAjeqILM2TRX8LZPXYPeAs7F9B8QGbV6DUq
+         1Mlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nlTE+5QXS18sXrL6D4KQC5d2Bo1EFlNxgmWgYZ7DFg0=;
+        b=JKfLBZoGRMZScIz8NtNBJ1i7l33QSnn+UHSJbIHPr+SJ4NYv6TbGLk7d7+1hVf3V4T
+         8bsy9u3M+FNNiS5HzJR6+G5LzA5tXM7XEzov9XCqlmgoAIcQ4Y0B7X6eqM+ZRPH5yHY/
+         bCX75sc8Xi8FcMrEQdB1yVr5demAic4HMri9NR5NZO2Y2RkRm6wHXpCNTb8kyZPdhyad
+         5XJKu0XRBdDjLXAgmRIYr9LQ61Jnq81xpWjvzrvQol/BPrroVwEnIJZwQUlp4+9F2z2n
+         oZ+PtwxxRZFX89u8x53Uq5Zau5/L8TzZ1XOV3m5qta4LyqNlp+iVQcAmggCi6StUp9ZD
+         ib2w==
+X-Gm-Message-State: AOAM532aRV31wjMn2xgJfxl0iskLj3piHCUzheKU6IH/+sgPjA7VS+Q4
+        YEvGxc/bzJXxVlRFmfiHKxytNUwA6Yem/AJFc/bOJQ==
+X-Google-Smtp-Source: ABdhPJxmVYMswfSGq3abwHWr8OWtR+XmTNccSp+mhngdMAcZJpwmHM1rpLcO04y2HGg5FimcvElwEHdVqk+r1UwxiTg=
+X-Received: by 2002:a02:c952:: with SMTP id u18mr817380jao.139.1604555839634;
+ Wed, 04 Nov 2020 21:57:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+References: <20201030172731.1.I7782b0cedb705384a634cfd8898eb7523562da99@changeid>
+ <20201031130546.d2b94345008e807f548dc068@linux-foundation.org>
+In-Reply-To: <20201031130546.d2b94345008e807f548dc068@linux-foundation.org>
+From:   "Anand K. Mistry" <amistry@google.com>
+Date:   Thu, 5 Nov 2020 16:57:08 +1100
+Message-ID: <CAATStaNeQAQgzwCwENJwSEQ40x0aTaBvSnoi860MVSL9wBw8fQ@mail.gmail.com>
+Subject: Re: [PATCH] proc: Provide details on indirect branch speculation
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-fsdevel@vger.kernel.org,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Joel Fernandes <joelaf@google.com>, tglx@linutronix.de,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>, NeilBrown <neilb@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 03, 2020 at 09:31:42PM +0530, Sumit Garg wrote:
-> Add support for TEE based trusted keys where TEE provides the functionality
-> to seal and unseal trusted keys using hardware unique key. Also, this is
-> an alternative in case platform doesn't possess a TPM device.
-> 
-> This patch-set has been tested with OP-TEE based early TA which is already
-> merged in upstream [1].
+On Sun, 1 Nov 2020 at 07:05, Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Fri, 30 Oct 2020 17:27:54 +1100 Anand K Mistry <amistry@google.com> wrote:
+>
+> > Similar to speculation store bypass, show information about the indirect
+> > branch speculation mode of a task in /proc/$pid/status.
+>
+> Why is this considered useful?
 
-Is the new RPI400 computer a platform that can be used for testing
-patch sets like this? I've been looking for a while something ARM64
-based with similar convenience as Intel NUC's, and on the surface
-this new RPI product looks great for kernel testing purposes.
+For testing/benchmarking, I needed to see whether IB (Indirect Branch)
+speculation (see Spectre-v2) is enabled on a task, to see whether an
+IBPB instruction should be executed on an address space switch.
+Unfortunately, this information isn't available anywhere else and
+currently the only way to get it is to hack the kernel to expose it
+(like this change). It also helped expose a bug with conditional IB
+speculation on certain CPUs.
 
-/Jarkko
+Another place this could be useful is to audit the system when using
+sanboxing. With this change, I can confirm that seccomp-enabled
+process have IB speculation force disabled as expected when the kernel
+command line parameter `spectre_v2_user=seccomp`.
 
-> 
-> [1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
-> 
-> Changes in v8:
-> 1. Added static calls support instead of indirect calls.
-> 2. Documented trusted keys source module parameter.
-> 3. Refined patch #1 commit message discription.
-> 4. Addressed misc. comments on patch #2.
-> 5. Added myself as Trusted Keys co-maintainer instead.
-> 6. Rebased to latest tpmdd master.
-> 
-> Changes in v7:
-> 1. Added a trusted.source module parameter in order to enforce user's
->    choice in case a particular platform posses both TPM and TEE.
-> 2. Refine commit description for patch #1.
-> 
-> Changes in v6:
-> 1. Revert back to dynamic detection of trust source.
-> 2. Drop author mention from trusted_core.c and trusted_tpm1.c files.
-> 3. Rebased to latest tpmdd/master.
-> 
-> Changes in v5:
-> 1. Drop dynamic detection of trust source and use compile time flags
->    instead.
-> 2. Rename trusted_common.c -> trusted_core.c.
-> 3. Rename callback: cleanup() -> exit().
-> 4. Drop "tk" acronym.
-> 5. Other misc. comments.
-> 6. Added review tags for patch #3 and #4.
-> 
-> Changes in v4:
-> 1. Pushed independent TEE features separately:
->   - Part of recent TEE PR: https://lkml.org/lkml/2020/5/4/1062
-> 2. Updated trusted-encrypted doc with TEE as a new trust source.
-> 3. Rebased onto latest tpmdd/master.
-> 
-> Changes in v3:
-> 1. Update patch #2 to support registration of multiple kernel pages.
-> 2. Incoporate dependency patch #4 in this patch-set:
->    https://patchwork.kernel.org/patch/11091435/
-> 
-> Changes in v2:
-> 1. Add reviewed-by tags for patch #1 and #2.
-> 2. Incorporate comments from Jens for patch #3.
-> 3. Switch to use generic trusted keys framework.
-> 
-> Sumit Garg (4):
->   KEYS: trusted: Add generic trusted keys framework
->   KEYS: trusted: Introduce TEE based Trusted Keys
->   doc: trusted-encrypted: updates with TEE as a new trust source
->   MAINTAINERS: Add myself as Trusted Keys co-maintainer
-> 
->  Documentation/admin-guide/kernel-parameters.txt   |  12 +
->  Documentation/security/keys/trusted-encrypted.rst | 203 +++++++++++--
->  MAINTAINERS                                       |   2 +
->  include/keys/trusted-type.h                       |  47 +++
->  include/keys/trusted_tee.h                        |  55 ++++
->  include/keys/trusted_tpm.h                        |  17 +-
->  security/keys/trusted-keys/Makefile               |   2 +
->  security/keys/trusted-keys/trusted_core.c         | 354 ++++++++++++++++++++++
->  security/keys/trusted-keys/trusted_tee.c          | 278 +++++++++++++++++
->  security/keys/trusted-keys/trusted_tpm1.c         | 336 ++++----------------
->  10 files changed, 979 insertions(+), 327 deletions(-)
->  create mode 100644 include/keys/trusted_tee.h
->  create mode 100644 security/keys/trusted-keys/trusted_core.c
->  create mode 100644 security/keys/trusted-keys/trusted_tee.c
-> 
-> -- 
-> 2.7.4
-> 
-> 
+Since there's already a 'Speculation_Store_Bypass' field, I used that
+as precedence for adding this one.
+
+-- 
+Anand K. Mistry
+Software Engineer
+Google Australia
