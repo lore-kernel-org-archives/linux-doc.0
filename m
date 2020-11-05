@@ -1,87 +1,66 @@
-Return-Path: <SRS0=J8tN=EK=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=kdU1=EL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2492C2D0A3
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C82CC388F9
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 02:01:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AF7020825
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Nov 2020 22:54:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2810920665
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Nov 2020 02:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604541678;
+	bh=RFc8d0y83E3PgGn9wJI96kwAEwvdlKbg2Wq2RgVOFoM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:List-ID:From;
+	b=SfB+1at6Se5GciNnQ4SmncxGjHG3pUodwmZMhoXlG3/bCMTR36pc3Q9zPPZymY30x
+	 SGPCYkYOdT5TEi6axpfJX0NI4rq6F7e4kn0guoV6vx3mbgedxc98xsibfgkfmfscxt
+	 dpJlyQXrXryMjFk2wdLpknvbaIQ6X2onb33j+srU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730350AbgKDWyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Nov 2020 17:54:41 -0500
-Received: from mga01.intel.com ([192.55.52.88]:34988 "EHLO mga01.intel.com"
+        id S1730386AbgKECBR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Nov 2020 21:01:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35086 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728301AbgKDWyk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Nov 2020 17:54:40 -0500
-IronPort-SDR: 4WoQSYiZ0697gYl35K7fAfTopxokDJQITXuHLJKqkMjr1WI3tyKKzSSom7Zdib6EXK9ej5t5Sq
- Pdtv2AsL411g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="187165986"
-X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; 
-   d="scan'208";a="187165986"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 14:54:40 -0800
-IronPort-SDR: laAzFrVJ4b18lJiO5pTuJbaqaj+thHKns+evfRlz6qK4Gx1buM1+VrrUaKOiyle0oLYkYbAqaN
- w1JYgldLrPPQ==
-X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; 
-   d="scan'208";a="320972878"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 14:54:39 -0800
-Date:   Wed, 4 Nov 2020 14:54:39 -0800
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH V2 00/10] PKS: Add Protection Keys Supervisor (PKS)
- support
-Message-ID: <20201104225438.GF1531489@iweiny-DESK2.sc.intel.com>
-References: <20201102205320.1458656-1-ira.weiny@intel.com>
- <871rhb8h73.fsf@nanos.tec.linutronix.de>
- <20201104174643.GC1531489@iweiny-DESK2.sc.intel.com>
- <87k0v0lr4r.fsf@nanos.tec.linutronix.de>
- <20201104224554.GE1531489@iweiny-DESK2.sc.intel.com>
+        id S1726152AbgKECBQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Nov 2020 21:01:16 -0500
+Received: from kernel.org (unknown [104.132.1.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E7EDD20719;
+        Thu,  5 Nov 2020 02:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604541676;
+        bh=RFc8d0y83E3PgGn9wJI96kwAEwvdlKbg2Wq2RgVOFoM=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=MBDmYvNljcbupjMZatW7V6L3jaFdSM0Q72QaGGvAWGQYIkErP3tvcpPd5ANsOpoVy
+         oy9AcWJUcBqIK0MG2nxyepckjlDF2r9MbIOVgADXZSkiXf0jt4nV9AFhKDje9hbvLr
+         tT66qE2f+WjVf/cbxvkfiQW/XtdyUpLk8qOh4bQw=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201104224554.GE1531489@iweiny-DESK2.sc.intel.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b2336f3f3cdfe6e1a2d3a7a056ab7ccc7a81b945.1603469755.git.mchehab+huawei@kernel.org>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org> <b2336f3f3cdfe6e1a2d3a7a056ab7ccc7a81b945.1603469755.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v3 38/56] clk: fix a kernel-doc markup
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date:   Wed, 04 Nov 2020 18:01:14 -0800
+Message-ID: <160454167435.3965362.9994740112660959961@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 02:45:54PM -0800, 'Ira Weiny' wrote:
-> On Wed, Nov 04, 2020 at 11:00:04PM +0100, Thomas Gleixner wrote:
-> > On Wed, Nov 04 2020 at 09:46, Ira Weiny wrote:
-> > > On Tue, Nov 03, 2020 at 12:36:16AM +0100, Thomas Gleixner wrote:
-> > >> This is the wrong ordering, really.
-> > >> 
-> > >>      x86/entry: Move nmi entry/exit into common code
-> > >> 
-> > >> is a general cleanup and has absolutely nothing to do with PKRS.So this
-> > >> wants to go first.
-> > >
-> > > Sorry, yes this should be a pre-patch.
-> > 
-> > I picked it out of the series and applied it to tip core/entry as I have
-> > other stuff coming up in that area. 
-> 
-> Thanks!  I'll rebase to that tree.
-> 
-> I assume you fixed the spelling error?  Sorry about that.
+Quoting Mauro Carvalho Chehab (2020-10-23 09:33:25)
+> clk_get_duty_cycle -> clk_get_scaled_duty_cycle
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 
-I'll fix it and send with the other spelling errors I found.
-
-Ira
+Applied to clk-next
