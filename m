@@ -2,109 +2,186 @@ Return-Path: <SRS0=YDtV=EM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC9D8C2D0A3
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 06:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72889C2D0A3
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 09:33:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 676D421D46
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 06:41:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F084208FE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 09:33:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="VONiLQt9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PCF3l3Ux"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725842AbgKFGlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Nov 2020 01:41:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55148 "EHLO
+        id S1726740AbgKFJdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Nov 2020 04:33:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbgKFGlj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Nov 2020 01:41:39 -0500
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EBFFC0613CF;
-        Thu,  5 Nov 2020 22:41:39 -0800 (PST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4CS9lg543Mz9sRK;
-        Fri,  6 Nov 2020 17:41:35 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1604644897;
-        bh=zuk2I0WUJmi0lgQXq3yEuhrLu5JccxAOavoUgTBIxp0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VONiLQt9uhZb71OGYoYD4a9uxCOfw7tYMSQnlsCCfJlita2neZxcJm+lkDWmB93rG
-         MYmjgu3PAZ3ODAVxEurq0adooKYa9T/FR8HJXv1es9JaggAQItUON7gvnc7NcbKtPY
-         dNTlwy3EsqRMRLUigO1V97zYeMLHrUx3n9DaJVQXiWjUH6JjK4rOj4ETIXH7qpB/47
-         hw2JG2zeOCejqaGiL3nXnpKAmpHD6EWuniG5YjyL+bMI58B7pIBTIfHL8x4IFvgcQE
-         tpDA/arUqFsmepVUiI3ER4T77qGNi59gfQt0xFjC+NU420dV3qF4c3DtFI4RSJAN6w
-         lXsEKSyk2Guyg==
-Date:   Fri, 6 Nov 2020 17:41:34 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Anand K Mistry <amistry@google.com>
-Cc:     linux-fsdevel@vger.kernel.org, asteinhauser@google.com,
-        rppt@kernel.org, joelaf@google.com, tglx@linutronix.de,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] proc: Provide details on indirect branch speculation
-Message-ID: <20201106174134.6ccf4cd7@canb.auug.org.au>
-In-Reply-To: <20201106131015.v2.1.I7782b0cedb705384a634cfd8898eb7523562da99@changeid>
-References: <20201106131015.v2.1.I7782b0cedb705384a634cfd8898eb7523562da99@changeid>
+        with ESMTP id S1726565AbgKFJcz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Nov 2020 04:32:55 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFEDC0613D2
+        for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2020 01:32:53 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id y16so698229ljk.1
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2020 01:32:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0O2pgo+UmfykEgd2uLe7m+qSlQ1nNk7dEj4yrwl58uc=;
+        b=PCF3l3Ux3vXSR5kq06buJzj4g2GvzwIdDnPfwEhAliNGMQHb2EJ8ea6CIuUPQqYO0l
+         MH2/8fMTEw5ILQZPz6XCopiBtBYIfavA0rSo2PS/TtPvNoGLbYyg5+8M11pfBw+XRYo8
+         zUwHn4AP/U596zU00e5leiBdAVOoqgMkc1BTnHl1/j5VFjIY8N+HPisMfLKA95pZRKVM
+         xyqolq45WIaB2bOJ21n3+EBkkokbPdX9zHpsVFN64JB8Y5jfk9b8osgV4oyXljOQseTm
+         h2+dW1o2oOgqTv1NjsyLLTEKA6nAd6KAW2L6LZUbJc6kPDgfKAIYXnlDsAJB5dHkh7tX
+         GiIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0O2pgo+UmfykEgd2uLe7m+qSlQ1nNk7dEj4yrwl58uc=;
+        b=TpHfO7kNXQfCP2pO/MNjMQkF0cAYgSXEWo5mQLBtvralpo73p/VpxUKQiOW4hPVqk0
+         JF5fSiaVc+CzqXcZ6XrbNlPCj6VimkSmP1EUcMfjzCciFyB9MyFdftPwQGFt8Us5kIra
+         RA5khlv+Y7SH2gR6lExk4Z5LpNXCWNCx0kPj986T2aSKmBGvD1F5dRzUcrrw6Iw1ddzs
+         JDnwy0/moA/8r3oxzkgEI7/UceFoQ5uHeJJsQa2Ve3/SwNvNSJEz1y18gKlAembIij+n
+         rK/7GsrzLk80PxzRtW/o3wpKDVPTpSeTGrBRFaG8F3t6Vcixl+5pYRbVxnmBKcDnN93E
+         11ZQ==
+X-Gm-Message-State: AOAM5332I3XEvgAwru04M8i0k41aq/kYw56mVJNXefkZH0NjJxJFaok+
+        29OlVideYtI9Ofk3NL3VrL03+rBzjRzVCwheZ89eow==
+X-Google-Smtp-Source: ABdhPJyRRWazWWTTUshMunq0JJz7PYcu9OaGawq4/1rjyTHlsj7AVCjaucCm9rask/L4TdYyqxDT6p+HAgCzzJBgLhs=
+X-Received: by 2002:a2e:9013:: with SMTP id h19mr405821ljg.4.1604655172333;
+ Fri, 06 Nov 2020 01:32:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/g.4oPnOi=DGyHmBq.TSGse_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org> <20201105050736.GA702944@kernel.org>
+In-Reply-To: <20201105050736.GA702944@kernel.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Fri, 6 Nov 2020 15:02:41 +0530
+Message-ID: <CAFA6WYPetvod-Wov2n_L5TL771j+-kt+_csyWYT-uM=haEKMZQ@mail.gmail.com>
+Subject: Re: [PATCH v8 0/4] Introduce TEE based Trusted Keys support
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/g.4oPnOi=DGyHmBq.TSGse_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi Anand,
-
-On Fri,  6 Nov 2020 13:10:43 +1100 Anand K Mistry <amistry@google.com> wrot=
-e:
+On Thu, 5 Nov 2020 at 10:37, Jarkko Sakkinen <jarkko@kernel.org> wrote:
 >
-> Similar to speculation store bypass, show information about the indirect
-> branch speculation mode of a task in /proc/$pid/status.
->=20
-> Signed-off-by: Anand K Mistry <amistry@google.com>
-> ---
->=20
-> Changes in v2:
-> - Remove underscores from field name to workaround documentation issue
+> On Tue, Nov 03, 2020 at 09:31:42PM +0530, Sumit Garg wrote:
+> > Add support for TEE based trusted keys where TEE provides the functionality
+> > to seal and unseal trusted keys using hardware unique key. Also, this is
+> > an alternative in case platform doesn't possess a TPM device.
+> >
+> > This patch-set has been tested with OP-TEE based early TA which is already
+> > merged in upstream [1].
+>
+> Is the new RPI400 computer a platform that can be used for testing
+> patch sets like this? I've been looking for a while something ARM64
+> based with similar convenience as Intel NUC's, and on the surface
+> this new RPI product looks great for kernel testing purposes.
 
-I replaced the previous version in linux-next with this today. It fixes
-the htmldocs warning from yesterday, thanks.
+Here [1] is the list of supported versions of Raspberry Pi in OP-TEE.
+The easiest approach would be to pick up a supported version or else
+do an OP-TEE port for an unsupported one (which should involve minimal
+effort).
 
---=20
-Cheers,
-Stephen Rothwell
+[1] https://optee.readthedocs.io/en/latest/building/devices/rpi3.html#what-versions-of-raspberry-pi-will-work
 
---Sig_/g.4oPnOi=DGyHmBq.TSGse_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+-Sumit
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+k8B4ACgkQAVBC80lX
-0GzPJgf7BYsEXjhux180lQAOxjPcKaAybcinGW6gjVc4blDLMa0T/GSmHYtOqvKX
-dPiv2ijvQAnePFe+JZgrmDX4BafJ59aiY4+/a5/eEMT1mnl7byhsD37EGQA4kzhn
-SUwqUqe4Mlve6WA0jjlQ8xPbex7wll5uaj9XnQ6wmdP8pXGve6I5rgMdaeMtbABY
-WgXTImVk0Hsq0gZmNzoahn9TAMAHDLaS2H6sEfBtj1jRRNzSr94xuq0BHLj2egrb
-KUS2t74axUvVv2Y8xm5DEq62RbxvvswvurUoSYkBgGkV48SesJrTxnSzoYrU8m/5
-4Y/z/FWMv3pRVQ4eoaay4sDJrJnGlw==
-=38oe
------END PGP SIGNATURE-----
-
---Sig_/g.4oPnOi=DGyHmBq.TSGse_--
+>
+> /Jarkko
+>
+> >
+> > [1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
+> >
+> > Changes in v8:
+> > 1. Added static calls support instead of indirect calls.
+> > 2. Documented trusted keys source module parameter.
+> > 3. Refined patch #1 commit message discription.
+> > 4. Addressed misc. comments on patch #2.
+> > 5. Added myself as Trusted Keys co-maintainer instead.
+> > 6. Rebased to latest tpmdd master.
+> >
+> > Changes in v7:
+> > 1. Added a trusted.source module parameter in order to enforce user's
+> >    choice in case a particular platform posses both TPM and TEE.
+> > 2. Refine commit description for patch #1.
+> >
+> > Changes in v6:
+> > 1. Revert back to dynamic detection of trust source.
+> > 2. Drop author mention from trusted_core.c and trusted_tpm1.c files.
+> > 3. Rebased to latest tpmdd/master.
+> >
+> > Changes in v5:
+> > 1. Drop dynamic detection of trust source and use compile time flags
+> >    instead.
+> > 2. Rename trusted_common.c -> trusted_core.c.
+> > 3. Rename callback: cleanup() -> exit().
+> > 4. Drop "tk" acronym.
+> > 5. Other misc. comments.
+> > 6. Added review tags for patch #3 and #4.
+> >
+> > Changes in v4:
+> > 1. Pushed independent TEE features separately:
+> >   - Part of recent TEE PR: https://lkml.org/lkml/2020/5/4/1062
+> > 2. Updated trusted-encrypted doc with TEE as a new trust source.
+> > 3. Rebased onto latest tpmdd/master.
+> >
+> > Changes in v3:
+> > 1. Update patch #2 to support registration of multiple kernel pages.
+> > 2. Incoporate dependency patch #4 in this patch-set:
+> >    https://patchwork.kernel.org/patch/11091435/
+> >
+> > Changes in v2:
+> > 1. Add reviewed-by tags for patch #1 and #2.
+> > 2. Incorporate comments from Jens for patch #3.
+> > 3. Switch to use generic trusted keys framework.
+> >
+> > Sumit Garg (4):
+> >   KEYS: trusted: Add generic trusted keys framework
+> >   KEYS: trusted: Introduce TEE based Trusted Keys
+> >   doc: trusted-encrypted: updates with TEE as a new trust source
+> >   MAINTAINERS: Add myself as Trusted Keys co-maintainer
+> >
+> >  Documentation/admin-guide/kernel-parameters.txt   |  12 +
+> >  Documentation/security/keys/trusted-encrypted.rst | 203 +++++++++++--
+> >  MAINTAINERS                                       |   2 +
+> >  include/keys/trusted-type.h                       |  47 +++
+> >  include/keys/trusted_tee.h                        |  55 ++++
+> >  include/keys/trusted_tpm.h                        |  17 +-
+> >  security/keys/trusted-keys/Makefile               |   2 +
+> >  security/keys/trusted-keys/trusted_core.c         | 354 ++++++++++++++++++++++
+> >  security/keys/trusted-keys/trusted_tee.c          | 278 +++++++++++++++++
+> >  security/keys/trusted-keys/trusted_tpm1.c         | 336 ++++----------------
+> >  10 files changed, 979 insertions(+), 327 deletions(-)
+> >  create mode 100644 include/keys/trusted_tee.h
+> >  create mode 100644 security/keys/trusted-keys/trusted_core.c
+> >  create mode 100644 security/keys/trusted-keys/trusted_tee.c
+> >
+> > --
+> > 2.7.4
+> >
+> >
