@@ -2,156 +2,122 @@ Return-Path: <SRS0=YDtV=EM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C14D7C2D0A3
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 17:34:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5252C55178
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 17:50:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C6EF22203
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 17:34:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E0652151B
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 17:50:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="d26LGmNk"
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="0O4Jge/U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727358AbgKFReZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Nov 2020 12:34:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45212 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727352AbgKFReZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Nov 2020 12:34:25 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F23AC0613CF;
-        Fri,  6 Nov 2020 09:34:25 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0d1f00ad832f6a7d59b60b.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1f00:ad83:2f6a:7d59:b60b])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B492A1EC0472;
-        Fri,  6 Nov 2020 18:34:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1604684062;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=sZ9sdfZO0dp3q+XlR5ns+dfmE83j+UNdPPPEebExe5c=;
-        b=d26LGmNknsIHWGQjHbilUlMAKQzgZcL4TLfb795hEAJ3dnrB5du0h8A9kwucaFuvlgIk+m
-        HNk4fbqCpqh+DE3pPXsUHFd+k8vVaOhgRZbcQH0+hVGjl6ntbafz75XBW73Omxfw9585ag
-        WtfzHj5fRCcHMYKBeTGhjrNwJs80T9M=
-Date:   Fri, 6 Nov 2020 18:34:10 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v14 01/26] Documentation/x86: Add CET description
-Message-ID: <20201106173410.GG14914@zn.tnic>
-References: <20201012153850.26996-1-yu-cheng.yu@intel.com>
- <20201012153850.26996-2-yu-cheng.yu@intel.com>
+        id S1727020AbgKFRus (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Nov 2020 12:50:48 -0500
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:62702 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726408AbgKFRus (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Nov 2020 12:50:48 -0500
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A6HmTgh004037;
+        Fri, 6 Nov 2020 18:50:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=eMPMn91cCHyM/mIF1zD+SFO1I52TNwQPU0lvOZDdToE=;
+ b=0O4Jge/UIjwArzKM0JVlUhlUH2fxXAeEsWZ/yltz9MTsSYTFpAAsLtrDg5WdoAaQMkru
+ OkOK7UK0R3L+9OB6aiNpgOJos37Wn0LlneVS3Acz3XA1pRVfLxnzPOHsSZCK1in3fkcw
+ qaBmoSUorZLH8wyf974OfunbogdJ/BzF5uq45ziSn9U/0blx1S3KGzCrE8K+xkqcMMlj
+ 6YKylkhBXg9ycxHSdsWiWvQBtPN4c8aK69cxW+7mTPr5MSqBF7ehIk59p+Xc5IdqO29p
+ 0yTiYR3SFpJhRFkqcuv2eQtEUxcCcAGb1JrKjGihNHLsHOADmwMANFBpe7bs/w2ZaoeI eA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 34h00ewstr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 06 Nov 2020 18:50:35 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7865D100034;
+        Fri,  6 Nov 2020 18:50:34 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag1node3.st.com [10.75.127.3])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 67B612150EE;
+        Fri,  6 Nov 2020 18:50:34 +0100 (CET)
+Received: from localhost (10.75.127.44) by SFHDAG1NODE3.st.com (10.75.127.3)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov 2020 18:50:33
+ +0100
+From:   Fabrice Gasnier <fabrice.gasnier@st.com>
+To:     <jic23@kernel.org>
+CC:     <mchehab+huawei@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <alexandre.torgue@st.com>,
+        <fabrice.gasnier@st.com>, <olivier.moysan@st.com>,
+        <linux-iio@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+Subject: [PATCH] docs: ABI: testing: iio: stm32: remove re-introduced unsupported ABI
+Date:   Fri, 6 Nov 2020 18:50:16 +0100
+Message-ID: <1604685016-2434-1-git-send-email-fabrice.gasnier@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201012153850.26996-2-yu-cheng.yu@intel.com>
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG6NODE2.st.com (10.75.127.17) To SFHDAG1NODE3.st.com
+ (10.75.127.3)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-06_06:2020-11-05,2020-11-06 signatures=0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 08:38:25AM -0700, Yu-cheng Yu wrote:
-> +[1] Overview
-> +============
-> +
-> +Control-flow Enforcement Technology (CET) is an Intel processor feature
-> +that provides protection against return/jump-oriented programming (ROP)
-> +attacks.  It can be set up to protect both applications and the kernel.
-> +Only user-mode protection is implemented in the 64-bit kernel, including
-> +support for running legacy 32-bit applications.
-> +
-> +CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
-> +a secondary stack allocated from memory and cannot be directly modified by
-> +applications.  When executing a CALL, the processor pushes the return
-				       ^
-				    . .. instruction ...
+Remove unsupported ABI that has been re-introduced due to a rebase hunk.
+This ABI has been moved in the past in commit b299d00420e2
+("IIO: stm32: Remove quadrature related functions from trigger driver")
 
+This also fixes a couple of warnings seen with:
+./scripts/get_abi.pl validate 2>&1|grep iio
 
-> +address to both the normal stack and the shadow stack.  Upon function
-> +return, the processor pops the shadow stack copy and compares it to the
-> +normal stack copy.  If the two differ, the processor raises a control-
-> +protection fault.  Indirect branch tracking verifies indirect CALL/JMP
-> +targets are intended as marked by the compiler with 'ENDBR' opcodes.
-> +
-> +There are two kernel configuration options:
-> +
-> +    X86_SHADOW_STACK_USER, and
-> +    X86_BRANCH_TRACKING_USER.
-> +
-> +These need to be enabled to build a CET-enabled kernel, and Binutils v2.31
-> +and GCC v8.1 or later are required to build a CET kernel.  To build a CET-
-> +enabled application, GLIBC v2.28 or later is also required.
-> +
-> +There are two command-line options for disabling CET features::
-> +
-> +    no_user_shstk - disables user shadow stack, and
-> +    no_user_ibt   - disables user indirect branch tracking.
-> +
-> +At run time, /proc/cpuinfo shows CET features if the processor supports
-> +CET.
-> +
-> +[2] Application Enabling
-> +========================
-> +
-> +An application's CET capability is marked in its ELF header and can be
-> +verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
-> +field:
-> +
-> +    readelf -n <application>
+Fixes: 34433332841d ("docs: ABI: testing: make the files compatible with ReST output")
 
-Can be verified how? What does it say for a CET-enabled executable? Put
-it here in the doc pls.
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@st.com>
+---
+ .../ABI/testing/sysfs-bus-iio-timer-stm32          | 24 ----------------------
+ 1 file changed, 24 deletions(-)
 
-> +
-> +If an application supports CET and is statically linked, it will run with
-> +CET protection.  If the application needs any shared libraries, the loader
-> +checks all dependencies and enables CET when all requirements are met.
-> +
-> +[3] Backward Compatibility
-> +==========================
-> +
-> +GLIBC provides a few tunables for backward compatibility.
-> +
-> +GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
-> +    Turn off SHSTK/IBT for the current shell.
-
-For the current shell? How?
-
-You mean, you execute the kernel shell with that variable set? So you
-set this variable in any executable's env which links with glibc in
-order to disable CET?
-
-In any case, this needs clarification.
-
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32 b/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32
+index a10a4de..c4a4497 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32
++++ b/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32
+@@ -109,30 +109,6 @@ Description:
+ 		When counting down the counter start from preset value
+ 		and fire event when reach 0.
+ 
+-What:		/sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
+-KernelVersion:	4.12
+-Contact:	benjamin.gaignard@st.com
+-Description:
+-		Reading returns the list possible quadrature modes.
+-
+-What:		/sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode
+-KernelVersion:	4.12
+-Contact:	benjamin.gaignard@st.com
+-Description:
+-		Configure the device counter quadrature modes:
+-
+-		channel_A:
+-			Encoder A input servers as the count input and B as
+-			the UP/DOWN direction control input.
+-
+-		channel_B:
+-			Encoder B input serves as the count input and A as
+-			the UP/DOWN direction control input.
+-
+-		quadrature:
+-			Encoder A and B inputs are mixed to get direction
+-			and count with a scale of 0.25.
+-
+ What:		/sys/bus/iio/devices/iio:deviceX/in_count_enable_mode_available
+ KernelVersion:	4.12
+ Contact:	benjamin.gaignard@st.com
 -- 
-Regards/Gruss,
-    Boris.
+2.7.4
 
-https://people.kernel.org/tglx/notes-about-netiquette
