@@ -2,286 +2,151 @@ Return-Path: <SRS0=YDtV=EM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51455C4741F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 15:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B298C2D0A3
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 16:43:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7D4122241
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 15:55:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA19422227
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 16:43:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="aLeMnbTU"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="cBVLpopj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727499AbgKFPzE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Nov 2020 10:55:04 -0500
-Received: from mout.gmx.net ([212.227.17.20]:43245 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726422AbgKFPzE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Nov 2020 10:55:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1604678077;
-        bh=bN90BhQTKrUOs+Et5M9q4UcL1zH/Xz1OTeh9A0rIFsg=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=aLeMnbTUAI2MLyrAtYXe6fzif0ZsBgN30Fs2z68NZLot+wIvJifLb5LcNfLJ0/plO
-         jrZAhEwXb2QbmwIg/tdrFDIQBkzG+19MQhb3zvWkWIUislMHgdMZBH4IASfSM1BS2+
-         Dra9BfMKS8QTG0X0w2MD0vPfayH8rsWVePLzN6x8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.231.59]) by mail.gmx.com (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MlNtF-1ju0TR2sBx-00lkSD; Fri, 06
- Nov 2020 16:54:36 +0100
-Date:   Fri, 6 Nov 2020 16:54:23 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>
-Cc:     John Wood <john.wood@gmx.com>, Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v2 0/8] Fork brute force attack mitigation
-Message-ID: <20201106155423.GA4584@ubuntu>
-References: <20201025134540.3770-1-john.wood@gmx.com>
+        id S1726075AbgKFQnw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Nov 2020 11:43:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbgKFQnw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Nov 2020 11:43:52 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D031C0613D3
+        for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2020 08:43:52 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id z3so1832278pfz.6
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2020 08:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ohGyP98uQQKhnB3pJGvLmrdRlMtpjmrRpHdlKsDa8JI=;
+        b=cBVLpopjhvuZcULC1BoMrRoa/qq8goCwuZepVXmet2PTomK/LcORE5FdTGmV/Wu2B+
+         dWCKuVD0LZOHtB2nvIN/jibiaWuYIPt5p5mCkqr3azhxoZwWxaH3kjA+7CfWvGJcC2DI
+         quopXOYu4OBkMgKQf05O3xOEvSsSfiOzN0HVHuNMviMzMm/5R9gsAPj55tujY33FL13H
+         u+fOVdxUbtfVU/lX/4JVhlYtX1331+EpqSLDaxenFQgBFAkwSOYPFktjFtCLNx/qKjPP
+         kzg/VRVgKtJzxUFCEiApIjGfoO2lPrK+TWx72ZkasH9cVcULD7csMyqsGvqn2hsV+7A/
+         iTFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ohGyP98uQQKhnB3pJGvLmrdRlMtpjmrRpHdlKsDa8JI=;
+        b=sC2TWYTbmNmtvlv9C96GKaiw3z2ZLoQIsGC9AXvxjbTmkHPsU+2HnQ3qebnSGq2z6J
+         hriqKFG6FXlxmZYGFi9kJxkqbZJttyZWizd8EpxbiOQ01JbABeKRav6fPI2i849MPAQY
+         7rJlou65eU4ptyjskCqvmakr1NgxTy8/ztUwmrXNswuqz6VFRzzf4+OD0QfXESxypaKr
+         vdbRV3pvQDx28x19x/nRKa3VFxYve40EiN/I56sHdqJM7h0FrJJj7iLwhZ+iY9mar37c
+         SI2x/4nuRkHNmq2TsdA3QEn6qeQ8Vr3Fj2k3ZALWIG27DObbXZ7atVUdqgfdnOEXElzk
+         8vIA==
+X-Gm-Message-State: AOAM531AzxILrHr2q5UbgSLgh4quo6FjobSN1R4PBnCUeNAc56Qmhp+h
+        FylW7ZjChOzNuzHVa3PyX8UpnthLTG2klGLAtbdV8Q==
+X-Google-Smtp-Source: ABdhPJyLaAnrd+IG224fnDzZZ5YAYD7PCCD1T83OO0MFDfB2bhbeqq8qZzCx71hvpPHp2KQsJtiiQ4jrSkR16OyaidE=
+X-Received: by 2002:a17:90a:4749:: with SMTP id y9mr397490pjg.229.1604681031446;
+ Fri, 06 Nov 2020 08:43:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201025134540.3770-1-john.wood@gmx.com>
-X-Provags-ID: V03:K1:/AGVpx+PJCtXIg+BTEXY3fG6H8dE9kTzJunPjsCJWC25ThbMP31
- 5knBPTcwJUBzY+QS4xIeYCSbgsbjbubvWJ1eGMuVaOER59+d25TeK633OOc4bQzfmj2Pwlr
- KPRIt2wDXCNnU93Zqi1KF9R3G1yG76VTMU1lKTupAJ2GVKTQ7D0oJyYdfMR5QGuhYyD30Q+
- Jzvagaq8rJ2rYPJ/qmBLA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dK6exDfGB1c=:KYqdZLAKIWR56rpLA/AiKp
- pnT8BQfZVOom0Naetb0rijsOTY+TLJdoyn8bw+Yg/Md3VTunwZH+mA0WHwuoriSsGyKH+Ipw2
- 08wqKn3M9/KtTlgC5ji4friyVbUfjxrhGxPK/6xCUXC2kmEQct2yTN7uZU+Vc5+V6GRxyJ1f+
- +l5qa+HlDCxqR55NWq//054XgRIy7RP59fuu5x30+t/qVG6uSoCinpfhRaibkg4WEHxQWGw4Z
- WyLr1mB3O2dHJDwnWOHo8vcQsehyD7Pl6OUo1UUT06pfqRg7ROGlMhNtVZMgrOu72h4fJSqBq
- OUU3VQkQ+a5/NS3aiUt1XOcWwZUlwhoqvCtX0Hf1b2mpGa3WQvl3rFYh1ojR+lIcA3rWk7Wee
- uES1jQ9Op0Tc7F/ESs+2NnTJSCiX5tzMViV0Aq1UXAoYOmoY3CGGwJ3mfL6wEqHwNtarhFpNg
- 90jiFrUlHY01m/sdODshkX00S83qYy6rMqafdwWBt43aNKgUGp9iHJqVrLz8P4MiSByumO8Kj
- HMtLOwIUH8yoqD2Biz94dnPLBATZ+6RETAR9dwocTXdQ52BHacMfKnsNZp4lUbJJqTXTVX6/l
- sdWnpZMdrSKh9mHZZL8a0n4nIO3CAJ/BcAjrCRSXM2jRMTMxPlC2DTOEozS7MOaAeL4Rhigu6
- TWiBEXZXsbFD5glBpV0J6BGAkN0y0Rcbo5YXaes4R6GogdZMlq5yuZFHAkh8oC6G0PWDdVY13
- yyMKaWdgLPisFdSF67AvaQrDaYBO/iPIZtHQzqgmDHCeRRJx8V9WAOG+LQsq27gPM0fdLFah2
- eJqLh+KRHMAjKXFdDipVcmK0SxdfpufElq/wWQSdYMN+Bv49/2yR9w6ERkZ0lT7T1RfEIuYBt
- S/uR4PDsERG6wpWrP2Dw==
-Content-Transfer-Encoding: quoted-printable
+References: <20201026145114.59424-1-songmuchun@bytedance.com>
+ <20201026145114.59424-6-songmuchun@bytedance.com> <20201105132337.GA7552@linux>
+ <CAMZfGtXwKJ3uCuNC3mxHQLNJqTcUzj7Gd2-JRuOWEjZ1C7Oh=A@mail.gmail.com> <20201106094643.GA15654@linux>
+In-Reply-To: <20201106094643.GA15654@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Sat, 7 Nov 2020 00:43:12 +0800
+Message-ID: <CAMZfGtWCUD=CjWMPMh2kMmrJRw7TgNtfwr7fLkrigp+T-K_Sww@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v2 05/19] mm/hugetlb: Introduce pgtable
+ allocation/freeing helpers
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Fri, Nov 6, 2020 at 5:46 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Fri, Nov 06, 2020 at 12:08:22AM +0800, Muchun Song wrote:
+> > > I do not think you need this.
+> > > We already have hugepages_supported().
+> >
+> > Maybe some architectures support hugepage, but the vmemmap do not
+> > use the hugepage map. In  this case, we need it. But I am not sure if it
+> > exists in the real world. At least, x86 can reuse hugepages_supported.
+>
+> Yes, but that is the point.
+> IIUC, this patchset will enable HugeTLB vmemmap pages only for x86_64.
+> Then, let us make the patchset specific to that architecture.
+>
+> If at some point this grows more users (powerpc, arm, ...), then we
+> can add the missing code, but for now it makes sense to only include
+> the bits to make this work on x86_64.
+>
+> And also according to this the changelog is a bit "misleading".
+>
+> "On some architectures, the vmemmap areas use huge page mapping.
+> If we want to free the unused vmemmap pages, we have to split
+> the huge pmd firstly. So we should pre-allocate pgtable to split
+> huge pmd."
 
-Has anyone had time to review this patch serie? Any comments on this?
+Thanks for your suggestions. I will rewrite the commit log.
 
-Regards.
-
-On Sun, Oct 25, 2020 at 02:45:32PM +0100, John Wood wrote:
-> Attacks against vulnerable userspace applications with the purpose to br=
-eak
-> ASLR or bypass canaries traditionaly use some level of brute force with =
-the
-> help of the fork system call. This is possible since when creating a new
-> process using fork its memory contents are the same as those of the pare=
-nt
-> process (the process that called the fork system call). So, the attacker
-> can test the memory infinite times to find the correct memory values or =
-the
-> correct memory addresses without worrying about crashing the application=
-.
 >
-> Based on the above scenario it would be nice to have this detected and
-> mitigated, and this is the goal of this patch serie.
+> On x86_64, vmemmap is always PMD mapped if the machine has hugepages
+> support and if we have 2MB contiguos pages and PMD aligned.
+> e.g: I have seen cases where after the system has ran for a period
+> of time hotplug operations were mapping the vmemmap representing
+> the hot-added range on page base, because we could not find
+> enough contiguos and aligned memory.
 >
-> Other implementations
-> ---------------------
+> Something that [1] tries to solve:
 >
-> The public version of grsecurity, as a summary, is based on the idea of
-> delay the fork system call if a child died due to a fatal error. This ha=
-s
-> some issues:
+> [1] https://patchwork.kernel.org/project/linux-mm/cover/20201022125835.26396-1-osalvador@suse.de/
 >
-> 1.- Bad practices: Add delays to the kernel is, in general, a bad idea.
+> But anyway, my point is that let us make it clear in the changelog that
+> this is aimed for x86_64 at the moment.
+> Saying "on some architures" might make think people that this is not
+> x86_64 specific.
 >
-> 2.- Weak points: This protection can be bypassed using two different
->     methods since it acts only when the fork is called after a child has
->     crashed.
+> >> > > +     vmemmap_pgtable_init(page);
+> > >
+> > > Maybe just open code this one?
+> >
+> > Sorry. I don't quite understand what it means. Could you explain?
 >
->     2.1.- Bypass 1: So, it would still be possible for an attacker to fo=
-rk
->           a big amount of children (in the order of thousands), then pro=
-be
->           all of them, and finally wait the protection time before repea=
-t
->           the steps.
+> I meant doing
 >
->     2.2.- Bypass 2: This method is based on the idea that the protection
->           doesn't act if the parent crashes. So, it would still be possi=
-ble
->           for an attacker to fork a process and probe itself. Then, fork
->           the child process and probe itself again. This way, these step=
-s
->           can be repeated infinite times without any mitigation.
+> page_huge_pte(page) = NULL
 >
-> This implementation
-> -------------------
->
-> The main idea behind this implementation is to improve the existing ones
-> focusing on the weak points annotated before. The solution for the first
-> bypass method is to detect a fast crash rate instead of only one simple
-> crash. For the second bypass method the solution is to detect both the
-> crash of parent and child processes. Moreover, as a mitigation method it=
- is
-> better to kill all the offending tasks involve in the attack instead of =
-use
-> delays.
->
-> So, the solution to the two bypass methods previously commented is to us=
-e
-> some statistical data shared across all the processes that can have the
-> same memory contents. Or in other words, a statistical data shared betwe=
-en
-> all the fork hierarchy processes after an execve system call.
->
-> The purpose of these statistics is to compute the application crash peri=
-od
-> in order to detect an attack. This crash period is the time between the
-> execve system call and the first fault or the time between two consecuti=
-ves
-> faults, but this has a drawback. If an application crashes once quickly
-> from the execve system call or crashes twice in a short period of time f=
-or
-> some reason, a false positive attack will be triggered. To avoid this
-> scenario the shared statistical data holds a list of the i last crashes
-> timestamps and the application crash period is computed as follows:
->
-> crash_period =3D (n_last_timestamp - n_minus_i_timestamp) / i;
->
-> This ways, the size of the last crashes timestamps list allows to fine
-> tuning the detection sensibility.
->
-> When this crash period falls under a certain threshold there is a clear
-> signal that something malicious is happening. Once detected, the mitigat=
-ion
-> only kills the processes that share the same statistical data and so, al=
-l
-> the tasks that can have the same memory contents. This way, an attack is
-> rejected.
->
-> 1.- Per system enabling: This feature can be enabled at build time using
->     the CONFIG_SECURITY_FORK_BRUTE option or using the visual config
->     application under the following menu:
->
->     Security options ---> Fork brute force attack detection and mitigati=
-on
->
-> 2.- Per process enabling/disabling: To allow that specific applications =
-can
->     turn off or turn on the detection and mitigation of a fork brute for=
-ce
->     attack when required, there are two new prctls.
->
->     prctl(PR_SECURITY_FORK_BRUTE_ENABLE, 0, 0, 0, 0)
->     prctl(PR_SECURITY_FORK_BRUTE_DISABLE, 0, 0, 0, 0)
->
-> 3.- Fine tuning: To customize the detection's sensibility there are two =
-new
->     sysctl attributes that allow to set the last crashes timestamps list
->     size and the application crash period threshold (in milliseconds). B=
-oth
->     are accessible through the following files respectively.
->
->     /proc/sys/kernel/brute/timestamps_list_size
->     /proc/sys/kernel/brute/crash_period_threshold
->
->     The list size allows to avoid false positives due to crashes unrelat=
-ed
->     with a real attack. The period threshold sets the time limit to dete=
-ct
->     an attack. And, since a fork brute force attack will be detected if =
-the
->     application crash period falls under this threshold, the higher this
->     value, the more sensitive the detection will be.
->
-> So, knowing all this information I will explain now the different patche=
-s:
->
-> The 1/8 patch defines a new LSM hook to get the fatal signal of a task.
-> This will be useful during the attack detection phase.
->
-> The 2/8 patch defines a new LSM and manages the statistical data shared =
-by
-> all the fork hierarchy processes.
->
-> The 3/8 patch adds the sysctl attributes to fine tuning the detection.
->
-> Patchs 4/8 and 5/8 detect and mitigate a fork brute force attack.
->
-> Patch 6/8 adds the prctls to allow per process enabling/disabling.
->
-> Patch 7/8 adds the documentation to explain this implementation.
->
-> Patch 8/8 updates the maintainers file.
->
-> This patch series is a task of the KSPP [1] and can also be accessed fro=
-m
-> my github tree [2] in the "brute_v2" branch.
->
-> [1] https://github.com/KSPP/linux/issues/39
-> [2] https://github.com/johwood/linux/
->
-> The first version can be found in:
->
-> https://lore.kernel.org/kernel-hardening/20200910202107.3799376-1-keesco=
-ok@chromium.org/
->
-> Changelog RFC -> v2
-> -------------------
-> - Rename this feature with a more appropiate name (Jann Horn, Kees Cook)=
-.
-> - Convert the code to an LSM (Kees Cook).
-> - Add locking  to avoid data races (Jann Horn).
-> - Add a new LSM hook to get the fatal signal of a task (Jann Horn, Kees
->   Cook).
-> - Add the last crashes timestamps list to avoid false positives in the
->   attack detection (Jann Horn).
-> - Use "period" instead of "rate" (Jann Horn).
-> - Other minor changes suggested (Jann Horn, Kees Cook).
->
-> John Wood (8):
->   security: Add LSM hook at the point where a task gets a fatal signal
->   security/brute: Define a LSM and manage statistical data
->   security/brute: Add sysctl attributes to allow detection fine tuning
->   security/brute: Detect a fork brute force attack
->   security/brute: Mitigate a fork brute force attack
->   security/brute: Add prctls to enable/disable the fork attack detection
->   Documentation: Add documentation for the Brute LSM
->   MAINTAINERS: Add a new entry for the Brute LSM
->
->  Documentation/admin-guide/LSM/Brute.rst | 118 ++++
->  Documentation/admin-guide/LSM/index.rst |   1 +
->  MAINTAINERS                             |   7 +
->  include/brute/brute.h                   |  16 +
->  include/linux/lsm_hook_defs.h           |   1 +
->  include/linux/lsm_hooks.h               |   4 +
->  include/linux/security.h                |   4 +
->  include/uapi/linux/prctl.h              |   4 +
->  kernel/signal.c                         |   1 +
->  kernel/sys.c                            |   8 +
->  security/Kconfig                        |  11 +-
->  security/Makefile                       |   4 +
->  security/brute/Kconfig                  |  13 +
->  security/brute/Makefile                 |   2 +
->  security/brute/brute.c                  | 749 ++++++++++++++++++++++++
->  security/security.c                     |   5 +
->  16 files changed, 943 insertions(+), 5 deletions(-)
->  create mode 100644 Documentation/admin-guide/LSM/Brute.rst
->  create mode 100644 include/brute/brute.h
->  create mode 100644 security/brute/Kconfig
->  create mode 100644 security/brute/Makefile
->  create mode 100644 security/brute/brute.c
+> But no strong feelings.
 >
 > --
-> 2.25.1
->
+> Oscar Salvador
+> SUSE L3
+
+
+
+-- 
+Yours,
+Muchun
