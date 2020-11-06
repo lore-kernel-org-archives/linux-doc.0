@@ -2,101 +2,111 @@ Return-Path: <SRS0=YDtV=EM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 149C4C5517A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 20:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C96B9C2D0A3
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 20:39:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1A7221D7F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 20:14:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 787DB20B80
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 20:39:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728316AbgKFUOm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Nov 2020 15:14:42 -0500
-Received: from mga12.intel.com ([192.55.52.136]:42963 "EHLO mga12.intel.com"
+        id S1728140AbgKFUjF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Nov 2020 15:39:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728140AbgKFUOm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Nov 2020 15:14:42 -0500
-IronPort-SDR: Y6Ovxtu1O3kFT57jOSnhIXXZLZTrUFDb43pNzs/c2x5S+pc2R23tdL/2pJXUcIEkJYcHrioVZR
- ENh7LgOpUlkQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9797"; a="148876450"
-X-IronPort-AV: E=Sophos;i="5.77,457,1596524400"; 
-   d="scan'208";a="148876450"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2020 12:14:41 -0800
-IronPort-SDR: gb3VigMZvI6OslzAgoAMGhz8CeLyOjLRNF5MdPKlrAPBsCNBgaKXnxWPNdVwN1YIIhBjsXGVk6
- 5lRKYopeCPaw==
-X-IronPort-AV: E=Sophos;i="5.77,457,1596524400"; 
-   d="scan'208";a="528469179"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.221.127]) ([10.212.221.127])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2020 12:14:39 -0800
-Subject: Re: [PATCH v14 02/26] x86/cpufeatures: Add CET CPU feature flags for
- Control-flow Enforcement Technology (CET)
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>, Borislav Petkov <bp@suse.de>
-References: <20201012153850.26996-1-yu-cheng.yu@intel.com>
- <20201012153850.26996-3-yu-cheng.yu@intel.com>
- <20201106184953.GI14914@zn.tnic>
- <94e82db0-381b-a140-ab74-f23b7c35949e@intel.com>
- <20201106201152.GJ14914@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <a7ffcbf1-96ef-f4c1-6b2e-72b2fa21046d@intel.com>
-Date:   Fri, 6 Nov 2020 12:14:38 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S1727129AbgKFUjF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Nov 2020 15:39:05 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F286120719;
+        Fri,  6 Nov 2020 20:39:03 +0000 (UTC)
+Date:   Fri, 6 Nov 2020 15:39:01 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Artem Bityutskiy <dedekind1@gmail.com>
+Cc:     Tom Zanussi <zanussi@kernel.org>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: trace: fix event state structure name
+Message-ID: <20201106153901.1e578557@gandalf.local.home>
+In-Reply-To: <20201104122113.322452-1-dedekind1@gmail.com>
+References: <20201104122113.322452-1-dedekind1@gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201106201152.GJ14914@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/6/2020 12:11 PM, Borislav Petkov wrote:
-> On Fri, Nov 06, 2020 at 11:48:26AM -0800, Yu, Yu-cheng wrote:
->> I will drop it.  It has been re-based many times, and probably I
->> accidentally introduced something else?
+On Wed,  4 Nov 2020 14:21:13 +0200
+Artem Bityutskiy <dedekind1@gmail.com> wrote:
+
+> From: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
 > 
-> Yah, I think I added my tag to this version:
+> The documentation refers to a non-existent 'struct synth_trace_state'
+> structure. The correct name is 'struct synth_event_trace_state'.
 > 
-> https://lkml.kernel.org/lkml/20181119214809.6086-3-yu-cheng.yu@intel.com/
-> 
-> Do you need to refresh on when tags get dropped?
-> 
-> See here: Documentation/process/submitting-patches.rst
-> 
-> You should verify the rest of the patchset too - tags are not
-> sticked to a patch forever.
+> In other words, this patch is a mechanical substitution:
+> s/synth_trace_state/synth_event_trace_state/g
 > 
 
-I will do that.
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
-Yu-cheng
+-- Steve
+
+> Signed-off-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+> ---
+>  Documentation/trace/events.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> index f792b1959a33..bdba7b0e19ef 100644
+> --- a/Documentation/trace/events.rst
+> +++ b/Documentation/trace/events.rst
+> @@ -787,13 +787,13 @@ To trace a synthetic using the piecewise method described above, the
+>  synth_event_trace_start() function is used to 'open' the synthetic
+>  event trace::
+>  
+> -       struct synth_trace_state trace_state;
+> +       struct synth_event_trace_state trace_state;
+>  
+>         ret = synth_event_trace_start(schedtest_event_file, &trace_state);
+>  
+>  It's passed the trace_event_file representing the synthetic event
+>  using the same methods as described above, along with a pointer to a
+> -struct synth_trace_state object, which will be zeroed before use and
+> +struct synth_event_trace_state object, which will be zeroed before use and
+>  used to maintain state between this and following calls.
+>  
+>  Once the event has been opened, which means space for it has been
+> @@ -805,7 +805,7 @@ lookup per field.
+>  
+>  To assign the values one after the other without lookups,
+>  synth_event_add_next_val() should be used.  Each call is passed the
+> -same synth_trace_state object used in the synth_event_trace_start(),
+> +same synth_event_trace_state object used in the synth_event_trace_start(),
+>  along with the value to set the next field in the event.  After each
+>  field is set, the 'cursor' points to the next field, which will be set
+>  by the subsequent call, continuing until all the fields have been set
+> @@ -834,7 +834,7 @@ this method would be (without error-handling code)::
+>         ret = synth_event_add_next_val(395, &trace_state);
+>  
+>  To assign the values in any order, synth_event_add_val() should be
+> -used.  Each call is passed the same synth_trace_state object used in
+> +used.  Each call is passed the same synth_event_trace_state object used in
+>  the synth_event_trace_start(), along with the field name of the field
+>  to set and the value to set it to.  The same sequence of calls as in
+>  the above examples using this method would be (without error-handling
+> @@ -856,7 +856,7 @@ can be used but not both at the same time.
+>  
+>  Finally, the event won't be actually traced until it's 'closed',
+>  which is done using synth_event_trace_end(), which takes only the
+> -struct synth_trace_state object used in the previous calls::
+> +struct synth_event_trace_state object used in the previous calls::
+>  
+>         ret = synth_event_trace_end(&trace_state);
+>  
+
