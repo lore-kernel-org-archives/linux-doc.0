@@ -2,186 +2,113 @@ Return-Path: <SRS0=YDtV=EM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72889C2D0A3
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 09:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB81AC56201
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 09:47:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F084208FE
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 09:33:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PCF3l3Ux"
+	by mail.kernel.org (Postfix) with ESMTP id 7120F221FE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Nov 2020 09:47:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbgKFJdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Nov 2020 04:33:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53612 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726565AbgKFJcz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Nov 2020 04:32:55 -0500
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFEDC0613D2
-        for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2020 01:32:53 -0800 (PST)
-Received: by mail-lj1-x243.google.com with SMTP id y16so698229ljk.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2020 01:32:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0O2pgo+UmfykEgd2uLe7m+qSlQ1nNk7dEj4yrwl58uc=;
-        b=PCF3l3Ux3vXSR5kq06buJzj4g2GvzwIdDnPfwEhAliNGMQHb2EJ8ea6CIuUPQqYO0l
-         MH2/8fMTEw5ILQZPz6XCopiBtBYIfavA0rSo2PS/TtPvNoGLbYyg5+8M11pfBw+XRYo8
-         zUwHn4AP/U596zU00e5leiBdAVOoqgMkc1BTnHl1/j5VFjIY8N+HPisMfLKA95pZRKVM
-         xyqolq45WIaB2bOJ21n3+EBkkokbPdX9zHpsVFN64JB8Y5jfk9b8osgV4oyXljOQseTm
-         h2+dW1o2oOgqTv1NjsyLLTEKA6nAd6KAW2L6LZUbJc6kPDgfKAIYXnlDsAJB5dHkh7tX
-         GiIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0O2pgo+UmfykEgd2uLe7m+qSlQ1nNk7dEj4yrwl58uc=;
-        b=TpHfO7kNXQfCP2pO/MNjMQkF0cAYgSXEWo5mQLBtvralpo73p/VpxUKQiOW4hPVqk0
-         JF5fSiaVc+CzqXcZ6XrbNlPCj6VimkSmP1EUcMfjzCciFyB9MyFdftPwQGFt8Us5kIra
-         RA5khlv+Y7SH2gR6lExk4Z5LpNXCWNCx0kPj986T2aSKmBGvD1F5dRzUcrrw6Iw1ddzs
-         JDnwy0/moA/8r3oxzkgEI7/UceFoQ5uHeJJsQa2Ve3/SwNvNSJEz1y18gKlAembIij+n
-         rK/7GsrzLk80PxzRtW/o3wpKDVPTpSeTGrBRFaG8F3t6Vcixl+5pYRbVxnmBKcDnN93E
-         11ZQ==
-X-Gm-Message-State: AOAM5332I3XEvgAwru04M8i0k41aq/kYw56mVJNXefkZH0NjJxJFaok+
-        29OlVideYtI9Ofk3NL3VrL03+rBzjRzVCwheZ89eow==
-X-Google-Smtp-Source: ABdhPJyRRWazWWTTUshMunq0JJz7PYcu9OaGawq4/1rjyTHlsj7AVCjaucCm9rask/L4TdYyqxDT6p+HAgCzzJBgLhs=
-X-Received: by 2002:a2e:9013:: with SMTP id h19mr405821ljg.4.1604655172333;
- Fri, 06 Nov 2020 01:32:52 -0800 (PST)
+        id S1726837AbgKFJqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Nov 2020 04:46:54 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57546 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726820AbgKFJqx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Nov 2020 04:46:53 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id EDCFEAC35;
+        Fri,  6 Nov 2020 09:46:51 +0000 (UTC)
+Date:   Fri, 6 Nov 2020 10:46:48 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v2 05/19] mm/hugetlb: Introduce pgtable
+ allocation/freeing helpers
+Message-ID: <20201106094643.GA15654@linux>
+References: <20201026145114.59424-1-songmuchun@bytedance.com>
+ <20201026145114.59424-6-songmuchun@bytedance.com>
+ <20201105132337.GA7552@linux>
+ <CAMZfGtXwKJ3uCuNC3mxHQLNJqTcUzj7Gd2-JRuOWEjZ1C7Oh=A@mail.gmail.com>
 MIME-Version: 1.0
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org> <20201105050736.GA702944@kernel.org>
-In-Reply-To: <20201105050736.GA702944@kernel.org>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Fri, 6 Nov 2020 15:02:41 +0530
-Message-ID: <CAFA6WYPetvod-Wov2n_L5TL771j+-kt+_csyWYT-uM=haEKMZQ@mail.gmail.com>
-Subject: Re: [PATCH v8 0/4] Introduce TEE based Trusted Keys support
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtXwKJ3uCuNC3mxHQLNJqTcUzj7Gd2-JRuOWEjZ1C7Oh=A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 5 Nov 2020 at 10:37, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->
-> On Tue, Nov 03, 2020 at 09:31:42PM +0530, Sumit Garg wrote:
-> > Add support for TEE based trusted keys where TEE provides the functionality
-> > to seal and unseal trusted keys using hardware unique key. Also, this is
-> > an alternative in case platform doesn't possess a TPM device.
-> >
-> > This patch-set has been tested with OP-TEE based early TA which is already
-> > merged in upstream [1].
->
-> Is the new RPI400 computer a platform that can be used for testing
-> patch sets like this? I've been looking for a while something ARM64
-> based with similar convenience as Intel NUC's, and on the surface
-> this new RPI product looks great for kernel testing purposes.
+On Fri, Nov 06, 2020 at 12:08:22AM +0800, Muchun Song wrote:
+> > I do not think you need this.
+> > We already have hugepages_supported().
+> 
+> Maybe some architectures support hugepage, but the vmemmap do not
+> use the hugepage map. In  this case, we need it. But I am not sure if it
+> exists in the real world. At least, x86 can reuse hugepages_supported.
 
-Here [1] is the list of supported versions of Raspberry Pi in OP-TEE.
-The easiest approach would be to pick up a supported version or else
-do an OP-TEE port for an unsupported one (which should involve minimal
-effort).
+Yes, but that is the point.
+IIUC, this patchset will enable HugeTLB vmemmap pages only for x86_64.
+Then, let us make the patchset specific to that architecture.
 
-[1] https://optee.readthedocs.io/en/latest/building/devices/rpi3.html#what-versions-of-raspberry-pi-will-work
+If at some point this grows more users (powerpc, arm, ...), then we
+can add the missing code, but for now it makes sense to only include
+the bits to make this work on x86_64.
 
--Sumit
+And also according to this the changelog is a bit "misleading".
 
->
-> /Jarkko
->
+"On some architectures, the vmemmap areas use huge page mapping.
+If we want to free the unused vmemmap pages, we have to split
+the huge pmd firstly. So we should pre-allocate pgtable to split
+huge pmd."
+
+On x86_64, vmemmap is always PMD mapped if the machine has hugepages
+support and if we have 2MB contiguos pages and PMD aligned.
+e.g: I have seen cases where after the system has ran for a period
+of time hotplug operations were mapping the vmemmap representing
+the hot-added range on page base, because we could not find
+enough contiguos and aligned memory.
+
+Something that [1] tries to solve:
+
+[1] https://patchwork.kernel.org/project/linux-mm/cover/20201022125835.26396-1-osalvador@suse.de/
+
+But anyway, my point is that let us make it clear in the changelog that
+this is aimed for x86_64 at the moment.
+Saying "on some architures" might make think people that this is not
+x86_64 specific.
+
+>> > > +     vmemmap_pgtable_init(page);
 > >
-> > [1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
-> >
-> > Changes in v8:
-> > 1. Added static calls support instead of indirect calls.
-> > 2. Documented trusted keys source module parameter.
-> > 3. Refined patch #1 commit message discription.
-> > 4. Addressed misc. comments on patch #2.
-> > 5. Added myself as Trusted Keys co-maintainer instead.
-> > 6. Rebased to latest tpmdd master.
-> >
-> > Changes in v7:
-> > 1. Added a trusted.source module parameter in order to enforce user's
-> >    choice in case a particular platform posses both TPM and TEE.
-> > 2. Refine commit description for patch #1.
-> >
-> > Changes in v6:
-> > 1. Revert back to dynamic detection of trust source.
-> > 2. Drop author mention from trusted_core.c and trusted_tpm1.c files.
-> > 3. Rebased to latest tpmdd/master.
-> >
-> > Changes in v5:
-> > 1. Drop dynamic detection of trust source and use compile time flags
-> >    instead.
-> > 2. Rename trusted_common.c -> trusted_core.c.
-> > 3. Rename callback: cleanup() -> exit().
-> > 4. Drop "tk" acronym.
-> > 5. Other misc. comments.
-> > 6. Added review tags for patch #3 and #4.
-> >
-> > Changes in v4:
-> > 1. Pushed independent TEE features separately:
-> >   - Part of recent TEE PR: https://lkml.org/lkml/2020/5/4/1062
-> > 2. Updated trusted-encrypted doc with TEE as a new trust source.
-> > 3. Rebased onto latest tpmdd/master.
-> >
-> > Changes in v3:
-> > 1. Update patch #2 to support registration of multiple kernel pages.
-> > 2. Incoporate dependency patch #4 in this patch-set:
-> >    https://patchwork.kernel.org/patch/11091435/
-> >
-> > Changes in v2:
-> > 1. Add reviewed-by tags for patch #1 and #2.
-> > 2. Incorporate comments from Jens for patch #3.
-> > 3. Switch to use generic trusted keys framework.
-> >
-> > Sumit Garg (4):
-> >   KEYS: trusted: Add generic trusted keys framework
-> >   KEYS: trusted: Introduce TEE based Trusted Keys
-> >   doc: trusted-encrypted: updates with TEE as a new trust source
-> >   MAINTAINERS: Add myself as Trusted Keys co-maintainer
-> >
-> >  Documentation/admin-guide/kernel-parameters.txt   |  12 +
-> >  Documentation/security/keys/trusted-encrypted.rst | 203 +++++++++++--
-> >  MAINTAINERS                                       |   2 +
-> >  include/keys/trusted-type.h                       |  47 +++
-> >  include/keys/trusted_tee.h                        |  55 ++++
-> >  include/keys/trusted_tpm.h                        |  17 +-
-> >  security/keys/trusted-keys/Makefile               |   2 +
-> >  security/keys/trusted-keys/trusted_core.c         | 354 ++++++++++++++++++++++
-> >  security/keys/trusted-keys/trusted_tee.c          | 278 +++++++++++++++++
-> >  security/keys/trusted-keys/trusted_tpm1.c         | 336 ++++----------------
-> >  10 files changed, 979 insertions(+), 327 deletions(-)
-> >  create mode 100644 include/keys/trusted_tee.h
-> >  create mode 100644 security/keys/trusted-keys/trusted_core.c
-> >  create mode 100644 security/keys/trusted-keys/trusted_tee.c
-> >
-> > --
-> > 2.7.4
-> >
-> >
+> > Maybe just open code this one?
+> 
+> Sorry. I don't quite understand what it means. Could you explain?
+
+I meant doing 
+
+page_huge_pte(page) = NULL
+
+But no strong feelings.
+
+-- 
+Oscar Salvador
+SUSE L3
