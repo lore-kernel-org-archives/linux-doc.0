@@ -5,101 +5,98 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEA2C388F9
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 19:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC9AC388F7
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 22:09:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBE75207C3
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 19:08:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6F3320702
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 22:08:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="icWvyPr7"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="C5jBAo17"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726021AbgKGTIn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Nov 2020 14:08:43 -0500
-Received: from mout.gmx.net ([212.227.17.21]:53951 "EHLO mout.gmx.net"
+        id S1728739AbgKGWIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Nov 2020 17:08:55 -0500
+Received: from mout.gmx.net ([212.227.15.18]:36849 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725836AbgKGTIn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Nov 2020 14:08:43 -0500
+        id S1728766AbgKGWIy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 7 Nov 2020 17:08:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1604776118;
-        bh=jE5f7dstvHEPWrAikYGEZvkwxqFhebukYhL5FN0e4P4=;
+        s=badeba3b8450; t=1604786917;
+        bh=TF4vJpy3So/YNKjCJQx0HVgrhoU+b2fBxFR5XNF+vyc=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=icWvyPr7lRWuATS4qVREJMC4BoUlXx5RMZAC7Fz0J6klumUGSPAZVe68/5fdnyP3e
-         z4zwMezo1WJEJRob+FxV7fuSTI5qaURgyIMHpfhpMZJU4XCdIwlyOOxoBHCpAGe9Zi
-         B7aHYbWb4jqMg13MnLVbGfPxom1sl8ErAgr0to1w=
+        b=C5jBAo17rMhVHNZy0Eck+dL2tCXphHu7RLiEkOR4ybP7ULkwu93YRvFL3dHdKzpSq
+         1OQHszdhzmEaNFHVXyDSeBhZ4EJ1ztGdVNzpPt7bfMv4qmsZsq7aSEYquLO8Tpbqmw
+         P9x/GA2mn3KlRsYTB9U3XfqO5GgLhudWrmP61/qI=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.214.162]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MCKFu-1kS5uG1Lec-009LzP; Sat, 07
- Nov 2020 20:08:38 +0100
+Received: from longitude ([37.201.214.162]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5fMe-1khXjj13Gs-007EeJ; Sat, 07
+ Nov 2020 23:08:37 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: mtd: spi-nor: Fix formatting of text vs. diagrams
-Date:   Sat,  7 Nov 2020 19:39:01 +0100
-Message-Id: <20201107183902.1182809-1-j.neuschaefer@gmx.net>
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: networking: phy: s/2.5 times faster/2.5 times as fast/
+Date:   Sat,  7 Nov 2020 23:08:21 +0100
+Message-Id: <20201107220822.1291215-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:osP9Os5JpTV2/9plSo7aStfBxw5Zfbcnv4TAnrPFogBjBiLbmTq
- eAgIQyvhWGwpH6EE5QTS/yegz9wdLIE9q9mimaF5Nbn/Xkp/f1gvdy8b7D4I1El9QrV/FKI
- ufENyTWdxVF7EBAmwzGpw7QIYwD67AuHiMZnnF0NtfH+gIOdaO3gQe9J6r2Wfks5hO4r0K0
- qbyKS8NVgqAsejrgGj9Qw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+pAb+2ZeI3I=:ak5UwrOJvCabne+6EXnMM3
- 0x9dCrPva9LC547UGMUz8SHbAfajs3AdFNDPQnBtBNxhzCH1D1ZS2IMVAEux06E8jvrp0kXwt
- C9RTH1bHyom5ld8Ku71zZfRjBm2kxcNG9grqHaAknepJ6GFHuknszPrHoP0NOLxjIiTcG8xkC
- jbdNXjVi/edhsnJBJk4FuGq8+Cj1QE2wvjp+CkONG+AkrgeqX+EtwT0frgveDHfGmbvwDdC41
- smodw10ydhRcCNH7K+YFc55nTQtXDN7qu7Skq0FMxc4t7/RwboOvtaoGdSaFfNmoBUgFdUCVs
- ZdWF9772LNroW3zGfV5ALk6iHnOcq0gIV9iOKrNFwmifRPBRO8oR2XzRkSi6CWGjiqNSjD9Fo
- eoyNQ3efcbuMIfTRq6chU5YdH8jxMfjhYjFqhgN143Q5upr+EGcRgzsHeDhMm7YaV5ORak6JG
- 6hLLUcNcLpcjvF5ZgaPElQzBBp25WllOqTf5hgxwafl/BnO8NiE+NkvGTbwdy0J8ryHYZgANW
- bpeGAKepgwJasez9M7cbD6fk7AOcAN8euHU/LAcynRHvCbHxaFnOHlxrEiqipJIfxbTsV3Uhm
- n06G9G9qXZ2agSjCI5kM9CEtWV0R5plGXkq3uXBTckU6dan+wiwJQBnbCfx8CZhQW4dpCAcEp
- VwddmOVO6uhswICAddEf6EvwltuQE0HYSUzQB+my+6GaNXtI8VB4yC/eycXCeJUsds0Mn8cAy
- 7XgaE8LjK/ErtDAum9b6Unhrlt7OvSkJFHmLXB3YLEQq6DPiDkStDfCs6EZoLAG3/Wrun/qR/
- NDqEVUfBL0Nfn/NsV4wZq9hl9JFIyi0r43A6aBG2ih/QCxmpeg6JoDlAzRn8zblRoiTQ9bRgf
- 0dMa0S+STI0sLX1ORpFPDEx27hnakdJ/mCQglA3jo=
+X-Provags-ID: V03:K1:O2nYx4PYNoWB2eYP3TXqgGVNd9IQqrzgS+yNNzOXFoTrpnBIF8p
+ 9Jz0UMgFSvFfKE2/HUANUfCBPRaIp9NxmUp5NBxfigsZY+ZEMwMqd5p+BFIrAIkc3mmoIdp
+ 90d+H+0rQiSQXBQ2rYtvEhMkMi/1SVmvaOl8MMDaMZ7vG+szDktMlXy6suHtaJGGFxGASuL
+ SxbaaQQGkHtfOsGEtEJAA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6N297bKMakU=:XuRQzdLUzawn5G9RMlrdeo
+ 3/PWnZciNBquLZ5xA6kvG0PdYqpW1W0S03SxnFmkmHjnd6yUIFj9kTa5Mp27kDY3lFHirsF1c
+ 9BDbAnG0mN217jXO6k6qGDVc2JHPYHT3TwDP+Gyceyv1pLTp0zXDgvEMtNh0J60SR/Z0y1a7l
+ 3Xy8410clETavfxIaDZk7gniUl/7mTaB73mQfUdN1LT+LRRwlsPTxrKcpdciZ4tirlldPn9Zq
+ aWUqarsCXUs+w9oAkv9EMrgmtVzsou39+HmvLZS4AvkdMLwYgGlGK2P7uINt2CZyr4S4hd1BZ
+ NP/qgHamOmE9CpMXnhzRxZccHR/5QAbzKBOfP6WEtl8fVirIldwM6sq6k8SNmHeHWMxJ9qyvH
+ A/5/kACwWc8i4xMm3y+6bJM5PTZSCEWZlsV76wT8M9hKBB2QDM4Q3vLftBhLHTRsTbrzF0YUD
+ wM/su20nLisVgNXbC5n/NdLi/hUl9htii1uta36Ntu7DMjA+l7BF+EJ45eOU8OR5qlMjVv4kM
+ GvqLRXYuiTZ29o1xVbsx9YPEEH8HNvsm6Clp3imQOYRpFm44Oe2vLs66vCdsOLGfFTad3abCl
+ vMumxtfxi4/ZXCI6DLcIDicM/lzcQRjxNXsSmgHv1sVoNnrlbLrop99Od8y/uzp8/Z8CUnhwe
+ v/WLT3FZEtEGrGKqY6EE8KCHcJ3d874jxtiMDkZRdPRx7QFHxu2A3LenPmyGM/YNM8s2JBOnf
+ MPy/GZeHOsivP9xyVj+iqbHr6/oujLHlsrxIC7YTat7ZxyeJfj57aRD41ksol/aWrQQ/w0wji
+ NRwOxli4sBpxuJQXOA9xe37wXSWtiTD0Oico+fbdHEBEvU44aD6o42YHa/SmMwZPGa2+abrK9
+ FkZGPVFRaMG4yPClrHsvehb7yGiyCVDGnG7GDM5ro=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Corrently, all diagrams below "Before this framework, the layer is like"
-and the text in between are rendered as one monospace text block.
-Instead, each individual diagram should be a monospace text block.
+2.5 times faster would be 3.5 Gbps (4.375 Gbaud after 8b/10b encoding).
 
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- Documentation/driver-api/mtd/spi-nor.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ Documentation/networking/phy.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driv=
-er-api/mtd/spi-nor.rst
-index 1f0437676762b..4a3adca417fdb 100644
-=2D-- a/Documentation/driver-api/mtd/spi-nor.rst
-+++ b/Documentation/driver-api/mtd/spi-nor.rst
-@@ -34,7 +34,8 @@ Before this framework, the layer is like::
-          ------------------------
- 	        SPI NOR chip
+diff --git a/Documentation/networking/phy.rst b/Documentation/networking/p=
+hy.rst
+index 256106054c8cb..b2f7ec794bc8b 100644
+=2D-- a/Documentation/networking/phy.rst
++++ b/Documentation/networking/phy.rst
+@@ -247,8 +247,8 @@ Some of the interface modes are described below:
+     speeds (see below.)
 
--   After this framework, the layer is like:
-+After this framework, the layer is like::
-+
-                    MTD
-          ------------------------
-               SPI NOR framework
-@@ -45,7 +46,8 @@ Before this framework, the layer is like::
-          ------------------------
- 	       SPI NOR chip
+ ``PHY_INTERFACE_MODE_2500BASEX``
+-    This defines a variant of 1000BASE-X which is clocked 2.5 times faste=
+r,
+-    than the 802.3 standard giving a fixed bit rate of 3.125Gbaud.
++    This defines a variant of 1000BASE-X which is clocked 2.5 times as fa=
+st
++    as the 802.3 standard, giving a fixed bit rate of 3.125Gbaud.
 
--  With the SPI NOR controller driver (Freescale QuadSPI), it looks like:
-+With the SPI NOR controller driver (Freescale QuadSPI), it looks like::
-+
-                    MTD
-          ------------------------
-               SPI NOR framework
+ ``PHY_INTERFACE_MODE_SGMII``
+     This is used for Cisco SGMII, which is a modification of 1000BASE-X
 =2D-
 2.28.0
 
