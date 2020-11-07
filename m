@@ -2,219 +2,104 @@ Return-Path: <SRS0=UTzq=EN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 436B2C388F7
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 13:48:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEA2C388F9
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 19:08:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07B352087E
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 13:48:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBE75207C3
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 19:08:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="icWvyPr7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727494AbgKGNsy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Nov 2020 08:48:54 -0500
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:51988 "EHLO
-        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727084AbgKGNsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Nov 2020 08:48:54 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UEWEiiB_1604756928;
-Received: from IT-FVFX43SYHV2H.lan(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UEWEiiB_1604756928)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sat, 07 Nov 2020 21:48:48 +0800
-Subject: Re: [PATCH V3] doc: zh_CN: add translatation for tmpfs
-To:     Wang Qing <wangqing@vivo.com>, Harry Wei <harryxiyou@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1604739078-28707-1-git-send-email-wangqing@vivo.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <57190826-1b2c-4f61-0ae0-52b9bcdcd2f5@linux.alibaba.com>
-Date:   Sat, 7 Nov 2020 21:48:30 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1726021AbgKGTIn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Nov 2020 14:08:43 -0500
+Received: from mout.gmx.net ([212.227.17.21]:53951 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725836AbgKGTIn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 7 Nov 2020 14:08:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1604776118;
+        bh=jE5f7dstvHEPWrAikYGEZvkwxqFhebukYhL5FN0e4P4=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=icWvyPr7lRWuATS4qVREJMC4BoUlXx5RMZAC7Fz0J6klumUGSPAZVe68/5fdnyP3e
+         z4zwMezo1WJEJRob+FxV7fuSTI5qaURgyIMHpfhpMZJU4XCdIwlyOOxoBHCpAGe9Zi
+         B7aHYbWb4jqMg13MnLVbGfPxom1sl8ErAgr0to1w=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([37.201.214.162]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MCKFu-1kS5uG1Lec-009LzP; Sat, 07
+ Nov 2020 20:08:38 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: mtd: spi-nor: Fix formatting of text vs. diagrams
+Date:   Sat,  7 Nov 2020 19:39:01 +0100
+Message-Id: <20201107183902.1182809-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <1604739078-28707-1-git-send-email-wangqing@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:osP9Os5JpTV2/9plSo7aStfBxw5Zfbcnv4TAnrPFogBjBiLbmTq
+ eAgIQyvhWGwpH6EE5QTS/yegz9wdLIE9q9mimaF5Nbn/Xkp/f1gvdy8b7D4I1El9QrV/FKI
+ ufENyTWdxVF7EBAmwzGpw7QIYwD67AuHiMZnnF0NtfH+gIOdaO3gQe9J6r2Wfks5hO4r0K0
+ qbyKS8NVgqAsejrgGj9Qw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+pAb+2ZeI3I=:ak5UwrOJvCabne+6EXnMM3
+ 0x9dCrPva9LC547UGMUz8SHbAfajs3AdFNDPQnBtBNxhzCH1D1ZS2IMVAEux06E8jvrp0kXwt
+ C9RTH1bHyom5ld8Ku71zZfRjBm2kxcNG9grqHaAknepJ6GFHuknszPrHoP0NOLxjIiTcG8xkC
+ jbdNXjVi/edhsnJBJk4FuGq8+Cj1QE2wvjp+CkONG+AkrgeqX+EtwT0frgveDHfGmbvwDdC41
+ smodw10ydhRcCNH7K+YFc55nTQtXDN7qu7Skq0FMxc4t7/RwboOvtaoGdSaFfNmoBUgFdUCVs
+ ZdWF9772LNroW3zGfV5ALk6iHnOcq0gIV9iOKrNFwmifRPBRO8oR2XzRkSi6CWGjiqNSjD9Fo
+ eoyNQ3efcbuMIfTRq6chU5YdH8jxMfjhYjFqhgN143Q5upr+EGcRgzsHeDhMm7YaV5ORak6JG
+ 6hLLUcNcLpcjvF5ZgaPElQzBBp25WllOqTf5hgxwafl/BnO8NiE+NkvGTbwdy0J8ryHYZgANW
+ bpeGAKepgwJasez9M7cbD6fk7AOcAN8euHU/LAcynRHvCbHxaFnOHlxrEiqipJIfxbTsV3Uhm
+ n06G9G9qXZ2agSjCI5kM9CEtWV0R5plGXkq3uXBTckU6dan+wiwJQBnbCfx8CZhQW4dpCAcEp
+ VwddmOVO6uhswICAddEf6EvwltuQE0HYSUzQB+my+6GaNXtI8VB4yC/eycXCeJUsds0Mn8cAy
+ 7XgaE8LjK/ErtDAum9b6Unhrlt7OvSkJFHmLXB3YLEQq6DPiDkStDfCs6EZoLAG3/Wrun/qR/
+ NDqEVUfBL0Nfn/NsV4wZq9hl9JFIyi0r43A6aBG2ih/QCxmpeg6JoDlAzRn8zblRoiTQ9bRgf
+ 0dMa0S+STI0sLX1ORpFPDEx27hnakdJ/mCQglA3jo=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Corrently, all diagrams below "Before this framework, the layer is like"
+and the text in between are rendered as one monospace text block.
+Instead, each individual diagram should be a monospace text block.
 
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/driver-api/mtd/spi-nor.rst | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-在 2020/11/7 下午4:51, Wang Qing 写道:
-> Translate Documentation/filesystems/tmpfs.rst into Chinese.
-> 
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
-> 
-> Changes in v3:
->  - Fix patch format issue.
-> ---
->  .../translations/zh_CN/filesystems/tmpfs.rst       | 146 +++++++++++++++++++++
->  1 file changed, 146 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/filesystems/tmpfs.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/filesystems/tmpfs.rst b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
-> new file mode 100644
-> index 0000000..28f0d09
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
-> @@ -0,0 +1,146 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/filesystems/tmpfs.rst <tmpfs_index>`
-> +
-> +translated by Wang Qing<wangqing@vivo.com>
-> +
-> +=====
-> +Tmpfs
-> +=====
-> +
-> +Tmpfs是一个将所有文件都保存在虚拟内存中的文件系统。
-> +
-> +tmpfs中的所有内容都是临时的，也就是说没有任何文件会在硬盘上创建。
-> +如果卸载tmpfs实例，所有保存在其中的文件都会丢失。
-> +
-> +tmpfs将所有文件保存在内核缓存中，随着文件内容增长或缩小可以将不需要的
-> +页面swap出去。它具有最大限制，可以通过“mount -o remount ...”调整。
-> +
-> +和ramfs（创建tmpfs的模板）相比，tmpfs包含交换和限制检查。和tmpfs相似的另
-> +一个东西是RAM磁盘（/dev/ram*），可以在物理RAM中模拟固定大小的硬盘，并在
-> +此之上创建一个普通的文件系统。Ramdisks无法swap，因此无法调整它们的大小。
-> +
-> +由于tmpfs完全保存于页面缓存和swap中，因此所有tmpfs页面将在/proc/meminfo
-> +中显示为“Shmem”，而在free(1)中显示为“Shared”。请注意，这些计数还包括
-> +共享内存(shmem，请参阅ipcs(1))。获得计数的最可靠方法是使用df(1)和du(1)。
-> +
-> +tmpfs具有以下用途：
-> +
-> +1) 内核总有一个无法看到的内部挂载，用于共享匿名映射和SYSV共享内存。
-> +
-> +   挂载不依赖于CONFIG_TMPFS。如果CONFIG_TMPFS未设置，tmpfs对用户不可见。
-> +   但是内部机制始终存在。
-> +
-> +2) glibc 2.2及更高版本期望将tmpfs挂载在/dev/shm上以用于POSIX共享内存
-> +   (shm_open，shm_unlink)。添加内容到/etc/fstab应注意如下：
-> +
-> +	tmpfs	/dev/shm	tmpfs	defaults	0 0
-> +
-> +   使用时需要记住创建挂载tmpfs的目录。
-> +
-> +   SYSV共享内存无需挂载，内部已默认支持。(在2.3内核版本中，必须挂载
-> +   tmpfs的前身(shm fs)才能使用SYSV共享内存)
-> +
-> +3) 很多人（包括我）都觉的在/tmp和/var/tmp上挂载非常方便，并具有较大的
-> +   swap分区。目前循环挂载tmpfs可以正常工作，所以大多数发布都应当可以
-> +   使用mkinitrd通过/tmp访问/tmp。
-> +
-> +4) 也许还有更多我不知道的地方:-)
-> +
-> +
-> +tmpfs有三个用于调整大小的挂载选项：
-> +
-> +=========  ============================================================
-> +size       tmpfs实例分配的字节数限制。默认值是不swap时物理RAM的一半。
-> +           如果tmpfs实例过大，机器将死锁，因为OOM处理将无法释放该内存。
-> +nr_blocks  与size相同，但以PAGE_SIZE为单位。
-> +nr_inodes  tmpfs实例的最大inode个数。默认值是物理内存页数的一半，或者
-> +           (有高端内存的机器)低端内存RAM的页数，二者以较低者为准。
-> +=========  ============================================================
-> +
-> +这些参数接受后缀k，m或g表示千，兆和千兆字节，可以在remount时更改。
-> +size参数也接受后缀％用来限制tmpfs实例占用物理RAM的百分比：
-> +未指定size或nr_blocks时，默认值为size=50％
-> +
-> +如果nr_blocks=0（或size=0），block个数将不受限制；如果nr_inodes=0，
-> +inode个数将不受限制。这样挂载通常是不明智的，因为它允许任何具有写权限的
-> +用户通过访问tmpfs耗尽机器上的所有内存；但同时这样做也会增强在多个CPU的
-> +场景下的访问。
-> +
-> +tmpfs具有为所有文件设置NUMA内存分配策略挂载选项(如果启用了CONFIG_NUMA),
-> +可以通过“mount -o remount ...”调整
-> +
-> +======================== ==============================================
+diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driv=
+er-api/mtd/spi-nor.rst
+index 1f0437676762b..4a3adca417fdb 100644
+=2D-- a/Documentation/driver-api/mtd/spi-nor.rst
++++ b/Documentation/driver-api/mtd/spi-nor.rst
+@@ -34,7 +34,8 @@ Before this framework, the layer is like::
+          ------------------------
+ 	        SPI NOR chip
 
-The '==' just needs to align with the included chars.
+-   After this framework, the layer is like:
++After this framework, the layer is like::
++
+                    MTD
+          ------------------------
+               SPI NOR framework
+@@ -45,7 +46,8 @@ Before this framework, the layer is like::
+          ------------------------
+ 	       SPI NOR chip
 
-> +mpol=default             采用进程分配策略
-> +                         (请参阅 set_mempolicy(2))
-> +mpol=prefer:Node         倾向从给定的节点分配
-> +mpol=bind:NodeList       只允许从指定的链表分配
-> +mpol=interleave          倾向于依次从每个节点分配
-> +mpol=interleave:NodeList 依次从每个节点分配
-> +mpol=local		 prefers 从本地节点分配内存
+-  With the SPI NOR controller driver (Freescale QuadSPI), it looks like:
++With the SPI NOR controller driver (Freescale QuadSPI), it looks like::
++
+                    MTD
+          ------------------------
+               SPI NOR framework
+=2D-
+2.28.0
 
-'prefers' indent should align with '==='
-
-> +======================== ==============================================
-> +
-> +NodeList格式是以逗号分隔的十进制数字表示大小和范围，最大和最小范围是用-
-> +分隔符的十进制数来表示。例如，mpol=bind0-3,5,7,9-15
-> +
-> +带有有效NodeList的内存策略将按指定格式保存，在创建文件时使用。当任务在该
-> +文件系统上创建文件时，会使用到挂载时的内存策略NodeList选项，如果设置的话，
-> +由调用任务的cpuset[请参见Documentation/admin-guide/cgroup-v1/cpusets.rst]
-> +以及下面列出的可选标志约束。如果NodeLists为设置为空集，则文件的内存策略将
-> +恢复为“默认”策略。
-> +
-> +NUMA内存分配策略有可选标志，可以用于模式结合。在挂载tmpfs时指定这些可选
-> +标志可以在NodeList之前生效。
-> +Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的内存
-> +分配策略模式标志及其对内存策略。
-> +
-> +::
-> +
-> +	=static		相当于	MPOL_F_STATIC_NODES
-> +	=relative	相当于	MPOL_F_RELATIVE_NODES
-> +
-> +例如，mpol=bind=staticNodeList相当于MPOL_BIND|MPOL_F_STATIC_NODES的分配策略
-> +
-> +请注意，如果内核不支持NUMA，那么使用mpol选项挂载tmpfs将会失败；nodelist指定不
-> +在线的节点也会失败。如果您的系统依赖于此，但内核会运行不带NUMA功能(也许是安全
-> +revocery内核)，或者具有较少的节点在线，建议从自动模式中省略mpol选项挂载选项。
-> +可以在以后通过“mount -o remount,mpol=Policy:NodeList MountPoint”添加到挂载点。
-> +
-> +要指定初始根目录，可以使用如下挂载选项：
-> +
-> +====	==================================
-> +模式	权限用八进制数字表示
-> +uid		应用ID
-
-This is 'user' ID, not App ID.
-
-
-> +gid		组ID
-> +====	==================================
-> +
-> +这些选项对remount没有任何影响。您可以通过chmod(1),chown(1)和chgrp(1)的更改
-> +已经挂载的参数。
-> +
-> +tmpfs具有选择32位还是64位inode的挂载选项：
-> +
-> +=======   ========================
-> +inode64   Use 64-bit inode numbers
-> +inode32   Use 32-bit inode numbers
-> +=======   ========================
-> +
-> +在32位内核上，默认是inode32，挂载时指定inode64会被拒绝。
-> +在64位内核上，默认配置是CONFIG_TMPFS_INODE64。inode64避免了单个设备上可能有多个
-> +具有相同inode编号的文件；比如32位应用程序使用glibc如果长期访问tmpfs，一旦达到33
-> +位inode编号，就有EOVERFLOW失败的危险，无法打开大于2GiB的文件，并返回EINVAL。
-> +
-> +所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'将在
-> +/mytmpfs上挂载tmpfs实例，分配只能由root用户访问的10GB RAM/SWAP，可以有10240个
-> +inode的实例。
-> +
-> +
-> +:作者:
-> +   Christoph Rohland <cr@sap.com>, 1.12.01
-> +:更新:
-> +   Hugh Dickins, 4 June 2007
-> +:更新:
-> +   KOSAKI Motohiro, 16 Mar 2010
-> +:更新:
-> +   Chris Down, 13 July 2020
-> 
