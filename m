@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B295C56202
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 14:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB5EC55ABD
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 14:14:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18E40208B6
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 14:14:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9683A20B1F
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 14:14:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="TQI4RgR+"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="c3HHOTtr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728911AbgKHOO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Nov 2020 09:14:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35556 "EHLO
+        id S1728496AbgKHOOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Nov 2020 09:14:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728887AbgKHOO1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Nov 2020 09:14:27 -0500
+        with ESMTP id S1728500AbgKHOOg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Nov 2020 09:14:36 -0500
 Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5126CC0613D3
-        for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2020 06:14:26 -0800 (PST)
-Received: by mail-pf1-x444.google.com with SMTP id z3so5498931pfb.10
-        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2020 06:14:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A879C0613CF
+        for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2020 06:14:36 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id 10so5524940pfp.5
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2020 06:14:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JQobaiL/2z+J7n7cUT8D73Vv1rVUSdnEtfcckH7xNUc=;
-        b=TQI4RgR+eZKPIpHCcExujStJETh7EgtxIcThT90CaF/OshoASZBCYswpsMUlYJF1Ls
-         F6QCz0qeeZ9bCkGft5YO/iHzAWqWKSn7E58avQlNL8NGabj7QhtvVnfMmHeSZBcYItci
-         uFVAIgzooed5nMDoyuppTHMJal3MkK/QKMt7cMl0eJkyfkQYStJohj2dxygQ0QNtFrYj
-         35vu4IPC8iVHz8kgtbsqglpHt7SLRgVdVJRmN2viK5a66qVXQWjwlUE2hlvQjm6VEVXd
-         CJwsZ5n/4hPxuEO23NtFXTUu7TOa9Bik/RNq4lbVaRRTcjlNAvIgqp8KQpix9WisNBTv
-         zF/Q==
+        bh=xGk99oWPGnpN4FYpAClZ/sbMfd7MuDXDW58bOTmCGl0=;
+        b=c3HHOTtr5JYnv2lobf+qA/PZ2JxtIPFBh4I5RRXOVSoFqdiIYGFRs6L0u4GAhrbiMP
+         /fVfbaeQr7GtAw4max524LNMjZM9SnaGVZ0wxp9locWREhOP0c7sF/Oo3/1tAA7lQS0X
+         mC6IUUyrhrNEA9PYsPqGEbhQAMlWa3DyHT8ZSyl3QqHQAEy/Hfo+aBiFkRHXjyp5SM7r
+         3PYei7eAs/A31qw2IwtrQdKKgfAAk1gr96RwfvdGCmst5oE4nuq6V8lrPpiijk0rlAXW
+         NdAeva3pL7oy6fXrl/513LBYtt0UkRjG09ST0KrCP9vsh9LTBt5E3ou92oxbwm5yxYlN
+         bAGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JQobaiL/2z+J7n7cUT8D73Vv1rVUSdnEtfcckH7xNUc=;
-        b=jVykCwekbk1pnr9ltoDOR862+NMTnAVSTav6QQvjtcjJ53IFRATwGobSm897hxA55u
-         XSpIYDWfbeEypjeoRZQgVehOJywZUmEGk1MVSOg88h3yHvUSF67OfltaHTkVXRb9vqlc
-         OjoBZ4Xz2Iq8Oydqs9h8euEz8Yhe7B7UzmPVkomocxQCAzv5ER2dAAEJqeticR2oPV0o
-         B1/C+DQpgrBPa0k+NKqtYLoQb2bHClrRHP7m38ABmX/PHS8UHepRA+doIdhApS/KNw3b
-         QBj13pX5o3HIfRSY9tGiVBUtJxhehQp1cXvkIsle8L8QyOLXVKLijOj2qRfg/uJlH/SV
-         2syw==
-X-Gm-Message-State: AOAM531c7sw+/9iZDbYoOVBuM+guX4NxyyiejdfnyPRMT8ztBQxAoHyQ
-        Y+iH0YtPg2s8BFPDpqygdapm/g==
-X-Google-Smtp-Source: ABdhPJzfdzQqKF1Uc7p58Hp6FF6AnMq9qsLXcQVTzmZlu+VVJFRP/h/1IY5DA4v2QatxdHbEd5Y3Xw==
-X-Received: by 2002:a63:4d64:: with SMTP id n36mr234404pgl.203.1604844865926;
-        Sun, 08 Nov 2020 06:14:25 -0800 (PST)
+        bh=xGk99oWPGnpN4FYpAClZ/sbMfd7MuDXDW58bOTmCGl0=;
+        b=cc1g7fc2IPjES/uQpk/Q1Muk4aXu90qgSLYqTs4EqhJNKyCbLbr/jF4t6cQKXPRfH+
+         W2gqVJF+axQZM9RUyeW7TzJ0DhXOc451UxkZ4cMaqlOM/YFNxriCUA1V//33wI4n7NmR
+         bvbnKG6j+6L+aYwbbfae4bVts5xNo50czNt0pDVMWF+hxJUzrpqD3f2ZIUd+fo2DugDx
+         ODlTMBMUDTbbSXBNr16jBbpLKdMiK1ps0A5afQYd98L9lUrcjVbgseXU38VQatYEzikI
+         anjlmiMdDKR640lAK59O6mfBWZm5vqSbuYU8nwPyabq48tivlydSrTAOSNrqT+Krs5E8
+         hqJQ==
+X-Gm-Message-State: AOAM533E/Td2Z/PRagAykzlmByBnYawrRZ3rgidTh8sBdhgm0dEfO4oV
+        sbro3mPqPo7/vi5eIzJSqBJBMA==
+X-Google-Smtp-Source: ABdhPJwmnI9wz7z84dpkmVCHu+Ytsny1UtEsSs+pwgtK14zj7vbi2Q4mYaBE7cbCcEKatyzvawKt1w==
+X-Received: by 2002:a63:7408:: with SMTP id p8mr9184214pgc.273.1604844876138;
+        Sun, 08 Nov 2020 06:14:36 -0800 (PST)
 Received: from localhost.localdomain ([103.136.220.94])
-        by smtp.gmail.com with ESMTPSA id z11sm8754047pfk.52.2020.11.08.06.14.15
+        by smtp.gmail.com with ESMTPSA id z11sm8754047pfk.52.2020.11.08.06.14.26
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 Nov 2020 06:14:25 -0800 (PST)
+        Sun, 08 Nov 2020 06:14:35 -0800 (PST)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -71,9 +71,9 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v3 16/21] mm/hugetlb: Set the PageHWPoison to the raw error page
-Date:   Sun,  8 Nov 2020 22:11:08 +0800
-Message-Id: <20201108141113.65450-17-songmuchun@bytedance.com>
+Subject: [PATCH v3 17/21] mm/hugetlb: Flush work when dissolving hugetlb page
+Date:   Sun,  8 Nov 2020 22:11:09 +0800
+Message-Id: <20201108141113.65450-18-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20201108141113.65450-1-songmuchun@bytedance.com>
 References: <20201108141113.65450-1-songmuchun@bytedance.com>
@@ -83,98 +83,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because we reuse the first tail page, if we set PageHWPosion on a
-tail page. It indicates that we may set PageHWPoison on a series
-of pages. So we can use the head[4].mapping to record the real
-error page index and set the raw error page PageHWPoison later.
+We should flush work when dissolving a hugetlb page to make sure that
+the hugetlb page is freed to the buddy.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- mm/hugetlb.c | 50 ++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 42 insertions(+), 8 deletions(-)
+ mm/hugetlb.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 5aaa274b0684..00a6e97629aa 100644
+index 00a6e97629aa..4cd2f4a6366a 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -1794,6 +1794,29 @@ static inline void free_gigantic_page(struct hstate *h, struct page *page)
- {
+@@ -1795,6 +1795,11 @@ static inline void free_gigantic_page(struct hstate *h, struct page *page)
  	__free_gigantic_page(page, huge_page_order(h));
  }
-+
-+static inline void subpage_hwpoison_deliver(struct page *head)
+ 
++static inline void flush_free_huge_page_work(void)
 +{
-+	struct page *page = head;
-+
-+	if (PageHWPoison(head))
-+		page = head + page_private(head + 4);
-+
-+	/*
-+	 * Move PageHWPoison flag from head page to the raw error page,
-+	 * which makes any subpages rather than the error page reusable.
-+	 */
-+	if (page != head) {
-+		SetPageHWPoison(page);
-+		ClearPageHWPoison(head);
-+	}
++	flush_work(&hpage_update_work);
 +}
 +
-+static inline void set_subpage_hwpoison(struct page *head, struct page *page)
-+{
-+	if (PageHWPoison(head))
-+		set_page_private(head + 4, page - head);
-+}
- #else
- static inline void hugetlb_vmemmap_init(struct hstate *h)
+ static inline void subpage_hwpoison_deliver(struct page *head)
  {
-@@ -1841,6 +1864,22 @@ static inline void free_gigantic_page(struct hstate *h, struct page *page)
- 	__free_gigantic_page(page, huge_page_order(h));
+ 	struct page *page = head;
+@@ -1865,6 +1870,10 @@ static inline void free_gigantic_page(struct hstate *h, struct page *page)
  	spin_lock(&hugetlb_lock);
  }
-+
-+static inline void subpage_hwpoison_deliver(struct page *head)
+ 
++static inline void flush_free_huge_page_work(void)
 +{
 +}
 +
-+static inline void set_subpage_hwpoison(struct page *head, struct page *page)
-+{
-+	/*
-+	 * Move PageHWPoison flag from head page to the raw error page,
-+	 * which makes any subpages rather than the error page reusable.
-+	 */
-+	if (PageHWPoison(head) && page != head) {
-+		SetPageHWPoison(page);
-+		ClearPageHWPoison(head);
-+	}
-+}
- #endif
+ static inline void subpage_hwpoison_deliver(struct page *head)
+ {
+ }
+@@ -2439,6 +2448,7 @@ static int free_pool_huge_page(struct hstate *h, nodemask_t *nodes_allowed,
+ int dissolve_free_huge_page(struct page *page)
+ {
+ 	int rc = -EBUSY;
++	bool need_flush = false;
  
- static void update_and_free_page(struct hstate *h, struct page *page)
-@@ -1859,6 +1898,7 @@ static void __free_hugepage(struct hstate *h, struct page *page)
- 	int i;
- 
- 	alloc_huge_page_vmemmap(h, page);
-+	subpage_hwpoison_deliver(page);
- 
- 	for (i = 0; i < pages_per_huge_page(h); i++) {
- 		page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
-@@ -2416,14 +2456,8 @@ int dissolve_free_huge_page(struct page *page)
- 		int nid = page_to_nid(head);
- 		if (h->free_huge_pages - h->resv_huge_pages == 0)
- 			goto out;
--		/*
--		 * Move PageHWPoison flag from head page to the raw error page,
--		 * which makes any subpages rather than the error page reusable.
--		 */
--		if (PageHWPoison(head) && page != head) {
--			SetPageHWPoison(page);
--			ClearPageHWPoison(head);
--		}
-+
-+		set_subpage_hwpoison(head, page);
- 		list_del(&head->lru);
- 		h->free_huge_pages--;
+ 	/* Not to disrupt normal path by vainly holding hugetlb_lock */
+ 	if (!PageHuge(page))
+@@ -2463,10 +2473,19 @@ int dissolve_free_huge_page(struct page *page)
  		h->free_huge_pages_node[nid]--;
+ 		h->max_huge_pages--;
+ 		update_and_free_page(h, head);
++		need_flush = true;
+ 		rc = 0;
+ 	}
+ out:
+ 	spin_unlock(&hugetlb_lock);
++
++	/*
++	 * We should flush work before return to make sure that
++	 * the hugetlb page is freed to the buddy.
++	 */
++	if (need_flush)
++		flush_free_huge_page_work();
++
+ 	return rc;
+ }
+ 
 -- 
 2.11.0
 
