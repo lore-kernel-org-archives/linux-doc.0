@@ -2,101 +2,272 @@ Return-Path: <SRS0=q8nj=EO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88850C388F9
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 15:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C42D4C388F9
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 16:56:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 368B1206F4
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 15:10:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="NuOuUB6z"
+	by mail.kernel.org (Postfix) with ESMTP id 70AC02068D
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 16:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604854600;
+	bh=HmpnTGD+sCqkzYKB+VNNoQPDyYLZ8DVZYqWfmSgpAfA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=YhRC8RnQQwuFCmPce7djXOjjoGE3gMGzkpwJ9VsjFqD0sbEZkMVY1berY/0YMSDp+
+	 nhfp8pSbjNzacww5wcsFvu1LDsNEj5AKDUmdw6bvTOea6J4pa+KMFLnqQWJvy6GvDM
+	 RhMP4EOIA3JWgLISBvssP7Z1sDAHd38wClAPj7vI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728363AbgKHPKV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Nov 2020 10:10:21 -0500
-Received: from mout.gmx.net ([212.227.15.18]:37455 "EHLO mout.gmx.net"
+        id S1727929AbgKHQ4j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Nov 2020 11:56:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35208 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728143AbgKHPKV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 8 Nov 2020 10:10:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1604848216;
-        bh=2U7Twia+KWF7ZCXIaRhk3lmYvbvEfN7RWuJCjzDjxYU=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=NuOuUB6z9cpcf++BVp39cJjTh91v87udKBeVvFv+74X5xSwqGpoUiKr6IE3WKGXzb
-         yNTBOD9SVRm/QG771XV/ZckR8wrd3gkI9k94NmqnYRGEJ/p3sezBmUVZ4QncjgvWJH
-         RMCXO8WPpiLi/mCwZ+lkks/J9qa+3X2B0mEonySw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.214.162]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTzf6-1klEFO3IkE-00QzsV; Sun, 08
- Nov 2020 16:10:16 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: driver-api: mtd: intel-spi: Improve formatting of shell commands
-Date:   Sun,  8 Nov 2020 16:10:04 +0100
-Message-Id: <20201108151005.1843666-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.28.0
+        id S1727570AbgKHQ4j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 8 Nov 2020 11:56:39 -0500
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 289C720678;
+        Sun,  8 Nov 2020 16:56:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604854597;
+        bh=HmpnTGD+sCqkzYKB+VNNoQPDyYLZ8DVZYqWfmSgpAfA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jTr8zTsz0WaJ6nnvT5Eg1Ll2ihGmqcyn+2SF+Wf/mrD2qllK/kFqFW/v7wcgZNefk
+         zS7dIr/q6PaG6DfI7dBacAjjo5nnHikNbE1GU0b2Tz2VVRAwvJAMwi+yrMpSam0vAS
+         yISkL1OxDj/prQqrSSSyaYuB90OjYqoYVe7sJd6Y=
+Date:   Sun, 8 Nov 2020 16:56:21 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Javier =?UTF-8?B?R29uesOhbGV6?= <javier@javigon.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Benson Leung <bleung@chromium.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Bruno Meneguele <bmeneg@redhat.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+        Juergen Gross <jgross@suse.com>,
+        Konstantin Khlebnikov <koct9i@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Len Brown <lenb@kernel.org>,
+        Leonid Maksymchuk <leonmaxx@gmail.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Nayna Jain <nayna@linux.ibm.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Niklas Cassel <niklas.cassel@wdc.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>,
+        Oleh Kravchenko <oleg@kaa.org.ua>,
+        Orson Zhai <orsonzhai@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Peter Rosin <peda@axentia.se>, Petr Mladek <pmladek@suse.com>,
+        Philippe Bergheaud <felix@linux.ibm.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-pm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        netdev@vger.kernel.org, xen-devel@lists.xenproject.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2 20/39] docs: ABI: testing: make the files compatible
+ with ReST output
+Message-ID: <20201108165621.4d0da3f4@archlinux>
+In-Reply-To: <20201102154250.45bee17f@coco.lan>
+References: <cover.1604042072.git.mchehab+huawei@kernel.org>
+        <58cf3c2d611e0197fb215652719ebd82ca2658db.1604042072.git.mchehab+huawei@kernel.org>
+        <5326488b-4185-9d67-fc09-79b911fbb3b8@st.com>
+        <20201030110925.3e09d59e@coco.lan>
+        <cb586ea3-b6e6-4e48-2344-2bd641e5323f@st.com>
+        <20201102124641.GA881895@kroah.com>
+        <20201102154250.45bee17f@coco.lan>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:yiTBKBlvLRgXed6myindJcLlHXdjd5Ndqeo6M5NEKAQMZBU7YCj
- bzHbVOF0B9JpqcKGMNK/Ik6aXJdF3qBXeHBrgRIhTOkrHCerXM6Shum0kMi8TVN/dC0xIok
- OBcKp7Eqnrh8s2OujQH6lCELl81uCmH45fp0kJmv+WSZP0MQFx9vm6TUAY6+LlJ9vQMk06x
- AHcNNUFXLsW34zB9S0lxg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wDctJC3Z0zA=:5DOU6b8hMjf8oAQ9iA5jFh
- Ul7TyFKoQJ4xI1O859qXoTVXkxsKbgGoEFcB2xzgli5edfcNgvoeUyZqkrOzOvf16A1mKSxBe
- 47EOE66wAmPPbU+fyK9dUYagenRk7Z124eRuzjnu68AwrndMHJ74AXTvdcJ+3BTAS+PZS17Zn
- mKGdK/wSJP407iuv49U04rDYPweo/m9dn7CJDJGxLMv1Bhpw7JFfa4gNQUcTTYLXK5HEd5kBO
- G/zh+wBss5wVMMO/MHyUKL5iPsfXMmEA6znqpRtSkHvFXQvCX1gEvGlW4nKqV627CDX+2Ig2S
- L/w6Mzn3qY16FkYpcPCW+V4LSwKlxEoM8Zgjzz3GLSVdGY0FsN95yCM7rzdayXs53lf6w7nNK
- WajFS0eF8ufoLSspQUBFYwRxQN+mFDykAwHY+ky+i8K/TZIMJX+7BR7mpQ9+DryayvNsxXqia
- 4sf9Rshhrh1gJ24uET/iSAtssqunf+NSknfnRVUDxUteIzKSTcueCDinStzP4J8dLzopBL7md
- B7HmDONPK2gQyl7QxaGMal6aJMOVIY2ADI5Y4lY2TkM42Ed2vLa7OlNSFeZkcsySPXkLnXv2I
- E9QWh81+07PYRJHgpsnTgXa8aiuLi5Esw7mimSpOMwXdNUx/blRSdTOaNRhchjQ7/8cNrLh3m
- fkZzpBG/Em20Pq0gUvZuszYQlMD7+2yDnwuyBOIWTnKaZCZIvJlmDmy6QWKXGX39fw+DHuqz+
- yLw29H4UCQashIlvoccXPD6sJhIEBYmz1YJRuN0r2nrGCJCqpEtjKG95MfPwg83CUlA8kB03A
- VuhDUVrsBu6cQKSg5saCNPOjWUFBSUQJ0Ry937eHWaXnN3XjITDF3vcTL1p0D3fOF19XBdvfi
- 8nXn0zVCnR7+345a1p7p0wogz7bIQiijTIMwWNsXo=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Format the shell commands and output in steps 6 and 8 as code blocks,
-for consistency with the rest of the document.
+On Mon, 2 Nov 2020 15:42:50 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/driver-api/mtd/intel-spi.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Em Mon, 2 Nov 2020 13:46:41 +0100
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> 
+> > On Mon, Nov 02, 2020 at 12:04:36PM +0100, Fabrice Gasnier wrote:  
+> > > On 10/30/20 11:09 AM, Mauro Carvalho Chehab wrote:    
+> > > > Em Fri, 30 Oct 2020 10:19:12 +0100
+> > > > Fabrice Gasnier <fabrice.gasnier@st.com> escreveu:
+> > > >     
+> > > >> Hi Mauro,
+> > > >>
+> > > >> [...]
+> > > >>    
+> > > >>>  
+> > > >>> +What:		/sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
+> > > >>> +KernelVersion:	4.12
+> > > >>> +Contact:	benjamin.gaignard@st.com
+> > > >>> +Description:
+> > > >>> +		Reading returns the list possible quadrature modes.
+> > > >>> +
+> > > >>> +What:		/sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode
+> > > >>> +KernelVersion:	4.12
+> > > >>> +Contact:	benjamin.gaignard@st.com
+> > > >>> +Description:
+> > > >>> +		Configure the device counter quadrature modes:
+> > > >>> +
+> > > >>> +		channel_A:
+> > > >>> +			Encoder A input servers as the count input and B as
+> > > >>> +			the UP/DOWN direction control input.
+> > > >>> +
+> > > >>> +		channel_B:
+> > > >>> +			Encoder B input serves as the count input and A as
+> > > >>> +			the UP/DOWN direction control input.
+> > > >>> +
+> > > >>> +		quadrature:
+> > > >>> +			Encoder A and B inputs are mixed to get direction
+> > > >>> +			and count with a scale of 0.25.
+> > > >>> +      
+> > > >>    
+> > > > 
+> > > > Hi Fabrice,
+> > > >     
+> > > >> I just noticed that since Jonathan question in v1.
+> > > >>
+> > > >> Above ABI has been moved in the past as discussed in [1]. You can take a
+> > > >> look at:
+> > > >> b299d00 IIO: stm32: Remove quadrature related functions from trigger driver
+> > > >>
+> > > >> Could you please remove the above chunk ?
+> > > >>
+> > > >> With that, for the stm32 part:
+> > > >> Acked-by: Fabrice Gasnier <fabrice.gasnier@st.com>    
+> > > > 
+> > > > 
+> > > > Hmm... probably those were re-introduced due to a rebase. This
+> > > > series were originally written about 1,5 years ago.
+> > > > 
+> > > > I'll drop those hunks.    
+> > > 
+> > > Hi Mauro, Greg,
+> > > 
+> > > I just figured out this patch has been applied with above hunk.
+> > > 
+> > > This should be dropped: is there a fix on its way already ?
+> > > (I may have missed it)    
+> > 
+> > Can you send a fix for just this hunk?  
+> 
+> Hmm...
+> 
+> 	$ git grep /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
+> 	Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:What:                /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
+> 	Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:What:             /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
+> 	Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:What:               /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
+> 
+> Even re-doing the changes from 
+> changeset b299d00420e2 ("IIO: stm32: Remove quadrature related functions from trigger driver")
+> at Documentation/ABI/testing/sysfs-bus-iio-timer-stm32, there's still
+> a third duplicate of some of those, as reported by the script:
+> 
+> 	$ ./scripts/get_abi.pl validate 2>&1|grep quadra
+> 	Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:117  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:14
+> 	Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 3 times:  Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:111  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
+> 
+> As in_count_quadrature_mode_available is also defined at:
+> 	Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2
+> 
+> The best here seems to have a patch that will also drop the other
+> duplication of this, probably moving in_count_quadrature_mode_available
+> to a generic node probably placing it inside 
+> Documentation/ABI/testing/sysfs-bus-iio.
 
-diff --git a/Documentation/driver-api/mtd/intel-spi.rst b/Documentation/dr=
-iver-api/mtd/intel-spi.rst
-index 0e6d9cd5388dd..0465f68792625 100644
-=2D-- a/Documentation/driver-api/mtd/intel-spi.rst
-+++ b/Documentation/driver-api/mtd/intel-spi.rst
-@@ -52,7 +52,7 @@ Linux.
- 	16384+0 records out
- 	8388608 bytes (8.4 MB) copied, 10.0269 s, 837 kB/s
+In this particular case it may be valid to do that, but it's not in
+general without loosing information - see below.
 
-- 6) Verify the backup:
-+ 6) Verify the backup::
+> 
+> Comments?
+> 
+> Thanks,
+> Mauro
+> 
+> PS.: the IIO subsystem is the one that currently has more duplicated
+> ABI entries:
 
- 	# sha1sum /dev/mtd0ro bios.bak
- 	fdbb011920572ca6c991377c4b418a0502668b73  /dev/mtd0ro
-@@ -66,7 +66,7 @@ Linux.
- 	# flash_erase /dev/mtd0 0 0
- 	Erasing 4 Kibyte @ 7ff000 -- 100 % complete
+That was intentional.  Often these provide more information on the
+ABI for a particular device than is present in the base ABI doc.
 
-- 8) Once completed without errors you can write the new BIOS image:
-+ 8) Once completed without errors you can write the new BIOS image::
+A bit like when we have additional description for dt binding properties
+for a particular device, even though they are standard properties.
 
-     # dd if=3DMNW2MAX1.X64.0092.R01.1605221712.bin of=3D/dev/mtd0
+Often a standard property allows for more values than the specific
+one for a particular device.  There can also be obscuring coupling
+between sysfs attributes due to hardware restrictions that we would
+like to provide some explanatory info on.
 
-=2D-
-2.28.0
+I suppose we could add all this information to the parent doc but
+that is pretty ugly and will make that doc very nasty to read.
+
+Jonathan
+
+> 
+> $ ./scripts/get_abi.pl validate 2>&1|grep iio
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  Documentation/ABI/testing/sysfs-bus-iio:394
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  Documentation/ABI/testing/sysfs-bus-iio:395
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  Documentation/ABI/testing/sysfs-bus-iio:396
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  Documentation/ABI/testing/sysfs-bus-iio:397
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  Documentation/ABI/testing/sysfs-bus-iio:398
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  Documentation/ABI/testing/sysfs-bus-iio:399
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:117  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:14
+> Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 3 times:  Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:111  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
+> Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  Documentation/ABI/testing/sysfs-bus-iio:599
+> Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  Documentation/ABI/testing/sysfs-bus-iio:588
+> Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
+> Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
+> Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
+> Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
+> Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  Documentation/ABI/testing/sysfs-bus-iio:45
 
