@@ -8,88 +8,91 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 189BBC388F9
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 00:41:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D0DC388F9
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 13:27:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 970CA20702
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 00:41:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7FCD206F4
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 13:27:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Tw2Dfqbj"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="B9xVFzui"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbgKHAlA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Nov 2020 19:41:00 -0500
-Received: from mout.gmx.net ([212.227.17.20]:36341 "EHLO mout.gmx.net"
+        id S1727844AbgKHN1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Nov 2020 08:27:50 -0500
+Received: from mout.gmx.net ([212.227.17.20]:41321 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726043AbgKHAk7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Nov 2020 19:40:59 -0500
+        id S1727570AbgKHN1s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 8 Nov 2020 08:27:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1604796053;
-        bh=mWjJ0DimkQwVS54NM2sHgfMoe5IdgjJ/+4WF1B+qSqk=;
+        s=badeba3b8450; t=1604842057;
+        bh=T7Xe8tav6QRhkQpuspeX38ghh0S5/oNx/90ZgXYVPDo=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=Tw2DfqbjweXEwICfxJl5BtYyA0Uhmhhy5iOAQ5SORJ4kcEUPk+zqw8ClmmOJcSN3Y
-         hYTi5H4+XEA/m6x8kLCEeNVO6KoJemeR42vJ3duqWNlB3qKQQB3jLP77JxmDsCWtjj
-         qadyZ4JMBZyQ57k0YA6tTyhp0LCZ0e6t3wJMKM4o=
+        b=B9xVFzuiAMPs8rMUXWhX/WI7k82cOCRxG7YF+X3CBn1SR92zBGaTcCwdRgxxqWLOV
+         C7qCH2nOempCIesbnYn92I1S9Y5uII30HfUnks1RWWgF4u48MqNCWuDEyBTJwTnGsT
+         7kZrWPt6M9bUinVxcyO6ML4E0PnSw61hBQWiOiOM=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from longitude ([37.201.214.162]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zFj-1kEtDK2wGx-01550s; Sun, 08
- Nov 2020 01:40:53 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYvY8-1kopc92oFM-00Uv9S; Sun, 08
+ Nov 2020 14:27:37 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jan Kara <jack@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: filesystems: Reduce ext2.rst to one top-level heading
-Date:   Sun,  8 Nov 2020 01:40:45 +0100
-Message-Id: <20201108004045.1378676-1-j.neuschaefer@gmx.net>
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jan Kara <jack@suse.cz>, John Hubbard <jhubbard@nvidia.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: filesystems: link ubifs-authentication.rst without .rst extension
+Date:   Sun,  8 Nov 2020 14:24:14 +0100
+Message-Id: <20201108132415.1789142-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FrMulFltGVWOjEpimVwcelAsU54AfJhW7agEtWJr3SUQ6i/FENY
- IsEZuhmLJmtq7HLKvlDZTC7GErNatFT+tBBLwkdNPQwuXhFNMk5VKBDzD63ahnJhc4jmA8b
- 52gqZkKIFj4EShMxt/q6jzJQG+QulT02AP0U0i1zDWkth5p9z+/pSjHWrjcqfCdZkbB+5v6
- JYSPDXK+74a3nzHNBuF2Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Yxo3+nVz7NI=:qnGx4iHfeeuwuMGNDE7hYE
- e5MJvWmsFUTzJM9TqZuW8vfel8ty+P1Daswlu7l369/PSvLytbMQjhr5XHzQAj5WuU7WiyDBe
- K59LizNUBEwICICgg08attubAoHTTZ5WjRS9Mw1BwWQmLo2QJMXKa28joR0r/v42Xyb+Ecd/B
- rvtsG1eAnyP8RiVrgUo6o4T8lqFu2YGKSbL0XMGYR1vEm9KScSf8+NOelaLCuFHLedchBV86m
- p/RpFu8gg9j7OgG149R2qbK+/JabqHc//Xdmu1oQEvYCgqvGPldr3kyAVRM4lSHq1UEcUyUZU
- 2GzPxYG/DM236++Rb7WfffuUNyDweeZup8rfJ4CesUdSvL3orPq+plMrkU8SAXHLWNiBynNeI
- rY27V9l2VecvbWlePW9mh8SYHFj48SlhTxG+42ez5Nt8hZ4X/EcELOgXDv669/pw3FtSQyIhR
- aJFNg21fl6r/iDWoJYWMWyTuDx/pE+szsu/wfHXlfkPhlZPxg4u4DPVd7RewxvcE4oGlnaaZM
- sTm86F/Q3BOhFh0QEP7PLB0hUbpD7aFTvn+fULqdPtEMVPODT02cwOx3s+2CHLQU2OGS+QoH8
- H+I5tyomYIo9HBG+a8GrjiNtLW3drEjOUb7d9tteTfFvPLXn+xFpvc/Jz5+KGUsev1KR8sXqY
- Z2/g4R6GBYuOQbY4rYQIUyd8RGjX/gFORfSiyfsfXak9fTw1IZDsa3iUzq5ki+jClwhqXgGZh
- iOstyHJsykJZDlEdq7wk9xAu52JcVbG5BcdXVhYB8InVHiFMAQIj27nTn+IliIpiFXHM9msDY
- LxFSQzvpCvFVKPZUQBicneRyEkXhAbxF/AnZXngpAUK9vzenMGt8pe9e/EyE9DsO+Uv4XXmJO
- ifdk5e8KI7CscBzCHJcUPh8h3uNgKw9IJYdqYEUH4=
+X-Provags-ID: V03:K1:ikyazVVcjfy9C1ET4A6XP9MiiFh3O7M5WELcj95LGGrlI40OG2N
+ daAdwDZta8Z6/ALshIGbpdJe6mqPs6wyZSDI6+rx3n7VS/pOueZ4ywYkqIcaamma319cE4N
+ 1195lBYUAzNQjMWym0zl4OvSyEYsp+Y3htjF2qc+f8UZQVlU0gjOHXsUljhnyJYrdWfYc7u
+ FF0xYCv87WbYs70yZ/umg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ct/SGRPJ0hk=:IqDQUjeIbSnuuiIjlQhtCw
+ TTjFEGRbJB2cU5/mLItVDIAPKGRXyhan5A7P61Y2v/EheHEJ7ZogQF9qyFVvkVCqmMmHLEljw
+ eJgABtEDegk+VP3qeaWzt07L9uXHON5tD7jL7MzQvKOecv15xZLu0a6HXeQ7/kcWJtMAd2tax
+ ZoTxcgaGy0rkH02guItmIjTEDynnlWSChfgKpCdYLyhV8Qv/R0AtYapdtd+Inl8ue/FSQ4OQ3
+ KkRRNczY9RxpeM5KjtqPwuUpe8xXPDVa8dnNmgLxSJMHSydfMYMBLDb/o20APqKzWnMKLHa07
+ /IFMcGpNEouH1ygJwXsf9JUUPDifPuZtDBqLzP0WloEnPG2Cne0zwUiC8q8i6SGGB8+WuDufb
+ xRvShvAjlc2sfq0kolpNlX4bejGQPaEt70dZ0VRE28vHVpKB6wSkCPQhn4AiB/qWygVx9GJ87
+ q9sndKhanPD2coD4gb1CmIyAmDBbGMD9QS/WOHqt9B/YEYwoHbEMwkmTmzABxhH8uPCuQyXKC
+ J/V240a+6r+hmDCLUxEUpINtalOIIwc1VBBOwlZpq88lji8dw0QsvWdegskGM9Bihp8A6t2dE
+ PXnHideDj+d5NMYcYLWIQulMe5PPF2cddv4LkXaB0tTbGR5CZWKYHr2i7KpPFjiY5hcaHODQP
+ aLvF+mpa9an/8WK6TdB0XZRjPRoq5yWfY2zCetCB4G8vrcZNoibw8XOc2fQKnouPn8gM6Z8hb
+ AJM9LfvBQnsF67yPVZZqvubxiUD+0BwdCmn4fVrzIn3w0MaJiwt9WHI42RO8OC2zwB5ifuNUe
+ k2UJD8Mk5MODD7eK0+CuRyqeomnwbB7skb6hml8XAqJoaUAex5zVXmajZmFneYYhhkMwWwT6X
+ ABfh6aUqU2cM/dI4YA8BT3QyBYycQBUewP2WpWo84=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This prevents the other headings like "Options" and "Specification" from
-leaking out and being listed separately in the table of contents.
+Specifying the .rst extension doesn't cause any problems AFAICT, but
+it's uncommon.
 
+Fixes: 688f118e3139f ("docs: filesystems: convert ubifs-authentication.rst=
+.txt to ReST")
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- Documentation/filesystems/ext2.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/filesystems/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/ext2.rst b/Documentation/filesystem=
-s/ext2.rst
-index d83dbbb162e20..c2fce22cfd035 100644
-=2D-- a/Documentation/filesystems/ext2.rst
-+++ b/Documentation/filesystems/ext2.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
-
-
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
- The Second Extended Filesystem
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesyste=
+ms/index.rst
+index 98f59a8642420..7be9b46d85d9b 100644
+=2D-- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -113,7 +113,7 @@ Documentation for filesystem implementations.
+    sysv-fs
+    tmpfs
+    ubifs
+-   ubifs-authentication.rst
++   ubifs-authentication
+    udf
+    virtiofs
+    vfat
 =2D-
 2.28.0
 
