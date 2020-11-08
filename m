@@ -1,102 +1,95 @@
-Return-Path: <SRS0=UTzq=EN=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=q8nj=EO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC9AC388F7
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 22:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 189BBC388F9
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 00:41:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6F3320702
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Nov 2020 22:08:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 970CA20702
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 00:41:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="C5jBAo17"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Tw2Dfqbj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728739AbgKGWIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Nov 2020 17:08:55 -0500
-Received: from mout.gmx.net ([212.227.15.18]:36849 "EHLO mout.gmx.net"
+        id S1726053AbgKHAlA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Nov 2020 19:41:00 -0500
+Received: from mout.gmx.net ([212.227.17.20]:36341 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728766AbgKGWIy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Nov 2020 17:08:54 -0500
+        id S1726043AbgKHAk7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 7 Nov 2020 19:40:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1604786917;
-        bh=TF4vJpy3So/YNKjCJQx0HVgrhoU+b2fBxFR5XNF+vyc=;
+        s=badeba3b8450; t=1604796053;
+        bh=mWjJ0DimkQwVS54NM2sHgfMoe5IdgjJ/+4WF1B+qSqk=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=C5jBAo17rMhVHNZy0Eck+dL2tCXphHu7RLiEkOR4ybP7ULkwu93YRvFL3dHdKzpSq
-         1OQHszdhzmEaNFHVXyDSeBhZ4EJ1ztGdVNzpPt7bfMv4qmsZsq7aSEYquLO8Tpbqmw
-         P9x/GA2mn3KlRsYTB9U3XfqO5GgLhudWrmP61/qI=
+        b=Tw2DfqbjweXEwICfxJl5BtYyA0Uhmhhy5iOAQ5SORJ4kcEUPk+zqw8ClmmOJcSN3Y
+         hYTi5H4+XEA/m6x8kLCEeNVO6KoJemeR42vJ3duqWNlB3qKQQB3jLP77JxmDsCWtjj
+         qadyZ4JMBZyQ57k0YA6tTyhp0LCZ0e6t3wJMKM4o=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.214.162]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5fMe-1khXjj13Gs-007EeJ; Sat, 07
- Nov 2020 23:08:37 +0100
+Received: from longitude ([37.201.214.162]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zFj-1kEtDK2wGx-01550s; Sun, 08
+ Nov 2020 01:40:53 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: networking: phy: s/2.5 times faster/2.5 times as fast/
-Date:   Sat,  7 Nov 2020 23:08:21 +0100
-Message-Id: <20201107220822.1291215-1-j.neuschaefer@gmx.net>
+        Jan Kara <jack@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: filesystems: Reduce ext2.rst to one top-level heading
+Date:   Sun,  8 Nov 2020 01:40:45 +0100
+Message-Id: <20201108004045.1378676-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:O2nYx4PYNoWB2eYP3TXqgGVNd9IQqrzgS+yNNzOXFoTrpnBIF8p
- 9Jz0UMgFSvFfKE2/HUANUfCBPRaIp9NxmUp5NBxfigsZY+ZEMwMqd5p+BFIrAIkc3mmoIdp
- 90d+H+0rQiSQXBQ2rYtvEhMkMi/1SVmvaOl8MMDaMZ7vG+szDktMlXy6suHtaJGGFxGASuL
- SxbaaQQGkHtfOsGEtEJAA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6N297bKMakU=:XuRQzdLUzawn5G9RMlrdeo
- 3/PWnZciNBquLZ5xA6kvG0PdYqpW1W0S03SxnFmkmHjnd6yUIFj9kTa5Mp27kDY3lFHirsF1c
- 9BDbAnG0mN217jXO6k6qGDVc2JHPYHT3TwDP+Gyceyv1pLTp0zXDgvEMtNh0J60SR/Z0y1a7l
- 3Xy8410clETavfxIaDZk7gniUl/7mTaB73mQfUdN1LT+LRRwlsPTxrKcpdciZ4tirlldPn9Zq
- aWUqarsCXUs+w9oAkv9EMrgmtVzsou39+HmvLZS4AvkdMLwYgGlGK2P7uINt2CZyr4S4hd1BZ
- NP/qgHamOmE9CpMXnhzRxZccHR/5QAbzKBOfP6WEtl8fVirIldwM6sq6k8SNmHeHWMxJ9qyvH
- A/5/kACwWc8i4xMm3y+6bJM5PTZSCEWZlsV76wT8M9hKBB2QDM4Q3vLftBhLHTRsTbrzF0YUD
- wM/su20nLisVgNXbC5n/NdLi/hUl9htii1uta36Ntu7DMjA+l7BF+EJ45eOU8OR5qlMjVv4kM
- GvqLRXYuiTZ29o1xVbsx9YPEEH8HNvsm6Clp3imQOYRpFm44Oe2vLs66vCdsOLGfFTad3abCl
- vMumxtfxi4/ZXCI6DLcIDicM/lzcQRjxNXsSmgHv1sVoNnrlbLrop99Od8y/uzp8/Z8CUnhwe
- v/WLT3FZEtEGrGKqY6EE8KCHcJ3d874jxtiMDkZRdPRx7QFHxu2A3LenPmyGM/YNM8s2JBOnf
- MPy/GZeHOsivP9xyVj+iqbHr6/oujLHlsrxIC7YTat7ZxyeJfj57aRD41ksol/aWrQQ/w0wji
- NRwOxli4sBpxuJQXOA9xe37wXSWtiTD0Oico+fbdHEBEvU44aD6o42YHa/SmMwZPGa2+abrK9
- FkZGPVFRaMG4yPClrHsvehb7yGiyCVDGnG7GDM5ro=
+X-Provags-ID: V03:K1:FrMulFltGVWOjEpimVwcelAsU54AfJhW7agEtWJr3SUQ6i/FENY
+ IsEZuhmLJmtq7HLKvlDZTC7GErNatFT+tBBLwkdNPQwuXhFNMk5VKBDzD63ahnJhc4jmA8b
+ 52gqZkKIFj4EShMxt/q6jzJQG+QulT02AP0U0i1zDWkth5p9z+/pSjHWrjcqfCdZkbB+5v6
+ JYSPDXK+74a3nzHNBuF2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Yxo3+nVz7NI=:qnGx4iHfeeuwuMGNDE7hYE
+ e5MJvWmsFUTzJM9TqZuW8vfel8ty+P1Daswlu7l369/PSvLytbMQjhr5XHzQAj5WuU7WiyDBe
+ K59LizNUBEwICICgg08attubAoHTTZ5WjRS9Mw1BwWQmLo2QJMXKa28joR0r/v42Xyb+Ecd/B
+ rvtsG1eAnyP8RiVrgUo6o4T8lqFu2YGKSbL0XMGYR1vEm9KScSf8+NOelaLCuFHLedchBV86m
+ p/RpFu8gg9j7OgG149R2qbK+/JabqHc//Xdmu1oQEvYCgqvGPldr3kyAVRM4lSHq1UEcUyUZU
+ 2GzPxYG/DM236++Rb7WfffuUNyDweeZup8rfJ4CesUdSvL3orPq+plMrkU8SAXHLWNiBynNeI
+ rY27V9l2VecvbWlePW9mh8SYHFj48SlhTxG+42ez5Nt8hZ4X/EcELOgXDv669/pw3FtSQyIhR
+ aJFNg21fl6r/iDWoJYWMWyTuDx/pE+szsu/wfHXlfkPhlZPxg4u4DPVd7RewxvcE4oGlnaaZM
+ sTm86F/Q3BOhFh0QEP7PLB0hUbpD7aFTvn+fULqdPtEMVPODT02cwOx3s+2CHLQU2OGS+QoH8
+ H+I5tyomYIo9HBG+a8GrjiNtLW3drEjOUb7d9tteTfFvPLXn+xFpvc/Jz5+KGUsev1KR8sXqY
+ Z2/g4R6GBYuOQbY4rYQIUyd8RGjX/gFORfSiyfsfXak9fTw1IZDsa3iUzq5ki+jClwhqXgGZh
+ iOstyHJsykJZDlEdq7wk9xAu52JcVbG5BcdXVhYB8InVHiFMAQIj27nTn+IliIpiFXHM9msDY
+ LxFSQzvpCvFVKPZUQBicneRyEkXhAbxF/AnZXngpAUK9vzenMGt8pe9e/EyE9DsO+Uv4XXmJO
+ ifdk5e8KI7CscBzCHJcUPh8h3uNgKw9IJYdqYEUH4=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2.5 times faster would be 3.5 Gbps (4.375 Gbaud after 8b/10b encoding).
+This prevents the other headings like "Options" and "Specification" from
+leaking out and being listed separately in the table of contents.
 
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- Documentation/networking/phy.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/filesystems/ext2.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/networking/phy.rst b/Documentation/networking/p=
-hy.rst
-index 256106054c8cb..b2f7ec794bc8b 100644
-=2D-- a/Documentation/networking/phy.rst
-+++ b/Documentation/networking/phy.rst
-@@ -247,8 +247,8 @@ Some of the interface modes are described below:
-     speeds (see below.)
+diff --git a/Documentation/filesystems/ext2.rst b/Documentation/filesystem=
+s/ext2.rst
+index d83dbbb162e20..c2fce22cfd035 100644
+=2D-- a/Documentation/filesystems/ext2.rst
++++ b/Documentation/filesystems/ext2.rst
+@@ -1,6 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
 
- ``PHY_INTERFACE_MODE_2500BASEX``
--    This defines a variant of 1000BASE-X which is clocked 2.5 times faste=
-r,
--    than the 802.3 standard giving a fixed bit rate of 3.125Gbaud.
-+    This defines a variant of 1000BASE-X which is clocked 2.5 times as fa=
-st
-+    as the 802.3 standard, giving a fixed bit rate of 3.125Gbaud.
 
- ``PHY_INTERFACE_MODE_SGMII``
-     This is used for Cisco SGMII, which is a modification of 1000BASE-X
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+ The Second Extended Filesystem
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+
 =2D-
 2.28.0
 
