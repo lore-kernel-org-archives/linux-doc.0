@@ -2,86 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD73C388F7
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB29EC388F7
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:21:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AC312068D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:11:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 944812068D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:21:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730140AbgKISLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 13:11:11 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48958 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730691AbgKISLL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Nov 2020 13:11:11 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 15554AD2F;
-        Mon,  9 Nov 2020 18:11:09 +0000 (UTC)
-Date:   Mon, 9 Nov 2020 19:11:04 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 08/21] mm/vmemmap: Initialize page table lock for
- vmemmap
-Message-ID: <20201109181104.GC17356@linux>
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-9-songmuchun@bytedance.com>
+        id S1729320AbgKISVi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 13:21:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729776AbgKISVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 13:21:38 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EAECC0613CF;
+        Mon,  9 Nov 2020 10:21:38 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5B71E60B;
+        Mon,  9 Nov 2020 18:21:37 +0000 (UTC)
+Date:   Mon, 9 Nov 2020 11:21:36 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 00/26] Make reporting-bugs easier to grasp and
+ yet more detailed
+Message-ID: <20201109112136.0634a356@lwn.net>
+In-Reply-To: <7910cf25-4aa9-e33d-704c-33ab91ab713b@leemhuis.info>
+References: <cover.1601541165.git.linux@leemhuis.info>
+        <7910cf25-4aa9-e33d-704c-33ab91ab713b@leemhuis.info>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201108141113.65450-9-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 08, 2020 at 10:11:00PM +0800, Muchun Song wrote:
-> In the register_page_bootmem_memmap, the slab allocator is not ready
-> yet. So when ALLOC_SPLIT_PTLOCKS, we use init_mm.page_table_lock.
-> otherwise we use per page table lock(page->ptl). In the later patch,
-> we will use the vmemmap page table lock to guard the splitting of
-> the vmemmap huge PMD.
+On Mon, 9 Nov 2020 12:01:56 +0100
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
-I am not sure about this one.
-Grabbing init_mm's pagetable lock for specific hugetlb operations does not
-seem like a good idea, and we do not know how contented is that one.
+> @Jon: I'd be really appreciate to hear your thoughts on this.
 
-I think a better fit would be to find another hook to initialize
-page_table_lock at a later stage.
-Anyway, we do not need till we are going to perform an operation
-on the range, right?
+Seems like it's time to post a new version with all of your feedback so
+far reflected, and we'll go from there?
 
-Unless I am missing something, this should be doable in hugetlb_init.
+Thanks,
 
-hugetlb_init is part from a init_call that gets called during do_initcalls.
-At this time, slab is fully operative.
-
-start_kernel
- kmem_cache_init_late
- kmem_cache_init_late
- ...
- arch_call_rest_init
-  rest_init
-   kernel_init_freeable
-    do_basic_setup
-     do_initcalls
-      hugetlb_init
-
--- 
-Oscar Salvador
-SUSE L3
+jon
