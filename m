@@ -2,109 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C05EC388F7
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C88C2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:51:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6D50206D8
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:24:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="XCdtV1bl"
+	by mail.kernel.org (Postfix) with ESMTP id AD91F205CA
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:51:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729292AbgKISYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 13:24:36 -0500
-Received: from mout.gmx.net ([212.227.17.21]:41837 "EHLO mout.gmx.net"
+        id S1729831AbgKISvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 13:51:44 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43674 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729119AbgKISYg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Nov 2020 13:24:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1604946242;
-        bh=WqIeflJSIlbYefgQQeWSGrItmuRntyT1T0hegn+ItPU=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=XCdtV1blAQXrTCOSFtrBcv8Mh9UbKawLpFL3nZHFRYfna4OsIJ9yF6C6pAvhAAuDl
-         /4h3bASY0Ivfwp82T9gQSHpralUDDjpWg0kSSlRBYhaMGc+f/wRhDdp/zqyI72fU1v
-         WRudfFToHwR7fyK1w+SIrckkx4kjx/4ePBaPlcDk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.231.59]) by mail.gmx.com (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MhU5b-1k7Y371Ht5-00ecTa; Mon, 09
- Nov 2020 19:24:02 +0100
-Date:   Mon, 9 Nov 2020 19:23:48 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>
-Cc:     John Wood <john.wood@gmx.com>, Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v2 7/8] Documentation: Add documentation for the Brute LSM
-Message-ID: <20201109182348.GA3110@ubuntu>
-References: <20201025134540.3770-1-john.wood@gmx.com>
- <20201025134540.3770-8-john.wood@gmx.com>
- <2ab35578-832a-6b92-ca9b-2f7d42bc0792@infradead.org>
+        id S1729292AbgKISvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Nov 2020 13:51:44 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 9B3C3AB95;
+        Mon,  9 Nov 2020 18:51:42 +0000 (UTC)
+Date:   Mon, 9 Nov 2020 19:51:38 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 09/21] mm/hugetlb: Free the vmemmap pages associated
+ with each hugetlb page
+Message-ID: <20201109185138.GD17356@linux>
+References: <20201108141113.65450-1-songmuchun@bytedance.com>
+ <20201108141113.65450-10-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2ab35578-832a-6b92-ca9b-2f7d42bc0792@infradead.org>
-X-Provags-ID: V03:K1:WdI92dEESOw+IgoEK7rINKMLkOZRlvr4IU++VYFxIy5Ur0nV16w
- Sqk+PhsyjhswmvKyBUujNzib3b/wlEFMi39I/2/Bce6C0eAMeXnWS9YK6rlW9reHWAz9Szd
- ICX7ASR+WHwx4BL2+H8Aeq3GTAh49+HVm+XJdYJvJgA4+9gc3QJYZQFBI08chIEExKq2+yS
- nAguvprm3r390hvh6TrRQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:98HlGKz9byI=:y9WvS6BYmDogmfNlP3PqZd
- sWZq3sMViZO0xAzwsWRVGRHjkt5YyU+C1AqB2JSCjSM8i69/rcn4dBDna+E1t83MSnIjZpQvW
- NeaZmFproIgh57IAwipps3xUj8zq8vmjCGqZten0jYdleE7hRN3Nhn14vdrxjnB/0SS9obIgK
- hKFu5IIEC7sLEHovDjYww3kv6l9ZR89B229SvWx5jTYSCgkAfZ1xNL5C/Blv9gPDFlzMOAtUV
- EzrWNW/1W8gfPufebymUZYPomyz2Jf+5LBPugLT+m1ZTLzo1rA9O7lp+AO5GH+uF3/wnMMNkE
- pCsMl0RqRKJN4L1OoegURKyPmqH7zY/60BThS4RNQ29yB7LGF+usuXQoQneqHgcoWXXBZ4NWM
- XFNXjfRKoGwgo/VHiNcf+UcyBHpoTEoPTIA0D2LnpyuAZW8YTg5zrf5CSS+j2maMyxiIMLvlw
- qwdUB8yW7LmJJMdfU75NWEcxLnj4KOi6RhddjfM1q61f9QSPwNjdnbNtDT6wCW9Sb+lefroBS
- GxNkPOp+8dPaCGGKxJO7iOm5EZPjpusjupOGqBwQb0B7TrK9lJTJmu3YRVBNA4hWjzliTvFzx
- fkSGuTLCStJJi1Jc9aocu5R4O2TZlWWTYpx2M/w30puxorF4WzvWs5JpsEi3DByYIVRBikAVZ
- IkW1mGIFY+Nd2/tQDrSQxe+uLBejHR0k0nc2ihQsGOSXotUvJdkW1PtuMOZ4u+ydyoB2wnmAI
- wCUaD9Bn+3gNcjb7H8+lM9PGYm/jhSY/5rUE6qA3wpgMdNL3JeQmLe3Pdk0JFcVCTjfGxQDNu
- /I/dZ44v3f2rv4wu0X/LaNajwe5DtUSwdq5gUB6dVKSbaQt8qPUXpgKBabvA2gk9QWKHmwmz5
- coBqJksRfE5u8uNHeX9Q==
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201108141113.65450-10-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-Thanks for the typos corrections. Will be corrected in the next patch
-version.
+On Sun, Nov 08, 2020 at 10:11:01PM +0800, Muchun Song wrote:
+> +static inline int freed_vmemmap_hpage(struct page *page)
+> +{
+> +	return atomic_read(&page->_mapcount) + 1;
+> +}
+> +
+> +static inline int freed_vmemmap_hpage_inc(struct page *page)
+> +{
+> +	return atomic_inc_return_relaxed(&page->_mapcount) + 1;
+> +}
+> +
+> +static inline int freed_vmemmap_hpage_dec(struct page *page)
+> +{
+> +	return atomic_dec_return_relaxed(&page->_mapcount) + 1;
+> +}
 
-On Sun, Nov 08, 2020 at 08:31:13PM -0800, Randy Dunlap wrote:
->
-> So an app could read crash_period_threshold and just do a new fork every
-> threshold + 1 time units, right? and not be caught?
+Are these relaxed any different that the normal ones on x86_64? 
+I got confused following the macros.
 
-Yes, you are right. But we must set a crash_period_threshold that does not
-make an attack feasible. For example, with the default value of 30000 ms,
-an attacker can break the app only once every 30 seconds. So, to guess
-canaries or break ASLR, the attack needs a big amount of time. But it is
-possible.
+> +static void __free_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
+> +					 unsigned long start,
+> +					 unsigned int nr_free,
+> +					 struct list_head *free_pages)
+> +{
+> +	/* Make the tail pages are mapped read-only. */
+> +	pgprot_t pgprot = PAGE_KERNEL_RO;
+> +	pte_t entry = mk_pte(reuse, pgprot);
+> +	unsigned long addr;
+> +	unsigned long end = start + (nr_free << PAGE_SHIFT);
 
-So, I think that to avoid this scenario we can add a maximum number of
-faults per fork hierarchy. Then, the mitigation will be triggered if the
-application crash period falls under the period threshold or if the number
-of faults exceed the maximum commented.
+See below.
 
-This way, if an attack is of long duration, it will also be detected and
-mitigated.
+> +static void __free_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
+> +					 unsigned long addr,
+> +					 struct list_head *free_pages)
+> +{
+> +	unsigned long next;
+> +	unsigned long start = addr + RESERVE_VMEMMAP_NR * PAGE_SIZE;
+> +	unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
+> +	struct page *reuse = NULL;
+> +
+> +	addr = start;
+> +	do {
+> +		unsigned int nr_pages;
+> +		pte_t *ptep;
+> +
+> +		ptep = pte_offset_kernel(pmd, addr);
+> +		if (!reuse)
+> +			reuse = pte_page(ptep[-1]);
 
-What do you think?
+Can we define a proper name for that instead of -1?
 
->
-> thanks for the documentation.
-> --
-> ~Randy
->
+e.g: TAIL_PAGE_REUSE or something like that. 
 
-Thanks,
-John Wood
+> +
+> +		next = vmemmap_hpage_addr_end(addr, end);
+> +		nr_pages = (next - addr) >> PAGE_SHIFT;
+> +		__free_huge_page_pte_vmemmap(reuse, ptep, addr, nr_pages,
+> +					     free_pages);
 
+Why not passing next instead of nr_pages? I think it makes more sense.
+As a bonus we can kill the variable.
+
+> +static void split_vmemmap_huge_page(struct hstate *h, struct page *head,
+> +				    pmd_t *pmd)
+> +{
+> +	pgtable_t pgtable;
+> +	unsigned long start = (unsigned long)head & VMEMMAP_HPAGE_MASK;
+> +	unsigned long addr = start;
+> +	unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
+> +
+> +	while (nr-- && (pgtable = vmemmap_pgtable_withdraw(head))) {
+
+The same with previous patches, I would scrap "nr" and its use.
+
+> +		VM_BUG_ON(freed_vmemmap_hpage(pgtable));
+
+I guess here we want to check whether we already call free_huge_page_vmemmap
+on this range?
+For this to have happened, the locking should have failed, right?
+
+> +static void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+> +{
+> +	pmd_t *pmd;
+> +	spinlock_t *ptl;
+> +	LIST_HEAD(free_pages);
+> +
+> +	if (!free_vmemmap_pages_per_hpage(h))
+> +		return;
+> +
+> +	pmd = vmemmap_to_pmd(head);
+> +	ptl = vmemmap_pmd_lock(pmd);
+> +	if (vmemmap_pmd_huge(pmd)) {
+> +		VM_BUG_ON(!pgtable_pages_to_prealloc_per_hpage(h));
+
+I think that checking for free_vmemmap_pages_per_hpage is enough.
+In the end, pgtable_pages_to_prealloc_per_hpage uses free_vmemmap_pages_per_hpage.
+
+
+-- 
+Oscar Salvador
+SUSE L3
