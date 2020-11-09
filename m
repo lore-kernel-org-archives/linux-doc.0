@@ -2,584 +2,228 @@ Return-Path: <SRS0=qLBM=EP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48CAFC2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 10:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 893BCC388F7
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 11:22:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C99CF206E3
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 10:47:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="dGbSV48W"
+	by mail.kernel.org (Postfix) with ESMTP id 33381206A4
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 11:22:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbgKIKrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 05:47:07 -0500
-Received: from mail-db8eur05on2041.outbound.protection.outlook.com ([40.107.20.41]:20449
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726646AbgKIKrH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Nov 2020 05:47:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zo1gA7+sf/RPZp059NeeuwawxL2P+ruCrPJjA/hOCWgG/V+MmzhfY9seAXWuUvF26mDzAsZPTQwspmAyBYl+smA6Oq+7RcxUjDSETR2MMXrLCKtsYYXgKkRpspbtb2+VyztmZw+aFssebCuUddH/85g+JZxlyKM70ry3Finr5CJxTjvBMXEOBQ7tFfRkqg3UwI5sCbfseQpQQwGfJy17I/j88yXkoPCTqa0MmBUzRgcDXTM/c13F5xR5X39vb+WDT5bzlyW8ojSLKyKtBXhiMtAmSsv02D0O8+/wdLbiWW3xZ9fCfdWSW4vvSaffAAw8by33pkp49io6ErJqkrJlYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qhGzIx5KrhVUX7Fh718g1RxZcOXE1liYsjF9SJs44jw=;
- b=VDSbRpGoNlMjdmb5Ze9FBssZobkN6deriwX7upSFOwUXAj5mng4Y/KCEvEf7HbWq1xHK3qk4a7A869m7Y3q+9t5zxbXJblrKY0jzDPyJuQC+XXyGGrCke70XcmVFWReyd2nr8480EfIDc0mt9/g7UdPttsj9a9lWDBzPu42M6kx+SsVD5PzplaYvmuke49WlPwaCS+2G9uqH1+7lg1Rm7r2vreu7AqvnjWseu4FT9RttCra6XuGBuEPgm2b56k3GlBXooovA0ztlWzRtHjkJzy4Wal2xjY97V6cQk6u8zP9sZORSMz98yjKhau5VRiE7IoZSlVkGShocRRZkguffBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qhGzIx5KrhVUX7Fh718g1RxZcOXE1liYsjF9SJs44jw=;
- b=dGbSV48W46y7b0V7fxGx7SV/cz0meufTvsBqlrkS/0Ta2FuMolnCTKL1yVaPuKh3NrI5O/n1AH2L9qrtXWsLc1hkdlHLf5kjnVcSVbz+jn+HKW5d9eTZTeFajwbXqw2Gu9680Uvd+H0JDHkeDhLr1e5pS7LfMeb0yaskqBNMRFE=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com (2603:10a6:803:3::26)
- by VI1PR04MB3982.eurprd04.prod.outlook.com (2603:10a6:803:49::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.24; Mon, 9 Nov
- 2020 10:46:51 +0000
-Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com
- ([fe80::f557:4dcb:4d4d:57f3]) by VI1PR0402MB3405.eurprd04.prod.outlook.com
- ([fe80::f557:4dcb:4d4d:57f3%2]) with mapi id 15.20.3541.021; Mon, 9 Nov 2020
- 10:46:51 +0000
-From:   Laurentiu Tudor <laurentiu.tudor@nxp.com>
-To:     robh+dt@kernel.org, leoyang.li@nxp.com, corbet@lwn.net,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     davem@davemloft.net, kuba@kernel.org,
-        linuxppc-dev@lists.ozlabs.org, ioana.ciornei@nxp.com,
-        Ionut-robert Aron <ionut-robert.aron@nxp.com>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Subject: [PATCH v2 2/2] dt-bindings: misc: convert fsl,qoriq-mc from txt to YAML
-Date:   Mon,  9 Nov 2020 12:46:35 +0200
-Message-Id: <20201109104635.21116-2-laurentiu.tudor@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201109104635.21116-1-laurentiu.tudor@nxp.com>
-References: <20201109104635.21116-1-laurentiu.tudor@nxp.com>
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [83.217.231.2]
-X-ClientProxiedBy: AM8P192CA0020.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21b::25) To VI1PR0402MB3405.eurprd04.prod.outlook.com
- (2603:10a6:803:3::26)
+        id S1727930AbgKILWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 06:22:43 -0500
+Received: from wp530.webpack.hosteurope.de ([80.237.130.52]:47600 "EHLO
+        wp530.webpack.hosteurope.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727077AbgKILWn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 06:22:43 -0500
+X-Greylist: delayed 1239 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 06:22:41 EST
+Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kc4vu-00017v-99; Mon, 09 Nov 2020 12:01:58 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1601541165.git.linux@leemhuis.info>
+Subject: Re: [RFC PATCH v1 00/26] Make reporting-bugs easier to grasp and yet
+ more detailed
+Message-ID: <7910cf25-4aa9-e33d-704c-33ab91ab713b@leemhuis.info>
+Date:   Mon, 9 Nov 2020 12:01:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fsr-ub1864-101.ea.freescale.net (83.217.231.2) by AM8P192CA0020.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21b::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Mon, 9 Nov 2020 10:46:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1770afa1-dfe5-407c-1baa-08d8849cc3bf
-X-MS-TrafficTypeDiagnostic: VI1PR04MB3982:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB398228C60C9B7E73E9BD355AECEA0@VI1PR04MB3982.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: v1GLn3lHOwJUWQBWB/JKVmhaAUI0x7vjCfZppfPDqVfgbtcjzOlWxD2aak3qyUpM/t2McE0Eo7ggRIUqtGbyEpl+/BnBDpDku/cbuiODB5k6OSVKRu8WWbx+TZfMKyUV6w1yWhjDPkwKU5zhD6yOWonVf3K9lIc6J9JDq68lL1PA1i+NLlUr1T/mKIRXGcoEvpQnVdFQA4TEDYHUUZdHT5nYEAT9eVAaDMbN8zIq59p6MgV/aP5bDl8pc92lCdQ4yn6kdKPjGDjTyTDM68Q9COJMkhKCiXp18aZ7xqYVAlFue9yM/YYAniAFu4B2uZAe9QzD/WYhnPF60um22WWrgCKpqIsJavSe6xHuwj1LqNoE18imTsiCoazUPvumjxPmwGmuNtRUquj6VMNgei2MTg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0402MB3405.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(39860400002)(346002)(366004)(396003)(2906002)(52116002)(966005)(7416002)(66556008)(1076003)(6506007)(66946007)(66476007)(8676002)(16526019)(6512007)(30864003)(6486002)(956004)(44832011)(8936002)(6666004)(26005)(316002)(54906003)(4326008)(5660300002)(186003)(83380400001)(36756003)(478600001)(2616005)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: IH6/lRU2RxZrmr6RYszEuvKpe07v4kLG9WI4JZttUhhRwsaGcIuaUbbDV8ewe0zygpgDlGM3EGT6pofExkDqDeGpuKnRX0WOfRG/e0CalOpNhqjpC0WM67xELyURMHLFhi2kbFXBRcT1GrHE+HkNYONPPrlKaXqnqTu6VpDMuCjw0He8+3i6h0l99176OjRlO/OLu5HnAzwP8pWJbHRKNdjBsy0jt4z8eK/sISHcOs742aEeJXF+cOEtfZPfuU48ce9LZOaeJioAmr398eOntI7QZgq2xpbD/lvpH2pM9QeXLdwwCSM8Fv3/hwBDa/ZSVoGqYsDUxDQ6LJ+i9tXozs8npK2UAP0U4/NBJSWgRtLJK56neHYBaSHYdaszSzpBOkSZeXwNcFwgO2w1hE1pvcjxFtoPno1+LTxmyYrz9wJrHJ3OklrSti7mJsRkNDP5qV4F9700OE1TIlOhQZw+UWyXT624OsF6PWWjidlDaCI8S1f3Av2IIByGeq5DjeYjqZVBZ+JaExMSHOTh+7bsP1370MKyd0jKQ4vUkfXJvzJGQqclF1AzBL7bzAR+Kc2nAyuNNnLvhRx3mbDTITMH+kRmXgub1jp8lofxIHpXiQoYvzotYe+hCuq4ywtPrZs0OOLKrKLzsjiY8OBHbxz/xA==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1770afa1-dfe5-407c-1baa-08d8849cc3bf
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3405.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2020 10:46:51.0689
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Wh34lYYgpgHbWUuGTBSSsmqBQsNUUB0U/XpYjmU8+EidhxuKEe5vZdgVEKhFPHC9hQFxxjf5zJYyIYzuO9TapQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3982
+In-Reply-To: <cover.1601541165.git.linux@leemhuis.info>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1604920961;a786e1cc;
+X-HE-SMSGID: 1kc4vu-00017v-99
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ionut-robert Aron <ionut-robert.aron@nxp.com>
+Lo!
 
-Convert fsl,qoriq-mc to YAML in order to automate the verification
-process of dts files. In addition, update MAINTAINERS accordingly
-and, while at it, add some missing files.
+Am 01.10.20 um 10:39 schrieb Thorsten Leemhuis:
+> This series rewrites the "how to report bugs to the Linux kernel maintainers"
+> document to make it more straight forward and the essence easier to grasp. At
+> the same time make the text provide a lot more details about the process in form
+> of a reference section, so users that want or need to know them have them at
+> hand.
+> 
+> The goal of this rewrite: improve the quality of the bug reports and reduce the
+> number of reports that get ignored. This was motivated by many reports of poor
+> quality the main author of the rewrite stumped upon when he was tracking
+> regressions.
 
-Signed-off-by: Ionut-robert Aron <ionut-robert.aron@nxp.com>
-[laurentiu.tudor@nxp.com: update MINTAINERS, updates & fixes in schema]
-Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
----
-Changes in v2:
- - fixed errors reported by yamllint
- - dropped multiple unnecessary quotes
- - used schema instead of text in description
- - added constraints on dpmac reg property
+So, now that those weeks with the merge window, the OSS & ELC Europe, 
+and this US election thing are behind us it seems like a good time to ask:
 
- .../devicetree/bindings/misc/fsl,qoriq-mc.txt | 196 ----------------
- .../bindings/misc/fsl,qoriq-mc.yaml           | 210 ++++++++++++++++++
- .../ethernet/freescale/dpaa2/overview.rst     |   5 +-
- MAINTAINERS                                   |   4 +-
- 4 files changed, 217 insertions(+), 198 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
- create mode 100644 Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
+How to move on with this?
 
-diff --git a/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt b/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-deleted file mode 100644
-index 7b486d4985dc..000000000000
---- a/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-+++ /dev/null
-@@ -1,196 +0,0 @@
--* Freescale Management Complex
--
--The Freescale Management Complex (fsl-mc) is a hardware resource
--manager that manages specialized hardware objects used in
--network-oriented packet processing applications. After the fsl-mc
--block is enabled, pools of hardware resources are available, such as
--queues, buffer pools, I/O interfaces. These resources are building
--blocks that can be used to create functional hardware objects/devices
--such as network interfaces, crypto accelerator instances, L2 switches,
--etc.
--
--For an overview of the DPAA2 architecture and fsl-mc bus see:
--Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
--
--As described in the above overview, all DPAA2 objects in a DPRC share the
--same hardware "isolation context" and a 10-bit value called an ICID
--(isolation context id) is expressed by the hardware to identify
--the requester.
--
--The generic 'iommus' property is insufficient to describe the relationship
--between ICIDs and IOMMUs, so an iommu-map property is used to define
--the set of possible ICIDs under a root DPRC and how they map to
--an IOMMU.
--
--For generic IOMMU bindings, see
--Documentation/devicetree/bindings/iommu/iommu.txt.
--
--For arm-smmu binding, see:
--Documentation/devicetree/bindings/iommu/arm,smmu.yaml.
--
--The MSI writes are accompanied by sideband data which is derived from the ICID.
--The msi-map property is used to associate the devices with both the ITS
--controller and the sideband data which accompanies the writes.
--
--For generic MSI bindings, see
--Documentation/devicetree/bindings/interrupt-controller/msi.txt.
--
--For GICv3 and GIC ITS bindings, see:
--Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml.
--
--Required properties:
--
--    - compatible
--        Value type: <string>
--        Definition: Must be "fsl,qoriq-mc".  A Freescale Management Complex
--                    compatible with this binding must have Block Revision
--                    Registers BRR1 and BRR2 at offset 0x0BF8 and 0x0BFC in
--                    the MC control register region.
--
--    - reg
--        Value type: <prop-encoded-array>
--        Definition: A standard property.  Specifies one or two regions
--                    defining the MC's registers:
--
--                       -the first region is the command portal for the
--                        this machine and must always be present
--
--                       -the second region is the MC control registers. This
--                        region may not be present in some scenarios, such
--                        as in the device tree presented to a virtual machine.
--
--    - ranges
--        Value type: <prop-encoded-array>
--        Definition: A standard property.  Defines the mapping between the child
--                    MC address space and the parent system address space.
--
--                    The MC address space is defined by 3 components:
--                       <region type> <offset hi> <offset lo>
--
--                    Valid values for region type are
--                       0x0 - MC portals
--                       0x1 - QBMAN portals
--
--    - #address-cells
--        Value type: <u32>
--        Definition: Must be 3.  (see definition in 'ranges' property)
--
--    - #size-cells
--        Value type: <u32>
--        Definition: Must be 1.
--
--Sub-nodes:
--
--        The fsl-mc node may optionally have dpmac sub-nodes that describe
--        the relationship between the Ethernet MACs which belong to the MC
--        and the Ethernet PHYs on the system board.
--
--        The dpmac nodes must be under a node named "dpmacs" which contains
--        the following properties:
--
--            - #address-cells
--              Value type: <u32>
--              Definition: Must be present if dpmac sub-nodes are defined and must
--                          have a value of 1.
--
--            - #size-cells
--              Value type: <u32>
--              Definition: Must be present if dpmac sub-nodes are defined and must
--                          have a value of 0.
--
--        These nodes must have the following properties:
--
--            - compatible
--              Value type: <string>
--              Definition: Must be "fsl,qoriq-mc-dpmac".
--
--            - reg
--              Value type: <prop-encoded-array>
--              Definition: Specifies the id of the dpmac.
--
--            - phy-handle
--              Value type: <phandle>
--              Definition: Specifies the phandle to the PHY device node associated
--                          with the this dpmac.
--Optional properties:
--
--- iommu-map: Maps an ICID to an IOMMU and associated iommu-specifier
--  data.
--
--  The property is an arbitrary number of tuples of
--  (icid-base,iommu,iommu-base,length).
--
--  Any ICID i in the interval [icid-base, icid-base + length) is
--  associated with the listed IOMMU, with the iommu-specifier
--  (i - icid-base + iommu-base).
--
--- msi-map: Maps an ICID to a GIC ITS and associated msi-specifier
--  data.
--
--  The property is an arbitrary number of tuples of
--  (icid-base,gic-its,msi-base,length).
--
--  Any ICID in the interval [icid-base, icid-base + length) is
--  associated with the listed GIC ITS, with the msi-specifier
--  (i - icid-base + msi-base).
--
--Deprecated properties:
--
--    - msi-parent
--        Value type: <phandle>
--        Definition: Describes the MSI controller node handling message
--                    interrupts for the MC. When there is no translation
--                    between the ICID and deviceID this property can be used
--                    to describe the MSI controller used by the devices on the
--                    mc-bus.
--                    The use of this property for mc-bus is deprecated. Please
--                    use msi-map.
--
--Example:
--
--        smmu: iommu@5000000 {
--               compatible = "arm,mmu-500";
--               #iommu-cells = <1>;
--               stream-match-mask = <0x7C00>;
--               ...
--        };
--
--        gic: interrupt-controller@6000000 {
--               compatible = "arm,gic-v3";
--               ...
--        }
--        its: gic-its@6020000 {
--               compatible = "arm,gic-v3-its";
--               msi-controller;
--               ...
--        };
--
--        fsl_mc: fsl-mc@80c000000 {
--                compatible = "fsl,qoriq-mc";
--                reg = <0x00000008 0x0c000000 0 0x40>,    /* MC portal base */
--                      <0x00000000 0x08340000 0 0x40000>; /* MC control reg */
--                /* define map for ICIDs 23-64 */
--                iommu-map = <23 &smmu 23 41>;
--                /* define msi map for ICIDs 23-64 */
--                msi-map = <23 &its 23 41>;
--                #address-cells = <3>;
--                #size-cells = <1>;
--
--                /*
--                 * Region type 0x0 - MC portals
--                 * Region type 0x1 - QBMAN portals
--                 */
--                ranges = <0x0 0x0 0x0 0x8 0x0c000000 0x4000000
--                          0x1 0x0 0x0 0x8 0x18000000 0x8000000>;
--
--                dpmacs {
--                    #address-cells = <1>;
--                    #size-cells = <0>;
--
--                    dpmac@1 {
--                        compatible = "fsl,qoriq-mc-dpmac";
--                        reg = <1>;
--                        phy-handle = <&mdio0_phy0>;
--                    }
--                }
--        };
-diff --git a/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml b/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
-new file mode 100644
-index 000000000000..5b69057eeda8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
-@@ -0,0 +1,210 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+# Copyright 2020 NXP
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+maintainers:
-+  - Laurentiu Tudor <laurentiu.tudor@nxp.com>
-+
-+title: Freescale Management Complex
-+
-+description: |
-+  The Freescale Management Complex (fsl-mc) is a hardware resource
-+  manager that manages specialized hardware objects used in
-+  network-oriented packet processing applications. After the fsl-mc
-+  block is enabled, pools of hardware resources are available, such as
-+  queues, buffer pools, I/O interfaces. These resources are building
-+  blocks that can be used to create functional hardware objects/devices
-+  such as network interfaces, crypto accelerator instances, L2 switches,
-+  etc.
-+
-+  For an overview of the DPAA2 architecture and fsl-mc bus see:
-+  Documentation/networking/device_drivers/freescale/dpaa2/overview.rst
-+
-+  As described in the above overview, all DPAA2 objects in a DPRC share the
-+  same hardware "isolation context" and a 10-bit value called an ICID
-+  (isolation context id) is expressed by the hardware to identify
-+  the requester.
-+
-+  The generic 'iommus' property is insufficient to describe the relationship
-+  between ICIDs and IOMMUs, so an iommu-map property is used to define
-+  the set of possible ICIDs under a root DPRC and how they map to
-+  an IOMMU.
-+
-+  For generic IOMMU bindings, see:
-+  Documentation/devicetree/bindings/iommu/iommu.txt.
-+
-+  For arm-smmu binding, see:
-+  Documentation/devicetree/bindings/iommu/arm,smmu.yaml.
-+
-+  MC firmware binary images can be found here:
-+  https://github.com/NXP/qoriq-mc-binary
-+
-+properties:
-+  compatible:
-+    const: fsl,qoriq-mc
-+    description:
-+      A Freescale Management Complex compatible with this binding must have
-+      Block Revision Registers BRR1 and BRR2 at offset 0x0BF8 and 0x0BFC in
-+      the MC control register region.
-+
-+  reg:
-+    minItems: 1
-+    items:
-+      - description: the command portal for this machine
-+      - description:
-+          MC control registers. This region may not be present in some
-+          scenarios, such as in the device tree presented to a virtual
-+          machine.
-+
-+  ranges:
-+    description: |
-+      A standard property. Defines the mapping between the child MC address
-+      space and the parent system address space.
-+
-+      The MC address space is defined by 3 components:
-+                <region type> <offset hi> <offset lo>
-+
-+      Valid values for region type are:
-+                  0x0 - MC portals
-+                  0x1 - QBMAN portals
-+
-+  '#address-cells':
-+    const: 3
-+
-+  '#size-cells':
-+    const: 1
-+
-+  dpmacs:
-+    type: object
-+    description:
-+      The fsl-mc node may optionally have dpmac sub-nodes that describe the
-+      relationship between the Ethernet MACs which belong to the MC and the
-+      Ethernet PHYs on the system board.
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+    patternProperties:
-+      "^dpmac@[0-9a-f]+$":
-+        type: object
-+
-+        description:
-+          dpmac sub-node that describes the relationship between the
-+          Ethernet MACs which belong to the MC and the Ethernet PHYs
-+          on the system board.
-+
-+        properties:
-+          compatible:
-+            const: "fsl,qoriq-mc-dpmac"
-+
-+          reg:
-+            description: Specifies the id of the dpmac
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            minimum: 1
-+            maximum: 31
-+
-+          phy-handle:
-+            $ref: /schemas/types.yaml#definitions/phandle
-+            description:
-+              Specifies the phandle to the PHY device node associated with
-+              this dpmac.
-+
-+        required:
-+          - compatible
-+          - reg
-+          - phy-handle
-+
-+  iommu-map:
-+    description: |
-+      Maps an ICID to an IOMMU and associated iommu-specifier data.
-+
-+      The property is an arbitrary number of tuples of
-+      (icid-base, iommu, iommu-base, length).
-+
-+      Any ICID i in the interval [icid-base, icid-base + length) is
-+      associated with the listed IOMMU, with the iommu-specifier
-+      (i - icid-base + iommu-base).
-+
-+  msi-map:
-+    description: |
-+      Maps an ICID to a GIC ITS and associated msi-specifier data.
-+
-+      The property is an arbitrary number of tuples of
-+      (icid-base, gic-its, msi-base, length).
-+
-+      Any ICID in the interval [icid-base, icid-base + length) is
-+      associated with the listed GIC ITS, with the msi-specifier
-+      (i - icid-base + msi-base).
-+
-+  msi-parent:
-+    deprecated: true
-+    description:
-+      Points to the MSI controller node handling message interrupts for the MC.
-+
-+required:
-+  - compatible
-+  - reg
-+  - iommu-map
-+  - msi-map
-+  - ranges
-+  - '#address-cells'
-+  - '#size-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    soc {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+
-+      smmu: iommu@5000000 {
-+        compatible = "arm,mmu-500";
-+        #global-interrupts = <1>;
-+        #iommu-cells = <1>;
-+        reg = <0 0x5000000 0 0x800000>;
-+        stream-match-mask = <0x7c00>;
-+        interrupts = <0 13 4>,
-+                     <0 146 4>, <0 147 4>,
-+                     <0 148 4>, <0 149 4>,
-+                     <0 150 4>, <0 151 4>,
-+                     <0 152 4>, <0 153 4>;
-+      };
-+
-+      fsl_mc: fsl-mc@80c000000 {
-+        compatible = "fsl,qoriq-mc";
-+        reg = <0x00000008 0x0c000000 0 0x40>,    /* MC portal base */
-+        <0x00000000 0x08340000 0 0x40000>; /* MC control reg */
-+        /* define map for ICIDs 23-64 */
-+        iommu-map = <23 &smmu 23 41>;
-+        /* define msi map for ICIDs 23-64 */
-+        msi-map = <23 &its 23 41>;
-+        #address-cells = <3>;
-+        #size-cells = <1>;
-+
-+        /*
-+        * Region type 0x0 - MC portals
-+        * Region type 0x1 - QBMAN portals
-+        */
-+        ranges = <0x0 0x0 0x0 0x8 0x0c000000 0x4000000
-+                  0x1 0x0 0x0 0x8 0x18000000 0x8000000>;
-+
-+        dpmacs {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          dpmac@1 {
-+            compatible = "fsl,qoriq-mc-dpmac";
-+            reg = <1>;
-+            phy-handle = <&mdio0_phy0>;
-+          };
-+        };
-+      };
-+    };
-diff --git a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
-index d638b5a8aadd..b3261c5871cc 100644
---- a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
-+++ b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
-@@ -28,6 +28,9 @@ interfaces, an L2 switch, or accelerator instances.
- The MC provides memory-mapped I/O command interfaces (MC portals)
- which DPAA2 software drivers use to operate on DPAA2 objects.
- 
-+MC firmware binary images can be found here:
-+https://github.com/NXP/qoriq-mc-binary
-+
- The diagram below shows an overview of the DPAA2 resource management
- architecture::
- 
-@@ -338,7 +341,7 @@ Key functions include:
-   a bind of the root DPRC to the DPRC driver
- 
- The binding for the MC-bus device-tree node can be consulted at
--*Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt*.
-+*Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml*.
- The sysfs bind/unbind interfaces for the MC-bus can be consulted at
- *Documentation/ABI/testing/sysfs-bus-fsl-mc*.
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b43b59542d15..400a17c90edb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14409,9 +14409,11 @@ M:	Stuart Yoder <stuyoder@gmail.com>
- M:	Laurentiu Tudor <laurentiu.tudor@nxp.com>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-+F:	Documentation/devicetree/bindings/misc/fsl,dpaa2-console.yaml
-+F:	Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
- F:	Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
- F:	drivers/bus/fsl-mc/
-+F:	include/linux/fsl/mc.h
- 
- QT1010 MEDIA DRIVER
- M:	Antti Palosaari <crope@iki.fi>
--- 
-2.17.1
+@Jon: I'd be really appreciate to hear your thoughts on this.
 
+@Randy: Thx again for all suggestions and pointing out many spelling 
+mistakes, that helped a lot! You didn't reply to some of the patches, 
+which made me wonder: did you not look at those (which is totally fine) 
+or was there nothing to point out? And what I'd really like to know: 
+what are you thinking about the whole thing?
+
+@Everyone: Yes, I know, the length of the text is a bit intimidating, 
+but the structure was carefully chosen to get everything crucial across 
+at the top quickly, to make sure impatient readers quickly find what 
+they need -- and the details as well in later sections, in case they 
+need them. Yes, sure, that is not easy to achieve, but I think having 
+all the relevant information close together is of benefit for the 
+readers. Keeping details out that a significant share of readers will 
+likely need sounds a bit like saying "we don't take that patch, it for 
+the embedded use case and we only care about desktops and server" to me 
+(something which we don't do for good reasons and served us quite well 
+afaics)[¹].
+
+Ohh, and btw: I still look for any input of what to write in the "decode 
+strack trace" section (see patch 19 you'll also find here
+https://lore.kernel.org/lkml/fc63c021e58106559717fe1ecbbd24163e1c152d.1601541165.git.linux@leemhuis.info/
+). Anyone seen some blog post or article that gives on the current state 
+of the art that might get me started?
+
+Ciao, Thorsten
+
+[¹] Side note: I noticed I even forgot to describe one thing: how to 
+join an existing mailing list discussion without breaking threading. 
+That something that even experienced users sometimes have trouble with, 
+afaics.
+
+
+> For the curious, this is how the text looks in the end:
+> https://gitlab.com/knurd42/linux/-/raw/reporting-bugs-rfc/Documentation/admin-guide/reporting-bugs.rst
+> 
+> For comparison, here you can find the old text and the commits to it and its
+> predecessor:
+> https://www.kernel.org/doc/html/latest/admin-guide/reporting-bugs.html
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-bugs.rst
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/Documentation/admin-guide/reporting-bugs.rst
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/REPORTING-BUGS
+> 
+> This is an early RFC and likely has some spelling and grammatical mistakes.
+> Sorry for that, the main author is not a native English speaker and makes too
+> many of those mistakes even in his mother tongue. He used hunspell and
+> LanguageTool to find errors, but noticed those tools miss quite a few mistakes.
+> Hopefully it's not too bad.
+> 
+> The main author of the rewrite is also fully aware the text got quite long in
+> the end. That happened as he tried to make users avoid many of the problem he
+> noticed in bug report, which needed quite a bit of space to describe.
+> Nevertheless, he tried to make sure the text uses a structure where only those
+> that want to know all the details have to read it. That's mainly realized with
+> the help of the TL;DR and the short guide at the top of the document. Those
+> should be good enough for a lot of situations.
+> 
+> There are a few points that will need to be discussed. The comment in the
+> individual patches will point some of those out; that for example includes
+> things like "dual licensing under CC-BY 4.0", "are we asking too much from users
+> when telling them to test mainline?", and "CC LKML or something else on all
+> reports?". But a few points are best raised here:
+> 
+>   * The old and the new reporting-bugs text take a totally different approach to
+> bugzilla.kernel.org. The old mentions it as the place to file your issue if
+> you don't know where to go. The new one mentions it rarely and most of the
+> time warn users that it's often the wrong place to go. This approach was
+> chosen as the main author noticed quite a few users (or even a lot?) get no
+> reply to the bugs they file in bugzilla. That's kind of expected, as quite a
+> few (many? most?) of the maintainers don't even get notified when reports for
+> their subsystem get filed there. Anyway: not getting a reply is something
+> that is just annoying for users and might make them angry. Improving bugzilla
+> would be an option, but on the kernel and maintainers summit 2017 (sorry it
+> took so long) it was agreed on to first go this route, as it's easier to
+> reach and less controversial, as many maintainers likely are unwilling to
+> deal with bugzilla.
+> 
+>   * The text states "see above" or "see below" in a few places. Should those be
+> proper links? But then some anchors will need to be placed manually in a few
+> places, which slightly hurt readability of the plain text. Could RST or
+> autosectionlabel help here somewhat (without changing the line
+> "autosectionlabel_maxdepth = 2" in Documentation/conf.py, which likely is
+> unwanted)?
+> 
+>   * The new text avoids the word "bug" and uses "issues" instead, as users face
+> issues which might or might not be caused by bugs. Due to this approach it
+> might make sense to rename the document to "reporting-issues". But for now
+> everything is left as it is, as changing the name of a well known file has
+> downsides; but maybe at least the documents headline should get the
+> s/bugs/issues/ treatment.
+> 
+>   * How to make sure everybody that cares get a chance to review this? As this is
+> an early RFC, the author chose to sent it only to the docs maintainer,
+> linux-docs and LKML, to see how well this approach is received in general.
+> Once it is agreed that this is the route forward, a lot of other people need
+> to be CCed to review it; the stable maintainers for example should check if
+> the section on handling issues with stable and longterm kernels is acceptable
+> for them. In the end it's something a lot of maintainers might want to take
+> at least a quick look at, as they will be dealing with the reports. But there
+> is no easy way to contact all of them (apart from CCing all of them), as most
+> of them likely don't read LKML anymore. Should the author maybe abuse
+> ksummit-discuss, as this likely will reach all the major stakeholders Side
+> note: maybe it would be good to have a list for things like this on vger...
+> 
+> The patch series is against docs-next and can also be found on gitlab:
+> git://git@gitlab.com:knurd42/linux.git reporting-bugs-rfc
+> 
+> Strictly speaking this series is not bisectable, as the old text it left in
+> place and removed slowly by the patches in the series when they add new text
+> that covers the same aspect. Thus, both old and new text are incomplete or
+> inconsistent (and thus would not build, if we'd talked about code). But that is
+> only relevant for those that read the text before the series is fully applied.
+> That seemed like an acceptable downside in this case, as this makes it easier to
+> compare the old and new approach.
+> 
+> Note: The main autor is not a developer, so he will have gotten a few things in
+> the procedure wrong. Let him know if you spot something where things are off.
+> 
+> Thorsten Leemhuis (26):
+>    docs: reporting-bugs: temporary markers for licensing and diff reasons
+>    docs: reporting-bugs: Create a TLDR how to report issues
+>    docs: reporting-bugs: step-by-step guide on how to report issues
+>    docs: reporting-bugs: step-by-step guide for issues in stable &
+>      longterm
+>    docs: reporting-bugs: begin reference section providing details
+>    docs: reporting-bugs: point out we only care about fresh vanilla
+>      kernels
+>    docs: reporting-bugs: let users classify their issue
+>    docs: reporting-bugs: make readers check the taint flag
+>    docs: reporting-bugs: help users find the proper place for their
+>      report
+>    docs: reporting-bugs: remind people to look for existing reports
+>    docs: reporting-bugs: remind people to back up their data
+>    docs: reporting-bugs: tell users to disable DKMS et al.
+>    docs: reporting-bugs: point out the environment might be causing issue
+>    docs: reporting-bugs: make users write notes, one for each issue
+>    docs: reporting-bugs: make readers test mainline, but leave a loophole
+>    docs: reporting-bugs: let users check taint status again
+>    docs: reporting-bugs: explain options if reproducing on mainline fails
+>    docs: reporting-bugs: let users optimize their notes
+>    docs: reporting-bugs: decode failure messages [need help]
+>    docs: reporting-bugs: instructions for handling regressions
+>    docs: reporting-bugs: details on writing and sending the report
+>    docs: reporting-bugs: explain what users should do once the report got
+>      out
+>    docs: reporting-bugs: details for issues specific to stable and
+>      longterm
+>    docs: reporting-bugs: explain why users might get neither reply nor
+>      fix
+>    docs: reporting-bugs: explain things could be easier
+>    docs: reporting-bugs: add SPDX tag and license hint, remove markers
+> 
+>   Documentation/admin-guide/bug-bisect.rst      |    2 +
+>   Documentation/admin-guide/reporting-bugs.rst  | 1586 +++++++++++++++--
+>   Documentation/admin-guide/tainted-kernels.rst |    2 +
+>   scripts/ver_linux                             |   81 -
+>   4 files changed, 1441 insertions(+), 230 deletions(-)
+>   delete mode 100755 scripts/ver_linux
+> 
+> 
+> base-commit: e0bc9cf0a7d527ff140f851f6f1a815cc5c48fea
+> 
