@@ -2,153 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C88C2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1247BC55ABD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 22:11:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD91F205CA
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:51:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BABAD20789
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 22:11:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729831AbgKISvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 13:51:44 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43674 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729292AbgKISvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Nov 2020 13:51:44 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 9B3C3AB95;
-        Mon,  9 Nov 2020 18:51:42 +0000 (UTC)
-Date:   Mon, 9 Nov 2020 19:51:38 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 09/21] mm/hugetlb: Free the vmemmap pages associated
- with each hugetlb page
-Message-ID: <20201109185138.GD17356@linux>
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-10-songmuchun@bytedance.com>
+        id S1729879AbgKIWLK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 17:11:10 -0500
+Received: from mail-oo1-f68.google.com ([209.85.161.68]:37100 "EHLO
+        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729247AbgKIWLJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 17:11:09 -0500
+Received: by mail-oo1-f68.google.com with SMTP id x5so1766423ooi.4;
+        Mon, 09 Nov 2020 14:11:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=tHsQKqje+5SSSlblxDfRlRnDl/CnwOY9m4Ekj3B6MZ4=;
+        b=P3AvaOk6BM6le7EBGq6SUgYUK4ltI1LHL8lf7y8j70JQ+tZZBcMtq2I5fIyw7HopGX
+         U18qZF5Tz6q7O0CNw7hB+Kt49AbUeu4+cT3ADTwbzcsW5po3QHhriBHkTceVr2QOaLO8
+         Yr4rdp04nJGje/Q7BLB6HNTaD/R/9VubQhxWSIuCgJKr3kdcU25ki9kl8snhGcXP6XRW
+         ej9O4pxBja+zbuzeD+Amh43tDVwQG+E4zLqEqca+rlwxUfs0jxJTP+qxDQLlcjobBMPK
+         dZglVstdv4ThVbKN4qC6ajYz8L08MbUbQWjBkaLwPeALQAN/c4Lve11aMXxK2gxAsAE8
+         HPjw==
+X-Gm-Message-State: AOAM530Cepa8vVZna4zB5a7Df+XslJ1FMVjqlppE/xX7FZxcddTGl012
+        Wfja3XWhpxwmdC/AoaMr/Q==
+X-Google-Smtp-Source: ABdhPJxZyTP1ZiN3mZ/6w5swgtWDmTaAwMXb7VFdiEbOAmrWb3IDVkYsELX1q0VNiyfw5GQrBarfQA==
+X-Received: by 2002:a4a:9644:: with SMTP id r4mr11611906ooi.12.1604959867554;
+        Mon, 09 Nov 2020 14:11:07 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id y15sm2813684otq.79.2020.11.09.14.11.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2020 14:11:06 -0800 (PST)
+Received: (nullmailer pid 1846191 invoked by uid 1000);
+        Mon, 09 Nov 2020 22:11:06 -0000
+Date:   Mon, 9 Nov 2020 16:11:06 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Cc:     linux-doc@vger.kernel.org,
+        Ionut-robert Aron <ionut-robert.aron@nxp.com>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, davem@davemloft.net,
+        ioana.ciornei@nxp.com, robh+dt@kernel.org, netdev@vger.kernel.org,
+        kuba@kernel.org, leoyang.li@nxp.com, linuxppc-dev@lists.ozlabs.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: misc: convert fsl, dpaa2-console
+ from txt to YAML
+Message-ID: <20201109221106.GA1846114@bogus>
+References: <20201109104635.21116-1-laurentiu.tudor@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201108141113.65450-10-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201109104635.21116-1-laurentiu.tudor@nxp.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 08, 2020 at 10:11:01PM +0800, Muchun Song wrote:
-> +static inline int freed_vmemmap_hpage(struct page *page)
-> +{
-> +	return atomic_read(&page->_mapcount) + 1;
-> +}
-> +
-> +static inline int freed_vmemmap_hpage_inc(struct page *page)
-> +{
-> +	return atomic_inc_return_relaxed(&page->_mapcount) + 1;
-> +}
-> +
-> +static inline int freed_vmemmap_hpage_dec(struct page *page)
-> +{
-> +	return atomic_dec_return_relaxed(&page->_mapcount) + 1;
-> +}
+On Mon, 09 Nov 2020 12:46:34 +0200, Laurentiu Tudor wrote:
+> From: Ionut-robert Aron <ionut-robert.aron@nxp.com>
+> 
+> Convert fsl,dpaa2-console to YAML in order to automate the
+> verification process of dts files.
+> 
+> Signed-off-by: Ionut-robert Aron <ionut-robert.aron@nxp.com>
+> Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+> ---
+> Changes in v2:
+>  - add missing additionalProperties
+> 
+>  .../bindings/misc/fsl,dpaa2-console.txt       | 11 --------
+>  .../bindings/misc/fsl,dpaa2-console.yaml      | 25 +++++++++++++++++++
+>  2 files changed, 25 insertions(+), 11 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/misc/fsl,dpaa2-console.txt
+>  create mode 100644 Documentation/devicetree/bindings/misc/fsl,dpaa2-console.yaml
+> 
 
-Are these relaxed any different that the normal ones on x86_64? 
-I got confused following the macros.
-
-> +static void __free_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
-> +					 unsigned long start,
-> +					 unsigned int nr_free,
-> +					 struct list_head *free_pages)
-> +{
-> +	/* Make the tail pages are mapped read-only. */
-> +	pgprot_t pgprot = PAGE_KERNEL_RO;
-> +	pte_t entry = mk_pte(reuse, pgprot);
-> +	unsigned long addr;
-> +	unsigned long end = start + (nr_free << PAGE_SHIFT);
-
-See below.
-
-> +static void __free_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
-> +					 unsigned long addr,
-> +					 struct list_head *free_pages)
-> +{
-> +	unsigned long next;
-> +	unsigned long start = addr + RESERVE_VMEMMAP_NR * PAGE_SIZE;
-> +	unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
-> +	struct page *reuse = NULL;
-> +
-> +	addr = start;
-> +	do {
-> +		unsigned int nr_pages;
-> +		pte_t *ptep;
-> +
-> +		ptep = pte_offset_kernel(pmd, addr);
-> +		if (!reuse)
-> +			reuse = pte_page(ptep[-1]);
-
-Can we define a proper name for that instead of -1?
-
-e.g: TAIL_PAGE_REUSE or something like that. 
-
-> +
-> +		next = vmemmap_hpage_addr_end(addr, end);
-> +		nr_pages = (next - addr) >> PAGE_SHIFT;
-> +		__free_huge_page_pte_vmemmap(reuse, ptep, addr, nr_pages,
-> +					     free_pages);
-
-Why not passing next instead of nr_pages? I think it makes more sense.
-As a bonus we can kill the variable.
-
-> +static void split_vmemmap_huge_page(struct hstate *h, struct page *head,
-> +				    pmd_t *pmd)
-> +{
-> +	pgtable_t pgtable;
-> +	unsigned long start = (unsigned long)head & VMEMMAP_HPAGE_MASK;
-> +	unsigned long addr = start;
-> +	unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
-> +
-> +	while (nr-- && (pgtable = vmemmap_pgtable_withdraw(head))) {
-
-The same with previous patches, I would scrap "nr" and its use.
-
-> +		VM_BUG_ON(freed_vmemmap_hpage(pgtable));
-
-I guess here we want to check whether we already call free_huge_page_vmemmap
-on this range?
-For this to have happened, the locking should have failed, right?
-
-> +static void free_huge_page_vmemmap(struct hstate *h, struct page *head)
-> +{
-> +	pmd_t *pmd;
-> +	spinlock_t *ptl;
-> +	LIST_HEAD(free_pages);
-> +
-> +	if (!free_vmemmap_pages_per_hpage(h))
-> +		return;
-> +
-> +	pmd = vmemmap_to_pmd(head);
-> +	ptl = vmemmap_pmd_lock(pmd);
-> +	if (vmemmap_pmd_huge(pmd)) {
-> +		VM_BUG_ON(!pgtable_pages_to_prealloc_per_hpage(h));
-
-I think that checking for free_vmemmap_pages_per_hpage is enough.
-In the end, pgtable_pages_to_prealloc_per_hpage uses free_vmemmap_pages_per_hpage.
-
-
--- 
-Oscar Salvador
-SUSE L3
+Applied, thanks!
