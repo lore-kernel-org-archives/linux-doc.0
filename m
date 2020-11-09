@@ -1,273 +1,217 @@
-Return-Path: <SRS0=q8nj=EO=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=qLBM=EP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C42D4C388F9
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 16:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F83CC388F9
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 01:58:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70AC02068D
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Nov 2020 16:56:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604854600;
-	bh=HmpnTGD+sCqkzYKB+VNNoQPDyYLZ8DVZYqWfmSgpAfA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=YhRC8RnQQwuFCmPce7djXOjjoGE3gMGzkpwJ9VsjFqD0sbEZkMVY1berY/0YMSDp+
-	 nhfp8pSbjNzacww5wcsFvu1LDsNEj5AKDUmdw6bvTOea6J4pa+KMFLnqQWJvy6GvDM
-	 RhMP4EOIA3JWgLISBvssP7Z1sDAHd38wClAPj7vI=
+	by mail.kernel.org (Postfix) with ESMTP id 251B3206E3
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 01:58:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgKHQ4j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Nov 2020 11:56:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35208 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727570AbgKHQ4j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 8 Nov 2020 11:56:39 -0500
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 289C720678;
-        Sun,  8 Nov 2020 16:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604854597;
-        bh=HmpnTGD+sCqkzYKB+VNNoQPDyYLZ8DVZYqWfmSgpAfA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jTr8zTsz0WaJ6nnvT5Eg1Ll2ihGmqcyn+2SF+Wf/mrD2qllK/kFqFW/v7wcgZNefk
-         zS7dIr/q6PaG6DfI7dBacAjjo5nnHikNbE1GU0b2Tz2VVRAwvJAMwi+yrMpSam0vAS
-         yISkL1OxDj/prQqrSSSyaYuB90OjYqoYVe7sJd6Y=
-Date:   Sun, 8 Nov 2020 16:56:21 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Javier =?UTF-8?B?R29uesOhbGV6?= <javier@javigon.com>,
+        id S1728016AbgKIB6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Nov 2020 20:58:04 -0500
+Received: from m176115.mail.qiye.163.com ([59.111.176.115]:44991 "EHLO
+        m176115.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728006AbgKIB6E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Nov 2020 20:58:04 -0500
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.231])
+        by m176115.mail.qiye.163.com (Hmail) with ESMTPA id B87846667E7;
+        Mon,  9 Nov 2020 09:57:58 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Benson Leung <bleung@chromium.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Bruno Meneguele <bmeneg@redhat.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-        Juergen Gross <jgross@suse.com>,
-        Konstantin Khlebnikov <koct9i@gmail.com>,
-        Kranthi Kuntala <kranthi.kuntala@intel.com>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Len Brown <lenb@kernel.org>,
-        Leonid Maksymchuk <leonmaxx@gmail.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Nayna Jain <nayna@linux.ibm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Oleh Kravchenko <oleg@kaa.org.ua>,
-        Orson Zhai <orsonzhai@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Peter Rosin <peda@axentia.se>, Petr Mladek <pmladek@suse.com>,
-        Philippe Bergheaud <felix@linux.ibm.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-pm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        netdev@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 20/39] docs: ABI: testing: make the files compatible
- with ReST output
-Message-ID: <20201108165621.4d0da3f4@archlinux>
-In-Reply-To: <20201102154250.45bee17f@coco.lan>
-References: <cover.1604042072.git.mchehab+huawei@kernel.org>
-        <58cf3c2d611e0197fb215652719ebd82ca2658db.1604042072.git.mchehab+huawei@kernel.org>
-        <5326488b-4185-9d67-fc09-79b911fbb3b8@st.com>
-        <20201030110925.3e09d59e@coco.lan>
-        <cb586ea3-b6e6-4e48-2344-2bd641e5323f@st.com>
-        <20201102124641.GA881895@kroah.com>
-        <20201102154250.45bee17f@coco.lan>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH V4 DOC] doc: zh_CN: add translatation for tmpfs
+Date:   Mon,  9 Nov 2020 09:57:47 +0800
+Message-Id: <1604887072-12997-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZSU9OGk4YQ09NQxlKVkpNS09DQ0xLTEJLQkxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Kxg6Fww*Pj8jPxNKDxYIOk9M
+        MklPCzhVSlVKTUtPQ0NMS0xCTkNDVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5KVUxPVUlISllXWQgBWUFDTUhKNwY+
+X-HM-Tid: 0a75aab968309373kuwsb87846667e7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2 Nov 2020 15:42:50 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Translate Documentation/filesystems/tmpfs.rst into Chinese.
 
-> Em Mon, 2 Nov 2020 13:46:41 +0100
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> 
-> > On Mon, Nov 02, 2020 at 12:04:36PM +0100, Fabrice Gasnier wrote:  
-> > > On 10/30/20 11:09 AM, Mauro Carvalho Chehab wrote:    
-> > > > Em Fri, 30 Oct 2020 10:19:12 +0100
-> > > > Fabrice Gasnier <fabrice.gasnier@st.com> escreveu:
-> > > >     
-> > > >> Hi Mauro,
-> > > >>
-> > > >> [...]
-> > > >>    
-> > > >>>  
-> > > >>> +What:		/sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
-> > > >>> +KernelVersion:	4.12
-> > > >>> +Contact:	benjamin.gaignard@st.com
-> > > >>> +Description:
-> > > >>> +		Reading returns the list possible quadrature modes.
-> > > >>> +
-> > > >>> +What:		/sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode
-> > > >>> +KernelVersion:	4.12
-> > > >>> +Contact:	benjamin.gaignard@st.com
-> > > >>> +Description:
-> > > >>> +		Configure the device counter quadrature modes:
-> > > >>> +
-> > > >>> +		channel_A:
-> > > >>> +			Encoder A input servers as the count input and B as
-> > > >>> +			the UP/DOWN direction control input.
-> > > >>> +
-> > > >>> +		channel_B:
-> > > >>> +			Encoder B input serves as the count input and A as
-> > > >>> +			the UP/DOWN direction control input.
-> > > >>> +
-> > > >>> +		quadrature:
-> > > >>> +			Encoder A and B inputs are mixed to get direction
-> > > >>> +			and count with a scale of 0.25.
-> > > >>> +      
-> > > >>    
-> > > > 
-> > > > Hi Fabrice,
-> > > >     
-> > > >> I just noticed that since Jonathan question in v1.
-> > > >>
-> > > >> Above ABI has been moved in the past as discussed in [1]. You can take a
-> > > >> look at:
-> > > >> b299d00 IIO: stm32: Remove quadrature related functions from trigger driver
-> > > >>
-> > > >> Could you please remove the above chunk ?
-> > > >>
-> > > >> With that, for the stm32 part:
-> > > >> Acked-by: Fabrice Gasnier <fabrice.gasnier@st.com>    
-> > > > 
-> > > > 
-> > > > Hmm... probably those were re-introduced due to a rebase. This
-> > > > series were originally written about 1,5 years ago.
-> > > > 
-> > > > I'll drop those hunks.    
-> > > 
-> > > Hi Mauro, Greg,
-> > > 
-> > > I just figured out this patch has been applied with above hunk.
-> > > 
-> > > This should be dropped: is there a fix on its way already ?
-> > > (I may have missed it)    
-> > 
-> > Can you send a fix for just this hunk?  
-> 
-> Hmm...
-> 
-> 	$ git grep /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
-> 	Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:What:                /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
-> 	Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:What:             /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
-> 	Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:What:               /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
-> 
-> Even re-doing the changes from 
-> changeset b299d00420e2 ("IIO: stm32: Remove quadrature related functions from trigger driver")
-> at Documentation/ABI/testing/sysfs-bus-iio-timer-stm32, there's still
-> a third duplicate of some of those, as reported by the script:
-> 
-> 	$ ./scripts/get_abi.pl validate 2>&1|grep quadra
-> 	Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:117  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:14
-> 	Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 3 times:  Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:111  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
-> 
-> As in_count_quadrature_mode_available is also defined at:
-> 	Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2
-> 
-> The best here seems to have a patch that will also drop the other
-> duplication of this, probably moving in_count_quadrature_mode_available
-> to a generic node probably placing it inside 
-> Documentation/ABI/testing/sysfs-bus-iio.
+Signed-off-by: Wang Qing <wangqing@vivo.com>
 
-In this particular case it may be valid to do that, but it's not in
-general without loosing information - see below.
+Changes in v4:
+ - Modify as Alex required.
+ 
+Changes in v3:
+ - Fix patch format issue.
+---
+ .../translations/zh_CN/filesystems/tmpfs.rst       | 146 +++++++++++++++++++++
+ 1 file changed, 146 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/tmpfs.rst
 
-> 
-> Comments?
-> 
-> Thanks,
-> Mauro
-> 
-> PS.: the IIO subsystem is the one that currently has more duplicated
-> ABI entries:
-
-That was intentional.  Often these provide more information on the
-ABI for a particular device than is present in the base ABI doc.
-
-A bit like when we have additional description for dt binding properties
-for a particular device, even though they are standard properties.
-
-Often a standard property allows for more values than the specific
-one for a particular device.  There can also be obscuring coupling
-between sysfs attributes due to hardware restrictions that we would
-like to provide some explanatory info on.
-
-I suppose we could add all this information to the parent doc but
-that is pretty ugly and will make that doc very nasty to read.
-
-Jonathan
-
-> 
-> $ ./scripts/get_abi.pl validate 2>&1|grep iio
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  Documentation/ABI/testing/sysfs-bus-iio:394
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  Documentation/ABI/testing/sysfs-bus-iio:395
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  Documentation/ABI/testing/sysfs-bus-iio:396
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  Documentation/ABI/testing/sysfs-bus-iio:397
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  Documentation/ABI/testing/sysfs-bus-iio:398
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  Documentation/ABI/testing/sysfs-bus-iio:399
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:117  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:14
-> Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 3 times:  Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:111  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
-> Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  Documentation/ABI/testing/sysfs-bus-iio:599
-> Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  Documentation/ABI/testing/sysfs-bus-iio:588
-> Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
-> Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
-> Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
-> Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
-> Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  Documentation/ABI/testing/sysfs-bus-iio:45
+diff --git a/Documentation/translations/zh_CN/filesystems/tmpfs.rst b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+new file mode 100644
+index 0000000..28f0d09
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+@@ -0,0 +1,146 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/filesystems/tmpfs.rst <tmpfs_index>`
++
++translated by Wang Qing<wangqing@vivo.com>
++
++=====
++Tmpfs
++=====
++
++Tmpfs是一个将所有文件都保存在虚拟内存中的文件系统。
++
++tmpfs中的所有内容都是临时的，也就是说没有任何文件会在硬盘上创建。
++如果卸载tmpfs实例，所有保存在其中的文件都会丢失。
++
++tmpfs将所有文件保存在内核缓存中，随着文件内容增长或缩小可以将不需要的
++页面swap出去。它具有最大限制，可以通过“mount -o remount ...”调整。
++
++和ramfs（创建tmpfs的模板）相比，tmpfs包含交换和限制检查。和tmpfs相似的另
++一个东西是RAM磁盘（/dev/ram*），可以在物理RAM中模拟固定大小的硬盘，并在
++此之上创建一个普通的文件系统。Ramdisks无法swap，因此无法调整它们的大小。
++
++由于tmpfs完全保存于页面缓存和swap中，因此所有tmpfs页面将在/proc/meminfo
++中显示为“Shmem”，而在free(1)中显示为“Shared”。请注意，这些计数还包括
++共享内存(shmem，请参阅ipcs(1))。获得计数的最可靠方法是使用df(1)和du(1)。
++
++tmpfs具有以下用途：
++
++1) 内核总有一个无法看到的内部挂载，用于共享匿名映射和SYSV共享内存。
++
++   挂载不依赖于CONFIG_TMPFS。如果CONFIG_TMPFS未设置，tmpfs对用户不可见。
++   但是内部机制始终存在。
++
++2) glibc 2.2及更高版本期望将tmpfs挂载在/dev/shm上以用于POSIX共享内存
++   (shm_open，shm_unlink)。添加内容到/etc/fstab应注意如下：
++
++	tmpfs	/dev/shm	tmpfs	defaults	0 0
++
++   使用时需要记住创建挂载tmpfs的目录。
++
++   SYSV共享内存无需挂载，内部已默认支持。(在2.3内核版本中，必须挂载
++   tmpfs的前身(shm fs)才能使用SYSV共享内存)
++
++3) 很多人（包括我）都觉的在/tmp和/var/tmp上挂载非常方便，并具有较大的
++   swap分区。目前循环挂载tmpfs可以正常工作，所以大多数发布都应当可以
++   使用mkinitrd通过/tmp访问/tmp。
++
++4) 也许还有更多我不知道的地方:-)
++
++
++tmpfs有三个用于调整大小的挂载选项：
++
++=========  ===========================================================
++size       tmpfs实例分配的字节数限制。默认值是不swap时物理RAM的一半。
++           如果tmpfs实例过大，机器将死锁，因为OOM处理将无法释放该内存。
++nr_blocks  与size相同，但以PAGE_SIZE为单位。
++nr_inodes  tmpfs实例的最大inode个数。默认值是物理内存页数的一半，或者
++           (有高端内存的机器)低端内存RAM的页数，二者以较低者为准。
++=========  ===========================================================
++
++这些参数接受后缀k，m或g表示千，兆和千兆字节，可以在remount时更改。
++size参数也接受后缀％用来限制tmpfs实例占用物理RAM的百分比：
++未指定size或nr_blocks时，默认值为size=50％
++
++如果nr_blocks=0（或size=0），block个数将不受限制；如果nr_inodes=0，
++inode个数将不受限制。这样挂载通常是不明智的，因为它允许任何具有写权限的
++用户通过访问tmpfs耗尽机器上的所有内存；但同时这样做也会增强在多个CPU的
++场景下的访问。
++
++tmpfs具有为所有文件设置NUMA内存分配策略挂载选项(如果启用了CONFIG_NUMA),
++可以通过“mount -o remount ...”调整
++
++======================== =========================
++mpol=default             采用进程分配策略
++                         (请参阅 set_mempolicy(2))
++mpol=prefer:Node         倾向从给定的节点分配
++mpol=bind:NodeList       只允许从指定的链表分配
++mpol=interleave          倾向于依次从每个节点分配
++mpol=interleave:NodeList 依次从每个节点分配
++mpol=local               优先本地节点分配内存
++======================== =========================
++
++NodeList格式是以逗号分隔的十进制数字表示大小和范围，最大和最小范围是用-
++分隔符的十进制数来表示。例如，mpol=bind0-3,5,7,9-15
++
++带有有效NodeList的内存策略将按指定格式保存，在创建文件时使用。当任务在该
++文件系统上创建文件时，会使用到挂载时的内存策略NodeList选项，如果设置的话，
++由调用任务的cpuset[请参见Documentation/admin-guide/cgroup-v1/cpusets.rst]
++以及下面列出的可选标志约束。如果NodeLists为设置为空集，则文件的内存策略将
++恢复为“默认”策略。
++
++NUMA内存分配策略有可选标志，可以用于模式结合。在挂载tmpfs时指定这些可选
++标志可以在NodeList之前生效。
++Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的内存
++分配策略模式标志及其对内存策略。
++
++::
++
++	=static		相当于	MPOL_F_STATIC_NODES
++	=relative	相当于	MPOL_F_RELATIVE_NODES
++
++例如，mpol=bind=staticNodeList相当于MPOL_BIND|MPOL_F_STATIC_NODES的分配策略
++
++请注意，如果内核不支持NUMA，那么使用mpol选项挂载tmpfs将会失败；nodelist指定不
++在线的节点也会失败。如果您的系统依赖于此，但内核会运行不带NUMA功能(也许是安全
++revocery内核)，或者具有较少的节点在线，建议从自动模式中省略mpol选项挂载选项。
++可以在以后通过“mount -o remount,mpol=Policy:NodeList MountPoint”添加到挂载点。
++
++要指定初始根目录，可以使用如下挂载选项：
++
++====	====================
++模式	权限用八进制数字表示
++uid	用户ID
++gid	组ID
++====	====================
++
++这些选项对remount没有任何影响。您可以通过chmod(1),chown(1)和chgrp(1)的更改
++已经挂载的参数。
++
++tmpfs具有选择32位还是64位inode的挂载选项：
++
++=======   =============
++inode64   使用64位inode
++inode32   使用32位inode
++=======   =============
++
++在32位内核上，默认是inode32，挂载时指定inode64会被拒绝。
++在64位内核上，默认配置是CONFIG_TMPFS_INODE64。inode64避免了单个设备上可能有多个
++具有相同inode编号的文件；比如32位应用程序使用glibc如果长期访问tmpfs，一旦达到33
++位inode编号，就有EOVERFLOW失败的危险，无法打开大于2GiB的文件，并返回EINVAL。
++
++所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'将在
++/mytmpfs上挂载tmpfs实例，分配只能由root用户访问的10GB RAM/SWAP，可以有10240个
++inode的实例。
++
++
++:作者:
++   Christoph Rohland <cr@sap.com>, 1.12.01
++:更新:
++   Hugh Dickins, 4 June 2007
++:更新:
++   KOSAKI Motohiro, 16 Mar 2010
++:更新:
++   Chris Down, 13 July 2020
+-- 
+2.7.4
 
