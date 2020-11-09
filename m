@@ -2,126 +2,176 @@ Return-Path: <SRS0=qLBM=EP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD71C388F7
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 13:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D3FC388F7
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:20:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77F0A206ED
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 13:52:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EE00207BC
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:20:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="anyEXQNB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729973AbgKINwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 08:52:21 -0500
-Received: from mx2.suse.de ([195.135.220.15]:39640 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729939AbgKINwU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Nov 2020 08:52:20 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id ABC11ABD1;
-        Mon,  9 Nov 2020 13:52:18 +0000 (UTC)
-Date:   Mon, 9 Nov 2020 14:52:15 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 03/21] mm/hugetlb: Introduce a new config
- HUGETLB_PAGE_FREE_VMEMMAP
-Message-ID: <20201109135215.GA4778@localhost.localdomain>
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-4-songmuchun@bytedance.com>
+        id S1730836AbgKIOUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 09:20:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729776AbgKIOUk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 09:20:40 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE630C0613CF
+        for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2020 06:20:38 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id i26so7273818pgl.5
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 06:20:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yzZSafk58bq+f5L2n1A+XJgmXIfKfqr55EsbHaz5ToU=;
+        b=anyEXQNBxl/WPiGhQQNwmAQb+fQoGWo0vJCypbVU0olYHgcNgdGNMOWRmxfxeUtv3o
+         g26pAqMiAJOuq6UnzUPj5YGG+tQY8LLQaNhEpp1i2NBpd1rk3QXgSjo3rFc7n4A3rgRT
+         2migm/LzuplMv3qzhqSicOFWm9bKmd8hcj+WFa8U9Bvl1MadZP78fp68EqVPtOeThjkF
+         1FVJmmjavutK+fiGUf9u3YvoXYozI5tKWIP/YFbT7b3r8hcbG+AX8eOKYUa3HalOCEsK
+         wYJoi97fMNPqIHVk3ZtTA4+Sm84h7F7d+jSzQrpK8GataVUIRXUTh5imfrXTBMUYi4jG
+         48lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yzZSafk58bq+f5L2n1A+XJgmXIfKfqr55EsbHaz5ToU=;
+        b=ibi97VdMpARjcqzeShRgI7P0hzgGJm/i+KB5zFhEhlbadejPrjO1jbGiJV5g/ahWP8
+         5nkc+nlJ/o7KOixueTzVnYvX/9Nq5hDy6+guHPGXHk1McPgezIAsw6g9xltFIVqy0p3o
+         KYs4bM5BkmR/NAC2jz+9ASanswHf7V0XDIXyL8dZ/a9f6Cv6YH/Wmtsayp8+wCyQzWzr
+         7ea7OhNtxzKDQCvS3YD9FzTyZv/SjJ9lP6zVHbT1ozF+hi4pqDAQM/0YkNLkXNy+9gib
+         xDg4x/Fgyye68mArz+fxY2lC7SY+mhQ+8w8s5jt0TlGD30GfPQaUdzUOMMXbxXDfRzQX
+         APKg==
+X-Gm-Message-State: AOAM533MH74qM28TCxQDvvZTeY7CEpk5NydDH3WVzCbtp+cHPfp07Krk
+        KoSPbI8CDop3h+C+3Sgz0N5M9LHvBuNcGORO8GD9YA==
+X-Google-Smtp-Source: ABdhPJxkpM77kBmju2XOjMh8n98tAVXTI9znLZLfuG3dhhF1nJ7YKOpkysiIxpvhmPZsNVGS0wGQ7jgSEAlN/Hk9bPM=
+X-Received: by 2002:a65:5383:: with SMTP id x3mr12825717pgq.341.1604931638489;
+ Mon, 09 Nov 2020 06:20:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201108141113.65450-4-songmuchun@bytedance.com>
+References: <20201108141113.65450-1-songmuchun@bytedance.com>
+ <20201108141113.65450-4-songmuchun@bytedance.com> <20201109135215.GA4778@localhost.localdomain>
+In-Reply-To: <20201109135215.GA4778@localhost.localdomain>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 9 Nov 2020 22:20:02 +0800
+Message-ID: <CAMZfGtVMFzFLzd5fMemopHfnsoye9yYN4V06eHZeO8qTu-4fAg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v3 03/21] mm/hugetlb: Introduce a new
+ config HUGETLB_PAGE_FREE_VMEMMAP
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 08, 2020 at 10:10:55PM +0800, Muchun Song wrote:
-> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
-> whether to enable the feature of freeing unused vmemmap associated
-> with HugeTLB pages. Now only support x86.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  arch/x86/mm/init_64.c |  2 +-
->  fs/Kconfig            | 16 ++++++++++++++++
->  mm/bootmem_info.c     |  3 +--
->  3 files changed, 18 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-> index 0a45f062826e..0435bee2e172 100644
-> --- a/arch/x86/mm/init_64.c
-> +++ b/arch/x86/mm/init_64.c
-> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
->  
->  static void __init register_page_bootmem_info(void)
->  {
-> -#ifdef CONFIG_NUMA
-> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
->  	int i;
->  
->  	for_each_online_node(i)
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 976e8b9033c4..21b8d39a9715 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -245,6 +245,22 @@ config HUGETLBFS
->  config HUGETLB_PAGE
->  	def_bool HUGETLBFS
->  
-> +config HUGETLB_PAGE_FREE_VMEMMAP
-> +	bool "Free unused vmemmap associated with HugeTLB pages"
-> +	default y
-> +	depends on X86
-> +	depends on HUGETLB_PAGE
-> +	depends on SPARSEMEM_VMEMMAP
-> +	depends on HAVE_BOOTMEM_INFO_NODE
-> +	help
-> +	  There are many struct page structures associated with each HugeTLB
-> +	  page. But we only use a few struct page structures. In this case,
-> +	  it wastes some memory. It is better to free the unused struct page
-> +	  structures to buddy system which can save some memory. For
-> +	  architectures that support it, say Y here.
-> +
-> +	  If unsure, say N.
+On Mon, Nov 9, 2020 at 9:52 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Sun, Nov 08, 2020 at 10:10:55PM +0800, Muchun Song wrote:
+> > The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
+> > whether to enable the feature of freeing unused vmemmap associated
+> > with HugeTLB pages. Now only support x86.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  arch/x86/mm/init_64.c |  2 +-
+> >  fs/Kconfig            | 16 ++++++++++++++++
+> >  mm/bootmem_info.c     |  3 +--
+> >  3 files changed, 18 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> > index 0a45f062826e..0435bee2e172 100644
+> > --- a/arch/x86/mm/init_64.c
+> > +++ b/arch/x86/mm/init_64.c
+> > @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
+> >
+> >  static void __init register_page_bootmem_info(void)
+> >  {
+> > -#ifdef CONFIG_NUMA
+> > +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
+> >       int i;
+> >
+> >       for_each_online_node(i)
+> > diff --git a/fs/Kconfig b/fs/Kconfig
+> > index 976e8b9033c4..21b8d39a9715 100644
+> > --- a/fs/Kconfig
+> > +++ b/fs/Kconfig
+> > @@ -245,6 +245,22 @@ config HUGETLBFS
+> >  config HUGETLB_PAGE
+> >       def_bool HUGETLBFS
+> >
+> > +config HUGETLB_PAGE_FREE_VMEMMAP
+> > +     bool "Free unused vmemmap associated with HugeTLB pages"
+> > +     default y
+> > +     depends on X86
+> > +     depends on HUGETLB_PAGE
+> > +     depends on SPARSEMEM_VMEMMAP
+> > +     depends on HAVE_BOOTMEM_INFO_NODE
+> > +     help
+> > +       There are many struct page structures associated with each HugeTLB
+> > +       page. But we only use a few struct page structures. In this case,
+> > +       it wastes some memory. It is better to free the unused struct page
+> > +       structures to buddy system which can save some memory. For
+> > +       architectures that support it, say Y here.
+> > +
+> > +       If unsure, say N.
+>
+> I am not sure the above is useful for someone who needs to decide
+> whether he needs/wants to enable this or not.
+> I think the above fits better in a Documentation part.
+>
+> I suck at this, but what about the following, or something along those
+> lines?
+>
+> "
+> When using SPARSEMEM_VMEMMAP, the system can save up some memory
+> from pre-allocated HugeTLB pages when they are not used.
+> 6 pages per 2MB HugeTLB page and 4095 per 1GB HugeTLB page.
+> When the pages are going to be used or freed up, the vmemmap
+> array representing that range needs to be remapped again and
+> the pages we discarded earlier need to be rellocated again.
+> Therefore, this is a trade-off between saving memory and
+> increasing time in allocation/free path.
+> "
 
-I am not sure the above is useful for someone who needs to decide
-whether he needs/wants to enable this or not.
-I think the above fits better in a Documentation part.
+Will do. Thanks for your suggestions.
 
-I suck at this, but what about the following, or something along those
-lines? 
+>
+> It would be also great to point out that this might be a
+> trade-off between saving up memory and increasing the cost
+> of certain operations on allocation/free path.
+> That is why I mentioned it there.
 
-"
-When using SPARSEMEM_VMEMMAP, the system can save up some memory
-from pre-allocated HugeTLB pages when they are not used.
-6 pages per 2MB HugeTLB page and 4095 per 1GB HugeTLB page.
-When the pages are going to be used or freed up, the vmemmap
-array representing that range needs to be remapped again and
-the pages we discarded earlier need to be rellocated again.
-Therefore, this is a trade-off between saving memory and
-increasing time in allocation/free path.
-"
+OK, I will add this to the Documentation part, thanks.
 
-It would be also great to point out that this might be a
-trade-off between saving up memory and increasing the cost
-of certain operations on allocation/free path.
-That is why I mentioned it there.
+>
+> --
+> Oscar Salvador
+> SUSE L3
+
+
 
 -- 
-Oscar Salvador
-SUSE L3
+Yours,
+Muchun
