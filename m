@@ -2,228 +2,414 @@ Return-Path: <SRS0=qLBM=EP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893BCC388F7
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 11:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAAAC2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 11:35:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33381206A4
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 11:22:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD04D208FE
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 11:35:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Uh2ArDTJ";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="uXYTkjpV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727930AbgKILWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 06:22:43 -0500
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52]:47600 "EHLO
-        wp530.webpack.hosteurope.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727077AbgKILWn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 06:22:43 -0500
-X-Greylist: delayed 1239 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 06:22:41 EST
-Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kc4vu-00017v-99; Mon, 09 Nov 2020 12:01:58 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 00/26] Make reporting-bugs easier to grasp and yet
- more detailed
-Message-ID: <7910cf25-4aa9-e33d-704c-33ab91ab713b@leemhuis.info>
-Date:   Mon, 9 Nov 2020 12:01:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1601541165.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+        id S1730125AbgKILfB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 06:35:01 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:1455 "EHLO
+        esa4.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730110AbgKILe4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 06:34:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1604921696; x=1636457696;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=vH7gKxeVnpVk9wRYnKeywEVYTUUDdGgwF8UqWaG4Wio=;
+  b=Uh2ArDTJGVXg9JPkT27zyTUX+nJE9kYEstC6IGa9A8+zx3qNBmZQAUbq
+   IbDI2XyPU2KLDOdGRWvHVJZpat1fTU/N+2ELaN8kzCBWQtjsaFbna6cnM
+   Wf8y5OYmiehchTAXlHlHZPNVL4iXxol2TdXEbUMpyRngtNvuz1uA//r+i
+   kBq2vxaBR+AUiGcnAb+pV6xv5XRHEfCS5xUDw9jy6J6nzgzf6g93ybDvA
+   OJnwuROMbHYrWV5cd46BZOVZ0NwSTVn2/GIZCMaJ3zIwE1R+ooe3pN48K
+   ia774BZknbTCOovNQvAK4LCGfi7Q20kvi0Ww3QB7TzyScq4Sooblrl2h0
+   Q==;
+IronPort-SDR: foFEXQepuV2vdreJzqjOe0LFyRJlJfC2G6xqroiikUK0VgPp00TZ/s5R3+h5B56DY76Q7Pdir2
+ pYyvhAzM+Hxl/NgLf0hKaATBcRDVsi6Npt2gQzPVgI1qDjgw65jjPwyk8cFEX/3QRDAEAYmiq5
+ oLxW499dLP5Yt9wBvnhjmKLm3weLmsn8591ljJkdbvyr9jTZaoRATz5ruopaeN/jUMKjeWFYQu
+ 5gRgU5JgB0PHYknIEY0/fjcFDAECcRBRWupLFJY1o9rVoCQiaKanPIk6aAc6FS0yJ2lPKU7UMT
+ HTA=
+X-IronPort-AV: E=Sophos;i="5.77,463,1596470400"; 
+   d="scan'208";a="152081072"
+Received: from mail-bn8nam08lp2041.outbound.protection.outlook.com (HELO NAM04-BN8-obe.outbound.protection.outlook.com) ([104.47.74.41])
+  by ob1.hgst.iphmx.com with ESMTP; 09 Nov 2020 19:34:54 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FU2OpTegiwn49jGDFJGNemBTWfyy3Ad+l5NdalVua/PNZWQBLde3VV6D+eKU7Aur92/yfWXMr0H/vykxGVLYhHhT68T6LniyL0kfK0n2GOXZiw1g2DR3tsxbkei5QM2vfiPKIJceNbzro2+ZiVOotLmOqccKNQR4DIxRi8LSBgcTl1HOUxsb+EcU9hxGiRSCnhyp2joRi1vgDdJX0wtLkLrl0TjBHC+DzUWXy5QS4fGj1nSxr+Oe6KQBZEdSJFgqHefWAm27yBEo0aGT5rl9lAFUyXNbSt8vsCwOG5GEXmCZPsSO3j061iXShMSlvpx8ggzdiZkdFEzQ5a6IfE339w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QRZFdxE6j7oq7P3wYf+/uCDsJEVegVWOiVqFgtnW9Z0=;
+ b=hevj6jnYmNDAQbkt/atyzlylX+yXZU8JjRHI89hfEjAsHLn+LnxIyp1O2Rxb79mBnRvVGTsya3+mAx0dTch5ACvu9ho0MIHz+XlT+0Mp6/LhWpKggzoJF5T5Nl2duijef8lc72TMHifrKbW8oqx4cf/c8rNwslk1tWbMflmFVH+IyHClTmeE52XyRdomCuIymFZGSx7QTb643d0mVoAyYcoC/4r1q2xDOV9XtYVeE1lQHWX7C+71lCGve7ksNRkneom+Dyew16IOu6GJHyJSX62+iOkQSVLhP+9S1RolN7p13VCNUGXgqiBTNF+2jrpQBMWE/cZBYFFT0KHORNbXNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QRZFdxE6j7oq7P3wYf+/uCDsJEVegVWOiVqFgtnW9Z0=;
+ b=uXYTkjpVznuZ22cMi482ukzBP5XIzZi7ML9MTTYfCQ+dnMYSKpIFdv0YUHizIOmWRXnTqNH385iJL4gv/THBJmh86FUCJJ7C4b6N1cbF2F3hymSj8r7jo+YhRRvhwy+r58oN1Zd5G06xN5uguJSUCI/AeTQFJ1KVcByZDxR++Wc=
+Authentication-Results: dabbelt.com; dkim=none (message not signed)
+ header.d=none;dabbelt.com; dmarc=none action=none header.from=wdc.com;
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com (2603:10b6:5:127::32)
+ by DM6PR04MB3866.namprd04.prod.outlook.com (2603:10b6:5:ad::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Mon, 9 Nov
+ 2020 11:34:53 +0000
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::d035:e2c6:c11:51dd]) by DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::d035:e2c6:c11:51dd%6]) with mapi id 15.20.3541.025; Mon, 9 Nov 2020
+ 11:34:53 +0000
+From:   Anup Patel <anup.patel@wdc.com>
+To:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Anup Patel <anup@brainfault.org>, kvm@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Anup Patel <anup.patel@wdc.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v15 16/17] RISC-V: KVM: Document RISC-V specific parts of KVM API
+Date:   Mon,  9 Nov 2020 17:02:39 +0530
+Message-Id: <20201109113240.3733496-17-anup.patel@wdc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201109113240.3733496-1-anup.patel@wdc.com>
+References: <20201109113240.3733496-1-anup.patel@wdc.com>
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1604920961;a786e1cc;
-X-HE-SMSGID: 1kc4vu-00017v-99
+Content-Type: text/plain
+X-Originating-IP: [122.171.188.68]
+X-ClientProxiedBy: MAXPR01CA0099.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:5d::17) To DM6PR04MB6201.namprd04.prod.outlook.com
+ (2603:10b6:5:127::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from wdc.com (122.171.188.68) by MAXPR01CA0099.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:5d::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Mon, 9 Nov 2020 11:34:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 350c02ac-4eb6-43c6-8137-08d884a379de
+X-MS-TrafficTypeDiagnostic: DM6PR04MB3866:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR04MB3866D81261A5CE1DC218E8448DEA0@DM6PR04MB3866.namprd04.prod.outlook.com>
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t+k58gtTPtDCgG+rS36jlBdm9bXzDxxEC4k02ovHZyTOcwlE9ORGS1NSeAz2Z9zIVvA1JRRCanA0WvHB7UKgGCgf+NAGf1dSRk/O7kkUIGFR+GR3+E5S8k7V4YxP2tRK7z+jG/A5zSMtjPpxJJQyLoUGyOp3X6RpP69oEXjksikncbglOFdRZhxLO3dBC3IfmzUxzYSi8r4R6dCzX9dRuO/k2i2VzNd1z9p5v4a5QBOn3fTpJcmzv6pgjcGtQoDhs3daBLagRvIiWPyv+mawk9HenU5Rq5j4UOOvzSc8T4w9S877UDyloanxlwywiohlrOBVR06QxYo0vQzkhYpEWKnAE1kUYUl3QZoWKtALeB6Xo4uHCVVdFjRDGmdaBTKd/VCEjoCTBTY6YLQLVvS3Zw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB6201.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(396003)(136003)(39860400002)(376002)(55016002)(7416002)(83380400001)(1076003)(44832011)(16526019)(186003)(316002)(26005)(8676002)(110136005)(54906003)(5660300002)(52116002)(7696005)(956004)(30864003)(966005)(2616005)(478600001)(66476007)(66556008)(4326008)(66946007)(6666004)(2906002)(36756003)(86362001)(8886007)(8936002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: rDjCNdJxx52H8/1xJAVYaKf+vaMa9jYPe85JS0U9e3o/t3wJo0bXnNfUv0r+SkpK9PEMdokBV5/4eJWg0wf7IMWY7oi16BnULKdDiam706PvPkbxydH5LFRY4GLykC+ASRm6e0LUmK5qB3Ws58LR4LxhhF77kRSyqWwFIiAyfXb9NGjwq+ZmNcU1+0mt0ABdeWKEYhqY6WEk8sA9Rq8Oto0PTx19GcKM+uOpaGgDnzZ6CxxBvi9sMg2f6h8EXn5wG/FVBQK1JkFegDyMQ7kHCVFuverqx9zskniOcqOBenBHBkN2HnBVfD+i0nweaDNV3NJfSBcyamhrUyKVkwEDTenT8zNJbBQxj/kWj5mhNsAPjau4hCkcpkB8ZF5OpTZ8qZZogWQg1Lh9z4qIJM3c78YI8bG7xXIt+XOt5E1Gnx5fZqmJEwEcLHZGgdudxJWOhJ9PLi1O8Hs3OL+NIFX5+5eem0mIGZVB0fYmEdFYNMgEMBOLEim3ojvi9FRjy4re1m5mjROYt177jQ5KeiHOC/k2TwvGooYl2EyaQuUqNQAAQZAMdPx8giA4/cL0p8qi/jiE8VlUqbRzimAX8hO/uNcIUdjv/oon1o0esujsxZB6uhjZ8k4Wbq6Z/X7V4EFjgr/m/88hOwnpiV+I/8EdXw==
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 350c02ac-4eb6-43c6-8137-08d884a379de
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB6201.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2020 11:34:53.3944
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l+CJxYCRgURwE4xOLK/+LyACxc57U+TNSku5H2Vw7pfgkloh0tFKXOuuqNsYgTzzWxtWjyBERXUh6u44Pkp5IQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB3866
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lo!
+Document RISC-V specific parts of the KVM API, such as:
+ - The interrupt numbers passed to the KVM_INTERRUPT ioctl.
+ - The states supported by the KVM_{GET,SET}_MP_STATE ioctls.
+ - The registers supported by the KVM_{GET,SET}_ONE_REG interface
+   and the encoding of those register ids.
+ - The exit reason KVM_EXIT_RISCV_SBI for SBI calls forwarded to
+   userspace tool.
 
-Am 01.10.20 um 10:39 schrieb Thorsten Leemhuis:
-> This series rewrites the "how to report bugs to the Linux kernel maintainers"
-> document to make it more straight forward and the essence easier to grasp. At
-> the same time make the text provide a lot more details about the process in form
-> of a reference section, so users that want or need to know them have them at
-> hand.
-> 
-> The goal of this rewrite: improve the quality of the bug reports and reduce the
-> number of reports that get ignored. This was motivated by many reports of poor
-> quality the main author of the rewrite stumped upon when he was tracking
-> regressions.
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: linux-doc@vger.kernel.org
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
+---
+ Documentation/virt/kvm/api.rst | 193 +++++++++++++++++++++++++++++++--
+ 1 file changed, 184 insertions(+), 9 deletions(-)
 
-So, now that those weeks with the merge window, the OSS & ELC Europe, 
-and this US election thing are behind us it seems like a good time to ask:
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 36d5f1f3c6dd..ea0a0bdd3d27 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -513,7 +513,7 @@ translation mode.
+ ------------------
+ 
+ :Capability: basic
+-:Architectures: x86, ppc, mips
++:Architectures: x86, ppc, mips, riscv
+ :Type: vcpu ioctl
+ :Parameters: struct kvm_interrupt (in)
+ :Returns: 0 on success, negative on failure.
+@@ -582,6 +582,23 @@ interrupt number dequeues the interrupt.
+ 
+ This is an asynchronous vcpu ioctl and can be invoked from any thread.
+ 
++RISC-V:
++^^^^^^^
++
++Queues an external interrupt to be injected into the virutal CPU. This ioctl
++is overloaded with 2 different irq values:
++
++a) KVM_INTERRUPT_SET
++
++   This sets external interrupt for a virtual CPU and it will receive
++   once it is ready.
++
++b) KVM_INTERRUPT_UNSET
++
++   This clears pending external interrupt for a virtual CPU.
++
++This is an asynchronous vcpu ioctl and can be invoked from any thread.
++
+ 
+ 4.17 KVM_DEBUG_GUEST
+ --------------------
+@@ -1364,7 +1381,7 @@ for vm-wide capabilities.
+ ---------------------
+ 
+ :Capability: KVM_CAP_MP_STATE
+-:Architectures: x86, s390, arm, arm64
++:Architectures: x86, s390, arm, arm64, riscv
+ :Type: vcpu ioctl
+ :Parameters: struct kvm_mp_state (out)
+ :Returns: 0 on success; -1 on error
+@@ -1381,7 +1398,8 @@ uniprocessor guests).
+ Possible values are:
+ 
+    ==========================    ===============================================
+-   KVM_MP_STATE_RUNNABLE         the vcpu is currently running [x86,arm/arm64]
++   KVM_MP_STATE_RUNNABLE         the vcpu is currently running
++                                 [x86,arm/arm64,riscv]
+    KVM_MP_STATE_UNINITIALIZED    the vcpu is an application processor (AP)
+                                  which has not yet received an INIT signal [x86]
+    KVM_MP_STATE_INIT_RECEIVED    the vcpu has received an INIT signal, and is
+@@ -1390,7 +1408,7 @@ Possible values are:
+                                  is waiting for an interrupt [x86]
+    KVM_MP_STATE_SIPI_RECEIVED    the vcpu has just received a SIPI (vector
+                                  accessible via KVM_GET_VCPU_EVENTS) [x86]
+-   KVM_MP_STATE_STOPPED          the vcpu is stopped [s390,arm/arm64]
++   KVM_MP_STATE_STOPPED          the vcpu is stopped [s390,arm/arm64,riscv]
+    KVM_MP_STATE_CHECK_STOP       the vcpu is in a special error state [s390]
+    KVM_MP_STATE_OPERATING        the vcpu is operating (running or halted)
+                                  [s390]
+@@ -1402,8 +1420,8 @@ On x86, this ioctl is only useful after KVM_CREATE_IRQCHIP. Without an
+ in-kernel irqchip, the multiprocessing state must be maintained by userspace on
+ these architectures.
+ 
+-For arm/arm64:
+-^^^^^^^^^^^^^^
++For arm/arm64/riscv:
++^^^^^^^^^^^^^^^^^^^^
+ 
+ The only states that are valid are KVM_MP_STATE_STOPPED and
+ KVM_MP_STATE_RUNNABLE which reflect if the vcpu is paused or not.
+@@ -1412,7 +1430,7 @@ KVM_MP_STATE_RUNNABLE which reflect if the vcpu is paused or not.
+ ---------------------
+ 
+ :Capability: KVM_CAP_MP_STATE
+-:Architectures: x86, s390, arm, arm64
++:Architectures: x86, s390, arm, arm64, riscv
+ :Type: vcpu ioctl
+ :Parameters: struct kvm_mp_state (in)
+ :Returns: 0 on success; -1 on error
+@@ -1424,8 +1442,8 @@ On x86, this ioctl is only useful after KVM_CREATE_IRQCHIP. Without an
+ in-kernel irqchip, the multiprocessing state must be maintained by userspace on
+ these architectures.
+ 
+-For arm/arm64:
+-^^^^^^^^^^^^^^
++For arm/arm64/riscv:
++^^^^^^^^^^^^^^^^^^^^
+ 
+ The only states that are valid are KVM_MP_STATE_STOPPED and
+ KVM_MP_STATE_RUNNABLE which reflect if the vcpu should be paused or not.
+@@ -2539,6 +2557,144 @@ following id bit patterns::
+ 
+   0x7020 0000 0003 02 <0:3> <reg:5>
+ 
++RISC-V registers are mapped using the lower 32 bits. The upper 8 bits of
++that is the register group type.
++
++RISC-V config registers are meant for configuring a Guest VCPU and it has
++the following id bit patterns::
++
++  0x8020 0000 01 <index into the kvm_riscv_config struct:24> (32bit Host)
++  0x8030 0000 01 <index into the kvm_riscv_config struct:24> (64bit Host)
++
++Following are the RISC-V config registers:
++
++======================= ========= =============================================
++    Encoding            Register  Description
++======================= ========= =============================================
++  0x80x0 0000 0100 0000 isa       ISA feature bitmap of Guest VCPU
++======================= ========= =============================================
++
++The isa config register can be read anytime but can only be written before
++a Guest VCPU runs. It will have ISA feature bits matching underlying host
++set by default.
++
++RISC-V core registers represent the general excution state of a Guest VCPU
++and it has the following id bit patterns::
++
++  0x8020 0000 02 <index into the kvm_riscv_core struct:24> (32bit Host)
++  0x8030 0000 02 <index into the kvm_riscv_core struct:24> (64bit Host)
++
++Following are the RISC-V core registers:
++
++======================= ========= =============================================
++    Encoding            Register  Description
++======================= ========= =============================================
++  0x80x0 0000 0200 0000 regs.pc   Program counter
++  0x80x0 0000 0200 0001 regs.ra   Return address
++  0x80x0 0000 0200 0002 regs.sp   Stack pointer
++  0x80x0 0000 0200 0003 regs.gp   Global pointer
++  0x80x0 0000 0200 0004 regs.tp   Task pointer
++  0x80x0 0000 0200 0005 regs.t0   Caller saved register 0
++  0x80x0 0000 0200 0006 regs.t1   Caller saved register 1
++  0x80x0 0000 0200 0007 regs.t2   Caller saved register 2
++  0x80x0 0000 0200 0008 regs.s0   Callee saved register 0
++  0x80x0 0000 0200 0009 regs.s1   Callee saved register 1
++  0x80x0 0000 0200 000a regs.a0   Function argument (or return value) 0
++  0x80x0 0000 0200 000b regs.a1   Function argument (or return value) 1
++  0x80x0 0000 0200 000c regs.a2   Function argument 2
++  0x80x0 0000 0200 000d regs.a3   Function argument 3
++  0x80x0 0000 0200 000e regs.a4   Function argument 4
++  0x80x0 0000 0200 000f regs.a5   Function argument 5
++  0x80x0 0000 0200 0010 regs.a6   Function argument 6
++  0x80x0 0000 0200 0011 regs.a7   Function argument 7
++  0x80x0 0000 0200 0012 regs.s2   Callee saved register 2
++  0x80x0 0000 0200 0013 regs.s3   Callee saved register 3
++  0x80x0 0000 0200 0014 regs.s4   Callee saved register 4
++  0x80x0 0000 0200 0015 regs.s5   Callee saved register 5
++  0x80x0 0000 0200 0016 regs.s6   Callee saved register 6
++  0x80x0 0000 0200 0017 regs.s7   Callee saved register 7
++  0x80x0 0000 0200 0018 regs.s8   Callee saved register 8
++  0x80x0 0000 0200 0019 regs.s9   Callee saved register 9
++  0x80x0 0000 0200 001a regs.s10  Callee saved register 10
++  0x80x0 0000 0200 001b regs.s11  Callee saved register 11
++  0x80x0 0000 0200 001c regs.t3   Caller saved register 3
++  0x80x0 0000 0200 001d regs.t4   Caller saved register 4
++  0x80x0 0000 0200 001e regs.t5   Caller saved register 5
++  0x80x0 0000 0200 001f regs.t6   Caller saved register 6
++  0x80x0 0000 0200 0020 mode      Privilege mode (1 = S-mode or 0 = U-mode)
++======================= ========= =============================================
++
++RISC-V csr registers represent the supervisor mode control/status registers
++of a Guest VCPU and it has the following id bit patterns::
++
++  0x8020 0000 03 <index into the kvm_riscv_csr struct:24> (32bit Host)
++  0x8030 0000 03 <index into the kvm_riscv_csr struct:24> (64bit Host)
++
++Following are the RISC-V csr registers:
++
++======================= ========= =============================================
++    Encoding            Register  Description
++======================= ========= =============================================
++  0x80x0 0000 0300 0000 sstatus   Supervisor status
++  0x80x0 0000 0300 0001 sie       Supervisor interrupt enable
++  0x80x0 0000 0300 0002 stvec     Supervisor trap vector base
++  0x80x0 0000 0300 0003 sscratch  Supervisor scratch register
++  0x80x0 0000 0300 0004 sepc      Supervisor exception program counter
++  0x80x0 0000 0300 0005 scause    Supervisor trap cause
++  0x80x0 0000 0300 0006 stval     Supervisor bad address or instruction
++  0x80x0 0000 0300 0007 sip       Supervisor interrupt pending
++  0x80x0 0000 0300 0008 satp      Supervisor address translation and protection
++======================= ========= =============================================
++
++RISC-V timer registers represent the timer state of a Guest VCPU and it has
++the following id bit patterns::
++
++  0x8030 0000 04 <index into the kvm_riscv_timer struct:24>
++
++Following are the RISC-V timer registers:
++
++======================= ========= =============================================
++    Encoding            Register  Description
++======================= ========= =============================================
++  0x8030 0000 0400 0000 frequency Time base frequency (read-only)
++  0x8030 0000 0400 0001 time      Time value visible to Guest
++  0x8030 0000 0400 0002 compare   Time compare programmed by Guest
++  0x8030 0000 0400 0003 state     Time compare state (1 = ON or 0 = OFF)
++======================= ========= =============================================
++
++RISC-V F-extension registers represent the single precision floating point
++state of a Guest VCPU and it has the following id bit patterns::
++
++  0x8020 0000 05 <index into the __riscv_f_ext_state struct:24>
++
++Following are the RISC-V F-extension registers:
++
++======================= ========= =============================================
++    Encoding            Register  Description
++======================= ========= =============================================
++  0x8020 0000 0500 0000 f[0]      Floating point register 0
++  ...
++  0x8020 0000 0500 001f f[31]     Floating point register 31
++  0x8020 0000 0500 0020 fcsr      Floating point control and status register
++======================= ========= =============================================
++
++RISC-V D-extension registers represent the double precision floating point
++state of a Guest VCPU and it has the following id bit patterns::
++
++  0x8020 0000 06 <index into the __riscv_d_ext_state struct:24> (fcsr)
++  0x8030 0000 06 <index into the __riscv_d_ext_state struct:24> (non-fcsr)
++
++Following are the RISC-V D-extension registers:
++
++======================= ========= =============================================
++    Encoding            Register  Description
++======================= ========= =============================================
++  0x8030 0000 0600 0000 f[0]      Floating point register 0
++  ...
++  0x8030 0000 0600 001f f[31]     Floating point register 31
++  0x8020 0000 0600 0020 fcsr      Floating point control and status register
++======================= ========= =============================================
++
+ 
+ 4.69 KVM_GET_ONE_REG
+ --------------------
+@@ -5303,6 +5459,25 @@ wants to write. Once finished processing the event, user space must continue
+ vCPU execution. If the MSR write was unsuccessful, user space also sets the
+ "error" field to "1".
+ 
++::
++
++		/* KVM_EXIT_RISCV_SBI */
++		struct {
++			unsigned long extension_id;
++			unsigned long function_id;
++			unsigned long args[6];
++			unsigned long ret[2];
++		} riscv_sbi;
++If exit reason is KVM_EXIT_RISCV_SBI then it indicates that the VCPU has
++done a SBI call which is not handled by KVM RISC-V kernel module. The details
++of the SBI call are available in 'riscv_sbi' member of kvm_run structure. The
++'extension_id' field of 'riscv_sbi' represents SBI extension ID whereas the
++'function_id' field represents function ID of given SBI extension. The 'args'
++array field of 'riscv_sbi' represents parameters for the SBI call and 'ret'
++array field represents return values. The userspace should update the return
++values of SBI call before resuming the VCPU. For more details on RISC-V SBI
++spec refer, https://github.com/riscv/riscv-sbi-doc.
++
+ ::
+ 
+ 		/* Fix the size of the union. */
+-- 
+2.25.1
 
-How to move on with this?
-
-@Jon: I'd be really appreciate to hear your thoughts on this.
-
-@Randy: Thx again for all suggestions and pointing out many spelling 
-mistakes, that helped a lot! You didn't reply to some of the patches, 
-which made me wonder: did you not look at those (which is totally fine) 
-or was there nothing to point out? And what I'd really like to know: 
-what are you thinking about the whole thing?
-
-@Everyone: Yes, I know, the length of the text is a bit intimidating, 
-but the structure was carefully chosen to get everything crucial across 
-at the top quickly, to make sure impatient readers quickly find what 
-they need -- and the details as well in later sections, in case they 
-need them. Yes, sure, that is not easy to achieve, but I think having 
-all the relevant information close together is of benefit for the 
-readers. Keeping details out that a significant share of readers will 
-likely need sounds a bit like saying "we don't take that patch, it for 
-the embedded use case and we only care about desktops and server" to me 
-(something which we don't do for good reasons and served us quite well 
-afaics)[¹].
-
-Ohh, and btw: I still look for any input of what to write in the "decode 
-strack trace" section (see patch 19 you'll also find here
-https://lore.kernel.org/lkml/fc63c021e58106559717fe1ecbbd24163e1c152d.1601541165.git.linux@leemhuis.info/
-). Anyone seen some blog post or article that gives on the current state 
-of the art that might get me started?
-
-Ciao, Thorsten
-
-[¹] Side note: I noticed I even forgot to describe one thing: how to 
-join an existing mailing list discussion without breaking threading. 
-That something that even experienced users sometimes have trouble with, 
-afaics.
-
-
-> For the curious, this is how the text looks in the end:
-> https://gitlab.com/knurd42/linux/-/raw/reporting-bugs-rfc/Documentation/admin-guide/reporting-bugs.rst
-> 
-> For comparison, here you can find the old text and the commits to it and its
-> predecessor:
-> https://www.kernel.org/doc/html/latest/admin-guide/reporting-bugs.html
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-bugs.rst
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/Documentation/admin-guide/reporting-bugs.rst
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/REPORTING-BUGS
-> 
-> This is an early RFC and likely has some spelling and grammatical mistakes.
-> Sorry for that, the main author is not a native English speaker and makes too
-> many of those mistakes even in his mother tongue. He used hunspell and
-> LanguageTool to find errors, but noticed those tools miss quite a few mistakes.
-> Hopefully it's not too bad.
-> 
-> The main author of the rewrite is also fully aware the text got quite long in
-> the end. That happened as he tried to make users avoid many of the problem he
-> noticed in bug report, which needed quite a bit of space to describe.
-> Nevertheless, he tried to make sure the text uses a structure where only those
-> that want to know all the details have to read it. That's mainly realized with
-> the help of the TL;DR and the short guide at the top of the document. Those
-> should be good enough for a lot of situations.
-> 
-> There are a few points that will need to be discussed. The comment in the
-> individual patches will point some of those out; that for example includes
-> things like "dual licensing under CC-BY 4.0", "are we asking too much from users
-> when telling them to test mainline?", and "CC LKML or something else on all
-> reports?". But a few points are best raised here:
-> 
->   * The old and the new reporting-bugs text take a totally different approach to
-> bugzilla.kernel.org. The old mentions it as the place to file your issue if
-> you don't know where to go. The new one mentions it rarely and most of the
-> time warn users that it's often the wrong place to go. This approach was
-> chosen as the main author noticed quite a few users (or even a lot?) get no
-> reply to the bugs they file in bugzilla. That's kind of expected, as quite a
-> few (many? most?) of the maintainers don't even get notified when reports for
-> their subsystem get filed there. Anyway: not getting a reply is something
-> that is just annoying for users and might make them angry. Improving bugzilla
-> would be an option, but on the kernel and maintainers summit 2017 (sorry it
-> took so long) it was agreed on to first go this route, as it's easier to
-> reach and less controversial, as many maintainers likely are unwilling to
-> deal with bugzilla.
-> 
->   * The text states "see above" or "see below" in a few places. Should those be
-> proper links? But then some anchors will need to be placed manually in a few
-> places, which slightly hurt readability of the plain text. Could RST or
-> autosectionlabel help here somewhat (without changing the line
-> "autosectionlabel_maxdepth = 2" in Documentation/conf.py, which likely is
-> unwanted)?
-> 
->   * The new text avoids the word "bug" and uses "issues" instead, as users face
-> issues which might or might not be caused by bugs. Due to this approach it
-> might make sense to rename the document to "reporting-issues". But for now
-> everything is left as it is, as changing the name of a well known file has
-> downsides; but maybe at least the documents headline should get the
-> s/bugs/issues/ treatment.
-> 
->   * How to make sure everybody that cares get a chance to review this? As this is
-> an early RFC, the author chose to sent it only to the docs maintainer,
-> linux-docs and LKML, to see how well this approach is received in general.
-> Once it is agreed that this is the route forward, a lot of other people need
-> to be CCed to review it; the stable maintainers for example should check if
-> the section on handling issues with stable and longterm kernels is acceptable
-> for them. In the end it's something a lot of maintainers might want to take
-> at least a quick look at, as they will be dealing with the reports. But there
-> is no easy way to contact all of them (apart from CCing all of them), as most
-> of them likely don't read LKML anymore. Should the author maybe abuse
-> ksummit-discuss, as this likely will reach all the major stakeholders Side
-> note: maybe it would be good to have a list for things like this on vger...
-> 
-> The patch series is against docs-next and can also be found on gitlab:
-> git://git@gitlab.com:knurd42/linux.git reporting-bugs-rfc
-> 
-> Strictly speaking this series is not bisectable, as the old text it left in
-> place and removed slowly by the patches in the series when they add new text
-> that covers the same aspect. Thus, both old and new text are incomplete or
-> inconsistent (and thus would not build, if we'd talked about code). But that is
-> only relevant for those that read the text before the series is fully applied.
-> That seemed like an acceptable downside in this case, as this makes it easier to
-> compare the old and new approach.
-> 
-> Note: The main autor is not a developer, so he will have gotten a few things in
-> the procedure wrong. Let him know if you spot something where things are off.
-> 
-> Thorsten Leemhuis (26):
->    docs: reporting-bugs: temporary markers for licensing and diff reasons
->    docs: reporting-bugs: Create a TLDR how to report issues
->    docs: reporting-bugs: step-by-step guide on how to report issues
->    docs: reporting-bugs: step-by-step guide for issues in stable &
->      longterm
->    docs: reporting-bugs: begin reference section providing details
->    docs: reporting-bugs: point out we only care about fresh vanilla
->      kernels
->    docs: reporting-bugs: let users classify their issue
->    docs: reporting-bugs: make readers check the taint flag
->    docs: reporting-bugs: help users find the proper place for their
->      report
->    docs: reporting-bugs: remind people to look for existing reports
->    docs: reporting-bugs: remind people to back up their data
->    docs: reporting-bugs: tell users to disable DKMS et al.
->    docs: reporting-bugs: point out the environment might be causing issue
->    docs: reporting-bugs: make users write notes, one for each issue
->    docs: reporting-bugs: make readers test mainline, but leave a loophole
->    docs: reporting-bugs: let users check taint status again
->    docs: reporting-bugs: explain options if reproducing on mainline fails
->    docs: reporting-bugs: let users optimize their notes
->    docs: reporting-bugs: decode failure messages [need help]
->    docs: reporting-bugs: instructions for handling regressions
->    docs: reporting-bugs: details on writing and sending the report
->    docs: reporting-bugs: explain what users should do once the report got
->      out
->    docs: reporting-bugs: details for issues specific to stable and
->      longterm
->    docs: reporting-bugs: explain why users might get neither reply nor
->      fix
->    docs: reporting-bugs: explain things could be easier
->    docs: reporting-bugs: add SPDX tag and license hint, remove markers
-> 
->   Documentation/admin-guide/bug-bisect.rst      |    2 +
->   Documentation/admin-guide/reporting-bugs.rst  | 1586 +++++++++++++++--
->   Documentation/admin-guide/tainted-kernels.rst |    2 +
->   scripts/ver_linux                             |   81 -
->   4 files changed, 1441 insertions(+), 230 deletions(-)
->   delete mode 100755 scripts/ver_linux
-> 
-> 
-> base-commit: e0bc9cf0a7d527ff140f851f6f1a815cc5c48fea
-> 
