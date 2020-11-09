@@ -2,176 +2,216 @@ Return-Path: <SRS0=qLBM=EP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D3FC388F7
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB96C2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:22:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3EE00207BC
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:20:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71618206E3
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:22:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="anyEXQNB"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="B7slKvVq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730836AbgKIOUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 09:20:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729776AbgKIOUk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 09:20:40 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE630C0613CF
-        for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2020 06:20:38 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id i26so7273818pgl.5
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 06:20:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yzZSafk58bq+f5L2n1A+XJgmXIfKfqr55EsbHaz5ToU=;
-        b=anyEXQNBxl/WPiGhQQNwmAQb+fQoGWo0vJCypbVU0olYHgcNgdGNMOWRmxfxeUtv3o
-         g26pAqMiAJOuq6UnzUPj5YGG+tQY8LLQaNhEpp1i2NBpd1rk3QXgSjo3rFc7n4A3rgRT
-         2migm/LzuplMv3qzhqSicOFWm9bKmd8hcj+WFa8U9Bvl1MadZP78fp68EqVPtOeThjkF
-         1FVJmmjavutK+fiGUf9u3YvoXYozI5tKWIP/YFbT7b3r8hcbG+AX8eOKYUa3HalOCEsK
-         wYJoi97fMNPqIHVk3ZtTA4+Sm84h7F7d+jSzQrpK8GataVUIRXUTh5imfrXTBMUYi4jG
-         48lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yzZSafk58bq+f5L2n1A+XJgmXIfKfqr55EsbHaz5ToU=;
-        b=ibi97VdMpARjcqzeShRgI7P0hzgGJm/i+KB5zFhEhlbadejPrjO1jbGiJV5g/ahWP8
-         5nkc+nlJ/o7KOixueTzVnYvX/9Nq5hDy6+guHPGXHk1McPgezIAsw6g9xltFIVqy0p3o
-         KYs4bM5BkmR/NAC2jz+9ASanswHf7V0XDIXyL8dZ/a9f6Cv6YH/Wmtsayp8+wCyQzWzr
-         7ea7OhNtxzKDQCvS3YD9FzTyZv/SjJ9lP6zVHbT1ozF+hi4pqDAQM/0YkNLkXNy+9gib
-         xDg4x/Fgyye68mArz+fxY2lC7SY+mhQ+8w8s5jt0TlGD30GfPQaUdzUOMMXbxXDfRzQX
-         APKg==
-X-Gm-Message-State: AOAM533MH74qM28TCxQDvvZTeY7CEpk5NydDH3WVzCbtp+cHPfp07Krk
-        KoSPbI8CDop3h+C+3Sgz0N5M9LHvBuNcGORO8GD9YA==
-X-Google-Smtp-Source: ABdhPJxkpM77kBmju2XOjMh8n98tAVXTI9znLZLfuG3dhhF1nJ7YKOpkysiIxpvhmPZsNVGS0wGQ7jgSEAlN/Hk9bPM=
-X-Received: by 2002:a65:5383:: with SMTP id x3mr12825717pgq.341.1604931638489;
- Mon, 09 Nov 2020 06:20:38 -0800 (PST)
+        id S1730307AbgKIOWW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 09:22:22 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:46174 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730041AbgKIOWW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 09:22:22 -0500
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9EM155042079;
+        Mon, 9 Nov 2020 08:22:01 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1604931721;
+        bh=BeJowArEAuNdzFs1nPVZrTg6rdA5Y2jTtFWItMvuN7g=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=B7slKvVqlOTC6Pg4t24Iyw7L3EI75xaTQ8PD8cUYYNZIkZDBXq/dhI5rx5HKfvKyT
+         jitG7SmzvlRe82TFJuJBAWHiV4yVOoQV1dsVQkRbCo0U3dzTgWzzmtAVuTOiQJNAis
+         MUyN7i/qTnY79oQSrG1SOq6lNJhSLsAuIr7gzmnM=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9EM1lV032432
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 9 Nov 2020 08:22:01 -0600
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
+ 2020 08:22:00 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 9 Nov 2020 08:22:00 -0600
+Received: from [10.250.213.167] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9ELoY6109464;
+        Mon, 9 Nov 2020 08:21:53 -0600
+Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
+ Non-Transparent Bridge
+To:     Sherry Sun <sherry.sun@nxp.com>
+CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jdmason@kudzu.us" <jdmason@kudzu.us>,
+        "dave.jiang@intel.com" <dave.jiang@intel.com>,
+        "allenbh@gmail.com" <allenbh@gmail.com>,
+        "tjoseph@cadence.com" <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+References: <20200930153519.7282-16-kishon@ti.com>
+ <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <d6d27475-3464-6772-2122-cc194b8ae022@ti.com>
+Date:   Mon, 9 Nov 2020 19:51:44 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-4-songmuchun@bytedance.com> <20201109135215.GA4778@localhost.localdomain>
-In-Reply-To: <20201109135215.GA4778@localhost.localdomain>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 9 Nov 2020 22:20:02 +0800
-Message-ID: <CAMZfGtVMFzFLzd5fMemopHfnsoye9yYN4V06eHZeO8qTu-4fAg@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v3 03/21] mm/hugetlb: Introduce a new
- config HUGETLB_PAGE_FREE_VMEMMAP
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 9, 2020 at 9:52 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Sun, Nov 08, 2020 at 10:10:55PM +0800, Muchun Song wrote:
-> > The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
-> > whether to enable the feature of freeing unused vmemmap associated
-> > with HugeTLB pages. Now only support x86.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  arch/x86/mm/init_64.c |  2 +-
-> >  fs/Kconfig            | 16 ++++++++++++++++
-> >  mm/bootmem_info.c     |  3 +--
-> >  3 files changed, 18 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-> > index 0a45f062826e..0435bee2e172 100644
-> > --- a/arch/x86/mm/init_64.c
-> > +++ b/arch/x86/mm/init_64.c
-> > @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
-> >
-> >  static void __init register_page_bootmem_info(void)
-> >  {
-> > -#ifdef CONFIG_NUMA
-> > +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
-> >       int i;
-> >
-> >       for_each_online_node(i)
-> > diff --git a/fs/Kconfig b/fs/Kconfig
-> > index 976e8b9033c4..21b8d39a9715 100644
-> > --- a/fs/Kconfig
-> > +++ b/fs/Kconfig
-> > @@ -245,6 +245,22 @@ config HUGETLBFS
-> >  config HUGETLB_PAGE
-> >       def_bool HUGETLBFS
-> >
-> > +config HUGETLB_PAGE_FREE_VMEMMAP
-> > +     bool "Free unused vmemmap associated with HugeTLB pages"
-> > +     default y
-> > +     depends on X86
-> > +     depends on HUGETLB_PAGE
-> > +     depends on SPARSEMEM_VMEMMAP
-> > +     depends on HAVE_BOOTMEM_INFO_NODE
-> > +     help
-> > +       There are many struct page structures associated with each HugeTLB
-> > +       page. But we only use a few struct page structures. In this case,
-> > +       it wastes some memory. It is better to free the unused struct page
-> > +       structures to buddy system which can save some memory. For
-> > +       architectures that support it, say Y here.
-> > +
-> > +       If unsure, say N.
->
-> I am not sure the above is useful for someone who needs to decide
-> whether he needs/wants to enable this or not.
-> I think the above fits better in a Documentation part.
->
-> I suck at this, but what about the following, or something along those
-> lines?
->
-> "
-> When using SPARSEMEM_VMEMMAP, the system can save up some memory
-> from pre-allocated HugeTLB pages when they are not used.
-> 6 pages per 2MB HugeTLB page and 4095 per 1GB HugeTLB page.
-> When the pages are going to be used or freed up, the vmemmap
-> array representing that range needs to be remapped again and
-> the pages we discarded earlier need to be rellocated again.
-> Therefore, this is a trade-off between saving memory and
-> increasing time in allocation/free path.
-> "
+Hi Sherry,
 
-Will do. Thanks for your suggestions.
+On 09/11/20 3:07 pm, Sherry Sun wrote:
+> Hi Kishon,
+> 
+>> Subject: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-
+>> Transparent Bridge
+>>
+>> From: Kishon Vijay Abraham I <kishon@ti.com>
+>>
+>> Add support for EPF PCI-Express Non-Transparent Bridge (NTB) device.
+>> This driver is platform independent and could be used by any platform which
+>> have multiple PCIe endpoint instances configured using the pci-epf-ntb driver.
+>> The driver connnects to the standard NTB sub-system interface. The EPF NTB
+>> device has configurable number of memory windows (Max 4), configurable
+>> number of doorbell (Max 32), and configurable number of scratch-pad
+>> registers.
+>>
+>> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+>> ---
+>>  drivers/ntb/hw/Kconfig          |   1 +
+>>  drivers/ntb/hw/Makefile         |   1 +
+>>  drivers/ntb/hw/epf/Kconfig      |   6 +
+>>  drivers/ntb/hw/epf/Makefile     |   1 +
+>>  drivers/ntb/hw/epf/ntb_hw_epf.c | 755
+>> ++++++++++++++++++++++++++++++++
+>>  5 files changed, 764 insertions(+)
+>>  create mode 100644 drivers/ntb/hw/epf/Kconfig  create mode 100644
+>> drivers/ntb/hw/epf/Makefile  create mode 100644
+>> drivers/ntb/hw/epf/ntb_hw_epf.c
+>>
+>> diff --git a/drivers/ntb/hw/Kconfig b/drivers/ntb/hw/Kconfig index
+>> e77c587060ff..c325be526b80 100644
+>> --- a/drivers/ntb/hw/Kconfig
+>> +++ b/drivers/ntb/hw/Kconfig
+>> @@ -2,4 +2,5 @@
+>>  source "drivers/ntb/hw/amd/Kconfig"
+>>  source "drivers/ntb/hw/idt/Kconfig"
+>>  source "drivers/ntb/hw/intel/Kconfig"
+>> +source "drivers/ntb/hw/epf/Kconfig"
+>>  source "drivers/ntb/hw/mscc/Kconfig"
+>> diff --git a/drivers/ntb/hw/Makefile b/drivers/ntb/hw/Makefile index
+>> 4714d6238845..223ca592b5f9 100644
+>> --- a/drivers/ntb/hw/Makefile
+>> +++ b/drivers/ntb/hw/Makefile
+>> @@ -2,4 +2,5 @@
+>>  obj-$(CONFIG_NTB_AMD)	+= amd/
+>>  obj-$(CONFIG_NTB_IDT)	+= idt/
+>>  obj-$(CONFIG_NTB_INTEL)	+= intel/
+>> +obj-$(CONFIG_NTB_EPF)	+= epf/
+>>  obj-$(CONFIG_NTB_SWITCHTEC) += mscc/
+>> diff --git a/drivers/ntb/hw/epf/Kconfig b/drivers/ntb/hw/epf/Kconfig new
+>> file mode 100644 index 000000000000..6197d1aab344
+>> --- /dev/null
+>> +++ b/drivers/ntb/hw/epf/Kconfig
+>> @@ -0,0 +1,6 @@
+>> +config NTB_EPF
+>> +	tristate "Generic EPF Non-Transparent Bridge support"
+>> +	depends on m
+>> +	help
+>> +	  This driver supports EPF NTB on configurable endpoint.
+>> +	  If unsure, say N.
+>> diff --git a/drivers/ntb/hw/epf/Makefile b/drivers/ntb/hw/epf/Makefile new
+>> file mode 100644 index 000000000000..2f560a422bc6
+>> --- /dev/null
+>> +++ b/drivers/ntb/hw/epf/Makefile
+>> @@ -0,0 +1 @@
+>> +obj-$(CONFIG_NTB_EPF) += ntb_hw_epf.o
+>> diff --git a/drivers/ntb/hw/epf/ntb_hw_epf.c
+>> b/drivers/ntb/hw/epf/ntb_hw_epf.c new file mode 100644 index
+>> 000000000000..0a144987851a
+>> --- /dev/null
+>> +++ b/drivers/ntb/hw/epf/ntb_hw_epf.c
+>> @@ -0,0 +1,755 @@
+> ......
+>> +static int ntb_epf_init_pci(struct ntb_epf_dev *ndev,
+>> +			    struct pci_dev *pdev)
+>> +{
+>> +	struct device *dev = ndev->dev;
+>> +	int ret;
+>> +
+>> +	pci_set_drvdata(pdev, ndev);
+>> +
+>> +	ret = pci_enable_device(pdev);
+>> +	if (ret) {
+>> +		dev_err(dev, "Cannot enable PCI device\n");
+>> +		goto err_pci_enable;
+>> +	}
+>> +
+>> +	ret = pci_request_regions(pdev, "ntb");
+>> +	if (ret) {
+>> +		dev_err(dev, "Cannot obtain PCI resources\n");
+>> +		goto err_pci_regions;
+>> +	}
+>> +
+>> +	pci_set_master(pdev);
+>> +
+>> +	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+>> +	if (ret) {
+>> +		ret = dma_set_mask_and_coherent(dev,
+>> DMA_BIT_MASK(32));
+>> +		if (ret) {
+>> +			dev_err(dev, "Cannot set DMA mask\n");
+>> +			goto err_dma_mask;
+>> +		}
+>> +		dev_warn(&pdev->dev, "Cannot DMA highmem\n");
+>> +	}
+>> +
+>> +	ndev->ctrl_reg = pci_iomap(pdev, 0, 0);
+> 
+> The second parameter of pci_iomap should be ndev->ctrl_reg_bar instead of the hardcode value 0, right?
+> 
+>> +	if (!ndev->ctrl_reg) {
+>> +		ret = -EIO;
+>> +		goto err_dma_mask;
+>> +	}
+>> +
+>> +	ndev->peer_spad_reg = pci_iomap(pdev, 1, 0);
+> 
+> pci_iomap(pdev, ndev->peer_spad_reg_bar, 0);
+> 
+>> +	if (!ndev->peer_spad_reg) {
+>> +		ret = -EIO;
+>> +		goto err_dma_mask;
+>> +	}
+>> +
+>> +	ndev->db_reg = pci_iomap(pdev, 2, 0);
+> 
+> pci_iomap(pdev, ndev->db_reg_bar, 0);
 
->
-> It would be also great to point out that this might be a
-> trade-off between saving up memory and increasing the cost
-> of certain operations on allocation/free path.
-> That is why I mentioned it there.
+Good catch. Will fix it and send. Thank you for reviewing.
 
-OK, I will add this to the Documentation part, thanks.
-
->
-> --
-> Oscar Salvador
-> SUSE L3
-
-
-
--- 
-Yours,
-Muchun
+Regards,
+Kishon
