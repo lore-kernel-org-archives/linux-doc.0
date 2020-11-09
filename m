@@ -1,217 +1,333 @@
-Return-Path: <SRS0=qLBM=EP=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB96C2D0A3
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0306C5517A
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:54:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71618206E3
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:22:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 455ED20897
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 14:54:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="B7slKvVq"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pd5SRD8D"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730307AbgKIOWW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 09:22:22 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:46174 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730041AbgKIOWW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 09:22:22 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9EM155042079;
-        Mon, 9 Nov 2020 08:22:01 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1604931721;
-        bh=BeJowArEAuNdzFs1nPVZrTg6rdA5Y2jTtFWItMvuN7g=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=B7slKvVqlOTC6Pg4t24Iyw7L3EI75xaTQ8PD8cUYYNZIkZDBXq/dhI5rx5HKfvKyT
-         jitG7SmzvlRe82TFJuJBAWHiV4yVOoQV1dsVQkRbCo0U3dzTgWzzmtAVuTOiQJNAis
-         MUyN7i/qTnY79oQSrG1SOq6lNJhSLsAuIr7gzmnM=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9EM1lV032432
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 9 Nov 2020 08:22:01 -0600
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
- 2020 08:22:00 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 9 Nov 2020 08:22:00 -0600
-Received: from [10.250.213.167] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9ELoY6109464;
-        Mon, 9 Nov 2020 08:21:53 -0600
-Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
- Non-Transparent Bridge
-To:     Sherry Sun <sherry.sun@nxp.com>
-CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jdmason@kudzu.us" <jdmason@kudzu.us>,
-        "dave.jiang@intel.com" <dave.jiang@intel.com>,
-        "allenbh@gmail.com" <allenbh@gmail.com>,
-        "tjoseph@cadence.com" <tjoseph@cadence.com>,
-        Rob Herring <robh@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
-References: <20200930153519.7282-16-kishon@ti.com>
- <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <d6d27475-3464-6772-2122-cc194b8ae022@ti.com>
-Date:   Mon, 9 Nov 2020 19:51:44 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1730836AbgKIOyJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 09:54:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38642 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730556AbgKIOyI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 09:54:08 -0500
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90A0C0613D3
+        for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2020 06:54:08 -0800 (PST)
+Received: by mail-oi1-x242.google.com with SMTP id d9so10468349oib.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 06:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+H+sh7Xx5cfQ4qCc62GuweRPK+p13Oni3c8PkkMskeE=;
+        b=Pd5SRD8Ddmf2dmCkFmXc1uKc1DaEiWNLoBkYCIyJnSvckbTdi29dmZtkp+Or3xrRDX
+         gxhd2iyJBBotLe7amIJ4fcv9cam6LALfBMeQDnFnJtRYCJDSk+a47VVb7Rnak/Yobz3m
+         y3K2X6j2wcyf/Id5omdFuxvO2PZvful6gQgD4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+H+sh7Xx5cfQ4qCc62GuweRPK+p13Oni3c8PkkMskeE=;
+        b=bGUrZlINYeoLDbAHThnDfPfjreTKvezcye2GhoBY8PvIpBmJ6pLUlPx6Of3RaQnqpc
+         jpNsFTUCW6GTIIS3aCz0nlsA6tm17qqPjxg+vH0NYcz3bn4uwrkcTZMA+KnboGzLOqbR
+         4FqkoHMP8sPfQNxAF+JK6IqPY5gnFB9prE41H9oc0nICaqsqBE8woAZcbDN0j7ma3Frb
+         /MZjQNycmksGMku9mQVYBLr2OXhPUTSGqpWzKK0Xe/TAmWZr7xpS0lkbr9M8xFy19EXQ
+         x9zVTEwwZnfhgsydf/lHjh43pFlreQyjtWcNLHT3ZYWReRbluKWvI57tzoE30/Xjs1JL
+         EWhA==
+X-Gm-Message-State: AOAM533GQC9P4/pdMxLXuVl4pjdD/dtmn7kBJy4mcd30KfwVX+1em4n4
+        8jNxWaJT62mEI1GaSvYJ6Sx6gZvFCxv6dQ==
+X-Google-Smtp-Source: ABdhPJw1ExW/kdeDLANddiSQdad0NSozISmeknHBpihnKP+0GhUeKpwrk39mAB/dYdD1RLD7ElQ8Xw==
+X-Received: by 2002:aca:80f:: with SMTP id 15mr6219974oii.69.1604933647814;
+        Mon, 09 Nov 2020 06:54:07 -0800 (PST)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com. [209.85.167.177])
+        by smtp.gmail.com with ESMTPSA id j21sm2602132otq.18.2020.11.09.06.54.06
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2020 06:54:07 -0800 (PST)
+Received: by mail-oi1-f177.google.com with SMTP id c80so10473743oib.2
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 06:54:06 -0800 (PST)
+X-Received: by 2002:a05:6808:983:: with SMTP id a3mr5075572oic.15.1604933646157;
+ Mon, 09 Nov 2020 06:54:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
+ <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+In-Reply-To: <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 9 Nov 2020 15:53:55 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
+Message-ID: <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sherry,
+Hi Christoph
 
-On 09/11/20 3:07 pm, Sherry Sun wrote:
-> Hi Kishon,
-> 
->> Subject: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-
->> Transparent Bridge
->>
->> From: Kishon Vijay Abraham I <kishon@ti.com>
->>
->> Add support for EPF PCI-Express Non-Transparent Bridge (NTB) device.
->> This driver is platform independent and could be used by any platform which
->> have multiple PCIe endpoint instances configured using the pci-epf-ntb driver.
->> The driver connnects to the standard NTB sub-system interface. The EPF NTB
->> device has configurable number of memory windows (Max 4), configurable
->> number of doorbell (Max 32), and configurable number of scratch-pad
->> registers.
->>
->> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
->> ---
->>  drivers/ntb/hw/Kconfig          |   1 +
->>  drivers/ntb/hw/Makefile         |   1 +
->>  drivers/ntb/hw/epf/Kconfig      |   6 +
->>  drivers/ntb/hw/epf/Makefile     |   1 +
->>  drivers/ntb/hw/epf/ntb_hw_epf.c | 755
->> ++++++++++++++++++++++++++++++++
->>  5 files changed, 764 insertions(+)
->>  create mode 100644 drivers/ntb/hw/epf/Kconfig  create mode 100644
->> drivers/ntb/hw/epf/Makefile  create mode 100644
->> drivers/ntb/hw/epf/ntb_hw_epf.c
->>
->> diff --git a/drivers/ntb/hw/Kconfig b/drivers/ntb/hw/Kconfig index
->> e77c587060ff..c325be526b80 100644
->> --- a/drivers/ntb/hw/Kconfig
->> +++ b/drivers/ntb/hw/Kconfig
->> @@ -2,4 +2,5 @@
->>  source "drivers/ntb/hw/amd/Kconfig"
->>  source "drivers/ntb/hw/idt/Kconfig"
->>  source "drivers/ntb/hw/intel/Kconfig"
->> +source "drivers/ntb/hw/epf/Kconfig"
->>  source "drivers/ntb/hw/mscc/Kconfig"
->> diff --git a/drivers/ntb/hw/Makefile b/drivers/ntb/hw/Makefile index
->> 4714d6238845..223ca592b5f9 100644
->> --- a/drivers/ntb/hw/Makefile
->> +++ b/drivers/ntb/hw/Makefile
->> @@ -2,4 +2,5 @@
->>  obj-$(CONFIG_NTB_AMD)	+= amd/
->>  obj-$(CONFIG_NTB_IDT)	+= idt/
->>  obj-$(CONFIG_NTB_INTEL)	+= intel/
->> +obj-$(CONFIG_NTB_EPF)	+= epf/
->>  obj-$(CONFIG_NTB_SWITCHTEC) += mscc/
->> diff --git a/drivers/ntb/hw/epf/Kconfig b/drivers/ntb/hw/epf/Kconfig new
->> file mode 100644 index 000000000000..6197d1aab344
->> --- /dev/null
->> +++ b/drivers/ntb/hw/epf/Kconfig
->> @@ -0,0 +1,6 @@
->> +config NTB_EPF
->> +	tristate "Generic EPF Non-Transparent Bridge support"
->> +	depends on m
->> +	help
->> +	  This driver supports EPF NTB on configurable endpoint.
->> +	  If unsure, say N.
->> diff --git a/drivers/ntb/hw/epf/Makefile b/drivers/ntb/hw/epf/Makefile new
->> file mode 100644 index 000000000000..2f560a422bc6
->> --- /dev/null
->> +++ b/drivers/ntb/hw/epf/Makefile
->> @@ -0,0 +1 @@
->> +obj-$(CONFIG_NTB_EPF) += ntb_hw_epf.o
->> diff --git a/drivers/ntb/hw/epf/ntb_hw_epf.c
->> b/drivers/ntb/hw/epf/ntb_hw_epf.c new file mode 100644 index
->> 000000000000..0a144987851a
->> --- /dev/null
->> +++ b/drivers/ntb/hw/epf/ntb_hw_epf.c
->> @@ -0,0 +1,755 @@
-> ......
->> +static int ntb_epf_init_pci(struct ntb_epf_dev *ndev,
->> +			    struct pci_dev *pdev)
->> +{
->> +	struct device *dev = ndev->dev;
->> +	int ret;
->> +
->> +	pci_set_drvdata(pdev, ndev);
->> +
->> +	ret = pci_enable_device(pdev);
->> +	if (ret) {
->> +		dev_err(dev, "Cannot enable PCI device\n");
->> +		goto err_pci_enable;
->> +	}
->> +
->> +	ret = pci_request_regions(pdev, "ntb");
->> +	if (ret) {
->> +		dev_err(dev, "Cannot obtain PCI resources\n");
->> +		goto err_pci_regions;
->> +	}
->> +
->> +	pci_set_master(pdev);
->> +
->> +	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
->> +	if (ret) {
->> +		ret = dma_set_mask_and_coherent(dev,
->> DMA_BIT_MASK(32));
->> +		if (ret) {
->> +			dev_err(dev, "Cannot set DMA mask\n");
->> +			goto err_dma_mask;
->> +		}
->> +		dev_warn(&pdev->dev, "Cannot DMA highmem\n");
->> +	}
->> +
->> +	ndev->ctrl_reg = pci_iomap(pdev, 0, 0);
-> 
-> The second parameter of pci_iomap should be ndev->ctrl_reg_bar instead of the hardcode value 0, right?
-> 
->> +	if (!ndev->ctrl_reg) {
->> +		ret = -EIO;
->> +		goto err_dma_mask;
->> +	}
->> +
->> +	ndev->peer_spad_reg = pci_iomap(pdev, 1, 0);
-> 
-> pci_iomap(pdev, ndev->peer_spad_reg_bar, 0);
-> 
->> +	if (!ndev->peer_spad_reg) {
->> +		ret = -EIO;
->> +		goto err_dma_mask;
->> +	}
->> +
->> +	ndev->db_reg = pci_iomap(pdev, 2, 0);
-> 
-> pci_iomap(pdev, ndev->db_reg_bar, 0);
+I have started now to give a try to your patchset. Sorry for the delay.
 
-Good catch. Will fix it and send. Thank you for reviewing.
+For uvc I have prepared this patch:
+https://github.com/ribalda/linux/commit/9094fe223fe38f8c8ff21366d893b43cbbdf0113
 
-Regards,
-Kishon
+I have tested successfully in a x86_64 noteboot..., yes I know there
+is no change for that platform :).
+I am trying to get hold of an arm device that can run the latest
+kernel from upstream.
+
+On the meanwhile if you could take a look to the patch to verify that
+this the way that you expect the drivers to use your api I would
+appreciate it
+
+Thanks
+
+
+
+On Wed, Oct 14, 2020 at 3:20 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> +CC Ricardo who will be looking into using this in the USB stack (UVC
+> camera driver).
+>
+> On Wed, Sep 30, 2020 at 6:09 PM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > Add a new API that returns a virtually non-contigous array of pages
+> > and dma address.  This API is only implemented for dma-iommu and will
+> > not be implemented for non-iommu DMA API instances that have to allocate
+> > contiguous memory.  It is up to the caller to check if the API is
+> > available.
+> >
+> > The intent is that media drivers can use this API if either:
+> >
+> >  - no kernel mapping or only temporary kernel mappings are required.
+> >    That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
+> >  - a kernel mapping is required for cached and DMA mapped pages, but
+> >    the driver also needs the pages to e.g. map them to userspace.
+> >    In that sense it is a replacement for some aspects of the recently
+> >    removed and never fully implemented DMA_ATTR_NON_CONSISTENT
+> >
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ---
+> >  drivers/iommu/dma-iommu.c   | 73 +++++++++++++++++++++++++------------
+> >  include/linux/dma-mapping.h |  9 +++++
+> >  kernel/dma/mapping.c        | 35 ++++++++++++++++++
+> >  3 files changed, 93 insertions(+), 24 deletions(-)
+> >
+> > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> > index 7922f545cd5eef..158026a856622c 100644
+> > --- a/drivers/iommu/dma-iommu.c
+> > +++ b/drivers/iommu/dma-iommu.c
+> > @@ -565,23 +565,12 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
+> >         return pages;
+> >  }
+> >
+> > -/**
+> > - * iommu_dma_alloc_remap - Allocate and map a buffer contiguous in IOVA space
+> > - * @dev: Device to allocate memory for. Must be a real device
+> > - *      attached to an iommu_dma_domain
+> > - * @size: Size of buffer in bytes
+> > - * @dma_handle: Out argument for allocated DMA handle
+> > - * @gfp: Allocation flags
+> > - * @prot: pgprot_t to use for the remapped mapping
+> > - * @attrs: DMA attributes for this allocation
+> > - *
+> > - * If @size is less than PAGE_SIZE, then a full CPU page will be allocated,
+> > +/*
+> > + * If size is less than PAGE_SIZE, then a full CPU page will be allocated,
+> >   * but an IOMMU which supports smaller pages might not map the whole thing.
+> > - *
+> > - * Return: Mapped virtual address, or NULL on failure.
+> >   */
+> > -static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> > -               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> > +static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
+> > +               size_t size, dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> >                 unsigned long attrs)
+> >  {
+> >         struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> > @@ -593,7 +582,6 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> >         struct page **pages;
+> >         struct sg_table sgt;
+> >         dma_addr_t iova;
+> > -       void *vaddr;
+> >
+> >         *dma_handle = DMA_MAPPING_ERROR;
+> >
+> > @@ -636,17 +624,10 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> >                         < size)
+> >                 goto out_free_sg;
+> >
+> > -       vaddr = dma_common_pages_remap(pages, size, prot,
+> > -                       __builtin_return_address(0));
+> > -       if (!vaddr)
+> > -               goto out_unmap;
+> > -
+> >         *dma_handle = iova;
+> >         sg_free_table(&sgt);
+> > -       return vaddr;
+> > +       return pages;
+> >
+> > -out_unmap:
+> > -       __iommu_dma_unmap(dev, iova, size);
+> >  out_free_sg:
+> >         sg_free_table(&sgt);
+> >  out_free_iova:
+> > @@ -656,6 +637,46 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> >         return NULL;
+> >  }
+> >
+> > +static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> > +               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> > +               unsigned long attrs)
+> > +{
+> > +       struct page **pages;
+> > +       void *vaddr;
+> > +
+> > +       pages = __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
+> > +                                               prot, attrs);
+> > +       if (!pages)
+> > +               return NULL;
+> > +       vaddr = dma_common_pages_remap(pages, size, prot,
+> > +                       __builtin_return_address(0));
+> > +       if (!vaddr)
+> > +               goto out_unmap;
+> > +       return vaddr;
+> > +
+> > +out_unmap:
+> > +       __iommu_dma_unmap(dev, *dma_handle, size);
+> > +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+> > +       return NULL;
+> > +}
+> > +
+> > +#ifdef CONFIG_DMA_REMAP
+> > +static struct page **iommu_dma_alloc_noncontiguous(struct device *dev,
+> > +               size_t size, dma_addr_t *dma_handle, gfp_t gfp,
+> > +               unsigned long attrs)
+> > +{
+> > +       return __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
+> > +                                              PAGE_KERNEL, attrs);
+> > +}
+> > +
+> > +static void iommu_dma_free_noncontiguous(struct device *dev, size_t size,
+> > +               struct page **pages, dma_addr_t dma_handle)
+> > +{
+> > +       __iommu_dma_unmap(dev, dma_handle, size);
+> > +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+> > +}
+> > +#endif
+> > +
+> >  static void iommu_dma_sync_single_for_cpu(struct device *dev,
+> >                 dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
+> >  {
+> > @@ -1110,6 +1131,10 @@ static const struct dma_map_ops iommu_dma_ops = {
+> >         .free                   = iommu_dma_free,
+> >         .alloc_pages            = dma_common_alloc_pages,
+> >         .free_pages             = dma_common_free_pages,
+> > +#ifdef CONFIG_DMA_REMAP
+> > +       .alloc_noncontiguous    = iommu_dma_alloc_noncontiguous,
+> > +       .free_noncontiguous     = iommu_dma_free_noncontiguous,
+> > +#endif
+> >         .mmap                   = iommu_dma_mmap,
+> >         .get_sgtable            = iommu_dma_get_sgtable,
+> >         .map_page               = iommu_dma_map_page,
+> > diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> > index 4b9b1d64f5ec9e..51bbc32365bb8d 100644
+> > --- a/include/linux/dma-mapping.h
+> > +++ b/include/linux/dma-mapping.h
+> > @@ -74,6 +74,10 @@ struct dma_map_ops {
+> >                         gfp_t gfp);
+> >         void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
+> >                         dma_addr_t dma_handle, enum dma_data_direction dir);
+> > +       struct page **(*alloc_noncontiguous)(struct device *dev, size_t size,
+> > +                       dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
+> > +       void (*free_noncontiguous)(struct device *dev, size_t size,
+> > +                       struct page **pages, dma_addr_t dma_handle);
+> >         int (*mmap)(struct device *, struct vm_area_struct *,
+> >                           void *, dma_addr_t, size_t,
+> >                           unsigned long attrs);
+> > @@ -384,6 +388,11 @@ void *dma_alloc_noncoherent(struct device *dev, size_t size,
+> >                 dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+> >  void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+> >                 dma_addr_t dma_handle, enum dma_data_direction dir);
+> > +bool dma_can_alloc_noncontiguous(struct device *dev);
+> > +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
+> > +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
+> > +void dma_free_noncontiguous(struct device *dev, size_t size,
+> > +               struct page **pages, dma_addr_t dma_handle);
+> >
+> >  static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+> >                 size_t size, enum dma_data_direction dir, unsigned long attrs)
+> > diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> > index 06115f59f4ffbf..6d975d1a20dd72 100644
+> > --- a/kernel/dma/mapping.c
+> > +++ b/kernel/dma/mapping.c
+> > @@ -529,6 +529,41 @@ void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+> >  }
+> >  EXPORT_SYMBOL_GPL(dma_free_noncoherent);
+> >
+> > +bool dma_can_alloc_noncontiguous(struct device *dev)
+> > +{
+> > +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> > +
+> > +       return ops && ops->free_noncontiguous;
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_can_alloc_noncontiguous);
+> > +
+> > +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
+> > +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+> > +{
+> > +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> > +
+> > +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
+> > +               return NULL;
+> > +       if (attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES) {
+> > +               dev_warn(dev, "invalid flags (0x%lx) for %s\n",
+> > +                        attrs, __func__);
+> > +               return NULL;
+> > +       }
+> > +       return ops->alloc_noncontiguous(dev, size, dma_handle, gfp, attrs);
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_alloc_noncontiguous);
+> > +
+> > +void dma_free_noncontiguous(struct device *dev, size_t size,
+> > +               struct page **pages, dma_addr_t dma_handle)
+> > +{
+> > +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> > +
+> > +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
+> > +               return;
+> > +       ops->free_noncontiguous(dev, size, pages, dma_handle);
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_free_noncontiguous);
+> > +
+> >  int dma_supported(struct device *dev, u64 mask)
+> >  {
+> >         const struct dma_map_ops *ops = get_dma_ops(dev);
+> > --
+> > 2.28.0
+> >
+
+
+
+-- 
+Ricardo Ribalda
