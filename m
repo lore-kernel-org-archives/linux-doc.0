@@ -2,288 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A73C388F7
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 17:31:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD73C388F7
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:11:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2084321D93
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 17:31:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="KaHlfeV3"
+	by mail.kernel.org (Postfix) with ESMTP id 6AC312068D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Nov 2020 18:11:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731467AbgKIRbC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 12:31:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38318 "EHLO mail.kernel.org"
+        id S1730140AbgKISLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 13:11:11 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48958 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731491AbgKIRbC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Nov 2020 12:31:02 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ADF0F2083B;
-        Mon,  9 Nov 2020 17:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604943061;
-        bh=u+3BGBGLZ7qBudqUopV8+ouRomdiYDjtsYxTdZZMlGo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KaHlfeV3nG1ZjUWoIDSVj3aUulBvyKGSk4j1u9vHZ9XHTRjTFdWDejwUSAUtIDLGx
-         Qa8YGKNSStZZiojpbZRy/ka5DJgx/3yC1MSqKwFNmkSAYErJkokrLhINgo7N4aKasj
-         6vmcKmy7j+YJ7De8wDYdMgrBiT+WmfbKfuFvBWYA=
-Date:   Mon, 9 Nov 2020 18:32:00 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Evgeny Boger <boger@wirenboard.com>
-Subject: Re: Adding ABI to htmldocs - Was: Re: [PATCH 2/2] w1: w1_therm: Add
- support for GXCAS GX20MH01 device.
-Message-ID: <20201109173200.GB2371851@kroah.com>
-References: <20201006151915.77d044a4@coco.lan>
- <1561045277.20201007103227@wirenboard.ru>
- <20201007105702.67988846@coco.lan>
- <20201007090619.GA613204@kroah.com>
- <20201007130549.6ca57af0@coco.lan>
- <20201007114359.GA2167293@kroah.com>
- <20201007135934.4b6e598e@coco.lan>
- <20201021182843.522dd7e7@coco.lan>
- <20201021165819.GA1361645@kroah.com>
- <20201029152845.6bbb39ce@coco.lan>
+        id S1730691AbgKISLL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Nov 2020 13:11:11 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 15554AD2F;
+        Mon,  9 Nov 2020 18:11:09 +0000 (UTC)
+Date:   Mon, 9 Nov 2020 19:11:04 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 08/21] mm/vmemmap: Initialize page table lock for
+ vmemmap
+Message-ID: <20201109181104.GC17356@linux>
+References: <20201108141113.65450-1-songmuchun@bytedance.com>
+ <20201108141113.65450-9-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201029152845.6bbb39ce@coco.lan>
+In-Reply-To: <20201108141113.65450-9-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 03:28:45PM +0100, Mauro Carvalho Chehab wrote:
-> Em Wed, 21 Oct 2020 18:58:19 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> 
-> > On Wed, Oct 21, 2020 at 06:28:43PM +0200, Mauro Carvalho Chehab wrote:
-> > > Hi greg,
-> > > 
-> > > Em Wed, 7 Oct 2020 13:59:34 +0200
-> > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> > >   
-> > > > Em Wed, 7 Oct 2020 13:43:59 +0200
-> > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> > > >   
-> > > > > On Wed, Oct 07, 2020 at 01:05:49PM +0200, Mauro Carvalho Chehab wrote:    
-> > > > > > Em Wed, 7 Oct 2020 11:06:19 +0200
-> > > > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> > > > > >       
-> > > > > > > On Wed, Oct 07, 2020 at 10:57:02AM +0200, Mauro Carvalho Chehab wrote:      
-> > > > > > > > Em Wed, 7 Oct 2020 10:32:27 +0300
-> > > > > > > > Ivan Zaentsev <ivan.zaentsev@wirenboard.ru> escreveu:
-> > > > > > > >         
-> > > > > > > > > Tuesday, October 6, 2020, 4:19:15 PM, Mauro Carvalho Chehab wrote:
-> > > > > > > > >         
-> > > > > > > > > >> diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
-> > > > > > > > > >> index f1148181f53e..00376501a5ef 100644
-> > > > > > > > > >> --- a/Documentation/w1/slaves/w1_therm.rst
-> > > > > > > > > >> +++ b/Documentation/w1/slaves/w1_therm.rst          
-> > > > > > > > >         
-> > > > > > > > > >>  
-> > > > > > > > > >> @@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
-> > > > > > > > > >>  power), the driver returns a conversion error. Bit mask ``2`` enables poll for
-> > > > > > > > > >>  conversion completion (normal power only) by generating read cycles on the bus
-> > > > > > > > > >>  after conversion starts. In parasite power mode this feature is not available.
-> > > > > > > > > >> -Feature bit masks may be combined (OR).
-> > > > > > > > > >> +Feature bit masks may be combined (OR). See accompanying sysfs documentation:
-> > > > > > > > > >> +:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
-> > > > > > > > > >> +          
-> > > > > > > > >         
-> > > > > > > > > > As warned by Sphinx, this cross-reference is broken:          
-> > > > > > > > >         
-> > > > > > > > > >         .../Documentation/w1/slaves/w1_therm.rst:125: WARNING:
-> > > > > > > > > > undefined label: w1_therm (if the link has no caption the label must precede a section header)          
-> > > > > > > > > 
-> > > > > > > > > Would this be ok?        
-> > > > > > > > 
-> > > > > > > > Yeah, sure!
-> > > > > > > >         
-> > > > > > > > > 
-> > > > > > > > > "More details in Documentation/ABI/testing/sysfs-driver-w1_therm"
-> > > > > > > > >         
-> > > > > > > > > > Not sure what you wanted to point here.          
-> > > > > > > > > 
-> > > > > > > > > A link to a driver's sysfs interface, but sysfs docs are text
-> > > > > > > > > files and seem to not be included in Sphynx Docs.        
-> > > > > > > > 
-> > > > > > > > I sent upstream sometime ago a patch series adding ABI to Sphinx, but I 
-> > > > > > > > was not merged, not sure why:
-> > > > > > > > 
-> > > > > > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v5.6        
-> > > > > > > 
-> > > > > > > I think the raft of different patches floating around at the time made
-> > > > > > > me totally confused as to what was, and was not, the latest versions.      
-> > > > > > 
-> > > > > > Yeah, there were lots of patches floating around that time.
-> > > > > > 
-> > > > > > I also recall that someone (Jeni?) asked if the best wouldn't be to
-> > > > > > just convert the ABI files to ReST directly.
-> > > > > >       
-> > > > > > > I'll be glad to look at them again, if you want to rebase after 5.10-rc1
-> > > > > > > is out and resend them, as I think this should be showing up in the
-> > > > > > > documentation.      
-> > > > > > 
-> > > > > > Surely. I'll rebase them after 5.10-rc1 and re-submit. 
-> > > > > > 
-> > > > > > What strategy do you prefer? Keep the files with the same format as
-> > > > > > today (allowing them to optionally have ReST markups) or to convert
-> > > > > > them to .rst directly?
-> > > > > > 
-> > > > > > In the latter case, the best would be to apply it as early as possible
-> > > > > > after 5.10-rc1, as it may cause conflicts with other patches being
-> > > > > > submitted for 5.11.      
-> > > > > 
-> > > > > The existing format if at all possible, doing wholesale changes is a
-> > > > > mess and wouldn't be recommended.    
-> > > > 
-> > > > Yeah, merging it would indeed be a mess. At long term, though, it could 
-> > > > be easier to maintain.
-> > > >   
-> > > > > I think you already fixed up the entries that had problems being parsed
-> > > > > in the past, if not, we can resolve those as well.    
-> > > > 
-> > > > Yes. The series start with fixes. I suspect several of them
-> > > > (if not all) were already merged, but if anything is missing, I can fix 
-> > > > at the upcoming rebased series.  
-> > > 
-> > > Rebasing the patch series was easier than what I expected:
-> > > 
-> > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v6
-> > > 
-> > > Yet, while fixing one build issue, I noticed that there are multiple
-> > > files defining the same ABI, with different contents.
-> > > 
-> > > Right now, scripts/get_abi.pl assumes that "what" is unique. Well, sorts
-> > > of. When it finds a duplicated entry, it merges the description, 
-> > > preserving the fields from the last parsed entry.
-> > > 
-> > > I ended adding a patch to detect those ABI duplication:
-> > > 
-> > > 	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=abi_patches_v6&id=6868914605cb0ebffe3fd07d344c246e1e4cd94e
-> > > 
-> > > I'm enclosing the results.
-> > > 
-> > > One such example is this one:
-> > > 
-> > > 	3 duplicated entries for /sys/class/leds/<led>/hw_pattern: on file(s) sysfs-class-led-trigger-pattern sysfs-class-led-driver-sc27xx sysfs-class-led-driver-el15203000
-> > > 
-> > > It sounds that different drivers define and use this ABI, but
-> > > each one with different meanings. 
-> > > 
-> > > There are even some cases where the same file define the same ABI twice:
-> > > 
-> > > 	2 duplicated entries for /sys/class/power_supply/<supply_name>/temp_alert_min: on file(s) sysfs-class-power
-> > > 
-> > > Not sure what's the best way to document things like that, or if
-> > > the fix would be to drop/merge those.
-> > > 
-> > > Any ideas?  
-> > 
-> > We should merge them to be the correct representation.  The
-> > driver-specific ones for LED should just be dropped to use the
-> > class-generic one.
-> > 
-> > I guess just take them one at a time :)
-> 
-> I'm trying to address each one of the duplicated ones...
-> I'm now stuck with this one:
-> 
-> At Documentation/ABI/testing/sysfs-driver-w1_therm, it has:
-> 
-> 	What:		/sys/bus/w1/devices/.../eeprom
-> 	Date:		May 2020
-> 	Contact:	Akira Shimahara <akira215corp@gmail.com>
-> 	Description:
-> 			(WO) writing that file will either trigger a save of the
-> 			device data to its embedded EEPROM, either restore data
-> 			embedded in device EEPROM. Be aware that devices support
-> 			limited EEPROM writing cycles (typical 50k)
-> 	
-> 				* 'save': save device RAM to EEPROM
-> 				* 'restore': restore EEPROM data in device RAM
-> 
-> 	Users:		any user space application which wants to communicate with
-> 			w1_term device
-> 
-> Which defines the same ABI as this one:
-> 
-> 	What:		/sys/bus/w1/devices/.../eeprom
-> 	Date:		May 2012
-> 	Contact:	Markus Franke <franm@hrz.tu-chemnitz.de>
-> 	Description:	read/write the contents of the EEPROM memory of the DS28E04-100
-> 			see Documentation/w1/slaves/w1_ds28e04.rst for detailed information
-> 	Users:		any user space application which wants to communicate with DS28E04-100
-> 
-> Which is further described at Documentation/w1/slaves/w1_ds28e04.rst:
-> 
->    Memory Access
-> 
-> 	A read operation on the "eeprom" file reads the given amount of bytes
-> 	from the EEPROM of the DS28E04.
-> 
-> 	A write operation on the "eeprom" file writes the given byte sequence
-> 	to the EEPROM of the DS28E04. If CRC checking mode is enabled only
-> 	fully aligned blocks of 32 bytes with valid CRC16 values (in bytes 30
-> 	and 31) are allowed to be written.
-> 
-> -
-> 
-> This specific duplication seems very evil, as if someone does:
-> 
-> 	echo restore > /sys/bus/w1/devices/.../eeprom
-> 
-> and the device is a DS28E04-100, its eeprom will be erased instead
-> of being restored!
-> 
-> Not sure how this could be solved without causing regressions.
-> 
-> As the new ABI is from May 2020, added on this commit:
-> 
->   commit 45d457a4cf24455eefd076a01a3d86414fc2ff1e
->   Author: Akira Shimahara <akira215corp@gmail.com>
->   Date:   Mon May 11 22:37:25 2020 +0200
-> 
->     w1_therm: adding eeprom sysfs entry
->     
->     The driver implement 2 hardware functions to access device RAM:
->      * copy_scratchpad
->      * recall_scratchpad
->     They act according to device specifications.
->     
->     As EEPROM operations are not device dependent (all w1_therm can perform
->     EEPROM read/write operation following the same protocol), it is removed
->     from device families structures.
->     
->     Updating Documentation/ABI/testing/sysfs-driver-w1_therm accordingly.
->     
->     Signed-off-by: Akira Shimahara <akira215corp@gmail.com>
->     Link: https://lore.kernel.org/r/20200511203725.410844-1-akira215corp@gmail.com
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> (probably reached Kernel 5.8):
-> 
-> 	$ git describe 45d457a4cf244
-> 	v5.7-rc5-92-g45d457a4cf24
-> 
-> I guess the solution would be to rename the new one.
+On Sun, Nov 08, 2020 at 10:11:00PM +0800, Muchun Song wrote:
+> In the register_page_bootmem_memmap, the slab allocator is not ready
+> yet. So when ALLOC_SPLIT_PTLOCKS, we use init_mm.page_table_lock.
+> otherwise we use per page table lock(page->ptl). In the later patch,
+> we will use the vmemmap page table lock to guard the splitting of
+> the vmemmap huge PMD.
 
-We should rename the new one before anyone actually writes any new
-userspace code for it.
+I am not sure about this one.
+Grabbing init_mm's pagetable lock for specific hugetlb operations does not
+seem like a good idea, and we do not know how contented is that one.
 
-thanks,
+I think a better fit would be to find another hook to initialize
+page_table_lock at a later stage.
+Anyway, we do not need till we are going to perform an operation
+on the range, right?
 
-greg k-h
+Unless I am missing something, this should be doable in hugetlb_init.
+
+hugetlb_init is part from a init_call that gets called during do_initcalls.
+At this time, slab is fully operative.
+
+start_kernel
+ kmem_cache_init_late
+ kmem_cache_init_late
+ ...
+ arch_call_rest_init
+  rest_init
+   kernel_init_freeable
+    do_basic_setup
+     do_initcalls
+      hugetlb_init
+
+-- 
+Oscar Salvador
+SUSE L3
