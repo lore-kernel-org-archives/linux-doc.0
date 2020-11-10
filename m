@@ -2,160 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBB3C5517A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 02:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA66C2D0A3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 03:23:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61ED020809
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 02:42:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAC5F2067B
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 03:23:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="ua6CPMSi"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="foIMzsTE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730767AbgKJCmi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 21:42:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35788 "EHLO
+        id S1729452AbgKJDXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Nov 2020 22:23:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730083AbgKJCmh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 21:42:37 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154D7C0613CF
-        for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2020 18:42:37 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id r186so8879389pgr.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 18:42:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hq04zVLRq/Oo2lQxylxZrXiKhYhzc6TfqjzZNoQvjuk=;
-        b=ua6CPMSivTkkMuhvjWiNRV2yogS0EvNQ/UC0Pjr/Rn5HdVis2pUSXYfVeL9vf1oxGT
-         hCNvfo5Pw164JaLBYdyTMn1I9vyMaw4CPDyGyAAQQEmu/3yS7Cl6BXwukr/Oa/jpVg9f
-         xhB6NeRSUW88dI30uqJwvQecdGD9os2f37RZrOP4CyYParHPpPokLNqLROUP1qzRpHRW
-         4Xz8hpE/LNMIS/HQqYUbDPSdHz1qHlN5p2bGS/YrOUZ6cg67gUs+3EKEhbwgT8oVzbU8
-         ObNl0hMOtWmdMLMkZLRkQVtNMbVPLUqFFhotzABsvrZyXICxjp4vW8Sa6WBblNtpCDzE
-         Y8mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hq04zVLRq/Oo2lQxylxZrXiKhYhzc6TfqjzZNoQvjuk=;
-        b=htEwnQpkglJlkKX2KCXMuN69MxeKaF1fEqp7Jb2LKYIKtCUGPi4KqYj216Ug2muVar
-         Uex0aPQhAS6mvnZdTWEJblzFe34NoRbpjHI4o9ivbDTH3ZiZLeUD8YwWficpqFT1J5bP
-         9276/G8+dzqc3y7cj+RpZEphDsSG60rIh3D7Y0BnkVr09U/DfbZtHgBeh4BJAGg21iRL
-         bnINLM8DGdhiBFiK97z4npAboOOYvxrblSMOITVnGo5wa1yITEIroiDSIeVr5UjlAm/f
-         1zcrGWQ78FWSgC6/jmQu4dnhKj0WKrSW3TWC6m9fB+yaOELHpp7d0Mr/8UiGXMqqq0w0
-         CIKg==
-X-Gm-Message-State: AOAM531OQPxvWppi5WAaWK6ruaBtQDpeIo8/wTQ2CLgCM4CsYOzUx0lT
-        qT6XIojVzD6jkddE7y+2Q/ImWt/u3ne6Mi8Bk9jqlg==
-X-Google-Smtp-Source: ABdhPJyrTFLtNejVARR0imvWvzZUIFnztiWYySVLVHRuSDfEWqoJITi1D9tdjXQtR+JXPvE8VQ2dZhviAg5bSaDPVbg=
-X-Received: by 2002:a17:90a:4749:: with SMTP id y9mr2531336pjg.229.1604976156656;
- Mon, 09 Nov 2020 18:42:36 -0800 (PST)
+        with ESMTP id S1729243AbgKJDXs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 22:23:48 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 973B7C0613CF;
+        Mon,  9 Nov 2020 19:23:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=buwWJZNpFl/2hjLEi5QBJhf23r0pjdlTKDNQzjr9ykw=; b=foIMzsTE/2p6h/eMeUIpm9e2Ox
+        yA3VfOLF+anaejHlyNq8aQpqeQEHVlLyHmwIrJ7ImUlCgWb7Wfi+8i0Y0wyvBWrpD9I/WaAKIpZHe
+        pV0dJnJf1R9g6pv8DXE1tssmLAPE9Yb5GiUjHf31rjGc3gI2TkCxvQOYLQPGmLwVvOM/LAl7Tltik
+        1JAadD7WsNBI2OzxExlrTR+PgOiRCjfh01TdHsSL3tfaFeIf1CF+cGVHvvrVbA9Zwvz/ybMP4fe7m
+        9uudvjzuqEPewKuOuUi2qEElTAtbxBBNf2a6HrHCpRer/rbIDKxwVFu9kX2+yLUr9m2V9W51HQ9aX
+        OHqByg5Q==;
+Received: from [2601:1c0:6280:3f0::662d]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kcKG1-0005DV-Fa; Tue, 10 Nov 2020 03:23:45 +0000
+Subject: Re: [RFC PATCH v1 00/26] Make reporting-bugs easier to grasp and yet
+ more detailed
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1601541165.git.linux@leemhuis.info>
+ <7910cf25-4aa9-e33d-704c-33ab91ab713b@leemhuis.info>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <1f71cf5a-4afb-22b5-c528-aeb026fc6ce9@infradead.org>
+Date:   Mon, 9 Nov 2020 19:23:41 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-5-songmuchun@bytedance.com> <20201109164825.GA17356@linux>
-In-Reply-To: <20201109164825.GA17356@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 10 Nov 2020 10:42:00 +0800
-Message-ID: <CAMZfGtWxNV874j9io_xcsVm+C6_shrZCw=W9ugJzxrnBpXb_Mw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v3 04/21] mm/hugetlb: Introduce
- nr_free_vmemmap_pages in the struct hstate
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <7910cf25-4aa9-e33d-704c-33ab91ab713b@leemhuis.info>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 12:48 AM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Sun, Nov 08, 2020 at 10:10:56PM +0800, Muchun Song wrote:
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +/*
-> > + * There are 512 struct page structs(8 pages) associated with each 2MB
-> > + * hugetlb page. For tail pages, the value of compound_dtor is the same.
-> I gess you meant "For tail pages, the value of compound_head ...", right?
+On 11/9/20 3:01 AM, Thorsten Leemhuis wrote:
+> Lo!
+> 
+> Am 01.10.20 um 10:39 schrieb Thorsten Leemhuis:
+>> This series rewrites the "how to report bugs to the Linux kernel maintainers"
+>> document to make it more straight forward and the essence easier to grasp. At
+>> the same time make the text provide a lot more details about the process in form
+>> of a reference section, so users that want or need to know them have them at
+>> hand.
+>>
+>> The goal of this rewrite: improve the quality of the bug reports and reduce the
+>> number of reports that get ignored. This was motivated by many reports of poor
+>> quality the main author of the rewrite stumped upon when he was tracking
+>> regressions.
+> 
+> So, now that those weeks with the merge window, the OSS & ELC Europe, and this US election thing are behind us it seems like a good time to ask:
+> 
+> How to move on with this?
+> 
+> @Jon: I'd be really appreciate to hear your thoughts on this.
+> 
+> @Randy: Thx again for all suggestions and pointing out many spelling mistakes, that helped a lot! You didn't reply to some of the patches, which made me wonder: did you not look at those (which is totally fine) or was there nothing to point out? And what I'd really like to know: what are you thinking about the whole thing?
 
-Yeah, Thanks.
+Hi,
 
->
-> > + * So we can reuse first page of tail page structs. We map the virtual
-> > + * addresses of the remaining 6 pages of tail page structs to the first
-> > + * tail page struct, and then free these 6 pages. Therefore, we need to
-> > + * reserve at least 2 pages as vmemmap areas.
-> > + */
-> > +#define RESERVE_VMEMMAP_NR   2U
-> > +
-> > +static void __init hugetlb_vmemmap_init(struct hstate *h)
-> > +{
-> > +     unsigned int order = huge_page_order(h);
-> > +     unsigned int vmemmap_pages;
-> > +
-> > +     vmemmap_pages = ((1 << order) * sizeof(struct page)) >> PAGE_SHIFT;
-> > +     /*
-> > +      * The head page and the first tail page not free to buddy system,
->
-> "The head page and the first tail page are not to be freed to..." better?
-
-Yeah, sorry for my poor English :).
-
->
->
-> > +      * the others page will map to the first tail page. So there are
-> > +      * (@vmemmap_pages - RESERVE_VMEMMAP_NR) pages can be freed.
->                                                       ^^^
->                                                       that
->
-> > +     else
-> > +             h->nr_free_vmemmap_pages = 0;
->
-> I would specify that this is not expected to happen.
-> (At least I could not come up with a real scenario unless the system is
-> corrupted)
-> So, I would drop a brief comment pointing out that it is only a safety
-> net.
-
-I will add a comment to point out this.
-
->
->
-> Unrelated to this patch but related in general, I am not sure about Mike but
-> would it be cleaner to move all the vmemmap functions to hugetlb_vmemmap.c?
-> hugetlb code is quite tricky, so I am not sure about stuffing more code
-> in there.
->
-
-I also think that you are right, moving all the vmemmap functions to
-hugetlb_vmemmap.c may make the code cleaner.
-
-Hi Mike, what's your opinion?
-
-Thanks.
-
-> --
-> Oscar Salvador
-> SUSE L3
+I looked at all of the patches in the series but did not have any comments
+on the ones where I didn't reply.
 
 
+thanks.
 
 -- 
-Yours,
-Muchun
+~Randy
+
