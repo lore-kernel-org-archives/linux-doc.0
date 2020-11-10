@@ -2,78 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A0EC388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:41:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE36C388F7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:59:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35797205CA
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:41:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D0612076E
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:59:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/3QTe6U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730672AbgKJOl0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 09:41:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34244 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730594AbgKJOl0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 09:41:26 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 335D5C0613D1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 06:41:26 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id qehP2300h4C55Sk01ehPY0; Tue, 10 Nov 2020 15:41:24 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kcUpn-001CQ5-EG; Tue, 10 Nov 2020 15:41:23 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kcUpm-00DkwU-Ng; Tue, 10 Nov 2020 15:41:22 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] docs: core-api/printk-formats.rst: Clarify formatting {cpu,node}mask
-Date:   Tue, 10 Nov 2020 15:41:21 +0100
-Message-Id: <20201110144121.3278667-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        id S1730968AbgKJO7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 09:59:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49562 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730917AbgKJO72 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Nov 2020 09:59:28 -0500
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 768D7216C4;
+        Tue, 10 Nov 2020 14:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605020367;
+        bh=qvUn9qNX1M1Qx2QeznJUHEO4kgcTe0+DelhXJxEE0dw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=O/3QTe6UPGl4+UBnrvNNeMglzQW4NaG0atUAknJXGKmiKlQ3jFAg466x/NwQrKu8/
+         gBOWhF2e4nqsUJikfZBNK85TbHjpqqfBqGUI/fPV3Q4vo0VU27Kg9mYaa1UZ+CPmR7
+         m6tDvxeghc9snLMuu1GE+vc1t3kZ5zdJ+r04K2GU=
+Received: by mail-ot1-f53.google.com with SMTP id f16so12745658otl.11;
+        Tue, 10 Nov 2020 06:59:27 -0800 (PST)
+X-Gm-Message-State: AOAM530/6H67dDL5PAJL3KAeHijbr+1XU2zLAQyWMFDyoERLp8rObvxD
+        Spis/dV5AB9DWng0pGXDXiFUAN1Kt1LNhA2hImg=
+X-Google-Smtp-Source: ABdhPJxoTX+rWXC9j2qbuOi17pSMpsm+frJ8yNOwZPIBGWBUEPxRNPsSN2Sgb5QTmR2TPMukZYJ0UGj/XW9Ewao913I=
+X-Received: by 2002:a9d:23a6:: with SMTP id t35mr13613677otb.210.1605020366593;
+ Tue, 10 Nov 2020 06:59:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200930153519.7282-16-kishon@ti.com> <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <d6d27475-3464-6772-2122-cc194b8ae022@ti.com> <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com>
+In-Reply-To: <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Tue, 10 Nov 2020 15:59:08 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
+Message-ID: <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
+Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
+ Non-Transparent Bridge
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Sherry Sun <sherry.sun@nxp.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jdmason@kudzu.us" <jdmason@kudzu.us>,
+        "dave.jiang@intel.com" <dave.jiang@intel.com>,
+        "allenbh@gmail.com" <allenbh@gmail.com>,
+        "tjoseph@cadence.com" <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Clarify how to pass the field width for bitmaps, and mention the helper
-macros that are available to ease printing cpumask and nodemask.
+On Tue, Nov 10, 2020 at 3:20 PM Kishon Vijay Abraham I <kishon@ti.com> wrote:
+> On 10/11/20 7:55 am, Sherry Sun wrote:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/core-api/printk-formats.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> > But for VOP, only two boards are needed(one board as host and one board as card) to realize the
+> > communication between the two systems, so my question is what are the advantages of using NTB?
+>
+> NTB is a bridge that facilitates communication between two different
+> systems. So it by itself will not be source or sink of any data unlike a
+> normal EP to RP system (or the VOP) which will be source or sink of data.
+>
+> > Because I think the architecture of NTB seems more complicated. Many thanks!
+>
+> yeah, I think it enables a different use case all together. Consider you
+> have two x86 HOST PCs (having RP) and they have to be communicate using
+> PCIe. NTB can be used in such cases for the two x86 PCs to communicate
+> with each other over PCIe, which wouldn't be possible without NTB.
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 6d26c5c6ac485cec..160e710d992f3a36 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -531,7 +531,9 @@ For printing bitmap and its derivatives such as cpumask and nodemask,
- %*pb outputs the bitmap with field width as the number of bits and %*pbl
- output the bitmap as range list with field width as the number of bits.
- 
--Passed by reference.
-+The field width is passed by value, the bitmap is passed by reference.
-+Helper macros cpumask_pr_args() and nodemask_pr_args() are available to ease
-+printing cpumask and nodemask.
- 
- Flags bitfields such as page flags, gfp_flags
- ---------------------------------------------
--- 
-2.25.1
+I think for VOP, we should have an abstraction that can work on either NTB
+or directly on the endpoint framework but provide an interface that then
+lets you create logical devices the same way.
 
+Doing VOP based on NTB plus the new NTB_EPF driver would also
+work and just move the abstraction somewhere else, but I guess it
+would complicate setting it up for those users that only care about the
+simpler endpoint case.
+
+      Arnd
