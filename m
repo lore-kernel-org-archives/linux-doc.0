@@ -2,104 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA0DC4742C
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 911B2C388F7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:40:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B66F206A1
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:21:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+5Eq+Jm"
+	by mail.kernel.org (Postfix) with ESMTP id 48FAF206B2
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:40:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730672AbgKJOVf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 09:21:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
+        id S1730594AbgKJOkh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 09:40:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726721AbgKJOVf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 09:21:35 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B331C0613CF;
-        Tue, 10 Nov 2020 06:21:35 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id t18so6557471plo.0;
-        Tue, 10 Nov 2020 06:21:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=mHzmMaAp5/arsxlv9YourskeSIsJ2uw/Y2sk7NfH8wc=;
-        b=f+5Eq+JmQGA7kTV4M39Lj5CndnYx6Ldzw8FLdt4hoRdqc07ILJ7b9d6KqginHU/5J2
-         QcKWIlyjJCMIPxYnQnkxfnfby/xnyrBiVlKp35i82OmqAPcbHaCwPQJpAIPZ+F5P/64/
-         2oBGWjU4K3NG4unVRy4nnxPJvsTiyMAiG/KwjRm545Ly4mmkrPJKiNpIFDr90e6p+y9S
-         7DKf8AN2mmXU8+b2KR4FAqqiJ2NzK4CUhdGHg8C19RCI0TB51JPbC3hRCoWCZaPYjVBm
-         ZAK/lCAgAESDqjxdvkhW99kBjG5USSMF1xBTRA0zgyDbFJ8EXKwLv9BZRPIy2NB56VTr
-         pFEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=mHzmMaAp5/arsxlv9YourskeSIsJ2uw/Y2sk7NfH8wc=;
-        b=QgweInex20bgwRo/fIzrWdjfpj6uaGVgR3tX+6iikrKA11wcQffX/1+4UF91bctx8Z
-         70CC5WhegMAJFKUtfnDm0qz2nuLVHJ7e0tnQmMlNy/9Xv8sfdmc4FTLjEJctPsq838cC
-         CDxA7H7XBE69xBzMlORRwDsxDbwLivy7/usUZ7TUsMhM0vIy3ghFLI2ql51gnHoxEIML
-         3tPgipft6ZoGYcNNRJfaVy//FVhsKbg1SdFv+Zmnh4EURI4J1gttE4/viS0Y1hrbnygC
-         3fU0T3yIl+t8QXzBvIUirXMU/hJT6hmG3ELfBwL91YVc+yNyApbXm5EEGH93P6yiZedr
-         3mYg==
-X-Gm-Message-State: AOAM5310fUcz5dAdZxWbkRZeHJCs0T53UQZubv3Ez9ZD15okY9mp+QW1
-        JlAc4vZO++7CqWL41MJsJJEvPw9zO4CDNqY+xyE=
-X-Google-Smtp-Source: ABdhPJxClzU0bPRCnh9Nrj9s4VAfadOYVsDnMtWLkBzAzpfP8vAEaQ4C5u8fgAs7W97ITY1LscClmA==
-X-Received: by 2002:a17:902:b410:b029:d6:b42c:7af9 with SMTP id x16-20020a170902b410b02900d6b42c7af9mr16629970plr.21.1605018094746;
-        Tue, 10 Nov 2020 06:21:34 -0800 (PST)
-Received: from centos-7.shared.localdomain ([39.182.2.118])
-        by smtp.gmail.com with ESMTPSA id c24sm13551218pgk.34.2020.11.10.06.21.28
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Nov 2020 06:21:33 -0800 (PST)
-From:   Yang Mingzhe <cainiao666999@gmail.com>
-To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        corbet@lwn.net
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Yang Mingzhe <cainiao666999@gmail.com>
-Subject: [PATCH] Documentation: x86: fix thread_info's position
-Date:   Tue, 10 Nov 2020 22:21:00 +0800
-Message-Id: <1605018060-11571-1-git-send-email-cainiao666999@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
+        with ESMTP id S1730432AbgKJOkh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 09:40:37 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ACB3C0613D1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 06:40:37 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id qegb230024C55Sk01egbZc; Tue, 10 Nov 2020 15:40:35 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kcUp0-001CPj-Pk; Tue, 10 Nov 2020 15:40:34 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kcUp0-00Dktn-8a; Tue, 10 Nov 2020 15:40:34 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Justin P . Mattock" <justinmattock@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Theodore Ts'o <tytso@mit.edu>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] docs: ABI: Drop trailing whitespace
+Date:   Tue, 10 Nov 2020 15:40:33 +0100
+Message-Id: <20201110144033.3278499-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The bottom of the stack is where the first item was added to the stack,
-usually at the zero offset. Actually, the thread_info structure at the
-end of the stack.
+Remove all trailing whitespace from the ABI documentation.
+Most of it was introduced during recent updates.
 
-Please see attached picture:
-https://github.com/Mutated1994/kernel-beginner/blob/master/kernel-stack.md
-
-See commits c65eacb ("sched/core: Allow putting thread_info into
-task_struct"), 15f4eae ("x86: Move thread_info into task_struct")
-and 883d50f ("scripts/gdb: fix get_thread_info").
-
-Signed-off-by: Yang Mingzhe <cainiao666999@gmail.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Documentation/x86/kernel-stacks.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Fixes: 0ea6e61122196509 ("Documentation: update broken web addresses.")
+Fixes: 54a19b4d3fe0fa0a ("docs: ABI: cleanup several ABI documents")
+Fixes: 3197ebdb130473a9 ("ext4: Add sysfs support")
+---
+ Documentation/ABI/testing/configfs-usb-gadget-ecm     | 2 +-
+ Documentation/ABI/testing/sysfs-devices-memory        | 2 +-
+ Documentation/ABI/testing/sysfs-fs-ext4               | 2 +-
+ Documentation/ABI/testing/sysfs-module                | 2 +-
+ Documentation/ABI/testing/sysfs-platform-renesas_usb3 | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/x86/kernel-stacks.rst b/Documentation/x86/kernel-stacks.rst
-index 6b0bcf0..b88b9e12 100644
---- a/Documentation/x86/kernel-stacks.rst
-+++ b/Documentation/x86/kernel-stacks.rst
-@@ -15,7 +15,9 @@ Like all other architectures, x86_64 has a kernel stack for every
- active thread.  These thread stacks are THREAD_SIZE (2*PAGE_SIZE) big.
- These stacks contain useful data as long as a thread is alive or a
- zombie. While the thread is in user space the kernel stack is empty
--except for the thread_info structure at the bottom.
-+except for the thread_info structure at the end (since kernel 4.9, the
-+thread_info has been moved into task_struct, no longer locates at the
-+end of kernel stack).
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-ecm b/Documentation/ABI/testing/configfs-usb-gadget-ecm
+index 272bc1e4ce2e6257..732101ca9d0bb5a3 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-ecm
++++ b/Documentation/ABI/testing/configfs-usb-gadget-ecm
+@@ -7,7 +7,7 @@ Description:
+ 		ifname
+ 			      - network device interface name associated with
+ 				this function instance
+-		qmult	
++		qmult
+ 			      - queue length multiplier for high and
+ 				super speed
+ 		host_addr
+diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
+index 2da2b1fba2c1cd10..246a45b96d22a921 100644
+--- a/Documentation/ABI/testing/sysfs-devices-memory
++++ b/Documentation/ABI/testing/sysfs-devices-memory
+@@ -19,7 +19,7 @@ Description:
+ 		identify removable sections of the memory before attempting
+ 		potentially expensive hot-remove memory operation
+ Users:		hotplug memory remove tools
+-		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils	
++		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
  
- In addition to the per thread stacks, there are specialized stacks
- associated with each CPU.  These stacks are only used while the kernel
+ What:		/sys/devices/system/memory/memoryX/phys_device
+ Date:		September 2008
+diff --git a/Documentation/ABI/testing/sysfs-fs-ext4 b/Documentation/ABI/testing/sysfs-fs-ext4
+index 99e3d92f8299c9a2..2edd0a6672d3a75b 100644
+--- a/Documentation/ABI/testing/sysfs-fs-ext4
++++ b/Documentation/ABI/testing/sysfs-fs-ext4
+@@ -33,7 +33,7 @@ What:		/sys/fs/ext4/<disk>/mb_order2_req
+ Date:		March 2008
+ Contact:	"Theodore Ts'o" <tytso@mit.edu>
+ Description:
+-		Tuning parameter which controls the minimum size for 
++		Tuning parameter which controls the minimum size for
+ 		requests (as a power of 2) where the buddy cache is
+ 		used
+ 
+diff --git a/Documentation/ABI/testing/sysfs-module b/Documentation/ABI/testing/sysfs-module
+index 353c0db5bc1f584a..a485434d2a0fb975 100644
+--- a/Documentation/ABI/testing/sysfs-module
++++ b/Documentation/ABI/testing/sysfs-module
+@@ -25,7 +25,7 @@ Description:	Maximum time allowed for periodic transfers per microframe (μs)
+ 		  However there are cases, when 80% max isochronous bandwidth is
+ 		  too limiting. For example two video streams could require 110
+ 		  microseconds of isochronous bandwidth per microframe to work
+-		  together. 
++		  together.
+ 
+ 		Through this setting it is possible to raise the limit so that
+ 		the host controller would allow allocating more than 100
+diff --git a/Documentation/ABI/testing/sysfs-platform-renesas_usb3 b/Documentation/ABI/testing/sysfs-platform-renesas_usb3
+index 8af5b9c3fabbf07b..b08379e7fe37092e 100644
+--- a/Documentation/ABI/testing/sysfs-platform-renesas_usb3
++++ b/Documentation/ABI/testing/sysfs-platform-renesas_usb3
+@@ -12,6 +12,6 @@ Description:
+ 		- "peripheral" - switching mode from host to peripheral.
+ 
+ 		Read the file, then it shows the following strings:
+-		
++
+ 		- "host" - The mode is host now.
+ 		- "peripheral" - The mode is peripheral now.
 -- 
-1.8.3.1
+2.25.1
 
