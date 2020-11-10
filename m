@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B58CC388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:22:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0F7AC61DD8
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:23:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06C5E221FB
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:22:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC88520780
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:23:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730859AbgKJQW5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 11:22:57 -0500
-Received: from mga02.intel.com ([134.134.136.20]:25995 "EHLO mga02.intel.com"
+        id S1731139AbgKJQW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 11:22:59 -0500
+Received: from mga05.intel.com ([192.55.52.43]:28141 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730589AbgKJQW4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Nov 2020 11:22:56 -0500
-IronPort-SDR: lA+wa1fGTgJ+Yy8gA/xyTuZMlpM4b14uEeNDbDF2c3xQjoU2cRdhVvjxnLYBIAgcOG1VHoLFzw
- DPjg7Cht/qRg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="157008727"
+        id S1730833AbgKJQW5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Nov 2020 11:22:57 -0500
+IronPort-SDR: M3yiDuY/gpVWkZqeVkHsJS65M+OtzOyEczpO8qtAuotfyANrRphE3gJLXTe3MUeYPFRyOlqvv/
+ PVmjPksBavyg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="254713397"
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="157008727"
+   d="scan'208";a="254713397"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:22:53 -0800
-IronPort-SDR: X1Xilg3tsvrfiVzhCGv1/87nT21DwI9nZ80X0r+y/t1qqzKIAdFKQtIQk9ovtE9kBvUACfTNny
- Z33ygY3x1iAA==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:22:55 -0800
+IronPort-SDR: RO1Tkj4Pv4RRSxTqHagL3KexBLy7/1p2b1BpS9iaAunkmPTqVduTP50mpaLy+paUAM4N/vHHPN
+ jBHknhTY8mBQ==
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="365572878"
+   d="scan'208";a="365572931"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:22:52 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:22:55 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -61,10 +61,12 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v15 16/26] mm: Add guard pages around a shadow stack.
-Date:   Tue, 10 Nov 2020 08:22:01 -0800
-Message-Id: <20201110162211.9207-17-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: [PATCH v15 23/26] ELF: Introduce arch_setup_elf_property()
+Date:   Tue, 10 Nov 2020 08:22:08 -0800
+Message-Id: <20201110162211.9207-24-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201110162211.9207-1-yu-cheng.yu@intel.com>
 References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
@@ -74,93 +76,155 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-INCSSP(Q/D) increments shadow stack pointer and 'pops and discards' the
-first and the last elements in the range, effectively touches those memory
-areas.
+An ELF file's .note.gnu.property indicates arch features supported by the
+file.  These features are extracted by arch_parse_elf_property() and stored
+in 'arch_elf_state'.  Introduce arch_setup_elf_property() for enabling such
+features.  The first use-case of this function is shadow stack.
 
-The maximum moving distance by INCSSPQ is 255 * 8 = 2040 bytes and
-255 * 4 = 1020 bytes by INCSSPD.  Both ranges are far from PAGE_SIZE.
-Thus, putting a gap page on both ends of a shadow stack prevents INCSSP,
-CALL, and RET from going beyond.
+ARM64 is the other arch that has ARCH_USER_GNU_PROPERTY and arch_parse_elf_
+property().  Add arch_setup_elf_property() for it.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Dave Martin <Dave.Martin@arm.com>
 ---
- arch/x86/include/asm/page_64_types.h | 10 ++++++++++
- include/linux/mm.h                   | 24 ++++++++++++++++++++----
- 2 files changed, 30 insertions(+), 4 deletions(-)
+ arch/arm64/include/asm/elf.h |  5 +++++
+ arch/x86/Kconfig             |  2 ++
+ arch/x86/include/asm/elf.h   | 13 +++++++++++++
+ arch/x86/kernel/process_64.c | 32 ++++++++++++++++++++++++++++++++
+ fs/binfmt_elf.c              |  4 ++++
+ include/linux/elf.h          |  6 ++++++
+ 6 files changed, 62 insertions(+)
 
-diff --git a/arch/x86/include/asm/page_64_types.h b/arch/x86/include/asm/page_64_types.h
-index 3f49dac03617..0fbee6dcd3ca 100644
---- a/arch/x86/include/asm/page_64_types.h
-+++ b/arch/x86/include/asm/page_64_types.h
-@@ -97,6 +97,16 @@
- #define STACK_TOP		TASK_SIZE_LOW
- #define STACK_TOP_MAX		TASK_SIZE_MAX
+diff --git a/arch/arm64/include/asm/elf.h b/arch/arm64/include/asm/elf.h
+index 8d1c8dcb87fd..d37bc7915935 100644
+--- a/arch/arm64/include/asm/elf.h
++++ b/arch/arm64/include/asm/elf.h
+@@ -281,6 +281,11 @@ static inline int arch_parse_elf_property(u32 type, const void *data,
+ 	return 0;
+ }
  
-+/*
-+ * Shadow stack pointer is moved by CALL, JMP, and INCSSP(Q/D).  INCSSPQ
-+ * moves shadow stack pointer up to 255 * 8 = ~2 KB (~1KB for INCSSPD) and
-+ * touches the first and the last element in the range, which triggers a
-+ * page fault if the range is not in a shadow stack.  Because of this,
-+ * creating 4-KB guard pages around a shadow stack prevents these
-+ * instructions from going beyond.
-+ */
-+#define ARCH_SHADOW_STACK_GUARD_GAP PAGE_SIZE
++static inline int arch_setup_elf_property(struct arch_elf_state *arch)
++{
++	return 0;
++}
 +
- /*
-  * Maximum kernel image size is limited to 1 GiB, due to the fixmap living
-  * in the next 1 GiB (see level2_kernel_pgt in arch/x86/kernel/head_64.S).
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 09f07d07a8ff..80cda65bb1ae 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2639,6 +2639,10 @@ extern vm_fault_t filemap_page_mkwrite(struct vm_fault *vmf);
- int __must_check write_one_page(struct page *page);
- void task_dirty_inc(struct task_struct *tsk);
+ static inline int arch_elf_pt_proc(void *ehdr, void *phdr,
+ 				   struct file *f, bool is_interp,
+ 				   struct arch_elf_state *state)
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 960993862b96..18fd8cb549ad 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1953,6 +1953,8 @@ config X86_SHADOW_STACK_USER
+ 	select X86_CET
+ 	select ARCH_MAYBE_MKWRITE
+ 	select ARCH_HAS_SHADOW_STACK
++	select ARCH_USE_GNU_PROPERTY
++	select ARCH_BINFMT_ELF_STATE
+ 	help
+ 	  Shadow Stacks provides protection against program stack
+ 	  corruption.  It's a hardware feature.  This only matters
+diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+index b9a5d488f1a5..0e1be2a13359 100644
+--- a/arch/x86/include/asm/elf.h
++++ b/arch/x86/include/asm/elf.h
+@@ -385,6 +385,19 @@ extern int compat_arch_setup_additional_pages(struct linux_binprm *bprm,
+ 					      int uses_interp);
+ #define compat_arch_setup_additional_pages compat_arch_setup_additional_pages
  
-+#ifndef ARCH_SHADOW_STACK_GUARD_GAP
-+#define ARCH_SHADOW_STACK_GUARD_GAP 0
++#ifdef CONFIG_ARCH_BINFMT_ELF_STATE
++struct arch_elf_state {
++	unsigned int gnu_property;
++};
++
++#define INIT_ARCH_ELF_STATE {	\
++	.gnu_property = 0,	\
++}
++
++#define arch_elf_pt_proc(ehdr, phdr, elf, interp, state) (0)
++#define arch_check_elf(ehdr, interp, interp_ehdr, state) (0)
 +#endif
 +
- extern unsigned long stack_guard_gap;
- /* Generic expand stack which grows the stack according to GROWS{UP,DOWN} */
- extern int expand_stack(struct vm_area_struct *vma, unsigned long address);
-@@ -2671,9 +2675,15 @@ static inline struct vm_area_struct * find_vma_intersection(struct mm_struct * m
- static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
+ /* Do not change the values. See get_align_mask() */
+ enum align_flags {
+ 	ALIGN_VA_32	= BIT(0),
+diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
+index df342bedea88..7c4687a0f001 100644
+--- a/arch/x86/kernel/process_64.c
++++ b/arch/x86/kernel/process_64.c
+@@ -837,3 +837,35 @@ unsigned long KSTK_ESP(struct task_struct *task)
  {
- 	unsigned long vm_start = vma->vm_start;
-+	unsigned long gap = 0;
- 
--	if (vma->vm_flags & VM_GROWSDOWN) {
--		vm_start -= stack_guard_gap;
-+	if (vma->vm_flags & VM_GROWSDOWN)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = ARCH_SHADOW_STACK_GUARD_GAP;
+ 	return task_pt_regs(task)->sp;
+ }
 +
-+	if (gap != 0) {
-+		vm_start -= gap;
- 		if (vm_start > vma->vm_start)
- 			vm_start = 0;
- 	}
-@@ -2683,9 +2693,15 @@ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
- static inline unsigned long vm_end_gap(struct vm_area_struct *vma)
++#ifdef CONFIG_ARCH_USE_GNU_PROPERTY
++int arch_parse_elf_property(u32 type, const void *data, size_t datasz,
++			     bool compat, struct arch_elf_state *state)
++{
++	if (type != GNU_PROPERTY_X86_FEATURE_1_AND)
++		return 0;
++
++	if (datasz != sizeof(unsigned int))
++		return -ENOEXEC;
++
++	state->gnu_property = *(unsigned int *)data;
++	return 0;
++}
++
++int arch_setup_elf_property(struct arch_elf_state *state)
++{
++	int r = 0;
++
++	if (!IS_ENABLED(CONFIG_X86_CET))
++		return r;
++
++	memset(&current->thread.cet, 0, sizeof(struct cet_status));
++
++	if (static_cpu_has(X86_FEATURE_SHSTK)) {
++		if (state->gnu_property & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
++			r = cet_setup_shstk();
++	}
++
++	return r;
++}
++#endif
+diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+index fa50e8936f5f..1ae32cc0f61b 100644
+--- a/fs/binfmt_elf.c
++++ b/fs/binfmt_elf.c
+@@ -1245,6 +1245,10 @@ static int load_elf_binary(struct linux_binprm *bprm)
+ 
+ 	set_binfmt(&elf_format);
+ 
++	retval = arch_setup_elf_property(&arch_state);
++	if (retval < 0)
++		goto out;
++
+ #ifdef ARCH_HAS_SETUP_ADDITIONAL_PAGES
+ 	retval = arch_setup_additional_pages(bprm, !!interpreter);
+ 	if (retval < 0)
+diff --git a/include/linux/elf.h b/include/linux/elf.h
+index 5d5b0321da0b..4827695ca415 100644
+--- a/include/linux/elf.h
++++ b/include/linux/elf.h
+@@ -82,9 +82,15 @@ static inline int arch_parse_elf_property(u32 type, const void *data,
  {
- 	unsigned long vm_end = vma->vm_end;
-+	unsigned long gap = 0;
+ 	return 0;
+ }
 +
-+	if (vma->vm_flags & VM_GROWSUP)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = ARCH_SHADOW_STACK_GUARD_GAP;
++static inline int arch_setup_elf_property(struct arch_elf_state *arch)
++{
++	return 0;
++}
+ #else
+ extern int arch_parse_elf_property(u32 type, const void *data, size_t datasz,
+ 				   bool compat, struct arch_elf_state *arch);
++extern int arch_setup_elf_property(struct arch_elf_state *arch);
+ #endif
  
--	if (vma->vm_flags & VM_GROWSUP) {
--		vm_end += stack_guard_gap;
-+	if (gap != 0) {
-+		vm_end += gap;
- 		if (vm_end < vma->vm_end)
- 			vm_end = -PAGE_SIZE;
- 	}
+ #ifdef CONFIG_ARCH_HAVE_ELF_PROT
 -- 
 2.21.0
 
