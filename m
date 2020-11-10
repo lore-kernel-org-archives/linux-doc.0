@@ -2,158 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A47BC388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:50:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEB7C56202
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:54:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21CDE206D8
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:50:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66D40206D8
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:54:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B+0xZ4I+"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Dra4b9f8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726400AbgKJTu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 14:50:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54544 "EHLO
+        id S1731710AbgKJTyf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 14:54:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbgKJTu4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 14:50:56 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1867C0613D1;
-        Tue, 10 Nov 2020 11:50:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=SqhC/cvrpcIdhfC4C7TE3FfX7urzbmqhGyrHEJ3KSz8=; b=B+0xZ4I+0CWqwbY5/9QtASiyMb
-        dI/Qz/zeclSvhBV+TRepHHxfSYX/SI/LWizB4lmJjqsmifSWofyfms/AIb0dabiBe2/yDl1qvKuwv
-        6ojv+z5Z5I/CQPVpzGb181ShkkroDqLJW95u8cBWOnuG0KN9n/er87OgMhRt5Wo3BMjszk1NiO7fB
-        TPFkQKoIPrOyslRlfJVA3u0iIQ9pacD+CUdlXq2EhAzMLWiH00ryVbCeMdPTv96w9zvuTwZBKgTHi
-        oGYR5I+TpaLwcQ9MfmveoutWhtlxsCemrX2nSry6j3FL0lxfIdAHJiH9/Z8JsqJhlM62RJEX/m/z1
-        xmuVTS7g==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kcZer-0007MT-SQ; Tue, 10 Nov 2020 19:50:25 +0000
-Date:   Tue, 10 Nov 2020 19:50:25 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Oscar Salvador <osalvador@suse.de>,
-        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        mhocko@suse.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 03/21] mm/hugetlb: Introduce a new config
- HUGETLB_PAGE_FREE_VMEMMAP
-Message-ID: <20201110195025.GN17076@casper.infradead.org>
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-4-songmuchun@bytedance.com>
- <20201109135215.GA4778@localhost.localdomain>
- <ef564084-ea73-d579-9251-ec0440df2b48@oracle.com>
+        with ESMTP id S1731608AbgKJTye (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 14:54:34 -0500
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CF9AC0613D3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 11:54:34 -0800 (PST)
+Received: by mail-il1-x141.google.com with SMTP id q1so13370329ilt.6
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 11:54:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=oNTmliIHaPLQZebq8is9WVHRvSAsyFCf7oine4LHGdQ=;
+        b=Dra4b9f8OTQAbW/JrFJp1zGPEVaVaMjdVuAO+zZnM31ynFQ1pcUQG/MykpsdVBTxVI
+         Vc1cnZuJaSZdSJaO1Rj6ij001WeAHh7v8IHibrcPUiej+9QN/Q/Ent5I4ppTsq0Exydb
+         1hW9yuzFYX/JERJaQp2SVW/mtiR0Evm6TI0B4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=oNTmliIHaPLQZebq8is9WVHRvSAsyFCf7oine4LHGdQ=;
+        b=jZ1DkQmDIEkj2DqYAEvVuiSNG/tlv8nRMqWZwK3kzE1HGgdN2LAJw3Qk6U4Rrj1iQh
+         +9BStsVrzYSNdlj9Fu+VhB2XJS5/b2gCbY5sqsosh2K3eEWT5cIzGlJuCTkUAD/PfVU6
+         PXSK4tLFm0iRa4wmR2d7DMgBFZWKUOHtNk20uEL2ivs3TqGw+ubS5KK0uh6Og8ZITv9Q
+         MDIljlTzX4QiKVsYokgaHbIR/H/i111/05bHUkS6LufGqUfRw+7zGpZqqEloHDOUXBQY
+         n0slp4yf4nH0TwxU0QLaWhCfmK9uYE0Lv5d/nyFH/waL/tICGpo+AR7KtxQdA1K5MdCC
+         GbEQ==
+X-Gm-Message-State: AOAM5314r0hUlZyBr/pmb17z5ZnTo9hx6ljmhDyofSzJPAOftKhMlMIT
+        tr3TvKUQ7U9q6ww/fywR+as9EQ==
+X-Google-Smtp-Source: ABdhPJxzA358t+ZLJ7cPi/ahlO0VWxzydi1uFZzn9mE+PIU3atrO2j9vDN2cI/cgRZQ1e7wHVri0yw==
+X-Received: by 2002:a05:6e02:1305:: with SMTP id g5mr16156375ilr.237.1605038073364;
+        Tue, 10 Nov 2020 11:54:33 -0800 (PST)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id o14sm123971ilg.71.2020.11.10.11.54.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2020 11:54:32 -0800 (PST)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+        peterz@infradead.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH 02/13] selftests:lib:test_seqnum_ops: add new test for seqnum_ops
+Date:   Tue, 10 Nov 2020 12:53:28 -0700
+Message-Id: <754c8befc6ec6deea20c01b9a663a818c5726b88.1605027593.git.skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1605027593.git.skhan@linuxfoundation.org>
+References: <cover.1605027593.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef564084-ea73-d579-9251-ec0440df2b48@oracle.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 11:31:31AM -0800, Mike Kravetz wrote:
-> On 11/9/20 5:52 AM, Oscar Salvador wrote:
-> > On Sun, Nov 08, 2020 at 10:10:55PM +0800, Muchun Song wrote:
-> >> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
-> >> whether to enable the feature of freeing unused vmemmap associated
-> >> with HugeTLB pages. Now only support x86.
-> >>
-> >> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> >> ---
-> >>  arch/x86/mm/init_64.c |  2 +-
-> >>  fs/Kconfig            | 16 ++++++++++++++++
-> >>  mm/bootmem_info.c     |  3 +--
-> >>  3 files changed, 18 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-> >> index 0a45f062826e..0435bee2e172 100644
-> >> --- a/arch/x86/mm/init_64.c
-> >> +++ b/arch/x86/mm/init_64.c
-> >> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
-> >>  
-> >>  static void __init register_page_bootmem_info(void)
-> >>  {
-> >> -#ifdef CONFIG_NUMA
-> >> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
-> >>  	int i;
-> >>  
-> >>  	for_each_online_node(i)
-> >> diff --git a/fs/Kconfig b/fs/Kconfig
-> >> index 976e8b9033c4..21b8d39a9715 100644
-> >> --- a/fs/Kconfig
-> >> +++ b/fs/Kconfig
-> >> @@ -245,6 +245,22 @@ config HUGETLBFS
-> >>  config HUGETLB_PAGE
-> >>  	def_bool HUGETLBFS
-> >>  
-> >> +config HUGETLB_PAGE_FREE_VMEMMAP
-> >> +	bool "Free unused vmemmap associated with HugeTLB pages"
-> >> +	default y
-> >> +	depends on X86
-> >> +	depends on HUGETLB_PAGE
-> >> +	depends on SPARSEMEM_VMEMMAP
-> >> +	depends on HAVE_BOOTMEM_INFO_NODE
-> >> +	help
-> >> +	  There are many struct page structures associated with each HugeTLB
-> >> +	  page. But we only use a few struct page structures. In this case,
-> >> +	  it wastes some memory. It is better to free the unused struct page
-> >> +	  structures to buddy system which can save some memory. For
-> >> +	  architectures that support it, say Y here.
-> >> +
-> >> +	  If unsure, say N.
-> > 
-> > I am not sure the above is useful for someone who needs to decide
-> > whether he needs/wants to enable this or not.
-> > I think the above fits better in a Documentation part.
-> > 
-> > I suck at this, but what about the following, or something along those
-> > lines? 
-> > 
-> > "
-> > When using SPARSEMEM_VMEMMAP, the system can save up some memory
-> > from pre-allocated HugeTLB pages when they are not used.
-> > 6 pages per 2MB HugeTLB page and 4095 per 1GB HugeTLB page.
-> > When the pages are going to be used or freed up, the vmemmap
-> > array representing that range needs to be remapped again and
-> > the pages we discarded earlier need to be rellocated again.
-> > Therefore, this is a trade-off between saving memory and
-> > increasing time in allocation/free path.
-> > "
-> > 
-> > It would be also great to point out that this might be a
-> > trade-off between saving up memory and increasing the cost
-> > of certain operations on allocation/free path.
-> > That is why I mentioned it there.
-> 
-> Yes, this is somewhat a trade-off.
-> 
-> As a config option, this is something that would likely be decided by
-> distros.  I almost hate to suggest this, but is it something that an
-> end user would want to decide?  Is this something that perhaps should
-> be a boot/kernel command line option?
+Add a new selftest for testing seqnum_ops. This test loads test_seqnum_ops
+test module and unloads it. The test module runs tests and prints results
+to dmesg.
 
-I don't like config options.  I like boot options even less.  I don't
-know how to describe to an end-user whether they should select this
-or not.  Is there a way to make this not a tradeoff?  Or make the
-tradeoff so minimal as to be not worth describing?  (do we have numbers
-for the worst possible situation when enabling this option?)
+There are a number of atomic_t usages in the kernel where atomic_t api
+is used strictly for counting sequence numbers and other statistical
+counters and not for managing object lifetime.
 
-I haven't read through these patches in detail, so maybe we do this
-already, but when we free the pages to the buddy allocator, do we retain
-the third page to use for the PTEs (and free pages 3-7), or do we allocate
-a separate page for the PTES and free pages 2-7?
+The purpose of these Sequence Number Ops is to clearly differentiate
+atomic_t counter usages from atomic_t usages that guard object lifetimes,
+hence prone to overflow and underflow errors.
+
+The atomic_t api provides a wide range of atomic operations as a base
+api to implement atomic counters, bitops, spinlock interfaces. The usages
+also evolved into being used for resource lifetimes and state management.
+The refcount_t api was introduced to address resource lifetime problems
+related to atomic_t wrapping. There is a large overlap between the
+atomic_t api used for resource lifetimes and just counters, stats, and
+sequence numbers. It has become difficult to differentiate between the
+atomic_t usages that should be converted to refcount_t and the ones that
+can be left alone. Introducing seqnum_ops to wrap the usages that are
+stats, counters, sequence numbers makes it easier for tools that scan
+for underflow and overflow on atomic_t usages to detect overflow and
+underflows to scan just the cases that are prone to errors.
+
+Sequence Number api provides interfaces for simple atomic_t counter usages
+that just count, and don't guard resource lifetimes. The seqnum_ops are
+built on top of atomic_t api, providing a smaller subset of atomic_t
+interfaces necessary to support atomic_t usages as simple counters.
+This api has init/set/inc/dec/read and doesn't support other atomic_t
+ops with the intent to restrict the use of these interfaces as simple
+counting usages.
+
+Sequence Numbers wrap around to INT_MIN when it overflows and should not
+be used to guard resource lifetimes, device usage and open counts that
+control state changes, and pm states. Overflowing to INT_MIN is consistent
+with the atomic_t api, which it is built on top of.
+
+Using seqnum to guard lifetimes could lead to use-after free when it
+overflows and undefined behavior when used to manage state changes and
+device usage/open states.
+
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ Documentation/core-api/seqnum_ops.rst          |  9 +++++++++
+ MAINTAINERS                                    |  1 +
+ include/linux/seqnum_ops.h                     |  2 ++
+ tools/testing/selftests/lib/Makefile           |  1 +
+ tools/testing/selftests/lib/config             |  1 +
+ tools/testing/selftests/lib/test_seqnum_ops.sh | 10 ++++++++++
+ 6 files changed, 24 insertions(+)
+ create mode 100755 tools/testing/selftests/lib/test_seqnum_ops.sh
+
+diff --git a/Documentation/core-api/seqnum_ops.rst b/Documentation/core-api/seqnum_ops.rst
+index 7a396c2cda19..3a9ddba985f2 100644
+--- a/Documentation/core-api/seqnum_ops.rst
++++ b/Documentation/core-api/seqnum_ops.rst
+@@ -115,3 +115,12 @@ Decrements sequence number and doesn't return the new value. ::
+ 
+         seqnum32_dec() --> atomic_dec()
+         seqnum64_dec() --> atomic64_dec()
++
++Where are the seqnum_ops and how to use and test them?
++------------------------------------------------------
++
++.. kernel-doc:: include/linux/seqnum_ops.h
++
++Please see lib/test_seqnum_ops.c for examples usages.
++Please find selftest: testing/selftests/lib/test_seqnum_ops.sh
++Please check dmesg for results after running test_seqnum_ops.sh.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c83a6f05610b..e6ae131836a5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15983,6 +15983,7 @@ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	include/linux/seqnum_ops.h
+ F:	lib/test_seqnum_ops.c
++F:	tools/testing/selftests/lib/test_seqnum_ops.sh
+ 
+ SIMPLE FIRMWARE INTERFACE (SFI)
+ S:	Obsolete
+diff --git a/include/linux/seqnum_ops.h b/include/linux/seqnum_ops.h
+index b97c7f310beb..a1def2ad5bc2 100644
+--- a/include/linux/seqnum_ops.h
++++ b/include/linux/seqnum_ops.h
+@@ -28,6 +28,8 @@
+  *
+  * Reference and API guide:
+  *	Documentation/core-api/seqnum_ops.rst for more information.
++ *	lib/test_seqnum_ops.c - example usages
++ *	tools/testing/selftests/lib/test_seqnum_ops.sh
+  *
+  */
+ 
+diff --git a/tools/testing/selftests/lib/Makefile b/tools/testing/selftests/lib/Makefile
+index a105f094676e..1818444f0e97 100644
+--- a/tools/testing/selftests/lib/Makefile
++++ b/tools/testing/selftests/lib/Makefile
+@@ -5,5 +5,6 @@
+ all:
+ 
+ TEST_PROGS := printf.sh bitmap.sh prime_numbers.sh strscpy.sh
++TEST_PROGS += test_seqnum_ops.sh
+ 
+ include ../lib.mk
+diff --git a/tools/testing/selftests/lib/config b/tools/testing/selftests/lib/config
+index b80ee3f6e265..674ed2a2ac82 100644
+--- a/tools/testing/selftests/lib/config
++++ b/tools/testing/selftests/lib/config
+@@ -3,3 +3,4 @@ CONFIG_TEST_BITMAP=m
+ CONFIG_PRIME_NUMBERS=m
+ CONFIG_TEST_STRSCPY=m
+ CONFIG_TEST_BITOPS=m
++CONFIG_TEST_SEQNUM_OPS=m
+diff --git a/tools/testing/selftests/lib/test_seqnum_ops.sh b/tools/testing/selftests/lib/test_seqnum_ops.sh
+new file mode 100755
+index 000000000000..fdce16b220ba
+--- /dev/null
++++ b/tools/testing/selftests/lib/test_seqnum_ops.sh
+@@ -0,0 +1,10 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (c) 2020 Shuah Khan <skhan@linuxfoundation.org>
++# Copyright (c) 2020 The Linux Foundation
++#
++# Tests the Sequence Number Ops interfaces using test_seqnum_ops
++# kernel module
++#
++$(dirname $0)/../kselftest/module.sh "test_seqnum_ops" test_seqnum_ops
+-- 
+2.27.0
+
