@@ -2,60 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D276C388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 09:57:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6BD4C388F7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 10:43:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2FD720797
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 09:57:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47D2320795
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 10:43:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="snACxGuv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726827AbgKJJ5v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 04:57:51 -0500
-Received: from verein.lst.de ([213.95.11.211]:35378 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726462AbgKJJ5v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:57:51 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 923756736F; Tue, 10 Nov 2020 10:57:47 +0100 (CET)
-Date:   Tue, 10 Nov 2020 10:57:47 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-Message-ID: <20201110095747.GA26574@lst.de>
-References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de> <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com> <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com> <20201110092506.GA24469@lst.de> <CANiDSCsBUBV1WA2To9x26Uhc5SU-4xuh3m4wUwXBcGwA6n8now@mail.gmail.com> <CAAFQd5CCOrp0OA_n_SHNO5RAhV-MQ2KuQJA+oWHQ76h_So=M2Q@mail.gmail.com>
+        id S1726280AbgKJKnn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 05:43:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726219AbgKJKnm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 05:43:42 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F429C0613D1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 02:43:42 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id g7so11067505pfc.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 02:43:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sJcQmaD585nvGEEKsRqlrTZmfOresK0VYOAgqhGxmiY=;
+        b=snACxGuvSW5Azjd9ARYJ7GaRRMD1bcWSJ2kPcyqILs5/UtuUTEj+J2wTgL360w/3gv
+         X9z6/Pt4bHftRPNhMCrLLGSdbTclranV23QugeBTmgtdJ8KzCMVU3oa0qfcTXnv+a8t0
+         t1YbxhHE9Cu68MeISkecbB/6Mf90BtstS2EgvBfYgMo+jcHEU//FYnwhThbHCCYOWMZt
+         B421eZLnoXLV1kKhJIzftU3aHyNr35QszWFRNJ0FArU6i2wn4EXP47uV4qZHBaDC/l7z
+         4Lo1JHGVND+RJRshiIO21RUbskNv2zBwTdNnPs/pTEwNjNJimQ2g+FSgE7xDI44k1Ixf
+         9pxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sJcQmaD585nvGEEKsRqlrTZmfOresK0VYOAgqhGxmiY=;
+        b=chlb5Y65U19/jQgqPlVydSz/B/csCRuCWOpVVw9klxK0zLhU/a93LMHiOg9rSg+gux
+         FrUcEYMbLBIygIVb+PLu8f+MWeGXgNt1mOZZnrFvqVQ35N+eZ44FmuO4gzoG6nIjbdbC
+         0eJRVEF/CJogKDMQ8wwRkKZVdn9B/5RrQ8xsvXkg1wOmmN2rs+LwEYivcZMZVA9wxAVZ
+         LKbPE5daaojgga6GX3ckC4xPXv7w63f3pKG1aU+TbvwxCq6MHqASwdB5/WkdFiqZHm/H
+         ZUL/1penuul0DCdbn7u/haJLdR8bHjsZ/59cKPBh8Zlbu4GyeV1+jSsglW2nXTpB9FZh
+         kI/Q==
+X-Gm-Message-State: AOAM531Fnzb7R4S+D+ony4RRZLqduxsHxhEdOc4XWu9yNkcO4tnTLf0D
+        vKnPkGJyRS5f02IAGvt2aXmM7w==
+X-Google-Smtp-Source: ABdhPJwCa1ixceXALYAZn6qUfAqcAJog/vO1fFgdIO4eD9owfj+ZQUFyHb21KiyyQqUnq6yAriELXg==
+X-Received: by 2002:a17:90b:3594:: with SMTP id mm20mr4363010pjb.90.1605005021999;
+        Tue, 10 Nov 2020 02:43:41 -0800 (PST)
+Received: from localhost ([122.172.12.172])
+        by smtp.gmail.com with ESMTPSA id c4sm14085616pfo.62.2020.11.10.02.43.40
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Nov 2020 02:43:41 -0800 (PST)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Zhang Rui <rui.zhang@intel.com>
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: thermal: time_in_state is displayed in msec and not usertime
+Date:   Tue, 10 Nov 2020 16:13:37 +0530
+Message-Id: <d5461bdf9ab6b6fee7f28f538582edbb426aa077.1605004905.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5CCOrp0OA_n_SHNO5RAhV-MQ2KuQJA+oWHQ76h_So=M2Q@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 06:50:32PM +0900, Tomasz Figa wrote:
-> In what terms it doesn't actually work? Last time I checked some
-> platforms actually defined CONFIG_DMA_NONCOHERENT, so those would
-> instead use the kmalloc() + dma_map() path. I don't have any
-> background on why that was added and whether it needs to be preserved,
-> though. Kieran, Laurent, do you have any insight?
+The sysfs stats for cooling devices shows the time_in_state in msec,
+remove the unwanted usertime comment.
 
-CONFIG_DMA_NONCOHERENT is set on sh and mips for platforms that may
-support non-coherent DMA at compile time (but at least for mips that
-doesn't actually means this gets used).  Using that ifdef to decide
-on using usb_alloc_coherent vs letting the usb layer map the data
-seems at best odd, and if we are unlucky papering over a bug somewhere.
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+ Documentation/driver-api/thermal/sysfs-api.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+index b40b1f839148..e7520cb439ac 100644
+--- a/Documentation/driver-api/thermal/sysfs-api.rst
++++ b/Documentation/driver-api/thermal/sysfs-api.rst
+@@ -654,8 +654,7 @@ stats/reset
+ 	The amount of time spent by the cooling device in various cooling
+ 	states. The output will have "<state> <time>" pair in each line, which
+ 	will mean this cooling device spent <time> msec of time at <state>.
+-	Output will have one line for each of the supported states.  usertime
+-	units here is 10mS (similar to other time exported in /proc).
++	Output will have one line for each of the supported states.
+ 	RO, Required
+ 
+ 
+-- 
+2.25.0.rc1.19.g042ed3e048af
+
