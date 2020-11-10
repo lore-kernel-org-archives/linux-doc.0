@@ -2,105 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0D4C388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB4CAC56201
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:41:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2F9720665
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:32:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74D8B208CA
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:41:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OlyTE7Om"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732628AbgKJTck (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 14:32:40 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:44932 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731874AbgKJTcd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 14:32:33 -0500
-Received: by mail-oi1-f195.google.com with SMTP id t16so15693723oie.11;
-        Tue, 10 Nov 2020 11:32:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zjN4V2HIi7t5V1yE5EQ/0Tonc9lqELoKPGUr8UGft1A=;
-        b=Enw4R6mJDWrZmSE99fqUhtP0/pLk2c7dBc4mZXEoVuvAB/6OxP61Hp2aE+1vaeDKFY
-         rM7rb9wYRMmLvcGlIBDd3KEGpUDbvLqGt3mGI5VSsHakAu3qUWa3IJodP2iqDVfBhduT
-         CF1o7vk0IySZwH5vGsYNVOs82utOSMlKn02AYQlmFyRU44wuEyHsf7gqyg2TyY95rVo3
-         xWGCBWhDYa4gh7xyjjjS10i4dc5AqOj7Fua5iHETh0wgSsOYLJbHTEKQYiJZycfYehyv
-         FWWuE/bbdFWKJ4iPAPdX2SzK4ZwkoJqlINXKtdZl74epXdBI/cRsDHMGlaDx4z/iH581
-         iUPQ==
-X-Gm-Message-State: AOAM533Qa1o4x7ZC0qEqWC8IzoUmgWFvJ4M3kaiso8sMsJf9ApKNsBbh
-        h2/5qY9J2AEw7X70Cj1lWHm3z/gGJLoNkdsH7p0=
-X-Google-Smtp-Source: ABdhPJwfZG2tPHJgdaIakKbL1+cVFhfUETa9QStHz8A6yQ1aKSW3znTuh3CMGkAWBFZ9ov+Mv7hn61/NclBkv4xn6iM=
-X-Received: by 2002:aca:1c0b:: with SMTP id c11mr440766oic.71.1605036752777;
- Tue, 10 Nov 2020 11:32:32 -0800 (PST)
+        id S1728272AbgKJTlO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 14:41:14 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:40256 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727275AbgKJTlN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 14:41:13 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAJdr5l115875;
+        Tue, 10 Nov 2020 19:40:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=9B6dG5PJmz4EQQkDr5Dh7n2gEWp/DBIVSw1s14fCJVU=;
+ b=OlyTE7Om0d0VNz3I0ukpe//2qZClROzGZwZCra5xUP//qOlqKCfittNeQ6mhcqNM8AK3
+ jpETHFilEFxcaTWWblHtv8USZeUNuSMVTpGUi4YVaslCWBNu6+Dhl9b8vud45A7iQLiD
+ G++yb9f1m3QW036sQQ9m4kZkFje6y7Jce0fN5A1d8yzz4z0w1P0+q+1BaowMuMV/qFxe
+ tvkyDaZbDcEEeIcEpC17/LWNXLlgvetZx5KDzPXqXPtxHI+Fow0b66cIhFtCmuTsCIqv
+ hJNOFsux3fIKHNZwGfagU1zvvQdpD/tbZSQjzZwxBwcXcA9dBBoK+Rws/6gxX23kk9Ye xQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 34nkhkwgbh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 10 Nov 2020 19:40:44 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAJZ6RW047872;
+        Tue, 10 Nov 2020 19:38:43 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 34qgp7agsf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 10 Nov 2020 19:38:43 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AAJceZ3016558;
+        Tue, 10 Nov 2020 19:38:40 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 10 Nov 2020 11:38:39 -0800
+Subject: Re: [External] Re: [PATCH v3 04/21] mm/hugetlb: Introduce
+ nr_free_vmemmap_pages in the struct hstate
+To:     Muchun Song <songmuchun@bytedance.com>,
+        Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20201108141113.65450-1-songmuchun@bytedance.com>
+ <20201108141113.65450-5-songmuchun@bytedance.com>
+ <20201109164825.GA17356@linux>
+ <CAMZfGtWxNV874j9io_xcsVm+C6_shrZCw=W9ugJzxrnBpXb_Mw@mail.gmail.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <877a4620-fa5c-c5b5-8a42-fdd67a869a38@oracle.com>
+Date:   Tue, 10 Nov 2020 11:38:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20201103090600.29053-1-lukasz.luba@arm.com> <9382ea70-cc50-7b78-f5de-716678bdefbf@arm.com>
-In-Reply-To: <9382ea70-cc50-7b78-f5de-716678bdefbf@arm.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 10 Nov 2020 20:32:21 +0100
-Message-ID: <CAJZ5v0iS2jFvqiddjTDFpXq0gcNrrKML6raQOq=S4boZZC_V5Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Clarify abstract scale usage for power values in
- Energy Model, EAS and IPA
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Quentin Perret <qperret@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        "Nayak, Rajendra" <rnayak@codeaurora.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMZfGtWxNV874j9io_xcsVm+C6_shrZCw=W9ugJzxrnBpXb_Mw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ adultscore=0 mlxscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011100134
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 priorityscore=1501
+ mlxscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011100134
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 4, 2020 at 11:58 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
->
-> Hi Rafael,
->
-> On 11/3/20 9:05 AM, Lukasz Luba wrote:
-> > Hi all,
-> >
-> > The Energy Model supports power values expressed in an abstract scale.
-> > This has an impact on Intelligent Power Allocation (IPA) and should be
-> > documented properly. Kernel sub-systems like EAS, IPA and DTPM
-> > (new comming PowerCap framework) would use the new flag to capture
-> > potential miss-configuration where the devices have registered different
-> > power scales, thus cannot operate together.
-> >
-> > There was a discussion below v2 of this patch series, which might help
-> > you to get context of these changes [2].
-> >
-> > The agreed approach is to have the DT as a source of power values expressed
-> > always in milli-Watts and the only way to submit with abstract scale values
-> > is via the em_dev_register_perf_domain() API.
-> >
-> > Changes:
-> > v4:
-> > - change bool to int type for 'miliwatts' in struct em_perf_domain
-> >    (suggested by Quentin)
-> > - removed one sentence from patch 2/4 in IPA doc power_allocator.rst
-> >    (suggested by Quentin)
-> > - added reviewed-by from Quentin to 1/4, 3/4, 4/4 patches
->
-> There was no major objections in the v3 and this v4 just addressed
-> minor comments. The important discussions mostly happen in v2.
->
-> Could you take the patches via your tree, please?
+On 11/9/20 6:42 PM, Muchun Song wrote:
+> On Tue, Nov 10, 2020 at 12:48 AM Oscar Salvador <osalvador@suse.de> wrote:
+>>
+>> On Sun, Nov 08, 2020 at 10:10:56PM +0800, Muchun Song wrote:
+>>
+>> Unrelated to this patch but related in general, I am not sure about Mike but
+>> would it be cleaner to move all the vmemmap functions to hugetlb_vmemmap.c?
+>> hugetlb code is quite tricky, so I am not sure about stuffing more code
+>> in there.
+>>
+> 
+> I also think that you are right, moving all the vmemmap functions to
+> hugetlb_vmemmap.c may make the code cleaner.
+> 
+> Hi Mike, what's your opinion?
 
-Applied as 5.11 material, thanks!
+I would be happy to see this in a separate file.  As Oscar mentions, the
+hugetlb.c file/code is already somethat difficult to read and understand.
+-- 
+Mike Kravetz
