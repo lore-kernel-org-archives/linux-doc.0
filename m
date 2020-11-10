@@ -2,66 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C09EAC388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 05:17:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B3BC5517A
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 05:43:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85D1F207BC
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 05:17:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="pLvSIdTa"
+	by mail.kernel.org (Postfix) with ESMTP id C96B020781
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 05:43:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731423AbgKJFRu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 00:17:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731316AbgKJFRu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 00:17:50 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA69C0613CF
-        for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2020 21:17:47 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id r186so9172212pgr.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 21:17:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CXC+/BleOfXkT9eayj4GUbnHyl7/dt6Mpch3dxKG+nw=;
-        b=pLvSIdTaeIZHJo73IcVYhLxFlNpiP4U6E3UKJdrJ72FklZtdmaGGtdRYddauYc8rsf
-         8vGAqMuYP6aoyQytiHO2wXjeJlQwD1esvWvuzjQG96OuCScE4Q6yvoGenHz0oL5Jz9rL
-         7xELZc6ZqX07o5yxmTRVqs7HeXzXw4TkUxxyy8X//4qS7fYZ8VOEWDyMAcqwnoUJRWoB
-         Y1SewOEXaBVU+S2DHHL2EjGLtCKyC/aoubsWEd/7zVcu87dPcAp9cgoBqu152E8MViw/
-         Oei0lNDfYCSQ7ABLbplQc90cCWxeuTtUGtXRm95kwl1Y5sf/fDRn5MeRezrjhPOLOVCX
-         E4qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CXC+/BleOfXkT9eayj4GUbnHyl7/dt6Mpch3dxKG+nw=;
-        b=ZG6yGkpcohEdPBSL/Lv9U4BhunuiAkW1jphG3YtNhZkd8aX6kv2sRWcKWXJT3l1p8a
-         OSqhOO8e7Y6RgjsEd/nw3RjwcDqIzvLcDCxfkJ4ThSy3pGkoQblbkvgV6Lgoos1Mgml9
-         x+1ER/mQaszuj6cUdxYfPIwB3Arx0q1RI8U8dnZ0FxgN4TsajK7HY1A/mzU9XbJ1rqV9
-         C8avuGikZ7qP4YjuIGfdmzvdnLxttWhYFPJhdgVAhYOCXHrj+U4Zf799uDjNaYq7+wQD
-         aDVekMNBurBrvkPs1g1JQ6mxZgEMz3//IVsA0f6HIO154QlXlWAC+/evk3ioALNG2JfE
-         5G/g==
-X-Gm-Message-State: AOAM530RqYx3hpg5ebMrK06yTTtjcHM+h64Yw6EFRce5zCYTxCnNBGPY
-        L6LGIv2Qq08TVn9Rpr1r6fb2cVlQ3VFN1u7HfE/kqA==
-X-Google-Smtp-Source: ABdhPJw1XsBVc5s3suqABD9CcUsJOcngWrKu6Nkz0r9C1MF0alZME/00oO9I8hsjaBLtSiYVkkFfsBc/QpbX3EWvfKM=
-X-Received: by 2002:a65:5383:: with SMTP id x3mr15431908pgq.341.1604985467243;
- Mon, 09 Nov 2020 21:17:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-9-songmuchun@bytedance.com> <20201109181104.GC17356@linux>
-In-Reply-To: <20201109181104.GC17356@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 10 Nov 2020 13:17:11 +0800
-Message-ID: <CAMZfGtUB_28g1DzG2-eBrTu7DAgDag0roQ6AQQTh9o61dofZNA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v3 08/21] mm/vmemmap: Initialize page table
- lock for vmemmap
-To:     Oscar Salvador <osalvador@suse.de>
+        id S1731886AbgKJFm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 00:42:56 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41040 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729801AbgKJFm4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Nov 2020 00:42:56 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id B02C6ABDE;
+        Tue, 10 Nov 2020 05:42:54 +0000 (UTC)
+Date:   Tue, 10 Nov 2020 06:42:50 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
@@ -80,68 +43,87 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [External] Re: [PATCH v3 05/21] mm/hugetlb: Introduce pgtable
+ allocation/freeing helpers
+Message-ID: <20201110054250.GA2906@localhost.localdomain>
+References: <CAMZfGtVm9buFPscDVn5F5nUE=Yq+y4NoL0ci74=hUyjaLAPQQg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtVm9buFPscDVn5F5nUE=Yq+y4NoL0ci74=hUyjaLAPQQg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 2:11 AM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Sun, Nov 08, 2020 at 10:11:00PM +0800, Muchun Song wrote:
-> > In the register_page_bootmem_memmap, the slab allocator is not ready
-> > yet. So when ALLOC_SPLIT_PTLOCKS, we use init_mm.page_table_lock.
-> > otherwise we use per page table lock(page->ptl). In the later patch,
-> > we will use the vmemmap page table lock to guard the splitting of
-> > the vmemmap huge PMD.
->
-> I am not sure about this one.
-> Grabbing init_mm's pagetable lock for specific hugetlb operations does not
-> seem like a good idea, and we do not know how contented is that one.
+On Tue, Nov 10, 2020 at 11:49:27AM +0800, Muchun Song wrote:
+> On Tue, Nov 10, 2020 at 1:21 AM Oscar Salvador <osalvador@suse.de> wrote:
+> >
+> > On Sun, Nov 08, 2020 at 10:10:57PM +0800, Muchun Song wrote:
+> > > +static inline unsigned int pgtable_pages_to_prealloc_per_hpage(struct hstate *h)
+> > > +{
+> > > +     unsigned long vmemmap_size = vmemmap_pages_size_per_hpage(h);
+> > > +
+> > > +     /*
+> > > +      * No need pre-allocate page tabels when there is no vmemmap pages
+> > > +      * to free.
+> >  s /tabels/tables/
+> 
+> Thanks.
+> 
+> >
+> > > +static int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
+> > > +{
+> > > +     int i;
+> > > +     pgtable_t pgtable;
+> > > +     unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
+> > > +
+> > > +     if (!nr)
+> > > +             return 0;
+> > > +
+> > > +     vmemmap_pgtable_init(page);
+> > > +
+> > > +     for (i = 0; i < nr; i++) {
+> > > +             pte_t *pte_p;
+> > > +
+> > > +             pte_p = pte_alloc_one_kernel(&init_mm);
+> > > +             if (!pte_p)
+> > > +                     goto out;
+> > > +             vmemmap_pgtable_deposit(page, virt_to_page(pte_p));
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +out:
+> > > +     while (i-- && (pgtable = vmemmap_pgtable_withdraw(page)))
+> > > +             pte_free_kernel(&init_mm, page_to_virt(pgtable));
+> >
+> >         would not be enough to:
+> >
+> >         while (pgtable = vmemmap_pgtable_withdrag(page))
+> >                 pte_free_kernel(&init_mm, page_to_virt(pgtable));
+> 
+> The vmemmap_pgtable_withdraw can not return NULL. So we can not
+> drop the "i--".
 
-These APIs are used to guard the operations on vmemmap page tables.
-For now, it is only for specific hugetlb operations. But maybe in the future,
-someone also wants to modify the vmemmap page tables, he also can
-use these APIs. Yeah, we do not know how contented is init_mm's pagetable
-lock. Grabbing this one may not be a good idea.
+Yeah, you are right, I managed to confuse myself.
+But why not make it return null, something like:
 
->
-> I think a better fit would be to find another hook to initialize
-> page_table_lock at a later stage.
-> Anyway, we do not need till we are going to perform an operation
-> on the range, right?
+static pgtable_t vmemmap_pgtable_withdraw(struct page *page)
+{
+	pgtable_t pgtable;
 
-Yeah. You are right.
+	/* FIFO */
+	pgtable = page_huge_pte(page);
+	page_huge_pte(page) = list_first_entry_or_null(&pgtable->lru,
+						       struct page, lru);
+	if (page_huge_pte(page))
+		list_del(&pgtable->lru);
 
->
-> Unless I am missing something, this should be doable in hugetlb_init.
->
-> hugetlb_init is part from a init_call that gets called during do_initcalls.
-> At this time, slab is fully operative.
+	return page_huge_pte(page) ? pgtable : NULL;
+}
 
-If we initialize the page_table_lock in the hugetlb_init, we need to
-walk the vmemmap page tables again. But the vmemmap pages
-size is small, maybe the overhead of this is also small. And doing
-this in hugetlb_init can make the code cleaner. Thanks very much.
+What do you think?
 
 
->
-> start_kernel
->  kmem_cache_init_late
->  kmem_cache_init_late
->  ...
->  arch_call_rest_init
->   rest_init
->    kernel_init_freeable
->     do_basic_setup
->      do_initcalls
->       hugetlb_init
->
-> --
-> Oscar Salvador
-> SUSE L3
-
-
-
---
-Yours,
-Muchun
+-- 
+Oscar Salvador
+SUSE L3
