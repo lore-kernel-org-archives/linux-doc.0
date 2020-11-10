@@ -2,116 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F26BC388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:03:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 302EDC56201
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:43:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52B952076E
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:03:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B71B221741
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:43:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="eEazoQaT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730968AbgKJPDU convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 10:03:20 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:46806 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730917AbgKJPDU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 10:03:20 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-264-Pa_8GOWQOlynPhI4iWLMJA-1; Tue, 10 Nov 2020 15:03:16 +0000
-X-MC-Unique: Pa_8GOWQOlynPhI4iWLMJA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Tue, 10 Nov 2020 15:03:15 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Tue, 10 Nov 2020 15:03:15 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Yang Mingzhe' <cainiao666999@gmail.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>
-CC:     "x86@kernel.org" <x86@kernel.org>,
+        id S1731232AbgKJPnH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 10:43:07 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:37194 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730666AbgKJPnH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 10:43:07 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AAFgj1k082798;
+        Tue, 10 Nov 2020 09:42:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1605022965;
+        bh=kZ6NUVS0wH3f6crDKEWytDIJj/TB2GdUpTaec0L/68E=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=eEazoQaTmQCDD4IKrmGRCn5qEUpSRcBoevzBBGrMGDUZ81ThPKZN4WBRKzq4qL1hm
+         gxUbXjaRP0Zybvglj70M7ys5o0/fE1g0XGKBsmTpbha0i2jYBj4RFrY0I+MW/bPPVk
+         c7KBX0GPYOvdn4QyYC/g9+AI4nwtt5XPuFY/3fp4=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AAFgjfg031823
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 10 Nov 2020 09:42:45 -0600
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
+ Nov 2020 09:42:45 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 10 Nov 2020 09:42:44 -0600
+Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AAFgd1M009286;
+        Tue, 10 Nov 2020 09:42:40 -0600
+Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
+ Non-Transparent Bridge
+To:     Arnd Bergmann <arnd@kernel.org>
+CC:     Sherry Sun <sherry.sun@nxp.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jdmason@kudzu.us" <jdmason@kudzu.us>,
+        "dave.jiang@intel.com" <dave.jiang@intel.com>,
+        "allenbh@gmail.com" <allenbh@gmail.com>,
+        "tjoseph@cadence.com" <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH] Documentation: x86: fix thread_info's position
-Thread-Topic: [PATCH] Documentation: x86: fix thread_info's position
-Thread-Index: AQHWt2zNmNlRN0bqL0my97PGUalbg6nBdF2A
-Date:   Tue, 10 Nov 2020 15:03:15 +0000
-Message-ID: <7766d351074242a8bc929b12857eed46@AcuMS.aculab.com>
-References: <1605018060-11571-1-git-send-email-cainiao666999@gmail.com>
-In-Reply-To: <1605018060-11571-1-git-send-email-cainiao666999@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+References: <20200930153519.7282-16-kishon@ti.com>
+ <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <d6d27475-3464-6772-2122-cc194b8ae022@ti.com>
+ <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com>
+ <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com>
+Date:   Tue, 10 Nov 2020 21:12:33 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+In-Reply-To: <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Mingzhe
-> Sent: 10 November 2020 14:21
+Hi Sherry, Arnd,
+
+On 10/11/20 8:29 pm, Arnd Bergmann wrote:
+> On Tue, Nov 10, 2020 at 3:20 PM Kishon Vijay Abraham I <kishon@ti.com> wrote:
+>> On 10/11/20 7:55 am, Sherry Sun wrote:
 > 
-> The bottom of the stack is where the first item was added to the stack,
-> usually at the zero offset. Actually, the thread_info structure at the
-> end of the stack.
-
-Nope, most stacks 'grow down'.
-So the first item pushed is at address 8k (for 8k stacks).
-
-> Please see attached picture:
-> https://github.com/Mutated1994/kernel-beginner/blob/master/kernel-stack.md
+>>> But for VOP, only two boards are needed(one board as host and one board as card) to realize the
+>>> communication between the two systems, so my question is what are the advantages of using NTB?
+>>
+>> NTB is a bridge that facilitates communication between two different
+>> systems. So it by itself will not be source or sink of any data unlike a
+>> normal EP to RP system (or the VOP) which will be source or sink of data.
+>>
+>>> Because I think the architecture of NTB seems more complicated. Many thanks!
+>>
+>> yeah, I think it enables a different use case all together. Consider you
+>> have two x86 HOST PCs (having RP) and they have to be communicate using
+>> PCIe. NTB can be used in such cases for the two x86 PCs to communicate
+>> with each other over PCIe, which wouldn't be possible without NTB.
 > 
-> See commits c65eacb ("sched/core: Allow putting thread_info into
-> task_struct"), 15f4eae ("x86: Move thread_info into task_struct")
-> and 883d50f ("scripts/gdb: fix get_thread_info").
+> I think for VOP, we should have an abstraction that can work on either NTB
+> or directly on the endpoint framework but provide an interface that then
+> lets you create logical devices the same way.
 > 
-> Signed-off-by: Yang Mingzhe <cainiao666999@gmail.com>
-> ---
->  Documentation/x86/kernel-stacks.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/x86/kernel-stacks.rst b/Documentation/x86/kernel-stacks.rst
-> index 6b0bcf0..b88b9e12 100644
-> --- a/Documentation/x86/kernel-stacks.rst
-> +++ b/Documentation/x86/kernel-stacks.rst
-> @@ -15,7 +15,9 @@ Like all other architectures, x86_64 has a kernel stack for every
->  active thread.  These thread stacks are THREAD_SIZE (2*PAGE_SIZE) big.
->  These stacks contain useful data as long as a thread is alive or a
->  zombie. While the thread is in user space the kernel stack is empty
-> -except for the thread_info structure at the bottom.
-> +except for the thread_info structure at the end (since kernel 4.9, the
-> +thread_info has been moved into task_struct, no longer locates at the
-> +end of kernel stack).
+> Doing VOP based on NTB plus the new NTB_EPF driver would also
+> work and just move the abstraction somewhere else, but I guess it
+> would complicate setting it up for those users that only care about the
+> simpler endpoint case.
 
-So 'bottom' - meaning address 0 is probably right.
-Not sure what happens on the few architectures where pushing values
-onto the stack does increase the stack pointer.
+I'm not sure if you've got a chance to look at [1], where I added
+support for RP<->EP system both running Linux, with EP configured using
+Linux EP framework (as well as HOST ports connected to NTB switch,
+patches 20 and 21, that uses the Linux NTB framework) to communicate
+using virtio over PCIe.
 
-The bit about the kernel 4.9 changes doesn't read well at all.
-I think the commas are just wrong.
-You could say something like:
+The cover-letter [1] shows a picture of the two use cases supported in
+that series.
 
-Prior to kernel 4.9 the thread_info structure was at the bottom
-of the kernel stack. kernel 4.9 moved it into the task_struct.
+[1] -> http://lore.kernel.org/r/20200702082143.25259-1-kishon@ti.com
 
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Thank You,
+Kishon
