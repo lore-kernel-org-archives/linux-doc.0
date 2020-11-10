@@ -2,29 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D264CC5517A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 06:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3871C56201
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 06:41:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D5E420731
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 06:33:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60CC62080A
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 06:41:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="MwT0BS1C"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbgKJGdb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 01:33:31 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53490 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726010AbgKJGda (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Nov 2020 01:33:30 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 6E1EEABCC;
-        Tue, 10 Nov 2020 06:33:29 +0000 (UTC)
-Date:   Tue, 10 Nov 2020 07:33:25 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
+        id S1731316AbgKJGld (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 01:41:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44416 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731231AbgKJGlc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 01:41:32 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5900AC0613D3
+        for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2020 22:41:31 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id x13so10486160pfa.9
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 22:41:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0Geg8ga216EfQWJODZoPB/tADPTu5Ty/TnxqtFN8Hj0=;
+        b=MwT0BS1CEqMvujGC6+tdpVO9hRjWYfqyzXa6ua/F0hzskdgPD5LbnmQ9Det6MF1OP8
+         3Ah419OYIy7M4n/+h7Kr9enfI3NdOx4+4yreJSxWloDJ1SlsKj3SBpDuoS2m8PFV/Ezy
+         0I/HBFgQIJvBiWSU8Hq82ZEFd7Vs/EZi7HC9ryFvr+TNe1+Imc1AwS5cxrQvPZnzcAqT
+         5YHYdHwbebCo3lSSK74CmEc32eY/zAsbFAtiHi0AIvmddVUExyGTykizT69I/d1MZHA7
+         2lfk5lETJ2+N60GnQJNbk4IYmcJdMiIBh62dD12+GiBWrIiCDo4zO9WUxJxSgGuydFeg
+         OG0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0Geg8ga216EfQWJODZoPB/tADPTu5Ty/TnxqtFN8Hj0=;
+        b=buHC3TZU179wXT76yK/PkEKSKPunTzsJGvGsFmmE8p3W62zbch+Mm50BCFH/nE5rUK
+         DDGb9LLO4pkChGnoJBbN/uj4RXk5f70waW2V1HNuY41EeMidEVv96n70qQ3aUeybMGax
+         kY1C1tqw7cPcfgRDzG9fBw8qe78oRttRWo1UKuyAVTDSAzq6571JOs0Q9atH2ZHiXaY8
+         QqC1ybrU2oOsgdS8B4IPj2xVIXjVjX7Pa/1JdfD0z7G43Q7XtBImzKGQCb0A2tY5nyFE
+         PwNzWwDKfKpxRUky8Lji/lX99Ly+It8AJWb3OIPVKIxwiw1UJ5kNQWcTDE8zHoIWcRCz
+         UeMA==
+X-Gm-Message-State: AOAM532a+ZNGEeNYOX3v7c/uQVRRoFjTwyZi7orZKUxLHplEiVSdSZp7
+        EJV5x6kTNyY/EnMJq+LFxZuAqV4+hlA9R/OX/18YeQ==
+X-Google-Smtp-Source: ABdhPJyKv0hduPw4n7bMCGrbf+Z7jY28oQybr8inCHTvwXZPj/t82bSlEumrVllRoDro/ckWIWNhgZ9mwbt/p6SnlS0=
+X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id
+ s7-20020aa782870000b0290142250139ecmr16678994pfm.59.1604990490866; Mon, 09
+ Nov 2020 22:41:30 -0800 (PST)
+MIME-Version: 1.0
+References: <20201108141113.65450-1-songmuchun@bytedance.com>
+ <20201108141113.65450-10-songmuchun@bytedance.com> <20201109185138.GD17356@linux>
+In-Reply-To: <20201109185138.GD17356@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 10 Nov 2020 14:40:54 +0800
+Message-ID: <CAMZfGtXpXoQ+zVi2Us__7ghSu_3U7+T3tx-EL+zfa=1Obn=55g@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v3 09/21] mm/hugetlb: Free the vmemmap
+ pages associated with each hugetlb page
+To:     Oscar Salvador <osalvador@suse.de>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
@@ -43,47 +81,151 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v3 05/21] mm/hugetlb: Introduce pgtable
- allocation/freeing helpers
-Message-ID: <20201110063325.GA4286@localhost.localdomain>
-References: <CAMZfGtVm9buFPscDVn5F5nUE=Yq+y4NoL0ci74=hUyjaLAPQQg@mail.gmail.com>
- <20201110054250.GA2906@localhost.localdomain>
- <CAMZfGtWbGETq=3b5i0aentemXkZn2J2DNWu05mBs=4L8bJm1jg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtWbGETq=3b5i0aentemXkZn2J2DNWu05mBs=4L8bJm1jg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 02:08:46PM +0800, Muchun Song wrote:
-> The check should be added here.
-> 
->            if (!pgtable)
->                    return NULL;
-> 
-> Just like my previous v2 patch does. In this case, we can drop those
-> checks. What do you think?
+On Tue, Nov 10, 2020 at 2:51 AM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Sun, Nov 08, 2020 at 10:11:01PM +0800, Muchun Song wrote:
+> > +static inline int freed_vmemmap_hpage(struct page *page)
+> > +{
+> > +     return atomic_read(&page->_mapcount) + 1;
+> > +}
+> > +
+> > +static inline int freed_vmemmap_hpage_inc(struct page *page)
+> > +{
+> > +     return atomic_inc_return_relaxed(&page->_mapcount) + 1;
+> > +}
+> > +
+> > +static inline int freed_vmemmap_hpage_dec(struct page *page)
+> > +{
+> > +     return atomic_dec_return_relaxed(&page->_mapcount) + 1;
+> > +}
+>
+> Are these relaxed any different that the normal ones on x86_64?
+> I got confused following the macros.
 
-It is too early for me, so bear with me.
+A PTE table can contain 64 HugeTLB(2MB) page's struct page structures.
+So I use the freed_vmemmap_hpage to indicate how many HugeTLB pages
+that it's vmemmap pages are already freed to buddy.
 
-page_huge_pte will only return NULL in case we did not get to preallocate
-any pgtable right?
+Once vmemmap pages of a HugeTLB page are freed, we call the
+freed_vmemmap_hpage_inc, when freeing a HugeTLB to the buddy,
+we should call freed_vmemmap_hpage_dec.
 
-What I was talimg about is that 
-> 
-> >         page_huge_pte(page) = list_first_entry_or_null(&pgtable->lru,
-> >                                                        struct page, lru);
+If the freed_vmemmap_hpage hit zero when free HugeTLB, we try to merge
+the PTE table to PMD(now only support gigantic pages). This can refer to
 
-here we will get the either a pgtable entry or NULL in case we already consumed
-all entries from the list.
-If that is the case, we can return NULL and let the caller known that we
-are done.
+  [PATCH v3 19/21] mm/hugetlb: Merge pte to huge pmd only for gigantic
 
-Am I missing anything?
+Thanks.
+
+>
+> > +static void __free_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
+> > +                                      unsigned long start,
+> > +                                      unsigned int nr_free,
+> > +                                      struct list_head *free_pages)
+> > +{
+> > +     /* Make the tail pages are mapped read-only. */
+> > +     pgprot_t pgprot = PAGE_KERNEL_RO;
+> > +     pte_t entry = mk_pte(reuse, pgprot);
+> > +     unsigned long addr;
+> > +     unsigned long end = start + (nr_free << PAGE_SHIFT);
+>
+> See below.
+>
+> > +static void __free_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
+> > +                                      unsigned long addr,
+> > +                                      struct list_head *free_pages)
+> > +{
+> > +     unsigned long next;
+> > +     unsigned long start = addr + RESERVE_VMEMMAP_NR * PAGE_SIZE;
+> > +     unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
+> > +     struct page *reuse = NULL;
+> > +
+> > +     addr = start;
+> > +     do {
+> > +             unsigned int nr_pages;
+> > +             pte_t *ptep;
+> > +
+> > +             ptep = pte_offset_kernel(pmd, addr);
+> > +             if (!reuse)
+> > +                     reuse = pte_page(ptep[-1]);
+>
+> Can we define a proper name for that instead of -1?
+>
+> e.g: TAIL_PAGE_REUSE or something like that.
+
+OK, will do.
+
+>
+> > +
+> > +             next = vmemmap_hpage_addr_end(addr, end);
+> > +             nr_pages = (next - addr) >> PAGE_SHIFT;
+> > +             __free_huge_page_pte_vmemmap(reuse, ptep, addr, nr_pages,
+> > +                                          free_pages);
+>
+> Why not passing next instead of nr_pages? I think it makes more sense.
+> As a bonus we can kill the variable.
+
+Good catch. We can pass next instead of nr_pages. Thanks.
 
 
--- 
-Oscar Salvador
-SUSE L3
+>
+> > +static void split_vmemmap_huge_page(struct hstate *h, struct page *head,
+> > +                                 pmd_t *pmd)
+> > +{
+> > +     pgtable_t pgtable;
+> > +     unsigned long start = (unsigned long)head & VMEMMAP_HPAGE_MASK;
+> > +     unsigned long addr = start;
+> > +     unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
+> > +
+> > +     while (nr-- && (pgtable = vmemmap_pgtable_withdraw(head))) {
+>
+> The same with previous patches, I would scrap "nr" and its use.
+>
+> > +             VM_BUG_ON(freed_vmemmap_hpage(pgtable));
+>
+> I guess here we want to check whether we already call free_huge_page_vmemmap
+> on this range?
+> For this to have happened, the locking should have failed, right?
+
+Only the first HugeTLB page should split the PMD to PTE. The other 63
+HugeTLB pages
+do not need to split. Here I want to make sure we are the first.
+
+>
+> > +static void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+> > +{
+> > +     pmd_t *pmd;
+> > +     spinlock_t *ptl;
+> > +     LIST_HEAD(free_pages);
+> > +
+> > +     if (!free_vmemmap_pages_per_hpage(h))
+> > +             return;
+> > +
+> > +     pmd = vmemmap_to_pmd(head);
+> > +     ptl = vmemmap_pmd_lock(pmd);
+> > +     if (vmemmap_pmd_huge(pmd)) {
+> > +             VM_BUG_ON(!pgtable_pages_to_prealloc_per_hpage(h));
+>
+> I think that checking for free_vmemmap_pages_per_hpage is enough.
+> In the end, pgtable_pages_to_prealloc_per_hpage uses free_vmemmap_pages_per_hpage.
+
+The free_vmemmap_pages_per_hpage is not enough. See the comments above.
+
+Thanks.
+
+>
+>
+> --
+> Oscar Salvador
+> SUSE L3
+
+
+
+--
+Yours,
+Muchun
