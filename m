@@ -2,136 +2,254 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7005CC388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB22C388F7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:21:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07B4E2076E
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:01:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B452D2076E
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 14:21:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="KUTCW6u4"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="U4Z3YKl4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730306AbgKJOBe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 09:01:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbgKJOBc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 09:01:32 -0500
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA4DC0613CF
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 06:01:32 -0800 (PST)
-Received: by mail-pg1-x542.google.com with SMTP id z24so10245789pgk.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 06:01:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jw4xoyFdbdHuyEb63lDnIpWG8CFdqBLB9T72UopL8mM=;
-        b=KUTCW6u4yJgzk/3g97x8JENk0StNEPh+Ev3Tbja/6QsmlHWhyUmBLM15CC5JCckM4p
-         Thg486qv7XBHc73yt3G8SOJLuxaMj6LfKEznKD1HQjgWMEFl5hCZoW6oWkgBmLbzyrlb
-         lhdjGAdtXxYfRyYCA/MDASkkV7GE8Bfnw4rfeD0w3VZohQ5l/4krYQejJIVRnjP36ao3
-         VBzN2ZY+YVwG9fNU8Ij42g4dtLtGm8hBIzh5EX/VOKuBv/DALtVPZfBPlp/PnY47kjKE
-         EIxmHdeZFvVaL+GgwfYOk1aagoY+DfWPfDzotkVBCAgTL/GtvpgvVvviGlSPQMO78L5w
-         2Wuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jw4xoyFdbdHuyEb63lDnIpWG8CFdqBLB9T72UopL8mM=;
-        b=rAwOkLihRTJ7ae3iagNX1i8+98xmy8vOlSXWYfmOX2uIch5w2xt3hWoQlPpWeMwP50
-         m4C9nDFejBLMhTJicPs75yRLrTyA6zxhCCVe8McTw3EdBM6RCC42Kv4ICOmn+KrCG+Gz
-         dBvVck/aXkOrt4zfZo/UHU4hOAFyG5dmSp6xdOimmf9lMgIQ0MvHsMT+vC92iD7zXYvb
-         utBdTP6AoMh2RD9RRNm1MGIMCof4WfoaeY7ErBNxVFGEmdI6etRfV0RYrJV0SguW3iEw
-         Yv6vUVkXyd1V55awaxQB3tgerDHlAVv0Zy5pQad1d7IcLAAZ6xu0b+BnEW5W74aj/AxL
-         5hCQ==
-X-Gm-Message-State: AOAM533QcPZHck3LTEmsNHD4J6y8TSvR5kB6cceiHsfFrY4OeZre6voz
-        bN+eNlqeyz0XszFtLCmPbcDzKoqh6GEYe9ytAFziQg==
-X-Google-Smtp-Source: ABdhPJwU5QwCR2xxeNCT+mxLPbRxLxEnLOBux7J6tk0BgWSB9XQhZ9lxcE9XknqXnntajm6hRB/D3w3Tu4YYTa6PF2o=
-X-Received: by 2002:a62:e116:0:b029:18b:d325:153f with SMTP id
- q22-20020a62e1160000b029018bd325153fmr13323150pfh.2.1605016892290; Tue, 10
- Nov 2020 06:01:32 -0800 (PST)
+        id S1731962AbgKJOV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 09:21:28 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:40032 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbgKJOV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 09:21:27 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AAEKodJ078900;
+        Tue, 10 Nov 2020 08:20:50 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1605018050;
+        bh=pQqJVekxwxzY6/yo6GdpANrmY7YmUyIXk2qF+yF/eNs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=U4Z3YKl4e5SsnpMWH+i8nXSWwSKNA1p04a5yqwROPdNMWWwSUtQYSskLjIAmXSGPC
+         InZf9Yy3CYrbiEwP5utU5s2wl89oefi0KvE2Huk52xQc9loyqYBFtMyASIoIgjgqXa
+         pS2GgSvHc/hX4gQju49evvotiEEg1rUF2ulbjPgs=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AAEKobb059779
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 10 Nov 2020 08:20:50 -0600
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
+ Nov 2020 08:20:50 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 10 Nov 2020 08:20:49 -0600
+Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AAEKiTC113678;
+        Tue, 10 Nov 2020 08:20:46 -0600
+Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
+ Non-Transparent Bridge
+To:     Sherry Sun <sherry.sun@nxp.com>
+CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jdmason@kudzu.us" <jdmason@kudzu.us>,
+        "dave.jiang@intel.com" <dave.jiang@intel.com>,
+        "allenbh@gmail.com" <allenbh@gmail.com>,
+        "tjoseph@cadence.com" <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+References: <20200930153519.7282-16-kishon@ti.com>
+ <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <d6d27475-3464-6772-2122-cc194b8ae022@ti.com>
+ <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com>
+Date:   Tue, 10 Nov 2020 19:50:43 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-10-songmuchun@bytedance.com> <20201109185138.GD17356@linux>
- <CAMZfGtXpXoQ+zVi2Us__7ghSu_3U7+T3tx-EL+zfa=1Obn=55g@mail.gmail.com>
- <20201110094830.GA25373@linux> <CAMZfGtW0nwhdgwUwwq5SXgEAk3+6cyDfM5n28UerVuAxatwj4g@mail.gmail.com>
- <20201110135210.GA29463@linux>
-In-Reply-To: <20201110135210.GA29463@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 10 Nov 2020 22:00:55 +0800
-Message-ID: <CAMZfGtU=fhXc0R052hjRRdREShGHv5YUYfuBJpAT0qbwge_FEQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v3 09/21] mm/hugetlb: Free the vmemmap
- pages associated with each hugetlb page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 9:52 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Tue, Nov 10, 2020 at 06:47:08PM +0800, Muchun Song wrote:
-> > > That only refers to gigantic pages, right?
-> >
-> > Yeah, now it only refers to gigantic pages. Originally, I also wanted to merge
-> > vmemmap PTE to PMD for normal 2MB HugeTLB pages. So I introduced
-> > those macros(e.g. freed_vmemmap_hpage). For 2MB HugeTLB pages, I
-> > haven't found an elegant solution. Hopefully, when you or someone have
-> > read all of the patch series, we can come up with an elegant solution to
-> > merge PTE.
->
-> Well, it is quite a lot of "tricky" code, so it takes some time.
->
-> > > > > > +static void free_huge_page_vmemmap(struct hstate *h, struct page *head)
-> > > > > > +{
-> > > > > > +     pmd_t *pmd;
-> > > > > > +     spinlock_t *ptl;
-> > > > > > +     LIST_HEAD(free_pages);
-> > > > > > +
-> > > > > > +     if (!free_vmemmap_pages_per_hpage(h))
-> > > > > > +             return;
-> > > > > > +
-> > > > > > +     pmd = vmemmap_to_pmd(head);
-> > > > > > +     ptl = vmemmap_pmd_lock(pmd);
->
-> I forgot about this one.
-> You might want to check whether vmemmap_to_pmd returns NULL or not.
-> If it does means that something went wrong anyways, but still we should handle
-> such case (and print a fat warning or something like that).
+Hi Sherry,
 
-Yeah, maybe add a BUG_ON or WARN_ON. Do you think which one
-would be more suitable?
+On 10/11/20 7:55 am, Sherry Sun wrote:
+> Hi Kishon,
+> 
+>> Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-
+>> Transparent Bridge
+>>
+>> Hi Sherry,
+>>
+>> On 09/11/20 3:07 pm, Sherry Sun wrote:
+>>> Hi Kishon,
+>>>
+>>>> Subject: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-
+>>>> Transparent Bridge
+>>>>
+>>>> From: Kishon Vijay Abraham I <kishon@ti.com>
+>>>>
+>>>> Add support for EPF PCI-Express Non-Transparent Bridge (NTB) device.
+>>>> This driver is platform independent and could be used by any platform
+>>>> which have multiple PCIe endpoint instances configured using the pci-epf-
+>> ntb driver.
+>>>> The driver connnects to the standard NTB sub-system interface. The
+>>>> EPF NTB device has configurable number of memory windows (Max 4),
+>>>> configurable number of doorbell (Max 32), and configurable number of
+>>>> scratch-pad registers.
+>>>>
+>>>> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+>>>> ---
+>>>>  drivers/ntb/hw/Kconfig          |   1 +
+>>>>  drivers/ntb/hw/Makefile         |   1 +
+>>>>  drivers/ntb/hw/epf/Kconfig      |   6 +
+>>>>  drivers/ntb/hw/epf/Makefile     |   1 +
+>>>>  drivers/ntb/hw/epf/ntb_hw_epf.c | 755
+>>>> ++++++++++++++++++++++++++++++++
+>>>>  5 files changed, 764 insertions(+)
+>>>>  create mode 100644 drivers/ntb/hw/epf/Kconfig  create mode 100644
+>>>> drivers/ntb/hw/epf/Makefile  create mode 100644
+>>>> drivers/ntb/hw/epf/ntb_hw_epf.c
+>>>>
+>>>> diff --git a/drivers/ntb/hw/Kconfig b/drivers/ntb/hw/Kconfig index
+>>>> e77c587060ff..c325be526b80 100644
+>>>> --- a/drivers/ntb/hw/Kconfig
+>>>> +++ b/drivers/ntb/hw/Kconfig
+>>>> @@ -2,4 +2,5 @@
+>>>>  source "drivers/ntb/hw/amd/Kconfig"
+>>>>  source "drivers/ntb/hw/idt/Kconfig"
+>>>>  source "drivers/ntb/hw/intel/Kconfig"
+>>>> +source "drivers/ntb/hw/epf/Kconfig"
+>>>>  source "drivers/ntb/hw/mscc/Kconfig"
+>>>> diff --git a/drivers/ntb/hw/Makefile b/drivers/ntb/hw/Makefile index
+>>>> 4714d6238845..223ca592b5f9 100644
+>>>> --- a/drivers/ntb/hw/Makefile
+>>>> +++ b/drivers/ntb/hw/Makefile
+>>>> @@ -2,4 +2,5 @@
+>>>>  obj-$(CONFIG_NTB_AMD)	+= amd/
+>>>>  obj-$(CONFIG_NTB_IDT)	+= idt/
+>>>>  obj-$(CONFIG_NTB_INTEL)	+= intel/
+>>>> +obj-$(CONFIG_NTB_EPF)	+= epf/
+>>>>  obj-$(CONFIG_NTB_SWITCHTEC) += mscc/ diff --git
+>>>> a/drivers/ntb/hw/epf/Kconfig b/drivers/ntb/hw/epf/Kconfig new file
+>>>> mode 100644 index 000000000000..6197d1aab344
+>>>> --- /dev/null
+>>>> +++ b/drivers/ntb/hw/epf/Kconfig
+>>>> @@ -0,0 +1,6 @@
+>>>> +config NTB_EPF
+>>>> +	tristate "Generic EPF Non-Transparent Bridge support"
+>>>> +	depends on m
+>>>> +	help
+>>>> +	  This driver supports EPF NTB on configurable endpoint.
+>>>> +	  If unsure, say N.
+>>>> diff --git a/drivers/ntb/hw/epf/Makefile
+>>>> b/drivers/ntb/hw/epf/Makefile new file mode 100644 index
+>>>> 000000000000..2f560a422bc6
+>>>> --- /dev/null
+>>>> +++ b/drivers/ntb/hw/epf/Makefile
+>>>> @@ -0,0 +1 @@
+>>>> +obj-$(CONFIG_NTB_EPF) += ntb_hw_epf.o
+>>>> diff --git a/drivers/ntb/hw/epf/ntb_hw_epf.c
+>>>> b/drivers/ntb/hw/epf/ntb_hw_epf.c new file mode 100644 index
+>>>> 000000000000..0a144987851a
+>>>> --- /dev/null
+>>>> +++ b/drivers/ntb/hw/epf/ntb_hw_epf.c
+>>>> @@ -0,0 +1,755 @@
+>>> ......
+>>>> +static int ntb_epf_init_pci(struct ntb_epf_dev *ndev,
+>>>> +			    struct pci_dev *pdev)
+>>>> +{
+>>>> +	struct device *dev = ndev->dev;
+>>>> +	int ret;
+>>>> +
+>>>> +	pci_set_drvdata(pdev, ndev);
+>>>> +
+>>>> +	ret = pci_enable_device(pdev);
+>>>> +	if (ret) {
+>>>> +		dev_err(dev, "Cannot enable PCI device\n");
+>>>> +		goto err_pci_enable;
+>>>> +	}
+>>>> +
+>>>> +	ret = pci_request_regions(pdev, "ntb");
+>>>> +	if (ret) {
+>>>> +		dev_err(dev, "Cannot obtain PCI resources\n");
+>>>> +		goto err_pci_regions;
+>>>> +	}
+>>>> +
+>>>> +	pci_set_master(pdev);
+>>>> +
+>>>> +	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+>>>> +	if (ret) {
+>>>> +		ret = dma_set_mask_and_coherent(dev,
+>>>> DMA_BIT_MASK(32));
+>>>> +		if (ret) {
+>>>> +			dev_err(dev, "Cannot set DMA mask\n");
+>>>> +			goto err_dma_mask;
+>>>> +		}
+>>>> +		dev_warn(&pdev->dev, "Cannot DMA highmem\n");
+>>>> +	}
+>>>> +
+>>>> +	ndev->ctrl_reg = pci_iomap(pdev, 0, 0);
+>>>
+>>> The second parameter of pci_iomap should be ndev->ctrl_reg_bar instead
+>> of the hardcode value 0, right?
+>>>
+>>>> +	if (!ndev->ctrl_reg) {
+>>>> +		ret = -EIO;
+>>>> +		goto err_dma_mask;
+>>>> +	}
+>>>> +
+>>>> +	ndev->peer_spad_reg = pci_iomap(pdev, 1, 0);
+>>>
+>>> pci_iomap(pdev, ndev->peer_spad_reg_bar, 0);
+>>>
+>>>> +	if (!ndev->peer_spad_reg) {
+>>>> +		ret = -EIO;
+>>>> +		goto err_dma_mask;
+>>>> +	}
+>>>> +
+>>>> +	ndev->db_reg = pci_iomap(pdev, 2, 0);
+>>>
+>>> pci_iomap(pdev, ndev->db_reg_bar, 0);
+>>
+>> Good catch. Will fix it and send. Thank you for reviewing.
+> 
+> You're welcome.
+> By the way, since I've studied VOP(virtio over pcie) before, and only recently learned
+> about NTB related code. I have some questions about NTB.
+> 
+> For NTB, in order to make two(or more) different systems to communicate with each other, 
+> seems at least three boards are required(two host boards and one board with multiple EP
+> instances as bridge), right?
 
+right, this series is about creating NTB bridge by configuring multiple
+EP instances in an SoC, however there are also dedicated HW NTB switches
+(internally they might as well use multiple EP instances).
 
->
->
-> --
-> Oscar Salvador
-> SUSE L3
+> But for VOP, only two boards are needed(one board as host and one board as card) to realize the
+> communication between the two systems, so my question is what are the advantages of using NTB? 
 
+NTB is a bridge that facilitates communication between two different
+systems. So it by itself will not be source or sink of any data unlike a
+normal EP to RP system (or the VOP) which will be source or sink of data.
+> Because I think the architecture of NTB seems more complicated. Many thanks!
 
+yeah, I think it enables a different use case all together. Consider you
+have two x86 HOST PCs (having RP) and they have to be communicate using
+PCIe. NTB can be used in such cases for the two x86 PCs to communicate
+with each other over PCIe, which wouldn't be possible without NTB.
 
---
-Yours,
-Muchun
+Regards,
+Kishon
