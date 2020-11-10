@@ -2,176 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC00C388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:32:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0D4C388F7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:32:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B39F020665
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:32:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Sw7Fw6OF"
+	by mail.kernel.org (Postfix) with ESMTP id A2F9720665
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 19:32:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732158AbgKJTcZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 14:32:25 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:41410 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731760AbgKJTcT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 14:32:19 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAJTr53035259;
-        Tue, 10 Nov 2020 19:31:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=vnHHyzn7CTdDGwMxubv24/voTJaEj+320EKJk/GHU6Y=;
- b=Sw7Fw6OFgDxOpTCuzKSjGPvD2GN0moz3c7QOrC+W7kLJGAA7JCd9o1kOBc1Nx9omCKdD
- onji+tLWR6XVNO9UIS0Fzn9dzlYsEKgCQXU3zgYUNEzQOps7hQ2TGjkp8g99n6AifZxU
- n1LMsspGcJOw5WlCtwZZmOEmrErRbOXY9nFX/WjK3oTKrHD9tOeZUlAfB22CD3Y5oyXg
- RyYKrX2XvcdYK5Emd5labG0rMNQT9fYSa9CXjUzwdTipFFcRDMloRKTXkh+Nn8VM+glI
- BgzmC05K4t7HKuaiJtX9wC0YeGUrG5JmukbULwy72EOuDopX2tuVoeWVP9QgQgM/1WYR Yg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 34nh3awphr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 10 Nov 2020 19:31:37 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAJU9bm123971;
-        Tue, 10 Nov 2020 19:31:37 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 34p5gxdrv2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 10 Nov 2020 19:31:36 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AAJVYjW002398;
-        Tue, 10 Nov 2020 19:31:34 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 10 Nov 2020 11:31:33 -0800
-Subject: Re: [PATCH v3 03/21] mm/hugetlb: Introduce a new config
- HUGETLB_PAGE_FREE_VMEMMAP
-To:     Oscar Salvador <osalvador@suse.de>,
-        Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        x86@kernel.org, hpa@zytor.com, dave.hansen@linux.intel.com,
-        luto@kernel.org, peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        willy@infradead.org, mhocko@suse.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-4-songmuchun@bytedance.com>
- <20201109135215.GA4778@localhost.localdomain>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <ef564084-ea73-d579-9251-ec0440df2b48@oracle.com>
-Date:   Tue, 10 Nov 2020 11:31:31 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1732628AbgKJTck (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 14:32:40 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:44932 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731874AbgKJTcd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 14:32:33 -0500
+Received: by mail-oi1-f195.google.com with SMTP id t16so15693723oie.11;
+        Tue, 10 Nov 2020 11:32:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zjN4V2HIi7t5V1yE5EQ/0Tonc9lqELoKPGUr8UGft1A=;
+        b=Enw4R6mJDWrZmSE99fqUhtP0/pLk2c7dBc4mZXEoVuvAB/6OxP61Hp2aE+1vaeDKFY
+         rM7rb9wYRMmLvcGlIBDd3KEGpUDbvLqGt3mGI5VSsHakAu3qUWa3IJodP2iqDVfBhduT
+         CF1o7vk0IySZwH5vGsYNVOs82utOSMlKn02AYQlmFyRU44wuEyHsf7gqyg2TyY95rVo3
+         xWGCBWhDYa4gh7xyjjjS10i4dc5AqOj7Fua5iHETh0wgSsOYLJbHTEKQYiJZycfYehyv
+         FWWuE/bbdFWKJ4iPAPdX2SzK4ZwkoJqlINXKtdZl74epXdBI/cRsDHMGlaDx4z/iH581
+         iUPQ==
+X-Gm-Message-State: AOAM533Qa1o4x7ZC0qEqWC8IzoUmgWFvJ4M3kaiso8sMsJf9ApKNsBbh
+        h2/5qY9J2AEw7X70Cj1lWHm3z/gGJLoNkdsH7p0=
+X-Google-Smtp-Source: ABdhPJwfZG2tPHJgdaIakKbL1+cVFhfUETa9QStHz8A6yQ1aKSW3znTuh3CMGkAWBFZ9ov+Mv7hn61/NclBkv4xn6iM=
+X-Received: by 2002:aca:1c0b:: with SMTP id c11mr440766oic.71.1605036752777;
+ Tue, 10 Nov 2020 11:32:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201109135215.GA4778@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 phishscore=0 adultscore=0 malwarescore=0 suspectscore=2
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100133
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
- clxscore=1015 malwarescore=0 mlxscore=0 spamscore=0 suspectscore=2
- mlxlogscore=999 impostorscore=0 phishscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100133
+References: <20201103090600.29053-1-lukasz.luba@arm.com> <9382ea70-cc50-7b78-f5de-716678bdefbf@arm.com>
+In-Reply-To: <9382ea70-cc50-7b78-f5de-716678bdefbf@arm.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 10 Nov 2020 20:32:21 +0100
+Message-ID: <CAJZ5v0iS2jFvqiddjTDFpXq0gcNrrKML6raQOq=S4boZZC_V5Q@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] Clarify abstract scale usage for power values in
+ Energy Model, EAS and IPA
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
+        Morten Rasmussen <morten.rasmussen@arm.com>,
+        Quentin Perret <qperret@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        "Nayak, Rajendra" <rnayak@codeaurora.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/9/20 5:52 AM, Oscar Salvador wrote:
-> On Sun, Nov 08, 2020 at 10:10:55PM +0800, Muchun Song wrote:
->> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
->> whether to enable the feature of freeing unused vmemmap associated
->> with HugeTLB pages. Now only support x86.
->>
->> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->> ---
->>  arch/x86/mm/init_64.c |  2 +-
->>  fs/Kconfig            | 16 ++++++++++++++++
->>  mm/bootmem_info.c     |  3 +--
->>  3 files changed, 18 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
->> index 0a45f062826e..0435bee2e172 100644
->> --- a/arch/x86/mm/init_64.c
->> +++ b/arch/x86/mm/init_64.c
->> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
->>  
->>  static void __init register_page_bootmem_info(void)
->>  {
->> -#ifdef CONFIG_NUMA
->> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
->>  	int i;
->>  
->>  	for_each_online_node(i)
->> diff --git a/fs/Kconfig b/fs/Kconfig
->> index 976e8b9033c4..21b8d39a9715 100644
->> --- a/fs/Kconfig
->> +++ b/fs/Kconfig
->> @@ -245,6 +245,22 @@ config HUGETLBFS
->>  config HUGETLB_PAGE
->>  	def_bool HUGETLBFS
->>  
->> +config HUGETLB_PAGE_FREE_VMEMMAP
->> +	bool "Free unused vmemmap associated with HugeTLB pages"
->> +	default y
->> +	depends on X86
->> +	depends on HUGETLB_PAGE
->> +	depends on SPARSEMEM_VMEMMAP
->> +	depends on HAVE_BOOTMEM_INFO_NODE
->> +	help
->> +	  There are many struct page structures associated with each HugeTLB
->> +	  page. But we only use a few struct page structures. In this case,
->> +	  it wastes some memory. It is better to free the unused struct page
->> +	  structures to buddy system which can save some memory. For
->> +	  architectures that support it, say Y here.
->> +
->> +	  If unsure, say N.
-> 
-> I am not sure the above is useful for someone who needs to decide
-> whether he needs/wants to enable this or not.
-> I think the above fits better in a Documentation part.
-> 
-> I suck at this, but what about the following, or something along those
-> lines? 
-> 
-> "
-> When using SPARSEMEM_VMEMMAP, the system can save up some memory
-> from pre-allocated HugeTLB pages when they are not used.
-> 6 pages per 2MB HugeTLB page and 4095 per 1GB HugeTLB page.
-> When the pages are going to be used or freed up, the vmemmap
-> array representing that range needs to be remapped again and
-> the pages we discarded earlier need to be rellocated again.
-> Therefore, this is a trade-off between saving memory and
-> increasing time in allocation/free path.
-> "
-> 
-> It would be also great to point out that this might be a
-> trade-off between saving up memory and increasing the cost
-> of certain operations on allocation/free path.
-> That is why I mentioned it there.
+On Wed, Nov 4, 2020 at 11:58 AM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>
+> Hi Rafael,
+>
+> On 11/3/20 9:05 AM, Lukasz Luba wrote:
+> > Hi all,
+> >
+> > The Energy Model supports power values expressed in an abstract scale.
+> > This has an impact on Intelligent Power Allocation (IPA) and should be
+> > documented properly. Kernel sub-systems like EAS, IPA and DTPM
+> > (new comming PowerCap framework) would use the new flag to capture
+> > potential miss-configuration where the devices have registered different
+> > power scales, thus cannot operate together.
+> >
+> > There was a discussion below v2 of this patch series, which might help
+> > you to get context of these changes [2].
+> >
+> > The agreed approach is to have the DT as a source of power values expressed
+> > always in milli-Watts and the only way to submit with abstract scale values
+> > is via the em_dev_register_perf_domain() API.
+> >
+> > Changes:
+> > v4:
+> > - change bool to int type for 'miliwatts' in struct em_perf_domain
+> >    (suggested by Quentin)
+> > - removed one sentence from patch 2/4 in IPA doc power_allocator.rst
+> >    (suggested by Quentin)
+> > - added reviewed-by from Quentin to 1/4, 3/4, 4/4 patches
+>
+> There was no major objections in the v3 and this v4 just addressed
+> minor comments. The important discussions mostly happen in v2.
+>
+> Could you take the patches via your tree, please?
 
-Yes, this is somewhat a trade-off.
-
-As a config option, this is something that would likely be decided by
-distros.  I almost hate to suggest this, but is it something that an
-end user would want to decide?  Is this something that perhaps should
-be a boot/kernel command line option?
-
--- 
-Mike Kravetz
+Applied as 5.11 material, thanks!
