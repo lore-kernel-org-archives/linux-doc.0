@@ -2,179 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADD9DC4742C
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 03:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E07C56202
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 05:00:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6012820731
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 03:50:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="WMhIYZjf"
+	by mail.kernel.org (Postfix) with ESMTP id 48244207BC
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 05:00:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731783AbgKJDuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Nov 2020 22:50:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46302 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731341AbgKJDuE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Nov 2020 22:50:04 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20518C0613D4
-        for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2020 19:50:04 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id a18so9982047pfl.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2020 19:50:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zdSQFTCy7+/L4zU3ZF97r7YPRToNp4hA6tkIQzGJXC4=;
-        b=WMhIYZjfgSz9EDKlHqkGyz5ZV3GJkxZM0EZDQpoCRpa/mt4FNfFVW3mWAbbQMR6ZAw
-         DWUREB0rbwDM0KiLX/mk0a9c9EM6+OxWr7O60vMAwXWt5+ynoAbLx+15YIYnedvgQ5Ts
-         eE5+GDhqy0f5IowDQ89RXMn8D04xZEqRLnz3EBHZrWdHeWuhOVIFDL4MRfrFPoRwpxtC
-         IuKtCgye1t2z4hJZgWhl/bwhtbar9DHYCqe1V5qxtQuJD3ie02wcW1qHiNJO6HML+lF9
-         dDm4LaRgiLYDsXDgWi1nlr++78hDvp1HLDxN5hhteB7YbiYTLTO+Yc2C5NmegLqhz4fS
-         J+1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zdSQFTCy7+/L4zU3ZF97r7YPRToNp4hA6tkIQzGJXC4=;
-        b=GNpkW9EVK7R1yT97uMW2zBf0ssECPr02zTJ+0/+PNrrAx7lM8Lo8hRdi3AEz7Uts8w
-         BSlnb6DY9tHnbvttcMMWU/uVmJm+4dJaYx2+yMbPKRGHdw1+N/PKO8bMXYTNg+vKcZWB
-         SRhWnvUyMxth5fm1zQwLcUWzWbSsimHd316+1JDrPESP0wMdOHbsONIZexOOqbJ6+8wZ
-         vw5f1GJKHpUiMwZNolKPEFeyPygdPywpyIKKVBRXYcfZXDdhouRK/DGL4SHcZNUqfLcU
-         X8XZmZxTtDQLEERzFOAKxp1cCMXRlxpezgop5jBvEL5VNOf/2NtWheHj+Ub37t9WVRHW
-         655A==
-X-Gm-Message-State: AOAM530ljHYkJI3q9xqyN4iKfC1A/eK1XOT9yLOsba++fA+KOrNm+fh8
-        fX8Sgo/xhEyFXHEQXH8Se6WJKTK9ojOZb1AtMbJ2qg==
-X-Google-Smtp-Source: ABdhPJxY3cmAN4MQVkEwrkoDndbn+RE6xEypaDMyAAT/Ov5wENT8YyEsfl1X4Gz4eLu7JEuIJjkGpp2htO2uZlxHZAM=
-X-Received: by 2002:a63:5804:: with SMTP id m4mr15125994pgb.31.1604980203620;
- Mon, 09 Nov 2020 19:50:03 -0800 (PST)
+        id S1731863AbgKJFAB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 00:00:01 -0500
+Received: from mga17.intel.com ([192.55.52.151]:12625 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729454AbgKJE77 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Nov 2020 23:59:59 -0500
+IronPort-SDR: b21jH+8daNxFd9MhjXJ+hcbKWYaVf+1LuxpUVENj4DuN0lfPZ6JFWJv2XzpSDg/I8fO29ydhkv
+ QgXh15BrSwxQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="149768142"
+X-IronPort-AV: E=Sophos;i="5.77,465,1596524400"; 
+   d="scan'208";a="149768142"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 20:59:55 -0800
+IronPort-SDR: hhtGbVHiYEduO62f/jUORNlQE29+PA61IlKuvPXTtZvvOlHxHT75TW+y4i0J9B1O2lrgZ7K2Sp
+ gskiAxl5TCew==
+X-IronPort-AV: E=Sophos;i="5.77,465,1596524400"; 
+   d="scan'208";a="531063331"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 20:59:54 -0800
+Date:   Mon, 9 Nov 2020 20:59:54 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        kvm@vger.kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
+        kexec@lists.infradead.org, linux-bcache@vger.kernel.org,
+        linux-mtd@lists.infradead.org, devel@driverdev.osuosl.org,
+        linux-efi@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-aio@kvack.org,
+        io-uring@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+        linux-um@lists.infradead.org, linux-ntfs-dev@lists.sourceforge.net,
+        reiserfs-devel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-nilfs@vger.kernel.org, cluster-devel@redhat.com,
+        ecryptfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-cachefs@redhat.com,
+        samba-technical@lists.samba.org, intel-wired-lan@lists.osuosl.org
+Subject: Re: [PATCH RFC PKS/PMEM 05/58] kmap: Introduce k[un]map_thread
+Message-ID: <20201110045954.GL3976735@iweiny-DESK2.sc.intel.com>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-6-ira.weiny@intel.com>
+ <87h7pyhv3f.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-6-songmuchun@bytedance.com> <20201109172144.GB17356@linux>
-In-Reply-To: <20201109172144.GB17356@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 10 Nov 2020 11:49:27 +0800
-Message-ID: <CAMZfGtVm9buFPscDVn5F5nUE=Yq+y4NoL0ci74=hUyjaLAPQQg@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v3 05/21] mm/hugetlb: Introduce pgtable
- allocation/freeing helpers
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87h7pyhv3f.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 1:21 AM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Sun, Nov 08, 2020 at 10:10:57PM +0800, Muchun Song wrote:
-> > +static inline unsigned int pgtable_pages_to_prealloc_per_hpage(struct hstate *h)
-> > +{
-> > +     unsigned long vmemmap_size = vmemmap_pages_size_per_hpage(h);
-> > +
-> > +     /*
-> > +      * No need pre-allocate page tabels when there is no vmemmap pages
-> > +      * to free.
->  s /tabels/tables/
+On Tue, Nov 10, 2020 at 02:13:56AM +0100, Thomas Gleixner wrote:
+> Ira,
+> 
+> On Fri, Oct 09 2020 at 12:49, ira weiny wrote:
+> > From: Ira Weiny <ira.weiny@intel.com>
+> >
+> > To correctly support the semantics of kmap() with Kernel protection keys
+> > (PKS), kmap() may be required to set the protections on multiple
+> > processors (globally).  Enabling PKS globally can be very expensive
+> > depending on the requested operation.  Furthermore, enabling a domain
+> > globally reduces the protection afforded by PKS.
+> >
+> > Most kmap() (Aprox 209 of 229) callers use the map within a single thread and
+> > have no need for the protection domain to be enabled globally.  However, the
+> > remaining callers do not follow this pattern and, as best I can tell, expect
+> > the mapping to be 'global' and available to any thread who may access the
+> > mapping.[1]
+> >
+> > We don't anticipate global mappings to pmem, however in general there is a
+> > danger in changing the semantics of kmap().  Effectively, this would cause an
+> > unresolved page fault with little to no information about why the failure
+> > occurred.
+> >
+> > To resolve this a number of options were considered.
+> >
+> > 1) Attempt to change all the thread local kmap() calls to kmap_atomic()[2]
+> > 2) Introduce a flags parameter to kmap() to indicate if the mapping should be
+> >    global or not
+> > 3) Change ~20 call sites to 'kmap_global()' to indicate that they require a
+> >    global enablement of the pages.
+> > 4) Change ~209 call sites to 'kmap_thread()' to indicate that the mapping is to
+> >    be used within that thread of execution only
+> >
+> > Option 1 is simply not feasible.  Option 2 would require all of the call sites
+> > of kmap() to change.  Option 3 seems like a good minimal change but there is a
+> > danger that new code may miss the semantic change of kmap() and not get the
+> > behavior the developer intended.  Therefore, #4 was chosen.
+> 
+> There is Option #5:
 
-Thanks.
+There is now yes.  :-D
 
->
-> > +static int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
-> > +{
-> > +     int i;
-> > +     pgtable_t pgtable;
-> > +     unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
-> > +
-> > +     if (!nr)
-> > +             return 0;
-> > +
-> > +     vmemmap_pgtable_init(page);
-> > +
-> > +     for (i = 0; i < nr; i++) {
-> > +             pte_t *pte_p;
-> > +
-> > +             pte_p = pte_alloc_one_kernel(&init_mm);
-> > +             if (!pte_p)
-> > +                     goto out;
-> > +             vmemmap_pgtable_deposit(page, virt_to_page(pte_p));
-> > +     }
-> > +
-> > +     return 0;
-> > +out:
-> > +     while (i-- && (pgtable = vmemmap_pgtable_withdraw(page)))
-> > +             pte_free_kernel(&init_mm, page_to_virt(pgtable));
->
->         would not be enough to:
->
->         while (pgtable = vmemmap_pgtable_withdrag(page))
->                 pte_free_kernel(&init_mm, page_to_virt(pgtable));
+> 
+> Convert the thread local kmap() invocations to the proposed kmap_local()
+> interface which is coming along [1].
 
-The vmemmap_pgtable_withdraw can not return NULL. So we can not
-drop the "i--".
+I've been trying to follow that thread.
 
->
-> > +     return -ENOMEM;
-> > +}
-> > +
-> > +static void vmemmap_pgtable_free(struct hstate *h, struct page *page)
-> > +{
-> > +     pgtable_t pgtable;
-> > +     unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
-> > +
-> > +     if (!nr)
-> > +             return;
->
-> We can get rid of "nr" and its check and keep only the check below, right?
+> 
+> That solves a couple of issues:
+> 
+>  1) It relieves the current kmap_atomic() usage sites from the implict
+>     pagefault/preempt disable semantics which apply even when
+>     CONFIG_HIGHMEM is disabled. kmap_local() still can be invoked from
+>     atomic context.
+> 
+>  2) Due to #1 it allows to replace the conditional usage of kmap() and
+>     kmap_atomic() for purely thread local mappings.
+> 
+>  3) It puts the burden on the HIGHMEM inflicted systems
+> 
+>  4) It is actually more efficient for most of the pure thread local use
+>     cases on HIGHMEM inflicted systems because it avoids the overhead of
+>     the global lock and the potential kmap slot exhaustion. A potential
+>     preemption will be more expensive, but that's not really the case we
+>     want to optimize for.
+> 
+>  5) It solves the RT issue vs. kmap_atomic()
+> 
+> So instead of creating yet another variety of kmap() which is just
+> scratching the particular PKRS itch, can we please consolidate all of
+> that on the wider reaching kmap_local() approach?
 
-Great, the check can go away.
+Yes I agree.  We absolutely don't want more kmap*() calls and I was hoping to
+dovetail into your kmap_local() work.[2]
 
-> AFAICS, they go together, e.g: if page_huge_pte does not return null,
-> it means that we preallocated a pagetable, and viceversa.
->
->
-> > +
-> > +     pgtable = page_huge_pte(page);
-> > +     if (!pgtable)
-> > +             return;
-> > +
-> > +     while (nr-- && (pgtable = vmemmap_pgtable_withdraw(page)))
-> > +             pte_free_kernel(&init_mm, page_to_virt(pgtable));
->
->         Same as above, that "nr" can go?
+I've pivoted away from this work a bit to clean up all the
+kmap()/memcpy*()/kunmaps() as discussed elsewhere in the thread first.[3]  I
+was hoping your work would land and then I could s/kmap_thread()/kmap_local()/
+on all of these patches.
 
-Here "nr" can not go. Because the vmemmap_pgtable_withdraw can
-not return NULL.
+Also, we can convert the new memcpy_*_page() calls to kmap_local() as well.
+[For now my patch just uses kmap_atomic().]
 
-Thanks.
+I've not looked at all of the patches in your latest version.  Have you
+included converting any of the kmap() call sites?  I thought you were more
+focused on converting the kmap_atomic() to kmap_local()?
 
->
-> --
-> Oscar Salvador
-> SUSE L3
+Ira
 
+> 
+> Thanks,
+> 
+>         tglx
+>      
+> [1] https://lore.kernel.org/lkml/20201103092712.714480842@linutronix.de/
 
+[2] https://lore.kernel.org/lkml/20201012195354.GC2046448@iweiny-DESK2.sc.intel.com/
+[3] https://lore.kernel.org/lkml/20201009213434.GA839@sol.localdomain/
+    https://lore.kernel.org/lkml/20201013200149.GI3576660@ZenIV.linux.org.uk/
 
--- 
-Yours,
-Muchun
