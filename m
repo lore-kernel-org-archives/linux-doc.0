@@ -2,90 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF07C388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08980C4742C
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:59:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD4CC20795
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:53:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A321320797
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:59:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729787AbgKJMxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 07:53:11 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60656 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726721AbgKJMxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Nov 2020 07:53:10 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A4F4CABDE;
-        Tue, 10 Nov 2020 12:53:09 +0000 (UTC)
-From:   Thomas Renninger <trenn@suse.de>
-To:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: stats: Switch to ktime and msec instead of jiffies and usertime
-Date:   Tue, 10 Nov 2020 13:53:08 +0100
-Message-ID: <1832747.5iOEhN7m9D@c100>
-In-Reply-To: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org>
-References: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org>
+        id S1730124AbgKJM74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 07:59:56 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:36187 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726462AbgKJM7z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 07:59:55 -0500
+Received: by mail-ot1-f68.google.com with SMTP id n89so1169714otn.3;
+        Tue, 10 Nov 2020 04:59:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nQJTAdZ1adBsQ8C+kbyZpy76IwyPcxh02MnCTX/G32M=;
+        b=eUoq5h7WdKBQY9bZOt/rWgaNknaR+NAds5bAB+mEB9Uy9h1FjgXPZsjTiaBaoW7NIf
+         vkFkmo9iL0D4vrSe0RQv2rR0NZWR2ipUADo5O9b5giv5bL+pmLLqnw05J9SHbx7NuqHu
+         T98RymeYRVrYTIrzOHF3A4ulcKbrUt8zqgTg46aELBanYiASoP2yG8oizQQ28lVC517I
+         wuaFuOkreXFNCfu0cWWzqzImRCRD1hMq5FlzJlZIibj00lZEmgrdVUYvO1OjviJuk/7J
+         ma0knsaVLYwzlwuKLNYnAXP7XSiMkylJdp+MiXLRYrQVhuTZx/aNC0c8ZHsyMDJniZ9B
+         WpwA==
+X-Gm-Message-State: AOAM530K9HoCRyKTErOlrPKu52kio8mE3M2qAogWXqpzL5FuOhA90Z+9
+        kKUfRk6s9z99bUHeo0s/Og+4oE/1XYHos12Zw28TBzqW
+X-Google-Smtp-Source: ABdhPJzUgNv59oHa/4ibKbYfwMT74tdKKWstSZKGVCl5k3qih2inBZhq4GNYsjklXLUcM6g/NQIwrNANvQvhHyZtIq4=
+X-Received: by 2002:a9d:16f:: with SMTP id 102mr14776795otu.206.1605013195114;
+ Tue, 10 Nov 2020 04:59:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org>
+In-Reply-To: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 10 Nov 2020 13:59:42 +0100
+Message-ID: <CAJZ5v0hqxzE3c6Nz7f=23OBYPA7z-pJaSwk9JGTFTr1SYDFubg@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: stats: Switch to ktime and msec instead of
+ jiffies and usertime
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Thomas Renninger <trenn@suse.com>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Dienstag, 10. November 2020, 12:07:37 CET schrieb Viresh Kumar:
+On Tue, Nov 10, 2020 at 12:07 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
 > The cpufreq and thermal core, both provide sysfs statistics to help
 > userspace learn about the behavior of frequencies and cooling states.
-> 
+>
 > This is how they look:
+>
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:208000 11
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:432000 147
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:729000 1600
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:960000 879
 > /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 399
- 
+>
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state0 4097
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state1 8932
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state2 15868
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state3 1384
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state4 103
+>
+> Here, state0 of thermal corresponds to the highest frequency of the CPU,
+> i.e. 1200000 and state4 to the lowest one.
+>
+> While both of these try to show similar kind of data (which can still be
+> very much different from each other), the values looked different (by a
+> factor of 10, i.e. thermal's time_in_state is almost 10 times that of
+> cpufreq time_in_state).
+>
+> This comes from the fact that cpufreq core displays the time in usertime
+> units (10 ms).
+>
+> It would be better if both the frameworks displayed times in the same
+> unit as the users may need to correlate between them and different
+> scales just make it awkward. And the choice of thermal core for that
+> (msec) seems to be a better choice as it is easier to read.
+>
+> The thermal core also does the stats calculations using ktime, which is
+> much more accurate as compared to jiffies used by cpufreq core.
+>
+> This patch updates the cpufreq core to use ktime for the internal
+> calculations and changes the units of time_in_state to msec.
+
+Well, this may confuse user space using the stats today.
+
+>
 > The results look like this after this commit:
+>
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:208000 13
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:432000 790
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:729000 12492
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:960000 13259
 > /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 3830
-
-How would userspace know whether it's ms or 10ms?
-
-whatabout a new file with the same convention as cooling devices (adding ms):
- 
+>
 > /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state0 3888
-> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state_ms:1200000 3830
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state1 13432
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state2 12336
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state3 740
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state4 0
+>
+> FWIW, tools/power/cpupower/ does consume the time_in_state values from
+> the sysfs files but it is independent of the unit of the time and didn't
+> require an update.
 
-Somewhat off-topic, some ideas:
-
-I wonder how useful these stats still are.
-CPU_FREQ_STAT is off on my system:
-
-config CPU_FREQ_STAT
-        bool "CPU frequency transition statistics"
-        help
-          Export CPU frequency statistics information through sysfs.
-
-          If in doubt, say N.
-
-Iirc this was a module at former times?
-
-commit 1aefc75b2449eb68a6fc3ca932e2a4ee353b748d
-Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Date:   Tue May 31 22:14:44 2016 +0200
-
-    cpufreq: stats: Make the stats code non-modular
-
-outlined 2 problems with cpufreq_stats being non-modular, but
-also seem to fix them up:
-... and drop the notifiers from it
-Make the stats sysfs attributes appear empty if fast frequency
-switching is enabled...
-
-   Thomas
-
-
+But whoever uses cpupower may be confused.
