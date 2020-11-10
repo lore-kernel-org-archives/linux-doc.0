@@ -2,128 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 302EDC56201
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4813AC5517A
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:52:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B71B221741
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:43:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8C0F2068D
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 15:52:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="eEazoQaT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUTyGTQg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731232AbgKJPnH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 10:43:07 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:37194 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730666AbgKJPnH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 10:43:07 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AAFgj1k082798;
-        Tue, 10 Nov 2020 09:42:45 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1605022965;
-        bh=kZ6NUVS0wH3f6crDKEWytDIJj/TB2GdUpTaec0L/68E=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=eEazoQaTmQCDD4IKrmGRCn5qEUpSRcBoevzBBGrMGDUZ81ThPKZN4WBRKzq4qL1hm
-         gxUbXjaRP0Zybvglj70M7ys5o0/fE1g0XGKBsmTpbha0i2jYBj4RFrY0I+MW/bPPVk
-         c7KBX0GPYOvdn4QyYC/g9+AI4nwtt5XPuFY/3fp4=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AAFgjfg031823
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 10 Nov 2020 09:42:45 -0600
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
- Nov 2020 09:42:45 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 10 Nov 2020 09:42:44 -0600
-Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AAFgd1M009286;
-        Tue, 10 Nov 2020 09:42:40 -0600
-Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
- Non-Transparent Bridge
-To:     Arnd Bergmann <arnd@kernel.org>
-CC:     Sherry Sun <sherry.sun@nxp.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jdmason@kudzu.us" <jdmason@kudzu.us>,
-        "dave.jiang@intel.com" <dave.jiang@intel.com>,
-        "allenbh@gmail.com" <allenbh@gmail.com>,
-        "tjoseph@cadence.com" <tjoseph@cadence.com>,
-        Rob Herring <robh@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
-References: <20200930153519.7282-16-kishon@ti.com>
- <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
- <d6d27475-3464-6772-2122-cc194b8ae022@ti.com>
- <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
- <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com>
- <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com>
-Date:   Tue, 10 Nov 2020 21:12:33 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1731081AbgKJPwE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 10:52:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729909AbgKJPwE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 10:52:04 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43EAAC0613CF;
+        Tue, 10 Nov 2020 07:52:04 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id z24so10532181pgk.3;
+        Tue, 10 Nov 2020 07:52:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=p7BfMtOnE/LpJ0Crt8wgon1nRqzmHVhKaZn6sFng2vo=;
+        b=gUTyGTQgNxeuy0fu/nde4ua6XVOobj3IyX93i0JrKm7kbYtxwLRwyUSm4daec/4vyN
+         Deo4FsFHNZ3deaRVcCStOb6ZZFQI7LKYT65i4PgJJM3ICaL1iXdm9yQAKSQTEjiSrYa7
+         NfBYqjcbg8LJPQ5IJPlnDIAdAmYydZ3BlJ8f4RsdQtgpnKZdlU+rKL8By26+m2YpEEz2
+         JciinGd2jkgDmAd2RNvLpX8awzryqV9alNpRi5AJZtj6XPCVrCbNGqAvhNQYVBl4qe1B
+         iFYSbslxvkufGwe0IKQv52pasw5xEWvOTmjrfNX5euqryEYBKO4sJ2Be2Uf2O/0caH3u
+         cbHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=p7BfMtOnE/LpJ0Crt8wgon1nRqzmHVhKaZn6sFng2vo=;
+        b=BhEfjfjl3bFa0mYgX7BBbfHVTW+6O0rmH/qfxniKC+O7oi1kMpgIvSFQ9J21W+a0q9
+         SMuHey4WjPmeMkYFO6IPI/wU7S7lLuz0DqVvylwuUFJv9AlfMw2l6qrdoKUadj5hoh8a
+         S811KXcj3B5FOT+lVhJEOXNBQHKhLLKrMg9DOragIQWolY6+A0eK4wGi48/NOl93Qo73
+         YliMypQ+w1vSWYwhGMlNA+fnIcVoTU879W5dke60H+Xy/VD4uq0IopOk9HRvTHnYCkMJ
+         dzk+KYptP5z6FwXAHe/Ku1tI4EfW2WDXwrH77L6e2LoCGMYmMF/0iw+2VmTHuTL+fpLA
+         8AMw==
+X-Gm-Message-State: AOAM5301E+ioONsNXRiqEJrdmCNSQp6bgEzw28WBbAzObYUy9jjRPBme
+        RDlaUmzM2/YG6P5R3feShgw=
+X-Google-Smtp-Source: ABdhPJwo/c0UVxRstqpDjIDuEpCQ/rWe2ahqfqs7Zisty8dJFO1qxLxSyh+jBXZ8XLITKGH0ljLR3Q==
+X-Received: by 2002:a17:90b:19d8:: with SMTP id nm24mr340282pjb.144.1605023523721;
+        Tue, 10 Nov 2020 07:52:03 -0800 (PST)
+Received: from localhost.localdomain ([2402:3a80:413:8adf:79d0:1679:313c:70a2])
+        by smtp.googlemail.com with ESMTPSA id t5sm3549116pjq.7.2020.11.10.07.51.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2020 07:52:03 -0800 (PST)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     mchehab+huawei@kernel.org
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+        krzk@kernel.org, gregkh@linuxfoundation.org,
+        grandmaster@al2klimov.de, trix@redhat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] checkpatch: Documentation: include sign off for reverts
+Date:   Tue, 10 Nov 2020 21:21:53 +0530
+Message-Id: <20201110155153.29862-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sherry, Arnd,
+Currently, we do not have any documentation on commit reverts regarding
+the requirement of Signed-off-by tag for it. This may be misleading to
+the users.
 
-On 10/11/20 8:29 pm, Arnd Bergmann wrote:
-> On Tue, Nov 10, 2020 at 3:20 PM Kishon Vijay Abraham I <kishon@ti.com> wrote:
->> On 10/11/20 7:55 am, Sherry Sun wrote:
-> 
->>> But for VOP, only two boards are needed(one board as host and one board as card) to realize the
->>> communication between the two systems, so my question is what are the advantages of using NTB?
->>
->> NTB is a bridge that facilitates communication between two different
->> systems. So it by itself will not be source or sink of any data unlike a
->> normal EP to RP system (or the VOP) which will be source or sink of data.
->>
->>> Because I think the architecture of NTB seems more complicated. Many thanks!
->>
->> yeah, I think it enables a different use case all together. Consider you
->> have two x86 HOST PCs (having RP) and they have to be communicate using
->> PCIe. NTB can be used in such cases for the two x86 PCs to communicate
->> with each other over PCIe, which wouldn't be possible without NTB.
-> 
-> I think for VOP, we should have an abstraction that can work on either NTB
-> or directly on the endpoint framework but provide an interface that then
-> lets you create logical devices the same way.
-> 
-> Doing VOP based on NTB plus the new NTB_EPF driver would also
-> work and just move the abstraction somewhere else, but I guess it
-> would complicate setting it up for those users that only care about the
-> simpler endpoint case.
+Evaluating MISSING_SIGN_OFF checkpatch warnings on v4.13..v5.8 showed
+that 4 out of 11 cases missing a sign-off are revert commits.
 
-I'm not sure if you've got a chance to look at [1], where I added
-support for RP<->EP system both running Linux, with EP configured using
-Linux EP framework (as well as HOST ports connected to NTB switch,
-patches 20 and 21, that uses the Linux NTB framework) to communicate
-using virtio over PCIe.
+Add documentation regarding the same to document the community
+consensus and let readers know.
 
-The cover-letter [1] shows a picture of the two use cases supported in
-that series.
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ Documentation/process/submitting-patches.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[1] -> http://lore.kernel.org/r/20200702082143.25259-1-kishon@ti.com
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 83d9a82055a7..ff065e1f6a25 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -404,6 +404,8 @@ then you just add a line saying::
+ 
+ using your real name (sorry, no pseudonyms or anonymous contributions.)
+ This will be done for you automatically if you use ``git commit -s``.
++Also reverts should include a Signed-off-by. ``git revert -s`` does
++that for you.
+ 
+ Some people also put extra tags at the end.  They'll just be ignored for
+ now, but you can do this to mark internal company procedures or just
+-- 
+2.17.1
 
-Thank You,
-Kishon
