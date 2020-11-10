@@ -2,83 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 098F0C388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 22:42:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2A1C388F7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 22:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FE3F20867
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 22:42:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D34320781
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 22:58:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HmAOZ27e"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WJi5tW8u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732399AbgKJWmV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 17:42:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53216 "EHLO
+        id S1731996AbgKJW6u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 17:58:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732328AbgKJWmQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 17:42:16 -0500
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C203C0613D1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 14:42:14 -0800 (PST)
-Received: by mail-il1-x142.google.com with SMTP id g15so119214ilc.9
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 14:42:14 -0800 (PST)
+        with ESMTP id S1727018AbgKJW6t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 17:58:49 -0500
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C0EC0613D1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 14:58:49 -0800 (PST)
+Received: by mail-il1-x144.google.com with SMTP id g15so156430ilc.9
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 14:58:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7jSf/XzZ4jyQ+1vMaLtMgIwZ1Hd3aE57H+YNIg7Vd6s=;
-        b=HmAOZ27e8pHLOZtNt33kCndwJB139JyHCZFOiD/C94/+pWb2KGdTlQCvLFR1HyR9mk
-         lFx1ytT/rJSJ7/tpMYshlVQIWUN/TZct4TCzlg9wYsDyPKswhZWrEi9oFiHeYSi0CMuE
-         tmbYZnr4Jy0AgOqG0pqnPBmt6xrLd9kKaYRBo=
+        bh=Jmb/o79cv2bZ/x6XX14phanTrgenPgbAo9xKj20lQ+M=;
+        b=WJi5tW8uGgd7ZtOqMWIb+RZ9EfkEd1Zbdp7Z3xhmkUmUTVidlzjWOOXiUqTOSHSb9N
+         AX21ua0H4EF2nyiyLh7k3V2K3zyvM2dN/6ef5oNLLddJ6lE9E6YWC1KV0AzLMC3a+Ykp
+         LiOmdYO0nsWMhWvc8oPpY8K1H08d3g93XoZwM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=7jSf/XzZ4jyQ+1vMaLtMgIwZ1Hd3aE57H+YNIg7Vd6s=;
-        b=My660Gv/xkpeL++tHUHR++dOQcmYT8q5O4mdRGhN/b7eKzZmME4LD1cMD3kJJzLVQl
-         KKPKvJvFA/BTykcdCx56y+MoDbiTHHIkpPQy0TuU3oqmliYKbnqvz8H+vi6TqIYF79eO
-         bNX0WbpbMZxoL21m+ee5QWpGf+F1xamX3fIlXfUXUybYhb5Q+vhOwWsPEqinj5qj1R4e
-         gleuu/WwloFGObxDA9quN3Cs54/penJkyj+7dLJ2yoAy65iUpLKa0q4D+CutFR19750+
-         tyL74cDFJE/3OFDFkSDp501jSVm+uyTC0G3GvBAgkFow6ua9+Iemye23meKJbA2uTXLQ
-         Kukg==
-X-Gm-Message-State: AOAM530olLwx4htnYDFiJYewS6SSq1CEsc+RUKmGtZK5NNfkmqF1mt4T
-        WHKV6xBZQbU91GSO3yamuPqYVA==
-X-Google-Smtp-Source: ABdhPJy+/m7HgoPinpwrhFYoHGR3jeRThmYkrgj1Js7jS1hKjj3aF+EFXbp2kYFpSB7gnDlz1TZdJg==
-X-Received: by 2002:a92:99ce:: with SMTP id t75mr16441201ilk.257.1605048133972;
-        Tue, 10 Nov 2020 14:42:13 -0800 (PST)
+        bh=Jmb/o79cv2bZ/x6XX14phanTrgenPgbAo9xKj20lQ+M=;
+        b=GoixNNHxquKgidgQNkGbvahhUuQkjsNjQjvYTD1d5pLSmiiHdgqH90KIVmeeKfzoVn
+         rjbAdaVZ5v+FKoZnecFH2w/6uUgqR/fcbZz8BgIdJ2AT5UXNfstXK0xSgF01Lv8rNNb5
+         hAarPzXildrfLjGJ4t1QQ/pKKLJ6pU65IA10p6JU3/c5hzPsPiGKCbZnZNtgCc56GZZT
+         ridDS3tt+YHifEOb+oGVH8JcmiAcwswrn0f1CNSEfkOsb+SWF1jGWQkt3c8aYJqlPykJ
+         KWwIgZCxscZGONRqwrE56z+BmhlbEw49EiiqmDKVHQmQTlE31jB0q2n4TKuplXJOYtJa
+         YZbA==
+X-Gm-Message-State: AOAM530eC+TTfE+rQ5DLdZ3Foq3+p55Symx1G2dgENJ0XN3EWOLnlD9R
+        5ikuOFQYj3KTVtkdihuk8vk11A==
+X-Google-Smtp-Source: ABdhPJz3wyTzSRzlVMZdQL8h4QSqHft28+nWbmp40Gv09GnNJNX+OL/bryYFrDSADelWkwq/sWDCjQ==
+X-Received: by 2002:a05:6e02:ce:: with SMTP id r14mr16715967ilq.240.1605049129210;
+        Tue, 10 Nov 2020 14:58:49 -0800 (PST)
 Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id e12sm38652ilq.65.2020.11.10.14.42.12
+        by smtp.gmail.com with ESMTPSA id g1sm52338ilk.84.2020.11.10.14.58.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 14:42:13 -0800 (PST)
-Subject: Re: [PATCH 00/13] Introduce seqnum_ops
-To:     Alan Stern <stern@rowland.harvard.edu>
+        Tue, 10 Nov 2020 14:58:48 -0800 (PST)
+Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
-        peterz@infradead.org, rafael@kernel.org, lenb@kernel.org,
-        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
-        minyard@acm.org, arnd@arndb.de, mchehab@kernel.org,
-        rric@kernel.org, valentina.manea.m@gmail.com, shuah@kernel.org,
-        zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, jmorris@namei.org,
-        serge@hallyn.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-edac@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org
+        peterz@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
 References: <cover.1605027593.git.skhan@linuxfoundation.org>
- <20201110204414.GA204624@rowland.harvard.edu>
+ <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
+ <20201110210316.GO17076@casper.infradead.org>
 From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <c58fde16-4bd1-0e1e-94ce-a15c359f9f91@linuxfoundation.org>
-Date:   Tue, 10 Nov 2020 15:42:11 -0700
+Message-ID: <11b5153f-e092-d1c9-deb1-e81a171bb866@linuxfoundation.org>
+Date:   Tue, 10 Nov 2020 15:58:48 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.2
 MIME-Version: 1.0
-In-Reply-To: <20201110204414.GA204624@rowland.harvard.edu>
+In-Reply-To: <20201110210316.GO17076@casper.infradead.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -86,56 +78,108 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/10/20 1:44 PM, Alan Stern wrote:
-> On Tue, Nov 10, 2020 at 12:53:26PM -0700, Shuah Khan wrote:
->> There are a number of atomic_t usages in the kernel where atomic_t api
->> is used strictly for counting sequence numbers and other statistical
->> counters and not for managing object lifetime.
->>
->> The purpose of these Sequence Number Ops is to clearly differentiate
->> atomic_t counter usages from atomic_t usages that guard object lifetimes,
->> hence prone to overflow and underflow errors.
->>
->> The atomic_t api provides a wide range of atomic operations as a base
->> api to implement atomic counters, bitops, spinlock interfaces. The usages
->> also evolved into being used for resource lifetimes and state management.
->> The refcount_t api was introduced to address resource lifetime problems
->> related to atomic_t wrapping. There is a large overlap between the
->> atomic_t api used for resource lifetimes and just counters, stats, and
->> sequence numbers. It has become difficult to differentiate between the
->> atomic_t usages that should be converted to refcount_t and the ones that
->> can be left alone. Introducing seqnum_ops to wrap the usages that are
->> stats, counters, sequence numbers makes it easier for tools that scan
->> for underflow and overflow on atomic_t usages to detect overflow and
->> underflows to scan just the cases that are prone to errors.
->>
->> Sequence Number api provides interfaces for simple atomic_t counter usages
->> that just count, and don't guard resource lifetimes. The seqnum_ops are
->> built on top of atomic_t api, providing a smaller subset of atomic_t
->> interfaces necessary to support atomic_t usages as simple counters.
->> This api has init/set/inc/dec/read and doesn't support any other atomic_t
->> ops with the intent to restrict the use of these interfaces as simple
->> counting usages.
->>
+On 11/10/20 2:03 PM, Matthew Wilcox wrote:
+> On Tue, Nov 10, 2020 at 12:53:27PM -0700, Shuah Khan wrote:
 >> Sequence Numbers wrap around to INT_MIN when it overflows and should not
->> be used to guard resource lifetimes, device usage and open counts that
->> control state changes, and pm states. Overflowing to INT_MIN is consistent
->> with the atomic_t api, which it is built on top of.
 > 
-> If Sequence Numbers are subject to wraparound then they aren't reliable.
-> Given that they aren't reliable, why use atomic instructions at all?
-> Why not just use plain regular integers with READ_ONCE and WRITE_ONCE?
+> Why would sequence numbers be signed?  I know they're built on top of
+> atomic_t, which is signed, but conceptually a sequence number is unsigned.
+
+Yes we have some instances where unsigned is being used. I considered
+going to unsigned. Changing the API to unsigned has other ramifications
+and cascading changes to current atomic_t usages that are up counters.
+
+git grep -E '\((unsigned|unsigned int|u32)\).*\batomic.*(read)' | wc -l
+53
+
+A total of 53 out of 6080 atomic_read() usages force return type to
+unsigned.
+
+git grep -E '\((unsigned|unsigned int|u32)\).*\batomic.*(inc_return)' | 
+wc -l
+11
+
+A total of 11 out of 620 atomic_inc_return() usages force return type
+to unsigned.
+
+Changing the API to unsigned has other ramifications and cascading
+changes to current atomic_t usages that are up counters.
+
+We could add unsigned to seqnum_ops though.
+
+> 
+>> +++ b/Documentation/core-api/seqnum_ops.rst
+>> @@ -0,0 +1,117 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +.. include:: <isonum.txt>
+>> +
+>> +.. _seqnum_ops:
+>> +
+>> +==========================
+>> +Sequence Number Operations
+>> +==========================
+>> +
+>> +:Author: Shuah Khan
+>> +:Copyright: |copy| 2020, The Linux Foundation
+>> +:Copyright: |copy| 2020, Shuah Khan <skhan@linuxfoundation.org>
+>> +
+>> +There are a number of atomic_t usages in the kernel where atomic_t api
+>> +is used strictly for counting sequence numbers and other statistical
+>> +counters and not for managing object lifetime.
+> 
+> You start by describing why this was introduced.  I think rather, you
+> should start by describing what this is.  You can compare and contrast
+> it with atomic_t later.  Also, I don't think it's necessary to describe
+> its implementation in this document.  This document should explain to
+> someone why they want to use this.
+> 
+>> +Read interface
+>> +--------------
+>> +
+>> +Reads and returns the current value. ::
+>> +
+>> +        seqnum32_read() --> atomic_read()
+>> +        seqnum64_read() --> atomic64_read()
+>> +
+>> +Increment interface
+>> +-------------------
+>> +
+>> +Increments sequence number and doesn't return the new value. ::
+>> +
+>> +        seqnum32_inc() --> atomic_inc()
+>> +        seqnum64_inc() --> atomic64_inc()
+> 
+> That seems odd to me.  For many things, I want to know what the
+> sequence number was incremented to.  Obviously seqnum_inc(); followed
+> by seqnum_read(); is racy.
+> 
+> Do we really want to be explicit about seqnum32 being 32-bit?
+> I'd be inclined to have seqnum/seqnum64 instead of seqnum32/seqnum64.
+> 
+>> +static inline int seqnum32_read(const struct seqnum32 *seq)
+>> +{
+>> +	return atomic_read(&seq->seqnum);
+>> +}
+>> +
+>> +/*
+>> + * seqnum32_set() - set seqnum value
+>> + * @seq: struct seqnum32 pointer
+>> + * @val: new value to set
+>> + *
+>> + */
+>> +static inline void
+>> +seqnum32_set(struct seqnum32 *seq, int val)
+>  > You have some odd formatting like the above line split.
+> 
+>> +static inline void seqnum64_dec(
+>> +				struct seqnum64 *seq)
+> 
+> That one is particularly weird.
 > 
 
-You still need atomic update for these numbers. The intent is to provide
-atomic api for cases where the variable doesn't guard lifetimes and yet
-needs atomic instructions.
-
-Several such usages where atomic_t is used for up counting, also use
-upper bounds. It is also an option to switch to seqnum64 to avoid
-wrap around in case there is a concern.
+Thanks for catching these. This code needed cleanup after the
+rename from a looong names from previous version.
 
 thanks,
 -- Shuah
-
-
