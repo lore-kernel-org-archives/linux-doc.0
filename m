@@ -2,66 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EDAEC388F7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF07C388F7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE630206B2
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:01:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD4CC20795
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 12:53:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbgKJMBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 07:01:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726690AbgKJMBn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 07:01:43 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0EFCC0613CF;
-        Tue, 10 Nov 2020 04:01:41 -0800 (PST)
-Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kcSLC-0003mo-2t; Tue, 10 Nov 2020 13:01:38 +0100
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        id S1729787AbgKJMxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 07:53:11 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60656 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726721AbgKJMxK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Nov 2020 07:53:10 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A4F4CABDE;
+        Tue, 10 Nov 2020 12:53:09 +0000 (UTC)
+From:   Thomas Renninger <trenn@suse.de>
+To:     Rafael Wysocki <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <cover.1601541165.git.linux@leemhuis.info>
- <7910cf25-4aa9-e33d-704c-33ab91ab713b@leemhuis.info>
- <20201109112136.0634a356@lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 00/26] Make reporting-bugs easier to grasp and yet
- more detailed
-Message-ID: <88e01ec7-7a29-3f17-7a76-590d9e3b5543@leemhuis.info>
-Date:   Tue, 10 Nov 2020 13:01:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Subject: Re: [PATCH] cpufreq: stats: Switch to ktime and msec instead of jiffies and usertime
+Date:   Tue, 10 Nov 2020 13:53:08 +0100
+Message-ID: <1832747.5iOEhN7m9D@c100>
+In-Reply-To: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org>
+References: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201109112136.0634a356@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605009702;8e0bf6c5;
-X-HE-SMSGID: 1kcSLC-0003mo-2t
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 09.11.20 um 19:21 schrieb Jonathan Corbet:
-> On Mon, 9 Nov 2020 12:01:56 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+Am Dienstag, 10. November 2020, 12:07:37 CET schrieb Viresh Kumar:
+> The cpufreq and thermal core, both provide sysfs statistics to help
+> userspace learn about the behavior of frequencies and cooling states.
 > 
->> @Jon: I'd be really appreciate to hear your thoughts on this.
-> 
-> Seems like it's time to post a new version with all of your feedback so
-> far reflected, and we'll go from there?
+> This is how they look:
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 399
+ 
+> The results look like this after this commit:
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 3830
 
-Will do, just give me a day to two.
+How would userspace know whether it's ms or 10ms?
 
-Ciao, Thorsten
+whatabout a new file with the same convention as cooling devices (adding ms):
+ 
+> /sys/class/thermal/cooling_device0/stats/time_in_state_ms:state0 3888
+> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state_ms:1200000 3830
 
-P.S.: BTW, @Randy, thx for yesterdays clarification in another mail of 
-this subthread!
+Somewhat off-topic, some ideas:
+
+I wonder how useful these stats still are.
+CPU_FREQ_STAT is off on my system:
+
+config CPU_FREQ_STAT
+        bool "CPU frequency transition statistics"
+        help
+          Export CPU frequency statistics information through sysfs.
+
+          If in doubt, say N.
+
+Iirc this was a module at former times?
+
+commit 1aefc75b2449eb68a6fc3ca932e2a4ee353b748d
+Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Date:   Tue May 31 22:14:44 2016 +0200
+
+    cpufreq: stats: Make the stats code non-modular
+
+outlined 2 problems with cpufreq_stats being non-modular, but
+also seem to fix them up:
+... and drop the notifiers from it
+Make the stats sysfs attributes appear empty if fast frequency
+switching is enabled...
+
+   Thomas
+
 
