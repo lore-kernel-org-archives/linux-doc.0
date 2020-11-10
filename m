@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C18F5C61DD8
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F869C56201
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:25:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91B7320E65
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:25:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 196A22168B
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Nov 2020 16:25:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730164AbgKJQZC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 11:25:02 -0500
-Received: from mga11.intel.com ([192.55.52.93]:42886 "EHLO mga11.intel.com"
+        id S1732886AbgKJQZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 11:25:09 -0500
+Received: from mga12.intel.com ([192.55.52.136]:63840 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730021AbgKJQWw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Nov 2020 11:22:52 -0500
-IronPort-SDR: 0KbxxW5/EgObPppDuB4J43WISB0pcqRhrMcOZG/EXCg8n23rX85FDZxx9TvuDiQtMi0vc2sj02
- vuPHmUirL43Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="166492962"
+        id S1731440AbgKJQZF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Nov 2020 11:25:05 -0500
+IronPort-SDR: r+8VB9Gu0EcSEjuNOTEX3jCN+FDLM+zr1/9gNcFx47swYf/4azSXV8SfxdF/LOgDlnowcgQ13M
+ WOHOVOy69c8g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="149278326"
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="166492962"
+   d="scan'208";a="149278326"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:22:50 -0800
-IronPort-SDR: AmzUa4WBNZk2GkthNU4ezuSQAO+7yQHYreTaLxWHMzAL851bBBiKiT6B5qCpXEfPSJYVm4txOd
- 7qrjQFquKUdg==
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:25:03 -0800
+IronPort-SDR: eLNYv9o/4ktnfdP7pngMN8I8YbNM6/gl+IO8u26dv6e/rBZmxZtEzDg7uBXtanSJkopIfUGTdp
+ 0Gx0Iw0Ca4lg==
 X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
-   d="scan'208";a="365572826"
+   d="scan'208";a="308469048"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:22:50 -0800
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 08:25:03 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -61,68 +61,63 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v15 07/26] x86/mm: Remove _PAGE_DIRTY_HW from kernel RO pages
-Date:   Tue, 10 Nov 2020 08:21:52 -0800
-Message-Id: <20201110162211.9207-8-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v15 5/7] x86/cet/ibt: Update arch_prctl functions for Indirect Branch Tracking
+Date:   Tue, 10 Nov 2020 08:24:46 -0800
+Message-Id: <20201110162448.9846-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201110162211.9207-1-yu-cheng.yu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20201110162448.9846-1-yu-cheng.yu@intel.com>
+References: <20201110162448.9846-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kernel read-only PTEs are setup as _PAGE_DIRTY_HW.  Since these become
-shadow stack PTEs, remove the dirty bit.
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
+Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE for Indirect Branch
+Tracking.
+
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
 ---
- arch/x86/include/asm/pgtable_types.h | 6 +++---
- arch/x86/mm/pat/set_memory.c         | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ arch/x86/kernel/cet_prctl.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-index 810eb1567050..7462a574fc93 100644
---- a/arch/x86/include/asm/pgtable_types.h
-+++ b/arch/x86/include/asm/pgtable_types.h
-@@ -193,10 +193,10 @@ enum page_cache_mode {
- #define _KERNPG_TABLE		 (__PP|__RW|   0|___A|   0|___D|   0|   0| _ENC)
- #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
- #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
--#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
--#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
-+#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|   0|   0|___G)
-+#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|   0|   0|___G)
- #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
--#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
-+#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|   0|   0|___G)
- #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
- #define __PAGE_KERNEL_LARGE_EXEC (__PP|__RW|   0|___A|   0|___D|_PSE|___G)
- #define __PAGE_KERNEL_WP	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __WP)
-diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-index 40baa90e74f4..207bbf796f5f 100644
---- a/arch/x86/mm/pat/set_memory.c
-+++ b/arch/x86/mm/pat/set_memory.c
-@@ -1932,7 +1932,7 @@ int set_memory_nx(unsigned long addr, int numpages)
+diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
+index bd5ad11763e4..0af1ec5d028f 100644
+--- a/arch/x86/kernel/cet_prctl.c
++++ b/arch/x86/kernel/cet_prctl.c
+@@ -22,6 +22,9 @@ static int copy_status_to_user(struct cet_status *cet, u64 arg2)
+ 		buf[2] = (u64)cet->shstk_size;
+ 	}
  
- int set_memory_ro(unsigned long addr, int numpages)
- {
--	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW), 0);
-+	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW | _PAGE_DIRTY_HW), 0);
++	if (cet->ibt_enabled)
++		buf[0] |= GNU_PROPERTY_X86_FEATURE_1_IBT;
++
+ 	return copy_to_user((u64 __user *)arg2, buf, sizeof(buf));
  }
  
- int set_memory_rw(unsigned long addr, int numpages)
+@@ -42,7 +45,8 @@ int prctl_cet(int option, u64 arg2)
+ 	if (option == ARCH_X86_CET_STATUS)
+ 		return copy_status_to_user(cet, arg2);
+ 
+-	if (!static_cpu_has(X86_FEATURE_SHSTK))
++	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
++	    !static_cpu_has(X86_FEATURE_IBT))
+ 		return -EOPNOTSUPP;
+ 
+ 	switch (option) {
+@@ -56,6 +60,8 @@ int prctl_cet(int option, u64 arg2)
+ 			return -EINVAL;
+ 		if (features & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
+ 			cet_disable_shstk();
++		if (features & GNU_PROPERTY_X86_FEATURE_1_IBT)
++			cet_disable_ibt();
+ 		return 0;
+ 
+ 	case ARCH_X86_CET_LOCK:
 -- 
 2.21.0
 
