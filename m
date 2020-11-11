@@ -2,111 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34247C4742C
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 08:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11474C4742C
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 08:24:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3FEF206B5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 08:13:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9959520795
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 08:24:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DYo/yKDy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbgKKIN2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 03:13:28 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48932 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725468AbgKKIN2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Nov 2020 03:13:28 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 73CA3ACC5;
-        Wed, 11 Nov 2020 08:13:26 +0000 (UTC)
-From:   Thomas Renninger <trenn@suse.de>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: stats: Switch to ktime and msec instead of jiffies and usertime
-Date:   Wed, 11 Nov 2020 09:13:24 +0100
-Message-ID: <2047155.4hzcE6bcFl@c100>
-In-Reply-To: <20201111051350.qxevqcca5775h2xa@vireshk-i7>
-References: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org> <1832747.5iOEhN7m9D@c100> <20201111051350.qxevqcca5775h2xa@vireshk-i7>
+        id S1726496AbgKKIXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 03:23:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbgKKIX0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 03:23:26 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB31C0613D1;
+        Wed, 11 Nov 2020 00:23:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=DMcX4YoeA2URPCcSaoYxor19bUOpdGTUmKeWjsFHix8=; b=DYo/yKDygVOiv4/qWNH8TtJh9d
+        n6w3SW09VvRippFHmPsyydM9v5FJFGVliYy7xfpqOqtoI82bnfGhHTXmD/f+NbZkhuue47O+/vut+
+        yIMAJa+tDUc6u2DWkb1HytwnWJI2ajk0nGS36DO7yr3jB2twKOtg0F8XrIfm8ZD13J6ltlv3yAGHY
+        N6Vykc+k3WuJb5spkZLJxWqbJsuHzwWWCxSG4owguaxHsF7q3FYjMzTwknGbBu5U2QUVHAvWbWjQk
+        Ca9/PwHaYu0n+cJBzMCr8NiG2pxy+TXNiz6CO1etg/RYyq2n16iAe7GaMQvfC4cNgg5QY5XkrqU/M
+        Je9cLWOA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kclPW-0007Ao-9x; Wed, 11 Nov 2020 08:23:22 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1D019305C16;
+        Wed, 11 Nov 2020 09:23:21 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0A0F72B85A2BB; Wed, 11 Nov 2020 09:23:21 +0100 (CET)
+Date:   Wed, 11 Nov 2020 09:23:20 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
+Message-ID: <20201111082320.GR2611@hirez.programming.kicks-ass.net>
+References: <cover.1605027593.git.skhan@linuxfoundation.org>
+ <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Mittwoch, 11. November 2020, 06:13:50 CET schrieb Viresh Kumar:
-> On 10-11-20, 13:53, Thomas Renninger wrote:
-> > Am Dienstag, 10. November 2020, 12:07:37 CET schrieb Viresh Kumar:
-> > > The cpufreq and thermal core, both provide sysfs statistics to help
-> > > userspace learn about the behavior of frequencies and cooling states.
-> > > 
-> > > This is how they look:
-> > > /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 399
-> > > 
-> > > The results look like this after this commit:
-> > > /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 3830
-> > 
-> > How would userspace know whether it's ms or 10ms?
+On Tue, Nov 10, 2020 at 12:53:27PM -0700, Shuah Khan wrote:
 
-Again:
-How would userspace know whether it's ms or 10ms?
+> + * The interface provides:
+> + * seqnum32 & seqnum64 functions:
+> + *	initialization
+> + *	set
+> + *	read
+> + *	increment and no return
+> + *	decrement and no return
 
-> > whatabout a new file with the same convention as cooling devices (adding ms):
-> Keeping two files for same stuff is not great, and renaming the file
-> breaks userspace ABI.
+NAK, this is batshit insane again. If you want a sequence number, the
+one and _ONLY_ primitive you want to expose is inc_return.
 
-No exactly the other way around:
-- Renaming, breaks the userspace ABI.
-- Two files would be the super correct way to go:
-  - Deprecate the old file and keep the 10ms around for some years
-    ./Documentation/ABI/obsolete
-  - Add the new interface and document it in:
-   ./Documentation/ABI/testing
-
-As this is about a minor cpufreq_stat debug file, it is enough if
-you rename to:
-> /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state_ms
-Ideally document it in ./Documentation/ABI/testing
-But I guess for this one this is also not mandatory.
-
-Then userspace can do:
-MS_FILE="/sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state_ms"
-10MS_FILE="/sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state"
-
-if [ -r "$MS_FILE" ]; then
-    POLICY0_MS=$(<"$MS_FILE")
-    echo "Found ms stats file"
-elif [ -r "$10MS_FILE" ]; then
-    echo "Found 10ms stats file, converting..."
-    POLICY0_MS=$(<"$10MS_FILE")
-    POLICY0_MS=$(echo "$POLICY0_MS 10 /" |dc)
-else
-    echo "cpufreq stat not compiled in?"
-fi
-
-> I am not sure what's the right thing to do here.
-
-Use a new *_ms name.
-If you are unsure how many people this still might use, keep the old file and mark
-it deprecated and remove it in some years.
-You could also add:
-pr_info("%s userspace process accessed deprecated sysfs file %s", task->comm, OLD_SYSFS_FILE_PATH);
-To find other userspace apps making use of it.
-
-...
- 
-> I already fixed this recently and stats don't appear empty for fast
-> switch anymore.
-
-Then cpufreq_stats could be a module again?
-
-      Thomas
-
-
+No set, no read, no inc, and most certainly, not dec.
