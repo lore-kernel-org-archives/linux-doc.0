@@ -2,89 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5275C5517A
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 16:47:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF1DC5517A
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 17:12:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55E792072C
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 16:47:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 657D8206CA
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 17:12:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727471AbgKKQrZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 11:47:25 -0500
-Received: from mga11.intel.com ([192.55.52.93]:30950 "EHLO mga11.intel.com"
+        id S1725995AbgKKRMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 12:12:42 -0500
+Received: from mga17.intel.com ([192.55.52.151]:34854 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726891AbgKKQrV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Nov 2020 11:47:21 -0500
-IronPort-SDR: SALwNfhBZNDenf591k52Ny+hSFwP3e0ROX0R5eMw0YzZKb4tmzXjTsNZzErmjBdcWOheFBmQUm
- wuE3Il2AHOFg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9802"; a="166665042"
+        id S1726915AbgKKRMm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Nov 2020 12:12:42 -0500
+IronPort-SDR: mkst2CQ0SbIi1Bxh+7cNqdumaY0b0Dwsb+b0MpOFScH0DODp0IkHJWMPZqZUz7Es5wnUrsRuRQ
+ CtJVrXVfNB+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9802"; a="150030056"
 X-IronPort-AV: E=Sophos;i="5.77,470,1596524400"; 
-   d="scan'208";a="166665042"
+   d="scan'208";a="150030056"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 08:47:17 -0800
-IronPort-SDR: taSB7atfiX84dKZCdsTjr/r7vGfhWCmZDfH93ZmS/DNjCJnF6wlZKsXv04kLN0j4WPRxPLNXHe
- SHjl32LHBvQQ==
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 09:12:41 -0800
+IronPort-SDR: DK1knGE5qjMhExDPvLwz7Jov3xRyM/oAWSrleMhXdE2iSrvArfBGhJXZwkxQQG7N23T4OP2q39
+ 3bJNhd0F6mNQ==
 X-IronPort-AV: E=Sophos;i="5.77,470,1596524400"; 
-   d="scan'208";a="473915011"
+   d="scan'208";a="531783743"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 08:47:14 -0800
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 09:12:39 -0800
 Received: from andy by smile with local (Exim 4.94)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kctI8-005xVm-BE; Wed, 11 Nov 2020 18:48:16 +0200
-Date:   Wed, 11 Nov 2020 18:48:16 +0200
+        id 1kctgk-005xpr-0V; Wed, 11 Nov 2020 19:13:42 +0200
+Date:   Wed, 11 Nov 2020 19:13:42 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: core-api/printk-formats.rst: Clarify formatting
- {cpu,node}mask
-Message-ID: <20201111164816.GN4077@smile.fi.intel.com>
-References: <20201110144121.3278667-1-geert+renesas@glider.be>
- <20201111152933.GA1702@alley>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v1] scripts: kernel-doc: Restore anonymous enum parsing
+Message-ID: <20201111171342.GP4077@smile.fi.intel.com>
+References: <20201102170637.36138-1-andriy.shevchenko@linux.intel.com>
+ <20201102182743.77b4c8df@coco.lan>
+ <20201102174846.GT4077@smile.fi.intel.com>
+ <20201102191041.66179ad6@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201111152933.GA1702@alley>
+In-Reply-To: <20201102191041.66179ad6@coco.lan>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 04:29:33PM +0100, Petr Mladek wrote:
-> On Tue 2020-11-10 15:41:21, Geert Uytterhoeven wrote:
-> > Clarify how to pass the field width for bitmaps, and mention the helper
-> > macros that are available to ease printing cpumask and nodemask.
+On Mon, Nov 02, 2020 at 07:10:41PM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 2 Nov 2020 19:48:46 +0200
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
+> 
+> > On Mon, Nov 02, 2020 at 06:27:43PM +0100, Mauro Carvalho Chehab wrote:
+> > > Em Mon,  2 Nov 2020 19:06:37 +0200
+> > > Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
+> > >   
+> > > > The commit d38c8cfb0571 ("scripts: kernel-doc: add support for typedef enum")
+> > > > broke anonymous enum parsing. Restore it by relying on members rather than
+> > > > its name.
+> > > > 
+> > > > Fixes: d38c8cfb0571 ("scripts: kernel-doc: add support for typedef enum")
+> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>  
+> > > 
+> > > Patch looks ok to me. Do you have an example about using it for
+> > > anonymous enum?  
+> > 
+> > drivers/pinctrl/intel/pinctrl-intel.c
+> > 
+> 
+> Thanks! 
+> 
+> Both include/linux/phy.h and drivers/pinctrl/intel/pinctrl-intel.c
+> are parsing fine after your patch.
+> 
+> So,
+> 
+> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-...
+Thanks!
 
-> 	%*pb	0779
-> 	%*pbl	0,3-6,8-10
-> 
-> For printing bitmap and its derivatives such as cpumask and nodemask.
-> 
-> It takes two arguments, see '*'. The first argument defines the number
-> of bits in the mask. The second argument points to the mask.
-> 
-> %*pb outputs the bitmap as a hex number. If the size is bigger than 32-bit
-> then 32-bit values are separated by a comma.
-> 
-> %*pbl outputs the bitmap as a range list.
-> 
-> The number of bits is passed by value. The mask is passed by reference.
-
-It can be improved at least by replacing mask with bitmap here.
-
-> Helper macros cpumask_pr_args() and nodemask_pr_args() are available to
-> ease printing cpumask and nodemask.
+Jonathan, can we have this applied?
 
 -- 
 With Best Regards,
