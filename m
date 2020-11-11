@@ -2,110 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3825C388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 15:29:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F22AC5517A
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 15:36:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6626D206A1
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 15:29:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2095206A1
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 15:36:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="h+INSi/k"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yMM7vNUF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbgKKP3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 10:29:36 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42118 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726136AbgKKP3g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Nov 2020 10:29:36 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1605108574;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0sDXXEr4je5Qj8STdejDddgjD8UXPI7WrWvNpATUfJE=;
-        b=h+INSi/kBPnCA17voUdGQn1OAIzVkLYVyIBp78cfssukqs9oqHWB8liFUjp3MSMsIut53o
-        qMyrzMOPXC32Pxc6PPFVOdPWUbl32V33skLWWpMmyXaSGRF2dzCJhWktb/OqqxPVRAZNTq
-        z5PKDAmhFW5zw+12staEUeAkxnTSoP0=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 516B7ABD1;
-        Wed, 11 Nov 2020 15:29:34 +0000 (UTC)
-Date:   Wed, 11 Nov 2020 16:29:33 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: core-api/printk-formats.rst: Clarify formatting
- {cpu,node}mask
-Message-ID: <20201111152933.GA1702@alley>
-References: <20201110144121.3278667-1-geert+renesas@glider.be>
+        id S1727266AbgKKPgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 10:36:24 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:37770 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727248AbgKKPgX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 10:36:23 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABFa6NH097118;
+        Wed, 11 Nov 2020 09:36:06 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1605108966;
+        bh=0G9kzKptjxkuSYZJyZUkzGzTrwhBRMPOSEvrB9RGpnE=;
+        h=From:To:CC:Subject:Date;
+        b=yMM7vNUFOCMRrHGplpo5KGpSWZMVZdfJQsVaIXQVxq7/h/Bv/Y103KihIk2Veqjmw
+         2jxsRNG2UFJYDtfelnBRlY6SytEPK4vdv1CjdwlLxrlJpOyTjuanE1mh+SpOIq0N+q
+         q1UHM9z+BqbznJglvIRZuU2+P5G1lEg2XEVBBolc=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABFa6gB019082
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 11 Nov 2020 09:36:06 -0600
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
+ Nov 2020 09:36:05 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 11 Nov 2020 09:36:06 -0600
+Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABFa03p042109;
+        Wed, 11 Nov 2020 09:36:01 -0600
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
+Subject: [PATCH v8 00/18] Implement NTB Controller using multiple PCI EP
+Date:   Wed, 11 Nov 2020 21:05:41 +0530
+Message-ID: <20201111153559.19050-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201110144121.3278667-1-geert+renesas@glider.be>
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 2020-11-10 15:41:21, Geert Uytterhoeven wrote:
-> Clarify how to pass the field width for bitmaps, and mention the helper
-> macros that are available to ease printing cpumask and nodemask.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/core-api/printk-formats.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 6d26c5c6ac485cec..160e710d992f3a36 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -531,7 +531,9 @@ For printing bitmap and its derivatives such as cpumask and nodemask,
->  %*pb outputs the bitmap with field width as the number of bits and %*pbl
->  output the bitmap as range list with field width as the number of bits.
->  
-> -Passed by reference.
-> +The field width is passed by value, the bitmap is passed by reference.
-> +Helper macros cpumask_pr_args() and nodemask_pr_args() are available to ease
-> +printing cpumask and nodemask.
+This series is about implementing SW defined Non-Transparent Bridge (NTB)
+using multiple endpoint (EP) instances. This series has been tested using
+2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
+on the other end. However there is nothing platform specific for the NTB
+functionality.
 
-I like it and I would go even further. I have never used these modifiers
-and was really confused by the entire description.
+This was presented in Linux Plumbers Conference. Link to presentation
+and video can be found @ [1]
 
-IMHO, it is just an implementation detail that the number of bits is
-passed via width in struct printf_spec. It is the asterisk '*' that
-defines that one more argument is needed. And it is up to the
-documentation to define what the argument is for.
+RFC patch series can be found @ [2]
+v1 patch series can be found @ [3]
+v2 patch series can be found @ [4]
+v3 patch series can be found @ [5]
+v4 patch series can be found @ [6]
+v5 patch series can be found @ [7]
+v6 patch series can be found @ [8]
+v7 patch series can be found @ [10]
 
-The following text shows the idea. I am not a native speaker.
-I am sure that the working might get improved.
+Changes from v7:
+1) Used values stored in ctrl_reg_bar, peer_spad_reg_bar and db_reg_bar
+   instead of hardcoded values in pci_iomap of ntb_hw_epf.c driver
 
-<cut>
-	%*pb	0779
-	%*pbl	0,3-6,8-10
+Changes from v6:
+1) Fixed issues when multiple NTB devices are creating using multiple
+   functions
+2) Fixed issue with writing scratchpad register
+3) Created a video demo @ [9]
 
-For printing bitmap and its derivatives such as cpumask and nodemask.
+Changes from v5:
+1) Fixed a formatting issue in Kconfig pointed out by Randy
+2) Checked for Error or Null in pci_epc_add_epf()
 
-It takes two arguments, see '*'. The first argument defines the number
-of bits in the mask. The second argument points to the mask.
+Changes from v4:
+1) Fixed error condition checks in pci_epc_add_epf()
 
-%*pb outputs the bitmap as a hex number. If the size is bigger than 32-bit
-then 32-bit values are separated by a comma.
+Changes from v3:
+1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
 
-%*pbl outputs the bitmap as a range list.
+Changes from v2:
+1) Add support for the user to create sub-directory of 'EPF Device'
+   directory (for endpoint function specific configuration using
+   configfs).
+2) Add documentation for NTB specific attributes in configfs
+3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
+   driver
+4) Other documentation fixes
 
-The number of bits is passed by value. The mask is passed by reference.
-Helper macros cpumask_pr_args() and nodemask_pr_args() are available to
-ease printing cpumask and nodemask.
-</cut>
+Changes from v1:
+1) As per Rob's comment, removed support for creating NTB function
+   device from DT
+2) Add support to create NTB EPF device using configfs (added support in
+   configfs to associate primary and secondary EPC with EPF.
 
-Best Regards,
-Petr
+Changes from RFC:
+1) Converted the DT binding patches to YAML schema and merged the
+   DT binding patches together
+2) NTB documentation is converted to .rst
+3) One HOST can now interrupt the other HOST using MSI-X interrupts
+4) Added support for teardown of memory window and doorbell
+   configuration
+5) Add support to provide support 64-bit memory window size from
+   DT
+
+[1] -> https://linuxplumbersconf.org/event/4/contributions/395/
+[2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
+[3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
+[5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
+[6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
+[7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
+[8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
+[9] -> https://youtu.be/dLKKxrg5-rY
+[10] -> http://lore.kernel.org/r/20200930153519.7282-1-kishon@ti.com 
+
+Kishon Vijay Abraham I (18):
+  Documentation: PCI: Add specification for the *PCI NTB* function
+    device
+  PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+    BAR
+  PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+  PCI: endpoint: Make *_free_bar() to return error codes on failure
+  PCI: endpoint: Remove unused pci_epf_match_device()
+  PCI: endpoint: Add support to associate secondary EPC with EPF
+  PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+  PCI: endpoint: Add pci_epc_ops to map MSI irq
+  PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
+    specific attrs
+  PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
+    directory
+  PCI: cadence: Implement ->msi_map_irq() ops
+  PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
+  PCI: endpoint: Add EP function driver to provide NTB functionality
+  PCI: Add TI J721E device to pci ids
+  NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+  NTB: tool: Enable the NTB/PCIe link on the local or remote side of
+    bridge
+  Documentation: PCI: Add configfs binding documentation for pci-ntb
+    endpoint function
+  Documentation: PCI: Add userguide for PCI endpoint NTB function
+
+ .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
+ Documentation/PCI/endpoint/index.rst          |    3 +
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
+ .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
+ Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
+ drivers/misc/pci_endpoint_test.c              |    1 -
+ drivers/ntb/hw/Kconfig                        |    1 +
+ drivers/ntb/hw/Makefile                       |    1 +
+ drivers/ntb/hw/epf/Kconfig                    |    6 +
+ drivers/ntb/hw/epf/Makefile                   |    1 +
+ drivers/ntb/hw/epf/ntb_hw_epf.c               |  755 ++++++
+ drivers/ntb/test/ntb_tool.c                   |    1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
+ drivers/pci/endpoint/functions/Kconfig        |   12 +
+ drivers/pci/endpoint/functions/Makefile       |    1 +
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
+ drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
+ drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
+ drivers/pci/endpoint/pci-epc-core.c           |  130 +-
+ drivers/pci/endpoint/pci-epf-core.c           |  105 +-
+ include/linux/pci-epc.h                       |   39 +-
+ include/linux/pci-epf.h                       |   28 +-
+ include/linux/pci_ids.h                       |    1 +
+ 23 files changed, 3934 insertions(+), 73 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
+ create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
+ create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+ create mode 100644 drivers/ntb/hw/epf/Kconfig
+ create mode 100644 drivers/ntb/hw/epf/Makefile
+ create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+ create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
+
+-- 
+2.17.1
+
