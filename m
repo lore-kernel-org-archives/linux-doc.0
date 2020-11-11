@@ -2,202 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7D1C5517A
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 00:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2070C388F7
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 01:38:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AC1E21741
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 00:47:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3894821D91
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 01:38:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="DkRCRXVI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZAMZIN6m"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732367AbgKKAr4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 19:47:56 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:57976 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732174AbgKKArz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 19:47:55 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AB0Z8o1041788;
-        Wed, 11 Nov 2020 00:47:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=wjw4jhHrEix2K0uxFHCF3PcVgyKd8xIKm8P3Sppl/AI=;
- b=DkRCRXVITd/K1iERo9l41LP7MOi6/hjrHQ8c6A2+ZBv45yqum2AkiJdZ8egI6mkvdNF4
- n8Ft9tj3RmOgiczEq6KOY4YbSNWM0vLgL60XowoHTWNXmbw32r0jhYnWAIbawWYESNI7
- bKHAiI9H18wzdCE4h328vGMOWc2ycqKLm99H0n4u6dHyJYgbi67Q90i0t1K7EfspfvCe
- bgIx1v6+igBRsvA6DjEQUGPqSY1EpX9ATIZ5tXheSryCOlPjxv0iC+wPcAYytu9FSI1I
- hPAXTe488hIp0F0cJnW70bWh6TXeHX12iSnCMqwPEXX/9ZCShYbPPs23gr3UxK9QH5Tc 8w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 34nh3axw9d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 11 Nov 2020 00:47:17 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AB0Uqti171386;
-        Wed, 11 Nov 2020 00:47:17 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 34p5g12s9n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 11 Nov 2020 00:47:16 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AB0l6Su031556;
-        Wed, 11 Nov 2020 00:47:07 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 10 Nov 2020 16:47:05 -0800
-Subject: Re: [PATCH v3 05/21] mm/hugetlb: Introduce pgtable allocation/freeing
- helpers
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        willy@infradead.org, osalvador@suse.de, mhocko@suse.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-References: <20201108141113.65450-1-songmuchun@bytedance.com>
- <20201108141113.65450-6-songmuchun@bytedance.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <9dc62874-379f-b126-94a7-5bd477529407@oracle.com>
-Date:   Tue, 10 Nov 2020 16:47:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1732086AbgKKBia (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 20:38:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45826 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731610AbgKKBia (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 20:38:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605058709;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4+tvfdrkEmZTFexm1h6AxeFVxvrZtfe5vDA09cO9oSY=;
+        b=ZAMZIN6mR5Hf07Y3wbAaE5Sk3UYc/wd2/ZL+0HxXrwZVnHK6OZKLzYuflUAiifezfJf1Pp
+        3fYKZRTlPFjAcuuhL1vUuW8YJMQuTKrYC75SJg5wYRo7Z+7jVXJOFUNcSUA+t652x83N47
+        8bjMkkBdi0Z2M/bMu2+uj8UVicsXLbg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-T6GlM7k-ND20cweGeokNJw-1; Tue, 10 Nov 2020 20:38:26 -0500
+X-MC-Unique: T6GlM7k-ND20cweGeokNJw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EC441074656;
+        Wed, 11 Nov 2020 01:38:23 +0000 (UTC)
+Received: from localhost (ovpn-12-35.pek2.redhat.com [10.72.12.35])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 01D1D277D5;
+        Wed, 11 Nov 2020 01:38:18 +0000 (UTC)
+Date:   Wed, 11 Nov 2020 09:38:15 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
+        catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+        John.P.donnelly@oracle.com, bhsharma@redhat.com,
+        prabhakar.pkin@gmail.com, wangkefeng.wang@huawei.com,
+        arnd@arndb.de, linux-doc@vger.kernel.org, xiexiuqi@huawei.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, horms@verge.net.au, james.morse@arm.com,
+        linux-arm-kernel@lists.infradead.org, huawei.libin@huawei.com,
+        guohanjun@huawei.com, nsaenzjulienne@suse.de
+Subject: Re: [PATCH v13 1/8] x86: kdump: replace the hard-coded alignment
+ with macro CRASH_ALIGN
+Message-ID: <20201111013815.GC24747@MiWiFi-R3L-srv>
+References: <20201031074437.168008-1-chenzhou10@huawei.com>
+ <20201031074437.168008-2-chenzhou10@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201108141113.65450-6-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 malwarescore=0
- adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=2
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011110001
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
- clxscore=1015 malwarescore=0 mlxscore=0 spamscore=0 suspectscore=2
- mlxlogscore=999 impostorscore=0 phishscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011110001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201031074437.168008-2-chenzhou10@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/8/20 6:10 AM, Muchun Song wrote:
-> On x86_64, vmemmap is always PMD mapped if the machine has hugepages
-> support and if we have 2MB contiguos pages and PMD aligned. If we want
-> to free the unused vmemmap pages, we have to split the huge pmd firstly.
-> So we should pre-allocate pgtable to split PMD to PTE.
+On 10/31/20 at 03:44pm, Chen Zhou wrote:
+> Move CRASH_ALIGN to header asm/kexec.h and replace the hard-coded
+> alignment with macro CRASH_ALIGN in function reserve_crashkernel().
+
+Seems you tell what you have done in this patch, but don't like adding
+several more words to tell why it's done like that. Please see below
+inline comments.
+
+In other patches, I can also see this similar problem.
+
 > 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index a0007902fafb..5c7be2ee7e15 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1303,6 +1303,108 @@ static inline void destroy_compound_gigantic_page(struct page *page,
-...
-> +static inline void vmemmap_pgtable_init(struct page *page)
-> +{
-> +	page_huge_pte(page) = NULL;
-> +}
-> +
-> +static void vmemmap_pgtable_deposit(struct page *page, pgtable_t pgtable)
-> +{
-> +	/* FIFO */
-> +	if (!page_huge_pte(page))
-> +		INIT_LIST_HEAD(&pgtable->lru);
-> +	else
-> +		list_add(&pgtable->lru, &page_huge_pte(page)->lru);
-> +	page_huge_pte(page) = pgtable;
-> +}
-> +
-> +static pgtable_t vmemmap_pgtable_withdraw(struct page *page)
-> +{
-> +	pgtable_t pgtable;
-> +
-> +	/* FIFO */
-> +	pgtable = page_huge_pte(page);
-> +	page_huge_pte(page) = list_first_entry_or_null(&pgtable->lru,
-> +						       struct page, lru);
-> +	if (page_huge_pte(page))
-> +		list_del(&pgtable->lru);
-> +	return pgtable;
-> +}
-> +
-> +static int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
-> +{
-> +	int i;
-> +	pgtable_t pgtable;
-> +	unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
-> +
-> +	if (!nr)
-> +		return 0;
-> +
-> +	vmemmap_pgtable_init(page);
-> +
-> +	for (i = 0; i < nr; i++) {
-> +		pte_t *pte_p;
-> +
-> +		pte_p = pte_alloc_one_kernel(&init_mm);
-> +		if (!pte_p)
-> +			goto out;
-> +		vmemmap_pgtable_deposit(page, virt_to_page(pte_p));
-> +	}
-> +
-> +	return 0;
-> +out:
-> +	while (i-- && (pgtable = vmemmap_pgtable_withdraw(page)))
-> +		pte_free_kernel(&init_mm, page_to_virt(pgtable));
-> +	return -ENOMEM;
-> +}
-> +
-> +static void vmemmap_pgtable_free(struct hstate *h, struct page *page)
-> +{
-> +	pgtable_t pgtable;
-> +	unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
-> +
-> +	if (!nr)
-> +		return;
-> +
-> +	pgtable = page_huge_pte(page);
-> +	if (!pgtable)
-> +		return;
-> +
-> +	while (nr-- && (pgtable = vmemmap_pgtable_withdraw(page)))
-> +		pte_free_kernel(&init_mm, page_to_virt(pgtable));
-> +}
-
-I may be confused.
-
-In patch 9 of this series, the first call to vmemmap_pgtable_free() is made:
-
-> @@ -1645,6 +1799,10 @@ void free_huge_page(struct page *page)
+> Suggested-by: Dave Young <dyoung@redhat.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+> ---
+>  arch/x86/include/asm/kexec.h | 3 +++
+>  arch/x86/kernel/setup.c      | 5 +----
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
+> index 6802c59e8252..8cf9d3fd31c7 100644
+> --- a/arch/x86/include/asm/kexec.h
+> +++ b/arch/x86/include/asm/kexec.h
+> @@ -18,6 +18,9 @@
 >  
->  static void prep_new_huge_page(struct hstate *h, struct page *page, int nid)
->  {
-> +	free_huge_page_vmemmap(h, page);
-> +	/* Must be called before the initialization of @page->lru */
-> +	vmemmap_pgtable_free(h, page);
+>  # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
+>  
+> +/* 2M alignment for crash kernel regions */
+> +#define CRASH_ALIGN		SZ_16M
 > +
->  	INIT_LIST_HEAD(&page->lru);
->  	set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
->  	set_hugetlb_cgroup(page, NULL);
+>  #ifndef __ASSEMBLY__
+>  
+>  #include <linux/string.h>
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 84f581c91db4..bf373422dc8a 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -395,9 +395,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>  
+>  #ifdef CONFIG_KEXEC_CORE
+>  
+> -/* 16M alignment for crash kernel regions */
+> -#define CRASH_ALIGN		SZ_16M
+> -
+>  /*
+>   * Keep the crash kernel below this limit.
+>   *
+> @@ -515,7 +512,7 @@ static void __init reserve_crashkernel(void)
+>  	} else {
+>  		unsigned long long start;
+>  
+> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
+> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
+>  						  crash_base + crash_size);
 
-When I saw that comment in previous patch series, I assumed page->lru was
-being used to store preallocated pages and pages to free.  However, unless
-I am reading the code incorrectly it does not appear page->lru (of the huge
-page) is being used for this purpose.  Is that correct?
+Here, SZ_1M is replaced with CRASH_ALIGN which is 16M. I remember I ever
+commented that this had better be told in patch log.
 
-If it is correct, would using page->lru of the huge page make this code
-simpler?  I am just missing the reason why you are using
-page_huge_pte(page)->lru
+>  		if (start != crash_base) {
+>  			pr_info("crashkernel reservation failed - memory is in use.\n");
+> -- 
+> 2.20.1
+> 
+> 
+> _______________________________________________
+> kexec mailing list
+> kexec@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kexec
+> 
 
--- 
-Mike Kravetz
