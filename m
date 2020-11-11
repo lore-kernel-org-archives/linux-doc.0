@@ -7,100 +7,79 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B92C388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 00:18:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8E1C388F7
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 00:20:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB3A721741
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 00:18:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79F1C21D93
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 00:20:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZPCtIKuB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BW8LFvnO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731657AbgKKASZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 19:18:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39914 "EHLO
+        id S1731746AbgKKAUm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 19:20:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726706AbgKKASZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 19:18:25 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1FCBC0613D1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 16:18:24 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id d3so42051plo.4
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 16:18:24 -0800 (PST)
+        with ESMTP id S1731854AbgKKAUi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 19:20:38 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06849C0613D6
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 16:20:36 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id i13so169708pgm.9
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2020 16:20:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=xX83z+sBc0MxDgbJ31haaJbdXGfe/8kIYD/48IZ9Gic=;
-        b=ZPCtIKuB0wASSPRTkTxaFinLIWKcmOorldhT5b0QbF/aaHtVH6QCIfWQQpGEokobUO
-         qDVLJ0z7Qw1HefqVCVBMDtp6pqPq8it9DanhWG/ZMn6mtt/4notKmRxGCD7rLGd+pV+l
-         jcX2tz+VV//03/MPnqBiJREKgcPtZzjnLP/wI=
+        bh=gRsyoKFAiYsdDr9vFUIknQF83zHV+rgJ/rjEsefe3mE=;
+        b=BW8LFvnOIc7NxtiaAB5pesBKEQKPF+1c5mD/tFKnQ5zjxRsoAaahN8+/Zp9540edo1
+         mPLR68RuvnW27YFLzO9fW9R2kj59uw628K3z2qe7xJlcvWRnTxKB5z6im2kbvfCmisCq
+         sw236ukvht5WKM8LWRjv50SP1IYnIcFLZFH8k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=xX83z+sBc0MxDgbJ31haaJbdXGfe/8kIYD/48IZ9Gic=;
-        b=kP9ZHb3PX9iNdEvbekF9O/SsrMxTwdRJr6P/Gh0prHVUj5hsHLCXL5aYtQ5ssSXC5R
-         akvmmdcHFeQuvzDmT4M9n6IA0GXfDPoEy5kvRD3MahwFbzBvHL7C5Fx1q+sXxICNNQtc
-         3JHs9SshiqXil405PqUh2+mHSoHkv586FtTkWI3A1XexISXYDnuAjeLgjw/0wjolvzrz
-         u/o05QoM1ApoUFQyWTWyxqePvKBsHsy2OLHOQ6lddM2Qm5YFXJA2w23GP/6CfvPiN8O3
-         SK06GlswlwLqJyNrfgxLhA7xCRJgVfqlaK+UNQYyAnb1k8JgwP/KGxwndM+CFIy52HBb
-         gzJw==
-X-Gm-Message-State: AOAM531cqY5ZvJ9n4V/Iaq+4OPjqb9ljTMN3/rxp+8L1/6cvgM7KB2s7
-        6MjcNIdsphwBBYFyHOXLmNYyNQ==
-X-Google-Smtp-Source: ABdhPJyKkiLSSHH3vgAAkaQFP89b4D4OM/9VAJBsoa0y78vrTnR1fM7RUOqjYNYVcaZJva6+/iWs1w==
-X-Received: by 2002:a17:902:7206:b029:d7:e6db:38c6 with SMTP id ba6-20020a1709027206b02900d7e6db38c6mr9848313plb.6.1605053903009;
-        Tue, 10 Nov 2020 16:18:23 -0800 (PST)
+        bh=gRsyoKFAiYsdDr9vFUIknQF83zHV+rgJ/rjEsefe3mE=;
+        b=tUrmMtqZnMxgX+yVdGKRf9HHJQ3+VLi6hwhPh9Yf27UwE1mXdYO/RAoG56h8cqIeGk
+         OPSlm+43fm7KGliwOm+phi2TYl0V6C9TtD/m/qOYTY0UTy+EIkZAEsmykd5bnHf1iebI
+         fbFcg5mErZ0NgviRkJawBg/81DamAi3Ie5tQn+3gp2o0yMm3JFuWVcj3fwzNLvtwpi64
+         C4xu79e0VjsoNq2ajXd9om5SCIc7PISDEWxqhgJ20p4yiexviD5aMwSrWbpjBegixWg7
+         Ct1xU0jib52f/QM7FMIDkGyBMXAjTDcjR5SGaMMBpyv2ju1nC+ghOAtMZGlWSSOxTqQU
+         P7mA==
+X-Gm-Message-State: AOAM531IpzwkHXPmJkf/wHqdY9UPA1pHxjWZqn0O3cg2NffUaf5PCsmK
+        lznSaX2S7hQSfjKShvADTcF7+Q==
+X-Google-Smtp-Source: ABdhPJw8V0hN09vn6qMlXU43NAuiryNHrDsiEFWKhIEDdVIwr2He8RTDBr87CnFsvLyQEVznm+NUwQ==
+X-Received: by 2002:a63:c20f:: with SMTP id b15mr18599734pgd.230.1605054036660;
+        Tue, 10 Nov 2020 16:20:36 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id t12sm276042pfq.79.2020.11.10.16.18.21
+        by smtp.gmail.com with ESMTPSA id y129sm127683pgy.84.2020.11.10.16.20.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2020 16:18:22 -0800 (PST)
-Date:   Tue, 10 Nov 2020 16:18:21 -0800
+        Tue, 10 Nov 2020 16:20:35 -0800 (PST)
+Date:   Tue, 10 Nov 2020 16:20:34 -0800
 From:   Kees Cook <keescook@chromium.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
-        peterz@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>, corbet@lwn.net,
+        gregkh@linuxfoundation.org, peterz@infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
-Message-ID: <202011101614.E7D880689@keescook>
+Message-ID: <202011101619.341C9C7E64@keescook>
 References: <cover.1605027593.git.skhan@linuxfoundation.org>
  <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
- <X6r7BIG8JTUOLcY0@kroah.com>
- <X6r7Vl45bgGQiAD2@kroah.com>
+ <20201110210316.GO17076@casper.infradead.org>
+ <11b5153f-e092-d1c9-deb1-e81a171bb866@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <X6r7Vl45bgGQiAD2@kroah.com>
+In-Reply-To: <11b5153f-e092-d1c9-deb1-e81a171bb866@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 09:43:02PM +0100, Greg KH wrote:
-> On Tue, Nov 10, 2020 at 09:41:40PM +0100, Greg KH wrote:
-> > On Tue, Nov 10, 2020 at 12:53:27PM -0700, Shuah Khan wrote:
-> > > +Decrement interface
-> > > +-------------------
-> > > +
-> > > +Decrements sequence number and doesn't return the new value. ::
-> > > +
-> > > +        seqnum32_dec() --> atomic_dec()
-> > > +        seqnum64_dec() --> atomic64_dec()
-> > 
-> > Why would you need to decrement a sequence number?  Shouldn't they just
-> > always go up?
-> > 
-> > I see you use them in your patch 12/13, but I don't think that really is
-> > a sequence number there, but rather just some other odd value :)
+On Tue, Nov 10, 2020 at 03:58:48PM -0700, Shuah Khan wrote:
+> Yes we have some instances where unsigned is being used. I considered
+> going to unsigned. Changing the API to unsigned has other ramifications
+> and cascading changes to current atomic_t usages that are up counters.
 
-To that end, they should likely be internally cast to u32 and u64 (and
-why is seqnum64 ifdef on CONFIG_64BIT?).
-
-> Note, other than this, I like the idea.  It makes it obvious what these
-> atomic variables are being used for, and they can't be abused for other
-> things.  Nice work.
-
-Agreed: this is a clear wrapping sequence counter. It's only abuse would
-be using it in a place where wrapping actually is _not_ safe. (bikeshed:
-can we call it wrap_u32 and wrap_u64?)
+As in, existing callers expect the "read" value to be int?
 
 -- 
 Kees Cook
