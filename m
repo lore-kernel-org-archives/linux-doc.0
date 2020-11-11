@@ -2,97 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD808C388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 20:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C305FC388F9
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 21:34:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23EC1208B3
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 20:16:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pDku5hJQ"
+	by mail.kernel.org (Postfix) with ESMTP id 79536208B3
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 21:34:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725949AbgKKUQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 15:16:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbgKKUQD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 15:16:03 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E7D3C0613D1;
-        Wed, 11 Nov 2020 12:16:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=7LHGTNUf7dey0U0w03Ij+3+eKYy3ed98Q8PXwpusvhI=; b=pDku5hJQ+T4HmJTeDHAP/Mwl3w
-        q8j5+NpBxoA5yotRzMh5uCsQh5K3ZPhuR1hLvMOoihO4nlWf6EPibqu2JmCp42M9V3vYbrlabMJE0
-        kiyb+0Z/yaMEt8TGmhox0R1r+ZAas/eUyki1fg16ZsbBtR4PB+OV7EWBNBPJKyw7JlOXNebL5u18p
-        oMiO2CgU0v8R/u2LcbnjKOxd1yslBFNTQGD01KW4VQFklIGbocZvR7gJZDvCfMnA9X2c1kyVbNgH0
-        Jyrrb62Je4+QTtj7mZbZJRh4VuHFLrykokvjr6yKMoKUxoFkU2Yi8Rt6gFVEZy5TCpBMzdNxG9Q3M
-        PTKezHFg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kcwX9-0003l9-BD; Wed, 11 Nov 2020 20:15:59 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 788A4301A42;
-        Wed, 11 Nov 2020 21:15:55 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 64AF52BCE964C; Wed, 11 Nov 2020 21:15:55 +0100 (CET)
-Date:   Wed, 11 Nov 2020 21:15:55 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
-Message-ID: <20201111201555.GN2628@hirez.programming.kicks-ass.net>
-References: <cover.1605027593.git.skhan@linuxfoundation.org>
- <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
- <20201111082320.GR2611@hirez.programming.kicks-ass.net>
- <7207fad6-6ca4-529b-60a8-63db998d10d9@linuxfoundation.org>
- <20201111160411.GF2628@hirez.programming.kicks-ass.net>
- <3fccb8d5-825a-a283-7b7e-6193e0c90237@linuxfoundation.org>
- <20201111175031.GI2628@hirez.programming.kicks-ass.net>
- <0aed620f-911d-4715-bd41-a6b9a37862b4@linuxfoundation.org>
+        id S1726151AbgKKVer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 16:34:47 -0500
+Received: from smtp-8fad.mail.infomaniak.ch ([83.166.143.173]:40515 "EHLO
+        smtp-8fad.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726510AbgKKVeq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 16:34:46 -0500
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CWdKx0gBtzlhGL9;
+        Wed, 11 Nov 2020 22:34:45 +0100 (CET)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CWdKw4jtzzlh8T5;
+        Wed, 11 Nov 2020 22:34:44 +0100 (CET)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v1 0/9] Landlock fixes
+Date:   Wed, 11 Nov 2020 22:34:33 +0100
+Message-Id: <20201111213442.434639-1-mic@digikod.net>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0aed620f-911d-4715-bd41-a6b9a37862b4@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 11:28:13AM -0700, Shuah Khan wrote:
-> On 11/11/20 10:50 AM, Peter Zijlstra wrote:
-> > On Wed, Nov 11, 2020 at 10:34:05AM -0700, Shuah Khan wrote:
-> > 
-> > > Not sure what to make of the 6080 atomic_read()s and 3413
-> > > atomic_inc()s, some of which might be assuming uniqueness
-> > > guarantee.
-> > 
-> > Well, clearly you just did: git grep atimic_{read,inc}() | wc -l and
-> > didn't look at the usage. Equally clearly there can be bugs. Also
-> > evidently much of those are not in fact sequence numbers.
-> > 
-> 
-> Looking at the usage and classifying which usages are sequence
-> numbers is part of may audit and we are covered. Your explanation
-> and this discussion helps with do a better audit of these usages.
+Hi,
 
-Auditing is fine, but I still don't see any point in actually having
-these wrapping types. It's all a waste of space and compile-time IMO.
+This patch series fixes some issues and makes the Landlock filesystem
+access-control more consistent and deterministic when stacking multiple
+rulesets.  This is checked by current and new tests.  I also extended
+documentation and example to help users.
 
-Neither this sequence counter, nor stat_t or whatever else bring any
-actual differences. They're pure wrappers without change in semantics.
+This series can be applied on top of
+https://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git/log/?h=landlock_lsm
 
-refcount_t is useful because it brought different semantics, it raises
-exceptions on invalid usage (wraps). But this is just pointless NOPs.
+Regards,
 
-So do your audit, but only introduce new types for things that actually
-have different semantics. If you do a patch and the generated code is
-100% identical but you have many more lines of code, you've only made it
-worse.
+Mickaël Salaün (9):
+  landlock: Fix memory allocation error handling
+  landlock: Cosmetic fixes for filesystem management
+  landlock: Enforce deterministic interleaved path rules
+  landlock: Always intersect access rights
+  landlock: Add extra checks when inserting a rule
+  selftests/landlock: Extend layout1.inherit_superset
+  landlock: Clean up get_ruleset_from_fd()
+  landlock: Add help to enable Landlock as a stacked LSM
+  landlock: Extend documentation about limitations
+
+ Documentation/userspace-api/landlock.rst   |  17 +++
+ samples/landlock/sandboxer.c               |  21 +++-
+ security/landlock/Kconfig                  |   4 +-
+ security/landlock/fs.c                     |  67 +++++-----
+ security/landlock/object.c                 |   5 +-
+ security/landlock/ruleset.c                |  34 ++---
+ security/landlock/syscall.c                |  24 ++--
+ tools/testing/selftests/landlock/fs_test.c | 140 +++++++++++++++++++--
+ 8 files changed, 239 insertions(+), 73 deletions(-)
+
+
+base-commit: 96b3198c4025c11347651700b77e45a686d78553
+-- 
+2.29.2
+
