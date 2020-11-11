@@ -2,252 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E0EC388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE1F5C388F9
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:57:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34E322074B
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:30:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 627EE2074B
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:57:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H5qdSKlM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbgKKNaK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 08:30:10 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7173 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgKKNaJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 08:30:09 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWQZQ5HGwz15VJw;
-        Wed, 11 Nov 2020 21:29:50 +0800 (CST)
-Received: from [10.174.176.61] (10.174.176.61) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 11 Nov 2020 21:29:53 +0800
-Subject: Re: [PATCH v13 0/8] support reserving crashkernel above 4G on arm64
- kdump
-To:     Baoquan He <bhe@redhat.com>, <bhsharma@redhat.com>
+        id S1726950AbgKKN4O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 08:56:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60258 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727013AbgKKNzA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 08:55:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605102899;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aMaHhSCKMeHb+h3vdBSxeg5btyZh1RbkohyGRVpWKe0=;
+        b=H5qdSKlMzRPWnzXFx9OqAxeA9HuQAZNoy0atPJOp5Z9C++pZ+T8I6vv5pKPVEJTBfVIyzm
+        eDu3x4bY0mGaGbd1ScTUiDmOmvMRwdx6lt7Pz0TJEMoxBQJfYSvEmvqmRDqlRJdZcDpIPe
+        jEdOjN3wxLU7H2CmbEkz2mMgoVL2hFs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-IJvfncXCMY6jcUTWaZWueA-1; Wed, 11 Nov 2020 08:54:58 -0500
+X-MC-Unique: IJvfncXCMY6jcUTWaZWueA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 159C11087D6A;
+        Wed, 11 Nov 2020 13:54:55 +0000 (UTC)
+Received: from localhost (ovpn-12-35.pek2.redhat.com [10.72.12.35])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A1F507366E;
+        Wed, 11 Nov 2020 13:54:50 +0000 (UTC)
+Date:   Wed, 11 Nov 2020 21:54:48 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     chenzhou <chenzhou10@huawei.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
+        catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+        John.P.donnelly@oracle.com, bhsharma@redhat.com,
+        prabhakar.pkin@gmail.com, wangkefeng.wang@huawei.com,
+        arnd@arndb.de, linux-doc@vger.kernel.org, xiexiuqi@huawei.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, horms@verge.net.au, james.morse@arm.com,
+        linux-arm-kernel@lists.infradead.org, huawei.libin@huawei.com,
+        guohanjun@huawei.com, nsaenzjulienne@suse.de
+Subject: Re: [PATCH v13 6/8] arm64: kdump: reimplement crashkernel=X
+Message-ID: <20201111135448.GF8486@MiWiFi-R3L-srv>
 References: <20201031074437.168008-1-chenzhou10@huawei.com>
- <20201111030136.GD8486@MiWiFi-R3L-srv>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <dyoung@redhat.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
-        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
-        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <nsaenzjulienne@suse.de>, <james.morse@arm.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <xiexiuqi@huawei.com>, <guohanjun@huawei.com>,
-        <huawei.libin@huawei.com>, <wangkefeng.wang@huawei.com>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <04a893e6-1412-5fa8-8dbd-8ec278879965@huawei.com>
-Date:   Wed, 11 Nov 2020 21:29:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ <20201031074437.168008-7-chenzhou10@huawei.com>
+ <20201111015926.GD24747@MiWiFi-R3L-srv>
+ <23389389-2855-50fd-25b7-4f7d4246bf0c@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201111030136.GD8486@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.176.61]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23389389-2855-50fd-25b7-4f7d4246bf0c@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Baoquan, Bhupesh,
+On 11/11/20 at 09:27pm, chenzhou wrote:
+> Hi Baoquan,
+...
+> >>  #ifdef CONFIG_CRASH_DUMP
+> >>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+> >> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> >> index 1c0f3e02f731..c55cee290bbb 100644
+> >> --- a/arch/arm64/mm/mmu.c
+> >> +++ b/arch/arm64/mm/mmu.c
+> >> @@ -488,6 +488,10 @@ static void __init map_mem(pgd_t *pgdp)
+> >>  	 */
+> >>  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
+> >>  #ifdef CONFIG_KEXEC_CORE
+> >> +	if (crashk_low_res.end)
+> >> +		memblock_mark_nomap(crashk_low_res.start,
+> >> +				    resource_size(&crashk_low_res));
+> >> +
+> >>  	if (crashk_res.end)
+> >>  		memblock_mark_nomap(crashk_res.start,
+> >>  				    resource_size(&crashk_res));
+> >> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> >> index d39892bdb9ae..cdef7d8c91a6 100644
+> >> --- a/kernel/crash_core.c
+> >> +++ b/kernel/crash_core.c
+> >> @@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
+> >>  
+> >>  int __init reserve_crashkernel_low(void)
+> >>  {
+> >> -#ifdef CONFIG_X86_64
+> >> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
+> > Not very sure if a CONFIG_64BIT checking is better.
+> If doing like this, there may be some compiling errors for other 64-bit kernel, such as mips.
+> >
+> >>  	unsigned long long base, low_base = 0, low_size = 0;
+> >>  	unsigned long low_mem_limit;
+> >>  	int ret;
+> >> @@ -362,12 +362,14 @@ int __init reserve_crashkernel_low(void)
+> >>  
+> >>  	crashk_low_res.start = low_base;
+> >>  	crashk_low_res.end   = low_base + low_size - 1;
+> >> +#ifdef CONFIG_X86_64
+> >>  	insert_resource(&iomem_resource, &crashk_low_res);
+> >> +#endif
+> >>  #endif
+> >>  	return 0;
+> >>  }
+> >>  
+> >> -#ifdef CONFIG_X86
+> >> +#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
+> > Should we make this weak default so that we can remove the ARCH config?
+> The same as above, some arch may not support kdump, in that case,  compiling errors occur.
 
-
-On 2020/11/11 11:01, Baoquan He wrote:
-> Hi Zhou, Bhupesh
->
-> On 10/31/20 at 03:44pm, Chen Zhou wrote:
->> There are following issues in arm64 kdump:
->> 1. We use crashkernel=X to reserve crashkernel below 4G, which
->> will fail when there is no enough low memory.
->> 2. If reserving crashkernel above 4G, in this case, crash dump
->> kernel will boot failure because there is no low memory available
->> for allocation.
->> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
->> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
->> the devices in crash dump kernel need to use ZONE_DMA will alloc
->> fail.
-> I went through this patchset, mainly the x86 related and generic
-> changes, the changes look great and no risk. And I know Bhupesh is
-> following up this and helping review, thanks, both.
->
-> So you have also tested crashkernel reservation on x86_64, with the
-> normal reservation, and high/low reservation, it is working well,
-> right? Asking this because I didn't see the test result description, and
-> just note it.
-
-Yeah, i also tested on x86_64 and work well. I did these basic tests before sending every
-new version.
-But Bhupesh may have some review comments(Bhupesh referred one month ago).
-
-Thanks,
-Chen Zhou
-
->
-> Thanks
-> Baoquan
->
->> To solve these issues, change the behavior of crashkernel=X.
->> crashkernel=X tries low allocation in DMA zone (or the DMA32 zone if
->> CONFIG_ZONE_DMA is disabled), and fall back to high allocation if it fails.
->>
->> We can also use "crashkernel=X,high" to select a high region above
->> DMA zone, which also tries to allocate at least 256M low memory in
->> DMA zone automatically (or the DMA32 zone if CONFIG_ZONE_DMA is disabled).
->> "crashkernel=Y,low" can be used to allocate specified size low memory.
->>
->> When reserving crashkernel in high memory, some low memory is reserved
->> for crash dump kernel devices. So there may be two regions reserved for
->> crash dump kernel.
->> In order to distinct from the high region and make no effect to the use
->> of existing kexec-tools, rename the low region as "Crash kernel (low)",
->> and pass the low region by reusing DT property
->> "linux,usable-memory-range". We made the low memory region as the last
->> range of "linux,usable-memory-range" to keep compatibility with existing
->> user-space and older kdump kernels.
->>
->> Besides, we need to modify kexec-tools:
->> arm64: support more than one crash kernel regions(see [1])
->>
->> Another update is document about DT property 'linux,usable-memory-range':
->> schemas: update 'linux,usable-memory-range' node schema(see [2])
->>
->> This patchset contains the following eight patches:
->> 0001-x86-kdump-replace-the-hard-coded-alignment-with-macr.patch
->> 0002-x86-kdump-make-the-lower-bound-of-crash-kernel-reser.patch
->> 0003-x86-kdump-use-macro-CRASH_ADDR_LOW_MAX-in-functions-.patch
->> 0004-x86-kdump-move-reserve_crashkernel-_low-into-crash_c.patch
->> 0005-arm64-kdump-introduce-some-macroes-for-crash-kernel-.patch
->> 0006-arm64-kdump-reimplement-crashkernel-X.patch
->> 0007-arm64-kdump-add-memory-for-devices-by-DT-property-li.patch
->> 0008-kdump-update-Documentation-about-crashkernel.patch
->>
->> 0001-0003 are some x86 cleanups which prepares for making
->> functionsreserve_crashkernel[_low]() generic.
->> 0004 makes functions reserve_crashkernel[_low]() generic.
->> 0005-0006 reimplements arm64 crashkernel=X.
->> 0007 adds memory for devices by DT property linux,usable-memory-range.
->> 0008 updates the doc.
->>
->> Changes since [v12]
->> - Rebased on top of 5.10-rc1.
->> - Keep CRASH_ALIGN as 16M suggested by Dave.
->> - Drop patch "kdump: add threshold for the required memory".
->> - Add Tested-by from John.
->>
->> Changes since [v11]
->> - Rebased on top of 5.9-rc4.
->> - Make the function reserve_crashkernel() of x86 generic.
->> Suggested by Catalin, make the function reserve_crashkernel() of x86 generic
->> and arm64 use the generic version to reimplement crashkernel=X.
->>
->> Changes since [v10]
->> - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
->>
->> Changes since [v9]
->> - Patch 1 add Acked-by from Dave.
->> - Update patch 5 according to Dave's comments.
->> - Update chosen schema.
->>
->> Changes since [v8]
->> - Reuse DT property "linux,usable-memory-range".
->> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
->> memory region.
->> - Fix kdump broken with ZONE_DMA reintroduced.
->> - Update chosen schema.
->>
->> Changes since [v7]
->> - Move x86 CRASH_ALIGN to 2M
->> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
->> - Update Documentation/devicetree/bindings/chosen.txt.
->> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
->> suggested by Arnd.
->> - Add Tested-by from Jhon and pk.
->>
->> Changes since [v6]
->> - Fix build errors reported by kbuild test robot.
->>
->> Changes since [v5]
->> - Move reserve_crashkernel_low() into kernel/crash_core.c.
->> - Delete crashkernel=X,high.
->> - Modify crashkernel=X,low.
->> If crashkernel=X,low is specified simultaneously, reserve spcified size low
->> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
->> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
->> pass to crash dump kernel by DT property "linux,low-memory-range".
->> - Update Documentation/admin-guide/kdump/kdump.rst.
->>
->> Changes since [v4]
->> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
->>
->> Changes since [v3]
->> - Add memblock_cap_memory_ranges back for multiple ranges.
->> - Fix some compiling warnings.
->>
->> Changes since [v2]
->> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
->> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
->> patch.
->>
->> Changes since [v1]:
->> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
->> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
->> in fdt_enforce_memory_region().
->> There are at most two crash kernel regions, for two crash kernel regions
->> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
->> and then remove the memory range in the middle.
->>
->> [1]: http://lists.infradead.org/pipermail/kexec/2020-June/020737.html
->> [2]: https://github.com/robherring/dt-schema/pull/19 
->> [v1]: https://lkml.org/lkml/2019/4/2/1174
->> [v2]: https://lkml.org/lkml/2019/4/9/86
->> [v3]: https://lkml.org/lkml/2019/4/9/306
->> [v4]: https://lkml.org/lkml/2019/4/15/273
->> [v5]: https://lkml.org/lkml/2019/5/6/1360
->> [v6]: https://lkml.org/lkml/2019/8/30/142
->> [v7]: https://lkml.org/lkml/2019/12/23/411
->> [v8]: https://lkml.org/lkml/2020/5/21/213
->> [v9]: https://lkml.org/lkml/2020/6/28/73
->> [v10]: https://lkml.org/lkml/2020/7/2/1443
->> [v11]: https://lkml.org/lkml/2020/8/1/150
->> [v12]: https://lkml.org/lkml/2020/9/7/1037
->>
->> Chen Zhou (8):
->>   x86: kdump: replace the hard-coded alignment with macro CRASH_ALIGN
->>   x86: kdump: make the lower bound of crash kernel reservation
->>     consistent
->>   x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
->>     reserve_crashkernel()
->>   x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
->>   arm64: kdump: introduce some macroes for crash kernel reservation
->>   arm64: kdump: reimplement crashkernel=X
->>   arm64: kdump: add memory for devices by DT property
->>     linux,usable-memory-range
->>   kdump: update Documentation about crashkernel
->>
->>  Documentation/admin-guide/kdump/kdump.rst     |  23 ++-
->>  .../admin-guide/kernel-parameters.txt         |  12 +-
->>  arch/arm64/include/asm/kexec.h                |  15 ++
->>  arch/arm64/include/asm/processor.h            |   1 +
->>  arch/arm64/kernel/setup.c                     |  13 +-
->>  arch/arm64/mm/init.c                          | 105 ++++-------
->>  arch/arm64/mm/mmu.c                           |   4 +
->>  arch/x86/include/asm/kexec.h                  |  28 +++
->>  arch/x86/kernel/setup.c                       | 153 +---------------
->>  include/linux/crash_core.h                    |   4 +
->>  include/linux/kexec.h                         |   2 -
->>  kernel/crash_core.c                           | 168 ++++++++++++++++++
->>  kernel/kexec_core.c                           |  17 --
->>  13 files changed, 301 insertions(+), 244 deletions(-)
->>
->> -- 
->> 2.20.1
->>
-> .
->
+OK, not sure if other people have better idea, oterwise, we can leave with it. 
+Thanks for telling.
 
