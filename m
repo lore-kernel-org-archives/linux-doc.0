@@ -2,138 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 147C8C388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 09:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B85EEC388F9
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:26:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93D9E20729
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 09:51:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wiBeiEDm"
+	by mail.kernel.org (Postfix) with ESMTP id 569BE206CA
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:26:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbgKKJvN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 04:51:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46464 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726055AbgKKJvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 04:51:11 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F65C0613D1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2020 01:51:10 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id d3so711618plo.4
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2020 01:51:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HRhA/9/dWDo5po8jcoZ8JRpSSGgd2ewUSLF6VW3aj9I=;
-        b=wiBeiEDmShIVDqF3zPzEIH56Oj+TQiU3sHEjdStNgmjYioOs8x0j89pLGPE1S1pPdB
-         VnPYf6QEgtHeW3kBOyGLT/LbjWS1GdXEjrwaKdFyttpKd2dUcHKzlcyPMqOBi8KHTFcd
-         4p19jmoq2bdFj8qj0Ujm6zyf8C3ADjOGjIJsEHl93DbvVi67tnFJMpIflgki3PyUwgS3
-         7LrU75tZGlaTpPZb5sIteCiLUT0kXbddaVQAVlh25Q1Y2ZOOiiullfFxzsp7tePF8Fnk
-         YxFGcZSvK9U8UOeOfT2Jo5YvxvDfvFNcAz6BM5AwS30Yuxu49Gqj3+XgpQSooJkK5CTH
-         eHCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HRhA/9/dWDo5po8jcoZ8JRpSSGgd2ewUSLF6VW3aj9I=;
-        b=YOW1VSmNnzCYqJflfUtnaWm9vruyDqq+g7tly820KKPMlNkIrghcAlCh9IBQZyZbov
-         mVbdzm8uWpBisd8OeIzfhJWrZyRk6NnxUQ75RivxK2nwpUwnCUrYX886zdMaf/3CclEK
-         tg1nWs7JgLaZGPRiSasppQRHhwU/8y38N+iSvC5s55toTsL5NdiBqXNdfCJrFESHcuLL
-         f3hzE8UzaYh9ttw9j3YEpnFrL9ljHnvEqAPTCo2u83ZtUzS5tLhFV0LUXdet1P9G8N72
-         h2pelU26Knr1pz4DKyStuAE2F5fVphf8jvZpKaTgTZ62wesOMi6nlKYGr99fnlKHwHAP
-         QIAw==
-X-Gm-Message-State: AOAM532Mm8MlivXw0VDiOTVlojzGSf5bVQoGYuql2KHP6IBOBUgvTUdz
-        hKhvKiBEuL967rVxMLQHHKrwXQ==
-X-Google-Smtp-Source: ABdhPJyy+YswJOhFdT8EBhMSAIQUSlQljZAOzPQtGgNfhVcb5qtVtJC22dSbp0OSqejC7zSnvQOEmg==
-X-Received: by 2002:a17:90b:1741:: with SMTP id jf1mr3047963pjb.144.1605088270466;
-        Wed, 11 Nov 2020 01:51:10 -0800 (PST)
-Received: from localhost ([122.172.12.172])
-        by smtp.gmail.com with ESMTPSA id c3sm1863531pjv.27.2020.11.11.01.51.08
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Nov 2020 01:51:09 -0800 (PST)
-Date:   Wed, 11 Nov 2020 15:21:07 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Thomas Renninger <trenn@suse.de>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: stats: Switch to ktime and msec instead of
- jiffies and usertime
-Message-ID: <20201111095107.fanba37rgls536xn@vireshk-i7>
-References: <0e0fb542b6f6b26944cb2cf356041348aeac95f6.1605006378.git.viresh.kumar@linaro.org>
- <1832747.5iOEhN7m9D@c100>
- <20201111051350.qxevqcca5775h2xa@vireshk-i7>
- <2047155.4hzcE6bcFl@c100>
+        id S1726605AbgKKN0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 08:26:19 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7172 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbgKKN0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 08:26:18 -0500
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWQV22dcgz15VJj;
+        Wed, 11 Nov 2020 21:26:02 +0800 (CST)
+Received: from [10.174.176.61] (10.174.176.61) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 11 Nov 2020 21:26:04 +0800
+Subject: Re: [PATCH v13 1/8] x86: kdump: replace the hard-coded alignment with
+ macro CRASH_ALIGN
+To:     Baoquan He <bhe@redhat.com>
+References: <20201031074437.168008-1-chenzhou10@huawei.com>
+ <20201031074437.168008-2-chenzhou10@huawei.com>
+ <20201111013815.GC24747@MiWiFi-R3L-srv>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <dyoung@redhat.com>,
+        <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <bhsharma@redhat.com>,
+        <prabhakar.pkin@gmail.com>, <wangkefeng.wang@huawei.com>,
+        <arnd@arndb.de>, <linux-doc@vger.kernel.org>,
+        <xiexiuqi@huawei.com>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <robh+dt@kernel.org>,
+        <horms@verge.net.au>, <james.morse@arm.com>,
+        <linux-arm-kernel@lists.infradead.org>, <huawei.libin@huawei.com>,
+        <guohanjun@huawei.com>, <nsaenzjulienne@suse.de>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <a72cb0ba-91b9-0bd7-7f61-020ae9269d1a@huawei.com>
+Date:   Wed, 11 Nov 2020 21:26:02 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2047155.4hzcE6bcFl@c100>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20201111013815.GC24747@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.61]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11-11-20, 09:13, Thomas Renninger wrote:
-> Am Mittwoch, 11. November 2020, 06:13:50 CET schrieb Viresh Kumar:
-> > On 10-11-20, 13:53, Thomas Renninger wrote:
-> > > Am Dienstag, 10. November 2020, 12:07:37 CET schrieb Viresh Kumar:
-> > > > The cpufreq and thermal core, both provide sysfs statistics to help
-> > > > userspace learn about the behavior of frequencies and cooling states.
-> > > > 
-> > > > This is how they look:
-> > > > /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 399
-> > > > 
-> > > > The results look like this after this commit:
-> > > > /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state:1200000 3830
-> > > 
-> > > How would userspace know whether it's ms or 10ms?
-> 
-> Again:
-> How would userspace know whether it's ms or 10ms?
+Hi Baoquan,
 
-Yeah, I understand the problem you are pointing at.
 
-> > > whatabout a new file with the same convention as cooling devices (adding ms):
-> > Keeping two files for same stuff is not great, and renaming the file
-> > breaks userspace ABI.
-> 
-> No exactly the other way around:
-> - Renaming, breaks the userspace ABI.
-> - Two files would be the super correct way to go:
+On 2020/11/11 9:38, Baoquan He wrote:
+> On 10/31/20 at 03:44pm, Chen Zhou wrote:
+>> Move CRASH_ALIGN to header asm/kexec.h and replace the hard-coded
+>> alignment with macro CRASH_ALIGN in function reserve_crashkernel().
+> Seems you tell what you have done in this patch, but don't like adding
+> several more words to tell why it's done like that. Please see below
+> inline comments.
+>
+> In other patches, I can also see this similar problem.
+Thanks for your review. I will update relevant commit messages.
+>
+>> Suggested-by: Dave Young <dyoung@redhat.com>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+>> ---
+>>  arch/x86/include/asm/kexec.h | 3 +++
+>>  arch/x86/kernel/setup.c      | 5 +----
+>>  2 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
+>> index 6802c59e8252..8cf9d3fd31c7 100644
+>> --- a/arch/x86/include/asm/kexec.h
+>> +++ b/arch/x86/include/asm/kexec.h
+>> @@ -18,6 +18,9 @@
+>>  
+>>  # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
+>>  
+>> +/* 2M alignment for crash kernel regions */
+>> +#define CRASH_ALIGN		SZ_16M
+>> +
+>>  #ifndef __ASSEMBLY__
+>>  
+>>  #include <linux/string.h>
+>> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+>> index 84f581c91db4..bf373422dc8a 100644
+>> --- a/arch/x86/kernel/setup.c
+>> +++ b/arch/x86/kernel/setup.c
+>> @@ -395,9 +395,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>>  
+>>  #ifdef CONFIG_KEXEC_CORE
+>>  
+>> -/* 16M alignment for crash kernel regions */
+>> -#define CRASH_ALIGN		SZ_16M
+>> -
+>>  /*
+>>   * Keep the crash kernel below this limit.
+>>   *
+>> @@ -515,7 +512,7 @@ static void __init reserve_crashkernel(void)
+>>  	} else {
+>>  		unsigned long long start;
+>>  
+>> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
+>> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
+>>  						  crash_base + crash_size);
+> Here, SZ_1M is replaced with CRASH_ALIGN which is 16M. I remember I ever
+> commented that this had better be told in patch log.
+got it.
 
-Yes, but then this is just some stats which a very limited number of
-people should be using and so ...
+Thanks,
+Chen Zhou
+>
+>>  		if (start != crash_base) {
+>>  			pr_info("crashkernel reservation failed - memory is in use.\n");
+>> -- 
+>> 2.20.1
+>>
+>>
+>> _______________________________________________
+>> kexec mailing list
+>> kexec@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/kexec
+>>
+> .
+>
 
->   - Deprecate the old file and keep the 10ms around for some years
->     ./Documentation/ABI/obsolete
->   - Add the new interface and document it in:
->    ./Documentation/ABI/testing
-> 
-> As this is about a minor cpufreq_stat debug file, it is enough if
-> you rename to:
-> > /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state_ms
-
-... I agree about this. Just rename the file accordingly. Which will
-also make sure that everyone follows that something got changed in the
-kernel.
-
-> > I already fixed this recently and stats don't appear empty for fast
-> > switch anymore.
-> 
-> Then cpufreq_stats could be a module again?
-
-No, not really. This is some code that needs to get called from
-cpufreq core, without any notifiers and as fast as possible as we may
-be in scheduler's hot path. So the module thing isn't going to work
-now.
-
--- 
-viresh
