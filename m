@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDEBCC388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 21:34:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D49C63697
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 21:34:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C48B20637
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 21:34:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3160A208B3
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 21:34:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbgKKVe5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 16:34:57 -0500
-Received: from smtp-42ab.mail.infomaniak.ch ([84.16.66.171]:42437 "EHLO
-        smtp-42ab.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727206AbgKKVez (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 16:34:55 -0500
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CWdL51lB7zlhTHM;
-        Wed, 11 Nov 2020 22:34:53 +0100 (CET)
+        id S1727371AbgKKVe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 16:34:58 -0500
+Received: from smtp-8fae.mail.infomaniak.ch ([83.166.143.174]:59143 "EHLO
+        smtp-8fae.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727291AbgKKVe5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 16:34:57 -0500
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CWdL733bMzlhdRK;
+        Wed, 11 Nov 2020 22:34:55 +0100 (CET)
 Received: from localhost (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CWdL46qj1zlh8T5;
-        Wed, 11 Nov 2020 22:34:52 +0100 (CET)
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4CWdL71P1wzlh8T6;
+        Wed, 11 Nov 2020 22:34:55 +0100 (CET)
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
         "Serge E . Hallyn" <serge@hallyn.com>
@@ -33,11 +33,10 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH v1 7/9] landlock: Clean up get_ruleset_from_fd()
-Date:   Wed, 11 Nov 2020 22:34:40 +0100
-Message-Id: <20201111213442.434639-8-mic@digikod.net>
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v1 9/9] landlock: Extend documentation about limitations
+Date:   Wed, 11 Nov 2020 22:34:42 +0100
+Message-Id: <20201111213442.434639-10-mic@digikod.net>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201111213442.434639-1-mic@digikod.net>
 References: <20201111213442.434639-1-mic@digikod.net>
@@ -48,61 +47,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rewrite get_ruleset_from_fd() to please the 0-DAY CI Kernel Test Service
-that reported an uninitialized variable (false positive).  Anyway, it is
-cleaner like this.
+Explain limitations for the maximum number of stacked ruleset, and the
+memory usage restrictions.
 
 Cc: James Morris <jmorris@namei.org>
 Cc: Jann Horn <jannh@google.com>
 Cc: Serge E. Hallyn <serge@hallyn.com>
-Link: https://lore.kernel.org/linux-security-module/202011101854.zGbWwusK-lkp@intel.com/
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
 ---
- security/landlock/syscall.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ Documentation/userspace-api/landlock.rst | 17 +++++++++++++++++
+ security/landlock/syscall.c              |  2 ++
+ 2 files changed, 19 insertions(+)
 
+diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+index 8f727de20479..7e83e5def1bc 100644
+--- a/Documentation/userspace-api/landlock.rst
++++ b/Documentation/userspace-api/landlock.rst
+@@ -186,6 +186,23 @@ Enforcing a ruleset
+ Current limitations
+ ===================
+ 
++Ruleset layers
++--------------
++
++There is a limit of 64 layers of stacked rulesets.  This can be an issue for a
++task willing to enforce a new ruleset in complement to its 64 inherited
++rulesets.  Once this limit is reached, sys_landlock_enforce_ruleset_current()
++returns E2BIG.  It is then strongly suggested to carefully build rulesets once
++in the life of a thread, especially for applications able to launch other
++applications which may also want to sandbox themselves (e.g. shells, container
++managers, etc.).
++
++Memory usage
++------------
++
++Kernel memory allocated to create rulesets is accounted and can be restricted
++by the :doc:`/admin-guide/cgroup-v1/memory`.
++
+ File renaming and linking
+ -------------------------
+ 
 diff --git a/security/landlock/syscall.c b/security/landlock/syscall.c
-index 486136d4f46e..543ae36cd339 100644
+index 543ae36cd339..045bcac79e17 100644
 --- a/security/landlock/syscall.c
 +++ b/security/landlock/syscall.c
-@@ -196,24 +196,26 @@ static struct landlock_ruleset *get_ruleset_from_fd(const int fd,
- {
- 	struct fd ruleset_f;
- 	struct landlock_ruleset *ruleset;
--	int err;
- 
- 	ruleset_f = fdget(fd);
- 	if (!ruleset_f.file)
- 		return ERR_PTR(-EBADF);
- 
- 	/* Checks FD type and access right. */
--	err = 0;
--	if (ruleset_f.file->f_op != &ruleset_fops)
--		err = -EBADFD;
--	else if (!(ruleset_f.file->f_mode & mode))
--		err = -EPERM;
--	if (!err) {
--		ruleset = ruleset_f.file->private_data;
--		landlock_get_ruleset(ruleset);
-+	if (ruleset_f.file->f_op != &ruleset_fops) {
-+		ruleset = ERR_PTR(-EBADFD);
-+		goto out_fdput;
- 	}
-+	if (!(ruleset_f.file->f_mode & mode)) {
-+		ruleset = ERR_PTR(-EPERM);
-+		goto out_fdput;
-+	}
-+	ruleset = ruleset_f.file->private_data;
-+	landlock_get_ruleset(ruleset);
-+
-+out_fdput:
- 	fdput(ruleset_f);
--	return err ? ERR_PTR(err) : ruleset;
-+	return ruleset;
- }
- 
- /* Path handling */
+@@ -361,6 +361,8 @@ SYSCALL_DEFINE4(landlock_add_rule,
+  * - EPERM: @ruleset_fd has no read access to the underlying ruleset, or the
+  *   current thread is not running with no_new_privs, or it doesn't have
+  *   CAP_SYS_ADMIN in its namespace.
++ * - E2BIG: The maximum number of stacked rulesets is reached for the current
++ *   task.
+  */
+ SYSCALL_DEFINE2(landlock_enforce_ruleset_current,
+ 		const int, ruleset_fd, const __u32, flags)
 -- 
 2.29.2
 
