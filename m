@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2070C388F7
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 01:38:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE3DC388F7
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 01:59:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3894821D91
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 01:38:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6983221F1
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 01:59:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZAMZIN6m"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HSq5qkxr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732086AbgKKBia (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Nov 2020 20:38:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45826 "EHLO
+        id S1732090AbgKKB7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Nov 2020 20:59:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45733 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731610AbgKKBia (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 20:38:30 -0500
+        by vger.kernel.org with ESMTP id S1731657AbgKKB7l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Nov 2020 20:59:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605058709;
+        s=mimecast20190719; t=1605059978;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=4+tvfdrkEmZTFexm1h6AxeFVxvrZtfe5vDA09cO9oSY=;
-        b=ZAMZIN6mR5Hf07Y3wbAaE5Sk3UYc/wd2/ZL+0HxXrwZVnHK6OZKLzYuflUAiifezfJf1Pp
-        3fYKZRTlPFjAcuuhL1vUuW8YJMQuTKrYC75SJg5wYRo7Z+7jVXJOFUNcSUA+t652x83N47
-        8bjMkkBdi0Z2M/bMu2+uj8UVicsXLbg=
+        bh=mt6jzWX3XwZDGmynY5Ud1T770jYqAon6q0lnQtrZS3s=;
+        b=HSq5qkxrFODtjhUmEF8kqaL+8nqO8henBc10tuAg2B+EcHJ1/WfyatDzO54omt2NmSfTM2
+        WUYArbkbSJHyRaCLkhYfV+SzllFmJ4qLoSsCzmQFVRsrXMpv6LgXvVWEqHtcyJfeCS9FSN
+        PqMnLm89ZPA2ZcT23zCl/kM8t8M1HVc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-T6GlM7k-ND20cweGeokNJw-1; Tue, 10 Nov 2020 20:38:26 -0500
-X-MC-Unique: T6GlM7k-ND20cweGeokNJw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-30-rWtl0_CbOlGHYNxDYCqh3w-1; Tue, 10 Nov 2020 20:59:36 -0500
+X-MC-Unique: rWtl0_CbOlGHYNxDYCqh3w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EC441074656;
-        Wed, 11 Nov 2020 01:38:23 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C4411007487;
+        Wed, 11 Nov 2020 01:59:34 +0000 (UTC)
 Received: from localhost (ovpn-12-35.pek2.redhat.com [10.72.12.35])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 01D1D277D5;
-        Wed, 11 Nov 2020 01:38:18 +0000 (UTC)
-Date:   Wed, 11 Nov 2020 09:38:15 +0800
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E3F9B5DA6A;
+        Wed, 11 Nov 2020 01:59:28 +0000 (UTC)
+Date:   Wed, 11 Nov 2020 09:59:26 +0800
 From:   Baoquan He <bhe@redhat.com>
 To:     Chen Zhou <chenzhou10@huawei.com>
 Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
@@ -54,81 +54,249 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
         robh+dt@kernel.org, horms@verge.net.au, james.morse@arm.com,
         linux-arm-kernel@lists.infradead.org, huawei.libin@huawei.com,
         guohanjun@huawei.com, nsaenzjulienne@suse.de
-Subject: Re: [PATCH v13 1/8] x86: kdump: replace the hard-coded alignment
- with macro CRASH_ALIGN
-Message-ID: <20201111013815.GC24747@MiWiFi-R3L-srv>
+Subject: Re: [PATCH v13 6/8] arm64: kdump: reimplement crashkernel=X
+Message-ID: <20201111015926.GD24747@MiWiFi-R3L-srv>
 References: <20201031074437.168008-1-chenzhou10@huawei.com>
- <20201031074437.168008-2-chenzhou10@huawei.com>
+ <20201031074437.168008-7-chenzhou10@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201031074437.168008-2-chenzhou10@huawei.com>
+In-Reply-To: <20201031074437.168008-7-chenzhou10@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 10/31/20 at 03:44pm, Chen Zhou wrote:
-> Move CRASH_ALIGN to header asm/kexec.h and replace the hard-coded
-> alignment with macro CRASH_ALIGN in function reserve_crashkernel().
-
-Seems you tell what you have done in this patch, but don't like adding
-several more words to tell why it's done like that. Please see below
-inline comments.
-
-In other patches, I can also see this similar problem.
-
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> will fail when there is no enough low memory.
+> 2. If reserving crashkernel above 4G, in this case, crash dump
+> kernel will boot failure because there is no low memory available
+> for allocation.
+> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
+> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
+> the devices in crash dump kernel need to use ZONE_DMA will alloc
+> fail.
 > 
-> Suggested-by: Dave Young <dyoung@redhat.com>
+> To solve these issues, change the behavior of crashkernel=X and
+> introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
+> in DMA zone or DMA32 zone if CONFIG_ZONE_DMA is disabled, and fall back
+> to high allocation if it fails.
+> We can also use "crashkernel=X,high" to select a region above DMA zone,
+> which also tries to allocate at least 256M in DMA zone automatically
+> (or the DMA32 zone if CONFIG_ZONE_DMA is disabled).
+> "crashkernel=Y,low" can be used to allocate specified size low memory.
+> 
+> Another minor change, there may be two regions reserved for crash
+> dump kernel, in order to distinct from the high region and make no
+> effect to the use of existing kexec-tools, rename the low region as
+> "Crash kernel (low)".
+> 
 > Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 > Tested-by: John Donnelly <John.p.donnelly@oracle.com>
 > ---
->  arch/x86/include/asm/kexec.h | 3 +++
->  arch/x86/kernel/setup.c      | 5 +----
->  2 files changed, 4 insertions(+), 4 deletions(-)
+>  arch/arm64/include/asm/kexec.h |  9 +++++
+>  arch/arm64/kernel/setup.c      | 13 +++++++-
+>  arch/arm64/mm/init.c           | 60 ++--------------------------------
+>  arch/arm64/mm/mmu.c            |  4 +++
+>  kernel/crash_core.c            |  8 +++--
+>  5 files changed, 34 insertions(+), 60 deletions(-)
 > 
-> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
-> index 6802c59e8252..8cf9d3fd31c7 100644
-> --- a/arch/x86/include/asm/kexec.h
-> +++ b/arch/x86/include/asm/kexec.h
-> @@ -18,6 +18,9 @@
+> diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+> index 402d208265a3..79909ae5e22e 100644
+> --- a/arch/arm64/include/asm/kexec.h
+> +++ b/arch/arm64/include/asm/kexec.h
+> @@ -28,7 +28,12 @@
+>  /* 2M alignment for crash kernel regions */
+>  #define CRASH_ALIGN	SZ_2M
 >  
->  # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
->  
-> +/* 2M alignment for crash kernel regions */
-> +#define CRASH_ALIGN		SZ_16M
+> +#ifdef CONFIG_ZONE_DMA
+> +#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
+> +#else
+>  #define CRASH_ADDR_LOW_MAX	arm64_dma32_phys_limit
+> +#endif
 > +
+>  #define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
+>  
 >  #ifndef __ASSEMBLY__
+> @@ -96,6 +101,10 @@ static inline void crash_prepare_suspend(void) {}
+>  static inline void crash_post_resume(void) {}
+>  #endif
 >  
->  #include <linux/string.h>
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 84f581c91db4..bf373422dc8a 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -395,9 +395,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+> +#ifdef CONFIG_KEXEC_CORE
+> +extern void __init reserve_crashkernel(void);
+> +#endif
+> +
+>  #ifdef CONFIG_KEXEC_FILE
+>  #define ARCH_HAS_KIMAGE_ARCH
 >  
+> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+> index 133257ffd859..6aff30de8f47 100644
+> --- a/arch/arm64/kernel/setup.c
+> +++ b/arch/arm64/kernel/setup.c
+> @@ -238,7 +238,18 @@ static void __init request_standard_resources(void)
+>  		    kernel_data.end <= res->end)
+>  			request_resource(res, &kernel_data);
 >  #ifdef CONFIG_KEXEC_CORE
+> -		/* Userspace will find "Crash kernel" region in /proc/iomem. */
+> +		/*
+> +		 * Userspace will find "Crash kernel" or "Crash kernel (low)"
+> +		 * region in /proc/iomem.
+> +		 * In order to distinct from the high region and make no effect
+> +		 * to the use of existing kexec-tools, rename the low region as
+> +		 * "Crash kernel (low)".
+> +		 */
+> +		if (crashk_low_res.end && crashk_low_res.start >= res->start &&
+> +				crashk_low_res.end <= res->end) {
+> +			crashk_low_res.name = "Crash kernel (low)";
+> +			request_resource(res, &crashk_low_res);
+> +		}
+>  		if (crashk_res.end && crashk_res.start >= res->start &&
+>  		    crashk_res.end <= res->end)
+>  			request_resource(res, &crashk_res);
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index a07fd8e1f926..888c4f7eadc3 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -34,6 +34,7 @@
+>  #include <asm/fixmap.h>
+>  #include <asm/kasan.h>
+>  #include <asm/kernel-pgtable.h>
+> +#include <asm/kexec.h>
+>  #include <asm/memory.h>
+>  #include <asm/numa.h>
+>  #include <asm/sections.h>
+> @@ -62,66 +63,11 @@ EXPORT_SYMBOL(memstart_addr);
+>  phys_addr_t arm64_dma_phys_limit __ro_after_init;
+>  phys_addr_t arm64_dma32_phys_limit __ro_after_init;
 >  
-> -/* 16M alignment for crash kernel regions */
-> -#define CRASH_ALIGN		SZ_16M
+> -#ifdef CONFIG_KEXEC_CORE
+> -/*
+> - * reserve_crashkernel() - reserves memory for crash kernel
+> - *
+> - * This function reserves memory area given in "crashkernel=" kernel command
+> - * line parameter. The memory reserved is used by dump capture kernel when
+> - * primary kernel is crashing.
+> - */
+> -static void __init reserve_crashkernel(void)
+> -{
+> -	unsigned long long crash_base, crash_size;
+> -	int ret;
 > -
->  /*
->   * Keep the crash kernel below this limit.
->   *
-> @@ -515,7 +512,7 @@ static void __init reserve_crashkernel(void)
->  	} else {
->  		unsigned long long start;
+> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+> -				&crash_size, &crash_base);
+> -	/* no crashkernel= or invalid value specified */
+> -	if (ret || !crash_size)
+> -		return;
+> -
+> -	crash_size = PAGE_ALIGN(crash_size);
+> -
+> -	if (crash_base == 0) {
+> -		/* Current arm64 boot protocol requires 2MB alignment */
+> -		crash_base = memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MAX,
+> -				crash_size, CRASH_ALIGN);
+> -		if (crash_base == 0) {
+> -			pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+> -				crash_size);
+> -			return;
+> -		}
+> -	} else {
+> -		/* User specifies base address explicitly. */
+> -		if (!memblock_is_region_memory(crash_base, crash_size)) {
+> -			pr_warn("cannot reserve crashkernel: region is not memory\n");
+> -			return;
+> -		}
+> -
+> -		if (memblock_is_region_reserved(crash_base, crash_size)) {
+> -			pr_warn("cannot reserve crashkernel: region overlaps reserved memory\n");
+> -			return;
+> -		}
+> -
+> -		if (!IS_ALIGNED(crash_base, CRASH_ALIGN)) {
+> -			pr_warn("cannot reserve crashkernel: base address is not 2MB aligned\n");
+> -			return;
+> -		}
+> -	}
+> -	memblock_reserve(crash_base, crash_size);
+> -
+> -	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+> -		crash_base, crash_base + crash_size, crash_size >> 20);
+> -
+> -	crashk_res.start = crash_base;
+> -	crashk_res.end = crash_base + crash_size - 1;
+> -}
+> -#else
+> +#ifndef CONFIG_KEXEC_CORE
+>  static void __init reserve_crashkernel(void)
+>  {
+>  }
+> -#endif /* CONFIG_KEXEC_CORE */
+> +#endif
 >  
-> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
-> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
->  						  crash_base + crash_size);
+>  #ifdef CONFIG_CRASH_DUMP
+>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> index 1c0f3e02f731..c55cee290bbb 100644
+> --- a/arch/arm64/mm/mmu.c
+> +++ b/arch/arm64/mm/mmu.c
+> @@ -488,6 +488,10 @@ static void __init map_mem(pgd_t *pgdp)
+>  	 */
+>  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
+>  #ifdef CONFIG_KEXEC_CORE
+> +	if (crashk_low_res.end)
+> +		memblock_mark_nomap(crashk_low_res.start,
+> +				    resource_size(&crashk_low_res));
+> +
+>  	if (crashk_res.end)
+>  		memblock_mark_nomap(crashk_res.start,
+>  				    resource_size(&crashk_res));
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index d39892bdb9ae..cdef7d8c91a6 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
+>  
+>  int __init reserve_crashkernel_low(void)
+>  {
+> -#ifdef CONFIG_X86_64
+> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
 
-Here, SZ_1M is replaced with CRASH_ALIGN which is 16M. I remember I ever
-commented that this had better be told in patch log.
+Not very sure if a CONFIG_64BIT checking is better.
 
->  		if (start != crash_base) {
->  			pr_info("crashkernel reservation failed - memory is in use.\n");
+>  	unsigned long long base, low_base = 0, low_size = 0;
+>  	unsigned long low_mem_limit;
+>  	int ret;
+> @@ -362,12 +362,14 @@ int __init reserve_crashkernel_low(void)
+>  
+>  	crashk_low_res.start = low_base;
+>  	crashk_low_res.end   = low_base + low_size - 1;
+> +#ifdef CONFIG_X86_64
+>  	insert_resource(&iomem_resource, &crashk_low_res);
+> +#endif
+>  #endif
+>  	return 0;
+>  }
+>  
+> -#ifdef CONFIG_X86
+> +#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
+
+Should we make this weak default so that we can remove the ARCH config?
+
+>  #ifdef CONFIG_KEXEC_CORE
+>  /*
+>   * reserve_crashkernel() - reserves memory for crash kernel
+> @@ -453,7 +455,9 @@ void __init reserve_crashkernel(void)
+>  
+>  	crashk_res.start = crash_base;
+>  	crashk_res.end   = crash_base + crash_size - 1;
+> +#ifdef CONFIG_X86
+>  	insert_resource(&iomem_resource, &crashk_res);
+> +#endif
+>  }
+>  #endif /* CONFIG_KEXEC_CORE */
+>  #endif
 > -- 
 > 2.20.1
 > 
