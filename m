@@ -2,126 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE1F5C388F9
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:57:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FDDAC388F9
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 15:24:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 627EE2074B
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 13:57:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H5qdSKlM"
+	by mail.kernel.org (Postfix) with ESMTP id 1FFB620729
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Nov 2020 15:24:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726950AbgKKN4O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Nov 2020 08:56:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60258 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727013AbgKKNzA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 08:55:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605102899;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aMaHhSCKMeHb+h3vdBSxeg5btyZh1RbkohyGRVpWKe0=;
-        b=H5qdSKlMzRPWnzXFx9OqAxeA9HuQAZNoy0atPJOp5Z9C++pZ+T8I6vv5pKPVEJTBfVIyzm
-        eDu3x4bY0mGaGbd1ScTUiDmOmvMRwdx6lt7Pz0TJEMoxBQJfYSvEmvqmRDqlRJdZcDpIPe
-        jEdOjN3wxLU7H2CmbEkz2mMgoVL2hFs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-IJvfncXCMY6jcUTWaZWueA-1; Wed, 11 Nov 2020 08:54:58 -0500
-X-MC-Unique: IJvfncXCMY6jcUTWaZWueA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 159C11087D6A;
-        Wed, 11 Nov 2020 13:54:55 +0000 (UTC)
-Received: from localhost (ovpn-12-35.pek2.redhat.com [10.72.12.35])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A1F507366E;
-        Wed, 11 Nov 2020 13:54:50 +0000 (UTC)
-Date:   Wed, 11 Nov 2020 21:54:48 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     chenzhou <chenzhou10@huawei.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
-        catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-        John.P.donnelly@oracle.com, bhsharma@redhat.com,
-        prabhakar.pkin@gmail.com, wangkefeng.wang@huawei.com,
-        arnd@arndb.de, linux-doc@vger.kernel.org, xiexiuqi@huawei.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        robh+dt@kernel.org, horms@verge.net.au, james.morse@arm.com,
-        linux-arm-kernel@lists.infradead.org, huawei.libin@huawei.com,
-        guohanjun@huawei.com, nsaenzjulienne@suse.de
-Subject: Re: [PATCH v13 6/8] arm64: kdump: reimplement crashkernel=X
-Message-ID: <20201111135448.GF8486@MiWiFi-R3L-srv>
-References: <20201031074437.168008-1-chenzhou10@huawei.com>
- <20201031074437.168008-7-chenzhou10@huawei.com>
- <20201111015926.GD24747@MiWiFi-R3L-srv>
- <23389389-2855-50fd-25b7-4f7d4246bf0c@huawei.com>
+        id S1726136AbgKKPYn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Nov 2020 10:24:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43028 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726081AbgKKPYm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 10:24:42 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87CAAC0613D1;
+        Wed, 11 Nov 2020 07:24:42 -0800 (PST)
+Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kcrz9-0005Vg-GH; Wed, 11 Nov 2020 16:24:35 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1601541165.git.linux@leemhuis.info>
+ <dc293f6d4f71ea827c861c64e88dfa0316f1d934.1601541165.git.linux@leemhuis.info>
+ <8f3fce56-fdc4-c248-05ec-4fda1ee6fc54@infradead.org>
+ <2b87f58f-ca74-6c73-fb7a-853cca2751bb@leemhuis.info>
+Subject: Re: [RFC PATCH v1 02/26] docs: reporting-bugs: Create a TLDR how to
+ report issues
+Message-ID: <6a8ffd01-ff1c-284b-42ac-23cd164e0873@leemhuis.info>
+Date:   Wed, 11 Nov 2020 16:24:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <23389389-2855-50fd-25b7-4f7d4246bf0c@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <2b87f58f-ca74-6c73-fb7a-853cca2751bb@leemhuis.info>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605108282;e75545b1;
+X-HE-SMSGID: 1kcrz9-0005Vg-GH
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/11/20 at 09:27pm, chenzhou wrote:
-> Hi Baoquan,
-...
-> >>  #ifdef CONFIG_CRASH_DUMP
-> >>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
-> >> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> >> index 1c0f3e02f731..c55cee290bbb 100644
-> >> --- a/arch/arm64/mm/mmu.c
-> >> +++ b/arch/arm64/mm/mmu.c
-> >> @@ -488,6 +488,10 @@ static void __init map_mem(pgd_t *pgdp)
-> >>  	 */
-> >>  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
-> >>  #ifdef CONFIG_KEXEC_CORE
-> >> +	if (crashk_low_res.end)
-> >> +		memblock_mark_nomap(crashk_low_res.start,
-> >> +				    resource_size(&crashk_low_res));
-> >> +
-> >>  	if (crashk_res.end)
-> >>  		memblock_mark_nomap(crashk_res.start,
-> >>  				    resource_size(&crashk_res));
-> >> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> >> index d39892bdb9ae..cdef7d8c91a6 100644
-> >> --- a/kernel/crash_core.c
-> >> +++ b/kernel/crash_core.c
-> >> @@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
-> >>  
-> >>  int __init reserve_crashkernel_low(void)
-> >>  {
-> >> -#ifdef CONFIG_X86_64
-> >> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
-> > Not very sure if a CONFIG_64BIT checking is better.
-> If doing like this, there may be some compiling errors for other 64-bit kernel, such as mips.
-> >
-> >>  	unsigned long long base, low_base = 0, low_size = 0;
-> >>  	unsigned long low_mem_limit;
-> >>  	int ret;
-> >> @@ -362,12 +362,14 @@ int __init reserve_crashkernel_low(void)
-> >>  
-> >>  	crashk_low_res.start = low_base;
-> >>  	crashk_low_res.end   = low_base + low_size - 1;
-> >> +#ifdef CONFIG_X86_64
-> >>  	insert_resource(&iomem_resource, &crashk_low_res);
-> >> +#endif
-> >>  #endif
-> >>  	return 0;
-> >>  }
-> >>  
-> >> -#ifdef CONFIG_X86
-> >> +#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
-> > Should we make this weak default so that we can remove the ARCH config?
-> The same as above, some arch may not support kdump, in that case,  compiling errors occur.
+Am 03.10.20 um 09:27 schrieb Thorsten Leemhuis:
+> Randy, many thanks for looking through this, you feedback is much
+> appreciated! Consider all the obvious spelling and grammatical mistakes
+> you pointed out fixed, I won't mention all of them in this reply to keep
+> things easier to follow.
+> 
+> Am 02.10.20 um 04:32 schrieb Randy Dunlap:
+>> On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
+>> […]
+>>> +<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/MAINTAINERS>`_
+>>> +how developers of that particular area expect to be told about issues; note,
+>>     for how
+>> ?
+> Not sure myself, but I guess you're right and thus followed your advice :-D
 
-OK, not sure if other people have better idea, oterwise, we can leave with it. 
-Thanks for telling.
+I'm preparing to send v2 and was a bit unhappy with this and another 
+section when seeing it again after weeks. In the end I reshuffled and 
+rewrote significant parts of it, see below.
 
+Randy, would be great if you could take another look, but no pressure: 
+just ignore it, if you lack the time or energy.
+
+```
+The short guide (aka TL;DR)
+===========================
+
+If you're facing multiple issues with the Linux kernel at once, report 
+each separately to its developers. Try your best guess which kernel part 
+might be causing the issue. Check the :ref:`MAINTAINERS <maintainers>` 
+file for how its developers expect to be told about issues. Note, it's 
+rarely `bugzilla.kernel.org <https://bugzilla.kernel.org/>`_, as in 
+almost all cases the report needs to be sent by email!
+
+Check the destination thoroughly for existing reports; also search the 
+LKML archives and the web. Join existing discussion if you find matches. 
+If you don't find any, install `the latest Linux mainline kernel 
+<https://kernel.org/>`_. Make sure it's vanilla, thus is not patched or 
+using add-on kernel modules. Also ensure the kernel is running in a 
+healthy environment and is not already tainted before the issue occurs.
+
+If you can reproduce your issue with the mainline kernel, send a report 
+to the destination you determined earlier. Make sure it includes all 
+relevant information, which in case of a regression should mention the 
+change that's causing it which can often can be found with a bisection. 
+Also ensure the report reaches all people that need to know about it, 
+for example the security team, the stable maintainers or the developers 
+of the patch that causes a regression. Once the report it out, answer 
+any questions that might be raised and help where you can. That includes 
+keeping the ball rolling: every time a new rc1 mainline kernel is 
+released, check if the issue is still happening there and attach a 
+status update to your initial report.
+
+If you can not reproduce the issue with the mainline kernel, consider 
+sticking with it; if you'd like to use an older version line and want to 
+see it fixed there, first make sure it's still supported. Install its 
+latest release as vanilla kernel. If you cannot reproduce the issue 
+there, try to find the commit that fixed it in mainline or any 
+discussion preceding it: those will often mention if backporting is 
+planed or considered impassable. If backporting was not discussed, ask 
+if it's in the cards. In case you don't find any commits or a preceding 
+discussion, see the Linux-stable mailing list archives for existing 
+reports, as it might be a regression specific to the version line. If it 
+is, it round about needs to be reported like a problem in mainline 
+(including the bisection).
+
+If you reached this point without a solution, ask for advice one the 
+subsystem's mailing list.
+```
+
+Ciao, Thorsten
