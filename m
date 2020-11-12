@@ -2,95 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD54C2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 09:14:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 429DCC2D0A3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 11:13:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A392216FD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 09:14:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFBE522201
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 11:13:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="se8skr7N"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="H6pXY2Sn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726158AbgKLJOH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 04:14:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgKLJOG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 04:14:06 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D308C0613D1;
-        Thu, 12 Nov 2020 01:14:06 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id y22so2467426plr.6;
-        Thu, 12 Nov 2020 01:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=uHAT9NIQOmV3xlfk56csymxbJFSSoYDhng2Y5p+8Fyk=;
-        b=se8skr7NQR8cOnUlsICyx+H+Clcf1XNWXLVGU5waUaFk8i3mVUi5E1+4OlFatawQZi
-         A2TeTLTi9qtWpELpYckksSK9n5hUgBkvH7Cbv0euNsN2kS5qcsVBw0AFkdDQmeD2FY/H
-         PVZlJ6LwPUMFm+ZbB29tNJAZKxTL2dWmuFAKZ+HsykF7px36Dad7TCWuw2A/fHn3QnY0
-         bDKpld60/EtekZF53PcV7m7fHqmgLWrBngtiVbXG86dzS8/ZE2dijnvK8n/kNRHAoeZm
-         jODx8WJ3E6j1Y/SodMa4sJq0YM0SHyfmfBtAi/QpMxHhPNyayOuj6j5tMWXazx2rLBfX
-         81qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=uHAT9NIQOmV3xlfk56csymxbJFSSoYDhng2Y5p+8Fyk=;
-        b=bqkzKRCIFUhlDZN7gQljLEt0ztITeu8qMdzEZ1+kRLftqII3XWKbHRLD/wE+69n0xg
-         mw/0mOnEixiJYbH++OHQCIzDSLz+MFJ2pLKVzitz22i4Z3aG+PtggNokcSARJpSxIOoT
-         5wGUiEmhlS+wuDu1MEocelhxKSU35372gTYTWHoqOue7NdzW9HNkVN05GUos3qwp9Dbc
-         ehCpH/coCt5Fsq6Gy9SSg8LUwb857FMe6FltrN9DAUmB0sJ/vlfxQyz7NsHV+s+sYB4F
-         FNcmhuuvPQ28u+7dJ2sSCxuKtuzOGK+S+21gYulRa9uHp0s5lr1looUzdWua9Vx1o+AT
-         aVIw==
-X-Gm-Message-State: AOAM5329vb7MO9UouggjwheKjnEMAklVHFhRI1Gbhxzd+/EJw0CUU6z2
-        akhi8iFev7pf9yTy7LRFB+JPYOgkmCtc
-X-Google-Smtp-Source: ABdhPJy6NTXYlf5HaYJ/l2A8eLa0i/fEuLgbOgnrGoWZ5ynZILwf9/WeLeriZqyi17C5JMVyr7Ol1A==
-X-Received: by 2002:a17:902:c154:b029:d6:efa5:4ce7 with SMTP id 20-20020a170902c154b02900d6efa54ce7mr24720694plj.73.1605172445533;
-        Thu, 12 Nov 2020 01:14:05 -0800 (PST)
-Received: from Sleakybeast ([14.192.29.96])
-        by smtp.gmail.com with ESMTPSA id p188sm5229317pgp.65.2020.11.12.01.14.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 01:14:04 -0800 (PST)
-Date:   Thu, 12 Nov 2020 14:43:53 +0530
-From:   Siddhant Gupta <siddhantgupta416@gmail.com>
-To:     corbet@lwn.net
-Cc:     mortonm@chromium.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mamtashukla555@gmail.com,
-        himadrispandya@gmail.com
-Subject: [PATCH] Documentation: admin-guide: LSM: improve the title underline 
-Message-ID: <20201112091353.GA19262@Sleakybeast>
+        id S1727234AbgKLLNN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 06:13:13 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:56664 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725902AbgKLLNN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 06:13:13 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ACBCtoK009036;
+        Thu, 12 Nov 2020 05:12:55 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1605179575;
+        bh=EFLylIoHv+6MexgkkHOndI5G3qy16unmmsW+jt8yB/w=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=H6pXY2SnxNwFaa63fqv6JYZ5xjb/rX2758wnZiol5AmICMXFsQrHOouRKygIKRNkX
+         ghlgbq4W8ssKXAxdWBaAYCGEF3tl92dRksFHmgMqASmVndGxeMFKH+c7D1+RHFlMKZ
+         KAfdivZvJIG2KdBo+j4aEREhrDOAQBQWKsRh7INA=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ACBCtZF108612
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 12 Nov 2020 05:12:55 -0600
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 12
+ Nov 2020 05:12:55 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 12 Nov 2020 05:12:55 -0600
+Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ACBCnIs005765;
+        Thu, 12 Nov 2020 05:12:50 -0600
+Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
+ Non-Transparent Bridge
+To:     Sherry Sun <sherry.sun@nxp.com>, Arnd Bergmann <arnd@kernel.org>
+CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jdmason@kudzu.us" <jdmason@kudzu.us>,
+        "dave.jiang@intel.com" <dave.jiang@intel.com>,
+        "allenbh@gmail.com" <allenbh@gmail.com>,
+        "tjoseph@cadence.com" <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+References: <20200930153519.7282-16-kishon@ti.com>
+ <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <d6d27475-3464-6772-2122-cc194b8ae022@ti.com>
+ <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com>
+ <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
+ <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com>
+ <VI1PR04MB496067EB79873EEC9329B9B992E80@VI1PR04MB4960.eurprd04.prod.outlook.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <c3e7cfaa-fda9-46f8-ec9a-b26818bef7b6@ti.com>
+Date:   Thu, 12 Nov 2020 16:42:43 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <VI1PR04MB496067EB79873EEC9329B9B992E80@VI1PR04MB4960.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix warning of title underline too short
+Hi Sherry,
 
-Signed-off-by: Siddhant Gupta <siddhantgupta416@gmail.com>
----
- Documentation/admin-guide/LSM/SafeSetID.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 11/11/20 8:19 am, Sherry Sun wrote:
+> Hi Kishon,
+> 
+>> Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express Non-
+>> Transparent Bridge
+>>
+>> Hi Sherry, Arnd,
+>>
+>> On 10/11/20 8:29 pm, Arnd Bergmann wrote:
+>>> On Tue, Nov 10, 2020 at 3:20 PM Kishon Vijay Abraham I <kishon@ti.com>
+>> wrote:
+>>>> On 10/11/20 7:55 am, Sherry Sun wrote:
+>>>
+>>>>> But for VOP, only two boards are needed(one board as host and one
+>>>>> board as card) to realize the communication between the two systems,
+>> so my question is what are the advantages of using NTB?
+>>>>
+>>>> NTB is a bridge that facilitates communication between two different
+>>>> systems. So it by itself will not be source or sink of any data
+>>>> unlike a normal EP to RP system (or the VOP) which will be source or sink
+>> of data.
+>>>>
+>>>>> Because I think the architecture of NTB seems more complicated. Many
+>> thanks!
+>>>>
+>>>> yeah, I think it enables a different use case all together. Consider
+>>>> you have two x86 HOST PCs (having RP) and they have to be communicate
+>>>> using PCIe. NTB can be used in such cases for the two x86 PCs to
+>>>> communicate with each other over PCIe, which wouldn't be possible
+>> without NTB.
+>>>
+>>> I think for VOP, we should have an abstraction that can work on either
+>>> NTB or directly on the endpoint framework but provide an interface
+>>> that then lets you create logical devices the same way.
+>>>
+>>> Doing VOP based on NTB plus the new NTB_EPF driver would also work and
+>>> just move the abstraction somewhere else, but I guess it would
+>>> complicate setting it up for those users that only care about the
+>>> simpler endpoint case.
+>>
+>> I'm not sure if you've got a chance to look at [1], where I added support for
+>> RP<->EP system both running Linux, with EP configured using Linux EP
+>> framework (as well as HOST ports connected to NTB switch, patches 20 and
+>> 21, that uses the Linux NTB framework) to communicate using virtio over
+>> PCIe.
+>>
+> 
+> I saw your patches at [1], here you take a rpmsg as an example to communicate between
+> two SoCs using PCIe RC<->EP and HOST1-NTB-HOST2 for different usercases.
+> The VOP code works under the PCIe RC<->EP framework, which means that we can also
+> make VOP works under the Linux NTB framework, just like the rpmsg way you did here, right?
 
-diff --git a/Documentation/admin-guide/LSM/SafeSetID.rst b/Documentation/admin-guide/LSM/SafeSetID.rst
-index 17996c9070e2..0ec34863c674 100644
---- a/Documentation/admin-guide/LSM/SafeSetID.rst
-+++ b/Documentation/admin-guide/LSM/SafeSetID.rst
-@@ -107,7 +107,7 @@ for a UID/GID will prevent that UID/GID from obtaining auxiliary setid
- privileges, such as allowing a user to set up user namespace UID/GID mappings.
- 
- Note on GID policies and setgroups()
--==================
-+====================================
- In v5.9 we are adding support for limiting CAP_SETGID privileges as was done
- previously for CAP_SETUID. However, for compatibility with common sandboxing
- related code conventions in userspace, we currently allow arbitrary
--- 
-2.25.1
+Does VOP really work with EP framework? At-least whatever is in upstream
+doesn't seem to indicate so.
 
+The NTB framework lets one host with RP port to communicate with another
+host with RP port.
+
+The EP Framework lets one device with EP port to communicate with a host
+with RP port.
+
+Rest of the trick should be how you tie them together.
+
+PCIe framework creates "pci_device" for each of the devices it
+enumerates. NTB framework works on this pci_device to communicate with
+the remote host using PCIe bridge. The remote host will use NTB
+framework as well.
+
+So depends on what interfaces VOP device provides you can use either NTB
+framework or EP framework. If it's going to connect two different
+devices in turn creating pci_device on each of the systems, then you can
+use NTB framework.
+
+Regards
+Kishon
