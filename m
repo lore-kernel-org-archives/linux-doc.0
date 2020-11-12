@@ -2,423 +2,269 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FEF7C5519F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3717EC55ABD
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E698722201
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD2A122201
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbgKLR7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726731AbgKLR7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 12 Nov 2020 12:59:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35200 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbgKLR7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:30 -0500
+        with ESMTP id S1726707AbgKLR7c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:32 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7AC2C0617A6;
-        Thu, 12 Nov 2020 09:59:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F1FC061A04;
+        Thu, 12 Nov 2020 09:59:30 -0800 (PST)
 Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kdGsa-00076N-J3; Thu, 12 Nov 2020 18:59:28 +0100
+        id 1kdGsb-00076N-0q; Thu, 12 Nov 2020 18:59:29 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 21/26] docs: reporting-bugs: details on writing and sending the report
-Date:   Thu, 12 Nov 2020 18:58:58 +0100
-Message-Id: <f01ecda5c1509643f6543a6e2dd5a4cbaa1ee420.1605203187.git.linux@leemhuis.info>
+Subject: [RFC PATCH v2 23/26] docs: reporting-bugs: details for issues specific to stable and longterm
+Date:   Thu, 12 Nov 2020 18:59:00 +0100
+Message-Id: <0bb6bf554ac1f0c2a75631e6969a50dcd34c6b51.1605203187.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605203187.git.linux@leemhuis.info>
 References: <cover.1605203187.git.linux@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=yes
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203969;0e5b1c25;
-X-HE-SMSGID: 1kdGsa-00076N-J3
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203970;46a1d46b;
+X-HE-SMSGID: 1kdGsb-00076N-0q
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Outline how to write the report. Give instructions that hopefully will
-make people write better reports that ideally are also quick to evaluate
-for kernel developers.
+Describe what users have to do if they can't reproduce a problem with
+mainline they want to see fixed in stable and longterm kernels. This is
+separated from the main flow, as integrating it there would make it a
+lot harder to follow.
 
-At the same time put some more faith into the readers to make them
-provide all relevant data. That's a bit different to the approach the
-old text used: it told people to always send contents of files like
-/proc/ioports or /proc/iomem, which in a lot of cases won't be needed
-and make reports unnecessarily big and hard to compile.
+Note users will only enter this section in two cases: (1) the issue was
+fixed in mainline (on purpose or accidentally); (2) it's a regression
+that never was present in mainline (for example due to a broken
+backport).
 
-That's also why this commit removes scripts/ver_linux as well: the
-details it collects are only needed in some situations. And some (a
-lot?) distributions do not ship it anyway; a better, more modern script
-would likely resist in tools/, which would increase chances that distros
-shipping it as part of packages like "linux-tools".
+Help users to differentiate between the two and explain how each of them
+needs to be handled.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/admin-guide/reporting-bugs.rst | 247 +++++++++++++++----
- scripts/ver_linux                            |  81 ------
- 2 files changed, 198 insertions(+), 130 deletions(-)
- delete mode 100755 scripts/ver_linux
+ Documentation/admin-guide/reporting-bugs.rst | 187 +++++++++++++++++--
+ 1 file changed, 175 insertions(+), 12 deletions(-)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index 6646d393f21a..71d499cc47fe 100644
+index f455329063eb..ad9a5d896728 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -905,6 +905,204 @@ oldnoconfig`` to adjust it for the needs of the new version without enabling
- any new feature, as those are allowed to cause regressions.
+@@ -1292,24 +1292,187 @@ easier. And with a bit of luck there might be someone in the team that knows a
+ bit about programming and might be able to write a fix.
  
  
-+Write and send the report
-+-------------------------
++Details about reporting issues only occurring in older kernel version lines
++---------------------------------------------------------------------------
 +
-+    *Start to compile the report by writing a detailed description about the
-+    issue. Always mention a few things: the latest kernel version you installed
-+    for reproducing, the Linux Distribution used, and your notes on how to
-+    reproduce the issue. Ideally, make the kernel's build configuration
-+    (.config) and the output from ``dmesg`` available somewhere on the net and
-+    link to it. Include or upload all other information that might be relevant,
-+    like the output/screenshot of an Oops or the output from ``lspci``. Once
-+    you wrote this main part, insert a normal length paragraph on top of it
-+    outlining the issue and the impact quickly. On top of this add one sentence
-+    that briefly describes the problem and gets people to read on. Now give the
-+    thing a descriptive title or subject that yet again is shorter. Then you're
-+    ready to send or file the report like the MAINTAINERS file told you, unless
-+    you are dealing with one of those 'issues of high priority': they need
-+    special care which is explained in 'Special handling for high priority
-+    issues' below.*
++This subsection provides details for steps you need to take if you could not
++reproduce your issue with a mainline kernel, but want to see it fixed in older
++version lines (aka stable and longterm kernels).
 +
-+Now that you have prepared everything it's time to write your report. How to do
-+that is partly explained by the three documents linked to in the preface above.
-+That's why this text will only mention a few of the essentials as well as
-+things specific to the Linux kernel.
++Some fixes are too complex
++~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+There is one thing that fits both categories: the most crucial parts of your
-+report are the title/subject, the first sentence, and the first paragraph.
-+Developers often get quite a lot of mail. They thus often just take a few
-+seconds to skim a mail before deciding to move on or look closer. Thus: the
-+better the top section of your report, the higher are the chances that someone
-+will look into it and help you. And that is why you should ignore them for now
-+and write the detailed report first. ;-)
++    *Prepare yourself for the possibility that going through the next few steps
++    might not get the issue solved in older releases: the fix might be too big
++    or risky to get backported there.*
 +
-+Things each report should mention
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Even small and seemingly obvious code-changes sometimes introduce new and
++totally unexpected problems. The maintainers of the stable and longterm kernels
++are very aware of that and thus only apply changes to these kernels that are
++:ref:`within rules outlined in Documentation/process/stable-kernel-rules.rst
++<stable_kernel_rules>`.
 +
-+Describe in detail how your issue happens with the fresh vanilla kernel you
-+installed. Try to include the step-by-step instructions you wrote and optimized
-+earlier that outline how you and ideally others can reproduce the issue; in
-+those rare cases where that's impossible try to describe what you did to
-+trigger it.
++Complex or risky changes for example do not qualify and thus only get applied
++to mainline. Other fixes are easy to get backported to the newest stable and
++longterm kernels, but too risky to integrate into older ones. So be aware the
++fix you are hoping for might be one of those that won be backported to the
++version line your care about. In that case you'll have no other choice then to
++live with the issue or switch to a newer Linux version, unless you want to
++patch the fix into your kernels yourself.
 +
-+Also include all the relevant information others might need to understand the
-+issue and its environment. What's actually needed depends a lot on the issue,
-+but there are some things you should include always:
++Make sure the particular version line still gets support
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+ * the output from ``cat /proc/version``, which contains the Linux kernel
-+   version number and the compiler it was built with.
++    *Check if the kernel developers still maintain the Linux kernel version
++    line you care about: go to the front page of kernel.org and make sure it
++    mentions the latest release of the particular version line without an
++    '[EOL]' tag.*
 +
-+ * the Linux distribution the machine is running (``hostnamectl | grep
-+   "Operating System"``)
++Most kernel version lines only get supported for about three months, as
++maintaining them longer is quite a lot of work. Hence, only one per year is
++chosen and gets supported for at least two years (often six). That's why you
++need to check if the kernel developers still support the version line you care
++for.
 +
-+ * the architecture of the CPU and the operating system (``uname -mi``)
++Note, if kernel.org lists two 'stable' version lines on the front page, you
++should consider switching to the newer one and forget about the older one:
++support for it is likely to be abandoned soon. Then it will get a "end-of-life"
++(EOL) stamp. Version lines that reached that point still get mentioned on the
++kernel.org front page for a week or two, but are unsuitable for testing and
++reporting.
 +
-+ * if you are dealing with a regression and performed a bisection, mention the
-+   subject and the commit-id of the change that is causing it.
++Search stable mailing list
++~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+In a lot of cases it's also wise to make two more things available to those
-+that read your report:
++    *Check the archives of the Linux stable mailing list for existing reports.*
 +
-+ * the configuration used for building your Linux kernel (the '.config' file)
++Maybe the issue you face is already known and was fixed or is about to. Hence,
++`search the archives of the Linux stable mailing list
++<https://lore.kernel.org/stable/>`_ for reports about an issue like yours. If
++you find any matches, consider joining the discussion, unless the fix is
++already finished and scheduled to get applied soon.
 +
-+ * the kernel's messages that you get from ``dmesg`` written to a file. Make
-+   sure that it starts with a line like 'Linux version 5.8-1
-+   (foobar@example.com) (gcc (GCC) 10.2.1, GNU ld version 2.34) #1 SMP Mon Aug
-+   3 14:54:37 UTC 2020' If it's missing, then important messages from the first
-+   boot phase already got discarded. In this case instead consider using
-+   ``journalctl -b 0 -k``; alternatively you can also reboot, reproduce the
-+   issue and call ``dmesg`` right afterwards.
++Reproduce issue with the newest release
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+These two files are big, that's why it's a bad idea to put them directly into
-+your report. If you are filing the issue in a bug tracker then attach them to
-+the ticket. If you report the issue by mail do not attach them, as that makes
-+the mail too large; instead do one of these things:
++    *Install the latest release from the particular version line as a vanilla
++    kernel. Ensure this kernel is not tainted and still shows the problem, as
++    the issue might have already been fixed there.*
 +
-+ * Upload the files somewhere public (your website, a public file paste
-+   service, a ticket created just for this purpose on `bugzilla.kernel.org
-+   <https://bugzilla.kernel.org/>`_, ...) and include a link to them in your
-+   report. Ideally use something where the files stay available for years, as
-+   they could be useful to someone many years from now; this for example can
-+   happen if five or ten years from now a developer works on some code that was
-+   changed just to fix your issue.
++Before investing any more time in this process you want to check if the issue
++was already fixed in the latest release of version line you're interested in.
++This kernel needs to be vanilla and shouldn't be tainted before the issue
++happens, as detailed outlined already above in the process of testing mainline.
 +
-+ * Put the files aside and mention you will send them later in individual
-+   replies to your own mail. Just remember to actually do that once the report
-+   went out. ;-)
++Check code history and search for existing discussions
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Things that might be wise to provide
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    *Search the Linux kernel version control system for the change that fixed
++    the issue in mainline, as its commit message might tell you if the fix is
++    scheduled for backporting already. If you don't find anything that way,
++    search the appropriate mailing lists for posts that discuss such an issue
++    or peer-review possible fixes; then check the discussions if the fix was
++    deemed unsuitable for backporting. If backporting was not considered at
++    all, join the newest discussion, asking if it's in the cards.*
 +
-+Depending on the issue you might need to add more background data. Here are a
-+few suggestions what often is good to provide:
++In a lot of cases the issue you deal with will have happened with mainline, but
++got fixed there. The commit that fixed it would need to get backported as well
++to get the issue solved. That's why you want to search for it or any
++discussions abound it.
 +
-+ * If you are dealing with a 'warning', an 'OOPS' or a 'panic' from the kernel,
-+   include it. If you can't copy'n'paste it, try to capture a netconsole trace
-+   or at least take a picture of the screen.
++ * First try to find the fix in the Git repository that holds the Linux kernel
++   sources. You can do this with the web interfaces `on kernel.org
++   <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/>`_
++   or its mirror `on GitHub <https://github.com/torvalds/linux>`_; if you have
++   a local clone you alternatively can search on the command line with ``git
++   log --grep=<pattern>``.
 +
-+ * If the issue might be related to your computer hardware, mention what kind
-+   of system you use. If you for example have problems with your graphics card,
-+   mention its manufacturer, the card's model, and what chip is uses. If it's a
-+   laptop mention its name, but try to make sure it's meaningful. 'Dell XPS 13'
-+   for example is not, because it might be the one from 2012; that one looks
-+   not that different from the one sold today, but apart from that the two have
-+   nothing in common. Hence, in such cases add the exact model number, which
-+   for example are '9380' or '7390' for XPS 13 models introduced during 2019.
-+   Names like 'Lenovo Thinkpad T590' are also somewhat ambiguous: there are
-+   variants of this laptop with and without a dedicated graphics chip, so try
-+   to find the exact model name or specify the main components.
++   If you find the fix, look if the commit message near the end contains a
++   'stable tag' that looks like this:
 +
-+ * Mention the relevant software in use. If you have problems with loading
-+   modules, you want to mention the versions of kmod, systemd, and udev in use.
-+   If one of the DRM drivers misbehaves, you want to state the versions of
-+   libdrm and Mesa; also specify your Wayland compositor or the X-Server and
-+   its driver. If you have a filesystem issue, mention the version of
-+   corresponding filesystem utilities (e2fsprogs, btrfs-progs, xfsprogs, ...).
++          Cc: <stable@vger.kernel.org> # 5.4+
 +
-+ * Gather additional information from the kernel that might be of interest. The
-+   output from ``lspci -nn`` will for example help others to identify what
-+   hardware you use. If you have a problem with hardware you even might want to
-+   make the output from ``sudo lspci -vvv`` available, as that provides
-+   insights how the components were configured. For some issues it might be
-+   good to include the contents of files like ``/proc/cpuinfo``,
-+   ``/proc/ioports``, ``/proc/iomem``, ``/proc/modules``, or
-+   ``/proc/scsi/scsi``. Some subsystem also offer tools to collect relevant
-+   information. One such tool is ``alsa-info.sh`` `which the audio/sound
-+   subsystem developers provide <https://www.alsa-project.org/wiki/AlsaInfo>`_.
++   If that's case the developer marked the fix safe for backporting to version
++   line 5.4 and later. Most of the time it's getting applied there within two
++   weeks, but sometimes it takes a bit longer.
 +
-+Those examples should give your some ideas of what data might be wise to
-+attach, but you have to think yourself what will be helpful for others to know.
-+Don't worry too much about forgetting something, as developers will ask for
-+additional details they need. But making everything important available from
-+the start increases the chance someone will take a closer look.
++ * If the commit doesn't tell you anything or if you can't find the fix, look
++   again for discussions about the issue. Search the net with your favorite
++   internet search engine as well as the archives for the `Linux kernel
++   developers mailing list <https://lore.kernel.org/lkml/>`_. Also read the
++   section `Locate kernel area that causes the issue` above and follow the
++   instructions to find the subsystem in question: its bug tracker or mailing
++   list archive might have the answer you are looking for.
 +
++ * If you see a proposed fix, search for it in the version control system as
++   outlined above, as the commit might tell you if a backport can be expected.
 +
-+The important part: the head of your report
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++   * Check the discussions for any indicators the fix might be too risky to get
++     backported to the version line you care about. If that's the case you have
++     to live with the issue or switch to the kernel version line where the fix
++     got applied.
 +
-+Now that you have the detailed part of the report prepared let's get to the
-+most important section: the first few sentences. Thus go to the top, add
-+something like 'The detailed description:' before the part you just wrote and
-+insert two newlines at the top. Now write one normal length paragraph that
-+describes the issue roughly. Leave out all boring details and focus on the
-+crucial parts readers need to know to understand what this is all about; if you
-+think this bug affects a lot of users, mention this to get people interested.
++   * If the fix doesn't contain a stable tag and backporting was not discussed,
++     join the discussion: mention the version where you face the issue and that
++     you would like to see it fixed, if suitable.
 +
-+Once you did that insert two more lines at the top and write a one sentence
-+summary that explains quickly what the report is about. After that you have to
-+get even more abstract and write an even shorter subject/title for the report.
++Check if it's a regression specific to stable or longterm kernels
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Now that you have written this part take some time to optimize it, as it is the
-+most important parts of your report: a lot of people will only read this before
-+they decide if reading the rest is time well spent.
++    *Check if you're dealing with a regression that was never present in
++    mainline by installing the first release of the version line you care
++    about. If the issue doesn't show up with it, you basically need to report
++    the issue with this version like you would report a problem with mainline
++    (see above). This ideally includes a bisection followed by a search for
++    existing reports on the net; with the help of the subject and the two
++    relevant commit-ids. If that doesn't turn up anything, write the report; CC
++    or forward the report to the stable maintainers, the stable mailing list,
++    and those who authored the change. Include the shortened commit-id if you
++    found the change that causes it.*
 +
-+Now send or file the report like the :ref:`MAINTAINERS <maintainers>` file told
-+you, unless it's one of those 'issues of high priority' outlined earlier: in
-+that case please read the next subsection first before sending the report on
-+its way.
++Sometimes you won't find anything in the previous step: the issue you face
++might have never occurred in mainline, as it is caused by some change that is
++incomplete or not correctly applied. To check this, install the first release
++from version line you care about, e.g., if you care about 5.4.x, install 5.4.
 +
-+Special handling for high priority issues
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++If the issue doesn't show itself there, it's a regression specific to the
++particular version line. In that case you need to report it like an issue
++happening in mainline, like the last few steps in the main section in the above
++outline.
 +
-+Reports for high priority issues need special handling.
++One of them suggests doing a bisection, which you are strongly advised to do in
++this case. After finding the culprit, search the net for existing reports
++again: not only search for the exact subject and the commit-id (proper and
++shortened to twelve characters) of the change, but also for the commit-id
++(proper and shortened) mentioned as 'Upstream commit' in the commit message.
 +
-+**Severe bugs**: make sure the subject or ticket title as well as the first
-+paragraph makes the severeness obvious.
++Write the report; just keep a few specialties in mind: CC or forward the report
++to the stable maintainers, the stable mailing list, which the :ref:`MAINTAINERS
++<maintainers>` file mentions in the section "STABLE BRANCH". If you performed a
++successful bisection, CC the author of the change and include its subject and
++the shortened commit-id.
 +
-+**Regressions**: If the issue is a regression add [REGRESSION] to the mail's
-+subject or the title in the bug-tracker. If you did not perform a bisection
-+mention at least the latest mainline version you tested that worked fine (say
-+5.7) and the oldest where the issue occurs (say 5.8). If you did a successful
-+bisection mention the commit id and subject of the change that causes the
-+regression. Also make sure to add the author of that change to your report; if
-+you need to file your bug in a bug-tracker forward the report to him in a
-+private mail and mention where your filed it.
++Ask for advice
++~~~~~~~~~~~~~~
 +
-+**Security issues**: for these issues your will have to evaluate if a
-+short-term risk to other users would arise if details were publicly disclosed.
-+If that's not the case simply proceed with reporting the issue as described.
-+For issues that bear such a risk you will need to adjust the reporting process
-+slightly:
++    *One of the former steps should lead to a solution. If that doesn't work
++    out, ask the maintainers for the subsystem that seems to be causing the
++    issue for advice; CC the mailing list for the particular subsystem as well
++    as the stable mailing list.*
 +
-+ * If the MAINTAINERS file instructed you to report the issue by mail, do not
-+   CC any public mailing lists.
-+
-+ * If you were supposed to file the issue in a bug tracker make sure to mark
-+   the ticket as 'private' or 'security issue'. If the bug tracker does not
-+   offer a way to keep reports private, forget about it and send your report as
-+   a private mail to the maintainers instead.
-+
-+In both cases make sure to also mail your report to the addresses the
-+MAINTAINERS file lists in the section 'security contact'. Ideally directly CC
-+them when sending the report by mail. If you filed it in a bug tracker, forward
-+the report's text to these addresses; but on top of it put a small note where
-+you mention that you filed it with a link to the ticket.
-+
-+See :ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>` for more
-+information.
++If the previous three steps didn't get you closer to a solution there is only
++one option left: ask for advice. Do that in a mail you sent to the maintainers
++for the subsystem where the issue seems to have its roots; CC the mailing list
++for the subsystem as well as the stable mailing list the :ref:`MAINTAINERS
++<maintainers>` file mention in the section "STABLE BRANCH".
 +
 +
  .. ############################################################################
  .. Temporary marker added while this document is rewritten. Sections above
  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
-@@ -927,55 +1125,6 @@ How to report Linux kernel bugs
+ .. Both sections are incomplete as of now and thus sometimes inconsistent.
+ .. ###########################################################################
+ 
+-Background
+-==========
+-
+-The upstream Linux kernel maintainers only fix bugs for specific kernel
+-versions.  Those versions include the current "release candidate" (or -rc)
+-kernel, any "stable" kernel versions, and any "long term" kernels.
+-
+-Please see https://www.kernel.org/ for a list of supported kernels.  Any
+-kernel marked with [EOL] is "end of life" and will not have any fixes
+-backported to it.
+-
+-
+ How to report Linux kernel bugs
  ===============================
  
- 
--Gather information
--------------------
--
--The most important information in a bug report is how to reproduce the
--bug.  This includes system information, and (most importantly)
--step-by-step instructions for how a user can trigger the bug.
--
--If the failure includes an "OOPS:", take a picture of the screen, capture
--a netconsole trace, or type the message from your screen into the bug
--report.
--
--This is a suggested format for a bug report sent via email or bugzilla.
--Having a standardized bug report form makes it easier for you not to
--overlook things, and easier for the developers to find the pieces of
--information they're really interested in.  If some information is not
--relevant to your bug, feel free to exclude it.
--
--First run the ver_linux script included as scripts/ver_linux, which
--reports the version of some important subsystems.  Run this script with
--the command ``awk -f scripts/ver_linux``.
--
--Use that information to fill in all fields of the bug report form, and
--post it to the mailing list with a subject of "PROBLEM: <one line
--summary from [1.]>" for easy identification by the developers::
--
--  [1.] One line summary of the problem:
--  [2.] Full description of the problem/report:
--  [3.] Keywords (i.e., modules, networking, kernel):
--  [4.] Kernel information
--  [4.1.] Kernel version (from /proc/version):
--  [4.2.] Kernel .config file:
--  [5.] Most recent kernel version which did not have the bug:
--  [6.] Output of Oops.. message (if applicable) with symbolic information
--       resolved (see Documentation/admin-guide/bug-hunting.rst)
--  [7.] A small shell script or example program which triggers the
--       problem (if possible)
--  [8.] Environment
--  [8.1.] Software (add the output of the ver_linux script here)
--  [8.2.] Processor information (from /proc/cpuinfo):
--  [8.3.] Module information (from /proc/modules):
--  [8.4.] Loaded driver and hardware information (/proc/ioports, /proc/iomem)
--  [8.5.] PCI information ('lspci -vvv' as root)
--  [8.6.] SCSI information (from /proc/scsi/scsi)
--  [8.7.] Other information that might be relevant to the problem
--         (please look in /proc and include all information that you
--         think to be relevant):
--  [X.] Other notes, patches, fixes, workarounds:
--
--
- Follow up
- =========
- 
-diff --git a/scripts/ver_linux b/scripts/ver_linux
-deleted file mode 100755
-index 0968a3070eff..000000000000
---- a/scripts/ver_linux
-+++ /dev/null
-@@ -1,81 +0,0 @@
--#!/usr/bin/awk -f
--# SPDX-License-Identifier: GPL-2.0
--# Before running this script please ensure that your PATH is
--# typical as you use for compilation/installation. I use
--# /bin /sbin /usr/bin /usr/sbin /usr/local/bin, but it may
--# differ on your system.
--
--BEGIN {
--	usage = "If some fields are empty or look unusual you may have an old version.\n"
--	usage = usage "Compare to the current minimal requirements in Documentation/Changes.\n"
--	print usage
--
--	system("uname -a")
--	printf("\n")
--
--	vernum = "[0-9]+([.]?[0-9]+)+"
--	libc = "libc[.]so[.][0-9]+$"
--	libcpp = "(libg|stdc)[+]+[.]so[.][0-9]+$"
--
--	printversion("GNU C", version("gcc -dumpversion"))
--	printversion("GNU Make", version("make --version"))
--	printversion("Binutils", version("ld -v"))
--	printversion("Util-linux", version("mount --version"))
--	printversion("Mount", version("mount --version"))
--	printversion("Module-init-tools", version("depmod -V"))
--	printversion("E2fsprogs", version("tune2fs"))
--	printversion("Jfsutils", version("fsck.jfs -V"))
--	printversion("Reiserfsprogs", version("reiserfsck -V"))
--	printversion("Reiser4fsprogs", version("fsck.reiser4 -V"))
--	printversion("Xfsprogs", version("xfs_db -V"))
--	printversion("Pcmciautils", version("pccardctl -V"))
--	printversion("Pcmcia-cs", version("cardmgr -V"))
--	printversion("Quota-tools", version("quota -V"))
--	printversion("PPP", version("pppd --version"))
--	printversion("Isdn4k-utils", version("isdnctrl"))
--	printversion("Nfs-utils", version("showmount --version"))
--	printversion("Bison", version("bison --version"))
--	printversion("Flex", version("flex --version"))
--
--	while ("ldconfig -p 2>/dev/null" | getline > 0) {
--		if ($NF ~ libc && !seen[ver = version("readlink " $NF)]++)
--			printversion("Linux C Library", ver)
--		else if ($NF ~ libcpp && !seen[ver = version("readlink " $NF)]++)
--			printversion("Linux C++ Library", ver)
--	}
--
--	printversion("Dynamic linker (ldd)", version("ldd --version"))
--	printversion("Procps", version("ps --version"))
--	printversion("Net-tools", version("ifconfig --version"))
--	printversion("Kbd", version("loadkeys -V"))
--	printversion("Console-tools", version("loadkeys -V"))
--	printversion("Oprofile", version("oprofiled --version"))
--	printversion("Sh-utils", version("expr --v"))
--	printversion("Udev", version("udevadm --version"))
--	printversion("Wireless-tools", version("iwconfig --version"))
--
--	while ("sort /proc/modules" | getline > 0) {
--		mods = mods sep $1
--		sep = " "
--	}
--	printversion("Modules Loaded", mods)
--}
--
--function version(cmd,    ver) {
--	cmd = cmd " 2>&1"
--	while (cmd | getline > 0) {
--		if (match($0, vernum)) {
--			ver = substr($0, RSTART, RLENGTH)
--			break
--		}
--	}
--	close(cmd)
--	return ver
--}
--
--function printversion(name, value,  ofmt) {
--	if (value != "") {
--		ofmt = "%-20s\t%s\n"
--		printf(ofmt, name, value)
--	}
--}
 -- 
 2.28.0
 
