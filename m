@@ -2,97 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE5A7C55ABD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 11:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D9F3C2D0A3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 11:38:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86041221FE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 11:35:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PmNtJ3wX"
+	by mail.kernel.org (Postfix) with ESMTP id 450BE22228
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 11:38:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728184AbgKLLfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 06:35:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728116AbgKLLfv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 06:35:51 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD117C0613D1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2020 03:35:50 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id j7so5658713wrp.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2020 03:35:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6kX+loQUX2nlBfS+5buxfWq+Q+8uXyy+I1jyDWpC3e4=;
-        b=PmNtJ3wXgpASXov6BJvrQbnsWhusZLxlN6oclll6uTVQS5ITKM200U2nch/Sy3ktgf
-         sdnPPoGK8Xtbbiz+QWmopjcppCX2CZHV/EZdvjFxIHupmbnF8SiRknQyNinBzD2DetWx
-         jynbVCdm6kERPz9dL27eUMGxtm89Z3cG9fqARp4WObqNWnypEl0y2fKBdhxJ6ULOQ7ud
-         b2KHBkSv/1Ho/QtO5YEIKcz3m76N9mSw2ENVzZwQ+sKjM0kFn/+M9d4QACupt0WTL2VB
-         N4m/CdmouIXE+1zZNNZNYcqC2e+4E+qrBwlz5hzKo2KYr+ozqaL+uj2bSS50E/K0UlSs
-         I1Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6kX+loQUX2nlBfS+5buxfWq+Q+8uXyy+I1jyDWpC3e4=;
-        b=TZHwAxpA7YPen0bhY3Jt32xWOlekErqkMvsS4Si3oKd2/iOXWqTWPSwHpkPpNUmVcR
-         0AaVlOzgy/ve2DVPCdXdJZLwoKxK/nhJdv98nkAo8YMXztYqgDUEW1OoGXtqoxhfMohq
-         VWgXKZ1tbBQe4cnWOyUbf4wz0fQ8k5OwsQw4vr0TAmAyEF6yAlpHIP8r6KPz2Y8bitkN
-         5sTDLau9ZOndi7w3dWjcJIBbvRc7L05/LjPueOTLYB/5PuGiftFtGVZyeIe5yjei0DSZ
-         5B/4Xu8mYOpMzJqWjBrTRX/CcKfQf04qkhZDwLjQkT2y7x/GacHCJpBq2TngFJOK5X0B
-         APNQ==
-X-Gm-Message-State: AOAM532aWU7FhxrQ8/JxCRY2HuRsKQU4khan572u5JXAgD+t4mB9Qs09
-        c0bDS6niOgbGvl5HdD1wxO+MOw==
-X-Google-Smtp-Source: ABdhPJwrrALrGgUNEDGn9ukK2Qm36it0tJOKswSURNCPWMICi+HDaTCBo+nX2wwG7CuTmsJdcZUf2Q==
-X-Received: by 2002:adf:f808:: with SMTP id s8mr20534516wrp.257.1605180949580;
-        Thu, 12 Nov 2020 03:35:49 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:6971:b700:3764:fa96? ([2a01:e34:ed2f:f020:6971:b700:3764:fa96])
-        by smtp.googlemail.com with ESMTPSA id n14sm6132181wrt.8.2020.11.12.03.35.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2020 03:35:48 -0800 (PST)
-Subject: Re: [PATCH] docs: thermal: time_in_state is displayed in msec and not
- usertime
-To:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>
-Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <d5461bdf9ab6b6fee7f28f538582edbb426aa077.1605004905.git.viresh.kumar@linaro.org>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <cb6880c6-6729-e232-e4f3-28c165294e7a@linaro.org>
-Date:   Thu, 12 Nov 2020 12:35:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727762AbgKLLi5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 06:38:57 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7218 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727234AbgKLLi5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 06:38:57 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CX03g65J6zkhQT;
+        Thu, 12 Nov 2020 19:38:39 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.200.148) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 12 Nov 2020 19:38:42 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <linuxarm@huawei.com>, Barry Song <song.bao.hua@hisilicon.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Adrian Freund <adrian@freund.io>
+Subject: [PATCH] Documentation: scheduler: fix outdated information on arch SD flags and sched_domain
+Date:   Fri, 13 Nov 2020 00:34:41 +1300
+Message-ID: <20201112113441.27008-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <d5461bdf9ab6b6fee7f28f538582edbb426aa077.1605004905.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.200.148]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/11/2020 11:43, Viresh Kumar wrote:
-> The sysfs stats for cooling devices shows the time_in_state in msec,
-> remove the unwanted usertime comment.
-> 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
+This document seems to be out of date for many, many years. Even it has
+misspelled from the first day.
+ARCH_HASH_SCHED_TUNE should be ARCH_HAS_SCHED_TUNE
+ARCH_HASH_SCHED_DOMAIN should be ARCH_HAS_SCHED_DOMAIN
 
-Applied, thanks
+But since v2.6.14, kernel completely deleted the relevant code and even
+arch_init_sched_domains() was deleted.
 
+Right now, kernel is asking architectures to call set_sched_topology() to
+override the default sched domains.
 
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Adrian Freund <adrian@freund.io>
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+---
+ Documentation/scheduler/sched-domains.rst | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
+index 5c4b7f4f0062..434d4e7e86c5 100644
+--- a/Documentation/scheduler/sched-domains.rst
++++ b/Documentation/scheduler/sched-domains.rst
+@@ -69,15 +69,9 @@ The implementor should read comments in include/linux/sched.h:
+ struct sched_domain fields, SD_FLAG_*, SD_*_INIT to get an idea of
+ the specifics and what to tune.
+ 
+-Architectures may retain the regular override the default SD_*_INIT flags
+-while using the generic domain builder in kernel/sched/core.c if they wish to
+-retain the traditional SMT->SMP->NUMA topology (or some subset of that). This
+-can be done by #define'ing ARCH_HASH_SCHED_TUNE.
+-
+-Alternatively, the architecture may completely override the generic domain
+-builder by #define'ing ARCH_HASH_SCHED_DOMAIN, and exporting your
+-arch_init_sched_domains function. This function will attach domains to all
+-CPUs using cpu_attach_domain.
++Architectures may override the generic domain builder and the default
++SD_*_INIT flags by define'ing an array of sched_domain_topology_level and
++calling set_sched_topology() with this array as the parameter.
+ 
+ The sched-domains debugging infrastructure can be enabled by enabling
+ CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+2.25.1
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
