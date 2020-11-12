@@ -2,126 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23670C5519F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 16:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26CFDC2D0E4
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD98F216FD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 16:59:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b6ZpgqQn"
+	by mail.kernel.org (Postfix) with ESMTP id 8872722201
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726024AbgKLQ7F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 11:59:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54032 "EHLO
+        id S1726433AbgKLR7K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 12:59:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgKLQ7F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 11:59:05 -0500
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F38C0613D1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2020 08:59:04 -0800 (PST)
-Received: by mail-il1-x143.google.com with SMTP id n5so5896872ile.7
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2020 08:59:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GaO4q7T8iJjRlcnl93QU8Zwl4O2C359DE1W1JVxhVXg=;
-        b=b6ZpgqQnIUqlYhaFnT3Ou7QD+FXOKHPByYy3RWrr8gsAroJlielBkL6YYndoXMh3g9
-         rsjP4Q/9ungxcBW4afCFKkZ3DEqZc2DfXzcE6yNqYA/dlPR4s5WscDWRFqtt7kW0K/4I
-         9kFdYw8H985FGwCp0eLFZs0/YexMY4qyt6qHQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GaO4q7T8iJjRlcnl93QU8Zwl4O2C359DE1W1JVxhVXg=;
-        b=UzYhyxYu5IEsUAhHM2cGWpjhK4jO01iOVPulxbJLafjNEtd2Fb1xuHdARIefgEkTMQ
-         y7PtPvIsay0I98IduWe1qlu0XzzRZ+S+l6ALmSesphtrlhhpxRONdkGevjmRLz5oF3W7
-         elEjaEQmP0LgfjmxF2VZ632GparW7T6EDhcrRPNTOL4z+EvUmmG83O+uSY+ZRKMS3yO2
-         CS5z5WbZ0z552DrbjOPUoX0O4go1XnBz88BRxCLHlFO5aM2bNfaWWqulERHN5LafsXQV
-         YrdrcR/vqOvF5zJT2kiCinBboroFW/wA8EO2dnpOk5Nf7a6sUoilslzyG/zDXJe2l0qN
-         h+zA==
-X-Gm-Message-State: AOAM530j4u9Jis3wwtWBaygbJFP8OiIwfM31oKzrGgJQNTIdHuQ/0wpq
-        FQF6KQNklxTjbParW3yucpS7DeGF5DfGyw==
-X-Google-Smtp-Source: ABdhPJwN6Vf5B+ZH0aq7fuoCQ9TKbzlvtMLLvd38lE9BKuuu/XpeqkLpsg3KNdrzb27u9aqnoM3T+Q==
-X-Received: by 2002:a05:6e02:931:: with SMTP id o17mr328192ilt.273.1605200344286;
-        Thu, 12 Nov 2020 08:59:04 -0800 (PST)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id j10sm2983083iop.34.2020.11.12.08.59.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2020 08:59:03 -0800 (PST)
-Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Kees Cook <keescook@chromium.org>, corbet@lwn.net,
-        peterz@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1605027593.git.skhan@linuxfoundation.org>
- <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
- <X6r7BIG8JTUOLcY0@kroah.com> <X6r7Vl45bgGQiAD2@kroah.com>
- <202011101614.E7D880689@keescook>
- <3075a4fd-8615-1459-2b20-b7d9d2be34ff@linuxfoundation.org>
- <20201112123621.GY17076@casper.infradead.org>
- <acad8c18-a0a6-f52c-429a-02e614bee05c@linuxfoundation.org>
- <X61mwRe6tFrSrgQa@kroah.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <c20dc33b-3163-b7cf-fdd0-12c30e07ecc0@linuxfoundation.org>
-Date:   Thu, 12 Nov 2020 09:59:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+        with ESMTP id S1726281AbgKLR7H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:07 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F94C0613D1;
+        Thu, 12 Nov 2020 09:59:07 -0800 (PST)
+Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1kdGsC-0006ue-7n; Thu, 12 Nov 2020 18:59:04 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v2 02/26] docs: reporting-bugs: Create a TLDR how to report issues
+Date:   Thu, 12 Nov 2020 18:58:39 +0100
+Message-Id: <8f359da90f3234bdaa49912dd9d082b0042b89bf.1605203187.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1605203187.git.linux@leemhuis.info>
+References: <cover.1605203187.git.linux@leemhuis.info>
 MIME-Version: 1.0
-In-Reply-To: <X61mwRe6tFrSrgQa@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203947;764f585d;
+X-HE-SMSGID: 1kdGsC-0006ue-7n
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/12/20 9:45 AM, Greg KH wrote:
-> On Thu, Nov 12, 2020 at 09:17:27AM -0700, Shuah Khan wrote:
->> On 11/12/20 5:36 AM, Matthew Wilcox wrote:
->>> On Wed, Nov 11, 2020 at 12:23:03PM -0700, Shuah Khan wrote:
->>>>> Agreed: this is a clear wrapping sequence counter. It's only abuse would
->>>>> be using it in a place where wrapping actually is _not_ safe. (bikeshed:
->>>>> can we call it wrap_u32 and wrap_u64?)
->>>>
->>>> Still like seqnum_ops.
->>>>
->>>> There is seqcount_t in seqlock.h which is a totally different feature.
->>>
->>> Yes, and that's why this new thing, whatever it is called should not
->>> have the word "sequence" in it.  People will get it confused.
->>
->> Any suggestions for name. I am bad with coming up with names. How does
->> Statcnt API and struct statcnt along the lines of your name suggestions
->> in your previous email?
-> 
-> What does "stat" mean here?
-> 
+Get straight to the point in a few paragraphs instead of forcing users
+to read quite a bit of text, like the old approach did.
 
-Stat doesn't really reflect what we are trying to do here and sequence
-does. I am just looking to address confusion if any and make a call.
+All normally needed fits into the first three paragraphs. The fourth is
+dedicated to issues only happening in stable and longterm kernels, as
+things otherwise get hard to follow.
 
-> And I don't understand the hesitation about "sequence" in a name, as
-> that's exactly what this is.  seqlock is different, yes.
->  > How about "seqnum_t"?  That's what we call the sequence number that we
-> export to uevents, a "SEQNUM".
-> 
+This TLDR naturally leaves lots of details out. But it will be good
+enough in some situations, for example for users that recently reported
+an issue or are familiar with reporting issues to FLOSS projects.
 
-Good point.
-This is what we have currently in patch v1 and let's just go with it.
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
 
-thanks,
--- Shuah
+v2: reshuffled and rewritten to make this section more straight forward
+---
+ Documentation/admin-guide/reporting-bugs.rst | 45 ++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-
-
-
+diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
+index 4bbb9132782b..97815a35c546 100644
+--- a/Documentation/admin-guide/reporting-bugs.rst
++++ b/Documentation/admin-guide/reporting-bugs.rst
+@@ -10,6 +10,51 @@ Reporting bugs
+ .. inconsistent/not make sense before all patches of the rewrite got applied.
+ .. ###########################################################################
+ 
++
++The short guide (aka TL;DR)
++===========================
++
++If you're facing multiple issues with the Linux kernel at once, report each
++separately to its developers. Try your best guess which kernel part might be
++causing the issue. Check the :ref:`MAINTAINERS <maintainers>` file for how its
++developers expect to be told about issues. Note, it's rarely
++`bugzilla.kernel.org <https://bugzilla.kernel.org/>`_, as in almost all cases
++the report needs to be sent by email!
++
++Check the destination thoroughly for existing reports; also search the LKML
++archives and the web. Join existing discussion if you find matches. If you
++don't find any, install `the latest Linux mainline kernel
++<https://kernel.org/>`_. Make sure it's vanilla, thus is not patched or using
++add-on kernel modules. Also ensure the kernel is running in a healthy
++environment and is not already tainted before the issue occurs.
++
++If you can reproduce your issue with the mainline kernel, send a report to the
++destination you determined earlier. Make sure it includes all relevant
++information, which in case of a regression should mention the change that's
++causing it which can often can be found with a bisection. Also ensure the
++report reaches all people that need to know about it, for example the security
++team, the stable maintainers or the developers of the patch that causes a
++regression. Once the report it out, answer any questions that might be raised
++and help where you can. That includes keeping the ball rolling: every time a
++new rc1 mainline kernel is released, check if the issue is still happening
++there and attach a status update to your initial report.
++
++If you can not reproduce the issue with the mainline kernel, consider sticking
++with it; if you'd like to use an older version line and want to see it fixed
++there, first make sure it's still supported. Install its latest release as
++vanilla kernel. If you cannot reproduce the issue there, try to find the commit
++that fixed it in mainline or any discussion preceding it: those will often
++mention if backporting is planed or considered too complex. If backporting was
++not discussed, ask if it's in the cards. In case you don't find any commits or
++a preceding discussion, see the Linux-stable mailing list archives for existing
++reports, as it might be a regression specific to the version line. If it is,
++report it like you would report a problem in mainline (including the
++bisection).
++
++If you reached this point without a solution, ask for advice one the
++subsystem's mailing list.
++
++
+ .. ############################################################################
+ .. Temporary marker added while this document is rewritten. Sections above
+ .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+-- 
+2.28.0
 
