@@ -2,128 +2,558 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB7AC2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 12:50:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28697C56201
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:02:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE9AF21D40
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 12:50:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C035321D91
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:02:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727916AbgKLMuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 07:50:10 -0500
-Received: from foss.arm.com ([217.140.110.172]:49422 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727035AbgKLMuK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Nov 2020 07:50:10 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFA89101E;
-        Thu, 12 Nov 2020 04:50:08 -0800 (PST)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A911B3F718;
-        Thu, 12 Nov 2020 04:50:07 -0800 (PST)
-References: <20201112113441.27008-1-song.bao.hua@hisilicon.com>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Barry Song <song.bao.hua@hisilicon.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxarm@huawei.com,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Adrian Freund <adrian@freund.io>
-Subject: Re: [PATCH] Documentation: scheduler: fix outdated information on arch SD flags and sched_domain
-In-reply-to: <20201112113441.27008-1-song.bao.hua@hisilicon.com>
-Date:   Thu, 12 Nov 2020 12:50:05 +0000
-Message-ID: <jhjft5eyc1u.mognet@arm.com>
+        id S1727865AbgKLNC2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 08:02:28 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7179 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727819AbgKLNC2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 08:02:28 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CX1vp4xN3z15VD8;
+        Thu, 12 Nov 2020 21:01:58 +0800 (CST)
+Received: from [10.174.176.61] (10.174.176.61) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 12 Nov 2020 21:02:01 +0800
+Subject: Re: [PATCH v13 4/8] x86: kdump: move reserve_crashkernel[_low]() into
+ crash_core.c
+To:     Mike Rapoport <rppt@kernel.org>
+References: <20201031074437.168008-1-chenzhou10@huawei.com>
+ <20201031074437.168008-5-chenzhou10@huawei.com>
+ <20201112081152.GK4758@kernel.org>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <dyoung@redhat.com>,
+        <bhe@redhat.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
+        <bhsharma@redhat.com>, <prabhakar.pkin@gmail.com>,
+        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <nsaenzjulienne@suse.de>, <james.morse@arm.com>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <xiexiuqi@huawei.com>, <guohanjun@huawei.com>,
+        <huawei.libin@huawei.com>, <wangkefeng.wang@huawei.com>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <2aa47a25-ca1b-fdc1-5208-12e93f28f9a0@huawei.com>
+Date:   Thu, 12 Nov 2020 21:01:59 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20201112081152.GK4758@kernel.org>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.61]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Hi,
 
-On 12/11/20 11:34, Barry Song wrote:
-> This document seems to be out of date for many, many years. Even it has
-> misspelled from the first day.
-> ARCH_HASH_SCHED_TUNE should be ARCH_HAS_SCHED_TUNE
-> ARCH_HASH_SCHED_DOMAIN should be ARCH_HAS_SCHED_DOMAIN
+On 2020/11/12 16:11, Mike Rapoport wrote:
+> On Sat, Oct 31, 2020 at 03:44:33PM +0800, Chen Zhou wrote:
+>> Make the functions reserve_crashkernel[_low]() as generic.
+>> Arm64 will use these to reimplement crashkernel=X.
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+>> ---
+>>  arch/x86/include/asm/kexec.h |  25 ++++++
+>>  arch/x86/kernel/setup.c      | 151 +-------------------------------
+>>  include/linux/crash_core.h   |   4 +
+>>  include/linux/kexec.h        |   2 -
+>>  kernel/crash_core.c          | 164 +++++++++++++++++++++++++++++++++++
+>>  kernel/kexec_core.c          |  17 ----
+>>  6 files changed, 195 insertions(+), 168 deletions(-)
+>>
+>> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
+>> index 8cf9d3fd31c7..34afa7b645f9 100644
+>> --- a/arch/x86/include/asm/kexec.h
+>> +++ b/arch/x86/include/asm/kexec.h
+>> @@ -21,6 +21,27 @@
+>>  /* 2M alignment for crash kernel regions */
+>>  #define CRASH_ALIGN		SZ_16M
+>>  
+>> +/*
+>> + * Keep the crash kernel below this limit.
+>> + *
+>> + * Earlier 32-bits kernels would limit the kernel to the low 512 MB range
+>> + * due to mapping restrictions.
+>> + *
+>> + * 64-bit kdump kernels need to be restricted to be under 64 TB, which is
+>> + * the upper limit of system RAM in 4-level paging mode. Since the kdump
+>> + * jump could be from 5-level paging to 4-level paging, the jump will fail if
+>> + * the kernel is put above 64 TB, and during the 1st kernel bootup there's
+>> + * no good way to detect the paging mode of the target kernel which will be
+>> + * loaded for dumping.
+>> + */
+>> +#ifdef CONFIG_X86_32
+>> +# define CRASH_ADDR_LOW_MAX	SZ_512M
+>> +# define CRASH_ADDR_HIGH_MAX	SZ_512M
+>> +#else
+>> +# define CRASH_ADDR_LOW_MAX	SZ_4G
+>> +# define CRASH_ADDR_HIGH_MAX	SZ_64T
+>> +#endif
+>> +
+>>  #ifndef __ASSEMBLY__
+>>  
+>>  #include <linux/string.h>
+>> @@ -200,6 +221,10 @@ typedef void crash_vmclear_fn(void);
+>>  extern crash_vmclear_fn __rcu *crash_vmclear_loaded_vmcss;
+>>  extern void kdump_nmi_shootdown_cpus(void);
+>>  
+>> +#ifdef CONFIG_KEXEC_CORE
+>> +extern void __init reserve_crashkernel(void);
+>> +#endif
+>> +
+>>  #endif /* __ASSEMBLY__ */
+>>  
+>>  #endif /* _ASM_X86_KEXEC_H */
+>> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+>> index 1289f079ad5f..00b3840d30f9 100644
+>> --- a/arch/x86/kernel/setup.c
+>> +++ b/arch/x86/kernel/setup.c
+>> @@ -25,8 +25,6 @@
+>>  
+>>  #include <uapi/linux/mount.h>
+>>  
+>> -#include <xen/xen.h>
+>> -
+>>  #include <asm/apic.h>
+>>  #include <asm/numa.h>
+>>  #include <asm/bios_ebda.h>
+>> @@ -38,6 +36,7 @@
+>>  #include <asm/io_apic.h>
+>>  #include <asm/kasan.h>
+>>  #include <asm/kaslr.h>
+>> +#include <asm/kexec.h>
+>>  #include <asm/mce.h>
+>>  #include <asm/mtrr.h>
+>>  #include <asm/realmode.h>
+>> @@ -389,153 +388,7 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>>  	}
+>>  }
+>>  
+>> -/*
+>> - * --------- Crashkernel reservation ------------------------------
+>> - */
+>> -
+>> -#ifdef CONFIG_KEXEC_CORE
+>> -
+>> -/*
+>> - * Keep the crash kernel below this limit.
+>> - *
+>> - * Earlier 32-bits kernels would limit the kernel to the low 512 MB range
+>> - * due to mapping restrictions.
+>> - *
+>> - * 64-bit kdump kernels need to be restricted to be under 64 TB, which is
+>> - * the upper limit of system RAM in 4-level paging mode. Since the kdump
+>> - * jump could be from 5-level paging to 4-level paging, the jump will fail if
+>> - * the kernel is put above 64 TB, and during the 1st kernel bootup there's
+>> - * no good way to detect the paging mode of the target kernel which will be
+>> - * loaded for dumping.
+>> - */
+>> -#ifdef CONFIG_X86_32
+>> -# define CRASH_ADDR_LOW_MAX	SZ_512M
+>> -# define CRASH_ADDR_HIGH_MAX	SZ_512M
+>> -#else
+>> -# define CRASH_ADDR_LOW_MAX	SZ_4G
+>> -# define CRASH_ADDR_HIGH_MAX	SZ_64T
+>> -#endif
+>> -
+>> -static int __init reserve_crashkernel_low(void)
+>> -{
+>> -#ifdef CONFIG_X86_64
+>> -	unsigned long long base, low_base = 0, low_size = 0;
+>> -	unsigned long low_mem_limit;
+>> -	int ret;
+>> -
+>> -	low_mem_limit = min(memblock_phys_mem_size(), CRASH_ADDR_LOW_MAX);
+>> -
+>> -	/* crashkernel=Y,low */
+>> -	ret = parse_crashkernel_low(boot_command_line, low_mem_limit, &low_size, &base);
+>> -	if (ret) {
+>> -		/*
+>> -		 * two parts from kernel/dma/swiotlb.c:
+>> -		 * -swiotlb size: user-specified with swiotlb= or default.
+>> -		 *
+>> -		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+>> -		 * to 8M for other buffers that may need to stay low too. Also
+>> -		 * make sure we allocate enough extra low memory so that we
+>> -		 * don't run out of DMA buffers for 32-bit devices.
+>> -		 */
+>> -		low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+>> -	} else {
+>> -		/* passed with crashkernel=0,low ? */
+>> -		if (!low_size)
+>> -			return 0;
+>> -	}
+>> -
+>> -	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, CRASH_ALIGN, CRASH_ADDR_LOW_MAX);
+>> -	if (!low_base) {
+>> -		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>> -		       (unsigned long)(low_size >> 20));
+>> -		return -ENOMEM;
+>> -	}
+>> -
+>> -	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (low RAM limit: %ldMB)\n",
+>> -		(unsigned long)(low_size >> 20),
+>> -		(unsigned long)(low_base >> 20),
+>> -		(unsigned long)(low_mem_limit >> 20));
+>> -
+>> -	crashk_low_res.start = low_base;
+>> -	crashk_low_res.end   = low_base + low_size - 1;
+>> -	insert_resource(&iomem_resource, &crashk_low_res);
+>> -#endif
+>> -	return 0;
+>> -}
+>> -
+>> -static void __init reserve_crashkernel(void)
+>> -{
+>> -	unsigned long long crash_size, crash_base, total_mem;
+>> -	bool high = false;
+>> -	int ret;
+>> -
+>> -	total_mem = memblock_phys_mem_size();
+>> -
+>> -	/* crashkernel=XM */
+>> -	ret = parse_crashkernel(boot_command_line, total_mem, &crash_size, &crash_base);
+>> -	if (ret != 0 || crash_size <= 0) {
+>> -		/* crashkernel=X,high */
+>> -		ret = parse_crashkernel_high(boot_command_line, total_mem,
+>> -					     &crash_size, &crash_base);
+>> -		if (ret != 0 || crash_size <= 0)
+>> -			return;
+>> -		high = true;
+>> -	}
+>> -
+>> -	if (xen_pv_domain()) {
+>> -		pr_info("Ignoring crashkernel for a Xen PV domain\n");
+>> -		return;
+>> -	}
+> This is relevant only to x86, maybe we could move this check to
+> setup_arch before calling reserve_crashkernel() to keep it in x86?
+Yes, we could move this check to setup_arch.
 >
-> But since v2.6.14, kernel completely deleted the relevant code and even
-> arch_init_sched_domains() was deleted.
+>> -
+>> -	/* 0 means: find the address automatically */
+>> -	if (!crash_base) {
+>> -		/*
+>> -		 * Set CRASH_ADDR_LOW_MAX upper bound for crash memory,
+>> -		 * crashkernel=x,high reserves memory over CRASH_ADDR_LOW_MAX,
+>> -		 * also allocates 256M extra low memory for DMA buffers
+>> -		 * and swiotlb.
+>> -		 * But the extra memory is not required for all machines.
+>> -		 * So try low memory first and fall back to high memory
+>> -		 * unless "crashkernel=size[KMG],high" is specified.
+>> -		 */
+>> -		if (!high)
+>> -			crash_base = memblock_phys_alloc_range(crash_size,
+>> -						CRASH_ALIGN, CRASH_ALIGN,
+>> -						CRASH_ADDR_LOW_MAX);
+>> -		if (!crash_base)
+>> -			crash_base = memblock_phys_alloc_range(crash_size,
+>> -						CRASH_ALIGN, CRASH_ALIGN,
+>> -						CRASH_ADDR_HIGH_MAX);
+>> -		if (!crash_base) {
+>> -			pr_info("crashkernel reservation failed - No suitable area found.\n");
+>> -			return;
+>> -		}
+>> -	} else {
+>> -		unsigned long long start;
+>> -
+>> -		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
+>> -						  crash_base + crash_size);
+>> -		if (start != crash_base) {
+>> -			pr_info("crashkernel reservation failed - memory is in use.\n");
+>> -			return;
+>> -		}
+>> -	}
+>> -
+>> -	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
+>> -		memblock_free(crash_base, crash_size);
+>> -		return;
+>> -	}
+>> -
+>> -	pr_info("Reserving %ldMB of memory at %ldMB for crashkernel (System RAM: %ldMB)\n",
+>> -		(unsigned long)(crash_size >> 20),
+>> -		(unsigned long)(crash_base >> 20),
+>> -		(unsigned long)(total_mem >> 20));
+>> -
+>> -	crashk_res.start = crash_base;
+>> -	crashk_res.end   = crash_base + crash_size - 1;
+>> -	insert_resource(&iomem_resource, &crashk_res);
+>> -}
+>> -#else
+>> +#ifndef CONFIG_KEXEC_CORE
+>>  static void __init reserve_crashkernel(void)
+>>  {
+>>  }
+>> diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
+>> index 206bde8308b2..5021d7c70aee 100644
+>> --- a/include/linux/crash_core.h
+>> +++ b/include/linux/crash_core.h
+>> @@ -69,6 +69,9 @@ extern unsigned char *vmcoreinfo_data;
+>>  extern size_t vmcoreinfo_size;
+>>  extern u32 *vmcoreinfo_note;
+>>  
+>> +extern struct resource crashk_res;
+>> +extern struct resource crashk_low_res;
+>> +
+>>  /* raw contents of kernel .notes section */
+>>  extern const void __start_notes __weak;
+>>  extern const void __stop_notes __weak;
+>> @@ -83,5 +86,6 @@ int parse_crashkernel_high(char *cmdline, unsigned long long system_ram,
+>>  		unsigned long long *crash_size, unsigned long long *crash_base);
+>>  int parse_crashkernel_low(char *cmdline, unsigned long long system_ram,
+>>  		unsigned long long *crash_size, unsigned long long *crash_base);
+>> +int __init reserve_crashkernel_low(void);
+>>  
+>>  #endif /* LINUX_CRASH_CORE_H */
+>> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+>> index 9e93bef52968..f301f2f5cfc4 100644
+>> --- a/include/linux/kexec.h
+>> +++ b/include/linux/kexec.h
+>> @@ -337,8 +337,6 @@ extern int kexec_load_disabled;
+>>  
+>>  /* Location of a reserved region to hold the crash kernel.
+>>   */
+>> -extern struct resource crashk_res;
+>> -extern struct resource crashk_low_res;
+>>  extern note_buf_t __percpu *crash_notes;
+>>  
+>>  /* flag to track if kexec reboot is in progress */
+>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>> index 106e4500fd53..d39892bdb9ae 100644
+>> --- a/kernel/crash_core.c
+>> +++ b/kernel/crash_core.c
+>> @@ -7,7 +7,12 @@
+>>  #include <linux/crash_core.h>
+>>  #include <linux/utsname.h>
+>>  #include <linux/vmalloc.h>
+>> +#include <linux/memblock.h>
+>> +#include <linux/swiotlb.h>
+>>  
+>> +#include <xen/xen.h>
+>> +
+>> +#include <asm/kexec.h>
+>>  #include <asm/page.h>
+>>  #include <asm/sections.h>
+>>  
+>> @@ -21,6 +26,22 @@ u32 *vmcoreinfo_note;
+>>  /* trusted vmcoreinfo, e.g. we can make a copy in the crash memory */
+>>  static unsigned char *vmcoreinfo_data_safecopy;
+>>  
+>> +/* Location of the reserved area for the crash kernel */
+>> +struct resource crashk_res = {
+>> +	.name  = "Crash kernel",
+>> +	.start = 0,
+>> +	.end   = 0,
+>> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>> +	.desc  = IORES_DESC_CRASH_KERNEL
+>> +};
+>> +struct resource crashk_low_res = {
+>> +	.name  = "Crash kernel",
+>> +	.start = 0,
+>> +	.end   = 0,
+>> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>> +	.desc  = IORES_DESC_CRASH_KERNEL
+>> +};
+>> +
+>>  /*
+>>   * parsing the "crashkernel" commandline
+>>   *
+>> @@ -294,6 +315,149 @@ int __init parse_crashkernel_low(char *cmdline,
+>>  				"crashkernel=", suffix_tbl[SUFFIX_LOW]);
+>>  }
+>>  
+>> +/*
+>> + * --------- Crashkernel reservation ------------------------------
+>> + */
+>> +
+>> +int __init reserve_crashkernel_low(void)
+> static?
+Ok, i will update in next version.
 >
-> Right now, kernel is asking architectures to call set_sched_topology() to
-> override the default sched domains.
->
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Mel Gorman <mgorman@suse.de>
-> Cc: Adrian Freund <adrian@freund.io>
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-> ---
->  Documentation/scheduler/sched-domains.rst | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
-> index 5c4b7f4f0062..434d4e7e86c5 100644
-> --- a/Documentation/scheduler/sched-domains.rst
-> +++ b/Documentation/scheduler/sched-domains.rst
-> @@ -69,15 +69,9 @@ The implementor should read comments in include/linux/sched.h:
->  struct sched_domain fields, SD_FLAG_*, SD_*_INIT to get an idea of
->  the specifics and what to tune.
->
-> -Architectures may retain the regular override the default SD_*_INIT flags
-> -while using the generic domain builder in kernel/sched/core.c if they wish to
-> -retain the traditional SMT->SMP->NUMA topology (or some subset of that). This
-> -can be done by #define'ing ARCH_HASH_SCHED_TUNE.
-> -
-> -Alternatively, the architecture may completely override the generic domain
-> -builder by #define'ing ARCH_HASH_SCHED_DOMAIN, and exporting your
-> -arch_init_sched_domains function. This function will attach domains to all
-> -CPUs using cpu_attach_domain.
-> +Architectures may override the generic domain builder and the default
-> +SD_*_INIT flags by define'ing an array of sched_domain_topology_level and
+>> +{
+>> +#ifdef CONFIG_X86_64
+>> +	unsigned long long base, low_base = 0, low_size = 0;
+>> +	unsigned long low_mem_limit;
+>> +	int ret;
+>> +
+>> +	low_mem_limit = min(memblock_phys_mem_size(), CRASH_ADDR_LOW_MAX);
+>> +
+>> +	/* crashkernel=Y,low */
+>> +	ret = parse_crashkernel_low(boot_command_line, low_mem_limit, &low_size, &base);
+>> +	if (ret) {
+>> +		/*
+>> +		 * two parts from kernel/dma/swiotlb.c:
+>> +		 * -swiotlb size: user-specified with swiotlb= or default.
+>> +		 *
+>> +		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+>> +		 * to 8M for other buffers that may need to stay low too. Also
+>> +		 * make sure we allocate enough extra low memory so that we
+>> +		 * don't run out of DMA buffers for 32-bit devices.
+>> +		 */
+>> +		low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+>> +	} else {
+>> +		/* passed with crashkernel=0,low ? */
+>> +		if (!low_size)
+>> +			return 0;
+>> +	}
+>> +
+>> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, CRASH_ALIGN,
+>> +			CRASH_ADDR_LOW_MAX);
+>> +	if (!low_base) {
+>> +		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>> +		       (unsigned long)(low_size >> 20));
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (low RAM limit: %ldMB)\n",
+>> +		(unsigned long)(low_size >> 20),
+>> +		(unsigned long)(low_base >> 20),
+>> +		(unsigned long)(low_mem_limit >> 20));
+>> +
+>> +	crashk_low_res.start = low_base;
+>> +	crashk_low_res.end   = low_base + low_size - 1;
+>> +	insert_resource(&iomem_resource, &crashk_low_res);
+>> +#endif
+>> +	return 0;
+>> +}
+>> +
+>> +#ifdef CONFIG_X86
+>> +#ifdef CONFIG_KEXEC_CORE
+>> +/*
+>> + * reserve_crashkernel() - reserves memory for crash kernel
+>> + *
+>> + * This function reserves memory area given in "crashkernel=" kernel command
+>> + * line parameter. The memory reserved is used by dump capture kernel when
+>> + * primary kernel is crashing.
+>> + */
+>> +void __init reserve_crashkernel(void)
+>> +{
+>> +	unsigned long long crash_size, crash_base, total_mem;
+>> +	bool high = false;
+>> +	int ret;
+>> +
+>> +	total_mem = memblock_phys_mem_size();
+>> +
+>> +	/* crashkernel=XM */
+>> +	ret = parse_crashkernel(boot_command_line, total_mem, &crash_size, &crash_base);
+>> +	if (ret != 0 || crash_size <= 0) {
+>> +		/* crashkernel=X,high */
+>> +		ret = parse_crashkernel_high(boot_command_line, total_mem,
+>> +					     &crash_size, &crash_base);
+>> +		if (ret != 0 || crash_size <= 0)
+>> +			return;
+>> +		high = true;
+>> +	}
+>> +
+>> +	if (xen_pv_domain()) {
+>> +		pr_info("Ignoring crashkernel for a Xen PV domain\n");
+>> +		return;
+>> +	}
+>> +
+>> +	/* 0 means: find the address automatically */
+>> +	if (!crash_base) {
+>> +		/*
+>> +		 * Set CRASH_ADDR_LOW_MAX upper bound for crash memory,
+>> +		 * crashkernel=x,high reserves memory over CRASH_ADDR_LOW_MAX,
+>> +		 * also allocates 256M extra low memory for DMA buffers
+>> +		 * and swiotlb.
+>> +		 * But the extra memory is not required for all machines.
+>> +		 * So try low memory first and fall back to high memory
+>> +		 * unless "crashkernel=size[KMG],high" is specified.
+>> +		 */
+>> +		if (!high)
+>> +			crash_base = memblock_phys_alloc_range(crash_size,
+>> +						CRASH_ALIGN, CRASH_ALIGN,
+>> +						CRASH_ADDR_LOW_MAX);
+>> +		if (!crash_base)
+>> +			crash_base = memblock_phys_alloc_range(crash_size,
+>> +						CRASH_ALIGN, CRASH_ALIGN,
+>> +						CRASH_ADDR_HIGH_MAX);
+>> +		if (!crash_base) {
+>> +			pr_info("crashkernel reservation failed - No suitable area found.\n");
+>> +			return;
+>> +		}
+>> +	} else {
+>> +		/* User specifies base address explicitly. */
+>> +		unsigned long long start;
+>> +
+>> +		if (!IS_ALIGNED(crash_base, CRASH_ALIGN)) {
+>> +			pr_warn("cannot reserve crashkernel: base address is not %ldMB aligned\n",
+>> +				(unsigned long)CRASH_ALIGN >> 20);
+>> +			return;
+>> +		}
+>> +
+>> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
+>> +						  crash_base + crash_size);
+>> +		if (start != crash_base) {
+>> +			pr_info("crashkernel reservation failed - memory is in use.\n");
+>> +			return;
+>> +		}
+>> +	}
+>> +
+>> +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
+>> +		memblock_free(crash_base, crash_size);
+>> +		return;
+>> +	}
+>> +
+>> +	pr_info("Reserving %ldMB of memory at %ldMB for crashkernel (System RAM: %ldMB)\n",
+>> +		(unsigned long)(crash_size >> 20),
+>> +		(unsigned long)(crash_base >> 20),
+>> +		(unsigned long)(total_mem >> 20));
+>> +
+>> +	crashk_res.start = crash_base;
+>> +	crashk_res.end   = crash_base + crash_size - 1;
+>> +	insert_resource(&iomem_resource, &crashk_res);
+>> +}
+>> +#endif /* CONFIG_KEXEC_CORE */
+>> +#endif
+>> +
+>>  Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
+>>  			  void *data, size_t data_len)
+>>  {
+>> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+>> index 8798a8183974..2ca887514145 100644
+>> --- a/kernel/kexec_core.c
+>> +++ b/kernel/kexec_core.c
+>> @@ -53,23 +53,6 @@ note_buf_t __percpu *crash_notes;
+>>  /* Flag to indicate we are going to kexec a new kernel */
+>>  bool kexec_in_progress = false;
+>>  
+>> -
+>> -/* Location of the reserved area for the crash kernel */
+>> -struct resource crashk_res = {
+>> -	.name  = "Crash kernel",
+>> -	.start = 0,
+>> -	.end   = 0,
+>> -	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>> -	.desc  = IORES_DESC_CRASH_KERNEL
+>> -};
+>> -struct resource crashk_low_res = {
+>> -	.name  = "Crash kernel",
+>> -	.start = 0,
+>> -	.end   = 0,
+>> -	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+>> -	.desc  = IORES_DESC_CRASH_KERNEL
+>> -};
+>> -
+>>  int kexec_should_crash(struct task_struct *p)
+>>  {
+>>  	/*
+>> -- 
+>> 2.20.1
+>>
 
-That's way before my time, but IIRC those macros are also gone since
-
-  143e1e28cb40 ("sched: Rework sched_domain topology definition")
-
-The only way to override flags for a given topology level is to create a
-new topology_level array and pass it through set_sched_topology() - reason
-being you can't redefine cpu_{smt, core, *}_flags().
-
-> +calling set_sched_topology() with this array as the parameter.
->
-
->  The sched-domains debugging infrastructure can be enabled by enabling
->  CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
-
-This part about debug bits is also somewhat dusty. Mind adding the
-following to your patch?
-
-@Peter: would you object to getting rid of that sched_debug thing and
-always do the sched_domain_debug() faff whenever we have
-CONFIG_SCHED_DEBUG? Maybe keep sched_debug for the NUMA sort, but even then
-that already requires having CONFIG_SCHED_DEBUG...
-
----
-diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
-index 434d4e7e86c5..0ebf8afb24ae 100644
---- a/Documentation/scheduler/sched-domains.rst
-+++ b/Documentation/scheduler/sched-domains.rst
-@@ -74,6 +74,8 @@ SD_*_INIT flags by define'ing an array of sched_domain_topology_level and
- calling set_sched_topology() with this array as the parameter.
-
- The sched-domains debugging infrastructure can be enabled by enabling
--CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
--which should catch most possible errors (described above). It also prints out
--the domain structure in a visual format.
-+CONFIG_SCHED_DEBUG and adding 'sched_debug' to your cmdline. If you forgot to
-+tweak your cmdline, you can also flip the /sys/kernel/debug/sched_debug
-+knob. This enables an error checking parse of the sched domains which should
-+catch most possible errors (described above). It also prints out the domain
-+structure in a visual format.
