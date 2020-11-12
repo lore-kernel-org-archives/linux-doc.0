@@ -2,101 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69664C2D0E4
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F13A3C5519F
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18AB421D91
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF14D221E9
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726569AbgKLR7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 12:59:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
+        id S1726732AbgKLR7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 12:59:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726557AbgKLR7S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:18 -0500
+        with ESMTP id S1726719AbgKLR7d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:33 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10252C0613D1;
-        Thu, 12 Nov 2020 09:59:18 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEC6AC061A49;
+        Thu, 12 Nov 2020 09:59:30 -0800 (PST)
 Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kdGsO-00070q-Od; Thu, 12 Nov 2020 18:59:16 +0100
+        id 1kdGsb-00076N-JI; Thu, 12 Nov 2020 18:59:29 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 13/26] docs: reporting-bugs: point out the environment might be causing issue
-Date:   Thu, 12 Nov 2020 18:58:50 +0100
-Message-Id: <f4512b613b341b14f25814b6c9e5937955c266ff.1605203187.git.linux@leemhuis.info>
+Subject: [RFC PATCH v2 26/26] docs: reporting-bugs: add SPDX tag and license hint, remove markers
+Date:   Thu, 12 Nov 2020 18:59:03 +0100
+Message-Id: <e2556271695cb376d7c29749d303967ae9d4c51f.1605203187.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605203187.git.linux@leemhuis.info>
 References: <cover.1605203187.git.linux@leemhuis.info>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=yes
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203958;24c9afe5;
-X-HE-SMSGID: 1kdGsO-00070q-Od
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203971;26f1d192;
+X-HE-SMSGID: 1kdGsb-00076N-JI
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Help users to avoid a few pitfalls, as they might be the real reason why
-the kernel is acting up somehow.
+Remove the last leftovers from the old text. Also delete the temporary
+markers added for the rewrite of this document. Add a SPDX tag with the
+new license now that the rewrite is complete. Add a license hint whom to
+attribute when distributing the text under CC-BY 4.0.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/admin-guide/reporting-bugs.rst | 35 ++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ Documentation/admin-guide/reporting-bugs.rst | 29 ++++++--------------
+ 1 file changed, 9 insertions(+), 20 deletions(-)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index 5f6d3b2b55f9..234731cd0c78 100644
+index 592329afc2a5..6372800769e7 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -624,6 +624,41 @@ module not part of the Linux kernel. That why your might need to uninstall the
- packages with such software to get rid of any 3rd party kernel module.
+@@ -1,15 +1,17 @@
++.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
++..
++   If you want to distribute this document under the CC-BY-4.0, please use ‘The
++   Linux kernel developers’ for author attribution and either
++   https://www.kernel.org/doc/html/latest/admin-guide/reporting-bugs.html or
++   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-bugs.rst
++   when pointing to the source.
++
+ .. _reportingbugs:
  
++
+ Reporting bugs
+ ++++++++++++++
  
-+Ensure a healthy environment
-+----------------------------
-+
-+    *Make sure it's not the kernel's surroundings that are causing the issue
-+    you face.*
-+
-+Problems that look a lot like a kernel issue are sometimes caused by build or
-+runtime environment. It's hard to rule out that problem completely, but you
-+should minimize it:
-+
-+ * Use proven tools when building your kernel, as bugs in the compiler or the
-+   binutils can cause the resulting kernel to misbehave.
-+
-+ * Ensure your computer components run within their design specifications;
-+   that's especially important for the main processor, the main memory, and the
-+   motherboard. Therefore, stop undervolting or overclocking when facing a
-+   potential kernel issue.
-+
-+ * Try to make sure it's not faulty hardware that is causing your issue. Bad
-+   main memory for example can result in a multitude of issues that will
-+   manifest itself in problems looking like kernel issues.
-+
-+ * If you're dealing with a filesystem issue, you might want to check the file
-+   system in question with ``fsck``, as it might be damaged in a way that leads
-+   to unexpected kernel behavior.
-+
-+ * When dealing with a regression, make sure it's not something else that
-+   changed in parallel to updating the kernel. The problem for example might be
-+   caused by other software that was updated at the same time. It can also
-+   happen that a hardware component coincidentally just broke when you rebooted
-+   into a new kernel for the first time. Updating the systems BIOS or changing
-+   something in the BIOS Setup can also lead to problems that on look a lot
-+   like a kernel regression.
-+
-+
- .. ############################################################################
- .. Temporary marker added while this document is rewritten. Sections above
- .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+-.. ############################################################################
+-.. Temporary marker added while this document is rewritten. The sections below
+-.. up to a second marker of this kind are new and dual-licensed under GPLv2+
+-.. and CC-BY 4.0. Both sections are incomplete as of now and thus might be
+-.. inconsistent/not make sense before all patches of the rewrite got applied.
+-.. ###########################################################################
+-
+ 
+ The short guide (aka TL;DR)
+ ===========================
+@@ -1532,16 +1534,3 @@ issues to the Linux kernel developers: the length and complexity of this
+ document and the implications between the lines illustrate that. But that's how
+ it is for now. The main author of this text hopes documenting the state of the
+ art will lay some groundwork to improve the situation over time.
+-
+-.. ############################################################################
+-.. Temporary marker added while this document is rewritten. Sections above
+-.. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+-.. Both sections are incomplete as of now and thus sometimes inconsistent.
+-.. ###########################################################################
+-
+-How to report Linux kernel bugs
+-===============================
+-
+-Thank you!
+-
+-[Some of this is taken from Frohwalt Egerer's original linux-kernel FAQ]
 -- 
 2.28.0
 
