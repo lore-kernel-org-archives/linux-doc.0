@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 865B3C56201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9C5C56202
 	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 05:39:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29E3E2076E
+	by mail.kernel.org (Postfix) with ESMTP id 83CA6216FD
 	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 05:39:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="L5XvDnfg"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mQRgPrvW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728259AbgKLFjW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 00:39:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
+        id S1728854AbgKLFjX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 00:39:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728296AbgKLDeF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 22:34:05 -0500
+        with ESMTP id S1728361AbgKLDmw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Nov 2020 22:42:52 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43A1C0613D1;
-        Wed, 11 Nov 2020 19:34:05 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439E0C0613D1;
+        Wed, 11 Nov 2020 19:42:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
         :Reply-To:Content-ID:Content-Description;
-        bh=qNzJGu3xdVaK6XYAoGRv6/dUvX+61VnpRBKnhJMD9cU=; b=L5XvDnfghP5wURZ11Fnax/Bi51
-        oQ8L5wWClvwFx4ljSp9uDd5yIpu0XYYFiq/iwy8+57OJDQj1cD2MQNzZ4wFFRvNaV1hZ7aF9t5Z6v
-        ZGnzmSwyNpPbTzkSoZD7hfGkZojWkizQ6083483I+jnOQl24dHR47vEiYVDa3GEEIk87vC/tcpm6a
-        C8u0McM7YdFXGkzCgQAb03z5bFg54mSsakAXov3Vmm8zprtVU2kkYxqUGWZwiY67CAH7A91T4Jh1l
-        vwDFn5hLVAaq0anysEOyr2scBYgyNtp5C3H30+KA/JXCO3GSqBqEQXRbhl0g4590ZDSdiWMI8JzHr
-        iaDogVqg==;
+        bh=XIhp0Uwlzb3YaCRytxWxc3sb62zL2iQtCEUkdSPaNS0=; b=mQRgPrvWkalYG4F47CCF4i84Se
+        IULwE0slctczJm1158Q8WNlbtnpIzGYM53Dl5TjmmmPQ8cDY3dIK6LT7QNK+CNYlA083yeJl1+36H
+        dqX9Zwb3tBOURae2Ck8vU7/wwReMAlMWgZGDxVLuMWVpb8DnnIaK1HWSRSGj7rHzOL+vkOkrXf7pP
+        7dg2XNnGLmYzbkDlcyoiIz9KNAxOIyLhqFDK0RD+z5g+Ssd8QRKn5igHp6sv5/5xefGPLTgSqba1d
+        90bHSauOv2sd04PtqrnH6HMjJAPBdVwxa6PhhR5iepPsYflowW0/MLZnrKYRVF5A3NmQRXhRRCPtS
+        PWai3IZA==;
 Received: from [2601:1c0:6280:3f0::662d]
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kd3N4-0003BZ-CB; Thu, 12 Nov 2020 03:34:02 +0000
-Subject: Re: [RFC PATCH v1 02/26] docs: reporting-bugs: Create a TLDR how to
- report issues
+        id 1kd3Va-0003X5-1P; Thu, 12 Nov 2020 03:42:50 +0000
+Subject: Re: [RFC PATCH v1 15/26] docs: reporting-bugs: make readers test
+ mainline, but leave a loophole
 To:     Thorsten Leemhuis <linux@leemhuis.info>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1601541165.git.linux@leemhuis.info>
- <dc293f6d4f71ea827c861c64e88dfa0316f1d934.1601541165.git.linux@leemhuis.info>
- <8f3fce56-fdc4-c248-05ec-4fda1ee6fc54@infradead.org>
- <2b87f58f-ca74-6c73-fb7a-853cca2751bb@leemhuis.info>
- <6a8ffd01-ff1c-284b-42ac-23cd164e0873@leemhuis.info>
+ <e9166fcbb777e9b7685745e572ab7c7322596ec2.1601541165.git.linux@leemhuis.info>
+ <275187e0-92b5-d0a6-0bf7-76c827e2c808@infradead.org>
+ <a08d1012-78bf-5f84-26d2-4f596bc3b59d@leemhuis.info>
+ <873abf9c-5651-8dc3-70ea-b14e498661a7@leemhuis.info>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7eb95400-5ff1-ef14-d03f-b4d0f7482ac5@infradead.org>
-Date:   Wed, 11 Nov 2020 19:33:59 -0800
+Message-ID: <8c3bd254-4989-ea6f-1a73-84f68d0ac75e@infradead.org>
+Date:   Wed, 11 Nov 2020 19:42:46 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <6a8ffd01-ff1c-284b-42ac-23cd164e0873@leemhuis.info>
+In-Reply-To: <873abf9c-5651-8dc3-70ea-b14e498661a7@leemhuis.info>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -61,51 +61,99 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/11/20 7:24 AM, Thorsten Leemhuis wrote:
-> Am 03.10.20 um 09:27 schrieb Thorsten Leemhuis:
->> Randy, many thanks for looking through this, you feedback is much
->> appreciated! Consider all the obvious spelling and grammatical mistakes
->> you pointed out fixed, I won't mention all of them in this reply to keep
->> things easier to follow.
->>
->> Am 02.10.20 um 04:32 schrieb Randy Dunlap:
+On 11/11/20 7:36 AM, Thorsten Leemhuis wrote:
+> Am 03.10.20 um 12:11 schrieb Thorsten Leemhuis:
+>> Am 02.10.20 um 19:51 schrieb Randy Dunlap:
 >>> On 10/1/20 1:39 AM, Thorsten Leemhuis wrote:
->>> […]
->>>> +<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/MAINTAINERS>`_
->>>> +how developers of that particular area expect to be told about issues; note,
->>>     for how
->>> ?
->> Not sure myself, but I guess you're right and thus followed your advice :-D
+>>>> = RFC =
+>>>>
+>>>> Am I asking for too much from users by telling them to test mainline? But most
+>>>> will likely have an outdated and heavily patched vendor kernel anyway, so they
+>>>> have to install a vanilla kernel if they want to report something upstream;
+>>>> that's why I thought "well, then let's go all in and make them test mainline.
+>>> That is appropriate IMO.
 > 
 > I'm preparing to send v2 and was a bit unhappy with this and another section when seeing it again after weeks. In the end I reshuffled and rewrote significant parts of it, see below.
 > 
 > Randy, would be great if you could take another look, but no pressure: just ignore it, if you lack the time or energy.
 > 
 > ```
-> The short guide (aka TL;DR)
-> ===========================
+> Install a fresh kernel for testing
+> ----------------------------------
 > 
-> If you're facing multiple issues with the Linux kernel at once, report each separately to its developers. Try your best guess which kernel part might be causing the issue. Check the :ref:`MAINTAINERS <maintainers>` file for how its developers expect to be told about issues. Note, it's rarely `bugzilla.kernel.org <https://bugzilla.kernel.org/>`_, as in almost all cases the report needs to be sent by email!
+>     *Install the latest Linux mainline kernel: that's where all issues get fixed first, because it's the version line the kernel developers mainly care about. Testing and reporting with the latest Linux stable kernel can be an acceptable alternative in some situations, for example during the merge window; but during that period you might want to suspend your efforts till its end anyway.*
 > 
-> Check the destination thoroughly for existing reports; also search the LKML archives and the web. Join existing discussion if you find matches. If you don't find any, install `the latest Linux mainline kernel <https://kernel.org/>`_. Make sure it's vanilla, thus is not patched or using add-on kernel modules. Also ensure the kernel is running in a healthy environment and is not already tainted before the issue occurs.
+> Reporting an issue to the Linux kernel developers they fixed weeks or months ago is annoying for them and wasting their and your time. That's why it's in everybody's interest to check if the issue occurs with the latest codebase before reporting it.
 > 
-> If you can reproduce your issue with the mainline kernel, send a report to the destination you determined earlier. Make sure it includes all relevant information, which in case of a regression should mention the change that's causing it which can often can be found with a bisection. Also ensure the report reaches all people that need to know about it, for example the security team, the stable maintainers or the developers of the patch that causes a regression. Once the report it out, answer any questions that might be raised and help where you can. That includes keeping the ball rolling: every time a new rc1 mainline kernel is released, check if the issue is still happening there and attach a status update to your initial report.
-> 
-> If you can not reproduce the issue with the mainline kernel, consider sticking with it; if you'd like to use an older version line and want to see it fixed there, first make sure it's still supported. Install its latest release as vanilla kernel. If you cannot reproduce the issue there, try to find the commit that fixed it in mainline or any discussion preceding it: those will often mention if backporting is planed or considered impassable. If backporting was not discussed, ask if it's in the cards. In case you don't find
+> In the scope of the Linux kernel the term 'latest' means: a kernel version recently created from the main line of development, as this 'mainline' tree is where developer first apply fixes; only after that they are allowed to get backported to older, still 
 
-                                       impossible.  ??
+                              developers                   only after that are they
 
- any commits or a preceding discussion, see the Linux-stable mailing list archives for existing reports, as it might be a regression specific to the version line. If it is, it round about needs to be reported like a problem in mainline (including the bisection).
 
-                                 maybe:  it still needs to be reported like
+supported version lines called 'stable' and 'longterm' kernels. That's why you should check a recent mainline kernel, even if you deal with an issue you only want to see fixed in an older version line. Another reason: some fixes are only applied to mainline or recent version lines, as it's too hard or risky to backport them to older versions. If that the case, reporting the issue again is unlikely to change anything.
+> 
+> Longterm kernels (sometimes called "LTS kernels") are therefore unsuitable for testing, they simply are too distant from current 
+
+                                                                                 testing; they
+or                                                                               testing. They
+
+development. Even the latest Linux 'stable' kernel is a significant bit behind and thus better avoided. But sometimes it's even the right choice, but in those cases you might want to wait a few days before trying to reproduce an issue with the latest codebase:
+
+Try to remove one "But/but" in the sentence above.
 
 > 
-> If you reached this point without a solution, ask for advice one the subsystem's mailing list.
+> Choosing between mainline, stable and waiting
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Head over to `kernel.org <https://kernel.org/>`_ to decide which version to use. Ignore the big yellow button that says 'Latest release' and look a little lower for a table. At its top you'll see a line starting with 'mainline', which most of the time will point to a pre-release with a version number like '5.8-rc2'. If that's the case, you'll want to use this mainline kernel for testing. Do not let that 'rc' scare you, these 'development kernels' are pretty reliable — and you made a backup, as you were instructed above, don't
+
+s/don't/didn't/
+
+ you?
+> 
+> In about two out of every nine to ten weeks, 'mainline' might point you to a proper release with a version number like '5.7'. If that happens, consider suspending the reporting process until the first pre-release of the next version  (5.8-rc1) shows up on 
+
+                                                                                         only one space ^^
+
+kernel.org. That's because the Linux development cycle then is in its two-week long 'merge window'. The bulk of the changes and all intrusive ones get merged for the next release during this time. It's a bit more risky to use mainline during this period. Kernel developers are also often quite busy then and might have no spare time to deal with issue reports. It's also quite possible that one of the many changes applied during the merge window fixes the issue you face; that's why you soon would have to retest with a newer kernel version anyway, as outlined below in the section 'Duties after the report when out'.
+
+Should that be                                                  after the report went out'.
+?
+
+> 
+> That's why it might make sense to wait till the merge window is over. But don't to that if you're dealing with something that shouldn't wait. In that case consider obtaining the latest mainline kernel via git (see below) or use the latest stable version offered on kernel.org. Using that is also acceptable in case mainline for some reason does currently not work for you. An in general: using it for reproducing the issue is also better than not reporting it issue at all.
+> 
+> How to obtain a fresh Linux kernel
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> You can use pre-build or self-compiled kernel for testing; if you chose the latter approach, you can either obtain the source-code 
+
+              pre-built                                             choose                                               source code
+
+using git or download it as tar archive.
+> 
+> Using a pre-compiled kernel for testing is often the quickest, easiest, and safest way – especially is you are unfamiliar with the Linux kernel. But it needs to be a vanilla kernel, which can be hard to come buy. You are in luck if you are using a popular Linux distribution: for quite a few of them you'll find repositories on the net that contain packages with the latest mainline or stable kernels in vanilla fashion. It's totally okay to use these, just make sure from the repository's documentation they are really vanilla. And ensure the packages contain the latest versions as offered on kernel.org; they are likely unsuitable if the package is older than a week, as new mainline and stable kernels typically bet released at least once a week. And be aware that you might need to 
+
+                                                                get
+
+build your own kernel later anyway when it comes helping to test fixes, as described later in this document.
+
+                                   when it comes to helping test fixes,
+
+> 
+> Developers and experienced Linux users familiar with git are often best served by obtaining the latest Linux kernel sources straight from the `official development repository on kernel.org <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/>`_. Those are likely a bit ahead of the latest mainline pre-release. Don't worry about it: they are as reliable as a proper pre-release, unless the kernel's development cycle is currently in the middle of a merge window. But even then they are quite reliable.
+> 
+> People unfamiliar with git are often best served by downloading the sources as tarball from `kernel.org <https://kernel.org/>`_.
+> 
+> How to actually build a kernel not described here, as many websites explain the necessary steps already. If you are new to it, 
+
+                          kernel is not
+
+consider following one of those how-to's that suggest to use ``make localmodconfig``, as that tries to pick up the configuration of your current kernel and then tries to adjust it somewhat for your system. That does not make the resulting kernel any better, but quicker to compile.
 > ```
 
-Otherwise it looks good to me.
+LGTM. Thanks.
 
-thanks.
 -- 
 ~Randy
 
