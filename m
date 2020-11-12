@@ -2,71 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE99FC2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 12:36:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB7AC2D0A3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 12:50:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E5F22151B
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 12:36:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HySLG8oG"
+	by mail.kernel.org (Postfix) with ESMTP id EE9AF21D40
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 12:50:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727762AbgKLMg0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 07:36:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727223AbgKLMgZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 07:36:25 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 751DFC0613D1;
-        Thu, 12 Nov 2020 04:36:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=g6afxEkv8w12stEwjzr1cdlVobcym1pwKNlZUj1XDDI=; b=HySLG8oG5PBpDqgMbgodtI5XFP
-        ZiLbeKhp6CxbUCtFAQkAUFpwX/3QJAo9UdP7Mjvv8CximJI14Yqr9gMGYNligNGqV744l8WAfa0Rt
-        v5ERD7tlkp4a+AdY6AGK1VqxlqTpNtIxTpX19N/4YYAmOslCEM0C6zQKpyz6ck+opsGmDLqAWCDaj
-        CkoUJu79qHY/qkOBlsxcmK3NoG13it8mZbZJWH3PPaEUS9njqz4IXJVl125vZJ+kitgZ35zX4PDYh
-        k0/3J9I6XtD/5QPnCO/GHaoICwZUfT84MImc4XgNiy7BDLXRuS9SldgyOBBEjPARtHaWnMTn3MkVs
-        JPBIiRkA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kdBpt-0008Es-7g; Thu, 12 Nov 2020 12:36:21 +0000
-Date:   Thu, 12 Nov 2020 12:36:21 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Greg KH <gregkh@linuxfoundation.org>, corbet@lwn.net,
-        peterz@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
-Message-ID: <20201112123621.GY17076@casper.infradead.org>
-References: <cover.1605027593.git.skhan@linuxfoundation.org>
- <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
- <X6r7BIG8JTUOLcY0@kroah.com>
- <X6r7Vl45bgGQiAD2@kroah.com>
- <202011101614.E7D880689@keescook>
- <3075a4fd-8615-1459-2b20-b7d9d2be34ff@linuxfoundation.org>
+        id S1727916AbgKLMuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 07:50:10 -0500
+Received: from foss.arm.com ([217.140.110.172]:49422 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727035AbgKLMuK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Nov 2020 07:50:10 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFA89101E;
+        Thu, 12 Nov 2020 04:50:08 -0800 (PST)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A911B3F718;
+        Thu, 12 Nov 2020 04:50:07 -0800 (PST)
+References: <20201112113441.27008-1-song.bao.hua@hisilicon.com>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Barry Song <song.bao.hua@hisilicon.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linuxarm@huawei.com,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Adrian Freund <adrian@freund.io>
+Subject: Re: [PATCH] Documentation: scheduler: fix outdated information on arch SD flags and sched_domain
+In-reply-to: <20201112113441.27008-1-song.bao.hua@hisilicon.com>
+Date:   Thu, 12 Nov 2020 12:50:05 +0000
+Message-ID: <jhjft5eyc1u.mognet@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3075a4fd-8615-1459-2b20-b7d9d2be34ff@linuxfoundation.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 12:23:03PM -0700, Shuah Khan wrote:
-> > Agreed: this is a clear wrapping sequence counter. It's only abuse would
-> > be using it in a place where wrapping actually is _not_ safe. (bikeshed:
-> > can we call it wrap_u32 and wrap_u64?)
-> 
-> Still like seqnum_ops.
-> 
-> There is seqcount_t in seqlock.h which is a totally different feature.
 
-Yes, and that's why this new thing, whatever it is called should not
-have the word "sequence" in it.  People will get it confused.  Also,
-"ops" in Linux means "vector of methods", like a_ops, f_op, i_op, fl_ops.
+Hi,
+
+On 12/11/20 11:34, Barry Song wrote:
+> This document seems to be out of date for many, many years. Even it has
+> misspelled from the first day.
+> ARCH_HASH_SCHED_TUNE should be ARCH_HAS_SCHED_TUNE
+> ARCH_HASH_SCHED_DOMAIN should be ARCH_HAS_SCHED_DOMAIN
+>
+> But since v2.6.14, kernel completely deleted the relevant code and even
+> arch_init_sched_domains() was deleted.
+>
+> Right now, kernel is asking architectures to call set_sched_topology() to
+> override the default sched domains.
+>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Adrian Freund <adrian@freund.io>
+> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> ---
+>  Documentation/scheduler/sched-domains.rst | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
+> index 5c4b7f4f0062..434d4e7e86c5 100644
+> --- a/Documentation/scheduler/sched-domains.rst
+> +++ b/Documentation/scheduler/sched-domains.rst
+> @@ -69,15 +69,9 @@ The implementor should read comments in include/linux/sched.h:
+>  struct sched_domain fields, SD_FLAG_*, SD_*_INIT to get an idea of
+>  the specifics and what to tune.
+>
+> -Architectures may retain the regular override the default SD_*_INIT flags
+> -while using the generic domain builder in kernel/sched/core.c if they wish to
+> -retain the traditional SMT->SMP->NUMA topology (or some subset of that). This
+> -can be done by #define'ing ARCH_HASH_SCHED_TUNE.
+> -
+> -Alternatively, the architecture may completely override the generic domain
+> -builder by #define'ing ARCH_HASH_SCHED_DOMAIN, and exporting your
+> -arch_init_sched_domains function. This function will attach domains to all
+> -CPUs using cpu_attach_domain.
+> +Architectures may override the generic domain builder and the default
+> +SD_*_INIT flags by define'ing an array of sched_domain_topology_level and
+
+That's way before my time, but IIRC those macros are also gone since
+
+  143e1e28cb40 ("sched: Rework sched_domain topology definition")
+
+The only way to override flags for a given topology level is to create a
+new topology_level array and pass it through set_sched_topology() - reason
+being you can't redefine cpu_{smt, core, *}_flags().
+
+> +calling set_sched_topology() with this array as the parameter.
+>
+
+>  The sched-domains debugging infrastructure can be enabled by enabling
+>  CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
+
+This part about debug bits is also somewhat dusty. Mind adding the
+following to your patch?
+
+@Peter: would you object to getting rid of that sched_debug thing and
+always do the sched_domain_debug() faff whenever we have
+CONFIG_SCHED_DEBUG? Maybe keep sched_debug for the NUMA sort, but even then
+that already requires having CONFIG_SCHED_DEBUG...
+
+---
+diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
+index 434d4e7e86c5..0ebf8afb24ae 100644
+--- a/Documentation/scheduler/sched-domains.rst
++++ b/Documentation/scheduler/sched-domains.rst
+@@ -74,6 +74,8 @@ SD_*_INIT flags by define'ing an array of sched_domain_topology_level and
+ calling set_sched_topology() with this array as the parameter.
+
+ The sched-domains debugging infrastructure can be enabled by enabling
+-CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
+-which should catch most possible errors (described above). It also prints out
+-the domain structure in a visual format.
++CONFIG_SCHED_DEBUG and adding 'sched_debug' to your cmdline. If you forgot to
++tweak your cmdline, you can also flip the /sys/kernel/debug/sched_debug
++knob. This enables an error checking parse of the sched domains which should
++catch most possible errors (described above). It also prints out the domain
++structure in a visual format.
