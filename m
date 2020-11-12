@@ -7,115 +7,156 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B909C63697
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A591DC63699
 	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01BD622227
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C16822227
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 17:59:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726478AbgKLR7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726488AbgKLR7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 12 Nov 2020 12:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35118 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbgKLR7K (ORCPT
+        with ESMTP id S1726430AbgKLR7K (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:10 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0A5C0613D1;
-        Thu, 12 Nov 2020 09:59:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA013C061A48;
+        Thu, 12 Nov 2020 09:59:07 -0800 (PST)
 Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kdGsC-0006ue-Jl; Thu, 12 Nov 2020 18:59:04 +0100
+        id 1kdGsD-0006ue-C8; Thu, 12 Nov 2020 18:59:05 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 04/26] docs: reporting-bugs: step-by-step guide for issues in stable & longterm
-Date:   Thu, 12 Nov 2020 18:58:41 +0100
-Message-Id: <2d840fb91b7c5d481284275dea1d4f75fd755af6.1605203187.git.linux@leemhuis.info>
+Subject: [RFC PATCH v2 08/26] docs: reporting-bugs: make readers check the taint flag
+Date:   Thu, 12 Nov 2020 18:58:45 +0100
+Message-Id: <d21b7ead04852d3de7dd6892fe5e27aca1f345ff.1605203187.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605203187.git.linux@leemhuis.info>
 References: <cover.1605203187.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203950;e91369b8;
-X-HE-SMSGID: 1kdGsC-0006ue-Jl
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203947;764f585d;
+X-HE-SMSGID: 1kdGsD-0006ue-C8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Handle stable and longterm kernels in a subsection, as dealing with them
-directly in the main part of the step-by-step guide turned out to make
-it messy and hard to follow: it looked a bit like code with a large
-amount of if-then-else section to handle special cases, which made the
-typical flow hard to understand.
+Tell users early in the process to check the taint flag, as that will
+prevent them from investing time into a report that might be worthless.
+That way users for example will notice that the issue they face is in
+fact caused by an add-on kernel module or and Oops that happened
+earlier.
 
-Yet again a reference section will later describe each step in more
-detail and repeat each step as introduction.
+This approach has a downside: users will later have to check the flag
+again with the mainline kernel the guide tells them to install. But that
+is an acceptable trade-off here, as checking only takes a few seconds
+and can easily prevent wasting time in useless testing and debugging.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/admin-guide/reporting-bugs.rst | 48 ++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+
+= RFC =
+
+Should "disable DKMS" come before this step? But then the backup step
+right before that one would need to be moved as well, as disabling DKMS
+can easily mix things up.
+---
+ Documentation/admin-guide/reporting-bugs.rst  | 69 +++++++++++++++++++
+ Documentation/admin-guide/tainted-kernels.rst |  2 +
+ 2 files changed, 71 insertions(+)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index a654c54d7dc6..2b48c824d070 100644
+index fdd79d99c18f..8ac491419bde 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -162,6 +162,54 @@ After these preparations you'll now enter the main part:
-    help yourself, if you don't get any help or if it's unsatisfying.
+@@ -319,6 +319,75 @@ fatal error where the kernel stop itself) with a 'Oops' (a recoverable error),
+ as the kernel remains running after the latter.
  
  
-+Reporting issues only occurring in older kernel version lines
-+-------------------------------------------------------------
++Check 'taint' flag
++------------------
 +
-+This section is for you, if you tried the latest mainline kernel as outlined
-+above, but failed to reproduce your issue there; at the same time you want to
-+see the issue fixed in older version lines or a vendor kernel that's regularly
-+rebased on new stable or longterm releases. If that case follow these steps:
++    *Check if your kernel was 'tainted' when the issue occurred, as the event
++    that made the kernel set this flag might be causing the issue you face.*
 +
-+ * Prepare yourself for the possibility that going through the next few steps
-+   might not get the issue solved in older releases: the fix might be too big
-+   or risky to get backported there.
++The kernel marks itself with a 'taint' flag when something happens that might
++lead to follow-up errors that look totally unrelated. The issue you face might
++be such an error if your kernel is tainted. That's why it's in your interest to
++rule this out early before investing more time into this process. This is the
++only reason why this step is here, as this process later will tell you to
++install the latest mainline kernel; you will need to check the taint flag again
++then, as that's when it matters because it's the kernel the report will focus
++on.
 +
-+ * Check if the kernel developers still maintain the Linux kernel version
-+   line you care about: go to the front page of kernel.org and make sure it
-+   mentions the latest release of the particular version line without an
-+   '[EOL]' tag.
++On a running system is easy to check if the kernel tainted itself: if ``cat
++/proc/sys/kernel/tainted`` returns '0' then the kernel is not tainted and
++everything is fine. Checking that file is impossible in some situations; that's
++why the kernel also mentions the taint status when it reports an internal
++problem (a 'kernel bug'), a recoverable error (a 'kernel Oops') or a
++non-recoverable error before halting operation (a 'kernel panic'). Look near
++the top of the error messages printed when one of these occurs and search for a
++line starting with 'CPU:'. It should end with 'Not tainted' if the kernel was
++not tainted when it noticed the problem; it was tainted if you see 'Tainted:'
++followed by a few spaces and some letters.
 +
-+ * Check the archives of the Linux stable mailing list for existing reports.
++If your kernel is tainted, study
++:ref:`Documentation/admin-guide/tainted-kernels.rst <taintedkernels>` to find
++out why. Try to eliminate the reason. Often it's caused by one these three
++things:
 +
-+ * Install the latest release from the particular version line as a vanilla
-+   kernel. Ensure this kernel is not tainted and still shows the problem, as
-+   the issue might have already been fixed there.
++ 1. A recoverable error (a 'kernel Oops') occurred and the kernel tainted
++    itself, as the kernel knows it might misbehave in strange ways after that
++    point. In that case check your kernel or system log and look for a section
++    that starts with this::
 +
-+ * Search the Linux kernel version control system for the change that fixed
-+   the issue in mainline, as its commit message might tell you if the fix is
-+   scheduled for backporting already. If you don't find anything that way,
-+   search the appropriate mailing lists for posts that discuss such an issue
-+   or peer-review possible fixes; then check the discussions if the fix was
-+   deemed unsuitable for backporting. If backporting was not considered at
-+   all, join the newest discussion, asking if it's in the cards.
++       Oops: 0000 [#1] SMP
 +
-+ * Check if you're dealing with a regression that was never present in
-+   mainline by installing the first release of the version line you care
-+   about. If the issue doesn't show up with it, you basically need to report
-+   the issue with this version like you would report a problem with mainline
-+   (see above). This ideally includes a bisection followed by a search for
-+   existing reports on the net; with the help of the subject and the two
-+   relevant commit-ids. If that doesn't turn up anything, write the report; CC
-+   or forward the report to the stable maintainers, the stable mailing list,
-+   and those who authored the change. Include the shortened commit-id if you
-+   found the change that causes it.
++    That's the first Oops since boot-up, as the '#1' between the brackets shows.
++    Every Oops and any other problem that happens after that point might be a
++    follow-up problem to that first Oops, even if both look totally unrelated.
++    Rule this out by getting rid of the cause for the first Oops and reproducing
++    the issue afterwards. Sometimes simply restarting will be enough, sometimes a
++    change to the configuration followed by a reboot can eliminate the Oops. But
++    don't invest too much time into this at this point of the process, as the
++    cause for the Oops might already be fixed in the newer Linux kernel version
++    you are going to install later in this process.
 +
-+ * One of the former steps should lead to a solution. If that doesn't work
-+   out, ask the maintainers for the subsystem that seems to be causing the
-+   issue for advice; CC the mailing list for the particular subsystem as well
-+   as the stable mailing list.
++ 2. Your system uses a software that installs its own kernel modules, for
++    example Nvidia's proprietary graphics driver or VirtualBox. The kernel
++    taints itself when it loads such module from external sources (even if
++    they are Open Source): they sometimes cause errors in unrelated kernel
++    areas and thus might be causing the issue you face. You therefore have to
++    prevent those modules from loading when you want to report an issue to the
++    Linux kernel developers. Most of the time the easiest way to do that is:
++    temporarily uninstall such software including any modules they might have
++    installed. Afterwards reboot.
++
++ 3. The kernel also taints itself when it's loading a module that resides in
++    the staging tree of the Linux kernel source. That's a special area for
++    code (mostly drivers) that does not yet fulfill the normal Linux kernel
++    quality standards. When you report an issue with such a module it's
++    obviously okay if the kernel is tainted; just make sure the module in
++    question is the only reason for the taint. If the issue happens in an
++    unrelated area reboot and temporarily block the module from being loaded
++    by specifying ``foo.blacklist=1`` as kernel parameter (replace 'foo' with
++    the name of the module in question).
 +
 +
  .. ############################################################################
  .. Temporary marker added while this document is rewritten. Sections above
  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index f718a2eaf1f6..04d8da1fc080 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -1,3 +1,5 @@
++.. _taintedkernels:
++
+ Tainted kernels
+ ---------------
+ 
 -- 
 2.28.0
 
