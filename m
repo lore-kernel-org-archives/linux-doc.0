@@ -2,80 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F96C2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 07:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CFE9C2D0A3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 07:58:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D123722202
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 07:49:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5913221FB
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 07:58:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRLKYPMk"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2EJa2G8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725884AbgKLHtL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 02:49:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40500 "EHLO mail.kernel.org"
+        id S1725898AbgKLH6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 02:58:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43998 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725860AbgKLHtL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Nov 2020 02:49:11 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        id S1725884AbgKLH6Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Nov 2020 02:58:24 -0500
+Received: from kernel.org (unknown [77.125.7.142])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 00542221FE;
-        Thu, 12 Nov 2020 07:49:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E8D8620709;
+        Thu, 12 Nov 2020 07:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605167350;
-        bh=OsJVUcmEyZp5GjkeU03zDOuVPcqxAlznrpZOLPDkMSo=;
+        s=default; t=1605167903;
+        bh=geex83WHWE8HBNVfk7Eod1F5QhIUgKE/LhhHyh/o4i8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZRLKYPMkm3G/rR5Yen5XRYfn4/tSn8SiEyU+40K5Gw8mpvRGa8QUfTx00boapZ4kL
-         svBZvWmUcDtzjRSBF+tlNajbRKu2wqSB0bBHvO+NljD/es5M7K4/+UeS4DRIMjB3s5
-         VrkusVV4HtFyY/hAHYYfWDihYvRdJxPLPq1PnfFg=
-Date:   Thu, 12 Nov 2020 08:50:09 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Evgeny Boger <boger@wirenboard.com>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] w1: w1_therm: Rename conflicting sysfs attribute
- 'eeprom' to 'eeprom_cmd'
-Message-ID: <X6zpMRSLdAv6NoYV@kroah.com>
-References: <20201112064931.8471-1-ivan.zaentsev@wirenboard.ru>
+        b=i2EJa2G8SqC1E/irAV/jdjoRlBIoPjZ3rCQmrGZhmndxjS6XM5xe7wslTrO4UeTRw
+         322RVDuVg03A/JiZBtEOeJDNSdM9/gz0+CP9MERsl9TMatk1dzCG8N3aqtKhB3KIqy
+         ItglbMK3ggzGHAbF7WoSZJns7Vh/JODHcZL+o8p0=
+Date:   Thu, 12 Nov 2020 09:58:10 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
+        bhe@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+        corbet@lwn.net, John.P.donnelly@oracle.com, bhsharma@redhat.com,
+        prabhakar.pkin@gmail.com, horms@verge.net.au, robh+dt@kernel.org,
+        arnd@arndb.de, nsaenzjulienne@suse.de, james.morse@arm.com,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        xiexiuqi@huawei.com, guohanjun@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com
+Subject: Re: [PATCH v13 1/8] x86: kdump: replace the hard-coded alignment
+ with macro CRASH_ALIGN
+Message-ID: <20201112075810.GJ4758@kernel.org>
+References: <20201031074437.168008-1-chenzhou10@huawei.com>
+ <20201031074437.168008-2-chenzhou10@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201112064931.8471-1-ivan.zaentsev@wirenboard.ru>
+In-Reply-To: <20201031074437.168008-2-chenzhou10@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 09:49:31AM +0300, Ivan Zaentsev wrote:
-> Duplicate attribute 'eeprom' is defined in:
-> 1) Documentation/ABI/testing/sysfs-driver-w1_therm
-> 2) Documentation/ABI/stable/sysfs-driver-w1_ds28e04
+Hi,
+
+On Sat, Oct 31, 2020 at 03:44:30PM +0800, Chen Zhou wrote:
+> Move CRASH_ALIGN to header asm/kexec.h and replace the hard-coded
+> alignment with macro CRASH_ALIGN in function reserve_crashkernel().
 > 
-> Both drivers define an attribute: /sys/bus/w1/devices/.../eeprom
-> with conflicting behavior.
-> 
-> Fix by renaming the newer one in w1_therm.c to 'eeprom_cmd'.
-> 
-> Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Link: https://lore.kernel.org/lkml/20201029152845.6bbb39ce@coco.lan/
-> Signed-off-by: Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
+> Suggested-by: Dave Young <dyoung@redhat.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
 > ---
->  Documentation/ABI/testing/sysfs-driver-w1_therm |  2 +-
->  Documentation/w1/slaves/w1_therm.rst            |  2 +-
->  drivers/w1/slaves/w1_therm.c                    | 12 ++++++------
->  3 files changed, 8 insertions(+), 8 deletions(-)
+>  arch/x86/include/asm/kexec.h | 3 +++
+>  arch/x86/kernel/setup.c      | 5 +----
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
+> index 6802c59e8252..8cf9d3fd31c7 100644
+> --- a/arch/x86/include/asm/kexec.h
+> +++ b/arch/x86/include/asm/kexec.h
+> @@ -18,6 +18,9 @@
+>  
+>  # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
+>  
+> +/* 2M alignment for crash kernel regions */
+> +#define CRASH_ALIGN		SZ_16M
 
-Very nice, thanks for doing this, I'll go queue this up now.
+Please update the comment to match the code.
 
-greg k-h
+> +
+>  #ifndef __ASSEMBLY__
+>  
+>  #include <linux/string.h>
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 84f581c91db4..bf373422dc8a 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -395,9 +395,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>  
+>  #ifdef CONFIG_KEXEC_CORE
+>  
+> -/* 16M alignment for crash kernel regions */
+> -#define CRASH_ALIGN		SZ_16M
+> -
+>  /*
+>   * Keep the crash kernel below this limit.
+>   *
+> @@ -515,7 +512,7 @@ static void __init reserve_crashkernel(void)
+>  	} else {
+>  		unsigned long long start;
+>  
+> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
+> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
+>  						  crash_base + crash_size);
+>  		if (start != crash_base) {
+>  			pr_info("crashkernel reservation failed - memory is in use.\n");
+> -- 
+> 2.20.1
+> 
+
+-- 
+Sincerely yours,
+Mike.
