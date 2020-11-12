@@ -2,39 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D2BC55ABD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 655FEC2D0A3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:37:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE67B221FB
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:25:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 120AE221FC
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:37:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q1nGDHIg"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dVvC9+Ea"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbgKLIZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 03:25:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50166 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725884AbgKLIZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Nov 2020 03:25:20 -0500
-Received: from kernel.org (unknown [77.125.7.142])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726843AbgKLIhF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 03:37:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50354 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726479AbgKLIhE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 03:37:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605170223;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4rbM80lc2QHuCaufuKXk42IV+QKxU+fnFTQm9bwNqVY=;
+        b=dVvC9+EaQrzNTUD7YTsOToXHmfCRJ1VUFoNlPQXuzi3Dkh2uUGXCOJTDnAK9aAemjvn1fx
+        pvwz329kEACAolEWC36tmx1HrCTVHZ/nlf2vY7H8DegATJow/rkppcXU8Sx3lUAG3edul6
+        TIRKwTarqCU5BeHt2KQasfNn5eZLogY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-DC-gKL_APRCgSIVLLOv0LQ-1; Thu, 12 Nov 2020 03:36:58 -0500
+X-MC-Unique: DC-gKL_APRCgSIVLLOv0LQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2214F20825;
-        Thu, 12 Nov 2020 08:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605169519;
-        bh=uWlq5g2efEJEyEf0HFhZWgsDo31n3Eku7MoV4h7mxvU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q1nGDHIgUsRkPUQwR6MOSN6vGzERQBecgGM4PIsPLrnHLE2t3Hsua/Bj1MXi5Z5tv
-         Co+Pf2lmCdcadAJKLpPH++5OwrXd8/IYOWaj0K3EpLrHSplmHZZbEGzz5iinasPzHz
-         4PRpumS2d+e1+B4IgTcLfg4thRgQV7UXAYtH9FPc=
-Date:   Thu, 12 Nov 2020 10:25:09 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Baoquan He <bhe@redhat.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7C0E64157;
+        Thu, 12 Nov 2020 08:36:55 +0000 (UTC)
+Received: from localhost (ovpn-12-196.pek2.redhat.com [10.72.12.196])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 04AB15DA82;
+        Thu, 12 Nov 2020 08:36:48 +0000 (UTC)
+Date:   Thu, 12 Nov 2020 16:36:45 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Mike Rapoport <rppt@kernel.org>
 Cc:     chenzhou <chenzhou10@huawei.com>, tglx@linutronix.de,
         mingo@redhat.com, dyoung@redhat.com, catalin.marinas@arm.com,
         will@kernel.org, corbet@lwn.net, John.P.donnelly@oracle.com,
@@ -46,82 +56,85 @@ Cc:     chenzhou <chenzhou10@huawei.com>, tglx@linutronix.de,
         linux-arm-kernel@lists.infradead.org, huawei.libin@huawei.com,
         guohanjun@huawei.com, nsaenzjulienne@suse.de
 Subject: Re: [PATCH v13 6/8] arm64: kdump: reimplement crashkernel=X
-Message-ID: <20201112082509.GL4758@kernel.org>
+Message-ID: <20201112083645.GL8486@MiWiFi-R3L-srv>
 References: <20201031074437.168008-1-chenzhou10@huawei.com>
  <20201031074437.168008-7-chenzhou10@huawei.com>
  <20201111015926.GD24747@MiWiFi-R3L-srv>
  <23389389-2855-50fd-25b7-4f7d4246bf0c@huawei.com>
  <20201111135448.GF8486@MiWiFi-R3L-srv>
+ <20201112082509.GL4758@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201111135448.GF8486@MiWiFi-R3L-srv>
+In-Reply-To: <20201112082509.GL4758@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 09:54:48PM +0800, Baoquan He wrote:
-> On 11/11/20 at 09:27pm, chenzhou wrote:
-> > Hi Baoquan,
-> ...
-> > >>  #ifdef CONFIG_CRASH_DUMP
-> > >>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
-> > >> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> > >> index 1c0f3e02f731..c55cee290bbb 100644
-> > >> --- a/arch/arm64/mm/mmu.c
-> > >> +++ b/arch/arm64/mm/mmu.c
-> > >> @@ -488,6 +488,10 @@ static void __init map_mem(pgd_t *pgdp)
-> > >>  	 */
-> > >>  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
-> > >>  #ifdef CONFIG_KEXEC_CORE
-> > >> +	if (crashk_low_res.end)
-> > >> +		memblock_mark_nomap(crashk_low_res.start,
-> > >> +				    resource_size(&crashk_low_res));
-> > >> +
-> > >>  	if (crashk_res.end)
-> > >>  		memblock_mark_nomap(crashk_res.start,
-> > >>  				    resource_size(&crashk_res));
-> > >> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> > >> index d39892bdb9ae..cdef7d8c91a6 100644
-> > >> --- a/kernel/crash_core.c
-> > >> +++ b/kernel/crash_core.c
-> > >> @@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
-> > >>  
-> > >>  int __init reserve_crashkernel_low(void)
-> > >>  {
-> > >> -#ifdef CONFIG_X86_64
-> > >> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
-> > > Not very sure if a CONFIG_64BIT checking is better.
-> > If doing like this, there may be some compiling errors for other 64-bit kernel, such as mips.
-> > >
-> > >>  	unsigned long long base, low_base = 0, low_size = 0;
-> > >>  	unsigned long low_mem_limit;
-> > >>  	int ret;
-> > >> @@ -362,12 +362,14 @@ int __init reserve_crashkernel_low(void)
-> > >>  
-> > >>  	crashk_low_res.start = low_base;
-> > >>  	crashk_low_res.end   = low_base + low_size - 1;
-> > >> +#ifdef CONFIG_X86_64
-> > >>  	insert_resource(&iomem_resource, &crashk_low_res);
-> > >> +#endif
-> > >>  #endif
-> > >>  	return 0;
-> > >>  }
-> > >>  
-> > >> -#ifdef CONFIG_X86
-> > >> +#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
-> > > Should we make this weak default so that we can remove the ARCH config?
-> > The same as above, some arch may not support kdump, in that case,  compiling errors occur.
+On 11/12/20 at 10:25am, Mike Rapoport wrote:
+> On Wed, Nov 11, 2020 at 09:54:48PM +0800, Baoquan He wrote:
+> > On 11/11/20 at 09:27pm, chenzhou wrote:
+> > > Hi Baoquan,
+> > ...
+> > > >>  #ifdef CONFIG_CRASH_DUMP
+> > > >>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+> > > >> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> > > >> index 1c0f3e02f731..c55cee290bbb 100644
+> > > >> --- a/arch/arm64/mm/mmu.c
+> > > >> +++ b/arch/arm64/mm/mmu.c
+> > > >> @@ -488,6 +488,10 @@ static void __init map_mem(pgd_t *pgdp)
+> > > >>  	 */
+> > > >>  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
+> > > >>  #ifdef CONFIG_KEXEC_CORE
+> > > >> +	if (crashk_low_res.end)
+> > > >> +		memblock_mark_nomap(crashk_low_res.start,
+> > > >> +				    resource_size(&crashk_low_res));
+> > > >> +
+> > > >>  	if (crashk_res.end)
+> > > >>  		memblock_mark_nomap(crashk_res.start,
+> > > >>  				    resource_size(&crashk_res));
+> > > >> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> > > >> index d39892bdb9ae..cdef7d8c91a6 100644
+> > > >> --- a/kernel/crash_core.c
+> > > >> +++ b/kernel/crash_core.c
+> > > >> @@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
+> > > >>  
+> > > >>  int __init reserve_crashkernel_low(void)
+> > > >>  {
+> > > >> -#ifdef CONFIG_X86_64
+> > > >> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
+> > > > Not very sure if a CONFIG_64BIT checking is better.
+> > > If doing like this, there may be some compiling errors for other 64-bit kernel, such as mips.
+> > > >
+> > > >>  	unsigned long long base, low_base = 0, low_size = 0;
+> > > >>  	unsigned long low_mem_limit;
+> > > >>  	int ret;
+> > > >> @@ -362,12 +362,14 @@ int __init reserve_crashkernel_low(void)
+> > > >>  
+> > > >>  	crashk_low_res.start = low_base;
+> > > >>  	crashk_low_res.end   = low_base + low_size - 1;
+> > > >> +#ifdef CONFIG_X86_64
+> > > >>  	insert_resource(&iomem_resource, &crashk_low_res);
+> > > >> +#endif
+> > > >>  #endif
+> > > >>  	return 0;
+> > > >>  }
+> > > >>  
+> > > >> -#ifdef CONFIG_X86
+> > > >> +#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
+> > > > Should we make this weak default so that we can remove the ARCH config?
+> > > The same as above, some arch may not support kdump, in that case,  compiling errors occur.
+> > 
+> > OK, not sure if other people have better idea, oterwise, we can leave with it. 
+> > Thanks for telling.
 > 
-> OK, not sure if other people have better idea, oterwise, we can leave with it. 
-> Thanks for telling.
+> I think it would be better to have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
+> in arch/Kconfig and select this by X86 and ARM64.
+> 
+> Since reserve_crashkernel() implementations are quite similart on other
+> architectures as well, we can have more users of this later.
 
-I think it would be better to have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
-in arch/Kconfig and select this by X86 and ARM64.
+Yes, this sounds like a nice way.
 
-Since reserve_crashkernel() implementations are quite similart on other
-architectures as well, we can have more users of this later.
-
--- 
-Sincerely yours,
-Mike.
