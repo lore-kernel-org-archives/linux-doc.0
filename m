@@ -2,133 +2,239 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3947BC63699
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C47ACC56202
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 20:51:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3DF521D91
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:02:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7843F21D91
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 20:51:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbgKLSBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 13:01:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35096 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725966AbgKLR7H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:07 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8418C0613D4;
-        Thu, 12 Nov 2020 09:59:07 -0800 (PST)
-Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kdGsD-0006ue-03; Thu, 12 Nov 2020 18:59:05 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 06/26] docs: reporting-bugs: point out we only care about fresh vanilla kernels
-Date:   Thu, 12 Nov 2020 18:58:43 +0100
-Message-Id: <c5a8c2126499ae6093cb25dff7b78b83764a1554.1605203187.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1605203187.git.linux@leemhuis.info>
-References: <cover.1605203187.git.linux@leemhuis.info>
+        id S1726893AbgKLUvx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 15:51:53 -0500
+Received: from smtp-42ac.mail.infomaniak.ch ([84.16.66.172]:35085 "EHLO
+        smtp-42ac.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727134AbgKLUvw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 15:51:52 -0500
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CXDKx17LKzlhThL;
+        Thu, 12 Nov 2020 21:51:49 +0100 (CET)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4CXDKv5ZJtzlh8T4;
+        Thu, 12 Nov 2020 21:51:46 +0100 (CET)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v24 00/12] Landlock LSM
+Date:   Thu, 12 Nov 2020 21:51:29 +0100
+Message-Id: <20201112205141.775752-1-mic@digikod.net>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=yes
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203947;764f585d;
-X-HE-SMSGID: 1kdGsD-0006ue-03
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-More explicitly than the old text point out the Linux kernel developers
-don't care about vendor kernels. That is obvious to Linux kernel
-developers, but something a lot of users fail to gasp, as quite a few (a
-lot?) reports on bugzilla.kernel.org show; most of them get silently
-ignored, which is frustrating for people that invested time in preparing
-and writing the report. This should help to reduce that. It also
-explains the reasons, as some users otherwise might think "why do kernel
-devs makes things so complicated for me".
+Hi,
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
+This patch series simplifies the code, makes stacked access-control more
+consistent (from the user point of view), properly handles memory
+allocation errors, and adds more tests (covering layered ruleset corner
+cases).  Most of these changes were sent as a separate patch series:
+https://lore.kernel.org/lkml/20201111213442.434639-1-mic@digikod.net/
 
-= RFC =
+James and Jann, could you please take a look at the main changes
+(patches 2, 7 and 8)?
 
-Should we accept reports for issues with kernel images that are pretty
-close to vanilla? But when are they close enough and how to put that
-line in words? Maybe something like this (any major distributions
-missing?):
+The SLOC count is 1185 for security/landlock/ and 1767 for
+tools/testing/selftest/landlock/ .  Test coverage for security/landlock/
+is 94.8% of lines.  The code not covered only deals with internal kernel
+errors (e.g. memory allocation) and race conditions.
 
-```Note: Some Linux kernel developers accept reports from vendor kernels
-that are known to be close to upstream. That for example is often the
-case for the kernels that Debian GNU/Linux Sid or Fedora Rawhide ship,
-which are close to mainline. Additionally, Arch Linux, other Fedora
-releases, and openSUSE Tumbleweed often use recent stable kernels that
-are pretty close to upstream, too. So a report with one of these might
-be acceptable. But it depends heavily on the individual issue and the
-involved developers, as some expect tests with a frehs vanilla mainline
-kernel. That's why installing one is the safe bet.```
----
- Documentation/admin-guide/reporting-bugs.rst | 35 ++++++++++++++++----
- 1 file changed, 29 insertions(+), 6 deletions(-)
+The compiled documentation is available here:
+https://landlock.io/linux-doc/landlock-v24/userspace-api/landlock.html
 
-diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index 8993b4ccb0f0..9122889509de 100644
---- a/Documentation/admin-guide/reporting-bugs.rst
-+++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -251,6 +251,35 @@ With that off the table, find below the details on how to properly report
- issues to the Linux kernel developers.
- 
- 
-+Make sure you're using the upstream Linux kernel
-+------------------------------------------------
-+
-+   *Stop reading this document and report the problem to your vendor instead,
-+   unless you are running the latest mainline kernel already or are willing to
-+   install it. This kernel must not be modified or enhanced in any way, and
-+   thus be considered 'vanilla'.*
-+
-+Like most programmers, Linux kernel developers don't like to spend time dealing
-+with reports for issues that don't even happen with the source code they
-+maintain: it's just a waste everybody's time, yours included. That's why you
-+later will have to test your issue with the latest 'vanilla' kernel: a kernel
-+that was build using the Linux sources taken straight from `kernel.org
-+<https://kernel.org/>`_ and not modified or enhanced in any way.
-+
-+Almost all kernels used in devices (Computers, Laptops, Smartphones, Routers,
-+…) and most kernels shipped by Linux distributors are ancient from the point of
-+kernel development and heavily modified. They thus do not qualify for reporting
-+an issue to the Linux kernel developers: the issue you face with such a kernel
-+might be fixed already or caused by the changes or additions, even if they look
-+small or totally unrelated. That's why issues with such kernels need to be
-+reported to the vendor that distributed it. Its developers should look into the
-+report and, in case it turns out to be an upstream issue, fix it directly
-+upstream or report it there. In practice that sometimes does not work out. If
-+that the case, you might want to circumvent the vendor by installing the latest
-+mainline kernel yourself and reporting the issue as outlined in this document;
-+just make sure to use really fresh kernel (see below).
-+
-+
- .. ############################################################################
- .. Temporary marker added while this document is rewritten. Sections above
- .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
-@@ -268,12 +297,6 @@ Please see https://www.kernel.org/ for a list of supported kernels.  Any
- kernel marked with [EOL] is "end of life" and will not have any fixes
- backported to it.
- 
--If you've found a bug on a kernel version that isn't listed on kernel.org,
--contact your Linux distribution or embedded vendor for support.
--Alternatively, you can attempt to run one of the supported stable or -rc
--kernels, and see if you can reproduce the bug on that.  It's preferable
--to reproduce the bug on the latest -rc kernel.
--
- 
- How to report Linux kernel bugs
- ===============================
+This series can be applied on top of v5.10-rc3 .  This can be tested
+with CONFIG_SECURITY_LANDLOCK, CONFIG_SAMPLE_LANDLOCK and by prepending
+"landlock," to CONFIG_LSM.  This patch series can be found in a Git
+repository here:
+https://github.com/landlock-lsm/linux/commits/landlock-v24
+I would really appreciate constructive comments on this patch series.
+
+
+# Landlock LSM
+
+The goal of Landlock is to enable to restrict ambient rights (e.g.
+global filesystem access) for a set of processes.  Because Landlock is a
+stackable LSM [1], it makes possible to create safe security sandboxes
+as new security layers in addition to the existing system-wide
+access-controls. This kind of sandbox is expected to help mitigate the
+security impact of bugs or unexpected/malicious behaviors in user-space
+applications. Landlock empowers any process, including unprivileged
+ones, to securely restrict themselves.
+
+Landlock is inspired by seccomp-bpf but instead of filtering syscalls
+and their raw arguments, a Landlock rule can restrict the use of kernel
+objects like file hierarchies, according to the kernel semantic.
+Landlock also takes inspiration from other OS sandbox mechanisms: XNU
+Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
+
+In this current form, Landlock misses some access-control features.
+This enables to minimize this patch series and ease review.  This series
+still addresses multiple use cases, especially with the combined use of
+seccomp-bpf: applications with built-in sandboxing, init systems,
+security sandbox tools and security-oriented APIs [2].
+
+Previous version:
+https://lore.kernel.org/lkml/20201103182109.1014179-1-mic@digikod.net/
+
+[1] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+[2] https://lore.kernel.org/lkml/f646e1c7-33cf-333f-070c-0a40ad0468cd@digikod.net/
+
+
+Casey Schaufler (1):
+  LSM: Infrastructure management of the superblock
+
+Mickaël Salaün (11):
+  landlock: Add object management
+  landlock: Add ruleset and domain management
+  landlock: Set up the security framework and manage credentials
+  landlock: Add ptrace restrictions
+  fs,security: Add sb_delete hook
+  landlock: Support filesystem access-control
+  landlock: Add syscall implementations
+  arch: Wire up Landlock syscalls
+  selftests/landlock: Add user space tests
+  samples/landlock: Add a sandbox manager example
+  landlock: Add user and kernel documentation
+
+ Documentation/security/index.rst              |    1 +
+ Documentation/security/landlock.rst           |   79 +
+ Documentation/userspace-api/index.rst         |    1 +
+ Documentation/userspace-api/landlock.rst      |  275 +++
+ MAINTAINERS                                   |   13 +
+ arch/Kconfig                                  |    7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    3 +
+ arch/arm/tools/syscall.tbl                    |    3 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    6 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |    3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    3 +
+ arch/um/Kconfig                               |    1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    3 +
+ fs/super.c                                    |    1 +
+ include/linux/lsm_hook_defs.h                 |    1 +
+ include/linux/lsm_hooks.h                     |    3 +
+ include/linux/security.h                      |    4 +
+ include/linux/syscalls.h                      |    7 +
+ include/uapi/asm-generic/unistd.h             |    8 +-
+ include/uapi/linux/landlock.h                 |  128 ++
+ kernel/sys_ni.c                               |    5 +
+ samples/Kconfig                               |    7 +
+ samples/Makefile                              |    1 +
+ samples/landlock/.gitignore                   |    1 +
+ samples/landlock/Makefile                     |   15 +
+ samples/landlock/sandboxer.c                  |  236 +++
+ security/Kconfig                              |   11 +-
+ security/Makefile                             |    2 +
+ security/landlock/Kconfig                     |   21 +
+ security/landlock/Makefile                    |    4 +
+ security/landlock/common.h                    |   20 +
+ security/landlock/cred.c                      |   46 +
+ security/landlock/cred.h                      |   58 +
+ security/landlock/fs.c                        |  608 ++++++
+ security/landlock/fs.h                        |   60 +
+ security/landlock/object.c                    |   67 +
+ security/landlock/object.h                    |   91 +
+ security/landlock/ptrace.c                    |  120 ++
+ security/landlock/ptrace.h                    |   14 +
+ security/landlock/ruleset.c                   |  361 ++++
+ security/landlock/ruleset.h                   |  158 ++
+ security/landlock/setup.c                     |   40 +
+ security/landlock/setup.h                     |   18 +
+ security/landlock/syscall.c                   |  426 ++++
+ security/security.c                           |   51 +-
+ security/selinux/hooks.c                      |   58 +-
+ security/selinux/include/objsec.h             |    6 +
+ security/selinux/ss/services.c                |    3 +-
+ security/smack/smack.h                        |    6 +
+ security/smack/smack_lsm.c                    |   35 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/landlock/.gitignore   |    2 +
+ tools/testing/selftests/landlock/Makefile     |   24 +
+ tools/testing/selftests/landlock/base_test.c  |  117 ++
+ tools/testing/selftests/landlock/common.h     |  113 +
+ tools/testing/selftests/landlock/config       |    5 +
+ tools/testing/selftests/landlock/fs_test.c    | 1824 +++++++++++++++++
+ .../testing/selftests/landlock/ptrace_test.c  |  307 +++
+ tools/testing/selftests/landlock/true.c       |    5 +
+ 71 files changed, 5455 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/security/landlock.rst
+ create mode 100644 Documentation/userspace-api/landlock.rst
+ create mode 100644 include/uapi/linux/landlock.h
+ create mode 100644 samples/landlock/.gitignore
+ create mode 100644 samples/landlock/Makefile
+ create mode 100644 samples/landlock/sandboxer.c
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/common.h
+ create mode 100644 security/landlock/cred.c
+ create mode 100644 security/landlock/cred.h
+ create mode 100644 security/landlock/fs.c
+ create mode 100644 security/landlock/fs.h
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
+ create mode 100644 security/landlock/ruleset.c
+ create mode 100644 security/landlock/ruleset.h
+ create mode 100644 security/landlock/setup.c
+ create mode 100644 security/landlock/setup.h
+ create mode 100644 security/landlock/syscall.c
+ create mode 100644 tools/testing/selftests/landlock/.gitignore
+ create mode 100644 tools/testing/selftests/landlock/Makefile
+ create mode 100644 tools/testing/selftests/landlock/base_test.c
+ create mode 100644 tools/testing/selftests/landlock/common.h
+ create mode 100644 tools/testing/selftests/landlock/config
+ create mode 100644 tools/testing/selftests/landlock/fs_test.c
+ create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
+ create mode 100644 tools/testing/selftests/landlock/true.c
+
+
+base-commit: f8394f232b1eab649ce2df5c5f15b0e528c92091
 -- 
-2.28.0
+2.29.2
 
