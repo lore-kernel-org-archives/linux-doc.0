@@ -2,130 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED25CC56201
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:25:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C013C2D0A3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:28:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B15922248
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:25:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D75D32220B
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:28:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6gEoa6u"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="DrDYZx2Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728073AbgKLNZS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 08:25:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55064 "EHLO mail.kernel.org"
+        id S1727796AbgKLN2Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 08:28:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55516 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727646AbgKLNZR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Nov 2020 08:25:17 -0500
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1727646AbgKLN2X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Nov 2020 08:28:23 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BEB512224E;
-        Thu, 12 Nov 2020 13:25:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CFF6C207BB;
+        Thu, 12 Nov 2020 13:28:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605187516;
-        bh=0S9Ca5zJ7bjT8Vjgj3PHZvQXR6APITbF8c6A9gq6VTg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=D6gEoa6uMrlTcVmKpU1ba4gwfaufRkvsEMPvXWRtboTzCIk4XNL6UpgqlfqSZ9Zin
-         fVoz3dY/YI/fxztgPKI3oe1+o9nA51ao9m8Di3mYYaKIprIKdD3yut4xBnNZBSWdad
-         /bvIXoFxYPFLLpnAlePjN/3gGIfnwQnmim/XkmmM=
-Received: by mail-oi1-f169.google.com with SMTP id t143so6297134oif.10;
-        Thu, 12 Nov 2020 05:25:16 -0800 (PST)
-X-Gm-Message-State: AOAM531DcpijDvw4ZoU3aJPd2K6yCEhi3SxokEKH4BLbsEt2xsMSdVKf
-        OflK8tsJ0qdOmV47Bqj+65qPVpEG6/FqPWzFyRY=
-X-Google-Smtp-Source: ABdhPJymDESsvudCUun4XJC3EAUxQ5lXPZ0Iyd9DNYW1P1XChwL4Y3Hh/ut77Mm2Ni1RNDAYtpKfxIYCd7jOm5tT7P0=
-X-Received: by 2002:aca:3c54:: with SMTP id j81mr5673905oia.11.1605187515847;
- Thu, 12 Nov 2020 05:25:15 -0800 (PST)
+        s=default; t=1605187701;
+        bh=ZoJYtnjpFeo15zEgWAC3KwZ0Ql2KlZugewN+6qWIp5A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DrDYZx2ZQO8XiDnVzzxlTVuvAdhNdpoxAzVasz+Zrnvm0Nfxz7KFRTpBO9xxiqm+U
+         EqbsLlZ0lIJNXo/uIXHaO/bfzcwuDSV9XyF8YYRauuwQZF3YGRahfPk5hp2Sgc1ZfZ
+         ebV1zK+50yQhmvtkku++rus7F+Iq5Jvp1Xu3q0YI=
+Date:   Thu, 12 Nov 2020 14:29:19 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
+        keescook@chromium.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
+Message-ID: <X604rzqJOoT+O+Ox@kroah.com>
+References: <cover.1605027593.git.skhan@linuxfoundation.org>
+ <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
+ <20201111082320.GR2611@hirez.programming.kicks-ass.net>
+ <7207fad6-6ca4-529b-60a8-63db998d10d9@linuxfoundation.org>
+ <20201111160411.GF2628@hirez.programming.kicks-ass.net>
+ <3fccb8d5-825a-a283-7b7e-6193e0c90237@linuxfoundation.org>
+ <20201111175031.GI2628@hirez.programming.kicks-ass.net>
+ <0aed620f-911d-4715-bd41-a6b9a37862b4@linuxfoundation.org>
+ <20201111201555.GN2628@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-References: <20200930153519.7282-16-kishon@ti.com> <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
- <d6d27475-3464-6772-2122-cc194b8ae022@ti.com> <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
- <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com> <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
- <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com>
-In-Reply-To: <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Thu, 12 Nov 2020 14:24:59 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a33XSvenqBhuQpGmtLbYydyzY2OQh73150TJtpzW24DTw@mail.gmail.com>
-Message-ID: <CAK8P3a33XSvenqBhuQpGmtLbYydyzY2OQh73150TJtpzW24DTw@mail.gmail.com>
-Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
- Non-Transparent Bridge
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Sherry Sun <sherry.sun@nxp.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jdmason@kudzu.us" <jdmason@kudzu.us>,
-        "dave.jiang@intel.com" <dave.jiang@intel.com>,
-        "allenbh@gmail.com" <allenbh@gmail.com>,
-        "tjoseph@cadence.com" <tjoseph@cadence.com>,
-        Rob Herring <robh@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201111201555.GN2628@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 4:42 PM Kishon Vijay Abraham I <kishon@ti.com> wrote:
-> On 10/11/20 8:29 pm, Arnd Bergmann wrote:
-> > On Tue, Nov 10, 2020 at 3:20 PM Kishon Vijay Abraham I <kishon@ti.com> wrote:
-> >> On 10/11/20 7:55 am, Sherry Sun wrote:
-> >
-> >>> But for VOP, only two boards are needed(one board as host and one board as card) to realize the
-> >>> communication between the two systems, so my question is what are the advantages of using NTB?
-> >>
-> >> NTB is a bridge that facilitates communication between two different
-> >> systems. So it by itself will not be source or sink of any data unlike a
-> >> normal EP to RP system (or the VOP) which will be source or sink of data.
-> >>
-> >>> Because I think the architecture of NTB seems more complicated. Many thanks!
-> >>
-> >> yeah, I think it enables a different use case all together. Consider you
-> >> have two x86 HOST PCs (having RP) and they have to be communicate using
-> >> PCIe. NTB can be used in such cases for the two x86 PCs to communicate
-> >> with each other over PCIe, which wouldn't be possible without NTB.
-> >
-> > I think for VOP, we should have an abstraction that can work on either NTB
-> > or directly on the endpoint framework but provide an interface that then
-> > lets you create logical devices the same way.
-> >
-> > Doing VOP based on NTB plus the new NTB_EPF driver would also
-> > work and just move the abstraction somewhere else, but I guess it
-> > would complicate setting it up for those users that only care about the
-> > simpler endpoint case.
->
-> I'm not sure if you've got a chance to look at [1], where I added
-> support for RP<->EP system both running Linux, with EP configured using
-> Linux EP framework (as well as HOST ports connected to NTB switch,
-> patches 20 and 21, that uses the Linux NTB framework) to communicate
-> using virtio over PCIe.
->
-> The cover-letter [1] shows a picture of the two use cases supported in
-> that series.
->
-> [1] -> http://lore.kernel.org/r/20200702082143.25259-1-kishon@ti.com
+On Wed, Nov 11, 2020 at 09:15:55PM +0100, Peter Zijlstra wrote:
+> On Wed, Nov 11, 2020 at 11:28:13AM -0700, Shuah Khan wrote:
+> > On 11/11/20 10:50 AM, Peter Zijlstra wrote:
+> > > On Wed, Nov 11, 2020 at 10:34:05AM -0700, Shuah Khan wrote:
+> > > 
+> > > > Not sure what to make of the 6080 atomic_read()s and 3413
+> > > > atomic_inc()s, some of which might be assuming uniqueness
+> > > > guarantee.
+> > > 
+> > > Well, clearly you just did: git grep atimic_{read,inc}() | wc -l and
+> > > didn't look at the usage. Equally clearly there can be bugs. Also
+> > > evidently much of those are not in fact sequence numbers.
+> > > 
+> > 
+> > Looking at the usage and classifying which usages are sequence
+> > numbers is part of may audit and we are covered. Your explanation
+> > and this discussion helps with do a better audit of these usages.
+> 
+> Auditing is fine, but I still don't see any point in actually having
+> these wrapping types. It's all a waste of space and compile-time IMO.
+> 
+> Neither this sequence counter, nor stat_t or whatever else bring any
+> actual differences. They're pure wrappers without change in semantics.
+> 
+> refcount_t is useful because it brought different semantics, it raises
+> exceptions on invalid usage (wraps). But this is just pointless NOPs.
+> 
+> So do your audit, but only introduce new types for things that actually
+> have different semantics. If you do a patch and the generated code is
+> 100% identical but you have many more lines of code, you've only made it
+> worse.
 
-No, I missed, that, thanks for pointing me to it!
+I'm sorry, but as someone who reviews the second-most code in the
+kernel, I have to disagree.  If I see a "raw" atomic_t being used in a
+driver, I then have to look up all instances of where that variable is
+being used, to verify what they are using it for, why they are using,
+and if all of the means they are really using it in the correct way.
 
-This looks very  promising indeed, I need to read up on the whole
-discussion there. I also see your slides at [1]  that help do explain some
-of it. I have one fundamental question that I can't figure out from
-the description, maybe you can help me here:
+Always remember that atomic_t is way down there on the "Rusty scale of
+designing an API you can use properly" scale:
+	https://ozlabs.org/~rusty/ols-2003-keynote/img46.html
 
-How is the configuration managed, taking the EP case as an
-example? Your UseCase1 example sounds like the system that owns
-the EP hardware is the one that turns the EP into a vhost device,
-and creates a vhost-rpmsg device on top, while the RC side would
-probe the pci-vhost and then detect a virtio-rpmsg device to talk to.
-Can it also do the opposite, so you end up with e.g. a virtio-net
-device on the EP side and vhost-net on the RC?
+If I see a sequence_t variable (or whatever we end up calling it), then
+I instantly KNOW what this is for, and that is is impossible to get it
+wrong when using it as the API for that variable prevents it from being
+misused in horrible ways (like setting it to a value and decrementing
+it.)
 
-     Arnd
+If me, as a kernel developer, wants to add a sequence number to my
+driver, yes, I can "open code" one using an atomic_t and get it right
+(or just use a u64 like we do for uevents), but then when I go back and
+look at the code in 5 years, I have to try to remember exactly what I
+did and where it is used and try to ensure that no one changed it
+incorrectly.  Again, if this is a sequence_t, all of that goes away.
 
-[1] https://linuxplumbersconf.org/event/7/contributions/849/attachments/642/1175/Virtio_for_PCIe_RC_EP_NTB.pdf
+So this doesn't save codespace, or generated code, it saves mental
+energy which is the most limited resource we have.  We write code for
+the developers first, the compiler and cpu second, in order to create
+something that us developers can maintain for long periods of time.
+Kernel code is not like perl (write once, modify never), but like laws
+(write once, modify constantly).
+
+Remember us poor maintainers, who are doing the reviewing, and the
+junior developers, creating new drivers where they have to implement
+common features/patterns and the people that come after us and curse our
+name as they try to understand exactly what a specific atomic_t was
+supposed to be doing.  We want to make all of our lives easier, and this
+type of api does just that.
+
+thanks,
+
+greg k-h
