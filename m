@@ -2,130 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CCEC2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:11:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED25CC56201
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:25:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75C6321D91
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:11:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B15922248
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 13:25:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6gEoa6u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728042AbgKLNLi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 08:11:38 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7180 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727819AbgKLNLh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 08:11:37 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CX26k3fPJz15QkN;
-        Thu, 12 Nov 2020 21:11:26 +0800 (CST)
-Received: from [10.174.176.61] (10.174.176.61) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 12 Nov 2020 21:11:30 +0800
-Subject: Re: [PATCH v13 6/8] arm64: kdump: reimplement crashkernel=X
-To:     Baoquan He <bhe@redhat.com>, Mike Rapoport <rppt@kernel.org>
-References: <20201031074437.168008-1-chenzhou10@huawei.com>
- <20201031074437.168008-7-chenzhou10@huawei.com>
- <20201111015926.GD24747@MiWiFi-R3L-srv>
- <23389389-2855-50fd-25b7-4f7d4246bf0c@huawei.com>
- <20201111135448.GF8486@MiWiFi-R3L-srv> <20201112082509.GL4758@kernel.org>
- <20201112083645.GL8486@MiWiFi-R3L-srv>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <dyoung@redhat.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
-        <John.P.donnelly@oracle.com>, <bhsharma@redhat.com>,
-        <prabhakar.pkin@gmail.com>, <wangkefeng.wang@huawei.com>,
-        <arnd@arndb.de>, <linux-doc@vger.kernel.org>,
-        <xiexiuqi@huawei.com>, <kexec@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <robh+dt@kernel.org>,
-        <horms@verge.net.au>, <james.morse@arm.com>,
-        <linux-arm-kernel@lists.infradead.org>, <huawei.libin@huawei.com>,
-        <guohanjun@huawei.com>, <nsaenzjulienne@suse.de>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <14e0f384-5a3b-9d9f-f8f4-06b1dba807d7@huawei.com>
-Date:   Thu, 12 Nov 2020 21:11:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1728073AbgKLNZS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 08:25:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55064 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727646AbgKLNZR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Nov 2020 08:25:17 -0500
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BEB512224E;
+        Thu, 12 Nov 2020 13:25:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605187516;
+        bh=0S9Ca5zJ7bjT8Vjgj3PHZvQXR6APITbF8c6A9gq6VTg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=D6gEoa6uMrlTcVmKpU1ba4gwfaufRkvsEMPvXWRtboTzCIk4XNL6UpgqlfqSZ9Zin
+         fVoz3dY/YI/fxztgPKI3oe1+o9nA51ao9m8Di3mYYaKIprIKdD3yut4xBnNZBSWdad
+         /bvIXoFxYPFLLpnAlePjN/3gGIfnwQnmim/XkmmM=
+Received: by mail-oi1-f169.google.com with SMTP id t143so6297134oif.10;
+        Thu, 12 Nov 2020 05:25:16 -0800 (PST)
+X-Gm-Message-State: AOAM531DcpijDvw4ZoU3aJPd2K6yCEhi3SxokEKH4BLbsEt2xsMSdVKf
+        OflK8tsJ0qdOmV47Bqj+65qPVpEG6/FqPWzFyRY=
+X-Google-Smtp-Source: ABdhPJymDESsvudCUun4XJC3EAUxQ5lXPZ0Iyd9DNYW1P1XChwL4Y3Hh/ut77Mm2Ni1RNDAYtpKfxIYCd7jOm5tT7P0=
+X-Received: by 2002:aca:3c54:: with SMTP id j81mr5673905oia.11.1605187515847;
+ Thu, 12 Nov 2020 05:25:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201112083645.GL8486@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.176.61]
-X-CFilter-Loop: Reflected
+References: <20200930153519.7282-16-kishon@ti.com> <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <d6d27475-3464-6772-2122-cc194b8ae022@ti.com> <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
+ <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com> <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
+ <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com>
+In-Reply-To: <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Thu, 12 Nov 2020 14:24:59 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a33XSvenqBhuQpGmtLbYydyzY2OQh73150TJtpzW24DTw@mail.gmail.com>
+Message-ID: <CAK8P3a33XSvenqBhuQpGmtLbYydyzY2OQh73150TJtpzW24DTw@mail.gmail.com>
+Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
+ Non-Transparent Bridge
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Sherry Sun <sherry.sun@nxp.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jdmason@kudzu.us" <jdmason@kudzu.us>,
+        "dave.jiang@intel.com" <dave.jiang@intel.com>,
+        "allenbh@gmail.com" <allenbh@gmail.com>,
+        "tjoseph@cadence.com" <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2020/11/12 16:36, Baoquan He wrote:
-> On 11/12/20 at 10:25am, Mike Rapoport wrote:
->> On Wed, Nov 11, 2020 at 09:54:48PM +0800, Baoquan He wrote:
->>> On 11/11/20 at 09:27pm, chenzhou wrote:
->>>> Hi Baoquan,
->>> ...
->>>>>>  #ifdef CONFIG_CRASH_DUMP
->>>>>>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
->>>>>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
->>>>>> index 1c0f3e02f731..c55cee290bbb 100644
->>>>>> --- a/arch/arm64/mm/mmu.c
->>>>>> +++ b/arch/arm64/mm/mmu.c
->>>>>> @@ -488,6 +488,10 @@ static void __init map_mem(pgd_t *pgdp)
->>>>>>  	 */
->>>>>>  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
->>>>>>  #ifdef CONFIG_KEXEC_CORE
->>>>>> +	if (crashk_low_res.end)
->>>>>> +		memblock_mark_nomap(crashk_low_res.start,
->>>>>> +				    resource_size(&crashk_low_res));
->>>>>> +
->>>>>>  	if (crashk_res.end)
->>>>>>  		memblock_mark_nomap(crashk_res.start,
->>>>>>  				    resource_size(&crashk_res));
->>>>>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
->>>>>> index d39892bdb9ae..cdef7d8c91a6 100644
->>>>>> --- a/kernel/crash_core.c
->>>>>> +++ b/kernel/crash_core.c
->>>>>> @@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
->>>>>>  
->>>>>>  int __init reserve_crashkernel_low(void)
->>>>>>  {
->>>>>> -#ifdef CONFIG_X86_64
->>>>>> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
->>>>> Not very sure if a CONFIG_64BIT checking is better.
->>>> If doing like this, there may be some compiling errors for other 64-bit kernel, such as mips.
->>>>>>  	unsigned long long base, low_base = 0, low_size = 0;
->>>>>>  	unsigned long low_mem_limit;
->>>>>>  	int ret;
->>>>>> @@ -362,12 +362,14 @@ int __init reserve_crashkernel_low(void)
->>>>>>  
->>>>>>  	crashk_low_res.start = low_base;
->>>>>>  	crashk_low_res.end   = low_base + low_size - 1;
->>>>>> +#ifdef CONFIG_X86_64
->>>>>>  	insert_resource(&iomem_resource, &crashk_low_res);
->>>>>> +#endif
->>>>>>  #endif
->>>>>>  	return 0;
->>>>>>  }
->>>>>>  
->>>>>> -#ifdef CONFIG_X86
->>>>>> +#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
->>>>> Should we make this weak default so that we can remove the ARCH config?
->>>> The same as above, some arch may not support kdump, in that case,  compiling errors occur.
->>> OK, not sure if other people have better idea, oterwise, we can leave with it. 
->>> Thanks for telling.
->> I think it would be better to have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
->> in arch/Kconfig and select this by X86 and ARM64.
->>
->> Since reserve_crashkernel() implementations are quite similart on other
->> architectures as well, we can have more users of this later.
-> Yes, this sounds like a nice way.
-I will think about this in next version.
-
-Thanks,
-Chen Zhou
+On Tue, Nov 10, 2020 at 4:42 PM Kishon Vijay Abraham I <kishon@ti.com> wrote:
+> On 10/11/20 8:29 pm, Arnd Bergmann wrote:
+> > On Tue, Nov 10, 2020 at 3:20 PM Kishon Vijay Abraham I <kishon@ti.com> wrote:
+> >> On 10/11/20 7:55 am, Sherry Sun wrote:
+> >
+> >>> But for VOP, only two boards are needed(one board as host and one board as card) to realize the
+> >>> communication between the two systems, so my question is what are the advantages of using NTB?
+> >>
+> >> NTB is a bridge that facilitates communication between two different
+> >> systems. So it by itself will not be source or sink of any data unlike a
+> >> normal EP to RP system (or the VOP) which will be source or sink of data.
+> >>
+> >>> Because I think the architecture of NTB seems more complicated. Many thanks!
+> >>
+> >> yeah, I think it enables a different use case all together. Consider you
+> >> have two x86 HOST PCs (having RP) and they have to be communicate using
+> >> PCIe. NTB can be used in such cases for the two x86 PCs to communicate
+> >> with each other over PCIe, which wouldn't be possible without NTB.
+> >
+> > I think for VOP, we should have an abstraction that can work on either NTB
+> > or directly on the endpoint framework but provide an interface that then
+> > lets you create logical devices the same way.
+> >
+> > Doing VOP based on NTB plus the new NTB_EPF driver would also
+> > work and just move the abstraction somewhere else, but I guess it
+> > would complicate setting it up for those users that only care about the
+> > simpler endpoint case.
 >
-> .
+> I'm not sure if you've got a chance to look at [1], where I added
+> support for RP<->EP system both running Linux, with EP configured using
+> Linux EP framework (as well as HOST ports connected to NTB switch,
+> patches 20 and 21, that uses the Linux NTB framework) to communicate
+> using virtio over PCIe.
 >
+> The cover-letter [1] shows a picture of the two use cases supported in
+> that series.
+>
+> [1] -> http://lore.kernel.org/r/20200702082143.25259-1-kishon@ti.com
 
+No, I missed, that, thanks for pointing me to it!
+
+This looks very  promising indeed, I need to read up on the whole
+discussion there. I also see your slides at [1]  that help do explain some
+of it. I have one fundamental question that I can't figure out from
+the description, maybe you can help me here:
+
+How is the configuration managed, taking the EP case as an
+example? Your UseCase1 example sounds like the system that owns
+the EP hardware is the one that turns the EP into a vhost device,
+and creates a vhost-rpmsg device on top, while the RC side would
+probe the pci-vhost and then detect a virtio-rpmsg device to talk to.
+Can it also do the opposite, so you end up with e.g. a virtio-net
+device on the EP side and vhost-net on the RC?
+
+     Arnd
+
+[1] https://linuxplumbersconf.org/event/7/contributions/849/attachments/642/1175/Virtio_for_PCIe_RC_EP_NTB.pdf
