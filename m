@@ -7,78 +7,79 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D760C5519F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5B6C2D0E4
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC49A221E9
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3083F21D91
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:00:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbgKLSAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 13:00:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35192 "EHLO
+        id S1726588AbgKLSAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 13:00:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726662AbgKLR73 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:29 -0500
+        with ESMTP id S1726599AbgKLR7W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:22 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5617BC0613D1;
-        Thu, 12 Nov 2020 09:59:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72A1C0613D1;
+        Thu, 12 Nov 2020 09:59:22 -0800 (PST)
 Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kdGsa-00076N-1N; Thu, 12 Nov 2020 18:59:28 +0100
+        id 1kdGsO-00070q-I1; Thu, 12 Nov 2020 18:59:16 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 18/26] docs: reporting-bugs: let users optimize their notes
-Date:   Thu, 12 Nov 2020 18:58:55 +0100
-Message-Id: <086bd8741d409b6c60b7199596651695366f722e.1605203187.git.linux@leemhuis.info>
+Subject: [RFC PATCH v2 12/26] docs: reporting-bugs: tell users to disable DKMS et al.
+Date:   Thu, 12 Nov 2020 18:58:49 +0100
+Message-Id: <294b3d14ecf72be6cff9a592919bae8650732cb1.1605203187.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605203187.git.linux@leemhuis.info>
 References: <cover.1605203187.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203969;0e5b1c25;
-X-HE-SMSGID: 1kdGsa-00076N-1N
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203962;f7834ea2;
+X-HE-SMSGID: 1kdGsO-00070q-I1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reader now users the mainline kernel and is getting closer to
-reporting the issue, so it's a good point to let people recheck and
-optimize their notes how to reproduce the issue. It's also a good moment
-to make them search again for existing reports, as they might have
-learned something in the previous steps.
+Tell users to disable solutions like DKMS to make sure the kernel they
+install later remains vanilla. The old text did not do that, but such
+solutions were not that widespread back when it was written.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/admin-guide/reporting-bugs.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ Documentation/admin-guide/reporting-bugs.rst | 22 ++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index 60a84f52724c..7af4e7a6e797 100644
+index 8633f0976b00..5f6d3b2b55f9 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -820,6 +820,25 @@ head over to the section "Details about reporting issues only occurring in
- older kernel version lines" below.
+@@ -602,6 +602,28 @@ reinstall the operating system as well as everything you need to restore the
+ backup.
  
  
-+Optimize description to reproduce issue
-+---------------------------------------
++Make sure your kernel doesn't get enhanced
++------------------------------------------
 +
-+    *Optimize your notes: try to find and write the most straightforward way to
-+    reproduce your issue. Make sure the end result has all the important
-+    details, and at the same time is easy to read and understand for others
-+    that hear about it for the first time. And if you learned something in this
-+    process, consider searching again for existing reports about the issue.*
++    *Ensure your system does not enhance its kernels by building additional
++    kernel modules on-the-fly, which solutions like DKMS might be doing locally
++    without your knowledge.*
 +
-+An unnecessarily complex report will make it hard for others to understand your
-+report. Thus try to find a reproducer that's straight forward to describe and
-+thus easy to understand in written form. Include all important details, but at
-+the same time try to keep it as short as possible.
++Your kernel must be 'vanilla' when reporting an issue, but stops being pure as
++soon as it loads a kernel module not built from the sources used to compile the
++kernel image itself. That's why you need to ensure your Linux kernel stays
++vanilla by removing or disabling mechanisms like akmods and DKMS: those might
++build additional kernel modules automatically, for example when your boot into
++a newly installed Linux kernel the first time. Reboot after removing them and
++any modules they installed.
 +
-+In this in the previous steps you likely have learned a thing or two about the
-+issue you face. Use this knowledge and search again for existing reports
-+instead you can join.
++Note, you might not be aware that your system is using one of these solutions:
++they often get set up silently when you install Nvidia's proprietary graphics
++driver, VirtualBox, or other software that requires a some support from a
++module not part of the Linux kernel. That why your might need to uninstall the
++packages with such software to get rid of any 3rd party kernel module.
 +
 +
  .. ############################################################################
