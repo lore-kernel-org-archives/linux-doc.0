@@ -2,122 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F01E4C2D0A3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:12:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D2BC55ABD
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:25:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A268920709
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:12:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE67B221FB
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 08:25:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q1nGDHIg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725979AbgKLIMV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 03:12:21 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7210 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725884AbgKLIMU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 03:12:20 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWvTK3PVczkjYb;
-        Thu, 12 Nov 2020 16:12:05 +0800 (CST)
-Received: from [10.174.176.61] (10.174.176.61) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 12 Nov 2020 16:12:08 +0800
-Subject: Re: [PATCH v13 1/8] x86: kdump: replace the hard-coded alignment with
- macro CRASH_ALIGN
-To:     Mike Rapoport <rppt@kernel.org>
+        id S1725947AbgKLIZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 03:25:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50166 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725884AbgKLIZU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Nov 2020 03:25:20 -0500
+Received: from kernel.org (unknown [77.125.7.142])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2214F20825;
+        Thu, 12 Nov 2020 08:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605169519;
+        bh=uWlq5g2efEJEyEf0HFhZWgsDo31n3Eku7MoV4h7mxvU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q1nGDHIgUsRkPUQwR6MOSN6vGzERQBecgGM4PIsPLrnHLE2t3Hsua/Bj1MXi5Z5tv
+         Co+Pf2lmCdcadAJKLpPH++5OwrXd8/IYOWaj0K3EpLrHSplmHZZbEGzz5iinasPzHz
+         4PRpumS2d+e1+B4IgTcLfg4thRgQV7UXAYtH9FPc=
+Date:   Thu, 12 Nov 2020 10:25:09 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     chenzhou <chenzhou10@huawei.com>, tglx@linutronix.de,
+        mingo@redhat.com, dyoung@redhat.com, catalin.marinas@arm.com,
+        will@kernel.org, corbet@lwn.net, John.P.donnelly@oracle.com,
+        bhsharma@redhat.com, prabhakar.pkin@gmail.com,
+        wangkefeng.wang@huawei.com, arnd@arndb.de,
+        linux-doc@vger.kernel.org, xiexiuqi@huawei.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, horms@verge.net.au, james.morse@arm.com,
+        linux-arm-kernel@lists.infradead.org, huawei.libin@huawei.com,
+        guohanjun@huawei.com, nsaenzjulienne@suse.de
+Subject: Re: [PATCH v13 6/8] arm64: kdump: reimplement crashkernel=X
+Message-ID: <20201112082509.GL4758@kernel.org>
 References: <20201031074437.168008-1-chenzhou10@huawei.com>
- <20201031074437.168008-2-chenzhou10@huawei.com>
- <20201112075810.GJ4758@kernel.org>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <dyoung@redhat.com>,
-        <bhe@redhat.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
-        <bhsharma@redhat.com>, <prabhakar.pkin@gmail.com>,
-        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <nsaenzjulienne@suse.de>, <james.morse@arm.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <xiexiuqi@huawei.com>, <guohanjun@huawei.com>,
-        <huawei.libin@huawei.com>, <wangkefeng.wang@huawei.com>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <3beb3c41-5b58-e108-55bd-550c852d9eb2@huawei.com>
-Date:   Thu, 12 Nov 2020 16:12:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ <20201031074437.168008-7-chenzhou10@huawei.com>
+ <20201111015926.GD24747@MiWiFi-R3L-srv>
+ <23389389-2855-50fd-25b7-4f7d4246bf0c@huawei.com>
+ <20201111135448.GF8486@MiWiFi-R3L-srv>
 MIME-Version: 1.0
-In-Reply-To: <20201112075810.GJ4758@kernel.org>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.176.61]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201111135448.GF8486@MiWiFi-R3L-srv>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Nov 11, 2020 at 09:54:48PM +0800, Baoquan He wrote:
+> On 11/11/20 at 09:27pm, chenzhou wrote:
+> > Hi Baoquan,
+> ...
+> > >>  #ifdef CONFIG_CRASH_DUMP
+> > >>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+> > >> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> > >> index 1c0f3e02f731..c55cee290bbb 100644
+> > >> --- a/arch/arm64/mm/mmu.c
+> > >> +++ b/arch/arm64/mm/mmu.c
+> > >> @@ -488,6 +488,10 @@ static void __init map_mem(pgd_t *pgdp)
+> > >>  	 */
+> > >>  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
+> > >>  #ifdef CONFIG_KEXEC_CORE
+> > >> +	if (crashk_low_res.end)
+> > >> +		memblock_mark_nomap(crashk_low_res.start,
+> > >> +				    resource_size(&crashk_low_res));
+> > >> +
+> > >>  	if (crashk_res.end)
+> > >>  		memblock_mark_nomap(crashk_res.start,
+> > >>  				    resource_size(&crashk_res));
+> > >> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> > >> index d39892bdb9ae..cdef7d8c91a6 100644
+> > >> --- a/kernel/crash_core.c
+> > >> +++ b/kernel/crash_core.c
+> > >> @@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
+> > >>  
+> > >>  int __init reserve_crashkernel_low(void)
+> > >>  {
+> > >> -#ifdef CONFIG_X86_64
+> > >> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
+> > > Not very sure if a CONFIG_64BIT checking is better.
+> > If doing like this, there may be some compiling errors for other 64-bit kernel, such as mips.
+> > >
+> > >>  	unsigned long long base, low_base = 0, low_size = 0;
+> > >>  	unsigned long low_mem_limit;
+> > >>  	int ret;
+> > >> @@ -362,12 +362,14 @@ int __init reserve_crashkernel_low(void)
+> > >>  
+> > >>  	crashk_low_res.start = low_base;
+> > >>  	crashk_low_res.end   = low_base + low_size - 1;
+> > >> +#ifdef CONFIG_X86_64
+> > >>  	insert_resource(&iomem_resource, &crashk_low_res);
+> > >> +#endif
+> > >>  #endif
+> > >>  	return 0;
+> > >>  }
+> > >>  
+> > >> -#ifdef CONFIG_X86
+> > >> +#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
+> > > Should we make this weak default so that we can remove the ARCH config?
+> > The same as above, some arch may not support kdump, in that case,  compiling errors occur.
+> 
+> OK, not sure if other people have better idea, oterwise, we can leave with it. 
+> Thanks for telling.
 
+I think it would be better to have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
+in arch/Kconfig and select this by X86 and ARM64.
 
-On 2020/11/12 15:58, Mike Rapoport wrote:
-> Hi,
->
-> On Sat, Oct 31, 2020 at 03:44:30PM +0800, Chen Zhou wrote:
->> Move CRASH_ALIGN to header asm/kexec.h and replace the hard-coded
->> alignment with macro CRASH_ALIGN in function reserve_crashkernel().
->>
->> Suggested-by: Dave Young <dyoung@redhat.com>
->> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
->> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
->> ---
->>  arch/x86/include/asm/kexec.h | 3 +++
->>  arch/x86/kernel/setup.c      | 5 +----
->>  2 files changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
->> index 6802c59e8252..8cf9d3fd31c7 100644
->> --- a/arch/x86/include/asm/kexec.h
->> +++ b/arch/x86/include/asm/kexec.h
->> @@ -18,6 +18,9 @@
->>  
->>  # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
->>  
->> +/* 2M alignment for crash kernel regions */
->> +#define CRASH_ALIGN		SZ_16M
-> Please update the comment to match the code.
-Ok, thanks for pointing this mistake.
+Since reserve_crashkernel() implementations are quite similart on other
+architectures as well, we can have more users of this later.
 
-Thanks,
-Chen Zhou
->
->> +
->>  #ifndef __ASSEMBLY__
->>  
->>  #include <linux/string.h>
->> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
->> index 84f581c91db4..bf373422dc8a 100644
->> --- a/arch/x86/kernel/setup.c
->> +++ b/arch/x86/kernel/setup.c
->> @@ -395,9 +395,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
->>  
->>  #ifdef CONFIG_KEXEC_CORE
->>  
->> -/* 16M alignment for crash kernel regions */
->> -#define CRASH_ALIGN		SZ_16M
->> -
->>  /*
->>   * Keep the crash kernel below this limit.
->>   *
->> @@ -515,7 +512,7 @@ static void __init reserve_crashkernel(void)
->>  	} else {
->>  		unsigned long long start;
->>  
->> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
->> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
->>  						  crash_base + crash_size);
->>  		if (start != crash_base) {
->>  			pr_info("crashkernel reservation failed - memory is in use.\n");
->> -- 
->> 2.20.1
->>
-
+-- 
+Sincerely yours,
+Mike.
