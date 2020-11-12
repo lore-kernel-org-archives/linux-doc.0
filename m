@@ -7,132 +7,110 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D670C56202
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:01:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E242C5519F
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:01:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CBA0C2222F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:01:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 431DD21D91
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 18:01:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726553AbgKLR7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 12:59:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35146 "EHLO
+        id S1726483AbgKLSBH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 13:01:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726543AbgKLR7R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:17 -0500
+        with ESMTP id S1726560AbgKLR7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 12:59:18 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 713ACC0613D1;
-        Thu, 12 Nov 2020 09:59:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45890C0613D6;
+        Thu, 12 Nov 2020 09:59:18 -0800 (PST)
 Received: from ip4d145e30.dynamic.kabel-deutschland.de ([77.20.94.48] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kdGsO-00070q-5J; Thu, 12 Nov 2020 18:59:16 +0100
+        id 1kdGsO-00070q-VI; Thu, 12 Nov 2020 18:59:17 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 10/26] docs: reporting-bugs: remind people to look for existing reports
-Date:   Thu, 12 Nov 2020 18:58:47 +0100
-Message-Id: <3ac369304c4fdb2f93d0e8c5e496113bd15ef399.1605203187.git.linux@leemhuis.info>
+Subject: [RFC PATCH v2 14/26] docs: reporting-bugs: make users write notes, one for each issue
+Date:   Thu, 12 Nov 2020 18:58:51 +0100
+Message-Id: <d6b04b9f03272fdcc947fbab0ea941a237fd612a.1605203187.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605203187.git.linux@leemhuis.info>
 References: <cover.1605203187.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203957;fbc755ce;
-X-HE-SMSGID: 1kdGsO-00070q-5J
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605203958;24c9afe5;
+X-HE-SMSGID: 1kdGsO-00070q-VI
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tells users to search for existing reports, as not reporting them a
-second time is in their own interest. Tell them where to look and
-provide a few hints how to search properly, as that is easy to get
-wrong. That seems to be especially true when it comes to things like
-graphics cards or wifi modules: mentioning the model name often is not
-much help, but mentioning its main chip often leads to the results you
-are looking for. This might be obvious to kernel developers, but for
-many users it's not.
+Tell users to write some rough notes how to reproduce the issue. They
+will need those notes soon once they have to reproduce the issue with a
+fresh kernel later in the process. At the same time the notes can serve
+as basis for the report later.
+
+While at it point out that each report should focus on one issue, as
+that is a good time for it: it will make the notes more straight forward
+if the reader deal with multiple issues at once.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
-
-= RFC =
-
-Have I gone to far in describing how to find good search terms? I got
-the impression quite a few could benefit from a detailed description.
----
- Documentation/admin-guide/reporting-bugs.rst | 59 ++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+ Documentation/admin-guide/reporting-bugs.rst | 36 +++++++++++++++-----
+ 1 file changed, 27 insertions(+), 9 deletions(-)
 
 diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index 9e0e9b2ba27b..455d67be0fd7 100644
+index 234731cd0c78..981ddd5a0646 100644
 --- a/Documentation/admin-guide/reporting-bugs.rst
 +++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -530,6 +530,65 @@ modified during tree-wide cleanups by developers that do not care about the
- particular driver at all.
+@@ -659,6 +659,33 @@ should minimize it:
+    like a kernel regression.
  
  
-+Search for existing reports
-+---------------------------
++Document how to reproduce issue
++-------------------------------
 +
-+    *Search the archives of the bug tracker or mailing list in question
-+    thoroughly for reports that might match your issue. Also check if you find
-+    something with your favorite internet search engine or in the Linux Kernel
-+    Mailing List (LKML) archives. If you find anything, join the discussion
-+    instead of sending a new report.*
++    *Write down coarsely how to reproduce the issue. If you deal with multiple
++    issues at once, create separate notes for each of them and make sure they
++    work independently on a freshly booted system. That's needed, as each issue
++    needs to get reported to the kernel developers separately, unless they are
++    strongly entangled.*
 +
-+Reporting an issue that someone else already brought forward is often a waste
-+of time for everyone involved, especially you as the reporter. So it's in your
-+own interest to thoroughly check if somebody reported the issue already. Thus
-+do not hurry with this step of the reporting process. Spending 30 to 60 minutes
-+or even more time can save you and others quite a lot of time and trouble.
++If you deal with multiple issues at once, you'll have to report each of them
++separately, as they might be handled by different developers. Describing
++various issues in one report also makes it quite difficult for others to tear
++it apart. Hence, only combine issues in one report if they are very strongly
++entangled.
 +
-+The best place to search is the bug tracker or the mailing list where your
-+report needs to be filed. You'll find quite a few of those lists on
-+`lore.kernel.org/ <https://lore.kernel.org/>`_, but some are hosted in
-+different places. That for example is the case for the ath10k WiFi driver used
-+as example in the previous step. But you'll often find the archives for these
-+lists easily on the net. Searching for 'archive ath10k@lists.infradead.org' for
-+example will quickly lead you to the `Info page for the ath10k mailing list
-+<https://lists.infradead.org/mailman/listinfo/ath10k>`_, which at the top links
-+to its `list archives <https://lists.infradead.org/pipermail/ath10k/>`_.
++Additionally, during the reporting process you will have to test if the issue
++happens with other kernel versions. Therefore, it will make your work easier if
++you know exactly how to reproduce an issue quickly on a freshly booted system.
 +
-+Sadly this and quite a few other lists miss a way to search the archives. In
-+those cases use a regular internet search engine and add something like
-+'site:lists.infradead.org/pipermail/ath10k/' to your search terms, which limits
-+the results to the archives at that URL.
-+
-+Additionally, search the internet and the `Linux Kernel Mailing List (LKML)
-+archives <https://lore.kernel.org/lkml/>`_, as maybe the real culprit might be
-+in some other subsystem. Searching in `bugzilla.kernel.org
-+<https://bugzilla.kernel.org/>`_ might also be a good idea, but if you find
-+anything there keep in mind: most subsystems expect reports in different
-+places, hence those you find there might have not even reached the people
-+responsible for the subsystem in question. Nevertheless, the data there might
-+provide valuable insights.
-+
-+If you get flooded with results consider telling your search engine to limit
-+search timeframe to the past month or year. And wherever you search, make sure
-+to use good search terms; vary them a few times, too. While doing so try to
-+look at the issue from the perspective of someone else: that will help you to
-+come up with other words to use as search terms. Also make sure not to use too
-+many search terms at once. Remember to search with and without information like
-+the name of the kernel driver or the name of the affected hardware component.
-+But its exact brand name (say 'ASUS Red Devil Radeon RX 5700 XT Gaming OC')
-+often is not much helpful, as it is too specific. Instead try search terms like
-+the model line (Radeon 5700 or Radeon 5000) and the code name of the main chip
-+('Navi' or 'Navi10') with and without its manufacturer ('AMD').
-+
-+In case you find an existing report about your issue, join the discussion, as
-+you might be able to provide valuable additional information. That can be
-+important even when a fix is prepared or in its final stages already, as
-+developers might look for people that can provide additional information or
-+test a proposed fix. Jump to the section 'Duties after the report went out' for
-+details on how to get properly involved.
++Note: it's often fruitless to report issues that only happened once, as they
++might be caused by a bit flip due to cosmic radiation. That's why you should
++try to rule that out by reproducing the issue before going further. Feel free
++to ignore this advice if you are experienced enough to tell a one-time error
++due to faulty hardware apart from a kernel issue that rarely happens and thus
++is hard to reproduce.
 +
 +
  .. ############################################################################
  .. Temporary marker added while this document is rewritten. Sections above
  .. are new and dual-licensed under GPLv2+ and CC-BY 4.0, those below are old.
+@@ -681,15 +708,6 @@ How to report Linux kernel bugs
+ ===============================
+ 
+ 
+-Tips for reporting bugs
+------------------------
+-
+-It's REALLY important to report bugs that seem unrelated as separate email
+-threads or separate bugzilla entries.  If you report several unrelated
+-bugs at once, it's difficult for maintainers to tease apart the relevant
+-data.
+-
+-
+ Gather information
+ ------------------
+ 
 -- 
 2.28.0
 
