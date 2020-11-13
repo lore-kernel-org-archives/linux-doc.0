@@ -3,190 +3,447 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4476BC63697
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 17:47:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E01F2C63697
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 21:03:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB2CF2223F
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 17:47:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49D8E2224F
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 21:03:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="f97H1ARf"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tpTL6ggJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726233AbgKMRq0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Nov 2020 12:46:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
+        id S1726387AbgKMVDb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Nov 2020 16:03:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726172AbgKMRqY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 12:46:24 -0500
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6296C061A04
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 09:46:23 -0800 (PST)
-Received: by mail-il1-x143.google.com with SMTP id e17so9203605ili.5
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 09:46:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wlkCnCceQqz7r02K1vtWGsLoDGFR8kTVMD9I+999BVU=;
-        b=f97H1ARf2FMEwRo6bCGKK0SmxlmBhNSJtwWc3H6Tp4QKaxU08w23m3Se3VH2Y6LKi1
-         gseBKxaY3ws5p5mowtY+hqCqm8ItrgLkWZnDGKw5mEp6i0F2TmRT/ux7nL/fZREJMVer
-         c6f8DNGj7zG6O5hQfyRFzevjFKbqYn7LHQRmo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wlkCnCceQqz7r02K1vtWGsLoDGFR8kTVMD9I+999BVU=;
-        b=KByQ21y+CkPrKx4YyEdm08r5fB/yMAiFlQYm3BPj0eMG14YU1aiQyyDvuh/uqrUNNd
-         XtCmvfpDXk7tTpSHAOV3gxXPxQi984gOl+ecrYPN4buYn2uq71KHBeGcOGs7Z8hcINeI
-         Jd08khvd2Qyo+2rm16YHCi4c0OJgDbJxyBd4O5J+cNGQzqhjEWLTpVOljP29ISVHZuyO
-         ueTSj1PaC79fuu//Dpw5aCtvWIF/WIhRXv8bQYU30jnNEX9/Rx1x96ULK+upzj+/ZGZ4
-         r9RRDnJvzhmVYI6wSLWeDoZrCdvdJpfZWszUvq0MRHJMzTUeROlVLl390b7sQ83uq8A1
-         E8/g==
-X-Gm-Message-State: AOAM533PnZ45AsTTx+13Lh3roKEE5lU/FjHPa2uWgKFP87DpS4EXyaG2
-        GnAkYs/mzdxLO+nI9INwE3QFkQ==
-X-Google-Smtp-Source: ABdhPJzWnweOgT/x9lrJyFWdNrmH6LCnt9T1bjCno9YJu8lBPBBn+UixdhXRz6BHbKAiFEys/ytZcw==
-X-Received: by 2002:a92:9acd:: with SMTP id c74mr690025ill.299.1605289580958;
-        Fri, 13 Nov 2020 09:46:20 -0800 (PST)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id y14sm4772585ilb.66.2020.11.13.09.46.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 09:46:20 -0800 (PST)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
-        peterz@infradead.org, rafael@kernel.org, lenb@kernel.org,
-        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
-        minyard@acm.org, arnd@arndb.de, mchehab@kernel.org,
-        rric@kernel.org, valentina.manea.m@gmail.com, shuah@kernel.org,
-        zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, jmorris@namei.org,
-        serge@hallyn.com
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-edac@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v2 00/13] Introduce seqnum_ops
-Date:   Fri, 13 Nov 2020 10:46:02 -0700
-Message-Id: <cover.1605287778.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+        with ESMTP id S1726090AbgKMVDb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 16:03:31 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEDCC0613D1;
+        Fri, 13 Nov 2020 13:03:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=OBsI07erNTyixYReomvholKl84/3CHg5ng3ksTR0ogM=; b=tpTL6ggJ9Axrh2n6ooTVLHMEwJ
+        T0gw8n5WEpQq1R6NytBCCecHOjwiZkDOnNCG5gAyGiR7b7TRJuT1gIU5wCzX3gLvjWuVNIC/WiWeJ
+        4TUCRf6Dlqy4BpbNfd6d4pIU43tDt268AFc6F6dBDy+4gc3rGRy1JhzM+f/J35SDaxv3UrUecqt/R
+        ZSovjWhw4t9Jyz+yTa7WcGohvDaZ4YoWdwG1R4la3QFCW8BIvXyTHCNBd1uDK6QbfX4rqEMLKP3PI
+        7ChD8TyvNWpWAbTDTd8218uKWaLtdHJTh8UZ+fRtXwprA4yTG2qOk/05AYf7fzVKahn9BORXkxeXB
+        8iSepNgQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kdgEB-0003uP-Eg; Fri, 13 Nov 2020 21:03:27 +0000
+Date:   Fri, 13 Nov 2020 21:03:27 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+        peterz@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] seqnum_ops: Introduce Sequence Number Ops
+Message-ID: <20201113210327.GJ17076@casper.infradead.org>
+References: <cover.1605287778.git.skhan@linuxfoundation.org>
+ <26cbcc431be5e3ab7d8e0e881d522605a27b1312.1605287778.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26cbcc431be5e3ab7d8e0e881d522605a27b1312.1605287778.git.skhan@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sequence Number api provides interfaces for unsigned atomic up counters
-leveraging atomic_t and atomic64_t ops underneath.
+> +==========================
+> +Sequence Number Operations
+> +==========================
+> +
+> +:Author: Shuah Khan
+> +:Copyright: |copy| 2020, The Linux Foundation
+> +:Copyright: |copy| 2020, Shuah Khan <skhan@linuxfoundation.org>
+> +
+> +Sequence Number api provides interfaces for unsigned up counters
+> +leveraging atomic_t and atomic64_t ops underneath.
 
-There are a number of atomic_t usages in the kernel where atomic_t api
-is used for counting sequence numbers and other statistical counters.
-Several of these usages, convert atomic_read() and atomic_inc_return()
-return values to unsigned. Introducing sequence number ops supports
-these use-cases with a standard core-api.
+As I said last time you posted this, the documentation is all
+back-to-front.  You're describing what it isn't, not what it is.
 
-The atomic_t api provides a wide range of atomic operations as a base
-api to implement atomic counters, bitops, spinlock interfaces. The usages
-also evolved into being used for resource lifetimes and state management.
-The refcount_t api was introduced to address resource lifetime problems
-related to atomic_t wrapping. There is a large overlap between the
-atomic_t api used for resource lifetimes and just counters, stats, and
-sequence numbers. It has become difficult to differentiate between the
-atomic_t usages that should be converted to refcount_t and the ones that
-can be left alone. Introducing seqnum_ops to wrap the usages that are
-stats, counters, sequence numbers makes it easier for tools that scan
-for underflow and overflow on atomic_t usages to detect overflow and
-underflows to scan just the cases that are prone to errors.
+> +There are a number of atomic_t usages in the kernel where atomic_t api
+> +is used for counting sequence numbers and other statistical counters.
+> +Several of these usages, convert atomic_read() and atomic_inc_return()
+> +return values to unsigned. Introducing sequence number ops supports
+> +these use-cases with a standard core-api.
+> +
+> +The atomic_t api provides a wide range of atomic operations as a base
+> +api to implement atomic counters, bitops, spinlock interfaces. The usages
+> +also evolved into being used for resource lifetimes and state management.
+> +The refcount_t api was introduced to address resource lifetime problems
+> +related to atomic_t wrapping. There is a large overlap between the
+> +atomic_t api used for resource lifetimes and just counters, stats, and
+> +sequence numbers. It has become difficult to differentiate between the
+> +atomic_t usages that should be converted to refcount_t and the ones that
+> +can be left alone. Introducing seqnum_ops to wrap the usages that are
+> +stats, counters, sequence numbers makes it easier for tools that scan
+> +for underflow and overflow on atomic_t usages to detect overflow and
+> +underflows to scan just the cases that are prone to errors.
+> +
+> +In addition, to supporting sequence number use-cases, Sequence Number Ops
+> +helps differentiate atomic_t counter usages from atomic_t usages that guard
+> +object lifetimes, hence prone to overflow and underflow errors from up
+> +counting use-cases.
 
-In addition, to supporting sequence number use-cases, Sequence Number Ops
-helps differentiate atomic_t counter usages from atomic_t usages that guard
-object lifetimes, hence prone to overflow and underflow errors from up
-counting use-cases. It becomes easier for tools that scan for underflow and
-overflow on atomic_t usages to detect overflow and underflows to scan just
-the cases that are prone to errors.
+I think almost all of this information should go into atomic_ops.rst
+pushing people towards using the other APIs instead of atomic_t.
+Someone who already landed here doesn't want to read about refcount_t.
+They want to know what a seqnum_t is and how to use it.
 
-Changes since v1:
-- Removed dec based on Greg KH's comments
-- Removed read/set/inc based on the discussion with Peter Zijlstra
-- Interfaces are restricted to init, increment and return new value,
-  and fetch current value.
-- Interfaces return u32 and u64 - a few reviewers suggested unsigned.
-  After reviewing a few use-cases, I determined this is a good path
-  forward. It adds unsigned atomic support that doesn't exist now,
-  and simplifies code in drivers that currently convert atomic_t return
-  values to unsigned. All the drivers changes included in this series
-  used to convert atomic_t returns to unsigned.
+> +Sequence Number Ops
+> +===================
+> +
+> +seqnum32 and seqnum64 types use atomic_t and atomic64_t underneath to
 
-Patch v1 thread:
-https://lore.kernel.org/lkml/cover.1605027593.git.skhan@linuxfoundation.org/
+Don't talk about the implementation.
 
-Counters thread:
-lore.kernel.org/lkml/cover.1602209970.git.skhan@linuxfoundation.org
+> +leverage atomic_t api, to provide increment by 1 and return new value
+> +and fetch current value interfaces necessary to support unsigned up
+> +counters. ::
+> +
+> +        struct seqnum32 { atomic_t seqnum; };
+> +        struct seqnum64 { atomic64_t seqnum; };
+> +
+> +Please see :ref:`Documentation/core-api/atomic_ops.rst <atomic_ops>` for
+> +information on the Semantics and Behavior of Atomic operations.
+> +
+> +Initializers
+> +------------
+> +
+> +Interfaces for initializing sequence numbers are write operations which
+> +in turn invoke their ``ATOMIC_INIT() and atomic_set()`` counterparts ::
+> +
+> +        #define SEQNUM_INIT(i)    { .seqnum = ATOMIC_INIT(i) }
+> +        seqnum32_init() --> atomic_set() to 0
+> +        seqnum64_init() --> atomic64_set() to 0
+> +
+> +Increment interface
+> +-------------------
+> +
+> +Increments sequence number and returns the new value. ::
+> +
+> +        seqnum32_inc_return() --> (u32) atomic_inc_return(seqnum)
+> +        seqnum64_inc_return() --> (u64) atomic64_inc_return(seqnum)
 
-Shuah Khan (13):
-  seqnum_ops: Introduce Sequence Number Ops
-  selftests: lib:test_seqnum_ops: add new test for seqnum_ops
-  drivers/acpi: convert seqno seqnum_ops
-  drivers/acpi/apei: convert seqno to seqnum_ops
-  drivers/base/test/test_async_driver_probe: convert to use seqnum_ops
-  drivers/char/ipmi: convert stats to use seqnum_ops
-  drivers/edac: convert pci counters to seqnum_ops
-  drivers/oprofile: convert stats to use seqnum_ops
-  drivers/staging/rtl8723bs: convert stats to use seqnum_ops
-  usb: usbip/vhci: convert seqno to seqnum_ops
-  drivers/staging/rtl8188eu: convert stats to use seqnum_ops
-  drivers/staging/unisys/visorhba: convert stats to use seqnum_ops
-  security/integrity/ima: converts stats to seqnum_ops
+seqnum_inc() should just return the new value -- seqnum_inc_return is
+too verbose.  And do we not need a seqnum_add()?
 
- Documentation/core-api/atomic_ops.rst         |   4 +
- Documentation/core-api/index.rst              |   1 +
- Documentation/core-api/seqnum_ops.rst         |  89 +++++++++++++
- MAINTAINERS                                   |   8 ++
- drivers/acpi/acpi_extlog.c                    |   8 +-
- drivers/acpi/apei/ghes.c                      |   8 +-
- drivers/base/test/test_async_driver_probe.c   |  28 +++--
- drivers/char/ipmi/ipmi_msghandler.c           |   9 +-
- drivers/char/ipmi/ipmi_si_intf.c              |   9 +-
- drivers/char/ipmi/ipmi_ssif.c                 |   9 +-
- drivers/edac/edac_pci.h                       |   5 +-
- drivers/edac/edac_pci_sysfs.c                 |  30 ++---
- drivers/oprofile/buffer_sync.c                |   9 +-
- drivers/oprofile/event_buffer.c               |   3 +-
- drivers/oprofile/oprof.c                      |   3 +-
- drivers/oprofile/oprofile_stats.c             |  11 +-
- drivers/oprofile/oprofile_stats.h             |  11 +-
- drivers/oprofile/oprofilefs.c                 |   3 +-
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c |  23 +++-
- .../staging/rtl8188eu/include/rtw_mlme_ext.h  |   3 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |   3 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  33 +++--
- drivers/staging/rtl8723bs/include/rtw_cmd.h   |   3 +-
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   3 +-
- .../staging/unisys/visorhba/visorhba_main.c   |  21 ++--
- drivers/usb/usbip/vhci.h                      |   3 +-
- drivers/usb/usbip/vhci_hcd.c                  |   7 +-
- drivers/usb/usbip/vhci_rx.c                   |   5 +-
- include/linux/oprofile.h                      |   3 +-
- include/linux/seqnum_ops.h                    | 118 +++++++++++++++++
- lib/Kconfig                                   |   9 ++
- lib/Makefile                                  |   1 +
- lib/test_seqnum_ops.c                         | 119 ++++++++++++++++++
- security/integrity/ima/ima.h                  |   5 +-
- security/integrity/ima/ima_api.c              |   3 +-
- security/integrity/ima/ima_fs.c               |   5 +-
- security/integrity/ima/ima_queue.c            |   7 +-
- tools/testing/selftests/lib/Makefile          |   1 +
- tools/testing/selftests/lib/config            |   1 +
- .../testing/selftests/lib/test_seqnum_ops.sh  |  10 ++
- 40 files changed, 524 insertions(+), 110 deletions(-)
- create mode 100644 Documentation/core-api/seqnum_ops.rst
- create mode 100644 include/linux/seqnum_ops.h
- create mode 100644 lib/test_seqnum_ops.c
- create mode 100755 tools/testing/selftests/lib/test_seqnum_ops.sh
+Also, this would be a good point to talk about behaviour on overflow.
 
--- 
-2.27.0
+> +Fetch interface
+> +---------------
+> +
+> +Fetched and returns current sequence number value. ::
+> +
+> +        seqnum32_fetch() --> (u32) atomic_add_return(0, seqnum)
+> +        seqnum64_fetch() --> (u64) atomic64_add_return(0, seqnum)
 
+Er ... why would you force an atomic operation instead of atomic_read()?
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b516bb34a8d5..c83a6f05610b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15977,6 +15977,13 @@ S:	Maintained
+>  F:	Documentation/fb/sm712fb.rst
+>  F:	drivers/video/fbdev/sm712*
+>  
+> +SEQNUM OPS
+> +M:	Shuah Khan <skhan@linuxfoundation.org>
+> +L:	linux-kernel@vger.kernel.org
+> +S:	Maintained
+> +F:	include/linux/seqnum_ops.h
+> +F:	lib/test_seqnum_ops.c
+> +
+>  SIMPLE FIRMWARE INTERFACE (SFI)
+>  S:	Obsolete
+>  W:	http://simplefirmware.org/
+> diff --git a/include/linux/seqnum_ops.h b/include/linux/seqnum_ops.h
+> new file mode 100644
+> index 000000000000..17d327b78050
+> --- /dev/null
+> +++ b/include/linux/seqnum_ops.h
+> @@ -0,0 +1,116 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * seqnum_ops.h - Interfaces for sequential and statistical counters.
+> + *
+> + * Copyright (c) 2020 Shuah Khan <skhan@linuxfoundation.org>
+> + * Copyright (c) 2020 The Linux Foundation
+> + *
+> + * Sequence Number functions provide support for unsgined atomic up
+> + * counters.
+> + *
+> + * The interface provides:
+> + * seqnumu32 & seqnumu64 functions:
+> + *	initialization
+> + *	increment and return
+> + *	fetch and return
+> + *
+> + * seqnumu32 and seqnumu64 functions leverage/use atomic*_t ops to
+> + * implement support for unsigned atomic up counters.
+> + *
+> + * Reference and API guide:
+> + *	Documentation/core-api/seqnum_ops.rst for more information.
+> + */
+> +
+> +#ifndef __LINUX_SEQNUM_OPS_H
+> +#define __LINUX_SEQNUM_OPS_H
+> +
+> +#include <linux/atomic.h>
+> +
+> +/**
+> + * struct seqnum32 - Sequential/Statistical atomic counter
+> + * @seqnum: atomic_t
+> + *
+> + **/
+> +struct seqnum32 {
+> +	atomic_t seqnum;
+> +};
+> +
+> +#define SEQNUM_INIT(i)		{ .seqnum = ATOMIC_INIT(i) }
+> +
+> +/*
+> + * seqnum32_init() - initialize seqnum value
+> + * @seq: struct seqnum32 pointer
+> + *
+> + */
+> +static inline void seqnum32_init(struct seqnum32 *seq)
+> +{
+> +	atomic_set(&seq->seqnum, 0);
+> +}
+> +
+> +/*
+> + * seqnum32_inc_return() - increment seqnum value and return the new value
+> + * @seq: struct seqnum32 pointer
+> + *
+> + * Return u32
+> + */
+> +static inline u32 seqnum32_inc_return(struct seqnum32 *seq)
+> +{
+> +	return (u32) atomic_inc_return(&seq->seqnum);
+> +}
+> +
+> +/*
+> + * seqnum32_fetch() - return the current value
+> + * @seq: struct seqnum32 pointer
+> + *
+> + * Return u32
+> + */
+> +static inline u32 seqnum32_fetch(struct seqnum32 *seq)
+> +{
+> +	return (u32) atomic_add_return(0, &seq->seqnum);
+> +}
+> +
+> +#ifdef CONFIG_64BIT
+> +/* atomic64_t is defined in CONFIG_64BIT in include/linux/types.h */
+> +/*
+> + * struct seqnum64 - Sequential/Statistical atomic counter
+> + * @seq: atomic64_t
+> + *
+> + */
+> +struct seqnum64 {
+> +	atomic64_t seqnum;
+> +};
+> +
+> +/*
+> + * seqnum64_init() - initialize seqnum value
+> + * @seq: struct seqnum64 pointer
+> + *
+> + */
+> +static inline void seqnum64_init(struct seqnum64 *seq)
+> +{
+> +	atomic64_set(&seq->seqnum, 0);
+> +}
+> +
+> +/*
+> + * seqnum64_inc() - increment seqnum value and return the new value
+> + * @seq: struct seqnum64 pointer
+> + *
+> + * Return u64
+> + */
+> +static inline u64 seqnum64_inc_return(struct seqnum64 *seq)
+> +{
+> +	return (u64) atomic64_inc_return(&seq->seqnum);
+> +}
+> +
+> +/*
+> + * seqnum64_fetch() - return the current value
+> + * @seq: struct seqnum64 pointer
+> + *
+> + * Return u64
+> + */
+> +static inline u64 seqnum64_fetch(struct seqnum64 *seq)
+> +{
+> +	return (u64) atomic64_add_return(0, &seq->seqnum);
+> +}
+> +#endif /* CONFIG_64BIT */
+> +
+> +#endif /* __LINUX_SEQNUM_OPS_H */
+> diff --git a/lib/Kconfig b/lib/Kconfig
+> index b46a9fd122c8..c362c2713e11 100644
+> --- a/lib/Kconfig
+> +++ b/lib/Kconfig
+> @@ -663,6 +663,15 @@ config OBJAGG
+>  config STRING_SELFTEST
+>  	tristate "Test string functions"
+>  
+> +config TEST_SEQNUM_OPS
+> +	tristate "Test Sequence Number Ops API"
+> +	help
+> +	   A test module for Sequence Number Ops API. A corresponding
+> +	   selftest can be used to test the Seqnum Ops API. Select this
+> +	   for testing Sequence Number Ops API.
+> +
+> +	   See Documentation/core-api/seqnum_ops.rst
+> +
+>  endmenu
+>  
+>  config GENERIC_IOREMAP
+> diff --git a/lib/Makefile b/lib/Makefile
+> index ce45af50983a..7d17c25e4d73 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -101,6 +101,7 @@ obj-$(CONFIG_TEST_MEMINIT) += test_meminit.o
+>  obj-$(CONFIG_TEST_LOCKUP) += test_lockup.o
+>  obj-$(CONFIG_TEST_HMM) += test_hmm.o
+>  obj-$(CONFIG_TEST_FREE_PAGES) += test_free_pages.o
+> +obj-$(CONFIG_TEST_SEQNUM_OPS) += test_seqnum_ops.o
+>  
+>  #
+>  # CFLAGS for compiling floating point code inside the kernel. x86/Makefile turns
+> diff --git a/lib/test_seqnum_ops.c b/lib/test_seqnum_ops.c
+> new file mode 100644
+> index 000000000000..6e58b6a0a2be
+> --- /dev/null
+> +++ b/lib/test_seqnum_ops.c
+> @@ -0,0 +1,119 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * test_seqnum_ops.c - Kernel module for testing Seqnum API
+> + *
+> + * Copyright (c) 2020 Shuah Khan <skhan@linuxfoundation.org>
+> + * Copyright (c) 2020 The Linux Foundation
+> + *
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/module.h>
+> +#include <linux/seqnum_ops.h>
+> +
+> +static inline void
+> +test_seqnum32_result(char *msg, u32 start, u32 end, u32 expected)
+> +{
+> +	pr_info("%s: %u to %u - %s\n",
+> +		msg, start, end,
+> +		((expected == end) ? "PASS" : "FAIL"));
+> +}
+> +
+> +
+> +static void test_seqnum32(void)
+> +{
+> +	static struct seqnum32 seq = SEQNUM_INIT(0);
+> +	u32 start_val = seqnum32_fetch(&seq);
+> +	u32 end_val;
+> +
+> +	end_val = seqnum32_inc_return(&seq);
+> +	test_seqnum32_result("Test fetch and increment",
+> +			     start_val, end_val, start_val+1);
+> +
+> +	start_val = seqnum32_fetch(&seq);
+> +	seqnum32_init(&seq);
+> +	end_val = seqnum32_fetch(&seq);
+> +	test_seqnum32_result("Test init", start_val, end_val, 0);
+> +
+> +}
+> +
+> +static void test_seqnum32_overflow(void)
+> +{
+> +	static struct seqnum32 seq = SEQNUM_INIT(UINT_MAX-1);
+> +	u32 start_val = seqnum32_fetch(&seq);
+> +	u32 end_val = seqnum32_inc_return(&seq);
+> +
+> +	test_seqnum32_result("Test UINT_MAX limit compare with (val+1)",
+> +			     start_val, end_val, start_val+1);
+> +
+> +	test_seqnum32_result("Test UINT_MAX limit compare with (UINT_MAX)",
+> +			     start_val, end_val, UINT_MAX);
+> +}
+> +
+> +#ifdef CONFIG_64BIT
+> +static inline void
+> +test_seqnum64_result(char *msg, u64 start, u64 end, u64 expected)
+> +{
+> +	pr_info("%s: %llu to %llu - %s\n",
+> +		msg, start, end,
+> +		((expected == end) ? "PASS" : "FAIL"));
+> +}
+> +
+> +static void test_seqnum64(void)
+> +{
+> +	static struct seqnum64 seq = SEQNUM_INIT(0);
+> +	u64 start_val = seqnum64_fetch(&seq);
+> +	u64 end_val;
+> +
+> +	end_val = seqnum64_inc_return(&seq);
+> +	test_seqnum64_result("Test fetch and increment",
+> +			     start_val, end_val, start_val+1);
+> +
+> +	start_val = seqnum64_fetch(&seq);
+> +	seqnum64_init(&seq);
+> +	end_val = seqnum64_fetch(&seq);
+> +	test_seqnum64_result("Test init", start_val, end_val, 0);
+> +}
+> +
+> +static void test_seqnum64_overflow(void)
+> +{
+> +	static struct seqnum64 seq = SEQNUM_INIT(UINT_MAX-1);
+> +	u64 start_val = seqnum64_fetch(&seq);
+> +	u64 end_val = seqnum64_inc_return(&seq);
+> +
+> +	test_seqnum64_result("Test UINT_MAX limit compare with (val+1)",
+> +			     start_val, end_val, start_val+1);
+> +	test_seqnum64_result("Test UINT_MAX limit compare with (UINT_MAX)",
+> +			     start_val, end_val, UINT_MAX);
+> +}
+> +#endif /* CONFIG_64BIT */
+> +
+> +static int __init test_seqnum_ops_init(void)
+> +{
+> +	pr_info("Start seqnum32_*() interfaces test\n");
+> +	test_seqnum32();
+> +	test_seqnum32_overflow();
+> +	pr_info("End seqnum32_*() interfaces test\n\n");
+> +
+> +#ifdef CONFIG_64BIT
+> +	pr_info("Start seqnum64_*() interfaces test\n");
+> +	test_seqnum64();
+> +	test_seqnum64_overflow();
+> +	pr_info("End seqnum64_*() interfaces test\n\n");
+> +#endif /* CONFIG_64BIT */
+> +
+> +	return 0;
+> +}
+> +
+> +module_init(test_seqnum_ops_init);
+> +
+> +static void __exit test_seqnum_ops_exit(void)
+> +{
+> +	pr_info("exiting.\n");
+> +}
+> +
+> +module_exit(test_seqnum_ops_exit);
+> +
+> +MODULE_AUTHOR("Shuah Khan <skhan@linuxfoundation.org>");
+> +MODULE_LICENSE("GPL v2");
+> -- 
+> 2.27.0
+> 
