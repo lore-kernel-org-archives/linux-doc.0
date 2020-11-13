@@ -2,84 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7741CC388F7
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 22:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0979FC2D0E4
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 00:39:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 255962085B
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Nov 2020 22:35:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92D1120B80
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 00:39:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="YCeiW20R"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727359AbgKLWfo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Nov 2020 17:35:44 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7225 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727347AbgKLWfo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 17:35:44 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CXGdX54wKzkgtb;
-        Fri, 13 Nov 2020 06:35:28 +0800 (CST)
-Received: from SWX921481.china.huawei.com (10.126.203.95) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 13 Nov 2020 06:35:33 +0800
-From:   Barry Song <song.bao.hua@hisilicon.com>
-To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <linuxarm@huawei.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Mel Gorman" <mgorman@suse.de>, Adrian Freund <adrian@freund.io>,
-        Barry Song <song.bao.hua@hisilicon.com>
-Subject: [PATCH v2 2/2] Documentation: scheduler: ask users to set sched_debug cmdline
-Date:   Fri, 13 Nov 2020 11:31:29 +1300
-Message-ID: <20201112223129.26580-2-song.bao.hua@hisilicon.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20201112223129.26580-1-song.bao.hua@hisilicon.com>
-References: <20201112223129.26580-1-song.bao.hua@hisilicon.com>
+        id S1725965AbgKMAjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Nov 2020 19:39:02 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:33068 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbgKMAjB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Nov 2020 19:39:01 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AD0YJlx079300;
+        Fri, 13 Nov 2020 00:38:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=Ls3C+uNNlHIbuho6jGERwpcS+sJKtiHr3wMQuYv16Ds=;
+ b=YCeiW20RQFn8tEVQpgvHwULhb8qIGG/OzvhX65Yw1TO8cYMXXKMYn5Kn1UXLhdkyx9CI
+ OfAVCgL4LBPS52h72FkHkPfgodq0zj1DnsZbfK0mriUPNDJl1/qdjfD0wB9Zr2ONYh6R
+ jnOSSPn+HitKUy6LobCVKMnxy5hBMqzJP/dZWwAAekg27OGAm9Zlc7m6wDBLtXIuWdrZ
+ qsiG7qLNpFQZGpq6SiIPlsvaQu9MpxBSkW9yBcTzA+n+vOfUXCRrG4nc2QvLUbNFQf9V
+ ahgyPEpbxVtRMWSIXZUEpOhGvCUrbn+ZK1WUmqMY8Tntel8mM2GNFYIu7XweSHFtNXXl Cg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 34nh3b8hp3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 13 Nov 2020 00:38:18 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AD0aGTw113147;
+        Fri, 13 Nov 2020 00:36:17 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 34rtksp808-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 13 Nov 2020 00:36:17 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AD0a3Br024500;
+        Fri, 13 Nov 2020 00:36:03 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 12 Nov 2020 16:36:03 -0800
+Subject: Re: [External] Re: [PATCH v3 05/21] mm/hugetlb: Introduce pgtable
+ allocation/freeing helpers
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20201108141113.65450-1-songmuchun@bytedance.com>
+ <20201108141113.65450-6-songmuchun@bytedance.com>
+ <9dc62874-379f-b126-94a7-5bd477529407@oracle.com>
+ <CAMZfGtV+_vP66N1WagwNfxs4r3QGwnrYoR60yimwutTs=awXag@mail.gmail.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <b7c16e3f-d906-1a11-dbd5-dc4199d70821@oracle.com>
+Date:   Thu, 12 Nov 2020 16:35:58 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.126.203.95]
-X-CFilter-Loop: Reflected
+In-Reply-To: <CAMZfGtV+_vP66N1WagwNfxs4r3QGwnrYoR60yimwutTs=awXag@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9803 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 phishscore=0
+ suspectscore=2 bulkscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011130001
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9803 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1015 malwarescore=0 mlxscore=0 spamscore=0 suspectscore=2
+ mlxlogscore=999 impostorscore=0 phishscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011130001
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Valentin Schneider <valentin.schneider@arm.com>
+On 11/10/20 7:41 PM, Muchun Song wrote:
+> On Wed, Nov 11, 2020 at 8:47 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+>>
+>> On 11/8/20 6:10 AM, Muchun Song wrote:
+>> I am reading the code incorrectly it does not appear page->lru (of the huge
+>> page) is being used for this purpose.  Is that correct?
+>>
+>> If it is correct, would using page->lru of the huge page make this code
+>> simpler?  I am just missing the reason why you are using
+>> page_huge_pte(page)->lru
+> 
+> For 1GB HugeTLB pages, we should pre-allocate more than one page
+> table. So I use a linked list. The page_huge_pte(page) is the list head.
+> Because the page->lru shares storage with page->pmd_huge_pte.
 
-To print the schedule debug information, users need to set sched_debug
-cmdline or enable it by sysfs entry.
+Sorry, but I do not understand the statement page->lru shares storage with
+page->pmd_huge_pte.  Are you saying they are both in head struct page of
+the huge page?
 
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Mel Gorman <mgorman@suse.de>
-Cc: Adrian Freund <adrian@freund.io>
-Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
----
- Documentation/scheduler/sched-domains.rst | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Here is what I was suggesting.  If we just use page->lru for the list
+then vmemmap_pgtable_prealloc() could be coded like the following:
 
-diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
-index 55983b7e1098..8582fa5e9170 100644
---- a/Documentation/scheduler/sched-domains.rst
-+++ b/Documentation/scheduler/sched-domains.rst
-@@ -74,6 +74,8 @@ for a given topology level by creating a sched_domain_topology_level array and
- calling set_sched_topology() with this array as the parameter.
- 
- The sched-domains debugging infrastructure can be enabled by enabling
--CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
--which should catch most possible errors (described above). It also prints out
--the domain structure in a visual format.
-+CONFIG_SCHED_DEBUG and adding 'sched_debug' to your cmdline. If you forgot to
-+tweak your cmdline, you can also flip the /sys/kernel/debug/sched_debug
-+knob. This enables an error checking parse of the sched domains which should
-+catch most possible errors (described above). It also prints out the domain
-+structure in a visual format.
+static int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
+{
+	struct page *pte_page, *t_page;
+	unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
+
+	if (!nr)
+		return 0;
+
+	/* Store preallocated pages on huge page lru list */
+	INIT_LIST_HEAD(&page->lru);
+
+	while (nr--) {
+		pte_t *pte_p;
+
+		pte_p = pte_alloc_one_kernel(&init_mm);
+		if (!pte_p)
+			goto out;
+		list_add(&virt_to_page(pte_p)->lru, &page->lru);
+	}
+
+	return 0;
+out:
+	list_for_each_entry_safe(pte_page, t_page, &page->lru, lru)
+		pte_free_kernel(&init_mm, page_to_virt(pte_page));
+	return -ENOMEM;
+}
+
+By doing this we could eliminate the routines,
+vmemmap_pgtable_init()
+vmemmap_pgtable_deposit()
+vmemmap_pgtable_withdraw()
+and simply use the list manipulation routines.
+
+To me, that looks simpler than the proposed code in this patch.
 -- 
-2.25.1
-
+Mike Kravetz
