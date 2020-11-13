@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D28FC4742C
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1614FC56202
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:06:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D871207DE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:06:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6E2E20B80
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:06:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="HXMyr8Xa"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="vYF40kLS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726369AbgKMLFw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Nov 2020 06:05:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54156 "EHLO
+        id S1726592AbgKMLGg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Nov 2020 06:06:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726449AbgKMLDq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 06:03:46 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1525C061A4E
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:03:12 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id g11so4369602pll.13
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:03:12 -0800 (PST)
+        with ESMTP id S1726472AbgKMLEx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 06:04:53 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E00C0617A7
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:03:46 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id f38so6831646pgm.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VTBEkY0EWBbMy5iIzZRtsaqCivtCwTiUQlKtEZa+cOQ=;
-        b=HXMyr8XazQ6oTzSEwqXN6zTDQfzwHhzhGI9vF9dhhvZ4EyuBVJKj33LuCIeBNL1WJO
-         4i49MSS3mHAOPKlaowtPqF0hKSFYc4DeNeZ23+FxCSvgVL2UY1vA8cA1GIU1y2S+2ue9
-         k6Iu3xWN0uVnmNNobJsIPiB+23J/BOF1qLmkb4JCArM4HrZPkL+KiAupM8r28sq2B8lh
-         pp61KKhCKGP1P5j3i6Cxtv+tIxo76J3d8L52b65YJ6wPS5KYhdcV1Y5Jt8XOpRSYH3dL
-         pDXGANFAs3AGL8HGfeynfn023qG7xQviy2/sFmuKnR6+Rm4EFS+fquD+urXexrFetu8+
-         g+Gw==
+        bh=QzolJXKJFt3Cv9lk0AvV6UgqgHDueM2wckEIHiP70o4=;
+        b=vYF40kLSPTori9kiUCaA8h+WJRxn/OJj5FR3U6TfhNVIRJ7HIWbWL5bz2jmSwgCAh7
+         QLXUgeaue7x6mna7QPdQSqYCZgX3VfQZE5fOrBaMuupSjUfiVrpq42S5Ww5vJb3jz+0K
+         KZraHE4s3VI/MVTe/GbH/NRYf3RnEK6aJPK5zGbtRQ5cIlyFZegnpzJjP3YQ3cQEpZHW
+         QFw9ZSI+hH37JpxeFP8Zu9aueUjInncq/8gD8aA/GFxdKXDV91nT9FT9q9R0s167Qb/s
+         01bp9m/k992a3+NE/2zqSJ5xkx6SDwejark0dKPO0/KTtafxi3MGqRPOfSOZA8Uusl04
+         Em2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VTBEkY0EWBbMy5iIzZRtsaqCivtCwTiUQlKtEZa+cOQ=;
-        b=ma5fL3+uP6c84hPItPc3pnuKw6wiCwqTHP5l/G9KhykJea/2cNcVQLClKuLJ6B73nJ
-         YuQyFY6KRhIRmcJO7hZ0kE3O1eEzvOOCzNZL8HlAemevQ7fulQufH/enVxYgpL/YaxVK
-         Y7tlPFlsC5xKx7aMuurjdDlA71clYeCEBqJLEAPCcw3ZO4kZ6THBOz1G+xr+jpX3U9Cu
-         20NtHqW4YpfOEUqJZeJlR/J5f+816BeBNIg7IPlCHnhgZIhyW6aBc6XHGm3aYxDYOeFi
-         D3bxNd4qP2R8UM1Xpn2ax+W0MEB4g6wh/Jswnhdq4ZtCkSw/9/3Ut9wKCQnanidhvZvi
-         6B7Q==
-X-Gm-Message-State: AOAM5328Qn2rDrx5mpO/4sj6rtBfH8i4UHPIe8RLg8KG+alKfyy6OBOO
-        TgAnKBhmB7KnClPynetU2riugg==
-X-Google-Smtp-Source: ABdhPJzrYDT5xoZpsO3M+6yIguGxa3HMCUVuWgvEDjS67lXujwXi8LjnpKOLMdYhmMzRef8jrVTIfw==
-X-Received: by 2002:a17:902:7487:b029:d6:c03b:bce4 with SMTP id h7-20020a1709027487b02900d6c03bbce4mr1570873pll.36.1605265392353;
-        Fri, 13 Nov 2020 03:03:12 -0800 (PST)
+        bh=QzolJXKJFt3Cv9lk0AvV6UgqgHDueM2wckEIHiP70o4=;
+        b=Yv+jMZH9XioTD7oG9SZBpndepEaoN3bbNYjMljjpF3KJ5L5TdztMgfxVXyKPIpEcn0
+         mCTl4P0BK+kjoDETaezfStnoA7Fb/vG6ZKIjaRgJOiGa5pYiV/kB28OS06o0BaS3LROL
+         CM3Acv2lwMf1ep0mgLIGw2KySA71IOJrpKZO34JdII7UB327s1bIJlxZA2AY57G1hKse
+         vBpEdH3sJbE/Swy9Zg7kUWLBDHPd0lYt4F3SFZFwI7qxxLxG/2pCMFjYYzbEip3ZgZ8Q
+         +uF1olYJ/rrATrvAfy5NZVj9QFrpn67H+SRB+xLdi7FVziYwlM/8PXwzQi1WRgqf4UuK
+         mfNw==
+X-Gm-Message-State: AOAM533gmvZAFKFwkbY3JbI9lSUvhxC9uUk16mTOwFcGmm86AoJfExYO
+        tycTRgXBsaUpnrypy4AtOYevkw==
+X-Google-Smtp-Source: ABdhPJwSxrC8AebEKZmKNBIl86jC4CYLWk9JpK9nMJhulmTMM7fshqtrmP4/n4vXa34e85lcpIUKTQ==
+X-Received: by 2002:a17:90a:a58e:: with SMTP id b14mr2244140pjq.203.1605265425784;
+        Fri, 13 Nov 2020 03:03:45 -0800 (PST)
 Received: from localhost.localdomain ([61.120.150.78])
-        by smtp.gmail.com with ESMTPSA id f1sm8909959pfc.56.2020.11.13.03.03.01
+        by smtp.gmail.com with ESMTPSA id f1sm8909959pfc.56.2020.11.13.03.03.35
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 13 Nov 2020 03:03:11 -0800 (PST)
+        Fri, 13 Nov 2020 03:03:45 -0800 (PST)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -71,9 +71,9 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v4 12/21] mm/hugetlb: Introduce remap_huge_page_pmd_vmemmap helper
-Date:   Fri, 13 Nov 2020 18:59:43 +0800
-Message-Id: <20201113105952.11638-13-songmuchun@bytedance.com>
+Subject: [PATCH v4 15/21] mm/hugetlb: Set the PageHWPoison to the raw error page
+Date:   Fri, 13 Nov 2020 18:59:46 +0800
+Message-Id: <20201113105952.11638-16-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20201113105952.11638-1-songmuchun@bytedance.com>
 References: <20201113105952.11638-1-songmuchun@bytedance.com>
@@ -83,169 +83,103 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The __free_huge_page_pmd_vmemmap and __remap_huge_page_pmd_vmemmap are
-almost the same code. So introduce remap_free_huge_page_pmd_vmemmap
-helper to simplify the code.
+Because we reuse the first tail page, if we set PageHWPosion on a
+tail page. It indicates that we may set PageHWPoison on a series
+of pages. So we can use the head[4].mapping to record the real
+error page index and set the raw error page PageHWPoison later.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- mm/hugetlb_vmemmap.c | 108 +++++++++++++++++++++------------------------------
- 1 file changed, 45 insertions(+), 63 deletions(-)
+ mm/hugetlb.c         | 11 +++--------
+ mm/hugetlb_vmemmap.h | 39 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+), 8 deletions(-)
 
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 9918dc63c062..ae9dbfb682ab 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -221,6 +221,47 @@ static inline int freed_vmemmap_hpage_dec(struct page *page)
- 	return atomic_dec_return_relaxed(&page->_mapcount) + 1;
- }
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 055604d07046..b853aacd5c16 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1383,6 +1383,7 @@ static void __free_hugepage(struct hstate *h, struct page *page)
+ 	int i;
  
-+static inline void free_vmemmap_page_list(struct list_head *list)
-+{
-+	struct page *page, *next;
+ 	alloc_huge_page_vmemmap(h, page);
++	subpage_hwpoison_deliver(page);
+ 
+ 	for (i = 0; i < pages_per_huge_page(h); i++) {
+ 		page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
+@@ -1944,14 +1945,8 @@ int dissolve_free_huge_page(struct page *page)
+ 		int nid = page_to_nid(head);
+ 		if (h->free_huge_pages - h->resv_huge_pages == 0)
+ 			goto out;
+-		/*
+-		 * Move PageHWPoison flag from head page to the raw error page,
+-		 * which makes any subpages rather than the error page reusable.
+-		 */
+-		if (PageHWPoison(head) && page != head) {
+-			SetPageHWPoison(page);
+-			ClearPageHWPoison(head);
+-		}
 +
-+	list_for_each_entry_safe(page, next, list, lru) {
-+		list_del(&page->lru);
-+		free_vmemmap_page(page);
++		set_subpage_hwpoison(head, page);
+ 		list_del(&head->lru);
+ 		h->free_huge_pages--;
+ 		h->free_huge_pages_node[nid]--;
+diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+index 79f330bb0714..b09fd658ce20 100644
+--- a/mm/hugetlb_vmemmap.h
++++ b/mm/hugetlb_vmemmap.h
+@@ -21,6 +21,29 @@ void __init gather_vmemmap_pgtable_init(struct huge_bootmem_page *m,
+ void alloc_huge_page_vmemmap(struct hstate *h, struct page *head);
+ void free_huge_page_vmemmap(struct hstate *h, struct page *head);
+ 
++static inline void subpage_hwpoison_deliver(struct page *head)
++{
++	struct page *page = head;
++
++	if (PageHWPoison(head))
++		page = head + page_private(head + 4);
++
++	/*
++	 * Move PageHWPoison flag from head page to the raw error page,
++	 * which makes any subpages rather than the error page reusable.
++	 */
++	if (page != head) {
++		SetPageHWPoison(page);
++		ClearPageHWPoison(head);
 +	}
 +}
 +
-+typedef void (*remap_pte_fn)(struct page *reuse, pte_t *ptep,
-+			     unsigned long start, unsigned long end,
-+			     struct list_head *pages);
-+
-+static void remap_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
-+					unsigned long addr,
-+					struct list_head *pages,
-+					remap_pte_fn remap_fn)
++static inline void set_subpage_hwpoison(struct page *head, struct page *page)
 +{
-+	unsigned long next;
-+	unsigned long start = addr + RESERVE_VMEMMAP_SIZE;
-+	unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
-+	struct page *reuse = NULL;
-+
-+	flush_cache_vunmap(start, end);
-+
-+	addr = start;
-+	do {
-+		pte_t *ptep;
-+
-+		ptep = pte_offset_kernel(pmd, addr);
-+		if (!reuse)
-+			reuse = pte_page(ptep[TAIL_PAGE_REUSE]);
-+
-+		next = vmemmap_hpage_addr_end(addr, end);
-+		remap_fn(reuse, ptep, addr, next, pages);
-+	} while (pmd++, addr = next, addr != end);
-+
-+	flush_tlb_kernel_range(start, end);
++	if (PageHWPoison(head))
++		set_page_private(head + 4, page - head);
 +}
 +
- static void __remap_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
- 					  unsigned long start,
- 					  unsigned long end,
-@@ -255,31 +296,6 @@ static void __remap_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
- 	}
- }
- 
--static void __remap_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
--					  unsigned long addr,
--					  struct list_head *remap_pages)
--{
--	unsigned long next;
--	unsigned long start = addr + RESERVE_VMEMMAP_SIZE;
--	unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
--	struct page *reuse = NULL;
--
--	addr = start;
--	do {
--		pte_t *ptep;
--
--		ptep = pte_offset_kernel(pmd, addr);
--		if (!reuse)
--			reuse = pte_page(ptep[TAIL_PAGE_REUSE]);
--
--		next = vmemmap_hpage_addr_end(addr, end);
--		__remap_huge_page_pte_vmemmap(reuse, ptep, addr, next,
--					      remap_pages);
--	} while (pmd++, addr = next, addr != end);
--
--	flush_tlb_kernel_range(start, end);
--}
--
- static inline void alloc_vmemmap_pages(struct hstate *h, struct list_head *list)
+ static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
  {
- 	int i;
-@@ -308,8 +324,8 @@ void alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
- 	BUG_ON(!pmd);
- 
- 	ptl = vmemmap_pmd_lock(pmd);
--	__remap_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head,
--				      &remap_pages);
-+	remap_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head, &remap_pages,
-+				    __remap_huge_page_pte_vmemmap);
- 	if (!freed_vmemmap_hpage_dec(pmd_page(*pmd))) {
- 		/*
- 		 * Todo:
-@@ -319,16 +335,6 @@ void alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
- 	spin_unlock(ptl);
- }
- 
--static inline void free_vmemmap_page_list(struct list_head *list)
--{
--	struct page *page, *next;
--
--	list_for_each_entry_safe(page, next, list, lru) {
--		list_del(&page->lru);
--		free_vmemmap_page(page);
--	}
--}
--
- static void __free_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
- 					 unsigned long start,
- 					 unsigned long end,
-@@ -351,31 +357,6 @@ static void __free_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
- 	}
- }
- 
--static void __free_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
--					 unsigned long addr,
--					 struct list_head *free_pages)
--{
--	unsigned long next;
--	unsigned long start = addr + RESERVE_VMEMMAP_SIZE;
--	unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
--	struct page *reuse = NULL;
--
--	addr = start;
--	do {
--		pte_t *ptep;
--
--		ptep = pte_offset_kernel(pmd, addr);
--		if (!reuse)
--			reuse = pte_page(ptep[TAIL_PAGE_REUSE]);
--
--		next = vmemmap_hpage_addr_end(addr, end);
--		__free_huge_page_pte_vmemmap(reuse, ptep, addr, next,
--					     free_pages);
--	} while (pmd++, addr = next, addr != end);
--
--	flush_tlb_kernel_range(start, end);
--}
--
- static void split_vmemmap_pmd(pmd_t *pmd, pte_t *pte_p, unsigned long addr)
+ 	return h->nr_free_vmemmap_pages;
+@@ -57,6 +80,22 @@ static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
  {
- 	int i;
-@@ -434,7 +415,8 @@ void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- 	if (vmemmap_pmd_huge(pmd))
- 		split_vmemmap_huge_page(head, pmd);
+ }
  
--	__free_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head, &free_pages);
-+	remap_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head, &free_pages,
-+				    __free_huge_page_pte_vmemmap);
- 	freed_vmemmap_hpage_inc(pmd_page(*pmd));
- 	spin_unlock(ptl);
- 
++static inline void subpage_hwpoison_deliver(struct page *head)
++{
++}
++
++static inline void set_subpage_hwpoison(struct page *head, struct page *page)
++{
++	/*
++	 * Move PageHWPoison flag from head page to the raw error page,
++	 * which makes any subpages rather than the error page reusable.
++	 */
++	if (PageHWPoison(head) && page != head) {
++		SetPageHWPoison(page);
++		ClearPageHWPoison(head);
++	}
++}
++
+ static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
+ {
+ 	return 0;
 -- 
 2.11.0
 
