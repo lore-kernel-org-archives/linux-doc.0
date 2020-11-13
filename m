@@ -2,91 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0941BC388F7
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 12:03:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBE88C4742C
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 12:15:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9B2E22240
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 12:03:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9474B2085B
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 12:15:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbgKMMDq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Nov 2020 07:03:46 -0500
-Received: from foss.arm.com ([217.140.110.172]:36772 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726755AbgKMLnG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Nov 2020 06:43:06 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B10F51042;
-        Fri, 13 Nov 2020 03:34:28 -0800 (PST)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 756513F6CF;
-        Fri, 13 Nov 2020 03:34:27 -0800 (PST)
-References: <20201112223129.26580-1-song.bao.hua@hisilicon.com> <20201112223129.26580-2-song.bao.hua@hisilicon.com>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Barry Song <song.bao.hua@hisilicon.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxarm@huawei.com,
-        Ingo Molnar <mingo@redhat.com>,
+        id S1726628AbgKMMPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Nov 2020 07:15:42 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7191 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbgKMMPj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 07:15:39 -0500
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CXcMH2JbLz15TF6;
+        Fri, 13 Nov 2020 19:54:19 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.202.143) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 13 Nov 2020 19:54:21 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <linuxarm@huawei.com>, Barry Song <song.bao.hua@hisilicon.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Adrian Freund <adrian@freund.io>
-Subject: Re: [PATCH v2 2/2] Documentation: scheduler: ask users to set sched_debug cmdline
-Message-ID: <jhj5z69xzi7.mognet@arm.com>
-In-reply-to: <20201112223129.26580-2-song.bao.hua@hisilicon.com>
-Date:   Fri, 13 Nov 2020 11:34:21 +0000
+        Mel Gorman <mgorman@suse.de>, Adrian Freund <adrian@freund.io>,
+        Valentin Schneider <valentin.schneider@arm.com>
+Subject: [PATCH v3] Documentation: scheduler: fix information on arch SD flags, sched_domain and sched_debug
+Date:   Sat, 14 Nov 2020 00:50:18 +1300
+Message-ID: <20201113115018.1628-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.202.143]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This document seems to be out of date for many, many years. Even it has
+misspelled from the first day.
+ARCH_HASH_SCHED_TUNE should be ARCH_HAS_SCHED_TUNE
+ARCH_HASH_SCHED_DOMAIN should be ARCH_HAS_SCHED_DOMAIN
 
-On 12/11/20 22:31, Barry Song wrote:
-> From: Valentin Schneider <valentin.schneider@arm.com>
->
-> To print the schedule debug information, users need to set sched_debug
-> cmdline or enable it by sysfs entry.
->
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Mel Gorman <mgorman@suse.de>
-> Cc: Adrian Freund <adrian@freund.io>
-> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
+Since v2.6.14, kernel completely deleted the relevant code and even
+arch_init_sched_domains() was deleted.
 
-FYI, forging SoB, or any 'tag' other than Suggested-by / Reported-by is
-frowned up. Now I do appreciate your effort to give me credit, but in this
-case you should've used Suggested-by.
+Right now, kernel is asking architectures to call set_sched_topology() to
+override the default sched domains.
 
-Moreso, this really is a trivial change and doesn't deserve a separate
-patch, so I would say just squash that into patch 1, and add
+On the other hand, to print the schedule debug information, users need to
+set sched_debug cmdline or enable it by sysfs entry. So this patch also
+adds the description for sched_debug.
 
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Adrian Freund <adrian@freund.io>
 Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+---
+ -v3:
+ * add Reviewed-by of Valentin Schneider
+ * add description of sched_debug
 
-to it :)
+ Documentation/scheduler/sched-domains.rst | 26 ++++++++++-------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-> ---
->  Documentation/scheduler/sched-domains.rst | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
-> index 55983b7e1098..8582fa5e9170 100644
-> --- a/Documentation/scheduler/sched-domains.rst
-> +++ b/Documentation/scheduler/sched-domains.rst
-> @@ -74,6 +74,8 @@ for a given topology level by creating a sched_domain_topology_level array and
->  calling set_sched_topology() with this array as the parameter.
->  
->  The sched-domains debugging infrastructure can be enabled by enabling
-> -CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
-> -which should catch most possible errors (described above). It also prints out
-> -the domain structure in a visual format.
-> +CONFIG_SCHED_DEBUG and adding 'sched_debug' to your cmdline. If you forgot to
-> +tweak your cmdline, you can also flip the /sys/kernel/debug/sched_debug
-> +knob. This enables an error checking parse of the sched domains which should
-> +catch most possible errors (described above). It also prints out the domain
-> +structure in a visual format.
+diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
+index 5c4b7f4f0062..8582fa5e9170 100644
+--- a/Documentation/scheduler/sched-domains.rst
++++ b/Documentation/scheduler/sched-domains.rst
+@@ -65,21 +65,17 @@ of the SMP domain will span the entire machine, with each group having the
+ cpumask of a node. Or, you could do multi-level NUMA or Opteron, for example,
+ might have just one domain covering its one NUMA level.
+ 
+-The implementor should read comments in include/linux/sched.h:
+-struct sched_domain fields, SD_FLAG_*, SD_*_INIT to get an idea of
+-the specifics and what to tune.
++The implementor should read comments in include/linux/sched/sd_flags.h:
++SD_* to get an idea of the specifics and what to tune for the SD flags
++of a sched_domain.
+ 
+-Architectures may retain the regular override the default SD_*_INIT flags
+-while using the generic domain builder in kernel/sched/core.c if they wish to
+-retain the traditional SMT->SMP->NUMA topology (or some subset of that). This
+-can be done by #define'ing ARCH_HASH_SCHED_TUNE.
+-
+-Alternatively, the architecture may completely override the generic domain
+-builder by #define'ing ARCH_HASH_SCHED_DOMAIN, and exporting your
+-arch_init_sched_domains function. This function will attach domains to all
+-CPUs using cpu_attach_domain.
++Architectures may override the generic domain builder and the default SD flags
++for a given topology level by creating a sched_domain_topology_level array and
++calling set_sched_topology() with this array as the parameter.
+ 
+ The sched-domains debugging infrastructure can be enabled by enabling
+-CONFIG_SCHED_DEBUG. This enables an error checking parse of the sched domains
+-which should catch most possible errors (described above). It also prints out
+-the domain structure in a visual format.
++CONFIG_SCHED_DEBUG and adding 'sched_debug' to your cmdline. If you forgot to
++tweak your cmdline, you can also flip the /sys/kernel/debug/sched_debug
++knob. This enables an error checking parse of the sched domains which should
++catch most possible errors (described above). It also prints out the domain
++structure in a visual format.
+-- 
+2.25.1
 
