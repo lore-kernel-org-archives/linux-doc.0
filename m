@@ -6,72 +6,60 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E97C4742C
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 21:53:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8FAC63697
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 22:03:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E552122252
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 21:53:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BF8122252
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 22:03:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbgKMVxs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Nov 2020 16:53:48 -0500
-Received: from ms.lwn.net ([45.79.88.28]:50848 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725885AbgKMVxs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Nov 2020 16:53:48 -0500
+        id S1726087AbgKMWDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Nov 2020 17:03:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726121AbgKMWCx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 17:02:53 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3233AC0613D1;
+        Fri, 13 Nov 2020 14:02:53 -0800 (PST)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 285EC4FA;
-        Fri, 13 Nov 2020 21:53:48 +0000 (UTC)
-Date:   Fri, 13 Nov 2020 14:53:47 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id CA1021E5E;
+        Fri, 13 Nov 2020 22:02:52 +0000 (UTC)
+Date:   Fri, 13 Nov 2020 15:02:51 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] doc:it_IT: align Italian documentation
-Message-ID: <20201113145347.01fea824@lwn.net>
-In-Reply-To: <20201113133638.7989-1-federico.vaga@vaga.pv.it>
-References: <20201113133638.7989-1-federico.vaga@vaga.pv.it>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Linux API <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux Security Module list 
+        <linux-security-module@vger.kernel.org>,
+        SELinux <selinux@vger.kernel.org>
+Subject: Re: [RFC PATCH] docs: ABI: ABI documentation for procfs attribute
+ files used by multiple LSMs
+Message-ID: <20201113150251.16bfcbfe@lwn.net>
+In-Reply-To: <30c36660-3694-0c0d-d472-8f3b3ca4098e@schaufler-ca.com>
+References: <30c36660-3694-0c0d-d472-8f3b3ca4098e.ref@schaufler-ca.com>
+        <30c36660-3694-0c0d-d472-8f3b3ca4098e@schaufler-ca.com>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 13 Nov 2020 14:36:38 +0100
-Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+On Tue, 10 Nov 2020 09:28:41 -0800
+Casey Schaufler <casey@schaufler-ca.com> wrote:
 
-> Translation for the following patches
+> Provide basic ABI descriptions for the process attribute entries
+> that are shared between multiple Linux security modules.
 > 
-> commit 905705a8fd43 ("docs: programming-languages: refresh blurb on clang support")
-> commit 5ff4aa70bf34 ("docs: submitting-patches: use :doc: for references")
-> commit 030f066f677f ("docs: submitting-patches: describe preserving review/test tags")
-> commit 68e4cd17e218 ("docs: deprecated.rst: Add zero-length and one-element arrays")
-> commit 5429ef62bcf3 ("compiler/gcc: Raise minimum GCC version for kernel builds to 4.8")
-> commit 5b5bbb8cc51b ("docs: process: Add an example for creating a fixes tag")
-> commit 858e6845654d ("docs: dt: convert submitting-patches.txt to ReST format")
-> commit cca73e4946c4 ("docs: Correct the release date of 5.2 stable")
-> commit c170f2eb9648 ("docs: Document cross-referencing between documentation pages")
-> commit 7c8b9e3000f8 ("kernel-doc: Update "cross-referencing from rST" section to use automarkup")
-> commit 27def953b63b ("docs: deprecated.rst: Expand str*cpy() replacement notes")
-> commit 17dca0502314 ("docs: deprecated.rst: Update zero-length/one-element arrays section")
-> commit 3519c4d6e08e ("Documentation: add minimum clang/llvm version")
-> commit 0bddd227f3dc ("Documentation: update for gcc 4.9 requirement")
-> commit 9f364b605f34 ("submitting-patches.rst: presume git will be used")
-> commit 4ebdf7be21d6 ("Documentation/maintainer: rehome sign-off process")
-> commit 7433ff33e8ba ("Documentation/process: expand plain-text advice")
-> commit eb45fb2fb16d ("docs: process: Add cross-link to security-bugs")
-> commit bdc48fa11e46 ("checkpatch/coding-style: deprecate 80-column warning")
-> commit f67281a72b30 ("Documentation: process: step 2: Link to email list fixed")
-> 
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>  Documentation/ABI/testing/procfs-attr-current | 20 ++++++++++++++++++++
+>  Documentation/ABI/testing/procfs-attr-exec    | 20 ++++++++++++++++++++
+>  Documentation/ABI/testing/procfs-attr-prev    | 19 +++++++++++++++++++
+>  3 files changed, 59 insertions(+)
 
-This doesn't apply to docs-next, not quite sure why.
-
-Also...what changed with v2?  Please always include that information under
-the "---" line.
-
-Thanks,
+I've applied this, thanks.
 
 jon
