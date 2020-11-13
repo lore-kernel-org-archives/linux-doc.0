@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8949C388F7
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD105C388F7
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:15:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59BC2207DE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:15:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 75AD5207DE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:15:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="x4h4tozn"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="aGk77ho7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726707AbgKMLPK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Nov 2020 06:15:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54150 "EHLO
+        id S1726716AbgKMLPw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Nov 2020 06:15:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726391AbgKMLF6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 06:05:58 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03BE3C09424A
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:04:21 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id z3so7321105pfb.10
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:04:20 -0800 (PST)
+        with ESMTP id S1726561AbgKMLEC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 06:04:02 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA003C08E9AA
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:03:23 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id w14so7331481pfd.7
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:03:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2dnPV1b6uHWD2D+PaHlh5ehZyTbtQb+H242CmT/tu8g=;
-        b=x4h4toznMW9myqfV4/4rtBvtB3x76JiQu2/IusbB/1Q3+xmDQkJKzs1TsHxWt/zxkF
-         rYvDmGEcnfWEohs8dWmCxfpMQzt24NSGwNE/8jF+QNl7QAMOnnzgFAoAaNkOF+Gs7R5z
-         ObcAsEEqtcE/KIQyrxRkTW1EBlAAjJm02KYO6I/NcZ0TuIKNyDrTkulq8q2o0zu76NJV
-         RMlNYeE2QRpW39xbzGLuIaY4CIkMKnZTo3OHOMKlEdgEUMTm95kK/Tb+3b0ze2akmsxM
-         KqtPCxok9SvhICziSupm5tLHqksj/uRJkxvuQyRQ3bddyhwUldhnUzZSBiFUz0yeyeGZ
-         QrMQ==
+        bh=SX/i7Qyg4EeyUbzxMmXSVQWEWDSzbgT6hhsWUt63V1U=;
+        b=aGk77ho777Ou5HKsMp4MLx10GBvaNnVTXQ5XKeHBPmU6a/rGunCtgJxW+iegljbe9B
+         HYThHErweWzFAlZxpir6SbXMVsfFc4pWbJs8RbotA9e3eLIcVZK5UDrKGvl+QYTfqkNg
+         hBdez0L+yQAUvxLt/CGMqRjzch0M4uQIJnO78Yv79HH5Yl3Q4yCr83lmQnNo0tFliJ+F
+         IhHM5zhlKNOGHNuWZAJxPO/+7uTfK7qIubaKw+nrwIk0cYDXMHpR1bqu3JhE0Z+ga03j
+         OCKTW13nMPchxVUWO2w0C3bW6p7eli74kPQcVj3NfNso1yWOZSbiOSqPczO8QjTHhkJp
+         dByw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2dnPV1b6uHWD2D+PaHlh5ehZyTbtQb+H242CmT/tu8g=;
-        b=f++es2I3IIzXF++Usebij94rnhSEFbhPMNPv79YAEdYjVn9CIR4FVZ3QrVErtVY9Fw
-         6YPpaOyLF51guJU38nSjgyYqgSr5OXH95PphyiPkNUb3kVKUwSEMN65OjT+vLa9MTf2l
-         raKQc8uShaBMiqo1Mpr0xZx0Jih43YuM9csjWHTEdD6FitILKHHCsCGh+TbMxPLXCaiH
-         t2xZolN+xxPI/LP3rCSd+nLGuQ/obztOZF51h3Z7nZCllLvF95nwH1tSYa1Xmb3ndfX6
-         fkRys6ZDqITPoROu1f6E36N3jfHwRA+ejtHDwO281ak6OsHAucEXxHtqkkxcxMmbacuo
-         SiWA==
-X-Gm-Message-State: AOAM532PZ7fhCqCmWLHTAXuSHV54aVYx6kkh+vADcnu5yVefl06mTIzD
-        WPyG8ySNKWj6gc5Zfitmcz/jLg==
-X-Google-Smtp-Source: ABdhPJwej1GeIBlLpEuMCUF9hhhhxhMLbmKZpJvqWgyB4Wj77yK7vWxMgfdOWrnLEfwZC9Rr+9YU8w==
-X-Received: by 2002:a63:cb51:: with SMTP id m17mr1607379pgi.337.1605265460592;
-        Fri, 13 Nov 2020 03:04:20 -0800 (PST)
+        bh=SX/i7Qyg4EeyUbzxMmXSVQWEWDSzbgT6hhsWUt63V1U=;
+        b=fbmXm0Ggj0o4UwM6Bu+u0O9GRwddO1YLKfPEJm1bbTDW9vpnuldKLcFU6Xq6djxrEI
+         kB9tfb4CBIAOkInO3Nm7FCiwgmg+WYyxM7li36gBlVVsnHsNBExHBHO2cc3i4zV3kchn
+         GJ1gjKYi/3rpp9or17lUq/xGJXl+CiSbmbFdau4uVWlMucpqT+X2ItqKQYw+vaQhxCIE
+         wE+RGblStIQ4JfX6Bas0wHjR8spPPXFqEzdYu9sCY7/J8lRY++V4Swgaiqx+7DjKSriU
+         pIkpsyNquSLrc1QwDsTMUEqCMg8ioMnaItrTho91/4SnPysUV7H1fd3Si4ejc/8i78ga
+         HK5A==
+X-Gm-Message-State: AOAM532kQ/wSxvcW7FoW7Xr4yb+K2MvXcOCz0JQnxQH8TSf3gS+/Af0S
+        1XW1hKXV0cLhnYlZWfN/UKB6NQ==
+X-Google-Smtp-Source: ABdhPJwQeGgpDvfFR9ELb9n7ojrevOtBi4ecXD9eqeAxem6yL+RhNnapjzGSGHmQx41LzOsy0em5AQ==
+X-Received: by 2002:a17:90b:3884:: with SMTP id mu4mr2431364pjb.157.1605265403481;
+        Fri, 13 Nov 2020 03:03:23 -0800 (PST)
 Received: from localhost.localdomain ([61.120.150.78])
-        by smtp.gmail.com with ESMTPSA id f1sm8909959pfc.56.2020.11.13.03.04.08
+        by smtp.gmail.com with ESMTPSA id f1sm8909959pfc.56.2020.11.13.03.03.12
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 13 Nov 2020 03:04:19 -0800 (PST)
+        Fri, 13 Nov 2020 03:03:22 -0800 (PST)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -71,9 +71,9 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v4 18/21] mm/hugetlb: Merge pte to huge pmd only for gigantic page
-Date:   Fri, 13 Nov 2020 18:59:49 +0800
-Message-Id: <20201113105952.11638-19-songmuchun@bytedance.com>
+Subject: [PATCH v4 13/21] mm/hugetlb: Use PG_slab to indicate split pmd
+Date:   Fri, 13 Nov 2020 18:59:44 +0800
+Message-Id: <20201113105952.11638-14-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20201113105952.11638-1-songmuchun@bytedance.com>
 References: <20201113105952.11638-1-songmuchun@bytedance.com>
@@ -83,180 +83,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Merge pte to huge pmd if it has ever been split. Now only support
-gigantic page which's vmemmap pages size is an integer multiple of
-PMD_SIZE. This is the simplest case to handle.
+When we allocate hugetlb page from buddy, we may need split huge pmd
+to pte. When we free the hugetlb page, we can merge pte to pmd. So
+we need to distinguish whether the previous pmd has been split. The
+page table is not allocated from slab. So we can reuse the PG_slab
+to indicate that the pmd has been split.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- arch/x86/include/asm/hugetlb.h |   8 +++
- mm/hugetlb_vmemmap.c           | 118 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 124 insertions(+), 2 deletions(-)
+ mm/hugetlb_vmemmap.c | 26 ++++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/hugetlb.h b/arch/x86/include/asm/hugetlb.h
-index c601fe042832..1de1c519a84a 100644
---- a/arch/x86/include/asm/hugetlb.h
-+++ b/arch/x86/include/asm/hugetlb.h
-@@ -12,6 +12,14 @@ static inline bool vmemmap_pmd_huge(pmd_t *pmd)
- {
- 	return pmd_large(*pmd);
- }
-+
-+#define vmemmap_pmd_mkhuge vmemmap_pmd_mkhuge
-+static inline pmd_t vmemmap_pmd_mkhuge(struct page *page)
-+{
-+	pte_t entry = pfn_pte(page_to_pfn(page), PAGE_KERNEL_LARGE);
-+
-+	return __pmd(pte_val(entry));
-+}
- #endif
- 
- #define hugepages_supported() boot_cpu_has(X86_FEATURE_PSE)
 diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 1528b156920c..5c00826a98b3 100644
+index ae9dbfb682ab..58bff13a2301 100644
 --- a/mm/hugetlb_vmemmap.c
 +++ b/mm/hugetlb_vmemmap.c
-@@ -118,6 +118,14 @@ static inline bool vmemmap_pmd_huge(pmd_t *pmd)
- }
- #endif
- 
-+#ifndef vmemmap_pmd_mkhuge
-+#define vmemmap_pmd_mkhuge vmemmap_pmd_mkhuge
-+static inline pmd_t vmemmap_pmd_mkhuge(struct page *page)
-+{
-+	return pmd_mkhuge(mk_pmd(page, PAGE_KERNEL));
-+}
-+#endif
-+
- static bool hugetlb_free_vmemmap_disabled __initdata;
- 
- static int __init early_hugetlb_free_vmemmap_param(char *buf)
-@@ -386,6 +394,104 @@ static void __remap_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
- 	}
+@@ -262,6 +262,25 @@ static void remap_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
+ 	flush_tlb_kernel_range(start, end);
  }
  
-+static void __replace_huge_page_pte_vmemmap(pte_t *ptep, unsigned long start,
-+					    unsigned int nr, struct page *huge,
-+					    struct list_head *free_pages)
++static inline bool pmd_split(pmd_t *pmd)
 +{
-+	unsigned long addr;
-+	unsigned long end = start + (nr << PAGE_SHIFT);
-+	pgprot_t pgprot = PAGE_KERNEL;
-+
-+	for (addr = start; addr < end; addr += PAGE_SIZE, ptep++) {
-+		struct page *page;
-+		pte_t old = *ptep;
-+		pte_t entry;
-+
-+		prepare_vmemmap_page(huge);
-+
-+		entry = mk_pte(huge++, pgprot);
-+		VM_WARN_ON(!pte_present(old));
-+		page = pte_page(old);
-+		list_add(&page->lru, free_pages);
-+
-+		set_pte_at(&init_mm, addr, ptep, entry);
-+	}
++	return PageSlab(pmd_page(*pmd));
 +}
 +
-+static void replace_huge_page_pmd_vmemmap(pmd_t *pmd, unsigned long start,
-+					  struct page *huge,
-+					  struct list_head *free_pages)
++static inline void set_pmd_split(pmd_t *pmd)
 +{
-+	unsigned long end = start + VMEMMAP_HPAGE_SIZE;
-+
-+	flush_cache_vunmap(start, end);
-+	__replace_huge_page_pte_vmemmap(pte_offset_kernel(pmd, start), start,
-+					VMEMMAP_HPAGE_NR, huge, free_pages);
-+	flush_tlb_kernel_range(start, end);
++	/*
++	 * We should not use slab for page table allocation. So we can set
++	 * PG_slab to indicate that the pmd has been split.
++	 */
++	__SetPageSlab(pmd_page(*pmd));
 +}
 +
-+static pte_t *merge_vmemmap_pte(pmd_t *pmdp, unsigned long addr)
++static inline void clear_pmd_split(pmd_t *pmd)
 +{
-+	pte_t *pte;
-+	struct page *page;
-+
-+	pte = pte_offset_kernel(pmdp, addr);
-+	page = pte_page(*pte);
-+	set_pmd(pmdp, vmemmap_pmd_mkhuge(page));
-+
-+	return pte;
++	__ClearPageSlab(pmd_page(*pmd));
 +}
 +
-+static void merge_huge_page_pmd_vmemmap(pmd_t *pmd, unsigned long start,
-+					struct page *huge,
-+					struct list_head *free_pages)
-+{
-+	replace_huge_page_pmd_vmemmap(pmd, start, huge, free_pages);
-+	pte_free_kernel(&init_mm, merge_vmemmap_pte(pmd, start));
-+	flush_tlb_kernel_range(start, start + VMEMMAP_HPAGE_SIZE);
-+}
-+
-+static inline void dissolve_compound_page(struct page *page, unsigned int order)
-+{
-+	int i;
-+	unsigned int nr_pages = 1 << order;
-+
-+	for (i = 1; i < nr_pages; i++)
-+		set_page_count(page + i, 1);
-+}
-+
-+static void merge_gigantic_page_vmemmap(struct hstate *h, struct page *head,
-+					pmd_t *pmd)
-+{
-+	LIST_HEAD(free_pages);
-+	unsigned long addr = (unsigned long)head;
-+	unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
-+
-+	for (; addr < end; addr += VMEMMAP_HPAGE_SIZE) {
-+		void *to;
-+		struct page *page;
-+
-+		page = alloc_pages(GFP_VMEMMAP_PAGE & ~__GFP_NOFAIL,
-+				   VMEMMAP_HPAGE_ORDER);
-+		if (!page)
-+			goto out;
-+
-+		dissolve_compound_page(page, VMEMMAP_HPAGE_ORDER);
-+		to = page_to_virt(page);
-+		memcpy(to, (void *)addr, VMEMMAP_HPAGE_SIZE);
-+
-+		/*
-+		 * Make sure that any data that writes to the
-+		 * @to is made visible to the physical page.
-+		 */
-+		flush_kernel_vmap_range(to, VMEMMAP_HPAGE_SIZE);
-+
-+		merge_huge_page_pmd_vmemmap(pmd++, addr, page, &free_pages);
-+	}
-+out:
-+	free_vmemmap_page_list(&free_pages);
-+}
-+
- static inline void alloc_vmemmap_pages(struct hstate *h, struct list_head *list)
- {
- 	int i;
-@@ -418,10 +524,18 @@ void alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+ static void __remap_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
+ 					  unsigned long start,
+ 					  unsigned long end,
+@@ -326,11 +345,12 @@ void alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+ 	ptl = vmemmap_pmd_lock(pmd);
+ 	remap_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head, &remap_pages,
  				    __remap_huge_page_pte_vmemmap);
- 	if (!freed_vmemmap_hpage_dec(pmd_page(*pmd)) && pmd_split(pmd)) {
+-	if (!freed_vmemmap_hpage_dec(pmd_page(*pmd))) {
++	if (!freed_vmemmap_hpage_dec(pmd_page(*pmd)) && pmd_split(pmd)) {
  		/*
--		 * Todo:
--		 * Merge pte to huge pmd if it has ever been split.
-+		 * Merge pte to huge pmd if it has ever been split. Now only
-+		 * support gigantic page which's vmemmap pages size is an
-+		 * integer multiple of PMD_SIZE. This is the simplest case
-+		 * to handle.
+ 		 * Todo:
+ 		 * Merge pte to huge pmd if it has ever been split.
  		 */
- 		clear_pmd_split(pmd);
-+
-+		if (IS_ALIGNED(vmemmap_pages_per_hpage(h), VMEMMAP_HPAGE_NR)) {
-+			spin_unlock(ptl);
-+			merge_gigantic_page_vmemmap(h, head, pmd);
-+			return;
-+		}
++		clear_pmd_split(pmd);
  	}
  	spin_unlock(ptl);
  }
+@@ -412,8 +432,10 @@ void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+ 	BUG_ON(!pmd);
+ 
+ 	ptl = vmemmap_pmd_lock(pmd);
+-	if (vmemmap_pmd_huge(pmd))
++	if (vmemmap_pmd_huge(pmd)) {
+ 		split_vmemmap_huge_page(head, pmd);
++		set_pmd_split(pmd);
++	}
+ 
+ 	remap_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head, &free_pages,
+ 				    __free_huge_page_pte_vmemmap);
 -- 
 2.11.0
 
