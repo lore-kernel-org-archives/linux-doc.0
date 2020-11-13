@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BB1C4742C
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 951FCC4742C
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:03:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7D152224C
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:02:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40FAB2224C
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 11:03:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="QJPR6F7R"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="0FY1bBXs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726391AbgKMLCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Nov 2020 06:02:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54024 "EHLO
+        id S1726495AbgKMLDE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Nov 2020 06:03:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726430AbgKMLCC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 06:02:02 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02646C061A4A
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:01:14 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id v12so7300100pfm.13
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:01:13 -0800 (PST)
+        with ESMTP id S1726437AbgKMLCR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 06:02:17 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC7FC061A4C
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:01:28 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id s2so4379078plr.9
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 03:01:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=54lEiVv8FYXYBhDxSmTzUswAk1pRn+2hKBQrJSvurBE=;
-        b=QJPR6F7RxLD4VyQ8ybuR4Sw6RQISQ0abOecOPPQN9KTP/Rzf6CDogzj50IQkUxjZ0O
-         qCa0Qf8eAOU0mDnEih49QhP2pmk9OTzjnklutFNaKV4RR2li+wwkmQDQsC6003hpCrlQ
-         NZurSPgHA/9zn9OdyTGoNSkum6GPJ/uF+39hO8hQXE535rdd6i+7kL16Jg3JzjNvOTTU
-         Sk7m9hScSWu09OP6+GvTqrTx8D083Sceg3CAkftYgNy1BdVu4KqGtxEHlQxpj1UazkBi
-         Osmh+fzOdOGL1rHyJGBAYEKZDVRvjbPSSCdQ/KhIul2E0DHED//Jm/ecaU0YXyZOkxZy
-         rWCg==
+        bh=tOaBoYHHig9NCQlC9kF5etq1J+Bfm3eBMm2Sx+lDC9A=;
+        b=0FY1bBXsIYcDLc/vtlAVQoYH27ooDuEQbD+06g/beLVBOPdjhnMLVU9A/kqlh3T4zl
+         ceOcdEHMd7WPwYNlvCwKyXK3/lGyDAta5zW2W9/T1YPP7AmWjGIqKoMJHqDzYFG5NYgx
+         48rJfq+iaKiXGwo0UEtYiIJDOrmYnVAAhZbgcFQnC1EiNO+H6MT1suV+4KLEp3Ukst3O
+         F/u2klHTmOG0GE4nDr9v3APIKvxlg14w4EHblZBmghIuyLjktJwVIOEy9x1PTca2okZi
+         1iINOZ6Pxf/fKwPfuQTLBv7tVGOp83hbbljCAlC9d4qm42/gxUdPPQlFIQM6141JpSG/
+         e4Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=54lEiVv8FYXYBhDxSmTzUswAk1pRn+2hKBQrJSvurBE=;
-        b=cslhJQyNUY0tlXkhGQbmyql+vFP3BuePUvHxjBxZ3H4Y14IREG35PJwXpOSfK8B2LY
-         Do4FkkGEKEuG+SzbD/Wv04QkMqiVmerftQvb3zEEA5XudhMzERy3wOjsr79TCu9WkfKr
-         pdeUTXD+QqDIyUTDNHycvX8isBFG1xwNqTJ74ZVIpv03/uUmEvdn+MCBO3pOsy8iUu8P
-         Lpa3PDwh9KACzv5Rig5ykVWsO9QwUgNu7D38CHP7N3YIA2GaZScJq3jvAzQALVwF5D36
-         CZiRycZjc7Rke8cqVRwg1AFlNRLkRzEp835RSR69ggjYA1wCWJ6Z+XyEDfjcuYBvuhHZ
-         Rmfg==
-X-Gm-Message-State: AOAM531v2LnDHlC7FNEQdPCv8hQ0+juxc3MgrfMUHetoBRT/PdleQ6pM
-        WkY1hlzP5jyF3g2mz0SFgXDZZA==
-X-Google-Smtp-Source: ABdhPJyF2z+PzSW3K5xrwYqV2JFj+OJqHX0IlvEqMHCE97nCGYgs9Uu6GiAzh2T3wlvueVk78tk5RQ==
-X-Received: by 2002:a63:1c26:: with SMTP id c38mr1552302pgc.398.1605265273557;
-        Fri, 13 Nov 2020 03:01:13 -0800 (PST)
+        bh=tOaBoYHHig9NCQlC9kF5etq1J+Bfm3eBMm2Sx+lDC9A=;
+        b=B05+meUcK1o0nu2BR+rT7Q7cpNEp4zOv0U5S5FJ0VqW4yU9nmKGvsI/9ENeToN5iTk
+         cvr0MWPLZOa0xLP8u8DkAvBCNWa28EOJKu9SpCG62yekncAewkXoU3tihZP9+8z1fGM2
+         DxcrinEO01LQn0pTLI40RBeYyDDNBs8kaf/e7ymis/PJ67l1o74pQAqxd2WcOYPPlgPk
+         VwNYl066MrI2+nwYkM61u44yb8iWk2Aw2dzt49J44Am7QQ/N9eMM2tHflkZGGdaSOVKv
+         BuMvKzLoY1QZVfrQvWPRJ11O/VKpkMDesSEa3aWyOXAL2umWAn6cVM0o6cXyHjEKUzg0
+         Kx+w==
+X-Gm-Message-State: AOAM531/2HfyeBv15o6okUmHognBcgktqXnzz1anqPt6G1v6JAUVeWwg
+        hQqNJsg5WMFlPuu7xjHcxkGaBg==
+X-Google-Smtp-Source: ABdhPJwxjMYztWRHjZezcYZqZHmla6x+5SMEjoB0WH1+Uuko6Mf4T0NnhsjY85Bi51WHYWPsZ8jUNA==
+X-Received: by 2002:a17:902:7b90:b029:d6:ad06:d4c0 with SMTP id w16-20020a1709027b90b02900d6ad06d4c0mr1545505pll.35.1605265287351;
+        Fri, 13 Nov 2020 03:01:27 -0800 (PST)
 Received: from localhost.localdomain ([61.120.150.78])
-        by smtp.gmail.com with ESMTPSA id f1sm8909959pfc.56.2020.11.13.03.01.02
+        by smtp.gmail.com with ESMTPSA id f1sm8909959pfc.56.2020.11.13.03.01.13
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 13 Nov 2020 03:01:12 -0800 (PST)
+        Fri, 13 Nov 2020 03:01:26 -0800 (PST)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -71,9 +71,9 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v4 02/21] mm/memory_hotplug: Move {get,put}_page_bootmem() to bootmem_info.c
-Date:   Fri, 13 Nov 2020 18:59:33 +0800
-Message-Id: <20201113105952.11638-3-songmuchun@bytedance.com>
+Subject: [PATCH v4 03/21] mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+Date:   Fri, 13 Nov 2020 18:59:34 +0800
+Message-Id: <20201113105952.11638-4-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20201113105952.11638-1-songmuchun@bytedance.com>
 References: <20201113105952.11638-1-songmuchun@bytedance.com>
@@ -83,171 +83,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the later patch, we will use {get,put}_page_bootmem() to initialize
-the page for vmemmap or free vmemmap page to buddy. So move them out of
-CONFIG_MEMORY_HOTPLUG_SPARSE. This is just code movement without any
-functional change.
+The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
+whether to enable the feature of freeing unused vmemmap associated
+with HugeTLB pages. Now only support x86.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
 ---
- arch/x86/mm/init_64.c          |  2 +-
- include/linux/bootmem_info.h   | 13 +++++++++++++
- include/linux/memory_hotplug.h |  4 ----
- mm/bootmem_info.c              | 25 +++++++++++++++++++++++++
- mm/memory_hotplug.c            | 27 ---------------------------
- mm/sparse.c                    |  1 +
- 6 files changed, 40 insertions(+), 32 deletions(-)
+ arch/x86/mm/init_64.c |  2 +-
+ fs/Kconfig            | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-index c7f7ad55b625..0a45f062826e 100644
+index 0a45f062826e..0435bee2e172 100644
 --- a/arch/x86/mm/init_64.c
 +++ b/arch/x86/mm/init_64.c
-@@ -1572,7 +1572,7 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
- 	return err;
- }
+@@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
  
--#if defined(CONFIG_MEMORY_HOTPLUG_SPARSE) && defined(CONFIG_HAVE_BOOTMEM_INFO_NODE)
-+#ifdef CONFIG_HAVE_BOOTMEM_INFO_NODE
- void register_page_bootmem_memmap(unsigned long section_nr,
- 				  struct page *start_page, unsigned long nr_pages)
+ static void __init register_page_bootmem_info(void)
  {
-diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
-index 65bb9b23140f..4ed6dee1adc9 100644
---- a/include/linux/bootmem_info.h
-+++ b/include/linux/bootmem_info.h
-@@ -18,10 +18,23 @@ enum {
+-#ifdef CONFIG_NUMA
++#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
+ 	int i;
  
- #ifdef CONFIG_HAVE_BOOTMEM_INFO_NODE
- void __init register_page_bootmem_info_node(struct pglist_data *pgdat);
-+
-+void get_page_bootmem(unsigned long info, struct page *page,
-+		      unsigned long type);
-+void put_page_bootmem(struct page *page);
- #else
- static inline void register_page_bootmem_info_node(struct pglist_data *pgdat)
- {
- }
-+
-+static inline void put_page_bootmem(struct page *page)
-+{
-+}
-+
-+static inline void get_page_bootmem(unsigned long info, struct page *page,
-+				    unsigned long type)
-+{
-+}
- #endif
+ 	for_each_online_node(i)
+diff --git a/fs/Kconfig b/fs/Kconfig
+index 976e8b9033c4..67e1bc99574f 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -245,6 +245,20 @@ config HUGETLBFS
+ config HUGETLB_PAGE
+ 	def_bool HUGETLBFS
  
- #endif /* __LINUX_BOOTMEM_INFO_H */
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index 19e5d067294c..c9f3361fe84b 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -197,10 +197,6 @@ static inline void arch_refresh_nodedata(int nid, pg_data_t *pgdat)
- #endif /* CONFIG_NUMA */
- #endif /* CONFIG_HAVE_ARCH_NODEDATA_EXTENSION */
- 
--extern void put_page_bootmem(struct page *page);
--extern void get_page_bootmem(unsigned long ingo, struct page *page,
--			     unsigned long type);
--
- void get_online_mems(void);
- void put_online_mems(void);
- 
-diff --git a/mm/bootmem_info.c b/mm/bootmem_info.c
-index 39fa8fc120bc..fcab5a3f8cc0 100644
---- a/mm/bootmem_info.c
-+++ b/mm/bootmem_info.c
-@@ -10,6 +10,31 @@
- #include <linux/bootmem_info.h>
- #include <linux/memory_hotplug.h>
- 
-+void get_page_bootmem(unsigned long info, struct page *page, unsigned long type)
-+{
-+	page->freelist = (void *)type;
-+	SetPagePrivate(page);
-+	set_page_private(page, info);
-+	page_ref_inc(page);
-+}
++config HUGETLB_PAGE_FREE_VMEMMAP
++	def_bool HUGETLB_PAGE
++	depends on X86
++	depends on SPARSEMEM_VMEMMAP
++	depends on HAVE_BOOTMEM_INFO_NODE
++	help
++	  When using SPARSEMEM_VMEMMAP, the system can save up some memory
++	  from pre-allocated HugeTLB pages when they are not used. 6 pages
++	  per 2MB HugeTLB page and 4094 per 1GB HugeTLB page.
 +
-+void put_page_bootmem(struct page *page)
-+{
-+	unsigned long type;
++	  When the pages are going to be used or freed up, the vmemmap array
++	  representing that range needs to be remapped again and the pages
++	  we discarded earlier need to be rellocated again.
 +
-+	type = (unsigned long) page->freelist;
-+	BUG_ON(type < MEMORY_HOTPLUG_MIN_BOOTMEM_TYPE ||
-+	       type > MEMORY_HOTPLUG_MAX_BOOTMEM_TYPE);
-+
-+	if (page_ref_dec_return(page) == 1) {
-+		page->freelist = NULL;
-+		ClearPagePrivate(page);
-+		set_page_private(page, 0);
-+		INIT_LIST_HEAD(&page->lru);
-+		free_reserved_page(page);
-+	}
-+}
-+
- #ifndef CONFIG_SPARSEMEM_VMEMMAP
- static void register_page_bootmem_info_section(unsigned long start_pfn)
- {
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 2da4ad071456..ae57eedc341f 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -21,7 +21,6 @@
- #include <linux/memory.h>
- #include <linux/memremap.h>
- #include <linux/memory_hotplug.h>
--#include <linux/bootmem_info.h>
- #include <linux/highmem.h>
- #include <linux/vmalloc.h>
- #include <linux/ioport.h>
-@@ -142,32 +141,6 @@ static void release_memory_resource(struct resource *res)
- }
+ config MEMFD_CREATE
+ 	def_bool TMPFS || HUGETLBFS
  
- #ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
--void get_page_bootmem(unsigned long info,  struct page *page,
--		      unsigned long type)
--{
--	page->freelist = (void *)type;
--	SetPagePrivate(page);
--	set_page_private(page, info);
--	page_ref_inc(page);
--}
--
--void put_page_bootmem(struct page *page)
--{
--	unsigned long type;
--
--	type = (unsigned long) page->freelist;
--	BUG_ON(type < MEMORY_HOTPLUG_MIN_BOOTMEM_TYPE ||
--	       type > MEMORY_HOTPLUG_MAX_BOOTMEM_TYPE);
--
--	if (page_ref_dec_return(page) == 1) {
--		page->freelist = NULL;
--		ClearPagePrivate(page);
--		set_page_private(page, 0);
--		INIT_LIST_HEAD(&page->lru);
--		free_reserved_page(page);
--	}
--}
--
- static int check_pfn_span(unsigned long pfn, unsigned long nr_pages,
- 		const char *reason)
- {
-diff --git a/mm/sparse.c b/mm/sparse.c
-index b25ad8e64839..a4138410d890 100644
---- a/mm/sparse.c
-+++ b/mm/sparse.c
-@@ -13,6 +13,7 @@
- #include <linux/vmalloc.h>
- #include <linux/swap.h>
- #include <linux/swapops.h>
-+#include <linux/bootmem_info.h>
- 
- #include "internal.h"
- #include <asm/dma.h>
 -- 
 2.11.0
 
