@@ -2,92 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1E3C55ABD
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 22:47:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D87C63697
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Nov 2020 00:26:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7A1022252
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Nov 2020 22:47:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB6A92225D
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Nov 2020 00:26:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AZtwsAIC"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bHZo0ee3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726288AbgKMWrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Nov 2020 17:47:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53182 "EHLO
+        id S1726181AbgKNA0P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Nov 2020 19:26:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725981AbgKMWrP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 17:47:15 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE9BAC0613D1;
-        Fri, 13 Nov 2020 14:47:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=WP9+FE6KfgAeIygIl6/ZRDYbND6KnO3/4miAiqPhc8E=; b=AZtwsAICMyaWo/8BV27woLF1MI
-        7bKrHKN+1pnQVAqEagyciCOarcPJ5h9r6cnCwCVn8cMnqqf4Jgz7GEIer6U5zG4t0fvnbCJNjrP8h
-        BpEt4FvtivCd6rXSpbLWyw1QdLNZSNVACfnKW0WJB6Mw4uAU0+R5S/OuRJtQYf7KHd7dedVLiMgMV
-        588GVQZQKJ0DtBqxwSld2esy0HyXJWexr7LTRXWVput8GR/63ykoXIMjLm3mFElR8tTeP+e05DIpA
-        1UYbatP2b4tAzEvcMsqOjA44DAzZPq3iLkLJ53xrvlw/M2HQKxHkN8Iy0dXaxsqQhd53fyJ6ZFc4p
-        7njWVqVw==;
-Received: from [2601:1c0:6280:3f0::662d]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kdhqa-00026C-Ta; Fri, 13 Nov 2020 22:47:13 +0000
-Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and yet
- more detailed & helpful
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1605203187.git.linux@leemhuis.info>
- <20201113153313.68ff210c@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <52f7937e-5a83-7783-83c9-820b24c2dca6@infradead.org>
-Date:   Fri, 13 Nov 2020 14:47:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        with ESMTP id S1726094AbgKNA0N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Nov 2020 19:26:13 -0500
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681A5C0617A6
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 16:26:12 -0800 (PST)
+Received: by mail-pl1-x643.google.com with SMTP id x15so5354661pll.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2020 16:26:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=Eyi3ibuvYWMCo7i6ODa9MSLY3tsErf7jEpym/+H+ah4=;
+        b=bHZo0ee3XBP9p4M+ZN66+nahhWFE7yUfvbiG5bA6o1mruvmC3Yww3mynB3xOxEvtZM
+         dXMICkYjdvO2ADU7o7Cgg6Ittbb0fNtX2JmKSb9Zews8kBA2YRq3+H3PMffKmJy8R98Z
+         b9I43agtiQZjKyzPjHkpenN1Mc2Bf3LvlxVMk54MoRm5RnQYy/oAKsvpqbfWjMimZRib
+         Ua2BZf3WMCDbmFyGy8BFT6X24fM1a7+f9f/v5F50CZGeyanXn+znzPjnizEY1N9Hh1sn
+         cgBzOe2WIZiAC7+98J0+loMccJvGk4jxhzYg9JAw8HD0lURkU29EyqHZBaF2uf+/1P4O
+         SlNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=Eyi3ibuvYWMCo7i6ODa9MSLY3tsErf7jEpym/+H+ah4=;
+        b=hqYom67foNdErkAqonZGn4cL/szTTGZEn0nL4jkkcZ5XH42M1H/4MJNbGtZ32tHg+K
+         hPJSBIgl/VMtdg8NO6TPRXSStmugzeHM+zkPYLW2VUpasJAb2kdh7fEQhaX9nYhGMeEw
+         RhrI1L93PRNsz6y8CSvzAXB4klNS8H25DwzeVv1CgjKStxPUgCQNlhswvUQO5lRf6BAz
+         f+LwMHH0iF+5rHMu44p0ZDtmbRmHjyXiNPeXNYw3wTOdWYQ6Y0oz7SlHTaUMRRgk1dbS
+         vUPyutIDH2zrCjjQ2XMbiUppTToi6b/18+oBOfNxN7BFlJZ7+zoQVX/3N048EYSe14eM
+         TCdw==
+X-Gm-Message-State: AOAM531yRVf9WULeEnMdJHHn/HPk+J6Sjo7q+zux27QKpHGm5SOWzwyM
+        /B7So2mI/L9dcHAxWGMFx31AwA==
+X-Google-Smtp-Source: ABdhPJywVAaDqs9IyJIDm5Sl7H77CxDksVRaFSoKiKT8KoxP5BJQn/Gqp6ooi5bqKBGdE2M/Av1EOw==
+X-Received: by 2002:a17:902:8341:b029:d8:d123:2297 with SMTP id z1-20020a1709028341b02900d8d1232297mr3991532pln.65.1605313571693;
+        Fri, 13 Nov 2020 16:26:11 -0800 (PST)
+Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667] ([2620:15c:17:3:4a0f:cfff:fe51:6667])
+        by smtp.gmail.com with ESMTPSA id n9sm4436027pjk.1.2020.11.13.16.26.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2020 16:26:10 -0800 (PST)
+Date:   Fri, 13 Nov 2020 16:26:09 -0800 (PST)
+From:   David Rientjes <rientjes@google.com>
+X-X-Sender: rientjes@chino.kir.corp.google.com
+To:     Sean Christopherson <sean.j.christopherson@intel.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>
+cc:     Vipin Sharma <vipinsh@google.com>,
+        "Lendacky, Thomas" <thomas.lendacky@amd.com>, pbonzini@redhat.com,
+        tj@kernel.org, lizefan@huawei.com, joro@8bytes.org, corbet@lwn.net,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Grimm, Jon" <jon.grimm@amd.com>,
+        "Van Tassell, Eric" <eric.vantassell@amd.com>, gingell@google.com,
+        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC Patch 0/2] KVM: SVM: Cgroup support for SVM SEV ASIDs
+In-Reply-To: <20201103020623.GJ21563@linux.intel.com>
+Message-ID: <alpine.DEB.2.23.453.2011131615510.333518@chino.kir.corp.google.com>
+References: <20200922004024.3699923-1-vipinsh@google.com> <20200922014836.GA26507@linux.intel.com> <20200922211404.GA4141897@google.com> <20200924192116.GC9649@linux.intel.com> <cb592c59-a50e-5901-71fe-19e43bc9e37e@amd.com> <20200925222220.GA977797@google.com>
+ <20201002204810.GA3179405@google.com> <20201103020623.GJ21563@linux.intel.com>
+User-Agent: Alpine 2.23 (DEB 453 2020-06-18)
 MIME-Version: 1.0
-In-Reply-To: <20201113153313.68ff210c@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/13/20 2:33 PM, Jonathan Corbet wrote:
-> On Thu, 12 Nov 2020 18:58:37 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> 
->> This series rewrites the "how to report bugs to the Linux kernel
->> maintainers" document to make it more straight forward and its essence
->> easier to grasp. At the same time make the text provide a lot more details
->> about the process in form of a reference section, so users that want or
->> need to know them have them at hand.
->>
->> The goal of this rewrite: improve the quality of the bug reports and
->> reduce the number of reports that get ignored. This was motivated by many
->> reports of poor quality the submitter noticed while looking after Linux
->> kernel regression tracking many moons ago.
-> 
-> So I've not had a chance to try to read through the whole thing again,
-> will try to do so in the near future.
-> 
-> As for how to proceed...getting others to review this is going to be a bit
-> of a challenge.  Perhaps the right approach is to just merge the new
-> document under a new name - reporting-bugs-the-novel.txt or something -
-> then try to get a few people to look at specific parts of it?  Once all
-> seems well we can rename it over the old document and call it done.
-> 
-> Make sense?
+On Mon, 2 Nov 2020, Sean Christopherson wrote:
 
-I like that idea.
+> On Fri, Oct 02, 2020 at 01:48:10PM -0700, Vipin Sharma wrote:
+> > On Fri, Sep 25, 2020 at 03:22:20PM -0700, Vipin Sharma wrote:
+> > > I agree with you that the abstract name is better than the concrete
+> > > name, I also feel that we must provide HW extensions. Here is one
+> > > approach:
+> > > 
+> > > Cgroup name: cpu_encryption, encryption_slots, or memcrypt (open to
+> > > suggestions)
+> > > 
+> > > Control files: slots.{max, current, events}
+> 
+> I don't particularly like the "slots" name, mostly because it could be confused
+> with KVM's memslots.  Maybe encryption_ids.ids.{max, current, events}?  I don't
+> love those names either, but "encryption" and "IDs" are the two obvious
+> commonalities betwee TDX's encryption key IDs and SEV's encryption address
+> space IDs.
+> 
 
-I don't plan to review the series in detail like I did with v1.
+Looping Janosch and Christian back into the thread.
 
--- 
-~Randy
+I interpret this suggestion as
+encryption.{sev,sev_es,keyids}.{max,current,events} for AMD and Intel 
+offerings, which was my thought on this as well.
 
+Certainly the kernel could provide a single interface for all of these and 
+key value pairs depending on the underlying encryption technology but it 
+seems to only introduce additional complexity in the kernel in string 
+parsing that can otherwise be avoided.  I think we all agree that a single 
+interface for all encryption keys or one-value-per-file could be done in 
+the kernel and handled by any userspace agent that is configuring these 
+values.
+
+I think Vipin is adding a root level file that describes how many keys we 
+have available on the platform for each technology.  So I think this comes 
+down to, for example, a single encryption.max file vs 
+encryption.{sev,sev_es,keyid}.max.  SEV and SEV-ES ASIDs are provisioned 
+separately so we treat them as their own resource here.
+
+So which is easier?
+
+$ cat encryption.sev.max
+10
+$ echo -n 15 > encryption.sev.max
+
+or
+
+$ cat encryption.max
+sev 10
+sev_es 10
+keyid 0
+$ echo -n "sev 10" > encryption.max
+
+I would argue the former is simplest (always preferring 
+one-value-per-file) and avoids any string parsing or resource controller 
+lookups that need to match on that string in the kernel.
+
+The set of encryption.{sev,sev_es,keyid} files that exist would depend on
+CONFIG_CGROUP_ENCRYPTION and whether CONFIG_AMD_MEM_ENCRYPT or 
+CONFIG_INTEL_TDX is configured.  Both can be configured so we have all 
+three files, but the root file will obviously indicate 0 keys available 
+for one of them (can't run on AMD and Intel at the same time :).
+
+So I'm inclined to suggest that the one-value-per-file format is the ideal 
+way to go unless there are objections to it.
