@@ -2,134 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 393F6C5519F
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Nov 2020 07:58:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 785B3C5519F
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Nov 2020 08:19:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5D5522249
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Nov 2020 07:58:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 170CF22263
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Nov 2020 08:19:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726478AbgKNH6Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 Nov 2020 02:58:16 -0500
-Received: from mx.kolabnow.com ([95.128.36.40]:11504 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726469AbgKNH6Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 14 Nov 2020 02:58:16 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id DCF73CF9;
-        Sat, 14 Nov 2020 08:58:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1605340692; x=1607155093; bh=4a3OEO07K8o1EpHFHeP90Pf3Tbp0+K4SWto
-        xxevC6fk=; b=kFyXADHdxfhoesEgcNCYtP+gf4YsKwjJAj9YhSOxpmCtA7Z8jdT
-        MM8L4rTBer0q5HFm3gULva8aYFDfO/SqLNgYK8TjMhAtIXKxEpHZjHq12lhymx7Z
-        AW2eRj+AeZ9wLkS6pC7y6kyKdNluPhz3J1BEYP6HmD6PNmuVjz1nMtl7dokk7iln
-        Ds1iuA5YPNfJErg7W3ioqon7Vy90G8Q/16c7BaLyhno+TeDj+aviDl3tUHkoSJzf
-        pEOi4iU9MMorWn+cwxhAXshB/QJdtWibBjIMy/7BI7OQKB0SXPj8MDVWbSb1fiSL
-        rjVsxv+07DCBAgkCnOO/HpG9omOhgC9eNFEFwcgMf8HQ+Vu5zAQUSN+GCO1beV7k
-        BgwFqWGpiVCm56YnSiB+VBqETRlS+pKDPAvk0FJ/mlmzzWkM2myQG2Q6l9oxansr
-        PCoxgQM5nhRvYgk08+eGfqJfC2OqHNetK86i7Y83FVBvEetNVNFs92nsNKP8EovI
-        OZOcEXRvOJg1q72K8iKT/rYEBKvGAXbAkOwqrqpYuVllsneoesvJnvfDto2fuFg5
-        hyJXQy+Ha1Bni2uRYXKVsPiQViQ09haTNYPJfsg2iKhE9zZ66YA+PagMFu/xyGSL
-        ltzx3PGV7+0VP+usaNXGv4SdVy9RxM0AcHRjapKfuykHUekkWW1j3Evg=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id T0cmrvUdbUI0; Sat, 14 Nov 2020 08:58:12 +0100 (CET)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 2B807240;
-        Sat, 14 Nov 2020 08:58:11 +0100 (CET)
-Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id A8F8B2370;
-        Sat, 14 Nov 2020 08:58:11 +0100 (CET)
+        id S1726481AbgKNITt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 Nov 2020 03:19:49 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:39510 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726479AbgKNITt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Nov 2020 03:19:49 -0500
+Received: by mail-ot1-f65.google.com with SMTP id z16so11134372otq.6;
+        Sat, 14 Nov 2020 00:19:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RsO4YusmCWtmh3PFk8rpkaoH2Xb+m3Y7qEI/Mhtk4iY=;
+        b=htA6okI/laLi8wf0vOlAhx/4jKuXWVDzC78uRJny0FzAc9fbiosDnX63jB7YUaF2nB
+         wP1KJzouoGHIdsi9h/3OD0VQoEb9DM39108W5CKf8c22LXHSHrrkCN64P3KcMqEV+lGn
+         61Lt/PUv4U/8BARb5g3wd9s0dobt+87Cg8pgE08BSnALjZTONTPw1Ed3yIOx+tKGDZfH
+         fFqAati9QGvOM74UMKtWgB7bw6D8VdCCQ2DpSyzCZl17gaDk1uiI3TvVsUP8wus7TFFG
+         m4RX48d5uFiqCkBK85D2sV57ffNj3O0lMSd0wizYu0+XL7XMUVeOQKqUSo1mO45LcyWB
+         b5uA==
+X-Gm-Message-State: AOAM531dXUcsBS+xWELmFCt6sC6yG3sCHJFrVICTo31A0RBWObwn0Npa
+        APKdDy8QzfDGU4lXRYw4yn6qD5O0XARfw2Z5Qk4=
+X-Google-Smtp-Source: ABdhPJx401sGw+XL8h5gJ4sgYQkRZ1cEOu04jprL9naZjocGh6jJL3ERtDEGeRUDF2fkGNoiSYta76yuvwv1zPea+Ac=
+X-Received: by 2002:a9d:5e14:: with SMTP id d20mr3947226oti.107.1605341988652;
+ Sat, 14 Nov 2020 00:19:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Sat, 14 Nov 2020 08:58:09 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
+References: <20201110144033.3278499-1-geert+renesas@glider.be> <20201113150421.2614cd8d@lwn.net>
+In-Reply-To: <20201113150421.2614cd8d@lwn.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 14 Nov 2020 09:19:17 +0100
+Message-ID: <CAMuHMdV+1kSb0qYU_CY0H2FV9AwhCQ0m8DQi3Ao+AOM1KH6owg@mail.gmail.com>
+Subject: Re: [PATCH] docs: ABI: Drop trailing whitespace
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] doc:it_IT: align Italian documentation
-In-Reply-To: <20201113145347.01fea824@lwn.net>
-References: <20201113133638.7989-1-federico.vaga@vaga.pv.it>
- <20201113145347.01fea824@lwn.net>
-Message-ID: <660e3652ed5691217df429bae710da88@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Justin P . Mattock" <justinmattock@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-11-13 22:53, Jonathan Corbet wrote:
-> On Fri, 13 Nov 2020 14:36:38 +0100
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> 
->> Translation for the following patches
->> 
->> commit 905705a8fd43 ("docs: programming-languages: refresh blurb on 
->> clang support")
->> commit 5ff4aa70bf34 ("docs: submitting-patches: use :doc: for 
->> references")
->> commit 030f066f677f ("docs: submitting-patches: describe preserving 
->> review/test tags")
->> commit 68e4cd17e218 ("docs: deprecated.rst: Add zero-length and 
->> one-element arrays")
->> commit 5429ef62bcf3 ("compiler/gcc: Raise minimum GCC version for 
->> kernel builds to 4.8")
->> commit 5b5bbb8cc51b ("docs: process: Add an example for creating a 
->> fixes tag")
->> commit 858e6845654d ("docs: dt: convert submitting-patches.txt to ReST 
->> format")
->> commit cca73e4946c4 ("docs: Correct the release date of 5.2 stable")
->> commit c170f2eb9648 ("docs: Document cross-referencing between 
->> documentation pages")
->> commit 7c8b9e3000f8 ("kernel-doc: Update "cross-referencing from rST" 
->> section to use automarkup")
->> commit 27def953b63b ("docs: deprecated.rst: Expand str*cpy() 
->> replacement notes")
->> commit 17dca0502314 ("docs: deprecated.rst: Update 
->> zero-length/one-element arrays section")
->> commit 3519c4d6e08e ("Documentation: add minimum clang/llvm version")
->> commit 0bddd227f3dc ("Documentation: update for gcc 4.9 requirement")
->> commit 9f364b605f34 ("submitting-patches.rst: presume git will be 
->> used")
->> commit 4ebdf7be21d6 ("Documentation/maintainer: rehome sign-off 
->> process")
->> commit 7433ff33e8ba ("Documentation/process: expand plain-text 
->> advice")
->> commit eb45fb2fb16d ("docs: process: Add cross-link to security-bugs")
->> commit bdc48fa11e46 ("checkpatch/coding-style: deprecate 80-column 
->> warning")
->> commit f67281a72b30 ("Documentation: process: step 2: Link to email 
->> list fixed")
->> 
->> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> 
-> This doesn't apply to docs-next, not quite sure why.
+Hi Jon,
 
-I did the patch on top of the doc-next of 2 days ago. I will have a 
-double check.
-I have other patches for new translations (4) between doc-next and this 
-patch. I will
-try to apply it directly on doc-next.
+On Fri, Nov 13, 2020 at 11:04 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> On Tue, 10 Nov 2020 15:40:33 +0100
+> Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> > Remove all trailing whitespace from the ABI documentation.
+> > Most of it was introduced during recent updates.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Fixes: 0ea6e61122196509 ("Documentation: update broken web addresses.")
+> > Fixes: 54a19b4d3fe0fa0a ("docs: ABI: cleanup several ABI documents")
+> > Fixes: 3197ebdb130473a9 ("ext4: Add sysfs support")
+> > ---
+> >  Documentation/ABI/testing/configfs-usb-gadget-ecm     | 2 +-
+> >  Documentation/ABI/testing/sysfs-devices-memory        | 2 +-
+> >  Documentation/ABI/testing/sysfs-fs-ext4               | 2 +-
+> >  Documentation/ABI/testing/sysfs-module                | 2 +-
+> >  Documentation/ABI/testing/sysfs-platform-renesas_usb3 | 2 +-
+> >  5 files changed, 5 insertions(+), 5 deletions(-)
+>
+> Applied, thanks.  Not really sure we need Fixes tags for a whitespace fix,
 
-> Also...what changed with v2?  Please always include that information 
-> under
-> the "---" line.
+Thanks!
 
-A missing '_'. I had a pre-compiled documentation when I did the first 
-build and I missed a warning.
+> though...
 
-> Thanks,
-> 
-> jon
+That's why I put them below the 3 dashes.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Federico Vaga
-http://www.federicovaga.it/
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
