@@ -2,146 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B89C8C55ABD
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 10:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F02D7C2D0E4
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 14:11:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 811A922450
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 10:14:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB36120719
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 14:11:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="y/95aUzU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbgKOKOC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Nov 2020 05:14:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38788 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726678AbgKOKOB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Nov 2020 05:14:01 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81C3CC0613D1;
-        Sun, 15 Nov 2020 02:13:58 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1keF2f-0000l5-Ez; Sun, 15 Nov 2020 11:13:53 +0100
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1605203187.git.linux@leemhuis.info>
- <20201113153313.68ff210c@lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and yet
- more detailed & helpful
-Message-ID: <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
-Date:   Sun, 15 Nov 2020 11:13:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1727196AbgKOOLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Nov 2020 09:11:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46788 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726743AbgKOOLR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 15 Nov 2020 09:11:17 -0500
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C8B2B2344C;
+        Sun, 15 Nov 2020 14:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605449476;
+        bh=W79SsNbfjzxWPr68MkFF7CwzXqxmFk8cyvy7xhSLVZQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=y/95aUzUTGGv0uhKX/ECj544rFNzQGaU0EDd0l53VcSd/4JKMKccFnY3EbGIrd/QB
+         4iphERsVpcevCFP0a0k+skT1PFVcoBE/nPgU9/GurDDi3HGZl6y+zNTz4QMRNClKET
+         BU6RxTQfIO5gd+VjQvhJljvc7+FpDrdwJ1duGelg=
+Received: by mail-ot1-f54.google.com with SMTP id 79so13322805otc.7;
+        Sun, 15 Nov 2020 06:11:16 -0800 (PST)
+X-Gm-Message-State: AOAM531pbYnx1mht9J6n3RRKPZYjooll+Bf0LGzp66L9kWQgJ/ehksLh
+        Lv6bthbI4eI9eqnHdHcrNnaNP0ICjrrGh8NweEk=
+X-Google-Smtp-Source: ABdhPJyTPNVEaiqI65jKj6ofpnc68HWknI57qrxN0D6QNUJkPnSQRINil+Bq4EtPc6sB4yhS/1A4aX5j8HExZfTHozc=
+X-Received: by 2002:a05:6830:214c:: with SMTP id r12mr7247607otd.90.1605449476122;
+ Sun, 15 Nov 2020 06:11:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201113153313.68ff210c@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605435238;96a056a8;
-X-HE-SMSGID: 1keF2f-0000l5-Ez
+References: <5fadef1f.1c69fb81.9166e.093c@mx.google.com> <e16e2ce5-dc21-d159-ecf2-e0a430d772e1@collabora.com>
+ <CAMj1kXFrxYqTARLprws6ja2=C1xZNC+TNr0Vvayr6sReqsUhyg@mail.gmail.com>
+ <ce91a878-5ce3-614d-d10c-569b891b12d0@collabora.com> <20201113155825.GD1551@shell.armlinux.org.uk>
+ <CAMj1kXHMBNK4ke3j0=h-xkxR9sWe3x_D2TLsPtDZv-sWCW4eWQ@mail.gmail.com> <CAMj1kXH6_-tNuhOVDJA4mhEUQBDTDLjJA8CUkb4mRFsAZSy9ig@mail.gmail.com>
+In-Reply-To: <CAMj1kXH6_-tNuhOVDJA4mhEUQBDTDLjJA8CUkb4mRFsAZSy9ig@mail.gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Sun, 15 Nov 2020 15:11:03 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXEFMgRZ1QgaAfwvg7Um-=UdiG-THGAySwrBHhQX=tMPeQ@mail.gmail.com>
+Message-ID: <CAMj1kXEFMgRZ1QgaAfwvg7Um-=UdiG-THGAySwrBHhQX=tMPeQ@mail.gmail.com>
+Subject: Re: rmk/for-next bisection: baseline.login on bcm2836-rpi-2-b
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        kernelci-results@groups.io,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Olof Johansson <olof@lixom.net>,
+        Mike Rapoport <rppt@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 13.11.20 um 23:33 schrieb Jonathan Corbet:
-> On Thu, 12 Nov 2020 18:58:37 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> 
->> This series rewrites the "how to report bugs to the Linux kernel
->> maintainers" document to make it more straight forward and its essence
->> easier to grasp. At the same time make the text provide a lot more details
->> about the process in form of a reference section, so users that want or
->> need to know them have them at hand.
->>
->> The goal of this rewrite: improve the quality of the bug reports and
->> reduce the number of reports that get ignored. This was motivated by many
->> reports of poor quality the submitter noticed while looking after Linux
->> kernel regression tracking many moons ago.
-> 
-> So I've not had a chance to try to read through the whole thing again,
-> will try to do so in the near future.
+On Fri, 13 Nov 2020 at 17:25, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Fri, 13 Nov 2020 at 17:15, Ard Biesheuvel <ardb@kernel.org> wrote:
+> >
+> > On Fri, 13 Nov 2020 at 16:58, Russell King - ARM Linux admin
+> > <linux@armlinux.org.uk> wrote:
+> > >
+> > > On Fri, Nov 13, 2020 at 03:43:27PM +0000, Guillaume Tucker wrote:
+> > > > On 13/11/2020 10:35, Ard Biesheuvel wrote:
+> > > > > On Fri, 13 Nov 2020 at 11:31, Guillaume Tucker
+> > > > > <guillaume.tucker@collabora.com> wrote:
+> > > > >>
+> > > > >> Hi Ard,
+> > > > >>
+> > > > >> Please see the bisection report below about a boot failure on
+> > > > >> RPi-2b.
+> > > > >>
+> > > > >> Reports aren't automatically sent to the public while we're
+> > > > >> trialing new bisection features on kernelci.org but this one
+> > > > >> looks valid.
+> > > > >>
+> > > > >> There's nothing in the serial console log, probably because it's
+> > > > >> crashing too early during boot.  I'm not sure if other platforms
+> > > > >> on kernelci.org were hit by this in the same way, but there
+> > > > >> doesn't seem to be any.
+> > > > >>
+> > > > >> The same regression can be see on rmk's for-next branch as well
+> > > > >> as in linux-next.  It happens with both bcm2835_defconfig and
+> > > > >> multi_v7_defconfig.
+> > > > >>
+> > > > >> Some more details can be found here:
+> > > > >>
+> > > > >>   https://kernelci.org/test/case/id/5fae44823818ee918adb8864/
+> > > > >>
+> > > > >> If this looks like a real issue but you don't have a platform at
+> > > > >> hand to reproduce it, please let us know if you would like the
+> > > > >> KernelCI test to be re-run with earlyprintk or some debug config
+> > > > >> turned on, or if you have a fix to try.
+> > > > >>
+> > > > >> Best wishes,
+> > > > >> Guillaume
+> > > > >>
+> > > > >
+> > > > > Hello Guillaume,
+> > > > >
+> > > > > That patch did have an issue, but it was already fixed by
+> > > > >
+> > > > > https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9020/1
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=fc2933c133744305236793025b00c2f7d258b687
+> > > > >
+> > > > > Could you please double check whether cherry-picking that on top of
+> > > > > the first bad commit fixes the problem?
+> > > >
+> > > > Sadly this doesn't appear to be fixing the issue.  I've
+> > > > cherry-picked your patch on top of the commit found by the
+> > > > bisection but it still didn't boot, here's the git log
+> > > >
+> > > > cbb9656e83ca ARM: 9020/1: mm: use correct section size macro to describe the FDT virtual address
+> > > > 7a1be318f579 ARM: 9012/1: move device tree mapping out of linear region
+> > > > e9a2f8b599d0 ARM: 9011/1: centralize phys-to-virt conversion of DT/ATAGS address
+> > > > 3650b228f83a Linux 5.10-rc1
+> > > >
+> > > > Test log: https://people.collabora.com/~gtucker/lava/boot/rpi-2-b/v5.10-rc1-3-gcbb9656e83ca/
+> > > >
+> > > > There's no output so it's hard to tell what is going on, but
+> > > > reverting the bad commmit does make the board to boot (that's
+> > > > what "revert: PASS" means in the bisect report).  So it's
+> > > > unlikely that there is another issue causing the boot failure.
+> > >
+> > > These silent boot failures are precisely what the DEBUG_LL stuff (and
+> > > early_printk) is supposed to help with - getting the kernel messages
+> > > out when there is an oops before the serial console is initialised.
+> > >
+> >
+> > If this is indeed related to the FDT mapping, I would assume
+> > earlycon=... to be usable here.
+> >
+> > I will try to reproduce this on a RPi3 but I don't have a RPi2 at
+> > hand, unfortunately.
+> >
+> > Would you mind having a quick try whether you can reproduce this on
+> > QEMU, using the raspi2 machine model? If so, that would be a *lot*
+> > easier to diagnose.
+>
+> Also, please have a go with 'earlycon=pl011,0x3f201000' added to the
+> kernel command line.
 
-Great, thx, looking forward to it.
+I cannot reproduce this - I don't have the exact same hardware, but
+for booting the kernel, I think RPi2 and RPi3 should be sufficiently
+similar, and I can boot on Rpi3 using a u-boot built for rpi2 using
+your provided dtb for RPi2.
 
-> As for how to proceed...getting others to review this is going to be a bit
-> of a challenge.
+What puzzles me is that u-boot reports itself as
 
-Yeah :-/
+U-Boot 2016.03-rc1-00131-g39af3d8-dirty
 
->  Perhaps the right approach is to just merge the new
-> document under a new name - reporting-bugs-the-novel.txt
+RPI Model B+ (0x10)
 
-drivers/staging/Documentation/ (no, just kidding [I think…])
+which is the ARMv6 model not the ARMv7, but then the kernel reports
 
->  or something -
-> then try to get a few people to look at specific parts of it?  Once all
-> seems well we can rename it over the old document and call it done.
-> 
-> Make sense?
+CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c53c7d
 
-Totally fine for me. Putting it some place that makes it easier to 
-collaborate and to see who writes what is better for everyone – and get 
-control out of my hands and burden off my shoulders. ;-)
+So even though I am perfectly willing to accept that there is
+something wrong with the patch in question that needs to be fixed,
+trying to reproduce this using an ancient rc1 u-boot with local
+changes that identifies the platform incorrectly may be asking a bit
+much.
 
-
-There is just one thing on I'm wondering: should we start with the 
-version of the text start users very long lines/is unwrapped and use it 
-for the reviewing and polishing phase? Together with tools like meld of 
-kdiff3 that afaics makes it lot easier to see what actually changes. 
-That'd why I uploaded the text in such a format:
-
-https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v1.rst
-https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v2.rst
-
-These for example would have allowed an easier rereview from Randy (but 
-I think he's right not doing one right now [see the other reply]!), as 
-these tools are quite well at highlighting what changed and what did 
-not. Yer, these tools are not as bad as a classic diff once you change 
-something in a wrapped paragraph, but in my experience work quite a bit 
-better with long lines. That's why I wonder if we should stick to them 
-before we call the main work done. Another reasons: with long lines 
-everyone can temporarily put the text in LibreOffice, Google Docs, ... 
-and use their spelling and grammar checkers.
-
-
-Another aspect on my mind: the split up makes it easy to just CC certain 
-people on parts we want them to review. I for example planned to CC the 
-members of the stable-team only on four patches (TLDR, the two patches 
-with the step by step parts, the reference section for stable and 
-logterm), as those are the main ones that are relevant for them:
-
-https://lore.kernel.org/lkml/b80b1387cf09fb897f4a527bc487fff3012d1181.1605203187.git.linux@leemhuis.info/
-https://lore.kernel.org/lkml/b439c3d74c541d4d7631203a52f9d697ea8c283d.1605203187.git.linux@leemhuis.info/
-https://lore.kernel.org/lkml/2d840fb91b7c5d481284275dea1d4f75fd755af6.1605203187.git.linux@leemhuis.info/
-https://lore.kernel.org/lkml/0bb6bf554ac1f0c2a75631e6969a50dcd34c6b51.1605203187.git.linux@leemhuis.info/
-
-Without a split split we'd have to tell people something like "please 
-took at the document <here> and the sections starting with <foo>, <bar>, 
-and <baz>". Or would we at some point just simply sent those parts as 
-regular text (not as diff) my mail to the people & lists that need to 
-review them?
-
-
-And a few more thoughts, just for completeness.
-
-* I guess we should discuss the dual-license approach I chose soon 
-before it gets complicate to change it
-
-* Some of the reviewer might want to compare the approaches the old and 
-the new text take. The current patch-series tries to makes that easy by 
-removing parts from the old text when adding new text about that topic. 
-That would be mostly lost afaics, but I guess it's not that much of a 
-problem.
-
-* I wonder if putting the text in some real collaborative text editor 
-(google docs, a wiki, Etherpad, …) for a while would be even better. But 
-even with restricted write access that might pose some problems for 
-signing the changes off later. :-/ Guess finding the solution for those 
-might not be worth the trouble.
-
-Ciao, Thorsten
+Also, I did manage to get earlycon working with those zImages you
+provided, so please give that a go. And if you have any contacts that
+could lend me a RPi2, that would be very helpful (e.g., the BayLibre
+office is down the road from where I live)
