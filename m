@@ -2,56 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.6 required=3.0 tests=BAYES_50,DKIM_ADSP_CUSTOM_MED,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB3EC64E7A
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 16:45:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FA55C61DD8
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 18:59:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60AFD2419B
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 16:45:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47AD22225B
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Nov 2020 18:59:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xy4LEmo+";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Qd+mE+Op"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727344AbgKOQoH convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Nov 2020 11:44:07 -0500
-Received: from sw73-70-41.adsl.seed.net.tw ([203.73.70.41]:33541 "EHLO
-        oa.trendtek.com.tw" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1727327AbgKOQoH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Nov 2020 11:44:07 -0500
-Received: from [156.96.44.214] ([156.96.44.214])
-        (authenticated bits=0)
-        by oa.trendtek.com.tw (8.13.8/8.13.1) with ESMTP id 0AFGi4i3032059
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2020 00:44:05 +0800
-Message-Id: <202011151644.0AFGi4i3032059@oa.trendtek.com.tw>
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726923AbgKOS6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Nov 2020 13:58:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726823AbgKOS6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Nov 2020 13:58:54 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402F8C0613D1;
+        Sun, 15 Nov 2020 10:58:54 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1605466732;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lM+Tn3Xn9woEdnNA0HLgCq49xITc6UQA2eZ6y/GPCoI=;
+        b=xy4LEmo+jlz0Jq+PPQQnClThn2BQPP2VK/gIjQk5I2KRckjCj7Drnsna9lksUk/ITpwuTz
+        sVtPgVlXN/2E2E21zA1k079EKJvTIkc7ENv9Jftd7gQE3ubTJ+lhaEDKmxMaSAqzp0Qeap
+        v+5xHxFsmZoQ2Q87P28QIuKhRzXpFQXzNYo3nNUHhM6WSWz53AGt9Lsfov+OPHZsGOadaf
+        k3qd+kTh6nngia5Ch9pnnaw/EQOevyqIT94eHQHLhmzS7VS3uXOdO+MtcdYkJjDzK6r80k
+        kNKu19wadW/FwBvJKeK2w/r0iIoagaFIN0IbDi6oaV3zya4QGqNDLRPDOUbzEw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1605466732;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lM+Tn3Xn9woEdnNA0HLgCq49xITc6UQA2eZ6y/GPCoI=;
+        b=Qd+mE+OpsEvFKxHyQ2CT5n9hPmnIwB1brU84Jw4XCXyD0Jok+oJLKNA01C+Xh8tdkbW36v
+        QVxMvbDeCbijnIDw==
+To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH V3 05/10] x86/entry: Pass irqentry_state_t by reference
+In-Reply-To: <20201106232908.364581-6-ira.weiny@intel.com>
+References: <20201106232908.364581-1-ira.weiny@intel.com> <20201106232908.364581-6-ira.weiny@intel.com>
+Date:   Sun, 15 Nov 2020 19:58:52 +0100
+Message-ID: <87mtzi8n0z.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Corporate and Personal Loan *
-To:     linux-doc@vger.kernel.org
-From:   "Investment  Corporate" <financialcapability6@gmail.com>
-Date:   Sun, 15 Nov 2020 08:43:48 -0800
-Reply-To: hmurrah39@gmail.com
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello linux-doc@vger.kernel.org
+Ira,
 
+On Fri, Nov 06 2020 at 15:29, ira weiny wrote:
 
-We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
+Subject prefix wants to 'entry:'. This changes generic code and the x86
+part is just required to fix the generic code change.
 
+> Currently struct irqentry_state_t only contains a single bool value
+> which makes passing it by value is reasonable.  However, future patches
+> propose to add information to this struct, for example the PKRS
+> register/thread state.
+>
+> Adding information to irqentry_state_t makes passing by value less
+> efficient.  Therefore, change the entry/exit calls to pass irq_state by
+> reference.
 
-We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
+The PKRS muck needs to add an u32 to that struct. So how is that a
+problem?
 
+The resulting struct still fits into 64bit which is by far more
+efficiently passed by value than by reference. So which problem are you
+solving here?
 
-Please get back to me if you are interested for more
+Thanks
 
-details.
+        tglx
 
-
-Yours faithfully,
-
-Hashim Murrah
