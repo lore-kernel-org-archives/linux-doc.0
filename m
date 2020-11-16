@@ -2,105 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C3BC63777
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 21:36:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A255C388F9
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 21:57:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B09322240
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 21:36:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 321D8223BD
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 21:57:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="mkloZQgW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726035AbgKPVgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 16:36:22 -0500
-Received: from smtp-42ac.mail.infomaniak.ch ([84.16.66.172]:45813 "EHLO
-        smtp-42ac.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727807AbgKPVgW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 16:36:22 -0500
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CZj7S2n4nzlhKBs;
-        Mon, 16 Nov 2020 22:36:20 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CZj7P4XQrzlh8TF;
-        Mon, 16 Nov 2020 22:36:17 +0100 (CET)
-Subject: Re: [PATCH v22 01/12] landlock: Add object management
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201027200358.557003-1-mic@digikod.net>
- <20201027200358.557003-2-mic@digikod.net> <20201116212609.GA13063@amd>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <523d2141-e6f9-354d-d102-ae8345c84686@digikod.net>
-Date:   Mon, 16 Nov 2020 22:36:17 +0100
-User-Agent: 
+        id S1728765AbgKPV50 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 16:57:26 -0500
+Received: from www.zeus03.de ([194.117.254.33]:58838 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729746AbgKPV50 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 16:57:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=XrKkK9//xmkuZclHuwqvzXUEPMT
+        /g0ElH9PqUy+Et+w=; b=mkloZQgWyxFDs+JKvGwR+9xUWmC00hNDWbGzdx0lM7u
+        WCQ68bZBL+uoJ54LA1bdY9NTRIP82OVoIxixZLJbE5Pxy3BUrPCUwOjhvunuhtFi
+        rH1zYBXzldZemQXoStLczNLN1XBNLkrgc8B8de/W1K5GJAq2U2ujyWvEzEEz9S4U
+        =
+Received: (qmail 54261 invoked from network); 16 Nov 2020 22:57:24 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2020 22:57:24 +0100
+X-UD-Smtp-Session: l3s3148p1@4f+YdkC0VJogAwDPXwbiANfOM/mHw/ia
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] Documentation: kernel-parameters: add missing '<'
+Date:   Mon, 16 Nov 2020 22:57:11 +0100
+Message-Id: <20201116215711.2291-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201116212609.GA13063@amd>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/admin-guide/kernel-parameters.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 16/11/2020 22:26, Pavel Machek wrote:
-> Hi!
-> 
->> A Landlock object enables to identify a kernel object (e.g. an inode).
->> A Landlock rule is a set of access rights allowed on an object.  Rules
->> are grouped in rulesets that may be tied to a set of processes (i.e.
->> subjects) to enforce a scoped access-control (i.e. a domain).
->>
->> Because Landlock's goal is to empower any process (especially
->> unprivileged ones) to sandbox themselves, we cannot rely on a
->> system-wide object identification such as file extended attributes.
-> 
-> 
->> +config SECURITY_LANDLOCK
->> +	bool "Landlock support"
->> +	depends on SECURITY
->> +	select SECURITY_PATH
->> +	help
->> +	  Landlock is a safe sandboxing mechanism which enables processes to
->> +	  restrict themselves (and their future children) by gradually
->> +	  enforcing tailored access control policies.  A security policy is a
->> +	  set of access rights (e.g. open a file in read-only, make a
->> +	  directory, etc.) tied to a file hierarchy.  Such policy can be configured
->> +	  and enforced by any processes for themselves thanks to dedicated system
->> +	  calls: landlock_create_ruleset(), landlock_add_rule(), and
->> +	  landlock_enforce_ruleset_current().
-> 
-> How does it interact with setuid binaries? Being able to exec passwd
-> in a sandbox sounds like ... fun way to get root? :-).
+diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+index 6d421694d98e..3addfe0963bb 100644
+--- a/Documentation/admin-guide/kernel-parameters.rst
++++ b/Documentation/admin-guide/kernel-parameters.rst
+@@ -60,7 +60,7 @@ Note that for the special case of a range one can split the range into equal
+ sized groups and for each group use some amount from the beginning of that
+ group:
+ 
+-	<cpu number>-cpu number>:<used size>/<group size>
++	<cpu number>-<cpu number>:<used size>/<group size>
+ 
+ For example one can add to the command line following parameter:
+ 
+-- 
+2.28.0
 
-It works like seccomp: if you run with CAP_SYS_ADMIN in the current
-namespace, then SUID binaries may be allowed, otherwise if you use
-PR_SET_NO_NEW_PRIVS, then executing a SUID binary is denied.
-
-The 24th version is here:
-https://lore.kernel.org/lkml/20201112205141.775752-1-mic@digikod.net/
-
-> 
-> Best regards,
-> 								Pavel
-> 								
-> 
