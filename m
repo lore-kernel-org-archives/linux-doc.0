@@ -2,215 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79DAC844E0
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 12:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4C9C8302B
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 12:38:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EB3220855
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 12:38:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DFE620853
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 12:38:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="PE8e02HG"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="oD554eGg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729185AbgKPMEh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 07:04:37 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61500 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726210AbgKPMEg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 07:04:36 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AGC27jV121478;
-        Mon, 16 Nov 2020 07:04:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : from : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pC0Z5DbjDqzptEn3rhV5tiE9IHnrlKXx1UiLvXy9tlY=;
- b=PE8e02HGwFv5YcULxmYwRz5CJzckDTtGbT0u9MCIiP0uXCc7H/kD7HftbppVkXu8ki1q
- 5BKQbuGcA8hUJ3fp4gPxpcILGQekc3CClVABmYY3atpEO8tgE1VEs/4k+LRHzQVT0oOY
- nDW3Dl8oJB9dLLpPRNMjBOsNt9/t45QGu0P+1AgNTWodo+1+85xHZWDveAwXDPVFYSDO
- LEMrfMZapwO3cZnXi8IN18FcdW/CkJZuT0QHSyteJ3n4oW6ieJuqH+FNUqiTqgNJ/5j/
- S/62Nt7hkm+FCv1gDk/3EhUOvLrz7FCHLlX+qILceUSm1N6k4hNs8LGMcXuet308uvXX Kw== 
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 34ujue14b8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Nov 2020 07:04:32 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AGC2vOJ028059;
-        Mon, 16 Nov 2020 12:04:31 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma03ams.nl.ibm.com with ESMTP id 34t6v8a266-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Nov 2020 12:04:31 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0AGC4S786816290
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 16 Nov 2020 12:04:28 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 13D9552050;
-        Mon, 16 Nov 2020 12:04:28 +0000 (GMT)
-Received: from oc6887364776.ibm.com (unknown [9.145.43.134])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 7034152051;
-        Mon, 16 Nov 2020 12:04:27 +0000 (GMT)
-Subject: Re: [PATCH v4 04/27] s390: fix kernel-doc markups
-From:   Vineeth Vijayan <vneethv@linux.vnet.ibm.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Egorenkov <egorenar@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Julian Wiedmann <jwi@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
-References: <cover.1605521731.git.mchehab+huawei@kernel.org>
- <4a9df42dfb68aed6b4a4882f6dccabf00ce932cd.1605521731.git.mchehab+huawei@kernel.org>
- <358a9d80-da01-5d91-71d8-57f453ca8617@linux.vnet.ibm.com>
-Message-ID: <77b297ff-a5ee-9ba5-54d0-1930a78bd6e5@linux.vnet.ibm.com>
-Date:   Mon, 16 Nov 2020 13:04:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S1728281AbgKPM0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 07:26:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46098 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727184AbgKPM0V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 07:26:21 -0500
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 35DCF238E6;
+        Mon, 16 Nov 2020 12:20:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605529247;
+        bh=t8CW0VqToG5Ia0rzv8KHE1i/dtre8EYiH2P9zWVK1hg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=oD554eGgVNSInP1q3WteeCA4G5VE8ZHpNmgXCIAww6/D7InyRPNyjVuG/5/FN5Ght
+         gH8dY6lJFlopE9+3bqaPg/vjgcnyG9TCbpU8Q7bvKHJkOy16xC5BZpyimPk1djeGrL
+         miNSx+KnzLFFtn2AH2tmDdx7VQODWmjwP/AX+psY=
+Received: by mail-oi1-f180.google.com with SMTP id w188so18568385oib.1;
+        Mon, 16 Nov 2020 04:20:47 -0800 (PST)
+X-Gm-Message-State: AOAM532kaVR5eXcM3fBHDwt1hV2OGPOshSEoBTsS3E/Tw6Zi/HP55cV9
+        2RAMfQTdAw5sbrgprgVGkwmuRuDfVwHoOfDOs+4=
+X-Google-Smtp-Source: ABdhPJzMPfQ4rLbkYCS9iOpXeVVIVQ9lJgCb5B2p6vxY1ApryCUK3LH0D/g2M3KPhC+ROfE9Ok2yCC9M5nm9v/GR/gk=
+X-Received: by 2002:aca:d583:: with SMTP id m125mr8805902oig.47.1605529234751;
+ Mon, 16 Nov 2020 04:20:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <358a9d80-da01-5d91-71d8-57f453ca8617@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-16_03:2020-11-13,2020-11-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- mlxlogscore=999 adultscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011160069
+References: <5fadef1f.1c69fb81.9166e.093c@mx.google.com> <e16e2ce5-dc21-d159-ecf2-e0a430d772e1@collabora.com>
+ <CAMj1kXFrxYqTARLprws6ja2=C1xZNC+TNr0Vvayr6sReqsUhyg@mail.gmail.com>
+ <ce91a878-5ce3-614d-d10c-569b891b12d0@collabora.com> <20201113155825.GD1551@shell.armlinux.org.uk>
+ <CAMj1kXHMBNK4ke3j0=h-xkxR9sWe3x_D2TLsPtDZv-sWCW4eWQ@mail.gmail.com>
+ <CAMj1kXH6_-tNuhOVDJA4mhEUQBDTDLjJA8CUkb4mRFsAZSy9ig@mail.gmail.com>
+ <CAMj1kXEFMgRZ1QgaAfwvg7Um-=UdiG-THGAySwrBHhQX=tMPeQ@mail.gmail.com> <CAMj1kXE-c+7yFwqxZ2WDBG5LOtLbnSgacuGgG1P+CY3PUwu+GA@mail.gmail.com>
+In-Reply-To: <CAMj1kXE-c+7yFwqxZ2WDBG5LOtLbnSgacuGgG1P+CY3PUwu+GA@mail.gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Mon, 16 Nov 2020 13:20:22 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXH-BKvykS0wL5BCv5Eh4FWMZxHmM6nHV8MeRACUbWjCPw@mail.gmail.com>
+Message-ID: <CAMj1kXH-BKvykS0wL5BCv5Eh4FWMZxHmM6nHV8MeRACUbWjCPw@mail.gmail.com>
+Subject: Re: rmk/for-next bisection: baseline.login on bcm2836-rpi-2-b
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        kernelci-results@groups.io,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Olof Johansson <olof@lixom.net>,
+        Mike Rapoport <rppt@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Heiko/Vasily will pick this up and will be part of the s390-tree patchset.
+On Mon, 16 Nov 2020 at 12:20, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Sun, 15 Nov 2020 at 15:11, Ard Biesheuvel <ardb@kernel.org> wrote:
+> >
+> > On Fri, 13 Nov 2020 at 17:25, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > >
+> > > On Fri, 13 Nov 2020 at 17:15, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > >
+> > > > On Fri, 13 Nov 2020 at 16:58, Russell King - ARM Linux admin
+> > > > <linux@armlinux.org.uk> wrote:
+> > > > >
+> > > > > On Fri, Nov 13, 2020 at 03:43:27PM +0000, Guillaume Tucker wrote:
+> > > > > > On 13/11/2020 10:35, Ard Biesheuvel wrote:
+> > > > > > > On Fri, 13 Nov 2020 at 11:31, Guillaume Tucker
+> > > > > > > <guillaume.tucker@collabora.com> wrote:
+> > > > > > >>
+> > > > > > >> Hi Ard,
+> > > > > > >>
+> > > > > > >> Please see the bisection report below about a boot failure on
+> > > > > > >> RPi-2b.
+> > > > > > >>
+> > > > > > >> Reports aren't automatically sent to the public while we're
+> > > > > > >> trialing new bisection features on kernelci.org but this one
+> > > > > > >> looks valid.
+> > > > > > >>
+> > > > > > >> There's nothing in the serial console log, probably because it's
+> > > > > > >> crashing too early during boot.  I'm not sure if other platforms
+> > > > > > >> on kernelci.org were hit by this in the same way, but there
+> > > > > > >> doesn't seem to be any.
+> > > > > > >>
+> > > > > > >> The same regression can be see on rmk's for-next branch as well
+> > > > > > >> as in linux-next.  It happens with both bcm2835_defconfig and
+> > > > > > >> multi_v7_defconfig.
+> > > > > > >>
+> > > > > > >> Some more details can be found here:
+> > > > > > >>
+> > > > > > >>   https://kernelci.org/test/case/id/5fae44823818ee918adb8864/
+> > > > > > >>
+> > > > > > >> If this looks like a real issue but you don't have a platform at
+> > > > > > >> hand to reproduce it, please let us know if you would like the
+> > > > > > >> KernelCI test to be re-run with earlyprintk or some debug config
+> > > > > > >> turned on, or if you have a fix to try.
+> > > > > > >>
+> > > > > > >> Best wishes,
+> > > > > > >> Guillaume
+> > > > > > >>
+> > > > > > >
+> > > > > > > Hello Guillaume,
+> > > > > > >
+> > > > > > > That patch did have an issue, but it was already fixed by
+> > > > > > >
+> > > > > > > https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9020/1
+> > > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=fc2933c133744305236793025b00c2f7d258b687
+> > > > > > >
+> > > > > > > Could you please double check whether cherry-picking that on top of
+> > > > > > > the first bad commit fixes the problem?
+> > > > > >
+> > > > > > Sadly this doesn't appear to be fixing the issue.  I've
+> > > > > > cherry-picked your patch on top of the commit found by the
+> > > > > > bisection but it still didn't boot, here's the git log
+> > > > > >
+> > > > > > cbb9656e83ca ARM: 9020/1: mm: use correct section size macro to describe the FDT virtual address
+> > > > > > 7a1be318f579 ARM: 9012/1: move device tree mapping out of linear region
+> > > > > > e9a2f8b599d0 ARM: 9011/1: centralize phys-to-virt conversion of DT/ATAGS address
+> > > > > > 3650b228f83a Linux 5.10-rc1
+> > > > > >
+> > > > > > Test log: https://people.collabora.com/~gtucker/lava/boot/rpi-2-b/v5.10-rc1-3-gcbb9656e83ca/
+> > > > > >
+> > > > > > There's no output so it's hard to tell what is going on, but
+> > > > > > reverting the bad commmit does make the board to boot (that's
+> > > > > > what "revert: PASS" means in the bisect report).  So it's
+> > > > > > unlikely that there is another issue causing the boot failure.
+> > > > >
+> > > > > These silent boot failures are precisely what the DEBUG_LL stuff (and
+> > > > > early_printk) is supposed to help with - getting the kernel messages
+> > > > > out when there is an oops before the serial console is initialised.
+> > > > >
+> > > >
+> > > > If this is indeed related to the FDT mapping, I would assume
+> > > > earlycon=... to be usable here.
+> > > >
+> > > > I will try to reproduce this on a RPi3 but I don't have a RPi2 at
+> > > > hand, unfortunately.
+> > > >
+> > > > Would you mind having a quick try whether you can reproduce this on
+> > > > QEMU, using the raspi2 machine model? If so, that would be a *lot*
+> > > > easier to diagnose.
+> > >
+> > > Also, please have a go with 'earlycon=pl011,0x3f201000' added to the
+> > > kernel command line.
+> >
+> > I cannot reproduce this - I don't have the exact same hardware, but
+> > for booting the kernel, I think RPi2 and RPi3 should be sufficiently
+> > similar, and I can boot on Rpi3 using a u-boot built for rpi2 using
+> > your provided dtb for RPi2.
+> >
+> > What puzzles me is that u-boot reports itself as
+> >
+> > U-Boot 2016.03-rc1-00131-g39af3d8-dirty
+> >
+> > RPI Model B+ (0x10)
+> >
+> > which is the ARMv6 model not the ARMv7, but then the kernel reports
+> >
+> > CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c53c7d
+> >
+>
+> Another thing I noticed is that the bootloader on these boards loads
+> the FDT at address 0x100, which is described by the FDT itself as
+> reserved memory, and which typically holds the spin tables used for
+> SMP boot.
+>
+> Could you try loading the DT elsewhere, and see if that changes anything?
 
-Regards
-Vineeth
+I think I narrowed this down to the early DT mapping code, which
+considers any DT address that falls inside the first section as 'no
+DT', and then relies on the first section mapping of the decompressed
+kernel to cover it instead.
+
+Could you please try the following change?
 
 
-On 11/16/20 11:38 AM, Vineeth Vijayan wrote:
-> Thank you very much for the fix.
->
-> Reviewed-by: Vineeth Vijayan <vneethv@linux.ibm.com>
->
->
->
-> On 11/16/20 11:18 AM, Mauro Carvalho Chehab wrote:
->> fix one typo:
->>     ccw driver -> ccw_driver
->>
->> and one function rename.
->>
->> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->> ---
->>   arch/s390/include/asm/ccwdev.h | 2 +-
->>   arch/s390/include/asm/cio.h    | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/s390/include/asm/ccwdev.h 
->> b/arch/s390/include/asm/ccwdev.h
->> index bf605e1fcf6a..0495ac635ed5 100644
->> --- a/arch/s390/include/asm/ccwdev.h
->> +++ b/arch/s390/include/asm/ccwdev.h
->> @@ -100,41 +100,41 @@ struct ccw_device {
->>    */
->>   #define PE_NONE                0x0
->>   #define PE_PATH_GONE            0x1 /* A path is no longer 
->> available. */
->>   #define PE_PATH_AVAILABLE        0x2 /* A path has become available 
->> and
->>                              was successfully verified. */
->>   #define PE_PATHGROUP_ESTABLISHED    0x4 /* A pathgroup was reset 
->> and had
->>                              to be established again. */
->>   #define PE_PATH_FCES_EVENT        0x8 /* The FCES Status of a path has
->>                            * changed. */
->>     /*
->>    * Possible CIO actions triggered by the unit check handler.
->>    */
->>   enum uc_todo {
->>       UC_TODO_RETRY,
->>       UC_TODO_RETRY_ON_NEW_PATH,
->>       UC_TODO_STOP
->>   };
->>     /**
->> - * struct ccw driver - device driver for channel attached devices
->> + * struct ccw_driver - device driver for channel attached devices
->>    * @ids: ids supported by this driver
->>    * @probe: function called on probe
->>    * @remove: function called on remove
->>    * @set_online: called when setting device online
->>    * @set_offline: called when setting device offline
->>    * @notify: notify driver of device state changes
->>    * @path_event: notify driver of channel path events
->>    * @shutdown: called at device shutdown
->>    * @prepare: prepare for pm state transition
->>    * @complete: undo work done in @prepare
->>    * @freeze: callback for freezing during hibernation snapshotting
->>    * @thaw: undo work done in @freeze
->>    * @restore: callback for restoring after hibernation
->>    * @uc_handler: callback for unit check handler
->>    * @driver: embedded device driver structure
->>    * @int_class: interruption class to use for accounting interrupts
->>    */
->>   struct ccw_driver {
->>       struct ccw_device_id *ids;
->>       int (*probe) (struct ccw_device *);
->> diff --git a/arch/s390/include/asm/cio.h b/arch/s390/include/asm/cio.h
->> index e36cb67d2441..ac02df906cae 100644
->> --- a/arch/s390/include/asm/cio.h
->> +++ b/arch/s390/include/asm/cio.h
->> @@ -312,41 +312,41 @@ struct node_descriptor {
->>   /* Device did not respond in time. */
->>   #define CIO_BOXED      0x0010
->>     /**
->>    * struct ccw_dev_id - unique identifier for ccw devices
->>    * @ssid: subchannel set id
->>    * @devno: device number
->>    *
->>    * This structure is not directly based on any hardware structure. The
->>    * hardware identifies a device by its device number and its 
->> subchannel,
->>    * which is in turn identified by its id. In order to get a unique 
->> identifier
->>    * for ccw devices across subchannel sets, @struct ccw_dev_id has been
->>    * introduced.
->>    */
->>   struct ccw_dev_id {
->>       u8 ssid;
->>       u16 devno;
->>   };
->>     /**
->> - * ccw_device_id_is_equal() - compare two ccw_dev_ids
->> + * ccw_dev_id_is_equal() - compare two ccw_dev_ids
->>    * @dev_id1: a ccw_dev_id
->>    * @dev_id2: another ccw_dev_id
->>    * Returns:
->>    *  %1 if the two structures are equal field-by-field,
->>    *  %0 if not.
->>    * Context:
->>    *  any
->>    */
->>   static inline int ccw_dev_id_is_equal(struct ccw_dev_id *dev_id1,
->>                         struct ccw_dev_id *dev_id2)
->>   {
->>       if ((dev_id1->ssid == dev_id2->ssid) &&
->>           (dev_id1->devno == dev_id2->devno))
->>           return 1;
->>       return 0;
->>   }
->>     /**
->>    * pathmask_to_pos() - find the position of the left-most bit in a 
->> pathmask
->>    * @mask: pathmask with at least one bit set
+diff --git a/arch/arm/kernel/head.S b/arch/arm/kernel/head.S
+index 28687fd1240a..7f62c5eccdf3 100644
+--- a/arch/arm/kernel/head.S
++++ b/arch/arm/kernel/head.S
+@@ -265,10 +265,10 @@ __create_page_tables:
+         * We map 2 sections in case the ATAGs/DTB crosses a section boundary.
+         */
+        mov     r0, r2, lsr #SECTION_SHIFT
+-       movs    r0, r0, lsl #SECTION_SHIFT
++       cmp     r2, #0
+        ldrne   r3, =FDT_FIXED_BASE >> (SECTION_SHIFT - PMD_ORDER)
+        addne   r3, r3, r4
+-       orrne   r6, r7, r0
++       orrne   r6, r7, r0, lsl #SECTION_SHIFT
+        strne   r6, [r3], #1 << PMD_ORDER
+        addne   r6, r6, #1 << SECTION_SHIFT
+        strne   r6, [r3]
