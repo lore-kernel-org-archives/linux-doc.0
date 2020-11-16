@@ -2,89 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B333C4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F4F4C4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B44B221F8
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:40:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0B312224B
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:55:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gR9q2WW2"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="BuNrY5fQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728870AbgKPKZn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 05:25:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49093 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727192AbgKPKZm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 05:25:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605522341;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZA15SaFrBdZ2JrxZ5s9K6WG+0cMi5R5aaYTeZR61cdw=;
-        b=gR9q2WW2bjSsKntpC5cYnwBuoqxe94xj8/Y65hphGWL0x4rWXYKrSy3clB9SMK0ka/M7Fr
-        lo/n9y89LTPTZKHSLuRC8LhyDZLvagD/J2uI7Qkj1WRofh2iA180hX7vqPUNzFwCR0+4ub
-        Kskh+sFyqLEO8FYXWCwrBOS5FMrBnR0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-bry8kwMbMdeZdadrODdmLg-1; Mon, 16 Nov 2020 05:25:37 -0500
-X-MC-Unique: bry8kwMbMdeZdadrODdmLg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1728586AbgKPKgZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:36:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41476 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727192AbgKPKgY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:36:24 -0500
+Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79A00809DD3;
-        Mon, 16 Nov 2020 10:25:35 +0000 (UTC)
-Received: from gondolin (ovpn-113-142.ams2.redhat.com [10.36.113.142])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BE61B5B4BB;
-        Mon, 16 Nov 2020 10:25:32 +0000 (UTC)
-Date:   Mon, 16 Nov 2020 11:25:30 +0100
-From:   Cornelia Huck <cohuck@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 50FDE20674;
+        Mon, 16 Nov 2020 10:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605522983;
+        bh=sB1fHRfQmwkkYezelPi5kH60dsraF17NjD8mYeSex1Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BuNrY5fQErUh/1P2ZIaVFVahY1lVfFpyAKONxMmg1jvFNxvE4H20Sf+mP3esbFc0o
+         yVWG3oNBBWberVrRNkVye8LBn5qXslIaj8pXV2rzuVLkM/7cdl4jXrK0xb8sl+mEB2
+         subjnfIe1JOggyBsD6p5eMVRCep9YSZ7e4OlZ2dI=
+Date:   Mon, 16 Nov 2020 04:36:16 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alexander Egorenkov <egorenar@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Julian Wiedmann <jwi@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v4 04/27] s390: fix kernel-doc markups
-Message-ID: <20201116112530.7fdf2020.cohuck@redhat.com>
-In-Reply-To: <4a9df42dfb68aed6b4a4882f6dccabf00ce932cd.1605521731.git.mchehab+huawei@kernel.org>
+        =?iso-8859-1?Q?H=E5kon?= Bugge <haakon.bugge@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Danit Goldberg <danitg@mellanox.com>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Divya Indi <divya.indi@oracle.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+        Moni Shoua <monis@mellanox.com>,
+        Or Gerlitz <ogerlitz@mellanox.com>,
+        Parav Pandit <parav@mellanox.com>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Ursula Braun <ubraun@linux.ibm.com>,
+        Xi Wang <wangxi11@huawei.com>,
+        Yamin Friedman <yaminf@mellanox.com>,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        target-devel@vger.kernel.org
+Subject: Re: [PATCH v4 07/27] IB: fix kernel-doc markups
+Message-ID: <20201116103616.GA13162@embeddedor>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
-        <4a9df42dfb68aed6b4a4882f6dccabf00ce932cd.1605521731.git.mchehab+huawei@kernel.org>
-Organization: Red Hat GmbH
+ <4983a0c6fe5dbc2c779d2b5950a6f90f81a16d56.1605521731.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4983a0c6fe5dbc2c779d2b5950a6f90f81a16d56.1605521731.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 16 Nov 2020 11:18:00 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Mon, Nov 16, 2020 at 11:18:03AM +0100, Mauro Carvalho Chehab wrote:
 
-> fix one typo:
-> 	ccw driver -> ccw_driver
-> 
-> and one function rename.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  arch/s390/include/asm/ccwdev.h | 2 +-
->  arch/s390/include/asm/cio.h    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+[..]
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> diff --git a/drivers/infiniband/sw/rdmavt/ah.c b/drivers/infiniband/sw/rdmavt/ah.c
+> index f9754dcd250b..480b621d1a9f 100644
+> --- a/drivers/infiniband/sw/rdmavt/ah.c
+> +++ b/drivers/infiniband/sw/rdmavt/ah.c
+[..]
+>  /**
+> - * rvt_destory_ah - Destory an address handle
+> + * rvt_destroy_ah - Destory an address handle
 
+s/Destory/Destroy
+
+>   * @ibah: address handle
+>   * @destroy_flags: destroy address handle flags (see enum rdma_destroy_ah_flags)
+>   * Return: 0 on success
+>   */
+>  int rvt_destroy_ah(struct ib_ah *ibah, u32 destroy_flags)
+>  {
+>  	struct rvt_dev_info *dev = ib_to_rvt(ibah->device);
+>  	struct rvt_ah *ah = ibah_to_rvtah(ibah);
+>  	unsigned long flags;
+>  
+>  	spin_lock_irqsave(&dev->n_ahs_lock, flags);
+>  	dev->n_ahs_allocated--;
+>  	spin_unlock_irqrestore(&dev->n_ahs_lock, flags);
+>  
+>  	rdma_destroy_ah_attr(&ah->attr);
+>  	return 0;
+>  }
+
+--
+Gustavo
