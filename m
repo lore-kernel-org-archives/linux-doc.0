@@ -2,107 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C1AC63777
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 18:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4165EC2D0A3
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 19:24:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55CB62244C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 18:49:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9F22241A3
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 19:24:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728018AbgKPStV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 13:49:21 -0500
-Received: from mga02.intel.com ([134.134.136.20]:50413 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727701AbgKPStV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 13:49:21 -0500
-IronPort-SDR: isxPLhZX6e4/B74nh8z4uG3vOKzpEKkpbZyptzktclqw6xWlfNfccQ56UOcem5Mvd4UkjTQlnY
- R31xfgo1knuw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="157821919"
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
-   d="scan'208";a="157821919"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 10:49:18 -0800
-IronPort-SDR: QM3K1Df9J/Wg+oJAcVfa83qY/TNr4BOrYcj8zI8YrrZ97jsEsonZ8J/uK1N6DUXothgxIsiUVW
- Pzs792lhR6LA==
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
-   d="scan'208";a="533514829"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 10:49:17 -0800
-Date:   Mon, 16 Nov 2020 10:49:16 -0800
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH V3 05/10] x86/entry: Pass irqentry_state_t by reference
-Message-ID: <20201116184916.GA722447@iweiny-DESK2.sc.intel.com>
-References: <20201106232908.364581-1-ira.weiny@intel.com>
- <20201106232908.364581-6-ira.weiny@intel.com>
- <87mtzi8n0z.fsf@nanos.tec.linutronix.de>
+        id S1729166AbgKPTYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 14:24:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729060AbgKPTYe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 14:24:34 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3C1C0613CF;
+        Mon, 16 Nov 2020 11:24:34 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id AD20E6D9;
+        Mon, 16 Nov 2020 19:24:33 +0000 (UTC)
+Date:   Mon, 16 Nov 2020 12:24:32 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warning after merge of the ftrace tree
+Message-ID: <20201116122432.796af13b@lwn.net>
+In-Reply-To: <20201116124338.76a522e1@gandalf.local.home>
+References: <20201116173502.392a769c@canb.auug.org.au>
+        <20201116124338.76a522e1@gandalf.local.home>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87mtzi8n0z.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 15, 2020 at 07:58:52PM +0100, Thomas Gleixner wrote:
-> Ira,
-> 
-> On Fri, Nov 06 2020 at 15:29, ira weiny wrote:
-> 
-> Subject prefix wants to 'entry:'. This changes generic code and the x86
-> part is just required to fix the generic code change.
+On Mon, 16 Nov 2020 12:43:38 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-Sorry, yes that was carried incorrectly from earlier versions.
-
+> > After merging the ftrace tree, today's linux-next build (htmldocs)
+> > produced this warning:
+> > 
+> > Documentation/trace/ftrace-uses.rst:123: WARNING: Unexpected indentation.
+> > 
+> > Introduced by commit
+> > 
+> >   a25d036d939a ("ftrace: Reverse what the RECURSION flag means in the ftrace_ops")
+> >   
 > 
-> > Currently struct irqentry_state_t only contains a single bool value
-> > which makes passing it by value is reasonable.  However, future patches
-> > propose to add information to this struct, for example the PKRS
-> > register/thread state.
-> >
-> > Adding information to irqentry_state_t makes passing by value less
-> > efficient.  Therefore, change the entry/exit calls to pass irq_state by
-> > reference.
-> 
-> The PKRS muck needs to add an u32 to that struct. So how is that a
-> problem?
+> I'm not good at rst markup. Not sure how to fix this.
 
-There are more fields to be added for the kmap/pmem support.  So this will be
-needed eventually.  Even though it is not strictly necessary in the next patch.
+Looking at the commit in question:
 
-> 
-> The resulting struct still fits into 64bit which is by far more
-> efficiently passed by value than by reference. So which problem are you
-> solving here?
+> +Protect your callback
+> +=====================
+> +
+> +As functions can be called from anywhere, and it is possible that a function
+> +called by a callback may also be traced, and call that same callback,
+> +recursion protection must be used. There are two helper functions that
+> +can help in this regard. If you start your code with:
+> +
+> +	int bit;
+> +
+> +	bit = ftrace_test_recursion_trylock();
+> +	if (bit < 0)
+> +		return;
 
-I'm getting ahead of myself a bit.  I will be adding more fields for the
-kmap/pmem tracking.
+The problem is those literal blocks.  The easiest fix will be to just use
+the double-colon notation to indicate a literal block, so the paragraph
+above would end with "...start your code with::".  Note that there's a few
+of them to fix.
 
-Would you accept just a clean up for the variable names in this patch?  I could
-then add the pass by reference when I add the new fields later.  Or would an
-update to the commit message be ok to land this now?
+Thanks,
 
-Ira
-
-> 
-> Thanks
-> 
->         tglx
-> 
+jon
