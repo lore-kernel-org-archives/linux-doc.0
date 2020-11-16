@@ -7,66 +7,43 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F3CC4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C91C4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:06:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 127B320684
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:05:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 625C2207BC
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:06:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ImMDvBcF"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VCBvzbpI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728855AbgKPKSt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 05:18:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53210 "EHLO mail.kernel.org"
+        id S1728944AbgKPKSx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:18:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53314 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728869AbgKPKSd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728863AbgKPKSd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 16 Nov 2020 05:18:33 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A22A024631;
+        by mail.kernel.org (Postfix) with ESMTPSA id B02622463F;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1605521909;
-        bh=qSRYNJtAeK4GtoqwEnH682KkCaMa/WDnZCdvxcgu+uk=;
+        bh=yPX47r/jPA2fxjFBy+bfuVnTESGzy5O/kOXd7GWMGRc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ImMDvBcFCr50OPP0bsJ+ExBe367LwqYgsbdKCYjLa8yyut20dyb0TpDXfZng5ONRJ
-         4kOpHonWhaqgRbnJqvJQreAEx09cYCmEU12uoqhlkVxVZwiukG58l+uJf+zZdSpHN2
-         79a0TOvoAUOSbtwZqHIcFSwgua62yN/Jg9K5ieh4=
+        b=VCBvzbpIH2oG4FvJUHardXAFuyq1MFYDlMLxCjLJqJW45uIZ2m7++dXDOp919rttA
+         vGztIoNk0jpVLI9YeXyM39RbNZBdcqWghHfkdzs6g1o81G74XFN92L3r7dEZnX+Dam
+         xF0fEMb9qIuqIGRXcGk0rNmO21u8rYJxLZI+C/vM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebac-00FwDz-0g; Mon, 16 Nov 2020 11:18:26 +0100
+        id 1kebac-00FwEy-PE; Mon, 16 Nov 2020 11:18:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Eric Anholt <eric@anholt.net>, Imre Deak <imre.deak@intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Matt Roper <matthew.d.roper@intel.com>,
-        Nirmoy Das <nirmoy.aiemd@gmail.com>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
-        Wambui Karuga <wambui.karugax@gmail.com>,
-        Yintian Tao <yttao@amd.com>, changzhu <Changfeng.Zhu@amd.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 05/27] drm: fix some kernel-doc markups
-Date:   Mon, 16 Nov 2020 11:18:01 +0100
-Message-Id: <12d4ca26f6843618200529ce5445063734d38c04.1605521731.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 27/27] scripts: kernel-doc: validate kernel-doc markup with the actual names
+Date:   Mon, 16 Nov 2020 11:18:23 +0100
+Message-Id: <7b013fef4b0a45bddc5f1a5593a282baceb13b0c.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -77,1182 +54,472 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
+Kernel-doc currently expects that the kernel-doc markup to come
+just before the function/enum/struct/union/typedef prototype.
 
-Others need to be fixed, as kernel-doc markups should use this format:
-        identifier - description
+Yet, if it find things like:
+
+	/**
+	 * refcount_add - add a value to a refcount
+	 * @i: the value to add to the refcount
+	 * @r: the refcount
+	 */
+	static inline void __refcount_add(int i, refcount_t *r, int *oldp);
+	static inline void refcount_add(int i, refcount_t *r);
+
+Kernel-doc will do the wrong thing:
+
+	foobar.h:6: warning: Function parameter or member 'oldp' not described in '__refcount_add'
+	.. c:function:: void __refcount_add (int i, refcount_t *r, int *oldp)
+
+	   add a value to a refcount
+
+	**Parameters**
+
+	``int i``
+	  the value to add to the refcount
+
+	``refcount_t *r``
+	  the refcount
+
+	``int *oldp``
+	  *undescribed*
+
+Basically, it will document "__refcount_add" with the kernel-doc
+markup for refcount_add.
+
+If both functions have the same arguments, this won't even
+produce any warning!
+
+Add a logic to check if the kernel-doc identifier matches the actual
+name of the C function or data structure that will be documented.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c     | 2 +-
- drivers/gpu/drm/drm_connector.c               | 3 ++-
- drivers/gpu/drm/drm_dp_helper.c               | 2 +-
- drivers/gpu/drm/drm_framebuffer.c             | 2 +-
- drivers/gpu/drm/drm_gem.c                     | 4 ++--
- drivers/gpu/drm/drm_gem_vram_helper.c         | 2 +-
- drivers/gpu/drm/drm_mode_object.c             | 2 +-
- drivers/gpu/drm/drm_modes.c                   | 4 ++--
- drivers/gpu/drm/drm_scdc_helper.c             | 2 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
- drivers/gpu/drm/i915/i915_gem_evict.c         | 2 +-
- drivers/gpu/drm/i915/i915_perf.c              | 8 +++++---
- drivers/gpu/drm/scheduler/sched_main.c        | 2 +-
- drivers/gpu/drm/v3d/v3d_sched.c               | 2 +-
- drivers/gpu/drm/vc4/vc4_bo.c                  | 2 +-
- include/drm/drm_atomic_helper.h               | 4 ++--
- include/drm/drm_connector.h                   | 2 +-
- include/drm/drm_device.h                      | 2 +-
- include/drm/drm_dsc.h                         | 3 ++-
- include/drm/drm_gem_vram_helper.h             | 8 ++++----
- 20 files changed, 32 insertions(+), 28 deletions(-)
+ scripts/kernel-doc | 62 ++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 46 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 9ad74045158e..ddcf5c2c8e6a 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -526,41 +526,41 @@ __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state)
- }
- EXPORT_SYMBOL(__drm_atomic_helper_connector_destroy_state);
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 9b6ddeb097e9..919acae23fad 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -365,40 +365,43 @@ use constant {
+ my $state;
+ my $in_doc_sect;
+ my $leading_space;
  
- /**
-  * drm_atomic_helper_connector_destroy_state - default state destroy hook
-  * @connector: drm connector
-  * @state: connector state object to release
-  *
-  * Default connector state destroy hook for drivers which don't have their own
-  * subclassed connector state structure.
-  */
- void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
- 					  struct drm_connector_state *state)
- {
- 	__drm_atomic_helper_connector_destroy_state(state);
- 	kfree(state);
- }
- EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
+ # Inline documentation state
+ use constant {
+     STATE_INLINE_NA     => 0, # not applicable ($state != STATE_INLINE)
+     STATE_INLINE_NAME   => 1, # looking for member name (@foo:)
+     STATE_INLINE_TEXT   => 2, # looking for member documentation
+     STATE_INLINE_END    => 3, # done
+     STATE_INLINE_ERROR  => 4, # error - Comment without header was found.
+                               # Spit a warning as it's not
+                               # proper kernel-doc and ignore the rest.
+ };
+ my $inline_doc_state;
  
- /**
-- * __drm_atomic_helper_private_duplicate_state - copy atomic private state
-+ * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
-  * @obj: CRTC object
-  * @state: new private object state
-  *
-  * Copies atomic state from a private objects's current state and resets inferred values.
-  * This is useful for drivers that subclass the private state.
-  */
- void __drm_atomic_helper_private_obj_duplicate_state(struct drm_private_obj *obj,
- 						     struct drm_private_state *state)
- {
- 	memcpy(state, obj->state, sizeof(*state));
- }
- EXPORT_SYMBOL(__drm_atomic_helper_private_obj_duplicate_state);
+ #declaration types: can be
+ # 'function', 'struct', 'union', 'enum', 'typedef'
+ my $decl_type;
  
- /**
-  * __drm_atomic_helper_bridge_duplicate_state() - Copy atomic bridge state
-  * @bridge: bridge object
-  * @state: atomic bridge state
-  *
-  * Copies atomic state from a bridge's current state and resets inferred values.
-  * This is useful for drivers that subclass the bridge state.
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 1913d8b4e16a..98b6ec45ef96 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1415,41 +1415,42 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
- 		break;
- 	case DRM_MODE_CONTENT_TYPE_CINEMA:
- 		frame->content_type = HDMI_CONTENT_TYPE_CINEMA;
- 		break;
- 	case DRM_MODE_CONTENT_TYPE_GAME:
- 		frame->content_type = HDMI_CONTENT_TYPE_GAME;
- 		break;
- 	case DRM_MODE_CONTENT_TYPE_PHOTO:
- 		frame->content_type = HDMI_CONTENT_TYPE_PHOTO;
- 		break;
- 	default:
- 		/* Graphics is the default(0) */
- 		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
- 	}
++# Name of the kernel-doc identifier for non-DOC markups
++my $identifier;
++
+ my $doc_start = '^/\*\*\s*$'; # Allow whitespace at end of comment start.
+ my $doc_end = '\*/';
+ my $doc_com = '\s*\*\s*';
+ my $doc_com_body = '\s*\* ?';
+ my $doc_decl = $doc_com . '(\w+)';
+ # @params and a strictly limited set of supported section names
+ my $doc_sect = $doc_com .
+     '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
+ my $doc_content = $doc_com_body . '(.*)';
+ my $doc_block = $doc_com . 'DOC:\s*(.*)?';
+ my $doc_inline_start = '^\s*/\*\*\s*$';
+ my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
+ my $doc_inline_end = '^\s*\*/\s*$';
+ my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
+ my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
  
- 	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
- }
- EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
- 
- /**
-- * drm_mode_attach_tv_margin_properties - attach TV connector margin properties
-+ * drm_connector_attach_tv_margin_properties - attach TV connector margin
-+ * 	properties
-  * @connector: DRM connector
-  *
-  * Called by a driver when it needs to attach TV margin props to a connector.
-  * Typically used on SDTV and HDMI connectors.
-  */
- void drm_connector_attach_tv_margin_properties(struct drm_connector *connector)
- {
- 	struct drm_device *dev = connector->dev;
- 
- 	drm_object_attach_property(&connector->base,
- 				   dev->mode_config.tv_left_margin_property,
- 				   0);
- 	drm_object_attach_property(&connector->base,
- 				   dev->mode_config.tv_right_margin_property,
- 				   0);
- 	drm_object_attach_property(&connector->base,
- 				   dev->mode_config.tv_top_margin_property,
- 				   0);
- 	drm_object_attach_property(&connector->base,
- 				   dev->mode_config.tv_bottom_margin_property,
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 37ec3b94389c..5bd0934004e3 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1144,41 +1144,41 @@ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- 	switch (type) {
- 	case DP_DS_PORT_TYPE_DP:
- 	case DP_DS_PORT_TYPE_DP_DUALMODE:
- 		return DRM_MODE_SUBCONNECTOR_DisplayPort;
- 	case DP_DS_PORT_TYPE_VGA:
- 		return DRM_MODE_SUBCONNECTOR_VGA;
- 	case DP_DS_PORT_TYPE_DVI:
- 		return DRM_MODE_SUBCONNECTOR_DVID;
- 	case DP_DS_PORT_TYPE_HDMI:
- 		return DRM_MODE_SUBCONNECTOR_HDMIA;
- 	case DP_DS_PORT_TYPE_WIRELESS:
- 		return DRM_MODE_SUBCONNECTOR_Wireless;
- 	case DP_DS_PORT_TYPE_NON_EDID:
- 	default:
- 		return DRM_MODE_SUBCONNECTOR_Unknown;
- 	}
- }
- EXPORT_SYMBOL(drm_dp_subconnector_type);
- 
- /**
-- * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
-+ * drm_dp_set_subconnector_property - set subconnector for DP connector
-  * @connector: connector to set property on
-  * @status: connector status
-  * @dpcd: DisplayPort configuration data
-  * @port_cap: port capabilities
-  *
-  * Called by a driver on every detect event.
-  */
- void drm_dp_set_subconnector_property(struct drm_connector *connector,
- 				      enum drm_connector_status status,
- 				      const u8 *dpcd,
- 				      const u8 port_cap[4])
- {
- 	enum drm_mode_subconnector subconnector = DRM_MODE_SUBCONNECTOR_Unknown;
- 
- 	if (status == connector_status_connected)
- 		subconnector = drm_dp_subconnector_type(dpcd, port_cap);
- 	drm_object_property_set_value(&connector->base,
- 			connector->dev->mode_config.dp_subconnector_property,
- 			subconnector);
- }
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 2f5b0c2bb0fe..aca62ed51e82 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -535,41 +535,41 @@ int drm_mode_getfb(struct drm_device *dev,
- 
- 	/* GET_FB() is an unprivileged ioctl so we must not return a
- 	 * buffer-handle to non-master processes! For
- 	 * backwards-compatibility reasons, we cannot make GET_FB() privileged,
- 	 * so just return an invalid handle for non-masters.
- 	 */
- 	if (!drm_is_current_master(file_priv) && !capable(CAP_SYS_ADMIN)) {
- 		r->handle = 0;
- 		ret = 0;
- 		goto out;
- 	}
- 
- 	ret = fb->funcs->create_handle(fb, file_priv, &r->handle);
- 
- out:
- 	drm_framebuffer_put(fb);
- 	return ret;
+ my %parameterdescs;
+ my %parameterdesc_start_lines;
+ my @parameterlist;
+ my %sections;
+@@ -1186,40 +1189,45 @@ sub output_blockhead {
+ sub dump_declaration($$) {
+     no strict 'refs';
+     my ($prototype, $file) = @_;
+     my $func = "dump_" . $decl_type;
+     &$func(@_);
  }
  
- /**
-- * drm_mode_getfb2 - get extended FB info
-+ * drm_mode_getfb2_ioctl - get extended FB info
-  * @dev: drm device for the ioctl
-  * @data: data pointer for the ioctl
-  * @file_priv: drm file for the ioctl call
-  *
-  * Lookup the FB given its ID and return info about it.
-  *
-  * Called by the user via ioctl.
-  *
-  * Returns:
-  * Zero on success, negative errno on failure.
-  */
- int drm_mode_getfb2_ioctl(struct drm_device *dev,
- 			  void *data, struct drm_file *file_priv)
- {
- 	struct drm_mode_fb_cmd2 *r = data;
- 	struct drm_framebuffer *fb;
- 	unsigned int i;
- 	int ret;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index eb2d23e04be9..92f89cee213e 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -850,41 +850,41 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
- 	}
- 
- 	if (!obj->name) {
- 		ret = idr_alloc(&dev->object_name_idr, obj, 1, 0, GFP_KERNEL);
- 		if (ret < 0)
- 			goto err;
- 
- 		obj->name = ret;
- 	}
- 
- 	args->name = (uint64_t) obj->name;
- 	ret = 0;
- 
- err:
- 	mutex_unlock(&dev->object_name_lock);
- 	drm_gem_object_put(obj);
- 	return ret;
+ sub dump_union($$) {
+     dump_struct(@_);
  }
  
- /**
-- * drm_gem_open - implementation of the GEM_OPEN ioctl
-+ * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
-  * @dev: drm_device
-  * @data: ioctl data
-  * @file_priv: drm file-private structure
-  *
-  * Open an object using the global name, returning a handle and the size.
-  *
-  * This handle (of course) holds a reference to the object, so the object
-  * will not go away until the handle is deleted.
-  */
- int
- drm_gem_open_ioctl(struct drm_device *dev, void *data,
- 		   struct drm_file *file_priv)
- {
- 	struct drm_gem_open *args = data;
- 	struct drm_gem_object *obj;
- 	int ret;
- 	u32 handle;
+ sub dump_struct($$) {
+     my $x = shift;
+     my $file = shift;
  
- 	if (!drm_core_check_feature(dev, DRIVER_GEM))
- 		return -EOPNOTSUPP;
-@@ -895,41 +895,41 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
- 		drm_gem_object_get(obj);
- 	} else {
- 		mutex_unlock(&dev->object_name_lock);
- 		return -ENOENT;
- 	}
+     if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+ 	my $decl_type = $1;
+ 	$declaration_name = $2;
+ 	my $members = $3;
  
- 	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
- 	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
- 	if (ret)
- 		goto err;
++	if ($identifier ne $declaration_name) {
++	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
++	    return;
++	}
++
+ 	# ignore members marked private:
+ 	$members =~ s/\/\*\s*private:.*?\/\*\s*public:.*?\*\///gosi;
+ 	$members =~ s/\/\*\s*private:.*//gosi;
+ 	# strip comments:
+ 	$members =~ s/\/\*.*?\*\///gos;
+ 	# strip attributes
+ 	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
+ 	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
+ 	$members =~ s/\s*__packed\s*/ /gos;
+ 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
+ 	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
+ 	$members =~ s/\s*____cacheline_aligned/ /gos;
  
- 	args->handle = handle;
- 	args->size = obj->size;
+ 	# replace DECLARE_BITMAP
+ 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
+ 	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
+ 	# replace DECLARE_HASHTABLE
+ 	$members =~ s/DECLARE_HASHTABLE\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
+ 	# replace DECLARE_KFIFO
+ 	$members =~ s/DECLARE_KFIFO\s*\(([^,)]+),\s*([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
+@@ -1374,40 +1382,45 @@ sub show_warnings($$) {
  
- err:
- 	drm_gem_object_put(obj);
- 	return ret;
- }
+ sub dump_enum($$) {
+     my $x = shift;
+     my $file = shift;
+     my $members;
  
- /**
-- * gem_gem_open - initalizes GEM file-private structures at devnode open time
-+ * drm_gem_open - initalizes GEM file-private structures at devnode open time
-  * @dev: drm_device which is being opened by userspace
-  * @file_private: drm file-private structure to set up
-  *
-  * Called at device open time, sets up the structure for handling refcounting
-  * of mm objects.
-  */
- void
- drm_gem_open(struct drm_device *dev, struct drm_file *file_private)
- {
- 	idr_init_base(&file_private->object_idr, 1);
- 	spin_lock_init(&file_private->table_lock);
- }
  
- /**
-  * drm_gem_release - release file-private GEM resources
-  * @dev: drm_device which is being closed by userspace
-  * @file_private: drm file-private structure to clean up
-  *
-  * Called at close time when the filp is going away.
-  *
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 889a06696f7e..02ca22e90290 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -600,41 +600,41 @@ static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
-  * Helpers for struct drm_gem_object_funcs
-  */
+     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
+     # strip #define macros inside enums
+     $x =~ s@#\s*((define|ifdef)\s+|endif)[^;]*;@@gos;
  
- /**
-  * drm_gem_vram_object_free() - \
- 	Implements &struct drm_gem_object_funcs.free
-  * @gem:       GEM object. Refers to &struct drm_gem_vram_object.gem
-  */
- static void drm_gem_vram_object_free(struct drm_gem_object *gem)
- {
- 	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(gem);
+     if ($x =~ /typedef\s+enum\s*\{(.*)\}\s*(\w*)\s*;/) {
+ 	$declaration_name = $2;
+ 	$members = $1;
+     } elsif ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
+ 	$declaration_name = $1;
+ 	$members = $2;
+     }
  
- 	drm_gem_vram_put(gbo);
- }
+     if ($members) {
++	if ($identifier ne $declaration_name) {
++	    print STDERR "${file}:$.: warning: expecting prototype for enum $identifier. Prototype was for enum $declaration_name instead\n";
++	    return;
++	}
++
+ 	my %_members;
  
- /*
-  * Helpers for dump buffers
-  */
+ 	$members =~ s/\s+$//;
  
- /**
-- * drm_gem_vram_driver_create_dumb() - \
-+ * drm_gem_vram_driver_dumb_create() - \
- 	Implements &struct drm_driver.dumb_create
-  * @file:		the DRM file
-  * @dev:		the DRM device
-  * @args:		the arguments as provided to \
- 				&struct drm_driver.dumb_create
-  *
-  * This function requires the driver to use @drm_device.vram_mm for its
-  * instance of VRAM MM.
-  *
-  * Returns:
-  * 0 on success, or
-  * a negative error code otherwise.
-  */
- int drm_gem_vram_driver_dumb_create(struct drm_file *file,
- 				    struct drm_device *dev,
- 				    struct drm_mode_create_dumb *args)
- {
- 	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index db05f386a709..b26588b52795 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -98,41 +98,41 @@ void drm_mode_object_register(struct drm_device *dev,
-  * Free @id from @dev's unique identifier pool.
-  * This function can be called multiple times, and guards against
-  * multiple removals.
-  * These modeset identifiers are _not_ reference counted. Hence don't use this
-  * for reference counted modeset objects like framebuffers.
-  */
- void drm_mode_object_unregister(struct drm_device *dev,
- 				struct drm_mode_object *object)
- {
- 	WARN_ON(!dev->driver->load && dev->registered && !object->free_cb);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
- 	if (object->id) {
- 		idr_remove(&dev->mode_config.object_idr, object->id);
- 		object->id = 0;
- 	}
- 	mutex_unlock(&dev->mode_config.idr_mutex);
- }
- 
- /**
-- * drm_lease_required - check types which must be leased to be used
-+ * drm_mode_object_lease_required - check types which must be leased to be used
-  * @type: type of object
-  *
-  * Returns whether the provided type of drm_mode_object must
-  * be owned or leased to be used by a process.
-  */
- bool drm_mode_object_lease_required(uint32_t type)
- {
- 	switch(type) {
- 	case DRM_MODE_OBJECT_CRTC:
- 	case DRM_MODE_OBJECT_CONNECTOR:
- 	case DRM_MODE_OBJECT_PLANE:
- 		return true;
- 	default:
- 		return false;
- 	}
- }
- 
- struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
- 					       struct drm_file *file_priv,
- 					       uint32_t id, uint32_t type)
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 501b4fe55a3d..33fb2f05ce66 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1872,41 +1872,41 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
- 				    cmd->margins);
- 	else
- 		mode = drm_gtf_mode(dev,
- 				    cmd->xres, cmd->yres,
- 				    cmd->refresh_specified ? cmd->refresh : 60,
- 				    cmd->interlace,
- 				    cmd->margins);
- 	if (!mode)
- 		return NULL;
- 
- 	mode->type |= DRM_MODE_TYPE_USERDEF;
- 	/* fix up 1368x768: GFT/CVT can't express 1366 width due to alignment */
- 	if (cmd->xres == 1366)
- 		drm_mode_fixup_1366x768(mode);
- 	drm_mode_set_crtcinfo(mode, CRTC_INTERLACE_HALVE_V);
- 	return mode;
- }
- EXPORT_SYMBOL(drm_mode_create_from_cmdline_mode);
- 
- /**
-- * drm_crtc_convert_to_umode - convert a drm_display_mode into a modeinfo
-+ * drm_mode_convert_to_umode - convert a drm_display_mode into a modeinfo
-  * @out: drm_mode_modeinfo struct to return to the user
-  * @in: drm_display_mode to use
-  *
-  * Convert a drm_display_mode into a drm_mode_modeinfo structure to return to
-  * the user.
-  */
- void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
- 			       const struct drm_display_mode *in)
- {
- 	out->clock = in->clock;
- 	out->hdisplay = in->hdisplay;
- 	out->hsync_start = in->hsync_start;
- 	out->hsync_end = in->hsync_end;
- 	out->htotal = in->htotal;
- 	out->hskew = in->hskew;
- 	out->vdisplay = in->vdisplay;
- 	out->vsync_start = in->vsync_start;
- 	out->vsync_end = in->vsync_end;
- 	out->vtotal = in->vtotal;
- 	out->vscan = in->vscan;
-@@ -1924,41 +1924,41 @@ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
- 	case HDMI_PICTURE_ASPECT_64_27:
- 		out->flags |= DRM_MODE_FLAG_PIC_AR_64_27;
- 		break;
- 	case HDMI_PICTURE_ASPECT_256_135:
- 		out->flags |= DRM_MODE_FLAG_PIC_AR_256_135;
- 		break;
- 	default:
- 		WARN(1, "Invalid aspect ratio (0%x) on mode\n",
- 		     in->picture_aspect_ratio);
- 		fallthrough;
- 	case HDMI_PICTURE_ASPECT_NONE:
- 		out->flags |= DRM_MODE_FLAG_PIC_AR_NONE;
- 		break;
- 	}
- 
- 	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
- 	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
- }
- 
- /**
-- * drm_crtc_convert_umode - convert a modeinfo into a drm_display_mode
-+ * drm_mode_convert_umode - convert a modeinfo into a drm_display_mode
-  * @dev: drm device
-  * @out: drm_display_mode to return to the user
-  * @in: drm_mode_modeinfo to use
-  *
-  * Convert a drm_mode_modeinfo into a drm_display_mode structure to return to
-  * the caller.
-  *
-  * Returns:
-  * Zero on success, negative errno on failure.
-  */
- int drm_mode_convert_umode(struct drm_device *dev,
- 			   struct drm_display_mode *out,
- 			   const struct drm_mode_modeinfo *in)
- {
- 	if (in->clock > INT_MAX || in->vrefresh > INT_MAX)
- 		return -ERANGE;
- 
- 	out->clock = in->clock;
- 	out->hdisplay = in->hdisplay;
- 	out->hsync_start = in->hsync_start;
-diff --git a/drivers/gpu/drm/drm_scdc_helper.c b/drivers/gpu/drm/drm_scdc_helper.c
-index 311e71bbba5b..991b8c86d78d 100644
---- a/drivers/gpu/drm/drm_scdc_helper.c
-+++ b/drivers/gpu/drm/drm_scdc_helper.c
-@@ -108,41 +108,41 @@ ssize_t drm_scdc_write(struct i2c_adapter *adapter, u8 offset,
- 
- 	msg.buf = data;
- 
- 	memcpy(data, &offset, sizeof(offset));
- 	memcpy(data + 1, buffer, size);
- 
- 	err = i2c_transfer(adapter, &msg, 1);
- 
- 	kfree(data);
- 
- 	if (err < 0)
- 		return err;
- 	if (err != 1)
- 		return -EPROTO;
- 
- 	return 0;
- }
- EXPORT_SYMBOL(drm_scdc_write);
- 
- /**
-- * drm_scdc_check_scrambling_status - what is status of scrambling?
-+ * drm_scdc_get_scrambling_status - what is status of scrambling?
-  * @adapter: I2C adapter for DDC channel
-  *
-  * Reads the scrambler status over SCDC, and checks the
-  * scrambling status.
-  *
-  * Returns:
-  * True if the scrambling is enabled, false otherwise.
-  */
- bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
- {
- 	u8 status;
- 	int ret;
- 
- 	ret = drm_scdc_readb(adapter, SCDC_SCRAMBLER_STATUS, &status);
- 	if (ret < 0) {
- 		DRM_DEBUG_KMS("Failed to read scrambling status: %d\n", ret);
- 		return false;
- 	}
- 
- 	return status & SCDC_SCRAMBLING_STATUS;
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index a95e6a2ac698..8753bab20ce8 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -4573,41 +4573,41 @@ static void sanitize_dpll_state(struct drm_i915_private *i915,
- 	if (!pll->on || pll->active_mask)
- 		return;
- 
- 	drm_dbg_kms(&i915->drm,
- 		    "%s enabled but not in use, disabling\n",
- 		    pll->info->name);
- 
- 	pll->info->funcs->disable(i915, pll);
- 	pll->on = false;
- }
- 
- void intel_dpll_sanitize_state(struct drm_i915_private *i915)
- {
- 	int i;
- 
- 	for (i = 0; i < i915->dpll.num_shared_dpll; i++)
- 		sanitize_dpll_state(i915, &i915->dpll.shared_dplls[i]);
- }
- 
- /**
-- * intel_shared_dpll_dump_hw_state - write hw_state to dmesg
-+ * intel_dpll_dump_hw_state - write hw_state to dmesg
-  * @dev_priv: i915 drm device
-  * @hw_state: hw state to be written to the log
-  *
-  * Write the relevant values in @hw_state to dmesg using drm_dbg_kms.
-  */
- void intel_dpll_dump_hw_state(struct drm_i915_private *dev_priv,
- 			      const struct intel_dpll_hw_state *hw_state)
- {
- 	if (dev_priv->dpll.mgr) {
- 		dev_priv->dpll.mgr->dump_hw_state(dev_priv, hw_state);
- 	} else {
- 		/* fallback for platforms that don't use the shared dpll
- 		 * infrastructure
- 		 */
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "dpll_hw_state: dpll: 0x%x, dpll_md: 0x%x, "
- 			    "fp0: 0x%x, fp1: 0x%x\n",
- 			    hw_state->dpll,
- 			    hw_state->dpll_md,
- 			    hw_state->fp0,
-diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
-index 6501939929d5..e1a66c8245b8 100644
---- a/drivers/gpu/drm/i915/i915_gem_evict.c
-+++ b/drivers/gpu/drm/i915/i915_gem_evict.c
-@@ -221,41 +221,41 @@ i915_gem_evict_something(struct i915_address_space *vm,
- 	list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
- 		__i915_vma_unpin(vma);
- 		if (ret == 0)
- 			ret = __i915_vma_unbind(vma);
- 	}
- 
- 	while (ret == 0 && (node = drm_mm_scan_color_evict(&scan))) {
- 		vma = container_of(node, struct i915_vma, node);
- 
- 		/* If we find any non-objects (!vma), we cannot evict them */
- 		if (vma->node.color != I915_COLOR_UNEVICTABLE)
- 			ret = __i915_vma_unbind(vma);
- 		else
- 			ret = -ENOSPC; /* XXX search failed, try again? */
- 	}
- 
- 	return ret;
- }
- 
- /**
-- * i915_gem_evict_for_vma - Evict vmas to make room for binding a new one
-+ * i915_gem_evict_for_node - Evict vmas to make room for binding a new one
-  * @vm: address space to evict from
-  * @target: range (and color) to evict for
-  * @flags: additional flags to control the eviction algorithm
-  *
-  * This function will try to evict vmas that overlap the target node.
-  *
-  * To clarify: This is for freeing up virtual address space, not for freeing
-  * memory in e.g. the shrinker.
-  */
- int i915_gem_evict_for_node(struct i915_address_space *vm,
- 			    struct drm_mm_node *target,
- 			    unsigned int flags)
- {
- 	LIST_HEAD(eviction_list);
- 	struct drm_mm_node *node;
- 	u64 start = target->start;
- 	u64 end = start + target->size;
- 	struct i915_vma *vma, *next;
- 	int ret = 0;
- 
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index e94976976571..3ced82820483 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -608,41 +608,42 @@ static int append_oa_sample(struct i915_perf_stream *stream,
- 
- 	if ((count - *offset) < header.size)
- 		return -ENOSPC;
- 
- 	buf += *offset;
- 	if (copy_to_user(buf, &header, sizeof(header)))
- 		return -EFAULT;
- 	buf += sizeof(header);
- 
- 	if (sample_flags & SAMPLE_OA_REPORT) {
- 		if (copy_to_user(buf, report, report_size))
- 			return -EFAULT;
- 	}
- 
- 	(*offset) += header.size;
- 
- 	return 0;
- }
- 
- /**
-- * Copies all buffered OA reports into userspace read() buffer.
-+ * gen8_append_oa_reports - Copies all buffered OA reports into
-+ *			    userspace read() buffer.
-  * @stream: An i915-perf stream opened for OA metrics
-  * @buf: destination buffer given by userspace
-  * @count: the number of bytes userspace wants to read
-  * @offset: (inout): the current position for writing into @buf
-  *
-  * Notably any error condition resulting in a short read (-%ENOSPC or
-  * -%EFAULT) will be returned even though one or more records may
-  * have been successfully copied. In this case it's up to the caller
-  * to decide if the error should be squashed before returning to
-  * userspace.
-  *
-  * Note: reports are consumed from the head, and appended to the
-  * tail, so the tail chases the head?... If you think that's mad
-  * and back-to-front you're not alone, but this follows the
-  * Gen PRM naming convention.
-  *
-  * Returns: 0 on success, negative error code on failure.
-  */
- static int gen8_append_oa_reports(struct i915_perf_stream *stream,
- 				  char __user *buf,
-@@ -900,41 +901,42 @@ static int gen8_oa_read(struct i915_perf_stream *stream,
- 		/*
- 		 * Note: .oa_enable() is expected to re-init the oabuffer and
- 		 * reset GEN8_OASTATUS for us
- 		 */
- 		oastatus = intel_uncore_read(uncore, oastatus_reg);
- 	}
- 
- 	if (oastatus & GEN8_OASTATUS_REPORT_LOST) {
- 		ret = append_oa_status(stream, buf, count, offset,
- 				       DRM_I915_PERF_RECORD_OA_REPORT_LOST);
- 		if (ret)
- 			return ret;
- 		intel_uncore_write(uncore, oastatus_reg,
- 				   oastatus & ~GEN8_OASTATUS_REPORT_LOST);
- 	}
- 
- 	return gen8_append_oa_reports(stream, buf, count, offset);
- }
- 
- /**
-- * Copies all buffered OA reports into userspace read() buffer.
-+ * gen7_append_oa_reports - Copies all buffered OA reports into
-+ *			    userspace read() buffer.
-  * @stream: An i915-perf stream opened for OA metrics
-  * @buf: destination buffer given by userspace
-  * @count: the number of bytes userspace wants to read
-  * @offset: (inout): the current position for writing into @buf
-  *
-  * Notably any error condition resulting in a short read (-%ENOSPC or
-  * -%EFAULT) will be returned even though one or more records may
-  * have been successfully copied. In this case it's up to the caller
-  * to decide if the error should be squashed before returning to
-  * userspace.
-  *
-  * Note: reports are consumed from the head, and appended to the
-  * tail, so the tail chases the head?... If you think that's mad
-  * and back-to-front you're not alone, but this follows the
-  * Gen PRM naming convention.
-  *
-  * Returns: 0 on success, negative error code on failure.
-  */
- static int gen7_append_oa_reports(struct i915_perf_stream *stream,
- 				  char __user *buf,
-@@ -3210,41 +3212,41 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
- 		 * reconfiguration inline from that context. The update
- 		 * will then be ordered with respect to submission on that
- 		 * context.
- 		 *
- 		 * When set globally, we use a low priority kernel context,
- 		 * so it will effectively take effect when idle.
- 		 */
- 		err = emit_oa_config(stream, config, oa_context(stream), NULL);
- 		if (!err)
- 			config = xchg(&stream->oa_config, config);
- 		else
- 			ret = err;
- 	}
- 
- 	i915_oa_config_put(config);
- 
- 	return ret;
- }
- 
- /**
-- * i915_perf_ioctl - support ioctl() usage with i915 perf stream FDs
-+ * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
-  * @stream: An i915 perf stream
-  * @cmd: the ioctl request
-  * @arg: the ioctl data
-  *
-  * Note: The &perf->lock mutex has been taken to serialize
-  * with any non-file-operation driver hooks.
-  *
-  * Returns: zero on success or a negative error code. Returns -EINVAL for
-  * an unknown ioctl request.
-  */
- static long i915_perf_ioctl_locked(struct i915_perf_stream *stream,
- 				   unsigned int cmd,
- 				   unsigned long arg)
- {
- 	switch (cmd) {
- 	case I915_PERF_IOCTL_ENABLE:
- 		i915_perf_enable_locked(stream);
- 		return 0;
- 	case I915_PERF_IOCTL_DISABLE:
- 		i915_perf_disable_locked(stream);
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index da24c4e8b9fb..b498d474ef9e 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -430,41 +430,41 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
- 			 */
- 			if (bad != s_job)
- 				sched->ops->free_job(s_job);
- 			else
- 				sched->free_guilty = true;
+ 	foreach my $arg (split ',', $members) {
+ 	    $arg =~ s/^\s*(\w+).*/$1/;
+ 	    push @parameterlist, $arg;
+ 	    if (!$parameterdescs{$arg}) {
+ 		$parameterdescs{$arg} = $undescribed;
+ 	        if (show_warnings("enum", $declaration_name)) {
+ 			print STDERR "${file}:$.: warning: Enum value '$arg' not described in enum '$declaration_name'\n";
  		}
+ 	    }
+ 	    $_members{$arg} = 1;
  	}
  
- 	/*
- 	 * Stop pending timer in flight as we rearm it in  drm_sched_start. This
- 	 * avoids the pending timeout work in progress to fire right away after
- 	 * this TDR finished and before the newly restarted jobs had a
- 	 * chance to complete.
- 	 */
- 	cancel_delayed_work(&sched->work_tdr);
+ 	while (my ($k, $v) = each %parameterdescs) {
+ 	    if (!exists($_members{$k})) {
+ 	        if (show_warnings("enum", $declaration_name)) {
+ 		     print STDERR "${file}:$.: warning: Excess enum value '$k' description in '$declaration_name'\n";
+@@ -1434,66 +1447,76 @@ sub dump_enum($$) {
+ my $typedef_type = qr { ((?:\s+[\w\*]+){1,8})\s* }x;
+ my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
+ my $typedef_args = qr { \s*\((.*)\); }x;
+ 
+ my $typedef1 = qr { typedef$typedef_type\($typedef_ident\)$typedef_args }x;
+ my $typedef2 = qr { typedef$typedef_type$typedef_ident$typedef_args }x;
+ 
+ sub dump_typedef($$) {
+     my $x = shift;
+     my $file = shift;
+ 
+     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
+ 
+     # Parse function typedef prototypes
+     if ($x =~ $typedef1 || $x =~ $typedef2) {
+ 	$return_type = $1;
+ 	$declaration_name = $2;
+ 	my $args = $3;
+ 	$return_type =~ s/^\s+//;
+ 
++	if ($identifier ne $declaration_name) {
++	    print STDERR "${file}:$.: warning: expecting prototype for typedef $identifier. Prototype was for typedef $declaration_name instead\n";
++	    return;
++	}
++
+ 	create_parameterlist($args, ',', $file, $declaration_name);
+ 
+ 	output_declaration($declaration_name,
+ 			   'function',
+ 			   {'function' => $declaration_name,
+ 			    'typedef' => 1,
+ 			    'module' => $modulename,
+ 			    'functiontype' => $return_type,
+ 			    'parameterlist' => \@parameterlist,
+ 			    'parameterdescs' => \%parameterdescs,
+ 			    'parametertypes' => \%parametertypes,
+ 			    'sectionlist' => \@sectionlist,
+ 			    'sections' => \%sections,
+ 			    'purpose' => $declaration_purpose
+ 			   });
+ 	return;
+     }
+ 
+     while (($x =~ /\(*.\)\s*;$/) || ($x =~ /\[*.\]\s*;$/)) {
+ 	$x =~ s/\(*.\)\s*;$/;/;
+ 	$x =~ s/\[*.\]\s*;$/;/;
+     }
+ 
+     if ($x =~ /typedef.*\s+(\w+)\s*;/) {
+ 	$declaration_name = $1;
+ 
++	if ($identifier ne $declaration_name) {
++	    print STDERR "${file}:$.: warning: expecting prototype for typedef $identifier. Prototype was for typedef $declaration_name instead\n";
++	    return;
++	}
++
+ 	output_declaration($declaration_name,
+ 			   'typedef',
+ 			   {'typedef' => $declaration_name,
+ 			    'module' => $modulename,
+ 			    'sectionlist' => \@sectionlist,
+ 			    'sections' => \%sections,
+ 			    'purpose' => $declaration_purpose
+ 			   });
+     }
+     else {
+ 	print STDERR "${file}:$.: error: Cannot parse typedef!\n";
+ 	++$errors;
+     }
  }
  
- EXPORT_SYMBOL(drm_sched_stop);
+ sub save_struct_actual($) {
+     my $actual = shift;
  
- /**
-- * drm_sched_job_recovery - recover jobs after a reset
-+ * drm_sched_start - recover jobs after a reset
-  *
-  * @sched: scheduler instance
-  * @full_recovery: proceed with complete sched restart
-  *
-  */
- void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- {
- 	struct drm_sched_job *s_job, *tmp;
- 	int r;
+     # strip all spaces from the actual param so that it looks like one string item
+     $actual =~ s/\s*//g;
+@@ -1779,40 +1802,45 @@ sub dump_function($$) {
+ 	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+ 	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
+ 	$return_type = $1;
+ 	$declaration_name = $2;
+ 	my $args = $3;
  
- 	/*
- 	 * Locking the list is not required here as the sched thread is parked
- 	 * so no new jobs are being inserted or removed. Also concurrent
- 	 * GPU recovers can't run in parallel.
- 	 */
- 	list_for_each_entry_safe(s_job, tmp, &sched->ring_mirror_list, node) {
- 		struct dma_fence *fence = s_job->s_fence->parent;
+ 	create_parameterlist($args, ',', $file, $declaration_name);
+     } else {
+ 	print STDERR "${file}:$.: warning: cannot understand function prototype: '$prototype'\n";
+ 	return;
+     }
  
- 		atomic_inc(&sched->hw_rq_count);
++    if ($identifier ne $declaration_name) {
++	print STDERR "${file}:$.: warning: expecting prototype for $identifier(). Prototype was for $declaration_name() instead\n";
++	return;
++    }
++
+     my $prms = join " ", @parameterlist;
+     check_sections($file, $declaration_name, "function", $sectcheck, $prms);
  
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 0747614a78f0..f968f389633a 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -47,41 +47,41 @@ to_tfu_job(struct drm_sched_job *sched_job)
- {
- 	return container_of(sched_job, struct v3d_tfu_job, base.base);
+     # This check emits a lot of warnings at the moment, because many
+     # functions don't have a 'Return' doc section. So until the number
+     # of warnings goes sufficiently down, the check is only performed in
+     # verbose mode.
+     # TODO: always perform the check.
+     if ($verbose && !$noret) {
+ 	    check_return_section($file, $declaration_name, $return_type);
+     }
+ 
+     # The function parser can be called with a typedef parameter.
+     # Handle it.
+     if ($return_type =~ /typedef/) {
+ 	output_declaration($declaration_name,
+ 			   'function',
+ 			   {'function' => $declaration_name,
+ 			    'typedef' => 1,
+ 			    'module' => $modulename,
+@@ -1861,40 +1889,41 @@ sub tracepoint_munge($) {
+ 	my $tracepointargs = 0;
+ 
+ 	if ($prototype =~ m/TRACE_EVENT\((.*?),/) {
+ 		$tracepointname = $1;
+ 	}
+ 	if ($prototype =~ m/DEFINE_SINGLE_EVENT\((.*?),/) {
+ 		$tracepointname = $1;
+ 	}
+ 	if ($prototype =~ m/DEFINE_EVENT\((.*?),(.*?),/) {
+ 		$tracepointname = $2;
+ 	}
+ 	$tracepointname =~ s/^\s+//; #strip leading whitespace
+ 	if ($prototype =~ m/TP_PROTO\((.*?)\)/) {
+ 		$tracepointargs = $1;
+ 	}
+ 	if (($tracepointname eq 0) || ($tracepointargs eq 0)) {
+ 		print STDERR "${file}:$.: warning: Unrecognized tracepoint format: \n".
+ 			     "$prototype\n";
+ 	} else {
+ 		$prototype = "static inline void trace_$tracepointname($tracepointargs)";
++		$identifier = "trace_$identifier";
+ 	}
  }
  
- static struct v3d_csd_job *
- to_csd_job(struct drm_sched_job *sched_job)
- {
- 	return container_of(sched_job, struct v3d_csd_job, base.base);
+ sub syscall_munge() {
+ 	my $void = 0;
+ 
+ 	$prototype =~ s@[\r\n]+@ @gos; # strip newlines/CR's
+ ##	if ($prototype =~ m/SYSCALL_DEFINE0\s*\(\s*(a-zA-Z0-9_)*\s*\)/) {
+ 	if ($prototype =~ m/SYSCALL_DEFINE0/) {
+ 		$void = 1;
+ ##		$prototype = "long sys_$1(void)";
+ 	}
+ 
+ 	$prototype =~ s/SYSCALL_DEFINE.*\(/long sys_/; # fix return type & func name
+ 	if ($prototype =~ m/long (sys_.*?),/) {
+ 		$prototype =~ s/,/\(/;
+ 	} elsif ($void) {
+ 		$prototype =~ s/\)/\(void\)/;
+ 	}
+ 
+@@ -2024,98 +2053,99 @@ sub process_export_file($) {
  }
  
- static void
- v3d_job_free(struct drm_sched_job *sched_job)
- {
- 	struct v3d_job *job = to_v3d_job(sched_job);
- 
- 	drm_sched_job_cleanup(sched_job);
- 	v3d_job_put(job);
+ #
+ # Parsers for the various processing states.
+ #
+ # STATE_NORMAL: looking for the /** to begin everything.
+ #
+ sub process_normal() {
+     if (/$doc_start/o) {
+ 	$state = STATE_NAME;	# next line is always the function name
+ 	$in_doc_sect = 0;
+ 	$declaration_start_line = $. + 1;
+     }
  }
  
- /**
-- * Returns the fences that the job depends on, one by one.
-+ * v3d_job_dependency - Returns the fences that the job depends on, one by one.
-  *
-  * If placed in the scheduler's .dependency method, the corresponding
-  * .run_job won't be called until all of them have been signaled.
-  */
- static struct dma_fence *
- v3d_job_dependency(struct drm_sched_job *sched_job,
- 		   struct drm_sched_entity *s_entity)
- {
- 	struct v3d_job *job = to_v3d_job(sched_job);
+ #
+ # STATE_NAME: Looking for the "name - description" line
+ #
+ sub process_name($$) {
+     my $file = shift;
+-    my $identifier;
+     my $descr;
  
- 	/* XXX: Wait on a fence for switching the GMP if necessary,
- 	 * and then do so.
- 	 */
+     if (/$doc_block/o) {
+ 	$state = STATE_DOCBLOCK;
+ 	$contents = "";
+ 	$new_start_line = $.;
  
- 	if (!xa_empty(&job->deps))
- 		return xa_erase(&job->deps, job->last_dep++);
+ 	if ( $1 eq "" ) {
+ 	    $section = $section_intro;
+ 	} else {
+ 	    $section = $1;
+ 	}
+-    }
+-    elsif (/$doc_decl/o) {
++    } elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+-	if (/\s*([\w\s]+?)(\(\))?\s*-/) {
++	if (/\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
+ 	    $identifier = $1;
+ 	}
++	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
++	    $decl_type = $1;
++	    $identifier = $2;
++	} else {
++	    $decl_type = 'function';
++	    $identifier =~ s/^define\s+//;
++	}
++	$identifier =~ s/\s+$//;
  
- 	return NULL;
+ 	$state = STATE_BODY;
+ 	# if there's no @param blocks need to set up default section
+ 	# here
+ 	$contents = "";
+ 	$section = $section_default;
+ 	$new_start_line = $. + 1;
+-	if (/-(.*)/) {
++	if (/[-:](.*)/) {
+ 	    # strip leading/trailing/multiple spaces
+ 	    $descr= $1;
+ 	    $descr =~ s/^\s*//;
+ 	    $descr =~ s/\s*$//;
+ 	    $descr =~ s/\s+/ /g;
+ 	    $declaration_purpose = $descr;
+ 	    $state = STATE_BODY_MAYBE;
+ 	} else {
+ 	    $declaration_purpose = "";
+ 	}
+ 
+ 	if (($declaration_purpose eq "") && $verbose) {
+ 	    print STDERR "${file}:$.: warning: missing initial short description on line:\n";
+ 	    print STDERR $_;
+ 	    ++$warnings;
+ 	}
+ 
+-	if ($identifier =~ m/^struct\b/) {
+-	    $decl_type = 'struct';
+-	} elsif ($identifier =~ m/^union\b/) {
+-	    $decl_type = 'union';
+-	} elsif ($identifier =~ m/^enum\b/) {
+-	    $decl_type = 'enum';
+-	} elsif ($identifier =~ m/^typedef\b/) {
+-	    $decl_type = 'typedef';
+-	} else {
+-	    $decl_type = 'function';
++	if ($identifier eq "") {
++	    print STDERR "${file}:$.: warning: wrong kernel-doc identifier on line:\n";
++	    print STDERR $_;
++	    ++$warnings;
++	    $state = STATE_NORMAL;
+ 	}
+ 
+ 	if ($verbose) {
+-	    print STDERR "${file}:$.: info: Scanning doc for $identifier\n";
++	    print STDERR "${file}:$.: info: Scanning doc for $decl_type $identifier\n";
+ 	}
+     } else {
+ 	print STDERR "${file}:$.: warning: Cannot understand $_ on line $.",
+ 	    " - I thought it was a doc line\n";
+ 	++$warnings;
+ 	$state = STATE_NORMAL;
+     }
  }
  
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index a21a6c53ffcf..469d1b4f2643 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -374,41 +374,41 @@ static struct vc4_bo *vc4_bo_get_from_cache(struct drm_device *dev,
- 		vc4_bo_set_label(&bo->base.base, type);
- 	mutex_unlock(&vc4->bo_lock);
- 	return bo;
- }
  
- static const struct vm_operations_struct vc4_vm_ops = {
- 	.fault = vc4_fault,
- 	.open = drm_gem_vm_open,
- 	.close = drm_gem_vm_close,
- };
+ #
+ # STATE_BODY and STATE_BODY_MAYBE: the bulk of a kerneldoc comment.
+ #
+ sub process_body($$) {
+     my $file = shift;
  
- static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
- 	.free = vc4_free_object,
- 	.export = vc4_prime_export,
- 	.get_sg_table = drm_gem_cma_prime_get_sg_table,
- 	.vmap = vc4_prime_vmap,
- 	.vm_ops = &vc4_vm_ops,
- };
- 
- /**
-- * vc4_gem_create_object - Implementation of driver->gem_create_object.
-+ * vc4_create_object - Implementation of driver->gem_create_object.
-  * @dev: DRM device
-  * @size: Size in bytes of the memory the object will reference
-  *
-  * This lets the CMA helpers allocate object structs for us, and keep
-  * our BO stats correct.
-  */
- struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_bo *bo;
- 
- 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
- 	if (!bo)
- 		return ERR_PTR(-ENOMEM);
- 
- 	bo->madv = VC4_MADV_WILLNEED;
- 	refcount_set(&bo->usecnt, 0);
- 	mutex_init(&bo->madv_lock);
- 	mutex_lock(&vc4->bo_lock);
- 	bo->label = VC4_BO_TYPE_KERNEL;
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 85df04c8e62f..5f47720440fa 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -150,54 +150,54 @@ int drm_atomic_helper_page_flip_target(
- int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 				       u16 *red, u16 *green, u16 *blue,
- 				       uint32_t size,
- 				       struct drm_modeset_acquire_ctx *ctx);
- 
- /**
-  * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
-  * @plane: the loop cursor
-  * @crtc:  the CRTC whose planes are iterated
-  *
-  * This iterates over the current state, useful (for example) when applying
-  * atomic state after it has been checked and swapped.  To iterate over the
-  * planes which *will* be attached (more useful in code called from
-  * &drm_mode_config_funcs.atomic_check) see
-  * drm_atomic_crtc_state_for_each_plane().
-  */
- #define drm_atomic_crtc_for_each_plane(plane, crtc) \
- 	drm_for_each_plane_mask(plane, (crtc)->dev, (crtc)->state->plane_mask)
- 
- /**
-- * drm_crtc_atomic_state_for_each_plane - iterate over attached planes in new state
-+ * drm_atomic_crtc_state_for_each_plane - iterate over attached planes in new state
-  * @plane: the loop cursor
-  * @crtc_state: the incoming CRTC state
-  *
-  * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
-  * attached if the specified state is applied.  Useful during for example
-  * in code called from &drm_mode_config_funcs.atomic_check operations, to
-  * validate the incoming state.
-  */
- #define drm_atomic_crtc_state_for_each_plane(plane, crtc_state) \
- 	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask)
- 
- /**
-- * drm_crtc_atomic_state_for_each_plane_state - iterate over attached planes in new state
-+ * drm_atomic_crtc_state_for_each_plane_state - iterate over attached planes in new state
-  * @plane: the loop cursor
-  * @plane_state: loop cursor for the plane's state, must be const
-  * @crtc_state: the incoming CRTC state
-  *
-  * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
-  * attached if the specified state is applied.  Useful during for example
-  * in code called from &drm_mode_config_funcs.atomic_check operations, to
-  * validate the incoming state.
-  *
-  * Compared to just drm_atomic_crtc_state_for_each_plane() this also fills in a
-  * const plane_state. This is useful when a driver just wants to peek at other
-  * active planes on this CRTC, but does not need to change it.
-  */
- #define drm_atomic_crtc_state_for_each_plane_state(plane, plane_state, crtc_state) \
- 	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask) \
- 		for_each_if ((plane_state = \
- 			      __drm_atomic_get_current_plane_state((crtc_state)->state, \
- 								   plane)))
- 
- /**
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 928136556174..fcdc58d8b88b 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -67,41 +67,41 @@ enum drm_connector_status {
- 	 * sink device which can be autodetect. For digital outputs like DP or
- 	 * HDMI (which can be realiable probed) this means there's really
- 	 * nothing there. It is driver-dependent whether a connector with this
- 	 * status can be lit up or not.
- 	 */
- 	connector_status_disconnected = 2,
- 	/**
- 	 * @connector_status_unknown: The connector's status could not be
- 	 * reliably detected. This happens when probing would either cause
- 	 * flicker (like load-detection when the connector is in use), or when a
- 	 * hardware resource isn't available (like when load-detection needs a
- 	 * free CRTC). It should be possible to light up the connector with one
- 	 * of the listed fallback modes. For default configuration userspace
- 	 * should only try to light up connectors with unknown status when
- 	 * there's not connector with @connector_status_connected.
- 	 */
- 	connector_status_unknown = 3,
- };
- 
- /**
-- * enum drm_connector_registration_status - userspace registration status for
-+ * enum drm_connector_registration_state - userspace registration status for
-  * a &drm_connector
-  *
-  * This enum is used to track the status of initializing a connector and
-  * registering it with userspace, so that DRM can prevent bogus modesets on
-  * connectors that no longer exist.
-  */
- enum drm_connector_registration_state {
- 	/**
- 	 * @DRM_CONNECTOR_INITIALIZING: The connector has just been created,
- 	 * but has yet to be exposed to userspace. There should be no
- 	 * additional restrictions to how the state of this connector may be
- 	 * modified.
- 	 */
- 	DRM_CONNECTOR_INITIALIZING = 0,
- 
- 	/**
- 	 * @DRM_CONNECTOR_REGISTERED: The connector has been fully initialized
- 	 * and registered with sysfs, as such it has been exposed to
- 	 * userspace. There should be no additional restrictions to how the
- 	 * state of this connector may be modified.
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 2c361964aee7..283a93ce4617 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -10,41 +10,41 @@
- #include <drm/drm_mode_config.h>
- 
- struct drm_driver;
- struct drm_minor;
- struct drm_master;
- struct drm_device_dma;
- struct drm_vblank_crtc;
- struct drm_sg_mem;
- struct drm_local_map;
- struct drm_vma_offset_manager;
- struct drm_vram_mm;
- struct drm_fb_helper;
- 
- struct inode;
- 
- struct pci_dev;
- struct pci_controller;
- 
- 
- /**
-- * enum drm_switch_power - power state of drm device
-+ * enum switch_power_state - power state of drm device
-  */
- 
- enum switch_power_state {
- 	/** @DRM_SWITCH_POWER_ON: Power state is ON */
- 	DRM_SWITCH_POWER_ON = 0,
- 
- 	/** @DRM_SWITCH_POWER_OFF: Power state is OFF */
- 	DRM_SWITCH_POWER_OFF = 1,
- 
- 	/** @DRM_SWITCH_POWER_CHANGING: Power state is changing */
- 	DRM_SWITCH_POWER_CHANGING = 2,
- 
- 	/** @DRM_SWITCH_POWER_DYNAMIC_OFF: Suspended */
- 	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
- };
- 
- /**
-  * struct drm_device - DRM device structure
-  *
-  * This structure represent a complete card that
-diff --git a/include/drm/drm_dsc.h b/include/drm/drm_dsc.h
-index 732f32740c86..53c51231b31c 100644
---- a/include/drm/drm_dsc.h
-+++ b/include/drm/drm_dsc.h
-@@ -256,41 +256,42 @@ struct drm_dsc_config {
- 	bool native_420;
- 	/**
- 	 * @second_line_bpg_offset:
- 	 * Additional bits/grp for seconnd line of slice for native 4:2:0
- 	 */
- 	u8 second_line_bpg_offset;
- 	/**
- 	 * @nsl_bpg_offset:
- 	 * Num of bits deallocated for each grp that is not in second line of
- 	 * slice
- 	 */
- 	u16 nsl_bpg_offset;
- 	/**
- 	 * @second_line_offset_adj:
- 	 * Offset adjustment for second line in Native 4:2:0 mode
- 	 */
- 	u16 second_line_offset_adj;
- };
- 
- /**
-- * struct picture_parameter_set - Represents 128 bytes of Picture Parameter Set
-+ * struct drm_dsc_picture_parameter_set - Represents 128 bytes of
-+ * 	Picture Parameter Set
-  *
-  * The VESA DSC standard defines picture parameter set (PPS) which display
-  * stream compression encoders must communicate to decoders.
-  * The PPS is encapsulated in 128 bytes (PPS 0 through PPS 127). The fields in
-  * this structure are as per Table 4.1 in Vesa DSC specification v1.1/v1.2.
-  * The PPS fields that span over more than a byte should be stored in Big Endian
-  * format.
-  */
- struct drm_dsc_picture_parameter_set {
- 	/**
- 	 * @dsc_version:
- 	 * PPS0[3:0] - dsc_version_minor: Contains Minor version of DSC
- 	 * PPS0[7:4] - dsc_version_major: Contains major version of DSC
- 	 */
- 	u8 dsc_version;
- 	/**
- 	 * @pps_identifier:
- 	 * PPS1[7:0] - Application specific identifier that can be
- 	 * used to differentiate between different PPS tables.
- 	 */
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index c0d28ba0f5c9..a4bac02249c2 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -49,54 +49,54 @@ struct vm_area_struct;
-  * drm_gem_vram_vmap() and drm_gem_vram_vunmap().
-  */
- struct drm_gem_vram_object {
- 	struct ttm_buffer_object bo;
- 	struct dma_buf_map map;
- 
- 	/**
- 	 * @vmap_use_count:
- 	 *
- 	 * Reference count on the virtual address.
- 	 * The address are un-mapped when the count reaches zero.
- 	 */
- 	unsigned int vmap_use_count;
- 
- 	/* Supported placements are %TTM_PL_VRAM and %TTM_PL_SYSTEM */
- 	struct ttm_placement placement;
- 	struct ttm_place placements[2];
- };
- 
- /**
-- * Returns the container of type &struct drm_gem_vram_object
-- * for field bo.
-+ * drm_gem_vram_of_bo - Returns the container of type
-+ * &struct drm_gem_vram_object for field bo.
-  * @bo:		the VRAM buffer object
-  * Returns:	The containing GEM VRAM object
-  */
- static inline struct drm_gem_vram_object *drm_gem_vram_of_bo(
- 	struct ttm_buffer_object *bo)
- {
- 	return container_of(bo, struct drm_gem_vram_object, bo);
- }
- 
- /**
-- * Returns the container of type &struct drm_gem_vram_object
-- * for field gem.
-+ * drm_gem_vram_of_gem - Returns the container of type
-+ * &struct drm_gem_vram_object for field gem.
-  * @gem:	the GEM object
-  * Returns:	The containing GEM VRAM object
-  */
- static inline struct drm_gem_vram_object *drm_gem_vram_of_gem(
- 	struct drm_gem_object *gem)
- {
- 	return container_of(gem, struct drm_gem_vram_object, bo.base);
- }
- 
- struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 						size_t size,
- 						unsigned long pg_align);
- void drm_gem_vram_put(struct drm_gem_vram_object *gbo);
- u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
- s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
- int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
- int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
- int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
- void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
- 
+     # Until all named variable macro parameters are
+     # documented using the bare name (`x`) rather than with
+     # dots (`x...`), strip the dots:
+     if ($section =~ /\w\.\.\.$/) {
 -- 
 2.28.0
 
