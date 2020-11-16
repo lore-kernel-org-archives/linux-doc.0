@@ -4,48 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 975D9C4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F3CC4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:05:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CFBC20684
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:04:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 127B320684
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:05:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="LrEMDOVe"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ImMDvBcF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728926AbgKPKSo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 05:18:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53146 "EHLO mail.kernel.org"
+        id S1728855AbgKPKSt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:18:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728855AbgKPKSe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 05:18:34 -0500
+        id S1728869AbgKPKSd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:18:33 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4ECFF223AB;
+        by mail.kernel.org (Postfix) with ESMTPSA id A22A024631;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605521908;
-        bh=etIanj9l03l4xGXT0KcfpOSZbNAsd1do42lIuT+N14k=;
+        s=default; t=1605521909;
+        bh=qSRYNJtAeK4GtoqwEnH682KkCaMa/WDnZCdvxcgu+uk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LrEMDOVecgRARBjj1C3UUbqQtZefqkX47VadXYyXDo2vEwdBAij6STuD1q892XrQs
-         gAojRSxfiFx+1wpufYNCB0vKQb5dtwNkN2QWDd3qmsA2ZBSGb7VIkso31CGzbwrIRt
-         Uz7IkgmLrh/ub0IJ3VMOTZFmTSz2St3HQoJKDPss=
+        b=ImMDvBcFCr50OPP0bsJ+ExBe367LwqYgsbdKCYjLa8yyut20dyb0TpDXfZng5ONRJ
+         4kOpHonWhaqgRbnJqvJQreAEx09cYCmEU12uoqhlkVxVZwiukG58l+uJf+zZdSpHN2
+         79a0TOvoAUOSbtwZqHIcFSwgua62yN/Jg9K5ieh4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebac-00FwEG-8q; Mon, 16 Nov 2020 11:18:26 +0100
+        id 1kebac-00FwDz-0g; Mon, 16 Nov 2020 11:18:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Theodore Ts'o" <tytso@mit.edu>, Jan Kara <jack@suse.com>
+To:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
+        =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jan Kara <jack@suse.cz>
-Subject: [PATCH v4 12/27] jbd2: fix kernel-doc markups
-Date:   Mon, 16 Nov 2020 11:18:08 +0100
-Message-Id: <72f5c6628f5f278d67625f60893ffbc2ca28d46e.1605521731.git.mchehab+huawei@kernel.org>
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Eric Anholt <eric@anholt.net>, Imre Deak <imre.deak@intel.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Matt Roper <matthew.d.roper@intel.com>,
+        Nirmoy Das <nirmoy.aiemd@gmail.com>,
+        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+        Wambui Karuga <wambui.karugax@gmail.com>,
+        Yintian Tao <yttao@amd.com>, changzhu <Changfeng.Zhu@amd.com>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 05/27] drm: fix some kernel-doc markups
+Date:   Mon, 16 Nov 2020 11:18:01 +0100
+Message-Id: <12d4ca26f6843618200529ce5445063734d38c04.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -56,1243 +77,1182 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kernel-doc markup should use this format:
+Some identifiers have different names between their prototypes
+and the kernel-doc markup.
+
+Others need to be fixed, as kernel-doc markups should use this format:
         identifier - description
 
-They should not have any type before that, as otherwise
-the parser won't do the right thing.
-
-Also, some identifiers have different names between their
-prototypes and the kernel-doc markup.
-
-Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- fs/jbd2/journal.c     | 34 ++++++++++++++++++----------------
- fs/jbd2/transaction.c | 31 ++++++++++++++++---------------
- include/linux/jbd2.h  |  2 +-
- 3 files changed, 35 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/drm_atomic_state_helper.c     | 2 +-
+ drivers/gpu/drm/drm_connector.c               | 3 ++-
+ drivers/gpu/drm/drm_dp_helper.c               | 2 +-
+ drivers/gpu/drm/drm_framebuffer.c             | 2 +-
+ drivers/gpu/drm/drm_gem.c                     | 4 ++--
+ drivers/gpu/drm/drm_gem_vram_helper.c         | 2 +-
+ drivers/gpu/drm/drm_mode_object.c             | 2 +-
+ drivers/gpu/drm/drm_modes.c                   | 4 ++--
+ drivers/gpu/drm/drm_scdc_helper.c             | 2 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
+ drivers/gpu/drm/i915/i915_gem_evict.c         | 2 +-
+ drivers/gpu/drm/i915/i915_perf.c              | 8 +++++---
+ drivers/gpu/drm/scheduler/sched_main.c        | 2 +-
+ drivers/gpu/drm/v3d/v3d_sched.c               | 2 +-
+ drivers/gpu/drm/vc4/vc4_bo.c                  | 2 +-
+ include/drm/drm_atomic_helper.h               | 4 ++--
+ include/drm/drm_connector.h                   | 2 +-
+ include/drm/drm_device.h                      | 2 +-
+ include/drm/drm_dsc.h                         | 3 ++-
+ include/drm/drm_gem_vram_helper.h             | 8 ++++----
+ 20 files changed, 32 insertions(+), 28 deletions(-)
 
-diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
-index 0c3d5e3b24b2..188f79d76988 100644
---- a/fs/jbd2/journal.c
-+++ b/fs/jbd2/journal.c
-@@ -549,57 +549,59 @@ static int __jbd2_journal_force_commit(journal_t *journal)
- 	} else if (journal->j_committing_transaction)
- 		transaction = journal->j_committing_transaction;
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 9ad74045158e..ddcf5c2c8e6a 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -526,41 +526,41 @@ __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state)
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_connector_destroy_state);
  
- 	if (!transaction) {
- 		/* Nothing to commit */
- 		read_unlock(&journal->j_state_lock);
- 		return 0;
+ /**
+  * drm_atomic_helper_connector_destroy_state - default state destroy hook
+  * @connector: drm connector
+  * @state: connector state object to release
+  *
+  * Default connector state destroy hook for drivers which don't have their own
+  * subclassed connector state structure.
+  */
+ void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
+ 					  struct drm_connector_state *state)
+ {
+ 	__drm_atomic_helper_connector_destroy_state(state);
+ 	kfree(state);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
+ 
+ /**
+- * __drm_atomic_helper_private_duplicate_state - copy atomic private state
++ * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
+  * @obj: CRTC object
+  * @state: new private object state
+  *
+  * Copies atomic state from a private objects's current state and resets inferred values.
+  * This is useful for drivers that subclass the private state.
+  */
+ void __drm_atomic_helper_private_obj_duplicate_state(struct drm_private_obj *obj,
+ 						     struct drm_private_state *state)
+ {
+ 	memcpy(state, obj->state, sizeof(*state));
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_private_obj_duplicate_state);
+ 
+ /**
+  * __drm_atomic_helper_bridge_duplicate_state() - Copy atomic bridge state
+  * @bridge: bridge object
+  * @state: atomic bridge state
+  *
+  * Copies atomic state from a bridge's current state and resets inferred values.
+  * This is useful for drivers that subclass the bridge state.
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 1913d8b4e16a..98b6ec45ef96 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1415,41 +1415,42 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+ 		break;
+ 	case DRM_MODE_CONTENT_TYPE_CINEMA:
+ 		frame->content_type = HDMI_CONTENT_TYPE_CINEMA;
+ 		break;
+ 	case DRM_MODE_CONTENT_TYPE_GAME:
+ 		frame->content_type = HDMI_CONTENT_TYPE_GAME;
+ 		break;
+ 	case DRM_MODE_CONTENT_TYPE_PHOTO:
+ 		frame->content_type = HDMI_CONTENT_TYPE_PHOTO;
+ 		break;
+ 	default:
+ 		/* Graphics is the default(0) */
+ 		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
  	}
- 	tid = transaction->t_tid;
- 	read_unlock(&journal->j_state_lock);
- 	if (need_to_start)
- 		jbd2_log_start_commit(journal, tid);
- 	ret = jbd2_log_wait_commit(journal, tid);
- 	if (!ret)
- 		ret = 1;
  
- 	return ret;
+ 	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
  }
+ EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
  
  /**
-- * Force and wait upon a commit if the calling process is not within
-- * transaction.  This is used for forcing out undo-protected data which contains
-- * bitmaps, when the fs is running out of space.
-+ * jbd2_journal_force_commit_nested - Force and wait upon a commit if the
-+ * calling process is not within transaction.
+- * drm_mode_attach_tv_margin_properties - attach TV connector margin properties
++ * drm_connector_attach_tv_margin_properties - attach TV connector margin
++ * 	properties
+  * @connector: DRM connector
   *
-  * @journal: journal to force
-  * Returns true if progress was made.
-+ *
-+ * This is used for forcing out undo-protected data which contains
-+ * bitmaps, when the fs is running out of space.
+  * Called by a driver when it needs to attach TV margin props to a connector.
+  * Typically used on SDTV and HDMI connectors.
   */
- int jbd2_journal_force_commit_nested(journal_t *journal)
+ void drm_connector_attach_tv_margin_properties(struct drm_connector *connector)
  {
- 	int ret;
+ 	struct drm_device *dev = connector->dev;
  
- 	ret = __jbd2_journal_force_commit(journal);
- 	return ret > 0;
+ 	drm_object_attach_property(&connector->base,
+ 				   dev->mode_config.tv_left_margin_property,
+ 				   0);
+ 	drm_object_attach_property(&connector->base,
+ 				   dev->mode_config.tv_right_margin_property,
+ 				   0);
+ 	drm_object_attach_property(&connector->base,
+ 				   dev->mode_config.tv_top_margin_property,
+ 				   0);
+ 	drm_object_attach_property(&connector->base,
+ 				   dev->mode_config.tv_bottom_margin_property,
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 37ec3b94389c..5bd0934004e3 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1144,41 +1144,41 @@ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+ 	switch (type) {
+ 	case DP_DS_PORT_TYPE_DP:
+ 	case DP_DS_PORT_TYPE_DP_DUALMODE:
+ 		return DRM_MODE_SUBCONNECTOR_DisplayPort;
+ 	case DP_DS_PORT_TYPE_VGA:
+ 		return DRM_MODE_SUBCONNECTOR_VGA;
+ 	case DP_DS_PORT_TYPE_DVI:
+ 		return DRM_MODE_SUBCONNECTOR_DVID;
+ 	case DP_DS_PORT_TYPE_HDMI:
+ 		return DRM_MODE_SUBCONNECTOR_HDMIA;
+ 	case DP_DS_PORT_TYPE_WIRELESS:
+ 		return DRM_MODE_SUBCONNECTOR_Wireless;
+ 	case DP_DS_PORT_TYPE_NON_EDID:
+ 	default:
+ 		return DRM_MODE_SUBCONNECTOR_Unknown;
+ 	}
  }
+ EXPORT_SYMBOL(drm_dp_subconnector_type);
  
  /**
-- * int journal_force_commit() - force any uncommitted transactions
-+ * jbd2_journal_force_commit() - force any uncommitted transactions
-  * @journal: journal to force
+- * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
++ * drm_dp_set_subconnector_property - set subconnector for DP connector
+  * @connector: connector to set property on
+  * @status: connector status
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: port capabilities
   *
-  * Caller want unconditional commit. We can only force the running transaction
-  * if we don't have an active handle, otherwise, we will deadlock.
+  * Called by a driver on every detect event.
   */
- int jbd2_journal_force_commit(journal_t *journal)
+ void drm_dp_set_subconnector_property(struct drm_connector *connector,
+ 				      enum drm_connector_status status,
+ 				      const u8 *dpcd,
+ 				      const u8 port_cap[4])
  {
- 	int ret;
+ 	enum drm_mode_subconnector subconnector = DRM_MODE_SUBCONNECTOR_Unknown;
  
- 	J_ASSERT(!current->journal_info);
- 	ret = __jbd2_journal_force_commit(journal);
- 	if (ret > 0)
+ 	if (status == connector_status_connected)
+ 		subconnector = drm_dp_subconnector_type(dpcd, port_cap);
+ 	drm_object_property_set_value(&connector->base,
+ 			connector->dev->mode_config.dp_subconnector_property,
+ 			subconnector);
+ }
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index 2f5b0c2bb0fe..aca62ed51e82 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -535,41 +535,41 @@ int drm_mode_getfb(struct drm_device *dev,
+ 
+ 	/* GET_FB() is an unprivileged ioctl so we must not return a
+ 	 * buffer-handle to non-master processes! For
+ 	 * backwards-compatibility reasons, we cannot make GET_FB() privileged,
+ 	 * so just return an invalid handle for non-masters.
+ 	 */
+ 	if (!drm_is_current_master(file_priv) && !capable(CAP_SYS_ADMIN)) {
+ 		r->handle = 0;
  		ret = 0;
+ 		goto out;
+ 	}
+ 
+ 	ret = fb->funcs->create_handle(fb, file_priv, &r->handle);
+ 
+ out:
+ 	drm_framebuffer_put(fb);
  	return ret;
  }
  
- /*
-  * Start a commit of the current running transaction (if any).  Returns true
-  * if a transaction is going to be committed (or is currently already
-  * committing), and fills its tid in at *ptid
-@@ -1864,41 +1866,41 @@ static int load_superblock(journal_t *journal)
- 	journal->j_first = be32_to_cpu(sb->s_first);
- 	journal->j_errno = be32_to_cpu(sb->s_errno);
- 	journal->j_last = be32_to_cpu(sb->s_maxlen);
+ /**
+- * drm_mode_getfb2 - get extended FB info
++ * drm_mode_getfb2_ioctl - get extended FB info
+  * @dev: drm device for the ioctl
+  * @data: data pointer for the ioctl
+  * @file_priv: drm file for the ioctl call
+  *
+  * Lookup the FB given its ID and return info about it.
+  *
+  * Called by the user via ioctl.
+  *
+  * Returns:
+  * Zero on success, negative errno on failure.
+  */
+ int drm_mode_getfb2_ioctl(struct drm_device *dev,
+ 			  void *data, struct drm_file *file_priv)
+ {
+ 	struct drm_mode_fb_cmd2 *r = data;
+ 	struct drm_framebuffer *fb;
+ 	unsigned int i;
+ 	int ret;
  
- 	if (jbd2_has_feature_fast_commit(journal)) {
- 		journal->j_fc_last = be32_to_cpu(sb->s_maxlen);
- 		num_fc_blocks = be32_to_cpu(sb->s_num_fc_blks);
- 		if (!num_fc_blocks)
- 			num_fc_blocks = JBD2_MIN_FC_BLOCKS;
- 		if (journal->j_last - num_fc_blocks >= JBD2_MIN_JOURNAL_BLOCKS)
- 			journal->j_last = journal->j_fc_last - num_fc_blocks;
- 		journal->j_fc_first = journal->j_last + 1;
- 		journal->j_fc_off = 0;
+ 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index eb2d23e04be9..92f89cee213e 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -850,41 +850,41 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
  	}
  
- 	return 0;
- }
+ 	if (!obj->name) {
+ 		ret = idr_alloc(&dev->object_name_idr, obj, 1, 0, GFP_KERNEL);
+ 		if (ret < 0)
+ 			goto err;
  
- 
- /**
-- * int jbd2_journal_load() - Read journal from disk.
-+ * jbd2_journal_load() - Read journal from disk.
-  * @journal: Journal to act on.
-  *
-  * Given a journal_t structure which tells us which disk blocks contain
-  * a journal, read the journal from disk to initialise the in-memory
-  * structures.
-  */
- int jbd2_journal_load(journal_t *journal)
- {
- 	int err;
- 	journal_superblock_t *sb;
- 
- 	err = load_superblock(journal);
- 	if (err)
- 		return err;
- 
- 	sb = journal->j_superblock;
- 	/* If this is a V2 superblock, then we have to check the
- 	 * features flags on it. */
- 
- 	if (journal->j_format_version >= 2) {
-@@ -1934,41 +1936,41 @@ int jbd2_journal_load(journal_t *journal)
- 	 * clear JBD2_ABORT flag initialized in journal_init_common
- 	 * here to update log tail information with the newest seq.
- 	 */
- 	journal->j_flags &= ~JBD2_ABORT;
- 
- 	/* OK, we've finished with the dynamic journal bits:
- 	 * reinitialise the dynamic contents of the superblock in memory
- 	 * and reset them on disk. */
- 	if (journal_reset(journal))
- 		goto recovery_error;
- 
- 	journal->j_flags |= JBD2_LOADED;
- 	return 0;
- 
- recovery_error:
- 	printk(KERN_WARNING "JBD2: recovery failed\n");
- 	return -EIO;
- }
- 
- /**
-- * void jbd2_journal_destroy() - Release a journal_t structure.
-+ * jbd2_journal_destroy() - Release a journal_t structure.
-  * @journal: Journal to act on.
-  *
-  * Release a journal_t structure once it is no longer in use by the
-  * journaled object.
-  * Return <0 if we couldn't clean up the journal.
-  */
- int jbd2_journal_destroy(journal_t *journal)
- {
- 	int err = 0;
- 
- 	/* Wait for the commit thread to wake up and die. */
- 	journal_kill_thread(journal);
- 
- 	/* Force a final log commit */
- 	if (journal->j_running_transaction)
- 		jbd2_journal_commit_transaction(journal);
- 
- 	/* Force any old transactions to disk */
- 
- 	/* Totally anal locking here... */
-@@ -2011,76 +2013,76 @@ int jbd2_journal_destroy(journal_t *journal)
- 			err = -EIO;
- 		brelse(journal->j_sb_buffer);
+ 		obj->name = ret;
  	}
  
- 	if (journal->j_proc_entry)
- 		jbd2_stats_proc_exit(journal);
- 	iput(journal->j_inode);
- 	if (journal->j_revoke)
- 		jbd2_journal_destroy_revoke(journal);
- 	if (journal->j_chksum_driver)
- 		crypto_free_shash(journal->j_chksum_driver);
- 	kfree(journal->j_fc_wbuf);
- 	kfree(journal->j_wbuf);
- 	kfree(journal);
+ 	args->name = (uint64_t) obj->name;
+ 	ret = 0;
  
- 	return err;
+ err:
+ 	mutex_unlock(&dev->object_name_lock);
+ 	drm_gem_object_put(obj);
+ 	return ret;
  }
  
- 
  /**
-- *int jbd2_journal_check_used_features() - Check if features specified are used.
-+ * jbd2_journal_check_used_features() - Check if features specified are used.
-  * @journal: Journal to check.
-  * @compat: bitmask of compatible features
-  * @ro: bitmask of features that force read-only mount
-  * @incompat: bitmask of incompatible features
+- * drm_gem_open - implementation of the GEM_OPEN ioctl
++ * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
+  * @dev: drm_device
+  * @data: ioctl data
+  * @file_priv: drm file-private structure
   *
-  * Check whether the journal uses all of a given set of
-  * features.  Return true (non-zero) if it does.
-  **/
- 
- int jbd2_journal_check_used_features(journal_t *journal, unsigned long compat,
- 				 unsigned long ro, unsigned long incompat)
+  * Open an object using the global name, returning a handle and the size.
+  *
+  * This handle (of course) holds a reference to the object, so the object
+  * will not go away until the handle is deleted.
+  */
+ int
+ drm_gem_open_ioctl(struct drm_device *dev, void *data,
+ 		   struct drm_file *file_priv)
  {
- 	journal_superblock_t *sb;
+ 	struct drm_gem_open *args = data;
+ 	struct drm_gem_object *obj;
+ 	int ret;
+ 	u32 handle;
  
- 	if (!compat && !ro && !incompat)
- 		return 1;
- 	/* Load journal superblock if it is not loaded yet. */
- 	if (journal->j_format_version == 0 &&
- 	    journal_get_superblock(journal) != 0)
- 		return 0;
- 	if (journal->j_format_version == 1)
- 		return 0;
+ 	if (!drm_core_check_feature(dev, DRIVER_GEM))
+ 		return -EOPNOTSUPP;
+@@ -895,41 +895,41 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
+ 		drm_gem_object_get(obj);
+ 	} else {
+ 		mutex_unlock(&dev->object_name_lock);
+ 		return -ENOENT;
+ 	}
  
- 	sb = journal->j_superblock;
+ 	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
+ 	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
+ 	if (ret)
+ 		goto err;
  
- 	if (((be32_to_cpu(sb->s_feature_compat) & compat) == compat) &&
- 	    ((be32_to_cpu(sb->s_feature_ro_compat) & ro) == ro) &&
- 	    ((be32_to_cpu(sb->s_feature_incompat) & incompat) == incompat))
- 		return 1;
+ 	args->handle = handle;
+ 	args->size = obj->size;
  
- 	return 0;
+ err:
+ 	drm_gem_object_put(obj);
+ 	return ret;
  }
  
  /**
-- * int jbd2_journal_check_available_features() - Check feature set in journalling layer
-+ * jbd2_journal_check_available_features() - Check feature set in journalling layer
-  * @journal: Journal to check.
-  * @compat: bitmask of compatible features
-  * @ro: bitmask of features that force read-only mount
-  * @incompat: bitmask of incompatible features
+- * gem_gem_open - initalizes GEM file-private structures at devnode open time
++ * drm_gem_open - initalizes GEM file-private structures at devnode open time
+  * @dev: drm_device which is being opened by userspace
+  * @file_private: drm file-private structure to set up
   *
-  * Check whether the journaling code supports the use of
-  * all of a given set of features on this journal.  Return true
-  * (non-zero) if it can. */
- 
- int jbd2_journal_check_available_features(journal_t *journal, unsigned long compat,
- 				      unsigned long ro, unsigned long incompat)
+  * Called at device open time, sets up the structure for handling refcounting
+  * of mm objects.
+  */
+ void
+ drm_gem_open(struct drm_device *dev, struct drm_file *file_private)
  {
- 	if (!compat && !ro && !incompat)
- 		return 1;
- 
- 	/* We can support any known requested features iff the
- 	 * superblock is in version 2.  Otherwise we fail to support any
- 	 * extended sb features. */
- 
- 	if (journal->j_format_version != 2)
-@@ -2109,41 +2111,41 @@ jbd2_journal_initialize_fast_commit(journal_t *journal)
- 	/* Are we called twice? */
- 	WARN_ON(journal->j_fc_wbuf != NULL);
- 	journal->j_fc_wbuf = kmalloc_array(num_fc_blks,
- 				sizeof(struct buffer_head *), GFP_KERNEL);
- 	if (!journal->j_fc_wbuf)
- 		return -ENOMEM;
- 
- 	journal->j_fc_wbufsize = num_fc_blks;
- 	journal->j_fc_last = journal->j_last;
- 	journal->j_last = journal->j_fc_last - num_fc_blks;
- 	journal->j_fc_first = journal->j_last + 1;
- 	journal->j_fc_off = 0;
- 	journal->j_free = journal->j_last - journal->j_first;
- 	journal->j_max_transaction_buffers =
- 		jbd2_journal_get_max_txn_bufs(journal);
- 
- 	return 0;
+ 	idr_init_base(&file_private->object_idr, 1);
+ 	spin_lock_init(&file_private->table_lock);
  }
  
  /**
-- * int jbd2_journal_set_features() - Mark a given journal feature in the superblock
-+ * jbd2_journal_set_features() - Mark a given journal feature in the superblock
-  * @journal: Journal to act on.
-  * @compat: bitmask of compatible features
-  * @ro: bitmask of features that force read-only mount
-  * @incompat: bitmask of incompatible features
+  * drm_gem_release - release file-private GEM resources
+  * @dev: drm_device which is being closed by userspace
+  * @file_private: drm file-private structure to clean up
   *
-  * Mark a given journal feature as present on the
-  * superblock.  Returns true if the requested features could be set.
+  * Called at close time when the filp is going away.
   *
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index 889a06696f7e..02ca22e90290 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -600,41 +600,41 @@ static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
+  * Helpers for struct drm_gem_object_funcs
   */
  
- int jbd2_journal_set_features(journal_t *journal, unsigned long compat,
- 			  unsigned long ro, unsigned long incompat)
+ /**
+  * drm_gem_vram_object_free() - \
+ 	Implements &struct drm_gem_object_funcs.free
+  * @gem:       GEM object. Refers to &struct drm_gem_vram_object.gem
+  */
+ static void drm_gem_vram_object_free(struct drm_gem_object *gem)
  {
- #define INCOMPAT_FEATURE_ON(f) \
- 		((incompat & (f)) && !(sb->s_feature_incompat & cpu_to_be32(f)))
- #define COMPAT_FEATURE_ON(f) \
- 		((compat & (f)) && !(sb->s_feature_compat & cpu_to_be32(f)))
- 	journal_superblock_t *sb;
+ 	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(gem);
  
- 	if (jbd2_journal_check_used_features(journal, compat, ro, incompat))
-@@ -2200,70 +2202,70 @@ int jbd2_journal_set_features(journal_t *journal, unsigned long compat,
- 
- 	/* If enabling v1 checksums, downgrade superblock */
- 	if (COMPAT_FEATURE_ON(JBD2_FEATURE_COMPAT_CHECKSUM))
- 		sb->s_feature_incompat &=
- 			~cpu_to_be32(JBD2_FEATURE_INCOMPAT_CSUM_V2 |
- 				     JBD2_FEATURE_INCOMPAT_CSUM_V3);
- 
- 	sb->s_feature_compat    |= cpu_to_be32(compat);
- 	sb->s_feature_ro_compat |= cpu_to_be32(ro);
- 	sb->s_feature_incompat  |= cpu_to_be32(incompat);
- 	unlock_buffer(journal->j_sb_buffer);
- 	journal->j_revoke_records_per_block =
- 				journal_revoke_records_per_block(journal);
- 
- 	return 1;
- #undef COMPAT_FEATURE_ON
- #undef INCOMPAT_FEATURE_ON
+ 	drm_gem_vram_put(gbo);
  }
  
  /*
-- * jbd2_journal_clear_features () - Clear a given journal feature in the
-+ * jbd2_journal_clear_features() - Clear a given journal feature in the
-  * 				    superblock
-  * @journal: Journal to act on.
-  * @compat: bitmask of compatible features
-  * @ro: bitmask of features that force read-only mount
-  * @incompat: bitmask of incompatible features
-  *
-  * Clear a given journal feature as present on the
-  * superblock.
+  * Helpers for dump buffers
   */
- void jbd2_journal_clear_features(journal_t *journal, unsigned long compat,
- 				unsigned long ro, unsigned long incompat)
- {
- 	journal_superblock_t *sb;
- 
- 	jbd_debug(1, "Clear features 0x%lx/0x%lx/0x%lx\n",
- 		  compat, ro, incompat);
- 
- 	sb = journal->j_superblock;
- 
- 	sb->s_feature_compat    &= ~cpu_to_be32(compat);
- 	sb->s_feature_ro_compat &= ~cpu_to_be32(ro);
- 	sb->s_feature_incompat  &= ~cpu_to_be32(incompat);
- 	journal->j_revoke_records_per_block =
- 				journal_revoke_records_per_block(journal);
- }
- EXPORT_SYMBOL(jbd2_journal_clear_features);
  
  /**
-- * int jbd2_journal_flush () - Flush journal
-+ * jbd2_journal_flush() - Flush journal
-  * @journal: Journal to act on.
+- * drm_gem_vram_driver_create_dumb() - \
++ * drm_gem_vram_driver_dumb_create() - \
+ 	Implements &struct drm_driver.dumb_create
+  * @file:		the DRM file
+  * @dev:		the DRM device
+  * @args:		the arguments as provided to \
+ 				&struct drm_driver.dumb_create
   *
-  * Flush all data for a given journal to disk and empty the journal.
-  * Filesystems can use this when remounting readonly to ensure that
-  * recovery does not need to happen on remount.
+  * This function requires the driver to use @drm_device.vram_mm for its
+  * instance of VRAM MM.
+  *
+  * Returns:
+  * 0 on success, or
+  * a negative error code otherwise.
   */
- 
- int jbd2_journal_flush(journal_t *journal)
+ int drm_gem_vram_driver_dumb_create(struct drm_file *file,
+ 				    struct drm_device *dev,
+ 				    struct drm_mode_create_dumb *args)
  {
- 	int err = 0;
- 	transaction_t *transaction = NULL;
+ 	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
+ 		return -EINVAL;
  
- 	write_lock(&journal->j_state_lock);
- 
- 	/* Force everything buffered to the log... */
- 	if (journal->j_running_transaction) {
- 		transaction = journal->j_running_transaction;
- 		__jbd2_log_start_commit(journal, transaction->t_tid);
- 	} else if (journal->j_committing_transaction)
- 		transaction = journal->j_committing_transaction;
-@@ -2304,82 +2306,82 @@ int jbd2_journal_flush(journal_t *journal)
- 
- 	/* Finally, mark the journal as really needing no recovery.
- 	 * This sets s_start==0 in the underlying superblock, which is
- 	 * the magic code for a fully-recovered superblock.  Any future
- 	 * commits of data to the journal will restore the current
- 	 * s_start value. */
- 	jbd2_mark_journal_empty(journal, REQ_SYNC | REQ_FUA);
- 	mutex_unlock(&journal->j_checkpoint_mutex);
- 	write_lock(&journal->j_state_lock);
- 	J_ASSERT(!journal->j_running_transaction);
- 	J_ASSERT(!journal->j_committing_transaction);
- 	J_ASSERT(!journal->j_checkpoint_transactions);
- 	J_ASSERT(journal->j_head == journal->j_tail);
- 	J_ASSERT(journal->j_tail_sequence == journal->j_transaction_sequence);
- 	write_unlock(&journal->j_state_lock);
- out:
- 	return err;
- }
- 
- /**
-- * int jbd2_journal_wipe() - Wipe journal contents
-+ * jbd2_journal_wipe() - Wipe journal contents
-  * @journal: Journal to act on.
-  * @write: flag (see below)
-  *
-  * Wipe out all of the contents of a journal, safely.  This will produce
-  * a warning if the journal contains any valid recovery information.
-  * Must be called between journal_init_*() and jbd2_journal_load().
-  *
-  * If 'write' is non-zero, then we wipe out the journal on disk; otherwise
-  * we merely suppress recovery.
+diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+index db05f386a709..b26588b52795 100644
+--- a/drivers/gpu/drm/drm_mode_object.c
++++ b/drivers/gpu/drm/drm_mode_object.c
+@@ -98,41 +98,41 @@ void drm_mode_object_register(struct drm_device *dev,
+  * Free @id from @dev's unique identifier pool.
+  * This function can be called multiple times, and guards against
+  * multiple removals.
+  * These modeset identifiers are _not_ reference counted. Hence don't use this
+  * for reference counted modeset objects like framebuffers.
   */
- 
- int jbd2_journal_wipe(journal_t *journal, int write)
+ void drm_mode_object_unregister(struct drm_device *dev,
+ 				struct drm_mode_object *object)
  {
- 	int err = 0;
+ 	WARN_ON(!dev->driver->load && dev->registered && !object->free_cb);
  
- 	J_ASSERT (!(journal->j_flags & JBD2_LOADED));
- 
- 	err = load_superblock(journal);
- 	if (err)
- 		return err;
- 
- 	if (!journal->j_tail)
- 		goto no_recovery;
- 
- 	printk(KERN_WARNING "JBD2: %s recovery information on journal\n",
- 		write ? "Clearing" : "Ignoring");
- 
- 	err = jbd2_journal_skip_recovery(journal);
- 	if (write) {
- 		/* Lock to make assertions happy... */
- 		mutex_lock_io(&journal->j_checkpoint_mutex);
- 		jbd2_mark_journal_empty(journal, REQ_SYNC | REQ_FUA);
- 		mutex_unlock(&journal->j_checkpoint_mutex);
+ 	mutex_lock(&dev->mode_config.idr_mutex);
+ 	if (object->id) {
+ 		idr_remove(&dev->mode_config.object_idr, object->id);
+ 		object->id = 0;
  	}
- 
-  no_recovery:
- 	return err;
+ 	mutex_unlock(&dev->mode_config.idr_mutex);
  }
  
  /**
-- * void jbd2_journal_abort () - Shutdown the journal immediately.
-+ * jbd2_journal_abort () - Shutdown the journal immediately.
-  * @journal: the journal to shutdown.
-  * @errno:   an error number to record in the journal indicating
-  *           the reason for the shutdown.
+- * drm_lease_required - check types which must be leased to be used
++ * drm_mode_object_lease_required - check types which must be leased to be used
+  * @type: type of object
   *
-  * Perform a complete, immediate shutdown of the ENTIRE
-  * journal (not of a single transaction).  This operation cannot be
-  * undone without closing and reopening the journal.
-  *
-  * The jbd2_journal_abort function is intended to support higher level error
-  * recovery mechanisms such as the ext2/ext3 remount-readonly error
-  * mode.
-  *
-  * Journal abort has very specific semantics.  Any existing dirty,
-  * unjournaled buffers in the main filesystem will still be written to
-  * disk by bdflush, but the journaling mechanism will be suspended
-  * immediately and no further transaction commits will be honoured.
-  *
-  * Any dirty, journaled buffers will be written back to disk without
-  * hitting the journal.  Atomicity cannot be guaranteed on an aborted
-  * filesystem, but we _do_ attempt to leave as much data as possible
-@@ -2436,85 +2438,85 @@ void jbd2_journal_abort(journal_t *journal, int errno)
- 	 * to release all journaled buffer.
- 	 */
- 	pr_err("Aborting journal on device %s.\n", journal->j_devname);
- 
- 	journal->j_flags |= JBD2_ABORT;
- 	journal->j_errno = errno;
- 	transaction = journal->j_running_transaction;
- 	if (transaction)
- 		__jbd2_log_start_commit(journal, transaction->t_tid);
- 	write_unlock(&journal->j_state_lock);
- 
- 	/*
- 	 * Record errno to the journal super block, so that fsck and jbd2
- 	 * layer could realise that a filesystem check is needed.
- 	 */
- 	jbd2_journal_update_sb_errno(journal);
- 	mutex_unlock(&journal->j_abort_mutex);
- }
- 
- /**
-- * int jbd2_journal_errno () - returns the journal's error state.
-+ * jbd2_journal_errno() - returns the journal's error state.
-  * @journal: journal to examine.
-  *
-  * This is the errno number set with jbd2_journal_abort(), the last
-  * time the journal was mounted - if the journal was stopped
-  * without calling abort this will be 0.
-  *
-  * If the journal has been aborted on this mount time -EROFS will
-  * be returned.
+  * Returns whether the provided type of drm_mode_object must
+  * be owned or leased to be used by a process.
   */
- int jbd2_journal_errno(journal_t *journal)
+ bool drm_mode_object_lease_required(uint32_t type)
  {
- 	int err;
+ 	switch(type) {
+ 	case DRM_MODE_OBJECT_CRTC:
+ 	case DRM_MODE_OBJECT_CONNECTOR:
+ 	case DRM_MODE_OBJECT_PLANE:
+ 		return true;
+ 	default:
+ 		return false;
+ 	}
+ }
  
- 	read_lock(&journal->j_state_lock);
- 	if (journal->j_flags & JBD2_ABORT)
- 		err = -EROFS;
+ struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
+ 					       struct drm_file *file_priv,
+ 					       uint32_t id, uint32_t type)
+diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+index 501b4fe55a3d..33fb2f05ce66 100644
+--- a/drivers/gpu/drm/drm_modes.c
++++ b/drivers/gpu/drm/drm_modes.c
+@@ -1872,41 +1872,41 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
+ 				    cmd->margins);
  	else
- 		err = journal->j_errno;
- 	read_unlock(&journal->j_state_lock);
- 	return err;
+ 		mode = drm_gtf_mode(dev,
+ 				    cmd->xres, cmd->yres,
+ 				    cmd->refresh_specified ? cmd->refresh : 60,
+ 				    cmd->interlace,
+ 				    cmd->margins);
+ 	if (!mode)
+ 		return NULL;
+ 
+ 	mode->type |= DRM_MODE_TYPE_USERDEF;
+ 	/* fix up 1368x768: GFT/CVT can't express 1366 width due to alignment */
+ 	if (cmd->xres == 1366)
+ 		drm_mode_fixup_1366x768(mode);
+ 	drm_mode_set_crtcinfo(mode, CRTC_INTERLACE_HALVE_V);
+ 	return mode;
  }
+ EXPORT_SYMBOL(drm_mode_create_from_cmdline_mode);
  
  /**
-- * int jbd2_journal_clear_err () - clears the journal's error state
-+ * jbd2_journal_clear_err() - clears the journal's error state
-  * @journal: journal to act on.
+- * drm_crtc_convert_to_umode - convert a drm_display_mode into a modeinfo
++ * drm_mode_convert_to_umode - convert a drm_display_mode into a modeinfo
+  * @out: drm_mode_modeinfo struct to return to the user
+  * @in: drm_display_mode to use
   *
-  * An error must be cleared or acked to take a FS out of readonly
-  * mode.
+  * Convert a drm_display_mode into a drm_mode_modeinfo structure to return to
+  * the user.
   */
- int jbd2_journal_clear_err(journal_t *journal)
+ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
+ 			       const struct drm_display_mode *in)
  {
- 	int err = 0;
- 
- 	write_lock(&journal->j_state_lock);
- 	if (journal->j_flags & JBD2_ABORT)
- 		err = -EROFS;
- 	else
- 		journal->j_errno = 0;
- 	write_unlock(&journal->j_state_lock);
- 	return err;
- }
- 
- /**
-- * void jbd2_journal_ack_err() - Ack journal err.
-+ * jbd2_journal_ack_err() - Ack journal err.
-  * @journal: journal to act on.
-  *
-  * An error must be cleared or acked to take a FS out of readonly
-  * mode.
-  */
- void jbd2_journal_ack_err(journal_t *journal)
- {
- 	write_lock(&journal->j_state_lock);
- 	if (journal->j_errno)
- 		journal->j_flags |= JBD2_ACK_ERR;
- 	write_unlock(&journal->j_state_lock);
- }
- 
- int jbd2_journal_blocks_per_page(struct inode *inode)
- {
- 	return 1 << (PAGE_SHIFT - inode->i_sb->s_blocksize_bits);
- }
- 
- /*
-  * helper functions to deal with 32 or 64bit block numbers.
-diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
-index d54f04674e8e..9396666b7314 100644
---- a/fs/jbd2/transaction.c
-+++ b/fs/jbd2/transaction.c
-@@ -502,41 +502,41 @@ handle_t *jbd2__journal_start(journal_t *journal, int nblocks, int rsv_blocks,
- 
- 	err = start_this_handle(journal, handle, gfp_mask);
- 	if (err < 0) {
- 		if (handle->h_rsv_handle)
- 			jbd2_free_handle(handle->h_rsv_handle);
- 		jbd2_free_handle(handle);
- 		return ERR_PTR(err);
+ 	out->clock = in->clock;
+ 	out->hdisplay = in->hdisplay;
+ 	out->hsync_start = in->hsync_start;
+ 	out->hsync_end = in->hsync_end;
+ 	out->htotal = in->htotal;
+ 	out->hskew = in->hskew;
+ 	out->vdisplay = in->vdisplay;
+ 	out->vsync_start = in->vsync_start;
+ 	out->vsync_end = in->vsync_end;
+ 	out->vtotal = in->vtotal;
+ 	out->vscan = in->vscan;
+@@ -1924,41 +1924,41 @@ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
+ 	case HDMI_PICTURE_ASPECT_64_27:
+ 		out->flags |= DRM_MODE_FLAG_PIC_AR_64_27;
+ 		break;
+ 	case HDMI_PICTURE_ASPECT_256_135:
+ 		out->flags |= DRM_MODE_FLAG_PIC_AR_256_135;
+ 		break;
+ 	default:
+ 		WARN(1, "Invalid aspect ratio (0%x) on mode\n",
+ 		     in->picture_aspect_ratio);
+ 		fallthrough;
+ 	case HDMI_PICTURE_ASPECT_NONE:
+ 		out->flags |= DRM_MODE_FLAG_PIC_AR_NONE;
+ 		break;
  	}
- 	handle->h_type = type;
- 	handle->h_line_no = line_no;
- 	trace_jbd2_handle_start(journal->j_fs_dev->bd_dev,
- 				handle->h_transaction->t_tid, type,
- 				line_no, nblocks);
  
- 	return handle;
+ 	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
+ 	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
  }
- EXPORT_SYMBOL(jbd2__journal_start);
- 
  
  /**
-- * handle_t *jbd2_journal_start() - Obtain a new handle.
-+ * jbd2_journal_start() - Obtain a new handle.
-  * @journal: Journal to start transaction on.
-  * @nblocks: number of block buffer we might modify
+- * drm_crtc_convert_umode - convert a modeinfo into a drm_display_mode
++ * drm_mode_convert_umode - convert a modeinfo into a drm_display_mode
+  * @dev: drm device
+  * @out: drm_display_mode to return to the user
+  * @in: drm_mode_modeinfo to use
   *
-  * We make sure that the transaction can guarantee at least nblocks of
-  * modified buffers in the log.  We block until the log can guarantee
-  * that much space. Additionally, if rsv_blocks > 0, we also create another
-  * handle with rsv_blocks reserved blocks in the journal. This handle is
-  * stored in h_rsv_handle. It is not attached to any particular transaction
-  * and thus doesn't block transaction commit. If the caller uses this reserved
-  * handle, it has to set h_rsv_handle to NULL as otherwise jbd2_journal_stop()
-  * on the parent handle will dispose the reserved one. Reserved handle has to
-  * be converted to a normal handle using jbd2_journal_start_reserved() before
-  * it can be used.
+  * Convert a drm_mode_modeinfo into a drm_display_mode structure to return to
+  * the caller.
   *
-  * Return a pointer to a newly allocated handle, or an ERR_PTR() value
-  * on failure.
+  * Returns:
+  * Zero on success, negative errno on failure.
   */
- handle_t *jbd2_journal_start(journal_t *journal, int nblocks)
+ int drm_mode_convert_umode(struct drm_device *dev,
+ 			   struct drm_display_mode *out,
+ 			   const struct drm_mode_modeinfo *in)
  {
- 	return jbd2__journal_start(journal, nblocks, 0, 0, GFP_NOFS, 0, 0);
-@@ -549,41 +549,41 @@ static void __jbd2_journal_unreserve_handle(handle_t *handle, transaction_t *t)
+ 	if (in->clock > INT_MAX || in->vrefresh > INT_MAX)
+ 		return -ERANGE;
  
- 	WARN_ON(!handle->h_reserved);
- 	sub_reserved_credits(journal, handle->h_total_credits);
- 	if (t)
- 		atomic_sub(handle->h_total_credits, &t->t_outstanding_credits);
+ 	out->clock = in->clock;
+ 	out->hdisplay = in->hdisplay;
+ 	out->hsync_start = in->hsync_start;
+diff --git a/drivers/gpu/drm/drm_scdc_helper.c b/drivers/gpu/drm/drm_scdc_helper.c
+index 311e71bbba5b..991b8c86d78d 100644
+--- a/drivers/gpu/drm/drm_scdc_helper.c
++++ b/drivers/gpu/drm/drm_scdc_helper.c
+@@ -108,41 +108,41 @@ ssize_t drm_scdc_write(struct i2c_adapter *adapter, u8 offset,
+ 
+ 	msg.buf = data;
+ 
+ 	memcpy(data, &offset, sizeof(offset));
+ 	memcpy(data + 1, buffer, size);
+ 
+ 	err = i2c_transfer(adapter, &msg, 1);
+ 
+ 	kfree(data);
+ 
+ 	if (err < 0)
+ 		return err;
+ 	if (err != 1)
+ 		return -EPROTO;
+ 
+ 	return 0;
  }
- 
- void jbd2_journal_free_reserved(handle_t *handle)
- {
- 	journal_t *journal = handle->h_journal;
- 
- 	/* Get j_state_lock to pin running transaction if it exists */
- 	read_lock(&journal->j_state_lock);
- 	__jbd2_journal_unreserve_handle(handle, journal->j_running_transaction);
- 	read_unlock(&journal->j_state_lock);
- 	jbd2_free_handle(handle);
- }
- EXPORT_SYMBOL(jbd2_journal_free_reserved);
+ EXPORT_SYMBOL(drm_scdc_write);
  
  /**
-- * int jbd2_journal_start_reserved() - start reserved handle
-+ * jbd2_journal_start_reserved() - start reserved handle
-  * @handle: handle to start
-  * @type: for handle statistics
-  * @line_no: for handle statistics
+- * drm_scdc_check_scrambling_status - what is status of scrambling?
++ * drm_scdc_get_scrambling_status - what is status of scrambling?
+  * @adapter: I2C adapter for DDC channel
   *
-  * Start handle that has been previously reserved with jbd2_journal_reserve().
-  * This attaches @handle to the running transaction (or creates one if there's
-  * not transaction running). Unlike jbd2_journal_start() this function cannot
-  * block on journal commit, checkpointing, or similar stuff. It can block on
-  * memory allocation or frozen journal though.
+  * Reads the scrambler status over SCDC, and checks the
+  * scrambling status.
   *
-  * Return 0 on success, non-zero on error - handle is freed in that case.
+  * Returns:
+  * True if the scrambling is enabled, false otherwise.
   */
- int jbd2_journal_start_reserved(handle_t *handle, unsigned int type,
- 				unsigned int line_no)
+ bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
  {
- 	journal_t *journal = handle->h_journal;
- 	int ret = -EIO;
+ 	u8 status;
+ 	int ret;
  
- 	if (WARN_ON(!handle->h_reserved)) {
- 		/* Someone passed in normal handle? Just stop it. */
-@@ -603,41 +603,41 @@ int jbd2_journal_start_reserved(handle_t *handle, unsigned int type,
- 	/*
- 	 * GFP_NOFS is here because callers are likely from writeback or
- 	 * similarly constrained call sites
- 	 */
- 	ret = start_this_handle(journal, handle, GFP_NOFS);
+ 	ret = drm_scdc_readb(adapter, SCDC_SCRAMBLER_STATUS, &status);
  	if (ret < 0) {
- 		handle->h_journal = journal;
- 		jbd2_journal_free_reserved(handle);
- 		return ret;
+ 		DRM_DEBUG_KMS("Failed to read scrambling status: %d\n", ret);
+ 		return false;
  	}
- 	handle->h_type = type;
- 	handle->h_line_no = line_no;
- 	trace_jbd2_handle_start(journal->j_fs_dev->bd_dev,
- 				handle->h_transaction->t_tid, type,
- 				line_no, handle->h_total_credits);
+ 
+ 	return status & SCDC_SCRAMBLING_STATUS;
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+index a95e6a2ac698..8753bab20ce8 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+@@ -4573,41 +4573,41 @@ static void sanitize_dpll_state(struct drm_i915_private *i915,
+ 	if (!pll->on || pll->active_mask)
+ 		return;
+ 
+ 	drm_dbg_kms(&i915->drm,
+ 		    "%s enabled but not in use, disabling\n",
+ 		    pll->info->name);
+ 
+ 	pll->info->funcs->disable(i915, pll);
+ 	pll->on = false;
+ }
+ 
+ void intel_dpll_sanitize_state(struct drm_i915_private *i915)
+ {
+ 	int i;
+ 
+ 	for (i = 0; i < i915->dpll.num_shared_dpll; i++)
+ 		sanitize_dpll_state(i915, &i915->dpll.shared_dplls[i]);
+ }
+ 
+ /**
+- * intel_shared_dpll_dump_hw_state - write hw_state to dmesg
++ * intel_dpll_dump_hw_state - write hw_state to dmesg
+  * @dev_priv: i915 drm device
+  * @hw_state: hw state to be written to the log
+  *
+  * Write the relevant values in @hw_state to dmesg using drm_dbg_kms.
+  */
+ void intel_dpll_dump_hw_state(struct drm_i915_private *dev_priv,
+ 			      const struct intel_dpll_hw_state *hw_state)
+ {
+ 	if (dev_priv->dpll.mgr) {
+ 		dev_priv->dpll.mgr->dump_hw_state(dev_priv, hw_state);
+ 	} else {
+ 		/* fallback for platforms that don't use the shared dpll
+ 		 * infrastructure
+ 		 */
+ 		drm_dbg_kms(&dev_priv->drm,
+ 			    "dpll_hw_state: dpll: 0x%x, dpll_md: 0x%x, "
+ 			    "fp0: 0x%x, fp1: 0x%x\n",
+ 			    hw_state->dpll,
+ 			    hw_state->dpll_md,
+ 			    hw_state->fp0,
+diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
+index 6501939929d5..e1a66c8245b8 100644
+--- a/drivers/gpu/drm/i915/i915_gem_evict.c
++++ b/drivers/gpu/drm/i915/i915_gem_evict.c
+@@ -221,41 +221,41 @@ i915_gem_evict_something(struct i915_address_space *vm,
+ 	list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
+ 		__i915_vma_unpin(vma);
+ 		if (ret == 0)
+ 			ret = __i915_vma_unbind(vma);
+ 	}
+ 
+ 	while (ret == 0 && (node = drm_mm_scan_color_evict(&scan))) {
+ 		vma = container_of(node, struct i915_vma, node);
+ 
+ 		/* If we find any non-objects (!vma), we cannot evict them */
+ 		if (vma->node.color != I915_COLOR_UNEVICTABLE)
+ 			ret = __i915_vma_unbind(vma);
+ 		else
+ 			ret = -ENOSPC; /* XXX search failed, try again? */
+ 	}
+ 
+ 	return ret;
+ }
+ 
+ /**
+- * i915_gem_evict_for_vma - Evict vmas to make room for binding a new one
++ * i915_gem_evict_for_node - Evict vmas to make room for binding a new one
+  * @vm: address space to evict from
+  * @target: range (and color) to evict for
+  * @flags: additional flags to control the eviction algorithm
+  *
+  * This function will try to evict vmas that overlap the target node.
+  *
+  * To clarify: This is for freeing up virtual address space, not for freeing
+  * memory in e.g. the shrinker.
+  */
+ int i915_gem_evict_for_node(struct i915_address_space *vm,
+ 			    struct drm_mm_node *target,
+ 			    unsigned int flags)
+ {
+ 	LIST_HEAD(eviction_list);
+ 	struct drm_mm_node *node;
+ 	u64 start = target->start;
+ 	u64 end = start + target->size;
+ 	struct i915_vma *vma, *next;
+ 	int ret = 0;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+index e94976976571..3ced82820483 100644
+--- a/drivers/gpu/drm/i915/i915_perf.c
++++ b/drivers/gpu/drm/i915/i915_perf.c
+@@ -608,41 +608,42 @@ static int append_oa_sample(struct i915_perf_stream *stream,
+ 
+ 	if ((count - *offset) < header.size)
+ 		return -ENOSPC;
+ 
+ 	buf += *offset;
+ 	if (copy_to_user(buf, &header, sizeof(header)))
+ 		return -EFAULT;
+ 	buf += sizeof(header);
+ 
+ 	if (sample_flags & SAMPLE_OA_REPORT) {
+ 		if (copy_to_user(buf, report, report_size))
+ 			return -EFAULT;
+ 	}
+ 
+ 	(*offset) += header.size;
+ 
  	return 0;
  }
- EXPORT_SYMBOL(jbd2_journal_start_reserved);
  
  /**
-- * int jbd2_journal_extend() - extend buffer credits.
-+ * jbd2_journal_extend() - extend buffer credits.
-  * @handle:  handle to 'extend'
-  * @nblocks: nr blocks to try to extend by.
-  * @revoke_records: number of revoke records to try to extend by.
+- * Copies all buffered OA reports into userspace read() buffer.
++ * gen8_append_oa_reports - Copies all buffered OA reports into
++ *			    userspace read() buffer.
+  * @stream: An i915-perf stream opened for OA metrics
+  * @buf: destination buffer given by userspace
+  * @count: the number of bytes userspace wants to read
+  * @offset: (inout): the current position for writing into @buf
   *
-  * Some transactions, such as large extends and truncates, can be done
-  * atomically all at once or in several stages.  The operation requests
-  * a credit for a number of buffer modifications in advance, but can
-  * extend its credit if it needs more.
+  * Notably any error condition resulting in a short read (-%ENOSPC or
+  * -%EFAULT) will be returned even though one or more records may
+  * have been successfully copied. In this case it's up to the caller
+  * to decide if the error should be squashed before returning to
+  * userspace.
   *
-  * jbd2_journal_extend tries to give the running handle more buffer credits.
-  * It does not guarantee that allocation - this is a best-effort only.
-  * The calling process MUST be able to deal cleanly with a failure to
-  * extend here.
+  * Note: reports are consumed from the head, and appended to the
+  * tail, so the tail chases the head?... If you think that's mad
+  * and back-to-front you're not alone, but this follows the
+  * Gen PRM naming convention.
   *
-  * Return 0 on success, non-zero on failure.
-  *
-  * return code < 0 implies an error
-  * return code > 0 implies normal transaction-full status.
+  * Returns: 0 on success, negative error code on failure.
   */
- int jbd2_journal_extend(handle_t *handle, int nblocks, int revoke_records)
-@@ -728,41 +728,41 @@ static void stop_this_handle(handle_t *handle)
- 			DIV_ROUND_UP(t_revokes - revokes, rr_per_blk);
- 		handle->h_total_credits -= revoke_descriptors;
- 	}
- 	atomic_sub(handle->h_total_credits,
- 		   &transaction->t_outstanding_credits);
- 	if (handle->h_rsv_handle)
- 		__jbd2_journal_unreserve_handle(handle->h_rsv_handle,
- 						transaction);
- 	if (atomic_dec_and_test(&transaction->t_updates))
- 		wake_up(&journal->j_wait_updates);
- 
- 	rwsem_release(&journal->j_trans_commit_map, _THIS_IP_);
- 	/*
- 	 * Scope of the GFP_NOFS context is over here and so we can restore the
- 	 * original alloc context.
- 	 */
- 	memalloc_nofs_restore(handle->saved_alloc_context);
- }
- 
- /**
-- * int jbd2_journal_restart() - restart a handle .
-+ * jbd2__journal_restart() - restart a handle .
-  * @handle:  handle to restart
-  * @nblocks: nr credits requested
-  * @revoke_records: number of revoke record credits requested
-  * @gfp_mask: memory allocation flags (for start_this_handle)
-  *
-  * Restart a handle for a multi-transaction filesystem
-  * operation.
-  *
-  * If the jbd2_journal_extend() call above fails to grant new buffer credits
-  * to a running handle, a call to jbd2_journal_restart will commit the
-  * handle's transaction so far and reattach the handle to a new
-  * transaction capable of guaranteeing the requested number of
-  * credits. We preserve reserved handle if there's any attached to the
-  * passed in handle.
-  */
- int jbd2__journal_restart(handle_t *handle, int nblocks, int revoke_records,
- 			  gfp_t gfp_mask)
- {
- 	transaction_t *transaction = handle->h_transaction;
- 	journal_t *journal;
-@@ -798,41 +798,41 @@ int jbd2__journal_restart(handle_t *handle, int nblocks, int revoke_records,
- 		DIV_ROUND_UP(revoke_records,
- 			     journal->j_revoke_records_per_block);
- 	handle->h_revoke_credits = revoke_records;
- 	ret = start_this_handle(journal, handle, gfp_mask);
- 	trace_jbd2_handle_restart(journal->j_fs_dev->bd_dev,
- 				 ret ? 0 : handle->h_transaction->t_tid,
- 				 handle->h_type, handle->h_line_no,
- 				 handle->h_total_credits);
- 	return ret;
- }
- EXPORT_SYMBOL(jbd2__journal_restart);
- 
- 
- int jbd2_journal_restart(handle_t *handle, int nblocks)
- {
- 	return jbd2__journal_restart(handle, nblocks, 0, GFP_NOFS);
- }
- EXPORT_SYMBOL(jbd2_journal_restart);
- 
- /**
-- * void jbd2_journal_lock_updates () - establish a transaction barrier.
-+ * jbd2_journal_lock_updates () - establish a transaction barrier.
-  * @journal:  Journal to establish a barrier on.
-  *
-  * This locks out any further updates from being started, and blocks
-  * until all existing updates have completed, returning only once the
-  * journal is in a quiescent state with no updates running.
-  *
-  * The journal lock should not be held on entry.
-  */
- void jbd2_journal_lock_updates(journal_t *journal)
- {
- 	DEFINE_WAIT(wait);
- 
- 	jbd2_might_wait_for_commit(journal);
- 
- 	write_lock(&journal->j_state_lock);
- 	++journal->j_barrier_count;
- 
- 	/* Wait until there are no reserved handles */
- 	if (atomic_read(&journal->j_reserved_credits)) {
- 		write_unlock(&journal->j_state_lock);
-@@ -857,41 +857,41 @@ void jbd2_journal_lock_updates(journal_t *journal)
- 			break;
- 		}
- 		spin_unlock(&transaction->t_handle_lock);
- 		write_unlock(&journal->j_state_lock);
- 		schedule();
- 		finish_wait(&journal->j_wait_updates, &wait);
- 		write_lock(&journal->j_state_lock);
- 	}
- 	write_unlock(&journal->j_state_lock);
- 
- 	/*
- 	 * We have now established a barrier against other normal updates, but
- 	 * we also need to barrier against other jbd2_journal_lock_updates() calls
- 	 * to make sure that we serialise special journal-locked operations
- 	 * too.
- 	 */
- 	mutex_lock(&journal->j_barrier);
- }
- 
- /**
-- * void jbd2_journal_unlock_updates (journal_t* journal) - release barrier
-+ * jbd2_journal_unlock_updates () - release barrier
-  * @journal:  Journal to release the barrier on.
-  *
-  * Release a transaction barrier obtained with jbd2_journal_lock_updates().
-  *
-  * Should be called without the journal lock held.
-  */
- void jbd2_journal_unlock_updates (journal_t *journal)
- {
- 	J_ASSERT(journal->j_barrier_count != 0);
- 
- 	mutex_unlock(&journal->j_barrier);
- 	write_lock(&journal->j_state_lock);
- 	--journal->j_barrier_count;
- 	write_unlock(&journal->j_state_lock);
- 	wake_up(&journal->j_wait_transaction_locked);
- }
- 
- static void warn_dirty_buffer(struct buffer_head *bh)
- {
- 	printk(KERN_WARNING
-@@ -1165,41 +1165,42 @@ static bool jbd2_write_access_granted(handle_t *handle, struct buffer_head *bh,
- 		goto out;
- 	/*
- 	 * There are two reasons for the barrier here:
- 	 * 1) Make sure to fetch b_bh after we did previous checks so that we
- 	 * detect when jh went through free, realloc, attach to transaction
- 	 * while we were checking. Paired with implicit barrier in that path.
- 	 * 2) So that access to bh done after jbd2_write_access_granted()
- 	 * doesn't get reordered and see inconsistent state of concurrent
- 	 * do_get_write_access().
- 	 */
- 	smp_mb();
- 	if (unlikely(jh->b_bh != bh))
- 		goto out;
- 	ret = true;
- out:
- 	rcu_read_unlock();
- 	return ret;
- }
- 
- /**
-- * int jbd2_journal_get_write_access() - notify intent to modify a buffer for metadata (not data) update.
-+ * jbd2_journal_get_write_access() - notify intent to modify a buffer
-+ *				     for metadata (not data) update.
-  * @handle: transaction to add buffer modifications to
-  * @bh:     bh to be used for metadata writes
-  *
-  * Returns: error code or 0 on success.
-  *
-  * In full data journalling mode the buffer may be of type BJ_AsyncData,
-  * because we're ``write()ing`` a buffer which is also part of a shared mapping.
-  */
- 
- int jbd2_journal_get_write_access(handle_t *handle, struct buffer_head *bh)
- {
- 	struct journal_head *jh;
- 	int rc;
- 
- 	if (is_handle_aborted(handle))
- 		return -EROFS;
- 
- 	if (jbd2_write_access_granted(handle, bh, false))
- 		return 0;
- 
-@@ -1209,41 +1210,41 @@ int jbd2_journal_get_write_access(handle_t *handle, struct buffer_head *bh)
- 	 * completes any outstanding IO before proceeding. */
- 	rc = do_get_write_access(handle, jh, 0);
- 	jbd2_journal_put_journal_head(jh);
- 	return rc;
- }
- 
- 
- /*
-  * When the user wants to journal a newly created buffer_head
-  * (ie. getblk() returned a new buffer and we are going to populate it
-  * manually rather than reading off disk), then we need to keep the
-  * buffer_head locked until it has been completely filled with new
-  * data.  In this case, we should be able to make the assertion that
-  * the bh is not already part of an existing transaction.
-  *
-  * The buffer should already be locked by the caller by this point.
-  * There is no lock ranking violation: it was a newly created,
-  * unlocked buffer beforehand. */
- 
- /**
-- * int jbd2_journal_get_create_access () - notify intent to use newly created bh
-+ * jbd2_journal_get_create_access () - notify intent to use newly created bh
-  * @handle: transaction to new buffer to
-  * @bh: new buffer.
-  *
-  * Call this if you create a new bh.
-  */
- int jbd2_journal_get_create_access(handle_t *handle, struct buffer_head *bh)
- {
- 	transaction_t *transaction = handle->h_transaction;
- 	journal_t *journal;
- 	struct journal_head *jh = jbd2_journal_add_journal_head(bh);
- 	int err;
- 
- 	jbd_debug(5, "journal_head %p\n", jh);
- 	err = -EROFS;
- 	if (is_handle_aborted(handle))
- 		goto out;
- 	journal = transaction->t_journal;
- 	err = 0;
- 
- 	JBUFFER_TRACE(jh, "entry");
-@@ -1289,41 +1290,41 @@ int jbd2_journal_get_create_access(handle_t *handle, struct buffer_head *bh)
- 		jh->b_next_transaction = transaction;
- 		spin_unlock(&journal->j_list_lock);
- 	}
- 	spin_unlock(&jh->b_state_lock);
- 
- 	/*
- 	 * akpm: I added this.  ext3_alloc_branch can pick up new indirect
- 	 * blocks which contain freed but then revoked metadata.  We need
- 	 * to cancel the revoke in case we end up freeing it yet again
- 	 * and the reallocating as data - this would cause a second revoke,
- 	 * which hits an assertion error.
- 	 */
- 	JBUFFER_TRACE(jh, "cancelling revoke");
- 	jbd2_journal_cancel_revoke(handle, jh);
- out:
- 	jbd2_journal_put_journal_head(jh);
- 	return err;
- }
- 
- /**
-- * int jbd2_journal_get_undo_access() -  Notify intent to modify metadata with
-+ * jbd2_journal_get_undo_access() -  Notify intent to modify metadata with
-  *     non-rewindable consequences
-  * @handle: transaction
-  * @bh: buffer to undo
-  *
-  * Sometimes there is a need to distinguish between metadata which has
-  * been committed to disk and that which has not.  The ext3fs code uses
-  * this for freeing and allocating space, we have to make sure that we
-  * do not reuse freed space until the deallocation has been committed,
-  * since if we overwrote that space we would make the delete
-  * un-rewindable in case of a crash.
-  *
-  * To deal with that, jbd2_journal_get_undo_access requests write access to a
-  * buffer for parts of non-rewindable operations such as delete
-  * operations on the bitmaps.  The journaling code must keep a copy of
-  * the buffer's contents prior to the undo_access call until such time
-  * as we know that the buffer has definitely been committed to disk.
-  *
-  * We never need to know which transaction the committed data is part
-  * of, buffers touched here are guaranteed to be dirtied later and so
-  * will be committed to a new transaction in due course, at which point
-@@ -1366,41 +1367,41 @@ int jbd2_journal_get_undo_access(handle_t *handle, struct buffer_head *bh)
- 		 * preserved, committed copy. */
- 		JBUFFER_TRACE(jh, "generate b_committed data");
- 		if (!committed_data) {
- 			spin_unlock(&jh->b_state_lock);
- 			goto repeat;
- 		}
- 
- 		jh->b_committed_data = committed_data;
- 		committed_data = NULL;
- 		memcpy(jh->b_committed_data, bh->b_data, bh->b_size);
- 	}
- 	spin_unlock(&jh->b_state_lock);
- out:
- 	jbd2_journal_put_journal_head(jh);
- 	if (unlikely(committed_data))
- 		jbd2_free(committed_data, bh->b_size);
- 	return err;
- }
- 
- /**
-- * void jbd2_journal_set_triggers() - Add triggers for commit writeout
-+ * jbd2_journal_set_triggers() - Add triggers for commit writeout
-  * @bh: buffer to trigger on
-  * @type: struct jbd2_buffer_trigger_type containing the trigger(s).
-  *
-  * Set any triggers on this journal_head.  This is always safe, because
-  * triggers for a committing buffer will be saved off, and triggers for
-  * a running transaction will match the buffer in that transaction.
-  *
-  * Call with NULL to clear the triggers.
-  */
- void jbd2_journal_set_triggers(struct buffer_head *bh,
- 			       struct jbd2_buffer_trigger_type *type)
- {
- 	struct journal_head *jh = jbd2_journal_grab_journal_head(bh);
- 
- 	if (WARN_ON(!jh))
- 		return;
- 	jh->b_triggers = type;
- 	jbd2_journal_put_journal_head(jh);
- }
- 
-@@ -1408,41 +1409,41 @@ void jbd2_buffer_frozen_trigger(struct journal_head *jh, void *mapped_data,
- 				struct jbd2_buffer_trigger_type *triggers)
- {
- 	struct buffer_head *bh = jh2bh(jh);
- 
- 	if (!triggers || !triggers->t_frozen)
- 		return;
- 
- 	triggers->t_frozen(triggers, bh, mapped_data, bh->b_size);
- }
- 
- void jbd2_buffer_abort_trigger(struct journal_head *jh,
- 			       struct jbd2_buffer_trigger_type *triggers)
- {
- 	if (!triggers || !triggers->t_abort)
- 		return;
- 
- 	triggers->t_abort(triggers, jh2bh(jh));
- }
- 
- /**
-- * int jbd2_journal_dirty_metadata() -  mark a buffer as containing dirty metadata
-+ * jbd2_journal_dirty_metadata() -  mark a buffer as containing dirty metadata
-  * @handle: transaction to add buffer to.
-  * @bh: buffer to mark
-  *
-  * mark dirty metadata which needs to be journaled as part of the current
-  * transaction.
-  *
-  * The buffer must have previously had jbd2_journal_get_write_access()
-  * called so that it has a valid journal_head attached to the buffer
-  * head.
-  *
-  * The buffer is placed on the transaction's metadata list and is marked
-  * as belonging to the transaction.
-  *
-  * Returns error number or 0 on success.
-  *
-  * Special care needs to be taken if the buffer already belongs to the
-  * current committing transaction (in which case we should have frozen
-  * data present for that commit).  In that case, we don't relink the
-  * buffer: that only gets done when the old transaction finally
-  * completes its commit.
-@@ -1576,41 +1577,41 @@ int jbd2_journal_dirty_metadata(handle_t *handle, struct buffer_head *bh)
- 		/* And this case is illegal: we can't reuse another
- 		 * transaction's data buffer, ever. */
- 		goto out_unlock_bh;
- 	}
- 
- 	/* That test should have eliminated the following case: */
- 	J_ASSERT_JH(jh, jh->b_frozen_data == NULL);
- 
- 	JBUFFER_TRACE(jh, "file as BJ_Metadata");
- 	spin_lock(&journal->j_list_lock);
- 	__jbd2_journal_file_buffer(jh, transaction, BJ_Metadata);
- 	spin_unlock(&journal->j_list_lock);
- out_unlock_bh:
- 	spin_unlock(&jh->b_state_lock);
- out:
- 	JBUFFER_TRACE(jh, "exit");
- 	return ret;
- }
- 
- /**
-- * void jbd2_journal_forget() - bforget() for potentially-journaled buffers.
-+ * jbd2_journal_forget() - bforget() for potentially-journaled buffers.
-  * @handle: transaction handle
-  * @bh:     bh to 'forget'
-  *
-  * We can only do the bforget if there are no commits pending against the
-  * buffer.  If the buffer is dirty in the current running transaction we
-  * can safely unlink it.
-  *
-  * bh may not be a journalled buffer at all - it may be a non-JBD
-  * buffer which came off the hashtable.  Check for this.
-  *
-  * Decrements bh->b_count by one.
-  *
-  * Allow this call even if the handle has aborted --- it may be part of
-  * the caller's cleanup after an abort.
-  */
- int jbd2_journal_forget(handle_t *handle, struct buffer_head *bh)
- {
- 	transaction_t *transaction = handle->h_transaction;
- 	journal_t *journal;
- 	struct journal_head *jh;
-@@ -1745,41 +1746,41 @@ int jbd2_journal_forget(handle_t *handle, struct buffer_head *bh)
- 		 * attach this buffer to current transaction so that the
- 		 * buffer can be checkpointed only after the current
- 		 * transaction commits.
+ static int gen8_append_oa_reports(struct i915_perf_stream *stream,
+ 				  char __user *buf,
+@@ -900,41 +901,42 @@ static int gen8_oa_read(struct i915_perf_stream *stream,
+ 		/*
+ 		 * Note: .oa_enable() is expected to re-init the oabuffer and
+ 		 * reset GEN8_OASTATUS for us
  		 */
- 		clear_buffer_dirty(bh);
- 		__jbd2_journal_file_buffer(jh, transaction, BJ_Forget);
- 		spin_unlock(&journal->j_list_lock);
+ 		oastatus = intel_uncore_read(uncore, oastatus_reg);
  	}
- drop:
- 	__brelse(bh);
- 	spin_unlock(&jh->b_state_lock);
- 	jbd2_journal_put_journal_head(jh);
- 	if (drop_reserve) {
- 		/* no need to reserve log space for this block -bzzz */
- 		handle->h_total_credits++;
+ 
+ 	if (oastatus & GEN8_OASTATUS_REPORT_LOST) {
+ 		ret = append_oa_status(stream, buf, count, offset,
+ 				       DRM_I915_PERF_RECORD_OA_REPORT_LOST);
+ 		if (ret)
+ 			return ret;
+ 		intel_uncore_write(uncore, oastatus_reg,
+ 				   oastatus & ~GEN8_OASTATUS_REPORT_LOST);
  	}
- 	return err;
+ 
+ 	return gen8_append_oa_reports(stream, buf, count, offset);
  }
  
  /**
-- * int jbd2_journal_stop() - complete a transaction
-+ * jbd2_journal_stop() - complete a transaction
-  * @handle: transaction to complete.
+- * Copies all buffered OA reports into userspace read() buffer.
++ * gen7_append_oa_reports - Copies all buffered OA reports into
++ *			    userspace read() buffer.
+  * @stream: An i915-perf stream opened for OA metrics
+  * @buf: destination buffer given by userspace
+  * @count: the number of bytes userspace wants to read
+  * @offset: (inout): the current position for writing into @buf
   *
-  * All done for a particular handle.
+  * Notably any error condition resulting in a short read (-%ENOSPC or
+  * -%EFAULT) will be returned even though one or more records may
+  * have been successfully copied. In this case it's up to the caller
+  * to decide if the error should be squashed before returning to
+  * userspace.
   *
-  * There is not much action needed here.  We just return any remaining
-  * buffer credits to the transaction and remove the handle.  The only
-  * complication is that we need to start a commit operation if the
-  * filesystem is marked for synchronous update.
+  * Note: reports are consumed from the head, and appended to the
+  * tail, so the tail chases the head?... If you think that's mad
+  * and back-to-front you're not alone, but this follows the
+  * Gen PRM naming convention.
   *
-  * jbd2_journal_stop itself will not usually return an error, but it may
-  * do so in unusual circumstances.  In particular, expect it to
-  * return -EIO if a jbd2_journal_abort has been executed since the
-  * transaction began.
+  * Returns: 0 on success, negative error code on failure.
   */
- int jbd2_journal_stop(handle_t *handle)
+ static int gen7_append_oa_reports(struct i915_perf_stream *stream,
+ 				  char __user *buf,
+@@ -3210,41 +3212,41 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
+ 		 * reconfiguration inline from that context. The update
+ 		 * will then be ordered with respect to submission on that
+ 		 * context.
+ 		 *
+ 		 * When set globally, we use a low priority kernel context,
+ 		 * so it will effectively take effect when idle.
+ 		 */
+ 		err = emit_oa_config(stream, config, oa_context(stream), NULL);
+ 		if (!err)
+ 			config = xchg(&stream->oa_config, config);
+ 		else
+ 			ret = err;
+ 	}
+ 
+ 	i915_oa_config_put(config);
+ 
+ 	return ret;
+ }
+ 
+ /**
+- * i915_perf_ioctl - support ioctl() usage with i915 perf stream FDs
++ * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
+  * @stream: An i915 perf stream
+  * @cmd: the ioctl request
+  * @arg: the ioctl data
+  *
+  * Note: The &perf->lock mutex has been taken to serialize
+  * with any non-file-operation driver hooks.
+  *
+  * Returns: zero on success or a negative error code. Returns -EINVAL for
+  * an unknown ioctl request.
+  */
+ static long i915_perf_ioctl_locked(struct i915_perf_stream *stream,
+ 				   unsigned int cmd,
+ 				   unsigned long arg)
  {
- 	transaction_t *transaction = handle->h_transaction;
- 	journal_t *journal;
- 	int err = 0, wait_for_commit = 0;
- 	tid_t tid;
-@@ -2063,41 +2064,41 @@ __journal_try_to_free_buffer(journal_t *journal, struct buffer_head *bh)
- 	jh = bh2jh(bh);
- 
- 	if (buffer_locked(bh) || buffer_dirty(bh))
- 		goto out;
- 
- 	if (jh->b_next_transaction != NULL || jh->b_transaction != NULL)
- 		goto out;
- 
- 	spin_lock(&journal->j_list_lock);
- 	if (jh->b_cp_transaction != NULL) {
- 		/* written-back checkpointed metadata buffer */
- 		JBUFFER_TRACE(jh, "remove from checkpoint list");
- 		__jbd2_journal_remove_checkpoint(jh);
+ 	switch (cmd) {
+ 	case I915_PERF_IOCTL_ENABLE:
+ 		i915_perf_enable_locked(stream);
+ 		return 0;
+ 	case I915_PERF_IOCTL_DISABLE:
+ 		i915_perf_disable_locked(stream);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index da24c4e8b9fb..b498d474ef9e 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -430,41 +430,41 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+ 			 */
+ 			if (bad != s_job)
+ 				sched->ops->free_job(s_job);
+ 			else
+ 				sched->free_guilty = true;
+ 		}
  	}
- 	spin_unlock(&journal->j_list_lock);
- out:
- 	return;
- }
  
- /**
-- * int jbd2_journal_try_to_free_buffers() - try to free page buffers.
-+ * jbd2_journal_try_to_free_buffers() - try to free page buffers.
-  * @journal: journal for operation
-  * @page: to try and free
-  *
-  * For all the buffers on this page,
-  * if they are fully written out ordered data, move them onto BUF_CLEAN
-  * so try_to_free_buffers() can reap them.
-  *
-  * This function returns non-zero if we wish try_to_free_buffers()
-  * to be called. We do this if the page is releasable by try_to_free_buffers().
-  * We also do it if the page has locked or dirty buffers and the caller wants
-  * us to perform sync or async writeout.
-  *
-  * This complicates JBD locking somewhat.  We aren't protected by the
-  * BKL here.  We wish to remove the buffer from its committing or
-  * running transaction's ->t_datalist via __jbd2_journal_unfile_buffer.
-  *
-  * This may *change* the value of transaction_t->t_datalist, so anyone
-  * who looks at t_datalist needs to lock against this function.
-  *
-  * Even worse, someone may be doing a jbd2_journal_dirty_data on this
-@@ -2394,41 +2395,41 @@ static int journal_unmap_buffer(journal_t *journal, struct buffer_head *bh,
- 	 * here.
+ 	/*
+ 	 * Stop pending timer in flight as we rearm it in  drm_sched_start. This
+ 	 * avoids the pending timeout work in progress to fire right away after
+ 	 * this TDR finished and before the newly restarted jobs had a
+ 	 * chance to complete.
  	 */
- 	jh->b_modified = 0;
- 	spin_unlock(&journal->j_list_lock);
- 	spin_unlock(&jh->b_state_lock);
- 	write_unlock(&journal->j_state_lock);
- 	jbd2_journal_put_journal_head(jh);
- zap_buffer_unlocked:
- 	clear_buffer_dirty(bh);
- 	J_ASSERT_BH(bh, !buffer_jbddirty(bh));
- 	clear_buffer_mapped(bh);
- 	clear_buffer_req(bh);
- 	clear_buffer_new(bh);
- 	clear_buffer_delay(bh);
- 	clear_buffer_unwritten(bh);
- 	bh->b_bdev = NULL;
- 	return may_free;
+ 	cancel_delayed_work(&sched->work_tdr);
  }
  
+ EXPORT_SYMBOL(drm_sched_stop);
+ 
  /**
-- * void jbd2_journal_invalidatepage()
-+ * jbd2_journal_invalidatepage()
-  * @journal: journal to use for flush...
-  * @page:    page to flush
-  * @offset:  start of the range to invalidate
-  * @length:  length of the range to invalidate
+- * drm_sched_job_recovery - recover jobs after a reset
++ * drm_sched_start - recover jobs after a reset
   *
-  * Reap page buffers containing data after in the specified range in page.
-  * Can return -EBUSY if buffers are part of the committing transaction and
-  * the page is straddling i_size. Caller then has to wait for current commit
-  * and try again.
+  * @sched: scheduler instance
+  * @full_recovery: proceed with complete sched restart
+  *
   */
- int jbd2_journal_invalidatepage(journal_t *journal,
- 				struct page *page,
- 				unsigned int offset,
- 				unsigned int length)
+ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
  {
- 	struct buffer_head *head, *bh, *next;
- 	unsigned int stop = offset + length;
- 	unsigned int curr_off = 0;
- 	int partial_page = (offset || length < PAGE_SIZE);
- 	int may_free = 1;
-diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
-index 1c49fd62ff2e..578ff196b3ce 100644
---- a/include/linux/jbd2.h
-+++ b/include/linux/jbd2.h
-@@ -384,41 +384,41 @@ static inline void jbd_unlock_bh_journal_head(struct buffer_head *bh)
- #define J_EXPECT_JH(jh, expr, why...)	__journal_expect(expr, ## why)
- #endif
+ 	struct drm_sched_job *s_job, *tmp;
+ 	int r;
  
- /* Flags in jbd_inode->i_flags */
- #define __JI_COMMIT_RUNNING 0
- #define __JI_WRITE_DATA 1
- #define __JI_WAIT_DATA 2
+ 	/*
+ 	 * Locking the list is not required here as the sched thread is parked
+ 	 * so no new jobs are being inserted or removed. Also concurrent
+ 	 * GPU recovers can't run in parallel.
+ 	 */
+ 	list_for_each_entry_safe(s_job, tmp, &sched->ring_mirror_list, node) {
+ 		struct dma_fence *fence = s_job->s_fence->parent;
  
- /*
-  * Commit of the inode data in progress. We use this flag to protect us from
-  * concurrent deletion of inode. We cannot use reference to inode for this
-  * since we cannot afford doing last iput() on behalf of kjournald
-  */
- #define JI_COMMIT_RUNNING (1 << __JI_COMMIT_RUNNING)
- /* Write allocated dirty buffers in this inode before commit */
- #define JI_WRITE_DATA (1 << __JI_WRITE_DATA)
- /* Wait for outstanding data writes for this inode before commit */
- #define JI_WAIT_DATA (1 << __JI_WAIT_DATA)
+ 		atomic_inc(&sched->hw_rq_count);
+ 
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 0747614a78f0..f968f389633a 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -47,41 +47,41 @@ to_tfu_job(struct drm_sched_job *sched_job)
+ {
+ 	return container_of(sched_job, struct v3d_tfu_job, base.base);
+ }
+ 
+ static struct v3d_csd_job *
+ to_csd_job(struct drm_sched_job *sched_job)
+ {
+ 	return container_of(sched_job, struct v3d_csd_job, base.base);
+ }
+ 
+ static void
+ v3d_job_free(struct drm_sched_job *sched_job)
+ {
+ 	struct v3d_job *job = to_v3d_job(sched_job);
+ 
+ 	drm_sched_job_cleanup(sched_job);
+ 	v3d_job_put(job);
+ }
  
  /**
-- * struct jbd_inode - The jbd_inode type is the structure linking inodes in
-+ * struct jbd2_inode - The jbd_inode type is the structure linking inodes in
-  * ordered mode present in a transaction so that we can sync them during commit.
+- * Returns the fences that the job depends on, one by one.
++ * v3d_job_dependency - Returns the fences that the job depends on, one by one.
+  *
+  * If placed in the scheduler's .dependency method, the corresponding
+  * .run_job won't be called until all of them have been signaled.
   */
- struct jbd2_inode {
- 	/**
- 	 * @i_transaction:
- 	 *
- 	 * Which transaction does this inode belong to? Either the running
- 	 * transaction or the committing one. [j_list_lock]
+ static struct dma_fence *
+ v3d_job_dependency(struct drm_sched_job *sched_job,
+ 		   struct drm_sched_entity *s_entity)
+ {
+ 	struct v3d_job *job = to_v3d_job(sched_job);
+ 
+ 	/* XXX: Wait on a fence for switching the GMP if necessary,
+ 	 * and then do so.
  	 */
- 	transaction_t *i_transaction;
+ 
+ 	if (!xa_empty(&job->deps))
+ 		return xa_erase(&job->deps, job->last_dep++);
+ 
+ 	return NULL;
+ }
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+index a21a6c53ffcf..469d1b4f2643 100644
+--- a/drivers/gpu/drm/vc4/vc4_bo.c
++++ b/drivers/gpu/drm/vc4/vc4_bo.c
+@@ -374,41 +374,41 @@ static struct vc4_bo *vc4_bo_get_from_cache(struct drm_device *dev,
+ 		vc4_bo_set_label(&bo->base.base, type);
+ 	mutex_unlock(&vc4->bo_lock);
+ 	return bo;
+ }
+ 
+ static const struct vm_operations_struct vc4_vm_ops = {
+ 	.fault = vc4_fault,
+ 	.open = drm_gem_vm_open,
+ 	.close = drm_gem_vm_close,
+ };
+ 
+ static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
+ 	.free = vc4_free_object,
+ 	.export = vc4_prime_export,
+ 	.get_sg_table = drm_gem_cma_prime_get_sg_table,
+ 	.vmap = vc4_prime_vmap,
+ 	.vm_ops = &vc4_vm_ops,
+ };
+ 
+ /**
+- * vc4_gem_create_object - Implementation of driver->gem_create_object.
++ * vc4_create_object - Implementation of driver->gem_create_object.
+  * @dev: DRM device
+  * @size: Size in bytes of the memory the object will reference
+  *
+  * This lets the CMA helpers allocate object structs for us, and keep
+  * our BO stats correct.
+  */
+ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_bo *bo;
+ 
+ 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+ 	if (!bo)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	bo->madv = VC4_MADV_WILLNEED;
+ 	refcount_set(&bo->usecnt, 0);
+ 	mutex_init(&bo->madv_lock);
+ 	mutex_lock(&vc4->bo_lock);
+ 	bo->label = VC4_BO_TYPE_KERNEL;
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 85df04c8e62f..5f47720440fa 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -150,54 +150,54 @@ int drm_atomic_helper_page_flip_target(
+ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+ 				       u16 *red, u16 *green, u16 *blue,
+ 				       uint32_t size,
+ 				       struct drm_modeset_acquire_ctx *ctx);
+ 
+ /**
+  * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
+  * @plane: the loop cursor
+  * @crtc:  the CRTC whose planes are iterated
+  *
+  * This iterates over the current state, useful (for example) when applying
+  * atomic state after it has been checked and swapped.  To iterate over the
+  * planes which *will* be attached (more useful in code called from
+  * &drm_mode_config_funcs.atomic_check) see
+  * drm_atomic_crtc_state_for_each_plane().
+  */
+ #define drm_atomic_crtc_for_each_plane(plane, crtc) \
+ 	drm_for_each_plane_mask(plane, (crtc)->dev, (crtc)->state->plane_mask)
+ 
+ /**
+- * drm_crtc_atomic_state_for_each_plane - iterate over attached planes in new state
++ * drm_atomic_crtc_state_for_each_plane - iterate over attached planes in new state
+  * @plane: the loop cursor
+  * @crtc_state: the incoming CRTC state
+  *
+  * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
+  * attached if the specified state is applied.  Useful during for example
+  * in code called from &drm_mode_config_funcs.atomic_check operations, to
+  * validate the incoming state.
+  */
+ #define drm_atomic_crtc_state_for_each_plane(plane, crtc_state) \
+ 	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask)
+ 
+ /**
+- * drm_crtc_atomic_state_for_each_plane_state - iterate over attached planes in new state
++ * drm_atomic_crtc_state_for_each_plane_state - iterate over attached planes in new state
+  * @plane: the loop cursor
+  * @plane_state: loop cursor for the plane's state, must be const
+  * @crtc_state: the incoming CRTC state
+  *
+  * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
+  * attached if the specified state is applied.  Useful during for example
+  * in code called from &drm_mode_config_funcs.atomic_check operations, to
+  * validate the incoming state.
+  *
+  * Compared to just drm_atomic_crtc_state_for_each_plane() this also fills in a
+  * const plane_state. This is useful when a driver just wants to peek at other
+  * active planes on this CRTC, but does not need to change it.
+  */
+ #define drm_atomic_crtc_state_for_each_plane_state(plane, plane_state, crtc_state) \
+ 	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask) \
+ 		for_each_if ((plane_state = \
+ 			      __drm_atomic_get_current_plane_state((crtc_state)->state, \
+ 								   plane)))
+ 
+ /**
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 928136556174..fcdc58d8b88b 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -67,41 +67,41 @@ enum drm_connector_status {
+ 	 * sink device which can be autodetect. For digital outputs like DP or
+ 	 * HDMI (which can be realiable probed) this means there's really
+ 	 * nothing there. It is driver-dependent whether a connector with this
+ 	 * status can be lit up or not.
+ 	 */
+ 	connector_status_disconnected = 2,
+ 	/**
+ 	 * @connector_status_unknown: The connector's status could not be
+ 	 * reliably detected. This happens when probing would either cause
+ 	 * flicker (like load-detection when the connector is in use), or when a
+ 	 * hardware resource isn't available (like when load-detection needs a
+ 	 * free CRTC). It should be possible to light up the connector with one
+ 	 * of the listed fallback modes. For default configuration userspace
+ 	 * should only try to light up connectors with unknown status when
+ 	 * there's not connector with @connector_status_connected.
+ 	 */
+ 	connector_status_unknown = 3,
+ };
+ 
+ /**
+- * enum drm_connector_registration_status - userspace registration status for
++ * enum drm_connector_registration_state - userspace registration status for
+  * a &drm_connector
+  *
+  * This enum is used to track the status of initializing a connector and
+  * registering it with userspace, so that DRM can prevent bogus modesets on
+  * connectors that no longer exist.
+  */
+ enum drm_connector_registration_state {
+ 	/**
+ 	 * @DRM_CONNECTOR_INITIALIZING: The connector has just been created,
+ 	 * but has yet to be exposed to userspace. There should be no
+ 	 * additional restrictions to how the state of this connector may be
+ 	 * modified.
+ 	 */
+ 	DRM_CONNECTOR_INITIALIZING = 0,
  
  	/**
- 	 * @i_next_transaction:
- 	 *
- 	 * Pointer to the running transaction modifying inode's data in case
- 	 * there is already a committing transaction touching it. [j_list_lock]
+ 	 * @DRM_CONNECTOR_REGISTERED: The connector has been fully initialized
+ 	 * and registered with sysfs, as such it has been exposed to
+ 	 * userspace. There should be no additional restrictions to how the
+ 	 * state of this connector may be modified.
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index 2c361964aee7..283a93ce4617 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -10,41 +10,41 @@
+ #include <drm/drm_mode_config.h>
+ 
+ struct drm_driver;
+ struct drm_minor;
+ struct drm_master;
+ struct drm_device_dma;
+ struct drm_vblank_crtc;
+ struct drm_sg_mem;
+ struct drm_local_map;
+ struct drm_vma_offset_manager;
+ struct drm_vram_mm;
+ struct drm_fb_helper;
+ 
+ struct inode;
+ 
+ struct pci_dev;
+ struct pci_controller;
+ 
+ 
+ /**
+- * enum drm_switch_power - power state of drm device
++ * enum switch_power_state - power state of drm device
+  */
+ 
+ enum switch_power_state {
+ 	/** @DRM_SWITCH_POWER_ON: Power state is ON */
+ 	DRM_SWITCH_POWER_ON = 0,
+ 
+ 	/** @DRM_SWITCH_POWER_OFF: Power state is OFF */
+ 	DRM_SWITCH_POWER_OFF = 1,
+ 
+ 	/** @DRM_SWITCH_POWER_CHANGING: Power state is changing */
+ 	DRM_SWITCH_POWER_CHANGING = 2,
+ 
+ 	/** @DRM_SWITCH_POWER_DYNAMIC_OFF: Suspended */
+ 	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
+ };
+ 
+ /**
+  * struct drm_device - DRM device structure
+  *
+  * This structure represent a complete card that
+diff --git a/include/drm/drm_dsc.h b/include/drm/drm_dsc.h
+index 732f32740c86..53c51231b31c 100644
+--- a/include/drm/drm_dsc.h
++++ b/include/drm/drm_dsc.h
+@@ -256,41 +256,42 @@ struct drm_dsc_config {
+ 	bool native_420;
+ 	/**
+ 	 * @second_line_bpg_offset:
+ 	 * Additional bits/grp for seconnd line of slice for native 4:2:0
  	 */
- 	transaction_t *i_next_transaction;
+ 	u8 second_line_bpg_offset;
+ 	/**
+ 	 * @nsl_bpg_offset:
+ 	 * Num of bits deallocated for each grp that is not in second line of
+ 	 * slice
+ 	 */
+ 	u16 nsl_bpg_offset;
+ 	/**
+ 	 * @second_line_offset_adj:
+ 	 * Offset adjustment for second line in Native 4:2:0 mode
+ 	 */
+ 	u16 second_line_offset_adj;
+ };
+ 
+ /**
+- * struct picture_parameter_set - Represents 128 bytes of Picture Parameter Set
++ * struct drm_dsc_picture_parameter_set - Represents 128 bytes of
++ * 	Picture Parameter Set
+  *
+  * The VESA DSC standard defines picture parameter set (PPS) which display
+  * stream compression encoders must communicate to decoders.
+  * The PPS is encapsulated in 128 bytes (PPS 0 through PPS 127). The fields in
+  * this structure are as per Table 4.1 in Vesa DSC specification v1.1/v1.2.
+  * The PPS fields that span over more than a byte should be stored in Big Endian
+  * format.
+  */
+ struct drm_dsc_picture_parameter_set {
+ 	/**
+ 	 * @dsc_version:
+ 	 * PPS0[3:0] - dsc_version_minor: Contains Minor version of DSC
+ 	 * PPS0[7:4] - dsc_version_major: Contains major version of DSC
+ 	 */
+ 	u8 dsc_version;
+ 	/**
+ 	 * @pps_identifier:
+ 	 * PPS1[7:0] - Application specific identifier that can be
+ 	 * used to differentiate between different PPS tables.
+ 	 */
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index c0d28ba0f5c9..a4bac02249c2 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -49,54 +49,54 @@ struct vm_area_struct;
+  * drm_gem_vram_vmap() and drm_gem_vram_vunmap().
+  */
+ struct drm_gem_vram_object {
+ 	struct ttm_buffer_object bo;
+ 	struct dma_buf_map map;
  
  	/**
+ 	 * @vmap_use_count:
+ 	 *
+ 	 * Reference count on the virtual address.
+ 	 * The address are un-mapped when the count reaches zero.
+ 	 */
+ 	unsigned int vmap_use_count;
+ 
+ 	/* Supported placements are %TTM_PL_VRAM and %TTM_PL_SYSTEM */
+ 	struct ttm_placement placement;
+ 	struct ttm_place placements[2];
+ };
+ 
+ /**
+- * Returns the container of type &struct drm_gem_vram_object
+- * for field bo.
++ * drm_gem_vram_of_bo - Returns the container of type
++ * &struct drm_gem_vram_object for field bo.
+  * @bo:		the VRAM buffer object
+  * Returns:	The containing GEM VRAM object
+  */
+ static inline struct drm_gem_vram_object *drm_gem_vram_of_bo(
+ 	struct ttm_buffer_object *bo)
+ {
+ 	return container_of(bo, struct drm_gem_vram_object, bo);
+ }
+ 
+ /**
+- * Returns the container of type &struct drm_gem_vram_object
+- * for field gem.
++ * drm_gem_vram_of_gem - Returns the container of type
++ * &struct drm_gem_vram_object for field gem.
+  * @gem:	the GEM object
+  * Returns:	The containing GEM VRAM object
+  */
+ static inline struct drm_gem_vram_object *drm_gem_vram_of_gem(
+ 	struct drm_gem_object *gem)
+ {
+ 	return container_of(gem, struct drm_gem_vram_object, bo.base);
+ }
+ 
+ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
+ 						size_t size,
+ 						unsigned long pg_align);
+ void drm_gem_vram_put(struct drm_gem_vram_object *gbo);
+ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
+ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
+ int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
+ int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
+ int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
+ void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
+ 
 -- 
 2.28.0
 
