@@ -2,107 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78CC6C4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 15:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BA1C6369E
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 15:40:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35AA02076E
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 15:38:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F5AC221F9
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 15:40:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="o536oL+2"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="xV7xxuxw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730896AbgKPPhX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 10:37:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57200 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730415AbgKPPhX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 10:37:23 -0500
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B2B9522265;
-        Mon, 16 Nov 2020 15:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605541042;
-        bh=E8sdLeoXIzuGmOa5OnMrHgj2yXn2UCzO0W2afC9rPuk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=o536oL+2jBT8rxRsfC+tXAjv5gHqLzcLVB31sbOHhgsVNlS+Geq0O1pZzwyVYAlX4
-         GcZhqkXekHID+qw9bCtRwibJo7SFgfT6j9ItPu+Fa1fhCIF5rtMtt7ew3966SBrfZm
-         m5K3fr6EQlAfSWBq4AZpKRR5x+KLsMvCxrsC9Ots=
-Received: by mail-oo1-f41.google.com with SMTP id l10so3989210oom.6;
-        Mon, 16 Nov 2020 07:37:22 -0800 (PST)
-X-Gm-Message-State: AOAM531TRRKbqJjhGfBD9H0VB0Ksuk0lNNuP9cISV0ejm7vWjTjyKjMm
-        SqnQvXEnG3ZQbVHavpnusNzh9qudSMII0mUPVZM=
-X-Google-Smtp-Source: ABdhPJwM0C/5+mYGkprp6MGo45Jg+Y4cMg6i4Udv3mmMRAH/nnzs8rxK08SMGeEcf0ooEr/jW8gZH1jSiUBbnEh2gOI=
-X-Received: by 2002:a4a:a217:: with SMTP id m23mr10462852ool.26.1605541041921;
- Mon, 16 Nov 2020 07:37:21 -0800 (PST)
+        id S1730781AbgKPPku (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 10:40:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55758 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730683AbgKPPks (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 10:40:48 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDBEC0613CF
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2020 07:40:47 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id 34so10281632pgp.10
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2020 07:40:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eVDk25klplgFEcpkGpaROXvrHpIQaG+lE/PmD3FQfsg=;
+        b=xV7xxuxw5Gq4YqNkxVYnjK/3wd86nAg3q01YVwVs772XbJqgJXRHSqrakRA81SM+IP
+         s0czxMzJp8633mbm3jlO//Kd6r5mWOqzbrnwqKF2PNyeYzVa66e0nu1dz6/uU4fc3/DB
+         FK4BkNhrJ6OK1MT+B+hsl51FimoMQ4b7GR52ZnDhWVLCuaJF4Pxdc2pgvc2OAjYqu6aB
+         xflOGqwfbYj0qwknHmBX8yRlFXoHqnifSoctAXrEHzpM/plnui5MXafe1Wz7UbECH6fo
+         KZZqo077rycOhEOextBkvm2jDXB6oCkzhXxGvvXVdV+4UbfEYDFz1P933iDi7+O5HeR3
+         9h9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eVDk25klplgFEcpkGpaROXvrHpIQaG+lE/PmD3FQfsg=;
+        b=ICqQOvmlWk+Dd70Og8A7LAGccjIvts0MGDUi3qGodjDKZH3i9lCTrilWvYiHtf0ZaB
+         /sPxAZVGffDsonajK8Zc1TR1NrLBN9ITG22KNGEYdRxAgswWZhDWC4zDy1OAyIQduRVd
+         5nTwnanuk6sIPfKcddNfG2SWdkVD/vPNqJy7yqVYm8LpOYhnswitD6hFsQtlV4JlO6qz
+         ELGnFbh3z/BLabt6iUbZqUglXY/2AuUQ60YVhdly+ap2x4H6sEU6iGWyM84FAn8UMqGk
+         kdQFgwZbQazoku4TRmnCbPaZd3Q9IS4HsGPSpHPsEw3iG/vAQHBsiYRDUdZg1HtbYZJg
+         mpew==
+X-Gm-Message-State: AOAM530M6qqnpVj37goP/ewlHFBp9w3bl6jZZG+spPulp8ZOQbPdPhOH
+        g+6oznfeFuSjcOlPQ0j45T4xU5hg+XHdiCcF7PCB3Q==
+X-Google-Smtp-Source: ABdhPJyJg96R7CKAQR03WWFb674tV+f5dzjjcC6c1Jts1Yw7rBo8IWAFN54P/yT/Pp/gxo+9R2TrcBItgVpeQEdiqeI=
+X-Received: by 2002:a17:90a:8086:: with SMTP id c6mr16639456pjn.147.1605541246831;
+ Mon, 16 Nov 2020 07:40:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20200930153519.7282-16-kishon@ti.com> <VI1PR04MB496061EAB6F249F1C394F01092EA0@VI1PR04MB4960.eurprd04.prod.outlook.com>
- <d6d27475-3464-6772-2122-cc194b8ae022@ti.com> <VI1PR04MB49602D24F65E11FF1F14294F92E90@VI1PR04MB4960.eurprd04.prod.outlook.com>
- <30c8f7a1-baa5-1eb4-d2c2-9a13be896f0f@ti.com> <CAK8P3a38vBXbAWE09H+TSoZUTkFdYDcQmXX97foT4qXQc8t5ZQ@mail.gmail.com>
- <5a9115c8-322e-ffd4-6274-ae98c375b21d@ti.com> <CAK8P3a33XSvenqBhuQpGmtLbYydyzY2OQh73150TJtpzW24DTw@mail.gmail.com>
- <c720de5b-bf76-162f-24cb-07f6fe670bd2@ti.com>
-In-Reply-To: <c720de5b-bf76-162f-24cb-07f6fe670bd2@ti.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Mon, 16 Nov 2020 16:37:05 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0nTdtADPa_5jduDm5MpBiwBNgs7cYokK5qBZ=RkL1Ktg@mail.gmail.com>
-Message-ID: <CAK8P3a0nTdtADPa_5jduDm5MpBiwBNgs7cYokK5qBZ=RkL1Ktg@mail.gmail.com>
-Subject: Re: [PATCH v7 15/18] NTB: Add support for EPF PCI-Express
- Non-Transparent Bridge
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Sherry Sun <sherry.sun@nxp.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jdmason@kudzu.us" <jdmason@kudzu.us>,
-        "dave.jiang@intel.com" <dave.jiang@intel.com>,
-        "allenbh@gmail.com" <allenbh@gmail.com>,
-        "tjoseph@cadence.com" <tjoseph@cadence.com>,
-        Rob Herring <robh@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+References: <20201113105952.11638-1-songmuchun@bytedance.com>
+ <20201113105952.11638-5-songmuchun@bytedance.com> <20201116133310.GA32129@linux>
+In-Reply-To: <20201116133310.GA32129@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 16 Nov 2020 23:40:10 +0800
+Message-ID: <CAMZfGtU1v+6zje_-CqrvHLSbDYkcLeVpi=29-AMieOXQE5Qokg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v4 04/21] mm/hugetlb: Introduce
+ nr_free_vmemmap_pages in the struct hstate
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 6:19 AM Kishon Vijay Abraham I <kishon@ti.com> wrote:
-> On 12/11/20 6:54 pm, Arnd Bergmann wrote:
-> >
-> > This looks very  promising indeed, I need to read up on the whole
-> > discussion there. I also see your slides at [1]  that help do explain some
-> > of it. I have one fundamental question that I can't figure out from
-> > the description, maybe you can help me here:
-> >
-> > How is the configuration managed, taking the EP case as an
-> > example? Your UseCase1 example sounds like the system that owns
-> > the EP hardware is the one that turns the EP into a vhost device,
-> > and creates a vhost-rpmsg device on top, while the RC side would
-> > probe the pci-vhost and then detect a virtio-rpmsg device to talk to.
+On Mon, Nov 16, 2020 at 9:33 PM Oscar Salvador <osalvador@suse.de> wrote:
 >
-> That's correct. Slide no 9 in [1] should give the layering details.
+> On Fri, Nov 13, 2020 at 06:59:35PM +0800, Muchun Song wrote:
+> > If the size of HugeTLB page is 2MB, we need 512 struct page structures
+> > (8 pages) to be associated with it. As far as I know, we only use the
+> > first 4 struct page structures. Use of first 4 struct page structures
+> > comes from HUGETLB_CGROUP_MIN_ORDER.
 >
-> > Can it also do the opposite, so you end up with e.g. a virtio-net
-> > device on the EP side and vhost-net on the RC?
+> Once you mention 2MB HugeTLB page and its specific I would also mention
+> 1GB HugeTLB pages, maybe something along these lines.
+> I would supress "As far as I know", we __know__ that we only use
+> the first 4 struct page structures to track metadata information.
+
+Thanks. Will do.
+
 >
-> Unfortunately no. Again referring slide 9 in [1], we only have
-> vhost-pci-epf on the EP side which only creates a "vhost_dev" to deal
-> with vhost side of things. For doing the opposite, we'd need to create
-> virtio-pci-epf for EP side that interacts with core virtio (and also the
-> corresponding vhost back end on PCI host).
+> > +/*
+> > + * There are 512 struct page structures(8 pages) associated with each 2MB
+> > + * hugetlb page. For tail pages, the value of compound_head is the same.
+> > + * So we can reuse first page of tail page structures. We map the virtual
+> > + * addresses of the remaining 6 pages of tail page structures to the first
+> > + * tail page struct, and then free these 6 pages. Therefore, we need to
+> > + * reserve at least 2 pages as vmemmap areas.
+> > + */
+> > +#define RESERVE_VMEMMAP_NR           2U
+>
+> Either I would include 1GB specific there as well, or I would not add
+> any specifics at all and just go by saying that first two pages are used,
+> and the rest can be remapped to the first page that contains the tails.
 
-Ok, I see. So I think this is the opposite of drivers/misc/mic and
-the bluefield driver were using, so we would probably end up
-needing both.
+Thanks. Will do.
 
-Then again, I guess the NTB driver would give us the functionality
-for free, if it shows a symmetric link?
+>
+>
+> > +void __init hugetlb_vmemmap_init(struct hstate *h)
+> > +{
+> > +     unsigned int order = huge_page_order(h);
+> > +     unsigned int vmemmap_pages;
+> > +
+> > +     vmemmap_pages = ((1 << order) * sizeof(struct page)) >> PAGE_SHIFT;
+> > +     /*
+> > +      * The head page and the first tail page are not to be freed to buddy
+> > +      * system, the others page will map to the first tail page. So there
+> "the remaining pages" might be more clear.
 
-      Arnd
+Thanks.
+
+>
+> > +      * are (@vmemmap_pages - RESERVE_VMEMMAP_NR) pages can be freed.
+> "that can be freed"
+
+Thanks.
+
+>
+> > +      *
+> > +      * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? This is
+> > +      * not expected to happen unless the system is corrupted. So on the
+> > +      * safe side, it is only a safety net.
+> > +      */
+> > +     if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
+> > +             h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
+> > +     else
+> > +             h->nr_free_vmemmap_pages = 0;
+>
+> This made think of something.
+> Since struct hstate hstates is global, all the fields should be defined to 0.
+> So, the following assignments in hugetlb_add_hstate:
+>
+>         h->nr_huge_pages = 0;
+>         h->free_huge_pages = 0;
+>
+> should not be needed.
+> Actually, we do not initialize other values like resv_huge_pages
+> or surplus_huge_pages.
+>
+> If that is the case, the "else" could go.
+
+Yeah, I agree with you.
+
+>
+> Mike?
+>
+> The changes itself look good to me.
+> I think that putting all the vemmap stuff into hugetlb-vmemmap.* was
+> the right choice.
+>
+>
+> --
+> Oscar Salvador
+> SUSE L3
+
+
+
+-- 
+Yours,
+Muchun
