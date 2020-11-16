@@ -7,53 +7,44 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF860C4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:21:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33094C4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:21:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84B3F20853
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D597F204EF
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:21:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="EQghPL1J"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdrNreE4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729076AbgKPKTp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729074AbgKPKTp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 16 Nov 2020 05:19:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53210 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:53282 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728839AbgKPKSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 05:18:30 -0500
+        id S1728851AbgKPKSb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:18:31 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6A14422447;
+        by mail.kernel.org (Postfix) with ESMTPSA id 8DDE92419B;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1605521908;
-        bh=O4qZGNDBJFOujXhRHfmeXCL9QARjpkuE22vOQsuBA08=;
+        bh=f9tWm2JzuB3ZU4Tr7DYnkDGWstm1h/bF75LW7XM/DrI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EQghPL1JaNZUao4JPdg4jceD1QVGAYBBDS6veO8IxitRQk52FkcKOgc1eyFN/ggqV
-         d9BHNJDJHXudwIl3LEQTKo6ckL828g0daV2hvADdh770o2a+JDzEfwQUfTO6lFAyCy
-         mFQDw5EhMJr6ht4gvrmjcNlVP5zkNOv2As+WmGUM=
+        b=fdrNreE4lLWpQcvJy5TpYVHWJLldjWvGlyF/8hnb2aM6/S4rl290qC1FD8qsZijn+
+         nR+hQeX0SQ/3RESWyzSaxjOni0QC6nxWg2MLMtnsG3sdqHe2k+5Up60aGGLl/DRjoP
+         +LZPjrCsrVePwdfgU09GyL7pWAtTezcSc+wQp9jM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebac-00FwEB-6h; Mon, 16 Nov 2020 11:18:26 +0100
+        id 1kebac-00FwEi-K5; Mon, 16 Nov 2020 11:18:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To:     Evgeniy Polyakov <zbr@ioremap.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Bernard Zhao <bernard@vivo.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 10/27] video: fix some kernel-doc markups
-Date:   Mon, 16 Nov 2020 11:18:06 +0100
-Message-Id: <21661aed9892a1bacc7ef76a5dc9f5c7b37f5d8f.1605521731.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 22/27] w1: fix a kernel-doc markup
+Date:   Mon, 16 Nov 2020 11:18:18 +0100
+Message-Id: <5acc0c56219589ffcd0a1d5a816f6df79ed6349c.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -64,110 +55,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
+A function has a different name between their prototype
+and its kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/video/fbdev/core/fbcmap.c | 2 +-
- drivers/video/hdmi.c              | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ include/linux/w1.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbcmap.c b/drivers/video/fbdev/core/fbcmap.c
-index e5ae33c1a8e8..757d5c3f620b 100644
---- a/drivers/video/fbdev/core/fbcmap.c
-+++ b/drivers/video/fbdev/core/fbcmap.c
-@@ -59,41 +59,41 @@ static u16 blue16[] __read_mostly = {
-     0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa,
-     0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff
+diff --git a/include/linux/w1.h b/include/linux/w1.h
+index 949d3b10e531..9a2a0ef39018 100644
+--- a/include/linux/w1.h
++++ b/include/linux/w1.h
+@@ -263,41 +263,41 @@ struct w1_family_ops {
+  * @fid:		8 bit family identifier
+  * @fops:		operations for this family
+  * @of_match_table: open firmware match table
+  * @refcnt:		reference counter
+  */
+ struct w1_family {
+ 	struct list_head	family_entry;
+ 	u8			fid;
+ 
+ 	const struct w1_family_ops *fops;
+ 
+ 	const struct of_device_id *of_match_table;
+ 
+ 	atomic_t		refcnt;
  };
  
- static const struct fb_cmap default_2_colors = {
-     .len=2, .red=red2, .green=green2, .blue=blue2
- };
- static const struct fb_cmap default_8_colors = {
-     .len=8, .red=red8, .green=green8, .blue=blue8
- };
- static const struct fb_cmap default_4_colors = {
-     .len=4, .red=red4, .green=green4, .blue=blue4
- };
- static const struct fb_cmap default_16_colors = {
-     .len=16, .red=red16, .green=green16, .blue=blue16
- };
- 
- 
+ int w1_register_family(struct w1_family *family);
+ void w1_unregister_family(struct w1_family *family);
  
  /**
-- *	fb_alloc_cmap - allocate a colormap
-+ *	fb_alloc_cmap_gfp - allocate a colormap
-  *	@cmap: frame buffer colormap structure
-  *	@len: length of @cmap
-  *	@transp: boolean, 1 if there is transparency, 0 otherwise
-  *	@flags: flags for kmalloc memory allocation
+- * module_w1_driver() - Helper macro for registering a 1-Wire families
++ * module_w1_family() - Helper macro for registering a 1-Wire families
+  * @__w1_family: w1_family struct
   *
-  *	Allocates memory for a colormap @cmap.  @len is the
-  *	number of entries in the palette.
-  *
-  *	Returns negative errno on error, or zero on success.
-  *
+  * Helper macro for 1-Wire families which do not do anything special in module
+  * init/exit. This eliminates a lot of boilerplate. Each module may only
+  * use this macro once, and calling it replaces module_init() and module_exit()
   */
+ #define module_w1_family(__w1_family) \
+ 	module_driver(__w1_family, w1_register_family, \
+ 			w1_unregister_family)
  
- int fb_alloc_cmap_gfp(struct fb_cmap *cmap, int len, int transp, gfp_t flags)
- {
- 	int size = len * sizeof(u16);
- 	int ret = -ENOMEM;
- 
- 	flags |= __GFP_NOWARN;
- 
- 	if (cmap->len != len) {
-diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
-index 1e4cb63d0d11..947be761dfa4 100644
---- a/drivers/video/hdmi.c
-+++ b/drivers/video/hdmi.c
-@@ -1675,41 +1675,42 @@ static int hdmi_audio_infoframe_unpack(struct hdmi_audio_infoframe *frame,
- 
- 	ret = hdmi_audio_infoframe_init(frame);
- 	if (ret)
- 		return ret;
- 
- 	ptr += HDMI_INFOFRAME_HEADER_SIZE;
- 
- 	frame->channels = ptr[0] & 0x7;
- 	frame->coding_type = (ptr[0] >> 4) & 0xf;
- 	frame->sample_size = ptr[1] & 0x3;
- 	frame->sample_frequency = (ptr[1] >> 2) & 0x7;
- 	frame->coding_type_ext = ptr[2] & 0x1f;
- 	frame->channel_allocation = ptr[3];
- 	frame->level_shift_value = (ptr[4] >> 3) & 0xf;
- 	frame->downmix_inhibit = ptr[4] & 0x80 ? true : false;
- 
- 	return 0;
- }
- 
- /**
-- * hdmi_vendor_infoframe_unpack() - unpack binary buffer to a HDMI vendor infoframe
-+ * hdmi_vendor_any_infoframe_unpack() - unpack binary buffer to a HDMI
-+ * 	vendor infoframe
-  * @frame: HDMI Vendor infoframe
-  * @buffer: source buffer
-  * @size: size of buffer
-  *
-  * Unpacks the information contained in binary @buffer into a structured
-  * @frame of the HDMI Vendor information frame.
-  * Also verifies the checksum as required by section 5.3.5 of the HDMI 1.4
-  * specification.
-  *
-  * Returns 0 on success or a negative error code on failure.
-  */
- static int
- hdmi_vendor_any_infoframe_unpack(union hdmi_vendor_any_infoframe *frame,
- 				 const void *buffer, size_t size)
- {
- 	const u8 *ptr = buffer;
- 	size_t length;
- 	int ret;
- 	u8 hdmi_video_format;
- 	struct hdmi_vendor_infoframe *hvf = &frame->hdmi;
+ u8 w1_triplet(struct w1_master *dev, int bdir);
+ u8 w1_touch_bit(struct w1_master *dev, int bit);
+ void w1_write_8(struct w1_master *, u8);
+ u8 w1_read_8(struct w1_master *);
+ int w1_reset_bus(struct w1_master *);
+ u8 w1_calc_crc8(u8 *, int);
+ void w1_write_block(struct w1_master *, const u8 *, int);
+ void w1_touch_block(struct w1_master *, u8 *, int);
+ u8 w1_read_block(struct w1_master *, u8 *, int);
+ int w1_reset_select_slave(struct w1_slave *sl);
 -- 
 2.28.0
 
