@@ -2,118 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C85C4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 18:42:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C1AC63777
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 18:49:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 461EA221F9
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 18:42:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="zL3QR8va"
+	by mail.kernel.org (Postfix) with ESMTP id 55CB62244C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 18:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728573AbgKPSm3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 13:42:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45622 "EHLO mail.kernel.org"
+        id S1728018AbgKPStV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 13:49:21 -0500
+Received: from mga02.intel.com ([134.134.136.20]:50413 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726519AbgKPSm3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 13:42:29 -0500
-Received: from coco.lan (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B5954217A0;
-        Mon, 16 Nov 2020 18:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605552149;
-        bh=PKf1mrbQSMMCl7kXOxvqWnUL+SpVIOm/wqvhMfGOZjo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=zL3QR8vaSXFPeXVOJrU0zE3M2CkJiOe/scDAEqonDmxy98+64KoiKnGDgc4Ugp7ho
-         G3/lqQzTQnAoVnRRnSIjUNYanXAjjkf1CFuRPY73f3TwEfxAOAdqvFEvQfybuJ0gaG
-         svOlDy2aujIq7vXqcGBtNWw3mdpvegq+xMSx2gkA=
-Date:   Mon, 16 Nov 2020 19:42:20 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Bernard Zhao <bernard@vivo.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 10/27] video: fix some kernel-doc markups
-Message-ID: <20201116194220.15cc9a33@coco.lan>
-In-Reply-To: <20201116172404.GD401619@phenom.ffwll.local>
-References: <cover.1605521731.git.mchehab+huawei@kernel.org>
-        <21661aed9892a1bacc7ef76a5dc9f5c7b37f5d8f.1605521731.git.mchehab+huawei@kernel.org>
-        <20201116153606.GC401619@phenom.ffwll.local>
-        <20201116173804.7d64f55f@coco.lan>
-        <20201116172404.GD401619@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727701AbgKPStV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 13:49:21 -0500
+IronPort-SDR: isxPLhZX6e4/B74nh8z4uG3vOKzpEKkpbZyptzktclqw6xWlfNfccQ56UOcem5Mvd4UkjTQlnY
+ R31xfgo1knuw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="157821919"
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
+   d="scan'208";a="157821919"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 10:49:18 -0800
+IronPort-SDR: QM3K1Df9J/Wg+oJAcVfa83qY/TNr4BOrYcj8zI8YrrZ97jsEsonZ8J/uK1N6DUXothgxIsiUVW
+ Pzs792lhR6LA==
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
+   d="scan'208";a="533514829"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 10:49:17 -0800
+Date:   Mon, 16 Nov 2020 10:49:16 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH V3 05/10] x86/entry: Pass irqentry_state_t by reference
+Message-ID: <20201116184916.GA722447@iweiny-DESK2.sc.intel.com>
+References: <20201106232908.364581-1-ira.weiny@intel.com>
+ <20201106232908.364581-6-ira.weiny@intel.com>
+ <87mtzi8n0z.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87mtzi8n0z.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 16 Nov 2020 18:24:04 +0100
-Daniel Vetter <daniel@ffwll.ch> escreveu:
-
-> On Mon, Nov 16, 2020 at 05:38:04PM +0100, Mauro Carvalho Chehab wrote:
-> > Em Mon, 16 Nov 2020 16:36:06 +0100
-> > Daniel Vetter <daniel@ffwll.ch> escreveu:
-> >   
-> > > On Mon, Nov 16, 2020 at 11:18:06AM +0100, Mauro Carvalho Chehab wrote:  
-> > > > Some identifiers have different names between their prototypes
-> > > > and the kernel-doc markup.
-> > > > 
-> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>    
-> > > 
-> > > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > 
-> > > I'm assuming you're sending a pull request for this.  
-> > 
-> > Feel free to just merge it via your tree. Patches here are pretty
-> > much independent ;-)  
+On Sun, Nov 15, 2020 at 07:58:52PM +0100, Thomas Gleixner wrote:
+> Ira,
 > 
-> Ok I put it into drm-misc-next. I kinda assumed since there's also a huge
-> effort going on to shut up warnings, plus I think kerneldoc issues are
-> reported by a bunch of build bots nowadays. So assumed you pile this all
-> up.
+> On Fri, Nov 06 2020 at 15:29, ira weiny wrote:
+> 
+> Subject prefix wants to 'entry:'. This changes generic code and the x86
+> part is just required to fix the generic code change.
 
-Currently, this doesn't generate any warnings (which, IMHO, it is a
-very bad thing). The final patch on this series actually such warning. 
-My plan is to have the final patch merged for Kernel 5.11.
+Sorry, yes that was carried incorrectly from earlier versions.
 
-So, at least from PoV of shut up warnings[1], this patch be either
-be merged for 5.11 or earlier.
+> 
+> > Currently struct irqentry_state_t only contains a single bool value
+> > which makes passing it by value is reasonable.  However, future patches
+> > propose to add information to this struct, for example the PKRS
+> > register/thread state.
+> >
+> > Adding information to irqentry_state_t makes passing by value less
+> > efficient.  Therefore, change the entry/exit calls to pass irq_state by
+> > reference.
+> 
+> The PKRS muck needs to add an u32 to that struct. So how is that a
+> problem?
 
-Regards,
-Mauro
+There are more fields to be added for the kmap/pmem support.  So this will be
+needed eventually.  Even though it is not strictly necessary in the next patch.
 
--
+> 
+> The resulting struct still fits into 64bit which is by far more
+> efficiently passed by value than by reference. So which problem are you
+> solving here?
 
-[1] Basically, if you do:
+I'm getting ahead of myself a bit.  I will be adding more fields for the
+kmap/pmem tracking.
 
-	/**
-	 * foo - some foo func
-	 */
-	int bar(...)
+Would you accept just a clean up for the variable names in this patch?  I could
+then add the pass by reference when I add the new fields later.  Or would an
+update to the commit message be ok to land this now?
 
-the documentation will be for "bar()" function, instead of
-"foo()", as Kernel-doc currently simply ignores "foo".
+Ira
 
-On several places, this is due to a typo or a function
-rename, but there are a few places where a "bar()" function
-got added between the kernel-doc markup and "foo()" function,
-thus producing wrong docs. Don't remember if are there any
-such issues under drivers/video or drivers/gpu.
+> 
+> Thanks
+> 
+>         tglx
+> 
