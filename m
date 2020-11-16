@@ -2,71 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 482EFC4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 13:52:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FB6C63699
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 14:49:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14F22222B9
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 13:52:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44BDF222E8
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 14:49:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r01iUwUp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729291AbgKPNw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 08:52:29 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38150 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728133AbgKPNw3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 08:52:29 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id ED952AC48;
-        Mon, 16 Nov 2020 13:52:27 +0000 (UTC)
-Date:   Mon, 16 Nov 2020 14:52:24 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 02/21] mm/memory_hotplug: Move
- {get,put}_page_bootmem() to bootmem_info.c
-Message-ID: <20201116135224.GC32129@linux>
-References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <20201113105952.11638-3-songmuchun@bytedance.com>
+        id S1730587AbgKPOtU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 09:49:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47484 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728759AbgKPOtT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 09:49:19 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CB0C0613CF;
+        Mon, 16 Nov 2020 06:49:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=RDf2G1ey+OqMdRV7SqRvnp7FIZVqoCW/+CXV/+/I1ZY=; b=r01iUwUpGWhjIXd1GUDYNDdyxI
+        mBMuNuRjP05KACKmLNB4FTSzhKktN+B+bjDWs6klVUUN9tT9qQz3EpsHUpK1LE59EqLFsFqfJeMDf
+        hjglFpwHbTPdbeKATYnBa+OLOAGfpEmTQto/iMzFwtET/gWM8TsRuKAp8Yc/gfYZevoMaNGap9DF/
+        bUKBrLQb66A7qdGAvEj8p3TccvPxxHzmxv6QloBQ10WeJ9shTqxUS3pqbolT3euO4pflznUi+g8cU
+        XApQxY6rY+GJ1ul2XnfRMsCf1PFbGynUK5eM2Tw6ARtqKZgEhYNM8YY/Bc/hW1Fvo5uIh6VeUGJEa
+        dc1PjY1Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kefoh-00037S-7e; Mon, 16 Nov 2020 14:49:15 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A4A5E307A49;
+        Mon, 16 Nov 2020 15:49:14 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8500B20299B60; Mon, 16 Nov 2020 15:49:14 +0100 (CET)
+Date:   Mon, 16 Nov 2020 15:49:14 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
+        keescook@chromium.org, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] seqnum_ops: Introduce Sequence Number Ops
+Message-ID: <20201116144914.GE3121378@hirez.programming.kicks-ass.net>
+References: <cover.1605287778.git.skhan@linuxfoundation.org>
+ <26cbcc431be5e3ab7d8e0e881d522605a27b1312.1605287778.git.skhan@linuxfoundation.org>
+ <20201113210327.GJ17076@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201113105952.11638-3-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201113210327.GJ17076@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 13, 2020 at 06:59:33PM +0800, Muchun Song wrote:
-> In the later patch, we will use {get,put}_page_bootmem() to initialize
-> the page for vmemmap or free vmemmap page to buddy. So move them out of
-> CONFIG_MEMORY_HOTPLUG_SPARSE. This is just code movement without any
-> functional change.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+On Fri, Nov 13, 2020 at 09:03:27PM +0000, Matthew Wilcox wrote:
+> I think almost all of this information should go into atomic_ops.rst
 
-The change itself makes sense.
-I tried to check the possibles scenarios with different CONFIG_ options
-toggled, but I will trust you that you ran the checks :-)
+No, we should delete atomic_ops.rst. It's bitrotted nonsense. The only
+reason it still exists is because I can't seem to get around to
+verifying we've actually covered everything in the new documentation:
 
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-
-
--- 
-Oscar Salvador
-SUSE L3
+	Documentation/atomic_*.txt
