@@ -4,47 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9BAC4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:19:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF860C4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:21:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68E2D20853
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:19:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84B3F20853
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:21:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBa/yVr9"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="EQghPL1J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729082AbgKPKTp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729076AbgKPKTp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 16 Nov 2020 05:19:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53212 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:53210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728838AbgKPKSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728839AbgKPKSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 16 Nov 2020 05:18:30 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 79809238E6;
+        by mail.kernel.org (Postfix) with ESMTPSA id 6A14422447;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1605521908;
-        bh=bYE3K8qf8FuwlLitXjd9/yN9A+lYb43nUXRVfV4LFV4=;
+        bh=O4qZGNDBJFOujXhRHfmeXCL9QARjpkuE22vOQsuBA08=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZBa/yVr9oXRB0QRipjpbDQqoGTOaedRbnNeZr3nROwiTeGoSla+DzctYNfH1ik1xP
-         BEcM1O0frppI5UpSDFktm9aawOid0Dh9+ozqAYTiyFxIQpG1G2gCbgBHRf6Z7yZvC1
-         V3GppEBTX2/uh5u39bJCUNZilARElSUYRfX0fYOM=
+        b=EQghPL1JaNZUao4JPdg4jceD1QVGAYBBDS6veO8IxitRQk52FkcKOgc1eyFN/ggqV
+         d9BHNJDJHXudwIl3LEQTKo6ckL828g0daV2hvADdh770o2a+JDzEfwQUfTO6lFAyCy
+         mFQDw5EhMJr6ht4gvrmjcNlVP5zkNOv2As+WmGUM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebac-00FwEY-Gq; Mon, 16 Nov 2020 11:18:26 +0100
+        id 1kebac-00FwEB-6h; Mon, 16 Nov 2020 11:18:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Bernard Zhao <bernard@vivo.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 19/27] genirq: fix kernel-doc markups
-Date:   Mon, 16 Nov 2020 11:18:15 +0100
-Message-Id: <13a44f4f0c3135e14b16ae8fcce4af1eab27cb5f.1605521731.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 10/27] video: fix some kernel-doc markups
+Date:   Mon, 16 Nov 2020 11:18:06 +0100
+Message-Id: <21661aed9892a1bacc7ef76a5dc9f5c7b37f5d8f.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -60,104 +69,105 @@ and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/irq/chip.c         | 2 +-
- kernel/irq/generic-chip.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/core/fbcmap.c | 2 +-
+ drivers/video/hdmi.c              | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/irq/chip.c b/kernel/irq/chip.c
-index b9b9618e1aca..df75c3573dcb 100644
---- a/kernel/irq/chip.c
-+++ b/kernel/irq/chip.c
-@@ -44,41 +44,41 @@ int irq_set_chip(unsigned int irq, struct irq_chip *chip)
- 	struct irq_desc *desc = irq_get_desc_lock(irq, &flags, 0);
+diff --git a/drivers/video/fbdev/core/fbcmap.c b/drivers/video/fbdev/core/fbcmap.c
+index e5ae33c1a8e8..757d5c3f620b 100644
+--- a/drivers/video/fbdev/core/fbcmap.c
++++ b/drivers/video/fbdev/core/fbcmap.c
+@@ -59,41 +59,41 @@ static u16 blue16[] __read_mostly = {
+     0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa,
+     0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff
+ };
  
- 	if (!desc)
- 		return -EINVAL;
+ static const struct fb_cmap default_2_colors = {
+     .len=2, .red=red2, .green=green2, .blue=blue2
+ };
+ static const struct fb_cmap default_8_colors = {
+     .len=8, .red=red8, .green=green8, .blue=blue8
+ };
+ static const struct fb_cmap default_4_colors = {
+     .len=4, .red=red4, .green=green4, .blue=blue4
+ };
+ static const struct fb_cmap default_16_colors = {
+     .len=16, .red=red16, .green=green16, .blue=blue16
+ };
  
- 	if (!chip)
- 		chip = &no_irq_chip;
  
- 	desc->irq_data.chip = chip;
- 	irq_put_desc_unlock(desc, flags);
- 	/*
- 	 * For !CONFIG_SPARSE_IRQ make the irq show up in
- 	 * allocated_irqs.
- 	 */
- 	irq_mark_irq(irq);
+ 
+ /**
+- *	fb_alloc_cmap - allocate a colormap
++ *	fb_alloc_cmap_gfp - allocate a colormap
+  *	@cmap: frame buffer colormap structure
+  *	@len: length of @cmap
+  *	@transp: boolean, 1 if there is transparency, 0 otherwise
+  *	@flags: flags for kmalloc memory allocation
+  *
+  *	Allocates memory for a colormap @cmap.  @len is the
+  *	number of entries in the palette.
+  *
+  *	Returns negative errno on error, or zero on success.
+  *
+  */
+ 
+ int fb_alloc_cmap_gfp(struct fb_cmap *cmap, int len, int transp, gfp_t flags)
+ {
+ 	int size = len * sizeof(u16);
+ 	int ret = -ENOMEM;
+ 
+ 	flags |= __GFP_NOWARN;
+ 
+ 	if (cmap->len != len) {
+diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+index 1e4cb63d0d11..947be761dfa4 100644
+--- a/drivers/video/hdmi.c
++++ b/drivers/video/hdmi.c
+@@ -1675,41 +1675,42 @@ static int hdmi_audio_infoframe_unpack(struct hdmi_audio_infoframe *frame,
+ 
+ 	ret = hdmi_audio_infoframe_init(frame);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ptr += HDMI_INFOFRAME_HEADER_SIZE;
+ 
+ 	frame->channels = ptr[0] & 0x7;
+ 	frame->coding_type = (ptr[0] >> 4) & 0xf;
+ 	frame->sample_size = ptr[1] & 0x3;
+ 	frame->sample_frequency = (ptr[1] >> 2) & 0x7;
+ 	frame->coding_type_ext = ptr[2] & 0x1f;
+ 	frame->channel_allocation = ptr[3];
+ 	frame->level_shift_value = (ptr[4] >> 3) & 0xf;
+ 	frame->downmix_inhibit = ptr[4] & 0x80 ? true : false;
+ 
  	return 0;
  }
- EXPORT_SYMBOL(irq_set_chip);
  
  /**
-- *	irq_set_type - set the irq trigger type for an irq
-+ *	irq_set_irq_type - set the irq trigger type for an irq
-  *	@irq:	irq number
-  *	@type:	IRQ_TYPE_{LEVEL,EDGE}_* value - see include/linux/irq.h
+- * hdmi_vendor_infoframe_unpack() - unpack binary buffer to a HDMI vendor infoframe
++ * hdmi_vendor_any_infoframe_unpack() - unpack binary buffer to a HDMI
++ * 	vendor infoframe
+  * @frame: HDMI Vendor infoframe
+  * @buffer: source buffer
+  * @size: size of buffer
+  *
+  * Unpacks the information contained in binary @buffer into a structured
+  * @frame of the HDMI Vendor information frame.
+  * Also verifies the checksum as required by section 5.3.5 of the HDMI 1.4
+  * specification.
+  *
+  * Returns 0 on success or a negative error code on failure.
   */
- int irq_set_irq_type(unsigned int irq, unsigned int type)
+ static int
+ hdmi_vendor_any_infoframe_unpack(union hdmi_vendor_any_infoframe *frame,
+ 				 const void *buffer, size_t size)
  {
- 	unsigned long flags;
- 	struct irq_desc *desc = irq_get_desc_buslock(irq, &flags, IRQ_GET_DESC_CHECK_GLOBAL);
- 	int ret = 0;
- 
- 	if (!desc)
- 		return -EINVAL;
- 
- 	ret = __irq_set_trigger(desc, type);
- 	irq_put_desc_busunlock(desc, flags);
- 	return ret;
- }
- EXPORT_SYMBOL(irq_set_irq_type);
- 
- /**
-  *	irq_set_handler_data - set irq handler data for an irq
-diff --git a/kernel/irq/generic-chip.c b/kernel/irq/generic-chip.c
-index e2999a070a99..a23ac2bbf433 100644
---- a/kernel/irq/generic-chip.c
-+++ b/kernel/irq/generic-chip.c
-@@ -252,41 +252,41 @@ EXPORT_SYMBOL_GPL(irq_alloc_generic_chip);
- 
- static void
- irq_gc_init_mask_cache(struct irq_chip_generic *gc, enum irq_gc_flags flags)
- {
- 	struct irq_chip_type *ct = gc->chip_types;
- 	u32 *mskptr = &gc->mask_cache, mskreg = ct->regs.mask;
- 	int i;
- 
- 	for (i = 0; i < gc->num_ct; i++) {
- 		if (flags & IRQ_GC_MASK_CACHE_PER_TYPE) {
- 			mskptr = &ct[i].mask_cache_priv;
- 			mskreg = ct[i].regs.mask;
- 		}
- 		ct[i].mask_cache = mskptr;
- 		if (flags & IRQ_GC_INIT_MASK_CACHE)
- 			*mskptr = irq_reg_readl(gc, mskreg);
- 	}
- }
- 
- /**
-- * __irq_alloc_domain_generic_chip - Allocate generic chips for an irq domain
-+ * __irq_alloc_domain_generic_chips - Allocate generic chips for an irq domain
-  * @d:			irq domain for which to allocate chips
-  * @irqs_per_chip:	Number of interrupts each chip handles (max 32)
-  * @num_ct:		Number of irq_chip_type instances associated with this
-  * @name:		Name of the irq chip
-  * @handler:		Default flow handler associated with these chips
-  * @clr:		IRQ_* bits to clear in the mapping function
-  * @set:		IRQ_* bits to set in the mapping function
-  * @gcflags:		Generic chip specific setup flags
-  */
- int __irq_alloc_domain_generic_chips(struct irq_domain *d, int irqs_per_chip,
- 				     int num_ct, const char *name,
- 				     irq_flow_handler_t handler,
- 				     unsigned int clr, unsigned int set,
- 				     enum irq_gc_flags gcflags)
- {
- 	struct irq_domain_chip_generic *dgc;
- 	struct irq_chip_generic *gc;
- 	int numchips, sz, i;
- 	unsigned long flags;
- 	void *tmp;
+ 	const u8 *ptr = buffer;
+ 	size_t length;
+ 	int ret;
+ 	u8 hdmi_video_format;
+ 	struct hdmi_vendor_infoframe *hvf = &frame->hdmi;
 -- 
 2.28.0
 
