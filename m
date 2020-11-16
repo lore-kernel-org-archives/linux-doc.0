@@ -4,55 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 804FEC4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:15:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F30F5C5519F
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:15:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D74422263
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:15:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D40622263
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:15:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="iNdH4Iws"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="xi2d8qqN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728871AbgKPKSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 05:18:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53102 "EHLO mail.kernel.org"
+        id S1729035AbgKPKTa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:19:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53216 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728831AbgKPKSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 05:18:30 -0500
+        id S1728835AbgKPKSb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:18:31 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4DA7F22314;
+        by mail.kernel.org (Postfix) with ESMTPSA id 706532244C;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1605521908;
-        bh=d8G37msgbohmjGjsmEGoarKHiKdZQ4KdwkElQNS8Um8=;
+        bh=Rh4dZjuk2KSuZTvDIh3X2akKo3hW2gIOC5NS/nf5ntE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iNdH4Iwssb+JCmswHBNFUpIF43ye8NHrZScJv0NAd1tPAWTo8QThuSzce9h6nUskq
-         rFFlUZiyZ526zZ0VEXOWtV0nrUiu4TQEs9MlGVV5pVqOZxm60I4r4UdRaP1WKPeNsU
-         3L6C6C8vJhAvmNtgq21q6IqNxaLjDanXvW5RWsMU=
+        b=xi2d8qqNWjnBVbcfSh5jQ+2T78WbxoLzvASxF6Ozg234G1SAJevJB5f7Ae+P1qZ99
+         PrUBmXmIE3ywC3iQhpnZkEWNLd4FpoGaB3oK4rRArs1SVZBL56okoGhzajWoXDFPTa
+         9a0yemT7Vzflw8S1F0BEQQdD5VyK5uYdhu21dAAQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebab-00FwDw-Us; Mon, 16 Nov 2020 11:18:25 +0100
+        id 1kebac-00FwEW-Fu; Mon, 16 Nov 2020 11:18:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Alexander Egorenkov <egorenar@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Julian Wiedmann <jwi@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: [PATCH v4 04/27] s390: fix kernel-doc markups
-Date:   Mon, 16 Nov 2020 11:18:00 +0100
-Message-Id: <4a9df42dfb68aed6b4a4882f6dccabf00ce932cd.1605521731.git.mchehab+huawei@kernel.org>
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 18/27] hrtimer: fix kernel-doc markups
+Date:   Mon, 16 Nov 2020 11:18:14 +0100
+Message-Id: <9dc87808c2fd07b7e050bafcd033c5ef05808fea.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -63,111 +55,135 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-fix one typo:
-	ccw driver -> ccw_driver
+The hrtimer_get_remaining() markup is documenting, instead,
+__hrtimer_get_remaining(), as it is placed at the C file.
 
-and one function rename.
+In order to properly document it, a kernel-doc markup is
+needed together with the function prototype. So, add a
+new one, while preserving the existing one, just fixing
+the function name.
+
+The hrtimer_is_queued prototype has a typo: it is using
+'=' character instead of '-' to split:
+	        identifier - description
+
+as required by kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- arch/s390/include/asm/ccwdev.h | 2 +-
- arch/s390/include/asm/cio.h    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/linux/hrtimer.h | 6 +++++-
+ kernel/time/hrtimer.c   | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/arch/s390/include/asm/ccwdev.h b/arch/s390/include/asm/ccwdev.h
-index bf605e1fcf6a..0495ac635ed5 100644
---- a/arch/s390/include/asm/ccwdev.h
-+++ b/arch/s390/include/asm/ccwdev.h
-@@ -100,41 +100,41 @@ struct ccw_device {
-  */
- #define PE_NONE				0x0
- #define PE_PATH_GONE			0x1 /* A path is no longer available. */
- #define PE_PATH_AVAILABLE		0x2 /* A path has become available and
- 					       was successfully verified. */
- #define PE_PATHGROUP_ESTABLISHED	0x4 /* A pathgroup was reset and had
- 					       to be established again. */
- #define PE_PATH_FCES_EVENT		0x8 /* The FCES Status of a path has
- 					     * changed. */
- 
- /*
-  * Possible CIO actions triggered by the unit check handler.
-  */
- enum uc_todo {
- 	UC_TODO_RETRY,
- 	UC_TODO_RETRY_ON_NEW_PATH,
- 	UC_TODO_STOP
- };
- 
- /**
-- * struct ccw driver - device driver for channel attached devices
-+ * struct ccw_driver - device driver for channel attached devices
-  * @ids: ids supported by this driver
-  * @probe: function called on probe
-  * @remove: function called on remove
-  * @set_online: called when setting device online
-  * @set_offline: called when setting device offline
-  * @notify: notify driver of device state changes
-  * @path_event: notify driver of channel path events
-  * @shutdown: called at device shutdown
-  * @prepare: prepare for pm state transition
-  * @complete: undo work done in @prepare
-  * @freeze: callback for freezing during hibernation snapshotting
-  * @thaw: undo work done in @freeze
-  * @restore: callback for restoring after hibernation
-  * @uc_handler: callback for unit check handler
-  * @driver: embedded device driver structure
-  * @int_class: interruption class to use for accounting interrupts
-  */
- struct ccw_driver {
- 	struct ccw_device_id *ids;
- 	int (*probe) (struct ccw_device *);
-diff --git a/arch/s390/include/asm/cio.h b/arch/s390/include/asm/cio.h
-index e36cb67d2441..ac02df906cae 100644
---- a/arch/s390/include/asm/cio.h
-+++ b/arch/s390/include/asm/cio.h
-@@ -312,41 +312,41 @@ struct node_descriptor {
- /* Device did not respond in time. */
- #define CIO_BOXED      0x0010
- 
- /**
-  * struct ccw_dev_id - unique identifier for ccw devices
-  * @ssid: subchannel set id
-  * @devno: device number
-  *
-  * This structure is not directly based on any hardware structure. The
-  * hardware identifies a device by its device number and its subchannel,
-  * which is in turn identified by its id. In order to get a unique identifier
-  * for ccw devices across subchannel sets, @struct ccw_dev_id has been
-  * introduced.
-  */
- struct ccw_dev_id {
- 	u8 ssid;
- 	u16 devno;
- };
- 
- /**
-- * ccw_device_id_is_equal() - compare two ccw_dev_ids
-+ * ccw_dev_id_is_equal() - compare two ccw_dev_ids
-  * @dev_id1: a ccw_dev_id
-  * @dev_id2: another ccw_dev_id
-  * Returns:
-  *  %1 if the two structures are equal field-by-field,
-  *  %0 if not.
-  * Context:
-  *  any
-  */
- static inline int ccw_dev_id_is_equal(struct ccw_dev_id *dev_id1,
- 				      struct ccw_dev_id *dev_id2)
+diff --git a/include/linux/hrtimer.h b/include/linux/hrtimer.h
+index 107cedd7019a..bb5e7b0a4274 100644
+--- a/include/linux/hrtimer.h
++++ b/include/linux/hrtimer.h
+@@ -430,52 +430,56 @@ static inline void hrtimer_start_expires(struct hrtimer *timer,
  {
- 	if ((dev_id1->ssid == dev_id2->ssid) &&
- 	    (dev_id1->devno == dev_id2->devno))
- 		return 1;
- 	return 0;
+ 	u64 delta;
+ 	ktime_t soft, hard;
+ 	soft = hrtimer_get_softexpires(timer);
+ 	hard = hrtimer_get_expires(timer);
+ 	delta = ktime_to_ns(ktime_sub(hard, soft));
+ 	hrtimer_start_range_ns(timer, soft, delta, mode);
  }
  
+ void hrtimer_sleeper_start_expires(struct hrtimer_sleeper *sl,
+ 				   enum hrtimer_mode mode);
+ 
+ static inline void hrtimer_restart(struct hrtimer *timer)
+ {
+ 	hrtimer_start_expires(timer, HRTIMER_MODE_ABS);
+ }
+ 
+ /* Query timers: */
+ extern ktime_t __hrtimer_get_remaining(const struct hrtimer *timer, bool adjust);
+ 
++/**
++ * hrtimer_get_remaining - get remaining time for the timer
++ * @timer:	the timer to read
++ */
+ static inline ktime_t hrtimer_get_remaining(const struct hrtimer *timer)
+ {
+ 	return __hrtimer_get_remaining(timer, false);
+ }
+ 
+ extern u64 hrtimer_get_next_event(void);
+ extern u64 hrtimer_next_event_without(const struct hrtimer *exclude);
+ 
+ extern bool hrtimer_active(const struct hrtimer *timer);
+ 
  /**
-  * pathmask_to_pos() - find the position of the left-most bit in a pathmask
-  * @mask: pathmask with at least one bit set
+- * hrtimer_is_queued = check, whether the timer is on one of the queues
++ * hrtimer_is_queued - check, whether the timer is on one of the queues
+  * @timer:	Timer to check
+  *
+  * Returns: True if the timer is queued, false otherwise
+  *
+  * The function can be used lockless, but it gives only a current snapshot.
+  */
+ static inline bool hrtimer_is_queued(struct hrtimer *timer)
+ {
+ 	/* The READ_ONCE pairs with the update functions of timer->state */
+ 	return !!(READ_ONCE(timer->state) & HRTIMER_STATE_ENQUEUED);
+ }
+ 
+ /*
+  * Helper function to check, whether the timer is running the callback
+  * function
+  */
+ static inline int hrtimer_callback_running(struct hrtimer *timer)
+ {
+ 	return timer->base->running == timer;
+ }
+diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
+index 387b4bef7dd1..743c852e10f2 100644
+--- a/kernel/time/hrtimer.c
++++ b/kernel/time/hrtimer.c
+@@ -1267,41 +1267,41 @@ static inline void hrtimer_sync_wait_running(struct hrtimer_cpu_base *base,
+  *
+  * Returns:
+  *  0 when the timer was not active
+  *  1 when the timer was active
+  */
+ int hrtimer_cancel(struct hrtimer *timer)
+ {
+ 	int ret;
+ 
+ 	do {
+ 		ret = hrtimer_try_to_cancel(timer);
+ 
+ 		if (ret < 0)
+ 			hrtimer_cancel_wait_running(timer);
+ 	} while (ret < 0);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(hrtimer_cancel);
+ 
+ /**
+- * hrtimer_get_remaining - get remaining time for the timer
++ * __hrtimer_get_remaining - get remaining time for the timer
+  * @timer:	the timer to read
+  * @adjust:	adjust relative timers when CONFIG_TIME_LOW_RES=y
+  */
+ ktime_t __hrtimer_get_remaining(const struct hrtimer *timer, bool adjust)
+ {
+ 	unsigned long flags;
+ 	ktime_t rem;
+ 
+ 	lock_hrtimer_base(timer, &flags);
+ 	if (IS_ENABLED(CONFIG_TIME_LOW_RES) && adjust)
+ 		rem = hrtimer_expires_remaining_adjusted(timer);
+ 	else
+ 		rem = hrtimer_expires_remaining(timer);
+ 	unlock_hrtimer_base(timer, &flags);
+ 
+ 	return rem;
+ }
+ EXPORT_SYMBOL_GPL(__hrtimer_get_remaining);
+ 
+ #ifdef CONFIG_NO_HZ_COMMON
 -- 
 2.28.0
 
