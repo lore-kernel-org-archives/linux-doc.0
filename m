@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 843B0C5519F
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:22:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 155ABC4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:23:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1827F20853
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:22:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2F3920853
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:23:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/CeBuMn"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hwyqm/0E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728843AbgKPKSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 05:18:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52850 "EHLO mail.kernel.org"
+        id S1729111AbgKPKUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:20:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53144 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728779AbgKPKS3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 05:18:29 -0500
+        id S1728832AbgKPKSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:18:30 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 448F92227F;
+        by mail.kernel.org (Postfix) with ESMTPSA id 4B157222E8;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1605521908;
-        bh=zCGfu1AGx+VOpyCVhh06qPgakpKDoNY09BAtIJsgi0I=;
+        bh=js84ZgGHWrr4G6ZbrEp+3qfBF3y+4j27kugX1PPwPo4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z/CeBuMnmXiZ40zfpKdUb/ngilfDoZGIxwggNa8YLFBmKmYspM04cPIKVy4vSkBmp
-         e2XeWpfxL2QCJ7mz6+3CYaLYa4roWPh6LZC1I3Y3JkJrMxfWUiipoP2zfQvy7zRGCp
-         s/PPcd8rdaWoI1Qsep17nroKZeL8VnKWD8UOSSwc=
+        b=Hwyqm/0Eu5mNLSwf3lorMTDBa9AQVGPU/LEK8Fs/EmQY1m+aVP+y5T2lOnxRhbvm2
+         qc9Cuq3KThOsc8MOcrNMoLqBFEkOoYmPovGeQM4tSy2DkVxpQipJw2VTw/mdabe5YO
+         FbEoQhCT3JvsZfY0veVKBtzVZNSvy0EC1Qxe/z8Q=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebab-00FwDu-Tj; Mon, 16 Nov 2020 11:18:25 +0100
+        id 1kebac-00FwE9-5s; Mon, 16 Nov 2020 11:18:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
+To:     Alexandre Bounine <alex.bou9@gmail.com>,
+        Matt Porter <mporter@kernel.crashing.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v4 03/27] net: core: fix some kernel-doc markups
-Date:   Mon, 16 Nov 2020 11:17:59 +0100
-Message-Id: <0661a2db87c640f66c6e040a2de11638da674194.1605521731.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 09/27] rapidio: fix kernel-doc a markup
+Date:   Mon, 16 Nov 2020 11:18:05 +0100
+Message-Id: <d287d2af8e7cf4d68cd60ce65c9f165ab529f990.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -56,128 +56,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
-
-In the specific case of netif_subqueue_stopped(), keep the
-current markup for __netif_subqueue_stopped(), adding a
-new one for netif_subqueue_stopped().
+Probaly this was due to a cut and paste issue.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/netdevice.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/rapidio/rio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 7ce648a564f7..03433a4c929e 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1473,41 +1473,41 @@ struct net_device_ops {
- 	int			(*ndo_change_proto_down)(struct net_device *dev,
- 							 bool proto_down);
- 	int			(*ndo_fill_metadata_dst)(struct net_device *dev,
- 						       struct sk_buff *skb);
- 	void			(*ndo_set_rx_headroom)(struct net_device *dev,
- 						       int needed_headroom);
- 	int			(*ndo_bpf)(struct net_device *dev,
- 					   struct netdev_bpf *bpf);
- 	int			(*ndo_xdp_xmit)(struct net_device *dev, int n,
- 						struct xdp_frame **xdp,
- 						u32 flags);
- 	int			(*ndo_xsk_wakeup)(struct net_device *dev,
- 						  u32 queue_id, u32 flags);
- 	struct devlink_port *	(*ndo_get_devlink_port)(struct net_device *dev);
- 	int			(*ndo_tunnel_ctl)(struct net_device *dev,
- 						  struct ip_tunnel_parm *p, int cmd);
- 	struct net_device *	(*ndo_get_peer_dev)(struct net_device *dev);
- };
- 
- /**
-- * enum net_device_priv_flags - &struct net_device priv_flags
-+ * enum netdev_priv_flags - &struct net_device priv_flags
-  *
-  * These are the &struct net_device, they are only set internally
-  * by drivers and used in the kernel. These flags are invisible to
-  * userspace; this means that the order of these flags can change
-  * during any kernel release.
-  *
-  * You should have a pretty good reason to be extending these flags.
-  *
-  * @IFF_802_1Q_VLAN: 802.1Q VLAN device
-  * @IFF_EBRIDGE: Ethernet bridging device
-  * @IFF_BONDING: bonding master or slave
-  * @IFF_ISATAP: ISATAP interface (RFC4214)
-  * @IFF_WAN_HDLC: WAN HDLC device
-  * @IFF_XMIT_DST_RELEASE: dev_hard_start_xmit() is allowed to
-  *	release skb->dst
-  * @IFF_DONT_BRIDGE: disallow bridging this ether dev
-  * @IFF_DISABLE_NETPOLL: disable netpoll at run-time
-  * @IFF_MACVLAN_PORT: device used as macvlan port
-  * @IFF_BRIDGE_PORT: device used as bridge port
-  * @IFF_OVS_DATAPATH: device used as Open vSwitch datapath port
-@@ -3585,54 +3585,61 @@ static inline void netif_start_subqueue(struct net_device *dev, u16 queue_index)
- {
- 	struct netdev_queue *txq = netdev_get_tx_queue(dev, queue_index);
- 
- 	netif_tx_start_queue(txq);
- }
- 
- /**
-  *	netif_stop_subqueue - stop sending packets on subqueue
-  *	@dev: network device
-  *	@queue_index: sub queue index
-  *
-  * Stop individual transmit queue of a device with multiple transmit queues.
+diff --git a/drivers/rapidio/rio.c b/drivers/rapidio/rio.c
+index 606986c5ba2c..16b59b472b3d 100644
+--- a/drivers/rapidio/rio.c
++++ b/drivers/rapidio/rio.c
+@@ -732,41 +732,41 @@ EXPORT_SYMBOL_GPL(rio_unmap_inb_region);
   */
- static inline void netif_stop_subqueue(struct net_device *dev, u16 queue_index)
+ int rio_map_outb_region(struct rio_mport *mport, u16 destid, u64 rbase,
+ 			u32 size, u32 rflags, dma_addr_t *local)
  {
- 	struct netdev_queue *txq = netdev_get_tx_queue(dev, queue_index);
- 	netif_tx_stop_queue(txq);
+ 	int rc;
+ 	unsigned long flags;
+ 
+ 	if (!mport->ops->map_outb)
+ 		return -ENODEV;
+ 
+ 	spin_lock_irqsave(&rio_mmap_lock, flags);
+ 	rc = mport->ops->map_outb(mport, destid, rbase, size,
+ 		rflags, local);
+ 	spin_unlock_irqrestore(&rio_mmap_lock, flags);
+ 
+ 	return rc;
  }
+ EXPORT_SYMBOL_GPL(rio_map_outb_region);
  
  /**
-- *	netif_subqueue_stopped - test status of subqueue
-+ *	__netif_subqueue_stopped - test status of subqueue
-  *	@dev: network device
-  *	@queue_index: sub queue index
-  *
-  * Check individual transmit queue of a device with multiple transmit queues.
+- * rio_unmap_inb_region -- Unmap the inbound memory region
++ * rio_unmap_outb_region -- Unmap the inbound memory region
+  * @mport: Master port
+  * @destid: destination id mapping points to
+  * @rstart: RIO base address window translates to
   */
- static inline bool __netif_subqueue_stopped(const struct net_device *dev,
- 					    u16 queue_index)
+ void rio_unmap_outb_region(struct rio_mport *mport, u16 destid, u64 rstart)
  {
- 	struct netdev_queue *txq = netdev_get_tx_queue(dev, queue_index);
+ 	unsigned long flags;
  
- 	return netif_tx_queue_stopped(txq);
- }
+ 	if (!mport->ops->unmap_outb)
+ 		return;
  
-+/**
-+ *	netif_subqueue_stopped - test status of subqueue
-+ *	@dev: network device
-+ *	@skb: sub queue buffer pointer
-+ *
-+ * Check individual transmit queue of a device with multiple transmit queues.
-+ */
- static inline bool netif_subqueue_stopped(const struct net_device *dev,
- 					  struct sk_buff *skb)
- {
- 	return __netif_subqueue_stopped(dev, skb_get_queue_mapping(skb));
+ 	spin_lock_irqsave(&rio_mmap_lock, flags);
+ 	mport->ops->unmap_outb(mport, destid, rstart);
+ 	spin_unlock_irqrestore(&rio_mmap_lock, flags);
  }
+ EXPORT_SYMBOL_GPL(rio_unmap_outb_region);
  
  /**
-  *	netif_wake_subqueue - allow sending packets on subqueue
-  *	@dev: network device
-  *	@queue_index: sub queue index
-  *
-  * Resume individual transmit queue of a device with multiple transmit queues.
-  */
- static inline void netif_wake_subqueue(struct net_device *dev, u16 queue_index)
- {
- 	struct netdev_queue *txq = netdev_get_tx_queue(dev, queue_index);
- 
- 	netif_tx_wake_queue(txq);
- }
- 
+  * rio_mport_get_physefb - Helper function that returns register offset
+  *                      for Physical Layer Extended Features Block.
 -- 
 2.28.0
 
