@@ -4,54 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB85AC5519F
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:14:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 804FEC4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:15:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6797822263
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:14:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D74422263
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:15:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGHkIZEH"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="iNdH4Iws"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729020AbgKPKTV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 05:19:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53316 "EHLO mail.kernel.org"
+        id S1728871AbgKPKSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:18:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53102 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728864AbgKPKSc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 05:18:32 -0500
+        id S1728831AbgKPKSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:18:30 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EC0362465E;
+        by mail.kernel.org (Postfix) with ESMTPSA id 4DA7F22314;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605521909;
-        bh=qlMzfQ3HAY/DMShVXfsrywi/ZvHE7KbTKL3qR/8mICE=;
+        s=default; t=1605521908;
+        bh=d8G37msgbohmjGjsmEGoarKHiKdZQ4KdwkElQNS8Um8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eGHkIZEHn2+mxFrJ99MYFwQhSZ/pZF8Izhvlp2qxk+MhFuCp2UotVtA2LFZnfJViL
-         6Za1dG9fks0JiedTr3mommTvngV97BCG5NEkefGdC/kpTsALsiD8eTbvgpqaipce2u
-         fKz6ZzWgMQvSnJLeWwRPCh8cIUOOXi+0rZO7fVLU=
+        b=iNdH4Iwssb+JCmswHBNFUpIF43ye8NHrZScJv0NAd1tPAWTo8QThuSzce9h6nUskq
+         rFFlUZiyZ526zZ0VEXOWtV0nrUiu4TQEs9MlGVV5pVqOZxm60I4r4UdRaP1WKPeNsU
+         3L6C6C8vJhAvmNtgq21q6IqNxaLjDanXvW5RWsMU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebac-00FwEq-MC; Mon, 16 Nov 2020 11:18:26 +0100
+        id 1kebab-00FwDw-Us; Mon, 16 Nov 2020 11:18:25 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 24/27] shed: fix kernel-doc markup
-Date:   Mon, 16 Nov 2020 11:18:20 +0100
-Message-Id: <7cf5d2691e70ab82c332a335d21f6f04c0f742ab.1605521731.git.mchehab+huawei@kernel.org>
+        Alexander Egorenkov <egorenar@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Julian Wiedmann <jwi@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: [PATCH v4 04/27] s390: fix kernel-doc markups
+Date:   Mon, 16 Nov 2020 11:18:00 +0100
+Message-Id: <4a9df42dfb68aed6b4a4882f6dccabf00ce932cd.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -62,145 +63,111 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kernel-doc requires that a kernel-doc markup to be immediatly
-below the function prototype, as otherwise it will rename it.
-So, move sys_sched_yield() markup to the right place.
+fix one typo:
+	ccw driver -> ccw_driver
 
-Also fix the cpu_util() markup: Kernel-doc markups
-should use this format:
-        identifier - description
+and one function rename.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/sched/core.c | 16 ++++++++--------
- kernel/sched/fair.c |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ arch/s390/include/asm/ccwdev.h | 2 +-
+ arch/s390/include/asm/cio.h    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 02076e6d3792..9d41378ae8f3 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -6560,65 +6560,65 @@ SYSCALL_DEFINE3(sched_getaffinity, pid_t, pid, unsigned int, len,
- 	if (len & (sizeof(unsigned long)-1))
- 		return -EINVAL;
- 
- 	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
- 		return -ENOMEM;
- 
- 	ret = sched_getaffinity(pid, mask);
- 	if (ret == 0) {
- 		unsigned int retlen = min(len, cpumask_size());
- 
- 		if (copy_to_user(user_mask_ptr, mask, retlen))
- 			ret = -EFAULT;
- 		else
- 			ret = retlen;
- 	}
- 	free_cpumask_var(mask);
- 
- 	return ret;
- }
- 
--/**
-- * sys_sched_yield - yield the current processor to other threads.
-- *
-- * This function yields the current CPU to other tasks. If there are no
-- * other threads running on this CPU then this function will return.
-- *
-- * Return: 0.
-- */
- static void do_sched_yield(void)
- {
- 	struct rq_flags rf;
- 	struct rq *rq;
- 
- 	rq = this_rq_lock_irq(&rf);
- 
- 	schedstat_inc(rq->yld_count);
- 	current->sched_class->yield_task(rq);
- 
- 	preempt_disable();
- 	rq_unlock_irq(rq, &rf);
- 	sched_preempt_enable_no_resched();
- 
- 	schedule();
- }
- 
-+/**
-+ * sys_sched_yield - yield the current processor to other threads.
-+ *
-+ * This function yields the current CPU to other tasks. If there are no
-+ * other threads running on this CPU then this function will return.
-+ *
-+ * Return: 0.
-+ */
- SYSCALL_DEFINE0(sched_yield)
- {
- 	do_sched_yield();
- 	return 0;
- }
- 
- #ifndef CONFIG_PREEMPTION
- int __sched _cond_resched(void)
- {
- 	if (should_resched(0)) {
- 		preempt_schedule_common();
- 		return 1;
- 	}
- 	rcu_all_qs();
- 	return 0;
- }
- EXPORT_SYMBOL(_cond_resched);
- #endif
+diff --git a/arch/s390/include/asm/ccwdev.h b/arch/s390/include/asm/ccwdev.h
+index bf605e1fcf6a..0495ac635ed5 100644
+--- a/arch/s390/include/asm/ccwdev.h
++++ b/arch/s390/include/asm/ccwdev.h
+@@ -100,41 +100,41 @@ struct ccw_device {
+  */
+ #define PE_NONE				0x0
+ #define PE_PATH_GONE			0x1 /* A path is no longer available. */
+ #define PE_PATH_AVAILABLE		0x2 /* A path has become available and
+ 					       was successfully verified. */
+ #define PE_PATHGROUP_ESTABLISHED	0x4 /* A pathgroup was reset and had
+ 					       to be established again. */
+ #define PE_PATH_FCES_EVENT		0x8 /* The FCES Status of a path has
+ 					     * changed. */
  
  /*
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 27536f37ba1a..cb7cd7d8a28f 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -6310,41 +6310,41 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 	sd = rcu_dereference(per_cpu(sd_llc, target));
- 	if (!sd)
- 		return target;
+  * Possible CIO actions triggered by the unit check handler.
+  */
+ enum uc_todo {
+ 	UC_TODO_RETRY,
+ 	UC_TODO_RETRY_ON_NEW_PATH,
+ 	UC_TODO_STOP
+ };
  
- 	i = select_idle_core(p, sd, target);
- 	if ((unsigned)i < nr_cpumask_bits)
- 		return i;
+ /**
+- * struct ccw driver - device driver for channel attached devices
++ * struct ccw_driver - device driver for channel attached devices
+  * @ids: ids supported by this driver
+  * @probe: function called on probe
+  * @remove: function called on remove
+  * @set_online: called when setting device online
+  * @set_offline: called when setting device offline
+  * @notify: notify driver of device state changes
+  * @path_event: notify driver of channel path events
+  * @shutdown: called at device shutdown
+  * @prepare: prepare for pm state transition
+  * @complete: undo work done in @prepare
+  * @freeze: callback for freezing during hibernation snapshotting
+  * @thaw: undo work done in @freeze
+  * @restore: callback for restoring after hibernation
+  * @uc_handler: callback for unit check handler
+  * @driver: embedded device driver structure
+  * @int_class: interruption class to use for accounting interrupts
+  */
+ struct ccw_driver {
+ 	struct ccw_device_id *ids;
+ 	int (*probe) (struct ccw_device *);
+diff --git a/arch/s390/include/asm/cio.h b/arch/s390/include/asm/cio.h
+index e36cb67d2441..ac02df906cae 100644
+--- a/arch/s390/include/asm/cio.h
++++ b/arch/s390/include/asm/cio.h
+@@ -312,41 +312,41 @@ struct node_descriptor {
+ /* Device did not respond in time. */
+ #define CIO_BOXED      0x0010
  
- 	i = select_idle_cpu(p, sd, target);
- 	if ((unsigned)i < nr_cpumask_bits)
- 		return i;
+ /**
+  * struct ccw_dev_id - unique identifier for ccw devices
+  * @ssid: subchannel set id
+  * @devno: device number
+  *
+  * This structure is not directly based on any hardware structure. The
+  * hardware identifies a device by its device number and its subchannel,
+  * which is in turn identified by its id. In order to get a unique identifier
+  * for ccw devices across subchannel sets, @struct ccw_dev_id has been
+  * introduced.
+  */
+ struct ccw_dev_id {
+ 	u8 ssid;
+ 	u16 devno;
+ };
  
- 	i = select_idle_smt(p, sd, target);
- 	if ((unsigned)i < nr_cpumask_bits)
- 		return i;
- 
- 	return target;
+ /**
+- * ccw_device_id_is_equal() - compare two ccw_dev_ids
++ * ccw_dev_id_is_equal() - compare two ccw_dev_ids
+  * @dev_id1: a ccw_dev_id
+  * @dev_id2: another ccw_dev_id
+  * Returns:
+  *  %1 if the two structures are equal field-by-field,
+  *  %0 if not.
+  * Context:
+  *  any
+  */
+ static inline int ccw_dev_id_is_equal(struct ccw_dev_id *dev_id1,
+ 				      struct ccw_dev_id *dev_id2)
+ {
+ 	if ((dev_id1->ssid == dev_id2->ssid) &&
+ 	    (dev_id1->devno == dev_id2->devno))
+ 		return 1;
+ 	return 0;
  }
  
  /**
-- * Amount of capacity of a CPU that is (estimated to be) used by CFS tasks
-+ * cpu_util - Estimates the amount of capacity of a CPU used by CFS tasks.
-  * @cpu: the CPU to get the utilization of
-  *
-  * The unit of the return value must be the one of capacity so we can compare
-  * the utilization with the capacity of the CPU that is available for CFS task
-  * (ie cpu_capacity).
-  *
-  * cfs_rq.avg.util_avg is the sum of running time of runnable tasks plus the
-  * recent utilization of currently non-runnable tasks on a CPU. It represents
-  * the amount of utilization of a CPU in the range [0..capacity_orig] where
-  * capacity_orig is the cpu_capacity available at the highest frequency
-  * (arch_scale_freq_capacity()).
-  * The utilization of a CPU converges towards a sum equal to or less than the
-  * current capacity (capacity_curr <= capacity_orig) of the CPU because it is
-  * the running time on this CPU scaled by capacity_curr.
-  *
-  * The estimated utilization of a CPU is defined to be the maximum between its
-  * cfs_rq.avg.util_avg and the sum of the estimated utilization of the tasks
-  * currently RUNNABLE on that CPU.
-  * This allows to properly represent the expected utilization of a CPU which
-  * has just got a big task running since a long sleep period. At the same time
+  * pathmask_to_pos() - find the position of the left-most bit in a pathmask
+  * @mask: pathmask with at least one bit set
 -- 
 2.28.0
 
