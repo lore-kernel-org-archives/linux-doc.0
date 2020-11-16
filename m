@@ -6,84 +6,68 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C00C4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 14:53:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DCC1C6369E
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 15:04:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C0682244C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 14:53:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B95CF217A0
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 15:04:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Rjhun6fX"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vlf4RNF5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729055AbgKPOxQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 09:53:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48088 "EHLO
+        id S1730294AbgKPPEK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 10:04:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728396AbgKPOxQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 09:53:16 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43A7EC0613CF;
-        Mon, 16 Nov 2020 06:53:16 -0800 (PST)
+        with ESMTP id S1730711AbgKPO6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 09:58:54 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE946C0613CF;
+        Mon, 16 Nov 2020 06:58:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=zbANDMsxAnGY4qJHxu4bFJO67hGjNSt40DSg35mbbGk=; b=Rjhun6fXTUjpx8RHKiO/gk7Ssv
-        CahjIZzcLRXWFppQHaZacXVKNp8931tU0rIuAjPDYvptQJK9o5DSci2bcHvuSBMuK1NJrUZVSMxEc
-        ueIAA3tqhh7Xzbh9fPlkKERgKGuuaZraF9pionz3/ucjOZLsEE+kLMPbMs4E0WGQcv6dolC2MIxnE
-        Mr8cZnzVYzXtaUYwj0/NoRBoPKuExlqZmNxg1oQzqYC1LpqixVI9fYd1b5qjD+9cK/7CbLxmcwUA1
-        nnppXE13+HP+YxIdgaVkb/NBeJ/pDSWoiGdq151HFAx7eQJq3GAkxsHC/7dZxzanjWA6LvnIEMZPA
-        P3JJ+GCQ==;
+        bh=6EdMp+J4CPsD0P134OEgMzKPGqPxSRaNzTZK3tAi2vc=; b=Vlf4RNF5FC7pjylF3gIWO1MIuh
+        UR7DDYawMGFs1g4faKaSosRjQ2LEI5vXfyjL+tmyFv2iTEwDGzh9f2OPWGaIOtKmNOjtNa9OXsWTf
+        1B8edQMA7OxMjS4K/DbkxM9B1wY/HG7XWM+VZCwfSIiEtfeM25A48AJj7UUgmVkf7+tSC/saozz+q
+        glcIUhge/OFe4cWaZ5QLy9SPWMO39mlJjp8Oosxe5pxM0cw6HOXNDM1mkkKWCTHhJKqf6HNnyIpqw
+        HdiWQSmlLQcmRu6j8Be72teIYAKuI99jkYGhMYeuYI9G8T5JJqRxNDAp5by+fOu3dhsXGYbiJTLuy
+        iTE5XtxA==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kefsV-0002vS-KB; Mon, 16 Nov 2020 14:53:11 +0000
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kefxy-0003u0-W3; Mon, 16 Nov 2020 14:58:51 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D1A5D301959;
-        Mon, 16 Nov 2020 15:53:09 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 43EFB305CC3;
+        Mon, 16 Nov 2020 15:58:50 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id AF28120299B60; Mon, 16 Nov 2020 15:53:09 +0100 (CET)
-Date:   Mon, 16 Nov 2020 15:53:09 +0100
+        id 2F5BE2025CA2A; Mon, 16 Nov 2020 15:58:50 +0100 (CET)
+Date:   Mon, 16 Nov 2020 15:58:50 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
+        keescook@chromium.org, gregkh@linuxfoundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 01/13] seqnum_ops: Introduce Sequence Number Ops
-Message-ID: <20201116145309.GF3121378@hirez.programming.kicks-ass.net>
+Message-ID: <20201116145850.GC3121429@hirez.programming.kicks-ass.net>
 References: <cover.1605287778.git.skhan@linuxfoundation.org>
  <26cbcc431be5e3ab7d8e0e881d522605a27b1312.1605287778.git.skhan@linuxfoundation.org>
+ <20201113210327.GJ17076@casper.infradead.org>
+ <20201116144914.GE3121378@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <26cbcc431be5e3ab7d8e0e881d522605a27b1312.1605287778.git.skhan@linuxfoundation.org>
+In-Reply-To: <20201116144914.GE3121378@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 13, 2020 at 10:46:03AM -0700, Shuah Khan wrote:
+On Mon, Nov 16, 2020 at 03:49:14PM +0100, Peter Zijlstra wrote:
+> On Fri, Nov 13, 2020 at 09:03:27PM +0000, Matthew Wilcox wrote:
+> > I think almost all of this information should go into atomic_ops.rst
+> 
+> No, we should delete atomic_ops.rst. It's bitrotted nonsense. The only
 
-> +Increment interface
-> +-------------------
-> +
-> +Increments sequence number and returns the new value. ::
-> +
-> +        seqnum32_inc_return() --> (u32) atomic_inc_return(seqnum)
-> +        seqnum64_inc_return() --> (u64) atomic64_inc_return(seqnum)
-
-Did you think about the ordering?
-
-> +Fetch interface
-> +---------------
-> +
-> +Fetched and returns current sequence number value. ::
-> +
-> +        seqnum32_fetch() --> (u32) atomic_add_return(0, seqnum)
-> +        seqnum64_fetch() --> (u64) atomic64_add_return(0, seqnum)
-
-That's horrible. Please explain how that is not broken garbage.
-
-Per the fact that it is atomic, nothing prevents the counter being
-incremented concurrently. There is no such thing as a 'current' sequence
-number.
-
-
+Sod it, I'll just queue a deletion. That'll stop people from trying to
+update the trainwreck.
