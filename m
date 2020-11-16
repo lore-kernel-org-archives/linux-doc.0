@@ -4,46 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C91C4742C
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE07C4742C
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:07:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 625C2207BC
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:06:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C16E20A8B
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Nov 2020 11:07:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VCBvzbpI"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VM1AC4LL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728944AbgKPKSx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 05:18:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53314 "EHLO mail.kernel.org"
+        id S1728959AbgKPKS6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 05:18:58 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728863AbgKPKSd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 05:18:33 -0500
+        id S1728836AbgKPKSc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Nov 2020 05:18:32 -0500
 Received: from mail.kernel.org (ip5f5ad5de.dynamic.kabel-deutschland.de [95.90.213.222])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B02622463F;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3179920888;
         Mon, 16 Nov 2020 10:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605521909;
-        bh=yPX47r/jPA2fxjFBy+bfuVnTESGzy5O/kOXd7GWMGRc=;
+        s=default; t=1605521908;
+        bh=/0UTpmNdjgzB4jiLsbhbyzevPCFzKlmF79DNv+0+NtU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VCBvzbpIH2oG4FvJUHardXAFuyq1MFYDlMLxCjLJqJW45uIZ2m7++dXDOp919rttA
-         vGztIoNk0jpVLI9YeXyM39RbNZBdcqWghHfkdzs6g1o81G74XFN92L3r7dEZnX+Dam
-         xF0fEMb9qIuqIGRXcGk0rNmO21u8rYJxLZI+C/vM=
+        b=VM1AC4LLbB6O6a3PnfxqwLswksfKHn14t8gjmZWYf17Hm7cdPRT/2io5qXXSy9jTg
+         edoRIxbfrOdZcdnFE+A21R38lQih2sF0pP3acRLrvw5pi2lhOGCMcLPYGhfSQ8owZo
+         pomdl2K0MuOQT0+Xjab8KOJZYOsHXXH7fXq5jnp0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kebac-00FwEy-PE; Mon, 16 Nov 2020 11:18:26 +0100
+        id 1kebac-00FwED-7j; Mon, 16 Nov 2020 11:18:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 27/27] scripts: kernel-doc: validate kernel-doc markup with the actual names
-Date:   Mon, 16 Nov 2020 11:18:23 +0100
-Message-Id: <7b013fef4b0a45bddc5f1a5593a282baceb13b0c.1605521731.git.mchehab+huawei@kernel.org>
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 11/27] fs: fix kernel-doc markups
+Date:   Mon, 16 Nov 2020 11:18:07 +0100
+Message-Id: <e5ed3dceb48ab40817db3c876e32183999868236.1605521731.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
 References: <cover.1605521731.git.mchehab+huawei@kernel.org>
@@ -54,472 +55,479 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kernel-doc currently expects that the kernel-doc markup to come
-just before the function/enum/struct/union/typedef prototype.
+Two markups are at the wrong place. Kernel-doc only
+support having the comment just before the identifier.
 
-Yet, if it find things like:
-
-	/**
-	 * refcount_add - add a value to a refcount
-	 * @i: the value to add to the refcount
-	 * @r: the refcount
-	 */
-	static inline void __refcount_add(int i, refcount_t *r, int *oldp);
-	static inline void refcount_add(int i, refcount_t *r);
-
-Kernel-doc will do the wrong thing:
-
-	foobar.h:6: warning: Function parameter or member 'oldp' not described in '__refcount_add'
-	.. c:function:: void __refcount_add (int i, refcount_t *r, int *oldp)
-
-	   add a value to a refcount
-
-	**Parameters**
-
-	``int i``
-	  the value to add to the refcount
-
-	``refcount_t *r``
-	  the refcount
-
-	``int *oldp``
-	  *undescribed*
-
-Basically, it will document "__refcount_add" with the kernel-doc
-markup for refcount_add.
-
-If both functions have the same arguments, this won't even
-produce any warning!
-
-Add a logic to check if the kernel-doc identifier matches the actual
-name of the C function or data structure that will be documented.
+Also, some identifiers have different names between their
+prototypes and the kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 62 ++++++++++++++++++++++++++++++++++------------
- 1 file changed, 46 insertions(+), 16 deletions(-)
+ fs/dcache.c   | 72 +++++++++++++++++++++++++--------------------------
+ fs/inode.c    |  4 +--
+ fs/seq_file.c |  5 ++--
+ fs/super.c    | 12 ++++-----
+ 4 files changed, 47 insertions(+), 46 deletions(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 9b6ddeb097e9..919acae23fad 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -365,40 +365,43 @@ use constant {
- my $state;
- my $in_doc_sect;
- my $leading_space;
- 
- # Inline documentation state
- use constant {
-     STATE_INLINE_NA     => 0, # not applicable ($state != STATE_INLINE)
-     STATE_INLINE_NAME   => 1, # looking for member name (@foo:)
-     STATE_INLINE_TEXT   => 2, # looking for member documentation
-     STATE_INLINE_END    => 3, # done
-     STATE_INLINE_ERROR  => 4, # error - Comment without header was found.
-                               # Spit a warning as it's not
-                               # proper kernel-doc and ignore the rest.
- };
- my $inline_doc_state;
- 
- #declaration types: can be
- # 'function', 'struct', 'union', 'enum', 'typedef'
- my $decl_type;
- 
-+# Name of the kernel-doc identifier for non-DOC markups
-+my $identifier;
-+
- my $doc_start = '^/\*\*\s*$'; # Allow whitespace at end of comment start.
- my $doc_end = '\*/';
- my $doc_com = '\s*\*\s*';
- my $doc_com_body = '\s*\* ?';
- my $doc_decl = $doc_com . '(\w+)';
- # @params and a strictly limited set of supported section names
- my $doc_sect = $doc_com .
-     '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
- my $doc_content = $doc_com_body . '(.*)';
- my $doc_block = $doc_com . 'DOC:\s*(.*)?';
- my $doc_inline_start = '^\s*/\*\*\s*$';
- my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
- my $doc_inline_end = '^\s*\*/\s*$';
- my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
- my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
- 
- my %parameterdescs;
- my %parameterdesc_start_lines;
- my @parameterlist;
- my %sections;
-@@ -1186,40 +1189,45 @@ sub output_blockhead {
- sub dump_declaration($$) {
-     no strict 'refs';
-     my ($prototype, $file) = @_;
-     my $func = "dump_" . $decl_type;
-     &$func(@_);
+diff --git a/fs/dcache.c b/fs/dcache.c
+index ea0485861d93..6eabb48a49fc 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -439,85 +439,85 @@ static void d_shrink_add(struct dentry *dentry, struct list_head *list)
+ static void d_lru_isolate(struct list_lru_one *lru, struct dentry *dentry)
+ {
+ 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
+ 	dentry->d_flags &= ~DCACHE_LRU_LIST;
+ 	this_cpu_dec(nr_dentry_unused);
+ 	if (d_is_negative(dentry))
+ 		this_cpu_dec(nr_dentry_negative);
+ 	list_lru_isolate(lru, &dentry->d_lru);
  }
  
- sub dump_union($$) {
-     dump_struct(@_);
+ static void d_lru_shrink_move(struct list_lru_one *lru, struct dentry *dentry,
+ 			      struct list_head *list)
+ {
+ 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
+ 	dentry->d_flags |= DCACHE_SHRINK_LIST;
+ 	if (d_is_negative(dentry))
+ 		this_cpu_dec(nr_dentry_negative);
+ 	list_lru_isolate_move(lru, &dentry->d_lru, list);
  }
  
- sub dump_struct($$) {
-     my $x = shift;
-     my $file = shift;
+-/**
+- * d_drop - drop a dentry
+- * @dentry: dentry to drop
+- *
+- * d_drop() unhashes the entry from the parent dentry hashes, so that it won't
+- * be found through a VFS lookup any more. Note that this is different from
+- * deleting the dentry - d_delete will try to mark the dentry negative if
+- * possible, giving a successful _negative_ lookup, while d_drop will
+- * just make the cache lookup fail.
+- *
+- * d_drop() is used mainly for stuff that wants to invalidate a dentry for some
+- * reason (NFS timeouts or autofs deletes).
+- *
+- * __d_drop requires dentry->d_lock
+- * ___d_drop doesn't mark dentry as "unhashed"
+- *   (dentry->d_hash.pprev will be LIST_POISON2, not NULL).
+- */
+ static void ___d_drop(struct dentry *dentry)
+ {
+ 	struct hlist_bl_head *b;
+ 	/*
+ 	 * Hashed dentries are normally on the dentry hashtable,
+ 	 * with the exception of those newly allocated by
+ 	 * d_obtain_root, which are always IS_ROOT:
+ 	 */
+ 	if (unlikely(IS_ROOT(dentry)))
+ 		b = &dentry->d_sb->s_roots;
+ 	else
+ 		b = d_hash(dentry->d_name.hash);
  
-     if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
- 	my $decl_type = $1;
- 	$declaration_name = $2;
- 	my $members = $3;
+ 	hlist_bl_lock(b);
+ 	__hlist_bl_del(&dentry->d_hash);
+ 	hlist_bl_unlock(b);
+ }
  
-+	if ($identifier ne $declaration_name) {
-+	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
-+	    return;
-+	}
+ void __d_drop(struct dentry *dentry)
+ {
+ 	if (!d_unhashed(dentry)) {
+ 		___d_drop(dentry);
+ 		dentry->d_hash.pprev = NULL;
+ 		write_seqcount_invalidate(&dentry->d_seq);
+ 	}
+ }
+ EXPORT_SYMBOL(__d_drop);
+ 
++/**
++ * d_drop - drop a dentry
++ * @dentry: dentry to drop
++ *
++ * d_drop() unhashes the entry from the parent dentry hashes, so that it won't
++ * be found through a VFS lookup any more. Note that this is different from
++ * deleting the dentry - d_delete will try to mark the dentry negative if
++ * possible, giving a successful _negative_ lookup, while d_drop will
++ * just make the cache lookup fail.
++ *
++ * d_drop() is used mainly for stuff that wants to invalidate a dentry for some
++ * reason (NFS timeouts or autofs deletes).
++ *
++ * __d_drop requires dentry->d_lock
++ * ___d_drop doesn't mark dentry as "unhashed"
++ *   (dentry->d_hash.pprev will be LIST_POISON2, not NULL).
++ */
+ void d_drop(struct dentry *dentry)
+ {
+ 	spin_lock(&dentry->d_lock);
+ 	__d_drop(dentry);
+ 	spin_unlock(&dentry->d_lock);
+ }
+ EXPORT_SYMBOL(d_drop);
+ 
+ static inline void dentry_unlist(struct dentry *dentry, struct dentry *parent)
+ {
+ 	struct dentry *next;
+ 	/*
+ 	 * Inform d_walk() and shrink_dentry_list() that we are no longer
+ 	 * attached to the dentry tree
+ 	 */
+ 	dentry->d_flags |= DCACHE_DENTRY_KILLED;
+ 	if (unlikely(list_empty(&dentry->d_child)))
+ 		return;
+ 	__list_del_entry(&dentry->d_child);
+ 	/*
+@@ -972,73 +972,73 @@ static struct dentry * __d_find_any_alias(struct inode *inode)
+ }
+ 
+ /**
+  * d_find_any_alias - find any alias for a given inode
+  * @inode: inode to find an alias for
+  *
+  * If any aliases exist for the given inode, take and return a
+  * reference for one of them.  If no aliases exist, return %NULL.
+  */
+ struct dentry *d_find_any_alias(struct inode *inode)
+ {
+ 	struct dentry *de;
+ 
+ 	spin_lock(&inode->i_lock);
+ 	de = __d_find_any_alias(inode);
+ 	spin_unlock(&inode->i_lock);
+ 	return de;
+ }
+ EXPORT_SYMBOL(d_find_any_alias);
+ 
++static struct dentry *__d_find_alias(struct inode *inode)
++{
++	struct dentry *alias;
 +
- 	# ignore members marked private:
- 	$members =~ s/\/\*\s*private:.*?\/\*\s*public:.*?\*\///gosi;
- 	$members =~ s/\/\*\s*private:.*//gosi;
- 	# strip comments:
- 	$members =~ s/\/\*.*?\*\///gos;
- 	# strip attributes
- 	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
- 	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
- 	$members =~ s/\s*__packed\s*/ /gos;
- 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
- 	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
- 	$members =~ s/\s*____cacheline_aligned/ /gos;
- 
- 	# replace DECLARE_BITMAP
- 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
- 	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
- 	# replace DECLARE_HASHTABLE
- 	$members =~ s/DECLARE_HASHTABLE\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
- 	# replace DECLARE_KFIFO
- 	$members =~ s/DECLARE_KFIFO\s*\(([^,)]+),\s*([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
-@@ -1374,40 +1382,45 @@ sub show_warnings($$) {
- 
- sub dump_enum($$) {
-     my $x = shift;
-     my $file = shift;
-     my $members;
- 
- 
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
-     # strip #define macros inside enums
-     $x =~ s@#\s*((define|ifdef)\s+|endif)[^;]*;@@gos;
- 
-     if ($x =~ /typedef\s+enum\s*\{(.*)\}\s*(\w*)\s*;/) {
- 	$declaration_name = $2;
- 	$members = $1;
-     } elsif ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
- 	$declaration_name = $1;
- 	$members = $2;
-     }
- 
-     if ($members) {
-+	if ($identifier ne $declaration_name) {
-+	    print STDERR "${file}:$.: warning: expecting prototype for enum $identifier. Prototype was for enum $declaration_name instead\n";
-+	    return;
-+	}
++	if (S_ISDIR(inode->i_mode))
++		return __d_find_any_alias(inode);
 +
- 	my %_members;
++	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
++		spin_lock(&alias->d_lock);
++ 		if (!d_unhashed(alias)) {
++			__dget_dlock(alias);
++			spin_unlock(&alias->d_lock);
++			return alias;
++		}
++		spin_unlock(&alias->d_lock);
++	}
++	return NULL;
++}
++
+ /**
+  * d_find_alias - grab a hashed alias of inode
+  * @inode: inode in question
+  *
+  * If inode has a hashed alias, or is a directory and has any alias,
+  * acquire the reference to alias and return it. Otherwise return NULL.
+  * Notice that if inode is a directory there can be only one alias and
+  * it can be unhashed only if it has no children, or if it is the root
+  * of a filesystem, or if the directory was renamed and d_revalidate
+  * was the first vfs operation to notice.
+  *
+  * If the inode has an IS_ROOT, DCACHE_DISCONNECTED alias, then prefer
+  * any other hashed alias over that one.
+  */
+-static struct dentry *__d_find_alias(struct inode *inode)
+-{
+-	struct dentry *alias;
+-
+-	if (S_ISDIR(inode->i_mode))
+-		return __d_find_any_alias(inode);
+-
+-	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
+-		spin_lock(&alias->d_lock);
+- 		if (!d_unhashed(alias)) {
+-			__dget_dlock(alias);
+-			spin_unlock(&alias->d_lock);
+-			return alias;
+-		}
+-		spin_unlock(&alias->d_lock);
+-	}
+-	return NULL;
+-}
+-
+ struct dentry *d_find_alias(struct inode *inode)
+ {
+ 	struct dentry *de = NULL;
  
- 	$members =~ s/\s+$//;
+ 	if (!hlist_empty(&inode->i_dentry)) {
+ 		spin_lock(&inode->i_lock);
+ 		de = __d_find_alias(inode);
+ 		spin_unlock(&inode->i_lock);
+ 	}
+ 	return de;
+ }
+ EXPORT_SYMBOL(d_find_alias);
  
- 	foreach my $arg (split ',', $members) {
- 	    $arg =~ s/^\s*(\w+).*/$1/;
- 	    push @parameterlist, $arg;
- 	    if (!$parameterdescs{$arg}) {
- 		$parameterdescs{$arg} = $undescribed;
- 	        if (show_warnings("enum", $declaration_name)) {
- 			print STDERR "${file}:$.: warning: Enum value '$arg' not described in enum '$declaration_name'\n";
+ /*
+  *	Try to kill dentries associated with this inode.
+  * WARNING: you must own a reference to inode.
+  */
+ void d_prune_aliases(struct inode *inode)
+ {
+ 	struct dentry *dentry;
+diff --git a/fs/inode.c b/fs/inode.c
+index 9d78c37b00b8..aad3dcf2e259 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1479,41 +1479,41 @@ EXPORT_SYMBOL(find_inode_nowait);
+ struct inode *find_inode_rcu(struct super_block *sb, unsigned long hashval,
+ 			     int (*test)(struct inode *, void *), void *data)
+ {
+ 	struct hlist_head *head = inode_hashtable + hash(sb, hashval);
+ 	struct inode *inode;
+ 
+ 	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+ 			 "suspicious find_inode_rcu() usage");
+ 
+ 	hlist_for_each_entry_rcu(inode, head, i_hash) {
+ 		if (inode->i_sb == sb &&
+ 		    !(READ_ONCE(inode->i_state) & (I_FREEING | I_WILL_FREE)) &&
+ 		    test(inode, data))
+ 			return inode;
+ 	}
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(find_inode_rcu);
+ 
+ /**
+- * find_inode_by_rcu - Find an inode in the inode cache
++ * find_inode_by_ino_rcu - Find an inode in the inode cache
+  * @sb:		Super block of file system to search
+  * @ino:	The inode number to match
+  *
+  * Search for the inode specified by @hashval and @data in the inode cache,
+  * where the helper function @test will return 0 if the inode does not match
+  * and 1 if it does.  The @test function must be responsible for taking the
+  * i_lock spin_lock and checking i_state for an inode being freed or being
+  * initialized.
+  *
+  * If successful, this will return the inode for which the @test function
+  * returned 1 and NULL otherwise.
+  *
+  * The @test function is not permitted to take a ref on any inode presented.
+  * It is also not permitted to sleep.
+  *
+  * The caller must hold the RCU read lock.
+  */
+ struct inode *find_inode_by_ino_rcu(struct super_block *sb,
+ 				    unsigned long ino)
+ {
+@@ -1761,41 +1761,41 @@ int generic_update_time(struct inode *inode, struct timespec64 *time, int flags)
+ 
+ 	if (dirty)
+ 		iflags |= I_DIRTY_SYNC;
+ 	__mark_inode_dirty(inode, iflags);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(generic_update_time);
+ 
+ /*
+  * This does the actual work of updating an inodes time or version.  Must have
+  * had called mnt_want_write() before calling this.
+  */
+ static int update_time(struct inode *inode, struct timespec64 *time, int flags)
+ {
+ 	if (inode->i_op->update_time)
+ 		return inode->i_op->update_time(inode, time, flags);
+ 	return generic_update_time(inode, time, flags);
+ }
+ 
+ /**
+- *	touch_atime	-	update the access time
++ *	atime_needs_update	-	update the access time
+  *	@path: the &struct path to update
+  *	@inode: inode to update
+  *
+  *	Update the accessed time on an inode and mark it for writeback.
+  *	This function automatically handles read only file systems and media,
+  *	as well as the "noatime" flag and inode specific "noatime" markers.
+  */
+ bool atime_needs_update(const struct path *path, struct inode *inode)
+ {
+ 	struct vfsmount *mnt = path->mnt;
+ 	struct timespec64 now;
+ 
+ 	if (inode->i_flags & S_NOATIME)
+ 		return false;
+ 
+ 	/* Atime updates will likely cause i_uid and i_gid to be written
+ 	 * back improprely if their true value is unknown to the vfs.
+ 	 */
+ 	if (HAS_UNMAPPED_ID(inode))
+ 		return false;
+diff --git a/fs/seq_file.c b/fs/seq_file.c
+index 07b33c1f34a9..7e16eaea999b 100644
+--- a/fs/seq_file.c
++++ b/fs/seq_file.c
+@@ -647,41 +647,42 @@ void seq_putc(struct seq_file *m, char c)
+ 		return;
+ 
+ 	m->buf[m->count++] = c;
+ }
+ EXPORT_SYMBOL(seq_putc);
+ 
+ void seq_puts(struct seq_file *m, const char *s)
+ {
+ 	int len = strlen(s);
+ 
+ 	if (m->count + len >= m->size) {
+ 		seq_set_overflow(m);
+ 		return;
+ 	}
+ 	memcpy(m->buf + m->count, s, len);
+ 	m->count += len;
+ }
+ EXPORT_SYMBOL(seq_puts);
+ 
+ /**
+- * A helper routine for putting decimal numbers without rich format of printf().
++ * seq_put_decimal_ull_width - A helper routine for putting decimal numbers
++ * 			       without rich format of printf().
+  * only 'unsigned long long' is supported.
+  * @m: seq_file identifying the buffer to which data should be written
+  * @delimiter: a string which is printed before the number
+  * @num: the number
+  * @width: a minimum field width
+  *
+  * This routine will put strlen(delimiter) + number into seq_filed.
+  * This routine is very quick when you show lots of numbers.
+  * In usual cases, it will be better to use seq_printf(). It's easier to read.
+  */
+ void seq_put_decimal_ull_width(struct seq_file *m, const char *delimiter,
+ 			 unsigned long long num, unsigned int width)
+ {
+ 	int len;
+ 
+ 	if (m->count + 2 >= m->size) /* we'll write 2 bytes at least */
+ 		goto overflow;
+ 
+ 	if (delimiter && delimiter[0]) {
+ 		if (delimiter[1] == 0)
+@@ -1022,41 +1023,41 @@ EXPORT_SYMBOL(seq_hlist_start_head_rcu);
+  *
+  * This list-traversal primitive may safely run concurrently with
+  * the _rcu list-mutation primitives such as hlist_add_head_rcu()
+  * as long as the traversal is guarded by rcu_read_lock().
+  */
+ struct hlist_node *seq_hlist_next_rcu(void *v,
+ 				      struct hlist_head *head,
+ 				      loff_t *ppos)
+ {
+ 	struct hlist_node *node = v;
+ 
+ 	++*ppos;
+ 	if (v == SEQ_START_TOKEN)
+ 		return rcu_dereference(head->first);
+ 	else
+ 		return rcu_dereference(node->next);
+ }
+ EXPORT_SYMBOL(seq_hlist_next_rcu);
+ 
+ /**
+- * seq_hlist_start_precpu - start an iteration of a percpu hlist array
++ * seq_hlist_start_percpu - start an iteration of a percpu hlist array
+  * @head: pointer to percpu array of struct hlist_heads
+  * @cpu:  pointer to cpu "cursor"
+  * @pos:  start position of sequence
+  *
+  * Called at seq_file->op->start().
+  */
+ struct hlist_node *
+ seq_hlist_start_percpu(struct hlist_head __percpu *head, int *cpu, loff_t pos)
+ {
+ 	struct hlist_node *node;
+ 
+ 	for_each_possible_cpu(*cpu) {
+ 		hlist_for_each(node, per_cpu_ptr(head, *cpu)) {
+ 			if (pos-- == 0)
+ 				return node;
  		}
- 	    }
- 	    $_members{$arg} = 1;
+ 	}
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(seq_hlist_start_percpu);
+diff --git a/fs/super.c b/fs/super.c
+index 98bb0629ee10..912636bbda9e 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -1754,67 +1754,67 @@ int freeze_super(struct super_block *sb)
+ 			printk(KERN_ERR
+ 				"VFS:Filesystem freeze failed\n");
+ 			sb->s_writers.frozen = SB_UNFROZEN;
+ 			sb_freeze_unlock(sb);
+ 			wake_up(&sb->s_writers.wait_unfrozen);
+ 			deactivate_locked_super(sb);
+ 			return ret;
+ 		}
+ 	}
+ 	/*
+ 	 * For debugging purposes so that fs can warn if it sees write activity
+ 	 * when frozen is set to SB_FREEZE_COMPLETE, and for thaw_super().
+ 	 */
+ 	sb->s_writers.frozen = SB_FREEZE_COMPLETE;
+ 	lockdep_sb_freeze_release(sb);
+ 	up_write(&sb->s_umount);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(freeze_super);
+ 
+-/**
+- * thaw_super -- unlock filesystem
+- * @sb: the super to thaw
+- *
+- * Unlocks the filesystem and marks it writeable again after freeze_super().
+- */
+ static int thaw_super_locked(struct super_block *sb)
+ {
+ 	int error;
+ 
+ 	if (sb->s_writers.frozen != SB_FREEZE_COMPLETE) {
+ 		up_write(&sb->s_umount);
+ 		return -EINVAL;
  	}
  
- 	while (my ($k, $v) = each %parameterdescs) {
- 	    if (!exists($_members{$k})) {
- 	        if (show_warnings("enum", $declaration_name)) {
- 		     print STDERR "${file}:$.: warning: Excess enum value '$k' description in '$declaration_name'\n";
-@@ -1434,66 +1447,76 @@ sub dump_enum($$) {
- my $typedef_type = qr { ((?:\s+[\w\*]+){1,8})\s* }x;
- my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
- my $typedef_args = qr { \s*\((.*)\); }x;
+ 	if (sb_rdonly(sb)) {
+ 		sb->s_writers.frozen = SB_UNFROZEN;
+ 		goto out;
+ 	}
  
- my $typedef1 = qr { typedef$typedef_type\($typedef_ident\)$typedef_args }x;
- my $typedef2 = qr { typedef$typedef_type$typedef_ident$typedef_args }x;
+ 	lockdep_sb_freeze_acquire(sb);
  
- sub dump_typedef($$) {
-     my $x = shift;
-     my $file = shift;
+ 	if (sb->s_op->unfreeze_fs) {
+ 		error = sb->s_op->unfreeze_fs(sb);
+ 		if (error) {
+ 			printk(KERN_ERR
+ 				"VFS:Filesystem thaw failed\n");
+ 			lockdep_sb_freeze_release(sb);
+ 			up_write(&sb->s_umount);
+ 			return error;
+ 		}
+ 	}
  
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
- 
-     # Parse function typedef prototypes
-     if ($x =~ $typedef1 || $x =~ $typedef2) {
- 	$return_type = $1;
- 	$declaration_name = $2;
- 	my $args = $3;
- 	$return_type =~ s/^\s+//;
- 
-+	if ($identifier ne $declaration_name) {
-+	    print STDERR "${file}:$.: warning: expecting prototype for typedef $identifier. Prototype was for typedef $declaration_name instead\n";
-+	    return;
-+	}
-+
- 	create_parameterlist($args, ',', $file, $declaration_name);
- 
- 	output_declaration($declaration_name,
- 			   'function',
- 			   {'function' => $declaration_name,
- 			    'typedef' => 1,
- 			    'module' => $modulename,
- 			    'functiontype' => $return_type,
- 			    'parameterlist' => \@parameterlist,
- 			    'parameterdescs' => \%parameterdescs,
- 			    'parametertypes' => \%parametertypes,
- 			    'sectionlist' => \@sectionlist,
- 			    'sections' => \%sections,
- 			    'purpose' => $declaration_purpose
- 			   });
- 	return;
-     }
- 
-     while (($x =~ /\(*.\)\s*;$/) || ($x =~ /\[*.\]\s*;$/)) {
- 	$x =~ s/\(*.\)\s*;$/;/;
- 	$x =~ s/\[*.\]\s*;$/;/;
-     }
- 
-     if ($x =~ /typedef.*\s+(\w+)\s*;/) {
- 	$declaration_name = $1;
- 
-+	if ($identifier ne $declaration_name) {
-+	    print STDERR "${file}:$.: warning: expecting prototype for typedef $identifier. Prototype was for typedef $declaration_name instead\n";
-+	    return;
-+	}
-+
- 	output_declaration($declaration_name,
- 			   'typedef',
- 			   {'typedef' => $declaration_name,
- 			    'module' => $modulename,
- 			    'sectionlist' => \@sectionlist,
- 			    'sections' => \%sections,
- 			    'purpose' => $declaration_purpose
- 			   });
-     }
-     else {
- 	print STDERR "${file}:$.: error: Cannot parse typedef!\n";
- 	++$errors;
-     }
+ 	sb->s_writers.frozen = SB_UNFROZEN;
+ 	sb_freeze_unlock(sb);
+ out:
+ 	wake_up(&sb->s_writers.wait_unfrozen);
+ 	deactivate_locked_super(sb);
+ 	return 0;
  }
  
- sub save_struct_actual($) {
-     my $actual = shift;
- 
-     # strip all spaces from the actual param so that it looks like one string item
-     $actual =~ s/\s*//g;
-@@ -1779,40 +1802,45 @@ sub dump_function($$) {
- 	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
- 	$return_type = $1;
- 	$declaration_name = $2;
- 	my $args = $3;
- 
- 	create_parameterlist($args, ',', $file, $declaration_name);
-     } else {
- 	print STDERR "${file}:$.: warning: cannot understand function prototype: '$prototype'\n";
- 	return;
-     }
- 
-+    if ($identifier ne $declaration_name) {
-+	print STDERR "${file}:$.: warning: expecting prototype for $identifier(). Prototype was for $declaration_name() instead\n";
-+	return;
-+    }
-+
-     my $prms = join " ", @parameterlist;
-     check_sections($file, $declaration_name, "function", $sectcheck, $prms);
- 
-     # This check emits a lot of warnings at the moment, because many
-     # functions don't have a 'Return' doc section. So until the number
-     # of warnings goes sufficiently down, the check is only performed in
-     # verbose mode.
-     # TODO: always perform the check.
-     if ($verbose && !$noret) {
- 	    check_return_section($file, $declaration_name, $return_type);
-     }
- 
-     # The function parser can be called with a typedef parameter.
-     # Handle it.
-     if ($return_type =~ /typedef/) {
- 	output_declaration($declaration_name,
- 			   'function',
- 			   {'function' => $declaration_name,
- 			    'typedef' => 1,
- 			    'module' => $modulename,
-@@ -1861,40 +1889,41 @@ sub tracepoint_munge($) {
- 	my $tracepointargs = 0;
- 
- 	if ($prototype =~ m/TRACE_EVENT\((.*?),/) {
- 		$tracepointname = $1;
- 	}
- 	if ($prototype =~ m/DEFINE_SINGLE_EVENT\((.*?),/) {
- 		$tracepointname = $1;
- 	}
- 	if ($prototype =~ m/DEFINE_EVENT\((.*?),(.*?),/) {
- 		$tracepointname = $2;
- 	}
- 	$tracepointname =~ s/^\s+//; #strip leading whitespace
- 	if ($prototype =~ m/TP_PROTO\((.*?)\)/) {
- 		$tracepointargs = $1;
- 	}
- 	if (($tracepointname eq 0) || ($tracepointargs eq 0)) {
- 		print STDERR "${file}:$.: warning: Unrecognized tracepoint format: \n".
- 			     "$prototype\n";
- 	} else {
- 		$prototype = "static inline void trace_$tracepointname($tracepointargs)";
-+		$identifier = "trace_$identifier";
- 	}
++/**
++ * thaw_super -- unlock filesystem
++ * @sb: the super to thaw
++ *
++ * Unlocks the filesystem and marks it writeable again after freeze_super().
++ */
+ int thaw_super(struct super_block *sb)
+ {
+ 	down_write(&sb->s_umount);
+ 	return thaw_super_locked(sb);
  }
- 
- sub syscall_munge() {
- 	my $void = 0;
- 
- 	$prototype =~ s@[\r\n]+@ @gos; # strip newlines/CR's
- ##	if ($prototype =~ m/SYSCALL_DEFINE0\s*\(\s*(a-zA-Z0-9_)*\s*\)/) {
- 	if ($prototype =~ m/SYSCALL_DEFINE0/) {
- 		$void = 1;
- ##		$prototype = "long sys_$1(void)";
- 	}
- 
- 	$prototype =~ s/SYSCALL_DEFINE.*\(/long sys_/; # fix return type & func name
- 	if ($prototype =~ m/long (sys_.*?),/) {
- 		$prototype =~ s/,/\(/;
- 	} elsif ($void) {
- 		$prototype =~ s/\)/\(void\)/;
- 	}
- 
-@@ -2024,98 +2053,99 @@ sub process_export_file($) {
- }
- 
- #
- # Parsers for the various processing states.
- #
- # STATE_NORMAL: looking for the /** to begin everything.
- #
- sub process_normal() {
-     if (/$doc_start/o) {
- 	$state = STATE_NAME;	# next line is always the function name
- 	$in_doc_sect = 0;
- 	$declaration_start_line = $. + 1;
-     }
- }
- 
- #
- # STATE_NAME: Looking for the "name - description" line
- #
- sub process_name($$) {
-     my $file = shift;
--    my $identifier;
-     my $descr;
- 
-     if (/$doc_block/o) {
- 	$state = STATE_DOCBLOCK;
- 	$contents = "";
- 	$new_start_line = $.;
- 
- 	if ( $1 eq "" ) {
- 	    $section = $section_intro;
- 	} else {
- 	    $section = $1;
- 	}
--    }
--    elsif (/$doc_decl/o) {
-+    } elsif (/$doc_decl/o) {
- 	$identifier = $1;
--	if (/\s*([\w\s]+?)(\(\))?\s*-/) {
-+	if (/\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
- 	    $identifier = $1;
- 	}
-+	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
-+	    $decl_type = $1;
-+	    $identifier = $2;
-+	} else {
-+	    $decl_type = 'function';
-+	    $identifier =~ s/^define\s+//;
-+	}
-+	$identifier =~ s/\s+$//;
- 
- 	$state = STATE_BODY;
- 	# if there's no @param blocks need to set up default section
- 	# here
- 	$contents = "";
- 	$section = $section_default;
- 	$new_start_line = $. + 1;
--	if (/-(.*)/) {
-+	if (/[-:](.*)/) {
- 	    # strip leading/trailing/multiple spaces
- 	    $descr= $1;
- 	    $descr =~ s/^\s*//;
- 	    $descr =~ s/\s*$//;
- 	    $descr =~ s/\s+/ /g;
- 	    $declaration_purpose = $descr;
- 	    $state = STATE_BODY_MAYBE;
- 	} else {
- 	    $declaration_purpose = "";
- 	}
- 
- 	if (($declaration_purpose eq "") && $verbose) {
- 	    print STDERR "${file}:$.: warning: missing initial short description on line:\n";
- 	    print STDERR $_;
- 	    ++$warnings;
- 	}
- 
--	if ($identifier =~ m/^struct\b/) {
--	    $decl_type = 'struct';
--	} elsif ($identifier =~ m/^union\b/) {
--	    $decl_type = 'union';
--	} elsif ($identifier =~ m/^enum\b/) {
--	    $decl_type = 'enum';
--	} elsif ($identifier =~ m/^typedef\b/) {
--	    $decl_type = 'typedef';
--	} else {
--	    $decl_type = 'function';
-+	if ($identifier eq "") {
-+	    print STDERR "${file}:$.: warning: wrong kernel-doc identifier on line:\n";
-+	    print STDERR $_;
-+	    ++$warnings;
-+	    $state = STATE_NORMAL;
- 	}
- 
- 	if ($verbose) {
--	    print STDERR "${file}:$.: info: Scanning doc for $identifier\n";
-+	    print STDERR "${file}:$.: info: Scanning doc for $decl_type $identifier\n";
- 	}
-     } else {
- 	print STDERR "${file}:$.: warning: Cannot understand $_ on line $.",
- 	    " - I thought it was a doc line\n";
- 	++$warnings;
- 	$state = STATE_NORMAL;
-     }
- }
- 
- 
- #
- # STATE_BODY and STATE_BODY_MAYBE: the bulk of a kerneldoc comment.
- #
- sub process_body($$) {
-     my $file = shift;
- 
-     # Until all named variable macro parameters are
-     # documented using the bare name (`x`) rather than with
-     # dots (`x...`), strip the dots:
-     if ($section =~ /\w\.\.\.$/) {
+ EXPORT_SYMBOL(thaw_super);
 -- 
 2.28.0
 
