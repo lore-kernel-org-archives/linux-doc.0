@@ -2,90 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 743D6C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 21:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D167C63798
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:08:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FD5424655
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 21:31:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AE7824248
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:08:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GpATbwiQ"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="jhtwsAIs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgKQVaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 16:30:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbgKQVaz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 16:30:55 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18B8C0613CF;
-        Tue, 17 Nov 2020 13:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=a1DZ7Ao9CWAtxHaDMnE+CPVs1ONQ/pJUyinx+DQOyFs=; b=GpATbwiQFpcIukS7Dy4VU7xTwK
-        yeUr/iphX1MD/qB+GWdciICVRkjDqLelPa2QabNGfnfXwQouRpryglcwQdMz2Ie+qzSJHVvToCPSL
-        teDehXMEnFwDAe9vUaCIrwaXbLBsmrJjz+pQC1YxRQg/OmdKOgIV2LL7iAXyLmEa/8+tTXOfg6449
-        v2OL5i/xDI/CxsxYDCpkpC9Def/TBnTVlvZq2TiB7IkxZNNsvXCIt7TQeh1NnVX31xO1DVNpyD9AA
-        VnXdzNeyWeiqXuaTikDEclk1kgwNFDv9lChnDEJwCvYMIISJ5a9oKo7DRpSqvm6dykOwXAsACHN1H
-        /admJfMQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kf8Yt-0004tf-Bw; Tue, 17 Nov 2020 21:30:51 +0000
-Date:   Tue, 17 Nov 2020 21:30:51 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Eduardo Habkost <ehabkost@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] kernel-doc: Handle function typedefs without
- asterisks
-Message-ID: <20201117213051.GA29991@casper.infradead.org>
-References: <20201030144713.201372-1-pbonzini@redhat.com>
- <20201030144713.201372-3-pbonzini@redhat.com>
- <20201113152106.7b4a07ee@lwn.net>
- <20201113223912.GK17076@casper.infradead.org>
- <20201117212452.GM1235237@habkost.net>
+        id S1726498AbgKQWIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 17:08:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34302 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726182AbgKQWIQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Nov 2020 17:08:16 -0500
+Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7C69D2417E;
+        Tue, 17 Nov 2020 22:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605650895;
+        bh=R1pOBvGvWekAeZiIx18MTxN73pD71p2KQlMAqkn9JuE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jhtwsAIsEnfI7hZFU/Jd+KcXVg/cwpD1Eaqmqn7ug+HpZb+51NK3hV8ALpMzrxtI3
+         8g3Gp7cvIynpuZcmoJ6imI3B/VfZBdXlbabFa87Obbq2vPSW7MUUvshqm6y/WkY789
+         /SHCnfExLjEIfhjunlFiyA8wc+Dp20iMpkPavic0=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Kun Yi <kunyi@google.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH 1/4] dt-bindings: hwmon: convert TI INA2xx bindings to dt-schema
+Date:   Tue, 17 Nov 2020 23:08:04 +0100
+Message-Id: <20201117220807.208747-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201117212452.GM1235237@habkost.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 04:24:52PM -0500, Eduardo Habkost wrote:
-> On Fri, Nov 13, 2020 at 10:39:12PM +0000, Matthew Wilcox wrote:
-> > Better ... can we have a test suite for the regexes and make patches to
-> > them include updates to the test suite?  They have clearly passed the
-> > point of human understanding ;-)
-> 
-> Would a simple black box test script like this be desirable?
+Convert the TI INA2xx bindings to dt-schema.
 
-I think this is fantastic!  Yes please!
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ .../devicetree/bindings/hwmon/ina2xx.txt      | 24 --------
+ .../devicetree/bindings/hwmon/ti,ina2xx.yaml  | 55 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 56 insertions(+), 25 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/hwmon/ina2xx.txt
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
 
-Can I add one more test case?
-
-/**
- * radix_tree_lookup_slot - lookup a slot in a radix tree
- * @root:          radix tree root
- * @index:         index key
- *
- * Returns:  the slot corresponding to the position @index in the
- * radix tree @root. This is useful for update-if-exists operations.
- *
- * This function can be called under rcu_read_lock iff the slot is not
- * modified by radix_tree_replace_slot(), otherwise it must be called
- * exclusive from other writers. Any dereference of the slot must be done
- * using radix_tree_deref_slot().
- */
-void __rcu **radix_tree_lookup_slot(const struct radix_tree_root *root,
-                                unsigned long index)
-{ }
-
-(we used to have a problem with multiple '*' in the return type, and
-we've also had problems with adornments like __rcu)
+diff --git a/Documentation/devicetree/bindings/hwmon/ina2xx.txt b/Documentation/devicetree/bindings/hwmon/ina2xx.txt
+deleted file mode 100644
+index 02af0d94e921..000000000000
+--- a/Documentation/devicetree/bindings/hwmon/ina2xx.txt
++++ /dev/null
+@@ -1,24 +0,0 @@
+-ina2xx properties
+-
+-Required properties:
+-- compatible: Must be one of the following:
+-	- "ti,ina209" for ina209
+-	- "ti,ina219" for ina219
+-	- "ti,ina220" for ina220
+-	- "ti,ina226" for ina226
+-	- "ti,ina230" for ina230
+-	- "ti,ina231" for ina231
+-- reg: I2C address
+-
+-Optional properties:
+-
+-- shunt-resistor
+-	Shunt resistor value in micro-Ohm
+-
+-Example:
+-
+-ina220@44 {
+-	compatible = "ti,ina220";
+-	reg = <0x44>;
+-	shunt-resistor = <1000>;
+-};
+diff --git a/Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml b/Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
+new file mode 100644
+index 000000000000..6f0443322a36
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++
++$id: http://devicetree.org/schemas/hwmon/ti,ina2xx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments INA209 family of power/voltage monitors
++
++maintainers:
++  - Krzysztof Kozlowski <krzk@kernel.org>
++
++description: |
++  The INA209 is a high-side current shunt and power monitor with
++  an I2C interface.
++
++  Datasheets:
++    https://www.ti.com/product/INA209
++
++properties:
++  compatible:
++    enum:
++      - ti,ina209
++      - ti,ina219
++      - ti,ina220
++      - ti,ina226
++      - ti,ina230
++      - ti,ina231
++
++  reg:
++    maxItems: 1
++
++  shunt-resistor:
++    description:
++      Shunt resistor value in micro-Ohm.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        power-sensor@44 {
++            compatible = "ti,ina220";
++            reg = <0x44>;
++            shunt-resistor = <1000>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0818a5b03832..e9ba2e555679 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8669,7 +8669,7 @@ INA209 HARDWARE MONITOR DRIVER
+ M:	Guenter Roeck <linux@roeck-us.net>
+ L:	linux-hwmon@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/hwmon/ina2xx.txt
++F:	Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
+ F:	Documentation/hwmon/ina209.rst
+ F:	drivers/hwmon/ina209.c
+ 
+-- 
+2.25.1
 
