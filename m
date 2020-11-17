@@ -2,178 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD6D7C64E7B
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:09:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA352C64E7B
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:19:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EFD124248
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:09:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67EF124248
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:19:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="N58ihijM"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="0gbGqcec"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728968AbgKQWIY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 17:08:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34382 "EHLO mail.kernel.org"
+        id S1728876AbgKQWTU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 17:19:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36408 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728952AbgKQWIX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Nov 2020 17:08:23 -0500
-Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726182AbgKQWTT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Nov 2020 17:19:19 -0500
+Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (c-67-180-217-166.hsd1.ca.comcast.net [67.180.217.166])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D396124248;
-        Tue, 17 Nov 2020 22:08:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 17315206B6;
+        Tue, 17 Nov 2020 22:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605650902;
-        bh=vw3o+FkpU4mvDT8gAc0jS/pGzbrqAbpHEsPcEKhuvwI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=N58ihijMmGHGdfJdUMPWxF3d0osByRjkYLzh++Va7mxmywVeBBmvK5RErfsEJOPaQ
-         rvgUFvpK4mgULdp2k9nJ8kj8mcmk2La3L0rz7fjhPz2aaAfT8cqCom3PzphCkJ5fTE
-         lIDFWhXFE5KHH246i/fiyCrOJbHTsg+eHadWoqiI=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Kun Yi <kunyi@google.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 4/4] dt-bindings: hwmon: convert AD ADM1275 bindings to dt-schema
-Date:   Tue, 17 Nov 2020 23:08:07 +0100
-Message-Id: <20201117220807.208747-4-krzk@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201117220807.208747-1-krzk@kernel.org>
-References: <20201117220807.208747-1-krzk@kernel.org>
+        s=default; t=1605651557;
+        bh=GHrSTxL7y3OT9VIhqMi4Mq1l4vD6ZvPCLHA7AVK0P+Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=0gbGqcecJOh+OuHZeLlQZ3w2i+xeQKPcOORZrxJCrb/uEJlakRM+cizA6CGkYf6Hr
+         Wji5N+xTP+/p8dUX/3ehUQtUgvOr/0NqFj7YTAjLIkQTaOuH6fljIuYUVsj29DdmRw
+         +Vwr/jq1XwjWyrM1HI/eEAvNkAFeEKOXVLBBoVJM=
+Date:   Tue, 17 Nov 2020 14:19:14 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Ben Segall <bsegall@google.com>,
+        Colin Cross <ccross@android.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mel Gorman <mgorman@suse.de>, Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sebastian Reichel <sre@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Will Drewry <wad@chromium.org>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-ext4@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-mm@kvack.org, linux-nfs@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, target-devel@vger.kernel.org
+Subject: Re: [PATCH v4 00/27]Fix several bad kernel-doc markups
+Message-ID: <20201117141914.73056d1f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
+References: <cover.1605521731.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the Analog Devices ADM1275 bindings to dt-schema.
+On Mon, 16 Nov 2020 11:17:56 +0100 Mauro Carvalho Chehab wrote:
+> Kernel-doc has always be limited to a probably bad documented
+> rule:
+> 
+> The kernel-doc markups should appear *imediatelly before* the
+> function or data structure that it documents.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- .../bindings/hwmon/adi,adm1275.yaml           | 58 +++++++++++++++++++
- .../devicetree/bindings/hwmon/adm1275.txt     | 25 --------
- Documentation/hwmon/adm1275.rst               |  2 +-
- 3 files changed, 59 insertions(+), 26 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
- delete mode 100644 Documentation/devicetree/bindings/hwmon/adm1275.txt
-
-diff --git a/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-new file mode 100644
-index 000000000000..2cad28c499dc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+
-+$id: http://devicetree.org/schemas/hwmon/adi,adm1275.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog Devices ADM1075/ADM127x/ADM129x digital power monitors
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzk@kernel.org>
-+
-+description: |
-+  The ADM1293 and ADM1294 are high accuracy integrated digital power monitors
-+  that offer digital current, voltage, and power monitoring using an on-chip,
-+  12-bit analog-to-digital converter (ADC), communicated through a PMBus
-+  compliant I2C interface.
-+
-+  Datasheets:
-+    https://www.analog.com/en/products/adm1294.html
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,adm1075
-+      - adi,adm1272
-+      - adi,adm1275
-+      - adi,adm1276
-+      - adi,adm1278
-+      - adi,adm1293
-+      - adi,adm1294
-+
-+  reg:
-+    maxItems: 1
-+
-+  shunt-resistor-micro-ohms:
-+    description:
-+      Shunt resistor value in micro-Ohm.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        power-sensor@10 {
-+            compatible = "adi,adm1272";
-+            reg = <0x10>;
-+            shunt-resistor-micro-ohms = <500>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/hwmon/adm1275.txt b/Documentation/devicetree/bindings/hwmon/adm1275.txt
-deleted file mode 100644
-index 1ecd03f3da4d..000000000000
---- a/Documentation/devicetree/bindings/hwmon/adm1275.txt
-+++ /dev/null
-@@ -1,25 +0,0 @@
--adm1275 properties
--
--Required properties:
--- compatible: Must be one of the supported compatible strings:
--	- "adi,adm1075" for adm1075
--	- "adi,adm1272" for adm1272
--	- "adi,adm1275" for adm1275
--	- "adi,adm1276" for adm1276
--	- "adi,adm1278" for adm1278
--	- "adi,adm1293" for adm1293
--	- "adi,adm1294" for adm1294
--- reg: I2C address
--
--Optional properties:
--
--- shunt-resistor-micro-ohms
--	Shunt resistor value in micro-Ohm
--
--Example:
--
--adm1272@10 {
--	compatible = "adi,adm1272";
--	reg = <0x10>;
--	shunt-resistor-micro-ohms = <500>;
--};
-diff --git a/Documentation/hwmon/adm1275.rst b/Documentation/hwmon/adm1275.rst
-index ce6528f90e4a..804590eeabdc 100644
---- a/Documentation/hwmon/adm1275.rst
-+++ b/Documentation/hwmon/adm1275.rst
-@@ -83,7 +83,7 @@ or current scaling. Reported voltages, currents, and power are raw measurements,
- and will typically have to be scaled.
- 
- The shunt value in micro-ohms can be set via device tree at compile-time. Please
--refer to the Documentation/devicetree/bindings/hwmon/adm1275.txt for bindings
-+refer to the Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml for bindings
- if the device tree is used.
- 
- Platform data support
--- 
-2.25.1
-
+Applied 1-3 to net-next, thanks!
