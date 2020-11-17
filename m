@@ -2,863 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D83BC2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E71A5C63697
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 23:09:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07EA720709
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 22:36:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a+pRKKJ5"
+	by mail.kernel.org (Postfix) with ESMTP id B12862223D
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 23:09:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728334AbgKQWgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 17:36:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23250 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726702AbgKQWgV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 17:36:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605652577;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zN721c7S6whBVWrMK+XsLSulLTRzivYrlWK+dANFonY=;
-        b=a+pRKKJ5nysPEGWetNySzDFb/MEch4VPWH4yVF4ziVl11R+c5ZNXr4Mkh6Q8QBrWyNsCdX
-        CX1t4ZJT0uPdcnv8am15pPmGc8ubUWAOq1qxMnwHLY/3/zmm5OSvMIfTqocZCw3B4jQr+J
-        jTegFPiBDTW+5c65hTf/aj2as3uc2Qo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-Ouizj4sgOcev0hVNv0tolA-1; Tue, 17 Nov 2020 17:36:15 -0500
-X-MC-Unique: Ouizj4sgOcev0hVNv0tolA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E6871882FA5;
-        Tue, 17 Nov 2020 22:36:14 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0058F5D9CD;
-        Tue, 17 Nov 2020 22:36:13 +0000 (UTC)
-Date:   Tue, 17 Nov 2020 17:36:12 -0500
-From:   Eduardo Habkost <ehabkost@redhat.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [RFC] Add kernel-doc test script
-Message-ID: <20201117223612.GN1235237@habkost.net>
-References: <20201030144713.201372-1-pbonzini@redhat.com>
- <20201030144713.201372-3-pbonzini@redhat.com>
- <20201113152106.7b4a07ee@lwn.net>
- <20201113223912.GK17076@casper.infradead.org>
- <20201117212452.GM1235237@habkost.net>
- <20201117213051.GA29991@casper.infradead.org>
+        id S1728655AbgKQXJG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 18:09:06 -0500
+Received: from mga05.intel.com ([192.55.52.43]:13337 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726340AbgKQXJG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Nov 2020 18:09:06 -0500
+IronPort-SDR: 9O+9NLql69GqWdme8JxtLXrzXc3gDB32eyeWlLvy1zm0ii/o7Q2RzGirBWKDdlrMqtcmLkU/vT
+ AlXrtsGLFGFA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="255740712"
+X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
+   d="scan'208";a="255740712"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 15:09:05 -0800
+IronPort-SDR: AwiJnKb6bFs3WhEZ1m4iR6bIkAfWXLxHDMvjbjoZTwJ15fGBT6ZhX81NrO5ZevZHM5xCTpsqB8
+ OQRQ0t7LPKOg==
+X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
+   d="scan'208";a="544249170"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.140])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 15:09:05 -0800
+Date:   Tue, 17 Nov 2020 15:10:15 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Tom Rix <trix@redhat.com>
+cc:     linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mdf@kernel.org, hao.wu@intel.com, linux-doc@vger.kernel.org,
+        corbet@lwn.net
+Subject: Re: [PATCH 2/2] fpga: dfl: look for vendor specific capability
+In-Reply-To: <53b9cb12-8002-5737-ba8b-7c59687ead5a@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2011171457150.312724@rhweight-WRK1>
+References: <20201117012552.262149-1-matthew.gerlach@linux.intel.com> <20201117012552.262149-3-matthew.gerlach@linux.intel.com> <53b9cb12-8002-5737-ba8b-7c59687ead5a@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201117213051.GA29991@casper.infradead.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a kernel-doc test script to tools/testing/kernel-doc.
 
-radix_tree_lookup_slot test case provided by Matthew Wilcox.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- tools/testing/kernel-doc/test-case.h          | 111 ++++++++++
- .../testing/kernel-doc/test-case.man.expected | 150 ++++++++++++++
- .../kernel-doc/test-case.none.expected        |   0
- .../kernel-doc/test-case.rst2.expected        | 195 ++++++++++++++++++
- .../kernel-doc/test-case.rst3.expected        | 195 ++++++++++++++++++
- tools/testing/kernel-doc/test.sh              |  90 ++++++++
- 6 files changed, 741 insertions(+)
- create mode 100644 tools/testing/kernel-doc/test-case.h
- create mode 100644 tools/testing/kernel-doc/test-case.man.expected
- create mode 100644 tools/testing/kernel-doc/test-case.none.expected
- create mode 100644 tools/testing/kernel-doc/test-case.rst2.expected
- create mode 100644 tools/testing/kernel-doc/test-case.rst3.expected
- create mode 100755 tools/testing/kernel-doc/test.sh
+On Tue, 17 Nov 2020, Tom Rix wrote:
 
-diff --git a/tools/testing/kernel-doc/test-case.h b/tools/testing/kernel-doc/test-case.h
-new file mode 100644
-index 0000000000000..6d4e1f6b99631
---- /dev/null
-+++ b/tools/testing/kernel-doc/test-case.h
-@@ -0,0 +1,111 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/**
-+ * DOC: kernel-doc test case
-+ *
-+ * ``test-case.h`` contains a series of declarations and
-+ * kernel-doc comments. The expected kernel-doc output can be
-+ * found at ``test-case.rst.expected``.
-+ */
-+
-+/**
-+ * typedef void_func_ptr - pointer to a function
-+ * @a: first argument
-+ * @b: second argument
-+ */
-+typedef void (*void_func_ptr)(int a, struct struct_name1 *b);
-+
-+/**
-+ * typedef int_ptr_func_ptr - a pointer to a function returning a pointer
-+ * @a: argument
-+ */
-+typedef int *(*int_ptr_func_ptr)(int a);
-+
-+/**
-+ * typedef func_par - a function, with parenthesis
-+ * @a: argument
-+ *
-+ * A typedef for a function type (not a function pointer), wit
-+ * parenthesis around the function name.
-+ */
-+typedef void (func_par)(int a);
-+
-+/**
-+ * struct struct_name1 - a struct
-+ * @i: an int field
-+ * @j: an int pointer
-+ * @u: a union field
-+ * @sptr: pointer to a `struct_name1`
-+ *
-+ * A simple struct with multiple fields.
-+ *
-+ * Here's a reference to another struct type: &struct struct_name2.
-+ */
-+struct struct_name1 {
-+	int i, *j;
-+	union {
-+		int i;
-+		const char *s;
-+	} u;
-+	struct struct_name1 *sptr;
-+	/**
-+	 * @field_with_inline_doc: another way to document struct fields
-+	 *
-+	 * This field is documented inside the struct definition,
-+	 * closer to the field declaration instead the doc comment at
-+	 * the top.
-+	 */
-+	int field_with_inline_doc;
-+	/**
-+	 * @func: a function pointer
-+	 *
-+	 * Parsing a function pointer field involves some tricks to handle
-+	 * the commas properly.
-+	 */
-+	int (*func)(int x, struct struct_name1 *p);
-+	/** @bitmap: a bitmap */
-+	DECLARE_BITMAP(bitmap, 128);
-+};
-+
-+/**
-+ * struct struct_name2 - another struct
-+ * @x: first field
-+ * @y: second field
-+ * @another: another struct
-+ *
-+ * This struct is defined inside a typedef declaration.
-+ */
-+typedef struct struct_name2 {
-+	int x, y;
-+	struct struct_name1 another;
-+} struct_name2;
-+
-+/**
-+ * radix_tree_lookup_slot - lookup a slot in a radix tree
-+ * @root:		radix tree root
-+ * @index:	 index key
-+ *
-+ * Returns:  the slot corresponding to the position @index in the
-+ * radix tree @root. This is useful for update-if-exists operations.
-+ *
-+ * This function can be called under rcu_read_lock iff the slot is not
-+ * modified by radix_tree_replace_slot(), otherwise it must be called
-+ * exclusive from other writers. Any dereference of the slot must be done
-+ * using radix_tree_deref_slot().
-+ *
-+ * We used to have a problem with multiple ``*`` in the return type, and
-+ * we've also had problems with adornments like __rcu).
-+ */
-+void __rcu **radix_tree_lookup_slot(const struct radix_tree_root *root,
-+					unsigned long index)
-+{ }
-+
-+/**
-+ * SOME_MACRO - a macro that takes a few arguments
-+ * @a: first argument
-+ * @b: second argument
-+ */
-+#define SOME_MACRO(a, b) \
-+	{ multi_line_macro_definition(a); \
-+	  second_line(b); \
-+	}
-diff --git a/tools/testing/kernel-doc/test-case.man.expected b/tools/testing/kernel-doc/test-case.man.expected
-new file mode 100644
-index 0000000000000..6be2583469f04
---- /dev/null
-+++ b/tools/testing/kernel-doc/test-case.man.expected
-@@ -0,0 +1,150 @@
-+.TH "Kernel API" 9 "Kernel API" "August 1991" "API Manual" LINUX
-+.SH "kernel-doc test case"
-+``test-case.h contains a series of declarations and
-+kernel-doc comments. The expected kernel-doc output can be
-+found at test-case.rst.expected``.
-+.TH "void_func_ptr" 9 "void_func_ptr" "August 1991" "Kernel Hacker's Manual" LINUX
-+.SH NAME
-+void_func_ptr \- pointer to a function
-+.SH SYNOPSIS
-+.B "void" void_func_ptr
-+.BI "(int a "  ","
-+.BI "struct struct_name1 *b "  ");"
-+.SH ARGUMENTS
-+.IP "a" 12
-+first argument
-+.IP "b" 12
-+second argument
-+.TH "int_ptr_func_ptr" 9 "int_ptr_func_ptr" "August 1991" "Kernel Hacker's Manual" LINUX
-+.SH NAME
-+int_ptr_func_ptr \- a pointer to a function returning a pointer
-+.SH SYNOPSIS
-+.B "int *" int_ptr_func_ptr
-+.BI "(int a "  ");"
-+.SH ARGUMENTS
-+.IP "a" 12
-+argument
-+.TH "func_par" 9 "func_par" "August 1991" "Kernel Hacker's Manual" LINUX
-+.SH NAME
-+func_par \- a function, with parenthesis
-+.SH SYNOPSIS
-+.B "void" func_par
-+.BI "(int a "  ");"
-+.SH ARGUMENTS
-+.IP "a" 12
-+argument
-+.SH "DESCRIPTION"
-+A typedef for a function type (not a function pointer), wit
-+parenthesis around the function name.
-+.TH "Kernel API" 9 "struct struct_name1" "August 1991" "API Manual" LINUX
-+.SH NAME
-+struct struct_name1 \- a struct
-+.SH SYNOPSIS
-+struct struct_name1 {
-+.br
-+.BI "    int i, *j;"
-+.br
-+.BI "    union {"
-+.br
-+.BI "      int i;"
-+.br
-+.BI "      const char *s;"
-+.br
-+.BI "    } u;"
-+.br
-+.BI "    struct struct_name1 *sptr;"
-+.br
-+.BI "    int field_with_inline_doc;"
-+.br
-+.BI "    int (*func)(int x, struct struct_name1 *p);"
-+.br
-+.BI "    unsigned long bitmap[BITS_TO_LONGS(128)];"
-+.br
-+.BI "
-+};
-+.br
-+
-+.SH Members
-+.IP "i" 12
-+an int field
-+.IP "j" 12
-+an int pointer
-+.IP "u" 12
-+a union field
-+.IP "sptr" 12
-+pointer to a `struct_name1`
-+.IP "field_with_inline_doc" 12
-+another way to document struct fields
-+
-+This field is documented inside the struct definition,
-+closer to the field declaration instead the doc comment at
-+the top.
-+.IP "func" 12
-+a function pointer
-+
-+Parsing a function pointer field involves some tricks to handle
-+the commas properly.
-+.IP "bitmap" 12
-+a bitmap 
-+.SH "Description"
-+A simple struct with multiple fields.
-+
-+Here's a reference to another struct type: \fIstruct struct_name2\fP.
-+.TH "Kernel API" 9 "struct struct_name2" "August 1991" "API Manual" LINUX
-+.SH NAME
-+struct struct_name2 \- another struct
-+.SH SYNOPSIS
-+struct struct_name2 {
-+.br
-+.BI "    int x, y;"
-+.br
-+.BI "    struct struct_name1 another;"
-+.br
-+.BI "
-+};
-+.br
-+
-+.SH Members
-+.IP "x" 12
-+first field
-+.IP "y" 12
-+second field
-+.IP "another" 12
-+another struct
-+.SH "Description"
-+This struct is defined inside a typedef declaration.
-+.TH "radix_tree_lookup_slot" 9 "radix_tree_lookup_slot" "August 1991" "Kernel Hacker's Manual" LINUX
-+.SH NAME
-+radix_tree_lookup_slot \- lookup a slot in a radix tree
-+.SH SYNOPSIS
-+.B "void __rcu **" radix_tree_lookup_slot
-+.BI "(const struct radix_tree_root *root "  ","
-+.BI "unsigned long index "  ");"
-+.SH ARGUMENTS
-+.IP "root" 12
-+radix tree root
-+.IP "index" 12
-+index key
-+.SH "RETURN"
-+the slot corresponding to the position \fIindex\fP in the
-+radix tree \fIroot\fP. This is useful for update-if-exists operations.
-+.SH "DESCRIPTION"
-+This function can be called under rcu_read_lock iff the slot is not
-+modified by \fBradix_tree_replace_slot\fP, otherwise it must be called
-+exclusive from other writers. Any dereference of the slot must be done
-+using \fBradix_tree_deref_slot\fP.
-+
-+We used to have a problem with multiple ``*`` in the return type, and
-+we've also had problems with adornments like __rcu).
-+.TH "SOME_MACRO" 9 "SOME_MACRO" "August 1991" "Kernel Hacker's Manual" LINUX
-+.SH NAME
-+SOME_MACRO \- a macro that takes a few arguments
-+.SH SYNOPSIS
-+.B "SOME_MACRO
-+.BI "(a "  ","
-+.BI "b "  ");"
-+.SH ARGUMENTS
-+.IP "a" 12
-+first argument
-+.IP "b" 12
-+second argument
-diff --git a/tools/testing/kernel-doc/test-case.none.expected b/tools/testing/kernel-doc/test-case.none.expected
-new file mode 100644
-index 0000000000000..e69de29bb2d1d
-diff --git a/tools/testing/kernel-doc/test-case.rst2.expected b/tools/testing/kernel-doc/test-case.rst2.expected
-new file mode 100644
-index 0000000000000..66ae737a808f2
---- /dev/null
-+++ b/tools/testing/kernel-doc/test-case.rst2.expected
-@@ -0,0 +1,195 @@
-+**kernel-doc test case**
-+
-+
-+``test-case.h`` contains a series of declarations and
-+kernel-doc comments. The expected kernel-doc output can be
-+found at ``test-case.rst.expected``.
-+
-+.. c:macro:: void_func_ptr
-+
-+   **Typedef**: pointer to a function
-+
-+
-+**Syntax**
-+
-+  ``void void_func_ptr (int a, struct struct_name1 *b)``
-+
-+**Parameters**
-+
-+``int a``
-+  first argument
-+
-+``struct struct_name1 *b``
-+  second argument
-+
-+
-+.. c:macro:: int_ptr_func_ptr
-+
-+   **Typedef**: a pointer to a function returning a pointer
-+
-+
-+**Syntax**
-+
-+  ``int * int_ptr_func_ptr (int a)``
-+
-+**Parameters**
-+
-+``int a``
-+  argument
-+
-+
-+.. c:macro:: func_par
-+
-+   **Typedef**: a function, with parenthesis
-+
-+
-+**Syntax**
-+
-+  ``void func_par (int a)``
-+
-+**Parameters**
-+
-+``int a``
-+  argument
-+
-+**Description**
-+
-+A typedef for a function type (not a function pointer), wit
-+parenthesis around the function name.
-+
-+
-+
-+
-+.. c:struct:: struct_name1
-+
-+   a struct
-+
-+**Definition**
-+
-+::
-+
-+  struct struct_name1 {
-+    int i, *j;
-+    union {
-+      int i;
-+      const char *s;
-+    } u;
-+    struct struct_name1 *sptr;
-+    int field_with_inline_doc;
-+    int (*func)(int x, struct struct_name1 *p);
-+    unsigned long bitmap[BITS_TO_LONGS(128)];
-+  };
-+
-+**Members**
-+
-+``i``
-+  an int field
-+
-+``j``
-+  an int pointer
-+
-+``u``
-+  a union field
-+
-+``sptr``
-+  pointer to a `struct_name1`
-+
-+``field_with_inline_doc``
-+  another way to document struct fields
-+  
-+  This field is documented inside the struct definition,
-+  closer to the field declaration instead the doc comment at
-+  the top.
-+
-+``func``
-+  a function pointer
-+  
-+  Parsing a function pointer field involves some tricks to handle
-+  the commas properly.
-+
-+``bitmap``
-+  a bitmap 
-+
-+
-+**Description**
-+
-+A simple struct with multiple fields.
-+
-+Here's a reference to another struct type: :c:type:`struct struct_name2 <struct_name2>`.
-+
-+
-+
-+
-+.. c:struct:: struct_name2
-+
-+   another struct
-+
-+**Definition**
-+
-+::
-+
-+  struct struct_name2 {
-+    int x, y;
-+    struct struct_name1 another;
-+  };
-+
-+**Members**
-+
-+``x``
-+  first field
-+
-+``y``
-+  second field
-+
-+``another``
-+  another struct
-+
-+
-+**Description**
-+
-+This struct is defined inside a typedef declaration.
-+
-+
-+.. c:function:: void __rcu ** radix_tree_lookup_slot (const struct radix_tree_root *root, unsigned long index)
-+
-+   lookup a slot in a radix tree
-+
-+**Parameters**
-+
-+``const struct radix_tree_root *root``
-+  radix tree root
-+
-+``unsigned long index``
-+  index key
-+
-+**Return**
-+
-+the slot corresponding to the position **index** in the
-+radix tree **root**. This is useful for update-if-exists operations.
-+
-+**Description**
-+
-+This function can be called under rcu_read_lock iff the slot is not
-+modified by radix_tree_replace_slot(), otherwise it must be called
-+exclusive from other writers. Any dereference of the slot must be done
-+using radix_tree_deref_slot().
-+
-+We used to have a problem with multiple ``*`` in the return type, and
-+we've also had problems with adornments like __rcu).
-+
-+
-+.. c:macro:: SOME_MACRO
-+
-+``SOME_MACRO (a, b)``
-+
-+   a macro that takes a few arguments
-+
-+**Parameters**
-+
-+``a``
-+  first argument
-+
-+``b``
-+  second argument
-+
-+
-diff --git a/tools/testing/kernel-doc/test-case.rst3.expected b/tools/testing/kernel-doc/test-case.rst3.expected
-new file mode 100644
-index 0000000000000..66ae737a808f2
---- /dev/null
-+++ b/tools/testing/kernel-doc/test-case.rst3.expected
-@@ -0,0 +1,195 @@
-+**kernel-doc test case**
-+
-+
-+``test-case.h`` contains a series of declarations and
-+kernel-doc comments. The expected kernel-doc output can be
-+found at ``test-case.rst.expected``.
-+
-+.. c:macro:: void_func_ptr
-+
-+   **Typedef**: pointer to a function
-+
-+
-+**Syntax**
-+
-+  ``void void_func_ptr (int a, struct struct_name1 *b)``
-+
-+**Parameters**
-+
-+``int a``
-+  first argument
-+
-+``struct struct_name1 *b``
-+  second argument
-+
-+
-+.. c:macro:: int_ptr_func_ptr
-+
-+   **Typedef**: a pointer to a function returning a pointer
-+
-+
-+**Syntax**
-+
-+  ``int * int_ptr_func_ptr (int a)``
-+
-+**Parameters**
-+
-+``int a``
-+  argument
-+
-+
-+.. c:macro:: func_par
-+
-+   **Typedef**: a function, with parenthesis
-+
-+
-+**Syntax**
-+
-+  ``void func_par (int a)``
-+
-+**Parameters**
-+
-+``int a``
-+  argument
-+
-+**Description**
-+
-+A typedef for a function type (not a function pointer), wit
-+parenthesis around the function name.
-+
-+
-+
-+
-+.. c:struct:: struct_name1
-+
-+   a struct
-+
-+**Definition**
-+
-+::
-+
-+  struct struct_name1 {
-+    int i, *j;
-+    union {
-+      int i;
-+      const char *s;
-+    } u;
-+    struct struct_name1 *sptr;
-+    int field_with_inline_doc;
-+    int (*func)(int x, struct struct_name1 *p);
-+    unsigned long bitmap[BITS_TO_LONGS(128)];
-+  };
-+
-+**Members**
-+
-+``i``
-+  an int field
-+
-+``j``
-+  an int pointer
-+
-+``u``
-+  a union field
-+
-+``sptr``
-+  pointer to a `struct_name1`
-+
-+``field_with_inline_doc``
-+  another way to document struct fields
-+  
-+  This field is documented inside the struct definition,
-+  closer to the field declaration instead the doc comment at
-+  the top.
-+
-+``func``
-+  a function pointer
-+  
-+  Parsing a function pointer field involves some tricks to handle
-+  the commas properly.
-+
-+``bitmap``
-+  a bitmap 
-+
-+
-+**Description**
-+
-+A simple struct with multiple fields.
-+
-+Here's a reference to another struct type: :c:type:`struct struct_name2 <struct_name2>`.
-+
-+
-+
-+
-+.. c:struct:: struct_name2
-+
-+   another struct
-+
-+**Definition**
-+
-+::
-+
-+  struct struct_name2 {
-+    int x, y;
-+    struct struct_name1 another;
-+  };
-+
-+**Members**
-+
-+``x``
-+  first field
-+
-+``y``
-+  second field
-+
-+``another``
-+  another struct
-+
-+
-+**Description**
-+
-+This struct is defined inside a typedef declaration.
-+
-+
-+.. c:function:: void __rcu ** radix_tree_lookup_slot (const struct radix_tree_root *root, unsigned long index)
-+
-+   lookup a slot in a radix tree
-+
-+**Parameters**
-+
-+``const struct radix_tree_root *root``
-+  radix tree root
-+
-+``unsigned long index``
-+  index key
-+
-+**Return**
-+
-+the slot corresponding to the position **index** in the
-+radix tree **root**. This is useful for update-if-exists operations.
-+
-+**Description**
-+
-+This function can be called under rcu_read_lock iff the slot is not
-+modified by radix_tree_replace_slot(), otherwise it must be called
-+exclusive from other writers. Any dereference of the slot must be done
-+using radix_tree_deref_slot().
-+
-+We used to have a problem with multiple ``*`` in the return type, and
-+we've also had problems with adornments like __rcu).
-+
-+
-+.. c:macro:: SOME_MACRO
-+
-+``SOME_MACRO (a, b)``
-+
-+   a macro that takes a few arguments
-+
-+**Parameters**
-+
-+``a``
-+  first argument
-+
-+``b``
-+  second argument
-+
-+
-diff --git a/tools/testing/kernel-doc/test.sh b/tools/testing/kernel-doc/test.sh
-new file mode 100755
-index 0000000000000..37042c5453823
---- /dev/null
-+++ b/tools/testing/kernel-doc/test.sh
-@@ -0,0 +1,90 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2020, Red Hat Inc.
-+# Author: Eduardo Habkost <ehabkost@redhat.com>
-+#
-+# Black box test script for kernel-doc
-+
-+set -e
-+mydir="$(dirname "$0")"
-+
-+usage()
-+{
-+    echo "Usage: $0 [--refresh] [--kernel-doc KERNELDOC_BINARY]"
-+}
-+
-+refresh=no
-+kerneldoc="$mydir/../../../scripts/kernel-doc"
-+while [ "$#" -gt 0 ];do
-+    case "$1" in
-+        -h|--help)
-+            usage
-+            exit 0
-+        ;;
-+        --refresh)
-+            refresh=yes
-+            shift
-+        ;;
-+        --kernel-doc)
-+            shift
-+            kerneldoc="$1"
-+            shift
-+        ;;
-+        *)
-+            echo "Invalid argument: $1" >&2
-+            usage >&2
-+            exit 1
-+        ;;
-+    esac
-+done
-+
-+tmp="$(mktemp -d)"
-+trap 'rm -rf "$tmp"' EXIT
-+
-+test()
-+{
-+    local suffix="$1"
-+    shift
-+
-+    if ! "$kerneldoc" "$@" "$mydir/test-case.h" \
-+         > "$tmp/test-case.$suffix.actual" \
-+         2> "$tmp/test-case.$suffix.stderr" || \
-+       [ -s "$tmp/test-case.$suffix.stderr" ];then
-+        cat "$tmp/test-case.$suffix.stderr" >&2
-+        echo "$suffix: kernel-doc $* failed" >&2
-+        return 1
-+    fi
-+
-+    if diff -u "$mydir/test-case.$suffix.expected" \
-+               "$tmp/test-case.$suffix.actual";then
-+        echo "$suffix: OK" >&2
-+    else
-+        echo "kernel-doc output mismatch for: $*" >&2
-+        if [ "$refresh" = yes ];then
-+            cp "$tmp/test-case.$suffix.actual" \
-+              "$mydir/test-case.$suffix.expected"
-+        fi
-+        return 1
-+    fi
-+}
-+
-+if [ ! -x "$kerneldoc" ];then
-+    echo "kernel-doc is not executable: $kerneldoc" >&2
-+    exit 1
-+fi
-+
-+# the -man output includes the build date
-+export KBUILD_BUILD_TIMESTAMP=1991-08-25
-+
-+ok=yes
-+
-+# don't even try to test other formats if -none fails:
-+test none -none || exit 1
-+
-+test rst2 -rst -sphinx-version 3.0.0 || ok=no
-+test rst3 -rst -sphinx-version 3.0.0 || ok=no
-+test man -man || ok=no
-+
-+if [ "$ok" != "yes" ];then
-+    exit 1
-+fi
--- 
-2.28.0
+>
+> On 11/16/20 5:25 PM, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> A DFL may not begin at offset 0 of BAR 0.  A PCIe vendor
+>> specific capability can be used to specify the start of a
+>> number of DFLs.
+>>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> ---
+>>  Documentation/fpga/dfl.rst | 10 +++++
+>>  drivers/fpga/dfl-pci.c     | 88 +++++++++++++++++++++++++++++++++++++-
+>>  2 files changed, 97 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+>> index 0404fe6ffc74..c81ceb1e79e2 100644
+>> --- a/Documentation/fpga/dfl.rst
+>> +++ b/Documentation/fpga/dfl.rst
+>> @@ -501,6 +501,16 @@ Developer only needs to provide a sub feature driver with matched feature id.
+>>  FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
+>>  could be a reference.
+>>
+>> +Location of DFLs on PCI bus
+>> +===========================
+>> +The start of the DFL is assumed to be offset 0 of bar 0.
+>> +Alternatively, a vendor specific capability structure can be used to
+>> +specify the location of one or more DFLs.  Intel has reserved the
+>> +vendor specific id of 0x43 for this purpose.  The vendor specific
+>> +data begins with a 4 byte count of the number of DFLs followed 4 byte
+>> +Offset/BIR fields for each DFL. Bits 2:0 of Offset/BIR field indicates
+>> +the BAR, and bits 31:3 form the 8 byte aligned offset where bits 2:0 are
+>> +zero.
+>>
+>
+> Does the 'Device Feature List (DFL) Overview' section need to change ?
 
+The 'Device Feature List (DFL) Overview' section does not really mention
+the starting location of the DFLs.  I think a section on the discussing
+the starting location is enough.
+
+>
+> Maybe some more ascii art on location of bar0 vs vendor specific ?
+
+I've added some clarity in v2 which might be enough.
+
+>
+>>  Open discussion
+>>  ===============
+>> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+>> index b1b157b41942..5418e8bf2496 100644
+>> --- a/drivers/fpga/dfl-pci.c
+>> +++ b/drivers/fpga/dfl-pci.c
+>> @@ -27,6 +27,13 @@
+>>  #define DRV_VERSION	"0.8"
+> Since basic pci functionality is changing, consider incrementing this version.
+>>  #define DRV_NAME	"dfl-pci"
+>>
+>> +#define PCI_VNDR_ID_DFLS 0x43
+>> +
+>> +#define PCI_VNDR_DFLS_CNT_OFFSET 8
+>> +#define PCI_VNDR_DFLS_RES_OFFSET 0x0c
+>> +
+>> +#define PCI_VND_DFLS_RES_BAR_MASK 0x7
+> Is this missing a R? PCI_VNDR_DFLS_RES_BAR_MASK ?
+
+Good catch!.  Will fix in v2.
+
+>> +
+>>  struct cci_drvdata {
+>>  	struct dfl_fpga_cdev *cdev;	/* container device */
+>>  };
+>> @@ -119,6 +126,82 @@ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
+>>  	return table;
+>>  }
+>>
+>> +static int find_dfl_in_cfg(struct pci_dev *pcidev,
+>> +			   struct dfl_fpga_enum_info *info)
+>> +{
+>> +	u32 bar, offset, vndr_hdr, dfl_cnt, dfl_res;
+>> +	int dfl_res_off, i, voff = 0;
+>> +	resource_size_t start, len;
+>> +
+>> +	while ((voff = pci_find_next_ext_capability(pcidev, voff, PCI_EXT_CAP_ID_VNDR))) {
+>> +
+> extra nl
+Ok, fix in v2.
+
+>> +		pci_read_config_dword(pcidev, voff + PCI_VNDR_HEADER, &vndr_hdr);
+>
+> A general problem.
+>
+> Return of pci_read is not checked, nor are the values ex/ vndr_hdr initialized.
+
+In v2 the variables will be initialized to invalid values that will be 
+caught with the existing checks.
+
+>
+>> +
+>> +		dev_dbg(&pcidev->dev,
+>> +			"vendor-specific capability id 0x%x, rev 0x%x len 0x%x\n",
+>> +			PCI_VNDR_HEADER_ID(vndr_hdr),
+>> +			PCI_VNDR_HEADER_REV(vndr_hdr),
+>> +			PCI_VNDR_HEADER_LEN(vndr_hdr));
+>> +
+>> +		if (PCI_VNDR_HEADER_ID(vndr_hdr) == PCI_VNDR_ID_DFLS)
+>> +			break;
+>> +	}
+>> +
+>> +	if (!voff) {
+>> +		dev_dbg(&pcidev->dev, "%s no VSEC found\n", __func__);
+>> +		return -ENODEV;
+>> +	}
+>> +
+>> +	pci_read_config_dword(pcidev, voff + PCI_VNDR_DFLS_CNT_OFFSET, &dfl_cnt);
+>> +	dev_info(&pcidev->dev, "dfl_cnt %d\n", dfl_cnt);
+>> +	for (i = 0; i < dfl_cnt; i++) {
+> Is there a upper limit on the dfl_cnt ? maybe PCI_STD_NUM_BARS ?
+
+Technically, there could be more than one DFL in a bar.  I don't
+really know what criteria constitutes an upper limit.
+
+>> +		dfl_res_off = voff + PCI_VNDR_DFLS_RES_OFFSET +
+>> +				      (i * sizeof(dfl_res));
+>> +		pci_read_config_dword(pcidev, dfl_res_off, &dfl_res);
+>> +
+>> +		dev_dbg(&pcidev->dev, "dfl_res 0x%x\n", dfl_res);
+>> +
+>> +		bar = dfl_res & PCI_VND_DFLS_RES_BAR_MASK;
+> an extra nl, fix the similar ones as well.
+>> +
+>> +		if (bar >= PCI_STD_NUM_BARS) {
+>> +			dev_err(&pcidev->dev, "%s bad bar number %d\n",
+>> +				__func__, bar);
+>> +			return -EINVAL;
+>> +		}
+>> +
+>> +		len = pci_resource_len(pcidev, bar);
+>> +
+>> +		if (len == 0) {
+>> +			dev_err(&pcidev->dev, "%s unmapped bar number %d\n",
+>> +				__func__, bar);
+>> +			return -EINVAL;
+>> +		}
+>> +
+>> +		offset = dfl_res & ~PCI_VND_DFLS_RES_BAR_MASK;
+>> +
+>> +		if (offset >= len) {
+>> +			dev_err(&pcidev->dev, "%s bad offset %u >= %llu\n",
+>> +				__func__, offset, len);
+>> +			return -EINVAL;
+>> +		}
+>> +
+>> +		dev_info(&pcidev->dev, "%s BAR %d offset 0x%x\n", __func__, bar, offset);
+>> +
+>> +		start = pci_resource_start(pcidev, bar) + offset;
+>> +		len -= offset;
+>> +
+>> +		if (!PAGE_ALIGNED(start)) {
+>> +			dev_err(&pcidev->dev, "%s unaliged start 0x%llx\n",
+>> +				__func__, start);
+>> +			return -EINVAL;
+>> +		}
+>> +
+>> +		dfl_fpga_enum_info_add_dfl(info, start, len);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static int find_dfl_in_bar0(struct pci_dev *pcidev,
+>>  			    struct dfl_fpga_enum_info *info)
+>>  {
+>> @@ -221,7 +304,10 @@ static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
+>>  			goto irq_free_exit;
+>>  	}
+>>
+>> -	ret = find_dfl_in_bar0(pcidev, info);
+>> +	ret = find_dfl_in_cfg(pcidev, info);
+>> +
+>> +	if (ret)
+>> +		ret = find_dfl_in_bar0(pcidev, info);
+>
+> Is this really an either/or ?
+>
+> Could there be a base functionality on bar0 and a skew functionality on vendor bars?
+
+For simplicity I think either or is better.  If skew functionality is in 
+vendor bars, why not just use the vendor bars all the time.
+
+>
+> If vendor is going to completely override, why not use bar0 ?
+
+I'm not sure I understand the question, but in v2 the legacy DFL search 
+will only occur if there is no VSEC found.
+
+>
+> Tom
+>
+>>
+>>  	if (ret)
+>>  		goto irq_free_exit;
+>
+>
