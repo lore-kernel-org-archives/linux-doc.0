@@ -2,331 +2,439 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA072C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 705B5C2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:50:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 650C5222E8
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:33:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1400E22447
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:50:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="HJYzn76F"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727286AbgKQKdo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 05:33:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33578 "EHLO
+        id S1727792AbgKQKuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 05:50:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725355AbgKQKdn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 05:33:43 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA84C0613CF
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 02:33:43 -0800 (PST)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1keyIv-00046d-QC; Tue, 17 Nov 2020 11:33:41 +0100
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vivek Gautam <vivek.gautam@codeaurora.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Ramiro Oliveira <Ramiro.Oliveira@synopsys.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Amjad Ouled-Ameur <aouledameur@baylibre.com>,
-        kernel@pengutronix.de
-Subject: [PATCH] docs: add a reset controller chapter to the driver API docs
-Date:   Tue, 17 Nov 2020 11:33:06 +0100
-Message-Id: <20201117103306.17010-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        with ESMTP id S1727218AbgKQKuT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 05:50:19 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD078C0617A7
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 02:50:18 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id u2so10020647pls.10
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 02:50:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mjUc1dVyS4RxJ3DlTkh1mxQ2bUOoW5hWXb6UapOFcG4=;
+        b=HJYzn76Ffe692t55Wxr8B2H6SMK8BhzgrnTcrtgEb6ddIABw7D5Z/6ZK0MpgWPERFh
+         zvyugk7rIXsxodADPNjxM/Y5GzZGVkUMwo8qpymcvRvcJGFAjhkicm4inTZ846wM9R8o
+         iR82euIO0RrXqNHZe6lbis/8rpXQF2Murs4Q49K0znjitABu/BToSHL+/6ZKBq/FkYzp
+         cM/VlKcaoUyQyW0Ta2jwlSKTToLobnPr0PrBZlgRFHwSg2avpwDBdMr4awslTTN9GuMv
+         MNiYwU1jvUykPQtdOg1nf37VkGZPbLCbyGABRncmt5OQcRerI8zdbdJe+CZ8POcnj5uk
+         yx0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mjUc1dVyS4RxJ3DlTkh1mxQ2bUOoW5hWXb6UapOFcG4=;
+        b=fIoVveNpSdbFXJ4ooc7vt0gf0C5/wbzs6HqC4hXkYbRFzWVeMnwpP+9etKOhfNSee1
+         V4YCTePYYYwjYn8JPBqzpuvegOqmmnyAKU5JDBX0iaGyrgnxJcu9/qLnLO4h2eXFxpx/
+         26wkT5TEHJhoBJ3cgynhzN/8ISS3PmX9T22imT8vh95eLZZfQY7vt2rmymY4dGBDCST0
+         iVcsa98vgvfTdBQ5Io5QI3mWg/VkxSqxDMdgFxzmkjbFrEKgQJXdXyaOQjMeQNdStEnp
+         P1YtsbIPxsDVrpfiv42UzIuWdukCUsVvrKMfC4CcT6AtmhRKRupvBgsYRffT9/5t3ylJ
+         E9RA==
+X-Gm-Message-State: AOAM531OnsuOqryk0yAwjyDV1yDIVK35KM7wB/jAJqLOU/CnFrHchkPP
+        vbqAybFX+KVtrGZ4avzKitEOF9r54hpK99JNhx6YEg==
+X-Google-Smtp-Source: ABdhPJyeuObIhGqno+9CkTgaJp3e6ToPI9JCgIWD55SynfomA6oDrbXK04ts8Y748KqNvY8eoRlcEA8+daxR70CrwKU=
+X-Received: by 2002:a17:902:c14b:b029:d6:ab18:108d with SMTP id
+ 11-20020a170902c14bb02900d6ab18108dmr17511270plj.20.1605610218141; Tue, 17
+ Nov 2020 02:50:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20201113105952.11638-1-songmuchun@bytedance.com> <349168819c1249d4bceea26597760b0a@hisilicon.com>
+In-Reply-To: <349168819c1249d4bceea26597760b0a@hisilicon.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 17 Nov 2020 18:49:39 +0800
+Message-ID: <CAMZfGtUVDJ4QHYRCKnPTkgcKGJ38s2aOOktH+8Urz7oiVfimww@mail.gmail.com>
+Subject: Re: [External] RE: [PATCH v4 00/21] Free some vmemmap pages of
+ hugetlb page
+To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
+        "jroedel@suse.de" <jroedel@suse.de>,
+        "almasrymina@google.com" <almasrymina@google.com>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "mhocko@suse.com" <mhocko@suse.com>,
+        "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add initial reset controller API documentation. This is mostly intended
-to describe the concepts to users of the consumer API, and to tie the
-kerneldoc comments we already have into the driver API documentation.
+On Tue, Nov 17, 2020 at 6:16 PM Song Bao Hua (Barry Song)
+<song.bao.hua@hisilicon.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On
+> > Behalf Of Muchun Song
+> > Sent: Saturday, November 14, 2020 12:00 AM
+> > To: corbet@lwn.net; mike.kravetz@oracle.com; tglx@linutronix.de;
+> > mingo@redhat.com; bp@alien8.de; x86@kernel.org; hpa@zytor.com;
+> > dave.hansen@linux.intel.com; luto@kernel.org; peterz@infradead.org;
+> > viro@zeniv.linux.org.uk; akpm@linux-foundation.org; paulmck@kernel.org;
+> > mchehab+huawei@kernel.org; pawan.kumar.gupta@linux.intel.com;
+> > rdunlap@infradead.org; oneukum@suse.com; anshuman.khandual@arm.com;
+> > jroedel@suse.de; almasrymina@google.com; rientjes@google.com;
+> > willy@infradead.org; osalvador@suse.de; mhocko@suse.com
+> > Cc: duanxiongchun@bytedance.com; linux-doc@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; linux-mm@kvack.org;
+> > linux-fsdevel@vger.kernel.org; Muchun Song <songmuchun@bytedance.com>
+> > Subject: [PATCH v4 00/21] Free some vmemmap pages of hugetlb page
+> >
+> > Hi all,
+> >
+> > This patch series will free some vmemmap pages(struct page structures)
+> > associated with each hugetlbpage when preallocated to save memory.
+> >
+> > Nowadays we track the status of physical page frames using struct page
+> > structures arranged in one or more arrays. And here exists one-to-one
+> > mapping between the physical page frame and the corresponding struct page
+> > structure.
+> >
+> > The HugeTLB support is built on top of multiple page size support that
+> > is provided by most modern architectures. For example, x86 CPUs normally
+> > support 4K and 2M (1G if architecturally supported) page sizes. Every
+> > HugeTLB has more than one struct page structure. The 2M HugeTLB has 512
+> > struct page structure and 1G HugeTLB has 4096 struct page structures. But
+> > in the core of HugeTLB only uses the first 4 (Use of first 4 struct page
+> > structures comes from HUGETLB_CGROUP_MIN_ORDER.) struct page
+> > structures to
+> > store metadata associated with each HugeTLB. The rest of the struct page
+> > structures are usually read the compound_head field which are all the same
+> > value. If we can free some struct page memory to buddy system so that we
+> > can save a lot of memory.
+> >
+> > When the system boot up, every 2M HugeTLB has 512 struct page structures
+> > which size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
+> >
+> >    hugetlbpage                  struct pages(8 pages)          page
+> > frame(8 pages)
+> >   +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+> >   |           |                     |     0     | -------------> |     0
+> > |
+> >   |           |                     |     1     | -------------> |     1
+> > |
+> >   |           |                     |     2     | -------------> |     2
+> > |
+> >   |           |                     |     3     | -------------> |     3
+> > |
+> >   |           |                     |     4     | -------------> |     4
+> > |
+> >   |     2M    |                     |     5     | -------------> |
+> > 5     |
+> >   |           |                     |     6     | -------------> |     6
+> > |
+> >   |           |                     |     7     | -------------> |     7
+> > |
+> >   |           |                     +-----------+
+> > +-----------+
+> >   |           |
+> >   |           |
+> >   +-----------+
+> >
+> >
+> > When a hugetlbpage is preallocated, we can change the mapping from above
+> > to
+> > bellow.
+> >
+> >    hugetlbpage                  struct pages(8 pages)          page
+> > frame(8 pages)
+> >   +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+> >   |           |                     |     0     | -------------> |     0
+> > |
+> >   |           |                     |     1     | -------------> |     1
+> > |
+> >   |           |                     |     2     | ------------->
+> > +-----------+
+> >   |           |                     |     3     | -----------------^ ^ ^ ^
+> > ^
+> >   |           |                     |     4     | -------------------+ | |
+> > |
+> >   |     2M    |                     |     5     | ---------------------+ |
+> > |
+> >   |           |                     |     6     | -----------------------+ |
+> >   |           |                     |     7     | -------------------------+
+> >   |           |                     +-----------+
+> >   |           |
+> >   |           |
+> >   +-----------+
+> >
+> > For tail pages, the value of compound_head is the same. So we can reuse
+> > first page of tail page structs. We map the virtual addresses of the
+> > remaining 6 pages of tail page structs to the first tail page struct,
+> > and then free these 6 pages. Therefore, we need to reserve at least 2
+> > pages as vmemmap areas.
+> >
+> > When a hugetlbpage is freed to the buddy system, we should allocate six
+> > pages for vmemmap pages and restore the previous mapping relationship.
+> >
+> > If we uses the 1G hugetlbpage, we can save 4088 pages(There are 4096 pages
+> > for
+> > struct page structures, we reserve 2 pages for vmemmap and 8 pages for page
+> > tables. So we can save 4088 pages). This is a very substantial gain. On our
+> > server, run some SPDK/QEMU applications which will use 1024GB hugetlbpage.
+> > With this feature enabled, we can save ~16GB(1G hugepage)/~11GB(2MB
+> > hugepage)
+>
+> Hi Muchun,
+>
+> Do we really save 11GB for 2MB hugepage?
+> How much do we save if we only get one 2MB hugetlb from one 128MB mem_section?
+> It seems we need to get at least one page for the PTEs since we are splitting PMD of
+> vmemmap into PTE?
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-Changes since the RFC [1]:
-- Replaced all :c:func:`function` with function() (Jonathan Corbet)
-- Typo fixes and wording improvements (Randy Dunlap)
-- Mention new reset_control_rearm() API as a counterpart to
-  reset_control_reset() for shared resets in the Triggering section
-- Grammar fix in the Querying section
-- Add reset.rst to MAINTAINERS
+There are 524288(1024GB/2MB) 2MB HugeTLB pages. We can save 6 pages for each
+2MB HugeTLB page. So we can save 3145728 pages. But we need to split PMD page
+table for every one 128MB mem_section and every section need one page
+as PTE page
+table. So we need 8192(1024GB/128MB) pages as PTE page tables.
+Finally, we can save
+3137536(3145728-8192) pages which is 11.97GB.
 
-[1] https://lore.kernel.org/lkml/20191022164547.22632-1-p.zabel@pengutronix.de/
----
- Documentation/driver-api/index.rst |   1 +
- Documentation/driver-api/reset.rst | 219 +++++++++++++++++++++++++++++
- MAINTAINERS                        |   1 +
- 3 files changed, 221 insertions(+)
- create mode 100644 Documentation/driver-api/reset.rst
+Thanks Barry.
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index f357f3eb400c..08c32952fce3 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -29,6 +29,7 @@ available subsections can be seen below.
-    infiniband
-    frame-buffer
-    regulator
-+   reset
-    iio/index
-    input
-    usb/index
-diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
-new file mode 100644
-index 000000000000..00a6ad79dd6c
---- /dev/null
-+++ b/Documentation/driver-api/reset.rst
-@@ -0,0 +1,219 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+====================
-+Reset controller API
-+====================
-+
-+Introduction
-+============
-+
-+Reset controllers are central units that control the reset signals to multiple
-+peripherals.
-+The reset controller API is split into two parts:
-+the `consumer driver interface <#consumer-driver-interface>`__ (`API reference
-+<#reset-consumer-api>`__), which allows peripheral drivers to request control
-+over their reset input signals, and the `reset controller driver interface
-+<#reset-controller-driver-interface>`__ (`API reference
-+<#reset-controller-driver-api>`__), which is used by drivers for reset
-+controller devices to register their reset controls to provide them to the
-+consumers.
-+
-+While some reset controller hardware units also implement system restart
-+functionality, restart handlers are out of scope for the reset controller API.
-+
-+Glossary
-+--------
-+
-+The reset controller API uses these terms with a specific meaning:
-+
-+Reset line
-+
-+    Physical reset line carrying a reset signal from a reset controller
-+    hardware unit to a peripheral module.
-+
-+Reset control
-+
-+    Control method that determines the state of one or multiple reset lines.
-+    Most commonly this is a single bit in reset controller register space that
-+    either allows direct control over the physical state of the reset line, or
-+    is self-clearing and can be used to trigger a predetermined pulse on the
-+    reset line.
-+    In more complicated reset controls, a single trigger action can launch a
-+    carefully timed sequence of pulses on multiple reset lines.
-+
-+Reset controller
-+
-+    A hardware module that provides a number of reset controls to control a
-+    number of reset lines.
-+
-+Reset consumer
-+
-+    Peripheral module or external IC that is put into reset by the signal on a
-+    reset line.
-+
-+Consumer driver interface
-+=========================
-+
-+This interface provides an API that is similar to the kernel clock framework.
-+Consumer drivers use get and put operations to acquire and release reset
-+controls.
-+Functions are provided to assert and deassert the controlled reset lines,
-+trigger reset pulses, or to query reset line status.
-+
-+When requesting reset controls, consumers can use symbolic names for their
-+reset inputs, which are mapped to an actual reset control on an existing reset
-+controller device by the core.
-+
-+A stub version of this API is provided when the reset controller framework is
-+not in use in order to minimize the need to use ifdefs.
-+
-+Shared and exclusive resets
-+---------------------------
-+
-+The reset controller API provides either reference counted deassertion and
-+assertion or direct, exclusive control.
-+The distinction between shared and exclusive reset controls is made at the time
-+the reset control is requested, either via devm_reset_control_get_shared() or
-+via devm_reset_control_get_exclusive().
-+This choice determines the behavior of the API calls made with the reset
-+control.
-+
-+Shared resets behave similarly to clocks in the kernel clock framework.
-+They provide reference counted deassertion, where only the first deassert,
-+which increments the deassertion reference count to one, and the last assert
-+which decrements the deassertion reference count back to zero, have a physical
-+effect on the reset line.
-+
-+Exclusive resets on the other hand guarantee direct control.
-+That is, an assert causes the reset line to be asserted immediately, and a
-+deassert causes the reset line to be deasserted immediately.
-+
-+Assertion and deassertion
-+-------------------------
-+
-+Consumer drivers use the reset_control_assert() and reset_control_deassert()
-+functions to assert and deassert reset lines.
-+For shared reset controls, calls to the two functions must be balanced.
-+
-+Note that since multiple consumers may be using a shared reset control, there
-+is no guarantee that calling reset_control_assert() on a shared reset control
-+will actually cause the reset line to be asserted.
-+Consumer drivers using shared reset controls should assume that the reset line
-+may be kept deasserted at all times.
-+The API only guarantees that the reset line can not be asserted as long as any
-+consumer has requested it to be deasserted.
-+
-+Triggering
-+----------
-+
-+Consumer drivers use reset_control_reset() to trigger a reset pulse on a
-+self-deasserting reset control.
-+In general, these resets can not be shared between multiple consumers, since
-+requesting a pulse from any consumer driver will reset all connected
-+peripherals.
-+
-+The reset controller API allows requesting self-deasserting reset controls as
-+shared, but for those only the first trigger request causes an actual pulse to
-+be issued on the reset line.
-+All further calls to this function have no effect until all consumers have
-+called reset_control_rearm().
-+For shared reset controls, calls to the two functions must be balanced.
-+This allows devices that only require an initial reset at any point before the
-+driver is probed or resumed to share a pulsed reset line.
-+
-+Querying
-+--------
-+
-+Only some reset controllers support querying the current status of a reset
-+line, via reset_control_status().
-+This function returns a positive non-zero value if the given reset line is
-+asserted.
-+
-+Optional resets
-+---------------
-+
-+Often peripherals require a reset line on some platforms but not on others.
-+For this, reset controls can be requested as optional using
-+devm_reset_control_get_optional_exclusive() or
-+devm_reset_control_get_optional_shared().
-+These functions return a NULL pointer instead of an error when the requested
-+reset control is not specified in the device tree.
-+Passing a NULL pointer to the reset_control functions causes them to return
-+quietly without an error.
-+
-+Reset control arrays
-+--------------------
-+
-+Some drivers need to assert a bunch of reset lines in no particular order.
-+devm_reset_control_array_get() returns an opaque reset control handle that can
-+be used to assert, deassert, or trigger all specified reset controls at once.
-+The reset control API does not guarantee the order in which the individual
-+controls therein are handled.
-+
-+Reset controller driver interface
-+=================================
-+
-+Drivers for reset controller modules provide the functionality necessary to
-+assert or deassert reset signals, to trigger a reset pulse on a reset line, or
-+to query its current state.
-+All functions are optional.
-+
-+Initialization
-+--------------
-+
-+Drivers fill a struct :c:type:`reset_controller_dev` and register it with
-+reset_controller_register() in their probe function.
-+The actual functionality is implemented in callback functions via a struct
-+:c:type:`reset_control_ops`.
-+
-+API reference
-+=============
-+
-+The reset controller API is documented here in two parts:
-+the `reset consumer API <#reset-consumer-api>`__ and the `reset controller
-+driver API <#reset-controller-driver-api>`__.
-+
-+Reset consumer API
-+------------------
-+
-+Reset consumers can control a reset line using an opaque reset control handle,
-+which can be obtained from devm_reset_control_get_exclusive() or
-+devm_reset_control_get_shared().
-+Given the reset control, consumers can call reset_control_assert() and
-+reset_control_deassert(), trigger a reset pulse using reset_control_reset(), or
-+query the reset line status using reset_control_status().
-+
-+.. kernel-doc:: include/linux/reset.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/reset/core.c
-+   :functions: reset_control_reset
-+               reset_control_assert
-+               reset_control_deassert
-+               reset_control_status
-+               reset_control_acquire
-+               reset_control_release
-+               reset_control_rearm
-+               reset_control_put
-+               of_reset_control_get_count
-+               of_reset_control_array_get
-+               devm_reset_control_array_get
-+               reset_control_get_count
-+
-+Reset controller driver API
-+---------------------------
-+
-+Reset controller drivers are supposed to implement the necessary functions in
-+a static constant structure :c:type:`reset_control_ops`, allocate and fill out
-+a struct :c:type:`reset_controller_dev`, and register it using
-+devm_reset_controller_register().
-+
-+.. kernel-doc:: include/linux/reset-controller.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/reset/core.c
-+   :functions: of_reset_simple_xlate
-+               reset_controller_register
-+               reset_controller_unregister
-+               devm_reset_controller_register
-+               reset_controller_add_lookup
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e73636b75f29..678bd80a2e65 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14948,6 +14948,7 @@ M:	Philipp Zabel <p.zabel@pengutronix.de>
- S:	Maintained
- T:	git git://git.pengutronix.de/git/pza/linux
- F:	Documentation/devicetree/bindings/reset/
-+F:	Documentation/driver-api/reset.rst
- F:	drivers/reset/
- F:	include/dt-bindings/reset/
- F:	include/linux/reset-controller.h
+>
+> > memory.
+> >
+> > Because there are vmemmap page tables reconstruction on the
+> > freeing/allocating
+> > path, it increases some overhead. Here are some overhead analysis.
+> >
+> > 1) Allocating 10240 2MB hugetlb pages.
+> >
+> >    a) With this patch series applied:
+> >    # time echo 10240 > /proc/sys/vm/nr_hugepages
+> >
+> >    real     0m0.166s
+> >    user     0m0.000s
+> >    sys      0m0.166s
+> >
+> >    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; }
+> > kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs -
+> > @start[tid]); delete(@start[tid]); }'
+> >    Attaching 2 probes...
+> >
+> >    @latency:
+> >    [8K, 16K)           8360
+> > |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> > @@@@@@@@@@@@@@@@|
+> >    [16K, 32K)          1868 |@@@@@@@@@@@
+> > |
+> >    [32K, 64K)            10 |
+> > |
+> >    [64K, 128K)            2 |
+> > |
+> >
+> >    b) Without this patch series:
+> >    # time echo 10240 > /proc/sys/vm/nr_hugepages
+> >
+> >    real     0m0.066s
+> >    user     0m0.000s
+> >    sys      0m0.066s
+> >
+> >    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; }
+> > kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs -
+> > @start[tid]); delete(@start[tid]); }'
+> >    Attaching 2 probes...
+> >
+> >    @latency:
+> >    [4K, 8K)           10176
+> > |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> > @@@@@@@@@@@@@@@@|
+> >    [8K, 16K)             62 |
+> > |
+> >    [16K, 32K)             2 |
+> > |
+> >
+> >    Summarize: this feature is about ~2x slower than before.
+> >
+> > 2) Freeing 10240 @MB hugetlb pages.
+> >
+> >    a) With this patch series applied:
+> >    # time echo 0 > /proc/sys/vm/nr_hugepages
+> >
+> >    real     0m0.004s
+> >    user     0m0.000s
+> >    sys      0m0.002s
+> >
+>
+> Something is wrong here, it is faster than the case without this patchset:
+> 0.004s vs. 0m0.077s
+
+Yeah, it is faster. And Why the 'real' time of patched is smaller than before?
+Because in this patch series, the freeing HugeTLB is
+asynchronous(through worker).
+
+>
+> >    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; }
+> > kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]);
+> > delete(@start[tid]); }'
+> >    Attaching 2 probes...
+> >
+> >    @latency:
+> >    [16K, 32K)         10240
+> > |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> > @@@@@@@@@@@@@@@@|
+> >
+> >    b) Without this patch series:
+> >    # time echo 0 > /proc/sys/vm/nr_hugepages
+> >
+> >    real     0m0.077s
+> >    user     0m0.001s
+> >    sys      0m0.075s
+> >
+> >    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; }
+> > kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]);
+> > delete(@start[tid]); }'
+> >    Attaching 2 probes...
+> >
+> >    @latency:
+> >    [4K, 8K)            9950
+> > |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> > @@@@@@@@@@@@@@@@|
+> >    [8K, 16K)            287 |@
+> > |
+> >    [16K, 32K)             3 |
+> > |
+> >
+> >    Summarize: The overhead of __free_hugepage is about ~2-4x slower than
+> > before.
+> >               But according to the allocation test above, I think that here is
+> >             also ~2x slower than before.
+> >
+> >               But why the 'real' time of patched is smaller than before?
+> > Because
+> >             In this patch series, the freeing hugetlb is asynchronous(through
+> >             kwoker).
+> >
+> > Although the overhead has increased, the overhead is not significant. Like MIke
+> > said, "However, remember that the majority of use cases create hugetlb pages
+> > at
+> > or shortly after boot time and add them to the pool. So, additional overhead is
+> > at pool creation time. There is no change to 'normal run time' operations of
+> > getting a page from or returning a page to the pool (think page fault/unmap)".
+> >
+>
+> It seems it is true. At runtime, people normally don't change hugetlb.
+>
+> >   changelog in v4:
+> >   1. Move all the vmemmap functions to hugetlb_vmemmap.c.
+> >   2. Make the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP default to y, if we
+> > want to
+> >      disable this feature, we should disable it by a boot/kernel command line.
+> >   3. Remove vmemmap_pgtable_{init, deposit, withdraw}() helper functions.
+> >   4. Initialize page table lock for vmemmap through core_initcall mechanism.
+> >
+> >   Thanks for Mike and Oscar's suggestions.
+> >
+> >   changelog in v3:
+> >   1. Rename some helps function name. Thanks Mike.
+> >   2. Rework some code. Thanks Mike and Oscar.
+> >   3. Remap the tail vmemmap page with PAGE_KERNEL_RO instead of
+> >      PAGE_KERNEL. Thanks Matthew.
+> >   4. Add some overhead analysis in the cover letter.
+> >   5. Use vmemap pmd table lock instead of a hugetlb specific global lock.
+> >
+> >   changelog in v2:
+> >   1. Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+> >   2. Fix some typo and code style problems.
+> >   3. Remove unused handle_vmemmap_fault().
+> >   4. Merge some commits to one commit suggested by Mike.
+> >
+> > Muchun Song (21):
+> >   mm/memory_hotplug: Move bootmem info registration API to
+> >     bootmem_info.c
+> >   mm/memory_hotplug: Move {get,put}_page_bootmem() to bootmem_info.c
+> >   mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+> >   mm/hugetlb: Introduce nr_free_vmemmap_pages in the struct hstate
+> >   mm/hugetlb: Introduce pgtable allocation/freeing helpers
+> >   mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+> >   mm/bootmem_info: Combine bootmem info and type into page->freelist
+> >   mm/hugetlb: Initialize page table lock for vmemmap
+> >   mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+> >   mm/hugetlb: Defer freeing of hugetlb pages
+> >   mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb
+> >     page
+> >   mm/hugetlb: Introduce remap_huge_page_pmd_vmemmap helper
+> >   mm/hugetlb: Use PG_slab to indicate split pmd
+> >   mm/hugetlb: Support freeing vmemmap pages of gigantic page
+> >   mm/hugetlb: Set the PageHWPoison to the raw error page
+> >   mm/hugetlb: Flush work when dissolving hugetlb page
+> >   mm/hugetlb: Add a kernel parameter hugetlb_free_vmemmap
+> >   mm/hugetlb: Merge pte to huge pmd only for gigantic page
+> >   mm/hugetlb: Gather discrete indexes of tail page
+> >   mm/hugetlb: Add BUILD_BUG_ON to catch invalid usage of tail struct
+> >     page
+> >   mm/hugetlb: Disable freeing vmemmap if struct page size is not power
+> >     of two
+> >
+> >  Documentation/admin-guide/kernel-parameters.txt |   9 +
+> >  Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +
+> >  arch/x86/include/asm/hugetlb.h                  |  17 +
+> >  arch/x86/include/asm/pgtable_64_types.h         |   8 +
+> >  arch/x86/mm/init_64.c                           |   7 +-
+> >  fs/Kconfig                                      |  14 +
+> >  include/linux/bootmem_info.h                    |  78 +++
+> >  include/linux/hugetlb.h                         |  19 +
+> >  include/linux/hugetlb_cgroup.h                  |  15 +-
+> >  include/linux/memory_hotplug.h                  |  27 -
+> >  mm/Makefile                                     |   2 +
+> >  mm/bootmem_info.c                               | 124 ++++
+> >  mm/hugetlb.c                                    | 163 +++++-
+> >  mm/hugetlb_vmemmap.c                            | 732
+> > ++++++++++++++++++++++++
+> >  mm/hugetlb_vmemmap.h                            | 104 ++++
+> >  mm/memory_hotplug.c                             | 116 ----
+> >  mm/sparse.c                                     |   5 +-
+> >  17 files changed, 1263 insertions(+), 180 deletions(-)
+> >  create mode 100644 include/linux/bootmem_info.h
+> >  create mode 100644 mm/bootmem_info.c
+> >  create mode 100644 mm/hugetlb_vmemmap.c
+> >  create mode 100644 mm/hugetlb_vmemmap.h
+> >
+>
+> Thanks
+> Barry
+>
+
+
 -- 
-2.20.1
-
+Yours,
+Muchun
