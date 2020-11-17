@@ -2,164 +2,395 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D25C63777
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 21:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D931C63798
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 21:25:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB3BB24248
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 21:21:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF35024248
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 21:25:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VC75sZ0s"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ACUjaqaZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbgKQVVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 16:21:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726802AbgKQVVf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 16:21:35 -0500
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E81C0613CF
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 13:21:35 -0800 (PST)
-Received: by mail-oi1-x244.google.com with SMTP id m13so24210143oih.8
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 13:21:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qaFR/vbXEE/Fp6N4YA11Mip+TFc+3mxIxAGB0BrXskE=;
-        b=VC75sZ0sI622cqRm8NQfeG/nHdIrHJG5hf4nb18w5Ezfn7dMY95pE7f6ymO6jyVG5b
-         RHrNPQPAkIvmJQcyxl/7knSpyGi+tr36KXPjdVxT8PNSHF++jwPSbnADEtdQfMS8xGvM
-         xybni7VT4JkWf5GIe8nK7+qGTJhJlnTpen1Hc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qaFR/vbXEE/Fp6N4YA11Mip+TFc+3mxIxAGB0BrXskE=;
-        b=cxcI2qFSO/mSvdvLRXdIl/6oDU3cmJkY+oXSILFy5aYQqVgDR4j9xezkhoN9VFzgdO
-         1d0BxET4rey2ftbL8Ju2fQI6yWzIOO1MbNGrpn67cnIep/Xuc+6RtW5pEYKxRAmzFbGs
-         uYJnPQ1uA5nhsECVvGvx5aYkGI0Owke0lH/vcwJYJIBXUBv1au7kfiwV3AMEDnZJw4mE
-         kE9Y2FwfDaIiGzI05tr9t49udW23AB9Uvv9cvxv9K4i5f1ECXTEpzJEJ025dtZr+Gm/W
-         mFF436sLKa7iBHVN87uPzfT0y5uU6+qkAiRcq7cTyMyXnLLvYArVMnkd0jMwkxMMhBXs
-         wIVg==
-X-Gm-Message-State: AOAM533WpXgTmGFht5F2EqPbyMN/GpFqnf/yV8m9YEFCd70jDKyk4KvW
-        AeESQLuM2nCxzEpTDIbcOsj6CCyRFcDLUw==
-X-Google-Smtp-Source: ABdhPJw38DawBKAMvHd1TKgdXQ3SONsC62BWB6lDWLtdus5jy9840jnQZaz3lEzQpjWQwN3k6/YqHg==
-X-Received: by 2002:aca:da89:: with SMTP id r131mr810678oig.166.1605648094493;
-        Tue, 17 Nov 2020 13:21:34 -0800 (PST)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com. [209.85.167.173])
-        by smtp.gmail.com with ESMTPSA id p13sm2338600oip.0.2020.11.17.13.21.32
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2020 13:21:33 -0800 (PST)
-Received: by mail-oi1-f173.google.com with SMTP id f11so10508905oij.6
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 13:21:32 -0800 (PST)
-X-Received: by 2002:aca:7506:: with SMTP id q6mr742413oic.128.1605648092412;
- Tue, 17 Nov 2020 13:21:32 -0800 (PST)
+        id S1726633AbgKQVZB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 16:25:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26706 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726523AbgKQVZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 16:25:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605648299;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=S9Sdw3rsrMeGbshhPqJW5JIbbH1tSidQC9dyk6u1X20=;
+        b=ACUjaqaZqhmDMQvPZDGgAff6fn9eVoDezpupLZPBGxK9OuF40miPeCQ0csRnvk2vV2MgHl
+        hzLr1+9hauh5N1OIb99DzIEVPQGVmYTCtuAyH1T2HoTDUFhdCASoJbB6tfwLb4J9GkuChH
+        ULANMMwXLZLzjuurSYqagRVRdJFeJcQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-_eG3P1QaPk2PwBpCjavISA-1; Tue, 17 Nov 2020 16:24:55 -0500
+X-MC-Unique: _eG3P1QaPk2PwBpCjavISA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AED1610866A6;
+        Tue, 17 Nov 2020 21:24:53 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 66E7260C05;
+        Tue, 17 Nov 2020 21:24:53 +0000 (UTC)
+Date:   Tue, 17 Nov 2020 16:24:52 -0500
+From:   Eduardo Habkost <ehabkost@redhat.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] kernel-doc: Handle function typedefs without
+ asterisks
+Message-ID: <20201117212452.GM1235237@habkost.net>
+References: <20201030144713.201372-1-pbonzini@redhat.com>
+ <20201030144713.201372-3-pbonzini@redhat.com>
+ <20201113152106.7b4a07ee@lwn.net>
+ <20201113223912.GK17076@casper.infradead.org>
 MIME-Version: 1.0
-References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
- <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
- <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
- <20201110092506.GA24469@lst.de> <CANiDSCsBUBV1WA2To9x26Uhc5SU-4xuh3m4wUwXBcGwA6n8now@mail.gmail.com>
- <CAAFQd5CCOrp0OA_n_SHNO5RAhV-MQ2KuQJA+oWHQ76h_So=M2Q@mail.gmail.com> <20201110095747.GA26574@lst.de>
-In-Reply-To: <20201110095747.GA26574@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 17 Nov 2020 22:21:21 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtbZHe2pqKj+=DbEODBSNy1hrysTOAHYbTG4_DRBmH00A@mail.gmail.com>
-Message-ID: <CANiDSCtbZHe2pqKj+=DbEODBSNy1hrysTOAHYbTG4_DRBmH00A@mail.gmail.com>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201113223912.GK17076@casper.infradead.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christoph
+On Fri, Nov 13, 2020 at 10:39:12PM +0000, Matthew Wilcox wrote:
+> On Fri, Nov 13, 2020 at 03:21:06PM -0700, Jonathan Corbet wrote:
+> > On Fri, 30 Oct 2020 15:47:13 +0100
+> > Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > 
+> > > From: Eduardo Habkost <ehabkost@redhat.com>
+> > > 
+> > > Example of typedef that was not parsed by kernel-doc:
+> > > 
+> > >   typedef void (ObjectUnparent)(Object *obj);
+> > > 
+> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > 
+> > So as you've undoubtedly noticed, reading those kernel-doc regexes is ... a
+> > wee bit on the painful side.  Trying to compare two of them in a patch to
+> > figure out what you have done is even worse.  I suspect we want these
+> > patches, but can you please supply a changelog that describes the change? 
+> 
+> Better ... can we have a test suite for the regexes and make patches to
+> them include updates to the test suite?  They have clearly passed the
+> point of human understanding ;-)
 
-I have been testing with real hardware on arm64 your patchset. And uvc
-performs 20 times better using Kieran's test
+Would a simple black box test script like this be desirable?
 
-https://github.com/ribalda/linux/tree/uvc-noncontiguous
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ scripts/kernel-doc-test-case.h            |  89 ++++++++++++
+ scripts/kernel-doc-test-case.rst.expected | 167 ++++++++++++++++++++++
+ scripts/kernel-doc-test.sh                |  15 ++
+ 3 files changed, 271 insertions(+)
+ create mode 100644 scripts/kernel-doc-test-case.h
+ create mode 100644 scripts/kernel-doc-test-case.rst.expected
+ create mode 100755 scripts/kernel-doc-test.sh
 
-These are the result of running   yavta --capture=1000
-
-
-dma_alloc_noncontiguous
-
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 78466000 : duration 33303
-FPS: 29.99
-URB: 418105/5000 uS/qty: 83.621 avg 98.783 std 17.396 min 1264.688 max (uS)
-header: 100040/5000 uS/qty: 20.008 avg 19.458 std 2.969 min 454.167 max (uS)
-latency: 347653/5000 uS/qty: 69.530 avg 98.937 std 9.114 min 1256.875 max (uS)
-decode: 70452/5000 uS/qty: 14.090 avg 11.547 std 6.146 min 271.510 max (uS)
-raw decode speed: 8.967 Gbits/s
-raw URB handling speed: 1.501 Gbits/s
-throughput: 18.848 Mbits/s
-URB decode CPU usage 0.211500 %
-
-
-usb_alloc_coherent
-
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 70501712 : duration 33319
-FPS: 29.98
-URB: 1854128/5000 uS/qty: 370.825 avg 417.133 std 14.539 min 2875.760 max (uS)
-header: 98765/5000 uS/qty: 19.753 avg 30.714 std 1.042 min 573.463 max (uS)
-latency: 453316/5000 uS/qty: 90.663 avg 114.987 std 4.065 min 860.795 max (uS)
-decode: 1400811/5000 uS/qty: 280.162 avg 330.786 std 6.305 min 2758.202 max (uS)
-raw decode speed: 402.866 Mbits/s
-raw URB handling speed: 304.214 Mbits/s
-throughput: 16.927 Mbits/s
-URB decode CPU usage 4.204200 %
-
-
-Best regards
-
-On Tue, Nov 10, 2020 at 10:57 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Tue, Nov 10, 2020 at 06:50:32PM +0900, Tomasz Figa wrote:
-> > In what terms it doesn't actually work? Last time I checked some
-> > platforms actually defined CONFIG_DMA_NONCOHERENT, so those would
-> > instead use the kmalloc() + dma_map() path. I don't have any
-> > background on why that was added and whether it needs to be preserved,
-> > though. Kieran, Laurent, do you have any insight?
->
-> CONFIG_DMA_NONCOHERENT is set on sh and mips for platforms that may
-> support non-coherent DMA at compile time (but at least for mips that
-> doesn't actually means this gets used).  Using that ifdef to decide
-> on using usb_alloc_coherent vs letting the usb layer map the data
-> seems at best odd, and if we are unlucky papering over a bug somewhere.
-
-
+diff --git a/scripts/kernel-doc-test-case.h b/scripts/kernel-doc-test-case.h
+new file mode 100644
+index 0000000000000..5cea705d85392
+--- /dev/null
++++ b/scripts/kernel-doc-test-case.h
+@@ -0,0 +1,89 @@
++/**
++ * DOC: kernel-doc test case
++ *
++ * ``kernel-doc-test-case.h`` contains a series of declarations
++ * and kernel-doc comments. The expected kernel-doc output can be
++ * found at ``kernel-doc-test-case.rst.expected``.
++ */
++
++/**
++ * typedef void_func_ptr - pointer to a function
++ * @a: first argument
++ * @b: second argument
++ */
++typedef void (*void_func_ptr)(int a, struct struct_name1 *b);
++
++/**
++ * typedef int_ptr_func_ptr - a pointer to a function returning a pointer
++ * @a: argument
++ */
++typedef int *(*int_ptr_func_ptr)(int a);
++
++/**
++ * typedef func_par - a function, with parenthesis
++ * @a: argument
++ *
++ * A typedef for a function type (not a function pointer), with
++ * parenthesis around the function name.
++ */
++typedef void (func_par)(int a);
++
++/**
++ * struct struct_name1 - a struct
++ * @i: an int field
++ * @j: an int pointer
++ * @u: an union field
++ * @sptr: pointer to a `struct_name1`
++ *
++ * A simple struct with multiple fields.
++ *
++ * Here's a reference to another struct type: &struct struct_name2.
++ */
++struct struct_name1 {
++    int i, *j;
++    union {
++        int i;
++        const char *s;
++    } u;
++    struct struct_name1 *sptr;
++    /**
++     * @field_with_inline_doc: another way to document struct fields
++     *
++     * This field is documented inside the struct definition,
++     * closer to the field declaration instead the doc comment at
++     * the top.
++     */
++    int field_with_inline_doc;
++    /**
++     * @func: a function pointer
++     *
++     * Parsing a function pointer field involves some tricks to handle
++     * the commas properly.
++     */
++    int (*func)(int x, struct struct_name1 *p);
++    /** @bitmap: a bitmap */
++    DECLARE_BITMAP(bitmap, 128);
++};
++
++/**
++ * struct struct_name2 - another struct
++ * @x: first field
++ * @y: second field
++ * @another: another struct
++ *
++ * This struct is defined inside a typedef declaration.
++ */
++typedef struct struct_name2 {
++    int x, y;
++    struct struct_name1 another;
++} struct_name2;
++
++/**
++ * SOME_MACRO - a macro that takes a few arguments
++ * @a: first argument
++ * @b: second argument
++ */
++#define SOME_MACRO(a, b) \
++    { multi_line_macro_definition(a); \
++      second_line(b); \
++    }
+diff --git a/scripts/kernel-doc-test-case.rst.expected b/scripts/kernel-doc-test-case.rst.expected
+new file mode 100644
+index 0000000000000..4f68931121bb7
+--- /dev/null
++++ b/scripts/kernel-doc-test-case.rst.expected
+@@ -0,0 +1,167 @@
++**kernel-doc test case**
++
++
++``kernel-doc-test-case.h`` contains a series of declarations
++and kernel-doc comments. The expected kernel-doc output can be
++found at ``kernel-doc-test-case.rst.expected``.
++
++.. c:macro:: void_func_ptr
++
++   **Typedef**: pointer to a function
++
++
++**Syntax**
++
++  ``void void_func_ptr (int a, struct struct_name1 *b)``
++
++**Parameters**
++
++``int a``
++  first argument
++
++``struct struct_name1 *b``
++  second argument
++
++
++.. c:macro:: int_ptr_func_ptr
++
++   **Typedef**: a pointer to a function returning a pointer
++
++
++**Syntax**
++
++  ``int * int_ptr_func_ptr (int a)``
++
++**Parameters**
++
++``int a``
++  argument
++
++
++.. c:macro:: func_par
++
++   **Typedef**: a function, with parenthesis
++
++
++**Syntax**
++
++  ``void func_par (int a)``
++
++**Parameters**
++
++``int a``
++  argument
++
++**Description**
++
++A typedef for a function type (not a function pointer), with
++parenthesis around the function name.
++
++
++
++
++.. c:struct:: struct_name1
++
++   a struct
++
++**Definition**
++
++::
++
++  struct struct_name1 {
++    int i, *j;
++    union {
++      int i;
++      const char *s;
++    } u;
++    struct struct_name1 *sptr;
++    int field_with_inline_doc;
++    int (*func)(int x, struct struct_name1 *p);
++    unsigned long bitmap[BITS_TO_LONGS(128)];
++  };
++
++**Members**
++
++``i``
++  an int field
++
++``j``
++  an int pointer
++
++``u``
++  an union field
++
++``sptr``
++  pointer to a `struct_name1`
++
++``field_with_inline_doc``
++  another way to document struct fields
++  
++  This field is documented inside the struct definition,
++  closer to the field declaration instead the doc comment at
++  the top.
++
++``func``
++  a function pointer
++  
++  Parsing a function pointer field involves some tricks to handle
++  the commas properly.
++
++``bitmap``
++  a bitmap 
++
++
++**Description**
++
++A simple struct with multiple fields.
++
++Here's a reference to another struct type: :c:type:`struct struct_name2 <struct_name2>`.
++
++
++
++
++.. c:struct:: struct_name2
++
++   another struct
++
++**Definition**
++
++::
++
++  struct struct_name2 {
++    int x, y;
++    struct struct_name1 another;
++  };
++
++**Members**
++
++``x``
++  first field
++
++``y``
++  second field
++
++``another``
++  another struct
++
++
++**Description**
++
++This struct is defined inside a typedef declaration.
++
++
++.. c:macro:: SOME_MACRO
++
++``SOME_MACRO (a, b)``
++
++   a macro that takes a few arguments
++
++**Parameters**
++
++``a``
++  first argument
++
++``b``
++  second argument
++
++
+diff --git a/scripts/kernel-doc-test.sh b/scripts/kernel-doc-test.sh
+new file mode 100755
+index 0000000000000..4c96592649451
+--- /dev/null
++++ b/scripts/kernel-doc-test.sh
+@@ -0,0 +1,15 @@
++#!/bin/bash
++set -e
++mydir="$(dirname "$0")"
++kerneldoc="$mydir/kernel-doc"
++
++tmp="$(mktemp -d)"
++trap 'rm -rf "$tmp"' EXIT
++
++"$kerneldoc" -sphinx-version 3.2.1 -rst "$mydir/kernel-doc-test-case.h" > "$tmp/kernel-doc-test-case.rst.actual" 2>&1
++if diff -u "$mydir/kernel-doc-test-case.rst.expected" "$tmp/kernel-doc-test-case.rst.actual";then
++    echo OK
++else
++    echo kernel-doc output mismatch
++    exit 1
++fi
+-- 
+2.28.0
 
 -- 
-Ricardo Ribalda
+Eduardo
+
