@@ -2,90 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B61C8300B
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 14:05:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D78DC5519F
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 14:31:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D9D120729
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 14:05:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1D812222E
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 14:31:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="pi1tcJU6"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="gtVS+oAh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731688AbgKQOFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 09:05:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45402 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387536AbgKQOFG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Nov 2020 09:05:06 -0500
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 27847216C4;
-        Tue, 17 Nov 2020 14:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605621906;
-        bh=ou4lNzmE+mlCXOlccxfOjoaKyQac9Ol4/hfMNkE4xnY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pi1tcJU6p9wN4VDCnuWjONBkT450PiBvmmkFFZ6N9XEl/nw1qKQvVZOcdbk1BIyWk
-         /SW1Tck1h9FrM4MEbGOVEfH4S9L7Uo3acscVcCJ6330AwCEwtwrvY5Be67F8eeL9Ze
-         NpZ9NP0PdSS6QNg3K40ahPjuoL8+ioX7ApPuLcvc=
-Received: by mail-ot1-f46.google.com with SMTP id z16so19467588otq.6;
-        Tue, 17 Nov 2020 06:05:06 -0800 (PST)
-X-Gm-Message-State: AOAM5336R7s94KZCiJ03j1anMnZIkktbldnH0+mp8RfvXWAf95uPYYmQ
-        jj2MzXEu/OHs3v4U55UY5zfMC24keFBkm7CJK14=
-X-Google-Smtp-Source: ABdhPJzW2LFO73etaKLA0oG0uVw6YYNzE/dUSZle4uwnTWfCT8zunsuUKFWvYi1ZYV5eTeAkog8B2q0sJhVRkHK3K0c=
-X-Received: by 2002:a05:6830:22d2:: with SMTP id q18mr2808403otc.305.1605621905385;
- Tue, 17 Nov 2020 06:05:05 -0800 (PST)
+        id S1728659AbgKQObd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 09:31:33 -0500
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:54141 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727473AbgKQObc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 09:31:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1605623490; x=1637159490;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=iWr+CrWA2q5KXgNWL9K+lQgwAxxKb4wsUpuBWUhuOYI=;
+  b=gtVS+oAhZvmeJ4Nc2FjugkDzGiJZo+o7iWbK+hwslRo4/4IYiSyqtpt3
+   K9wNhZF2XKrcxqY6l1YetHptUJJrUzV70DfiR56b78twubTNAduhpLKkA
+   ieuqYl6h1KVeglAHXDIiDOUbpy17nyZUhosz2MIEIVtVA7Glkvi2XFAjc
+   0=;
+X-IronPort-AV: E=Sophos;i="5.77,485,1596499200"; 
+   d="scan'208";a="96180500"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-57e1d233.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 17 Nov 2020 14:31:06 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1e-57e1d233.us-east-1.amazon.com (Postfix) with ESMTPS id 48AFD1415D8;
+        Tue, 17 Nov 2020 14:30:53 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.50) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 17 Nov 2020 14:30:37 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v22 00/18] Introduce Data Access MONitor (DAMON)
+Date:   Tue, 17 Nov 2020 15:30:21 +0100
+Message-ID: <20201117143021.11883-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201117080539.31334-1-sjpark@amazon.com>
 MIME-Version: 1.0
-References: <cover.1605306931.git.gustavo.pimentel@synopsys.com>
-In-Reply-To: <cover.1605306931.git.gustavo.pimentel@synopsys.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Tue, 17 Nov 2020 15:04:49 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3TpnQmcWFkBJyi7CxdzgyyzxXzA3mokYvcem6yEh7Bdg@mail.gmail.com>
-Message-ID: <CAK8P3a3TpnQmcWFkBJyi7CxdzgyyzxXzA3mokYvcem6yEh7Bdg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] misc: Add Add Synopsys DesignWare xData IP driver
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     Joao Pinto <Joao.Pinto@synopsys.com>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.50]
+X-ClientProxiedBy: EX13D34UWA001.ant.amazon.com (10.43.160.173) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 13, 2020 at 11:37 PM Gustavo Pimentel
-<Gustavo.Pimentel@synopsys.com> wrote:
->
-> This patch series adds a new driver called xData-pcie for the Synopsys
-> DesignWare PCIe prototype.
->
-> The driver configures and enables the Synopsys DesignWare PCIe traffic
-> generator IP inside of prototype Endpoint which will generate upstream
-> and downstream PCIe traffic. This allows to quickly test the PCIe link
-> throughput speed and check is the prototype solution has some limitation
-> or not.
+In addition to the ping, I'd like to share our recent real-world usecase of
+DAMON.  I just hope this real user story makes more comments than previously
+shared benchmark results.
 
-I don't quite understand what this hardware is, based on your description.
-Is this a specific piece of hardware that only serves as a traffic generator,
-or a particular hardware feature of the DesignWare endpoint, or is it
-software running on a SoC in endpoint mode while plugged into a Linux
-system running this driver on the host?
+DAMON as a profiler
+-------------------
 
-Most importantly; Is there any relation between this driver and the driver
-we have for the DesignWare PCIe endpoint itself?
+Recently, we analyzed characteristics of a large scale production systems
+utilizing 70GB DRAM and 36 CPUs using DAMON.  From this, we were able to find
+interesting things including below.
 
-My feeling is that this should be located more closely to drivers/pci/,
-but that depends on what it actually does.
+There were obviously different access pattern under idle workload and active
+workload.  Under the idle workload, it accessed larger memory regions with low
+frequency (resembles that of scanning workload), while the active workload
+accessing smaller memory regions with high freuqnecy.
 
-     Arnd
+DAMON found a 7GB memory region that showing obviously high access frequency
+under the active workload.  We believe this is the performance-effective
+working set and need to be protected.
+
+There was a 4KB memory region that showing highest access frequency under not
+only active but also idle workloads.  I think this must be a code section like
+thing.
+
+For this analysis, DAMON used only 0.3-1% of single CPU time.  Because we used
+recording-based analysis, it consumed about 3-12 MB of disk space per 20
+minutes.  This is only small amount of disk space, but we can further reduce
+the disk usage by using non-recording-based DAMON features.  I'd like to argue
+that only DAMON can do such detailed analysis (finding 4KB highest region in
+70GB memory) with the light overhead.
+
+DAMON as a system optimization tool
+-----------------------------------
+
+We also found below potential performance problems on the systems and made
+DAMON-based solutions.
+
+The system doesn't want to make the workload suffer from the page reclamation
+and thus it utilizes enough DRAM but no swap device.  However, we found the
+system is actively reclaiming file-backed pages, because the system has
+intensive file IO.  The file IO turned out to be not performance critical for
+the workload, but we want to ensure performance critical file-backed pages like
+code section to not mistakenly be evicted.
+
+Straightforward solution should be using direct IO, but modifying the workload
+is not so easy.  We also considered `mlockall()`, but we couldn't use that
+because VSZ of the workload is much larger than the physical DRAM.  Finding the
+region and calling `mlock()` might be a right solution, but modifying the
+system is still not easy.
+
+We found the fact that the DAMON-based operation scheme[1] could be used.  By
+using it, we can ask DAMON to track access frequency of each region and make
+'process_madvise(MADV_WILLNEED)[2]' call for regions having specific size and
+access frequency for a time interval.
+
+We also found the system is having high number of TLB misses.  We tried
+'always' THP enabled policy and it greatly reduced TLB misses, but the page
+reclamation also been more frequent due to the THP internal fragmentation
+caused memory bloat.  We will try another DAMON-based operation scheme for
+applying 'MADV_HUGEPAGE' to memory regions having >=2MB size and high access
+frequency, while applying 'MADV_NOHUGEPAGE' to regions having <2MB size and low
+access frequency.
+
+We do not own the systems so we only reported the analysis results and possible
+optimization solutions to the owners.  The owners satisfied about the analysis
+results and promised to try the optimization guides.
+
+[1] https://lore.kernel.org/linux-mm/20201006123931.5847-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-api/20200622192900.22757-4-minchan@kernel.org/
+
+
+In summary, DAMON has used on production systems and proved its usefulness.
+
+
+Thanks,
+SeongJae Park
+
+
+On Tue, 17 Nov 2020 09:05:39 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+
+> Another week, another ping.  I'm waiting for _any_ comments.
+> 
+> 
+> Thanks,
+> SeongJae Park
+> 
+> On Wed, 11 Nov 2020 17:41:13 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+> 
+> > Hi, I'd like to remind you that I'm still waiting more reviews.  Any comments
+> > are welcome.
+> > 
+> > 
+> > Thanks,
+> > SeongJae Park
+> > 
+> > On Tue, 20 Oct 2020 10:59:22 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+> > 
+> > > From: SeongJae Park <sjpark@amazon.de>
+> > > 
+> > > Changes from Previous Version (v21)
+> > > ===================================
+> > > 
+> > > This version contains below minor changes.
+> > > 
+> > > - Fix build warnings and errors (kernel test robot)
+> > > - Fix a memory leak (kmemleak)
+> > > - Respect KUNIT_ALL_TESTS
+> > > - Rebase on v5.9
+> > > - Update the evaluation results
+> > > 
+> > > Introduction
+> > > ============
+> > > 
+> > > DAMON is a data access monitoring framework for the Linux kernel.  The core
+> > > mechanisms of DAMON called 'region based sampling' and 'adaptive regions
+> > > adjustment' (refer to 'mechanisms.rst' in the 11th patch of this patchset for
+> > > the detail) make it
+> > > 
+> > >  - accurate (The monitored information is useful for DRAM level memory
+> > >    management. It might not appropriate for Cache-level accuracy, though.),
+> > >  - light-weight (The monitoring overhead is low enough to be applied online
+> > >    while making no impact on the performance of the target workloads.), and
+> > >  - scalable (the upper-bound of the instrumentation overhead is controllable
+> > >    regardless of the size of target workloads.).
+> > > 
+> > > Using this framework, therefore, several memory management mechanisms such as
+> > > reclamation and THP can be optimized to aware real data access patterns.
+> > > Experimental access pattern aware memory management optimization works that
+> > > incurring high instrumentation overhead will be able to have another try.
+> > > 
+> > > Though DAMON is for kernel subsystems, it can be easily exposed to the user
+> > > space by writing a DAMON-wrapper kernel subsystem.  Then, user space users who
+> > > have some special workloads will be able to write personalized tools or
+> > > applications for deeper understanding and specialized optimizations of their
+> > > systems.
+> > > 
+> > > Evaluations
+> > > ===========
+> > > 
+> > > We evaluated DAMON's overhead, monitoring quality and usefulness using 24
+> > > realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+> > > v22 DAMON patchset is applied.
+> > > 
+> > > DAMON is lightweight.  It increases system memory usage by 0.25% and slows
+> > > target workloads down by 0.89%.
+> > > 
+> > > DAMON is accurate and useful for memory management optimizations.  An
+> > > experimental DAMON-based operation scheme for THP, 'ethp', removes 81.73% of
+> > > THP memory overheads while preserving 95.29% of THP speedup.  Another
+> > > experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
+> > > reduces 91.30% of residential sets and 23.45% of system memory footprint while
+> > > incurring only 2.08% runtime overhead in the best case (parsec3/freqmine).
+> > > 
+> > > NOTE that the experimentail THP optimization and proactive reclamation are not
+> > > for production but only for proof of concepts.
+> > > 
+> > > Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+> > > a document for DAMON" patch in this patchset for detailed evaluation setup and
+> > > results.
+> > > 
+> > > [1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
+> > > 
