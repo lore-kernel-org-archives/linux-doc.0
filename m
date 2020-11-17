@@ -2,276 +2,402 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF3FC63798
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02407C63777
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:16:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B30BC222EC
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:05:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="p7c+jlir"
+	by mail.kernel.org (Postfix) with ESMTP id A8A612222C
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:16:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727608AbgKQKFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 05:05:34 -0500
-Received: from mga17.intel.com ([192.55.52.151]:10093 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727494AbgKQKFe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Nov 2020 05:05:34 -0500
-IronPort-SDR: FWz7vykoDyo/hV8RDQWsYWXTophoQBsENcVLOKQxNUbQ/CofYU7bGb8WtfVbG67Qb9CnCuW7Jn
- f58FXQra2ilQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="150745665"
-X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
-   d="scan'208";a="150745665"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 02:05:34 -0800
-IronPort-SDR: s8pur6JPQq5cjmBk5u4xXUYTBkosZD2Et7JGzAhIADIUXVwP2OOPagZFBIfpzFCgTa3aId3SNA
- Y74FBYfFsJzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
-   d="scan'208";a="367815009"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Nov 2020 02:05:33 -0800
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 17 Nov 2020 02:05:33 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 17 Nov 2020 02:05:32 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 17 Nov 2020 02:05:32 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Tue, 17 Nov 2020 02:05:32 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DpeKe+nHOTtWuMh1mPd3dyLvAhgMDUeroD4w9SXXVtdgfI5ut8VvvLNRIuW1RMN7IbPsDN4czKLAueVJBzjdk2cHohdQs0+LMg7dvw76VfalBvIH1nIKEaz+RykezVeWIgQ1ZNXALMfDiVUvVZpQLvuldcJO8Tc3mOpF1e+eY3CYlR8Z7JtAEo3Vw4yVMaGKWpbHKzRNco4caFo/5BdZIVjsj6vxpyrc/jP5qXVQEy4Vf3dIkc/ncvZfFLwXbjgaYl5vhpgiis6lqwgItGCc08gQW17YRc6Qy7ytc1rTMfTUC4Do8j61HkfwLJsWwt5KBgYs3uN6TgRAQGyvuzIlhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QB8H68Vz031GqcVLa7SJdS6jUE4JztC8fbdTyv3z/4c=;
- b=guAZY23LqRIpfEcXh4rBhxsudX39dAkBvowWXDybT34YZLBlk6lfgYp0P5F+T4B9ReO4N6iT+e+we3HlpJhwssuCPG/cQG0aHVNeDyXMXKS3HQ9ZGkg9a9uKr6+A85tTgW2ebu9Wq3IM1lxdx4lVTTY52cQT9ktQUbK1zKxPyq2JS6umi0aDmhr2C/Ln3kQ1jGyZH3LHulbyy+9waejfOz8nCbOEC5L9QWyfVWD8qSL2+MM7mx5/kVWNtn6n9ytrzj2W5KLiqf9UKGmv0+WZnXqFK61CF58mQL84brgJ3jkw1TQI9711+Nhddv6PlliX8yrufMdSHvUdVA365YHmAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QB8H68Vz031GqcVLa7SJdS6jUE4JztC8fbdTyv3z/4c=;
- b=p7c+jlirf4fNuZt5NyJQ5a9qB2W4+IgPpoC9tDMPUkNNzqO+deQI+jqPsxcNwElbfQtXPwqus3kHN9qfF8wNc8p06/8l2Gakz6oeYiCuRCj2i+JNDsqjzmsKkwENYX7COyV3aEXlNK/j7tbNJw8le+4A8NL1daAg8Uhh1L8aXHI=
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by DM6PR11MB2571.namprd11.prod.outlook.com (2603:10b6:5:c7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Tue, 17 Nov
- 2020 10:05:32 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::69e0:a898:de56:337c]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::69e0:a898:de56:337c%7]) with mapi id 15.20.3564.028; Tue, 17 Nov 2020
- 10:05:32 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     "matthew.gerlach@linux.intel.com" <matthew.gerlach@linux.intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mdf@kernel.org" <mdf@kernel.org>,
-        "trix@redhat.com" <trix@redhat.com>,
+        id S1726016AbgKQKP4 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 05:15:56 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2065 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgKQKP4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 05:15:56 -0500
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Cb1zC5fVczVphC;
+        Tue, 17 Nov 2020 18:15:19 +0800 (CST)
+Received: from dggemi712-chm.china.huawei.com (10.3.20.111) by
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Tue, 17 Nov 2020 18:15:45 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggemi712-chm.china.huawei.com (10.3.20.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Tue, 17 Nov 2020 18:15:45 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.1913.007;
+ Tue, 17 Nov 2020 18:15:45 +0800
+From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To:     Muchun Song <songmuchun@bytedance.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
+        "jroedel@suse.de" <jroedel@suse.de>,
+        "almasrymina@google.com" <almasrymina@google.com>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "mhocko@suse.com" <mhocko@suse.com>
+CC:     "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>
-Subject: RE: [PATCH 1/2] fpga: dfl: refactor cci_enumerate_feature_devs()
-Thread-Topic: [PATCH 1/2] fpga: dfl: refactor cci_enumerate_feature_devs()
-Thread-Index: AQHWvIBxozGsy0BNp0CzNAbUV8wEW6nMGFow
-Date:   Tue, 17 Nov 2020 10:05:31 +0000
-Message-ID: <DM6PR11MB3819F764DE20B0050A548C1F85E20@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20201117012552.262149-1-matthew.gerlach@linux.intel.com>
- <20201117012552.262149-2-matthew.gerlach@linux.intel.com>
-In-Reply-To: <20201117012552.262149-2-matthew.gerlach@linux.intel.com>
-Accept-Language: en-US
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: RE: [PATCH v4 00/21] Free some vmemmap pages of hugetlb page
+Thread-Topic: [PATCH v4 00/21] Free some vmemmap pages of hugetlb page
+Thread-Index: AQHWuaxO0H5megy+qEKBM1T+1aO5TKnMHhDQ
+Date:   Tue, 17 Nov 2020 10:15:44 +0000
+Message-ID: <349168819c1249d4bceea26597760b0a@hisilicon.com>
+References: <20201113105952.11638-1-songmuchun@bytedance.com>
+In-Reply-To: <20201113105952.11638-1-songmuchun@bytedance.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.207]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b0a1d2a5-f52a-41c5-1525-08d88ae051ac
-x-ms-traffictypediagnostic: DM6PR11MB2571:
-x-microsoft-antispam-prvs: <DM6PR11MB2571A0E0CDC562E45BEE09F485E20@DM6PR11MB2571.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:166;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xBiC/X3PE48Qk9SwFgu1wrz0fsi+s9r7ADkQZBpWgHOfp7sQNTz4gmf7U0UJLd/vzdNU4kI0tJMao29c7S0bOy1ofpy62oal7OUhLGqqEhdDC2jb3+KurtVaZSHcb3IbUcsCffcIowqxqtNGurxv/iFhV+3to9JDjIaMQDOmQp14ez7ahXMcap1DFOwOTGWb6u+0NTKdl+5RWpSo3m0Obf1nVsJwxdeFbkesRACfbCQhajSrQG3/FxLJTdHiqxY9YTVl5dJaqi8WFVAAxomZSs4rOiD9FHlci58yYoLCoHKi8Bro5tAIShu7LnK3hScZlwarmulfGQrbodsNKlSjcA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(346002)(396003)(366004)(5660300002)(110136005)(8676002)(9686003)(478600001)(33656002)(83380400001)(66946007)(7696005)(316002)(64756008)(66556008)(66446008)(66476007)(76116006)(71200400001)(8936002)(6506007)(86362001)(55016002)(2906002)(186003)(26005)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: hhrYeGaFfUktjzEltfz8JBT97DM/kbj2p2Lzla4IRFZPdEKOihDyRQ72n8GlLSwi/WaX2WinpLMs/F4C5Nu2hi2P648bm1tfDEhMI0MjtzDcyIrJ1gUKLwOF1SL4GRxRKh+3NcPwRrDQ6ZnqozyN/LtDJkMLoQYgE2z8PaXgYDQ/Ub1I4JCF+NMTQRfjPit0N627DzBvqmke2RcwHrFqMBtziWk1gH8MV22504mrkXv5ej9Id4F68XpMMW/OZEJVqbdTgmA4aZ7qJfJYCke4cANIL7j/+Hv+XV29HDC+YtYupdj3b6DwQuSWKJu/tJGIkNEIzej2eTRAx2lwBHa93u1KP9Jl+VNqJtZk8H1WUwZaJGeX/InRjOLHDm7ETUyKf388DdVxclKI8E/F4eDsCoVlXlionvPcF06nFfxjQqa+9t8ncwyYTR9U8GWTO3ulL3WDXa8qDhEwS/Zs3G8yVsiZs6csJovZhIYzYMKPPdsNdPjGpyaC0+qp4PQpjNX6P3wPgSzSdhukDcBxdkMkPutkNn8MM5Ej64lSkq+lasggjTXPcZKyxL/RFjtcIZJXqblKsdpJ1mbUjiGYRH2115J9iFv9jWRKJxhai5ALT+Pb5MlVIJizpl5dXQjtqX7RTmhlfspcfbtaiK7UBg2t6g==
-x-ms-exchange-transport-forked: True
+x-originating-ip: [10.126.200.113]
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0a1d2a5-f52a-41c5-1525-08d88ae051ac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2020 10:05:31.8705
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: esB+GgmOv573SPQVpqE/iioDU/vl0Jx+hSD08Au48xa4QuulnBprgAM8zytKOnPI5XPZr7IIMOsSWEOVMgM60g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2571
-X-OriginatorOrg: intel.com
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Subject: [PATCH 1/2] fpga: dfl: refactor cci_enumerate_feature_devs()
->=20
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->=20
-> In preparation of looking for dfls based on a vendor
-> specific pcie capability, move code that assumes
-> Bar0/offset0 as start of DFL to its own function.
->=20
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
->  drivers/fpga/dfl-pci.c | 86 ++++++++++++++++++++++++------------------
->  1 file changed, 49 insertions(+), 37 deletions(-)
->=20
-> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-> index a2203d03c9e2..b1b157b41942 100644
-> --- a/drivers/fpga/dfl-pci.c
-> +++ b/drivers/fpga/dfl-pci.c
-> @@ -119,49 +119,20 @@ static int *cci_pci_create_irq_table(struct pci_dev
-> *pcidev, unsigned int nvec)
->  	return table;
->  }
->=20
-> -/* enumerate feature devices under pci device */
-> -static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
-> +static int find_dfl_in_bar0(struct pci_dev *pcidev,
-> +			    struct dfl_fpga_enum_info *info)
->  {
-> -	struct cci_drvdata *drvdata =3D pci_get_drvdata(pcidev);
-> -	int port_num, bar, i, nvec, ret =3D 0;
-> -	struct dfl_fpga_enum_info *info;
-> -	struct dfl_fpga_cdev *cdev;
->  	resource_size_t start, len;
-> +	int port_num, bar, i;
->  	void __iomem *base;
-> -	int *irq_table;
-> +	int ret =3D 0;
->  	u32 offset;
->  	u64 v;
->=20
-> -	/* allocate enumeration info via pci_dev */
-> -	info =3D dfl_fpga_enum_info_alloc(&pcidev->dev);
-> -	if (!info)
-> -		return -ENOMEM;
-> -
-> -	/* add irq info for enumeration if the device support irq */
-> -	nvec =3D cci_pci_alloc_irq(pcidev);
-> -	if (nvec < 0) {
-> -		dev_err(&pcidev->dev, "Fail to alloc irq %d.\n", nvec);
-> -		ret =3D nvec;
-> -		goto enum_info_free_exit;
-> -	} else if (nvec) {
-> -		irq_table =3D cci_pci_create_irq_table(pcidev, nvec);
-> -		if (!irq_table) {
-> -			ret =3D -ENOMEM;
-> -			goto irq_free_exit;
-> -		}
-> -
-> -		ret =3D dfl_fpga_enum_info_add_irq(info, nvec, irq_table);
-> -		kfree(irq_table);
-> -		if (ret)
-> -			goto irq_free_exit;
-> -	}
-> -
-> -	/* start to find Device Feature List in Bar 0 */
-> +	/* start to find Device Feature List from Bar 0 */
->  	base =3D cci_pci_ioremap_bar0(pcidev);
-> -	if (!base) {
-> -		ret =3D -ENOMEM;
-> -		goto irq_free_exit;
-> -	}
-> +	if (!base)
-> +		return -ENOMEM;
->=20
->  	/*
->  	 * PF device has FME and Ports/AFUs, and VF device only has one
-> @@ -208,12 +179,53 @@ static int cci_enumerate_feature_devs(struct
-> pci_dev *pcidev)
->  		dfl_fpga_enum_info_add_dfl(info, start, len);
->  	} else {
->  		ret =3D -ENODEV;
-> -		goto irq_free_exit;
->  	}
->=20
->  	/* release I/O mappings for next step enumeration */
->  	pcim_iounmap_regions(pcidev, BIT(0));
->=20
-> +
 
-We don't need 2 blank line here, remove one please.
 
-> +	return ret;
-> +}
-> +
-> +/* enumerate feature devices under pci device */
-> +static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
-> +{
-> +	struct cci_drvdata *drvdata =3D pci_get_drvdata(pcidev);
-> +	struct dfl_fpga_enum_info *info;
-> +	struct dfl_fpga_cdev *cdev;
-> +	int nvec, ret =3D 0;
-> +	int *irq_table;
-> +
-> +	/* allocate enumeration info via pci_dev */
-> +	info =3D dfl_fpga_enum_info_alloc(&pcidev->dev);
-> +	if (!info)
-> +		return -ENOMEM;
-> +
-> +	/* add irq info for enumeration if the device support irq */
-> +	nvec =3D cci_pci_alloc_irq(pcidev);
-> +	if (nvec < 0) {
-> +		dev_err(&pcidev->dev, "Fail to alloc irq %d.\n", nvec);
-> +		ret =3D nvec;
-> +		goto enum_info_free_exit;
-> +	} else if (nvec) {
-> +		irq_table =3D cci_pci_create_irq_table(pcidev, nvec);
-> +		if (!irq_table) {
-> +			ret =3D -ENOMEM;
-> +			goto irq_free_exit;
-> +		}
-> +
-> +		ret =3D dfl_fpga_enum_info_add_irq(info, nvec, irq_table);
-> +		kfree(irq_table);
-> +		if (ret)
-> +			goto irq_free_exit;
-> +	}
-> +
-> +	ret =3D find_dfl_in_bar0(pcidev, info);
-> +
+> -----Original Message-----
+> From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On
+> Behalf Of Muchun Song
+> Sent: Saturday, November 14, 2020 12:00 AM
+> To: corbet@lwn.net; mike.kravetz@oracle.com; tglx@linutronix.de;
+> mingo@redhat.com; bp@alien8.de; x86@kernel.org; hpa@zytor.com;
+> dave.hansen@linux.intel.com; luto@kernel.org; peterz@infradead.org;
+> viro@zeniv.linux.org.uk; akpm@linux-foundation.org; paulmck@kernel.org;
+> mchehab+huawei@kernel.org; pawan.kumar.gupta@linux.intel.com;
+> rdunlap@infradead.org; oneukum@suse.com; anshuman.khandual@arm.com;
+> jroedel@suse.de; almasrymina@google.com; rientjes@google.com;
+> willy@infradead.org; osalvador@suse.de; mhocko@suse.com
+> Cc: duanxiongchun@bytedance.com; linux-doc@vger.kernel.org;
+> linux-kernel@vger.kernel.org; linux-mm@kvack.org;
+> linux-fsdevel@vger.kernel.org; Muchun Song <songmuchun@bytedance.com>
+> Subject: [PATCH v4 00/21] Free some vmemmap pages of hugetlb page
+> 
+> Hi all,
+> 
+> This patch series will free some vmemmap pages(struct page structures)
+> associated with each hugetlbpage when preallocated to save memory.
+> 
+> Nowadays we track the status of physical page frames using struct page
+> structures arranged in one or more arrays. And here exists one-to-one
+> mapping between the physical page frame and the corresponding struct page
+> structure.
+> 
+> The HugeTLB support is built on top of multiple page size support that
+> is provided by most modern architectures. For example, x86 CPUs normally
+> support 4K and 2M (1G if architecturally supported) page sizes. Every
+> HugeTLB has more than one struct page structure. The 2M HugeTLB has 512
+> struct page structure and 1G HugeTLB has 4096 struct page structures. But
+> in the core of HugeTLB only uses the first 4 (Use of first 4 struct page
+> structures comes from HUGETLB_CGROUP_MIN_ORDER.) struct page
+> structures to
+> store metadata associated with each HugeTLB. The rest of the struct page
+> structures are usually read the compound_head field which are all the same
+> value. If we can free some struct page memory to buddy system so that we
+> can save a lot of memory.
+> 
+> When the system boot up, every 2M HugeTLB has 512 struct page structures
+> which size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
+> 
+>    hugetlbpage                  struct pages(8 pages)          page
+> frame(8 pages)
+>   +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+>   |           |                     |     0     | -------------> |     0
+> |
+>   |           |                     |     1     | -------------> |     1
+> |
+>   |           |                     |     2     | -------------> |     2
+> |
+>   |           |                     |     3     | -------------> |     3
+> |
+>   |           |                     |     4     | -------------> |     4
+> |
+>   |     2M    |                     |     5     | -------------> |
+> 5     |
+>   |           |                     |     6     | -------------> |     6
+> |
+>   |           |                     |     7     | -------------> |     7
+> |
+>   |           |                     +-----------+
+> +-----------+
+>   |           |
+>   |           |
+>   +-----------+
+> 
+> 
+> When a hugetlbpage is preallocated, we can change the mapping from above
+> to
+> bellow.
+> 
+>    hugetlbpage                  struct pages(8 pages)          page
+> frame(8 pages)
+>   +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+>   |           |                     |     0     | -------------> |     0
+> |
+>   |           |                     |     1     | -------------> |     1
+> |
+>   |           |                     |     2     | ------------->
+> +-----------+
+>   |           |                     |     3     | -----------------^ ^ ^ ^
+> ^
+>   |           |                     |     4     | -------------------+ | |
+> |
+>   |     2M    |                     |     5     | ---------------------+ |
+> |
+>   |           |                     |     6     | -----------------------+ |
+>   |           |                     |     7     | -------------------------+
+>   |           |                     +-----------+
+>   |           |
+>   |           |
+>   +-----------+
+> 
+> For tail pages, the value of compound_head is the same. So we can reuse
+> first page of tail page structs. We map the virtual addresses of the
+> remaining 6 pages of tail page structs to the first tail page struct,
+> and then free these 6 pages. Therefore, we need to reserve at least 2
+> pages as vmemmap areas.
+> 
+> When a hugetlbpage is freed to the buddy system, we should allocate six
+> pages for vmemmap pages and restore the previous mapping relationship.
+> 
+> If we uses the 1G hugetlbpage, we can save 4088 pages(There are 4096 pages
+> for
+> struct page structures, we reserve 2 pages for vmemmap and 8 pages for page
+> tables. So we can save 4088 pages). This is a very substantial gain. On our
+> server, run some SPDK/QEMU applications which will use 1024GB hugetlbpage.
+> With this feature enabled, we can save ~16GB(1G hugepage)/~11GB(2MB
+> hugepage)
 
-Remove this blank line, and maybe switch to a better function name here.
+Hi Muchun,
+
+Do we really save 11GB for 2MB hugepage?
+How much do we save if we only get one 2MB hugetlb from one 128MB mem_section?
+It seems we need to get at least one page for the PTEs since we are splitting PMD of 
+vmemmap into PTE?
+
+> memory.
+> 
+> Because there are vmemmap page tables reconstruction on the
+> freeing/allocating
+> path, it increases some overhead. Here are some overhead analysis.
+> 
+> 1) Allocating 10240 2MB hugetlb pages.
+> 
+>    a) With this patch series applied:
+>    # time echo 10240 > /proc/sys/vm/nr_hugepages
+> 
+>    real     0m0.166s
+>    user     0m0.000s
+>    sys      0m0.166s
+> 
+>    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; }
+> kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs -
+> @start[tid]); delete(@start[tid]); }'
+>    Attaching 2 probes...
+> 
+>    @latency:
+>    [8K, 16K)           8360
+> |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> @@@@@@@@@@@@@@@@|
+>    [16K, 32K)          1868 |@@@@@@@@@@@
+> |
+>    [32K, 64K)            10 |
+> |
+>    [64K, 128K)            2 |
+> |
+> 
+>    b) Without this patch series:
+>    # time echo 10240 > /proc/sys/vm/nr_hugepages
+> 
+>    real     0m0.066s
+>    user     0m0.000s
+>    sys      0m0.066s
+> 
+>    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; }
+> kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs -
+> @start[tid]); delete(@start[tid]); }'
+>    Attaching 2 probes...
+> 
+>    @latency:
+>    [4K, 8K)           10176
+> |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> @@@@@@@@@@@@@@@@|
+>    [8K, 16K)             62 |
+> |
+>    [16K, 32K)             2 |
+> |
+> 
+>    Summarize: this feature is about ~2x slower than before.
+> 
+> 2) Freeing 10240 @MB hugetlb pages.
+> 
+>    a) With this patch series applied:
+>    # time echo 0 > /proc/sys/vm/nr_hugepages
+> 
+>    real     0m0.004s
+>    user     0m0.000s
+>    sys      0m0.002s
+> 
+
+Something is wrong here, it is faster than the case without this patchset:
+0.004s vs. 0m0.077s
+
+>    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; }
+> kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]);
+> delete(@start[tid]); }'
+>    Attaching 2 probes...
+> 
+>    @latency:
+>    [16K, 32K)         10240
+> |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> @@@@@@@@@@@@@@@@|
+> 
+>    b) Without this patch series:
+>    # time echo 0 > /proc/sys/vm/nr_hugepages
+> 
+>    real     0m0.077s
+>    user     0m0.001s
+>    sys      0m0.075s
+> 
+>    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; }
+> kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]);
+> delete(@start[tid]); }'
+>    Attaching 2 probes...
+> 
+>    @latency:
+>    [4K, 8K)            9950
+> |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> @@@@@@@@@@@@@@@@|
+>    [8K, 16K)            287 |@
+> |
+>    [16K, 32K)             3 |
+> |
+> 
+>    Summarize: The overhead of __free_hugepage is about ~2-4x slower than
+> before.
+>               But according to the allocation test above, I think that here is
+> 	      also ~2x slower than before.
+> 
+>               But why the 'real' time of patched is smaller than before?
+> Because
+> 	      In this patch series, the freeing hugetlb is asynchronous(through
+> 	      kwoker).
+> 
+> Although the overhead has increased, the overhead is not significant. Like MIke
+> said, "However, remember that the majority of use cases create hugetlb pages
+> at
+> or shortly after boot time and add them to the pool. So, additional overhead is
+> at pool creation time. There is no change to 'normal run time' operations of
+> getting a page from or returning a page to the pool (think page fault/unmap)".
+> 
+
+It seems it is true. At runtime, people normally don't change hugetlb.
+
+>   changelog in v4:
+>   1. Move all the vmemmap functions to hugetlb_vmemmap.c.
+>   2. Make the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP default to y, if we
+> want to
+>      disable this feature, we should disable it by a boot/kernel command line.
+>   3. Remove vmemmap_pgtable_{init, deposit, withdraw}() helper functions.
+>   4. Initialize page table lock for vmemmap through core_initcall mechanism.
+> 
+>   Thanks for Mike and Oscar's suggestions.
+> 
+>   changelog in v3:
+>   1. Rename some helps function name. Thanks Mike.
+>   2. Rework some code. Thanks Mike and Oscar.
+>   3. Remap the tail vmemmap page with PAGE_KERNEL_RO instead of
+>      PAGE_KERNEL. Thanks Matthew.
+>   4. Add some overhead analysis in the cover letter.
+>   5. Use vmemap pmd table lock instead of a hugetlb specific global lock.
+> 
+>   changelog in v2:
+>   1. Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+>   2. Fix some typo and code style problems.
+>   3. Remove unused handle_vmemmap_fault().
+>   4. Merge some commits to one commit suggested by Mike.
+> 
+> Muchun Song (21):
+>   mm/memory_hotplug: Move bootmem info registration API to
+>     bootmem_info.c
+>   mm/memory_hotplug: Move {get,put}_page_bootmem() to bootmem_info.c
+>   mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+>   mm/hugetlb: Introduce nr_free_vmemmap_pages in the struct hstate
+>   mm/hugetlb: Introduce pgtable allocation/freeing helpers
+>   mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+>   mm/bootmem_info: Combine bootmem info and type into page->freelist
+>   mm/hugetlb: Initialize page table lock for vmemmap
+>   mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+>   mm/hugetlb: Defer freeing of hugetlb pages
+>   mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb
+>     page
+>   mm/hugetlb: Introduce remap_huge_page_pmd_vmemmap helper
+>   mm/hugetlb: Use PG_slab to indicate split pmd
+>   mm/hugetlb: Support freeing vmemmap pages of gigantic page
+>   mm/hugetlb: Set the PageHWPoison to the raw error page
+>   mm/hugetlb: Flush work when dissolving hugetlb page
+>   mm/hugetlb: Add a kernel parameter hugetlb_free_vmemmap
+>   mm/hugetlb: Merge pte to huge pmd only for gigantic page
+>   mm/hugetlb: Gather discrete indexes of tail page
+>   mm/hugetlb: Add BUILD_BUG_ON to catch invalid usage of tail struct
+>     page
+>   mm/hugetlb: Disable freeing vmemmap if struct page size is not power
+>     of two
+> 
+>  Documentation/admin-guide/kernel-parameters.txt |   9 +
+>  Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +
+>  arch/x86/include/asm/hugetlb.h                  |  17 +
+>  arch/x86/include/asm/pgtable_64_types.h         |   8 +
+>  arch/x86/mm/init_64.c                           |   7 +-
+>  fs/Kconfig                                      |  14 +
+>  include/linux/bootmem_info.h                    |  78 +++
+>  include/linux/hugetlb.h                         |  19 +
+>  include/linux/hugetlb_cgroup.h                  |  15 +-
+>  include/linux/memory_hotplug.h                  |  27 -
+>  mm/Makefile                                     |   2 +
+>  mm/bootmem_info.c                               | 124 ++++
+>  mm/hugetlb.c                                    | 163 +++++-
+>  mm/hugetlb_vmemmap.c                            | 732
+> ++++++++++++++++++++++++
+>  mm/hugetlb_vmemmap.h                            | 104 ++++
+>  mm/memory_hotplug.c                             | 116 ----
+>  mm/sparse.c                                     |   5 +-
+>  17 files changed, 1263 insertions(+), 180 deletions(-)
+>  create mode 100644 include/linux/bootmem_info.h
+>  create mode 100644 mm/bootmem_info.c
+>  create mode 100644 mm/hugetlb_vmemmap.c
+>  create mode 100644 mm/hugetlb_vmemmap.h
+> 
 
 Thanks
-Hao
-
-> +	if (ret)
-> +		goto irq_free_exit;
-> +
->  	/* start enumeration with prepared enumeration information */
->  	cdev =3D dfl_fpga_feature_devs_enumerate(info);
->  	if (IS_ERR(cdev)) {
-> --
-> 2.25.2
+Barry
 
