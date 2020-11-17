@@ -2,201 +2,279 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAFCC64E7A
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 01:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E4BDC388F9
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A36C24690
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 01:24:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52F9424697
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 02:12:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="amCSGJHt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729010AbgKQBYo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Nov 2020 20:24:44 -0500
-Received: from mga07.intel.com ([134.134.136.100]:34910 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730966AbgKQBYm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Nov 2020 20:24:42 -0500
-IronPort-SDR: q+kKG6HR9kG7altedAT1zNCCSZA4fULqBURvAQg81cEDxez/Lkpa7VhG0ybZIEeZZgioK+8MVb
- KJyDF/IAT0gw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="234994420"
-X-IronPort-AV: E=Sophos;i="5.77,484,1596524400"; 
-   d="scan'208";a="234994420"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 17:24:37 -0800
-IronPort-SDR: 0E3Y+YDZawR6b97yT7g10NIIhdek4kwRYDLUBKBhsQDiZzNlKkYkgZLwUhpDzLjYQt//mczPKm
- p1HkM4caH3MA==
-X-IronPort-AV: E=Sophos;i="5.77,484,1596524400"; 
-   d="scan'208";a="310060653"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.140])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 17:24:36 -0800
-From:   matthew.gerlach@linux.intel.com
-To:     linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mdf@kernel.org, hao.wu@intel.com, trix@redhat.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH 2/2] fpga: dfl: look for vendor specific capability
-Date:   Mon, 16 Nov 2020 17:25:52 -0800
-Message-Id: <20201117012552.262149-3-matthew.gerlach@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201117012552.262149-1-matthew.gerlach@linux.intel.com>
-References: <20201117012552.262149-1-matthew.gerlach@linux.intel.com>
+        id S1725994AbgKQCMQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Nov 2020 21:12:16 -0500
+Received: from mail-03.mail-europe.com ([91.134.188.129]:41852 "EHLO
+        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbgKQCMQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Nov 2020 21:12:16 -0500
+Date:   Tue, 17 Nov 2020 02:12:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1605579130;
+        bh=UMnSTuCY+a5A80tX+uzBN07w6tNxlUDMZ0lpQ+92y2o=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=amCSGJHtH/4iSSPc6F43dAHfojR5vvNaVgfaPnVNV1dkWjbZqAWy0xqq+q3V2VN/6
+         cPp8qXW6v4P+XY+knOSQyWpg1Tzf5+vVsol6maFHqD1OyuWGS+0IGNn+qw9nyIpOBX
+         wknX7Rg/ryj6dDqR+IgLT/REZwdNs6oHaADSX77c=
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: [PATCH v2] docs: automarkup.py: Allow automatic cross-reference inside C namespace
+Message-ID: <20201117021107.214704-1-nfraprado@protonmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Sphinx 3.1 introduced namespaces for C cross-references. With this,
+each C domain type/function declaration is put inside the namespace that
+was active at the time of its declaration.
 
-A DFL may not begin at offset 0 of BAR 0.  A PCIe vendor
-specific capability can be used to specify the start of a
-number of DFLs.
+Add support for automatic cross-referencing inside C namespaces by
+checking whether the corresponding source file had a C namespace Sphinx
+directive, and if so, try cross-referencing inside of it before going to
+the global scope.
 
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+This assumes there's only one namespace (if any) per rst file.
+
+Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
 ---
- Documentation/fpga/dfl.rst | 10 +++++
- drivers/fpga/dfl-pci.c     | 88 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 97 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index 0404fe6ffc74..c81ceb1e79e2 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -501,6 +501,16 @@ Developer only needs to provide a sub feature driver with matched feature id.
- FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
- could be a reference.
- 
-+Location of DFLs on PCI bus
-+===========================
-+The start of the DFL is assumed to be offset 0 of bar 0.
-+Alternatively, a vendor specific capability structure can be used to
-+specify the location of one or more DFLs.  Intel has reserved the
-+vendor specific id of 0x43 for this purpose.  The vendor specific
-+data begins with a 4 byte count of the number of DFLs followed 4 byte
-+Offset/BIR fields for each DFL. Bits 2:0 of Offset/BIR field indicates
-+the BAR, and bits 31:3 form the 8 byte aligned offset where bits 2:0 are
-+zero.
- 
- Open discussion
- ===============
-diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-index b1b157b41942..5418e8bf2496 100644
---- a/drivers/fpga/dfl-pci.c
-+++ b/drivers/fpga/dfl-pci.c
-@@ -27,6 +27,13 @@
- #define DRV_VERSION	"0.8"
- #define DRV_NAME	"dfl-pci"
- 
-+#define PCI_VNDR_ID_DFLS 0x43
+To those following from v1:
+
+I ended up doing the simplest solution possible, which is to just directly =
+read
+the rst source corresponding to the doc page right before doing the automar=
+kup.
+It's not very efficient in the sense that the source is being read
+twice (first by Sphinx, then by this), but it sidesteps the "data sharing
+between processes" issue, so parallel_read_safe can be reenabled, and I did=
+n't
+notice any performance hit from this patch (as opposed to the big hit from =
+v1).
+Works with both Sphinx 2 and 3.
+
+Changes in v2:
+- Get C namespace from reading the corresponding source at the time of doin=
+g
+  automarkup instead of storing all namespaces beforehand at the source-rea=
+d
+  phase
+    - Add get_c_namespace()
+    - Remove save_c_namespace()
+- Reenabled Sphinx's parallel_read_safe
+
+v1: https://lore.kernel.org/linux-doc/20201013231218.2750109-6-nfraprado@pr=
+otonmail.com/
+
+ Documentation/sphinx/automarkup.py | 122 ++++++++++++++++++-----------
+ 1 file changed, 75 insertions(+), 47 deletions(-)
+
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/auto=
+markup.py
+index 3e81ebab26ed..953b24b6e2b4 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -53,6 +53,8 @@ RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)'=
+, flags=3Dascii_p3)
+ #
+ RE_doc =3D re.compile(r'\bDocumentation(/[\w\-_/]+)(\.\w+)*')
+=20
++RE_namespace =3D re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
 +
-+#define PCI_VNDR_DFLS_CNT_OFFSET 8
-+#define PCI_VNDR_DFLS_RES_OFFSET 0x0c
+ #
+ # Reserved C words that we should skip when cross-referencing
+ #
+@@ -70,6 +72,8 @@ Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcntl'=
+, 'mmap',
+               'select', 'poll', 'fork', 'execve', 'clone', 'ioctl',
+               'socket' ]
+=20
++c_namespace =3D ''
 +
-+#define PCI_VND_DFLS_RES_BAR_MASK 0x7
+ def markup_refs(docname, app, node):
+     t =3D node.astext()
+     done =3D 0
+@@ -128,30 +132,38 @@ def markup_func_ref_sphinx3(docname, app, match):
+     #
+     # Go through the dance of getting an xref out of the C domain
+     #
+-    target =3D match.group(2)
++    base_target =3D match.group(2)
+     target_text =3D nodes.Text(match.group(0))
+     xref =3D None
+-    if not (target in Skipfuncs or target in Skipnames):
+-        for class_s, reftype_s in zip(class_str, reftype_str):
+-            lit_text =3D nodes.literal(classes=3D['xref', 'c', class_s])
+-            lit_text +=3D target_text
+-            pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+-                                          reftype =3D reftype_s,
+-                                          reftarget =3D target, modname =
+=3D None,
+-                                          classname =3D None)
+-            #
+-            # XXX The Latex builder will throw NoUri exceptions here,
+-            # work around that by ignoring them.
+-            #
+-            try:
+-                xref =3D cdom.resolve_xref(app.env, docname, app.builder,
+-                                         reftype_s, target, pxref,
+-                                         lit_text)
+-            except NoUri:
+-                xref =3D None
++    possible_targets =3D [base_target]
++    # Check if this document has a namespace, and if so, try
++    # cross-referencing inside it first.
++    if c_namespace:
++        possible_targets.insert(0, c_namespace + "." + base_target)
+=20
+-            if xref:
+-                return xref
++    if base_target not in Skipnames:
++        for target in possible_targets:
++            if target not in Skipfuncs:
++                for class_s, reftype_s in zip(class_str, reftype_str):
++                    lit_text =3D nodes.literal(classes=3D['xref', 'c', cla=
+ss_s])
++                    lit_text +=3D target_text
++                    pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
++                                                  reftype =3D reftype_s,
++                                                  reftarget =3D target, mo=
+dname =3D None,
++                                                  classname =3D None)
++                    #
++                    # XXX The Latex builder will throw NoUri exceptions he=
+re,
++                    # work around that by ignoring them.
++                    #
++                    try:
++                        xref =3D cdom.resolve_xref(app.env, docname, app.b=
+uilder,
++                                                 reftype_s, target, pxref,
++                                                 lit_text)
++                    except NoUri:
++                        xref =3D None
 +
- struct cci_drvdata {
- 	struct dfl_fpga_cdev *cdev;	/* container device */
- };
-@@ -119,6 +126,82 @@ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
- 	return table;
- }
- 
-+static int find_dfl_in_cfg(struct pci_dev *pcidev,
-+			   struct dfl_fpga_enum_info *info)
-+{
-+	u32 bar, offset, vndr_hdr, dfl_cnt, dfl_res;
-+	int dfl_res_off, i, voff = 0;
-+	resource_size_t start, len;
++                    if xref:
++                        return xref
+=20
+     return target_text
+=20
+@@ -179,34 +191,39 @@ def markup_c_ref(docname, app, match):
+     #
+     # Go through the dance of getting an xref out of the C domain
+     #
+-    target =3D match.group(2)
++    base_target =3D match.group(2)
+     target_text =3D nodes.Text(match.group(0))
+     xref =3D None
+-    if not ((match.re =3D=3D RE_function and target in Skipfuncs)
+-            or (target in Skipnames)):
+-        lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[match=
+.re]])
+-        lit_text +=3D target_text
+-        pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+-                                      reftype =3D reftype_str[match.re],
+-                                      reftarget =3D target, modname =3D No=
+ne,
+-                                      classname =3D None)
+-        #
+-        # XXX The Latex builder will throw NoUri exceptions here,
+-        # work around that by ignoring them.
+-        #
+-        try:
+-            xref =3D cdom.resolve_xref(app.env, docname, app.builder,
+-                                     reftype_str[match.re], target, pxref,
+-                                     lit_text)
+-        except NoUri:
+-            xref =3D None
+-    #
+-    # Return the xref if we got it; otherwise just return the plain text.
+-    #
+-    if xref:
+-        return xref
+-    else:
+-        return target_text
++    possible_targets =3D [base_target]
++    # Check if this document has a namespace, and if so, try
++    # cross-referencing inside it first.
++    if c_namespace:
++        possible_targets.insert(0, c_namespace + "." + base_target)
 +
-+	while ((voff = pci_find_next_ext_capability(pcidev, voff, PCI_EXT_CAP_ID_VNDR))) {
++    if base_target not in Skipnames:
++        for target in possible_targets:
++            if not (match.re =3D=3D RE_function and target in Skipfuncs):
++                lit_text =3D nodes.literal(classes=3D['xref', 'c', class_s=
+tr[match.re]])
++                lit_text +=3D target_text
++                pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
++                                              reftype =3D reftype_str[matc=
+h.re],
++                                              reftarget =3D target, modnam=
+e =3D None,
++                                              classname =3D None)
++                #
++                # XXX The Latex builder will throw NoUri exceptions here,
++                # work around that by ignoring them.
++                #
++                try:
++                    xref =3D cdom.resolve_xref(app.env, docname, app.build=
+er,
++                                             reftype_str[match.re], target=
+, pxref,
++                                             lit_text)
++                except NoUri:
++                    xref =3D None
 +
-+		pci_read_config_dword(pcidev, voff + PCI_VNDR_HEADER, &vndr_hdr);
++                if xref:
++                    return xref
 +
-+		dev_dbg(&pcidev->dev,
-+			"vendor-specific capability id 0x%x, rev 0x%x len 0x%x\n",
-+			PCI_VNDR_HEADER_ID(vndr_hdr),
-+			PCI_VNDR_HEADER_REV(vndr_hdr),
-+			PCI_VNDR_HEADER_LEN(vndr_hdr));
++    return target_text
+=20
+ #
+ # Try to replace a documentation reference of the form Documentation/... w=
+ith a
+@@ -239,7 +256,18 @@ def markup_doc_ref(docname, app, match):
+     else:
+         return nodes.Text(match.group(0))
+=20
++def get_c_namespace(app, docname):
++    source =3D app.env.doc2path(docname)
++    with open(source) as f:
++        for l in f:
++            match =3D RE_namespace.search(l)
++            if match:
++                return match.group(1)
++    return ''
 +
-+		if (PCI_VNDR_HEADER_ID(vndr_hdr) == PCI_VNDR_ID_DFLS)
-+			break;
-+	}
-+
-+	if (!voff) {
-+		dev_dbg(&pcidev->dev, "%s no VSEC found\n", __func__);
-+		return -ENODEV;
-+	}
-+
-+	pci_read_config_dword(pcidev, voff + PCI_VNDR_DFLS_CNT_OFFSET, &dfl_cnt);
-+	dev_info(&pcidev->dev, "dfl_cnt %d\n", dfl_cnt);
-+	for (i = 0; i < dfl_cnt; i++) {
-+		dfl_res_off = voff + PCI_VNDR_DFLS_RES_OFFSET +
-+				      (i * sizeof(dfl_res));
-+		pci_read_config_dword(pcidev, dfl_res_off, &dfl_res);
-+
-+		dev_dbg(&pcidev->dev, "dfl_res 0x%x\n", dfl_res);
-+
-+		bar = dfl_res & PCI_VND_DFLS_RES_BAR_MASK;
-+
-+		if (bar >= PCI_STD_NUM_BARS) {
-+			dev_err(&pcidev->dev, "%s bad bar number %d\n",
-+				__func__, bar);
-+			return -EINVAL;
-+		}
-+
-+		len = pci_resource_len(pcidev, bar);
-+
-+		if (len == 0) {
-+			dev_err(&pcidev->dev, "%s unmapped bar number %d\n",
-+				__func__, bar);
-+			return -EINVAL;
-+		}
-+
-+		offset = dfl_res & ~PCI_VND_DFLS_RES_BAR_MASK;
-+
-+		if (offset >= len) {
-+			dev_err(&pcidev->dev, "%s bad offset %u >= %llu\n",
-+				__func__, offset, len);
-+			return -EINVAL;
-+		}
-+
-+		dev_info(&pcidev->dev, "%s BAR %d offset 0x%x\n", __func__, bar, offset);
-+
-+		start = pci_resource_start(pcidev, bar) + offset;
-+		len -= offset;
-+
-+		if (!PAGE_ALIGNED(start)) {
-+			dev_err(&pcidev->dev, "%s unaliged start 0x%llx\n",
-+				__func__, start);
-+			return -EINVAL;
-+		}
-+
-+		dfl_fpga_enum_info_add_dfl(info, start, len);
-+	}
-+
-+	return 0;
-+}
-+
- static int find_dfl_in_bar0(struct pci_dev *pcidev,
- 			    struct dfl_fpga_enum_info *info)
- {
-@@ -221,7 +304,10 @@ static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
- 			goto irq_free_exit;
- 	}
- 
--	ret = find_dfl_in_bar0(pcidev, info);
-+	ret = find_dfl_in_cfg(pcidev, info);
-+
-+	if (ret)
-+		ret = find_dfl_in_bar0(pcidev, info);
- 
- 	if (ret)
- 		goto irq_free_exit;
--- 
-2.25.2
+ def auto_markup(app, doctree, name):
++    global c_namespace
++    c_namespace =3D get_c_namespace(app, name)
+     #
+     # This loop could eventually be improved on.  Someday maybe we
+     # want a proper tree traversal with a lot of awareness of which
+--=20
+2.29.2
+
 
