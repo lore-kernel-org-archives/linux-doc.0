@@ -2,105 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E81E1C63697
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 05:32:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EFD3C63777
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 05:36:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5F78241A7
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 05:32:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90B6424248
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 05:36:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.b="EDQ0fqvi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbgKQFca (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 00:32:30 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:46347 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726339AbgKQFc3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 00:32:29 -0500
-X-Greylist: delayed 449 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Nov 2020 00:32:28 EST
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1ketU5-001CTB-2k; Tue, 17 Nov 2020 06:24:53 +0100
-Received: from p57bd9382.dip0.t-ipconnect.de ([87.189.147.130] helo=[192.168.178.139])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1ketU4-000ZYQ-Qv; Tue, 17 Nov 2020 06:24:52 +0100
-Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
-To:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Tony Luck <tony.luck@intel.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
-References: <20201101170454.9567-1-rppt@kernel.org>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
-Date:   Tue, 17 Nov 2020 06:24:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1726439AbgKQFgD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 00:36:03 -0500
+Received: from gproxy4-pub.mail.unifiedlayer.com ([69.89.23.142]:59531 "EHLO
+        gproxy4-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726274AbgKQFgC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 00:36:02 -0500
+Received: from cmgw15.unifiedlayer.com (unknown [10.9.0.15])
+        by gproxy4.mail.unifiedlayer.com (Postfix) with ESMTP id 5AF8D175CC4
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2020 22:15:58 -0700 (MST)
+Received: from bh-25.webhostbox.net ([208.91.199.152])
+        by cmsmtp with ESMTP
+        id etLRkac3Vh41letLSkfeC8; Mon, 16 Nov 2020 22:15:58 -0700
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.3 cv=JrnfUvwC c=1 sm=1 tr=0
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
+ a=nNwsprhYR40A:10:nop_rcvd_month_year
+ a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=pGLkceISAAAA:8
+ a=jtbBNqsHAAAA:8 a=-ewzHdp9FFKJ1sXwa_MA:9 a=CjuIK1q_8ugA:10:nop_charset_2
+ a=RWaeYqt-Cn-VcsFsiLGo:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=UQyFykvQVTwc24qYJBcae8eSoAzAlxI0Tnd7zOVCoKU=; b=EDQ0fqviE9CQsRJDq23M3o2wgl
+        xXbuXMOOg4Cx7I3kr0N4RlZyI2ybQ+8sam9EGoGNzDL+czNM7sBpfHkqh/jdCa9KipiWHC/h3K2WQ
+        YdSdkItu1dkVDdT8fz2Vt4EZwEuUPxNVxYj9VPMlueEhqsKD4Rg3Tf5JFLCJUwrKfAHNvPw2XutBL
+        gmS947YYdDsbqnqDBFhm55s6Ff+mx+fDQRjJ0ojuiul7LG+QIW+MK6A1ZLtnM6E1vdIu06IcOxwx+
+        x9aYZmDM9O8vOHOgF2KnSFoZXui1XeIzl8yUyNU82fSTOTeBTQzO6Nby9Wrx1NenrzWAaCjozKOhZ
+        TDYb9f3g==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:47310 helo=localhost)
+        by bh-25.webhostbox.net with esmtpa (Exim 4.93)
+        (envelope-from <linux@roeck-us.net>)
+        id 1ketLQ-003qy2-D7; Tue, 17 Nov 2020 05:15:56 +0000
+Date:   Mon, 16 Nov 2020 21:15:55 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     rentao.bupt@gmail.com
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
+        mikechoi@fb.com
+Subject: Re: [PATCH 2/2] docs: hwmon: Document max127 driver
+Message-ID: <20201117051555.GB208504@roeck-us.net>
+References: <20201117010944.28457-1-rentao.bupt@gmail.com>
+ <20201117010944.28457-3-rentao.bupt@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201101170454.9567-1-rppt@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.147.130
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201117010944.28457-3-rentao.bupt@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1ketLQ-003qy2-D7
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:47310
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 24
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
-
-On 11/1/20 6:04 PM, Mike Rapoport wrote:
-> It's been a while since DISCONTIGMEM is generally considered deprecated,
-> but it is still used by four architectures. This set replaces DISCONTIGMEM
-> with a different way to handle holes in the memory map and marks
-> DISCONTIGMEM configuration as BROKEN in Kconfigs of these architectures with
-> the intention to completely remove it in several releases.
+On Mon, Nov 16, 2020 at 05:09:44PM -0800, rentao.bupt@gmail.com wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
 > 
-> While for 64-bit alpha and ia64 the switch to SPARSEMEM is quite obvious
-> and was a matter of moving some bits around, for smaller 32-bit arc and
-> m68k SPARSEMEM is not necessarily the best thing to do.
+> Add documentation for max127 hardware monitoring driver.
 > 
-> On 32-bit machines SPARSEMEM would require large sections to make section
-> index fit in the page flags, but larger sections mean that more memory is
-> wasted for unused memory map.
+> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> ---
+>  Documentation/hwmon/index.rst  |  1 +
+>  Documentation/hwmon/max127.rst | 43 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 44 insertions(+)
+>  create mode 100644 Documentation/hwmon/max127.rst
 > 
-> Besides, pfn_to_page() and page_to_pfn() become less efficient, at least on
-> arc.
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 408760d13813..0a07b6000c20 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -111,6 +111,7 @@ Hardware Monitoring Kernel Drivers
+>     ltc4245
+>     ltc4260
+>     ltc4261
+> +   max127
+>     max16064
+>     max16065
+>     max1619
+> diff --git a/Documentation/hwmon/max127.rst b/Documentation/hwmon/max127.rst
+> new file mode 100644
+> index 000000000000..e50225a61c1a
+> --- /dev/null
+> +++ b/Documentation/hwmon/max127.rst
+> @@ -0,0 +1,43 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver max127
+> +====================
+> +
+> +Author:
+> +
+> +  * Tao Ren <rentao.bupt@gmail.com>
+> +
+> +Supported chips:
+> +
+> +  * Maxim MAX127
+> +
+> +    Prefix: 'max127'
+> +
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX127-MAX128.pdf
+> +
+> +Description
+> +-----------
+> +
+> +The MAX127 is a multirange, 12-bit data acquisition system (DAS) providing
+> +8 analog input channels that are independently software programmable for
+> +a variety of ranges. The available ranges are {0,5V}, {0,10V}, {-5,5V}
+> +and {-10,10V}.
+> +
+> +The MAX127 features a 2-wire, I2C-compatible serial interface that allows
+> +communication among multiple devices using SDA and SCL lines.
+> +
+> +Sysfs interface
+> +---------------
+> +
+> +  ============== ==============================================================
+> +  in[0-7]_input  The conversion value for the corresponding channel.
+> +		 RO
+> +
+> +  in[0-7]_min    The lower limit (in Volt) for the corresponding channel.
+> +		 For the MAX127, it will be adjusted to -10, -5, or 0.
+> +		 RW
+> +
+> +  in[0-7]_max    The higher limit (in Volt) for the corresponding channel.
+> +		 For the MAX127, it will be adjusted to 0, 5, or 10.
+> +		 RW
+
+This should explain that the limits set the ADC range.
+
+> +  ============== ==============================================================
+> -- 
+> 2.17.1
 > 
-> So I've decided to generalize arm's approach for freeing of unused parts of
-> the memory map with FLATMEM and enable it for both arc and m68k. The
-> details are in the description of patches 10 (arc) and 13 (m68k).
-
-Apologies for the late reply. Is this still relevant for testing?
-
-I have already successfully tested v1 of the patch set, shall I test v2?
-
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
