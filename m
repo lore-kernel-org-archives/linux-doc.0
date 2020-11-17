@@ -2,267 +2,266 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A3AC2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 06:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E54C2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 06:57:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 081D2208C7
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 06:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4114E241A5
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 06:57:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYLJ3pWR"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="sW7J7X9u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbgKQGvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 01:51:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50958 "EHLO mail.kernel.org"
+        id S1726479AbgKQG5U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 01:57:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725792AbgKQGvt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Nov 2020 01:51:49 -0500
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725994AbgKQG5U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Nov 2020 01:57:20 -0500
+Received: from kernel.org (unknown [77.125.7.142])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1383B20E65;
-        Tue, 17 Nov 2020 06:51:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6D46B24198;
+        Tue, 17 Nov 2020 06:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605595907;
-        bh=kUJigiiTkavmqGW3s56EQ8ngS+3tX1p+Tj5xIbYeUIg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=aYLJ3pWR4vUlqyIXg2KH7Hr6kCfguRs2MTU8bzOsfWDuZtfRcHtahiZXKOH/62ug8
-         BBiyS+TVKpFQ/1fxiycj5TXpHdJWiryVncBAbF9WfL0ovzbrRDxd7IsDN/YlIjHMfL
-         RhIaoj9UNQ/iU3w0zwV+wEGdvkOohD9cCy3IRqZc=
-Received: by mail-oi1-f178.google.com with SMTP id k26so21610870oiw.0;
-        Mon, 16 Nov 2020 22:51:47 -0800 (PST)
-X-Gm-Message-State: AOAM531+3zJil8cMtOahlmLT4DOmKV8g8/Dzs4dhaQH4fGgyzo5oNHBT
-        UUmuZNCQ2b0goCrFMJlCZdhgBzDVCzm5TvqEFZI=
-X-Google-Smtp-Source: ABdhPJxiJ6bLQO0ENCNywSJr8FP9WwKXD9oDI9KpCPNgAGwPLLCMBAQhm3SgTMlpb+Hcy5f8Wa1Dl/+IKPGxK21Jrc8=
-X-Received: by 2002:aca:d583:: with SMTP id m125mr1426899oig.47.1605595906203;
- Mon, 16 Nov 2020 22:51:46 -0800 (PST)
-MIME-Version: 1.0
-References: <5fadef1f.1c69fb81.9166e.093c@mx.google.com> <e16e2ce5-dc21-d159-ecf2-e0a430d772e1@collabora.com>
- <CAMj1kXFrxYqTARLprws6ja2=C1xZNC+TNr0Vvayr6sReqsUhyg@mail.gmail.com>
- <ce91a878-5ce3-614d-d10c-569b891b12d0@collabora.com> <20201113155825.GD1551@shell.armlinux.org.uk>
- <CAMj1kXHMBNK4ke3j0=h-xkxR9sWe3x_D2TLsPtDZv-sWCW4eWQ@mail.gmail.com>
- <CAMj1kXH6_-tNuhOVDJA4mhEUQBDTDLjJA8CUkb4mRFsAZSy9ig@mail.gmail.com>
- <CAMj1kXEFMgRZ1QgaAfwvg7Um-=UdiG-THGAySwrBHhQX=tMPeQ@mail.gmail.com>
- <CAMj1kXE-c+7yFwqxZ2WDBG5LOtLbnSgacuGgG1P+CY3PUwu+GA@mail.gmail.com>
- <CAMj1kXH-BKvykS0wL5BCv5Eh4FWMZxHmM6nHV8MeRACUbWjCPw@mail.gmail.com> <0e0da2b3-4751-5491-7972-67223e8fe0ba@collabora.com>
-In-Reply-To: <0e0da2b3-4751-5491-7972-67223e8fe0ba@collabora.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 17 Nov 2020 07:51:33 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXF1W+TqskQt-aD2nSkyQzsxtq5tD0C0NyLqZ0H2SBEA+A@mail.gmail.com>
-Message-ID: <CAMj1kXF1W+TqskQt-aD2nSkyQzsxtq5tD0C0NyLqZ0H2SBEA+A@mail.gmail.com>
-Subject: Re: rmk/for-next bisection: baseline.login on bcm2836-rpi-2-b
-To:     Guillaume Tucker <guillaume.tucker@collabora.com>
-Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        kernelci-results@groups.io,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Olof Johansson <olof@lixom.net>,
-        Mike Rapoport <rppt@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        s=default; t=1605596239;
+        bh=paXKC0424ocA3DZCWuInoiFPfDOdADE0/c2DEUqk+/s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sW7J7X9u4Pgj5eYw6aBE+5k3kfRF+oBTrkY20+11OOV4h0WDlFx0ivXySLw+O7fIn
+         2SE0yXx0xNHZ1bIUJPVzaY+DMMnqb5zrBkGtNt9q07L33EzIIp3IQahBugW27RxYuU
+         oiBGbYZcAQCrECszDplE4mfN2ZSwtpfZCiLXxfnc=
+Date:   Tue, 17 Nov 2020 08:57:08 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>, Will Deacon <will@kernel.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-snps-arc@lists.infradead.org" 
+        <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH v2 10/13] arc: use FLATMEM with freeing of unused memory
+ map instead of DISCONTIGMEM
+Message-ID: <20201117065708.GD370813@kernel.org>
+References: <20201101170454.9567-1-rppt@kernel.org>
+ <20201101170454.9567-11-rppt@kernel.org>
+ <3a1ef201-611b-3eb0-1a8a-4fcb05634b85@synopsys.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a1ef201-611b-3eb0-1a8a-4fcb05634b85@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 16 Nov 2020 at 23:13, Guillaume Tucker
-<guillaume.tucker@collabora.com> wrote:
->
-> On 16/11/2020 12:20, Ard Biesheuvel wrote:
-> > On Mon, 16 Nov 2020 at 12:20, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >>
-> >> On Sun, 15 Nov 2020 at 15:11, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >>>
-> >>> On Fri, 13 Nov 2020 at 17:25, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >>>>
-> >>>> On Fri, 13 Nov 2020 at 17:15, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >>>>>
-> >>>>> On Fri, 13 Nov 2020 at 16:58, Russell King - ARM Linux admin
-> >>>>> <linux@armlinux.org.uk> wrote:
-> >>>>>>
-> >>>>>> On Fri, Nov 13, 2020 at 03:43:27PM +0000, Guillaume Tucker wrote:
-> >>>>>>> On 13/11/2020 10:35, Ard Biesheuvel wrote:
-> >>>>>>>> On Fri, 13 Nov 2020 at 11:31, Guillaume Tucker
-> >>>>>>>> <guillaume.tucker@collabora.com> wrote:
-> >>>>>>>>>
-> >>>>>>>>> Hi Ard,
-> >>>>>>>>>
-> >>>>>>>>> Please see the bisection report below about a boot failure on
-> >>>>>>>>> RPi-2b.
-> >>>>>>>>>
-> >>>>>>>>> Reports aren't automatically sent to the public while we're
-> >>>>>>>>> trialing new bisection features on kernelci.org but this one
-> >>>>>>>>> looks valid.
-> >>>>>>>>>
-> >>>>>>>>> There's nothing in the serial console log, probably because it's
-> >>>>>>>>> crashing too early during boot.  I'm not sure if other platforms
-> >>>>>>>>> on kernelci.org were hit by this in the same way, but there
-> >>>>>>>>> doesn't seem to be any.
-> >>>>>>>>>
-> >>>>>>>>> The same regression can be see on rmk's for-next branch as well
-> >>>>>>>>> as in linux-next.  It happens with both bcm2835_defconfig and
-> >>>>>>>>> multi_v7_defconfig.
-> >>>>>>>>>
-> >>>>>>>>> Some more details can be found here:
-> >>>>>>>>>
-> >>>>>>>>>   https://kernelci.org/test/case/id/5fae44823818ee918adb8864/
-> >>>>>>>>>
-> >>>>>>>>> If this looks like a real issue but you don't have a platform at
-> >>>>>>>>> hand to reproduce it, please let us know if you would like the
-> >>>>>>>>> KernelCI test to be re-run with earlyprintk or some debug config
-> >>>>>>>>> turned on, or if you have a fix to try.
-> >>>>>>>>>
-> >>>>>>>>> Best wishes,
-> >>>>>>>>> Guillaume
-> >>>>>>>>>
-> >>>>>>>>
-> >>>>>>>> Hello Guillaume,
-> >>>>>>>>
-> >>>>>>>> That patch did have an issue, but it was already fixed by
-> >>>>>>>>
-> >>>>>>>> https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9020/1
-> >>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=fc2933c133744305236793025b00c2f7d258b687
-> >>>>>>>>
-> >>>>>>>> Could you please double check whether cherry-picking that on top of
-> >>>>>>>> the first bad commit fixes the problem?
-> >>>>>>>
-> >>>>>>> Sadly this doesn't appear to be fixing the issue.  I've
-> >>>>>>> cherry-picked your patch on top of the commit found by the
-> >>>>>>> bisection but it still didn't boot, here's the git log
-> >>>>>>>
-> >>>>>>> cbb9656e83ca ARM: 9020/1: mm: use correct section size macro to describe the FDT virtual address
-> >>>>>>> 7a1be318f579 ARM: 9012/1: move device tree mapping out of linear region
-> >>>>>>> e9a2f8b599d0 ARM: 9011/1: centralize phys-to-virt conversion of DT/ATAGS address
-> >>>>>>> 3650b228f83a Linux 5.10-rc1
-> >>>>>>>
-> >>>>>>> Test log: https://people.collabora.com/~gtucker/lava/boot/rpi-2-b/v5.10-rc1-3-gcbb9656e83ca/
-> >>>>>>>
-> >>>>>>> There's no output so it's hard to tell what is going on, but
-> >>>>>>> reverting the bad commmit does make the board to boot (that's
-> >>>>>>> what "revert: PASS" means in the bisect report).  So it's
-> >>>>>>> unlikely that there is another issue causing the boot failure.
-> >>>>>>
-> >>>>>> These silent boot failures are precisely what the DEBUG_LL stuff (and
-> >>>>>> early_printk) is supposed to help with - getting the kernel messages
-> >>>>>> out when there is an oops before the serial console is initialised.
-> >>>>>>
-> >>>>>
-> >>>>> If this is indeed related to the FDT mapping, I would assume
-> >>>>> earlycon=... to be usable here.
-> >>>>>
-> >>>>> I will try to reproduce this on a RPi3 but I don't have a RPi2 at
-> >>>>> hand, unfortunately.
-> >>>>>
-> >>>>> Would you mind having a quick try whether you can reproduce this on
-> >>>>> QEMU, using the raspi2 machine model? If so, that would be a *lot*
-> >>>>> easier to diagnose.
-> >>>>
-> >>>> Also, please have a go with 'earlycon=pl011,0x3f201000' added to the
-> >>>> kernel command line.
-> >>>
-> >>> I cannot reproduce this - I don't have the exact same hardware, but
-> >>> for booting the kernel, I think RPi2 and RPi3 should be sufficiently
-> >>> similar, and I can boot on Rpi3 using a u-boot built for rpi2 using
-> >>> your provided dtb for RPi2.
->
-> There's a RPi 3b in BayLibre's lab and it's booting fine, here in
-> 32-bit mode from the exact same kernel build as the earlier link
-> showing the problem on RPi 2b:
->
->   https://kernelci.org/test/plan/id/5fae3fa710b60de7d2db8859/
->
-> >>> What puzzles me is that u-boot reports itself as
-> >>>
-> >>> U-Boot 2016.03-rc1-00131-g39af3d8-dirty
-> >>>
-> >>> RPI Model B+ (0x10)
-> >>>
-> >>> which is the ARMv6 model not the ARMv7, but then the kernel reports
-> >>>
-> >>> CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c53c7d
->
-> That is rather puzzling indeed.  Either the bootloader is wrong,
-> or we're booting a RPi 1B+ with a RPi 2B device tree...  but I
-> wouldn't expect that to be compatible.  I'm pretty sure it is
-> really a RPI 2B (BCM2836 ARMv7) and for some reason the
-> bootloader is printing the wrong message.  I can try to take a
-> look at the version of u-boot that was flashed on that board.
->
-> >> Another thing I noticed is that the bootloader on these boards loads
-> >> the FDT at address 0x100, which is described by the FDT itself as
-> >> reserved memory, and which typically holds the spin tables used for
-> >> SMP boot.
-> >>
-> >> Could you try loading the DT elsewhere, and see if that changes anything?
->
-> OK, I think it's worth trying that in any case.  I'll see if I
-> can do it tomorrow.  I'll just have to stop kernelci.org tests on
-> that board while changing the bootloader configuration to avoid
-> inconsistent behaviour.
->
-> > I think I narrowed this down to the early DT mapping code, which
-> > considers any DT address that falls inside the first section as 'no
-> > DT', and then relies on the first section mapping of the decompressed
-> > kernel to cover it instead.
+On Tue, Nov 17, 2020 at 06:40:16AM +0000, Vineet Gupta wrote:
+> Hi Mike,
+> 
+> On 11/1/20 9:04 AM, Mike Rapoport wrote:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
 > >
-> > Could you please try the following change?
+> > Currently ARC uses DISCONTIGMEM to cope with sparse physical memory address
+> > space on systems with 2 memory banks. While DISCONTIGMEM avoids wasting
+> > memory on unpopulated memory map, it adds both memory and CPU overhead
+> > relatively to FLATMEM. Moreover, DISCONTINGMEM is generally considered
+> > deprecated.
 > >
+> > The obvious replacement for DISCONTIGMEM would be SPARSEMEM, but it is also
+> > less efficient than FLATMEM in pfn_to_page() and page_to_pfn() conversions.
+> > Besides it requires tuning of SECTION_SIZE which is not trivial for
+> > possible ARC memory configuration.
 > >
-> > diff --git a/arch/arm/kernel/head.S b/arch/arm/kernel/head.S
-> > index 28687fd1240a..7f62c5eccdf3 100644
-> > --- a/arch/arm/kernel/head.S
-> > +++ b/arch/arm/kernel/head.S
-> > @@ -265,10 +265,10 @@ __create_page_tables:
-> >          * We map 2 sections in case the ATAGs/DTB crosses a section boundary.
-> >          */
-> >         mov     r0, r2, lsr #SECTION_SHIFT
-> > -       movs    r0, r0, lsl #SECTION_SHIFT
-> > +       cmp     r2, #0
-> >         ldrne   r3, =FDT_FIXED_BASE >> (SECTION_SHIFT - PMD_ORDER)
-> >         addne   r3, r3, r4
-> > -       orrne   r6, r7, r0
-> > +       orrne   r6, r7, r0, lsl #SECTION_SHIFT
-> >         strne   r6, [r3], #1 << PMD_ORDER
-> >         addne   r6, r6, #1 << SECTION_SHIFT
-> >         strne   r6, [r3]
+> > Since the memory map for both banks is always allocated from the "lowmem"
+> > bank, it is possible to use FLATMEM for two-bank configuration and simply
+> > free the unused hole in the memory map. All is required for that is to
+> > provide ARC-specific pfn_valid() that will take into account actual
+> > physical memory configuration and define HAVE_ARCH_PFN_VALID.
 > >
->
-> The kernel is now starting to boot with this change (from the
-> patch you sent today), but then it fails to load the ramdisk.
-> Here's the git history I have now:
->
-> 7d4093dffe16 ARM: head.S: explicitly map DT even if it lives in the first physical section
-> 7a1be318f579 ARM: 9012/1: move device tree mapping out of linear region
-> e9a2f8b599d0 ARM: 9011/1: centralize phys-to-virt conversion of DT/ATAGS address
-> 3650b228f83a Linux 5.10-rc1
->
-> Test log: https://people.collabora.com/~gtucker/lava/boot/rpi-2-b/v5.10-rc1-3-g7d4093dffe16/2830681.log
-> Plain log: https://people.collabora.com/~gtucker/lava/boot/rpi-2-b/v5.10-rc1-3-g7d4093dffe16/2830681-console.log
->
+> > The resulting kernel image configured with defconfig + HIGHMEM=y is
+> > smaller:
+> >
+> > $ size a/vmlinux b/vmlinux
+> >     text    data     bss     dec     hex filename
+> > 4673503 1245456  279756 6198715  5e95bb a/vmlinux
+> > 4658706 1246864  279756 6185326  5e616e b/vmlinux
+> >
+> > $ ./scripts/bloat-o-meter a/vmlinux b/vmlinux
+> > add/remove: 28/30 grow/shrink: 42/399 up/down: 10986/-29025 (-18039)
+> > ...
+> > Total: Before=4709315, After=4691276, chg -0.38%
+> >
+> > Booting nSIM with haps_ns.dts results in the following memory usage
+> > reports:
+> >
+> > a:
+> > Memory: 1559104K/1572864K available (3531K kernel code, 595K rwdata, 752K rodata, 136K init, 275K bss, 13760K reserved, 0K cma-reserved, 1048576K highmem)
+> >
+> > b:
+> > Memory: 1559112K/1572864K available (3519K kernel code, 594K rwdata, 752K rodata, 136K init, 280K bss, 13752K reserved, 0K cma-reserved, 1048576K highmem)
+> >
+> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> Sorry this fell through the cracks. Do you have a branch I can checkout 
+> and do a quick test.
 
-Is this bcm2835_defconfig or multi_v7_defconfig?
+It's in mmotm and in my tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git memory-models/rm-discontig/v0
 
+> Thx,
+> -Vineet
+> 
+> > ---
+> >   arch/arc/Kconfig            |  3 ++-
+> >   arch/arc/include/asm/page.h | 20 +++++++++++++++++---
+> >   arch/arc/mm/init.c          | 29 ++++++++++++++++++++++-------
+> >   3 files changed, 41 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+> > index 0a89cc9def65..c874f8ab0341 100644
+> > --- a/arch/arc/Kconfig
+> > +++ b/arch/arc/Kconfig
+> > @@ -67,6 +67,7 @@ config GENERIC_CSUM
+> >   
+> >   config ARCH_DISCONTIGMEM_ENABLE
+> >   	def_bool n
+> > +	depends on BROKEN
+> >   
+> >   config ARCH_FLATMEM_ENABLE
+> >   	def_bool y
+> > @@ -506,7 +507,7 @@ config LINUX_RAM_BASE
+> >   
+> >   config HIGHMEM
+> >   	bool "High Memory Support"
+> > -	select ARCH_DISCONTIGMEM_ENABLE
+> > +	select HAVE_ARCH_PFN_VALID
+> >   	help
+> >   	  With ARC 2G:2G address split, only upper 2G is directly addressable by
+> >   	  kernel. Enable this to potentially allow access to rest of 2G and PAE
+> > diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+> > index b0dfed0f12be..23e41e890eda 100644
+> > --- a/arch/arc/include/asm/page.h
+> > +++ b/arch/arc/include/asm/page.h
+> > @@ -82,11 +82,25 @@ typedef pte_t * pgtable_t;
+> >    */
+> >   #define virt_to_pfn(kaddr)	(__pa(kaddr) >> PAGE_SHIFT)
+> >   
+> > -#define ARCH_PFN_OFFSET		virt_to_pfn(CONFIG_LINUX_RAM_BASE)
+> > +/*
+> > + * When HIGHMEM is enabled we have holes in the memory map so we need
+> > + * pfn_valid() that takes into account the actual extents of the physical
+> > + * memory
+> > + */
+> > +#ifdef CONFIG_HIGHMEM
+> > +
+> > +extern unsigned long arch_pfn_offset;
+> > +#define ARCH_PFN_OFFSET		arch_pfn_offset
+> > +
+> > +extern int pfn_valid(unsigned long pfn);
+> > +#define pfn_valid		pfn_valid
+> >   
+> > -#ifdef CONFIG_FLATMEM
+> > +#else /* CONFIG_HIGHMEM */
+> > +
+> > +#define ARCH_PFN_OFFSET		virt_to_pfn(CONFIG_LINUX_RAM_BASE)
+> >   #define pfn_valid(pfn)		(((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+> > -#endif
+> > +
+> > +#endif /* CONFIG_HIGHMEM */
+> >   
+> >   /*
+> >    * __pa, __va, virt_to_page (ALERT: deprecated, don't use them)
+> > diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+> > index 3a35b82a718e..ce07e697916c 100644
+> > --- a/arch/arc/mm/init.c
+> > +++ b/arch/arc/mm/init.c
+> > @@ -28,6 +28,8 @@ static unsigned long low_mem_sz;
+> >   static unsigned long min_high_pfn, max_high_pfn;
+> >   static phys_addr_t high_mem_start;
+> >   static phys_addr_t high_mem_sz;
+> > +unsigned long arch_pfn_offset;
+> > +EXPORT_SYMBOL(arch_pfn_offset);
+> >   #endif
+> >   
+> >   #ifdef CONFIG_DISCONTIGMEM
+> > @@ -98,16 +100,11 @@ void __init setup_arch_memory(void)
+> >   	init_mm.brk = (unsigned long)_end;
+> >   
+> >   	/* first page of system - kernel .vector starts here */
+> > -	min_low_pfn = ARCH_PFN_OFFSET;
+> > +	min_low_pfn = virt_to_pfn(CONFIG_LINUX_RAM_BASE);
+> >   
+> >   	/* Last usable page of low mem */
+> >   	max_low_pfn = max_pfn = PFN_DOWN(low_mem_start + low_mem_sz);
+> >   
+> > -#ifdef CONFIG_FLATMEM
+> > -	/* pfn_valid() uses this */
+> > -	max_mapnr = max_low_pfn - min_low_pfn;
+> > -#endif
+> > -
+> >   	/*------------- bootmem allocator setup -----------------------*/
+> >   
+> >   	/*
+> > @@ -153,7 +150,9 @@ void __init setup_arch_memory(void)
+> >   	 * DISCONTIGMEM in turns requires multiple nodes. node 0 above is
+> >   	 * populated with normal memory zone while node 1 only has highmem
+> >   	 */
+> > +#ifdef CONFIG_DISCONTIGMEM
+> >   	node_set_online(1);
+> > +#endif
+> >   
+> >   	min_high_pfn = PFN_DOWN(high_mem_start);
+> >   	max_high_pfn = PFN_DOWN(high_mem_start + high_mem_sz);
+> > @@ -161,8 +160,15 @@ void __init setup_arch_memory(void)
+> >   	max_zone_pfn[ZONE_HIGHMEM] = min_low_pfn;
+> >   
+> >   	high_memory = (void *)(min_high_pfn << PAGE_SHIFT);
+> > +
+> > +	arch_pfn_offset = min(min_low_pfn, min_high_pfn);
+> >   	kmap_init();
+> > -#endif
+> > +
+> > +#else /* CONFIG_HIGHMEM */
+> > +	/* pfn_valid() uses this when FLATMEM=y and HIGHMEM=n */
+> > +	max_mapnr = max_low_pfn - min_low_pfn;
+> > +
+> > +#endif /* CONFIG_HIGHMEM */
+> >   
+> >   	free_area_init(max_zone_pfn);
+> >   }
+> > @@ -190,3 +196,12 @@ void __init mem_init(void)
+> >   	highmem_init();
+> >   	mem_init_print_info(NULL);
+> >   }
+> > +
+> > +#ifdef CONFIG_HIGHMEM
+> > +int pfn_valid(unsigned long pfn)
+> > +{
+> > +	return (pfn >= min_high_pfn && pfn <= max_high_pfn) ||
+> > +		(pfn >= min_low_pfn && pfn <= max_low_pfn);
+> > +}
+> > +EXPORT_SYMBOL(pfn_valid);
+> > +#endif
+> 
 
-The former seems fundamentally broken on that platform, given that
-
-2020-11-16T21:30:13    Using Device Tree in place at 00000100, end 00006646
-
-whereas the kernel proper starts at 0x8000, which puts its page tables
-at start-0x4000, which collides with the DT memory. And I have already
-pointed out that the DT itself describes the first 0x1000 bytes of
-memory as 'reserved', which means the DT should not be loaded there.
-
-Of course, that does not explain why this change in particular
-triggers a failure, but we *really* ought to fix that platform so it
-doesn't do crazy things like that.
+-- 
+Sincerely yours,
+Mike.
