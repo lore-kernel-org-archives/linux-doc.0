@@ -2,310 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99565C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 16:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 049D9C2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 16:34:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48FD72465E
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 16:30:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91F85216C4
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 16:34:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="oF6O0GIt"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VFL2449H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727097AbgKQQ3u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 11:29:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60386 "EHLO
+        id S1727070AbgKQQea (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 11:34:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727010AbgKQQ3t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 11:29:49 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD504C0613CF
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 08:29:47 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id l11so731145plt.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 08:29:47 -0800 (PST)
+        with ESMTP id S1725808AbgKQQe3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 11:34:29 -0500
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5DEAC0613CF
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 08:34:29 -0800 (PST)
+Received: by mail-il1-x141.google.com with SMTP id w10so4820969ilq.5
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 08:34:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A3QTWUzTvUT9gxMoshGLtqPLDCXqi6pfAh27cLWuKoY=;
-        b=oF6O0GItwqng2CH4SIbYH2aWyQ0yc6lC98D8jhxQh/Z/K6wGgSrCp+VelucrtJYIN+
-         yfrPeJi0WnWoX5NjeJg7eGFqFQH7j+0A/kup3R4Gpm/Na2hqHBDTwGnqDR8yqmKMDFxB
-         jWQsbr+qnzpVfnxrIHMriUpUcKtH1Ei4VI4pdgcMN8m7OKjz1fLIvEICdudJz+MTX8Hb
-         pur0CMetqz1ZfpjWZf0ixQoiXRCmCJ970vKWlb7PggfovGKJFPkHgRalGrdCYI7ATCYB
-         EHeAV57hqAfhxZP2iYYglDOS2Q99Zw+xdno1A/n+4pWJdBqnLMHxUGUnCQa1wcQUc5t9
-         OL3w==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RqplN2MiH2RjrN8xmsMKxzO1axkoRnoqOLkoBb/frOA=;
+        b=VFL2449HKDpbkT2SJgPuvTAvv3Cqpu1i8x/oHlk9UGYPr2pCkqDpashemizpuoBxLT
+         UkTLFs5Lkn9jzbTTDQnKHWomHDRI3U3xEbwB6A5UjqGPkNzJMwPgWLwmRKYbgRUfoLd/
+         2m3jnnW4g2b9Vl5Dkv631xzB0zy6fTk4acBjg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A3QTWUzTvUT9gxMoshGLtqPLDCXqi6pfAh27cLWuKoY=;
-        b=UNFEO0Qh5HT95a4O2kLAUUgt4cJ33cKbH9ddC+I1nQ6Vm+mPubux7NrK2Z4tRloLA8
-         /Khpoji2DMqd2EcOLgDDqf5I4JdqEh8CRjyE+eh3mhyhEO6Tp/yJdlOeYGpEYkEi+3qY
-         +Xpp9lv7Oyoqi1yAA0w4z8SoM6uKunzbF8riWgvQvYjhgnGPwHYYqR8qgQdepQyzXLeX
-         sbhLifRqCo9AONt9EAHNJLpCZOOhM5fOIkOcxDeujcyDBjrHRPZKdBL7lrfYxkW+VlHt
-         /MbEtfyUh7HTv1UDslUpxwcLwrG/Kb4wRsU04GTdlRHyxhV8yexeO8QdSGN9h5EKUQ8W
-         T5Lg==
-X-Gm-Message-State: AOAM530IDohX6LHkHXjyug2YowfWr9GKvda5zYDg5wJB8sKNy1ZzpA1B
-        TLCMiYX9Q1GzMfnB90289s0M5kA8BHE8v292XXBxxA==
-X-Google-Smtp-Source: ABdhPJyKdXILrrCSaxnUg7OSQj7ryLePl/Z4V9HWSFy1zzwaaUm05L7FiTmkFJslcslXKPtsd9XP4QPPRhSICbNSWHs=
-X-Received: by 2002:a17:902:c14b:b029:d6:ab18:108d with SMTP id
- 11-20020a170902c14bb02900d6ab18108dmr314927plj.20.1605630587256; Tue, 17 Nov
- 2020 08:29:47 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RqplN2MiH2RjrN8xmsMKxzO1axkoRnoqOLkoBb/frOA=;
+        b=F52FbmI6GLLdGjceSa4n9APL2REZrPrDHy8hR6cQHIpof4Rg7ruD5QrY2gE5sTKW2N
+         MUXEFeZdW72k1a07nChwy83RjNkdwo3AoSYE4TjB3Ho17ZTO+U1zK6sNpWDOSFlzKDIl
+         Q22rASGsVv2QKYY8szv617soEZtXe8ILpgCA3uryW5Y/Qyz/Gwc/+R91YJc4M7HZpEN0
+         5wqVvhPI3xLZhpBvskTWxmvn9rL81aPVqbW2HSACTI/DLjuIkQpDwrd1OZC2aVQHOT6S
+         8jnhweKFREzqelZAvW2Rf7eZL9CI/vFy2hPpD699Zhlhb3U0lePD5fsqqQRgRxkRQEDT
+         xkIA==
+X-Gm-Message-State: AOAM5321TqHs9Zk7WqaKqIkAbuT8Eo+0QnVOxgKyCiSAE82A4oONo8bN
+        m6QdiFgYGpcyETK/5qQxe2lvRg==
+X-Google-Smtp-Source: ABdhPJw/mA/iYQQSv4k/JHfC31cbAasPx1/IXtRaSmWLoORQI1uHOTMDjYnK1igIhgEr3YUPsnjFjw==
+X-Received: by 2002:a92:5b8c:: with SMTP id c12mr13558561ilg.293.1605630867532;
+        Tue, 17 Nov 2020 08:34:27 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id x25sm9425546ioa.23.2020.11.17.08.34.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2020 08:34:26 -0800 (PST)
+Subject: Re: [PATCH v2 01/13] seqnum_ops: Introduce Sequence Number Ops
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+        peterz@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1605287778.git.skhan@linuxfoundation.org>
+ <26cbcc431be5e3ab7d8e0e881d522605a27b1312.1605287778.git.skhan@linuxfoundation.org>
+ <20201113210327.GJ17076@casper.infradead.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <13467f88-7e22-ce3e-60b6-44e7c3dfa7dc@linuxfoundation.org>
+Date:   Tue, 17 Nov 2020 09:34:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <349168819c1249d4bceea26597760b0a@hisilicon.com> <CAMZfGtUVDJ4QHYRCKnPTkgcKGJ38s2aOOktH+8Urz7oiVfimww@mail.gmail.com>
- <714ae7d701d446259ab269f14a030fe9@hisilicon.com>
-In-Reply-To: <714ae7d701d446259ab269f14a030fe9@hisilicon.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 18 Nov 2020 00:29:07 +0800
-Message-ID: <CAMZfGtWNa=abZdN6HmWE1VBFHfGCbsW9D0zrN-F5zrhn6s=ErA@mail.gmail.com>
-Subject: Re: [External] RE: [PATCH v4 00/21] Free some vmemmap pages of
- hugetlb page
-To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "oneukum@suse.com" <oneukum@suse.com>,
-        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
-        "jroedel@suse.de" <jroedel@suse.de>,
-        "almasrymina@google.com" <almasrymina@google.com>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "osalvador@suse.de" <osalvador@suse.de>,
-        "mhocko@suse.com" <mhocko@suse.com>,
-        "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201113210327.GJ17076@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 7:08 PM Song Bao Hua (Barry Song)
-<song.bao.hua@hisilicon.com> wrote:
+On 11/13/20 2:03 PM, Matthew Wilcox wrote:
+>> +==========================
+>> +Sequence Number Operations
+>> +==========================
+>> +
+>> +:Author: Shuah Khan
+>> +:Copyright: |copy| 2020, The Linux Foundation
+>> +:Copyright: |copy| 2020, Shuah Khan <skhan@linuxfoundation.org>
+>> +
+>> +Sequence Number api provides interfaces for unsigned up counters
+>> +leveraging atomic_t and atomic64_t ops underneath.
+> 
+> As I said last time you posted this, the documentation is all
+> back-to-front.  You're describing what it isn't, not what it is.
 >
->
->
-> > -----Original Message-----
-> > From: Muchun Song [mailto:songmuchun@bytedance.com]
-> > Sent: Tuesday, November 17, 2020 11:50 PM
-> > To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
-> > Cc: corbet@lwn.net; mike.kravetz@oracle.com; tglx@linutronix.de;
-> > mingo@redhat.com; bp@alien8.de; x86@kernel.org; hpa@zytor.com;
-> > dave.hansen@linux.intel.com; luto@kernel.org; peterz@infradead.org;
-> > viro@zeniv.linux.org.uk; akpm@linux-foundation.org; paulmck@kernel.org;
-> > mchehab+huawei@kernel.org; pawan.kumar.gupta@linux.intel.com;
-> > rdunlap@infradead.org; oneukum@suse.com; anshuman.khandual@arm.com;
-> > jroedel@suse.de; almasrymina@google.com; rientjes@google.com;
-> > willy@infradead.org; osalvador@suse.de; mhocko@suse.com;
-> > duanxiongchun@bytedance.com; linux-doc@vger.kernel.org;
-> > linux-kernel@vger.kernel.org; linux-mm@kvack.org;
-> > linux-fsdevel@vger.kernel.org
-> > Subject: Re: [External] RE: [PATCH v4 00/21] Free some vmemmap pages of
-> > hugetlb page
-> >
-> > On Tue, Nov 17, 2020 at 6:16 PM Song Bao Hua (Barry Song)
-> > <song.bao.hua@hisilicon.com> wrote:
-> > >
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On
-> > > > Behalf Of Muchun Song
-> > > > Sent: Saturday, November 14, 2020 12:00 AM
-> > > > To: corbet@lwn.net; mike.kravetz@oracle.com; tglx@linutronix.de;
-> > > > mingo@redhat.com; bp@alien8.de; x86@kernel.org; hpa@zytor.com;
-> > > > dave.hansen@linux.intel.com; luto@kernel.org; peterz@infradead.org;
-> > > > viro@zeniv.linux.org.uk; akpm@linux-foundation.org; paulmck@kernel.org;
-> > > > mchehab+huawei@kernel.org; pawan.kumar.gupta@linux.intel.com;
-> > > > rdunlap@infradead.org; oneukum@suse.com;
-> > anshuman.khandual@arm.com;
-> > > > jroedel@suse.de; almasrymina@google.com; rientjes@google.com;
-> > > > willy@infradead.org; osalvador@suse.de; mhocko@suse.com
-> > > > Cc: duanxiongchun@bytedance.com; linux-doc@vger.kernel.org;
-> > > > linux-kernel@vger.kernel.org; linux-mm@kvack.org;
-> > > > linux-fsdevel@vger.kernel.org; Muchun Song
-> > <songmuchun@bytedance.com>
-> > > > Subject: [PATCH v4 00/21] Free some vmemmap pages of hugetlb page
-> > > >
-> > > > Hi all,
-> > > >
-> > > > This patch series will free some vmemmap pages(struct page structures)
-> > > > associated with each hugetlbpage when preallocated to save memory.
-> > > >
-> > > > Nowadays we track the status of physical page frames using struct page
-> > > > structures arranged in one or more arrays. And here exists one-to-one
-> > > > mapping between the physical page frame and the corresponding struct
-> > page
-> > > > structure.
-> > > >
-> > > > The HugeTLB support is built on top of multiple page size support that
-> > > > is provided by most modern architectures. For example, x86 CPUs normally
-> > > > support 4K and 2M (1G if architecturally supported) page sizes. Every
-> > > > HugeTLB has more than one struct page structure. The 2M HugeTLB has
-> > 512
-> > > > struct page structure and 1G HugeTLB has 4096 struct page structures. But
-> > > > in the core of HugeTLB only uses the first 4 (Use of first 4 struct page
-> > > > structures comes from HUGETLB_CGROUP_MIN_ORDER.) struct page
-> > > > structures to
-> > > > store metadata associated with each HugeTLB. The rest of the struct page
-> > > > structures are usually read the compound_head field which are all the same
-> > > > value. If we can free some struct page memory to buddy system so that we
-> > > > can save a lot of memory.
-> > > >
-> > > > When the system boot up, every 2M HugeTLB has 512 struct page
-> > structures
-> > > > which size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
-> > > >
-> > > >    hugetlbpage                  struct pages(8 pages)          page
-> > > > frame(8 pages)
-> > > >   +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-> > > >   |           |                     |     0     | -------------> |
-> > 0
-> > > > |
-> > > >   |           |                     |     1     | -------------> |
-> > 1
-> > > > |
-> > > >   |           |                     |     2     | -------------> |
-> > 2
-> > > > |
-> > > >   |           |                     |     3     | -------------> |
-> > 3
-> > > > |
-> > > >   |           |                     |     4     | -------------> |
-> > 4
-> > > > |
-> > > >   |     2M    |                     |     5     | -------------> |
-> > > > 5     |
-> > > >   |           |                     |     6     | -------------> |
-> > 6
-> > > > |
-> > > >   |           |                     |     7     | -------------> |
-> > 7
-> > > > |
-> > > >   |           |                     +-----------+
-> > > > +-----------+
-> > > >   |           |
-> > > >   |           |
-> > > >   +-----------+
-> > > >
-> > > >
-> > > > When a hugetlbpage is preallocated, we can change the mapping from
-> > above
-> > > > to
-> > > > bellow.
-> > > >
-> > > >    hugetlbpage                  struct pages(8 pages)          page
-> > > > frame(8 pages)
-> > > >   +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-> > > >   |           |                     |     0     | -------------> |
-> > 0
-> > > > |
-> > > >   |           |                     |     1     | -------------> |
-> > 1
-> > > > |
-> > > >   |           |                     |     2     | ------------->
-> > > > +-----------+
-> > > >   |           |                     |     3     | -----------------^ ^
-> > ^ ^
-> > > > ^
-> > > >   |           |                     |     4     | -------------------+
-> > | |
-> > > > |
-> > > >   |     2M    |                     |     5     |
-> > ---------------------+ |
-> > > > |
-> > > >   |           |                     |     6     |
-> > -----------------------+ |
-> > > >   |           |                     |     7     |
-> > -------------------------+
-> > > >   |           |                     +-----------+
-> > > >   |           |
-> > > >   |           |
-> > > >   +-----------+
-> > > >
-> > > > For tail pages, the value of compound_head is the same. So we can reuse
-> > > > first page of tail page structs. We map the virtual addresses of the
-> > > > remaining 6 pages of tail page structs to the first tail page struct,
-> > > > and then free these 6 pages. Therefore, we need to reserve at least 2
-> > > > pages as vmemmap areas.
-> > > >
-> > > > When a hugetlbpage is freed to the buddy system, we should allocate six
-> > > > pages for vmemmap pages and restore the previous mapping relationship.
-> > > >
-> > > > If we uses the 1G hugetlbpage, we can save 4088 pages(There are 4096
-> > pages
-> > > > for
-> > > > struct page structures, we reserve 2 pages for vmemmap and 8 pages for
-> > page
-> > > > tables. So we can save 4088 pages). This is a very substantial gain. On our
-> > > > server, run some SPDK/QEMU applications which will use 1024GB
-> > hugetlbpage.
-> > > > With this feature enabled, we can save ~16GB(1G hugepage)/~11GB(2MB
-> > > > hugepage)
-> > >
-> > > Hi Muchun,
-> > >
-> > > Do we really save 11GB for 2MB hugepage?
-> > > How much do we save if we only get one 2MB hugetlb from one 128MB
-> > mem_section?
-> > > It seems we need to get at least one page for the PTEs since we are splitting
-> > PMD of
-> > > vmemmap into PTE?
-> >
-> > There are 524288(1024GB/2MB) 2MB HugeTLB pages. We can save 6 pages for
-> > each
-> > 2MB HugeTLB page. So we can save 3145728 pages. But we need to split PMD
-> > page
-> > table for every one 128MB mem_section and every section need one page
-> > as PTE page
-> > table. So we need 8192(1024GB/128MB) pages as PTE page tables.
-> > Finally, we can save
-> > 3137536(3145728-8192) pages which is 11.97GB.
->
-> The worst case I can see is that:
-> if we get 100 hugetlb with 2MB size, but the 100 hugetlb comes from different
-> mem_section, we won't save 11.97GB. we only save 5/8 * 16GB=10GB.
->
-> Anyway, it seems 11GB is in the middle of 10GB and 11.97GB,
-> so sounds sensible :-)
->
-> ideally, we should be able to free PageTail if we change struct page in some way.
-> Then we will save much more for 2MB hugetlb. but it seems it is not easy.
 
-Now for the 2MB HugrTLB page, we only free 6 vmemmap pages.
-But your words woke me up. Maybe we really can free 7 vmemmap
-pages. In this case, we can see 8 of the 512 struct page structures
-has beed set PG_head flag. If we can adjust compound_head()
-slightly and make compound_head() return the real head struct
-page when the parameter is the tail struct page but with PG_head
-flag set. I will start an investigation and a test.
+I will rephrase it to read better.
 
-Thanks.
+>> +There are a number of atomic_t usages in the kernel where atomic_t api
+>> +is used for counting sequence numbers and other statistical counters.
+>> +Several of these usages, convert atomic_read() and atomic_inc_return()
+>> +return values to unsigned. Introducing sequence number ops supports
+>> +these use-cases with a standard core-api.
+>> +
+>> +The atomic_t api provides a wide range of atomic operations as a base
+>> +api to implement atomic counters, bitops, spinlock interfaces. The usages
+>> +also evolved into being used for resource lifetimes and state management.
+>> +The refcount_t api was introduced to address resource lifetime problems
+>> +related to atomic_t wrapping. There is a large overlap between the
+>> +atomic_t api used for resource lifetimes and just counters, stats, and
+>> +sequence numbers. It has become difficult to differentiate between the
+>> +atomic_t usages that should be converted to refcount_t and the ones that
+>> +can be left alone. Introducing seqnum_ops to wrap the usages that are
+>> +stats, counters, sequence numbers makes it easier for tools that scan
+>> +for underflow and overflow on atomic_t usages to detect overflow and
+>> +underflows to scan just the cases that are prone to errors.
+>> +
+>> +In addition, to supporting sequence number use-cases, Sequence Number Ops
+>> +helps differentiate atomic_t counter usages from atomic_t usages that guard
+>> +object lifetimes, hence prone to overflow and underflow errors from up
+>> +counting use-cases.
+> 
+> I think almost all of this information should go into atomic_ops.rst
+> pushing people towards using the other APIs instead of atomic_t.
+> Someone who already landed here doesn't want to read about refcount_t.
+> They want to know what a seqnum_t is and how to use it.
+> 
 
->
-> Thanks
-> Barry
+Looks like this is resolved with atomic_ops.rst is now gone.
 
+>> +Sequence Number Ops
+>> +===================
+>> +
+>> +seqnum32 and seqnum64 types use atomic_t and atomic64_t underneath to
+> 
+> Don't talk about the implementation.
+> 
+>> +leverage atomic_t api, to provide increment by 1 and return new value
+>> +and fetch current value interfaces necessary to support unsigned up
+>> +counters. ::
+>> +
+>> +        struct seqnum32 { atomic_t seqnum; };
+>> +        struct seqnum64 { atomic64_t seqnum; };
+>> +
+>> +Please see :ref:`Documentation/core-api/atomic_ops.rst <atomic_ops>` for
+>> +information on the Semantics and Behavior of Atomic operations.
+>> +
+>> +Initializers
+>> +------------
+>> +
+>> +Interfaces for initializing sequence numbers are write operations which
+>> +in turn invoke their ``ATOMIC_INIT() and atomic_set()`` counterparts ::
+>> +
+>> +        #define SEQNUM_INIT(i)    { .seqnum = ATOMIC_INIT(i) }
+>> +        seqnum32_init() --> atomic_set() to 0
+>> +        seqnum64_init() --> atomic64_set() to 0
+>> +
+>> +Increment interface
+>> +-------------------
+>> +
+>> +Increments sequence number and returns the new value. ::
+>> +
+>> +        seqnum32_inc_return() --> (u32) atomic_inc_return(seqnum)
+>> +        seqnum64_inc_return() --> (u64) atomic64_inc_return(seqnum)
+> 
+> seqnum_inc() should just return the new value -- seqnum_inc_return is
+> too verbose.  And do we not need a seqnum_add()?
+> 
 
+I had the patch series with seqnum_inc() all ready to go and then
+revisited the choice. My thinking is that matching the current atomic
+api that has _inc() and inc_return() might be less confusing. That
+being said, I have no problems with making just _inc(). The reason
+for 32 and 64 appended is based on comments that it including size
+in the api makes it very clear.
 
--- 
-Yours,
-Muchun
+No need for atomic_add() - inc_return() is sufficient for this use-case.
+
+> Also, this would be a good point to talk about behaviour on overflow.
+> 
+
+I can add some overflow information.
+
+thanks,
+-- Shuah
+
