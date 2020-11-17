@@ -2,528 +2,331 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEAA8C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:27:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA072C2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:33:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7654B2222C
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:27:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="gtmw1WzM"
+	by mail.kernel.org (Postfix) with ESMTP id 650C5222E8
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:33:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727384AbgKQK1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 05:27:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60868 "EHLO
+        id S1727286AbgKQKdo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 05:33:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726925AbgKQK1h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 05:27:37 -0500
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 100CDC0617A6
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 02:27:37 -0800 (PST)
-Received: by mail-pj1-x1044.google.com with SMTP id h12so209861pjv.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 02:27:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=UEn7Tg67K8I+wuhjEqj+cLB1GUHLkYFWQgXtnTAPhSQ=;
-        b=gtmw1WzMH1yzcm8QlpY77DjqO/GkYsqX/x5tE8tgWOzgbX4k4wBBkqIswDYOB89/s6
-         HfXOzYLME8Z+TqIX+VDNA79THzawOFIs6RvKnKF4Y2LGzc/a3NuQJyAJAQbyjFadkmvd
-         4pU/hJdkTHLWFZ8cJsopM5IyBWPqyDIY3RmtUvMAq1wmhJMTnEcZ+Z7E/1qXqbusPz8w
-         Ab4P/6nSyy1Tc0KPstAy9aCBSorAO51IMPlvV/RnNgmgYdE+7v3Ejb4mNrG1jPKjUXDg
-         FloQh9xtdy/HmdGwYo8bmR2yD/PqjNq4snysCIAcBqcNcJlkDEAilI0TBlsYNPlOPL0W
-         YWLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=UEn7Tg67K8I+wuhjEqj+cLB1GUHLkYFWQgXtnTAPhSQ=;
-        b=A9Tz0u/GBS7pqaVFFfOmlI+fRR+XK6kePsj1C5nSIPtVEIUomC6zJpV7bqs8agtnQ/
-         qnE3dIWRDDo0PN3ZAzbOGLD0NZfUoUmKZqoKoks3JKtFv4SwFZOrpZ3v1G0+J+gKbv0R
-         E7k4Jj3hShUY6QbFske27jSWmGdF1IHG6Wg38OCo1Dg9r30c0dFITQ5CHnvfKrm+AkfQ
-         Nyr/W2Jt9pNJKrf2NoPknT5cxYKkwmMF4wcLVmRdUSTD4gR13bj+HdmGLXbDtHaMgx3F
-         8/c2jOffrzSk1fFTKBrDKg0pMHUcKdnrkBgXE/+bnb+u9XLGxWmjFTVcvGyummDsTEwk
-         2sSQ==
-X-Gm-Message-State: AOAM530gxj+Ku0bW39wkfzT33k5maqaAWDgZAi8hGz/OvdW1KjzAggl5
-        tXNekHAZZabcNtT+HWmWMF5IE5wbK9u9DTxsGhhJVA==
-X-Google-Smtp-Source: ABdhPJz0rYxwirlLTEbGkVnGUEEflqkI1+KPPpp28wi2CM40/f+7A4UcZmhXswOgw3t7M7kU6DNzNN0AptF8TaWEtts=
-X-Received: by 2002:a17:90b:4a0c:: with SMTP id kk12mr312755pjb.147.1605608856185;
- Tue, 17 Nov 2020 02:27:36 -0800 (PST)
+        with ESMTP id S1725355AbgKQKdn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 05:33:43 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA84C0613CF
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 02:33:43 -0800 (PST)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1keyIv-00046d-QC; Tue, 17 Nov 2020 11:33:41 +0100
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Vivek Gautam <vivek.gautam@codeaurora.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ramiro Oliveira <Ramiro.Oliveira@synopsys.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Amjad Ouled-Ameur <aouledameur@baylibre.com>,
+        kernel@pengutronix.de
+Subject: [PATCH] docs: add a reset controller chapter to the driver API docs
+Date:   Tue, 17 Nov 2020 11:33:06 +0100
+Message-Id: <20201117103306.17010-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <20201113105952.11638-10-songmuchun@bytedance.com> <e28c3bb8689d4cb7aee16052c1a059a9@hisilicon.com>
-In-Reply-To: <e28c3bb8689d4cb7aee16052c1a059a9@hisilicon.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 17 Nov 2020 18:26:57 +0800
-Message-ID: <CAMZfGtUp362p3X1zFak+uxvCmbW3+UG7n9rwg7-Nwdqv-SfSzA@mail.gmail.com>
-Subject: Re: [External] RE: [PATCH v4 09/21] mm/hugetlb: Free the vmemmap
- pages associated with each hugetlb page
-To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "oneukum@suse.com" <oneukum@suse.com>,
-        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
-        "jroedel@suse.de" <jroedel@suse.de>,
-        "almasrymina@google.com" <almasrymina@google.com>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "osalvador@suse.de" <osalvador@suse.de>,
-        "mhocko@suse.com" <mhocko@suse.com>,
-        "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 5:55 PM Song Bao Hua (Barry Song)
-<song.bao.hua@hisilicon.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On
-> > Behalf Of Muchun Song
-> > Sent: Saturday, November 14, 2020 12:00 AM
-> > To: corbet@lwn.net; mike.kravetz@oracle.com; tglx@linutronix.de;
-> > mingo@redhat.com; bp@alien8.de; x86@kernel.org; hpa@zytor.com;
-> > dave.hansen@linux.intel.com; luto@kernel.org; peterz@infradead.org;
-> > viro@zeniv.linux.org.uk; akpm@linux-foundation.org; paulmck@kernel.org;
-> > mchehab+huawei@kernel.org; pawan.kumar.gupta@linux.intel.com;
-> > rdunlap@infradead.org; oneukum@suse.com; anshuman.khandual@arm.com;
-> > jroedel@suse.de; almasrymina@google.com; rientjes@google.com;
-> > willy@infradead.org; osalvador@suse.de; mhocko@suse.com
-> > Cc: duanxiongchun@bytedance.com; linux-doc@vger.kernel.org;
-> > linux-kernel@vger.kernel.org; linux-mm@kvack.org;
-> > linux-fsdevel@vger.kernel.org; Muchun Song <songmuchun@bytedance.com>
-> > Subject: [PATCH v4 09/21] mm/hugetlb: Free the vmemmap pages associated
-> > with each hugetlb page
-> >
-> > When we allocate a hugetlb page from the buddy, we should free the
-> > unused vmemmap pages associated with it. We can do that in the
-> > prep_new_huge_page().
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  arch/x86/include/asm/hugetlb.h          |   9 ++
-> >  arch/x86/include/asm/pgtable_64_types.h |   8 ++
-> >  mm/hugetlb.c                            |  16 +++
-> >  mm/hugetlb_vmemmap.c                    | 188
-> > ++++++++++++++++++++++++++++++++
-> >  mm/hugetlb_vmemmap.h                    |   5 +
-> >  5 files changed, 226 insertions(+)
-> >
-> > diff --git a/arch/x86/include/asm/hugetlb.h b/arch/x86/include/asm/huge=
-tlb.h
-> > index 1721b1aadeb1..c601fe042832 100644
-> > --- a/arch/x86/include/asm/hugetlb.h
-> > +++ b/arch/x86/include/asm/hugetlb.h
-> > @@ -4,6 +4,15 @@
-> >
-> >  #include <asm/page.h>
-> >  #include <asm-generic/hugetlb.h>
-> > +#include <asm/pgtable.h>
-> > +
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +#define vmemmap_pmd_huge vmemmap_pmd_huge
-> > +static inline bool vmemmap_pmd_huge(pmd_t *pmd)
-> > +{
-> > +     return pmd_large(*pmd);
-> > +}
-> > +#endif
-> >
-> >  #define hugepages_supported() boot_cpu_has(X86_FEATURE_PSE)
-> >
-> > diff --git a/arch/x86/include/asm/pgtable_64_types.h
-> > b/arch/x86/include/asm/pgtable_64_types.h
-> > index 52e5f5f2240d..bedbd2e7d06c 100644
-> > --- a/arch/x86/include/asm/pgtable_64_types.h
-> > +++ b/arch/x86/include/asm/pgtable_64_types.h
-> > @@ -139,6 +139,14 @@ extern unsigned int ptrs_per_p4d;
-> >  # define VMEMMAP_START               __VMEMMAP_BASE_L4
-> >  #endif /* CONFIG_DYNAMIC_MEMORY_LAYOUT */
-> >
-> > +/*
-> > + * VMEMMAP_SIZE - allows the whole linear region to be covered by
-> > + *                a struct page array.
-> > + */
-> > +#define VMEMMAP_SIZE         (1UL << (__VIRTUAL_MASK_SHIFT -
-> > PAGE_SHIFT - \
-> > +                                      1 + ilog2(sizeof(struct page))))
-> > +#define VMEMMAP_END          (VMEMMAP_START + VMEMMAP_SIZE)
-> > +
-> >  #define VMALLOC_END          (VMALLOC_START + (VMALLOC_SIZE_TB <<
-> > 40) - 1)
-> >
-> >  #define MODULES_VADDR                (__START_KERNEL_map +
-> > KERNEL_IMAGE_SIZE)
-> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> > index f88032c24667..a0ce6f33a717 100644
-> > --- a/mm/hugetlb.c
-> > +++ b/mm/hugetlb.c
-> > @@ -1499,6 +1499,14 @@ void free_huge_page(struct page *page)
-> >
-> >  static void prep_new_huge_page(struct hstate *h, struct page *page, in=
-t nid)
-> >  {
-> > +     free_huge_page_vmemmap(h, page);
-> > +     /*
-> > +      * Because we store preallocated pages on @page->lru,
-> > +      * vmemmap_pgtable_free() must be called before the
-> > +      * initialization of @page->lru in INIT_LIST_HEAD().
-> > +      */
-> > +     vmemmap_pgtable_free(page);
-> > +
-> >       INIT_LIST_HEAD(&page->lru);
-> >       set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
-> >       set_hugetlb_cgroup(page, NULL);
-> > @@ -1751,6 +1759,14 @@ static struct page *alloc_fresh_huge_page(struct
-> > hstate *h,
-> >       if (!page)
-> >               return NULL;
-> >
-> > +     if (vmemmap_pgtable_prealloc(h, page)) {
-> > +             if (hstate_is_gigantic(h))
-> > +                     free_gigantic_page(page, huge_page_order(h));
-> > +             else
-> > +                     put_page(page);
-> > +             return NULL;
-> > +     }
-> > +
-> >       if (hstate_is_gigantic(h))
-> >               prep_compound_gigantic_page(page, huge_page_order(h));
-> >       prep_new_huge_page(h, page, page_to_nid(page));
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index 332c131c01a8..937562a15f1e 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -74,6 +74,7 @@
-> >  #include <linux/pagewalk.h>
-> >  #include <linux/mmzone.h>
-> >  #include <linux/list.h>
-> > +#include <linux/bootmem_info.h>
-> >  #include <asm/pgalloc.h>
-> >  #include "hugetlb_vmemmap.h"
-> >
-> > @@ -86,6 +87,8 @@
-> >   * reserve at least 2 pages as vmemmap areas.
-> >   */
-> >  #define RESERVE_VMEMMAP_NR           2U
-> > +#define RESERVE_VMEMMAP_SIZE         (RESERVE_VMEMMAP_NR <<
-> > PAGE_SHIFT)
-> > +#define TAIL_PAGE_REUSE                      -1
-> >
-> >  #ifndef VMEMMAP_HPAGE_SHIFT
-> >  #define VMEMMAP_HPAGE_SHIFT          HPAGE_SHIFT
-> > @@ -97,6 +100,21 @@
-> >
-> >  #define page_huge_pte(page)          ((page)->pmd_huge_pte)
-> >
-> > +#define vmemmap_hpage_addr_end(addr, end)                             =
-\
-> > +({                                                                    =
-\
-> > +     unsigned long __boundary;                                        =
-\
-> > +     __boundary =3D ((addr) + VMEMMAP_HPAGE_SIZE) &
-> > VMEMMAP_HPAGE_MASK; \
-> > +     (__boundary - 1 < (end) - 1) ? __boundary : (end);               =
-\
-> > +})
-> > +
-> > +#ifndef vmemmap_pmd_huge
-> > +#define vmemmap_pmd_huge vmemmap_pmd_huge
-> > +static inline bool vmemmap_pmd_huge(pmd_t *pmd)
-> > +{
-> > +     return pmd_huge(*pmd);
-> > +}
-> > +#endif
-> > +
-> >  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate =
-*h)
-> >  {
-> >       return h->nr_free_vmemmap_pages;
-> > @@ -158,6 +176,176 @@ int vmemmap_pgtable_prealloc(struct hstate *h,
-> > struct page *page)
-> >       return -ENOMEM;
-> >  }
-> >
-> > +/*
-> > + * Walk a vmemmap address to the pmd it maps.
-> > + */
-> > +static pmd_t *vmemmap_to_pmd(unsigned long page)
-> > +{
-> > +     pgd_t *pgd;
-> > +     p4d_t *p4d;
-> > +     pud_t *pud;
-> > +     pmd_t *pmd;
-> > +
-> > +     if (page < VMEMMAP_START || page >=3D VMEMMAP_END)
-> > +             return NULL;
-> > +
-> > +     pgd =3D pgd_offset_k(page);
-> > +     if (pgd_none(*pgd))
-> > +             return NULL;
-> > +     p4d =3D p4d_offset(pgd, page);
-> > +     if (p4d_none(*p4d))
-> > +             return NULL;
-> > +     pud =3D pud_offset(p4d, page);
-> > +
-> > +     if (pud_none(*pud) || pud_bad(*pud))
-> > +             return NULL;
-> > +     pmd =3D pmd_offset(pud, page);
-> > +
-> > +     return pmd;
-> > +}
-> > +
-> > +static inline spinlock_t *vmemmap_pmd_lock(pmd_t *pmd)
-> > +{
-> > +     return pmd_lock(&init_mm, pmd);
-> > +}
-> > +
-> > +static inline int freed_vmemmap_hpage(struct page *page)
-> > +{
-> > +     return atomic_read(&page->_mapcount) + 1;
-> > +}
-> > +
-> > +static inline int freed_vmemmap_hpage_inc(struct page *page)
-> > +{
-> > +     return atomic_inc_return_relaxed(&page->_mapcount) + 1;
-> > +}
-> > +
-> > +static inline int freed_vmemmap_hpage_dec(struct page *page)
-> > +{
-> > +     return atomic_dec_return_relaxed(&page->_mapcount) + 1;
-> > +}
-> > +
-> > +static inline void free_vmemmap_page_list(struct list_head *list)
-> > +{
-> > +     struct page *page, *next;
-> > +
-> > +     list_for_each_entry_safe(page, next, list, lru) {
-> > +             list_del(&page->lru);
-> > +             free_vmemmap_page(page);
-> > +     }
-> > +}
-> > +
-> > +static void __free_huge_page_pte_vmemmap(struct page *reuse, pte_t *pt=
-ep,
-> > +                                      unsigned long start,
-> > +                                      unsigned long end,
-> > +                                      struct list_head *free_pages)
-> > +{
-> > +     /* Make the tail pages are mapped read-only. */
-> > +     pgprot_t pgprot =3D PAGE_KERNEL_RO;
-> > +     pte_t entry =3D mk_pte(reuse, pgprot);
-> > +     unsigned long addr;
-> > +
-> > +     for (addr =3D start; addr < end; addr +=3D PAGE_SIZE, ptep++) {
-> > +             struct page *page;
-> > +             pte_t old =3D *ptep;
-> > +
-> > +             VM_WARN_ON(!pte_present(old));
-> > +             page =3D pte_page(old);
-> > +             list_add(&page->lru, free_pages);
-> > +
-> > +             set_pte_at(&init_mm, addr, ptep, entry);
-> > +     }
-> > +}
-> > +
-> > +static void __free_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
-> > +                                      unsigned long addr,
-> > +                                      struct list_head *free_pages)
-> > +{
-> > +     unsigned long next;
-> > +     unsigned long start =3D addr + RESERVE_VMEMMAP_SIZE;
-> > +     unsigned long end =3D addr + vmemmap_pages_size_per_hpage(h);
-> > +     struct page *reuse =3D NULL;
-> > +
-> > +     addr =3D start;
-> > +     do {
-> > +             pte_t *ptep;
-> > +
-> > +             ptep =3D pte_offset_kernel(pmd, addr);
-> > +             if (!reuse)
-> > +                     reuse =3D pte_page(ptep[TAIL_PAGE_REUSE]);
-> > +
-> > +             next =3D vmemmap_hpage_addr_end(addr, end);
-> > +             __free_huge_page_pte_vmemmap(reuse, ptep, addr, next,
-> > +                                          free_pages);
-> > +     } while (pmd++, addr =3D next, addr !=3D end);
-> > +
-> > +     flush_tlb_kernel_range(start, end);
-> > +}
-> > +
-> > +static void split_vmemmap_pmd(pmd_t *pmd, pte_t *pte_p, unsigned long
-> > addr)
->
-> Hi Muchun,
->
-> Are you going to restore the pmd mapping after you free the hugetlb? I me=
-an,
-> When you free continuous 128MB hugetlb pages with 2MB size, will you
-> redo the PMD vmemmap since 2MB PMD can just contain the page struct of
-> 128MB memory?
+Add initial reset controller API documentation. This is mostly intended
+to describe the concepts to users of the consumer API, and to tie the
+kerneldoc comments we already have into the driver API documentation.
 
-Now we only restore the pmd mapping for the 1GB HugeTLB page. For the
-2MB HugeTLB page, we do not(I haven't figured out how to handle it graceful=
-ly).
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+Changes since the RFC [1]:
+- Replaced all :c:func:`function` with function() (Jonathan Corbet)
+- Typo fixes and wording improvements (Randy Dunlap)
+- Mention new reset_control_rearm() API as a counterpart to
+  reset_control_reset() for shared resets in the Triggering section
+- Grammar fix in the Querying section
+- Add reset.rst to MAINTAINERS
 
->
-> If no, wouldn't it be simpler to only use base pages while populating vme=
-mmap?
-> I mean, once we enable the Kconfig option you add for VMEMMAP_FREE, we
-> only use base pages to place "page struct" but not split PMD into base pa=
-ges
-> afterwards.
->
-> One negative side effect might be that base pages are also used for those=
- pages
-> which won't be hugetlb later. but if most pages of host will be hugetlb f=
-or
-> guest and SPDK, it shouldn't hurt too much.
+[1] https://lore.kernel.org/lkml/20191022164547.22632-1-p.zabel@pengutronix.de/
+---
+ Documentation/driver-api/index.rst |   1 +
+ Documentation/driver-api/reset.rst | 219 +++++++++++++++++++++++++++++
+ MAINTAINERS                        |   1 +
+ 3 files changed, 221 insertions(+)
+ create mode 100644 Documentation/driver-api/reset.rst
 
-Yeah, I agree with you. If the user uses a lot of HugeTLB pages(e.g.
-SPDK/Guest),
-it shouldn't hurt too much. And using base pages while populating vmemmap a=
-lso
-can decrease the overhead(of splitting PMD). In the end, if we don=E2=80=99=
-t
-come up with
-a more suitable solution to deal with it(mentioned above for 2MB HugeTLB pa=
-ge).
-Maybe this is also an idea.
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index f357f3eb400c..08c32952fce3 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -29,6 +29,7 @@ available subsections can be seen below.
+    infiniband
+    frame-buffer
+    regulator
++   reset
+    iio/index
+    input
+    usb/index
+diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
+new file mode 100644
+index 000000000000..00a6ad79dd6c
+--- /dev/null
++++ b/Documentation/driver-api/reset.rst
+@@ -0,0 +1,219 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++====================
++Reset controller API
++====================
++
++Introduction
++============
++
++Reset controllers are central units that control the reset signals to multiple
++peripherals.
++The reset controller API is split into two parts:
++the `consumer driver interface <#consumer-driver-interface>`__ (`API reference
++<#reset-consumer-api>`__), which allows peripheral drivers to request control
++over their reset input signals, and the `reset controller driver interface
++<#reset-controller-driver-interface>`__ (`API reference
++<#reset-controller-driver-api>`__), which is used by drivers for reset
++controller devices to register their reset controls to provide them to the
++consumers.
++
++While some reset controller hardware units also implement system restart
++functionality, restart handlers are out of scope for the reset controller API.
++
++Glossary
++--------
++
++The reset controller API uses these terms with a specific meaning:
++
++Reset line
++
++    Physical reset line carrying a reset signal from a reset controller
++    hardware unit to a peripheral module.
++
++Reset control
++
++    Control method that determines the state of one or multiple reset lines.
++    Most commonly this is a single bit in reset controller register space that
++    either allows direct control over the physical state of the reset line, or
++    is self-clearing and can be used to trigger a predetermined pulse on the
++    reset line.
++    In more complicated reset controls, a single trigger action can launch a
++    carefully timed sequence of pulses on multiple reset lines.
++
++Reset controller
++
++    A hardware module that provides a number of reset controls to control a
++    number of reset lines.
++
++Reset consumer
++
++    Peripheral module or external IC that is put into reset by the signal on a
++    reset line.
++
++Consumer driver interface
++=========================
++
++This interface provides an API that is similar to the kernel clock framework.
++Consumer drivers use get and put operations to acquire and release reset
++controls.
++Functions are provided to assert and deassert the controlled reset lines,
++trigger reset pulses, or to query reset line status.
++
++When requesting reset controls, consumers can use symbolic names for their
++reset inputs, which are mapped to an actual reset control on an existing reset
++controller device by the core.
++
++A stub version of this API is provided when the reset controller framework is
++not in use in order to minimize the need to use ifdefs.
++
++Shared and exclusive resets
++---------------------------
++
++The reset controller API provides either reference counted deassertion and
++assertion or direct, exclusive control.
++The distinction between shared and exclusive reset controls is made at the time
++the reset control is requested, either via devm_reset_control_get_shared() or
++via devm_reset_control_get_exclusive().
++This choice determines the behavior of the API calls made with the reset
++control.
++
++Shared resets behave similarly to clocks in the kernel clock framework.
++They provide reference counted deassertion, where only the first deassert,
++which increments the deassertion reference count to one, and the last assert
++which decrements the deassertion reference count back to zero, have a physical
++effect on the reset line.
++
++Exclusive resets on the other hand guarantee direct control.
++That is, an assert causes the reset line to be asserted immediately, and a
++deassert causes the reset line to be deasserted immediately.
++
++Assertion and deassertion
++-------------------------
++
++Consumer drivers use the reset_control_assert() and reset_control_deassert()
++functions to assert and deassert reset lines.
++For shared reset controls, calls to the two functions must be balanced.
++
++Note that since multiple consumers may be using a shared reset control, there
++is no guarantee that calling reset_control_assert() on a shared reset control
++will actually cause the reset line to be asserted.
++Consumer drivers using shared reset controls should assume that the reset line
++may be kept deasserted at all times.
++The API only guarantees that the reset line can not be asserted as long as any
++consumer has requested it to be deasserted.
++
++Triggering
++----------
++
++Consumer drivers use reset_control_reset() to trigger a reset pulse on a
++self-deasserting reset control.
++In general, these resets can not be shared between multiple consumers, since
++requesting a pulse from any consumer driver will reset all connected
++peripherals.
++
++The reset controller API allows requesting self-deasserting reset controls as
++shared, but for those only the first trigger request causes an actual pulse to
++be issued on the reset line.
++All further calls to this function have no effect until all consumers have
++called reset_control_rearm().
++For shared reset controls, calls to the two functions must be balanced.
++This allows devices that only require an initial reset at any point before the
++driver is probed or resumed to share a pulsed reset line.
++
++Querying
++--------
++
++Only some reset controllers support querying the current status of a reset
++line, via reset_control_status().
++This function returns a positive non-zero value if the given reset line is
++asserted.
++
++Optional resets
++---------------
++
++Often peripherals require a reset line on some platforms but not on others.
++For this, reset controls can be requested as optional using
++devm_reset_control_get_optional_exclusive() or
++devm_reset_control_get_optional_shared().
++These functions return a NULL pointer instead of an error when the requested
++reset control is not specified in the device tree.
++Passing a NULL pointer to the reset_control functions causes them to return
++quietly without an error.
++
++Reset control arrays
++--------------------
++
++Some drivers need to assert a bunch of reset lines in no particular order.
++devm_reset_control_array_get() returns an opaque reset control handle that can
++be used to assert, deassert, or trigger all specified reset controls at once.
++The reset control API does not guarantee the order in which the individual
++controls therein are handled.
++
++Reset controller driver interface
++=================================
++
++Drivers for reset controller modules provide the functionality necessary to
++assert or deassert reset signals, to trigger a reset pulse on a reset line, or
++to query its current state.
++All functions are optional.
++
++Initialization
++--------------
++
++Drivers fill a struct :c:type:`reset_controller_dev` and register it with
++reset_controller_register() in their probe function.
++The actual functionality is implemented in callback functions via a struct
++:c:type:`reset_control_ops`.
++
++API reference
++=============
++
++The reset controller API is documented here in two parts:
++the `reset consumer API <#reset-consumer-api>`__ and the `reset controller
++driver API <#reset-controller-driver-api>`__.
++
++Reset consumer API
++------------------
++
++Reset consumers can control a reset line using an opaque reset control handle,
++which can be obtained from devm_reset_control_get_exclusive() or
++devm_reset_control_get_shared().
++Given the reset control, consumers can call reset_control_assert() and
++reset_control_deassert(), trigger a reset pulse using reset_control_reset(), or
++query the reset line status using reset_control_status().
++
++.. kernel-doc:: include/linux/reset.h
++   :internal:
++
++.. kernel-doc:: drivers/reset/core.c
++   :functions: reset_control_reset
++               reset_control_assert
++               reset_control_deassert
++               reset_control_status
++               reset_control_acquire
++               reset_control_release
++               reset_control_rearm
++               reset_control_put
++               of_reset_control_get_count
++               of_reset_control_array_get
++               devm_reset_control_array_get
++               reset_control_get_count
++
++Reset controller driver API
++---------------------------
++
++Reset controller drivers are supposed to implement the necessary functions in
++a static constant structure :c:type:`reset_control_ops`, allocate and fill out
++a struct :c:type:`reset_controller_dev`, and register it using
++devm_reset_controller_register().
++
++.. kernel-doc:: include/linux/reset-controller.h
++   :internal:
++
++.. kernel-doc:: drivers/reset/core.c
++   :functions: of_reset_simple_xlate
++               reset_controller_register
++               reset_controller_unregister
++               devm_reset_controller_register
++               reset_controller_add_lookup
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e73636b75f29..678bd80a2e65 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14948,6 +14948,7 @@ M:	Philipp Zabel <p.zabel@pengutronix.de>
+ S:	Maintained
+ T:	git git://git.pengutronix.de/git/pza/linux
+ F:	Documentation/devicetree/bindings/reset/
++F:	Documentation/driver-api/reset.rst
+ F:	drivers/reset/
+ F:	include/dt-bindings/reset/
+ F:	include/linux/reset-controller.h
+-- 
+2.20.1
 
-Thanks.
-
->
-> Or at least this can be done for hugetlb reserved by cmdline?
->
-> > +{
-> > +     int i;
-> > +     pgprot_t pgprot =3D PAGE_KERNEL;
-> > +     struct mm_struct *mm =3D &init_mm;
-> > +     struct page *page;
-> > +     pmd_t old_pmd, _pmd;
-> > +
-> > +     old_pmd =3D READ_ONCE(*pmd);
-> > +     page =3D pmd_page(old_pmd);
-> > +     pmd_populate_kernel(mm, &_pmd, pte_p);
-> > +
-> > +     for (i =3D 0; i < VMEMMAP_HPAGE_NR; i++, addr +=3D PAGE_SIZE) {
-> > +             pte_t entry, *pte;
-> > +
-> > +             entry =3D mk_pte(page + i, pgprot);
-> > +             pte =3D pte_offset_kernel(&_pmd, addr);
-> > +             VM_BUG_ON(!pte_none(*pte));
-> > +             set_pte_at(mm, addr, pte, entry);
-> > +     }
-> > +
-> > +     /* make pte visible before pmd */
-> > +     smp_wmb();
-> > +     pmd_populate_kernel(mm, pmd, pte_p);
-> > +}
-> > +
-> > +static void split_vmemmap_huge_page(struct page *head, pmd_t *pmd)
-> > +{
-> > +     struct page *pte_page, *t_page;
-> > +     unsigned long start =3D (unsigned long)head & VMEMMAP_HPAGE_MASK;
-> > +     unsigned long addr =3D start;
-> > +
-> > +     list_for_each_entry_safe(pte_page, t_page, &head->lru, lru) {
-> > +             list_del(&pte_page->lru);
-> > +             VM_BUG_ON(freed_vmemmap_hpage(pte_page));
-> > +             split_vmemmap_pmd(pmd++, page_to_virt(pte_page), addr);
-> > +             addr +=3D VMEMMAP_HPAGE_SIZE;
-> > +     }
-> > +
-> > +     flush_tlb_kernel_range(start, addr);
-> > +}
-> > +
-> > +void free_huge_page_vmemmap(struct hstate *h, struct page *head)
-> > +{
-> > +     pmd_t *pmd;
-> > +     spinlock_t *ptl;
-> > +     LIST_HEAD(free_pages);
-> > +
-> > +     if (!free_vmemmap_pages_per_hpage(h))
-> > +             return;
-> > +
-> > +     pmd =3D vmemmap_to_pmd((unsigned long)head);
-> > +     BUG_ON(!pmd);
-> > +
-> > +     ptl =3D vmemmap_pmd_lock(pmd);
-> > +     if (vmemmap_pmd_huge(pmd))
-> > +             split_vmemmap_huge_page(head, pmd);
-> > +
-> > +     __free_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head,
-> > &free_pages);
-> > +     freed_vmemmap_hpage_inc(pmd_page(*pmd));
-> > +     spin_unlock(ptl);
-> > +
-> > +     free_vmemmap_page_list(&free_pages);
-> > +}
-> > +
-> >  void __init hugetlb_vmemmap_init(struct hstate *h)
-> >  {
-> >       unsigned int order =3D huge_page_order(h);
-> > diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-> > index 2a72d2f62411..fb8b77659ed5 100644
-> > --- a/mm/hugetlb_vmemmap.h
-> > +++ b/mm/hugetlb_vmemmap.h
-> > @@ -15,6 +15,7 @@
-> >  void __init hugetlb_vmemmap_init(struct hstate *h);
-> >  int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page);
-> >  void vmemmap_pgtable_free(struct page *page);
-> > +void free_huge_page_vmemmap(struct hstate *h, struct page *head);
-> >  #else
-> >  static inline void hugetlb_vmemmap_init(struct hstate *h)
-> >  {
-> > @@ -28,5 +29,9 @@ static inline int vmemmap_pgtable_prealloc(struct hst=
-ate
-> > *h, struct page *page)
-> >  static inline void vmemmap_pgtable_free(struct page *page)
-> >  {
-> >  }
-> > +
-> > +static inline void free_huge_page_vmemmap(struct hstate *h, struct pag=
-e
-> > *head)
-> > +{
-> > +}
-> >  #endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
-> >  #endif /* _LINUX_HUGETLB_VMEMMAP_H */
-> > --
-> > 2.11.0
-> >
->
-> Thanks
-> Barry
->
-
-
---=20
-Yours,
-Muchun
