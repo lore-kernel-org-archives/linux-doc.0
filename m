@@ -2,128 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E0BC5519F
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 18:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1402C63697
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 19:23:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 177872467A
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 18:24:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70583221FE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 19:23:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MYQ8o2up"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jFHdhhnk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730486AbgKQSYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 13:24:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50098 "EHLO
+        id S1730287AbgKQTXA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 14:23:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728879AbgKQSYG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 13:24:06 -0500
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F109BC0613CF
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 10:24:05 -0800 (PST)
-Received: by mail-il1-x144.google.com with SMTP id g15so19471770ilc.9
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 10:24:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hStTG3+2TUli6PQOvC7dPwGocz2+5lnhRaphNDmsF7o=;
-        b=MYQ8o2upiR4xRbHNFHnMM/5tlZ2i4zwJ6ippaQFSfmTVahH9uGSxyWJ5RMzkHQcdjC
-         dsD+SgEIPreNPuZ1GgQUCsQF2eluVwLU/8ItuBxgd9W3mTjPvqpiJEPaO1/V4Txmejmz
-         brLXTEgjcWwJDY27ZGFKF4osENdZL4BHfjj4U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hStTG3+2TUli6PQOvC7dPwGocz2+5lnhRaphNDmsF7o=;
-        b=YvInTJF/PYRK4VVWI7RjylrE4G+sntH0yJkaa/aVjwWHEJqHpfB22IA9+lVZCPJu2H
-         DaT6e+yDYynPC/Sd72vqt1lmHt+tCAEkpckgJV/J7eqFszigYqwR2mQRxQC5+bkrMQAa
-         o+bL6n3KGnxwzKAQl/XIE7EsOe8uXgCygNu0EZgCkNjMF78ZGDzP+fSH4FkyHykk7n89
-         KPR7mNoHbF0Ep5i9cyWrUqaN1CWCQMsESkr9rB+Kc+NHkjv9sJyarpxObmoG21a8XO+B
-         u2j/SBg/cE0/PfPYJZtW2IMpTbsBdrawL/xFh2lM34lVnESvK3bksQCADiBRJgFjcfgj
-         lAQA==
-X-Gm-Message-State: AOAM531Li1lGIw1k3iATtody3qN93edt3XPUtA8UePvy/iBIW+89/RiH
-        /P6nbEXCypuDXOs/r7Qei/fjNQ==
-X-Google-Smtp-Source: ABdhPJwx02xrIeI2eECsWwate6BBRxRuaxJV0280nEGDfsUQAnVJOBkwnqep1/S28GiJqt0mSRgT7g==
-X-Received: by 2002:a92:c043:: with SMTP id o3mr12909972ilf.201.1605637445112;
-        Tue, 17 Nov 2020 10:24:05 -0800 (PST)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id e13sm14085604ili.67.2020.11.17.10.24.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2020 10:24:04 -0800 (PST)
-Subject: Re: [PATCH v2 01/13] seqnum_ops: Introduce Sequence Number Ops
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
-        peterz@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1605287778.git.skhan@linuxfoundation.org>
- <26cbcc431be5e3ab7d8e0e881d522605a27b1312.1605287778.git.skhan@linuxfoundation.org>
- <20201113210327.GJ17076@casper.infradead.org>
- <13467f88-7e22-ce3e-60b6-44e7c3dfa7dc@linuxfoundation.org>
- <20201117173839.GO29991@casper.infradead.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <a256f95f-33aa-5f4b-6471-687514e7bc03@linuxfoundation.org>
-Date:   Tue, 17 Nov 2020 11:24:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+        with ESMTP id S1729172AbgKQTXA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 14:23:00 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1B6BC0613CF;
+        Tue, 17 Nov 2020 11:22:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=B3qhTz4NCSZ9LglknH7xFdtictVUsmVYC66HuoyyZVM=; b=jFHdhhnkn8DHAiwhj/oakto7LT
+        7Xs3yjgYpfYlkYKyA4ncqiqustuuAay52ZW0z0DJnDcBOWTszr3mu99NHToHwZJ577ENuq0LS7af4
+        fw+X16kfHNjkrU10jbQyftaoatS+hJn7njW7lDuIQCtTb/fzPXAZdCv7OYI8mGQ8Nl3VYu9CeE/nP
+        /eooSCjo3zKSkvt4i557R1MSkpMfOmleSKIGp0GoeeZK2TCekE5mplB5koEb7tgd6qm1FUpP0MZ1B
+        l2ZCms11fhiM3PxfzxAR00L7EQdcHYY4pE+yWiwEixcA85HoaejEgK9p9+5fpNbcNz4E3IMLsPXlz
+        VkOIdQkA==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kf6YZ-0005GH-Pn; Tue, 17 Nov 2020 19:22:23 +0000
+Date:   Tue, 17 Nov 2020 19:22:23 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
+        "jroedel@suse.de" <jroedel@suse.de>,
+        "almasrymina@google.com" <almasrymina@google.com>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "mhocko@suse.com" <mhocko@suse.com>,
+        "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] RE: [PATCH v4 00/21] Free some vmemmap pages of
+ hugetlb page
+Message-ID: <20201117192223.GW29991@casper.infradead.org>
+References: <20201113105952.11638-1-songmuchun@bytedance.com>
+ <349168819c1249d4bceea26597760b0a@hisilicon.com>
+ <CAMZfGtUVDJ4QHYRCKnPTkgcKGJ38s2aOOktH+8Urz7oiVfimww@mail.gmail.com>
+ <714ae7d701d446259ab269f14a030fe9@hisilicon.com>
+ <CAMZfGtWNa=abZdN6HmWE1VBFHfGCbsW9D0zrN-F5zrhn6s=ErA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201117173839.GO29991@casper.infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtWNa=abZdN6HmWE1VBFHfGCbsW9D0zrN-F5zrhn6s=ErA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/17/20 10:38 AM, Matthew Wilcox wrote:
-> On Tue, Nov 17, 2020 at 09:34:24AM -0700, Shuah Khan wrote:
->>> seqnum_inc() should just return the new value -- seqnum_inc_return is
->>> too verbose.  And do we not need a seqnum_add()?
->>
->> I had the patch series with seqnum_inc() all ready to go and then
->> revisited the choice. My thinking is that matching the current atomic
->> api that has _inc() and inc_return() might be less confusing. That
+On Wed, Nov 18, 2020 at 12:29:07AM +0800, Muchun Song wrote:
+> > ideally, we should be able to free PageTail if we change struct page in some way.
+> > Then we will save much more for 2MB hugetlb. but it seems it is not easy.
 > 
-> No, it's more confusing.  I know you're converting things from using
-> atomic_t, but you really need to think about this in terms of "What
-> makes sense for this API".  Unless you really want to have inc that
-> returns void and inc_return that returns the new value, having only
-> inc_return makes no sense.
-> 
+> Now for the 2MB HugrTLB page, we only free 6 vmemmap pages.
+> But your words woke me up. Maybe we really can free 7 vmemmap
+> pages. In this case, we can see 8 of the 512 struct page structures
+> has beed set PG_head flag. If we can adjust compound_head()
+> slightly and make compound_head() return the real head struct
+> page when the parameter is the tail struct page but with PG_head
+> flag set. I will start an investigation and a test.
 
-I am fine with that. As I said I have a patch series saved with just
-seqnum_inc() that increments and returns. I anticipated people would
-have problems with seqnum_inc() that returns. :)
+What are you thinking?
 
->> being said, I have no problems with making just _inc(). The reason
->> for 32 and 64 appended is based on comments that it including size
->> in the api makes it very clear.
-> 
-> By putting 32 and 64 in the name of the API, I would contend you're making
-> people think about something that they should not need to think about.
-> 
+static inline struct page *compound_head(struct page *page)
+{
+        unsigned long head = READ_ONCE(page->compound_head);
 
-Are you recommending seqnum32_*() for 32bit and seqnum_*() for 64bit
-which would make 64bit as a default? We have to make a distinction
-for 32bit vs. 64-bit api.
+        if (unlikely(head & 1))
+                return (struct page *) (head - 1);
++	if (unlikely(page->flags & PG_head))
++		return (struct page *)(page[1]->compound_head - 1)
+        return page;
+}
 
->> No need for atomic_add() - inc_return() is sufficient for this use-case.
-> 
-> I haven't looked at the various potential users of this API, but there
-> are often cases where we account, eg, number of bytes transmitted.
-> 
-> There are also cases where read-and-zero would be a useful operation
-> to have.  I'm thinking about sampling statistics.
-> 
+... because if it's that, there are code paths which also just test
+PageHead, and so we'd actually need to change PageHead to be something
+like:
 
-The idea is isolating sequence number use-case first and restrict this
-api for that.
+static inline bool PageHead(struct page *page)
+{
+	return (page->flags & PG_head) &&
+		(page[1]->compound_head == (unsigned long)page + 1);
+}
 
-thanks,
--- Shuah
-
+I'm not sure if that's worth doing -- there may be other things I
+haven't thought of.
