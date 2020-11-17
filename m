@@ -2,475 +2,216 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B213CC5519F
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 09:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B9E4C6379F
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D5A82168B
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 09:55:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0D482464E
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 10:01:04 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="ztFnqOJS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727667AbgKQJzE convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 04:55:04 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2309 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726925AbgKQJzE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 04:55:04 -0500
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Cb1WD6nwqz13RDX;
-        Tue, 17 Nov 2020 17:54:32 +0800 (CST)
-Received: from dggemi760-chm.china.huawei.com (10.1.198.146) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Tue, 17 Nov 2020 17:54:58 +0800
-Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
- dggemi760-chm.china.huawei.com (10.1.198.146) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Tue, 17 Nov 2020 17:54:58 +0800
-Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
- dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.1913.007;
- Tue, 17 Nov 2020 17:54:58 +0800
-From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To:     Muchun Song <songmuchun@bytedance.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "oneukum@suse.com" <oneukum@suse.com>,
-        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
-        "jroedel@suse.de" <jroedel@suse.de>,
-        "almasrymina@google.com" <almasrymina@google.com>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "osalvador@suse.de" <osalvador@suse.de>,
-        "mhocko@suse.com" <mhocko@suse.com>
-CC:     "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        id S1727665AbgKQKAt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 05:00:49 -0500
+Received: from mga03.intel.com ([134.134.136.65]:26338 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725770AbgKQKAs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Nov 2020 05:00:48 -0500
+IronPort-SDR: sjl3Tv2m8m4M3MbkLnyOnL7rG1cQ2aJwc35NGghSAbl0uChN6HtolML2qwUuLtq+TSFSy17B1J
+ cMQpk1T2PghQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="170996783"
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
+   d="scan'208";a="170996783"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 02:00:26 -0800
+IronPort-SDR: 1kANeuKaO+0oIvx3f59wlBRhWpgrvf1cttPvTPSZuoW75qRncAPP+S/ZiTMMVOxG+Q3KJ42qpY
+ xfgyFS9rOAXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
+   d="scan'208";a="543978452"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+  by orsmga005.jf.intel.com with ESMTP; 17 Nov 2020 02:00:25 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 17 Nov 2020 02:00:25 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 17 Nov 2020 02:00:25 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 17 Nov 2020 02:00:25 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Tue, 17 Nov 2020 02:00:25 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YlgVlxTaXetZ7cZY8ntMjyNdG6UU68VGX/3Kg7ZWXdnQ/ZajqC+TrtsqgYVlopfEwzvff3jwhG+J/nlYa7SHVOYfQ/XB5tH9EK4OYWw4aoRp1/vV+Riy1e1frm2IxOH+WaU0qKAggzvxPKyRgW3qNrY/RWLvznfWVgosD33BEJLXLi+K7agr4V0IQiMWXA1BLui+XA85cXpghiUd4XWzhCDLkbpUb3Drbx4ABNZ3vI54yFB8TfGwc0xjs8wwk/ib4SpSNVmjot30HXqvPmTVh53ztkiiAVCMlfbKGNScLaDE7bCVClCWSy1EcjWwcpOcp61Ox58MM442OLMWwQUSmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EWNkBqwRQ73YFf4f6l5nJHVvCMwTxSh1DWE9jNoLVgs=;
+ b=K7oYIvEFsdfqVQMC5KMdmSh9zvXNkfL4PtxF5TZ1HG3M8TS9sASe2i1CiC9cKCZlwUNGLggObQjAa47ZItkTGwDQKwQC7uLJ3G1R+3bfOyfschnvXUkrUSj3a5hj74hWRdgxjz/1IfFa/QvHZl2g/IdlfbeWZ+ReLJWqyqV+yx9NJ6ZCgOuSs+5R+e5NUS+ZUFwKPpQwmtsc/38cFHCGXGvF6G/tv30NgAiAbQGkAJ1pa55BJ6GtsQAhvJOteYkEt5FMwGrVcmzyr5LZL94mP+7UFqi+fNnNXmnfnwkVauc6aKVsipxy/TFStY1w+VM5qxB3LKpHESRpyXVvfp2mMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EWNkBqwRQ73YFf4f6l5nJHVvCMwTxSh1DWE9jNoLVgs=;
+ b=ztFnqOJS2zuUUSkkFYn9hA/V+hypnxdmYU6kGQK296/dlUGRQhyobKako/ybv0beSleC+D86bwd8+NbvBZTuITOJDol8o6l3LPjs+5Jy651zTvBpmCDq2TlKJJR5Ngc7sALdDxZQogr/nTsKmYu2A3Z326VpIovfBCULrkWwh3w=
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
+ by DM5PR11MB1947.namprd11.prod.outlook.com (2603:10b6:3:110::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Tue, 17 Nov
+ 2020 10:00:22 +0000
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::69e0:a898:de56:337c]) by DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::69e0:a898:de56:337c%7]) with mapi id 15.20.3564.028; Tue, 17 Nov 2020
+ 10:00:22 +0000
+From:   "Wu, Hao" <hao.wu@intel.com>
+To:     "Xu, Yilun" <yilun.xu@intel.com>,
+        "matthew.gerlach@linux.intel.com" <matthew.gerlach@linux.intel.com>
+CC:     "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: RE: [PATCH v4 09/21] mm/hugetlb: Free the vmemmap pages associated
- with each hugetlb page
-Thread-Topic: [PATCH v4 09/21] mm/hugetlb: Free the vmemmap pages associated
- with each hugetlb page
-Thread-Index: AQHWuayJ5IHmiBdm3EqHSWIQbQOrfanMFzHg
-Date:   Tue, 17 Nov 2020 09:54:57 +0000
-Message-ID: <e28c3bb8689d4cb7aee16052c1a059a9@hisilicon.com>
-References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <20201113105952.11638-10-songmuchun@bytedance.com>
-In-Reply-To: <20201113105952.11638-10-songmuchun@bytedance.com>
-Accept-Language: en-GB, en-US
+        "mdf@kernel.org" <mdf@kernel.org>,
+        "trix@redhat.com" <trix@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, "Xu, Yilun" <yilun.xu@intel.com>
+Subject: RE: [PATCH 2/2] fpga: dfl: look for vendor specific capability
+Thread-Topic: [PATCH 2/2] fpga: dfl: look for vendor specific capability
+Thread-Index: AQHWvIBxykoMIcZrHUW2ir3zzcjKk6nL9UsAgAAf7jA=
+Date:   Tue, 17 Nov 2020 10:00:22 +0000
+Message-ID: <DM6PR11MB381900B67DE65EEBF936CA6885E20@DM6PR11MB3819.namprd11.prod.outlook.com>
+References: <20201117012552.262149-1-matthew.gerlach@linux.intel.com>
+ <20201117012552.262149-3-matthew.gerlach@linux.intel.com>
+ <20201117075626.GA14665@yilunxu-OptiPlex-7050>
+In-Reply-To: <20201117075626.GA14665@yilunxu-OptiPlex-7050>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.200.113]
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+authentication-results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.198.147.207]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 61ffc74f-a6cd-4f3b-a6f6-08d88adf9924
+x-ms-traffictypediagnostic: DM5PR11MB1947:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR11MB1947D41988810F9D62C7945E85E20@DM5PR11MB1947.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: olhvXjUJcsBF+4b8VvaXZHzI6FqGf13HCGQ262fiYObltFRKqn2kFxfqXlot35oy2PLUagC6cStn8RXWOZ2lNcVqSQTV9HYZ/fEczIh6uqkjs3zmAUjK63kavoBwhDcJmL6bxwmrv8AeKTWTAPBPFruVa99llkWwYk3X/Zol2o8U4T+eJrhK4FE+vhfwAyfkRBHoI45ynh4ga+wiYQ/SCeFWseneCNeB3Tiv3gWIQU0TqdXU+phU5EdJb9VRnPM3H50Xm1ekqwKxbFQdHn0Hixd1KpInjjjFb4SPs0leAntXyFGF6cbKMYzCgz4NIQ5ucycJFViNVEVI3ZMOjJK9vA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(39860400002)(396003)(346002)(136003)(9686003)(4326008)(5660300002)(66446008)(64756008)(55016002)(54906003)(478600001)(66476007)(52536014)(66556008)(8936002)(86362001)(66946007)(2906002)(8676002)(33656002)(76116006)(186003)(71200400001)(7696005)(110136005)(83380400001)(26005)(316002)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: dofraMg6ZBaHdMd/G1Aq0MSp/eZHgmxptWF6BIUIqubkyYf5PhXNFG5LdT/VjVinFyAF9exbQGeKmTWZljFj+heGa0xPx7HOjKV4yGWWSVKZMHnxfc9Jsj0j+/nQJrwk53eAJNzF6Ag3PO7xX3JN3FZneJGzW/4cHpzKXNUycFKrPhPGreSE/dPVhEqtxD4AjSz55HBE5KsC8hlFkdaVdTTyKZAgpZEKG0Y4O1XFfDItEpLrW72vbUkaL3Yah2NYHQ0oWlZQgUO4Cn8QlIe+Ga/vjqUtUAmPgDsedWcDs8u6sev7l8wg3XldN8XzKrdhuZ4O2cQk8GKSCViCQm6cNoHR/WSqiEbfAOp5lg6dd3GD3RWZ/QiKnEReTTTQc5RytztNP6g7uTYUWlSHht1lFvBEv03m+0M1YYWGspFz5CwhO3+3/4bBh9qaHGG7+Z1jVoYWWkIxP+YdC+UE10nZEPJQW9/iaMGCGLQYMsLApGvg2Au7/Jn3rfr70GJN6J15pvErN4ynnX+pYicron5tyyzJ5ND5pgnQ5upLtLz4YBzB4/b3GuMmDRJRgb+MDy8yBPXPsG3lTDeIGAZPmhmga6/BVWSdJyBqC5bHujIHznUgLOH+Q3pdbtakHQAX8YSDfmYgqyz59PBe8vD5DnoIiQ==
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61ffc74f-a6cd-4f3b-a6f6-08d88adf9924
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2020 10:00:22.3641
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ozyFfL6E3dmBM7VZXhaKaRToBgnLAhCmUL1k8CYE0peP+oqBoIhjuWN/KI8MAx2D5zgbqp0qzPkC4ji6LT6Evg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1947
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> > +
+> > +		start =3D pci_resource_start(pcidev, bar) + offset;
+> > +		len -=3D offset;
+>=20
+> With these code, I have the following assumption:
+>=20
+> 1. There is only one DFL in one bar, multiple DFLs requires multiple
+> bars.
+>=20
+> 2. The DFL region is from the "offset" to the end of the bar.
 
+I think we should not have such kind of limitation, but at least it=20
+requires user clearly from spec, to make sure no overlap case could
+happen. We all know that BAR number is small, but we won't limit
+DFL numbers by BAR number here.
 
-> -----Original Message-----
-> From: owner-linux-mm@kvack.org [mailto:owner-linux-mm@kvack.org] On
-> Behalf Of Muchun Song
-> Sent: Saturday, November 14, 2020 12:00 AM
-> To: corbet@lwn.net; mike.kravetz@oracle.com; tglx@linutronix.de;
-> mingo@redhat.com; bp@alien8.de; x86@kernel.org; hpa@zytor.com;
-> dave.hansen@linux.intel.com; luto@kernel.org; peterz@infradead.org;
-> viro@zeniv.linux.org.uk; akpm@linux-foundation.org; paulmck@kernel.org;
-> mchehab+huawei@kernel.org; pawan.kumar.gupta@linux.intel.com;
-> rdunlap@infradead.org; oneukum@suse.com; anshuman.khandual@arm.com;
-> jroedel@suse.de; almasrymina@google.com; rientjes@google.com;
-> willy@infradead.org; osalvador@suse.de; mhocko@suse.com
-> Cc: duanxiongchun@bytedance.com; linux-doc@vger.kernel.org;
-> linux-kernel@vger.kernel.org; linux-mm@kvack.org;
-> linux-fsdevel@vger.kernel.org; Muchun Song <songmuchun@bytedance.com>
-> Subject: [PATCH v4 09/21] mm/hugetlb: Free the vmemmap pages associated
-> with each hugetlb page
-> 
-> When we allocate a hugetlb page from the buddy, we should free the
-> unused vmemmap pages associated with it. We can do that in the
-> prep_new_huge_page().
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  arch/x86/include/asm/hugetlb.h          |   9 ++
->  arch/x86/include/asm/pgtable_64_types.h |   8 ++
->  mm/hugetlb.c                            |  16 +++
->  mm/hugetlb_vmemmap.c                    | 188
-> ++++++++++++++++++++++++++++++++
->  mm/hugetlb_vmemmap.h                    |   5 +
->  5 files changed, 226 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/hugetlb.h b/arch/x86/include/asm/hugetlb.h
-> index 1721b1aadeb1..c601fe042832 100644
-> --- a/arch/x86/include/asm/hugetlb.h
-> +++ b/arch/x86/include/asm/hugetlb.h
-> @@ -4,6 +4,15 @@
-> 
->  #include <asm/page.h>
->  #include <asm-generic/hugetlb.h>
-> +#include <asm/pgtable.h>
-> +
-> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> +#define vmemmap_pmd_huge vmemmap_pmd_huge
-> +static inline bool vmemmap_pmd_huge(pmd_t *pmd)
-> +{
-> +	return pmd_large(*pmd);
-> +}
-> +#endif
-> 
->  #define hugepages_supported() boot_cpu_has(X86_FEATURE_PSE)
-> 
-> diff --git a/arch/x86/include/asm/pgtable_64_types.h
-> b/arch/x86/include/asm/pgtable_64_types.h
-> index 52e5f5f2240d..bedbd2e7d06c 100644
-> --- a/arch/x86/include/asm/pgtable_64_types.h
-> +++ b/arch/x86/include/asm/pgtable_64_types.h
-> @@ -139,6 +139,14 @@ extern unsigned int ptrs_per_p4d;
->  # define VMEMMAP_START		__VMEMMAP_BASE_L4
->  #endif /* CONFIG_DYNAMIC_MEMORY_LAYOUT */
-> 
-> +/*
-> + * VMEMMAP_SIZE - allows the whole linear region to be covered by
-> + *                a struct page array.
-> + */
-> +#define VMEMMAP_SIZE		(1UL << (__VIRTUAL_MASK_SHIFT -
-> PAGE_SHIFT - \
-> +					 1 + ilog2(sizeof(struct page))))
-> +#define VMEMMAP_END		(VMEMMAP_START + VMEMMAP_SIZE)
-> +
->  #define VMALLOC_END		(VMALLOC_START + (VMALLOC_SIZE_TB <<
-> 40) - 1)
-> 
->  #define MODULES_VADDR		(__START_KERNEL_map +
-> KERNEL_IMAGE_SIZE)
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index f88032c24667..a0ce6f33a717 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1499,6 +1499,14 @@ void free_huge_page(struct page *page)
-> 
->  static void prep_new_huge_page(struct hstate *h, struct page *page, int nid)
->  {
-> +	free_huge_page_vmemmap(h, page);
-> +	/*
-> +	 * Because we store preallocated pages on @page->lru,
-> +	 * vmemmap_pgtable_free() must be called before the
-> +	 * initialization of @page->lru in INIT_LIST_HEAD().
-> +	 */
-> +	vmemmap_pgtable_free(page);
-> +
->  	INIT_LIST_HEAD(&page->lru);
->  	set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
->  	set_hugetlb_cgroup(page, NULL);
-> @@ -1751,6 +1759,14 @@ static struct page *alloc_fresh_huge_page(struct
-> hstate *h,
->  	if (!page)
->  		return NULL;
-> 
-> +	if (vmemmap_pgtable_prealloc(h, page)) {
-> +		if (hstate_is_gigantic(h))
-> +			free_gigantic_page(page, huge_page_order(h));
-> +		else
-> +			put_page(page);
-> +		return NULL;
-> +	}
-> +
->  	if (hstate_is_gigantic(h))
->  		prep_compound_gigantic_page(page, huge_page_order(h));
->  	prep_new_huge_page(h, page, page_to_nid(page));
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 332c131c01a8..937562a15f1e 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -74,6 +74,7 @@
->  #include <linux/pagewalk.h>
->  #include <linux/mmzone.h>
->  #include <linux/list.h>
-> +#include <linux/bootmem_info.h>
->  #include <asm/pgalloc.h>
->  #include "hugetlb_vmemmap.h"
-> 
-> @@ -86,6 +87,8 @@
->   * reserve at least 2 pages as vmemmap areas.
->   */
->  #define RESERVE_VMEMMAP_NR		2U
-> +#define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR <<
-> PAGE_SHIFT)
-> +#define TAIL_PAGE_REUSE			-1
-> 
->  #ifndef VMEMMAP_HPAGE_SHIFT
->  #define VMEMMAP_HPAGE_SHIFT		HPAGE_SHIFT
-> @@ -97,6 +100,21 @@
-> 
->  #define page_huge_pte(page)		((page)->pmd_huge_pte)
-> 
-> +#define vmemmap_hpage_addr_end(addr, end)				 \
-> +({									 \
-> +	unsigned long __boundary;					 \
-> +	__boundary = ((addr) + VMEMMAP_HPAGE_SIZE) &
-> VMEMMAP_HPAGE_MASK; \
-> +	(__boundary - 1 < (end) - 1) ? __boundary : (end);		 \
-> +})
-> +
-> +#ifndef vmemmap_pmd_huge
-> +#define vmemmap_pmd_huge vmemmap_pmd_huge
-> +static inline bool vmemmap_pmd_huge(pmd_t *pmd)
-> +{
-> +	return pmd_huge(*pmd);
-> +}
-> +#endif
-> +
->  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
->  {
->  	return h->nr_free_vmemmap_pages;
-> @@ -158,6 +176,176 @@ int vmemmap_pgtable_prealloc(struct hstate *h,
-> struct page *page)
->  	return -ENOMEM;
->  }
-> 
-> +/*
-> + * Walk a vmemmap address to the pmd it maps.
-> + */
-> +static pmd_t *vmemmap_to_pmd(unsigned long page)
-> +{
-> +	pgd_t *pgd;
-> +	p4d_t *p4d;
-> +	pud_t *pud;
-> +	pmd_t *pmd;
-> +
-> +	if (page < VMEMMAP_START || page >= VMEMMAP_END)
-> +		return NULL;
-> +
-> +	pgd = pgd_offset_k(page);
-> +	if (pgd_none(*pgd))
-> +		return NULL;
-> +	p4d = p4d_offset(pgd, page);
-> +	if (p4d_none(*p4d))
-> +		return NULL;
-> +	pud = pud_offset(p4d, page);
-> +
-> +	if (pud_none(*pud) || pud_bad(*pud))
-> +		return NULL;
-> +	pmd = pmd_offset(pud, page);
-> +
-> +	return pmd;
-> +}
-> +
-> +static inline spinlock_t *vmemmap_pmd_lock(pmd_t *pmd)
-> +{
-> +	return pmd_lock(&init_mm, pmd);
-> +}
-> +
-> +static inline int freed_vmemmap_hpage(struct page *page)
-> +{
-> +	return atomic_read(&page->_mapcount) + 1;
-> +}
-> +
-> +static inline int freed_vmemmap_hpage_inc(struct page *page)
-> +{
-> +	return atomic_inc_return_relaxed(&page->_mapcount) + 1;
-> +}
-> +
-> +static inline int freed_vmemmap_hpage_dec(struct page *page)
-> +{
-> +	return atomic_dec_return_relaxed(&page->_mapcount) + 1;
-> +}
-> +
-> +static inline void free_vmemmap_page_list(struct list_head *list)
-> +{
-> +	struct page *page, *next;
-> +
-> +	list_for_each_entry_safe(page, next, list, lru) {
-> +		list_del(&page->lru);
-> +		free_vmemmap_page(page);
-> +	}
-> +}
-> +
-> +static void __free_huge_page_pte_vmemmap(struct page *reuse, pte_t *ptep,
-> +					 unsigned long start,
-> +					 unsigned long end,
-> +					 struct list_head *free_pages)
-> +{
-> +	/* Make the tail pages are mapped read-only. */
-> +	pgprot_t pgprot = PAGE_KERNEL_RO;
-> +	pte_t entry = mk_pte(reuse, pgprot);
-> +	unsigned long addr;
-> +
-> +	for (addr = start; addr < end; addr += PAGE_SIZE, ptep++) {
-> +		struct page *page;
-> +		pte_t old = *ptep;
-> +
-> +		VM_WARN_ON(!pte_present(old));
-> +		page = pte_page(old);
-> +		list_add(&page->lru, free_pages);
-> +
-> +		set_pte_at(&init_mm, addr, ptep, entry);
-> +	}
-> +}
-> +
-> +static void __free_huge_page_pmd_vmemmap(struct hstate *h, pmd_t *pmd,
-> +					 unsigned long addr,
-> +					 struct list_head *free_pages)
-> +{
-> +	unsigned long next;
-> +	unsigned long start = addr + RESERVE_VMEMMAP_SIZE;
-> +	unsigned long end = addr + vmemmap_pages_size_per_hpage(h);
-> +	struct page *reuse = NULL;
-> +
-> +	addr = start;
-> +	do {
-> +		pte_t *ptep;
-> +
-> +		ptep = pte_offset_kernel(pmd, addr);
-> +		if (!reuse)
-> +			reuse = pte_page(ptep[TAIL_PAGE_REUSE]);
-> +
-> +		next = vmemmap_hpage_addr_end(addr, end);
-> +		__free_huge_page_pte_vmemmap(reuse, ptep, addr, next,
-> +					     free_pages);
-> +	} while (pmd++, addr = next, addr != end);
-> +
-> +	flush_tlb_kernel_range(start, end);
-> +}
-> +
-> +static void split_vmemmap_pmd(pmd_t *pmd, pte_t *pte_p, unsigned long
-> addr)
+>=20
+> Are they correct? If yes maybe we should specify them clearly in Doc.
+>=20
+> > +
+> > +		if (!PAGE_ALIGNED(start)) {
+> > +			dev_err(&pcidev->dev, "%s unaliged start 0x%llx\n",
+> > +				__func__, start);
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		dfl_fpga_enum_info_add_dfl(info, start, len);
+>=20
+> Do we need some region overlapping check in this func? So we could find
+> the HW problem (e.g. same bar num for multiple DFLs) in early stage.
 
-Hi Muchun,
+Not sure if VSEC can add a length field for this purpose, otherwise overlap=
+ping
+check only can be done after enumeration (walk the DFL to know the end).
 
-Are you going to restore the pmd mapping after you free the hugetlb? I mean,
-When you free continuous 128MB hugetlb pages with 2MB size, will you
-redo the PMD vmemmap since 2MB PMD can just contain the page struct of
-128MB memory?
+>=20
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int find_dfl_in_bar0(struct pci_dev *pcidev,
+> >  			    struct dfl_fpga_enum_info *info)
+> >  {
+> > @@ -221,7 +304,10 @@ static int cci_enumerate_feature_devs(struct
+> pci_dev *pcidev)
+> >  			goto irq_free_exit;
+> >  	}
+> >
+> > -	ret =3D find_dfl_in_bar0(pcidev, info);
+> > +	ret =3D find_dfl_in_cfg(pcidev, info);
+> > +
+> > +	if (ret)
+> > +		ret =3D find_dfl_in_bar0(pcidev, info);
+>=20
+> The patch is more than the relocation support for DFL. Actually it
+> introduced a different way of DFL finding.
+>=20
+> Previously it starts at bar0 offset 0, find dfl fme first, then find
+> dfl port according to fme header registers. Now it enumerates every DFL
+> by PCIe VSEC.
 
-If no, wouldn't it be simpler to only use base pages while populating vmemmap?
-I mean, once we enable the Kconfig option you add for VMEMMAP_FREE, we
-only use base pages to place "page struct" but not split PMD into base pages
-afterwards.
+Yes, the name is a little confusing, maybe we can rename them.
 
-One negative side effect might be that base pages are also used for those pages
-which won't be hugetlb later. but if most pages of host will be hugetlb for
-guest and SPDK, it shouldn't hurt too much.  
-
-Or at least this can be done for hugetlb reserved by cmdline?
-
-> +{
-> +	int i;
-> +	pgprot_t pgprot = PAGE_KERNEL;
-> +	struct mm_struct *mm = &init_mm;
-> +	struct page *page;
-> +	pmd_t old_pmd, _pmd;
-> +
-> +	old_pmd = READ_ONCE(*pmd);
-> +	page = pmd_page(old_pmd);
-> +	pmd_populate_kernel(mm, &_pmd, pte_p);
-> +
-> +	for (i = 0; i < VMEMMAP_HPAGE_NR; i++, addr += PAGE_SIZE) {
-> +		pte_t entry, *pte;
-> +
-> +		entry = mk_pte(page + i, pgprot);
-> +		pte = pte_offset_kernel(&_pmd, addr);
-> +		VM_BUG_ON(!pte_none(*pte));
-> +		set_pte_at(mm, addr, pte, entry);
-> +	}
-> +
-> +	/* make pte visible before pmd */
-> +	smp_wmb();
-> +	pmd_populate_kernel(mm, pmd, pte_p);
-> +}
-> +
-> +static void split_vmemmap_huge_page(struct page *head, pmd_t *pmd)
-> +{
-> +	struct page *pte_page, *t_page;
-> +	unsigned long start = (unsigned long)head & VMEMMAP_HPAGE_MASK;
-> +	unsigned long addr = start;
-> +
-> +	list_for_each_entry_safe(pte_page, t_page, &head->lru, lru) {
-> +		list_del(&pte_page->lru);
-> +		VM_BUG_ON(freed_vmemmap_hpage(pte_page));
-> +		split_vmemmap_pmd(pmd++, page_to_virt(pte_page), addr);
-> +		addr += VMEMMAP_HPAGE_SIZE;
-> +	}
-> +
-> +	flush_tlb_kernel_range(start, addr);
-> +}
-> +
-> +void free_huge_page_vmemmap(struct hstate *h, struct page *head)
-> +{
-> +	pmd_t *pmd;
-> +	spinlock_t *ptl;
-> +	LIST_HEAD(free_pages);
-> +
-> +	if (!free_vmemmap_pages_per_hpage(h))
-> +		return;
-> +
-> +	pmd = vmemmap_to_pmd((unsigned long)head);
-> +	BUG_ON(!pmd);
-> +
-> +	ptl = vmemmap_pmd_lock(pmd);
-> +	if (vmemmap_pmd_huge(pmd))
-> +		split_vmemmap_huge_page(head, pmd);
-> +
-> +	__free_huge_page_pmd_vmemmap(h, pmd, (unsigned long)head,
-> &free_pages);
-> +	freed_vmemmap_hpage_inc(pmd_page(*pmd));
-> +	spin_unlock(ptl);
-> +
-> +	free_vmemmap_page_list(&free_pages);
-> +}
-> +
->  void __init hugetlb_vmemmap_init(struct hstate *h)
->  {
->  	unsigned int order = huge_page_order(h);
-> diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-> index 2a72d2f62411..fb8b77659ed5 100644
-> --- a/mm/hugetlb_vmemmap.h
-> +++ b/mm/hugetlb_vmemmap.h
-> @@ -15,6 +15,7 @@
->  void __init hugetlb_vmemmap_init(struct hstate *h);
->  int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page);
->  void vmemmap_pgtable_free(struct page *page);
-> +void free_huge_page_vmemmap(struct hstate *h, struct page *head);
->  #else
->  static inline void hugetlb_vmemmap_init(struct hstate *h)
->  {
-> @@ -28,5 +29,9 @@ static inline int vmemmap_pgtable_prealloc(struct hstate
-> *h, struct page *page)
->  static inline void vmemmap_pgtable_free(struct page *page)
->  {
->  }
-> +
-> +static inline void free_huge_page_vmemmap(struct hstate *h, struct page
-> *head)
-> +{
-> +}
->  #endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
->  #endif /* _LINUX_HUGETLB_VMEMMAP_H */
-> --
-> 2.11.0
-> 
+find_dfls_by_default or find_dfls - to handle original cases.
+find_dfls_by_vsec - to handle vsec case.
 
 Thanks
-Barry
+Hao
 
+>=20
+> Maybe we should add more description about the change and why.
+>=20
+> Thanks,
+> Yilun
+>=20
+> >
+> >  	if (ret)
+> >  		goto irq_free_exit;
+> > --
+> > 2.25.2
