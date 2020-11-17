@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C95C2D0E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E0BC5519F
 	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 18:24:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E55A2467A
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 18:24:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 177872467A
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 18:24:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dHFgcdxT"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MYQ8o2up"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730662AbgKQSX5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 13:23:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
+        id S1730486AbgKQSYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 13:24:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbgKQSX4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 13:23:56 -0500
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CECC0613CF
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 10:23:56 -0800 (PST)
-Received: by mail-io1-xd42.google.com with SMTP id s24so22150399ioj.13
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 10:23:56 -0800 (PST)
+        with ESMTP id S1728879AbgKQSYG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 13:24:06 -0500
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F109BC0613CF
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 10:24:05 -0800 (PST)
+Received: by mail-il1-x144.google.com with SMTP id g15so19471770ilc.9
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 10:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
         bh=hStTG3+2TUli6PQOvC7dPwGocz2+5lnhRaphNDmsF7o=;
-        b=dHFgcdxTqoVgltR0QV39GKAUWfKbMf5QfnMPG5p7waNUv+ZkA1/gneF1w6zkpH90MY
-         EPdYSWFaQwMs45S/VeXDommwFjD02Nbk914rY/J4YuWDm9yOho2UJoB3kyXeiQ65+1T9
-         ippsI9lSTpisSpV+93kQFB3qu0ulmT5nSov0c=
+        b=MYQ8o2upiR4xRbHNFHnMM/5tlZ2i4zwJ6ippaQFSfmTVahH9uGSxyWJ5RMzkHQcdjC
+         dsD+SgEIPreNPuZ1GgQUCsQF2eluVwLU/8ItuBxgd9W3mTjPvqpiJEPaO1/V4Txmejmz
+         brLXTEgjcWwJDY27ZGFKF4osENdZL4BHfjj4U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=hStTG3+2TUli6PQOvC7dPwGocz2+5lnhRaphNDmsF7o=;
-        b=JqJsaZAZzWpRWJPl54nFSUF4HFknV7dN5xYMqd7tp2j01gGbv5aDbrrnn0GepSu/11
-         Pj7ewAl+PFbHpsJs77N4c4npOJIamW6ferTDwhw32aovIuxQZw7B4ORv8IPF3haqV+0h
-         SsJ7ryC0JAdO231RAKKS0pYUm4zYDf/MpibeDLWzgwyt37DK4XtHP+I/lQgqeblkaWFI
-         mISeb3bhaxlcty90eJ/vrqypF0CIkfwlY8STTbhBjAIdYsdQ6TE4xgf3nDO8PYK7eawA
-         4huNwDp8Qc9UpwzL55szF+3f6tx1FzaIEuMMh/8SGZZEEjCoydOC25YN0hSngbtSnN5Q
-         Mcgg==
-X-Gm-Message-State: AOAM532xYzLZmRS5ginvHfGTD+UI+w7agLurQ7Kqv1NeZUZ2a0SXfCeC
-        e2Szvov0ICpZa599eDhbUe929Q==
-X-Google-Smtp-Source: ABdhPJwaX8OFMbS656oBoqafp2YHXNnFy4+skL3T48D9xTH0/h6YWfgkzADFw7Iuor466akBnnKSTQ==
-X-Received: by 2002:a02:9f16:: with SMTP id z22mr4579615jal.123.1605637435780;
-        Tue, 17 Nov 2020 10:23:55 -0800 (PST)
+        b=YvInTJF/PYRK4VVWI7RjylrE4G+sntH0yJkaa/aVjwWHEJqHpfB22IA9+lVZCPJu2H
+         DaT6e+yDYynPC/Sd72vqt1lmHt+tCAEkpckgJV/J7eqFszigYqwR2mQRxQC5+bkrMQAa
+         o+bL6n3KGnxwzKAQl/XIE7EsOe8uXgCygNu0EZgCkNjMF78ZGDzP+fSH4FkyHykk7n89
+         KPR7mNoHbF0Ep5i9cyWrUqaN1CWCQMsESkr9rB+Kc+NHkjv9sJyarpxObmoG21a8XO+B
+         u2j/SBg/cE0/PfPYJZtW2IMpTbsBdrawL/xFh2lM34lVnESvK3bksQCADiBRJgFjcfgj
+         lAQA==
+X-Gm-Message-State: AOAM531Li1lGIw1k3iATtody3qN93edt3XPUtA8UePvy/iBIW+89/RiH
+        /P6nbEXCypuDXOs/r7Qei/fjNQ==
+X-Google-Smtp-Source: ABdhPJwx02xrIeI2eECsWwate6BBRxRuaxJV0280nEGDfsUQAnVJOBkwnqep1/S28GiJqt0mSRgT7g==
+X-Received: by 2002:a92:c043:: with SMTP id o3mr12909972ilf.201.1605637445112;
+        Tue, 17 Nov 2020 10:24:05 -0800 (PST)
 Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id o3sm11660129ilk.27.2020.11.17.10.23.54
+        by smtp.gmail.com with ESMTPSA id e13sm14085604ili.67.2020.11.17.10.24.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2020 10:23:54 -0800 (PST)
+        Tue, 17 Nov 2020 10:24:04 -0800 (PST)
 Subject: Re: [PATCH v2 01/13] seqnum_ops: Introduce Sequence Number Ops
 To:     Matthew Wilcox <willy@infradead.org>
 Cc:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
@@ -67,8 +67,8 @@ References: <cover.1605287778.git.skhan@linuxfoundation.org>
  <13467f88-7e22-ce3e-60b6-44e7c3dfa7dc@linuxfoundation.org>
  <20201117173839.GO29991@casper.infradead.org>
 From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <322a050e-82dd-7a1c-07c4-279fd59f32b9@linuxfoundation.org>
-Date:   Tue, 17 Nov 2020 11:23:53 -0700
+Message-ID: <a256f95f-33aa-5f4b-6471-687514e7bc03@linuxfoundation.org>
+Date:   Tue, 17 Nov 2020 11:24:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.2
 MIME-Version: 1.0
