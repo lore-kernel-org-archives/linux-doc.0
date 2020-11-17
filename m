@@ -2,82 +2,325 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D508C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 12:27:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98590C64E75
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 12:30:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20D8A2222B
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 12:27:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDEC92468F
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 12:30:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="c2xSO8qz"
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="RJ3Z2dHR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727801AbgKQM1z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 07:27:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51204 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726019AbgKQM1z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 07:27:55 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F19EC0613CF;
-        Tue, 17 Nov 2020 04:27:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Ob6Oe8aHKU7Bjujs6GOgVFp6Ew5qkHmmaYKvZwb2CbE=; b=c2xSO8qznF4CZ16mWzdjvcrkXa
-        2cWZarRBWXc2BB9fz7bcb9y3zaKn621I7hy0zt4xsGoVh0XfwNWwW/jwqzbFzpCXwNJlISs8o5uh2
-        T+NP729Ujh6Cua/VwJsj1ynSJTLPYveFp2cCtRFIxc7x/YLyU/kaGa1sweYSCepo8UwIRjIY33NOP
-        p5vYB+eymPhzC6y1FjCPhmtyypBK8mIuAKbg+VqU6aoQSlZ4O5cGLB6mbbNTjjpmbgG8AA9RohIZK
-        UoF9413SOB7J/9tg/TujMODOl1vzyMi/SJWifbRQeB7nw6q8EANO+h49rkTZSOohwZg4zozkMEHKR
-        /YcvPSZg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kf05P-0008MB-Gd; Tue, 17 Nov 2020 12:27:52 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D95E5301959;
-        Tue, 17 Nov 2020 13:27:50 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id C3FDE203C45DF; Tue, 17 Nov 2020 13:27:50 +0100 (CET)
-Date:   Tue, 17 Nov 2020 13:27:50 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Greg KH <gregkh@linuxfoundation.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/13] seqnum_ops: Introduce Sequence Number Ops
-Message-ID: <20201117122750.GH3121406@hirez.programming.kicks-ass.net>
-References: <cover.1605027593.git.skhan@linuxfoundation.org>
- <d265685c901ea81c83c18e218a29710317ab7670.1605027593.git.skhan@linuxfoundation.org>
- <X6r7BIG8JTUOLcY0@kroah.com>
- <X6r7Vl45bgGQiAD2@kroah.com>
- <202011101614.E7D880689@keescook>
- <3075a4fd-8615-1459-2b20-b7d9d2be34ff@linuxfoundation.org>
- <f2b3ae49-bc41-0061-e811-1a7e41040366@linuxfoundation.org>
+        id S1726791AbgKQMaU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 07:30:20 -0500
+Received: from mail-40136.protonmail.ch ([185.70.40.136]:49241 "EHLO
+        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726853AbgKQMaT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 07:30:19 -0500
+X-Greylist: delayed 37084 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Nov 2020 07:30:17 EST
+Date:   Tue, 17 Nov 2020 12:30:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1605616215;
+        bh=06BgIOoEEroTgmZJiDSnMWNZioW1WLMKbN1RoU+41CE=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=RJ3Z2dHRxoAJ2Y66BNB1Xda07B+fCCKmqZPXkPxZIs4MtZSOuT54/tvhoHesHCS3Z
+         b+3fjVr0/gs0UHWEVFPw/FeBRBgBVd//sGqncjyduxVZy0w7us+xpBPYHDWke28tWu
+         dAN2wcvLJ0e6l0SzHAN3J5K9p5qjm9KrBoXPhTMM=
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
+        andrealmeid@collabora.com
+Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: Re: [PATCH v2] docs: automarkup.py: Allow automatic cross-reference inside C namespace
+Message-ID: <C75JFDOJJFBC.1FPM3DRBNPIKC@ArchWay>
+In-Reply-To: <20201117064759.0c03e7cf@coco.lan>
+References: <20201117021107.214704-1-nfraprado@protonmail.com> <20201117064759.0c03e7cf@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f2b3ae49-bc41-0061-e811-1a7e41040366@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 02:27:49PM -0700, Shuah Khan wrote:
+On Tue Nov 17, 2020 at 2:47 AM -03, Mauro Carvalho Chehab wrote:
+>
+> Em Tue, 17 Nov 2020 02:12:01 +0000
+> N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> escreveu:
+>
+> > Sphinx 3.1 introduced namespaces for C cross-references. With this,
+> > each C domain type/function declaration is put inside the namespace tha=
+t
+> > was active at the time of its declaration.
+> >
+> > Add support for automatic cross-referencing inside C namespaces by
+> > checking whether the corresponding source file had a C namespace Sphinx
+> > directive, and if so, try cross-referencing inside of it before going t=
+o
+> > the global scope.
+> >
+> > This assumes there's only one namespace (if any) per rst file.
+> >
+> > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
+> > ---
+> >
+> > To those following from v1:
+> >
+> > I ended up doing the simplest solution possible, which is to just direc=
+tly read
+> > the rst source corresponding to the doc page right before doing the aut=
+omarkup.
+> > It's not very efficient in the sense that the source is being read
+> > twice (first by Sphinx, then by this), but it sidesteps the "data shari=
+ng
+> > between processes" issue, so parallel_read_safe can be reenabled, and I=
+ didn't
+> > notice any performance hit from this patch (as opposed to the big hit f=
+rom v1).
+> > Works with both Sphinx 2 and 3.
+> >
+> > Changes in v2:
+> > - Get C namespace from reading the corresponding source at the time of =
+doing
+> >   automarkup instead of storing all namespaces beforehand at the source=
+-read
+> >   phase
+> >     - Add get_c_namespace()
+> >     - Remove save_c_namespace()
+> > - Reenabled Sphinx's parallel_read_safe
+> >
+> > v1: https://lore.kernel.org/linux-doc/20201013231218.2750109-6-nfraprad=
+o@protonmail.com/
+> >
+> >  Documentation/sphinx/automarkup.py | 122 ++++++++++++++++++-----------
+> >  1 file changed, 75 insertions(+), 47 deletions(-)
+> >
+> > diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/=
+automarkup.py
+> > index 3e81ebab26ed..953b24b6e2b4 100644
+> > --- a/Documentation/sphinx/automarkup.py
+> > +++ b/Documentation/sphinx/automarkup.py
+> > @@ -53,6 +53,8 @@ RE_typedef =3D re.compile(r'\b(typedef)\s+([a-zA-Z_]\=
+w+)', flags=3Dascii_p3)
+> >  #
+> >  RE_doc =3D re.compile(r'\bDocumentation(/[\w\-_/]+)(\.\w+)*')
+> >
+> > +RE_namespace =3D re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
+> > +
+> >  #
+> >  # Reserved C words that we should skip when cross-referencing
+> >  #
+> > @@ -70,6 +72,8 @@ Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fc=
+ntl', 'mmap',
+> >                'select', 'poll', 'fork', 'execve', 'clone', 'ioctl',
+> >                'socket' ]
+> >
+> > +c_namespace =3D ''
+> > +
+> >  def markup_refs(docname, app, node):
+> >      t =3D node.astext()
+> >      done =3D 0
+> > @@ -128,30 +132,38 @@ def markup_func_ref_sphinx3(docname, app, match):
+> >      #
+> >      # Go through the dance of getting an xref out of the C domain
+> >      #
+> > -    target =3D match.group(2)
+> > +    base_target =3D match.group(2)
+> >      target_text =3D nodes.Text(match.group(0))
+> >      xref =3D None
+> > -    if not (target in Skipfuncs or target in Skipnames):
+> > -        for class_s, reftype_s in zip(class_str, reftype_str):
+> > -            lit_text =3D nodes.literal(classes=3D['xref', 'c', class_s=
+])
+> > -            lit_text +=3D target_text
+> > -            pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+> > -                                          reftype =3D reftype_s,
+> > -                                          reftarget =3D target, modnam=
+e =3D None,
+> > -                                          classname =3D None)
+> > -            #
+> > -            # XXX The Latex builder will throw NoUri exceptions here,
+> > -            # work around that by ignoring them.
+> > -            #
+> > -            try:
+> > -                xref =3D cdom.resolve_xref(app.env, docname, app.build=
+er,
+> > -                                         reftype_s, target, pxref,
+> > -                                         lit_text)
+> > -            except NoUri:
+> > -                xref =3D None
+> > +    possible_targets =3D [base_target]
+> > +    # Check if this document has a namespace, and if so, try
+> > +    # cross-referencing inside it first.
+> > +    if c_namespace:
+> > +        possible_targets.insert(0, c_namespace + "." + base_target)
+> >
+> > -            if xref:
+> > -                return xref
+> > +    if base_target not in Skipnames:
+> > +        for target in possible_targets:
+> > +            if target not in Skipfuncs:
+>
+> Hmm... do we still need to skip syscalls?
 
-> atomic64_t depends on CONFIG_64BIT
-> 
-> include/linux/types.h
-> 
-> #ifdef CONFIG_64BIT
-> typedef struct {
->         s64 counter;
-> } atomic64_t;
-> #endif
+Yeah, I see what you mean. Since you moved the syscalls in the docs inside
+namespaces, there shouldn't be any syscall definitions in the global scope
+anymore and therefore we don't need to skip them any longer.
 
-That's because some 32bit archs need to override the type definition.
-atomic64_t is available on 32bit, although sometimes it is atrocious
-crap.
+I tried it out here and indeed it works fine without skipping them.
+
+But I wonder if it would be a good safety measure to leave it there anyway.=
+ We
+never want to cross-reference to syscalls in the global scope, so if we con=
+tinue
+doing that skip, even if someone accidentally adds a syscall definition out=
+side
+a c:namespace, this will prevent cross-references to it anyway.
+
+What do you think?
+
+>
+> > +                for class_s, reftype_s in zip(class_str, reftype_str):
+> > +                    lit_text =3D nodes.literal(classes=3D['xref', 'c',=
+ class_s])
+> > +                    lit_text +=3D target_text
+> > +                    pxref =3D addnodes.pending_xref('', refdomain =3D =
+'c',
+> > +                                                  reftype =3D reftype_=
+s,
+> > +                                                  reftarget =3D target=
+, modname =3D None,
+> > +                                                  classname =3D None)
+> > +                    #
+> > +                    # XXX The Latex builder will throw NoUri exception=
+s here,
+> > +                    # work around that by ignoring them.
+> > +                    #
+> > +                    try:
+> > +                        xref =3D cdom.resolve_xref(app.env, docname, a=
+pp.builder,
+> > +                                                 reftype_s, target, px=
+ref,
+> > +                                                 lit_text)
+> > +                    except NoUri:
+> > +                        xref =3D None
+> > +
+> > +                    if xref:
+> > +                        return xref
+> >
+> >      return target_text
+> >
+> > @@ -179,34 +191,39 @@ def markup_c_ref(docname, app, match):
+> >      #
+> >      # Go through the dance of getting an xref out of the C domain
+> >      #
+> > -    target =3D match.group(2)
+> > +    base_target =3D match.group(2)
+> >      target_text =3D nodes.Text(match.group(0))
+> >      xref =3D None
+> > -    if not ((match.re =3D=3D RE_function and target in Skipfuncs)
+> > -            or (target in Skipnames)):
+> > -        lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[m=
+atch.re]])
+> > -        lit_text +=3D target_text
+> > -        pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+> > -                                      reftype =3D reftype_str[match.re=
+],
+> > -                                      reftarget =3D target, modname =
+=3D None,
+> > -                                      classname =3D None)
+> > -        #
+> > -        # XXX The Latex builder will throw NoUri exceptions here,
+> > -        # work around that by ignoring them.
+> > -        #
+> > -        try:
+> > -            xref =3D cdom.resolve_xref(app.env, docname, app.builder,
+> > -                                     reftype_str[match.re], target, px=
+ref,
+> > -                                     lit_text)
+> > -        except NoUri:
+> > -            xref =3D None
+> > -    #
+> > -    # Return the xref if we got it; otherwise just return the plain te=
+xt.
+> > -    #
+> > -    if xref:
+> > -        return xref
+> > -    else:
+> > -        return target_text
+> > +    possible_targets =3D [base_target]
+> > +    # Check if this document has a namespace, and if so, try
+> > +    # cross-referencing inside it first.
+> > +    if c_namespace:
+> > +        possible_targets.insert(0, c_namespace + "." + base_target)
+> > +
+> > +    if base_target not in Skipnames:
+> > +        for target in possible_targets:
+> > +            if not (match.re =3D=3D RE_function and target in Skipfunc=
+s):
+> > +                lit_text =3D nodes.literal(classes=3D['xref', 'c', cla=
+ss_str[match.re]])
+> > +                lit_text +=3D target_text
+> > +                pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+> > +                                              reftype =3D reftype_str[=
+match.re],
+> > +                                              reftarget =3D target, mo=
+dname =3D None,
+> > +                                              classname =3D None)
+> > +                #
+> > +                # XXX The Latex builder will throw NoUri exceptions he=
+re,
+> > +                # work around that by ignoring them.
+> > +                #
+> > +                try:
+> > +                    xref =3D cdom.resolve_xref(app.env, docname, app.b=
+uilder,
+> > +                                             reftype_str[match.re], ta=
+rget, pxref,
+> > +                                             lit_text)
+> > +                except NoUri:
+> > +                    xref =3D None
+> > +
+> > +                if xref:
+> > +                    return xref
+> > +
+> > +    return target_text
+> >
+> >  #
+> >  # Try to replace a documentation reference of the form Documentation/.=
+.. with a
+> > @@ -239,7 +256,18 @@ def markup_doc_ref(docname, app, match):
+> >      else:
+> >          return nodes.Text(match.group(0))
+> >
+> > +def get_c_namespace(app, docname):
+> > +    source =3D app.env.doc2path(docname)
+> > +    with open(source) as f:
+> > +        for l in f:
+> > +            match =3D RE_namespace.search(l)
+> > +            if match:
+> > +                return match.group(1)
+> > +    return ''
+> > +
+> >  def auto_markup(app, doctree, name):
+> > +    global c_namespace
+> > +    c_namespace =3D get_c_namespace(app, name)
+> >      #
+> >      # This loop could eventually be improved on.  Someday maybe we
+> >      # want a proper tree traversal with a lot of awareness of which
+>
+>
+>
+> Thanks,
+> Mauro
+
+Thanks,
+N=C3=ADcolas
+
