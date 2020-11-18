@@ -2,188 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1407C63697
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 10:33:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FA0EC5519F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 11:14:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4523B238E6
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 10:33:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C94F208B8
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 11:14:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b="KxppM360"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cuyfbM3G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbgKRKdL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 05:33:11 -0500
-Received: from mail.katalix.com ([3.9.82.81]:35572 "EHLO mail.katalix.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725874AbgKRKdL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Nov 2020 05:33:11 -0500
-X-Greylist: delayed 601 seconds by postgrey-1.27 at vger.kernel.org; Wed, 18 Nov 2020 05:33:09 EST
-Received: from localhost (82-69-49-219.dsl.in-addr.zen.co.uk [82.69.49.219])
-        (Authenticated sender: tom)
-        by mail.katalix.com (Postfix) with ESMTPSA id E39117D2ED;
-        Wed, 18 Nov 2020 10:23:07 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=katalix.com; s=mail;
-        t=1605694988; bh=ItgvLUg3BFBdy1rDlKm0Fjw9nHRiHse7t99eLqmeSE4=;
-        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-         Content-Disposition:In-Reply-To:From;
-        z=Date:=20Wed,=2018=20Nov=202020=2010:23:07=20+0000|From:=20Tom=20P
-         arkin=20<tparkin@katalix.com>|To:=20Siddhant=20Gupta=20<siddhantgu
-         pta416@gmail.com>|Cc:=20davem@davemloft.net,=20kuba@kernel.org,=20
-         corbet@lwn.net,=0D=0A=09netdev@vger.kernel.org,=20linux-doc@vger.k
-         ernel.org,=0D=0A=09linux-kernel@vger.kernel.org,=20mamtashukla555@
-         gmail.com,=0D=0A=09himadrispandya@gmail.com|Subject:=20Re:=20[PATC
-         H]=20Documentation:=20networking:=20Fix=20Column=20span=20alignmen
-         t=0D=0A=20warnings=20in=20l2tp.rst|Message-ID:=20<20201118102307.G
-         A4903@katalix.com>|References:=20<20201117095207.GA16407@Sleakybea
-         st>|MIME-Version:=201.0|Content-Disposition:=20inline|In-Reply-To:
-         =20<20201117095207.GA16407@Sleakybeast>;
-        b=KxppM36001NtVJ/Oawpy21dGdXzlrsz8LWtETzMfm290w6mQwl/DBXN2A+Tcrurz+
-         kXpVZ09RCUm1snROcPHwOngOc11md3quI4MEileVG+Xizm6xd0hh3JkI0UHCkwFT66
-         fZqQsb4rCLCRwNBIVpL61s2hobb4udL5c9AaUd6tZ+hm4bY/4AJvML0anQQPccghkg
-         rAoESa8Pzp1WMDHgf+j7t7dov7O5mAA4AnClut1ev0zX8CyXslUbQBYKDt/MeTbb8A
-         dVinZQ+abW/ir9UGq6GpWLxpbHiQRB8k3Hj15g6ECqcAilUeicKUk4FwzWk7990kU3
-         A7zeJfg88qMJQ==
-Date:   Wed, 18 Nov 2020 10:23:07 +0000
-From:   Tom Parkin <tparkin@katalix.com>
-To:     Siddhant Gupta <siddhantgupta416@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mamtashukla555@gmail.com,
-        himadrispandya@gmail.com
+        id S1726204AbgKRLO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 06:14:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725446AbgKRLOZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 06:14:25 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0979AC0613D4;
+        Wed, 18 Nov 2020 03:14:24 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id j7so1822076wrp.3;
+        Wed, 18 Nov 2020 03:14:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S3lVLTHtft+9EnTWp89LC5ry75XIftcYoLGTsHkuSEI=;
+        b=cuyfbM3Gnmv0q0lEnj/zahIJAsze5tSV+HYjtUhbtTpDTTTl5R8sdjgwiBnLkzWNs5
+         3iwKj63ZLxMsBvgbsznmQhqQc7iO02loZ9JwDwdQMnsPr1L76gy9zewresH3cxxRNco2
+         hQaf2flN0qbopYAh7Cfd9ZdxcrRfR++pSJ88GTkGK5v2ubFw3PNVuSbzlUpWB9v4w5/2
+         5VwMqs69gSZskgaDZ5v5j+hQTJ7ioEecmya9O3N2oInLMpZ1I23Gb8hu1nYHYnMKmW1f
+         8tm0rF0khWob2Unb9bLDbUM6hboZabmNBPQmIUHAmvXVXnLSYL+ZNvtdY1yKCKwTag/j
+         FF8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S3lVLTHtft+9EnTWp89LC5ry75XIftcYoLGTsHkuSEI=;
+        b=jJOafrb+WflsZWheIf2TKRURvJzcHRN0mSRCcBUTlfx+oLVo4Z8wkDT7Xa9JCZnXrK
+         LKsE+Nc2b62hU75uz996gbaYcN8PYdGhqiASdEHXaEkqhjf8nxeTjSLhdwV/JK1Y5zTH
+         BgIvUy3pTP9X3N995mSzglkTe647gY3A0A7GDLNec4Zq+BZMDgTIxCR4j95Qqtmk+Tpq
+         Hm6NIidB0eSNtBXJVe5N4NgsJNFLx+YM/WGcUdiPWYcgtvu9rhp9/3yxbXv+9cBqqPnI
+         HHuto0go7O8ePQ5HhbkDYc4Wen46i92oC6pB1v5xzjNHI8Z3lPeEjf14HvY4hmVJriFG
+         r25A==
+X-Gm-Message-State: AOAM5334MrslJYOwvh/M5lYcBykfV1nuBHllIi/UZktv3nPfk/X6iCg3
+        40DDUkOQT9ZDi9r4dPVhNcg6zn7YybdB9zAIJQ==
+X-Google-Smtp-Source: ABdhPJwhgsRuQfB6oXjbMQreT2rRoZVdWz+p+0mMdTZ2kHP2YSpfSpFEZdRb7Oa8nN1+Z3nZHWuVmw4g/OA4tUveftM=
+X-Received: by 2002:a5d:6288:: with SMTP id k8mr4290464wru.30.1605698062631;
+ Wed, 18 Nov 2020 03:14:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20201117095207.GA16407@Sleakybeast> <20201118102307.GA4903@katalix.com>
+In-Reply-To: <20201118102307.GA4903@katalix.com>
+From:   siddhant gupta <siddhantgupta416@gmail.com>
+Date:   Wed, 18 Nov 2020 16:44:11 +0530
+Message-ID: <CA+imup-3pT47CVL7GZn_vJtHGngNexBR060y2gRfw2v5Gr8P0Q@mail.gmail.com>
 Subject: Re: [PATCH] Documentation: networking: Fix Column span alignment
  warnings in l2tp.rst
-Message-ID: <20201118102307.GA4903@katalix.com>
-References: <20201117095207.GA16407@Sleakybeast>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cWoXeonUoKmBZSoM"
-Content-Disposition: inline
-In-Reply-To: <20201117095207.GA16407@Sleakybeast>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+To:     Tom Parkin <tparkin@katalix.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mamta Shukla <mamtashukla555@gmail.com>,
+        Himadri Pandya <himadrispandya@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---cWoXeonUoKmBZSoM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On  Tue, Nov 17, 2020 at 15:22:07 +0530, Siddhant Gupta wrote:
-> Fix Column span alignment problem warnings in the file
+On Wed, 18 Nov 2020 at 15:53, Tom Parkin <tparkin@katalix.com> wrote:
+>
+> On  Tue, Nov 17, 2020 at 15:22:07 +0530, Siddhant Gupta wrote:
+> > Fix Column span alignment problem warnings in the file
+> >
+>
+> Thanks for the patch, Siddhant.
+>
+> Could you provide some information on how these warnings were
+> triggered?  Using Sphinx 2.4.4 I can't reproduce any warnings for
+> l2tp.rst using the "make htmldocs" target.
 >
 
-Thanks for the patch, Siddhant.
+I am currently using Sphinx v1.8.5 and I made use of command "make
+htmldocs >> doc_xxx.log 2>&1" for directing the errors into a file and
+the statements in the file showed me these warning, also to confirm
+those I tried using "rst2html" on l2tp.rst file and got same set of
+warnings.
 
-Could you provide some information on how these warnings were
-triggered?  Using Sphinx 2.4.4 I can't reproduce any warnings for
-l2tp.rst using the "make htmldocs" target.
-
-> Signed-off-by: Siddhant Gupta <siddhantgupta416@gmail.com>
-> ---
->  Documentation/networking/l2tp.rst | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
->=20
-> diff --git a/Documentation/networking/l2tp.rst b/Documentation/networking=
-/l2tp.rst
-> index 498b382d25a0..0c0ac4e70586 100644
-> --- a/Documentation/networking/l2tp.rst
-> +++ b/Documentation/networking/l2tp.rst
-> @@ -171,7 +171,8 @@ DEBUG              N        Debug flags.
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
->  Attribute          Required Use
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
-> -CONN_ID            N        Identifies the tunnel id to be queried.
-> +CONN_ID            N        Identifies the tunnel id=20
-> +                            to be queried.
->                              Ignored in DUMP requests.
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
-> =20
-> @@ -208,8 +209,8 @@ onto the new session. This is covered in "PPPoL2TP So=
-ckets" later.
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
->  Attribute          Required Use
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
-> -CONN_ID            Y        Identifies the parent tunnel id of the sessi=
-on
-> -                            to be destroyed.
-> +CONN_ID            Y        Identifies the parent tunnel id=20
-> +                            of the session to be destroyed.
->  SESSION_ID         Y        Identifies the session id to be destroyed.
->  IFNAME             N        Identifies the session by interface name. If
->                              set, this overrides any CONN_ID and SESSION_=
-ID
-> @@ -222,13 +223,12 @@ IFNAME             N        Identifies the session =
-by interface name. If
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
->  Attribute          Required Use
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
-> -CONN_ID            Y        Identifies the parent tunnel id of the sessi=
-on
-> -                            to be modified.
-> +CONN_ID            Y        Identifies the parent tunnel=20
-> +                            id of the session to be modified.
->  SESSION_ID         Y        Identifies the session id to be modified.
-> -IFNAME             N        Identifies the session by interface name. If
-> -                            set, this overrides any CONN_ID and SESSION_=
-ID
-> -                            attributes. Currently supported for L2TPv3
-> -                            Ethernet sessions only.
-> +IFNAME             N        Identifies the session by interface name. If=
- set,
-> +                            this overrides any CONN_ID and SESSION_ID
-> +                            attributes. Currently supported for L2TPv3 E=
-thernet sessions only.
->  DEBUG              N        Debug flags.
->  RECV_SEQ           N        Enable rx data sequence numbers.
->  SEND_SEQ           N        Enable tx data sequence numbers.
-> @@ -243,10 +243,10 @@ RECV_TIMEOUT       N        Timeout to wait when re=
-ordering received
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
->  Attribute          Required Use
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D
-> -CONN_ID            N        Identifies the tunnel id to be queried.
-> -                            Ignored for DUMP requests.
-> -SESSION_ID         N        Identifies the session id to be queried.
-> -                            Ignored for DUMP requests.
-> +CONN_ID            N        Identifies the tunnel id=20
-> +                            to be queried. Ignored for DUMP requests.
-> +SESSION_ID         N        Identifies the session id=20
-> +                            to be queried. Ignored for DUMP requests.
->  IFNAME             N        Identifies the session by interface name.
->                              If set, this overrides any CONN_ID and
->                              SESSION_ID attributes. Ignored for DUMP
-> --=20
-> 2.25.1
->=20
-
---cWoXeonUoKmBZSoM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEsUkgyDzMwrj81nq0lIwGZQq6i9AFAl+09gYACgkQlIwGZQq6
-i9DTxwf/SLwfWCMrHaCrc4Y+s2s8cVTn2d4yH1dKDB3Wx9wXpNjw/OeG92gDOGvF
-HREPGel/uM92rPitEZ+rfWAAm3sQzOTX1hGLmovprJWEK2EznlDEToh+1dkmTVNN
-UYC/iUKEFkQ32nrF3D5SX8iaHax/8rZUW3h0G9qbZCIk1y2jfOqI978uC5zTCC8Q
-URN+h+/W6ULEttnH9J+yRBZmRzEApF/JgOkxLYCcqPn2ZI4/TerWaUOnHNT5O16K
-b62YofMIDz6Wb749dDzzr1OLUMINNG2+JnycxvBwtVNW8YELizqS66uAdtaua6AS
-O++/glHN4Htiel173mJFhpml2sRj5Q==
-=1GS3
------END PGP SIGNATURE-----
-
---cWoXeonUoKmBZSoM--
+> > Signed-off-by: Siddhant Gupta <siddhantgupta416@gmail.com>
+> > ---
+> >  Documentation/networking/l2tp.rst | 26 +++++++++++++-------------
+> >  1 file changed, 13 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/Documentation/networking/l2tp.rst b/Documentation/networking/l2tp.rst
+> > index 498b382d25a0..0c0ac4e70586 100644
+> > --- a/Documentation/networking/l2tp.rst
+> > +++ b/Documentation/networking/l2tp.rst
+> > @@ -171,7 +171,8 @@ DEBUG              N        Debug flags.
+> >  ================== ======== ===
+> >  Attribute          Required Use
+> >  ================== ======== ===
+> > -CONN_ID            N        Identifies the tunnel id to be queried.
+> > +CONN_ID            N        Identifies the tunnel id
+> > +                            to be queried.
+> >                              Ignored in DUMP requests.
+> >  ================== ======== ===
+> >
+> > @@ -208,8 +209,8 @@ onto the new session. This is covered in "PPPoL2TP Sockets" later.
+> >  ================== ======== ===
+> >  Attribute          Required Use
+> >  ================== ======== ===
+> > -CONN_ID            Y        Identifies the parent tunnel id of the session
+> > -                            to be destroyed.
+> > +CONN_ID            Y        Identifies the parent tunnel id
+> > +                            of the session to be destroyed.
+> >  SESSION_ID         Y        Identifies the session id to be destroyed.
+> >  IFNAME             N        Identifies the session by interface name. If
+> >                              set, this overrides any CONN_ID and SESSION_ID
+> > @@ -222,13 +223,12 @@ IFNAME             N        Identifies the session by interface name. If
+> >  ================== ======== ===
+> >  Attribute          Required Use
+> >  ================== ======== ===
+> > -CONN_ID            Y        Identifies the parent tunnel id of the session
+> > -                            to be modified.
+> > +CONN_ID            Y        Identifies the parent tunnel
+> > +                            id of the session to be modified.
+> >  SESSION_ID         Y        Identifies the session id to be modified.
+> > -IFNAME             N        Identifies the session by interface name. If
+> > -                            set, this overrides any CONN_ID and SESSION_ID
+> > -                            attributes. Currently supported for L2TPv3
+> > -                            Ethernet sessions only.
+> > +IFNAME             N        Identifies the session by interface name. If set,
+> > +                            this overrides any CONN_ID and SESSION_ID
+> > +                            attributes. Currently supported for L2TPv3 Ethernet sessions only.
+> >  DEBUG              N        Debug flags.
+> >  RECV_SEQ           N        Enable rx data sequence numbers.
+> >  SEND_SEQ           N        Enable tx data sequence numbers.
+> > @@ -243,10 +243,10 @@ RECV_TIMEOUT       N        Timeout to wait when reordering received
+> >  ================== ======== ===
+> >  Attribute          Required Use
+> >  ================== ======== ===
+> > -CONN_ID            N        Identifies the tunnel id to be queried.
+> > -                            Ignored for DUMP requests.
+> > -SESSION_ID         N        Identifies the session id to be queried.
+> > -                            Ignored for DUMP requests.
+> > +CONN_ID            N        Identifies the tunnel id
+> > +                            to be queried. Ignored for DUMP requests.
+> > +SESSION_ID         N        Identifies the session id
+> > +                            to be queried. Ignored for DUMP requests.
+> >  IFNAME             N        Identifies the session by interface name.
+> >                              If set, this overrides any CONN_ID and
+> >                              SESSION_ID attributes. Ignored for DUMP
+> > --
+> > 2.25.1
+> >
