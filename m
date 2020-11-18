@@ -2,176 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF954C3E8C5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 17:49:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4D2FC3E8C5
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 18:19:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53EAB216C4
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 17:49:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 655C324248
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 18:19:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ErPSVbRW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727356AbgKRRsq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 12:48:46 -0500
-Received: from mga14.intel.com ([192.55.52.115]:63212 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726547AbgKRRsp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Nov 2020 12:48:45 -0500
-IronPort-SDR: Z09j0oN4DuxJZ3uo9MxXQ9e890e15O2tlhyi2TqU+0EnpfGT8DSrz/2oanXmT5lIw7RF+EK8ru
- x6GnS6sT0kkQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="170374318"
-X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="170374318"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 09:48:44 -0800
-IronPort-SDR: 75b4MMWvGFm/tIxeLpMDnHiz3+HVFR2GHiMxm9Izlvywo2dylZuzEwjvMK/LamwEQpFeJ2Kx+c
- XXO+U7Z/5jiA==
-X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="544633974"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.140])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 09:48:43 -0800
-Date:   Wed, 18 Nov 2020 09:49:55 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     "Wu, Hao" <hao.wu@intel.com>
-cc:     "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mdf@kernel.org" <mdf@kernel.org>,
-        "trix@redhat.com" <trix@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>
-Subject: RE: [PATCH 2/2] fpga: dfl: look for vendor specific capability
-In-Reply-To: <DM6PR11MB3819B7E06DB9A4BC7FBDABD285E10@DM6PR11MB3819.namprd11.prod.outlook.com>
-Message-ID: <alpine.DEB.2.22.394.2011180948060.353557@rhweight-WRK1>
-References: <20201117012552.262149-1-matthew.gerlach@linux.intel.com> <20201117012552.262149-3-matthew.gerlach@linux.intel.com> <DM6PR11MB381979D8AEDC1F4EA8B4C2BC85E20@DM6PR11MB3819.namprd11.prod.outlook.com> <alpine.DEB.2.22.394.2011171144310.296481@rhweight-WRK1>
- <DM6PR11MB3819B7E06DB9A4BC7FBDABD285E10@DM6PR11MB3819.namprd11.prod.outlook.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S1725823AbgKRSTe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 13:19:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725794AbgKRSTd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 13:19:33 -0500
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com [IPv6:2607:f8b0:4864:20::a43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94DCAC0613D4
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 10:19:33 -0800 (PST)
+Received: by mail-vk1-xa43.google.com with SMTP id o73so701148vka.5
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 10:19:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=D55mGSGXRfvyjgWecq0UWIiQZUYLLo9SfJxfFnsVwX0=;
+        b=ErPSVbRWN4hCYHPta43SG0tQfc8GbD9XwNGCZ84wZ89hCbRcr+4cpS35TTs7wnqt29
+         iRWrq3VHnGGoCXDNE77n1xMtQ9sDoH9WZ9xlaqm39OSnAzrhBvfY00M+hXzIKCoiRheV
+         sp1yNsh4KKATGxXHsI/0tSOc/CHDQ3BFFBIHyL9690S9qIoeKqcWnRlVCR+A69w+uZtI
+         H0LLcTqqB/iC6e8RbBuFeO2VwmmO39IVBSem+Jqz4+hmjIJExzbtN5BWweQYO7lXtLFH
+         fMhVEsAimzDkOJIaxEASyEMELVArMmkVh1H6wPvN9C7cG9FedZ5yOWFwN03mX0m/quim
+         v7xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=D55mGSGXRfvyjgWecq0UWIiQZUYLLo9SfJxfFnsVwX0=;
+        b=O4SLgnh86uni8W89jyv9/udwV1krNLW9PCFWmvmM0h/8fOrghMThqUC3ULHh/GrUPY
+         WDMeNEMf52tbXgnR4J7B8EjzWQHhgLpfeDzyAkcrh0WzciXGTj8O4zoBJggW96oqXCXP
+         t/AOQmf2uEhKAA9yGh08HGK4x/5bZCSe0OUyJboiu0FfLGG9t6cGOMz8k6TgEOAnR0ZU
+         p9TjVzH2AhZtTAkAEo8SOb06li6+vkEnu/NmNz26AFosarY7RXW2O7bz0CW6F5XqlaiT
+         Ny3NfCh6qQiTnlsqmzwtjPtD2NC/fnc9vVaL+TZOHAHpWIfvHmZ/lban7FlbANikV/qF
+         br9g==
+X-Gm-Message-State: AOAM531/yB+7xcAmwOE+Z+twsbyXc96DhBFuR5qhF8HSQS+XYoPm7k3t
+        cvmz96m9/Co9DgaFE7vEOm6JgIyvkX213n8YrKFR54m/w00=
+X-Google-Smtp-Source: ABdhPJwXnw351dXb8DF5uqF6PLTQhcxKdHbxqKBCJKl6npj2UFQjIlIx3X8Xi5T9hMImrCGUwMQaSJmw49ngSmPf06w=
+X-Received: by 2002:a1f:cd07:: with SMTP id d7mr4787029vkg.10.1605723571675;
+ Wed, 18 Nov 2020 10:19:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+References: <CAHoi7Su9sWetsH4BCYnzx6+9kskFAd9gwvMgUG_e0Mmy9UQOZA@mail.gmail.com>
+In-Reply-To: <CAHoi7Su9sWetsH4BCYnzx6+9kskFAd9gwvMgUG_e0Mmy9UQOZA@mail.gmail.com>
+From:   =?UTF-8?B?0JXQvdGM0YjQuNC9INCQ0L3QtNGA0LXQuQ==?= 
+        <and.enshin@gmail.com>
+Date:   Thu, 19 Nov 2020 03:19:20 +0900
+Message-ID: <CAHoi7StxrQ3E07_Y7M5yj+XdzfmBbsg_h0kzpmO23odj+naJXg@mail.gmail.com>
+Subject: Re: [PATCH] Fix cgroup-v1 doc: /proc/<pid>/cgroup instead of /proc/<pid>/cgroups
+To:     linux-doc@vger.kernel.org
+Cc:     trivial@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Signed-off-by: Enshin Andrei <b1os@bk.ru>
+
+---
+ Documentation/admin-guide/cgroup-v1/cgroups.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v1/cgroups.rst
+b/Documentation/admin-guide/cgroup-v1/cgroups.rst
+index b068801..9544370 100644
+--- a/Documentation/admin-guide/cgroup-v1/cgroups.rst
++++ b/Documentation/admin-guide/cgroup-v1/cgroups.rst
+@@ -485,7 +485,7 @@ subsystems when none are explicitly specified is
+not supported when
+ you give a subsystem a name.
+
+ The name of the subsystem appears as part of the hierarchy description
+-in /proc/mounts and /proc/<pid>/cgroups.
++in /proc/mounts and /proc/<pid>/cgroup.
 
 
-On Wed, 18 Nov 2020, Wu, Hao wrote:
+ 3. Kernel API
+--=20
+2.7.4
 
->> On Tue, 17 Nov 2020, Wu, Hao wrote:
+=D0=B2=D1=82, 17 =D0=BD=D0=BE=D1=8F=D0=B1. 2020 =D0=B3. =D0=B2 01:30, =D0=
+=95=D0=BD=D1=8C=D1=88=D0=B8=D0=BD =D0=90=D0=BD=D0=B4=D1=80=D0=B5=D0=B9 <and=
+.enshin@gmail.com>:
 >
-> [...]
+> ---
+>  Documentation/admin-guide/cgroup-v1/cgroups.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->>>>  Open discussion
->>>>  ===============
->>>> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
->>>> index b1b157b41942..5418e8bf2496 100644
->>>> --- a/drivers/fpga/dfl-pci.c
->>>> +++ b/drivers/fpga/dfl-pci.c
->>>> @@ -27,6 +27,13 @@
->>>>  #define DRV_VERSION	"0.8"
->>>>  #define DRV_NAME	"dfl-pci"
->>>>
->>>> +#define PCI_VNDR_ID_DFLS 0x43
->>>
->>> What about PCI_VSEC_ID_INTEL_DFLS?
->>>
->>> Is it possible a different ID chosen by different vendor?
->>
->> I think another vendor could choose their own ID.
+> diff --git a/Documentation/admin-guide/cgroup-v1/cgroups.rst
+> b/Documentation/admin-guide/cgroup-v1/cgroups.rst
+> index b068801..9544370 100644
+> --- a/Documentation/admin-guide/cgroup-v1/cgroups.rst
+> +++ b/Documentation/admin-guide/cgroup-v1/cgroups.rst
+> @@ -485,7 +485,7 @@ subsystems when none are explicitly specified is
+> not supported when
+>  you give a subsystem a name.
 >
-> If another vendor could choose their own ID, so should we
-> check vendor id as well?
+>  The name of the subsystem appears as part of the hierarchy description
+> -in /proc/mounts and /proc/<pid>/cgroups.
+> +in /proc/mounts and /proc/<pid>/cgroup.
+>
+>
+>  3. Kernel API
+> --
+> 2.7.4
+>
+>
+> --
+> Best Regards,
+> Andrei Enshin
 
-Yes, the vendor id should be checked.  I will add it to v2.
->
-> [...]
->
->>>> +	for (i = 0; i < dfl_cnt; i++) {
->>>> +		dfl_res_off = voff + PCI_VNDR_DFLS_RES_OFFSET +
->>>> +				      (i * sizeof(dfl_res));
->>>> +		pci_read_config_dword(pcidev, dfl_res_off, &dfl_res);
->>>> +
->>>> +		dev_dbg(&pcidev->dev, "dfl_res 0x%x\n", dfl_res);
->>>> +
->>>> +		bar = dfl_res & PCI_VND_DFLS_RES_BAR_MASK;
->>>> +
->>>> +		if (bar >= PCI_STD_NUM_BARS) {
->>>> +			dev_err(&pcidev->dev, "%s bad bar number %d\n",
->>>> +				__func__, bar);
->>>> +			return -EINVAL;
->>>> +		}
->>>> +
->>>> +		len = pci_resource_len(pcidev, bar);
->>>> +
->>>
->>> Remove this blank line.
->> OK, v2.
->>
->>>
->>>> +		if (len == 0) {
->>>> +			dev_err(&pcidev->dev, "%s unmapped bar
->>>> number %d\n",
->>>
->>> Why "unmapped bar"?
->>
->> How about, "zero length bar"?
->
-> I think this checking can be covered by below one, right?
-> if (offset >= len)
-> ...
 
-I agree. I will make the change in v2.
->
->>
->>>
->>>> +				__func__, bar);
->>>> +			return -EINVAL;
->>>> +		}
->>>> +
->>>> +		offset = dfl_res & ~PCI_VND_DFLS_RES_BAR_MASK;
->>>> +
->>>
->>> Remove this blank line.
->>
->> OK, v2.
->>
->>>
->>>> +		if (offset >= len) {
->>>> +			dev_err(&pcidev->dev, "%s bad offset %u >= %llu\n",
->>>> +				__func__, offset, len);
->>>> +			return -EINVAL;
->>>> +		}
->>>> +
->
-> [....]
->
->>>> +
->>>> +		start = pci_resource_start(pcidev, bar) + offset;
->>>> +		len -= offset;
->>>> +
->>>> +		if (!PAGE_ALIGNED(start)) {
->>>
->>> Is this a hard requirement? Or offset should be page aligned per VSEC
->> definition?
->>> Or this is just the requirement from driver point of view. Actually we don't
->> like
->>> to add rules only in driver, so it's better we have this requirement in VSEC
->> definition
->>> with proper documentation.
->>
->> The DFL parsing code ioremaps the memory bounded by start/len.  I thought
->> this would require the start to be page aligned.
->
-> If consider mmap the region to userspace, it requires page aligned, but do we
-> need to apply this rule for everyone?
 
-I will remove this check in v2.
+--=20
 
->
-> Thanks
-> Hao
->
->
+Best Regards,
+Andrei Enshin
