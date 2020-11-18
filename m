@@ -2,260 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E71A5C63697
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 23:09:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA09CC2D0E4
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 00:24:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B12862223D
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Nov 2020 23:09:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5574D20691
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 00:24:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h/ilHSI/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbgKQXJG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 18:09:06 -0500
-Received: from mga05.intel.com ([192.55.52.43]:13337 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726340AbgKQXJG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Nov 2020 18:09:06 -0500
-IronPort-SDR: 9O+9NLql69GqWdme8JxtLXrzXc3gDB32eyeWlLvy1zm0ii/o7Q2RzGirBWKDdlrMqtcmLkU/vT
- AlXrtsGLFGFA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="255740712"
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="255740712"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 15:09:05 -0800
-IronPort-SDR: AwiJnKb6bFs3WhEZ1m4iR6bIkAfWXLxHDMvjbjoZTwJ15fGBT6ZhX81NrO5ZevZHM5xCTpsqB8
- OQRQ0t7LPKOg==
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="544249170"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.140])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 15:09:05 -0800
-Date:   Tue, 17 Nov 2020 15:10:15 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Tom Rix <trix@redhat.com>
-cc:     linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mdf@kernel.org, hao.wu@intel.com, linux-doc@vger.kernel.org,
-        corbet@lwn.net
-Subject: Re: [PATCH 2/2] fpga: dfl: look for vendor specific capability
-In-Reply-To: <53b9cb12-8002-5737-ba8b-7c59687ead5a@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2011171457150.312724@rhweight-WRK1>
-References: <20201117012552.262149-1-matthew.gerlach@linux.intel.com> <20201117012552.262149-3-matthew.gerlach@linux.intel.com> <53b9cb12-8002-5737-ba8b-7c59687ead5a@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S1725771AbgKRAXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 19:23:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725767AbgKRAXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 19:23:55 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DE56C0613CF;
+        Tue, 17 Nov 2020 16:23:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=x66IiCb3J78ZY3ZCN379wprOnWskvKlwPEBSJOmY+qk=; b=h/ilHSI//Cj40icPF5NAyf72zk
+        oJ2mH8JAKNXT8MvGjd3tA/Ej26ljvchcRTuv5EyhszSepD7NWHZ+Z+pOWObqA+KdnBsCqV/pXmy5N
+        PZwBWzPa1wn0PM63RCJZ5yARcc9ZPO47HlrQwOTMkEYKze79YmLVHuG9yOluaCsZcTOnhaOBphZoZ
+        z+MwcBvumcMA7Ak/HKM6/lLkDvM+nknrtIF/Awt/aF9Y8N3rKM4FVPgVxBiO1elcPG5LIkIM+WwTZ
+        cn8/q0wbw1Rv6QcaujlyJv/jO2uPNMXCbYOVF2x3/e7aIAE+tj9bjU22BQSyJMR/X/qo3pXxQqoEU
+        ddU/0ZTw==;
+Received: from [2601:1c0:6280:3f0::bcc4]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kfBGK-0006C5-SH; Wed, 18 Nov 2020 00:23:53 +0000
+Subject: Re: [RFC] Add kernel-doc test script
+To:     Eduardo Habkost <ehabkost@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20201030144713.201372-1-pbonzini@redhat.com>
+ <20201030144713.201372-3-pbonzini@redhat.com>
+ <20201113152106.7b4a07ee@lwn.net>
+ <20201113223912.GK17076@casper.infradead.org>
+ <20201117212452.GM1235237@habkost.net>
+ <20201117213051.GA29991@casper.infradead.org>
+ <20201117223612.GN1235237@habkost.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <16145b8b-3213-8bc9-1826-d3ae006f78fa@infradead.org>
+Date:   Tue, 17 Nov 2020 16:23:49 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+In-Reply-To: <20201117223612.GN1235237@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 11/17/20 2:36 PM, Eduardo Habkost wrote:
+> Add a kernel-doc test script to tools/testing/kernel-doc.
+> 
+> radix_tree_lookup_slot test case provided by Matthew Wilcox.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
+Very good idea.
 
-On Tue, 17 Nov 2020, Tom Rix wrote:
+I have had a kernel-doc test source file for (?) 10-12 years,
+while I was the docs maintainer.
 
->
-> On 11/16/20 5:25 PM, matthew.gerlach@linux.intel.com wrote:
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> A DFL may not begin at offset 0 of BAR 0.  A PCIe vendor
->> specific capability can be used to specify the start of a
->> number of DFLs.
->>
->> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->> ---
->>  Documentation/fpga/dfl.rst | 10 +++++
->>  drivers/fpga/dfl-pci.c     | 88 +++++++++++++++++++++++++++++++++++++-
->>  2 files changed, 97 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
->> index 0404fe6ffc74..c81ceb1e79e2 100644
->> --- a/Documentation/fpga/dfl.rst
->> +++ b/Documentation/fpga/dfl.rst
->> @@ -501,6 +501,16 @@ Developer only needs to provide a sub feature driver with matched feature id.
->>  FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
->>  could be a reference.
->>
->> +Location of DFLs on PCI bus
->> +===========================
->> +The start of the DFL is assumed to be offset 0 of bar 0.
->> +Alternatively, a vendor specific capability structure can be used to
->> +specify the location of one or more DFLs.  Intel has reserved the
->> +vendor specific id of 0x43 for this purpose.  The vendor specific
->> +data begins with a 4 byte count of the number of DFLs followed 4 byte
->> +Offset/BIR fields for each DFL. Bits 2:0 of Offset/BIR field indicates
->> +the BAR, and bits 31:3 form the 8 byte aligned offset where bits 2:0 are
->> +zero.
->>
->
-> Does the 'Device Feature List (DFL) Overview' section need to change ?
+I didn't have the "expected" files for comparison.
+I just used $web_browser.
 
-The 'Device Feature List (DFL) Overview' section does not really mention
-the starting location of the DFLs.  I think a section on the discussing
-the starting location is enough.
+> ---
+>  tools/testing/kernel-doc/test-case.h          | 111 ++++++++++
+>  .../testing/kernel-doc/test-case.man.expected | 150 ++++++++++++++
+>  .../kernel-doc/test-case.none.expected        |   0
+>  .../kernel-doc/test-case.rst2.expected        | 195 ++++++++++++++++++
+>  .../kernel-doc/test-case.rst3.expected        | 195 ++++++++++++++++++
+>  tools/testing/kernel-doc/test.sh              |  90 ++++++++
+>  6 files changed, 741 insertions(+)
+>  create mode 100644 tools/testing/kernel-doc/test-case.h
+>  create mode 100644 tools/testing/kernel-doc/test-case.man.expected
+>  create mode 100644 tools/testing/kernel-doc/test-case.none.expected
+>  create mode 100644 tools/testing/kernel-doc/test-case.rst2.expected
+>  create mode 100644 tools/testing/kernel-doc/test-case.rst3.expected
+>  create mode 100755 tools/testing/kernel-doc/test.sh
 
->
-> Maybe some more ascii art on location of bar0 vs vendor specific ?
+thanks.
+-- 
+~Randy
 
-I've added some clarity in v2 which might be enough.
-
->
->>  Open discussion
->>  ===============
->> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
->> index b1b157b41942..5418e8bf2496 100644
->> --- a/drivers/fpga/dfl-pci.c
->> +++ b/drivers/fpga/dfl-pci.c
->> @@ -27,6 +27,13 @@
->>  #define DRV_VERSION	"0.8"
-> Since basic pci functionality is changing, consider incrementing this version.
->>  #define DRV_NAME	"dfl-pci"
->>
->> +#define PCI_VNDR_ID_DFLS 0x43
->> +
->> +#define PCI_VNDR_DFLS_CNT_OFFSET 8
->> +#define PCI_VNDR_DFLS_RES_OFFSET 0x0c
->> +
->> +#define PCI_VND_DFLS_RES_BAR_MASK 0x7
-> Is this missing a R? PCI_VNDR_DFLS_RES_BAR_MASK ?
-
-Good catch!.  Will fix in v2.
-
->> +
->>  struct cci_drvdata {
->>  	struct dfl_fpga_cdev *cdev;	/* container device */
->>  };
->> @@ -119,6 +126,82 @@ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
->>  	return table;
->>  }
->>
->> +static int find_dfl_in_cfg(struct pci_dev *pcidev,
->> +			   struct dfl_fpga_enum_info *info)
->> +{
->> +	u32 bar, offset, vndr_hdr, dfl_cnt, dfl_res;
->> +	int dfl_res_off, i, voff = 0;
->> +	resource_size_t start, len;
->> +
->> +	while ((voff = pci_find_next_ext_capability(pcidev, voff, PCI_EXT_CAP_ID_VNDR))) {
->> +
-> extra nl
-Ok, fix in v2.
-
->> +		pci_read_config_dword(pcidev, voff + PCI_VNDR_HEADER, &vndr_hdr);
->
-> A general problem.
->
-> Return of pci_read is not checked, nor are the values ex/ vndr_hdr initialized.
-
-In v2 the variables will be initialized to invalid values that will be 
-caught with the existing checks.
-
->
->> +
->> +		dev_dbg(&pcidev->dev,
->> +			"vendor-specific capability id 0x%x, rev 0x%x len 0x%x\n",
->> +			PCI_VNDR_HEADER_ID(vndr_hdr),
->> +			PCI_VNDR_HEADER_REV(vndr_hdr),
->> +			PCI_VNDR_HEADER_LEN(vndr_hdr));
->> +
->> +		if (PCI_VNDR_HEADER_ID(vndr_hdr) == PCI_VNDR_ID_DFLS)
->> +			break;
->> +	}
->> +
->> +	if (!voff) {
->> +		dev_dbg(&pcidev->dev, "%s no VSEC found\n", __func__);
->> +		return -ENODEV;
->> +	}
->> +
->> +	pci_read_config_dword(pcidev, voff + PCI_VNDR_DFLS_CNT_OFFSET, &dfl_cnt);
->> +	dev_info(&pcidev->dev, "dfl_cnt %d\n", dfl_cnt);
->> +	for (i = 0; i < dfl_cnt; i++) {
-> Is there a upper limit on the dfl_cnt ? maybe PCI_STD_NUM_BARS ?
-
-Technically, there could be more than one DFL in a bar.  I don't
-really know what criteria constitutes an upper limit.
-
->> +		dfl_res_off = voff + PCI_VNDR_DFLS_RES_OFFSET +
->> +				      (i * sizeof(dfl_res));
->> +		pci_read_config_dword(pcidev, dfl_res_off, &dfl_res);
->> +
->> +		dev_dbg(&pcidev->dev, "dfl_res 0x%x\n", dfl_res);
->> +
->> +		bar = dfl_res & PCI_VND_DFLS_RES_BAR_MASK;
-> an extra nl, fix the similar ones as well.
->> +
->> +		if (bar >= PCI_STD_NUM_BARS) {
->> +			dev_err(&pcidev->dev, "%s bad bar number %d\n",
->> +				__func__, bar);
->> +			return -EINVAL;
->> +		}
->> +
->> +		len = pci_resource_len(pcidev, bar);
->> +
->> +		if (len == 0) {
->> +			dev_err(&pcidev->dev, "%s unmapped bar number %d\n",
->> +				__func__, bar);
->> +			return -EINVAL;
->> +		}
->> +
->> +		offset = dfl_res & ~PCI_VND_DFLS_RES_BAR_MASK;
->> +
->> +		if (offset >= len) {
->> +			dev_err(&pcidev->dev, "%s bad offset %u >= %llu\n",
->> +				__func__, offset, len);
->> +			return -EINVAL;
->> +		}
->> +
->> +		dev_info(&pcidev->dev, "%s BAR %d offset 0x%x\n", __func__, bar, offset);
->> +
->> +		start = pci_resource_start(pcidev, bar) + offset;
->> +		len -= offset;
->> +
->> +		if (!PAGE_ALIGNED(start)) {
->> +			dev_err(&pcidev->dev, "%s unaliged start 0x%llx\n",
->> +				__func__, start);
->> +			return -EINVAL;
->> +		}
->> +
->> +		dfl_fpga_enum_info_add_dfl(info, start, len);
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->>  static int find_dfl_in_bar0(struct pci_dev *pcidev,
->>  			    struct dfl_fpga_enum_info *info)
->>  {
->> @@ -221,7 +304,10 @@ static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
->>  			goto irq_free_exit;
->>  	}
->>
->> -	ret = find_dfl_in_bar0(pcidev, info);
->> +	ret = find_dfl_in_cfg(pcidev, info);
->> +
->> +	if (ret)
->> +		ret = find_dfl_in_bar0(pcidev, info);
->
-> Is this really an either/or ?
->
-> Could there be a base functionality on bar0 and a skew functionality on vendor bars?
-
-For simplicity I think either or is better.  If skew functionality is in 
-vendor bars, why not just use the vendor bars all the time.
-
->
-> If vendor is going to completely override, why not use bar0 ?
-
-I'm not sure I understand the question, but in v2 the legacy DFL search 
-will only occur if there is no VSEC found.
-
->
-> Tom
->
->>
->>  	if (ret)
->>  		goto irq_free_exit;
->
->
