@@ -2,43 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91890C5519F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 20:46:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CF5C6379D
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 20:48:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40D03246C2
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 20:46:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93DCF204EC
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 20:48:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727156AbgKRUqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 15:46:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41142 "EHLO
+        id S1727397AbgKRUsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 15:48:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727074AbgKRUqb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 15:46:31 -0500
+        with ESMTP id S1726416AbgKRUsH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 15:48:07 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E72BC0613D4;
-        Wed, 18 Nov 2020 12:46:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69840C0613D4;
+        Wed, 18 Nov 2020 12:48:07 -0800 (PST)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D92282EF;
-        Wed, 18 Nov 2020 20:46:30 +0000 (UTC)
-Date:   Wed, 18 Nov 2020 13:46:29 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id DF9EE1F5B;
+        Wed, 18 Nov 2020 20:48:06 +0000 (UTC)
+Date:   Wed, 18 Nov 2020 13:48:05 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        David Rientjes <rientjes@google.com>, Zi Yan <ziy@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/vm: remove unused 3 items explanation for
- /proc/vmstat
-Message-ID: <20201118134629.31b3cdf8@lwn.net>
-In-Reply-To: <1605520282-51993-1-git-send-email-alex.shi@linux.alibaba.com>
-References: <1605520282-51993-1-git-send-email-alex.shi@linux.alibaba.com>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Jason Wessel <jason.wessel@windriver.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        kgdb-bugreport@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Subject: Re: [PATCH] Documentation: kgdb: Fix a typo
+Message-ID: <20201118134805.7304a9bf@lwn.net>
+In-Reply-To: <1605519767-25502-1-git-send-email-yangtiezhu@loongson.cn>
+References: <1605519767-25502-1-git-send-email-yangtiezhu@loongson.cn>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,21 +48,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 16 Nov 2020 17:51:22 +0800
-Alex Shi <alex.shi@linux.alibaba.com> wrote:
+On Mon, 16 Nov 2020 17:42:47 +0800
+Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
 
-> Commit 5647bc293ab1 ("mm: compaction: Move migration fail/success
-> stats to migrate.c"), removed 3 items in /proc/vmstat. but the docs
-> still has their explanation. let's remove them.
+> "to into" -> "into"
 > 
-> "compact_blocks_moved",
-> "compact_pages_moved",
-> "compact_pagemigrate_failed",
+> Reported-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> ---
+>  Documentation/dev-tools/kgdb.rst | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
+> index 77b688e..4345624 100644
+> --- a/Documentation/dev-tools/kgdb.rst
+> +++ b/Documentation/dev-tools/kgdb.rst
+> @@ -63,10 +63,9 @@ will want to turn on ``CONFIG_DEBUG_INFO`` which is called
+>  It is advised, but not required, that you turn on the
+>  ``CONFIG_FRAME_POINTER`` kernel option which is called :menuselection:`Compile
+>  the kernel with frame pointers` in the config menu. This option inserts code
+> -to into the compiled executable which saves the frame information in
+> -registers or on the stack at different points which allows a debugger
+> -such as gdb to more accurately construct stack back traces while
+> -debugging the kernel.
+> +into the compiled executable which saves the frame information in registers
+> +or on the stack at different points which allows a debugger such as gdb to
+> +more accurately construct stack back traces while debugging the kernel.
 
-So a quick look says that the above-mentioned patch didn't remove those
-three items; two of them were, instead, renamed.  Rather than just taking
-out the old information, it seems we should actually update it to reflect
-current reality?
+Applied.
+
+In the future, though, please avoid refilling paragraphs when you make a
+change like this; it makes it much harder to see what has actually changed.
 
 Thanks,
 
