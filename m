@@ -2,82 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2A6C56201
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 20:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C41C56201
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 22:40:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07D0A24686
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 20:53:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63C51246E4
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 22:40:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="D1BdkFas"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727000AbgKRUw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 15:52:58 -0500
-Received: from ms.lwn.net ([45.79.88.28]:46644 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726199AbgKRUw6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Nov 2020 15:52:58 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B727550A9;
-        Wed, 18 Nov 2020 20:52:57 +0000 (UTC)
-Date:   Wed, 18 Nov 2020 13:52:56 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yi Wang <wang.yi59@zte.com.cn>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xue.zhihong@zte.com.cn, wang.liang82@zte.com.cn,
-        Liao Pingfang <liao.pingfang@zte.com.cn>
-Subject: Re: [RESEND][PATCH] docs/mm: concepts.rst: Correct the threshold to
- low watermark
-Message-ID: <20201118135256.07f1a477@lwn.net>
-In-Reply-To: <20201114031712.9016-1-wang.yi59@zte.com.cn>
-References: <20201114031712.9016-1-wang.yi59@zte.com.cn>
-Organization: LWN.net
+        id S1726426AbgKRWki (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 17:40:38 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:60434 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726295AbgKRWkh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 17:40:37 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIMYM2j053900;
+        Wed, 18 Nov 2020 22:38:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=m6wLHiKM+bSFMHahGiYbPBVS/ny3WBpJuh+PlKd3o2U=;
+ b=D1BdkFasMIku94ns2M0cLij1YVJ/AUsyuHjpByxuY3K7NNpPqjFU27m7AlAC6zFcRwNS
+ 5DmY6gn5Nq5E4RwAlUJ8jUcv/tKIlvY25MwSEPPdtF2RvDgzhcbb9L6W/hRRu9sErfkG
+ dctIdofu4T1K0zHwKsfCt8NbEShzFS9ZCm4VQEx8oBnwl1U8iE5P50+uwWJ2/Eghj3jV
+ P2BzV+zZjIn0nx42QuJzbavfOrZb6O+cxIcvaf376VpzLvQDnkvDyCjxnml1TJPU5LiQ
+ VViITkvjCtSzFSTuDwDHFMwO3LvGsXh+csgYmdhAOkRRAJQ7kuy5QHKKQ43JypoOLNp+ fQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2130.oracle.com with ESMTP id 34t4rb2qwf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 18 Nov 2020 22:38:48 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIMVM0w007892;
+        Wed, 18 Nov 2020 22:38:47 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 34umd169mg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 18 Nov 2020 22:38:47 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AIMceTm025687;
+        Wed, 18 Nov 2020 22:38:41 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 18 Nov 2020 14:38:40 -0800
+Subject: Re: [PATCH v4 03/21] mm/hugetlb: Introduce a new config
+ HUGETLB_PAGE_FREE_VMEMMAP
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, mhocko@suse.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20201113105952.11638-1-songmuchun@bytedance.com>
+ <20201113105952.11638-4-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <697ee4b7-edcc-e3b8-676c-935ec445c05d@oracle.com>
+Date:   Wed, 18 Nov 2020 14:38:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201113105952.11638-4-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 mlxscore=0 phishscore=0
+ spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011180155
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=2 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011180155
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 14 Nov 2020 11:17:12 +0800
-Yi Wang <wang.yi59@zte.com.cn> wrote:
-
-> From: Liao Pingfang <liao.pingfang@zte.com.cn>
+On 11/13/20 2:59 AM, Muchun Song wrote:
+> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
+> whether to enable the feature of freeing unused vmemmap associated
+> with HugeTLB pages. Now only support x86.
 > 
-> Actually it should be "low watermark" where we wake up kswapd
-> daemon.
-> 
-> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
-> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
->  Documentation/admin-guide/mm/concepts.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/x86/mm/init_64.c |  2 +-
+>  fs/Kconfig            | 14 ++++++++++++++
+>  2 files changed, 15 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/admin-guide/mm/concepts.rst b/Documentation/admin-guide/mm/concepts.rst
-> index fa0974f..b966fcf 100644
-> --- a/Documentation/admin-guide/mm/concepts.rst
-> +++ b/Documentation/admin-guide/mm/concepts.rst
-> @@ -184,7 +184,7 @@ pages either asynchronously or synchronously, depending on the state
->  of the system. When the system is not loaded, most of the memory is free
->  and allocation requests will be satisfied immediately from the free
->  pages supply. As the load increases, the amount of the free pages goes
-> -down and when it reaches a certain threshold (high watermark), an
-> +down and when it reaches a certain threshold (low watermark), an
->  allocation request will awaken the ``kswapd`` daemon. It will
->  asynchronously scan memory pages and either just free them if the data
->  they contain is available elsewhere, or evict to the backing storage
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 0a45f062826e..0435bee2e172 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
+>  
+>  static void __init register_page_bootmem_info(void)
+>  {
+> -#ifdef CONFIG_NUMA
+> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
+>  	int i;
+>  
+>  	for_each_online_node(i)
+> diff --git a/fs/Kconfig b/fs/Kconfig
+> index 976e8b9033c4..67e1bc99574f 100644
+> --- a/fs/Kconfig
+> +++ b/fs/Kconfig
+> @@ -245,6 +245,20 @@ config HUGETLBFS
+>  config HUGETLB_PAGE
+>  	def_bool HUGETLBFS
+>  
+> +config HUGETLB_PAGE_FREE_VMEMMAP
+> +	def_bool HUGETLB_PAGE
+> +	depends on X86
+> +	depends on SPARSEMEM_VMEMMAP
+> +	depends on HAVE_BOOTMEM_INFO_NODE
+> +	help
+> +	  When using SPARSEMEM_VMEMMAP, the system can save up some memory
 
-This patch still has not made it onto the public mailing lists.  I don't
-know what the problem is with your mail setup, but until you can post the
-patch publicly I cannot apply it.
+Should that read,
 
-When you do work that problem out, please add the linux-mm list like I
-asked you to last time.
+	When using HUGETLB_PAGE_FREE_VMEMMAP, ...
 
-Thanks,
+as the help message is for this config option.
 
-jon
+-- 
+Mike Kravetz
