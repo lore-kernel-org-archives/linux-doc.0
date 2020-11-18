@@ -2,160 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FA0EC5519F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 11:14:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 967AAC63798
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 12:05:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C94F208B8
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 11:14:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39CAA20DD4
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 12:05:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cuyfbM3G"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TkkJENUa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbgKRLO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 06:14:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgKRLOZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 06:14:25 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0979AC0613D4;
-        Wed, 18 Nov 2020 03:14:24 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id j7so1822076wrp.3;
-        Wed, 18 Nov 2020 03:14:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S3lVLTHtft+9EnTWp89LC5ry75XIftcYoLGTsHkuSEI=;
-        b=cuyfbM3Gnmv0q0lEnj/zahIJAsze5tSV+HYjtUhbtTpDTTTl5R8sdjgwiBnLkzWNs5
-         3iwKj63ZLxMsBvgbsznmQhqQc7iO02loZ9JwDwdQMnsPr1L76gy9zewresH3cxxRNco2
-         hQaf2flN0qbopYAh7Cfd9ZdxcrRfR++pSJ88GTkGK5v2ubFw3PNVuSbzlUpWB9v4w5/2
-         5VwMqs69gSZskgaDZ5v5j+hQTJ7ioEecmya9O3N2oInLMpZ1I23Gb8hu1nYHYnMKmW1f
-         8tm0rF0khWob2Unb9bLDbUM6hboZabmNBPQmIUHAmvXVXnLSYL+ZNvtdY1yKCKwTag/j
-         FF8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S3lVLTHtft+9EnTWp89LC5ry75XIftcYoLGTsHkuSEI=;
-        b=jJOafrb+WflsZWheIf2TKRURvJzcHRN0mSRCcBUTlfx+oLVo4Z8wkDT7Xa9JCZnXrK
-         LKsE+Nc2b62hU75uz996gbaYcN8PYdGhqiASdEHXaEkqhjf8nxeTjSLhdwV/JK1Y5zTH
-         BgIvUy3pTP9X3N995mSzglkTe647gY3A0A7GDLNec4Zq+BZMDgTIxCR4j95Qqtmk+Tpq
-         Hm6NIidB0eSNtBXJVe5N4NgsJNFLx+YM/WGcUdiPWYcgtvu9rhp9/3yxbXv+9cBqqPnI
-         HHuto0go7O8ePQ5HhbkDYc4Wen46i92oC6pB1v5xzjNHI8Z3lPeEjf14HvY4hmVJriFG
-         r25A==
-X-Gm-Message-State: AOAM5334MrslJYOwvh/M5lYcBykfV1nuBHllIi/UZktv3nPfk/X6iCg3
-        40DDUkOQT9ZDi9r4dPVhNcg6zn7YybdB9zAIJQ==
-X-Google-Smtp-Source: ABdhPJwhgsRuQfB6oXjbMQreT2rRoZVdWz+p+0mMdTZ2kHP2YSpfSpFEZdRb7Oa8nN1+Z3nZHWuVmw4g/OA4tUveftM=
-X-Received: by 2002:a5d:6288:: with SMTP id k8mr4290464wru.30.1605698062631;
- Wed, 18 Nov 2020 03:14:22 -0800 (PST)
+        id S1728069AbgKRMFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 07:05:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60815 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728012AbgKRMFX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 07:05:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605701122;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9uON15dFZGCGHSCsCbMLG73inMwC0/+d9qTS/tVTe/c=;
+        b=TkkJENUanLn1KCgxnn3VILWd6YrljjgtGGY0OVd1NYx8Lae9Nk01SL/vM12ZzFbJeUnISB
+        u1/kNDfgECbyvz233r40p9wCY9XO+HG3OhVtef8Qy5XYbGiIRUgUeuRQmVzpGAdreNdbHL
+        LeF74+nLbBpZXJbZ8jqMD7uGrQPs6y0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-i6SkQU4VNC6mLtKLB6HxyA-1; Wed, 18 Nov 2020 07:05:18 -0500
+X-MC-Unique: i6SkQU4VNC6mLtKLB6HxyA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F7E9803F57;
+        Wed, 18 Nov 2020 12:05:17 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BB48D60DA0;
+        Wed, 18 Nov 2020 12:05:16 +0000 (UTC)
+Date:   Wed, 18 Nov 2020 07:05:15 -0500
+From:   Eduardo Habkost <ehabkost@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC] Add kernel-doc test script
+Message-ID: <20201118120515.GA1509407@habkost.net>
+References: <20201030144713.201372-1-pbonzini@redhat.com>
+ <20201030144713.201372-3-pbonzini@redhat.com>
+ <20201113152106.7b4a07ee@lwn.net>
+ <20201113223912.GK17076@casper.infradead.org>
+ <20201117212452.GM1235237@habkost.net>
+ <20201117213051.GA29991@casper.infradead.org>
+ <20201117223612.GN1235237@habkost.net>
+ <19ebee73-0e7a-7dc1-5948-072ae153e383@redhat.com>
 MIME-Version: 1.0
-References: <20201117095207.GA16407@Sleakybeast> <20201118102307.GA4903@katalix.com>
-In-Reply-To: <20201118102307.GA4903@katalix.com>
-From:   siddhant gupta <siddhantgupta416@gmail.com>
-Date:   Wed, 18 Nov 2020 16:44:11 +0530
-Message-ID: <CA+imup-3pT47CVL7GZn_vJtHGngNexBR060y2gRfw2v5Gr8P0Q@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: networking: Fix Column span alignment
- warnings in l2tp.rst
-To:     Tom Parkin <tparkin@katalix.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mamta Shukla <mamtashukla555@gmail.com>,
-        Himadri Pandya <himadrispandya@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <19ebee73-0e7a-7dc1-5948-072ae153e383@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 18 Nov 2020 at 15:53, Tom Parkin <tparkin@katalix.com> wrote:
->
-> On  Tue, Nov 17, 2020 at 15:22:07 +0530, Siddhant Gupta wrote:
-> > Fix Column span alignment problem warnings in the file
-> >
->
-> Thanks for the patch, Siddhant.
->
-> Could you provide some information on how these warnings were
-> triggered?  Using Sphinx 2.4.4 I can't reproduce any warnings for
-> l2tp.rst using the "make htmldocs" target.
->
+On Wed, Nov 18, 2020 at 09:21:11AM +0100, Paolo Bonzini wrote:
+> On 17/11/20 23:36, Eduardo Habkost wrote:
+> > +# the -man output includes the build date
+> > +export KBUILD_BUILD_TIMESTAMP=1991-08-25
+> 
+> Nice :)
+> 
+> > +ok=yes
+> > +
+> > +# don't even try to test other formats if -none fails:
+> > +test none -none || exit 1
+> > +
+> > +test rst2 -rst -sphinx-version 3.0.0 || ok=no
+> 
+> Do you want 3.0.0 here too?
 
-I am currently using Sphinx v1.8.5 and I made use of command "make
-htmldocs >> doc_xxx.log 2>&1" for directing the errors into a file and
-the statements in the file showed me these warning, also to confirm
-those I tried using "rst2html" on l2tp.rst file and got same set of
-warnings.
+Oops!  No!  I'll fix it.
 
-> > Signed-off-by: Siddhant Gupta <siddhantgupta416@gmail.com>
-> > ---
-> >  Documentation/networking/l2tp.rst | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/networking/l2tp.rst b/Documentation/networking/l2tp.rst
-> > index 498b382d25a0..0c0ac4e70586 100644
-> > --- a/Documentation/networking/l2tp.rst
-> > +++ b/Documentation/networking/l2tp.rst
-> > @@ -171,7 +171,8 @@ DEBUG              N        Debug flags.
-> >  ================== ======== ===
-> >  Attribute          Required Use
-> >  ================== ======== ===
-> > -CONN_ID            N        Identifies the tunnel id to be queried.
-> > +CONN_ID            N        Identifies the tunnel id
-> > +                            to be queried.
-> >                              Ignored in DUMP requests.
-> >  ================== ======== ===
-> >
-> > @@ -208,8 +209,8 @@ onto the new session. This is covered in "PPPoL2TP Sockets" later.
-> >  ================== ======== ===
-> >  Attribute          Required Use
-> >  ================== ======== ===
-> > -CONN_ID            Y        Identifies the parent tunnel id of the session
-> > -                            to be destroyed.
-> > +CONN_ID            Y        Identifies the parent tunnel id
-> > +                            of the session to be destroyed.
-> >  SESSION_ID         Y        Identifies the session id to be destroyed.
-> >  IFNAME             N        Identifies the session by interface name. If
-> >                              set, this overrides any CONN_ID and SESSION_ID
-> > @@ -222,13 +223,12 @@ IFNAME             N        Identifies the session by interface name. If
-> >  ================== ======== ===
-> >  Attribute          Required Use
-> >  ================== ======== ===
-> > -CONN_ID            Y        Identifies the parent tunnel id of the session
-> > -                            to be modified.
-> > +CONN_ID            Y        Identifies the parent tunnel
-> > +                            id of the session to be modified.
-> >  SESSION_ID         Y        Identifies the session id to be modified.
-> > -IFNAME             N        Identifies the session by interface name. If
-> > -                            set, this overrides any CONN_ID and SESSION_ID
-> > -                            attributes. Currently supported for L2TPv3
-> > -                            Ethernet sessions only.
-> > +IFNAME             N        Identifies the session by interface name. If set,
-> > +                            this overrides any CONN_ID and SESSION_ID
-> > +                            attributes. Currently supported for L2TPv3 Ethernet sessions only.
-> >  DEBUG              N        Debug flags.
-> >  RECV_SEQ           N        Enable rx data sequence numbers.
-> >  SEND_SEQ           N        Enable tx data sequence numbers.
-> > @@ -243,10 +243,10 @@ RECV_TIMEOUT       N        Timeout to wait when reordering received
-> >  ================== ======== ===
-> >  Attribute          Required Use
-> >  ================== ======== ===
-> > -CONN_ID            N        Identifies the tunnel id to be queried.
-> > -                            Ignored for DUMP requests.
-> > -SESSION_ID         N        Identifies the session id to be queried.
-> > -                            Ignored for DUMP requests.
-> > +CONN_ID            N        Identifies the tunnel id
-> > +                            to be queried. Ignored for DUMP requests.
-> > +SESSION_ID         N        Identifies the session id
-> > +                            to be queried. Ignored for DUMP requests.
-> >  IFNAME             N        Identifies the session by interface name.
-> >                              If set, this overrides any CONN_ID and
-> >                              SESSION_ID attributes. Ignored for DUMP
-> > --
-> > 2.25.1
-> >
+> 
+> > +test rst3 -rst -sphinx-version 3.0.0 || ok=no
+> > +test man -man || ok=no
+> 
+> Also since you are at it you might as well rename the function to something
+> other than "test", it's a bit confusing due to the "test" shell builtin.
+
+Good point.  I'll do.
+
+-- 
+Eduardo
+
