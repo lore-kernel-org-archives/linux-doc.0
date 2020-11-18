@@ -2,122 +2,304 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A30EC5519F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 03:28:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B5EC6369E
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 06:24:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A73E21D7E
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 03:28:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="Z0Pooym/"
+	by mail.kernel.org (Postfix) with ESMTP id CCCD620A8B
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 06:24:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726544AbgKRD2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 22:28:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50084 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725613AbgKRD2g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 22:28:36 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF9FC0613D4
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 19:28:34 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id q10so549059pfn.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 19:28:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vnppsZ7cWIbTMEPsAbpATqFowYN5orqZc7MbBDjuppY=;
-        b=Z0Pooym/oNFad9Fe/S4QBekCIl4pMLqIVpkTAhSBjg8q8MTG2Hs2M2yTtaycmXUXMB
-         DCWzShQbQD9VmvWsQar+Ba/TElkxIPONZ2xofnFJio2KvPpZU+7BpCOc3foRauQMCAQR
-         b4qMuD8ipbbNSmgB2zuq4ltocv8d/92XOLEIg+9BURbLZVuJnhTCbpVcXpGJeLE23Zsh
-         mNP5Yciiw7lqdZ7FmXJSDoSJDfTPZi9HzUNzYUiNSJMOKHyN0axH+F6Zbxsqf8864OlL
-         BptbzgToMZ9iYyY2bFLg/dsjLr3/UvVWv1JYOMp3vP0raDRG2vtMfNH6Xq166w7wxiku
-         AXiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vnppsZ7cWIbTMEPsAbpATqFowYN5orqZc7MbBDjuppY=;
-        b=Whvu3Hlzr1ocCY0fs03u7geGNBVLX1d2RmsZVqWlUI4GoL49fv/dSO/O8IwcgoTnzR
-         uwKAfPoaOM0roiUgMVEa0gHiipqQ12ZPvFAkeAc2XGLV1ELeG1lQajhXO2nIjMDuXCoR
-         dR49MTTHISYWIeftseYd1nSH1vNJNEvJ9DmIKIBRNebZ5dTjCPWhYWHuZvCGFaSiCXa2
-         QIYPSwwkOJTM2k6v6PW2Aprp2nln4i2XM7Q0V/grwipOglvNsbFce4ShhcBlyau5BAie
-         dFkTGoDNoxOWWE/D3d+M23Pt/6qYhhCXKSkpc7Z93dgZFN8ugUryPNDd5bT33Hk4mdl1
-         v/hA==
-X-Gm-Message-State: AOAM530UbQ1Bimn5msUC9ugt1kqAeR5rL6VA10ixKO9FnLQ2BfEhY7br
-        x+1xWE2oKjKR9eqLtHLz9Nstw+iG7hZ8lp+YDj+3HQ==
-X-Google-Smtp-Source: ABdhPJxFg2bZDDYdW5cu+c+X8qxklQebDNJ6tYNq3D6DCb4Egzt6LNdC6SdIChwp4gckYFi19M+npXEa9Q6dvYouWMU=
-X-Received: by 2002:a62:e116:0:b029:18b:d325:153f with SMTP id
- q22-20020a62e1160000b029018bd325153fmr2647216pfh.2.1605670114278; Tue, 17 Nov
- 2020 19:28:34 -0800 (PST)
+        id S1725800AbgKRGXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 01:23:48 -0500
+Received: from mga14.intel.com ([192.55.52.115]:32179 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725794AbgKRGXs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Nov 2020 01:23:48 -0500
+IronPort-SDR: k1z4gyI+XeQxSIcbZDyYzxeySGk6A3CCE5cC6ai65TzMKF1yMJbpZtHx18Jzz3rUPavrnM11Vs
+ ctZ6uOLS4NSA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="170290719"
+X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
+   d="scan'208";a="170290719"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 22:23:46 -0800
+IronPort-SDR: 4XAn/oDKxWs44dPnVAOZVKfp1rgtd2+MRAykiGWpLUAR7tGtq8eEfCfy+bYJhUnorST5z7QffV
+ u3wSZ/DtCBhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
+   d="scan'208";a="359197704"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.141])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Nov 2020 22:23:43 -0800
+Date:   Wed, 18 Nov 2020 14:19:32 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mdf@kernel.org, hao.wu@intel.com, trix@redhat.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, yilun.xu@intel.com
+Subject: Re: [PATCH 2/2] fpga: dfl: look for vendor specific capability
+Message-ID: <20201118061932.GC14665@yilunxu-OptiPlex-7050>
+References: <20201117012552.262149-1-matthew.gerlach@linux.intel.com>
+ <20201117012552.262149-3-matthew.gerlach@linux.intel.com>
+ <20201117075626.GA14665@yilunxu-OptiPlex-7050>
+ <alpine.DEB.2.22.394.2011171114570.296481@rhweight-WRK1>
 MIME-Version: 1.0
-References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <349168819c1249d4bceea26597760b0a@hisilicon.com> <CAMZfGtUVDJ4QHYRCKnPTkgcKGJ38s2aOOktH+8Urz7oiVfimww@mail.gmail.com>
- <714ae7d701d446259ab269f14a030fe9@hisilicon.com> <CAMZfGtWNa=abZdN6HmWE1VBFHfGCbsW9D0zrN-F5zrhn6s=ErA@mail.gmail.com>
- <d04fdbf6c955054fddb152c78bc53db6@suse.de>
-In-Reply-To: <d04fdbf6c955054fddb152c78bc53db6@suse.de>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 18 Nov 2020 11:27:50 +0800
-Message-ID: <CAMZfGtWMF7ZbPHOZg69VNNO0oiVf=i3pAEVmwsmV32wpbAHYxw@mail.gmail.com>
-Subject: Re: [External] RE: [PATCH v4 00/21] Free some vmemmap pages of
- hugetlb page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2011171114570.296481@rhweight-WRK1>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 3:45 AM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On 2020-11-17 17:29, Muchun Song wrote:
-> > Now for the 2MB HugrTLB page, we only free 6 vmemmap pages.
-> > But your words woke me up. Maybe we really can free 7 vmemmap
-> > pages. In this case, we can see 8 of the 512 struct page structures
-> > has beed set PG_head flag. If we can adjust compound_head()
-> > slightly and make compound_head() return the real head struct
-> > page when the parameter is the tail struct page but with PG_head
-> > flag set. I will start an investigation and a test.
->
-> I would not overcomplicate things at this stage, but rather keep it
-> simple as the code is already tricky enough(without counting the LOC
-> thatvit adds).
-> We can always build on top later on in order to improve things.
+On Tue, Nov 17, 2020 at 11:41:32AM -0800, matthew.gerlach@linux.intel.com wrote:
+> 
+> 
+> On Tue, 17 Nov 2020, Xu Yilun wrote:
+> 
+> >On Mon, Nov 16, 2020 at 05:25:52PM -0800, matthew.gerlach@linux.intel.com wrote:
+> >>From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> >>
+> >>A DFL may not begin at offset 0 of BAR 0.  A PCIe vendor
+> >>specific capability can be used to specify the start of a
+> >>number of DFLs.
+> >>
+> >>Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> >>---
+> >> Documentation/fpga/dfl.rst | 10 +++++
+> >> drivers/fpga/dfl-pci.c     | 88 +++++++++++++++++++++++++++++++++++++-
+> >> 2 files changed, 97 insertions(+), 1 deletion(-)
+> >>
+> >>diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> >>index 0404fe6ffc74..c81ceb1e79e2 100644
+> >>--- a/Documentation/fpga/dfl.rst
+> >>+++ b/Documentation/fpga/dfl.rst
+> >>@@ -501,6 +501,16 @@ Developer only needs to provide a sub feature driver with matched feature id.
+> >> FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
+> >> could be a reference.
+> >>
+> >>+Location of DFLs on PCI bus
+> >>+===========================
+> >>+The start of the DFL is assumed to be offset 0 of bar 0.
+> >>+Alternatively, a vendor specific capability structure can be used to
+> >>+specify the location of one or more DFLs.  Intel has reserved the
+> >>+vendor specific id of 0x43 for this purpose.  The vendor specific
+> >>+data begins with a 4 byte count of the number of DFLs followed 4 byte
+> >>+Offset/BIR fields for each DFL. Bits 2:0 of Offset/BIR field indicates
+> >>+the BAR, and bits 31:3 form the 8 byte aligned offset where bits 2:0 are
+> >>+zero.
+> >>
+> >> Open discussion
+> >> ===============
+> >>diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+> >>index b1b157b41942..5418e8bf2496 100644
+> >>--- a/drivers/fpga/dfl-pci.c
+> >>+++ b/drivers/fpga/dfl-pci.c
+> >>@@ -27,6 +27,13 @@
+> >> #define DRV_VERSION	"0.8"
+> >> #define DRV_NAME	"dfl-pci"
+> >>
+> >>+#define PCI_VNDR_ID_DFLS 0x43
+> >>+
+> >>+#define PCI_VNDR_DFLS_CNT_OFFSET 8
+> >>+#define PCI_VNDR_DFLS_RES_OFFSET 0x0c
+> >>+
+> >>+#define PCI_VND_DFLS_RES_BAR_MASK 0x7
+> >
+> >We could define the mask by GENMASK().
+> >
+> >Also another macro PCI_VND_DFLS_RES_OFFSET_MASK is needed.
+> 
+> I will use GENMASK and and add PCI_VND_DFLS_RES_OFFSET_MASK in v2.
+> >
+> >>+
+> >> struct cci_drvdata {
+> >> 	struct dfl_fpga_cdev *cdev;	/* container device */
+> >> };
+> >>@@ -119,6 +126,82 @@ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
+> >> 	return table;
+> >> }
+> >>
+> >>+static int find_dfl_in_cfg(struct pci_dev *pcidev,
+> >>+			   struct dfl_fpga_enum_info *info)
+> >>+{
+> >>+	u32 bar, offset, vndr_hdr, dfl_cnt, dfl_res;
+> >>+	int dfl_res_off, i, voff = 0;
+> >>+	resource_size_t start, len;
+> >>+
+> >>+	while ((voff = pci_find_next_ext_capability(pcidev, voff, PCI_EXT_CAP_ID_VNDR))) {
+> >>+
+> >>+		pci_read_config_dword(pcidev, voff + PCI_VNDR_HEADER, &vndr_hdr);
+> >>+
+> >>+		dev_dbg(&pcidev->dev,
+> >>+			"vendor-specific capability id 0x%x, rev 0x%x len 0x%x\n",
+> >>+			PCI_VNDR_HEADER_ID(vndr_hdr),
+> >>+			PCI_VNDR_HEADER_REV(vndr_hdr),
+> >>+			PCI_VNDR_HEADER_LEN(vndr_hdr));
+> >>+
+> >>+		if (PCI_VNDR_HEADER_ID(vndr_hdr) == PCI_VNDR_ID_DFLS)
+> >>+			break;
+> >>+	}
+> >>+
+> >>+	if (!voff) {
+> >>+		dev_dbg(&pcidev->dev, "%s no VSEC found\n", __func__);
+> >>+		return -ENODEV;
+> >>+	}
+> >>+
+> >>+	pci_read_config_dword(pcidev, voff + PCI_VNDR_DFLS_CNT_OFFSET, &dfl_cnt);
+> >>+	dev_info(&pcidev->dev, "dfl_cnt %d\n", dfl_cnt);
+> >
+> >dev_dbg() is better?
+> 
+> I will change to dev_dbg in v2.
+> 
+> >
+> >>+	for (i = 0; i < dfl_cnt; i++) {
+> >>+		dfl_res_off = voff + PCI_VNDR_DFLS_RES_OFFSET +
+> >>+				      (i * sizeof(dfl_res));
+> >>+		pci_read_config_dword(pcidev, dfl_res_off, &dfl_res);
+> >>+
+> >>+		dev_dbg(&pcidev->dev, "dfl_res 0x%x\n", dfl_res);
+> >>+
+> >>+		bar = dfl_res & PCI_VND_DFLS_RES_BAR_MASK;
+> >
+> >FIELD_GET is better?
+> 
+> I think & will the GENMASK will be better because it will be
+> symetrical to the & below for the offset.
 
-I think that this improvement can be a separate patch. In this case,
-it can make the code evolution route clearer.
+Fine.
 
-Thanks.
+> 
+> >
+> >>+
+> >>+		if (bar >= PCI_STD_NUM_BARS) {
+> >>+			dev_err(&pcidev->dev, "%s bad bar number %d\n",
+> >>+				__func__, bar);
+> >>+			return -EINVAL;
+> >>+		}
+> >>+
+> >>+		len = pci_resource_len(pcidev, bar);
+> >>+
+> >>+		if (len == 0) {
+> >>+			dev_err(&pcidev->dev, "%s unmapped bar number %d\n",
+> >>+				__func__, bar);
+> >>+			return -EINVAL;
+> >>+		}
+> >>+
+> >>+		offset = dfl_res & ~PCI_VND_DFLS_RES_BAR_MASK;
+> >
+> >ditto
+> We don't want to use FIELD_GET here because we don't the shifting.
 
+That's correct.
 
->
-> --
-> Oscar Salvador
-> SUSE L3
+> 
+> >
+> >>+
+> >>+		if (offset >= len) {
+> >>+			dev_err(&pcidev->dev, "%s bad offset %u >= %llu\n",
+> >>+				__func__, offset, len);
+> >>+			return -EINVAL;
+> >>+		}
+> >>+
+> >>+		dev_info(&pcidev->dev, "%s BAR %d offset 0x%x\n", __func__, bar, offset);
+> >
+> >dev_dbg()?
+> 
+> I will change to dev_dbg in v2.
+> 
+> >
+> >>+
+> >>+		start = pci_resource_start(pcidev, bar) + offset;
+> >>+		len -= offset;
+> >
+> >With these code, I have the following assumption:
+> >
+> >1. There is only one DFL in one bar, multiple DFLs requires multiple
+> >bars.
+> >
+> >2. The DFL region is from the "offset" to the end of the bar.
+> >
+> >Are they correct? If yes maybe we should specify them clearly in Doc.
+> >
+> 
+> This code would have the same assumptions as the existing code for finding
+> the dfls.  The len value is only used during the walk of the DFL to prevent
+> walking too far.  So I think one could have more than one DFL
+> on a particular bar as long as the start of the DFLs are different.
 
+OK, I understand.
 
+It is a little different. Previously all the DFL nodes are chained in
+one bar. So we have only one DFL in one bar. In no chance we could have
+overlapped regions.
 
--- 
-Yours,
-Muchun
+Now we can have more DFLs in one bar, so I think it could be better we
+know their boundaries earlier.
+
+> 
+> >>+
+> >>+		if (!PAGE_ALIGNED(start)) {
+> >>+			dev_err(&pcidev->dev, "%s unaliged start 0x%llx\n",
+> >>+				__func__, start);
+> >>+			return -EINVAL;
+> >>+		}
+> >>+
+> >>+		dfl_fpga_enum_info_add_dfl(info, start, len);
+> >
+> >Do we need some region overlapping check in this func? So we could find
+> >the HW problem (e.g. same bar num for multiple DFLs) in early stage.
+> >
+> 
+> I think whatever overlapping check would also need to be in the existing
+> code because the logic is the same.
+
+Yes.
+
+Thanks,
+Yilun
+
+> 
+> >>+	}
+> >>+
+> >>+	return 0;
+> >>+}
+> >>+
+> >> static int find_dfl_in_bar0(struct pci_dev *pcidev,
+> >> 			    struct dfl_fpga_enum_info *info)
+> >> {
+> >>@@ -221,7 +304,10 @@ static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
+> >> 			goto irq_free_exit;
+> >> 	}
+> >>
+> >>-	ret = find_dfl_in_bar0(pcidev, info);
+> >>+	ret = find_dfl_in_cfg(pcidev, info);
+> >>+
+> >>+	if (ret)
+> >>+		ret = find_dfl_in_bar0(pcidev, info);
+> >
+> >The patch is more than the relocation support for DFL. Actually it
+> >introduced a different way of DFL finding.
+> >
+> >Previously it starts at bar0 offset 0, find dfl fme first, then find
+> >dfl port according to fme header registers. Now it enumerates every DFL
+> >by PCIe VSEC.
+> >
+> >Maybe we should add more description about the change and why.
+> 
+> I will highlight this difference in the documentation in v2.
+> >
+> >Thanks,
+> >Yilun
+> >
+> >>
+> >> 	if (ret)
+> >> 		goto irq_free_exit;
+> >>--
+> >>2.25.2
+> >
