@@ -2,224 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1699FC63697
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 14:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FD6C5519F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 15:35:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 954AA246B2
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 14:25:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QZFQ9NMj"
+	by mail.kernel.org (Postfix) with ESMTP id 4021B24785
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 15:35:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbgKROZ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 09:25:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726424AbgKROZ5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 09:25:57 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BF9AC0613D4
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 06:25:56 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id w24so2909455wmi.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 06:25:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=M3TahTJ7BjaCKL6cCJzT4YU2/8yPvTg3NC9HtjjwB6E=;
-        b=QZFQ9NMjk1u7iGKZodsPpAnv4GlhVxHP8yp3CWAfrgMAFbKO6nrCYfFkg+HMWylVQy
-         4xwD0VvkN7cxe+o3TpUlsr0F0spio0q+/q9/CytGbvrKuOW6e2SVvNhL1cG+BP9zGKNv
-         BIj2bn9jiVUoV6HSPLoZZs/rv8hIxQB7+6vjE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=M3TahTJ7BjaCKL6cCJzT4YU2/8yPvTg3NC9HtjjwB6E=;
-        b=DZYPYB0ffeynf/ODlUnvAM+Rww34Qra3f4zkENksOgli+fA/o0txXNJO75dGEg4oE7
-         VVyEKRzaJe1j58/BARuJa+dPtQZ1DsTMoQ2uLVRqo4OwNXHciGvOrsNBJOYKvX4ihK1c
-         9jh6KOUmt3fMxJ00zjkbvFfp9iVfZ3BUcdglUint4SGwgO7lDCh/jrpvDfJA7rFwpoci
-         VoVdJEi8k+CfYroVKa4GqH33faysQgudjG+WOG46sUk4iwYUsT5W0yyJ+/++X7NCdddQ
-         1STAQkMU5UzOgYApcGB4/41sZX93R0i6iMwSRiCd2BWt4Gc//2/VFFkxAx9l8cF4p5gx
-         x0Gw==
-X-Gm-Message-State: AOAM533wchHo8duMkGXpBXCV7hoRX+IiUhoomugomNeLv6m1uX9Grktm
-        VnwUdNaQy/+cEhtEl0dbBtDWmw==
-X-Google-Smtp-Source: ABdhPJwIJfDIcqzIaOjyyYLoJOkj2Cs5fEWxJOZTYwXsOeX7KufPglMZqaylZEbPYySTYkeFoUw2eg==
-X-Received: by 2002:a1c:7f90:: with SMTP id a138mr292131wmd.61.1605709555144;
-        Wed, 18 Nov 2020 06:25:55 -0800 (PST)
-Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id o4sm491028wmh.33.2020.11.18.06.25.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 06:25:54 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1726316AbgKRPfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 10:35:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46958 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726268AbgKRPfG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Nov 2020 10:35:06 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 25E1A24779;
+        Wed, 18 Nov 2020 15:35:05 +0000 (UTC)
+Date:   Wed, 18 Nov 2020 10:35:02 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH] WIP! media: uvcvideo: Use dma_alloc_noncontiguos API
-Date:   Wed, 18 Nov 2020 15:25:46 +0100
-Message-Id: <20201118142546.170621-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.29.2.299.gdc1121823c-goog
-In-Reply-To: <20200930160917.1234225-9-hch@lst.de>
-References: <20200930160917.1234225-9-hch@lst.de>
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: [PATCH] ftrace/documentation: Fix RST C code blocks
+Message-ID: <20201118103502.24e90f7c@gandalf.local.home>
+In-Reply-To: <20201116132929.7f59943e@lwn.net>
+References: <20201116173502.392a769c@canb.auug.org.au>
+        <20201116124338.76a522e1@gandalf.local.home>
+        <20201116122432.796af13b@lwn.net>
+        <20201116152552.11572354@gandalf.local.home>
+        <20201116132929.7f59943e@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On architectures where the is no coherent caching such as ARM use the
-dma_alloc_noncontiguos API and handle manually the cache flushing using
-dma_sync_single().
+From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
 
-With this patch on the affected architectures we can measure up to 20x
-performance improvement in uvc_video_copy_data_work().
+Some C code in the ftrace-users.rst document is missing RST C block
+annotation, which has to be added.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Link: https://lore.kernel.org/r/20201116173502.392a769c@canb.auug.org.au
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 ---
+ Documentation/trace/ftrace-uses.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This patch depends on dma_alloc_contiguous API￼1315351diffmboxseries
-
-https://lore.kernel.org/patchwork/patch/1315351/#1535182
-
- drivers/media/usb/uvc/uvc_video.c | 69 +++++++++++++++++++++++++------
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 58 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index ff624bb857d3..ef1b029b8576 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1641,6 +1641,11 @@ static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
- 	urb->transfer_buffer_length = stream->urb_size - len;
- }
+diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
+index 5981d5691745..f7d98ae5b885 100644
+--- a/Documentation/trace/ftrace-uses.rst
++++ b/Documentation/trace/ftrace-uses.rst
+@@ -116,6 +116,8 @@ called by a callback may also be traced, and call that same callback,
+ recursion protection must be used. There are two helper functions that
+ can help in this regard. If you start your code with:
  
-+static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
-+{
-+	return stream->dev->udev->bus->controller->parent;
-+}
++.. code-block:: c
 +
- static void uvc_video_complete(struct urb *urb)
- {
- 	struct uvc_urb *uvc_urb = urb->context;
-@@ -1693,6 +1698,11 @@ static void uvc_video_complete(struct urb *urb)
- 	 * Process the URB headers, and optionally queue expensive memcpy tasks
- 	 * to be deferred to a work queue.
- 	 */
-+	if (uvc_urb->pages)
-+		dma_sync_single_for_cpu(stream_to_dmadev(stream),
-+					urb->transfer_dma,
-+					urb->transfer_buffer_length,
-+					DMA_FROM_DEVICE);
- 	stream->decode(uvc_urb, buf, buf_meta);
+ 	int bit;
  
- 	/* If no async work is needed, resubmit the URB immediately. */
-@@ -1723,8 +1733,15 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
- 			continue;
+ 	bit = ftrace_test_recursion_trylock(ip, parent_ip);
+@@ -124,6 +126,8 @@ can help in this regard. If you start your code with:
  
- #ifndef CONFIG_DMA_NONCOHERENT
--		usb_free_coherent(stream->dev->udev, stream->urb_size,
--				  uvc_urb->buffer, uvc_urb->dma);
-+		if (uvc_urb->pages) {
-+			vunmap(uvc_urb->buffer);
-+			dma_free_noncontiguous(stream_to_dmadev(stream),
-+					       stream->urb_size,
-+					       uvc_urb->pages, uvc_urb->dma);
-+		} else {
-+			usb_free_coherent(stream->dev->udev, stream->urb_size,
-+					  uvc_urb->buffer, uvc_urb->dma);
-+		}
- #else
- 		kfree(uvc_urb->buffer);
- #endif
-@@ -1734,6 +1751,42 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
- 	stream->urb_size = 0;
- }
+ and end it with:
  
-+#ifndef CONFIG_DMA_NONCOHERENT
-+static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream, struct uvc_urb *uvc_urb,
-+				 gfp_t gfp_flags)
-+{
-+	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
++.. code-block:: c
 +
-+	if (!dma_can_alloc_noncontiguous(dma_dev)) {
-+		uvc_urb->buffer = usb_alloc_coherent(stream->dev->udev, stream->urb_size,
-+						     gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
-+		return uvc_urb->buffer != NULL;
-+	}
-+
-+	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
-+						 &uvc_urb->dma, gfp_flags | __GFP_NOWARN, 0);
-+	if (!uvc_urb->pages)
-+		return false;
-+
-+	uvc_urb->buffer = vmap(uvc_urb->pages, PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
-+			       VM_DMA_COHERENT, PAGE_KERNEL);
-+	if (!uvc_urb->buffer) {
-+		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->pages, uvc_urb->dma);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+#else
-+static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream, struct uvc_urb *uvc_urb,
-+				 gfp_t gfp_flags)
-+{
-+	uvc_urb->buffer = kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
-+
-+	return uvc_urb->buffer != NULL;
-+}
-+#endif
-+
- /*
-  * Allocate transfer buffers. This function can be called with buffers
-  * already allocated when resuming from suspend, in which case it will
-@@ -1764,19 +1817,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+ 	ftrace_test_recursion_unlock(bit);
  
- 	/* Retry allocations until one succeed. */
- 	for (; npackets > 1; npackets /= 2) {
-+		stream->urb_size = psize * npackets;
- 		for (i = 0; i < UVC_URBS; ++i) {
- 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+ The code in between will be safe to use, even if it ends up calling a
+@@ -145,6 +149,8 @@ protection, it is best to make sure that RCU is "watching", otherwise
+ that data or critical section will not be protected as expected. In this
+ case add:
  
--			stream->urb_size = psize * npackets;
--#ifndef CONFIG_DMA_NONCOHERENT
--			uvc_urb->buffer = usb_alloc_coherent(
--				stream->dev->udev, stream->urb_size,
--				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
--#else
--			uvc_urb->buffer =
--			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
--#endif
--			if (!uvc_urb->buffer) {
-+			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
- 				uvc_free_urb_buffers(stream);
- 				break;
- 			}
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 60d830d74ac1..80eeeaf3cd06 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -544,6 +544,7 @@ struct uvc_urb {
++.. code-block:: c
++
+ 	if (!rcu_is_watching())
+ 		return;
  
- 	char *buffer;
- 	dma_addr_t dma;
-+	struct page **pages;
- 
- 	unsigned int async_operations;
- 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
 -- 
-2.29.2.299.gdc1121823c-goog
+2.25.4
 
