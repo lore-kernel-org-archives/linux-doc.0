@@ -2,520 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F566C63697
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 01:55:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE05C5519F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 02:44:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E96402463B
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 01:55:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA747221FD
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 02:44:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMRfqD73"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="bbch85dd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727133AbgKRBzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Nov 2020 20:55:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35652 "EHLO
+        id S1726483AbgKRCnw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Nov 2020 21:43:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgKRBzN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 20:55:13 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2A2C061A48;
-        Tue, 17 Nov 2020 17:55:12 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id t21so110433pgl.3;
-        Tue, 17 Nov 2020 17:55:12 -0800 (PST)
+        with ESMTP id S1726397AbgKRCnw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Nov 2020 21:43:52 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99072C0613D4
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 18:43:50 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id m9so176707pgb.4
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2020 18:43:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Q4ld5mlmqDWI4DEWyP3Rx7wUM6TJ1InnwVci+pJQfek=;
-        b=TMRfqD73dTn04ObWkQ5m0km2voh0EUCDN5fscI0L0ZoZ88nAi/ZzFhF6zYYledDcRI
-         RGFdGZsowbMWCHufbtlGnCFTD3Sy0uK/9OutpFIN+TLwZSqr4an5Thjj/5RKuyAl3sBD
-         gKoBH+UeM07/+r6CjnXcxxgAR456JhxixhLtrK0n28YDRcOOCji0c31Re6pbGHU0Gmjy
-         IrQN4d0b+d7hyrmu/hypedn65SMhLPjbpblEFgPan3vDqrcF+M8GecPSuZd88nrpzQYs
-         qv1uHNyVriAdST+WlsKexxwDQagFRz6k+lckFNcaJvOpV7Rd7RjcVFCKf+sRbqsfXN1W
-         lpHw==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cIZ+YWWP5aqalUoRio2QtJMh5XCbXXDA9kJRwC7+zv8=;
+        b=bbch85ddNZ7XzpLUOYzExmTsbmLKMUrE9yX+1sYtLTuQIw8ozlyrK0AUfruD2uMB8P
+         6FNZterRPoL/JxxCQOE66gZrVVt84KUGv3FnJx3SDvodbBi6iowaXhCLd2TA5DOMSGe0
+         SRjy4IuV5OTslaeKmbzNIBAIPNtEt56wYcPKmVdWyiYt8CJHgfVPWHmSHxAkIWO4apO4
+         qTmvP8l8gWp7CKIOdxDrhM2uWcMO4rKs9rRpPQFiEbYc0Ei/qlaJeWdKQTN6s1ppRauD
+         /PioS9bT+LFuJ5NT2IoOvE18sAWFzx3ej5zoGL2Ax7RG5rNSntedlGRaoxDAHdUinMyW
+         M+wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Q4ld5mlmqDWI4DEWyP3Rx7wUM6TJ1InnwVci+pJQfek=;
-        b=HMfclGBH7jZr46jGEyvnxu+2OvsGjuehVosJ9yeBCfp+fsEZfx2n9Cm0PJTIz59/Me
-         VVrDWLqiCQamK4FClwn2oplHsl5hpl33sHccT9jAVoiHDSnyaJU78aBEnwDWEZCavJSw
-         qfJu+ic2ILaMKD3DnNeS1fXEkBrAHggnooEq4+Bo+6EZmdKes7+3DF64WKiHBEGF2TCD
-         fn2GbZl3qkGz46EsmIyVcRVE5OvIbFFvvjBuC5FCyPAHmzxAH4w0EXHcJ3kKYdE54XVq
-         sMuV6nqZ1m045uAcC+rjtXdDM6YD2s/1GfjpfBMMlxFJHNx9NwkZgflP/nm/EU3XNnRq
-         SB1Q==
-X-Gm-Message-State: AOAM532OJOKjoc4aKc8C9zAJbcmTpM8Y5oojd1IK8VKGXMTAFBolR/3D
-        EPiYLWDvIuOEkam5NS1uztU=
-X-Google-Smtp-Source: ABdhPJwQmWb3n8nUN1VZjGvaYqOR46yI2VbJ3gVSKChUwxgliLRWB6eX31qHm84R0Mhpiu039tk1/g==
-X-Received: by 2002:a63:1d16:: with SMTP id d22mr6145566pgd.335.1605664512289;
-        Tue, 17 Nov 2020 17:55:12 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
-        by smtp.gmail.com with ESMTPSA id l133sm23220891pfd.112.2020.11.17.17.55.10
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 17 Nov 2020 17:55:11 -0800 (PST)
-Date:   Tue, 17 Nov 2020 17:55:04 -0800
-From:   Tao Ren <rentao.bupt@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
-        mikechoi@fb.com
-Subject: Re: [PATCH 1/2] hwmon: (max127) Add Maxim MAX127 hardware monitoring
- driver
-Message-ID: <20201118015503.GA5636@taoren-ubuntu-R90MNF91>
-References: <20201117010944.28457-1-rentao.bupt@gmail.com>
- <20201117010944.28457-2-rentao.bupt@gmail.com>
- <20201117051352.GA208504@roeck-us.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cIZ+YWWP5aqalUoRio2QtJMh5XCbXXDA9kJRwC7+zv8=;
+        b=ucFbTdBEChffsbmEQfAGlrln5xbWOyc0+xGyce5z2/rdSqfk6Mo0eKum1t68AeOP28
+         klMm9HftgUcAE3ky/Ee7cF6RcKKa72TJrfDuS6A5NqSV39wn/NaP4BxXQre/O7Z1LTPa
+         ri+QV1bLaa2bqMXnFNIdydsr/GkibRl30SOsKZZJH3fe6mhlHxeE9pA0z6y4/EZYp+qe
+         yfKGOepOfJrcG3cohau52mAeA946GrSmCtWAYz9PjRXcRHpV2GH4PGKngSDk06rZptUI
+         OYB1I7L2Hf/yPourCK4ke5e2UcZzEljpUh2iWgzQD3Aeh6WztWBbQpHAro+XOQrzuhZA
+         HzUQ==
+X-Gm-Message-State: AOAM531hzH5D+PLIy0NWzco+m/Mu50GfwGUCtJmA7hacYeKsYBWoXfzf
+        9RDqQ3j1HpJUb39w2UhTl55VomP3udUqcdJavFKRhm7mBpBe6tce
+X-Google-Smtp-Source: ABdhPJxGDISMqn2bIRZh7wORdl/cIXS0Q2etgc5JYSCpx/B0Jr1Wza3ya52gTSkwn/Ea57CTkeoqexeqyVXu0Ud+DQE=
+X-Received: by 2002:a62:16c1:0:b029:18c:8a64:fc04 with SMTP id
+ 184-20020a6216c10000b029018c8a64fc04mr2397649pfw.59.1605667430141; Tue, 17
+ Nov 2020 18:43:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201117051352.GA208504@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201113105952.11638-1-songmuchun@bytedance.com>
+ <349168819c1249d4bceea26597760b0a@hisilicon.com> <CAMZfGtUVDJ4QHYRCKnPTkgcKGJ38s2aOOktH+8Urz7oiVfimww@mail.gmail.com>
+ <714ae7d701d446259ab269f14a030fe9@hisilicon.com> <CAMZfGtWNa=abZdN6HmWE1VBFHfGCbsW9D0zrN-F5zrhn6s=ErA@mail.gmail.com>
+ <20201117192223.GW29991@casper.infradead.org>
+In-Reply-To: <20201117192223.GW29991@casper.infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 18 Nov 2020 10:43:06 +0800
+Message-ID: <CAMZfGtUsqkk1Td3YBb-Ap6M_Hg59te1uORCPLVk4QeaFt7U0cw@mail.gmail.com>
+Subject: Re: [External] RE: [PATCH v4 00/21] Free some vmemmap pages of
+ hugetlb page
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
+        "jroedel@suse.de" <jroedel@suse.de>,
+        "almasrymina@google.com" <almasrymina@google.com>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "mhocko@suse.com" <mhocko@suse.com>,
+        "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guenter,
+On Wed, Nov 18, 2020 at 3:22 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Wed, Nov 18, 2020 at 12:29:07AM +0800, Muchun Song wrote:
+> > > ideally, we should be able to free PageTail if we change struct page in some way.
+> > > Then we will save much more for 2MB hugetlb. but it seems it is not easy.
+> >
+> > Now for the 2MB HugrTLB page, we only free 6 vmemmap pages.
+> > But your words woke me up. Maybe we really can free 7 vmemmap
+> > pages. In this case, we can see 8 of the 512 struct page structures
+> > has beed set PG_head flag. If we can adjust compound_head()
+> > slightly and make compound_head() return the real head struct
+> > page when the parameter is the tail struct page but with PG_head
+> > flag set. I will start an investigation and a test.
+>
+> What are you thinking?
+>
+> static inline struct page *compound_head(struct page *page)
+> {
+>         unsigned long head = READ_ONCE(page->compound_head);
+>
+>         if (unlikely(head & 1))
+>                 return (struct page *) (head - 1);
+> +       if (unlikely(page->flags & PG_head))
+> +               return (struct page *)(page[1]->compound_head - 1)
 
-Thanks for pointing out these problems. I'm working on the comments and
-will send out v2 soon.
+Yeah, I think so too. Maybe adding an align check is better.
+
++         if ((test_bit(PG_head, &page->flags) &&
++              IS_ALIGNED((unsigned long)page, PAGE_SIZE))
+
+>         return page;
+> }
+>
+> ... because if it's that, there are code paths which also just test
+> PageHead, and so we'd actually need to change PageHead to be something
+> like:
+
+Yeah, I also think that rework compound_head() and PageHead() is enough.
+
+Thanks.
+
+>
+> static inline bool PageHead(struct page *page)
+> {
+>         return (page->flags & PG_head) &&
+>                 (page[1]->compound_head == (unsigned long)page + 1);
+> }
+>
+> I'm not sure if that's worth doing -- there may be other things I
+> haven't thought of.
 
 
-Cheers,
 
-Tao
-
-On Mon, Nov 16, 2020 at 09:13:52PM -0800, Guenter Roeck wrote:
-> On Mon, Nov 16, 2020 at 05:09:43PM -0800, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> > 
-> > Add hardware monitoring driver for the Maxim MAX127 chip.
-> > 
-> > MAX127 min/max range handling code is inspired by the max197 driver.
-> > 
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> > ---
-> >  drivers/hwmon/Kconfig  |   9 ++
-> >  drivers/hwmon/Makefile |   1 +
-> >  drivers/hwmon/max127.c | 286 +++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 296 insertions(+)
-> >  create mode 100644 drivers/hwmon/max127.c
-> > 
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index 9d600e0c5584..716df51edc87 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -950,6 +950,15 @@ config SENSORS_MAX1111
-> >  	  This driver can also be built as a module. If so, the module
-> >  	  will be called max1111.
-> >  
-> > +config SENSORS_MAX127
-> > +	tristate "Maxim MAX127 12-bit 8-channel Data Acquisition System"
-> > +	depends on I2C
-> > +	help
-> > +	  Say y here to support Maxim's MAX127 DAS chips.
-> > +
-> > +	  This driver can also be built as a module. If so, the module
-> > +	  will be called max127.
-> > +
-> >  config SENSORS_MAX16065
-> >  	tristate "Maxim MAX16065 System Manager and compatibles"
-> >  	depends on I2C
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index 1083bbfac779..01ca5d3fbad4 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -127,6 +127,7 @@ obj-$(CONFIG_SENSORS_LTC4260)	+= ltc4260.o
-> >  obj-$(CONFIG_SENSORS_LTC4261)	+= ltc4261.o
-> >  obj-$(CONFIG_SENSORS_LTQ_CPUTEMP) += ltq-cputemp.o
-> >  obj-$(CONFIG_SENSORS_MAX1111)	+= max1111.o
-> > +obj-$(CONFIG_SENSORS_MAX127)	+= max127.o
-> >  obj-$(CONFIG_SENSORS_MAX16065)	+= max16065.o
-> >  obj-$(CONFIG_SENSORS_MAX1619)	+= max1619.o
-> >  obj-$(CONFIG_SENSORS_MAX1668)	+= max1668.o
-> > diff --git a/drivers/hwmon/max127.c b/drivers/hwmon/max127.c
-> > new file mode 100644
-> > index 000000000000..df74a95bcf28
-> > --- /dev/null
-> > +++ b/drivers/hwmon/max127.c
-> > @@ -0,0 +1,286 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Hardware monitoring driver for MAX127.
-> > + *
-> > + * Copyright (c) 2020 Facebook Inc.
-> > + */
-> > +
-> > +#include <linux/err.h>
-> > +#include <linux/hwmon.h>
-> > +#include <linux/hwmon-sysfs.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/init.h>
-> > +#include <linux/module.h>
-> > +#include <linux/sysfs.h>
-> > +
-> > +/* MAX127 Control Byte. */
-> > +#define MAX127_CTRL_START	BIT(7)
-> > +#define MAX127_CTRL_SEL_OFFSET	4
-> 
-> That would better be named _SHIFT.
-> 
-> > +#define MAX127_CTRL_RNG		BIT(3)
-> > +#define MAX127_CTRL_BIP		BIT(2)
-> > +#define MAX127_CTRL_PD1		BIT(1)
-> > +#define MAX127_CTRL_PD0		BIT(0)
-> > +
-> > +#define MAX127_NUM_CHANNELS	8
-> > +#define MAX127_SET_CHANNEL(ch)	(((ch) & 7) << (MAX127_CTRL_SEL_OFFSET))
-> 
-> () around MAX127_CTRL_SEL_OFFSET is unnecessary.
-> 
-> > +
-> > +#define MAX127_INPUT_LIMIT	10	/* 10V */
-> > +
-> > +/*
-> > + * MAX127 returns 2 bytes at read:
-> > + *   - the first byte contains data[11:4].
-> > + *   - the second byte contains data[3:0] (MSB) and 4 dummy 0s (LSB).
-> > + */
-> > +#define MAX127_DATA1_SHIFT	4
-> > +
-> > +struct max127_data {
-> > +	struct mutex lock;
-> > +	struct i2c_client *client;
-> > +	int input_limit;
-> > +	u8 ctrl_byte[MAX127_NUM_CHANNELS];
-> > +};
-> > +
-> > +static int max127_select_channel(struct max127_data *data, int channel)
-> > +{
-> > +	int status;
-> > +	struct i2c_client *client = data->client;
-> > +	struct i2c_msg msg = {
-> > +		.addr = client->addr,
-> > +		.flags = 0,
-> > +		.len = 1,
-> > +		.buf = &data->ctrl_byte[channel],
-> > +	};
-> > +
-> > +	status = i2c_transfer(client->adapter, &msg, 1);
-> > +	if (status != 1)
-> > +		return status;
-> > +
-> 
-> Other drivers assume that this function can return 0. Please
-> take that into account as well.
-> 
-> > +	return 0;
-> > +}
-> > +
-> > +static int max127_read_channel(struct max127_data *data, int channel, u16 *vin)
-> > +{
-> > +	int status;
-> > +	u8 i2c_data[2];
-> > +	struct i2c_client *client = data->client;
-> > +	struct i2c_msg msg = {
-> > +		.addr = client->addr,
-> > +		.flags = I2C_M_RD,
-> > +		.len = 2,
-> > +		.buf = i2c_data,
-> > +	};
-> > +
-> > +	status = i2c_transfer(client->adapter, &msg, 1);
-> > +	if (status != 1)
-> > +		return status;
-> 
-> Same as above.
-> 
-> > +
-> > +	*vin = ((i2c_data[0] << 8) | i2c_data[1]) >> MAX127_DATA1_SHIFT;
-> 
-> THis seems wrong. D4..D11 end up in but 8..15, and D0..D3 end up in bit
-> 0..3. Seems to me the upper byte should be left shifted 4 bit.
-> The result then needs to be scaled to mV (see below).
-> 
-> Also, for consistency I would suggest to either use () for both
-> parts of the logical or operation or for none.
-> 
-> > +	return 0;
-> > +}
-> > +
-> > +static ssize_t max127_input_show(struct device *dev,
-> > +				 struct device_attribute *dev_attr,
-> > +				 char *buf)
-> > +{
-> > +	u16 vin;
-> > +	int status;
-> > +	struct max127_data *data = dev_get_drvdata(dev);
-> > +	struct sensor_device_attribute *attr = to_sensor_dev_attr(dev_attr);
-> > +
-> > +	if (mutex_lock_interruptible(&data->lock))
-> > +		return -ERESTARTSYS;
-> 
-> I don't think the _interruptible is warranted in this driver.
-> 
-> > +
-> > +	status = max127_select_channel(data, attr->index);
-> > +	if (status)
-> > +		goto exit;
-> > +
-> > +	status = max127_read_channel(data, attr->index, &vin);
-> > +	if (status)
-> > +		goto exit;
-> > +
-> > +	status = sprintf(buf, "%u", vin);
-> 
-> This is not correct. The ABI expects values in milli-Volt, and per datasheet
-> the values need to be scaled depending on polarity and range settings (see
-> table 3 in datasheet). Also, if the range includes negative numbers,
-> the reported voltage can obviously be negative. That means %u (and u16)
-> can not be correct. "Transfer Function" in the datasheet describes how to
-> convert/scale the received data.
-> 
-> > +
-> > +exit:
-> > +	mutex_unlock(&data->lock);
-> > +	return status;
-> > +}
-> > +
-> > +static ssize_t max127_range_show(struct device *dev,
-> > +				 struct device_attribute *dev_attr,
-> > +				 char *buf)
-> > +{
-> > +	u8 ctrl, rng_bip;
-> > +	struct max127_data *data = dev_get_drvdata(dev);
-> > +	struct sensor_device_attribute_2 *attr = to_sensor_dev_attr_2(dev_attr);
-> > +	int rng_type = attr->nr;	/* 0 for min, 1 for max */
-> > +	int channel = attr->index;
-> > +	int full = data->input_limit;
-> > +	int half = full / 2;
-> > +	int range_table[4][2] = {
-> > +		[0] = {0, half},	/* RNG=0, BIP=0 */
-> > +		[1] = {-half, half},	/* RNG=0, BIP=1 */
-> > +		[2] = {0, full},	/* RNG=1, BIP=0 */
-> > +		[3] = {-full, full},	/* RNG=1, BIP=1 */
-> > +	};
-> 
-> This can be a static const table. The variables 'full' and 'half'
-> are effectively constants and not really needed.
-> 
-> > +
-> > +	if (mutex_lock_interruptible(&data->lock))
-> > +		return -ERESTARTSYS;
-> > +	ctrl = data->ctrl_byte[channel];
-> > +	mutex_unlock(&data->lock);
-> 
-> This lock is only needed because "ctrl" is written piece by piece.
-> I would suggest to rewrite the store function to write ctrl atomically.
-> Then the lock here is no longer needed.
-> 
-> > +
-> > +	rng_bip = (ctrl >> 2) & 3;
-> > +	return sprintf(buf, "%d", range_table[rng_bip][rng_type]);
-> > +}
-> > +
-> > +static void max127_set_range(struct max127_data *data, int channel)
-> > +{
-> > +	data->ctrl_byte[channel] |= MAX127_CTRL_RNG;
-> > +}
-> > +
-> > +static void max127_clear_range(struct max127_data *data, int channel)
-> > +{
-> > +	data->ctrl_byte[channel] &= ~MAX127_CTRL_RNG;
-> > +}
-> > +
-> > +static void max127_set_polarity(struct max127_data *data, int channel)
-> > +{
-> > +	data->ctrl_byte[channel] |= MAX127_CTRL_BIP;
-> > +}
-> > +
-> > +static void max127_clear_polarity(struct max127_data *data, int channel)
-> > +{
-> > +	data->ctrl_byte[channel] &= ~MAX127_CTRL_BIP;
-> > +}
-> > +
-> > +static ssize_t max127_range_store(struct device *dev,
-> > +				  struct device_attribute *devattr,
-> > +				  const char *buf,
-> > +				  size_t count)
-> > +{
-> > +	struct max127_data *data = dev_get_drvdata(dev);
-> > +	struct sensor_device_attribute_2 *attr = to_sensor_dev_attr_2(devattr);
-> > +	int rng_type = attr->nr;	/* 0 for min, 1 for max */
-> > +	int channel = attr->index;
-> > +	int full = data->input_limit;
-> > +	int half = full / 2;
-> > +	long input, output;
-> > +
-> > +	if (kstrtol(buf, 0, &input))
-> > +		return -EINVAL;
-> > +
-> > +	if (rng_type == 0) {	/* min input */
-> > +		if (input <= -full)
-> > +			output = -full;
-> > +		else if (input < 0)
-> > +			output = -half;
-> > +		else
-> > +			output = 0;
-> > +	} else {		/* max input */
-> > +		output = (input >= full) ? full : half;
-> > +	}
-> > +
-> 
-> With the _info API, I would suggest to separate min and max functions.
-> This would both simplify the code and make it easier to read and
-> review. 
-> 
-> > +	if (mutex_lock_interruptible(&data->lock))
-> > +		return -ERESTARTSYS;
-> 
-> This should be rewritten to update "ctrl" in one step.
-> Something like
-> 
-> 	u8 ctrl;
-> 	...
-> 	ctrl = data->ctrl_byte[channel];
-> 	if (output == -MAX127_INPUT_LIMIT)
-> 		ctrl |= MAX127_CTRL_RNG | MAX127_CTRL_BIP;
-> 	else if (output == -half)
-> 		ctrl |= MAX127_CTRL_BIP;
-> 		ctrl &= ~MAX127_CTRL_RNG;
-> 	else if (output == 0)
-> 		ctrl &= ~MAX127_CTRL_BIP;
-> 	else lf (output == half)
-> 		ctrl &= ~MAX127_CTRL_RNG;
-> 	else
-> 		ctrl |= MAX127_CTRL_RNG;
-> 
-> 	data->ctrl_byte[channel] = ctrl;
-> 
-> I would suggest to separate the min and max functions, though.
-> 
-> > +
-> > +	if (output == -full) {
-> > +		max127_set_polarity(data, channel);
-> > +		max127_set_range(data, channel);
-> > +	} else if (output == -half) {
-> > +		max127_set_polarity(data, channel);
-> > +		max127_clear_range(data, channel);
-> > +	} else if (output == 0) {
-> > +		max127_clear_polarity(data, channel);
-> > +	} else if (output == half) {
-> > +		max127_clear_range(data, channel);
-> > +	} else {
-> > +		max127_set_range(data, channel);
-> > +	}
-> > +
-> > +	mutex_unlock(&data->lock);
-> > +
-> > +	return count;
-> > +}
-> > +
-> > +#define MAX127_SENSOR_DEV_ATTR_DEF(ch)					   \
-> > +	static SENSOR_DEVICE_ATTR_RO(in##ch##_input, max127_input, ch);	   \
-> > +	static SENSOR_DEVICE_ATTR_2_RW(in##ch##_min, max127_range, 0, ch); \
-> > +	static SENSOR_DEVICE_ATTR_2_RW(in##ch##_max, max127_range, 1, ch)
-> > +
-> > +MAX127_SENSOR_DEV_ATTR_DEF(0);
-> > +MAX127_SENSOR_DEV_ATTR_DEF(1);
-> > +MAX127_SENSOR_DEV_ATTR_DEF(2);
-> > +MAX127_SENSOR_DEV_ATTR_DEF(3);
-> > +MAX127_SENSOR_DEV_ATTR_DEF(4);
-> > +MAX127_SENSOR_DEV_ATTR_DEF(5);
-> > +MAX127_SENSOR_DEV_ATTR_DEF(6);
-> > +MAX127_SENSOR_DEV_ATTR_DEF(7);
-> > +
-> > +#define MAX127_SENSOR_DEVICE_ATTR(ch)			\
-> > +	&sensor_dev_attr_in##ch##_input.dev_attr.attr,	\
-> > +	&sensor_dev_attr_in##ch##_min.dev_attr.attr,	\
-> > +	&sensor_dev_attr_in##ch##_max.dev_attr.attr
-> > +
-> > +static struct attribute *max127_attrs[] = {
-> > +	MAX127_SENSOR_DEVICE_ATTR(0),
-> > +	MAX127_SENSOR_DEVICE_ATTR(1),
-> > +	MAX127_SENSOR_DEVICE_ATTR(2),
-> > +	MAX127_SENSOR_DEVICE_ATTR(3),
-> > +	MAX127_SENSOR_DEVICE_ATTR(4),
-> > +	MAX127_SENSOR_DEVICE_ATTR(5),
-> > +	MAX127_SENSOR_DEVICE_ATTR(6),
-> > +	MAX127_SENSOR_DEVICE_ATTR(7),
-> > +	NULL,
-> > +};
-> > +
-> > +ATTRIBUTE_GROUPS(max127);
-> > +
-> > +static const struct attribute_group max127_attr_groups = {
-> > +	.attrs = max127_attrs,
-> > +};
-> > +
-> > +static int max127_probe(struct i2c_client *client,
-> > +			const struct i2c_device_id *id)
-> > +{
-> > +	int i;
-> > +	struct device *hwmon_dev;
-> > +	struct max127_data *data;
-> > +	struct device *dev = &client->dev;
-> > +
-> > +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> > +	if (!data)
-> > +		return -ENOMEM;
-> > +
-> > +	data->client = client;
-> > +	mutex_init(&data->lock);
-> > +	data->input_limit = MAX127_INPUT_LIMIT;
-> 
-> What is the point of input_limit ? It is never modified.
-> Why not use MAX127_INPUT_LIMIT directly where needed ?
-> 
-> > +	for (i = 0; i < ARRAY_SIZE(data->ctrl_byte); i++)
-> > +		data->ctrl_byte[i] = (MAX127_CTRL_START |
-> > +				      MAX127_SET_CHANNEL(i));
-> > +
-> > +	hwmon_dev = devm_hwmon_device_register_with_groups(dev,
-> > +				client->name, data, max127_groups);
-> 
-> Please use the devm_hwmon_device_register_with_info() API.
-> 
-> Thanks,
-> Guenter
-> 
-> > +
-> > +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> > +}
-> > +
-> > +static const struct i2c_device_id max127_id[] = {
-> > +	{ "max127", 0 },
-> > +	{ }
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, max127_id);
-> > +
-> > +static struct i2c_driver max127_driver = {
-> > +	.class		= I2C_CLASS_HWMON,
-> > +	.driver = {
-> > +		.name	= "max127",
-> > +	},
-> > +	.probe		= max127_probe,
-> > +	.id_table	= max127_id,
-> > +};
-> > +
-> > +module_i2c_driver(max127_driver);
-> > +
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_AUTHOR("Mike Choi <mikechoi@fb.com>");
-> > +MODULE_AUTHOR("Tao Ren <rentao.bupt@gmail.com>");
-> > +MODULE_DESCRIPTION("MAX127 Hardware Monitoring driver");
-> > -- 
-> > 2.17.1
-> > 
+-- 
+Yours,
+Muchun
