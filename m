@@ -2,109 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA4CC5519F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 16:50:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E048C6369E
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 16:57:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 737FA2483B
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 16:50:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1865124883
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 16:57:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P6gdbcbo"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Iz/bckmr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727907AbgKRQuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 11:50:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727136AbgKRQuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 11:50:10 -0500
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54FFCC061A4D
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 08:50:10 -0800 (PST)
-Received: by mail-oo1-xc43.google.com with SMTP id c25so578116ooe.13
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 08:50:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=URQNgyNxIHm+Nf/Hqg7Nkrw+oIop3mCsDqykmWHiPgE=;
-        b=P6gdbcboxT0pSx5moV/y7QRhQdx2rrNm5RZwDp6W140s0AVfhrvYve+BBzSe3CgJ00
-         AS/J+She41UTSheICK4rQ1vpVNpfc8Oq5daP284Q3qcv6xunrJEEq9xnGaN/ZluzIahD
-         70Sch3yBFzePEXofd97lJj36zkjq9uKFLFOEsXg5XIKQ1ViPZFpiz3P7qCPweZhF9RG/
-         eCl7OPp6j7+PW/lu4zzXkkTnosF92Sw5YWfjYRsdNsBS5nBwP1RtunNW5ZZiNrs9osjq
-         u/tPDZGzQm5Hv4bGZmv/20LiBCoYzmHcBwZ9eIf8983qPjdiVRhAWpR7Ur6zbd9ZvySd
-         ysoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=URQNgyNxIHm+Nf/Hqg7Nkrw+oIop3mCsDqykmWHiPgE=;
-        b=nl68OcrQSV1YN+NbfjlGXFCXdvzxRQ7vpswG07vcTNjYuZ3q8Np2w1OnL6e+IXKPhs
-         ni3Qj1y7pWgZpFp5QbvUSYLHOEWuuV+X+vntEdQFJHM+/yA8ZLYymR2map6ZolR5wda7
-         sQiY3cjPB07BweKFthTotk1SVy2EXN+86A2irvXf/5titXbXLUv+4NMi4Y+92Io39ebx
-         S84Wg21hNEGM3BO4KembtT8XPiU8XCaxeyDmYbQkELST5M+OPXtMsuDfYXoi+43xBmJP
-         Q9a+eqYJzjDI0k4oQ1rwglBKKWeT9TD/g/hW7UgkRFbcrlmn2w8GGGjXuYTITwts4WTr
-         Nsrg==
-X-Gm-Message-State: AOAM532AJnieCscvkb2+zqS1sRd0mWAw7sgaCGa6x07H7sImFOa3i3ba
-        xMPSxfIcdukkx63/9vhwuX91SQ==
-X-Google-Smtp-Source: ABdhPJxki4cZFgEf6A0WK9Hze8CJ+1QEdKRx5vi7OqXv2q274o6Dpqb031Rjo/CXDFV0u/MWI8xRMQ==
-X-Received: by 2002:a4a:d81a:: with SMTP id f26mr7135860oov.59.1605718209627;
-        Wed, 18 Nov 2020 08:50:09 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id w21sm6374700ooj.32.2020.11.18.08.50.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 08:50:08 -0800 (PST)
-Date:   Wed, 18 Nov 2020 10:50:07 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Siddharth Gupta <sidgup@codeaurora.org>
-Cc:     agross@kernel.org, ohad@wizery.com,
-        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 4/4] remoteproc: qcom: Add minidump id for sm8150 modem
-Message-ID: <20201118165007.GD9177@builder.lan>
-References: <1604395160-12443-1-git-send-email-sidgup@codeaurora.org>
- <1604395160-12443-5-git-send-email-sidgup@codeaurora.org>
+        id S1726484AbgKRQ5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 11:57:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53464 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726666AbgKRQ5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 11:57:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605718655;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XJ2Qc8RyyYf71yqtHDr0ytNLgJOQ31gbzsZeEcW9UFo=;
+        b=Iz/bckmrgLPSHbzzWJmBwthlr4er+SIM9XWT9Oh3rdeUsai1gdgUIs9hSFgNW8P9u8wylT
+        x3LzLnPDy3Yb406XuKM5aG8H1ZkPniEbeyw8ms9MraB8iXDv4Ruzn0VS+JpZL82EgBFBVN
+        5tmZNhivo97q+W2Qo3g0W7JhDuASgpk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-ni52JxXcOJ-E-OO4q9QjFQ-1; Wed, 18 Nov 2020 11:57:34 -0500
+X-MC-Unique: ni52JxXcOJ-E-OO4q9QjFQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB7BF8A8F03;
+        Wed, 18 Nov 2020 16:57:32 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7474A1E5;
+        Wed, 18 Nov 2020 16:57:32 +0000 (UTC)
+Date:   Wed, 18 Nov 2020 11:57:30 -0500
+From:   Eduardo Habkost <ehabkost@redhat.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC] Add kernel-doc test script
+Message-ID: <20201118165730.GL1509407@habkost.net>
+References: <20201030144713.201372-1-pbonzini@redhat.com>
+ <20201030144713.201372-3-pbonzini@redhat.com>
+ <20201113152106.7b4a07ee@lwn.net>
+ <20201113223912.GK17076@casper.infradead.org>
+ <20201117212452.GM1235237@habkost.net>
+ <20201117213051.GA29991@casper.infradead.org>
+ <20201117223612.GN1235237@habkost.net>
+ <16145b8b-3213-8bc9-1826-d3ae006f78fa@infradead.org>
+ <20201118130344.GD1509407@habkost.net>
+ <b0d6dc09-49ea-f96e-278a-6fc0f78de810@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1604395160-12443-5-git-send-email-sidgup@codeaurora.org>
+In-Reply-To: <b0d6dc09-49ea-f96e-278a-6fc0f78de810@infradead.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 03 Nov 03:19 CST 2020, Siddharth Gupta wrote:
-
-> Add minidump id for modem in sm8150 chipset so that the regions to be
-> included in the coredump generated upon a crash is based on the minidump
-> tables in SMEM instead of those in the ELF header.
+On Wed, Nov 18, 2020 at 08:32:35AM -0800, Randy Dunlap wrote:
+> On 11/18/20 5:03 AM, Eduardo Habkost wrote:
+> > On Tue, Nov 17, 2020 at 04:23:49PM -0800, Randy Dunlap wrote:
+> >> On 11/17/20 2:36 PM, Eduardo Habkost wrote:
+> >>> Add a kernel-doc test script to tools/testing/kernel-doc.
+> >>>
+> >>> radix_tree_lookup_slot test case provided by Matthew Wilcox.
+> >>>
+> >>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> >>
+> >> Very good idea.
+> >>
+> >> I have had a kernel-doc test source file for (?) 10-12 years,
+> >> while I was the docs maintainer.
+> > 
+> > Is that test source file recoverable somewhere?  It probably has
+> > useful test cases not included here.
+> 
+> Sure.  Of course, it may be out of date by quite a bit.
+> I last updated it in 2016:
+> -rw-r--r-- 1 rdunlap users  41737 Jun 17  2016 megatest.c
+> 
+> (attached)
 > 
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Thanks!  Are the contents licensed under GPL 2.0?
 
-> Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
-> ---
->  drivers/remoteproc/qcom_q6v5_pas.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
-> index 349f725..23f4532 100644
-> --- a/drivers/remoteproc/qcom_q6v5_pas.c
-> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
-> @@ -707,6 +707,7 @@ static const struct adsp_data mpss_resource_init = {
->  	.crash_reason_smem = 421,
->  	.firmware_name = "modem.mdt",
->  	.pas_id = 4,
-> +	.minidump_id = 3,
->  	.has_aggre2_clk = false,
->  	.auto_boot = false,
->  	.active_pd_names = (char*[]){
-> -- 
-> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+-- 
+Eduardo
+
