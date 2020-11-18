@@ -2,88 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85883C5519F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 13:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1699FC63697
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 14:25:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03167241A6
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 13:03:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 954AA246B2
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 14:25:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CI1ZJHy+"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QZFQ9NMj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726163AbgKRNDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 08:03:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35799 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726129AbgKRNDu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 08:03:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605704629;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qx5UVopA7OslzMg8qxIDSa62J2P+qibCzlZh525XbS0=;
-        b=CI1ZJHy+CawdJ0HyL9/OsWzOYfNS8EhYDg4hiGS/K2CJrlxfYjJnedkdfxVZKY4RbtHrME
-        V3QmkDNJo1O5YDV9q9jmml4Vt8CCchsYIBcUSqQGmpWtiLw3OqqvjnqgaKntNKQ6Z0UQ/7
-        8Ffu+gSeT/X5kDzLwI4avd1oWV2gvKk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-XaoUlEZ9Nr66jHnkKrGCSg-1; Wed, 18 Nov 2020 08:03:47 -0500
-X-MC-Unique: XaoUlEZ9Nr66jHnkKrGCSg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F4E180364D;
-        Wed, 18 Nov 2020 13:03:46 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0149C196FB;
-        Wed, 18 Nov 2020 13:03:45 +0000 (UTC)
-Date:   Wed, 18 Nov 2020 08:03:44 -0500
-From:   Eduardo Habkost <ehabkost@redhat.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC] Add kernel-doc test script
-Message-ID: <20201118130344.GD1509407@habkost.net>
-References: <20201030144713.201372-1-pbonzini@redhat.com>
- <20201030144713.201372-3-pbonzini@redhat.com>
- <20201113152106.7b4a07ee@lwn.net>
- <20201113223912.GK17076@casper.infradead.org>
- <20201117212452.GM1235237@habkost.net>
- <20201117213051.GA29991@casper.infradead.org>
- <20201117223612.GN1235237@habkost.net>
- <16145b8b-3213-8bc9-1826-d3ae006f78fa@infradead.org>
+        id S1726558AbgKROZ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 09:25:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726424AbgKROZ5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 09:25:57 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BF9AC0613D4
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 06:25:56 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id w24so2909455wmi.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 06:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=M3TahTJ7BjaCKL6cCJzT4YU2/8yPvTg3NC9HtjjwB6E=;
+        b=QZFQ9NMjk1u7iGKZodsPpAnv4GlhVxHP8yp3CWAfrgMAFbKO6nrCYfFkg+HMWylVQy
+         4xwD0VvkN7cxe+o3TpUlsr0F0spio0q+/q9/CytGbvrKuOW6e2SVvNhL1cG+BP9zGKNv
+         BIj2bn9jiVUoV6HSPLoZZs/rv8hIxQB7+6vjE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=M3TahTJ7BjaCKL6cCJzT4YU2/8yPvTg3NC9HtjjwB6E=;
+        b=DZYPYB0ffeynf/ODlUnvAM+Rww34Qra3f4zkENksOgli+fA/o0txXNJO75dGEg4oE7
+         VVyEKRzaJe1j58/BARuJa+dPtQZ1DsTMoQ2uLVRqo4OwNXHciGvOrsNBJOYKvX4ihK1c
+         9jh6KOUmt3fMxJ00zjkbvFfp9iVfZ3BUcdglUint4SGwgO7lDCh/jrpvDfJA7rFwpoci
+         VoVdJEi8k+CfYroVKa4GqH33faysQgudjG+WOG46sUk4iwYUsT5W0yyJ+/++X7NCdddQ
+         1STAQkMU5UzOgYApcGB4/41sZX93R0i6iMwSRiCd2BWt4Gc//2/VFFkxAx9l8cF4p5gx
+         x0Gw==
+X-Gm-Message-State: AOAM533wchHo8duMkGXpBXCV7hoRX+IiUhoomugomNeLv6m1uX9Grktm
+        VnwUdNaQy/+cEhtEl0dbBtDWmw==
+X-Google-Smtp-Source: ABdhPJwIJfDIcqzIaOjyyYLoJOkj2Cs5fEWxJOZTYwXsOeX7KufPglMZqaylZEbPYySTYkeFoUw2eg==
+X-Received: by 2002:a1c:7f90:: with SMTP id a138mr292131wmd.61.1605709555144;
+        Wed, 18 Nov 2020 06:25:55 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id o4sm491028wmh.33.2020.11.18.06.25.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2020 06:25:54 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] WIP! media: uvcvideo: Use dma_alloc_noncontiguos API
+Date:   Wed, 18 Nov 2020 15:25:46 +0100
+Message-Id: <20201118142546.170621-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.29.2.299.gdc1121823c-goog
+In-Reply-To: <20200930160917.1234225-9-hch@lst.de>
+References: <20200930160917.1234225-9-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <16145b8b-3213-8bc9-1826-d3ae006f78fa@infradead.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 04:23:49PM -0800, Randy Dunlap wrote:
-> On 11/17/20 2:36 PM, Eduardo Habkost wrote:
-> > Add a kernel-doc test script to tools/testing/kernel-doc.
-> > 
-> > radix_tree_lookup_slot test case provided by Matthew Wilcox.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> 
-> Very good idea.
-> 
-> I have had a kernel-doc test source file for (?) 10-12 years,
-> while I was the docs maintainer.
+On architectures where the is no coherent caching such as ARM use the
+dma_alloc_noncontiguos API and handle manually the cache flushing using
+dma_sync_single().
 
-Is that test source file recoverable somewhere?  It probably has
-useful test cases not included here.
+With this patch on the affected architectures we can measure up to 20x
+performance improvement in uvc_video_copy_data_work().
 
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+
+This patch depends on dma_alloc_contiguous API￼1315351diffmboxseries
+
+https://lore.kernel.org/patchwork/patch/1315351/#1535182
+
+ drivers/media/usb/uvc/uvc_video.c | 69 +++++++++++++++++++++++++------
+ drivers/media/usb/uvc/uvcvideo.h  |  1 +
+ 2 files changed, 58 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index ff624bb857d3..ef1b029b8576 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1641,6 +1641,11 @@ static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
+ 	urb->transfer_buffer_length = stream->urb_size - len;
+ }
+ 
++static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
++{
++	return stream->dev->udev->bus->controller->parent;
++}
++
+ static void uvc_video_complete(struct urb *urb)
+ {
+ 	struct uvc_urb *uvc_urb = urb->context;
+@@ -1693,6 +1698,11 @@ static void uvc_video_complete(struct urb *urb)
+ 	 * Process the URB headers, and optionally queue expensive memcpy tasks
+ 	 * to be deferred to a work queue.
+ 	 */
++	if (uvc_urb->pages)
++		dma_sync_single_for_cpu(stream_to_dmadev(stream),
++					urb->transfer_dma,
++					urb->transfer_buffer_length,
++					DMA_FROM_DEVICE);
+ 	stream->decode(uvc_urb, buf, buf_meta);
+ 
+ 	/* If no async work is needed, resubmit the URB immediately. */
+@@ -1723,8 +1733,15 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+ 			continue;
+ 
+ #ifndef CONFIG_DMA_NONCOHERENT
+-		usb_free_coherent(stream->dev->udev, stream->urb_size,
+-				  uvc_urb->buffer, uvc_urb->dma);
++		if (uvc_urb->pages) {
++			vunmap(uvc_urb->buffer);
++			dma_free_noncontiguous(stream_to_dmadev(stream),
++					       stream->urb_size,
++					       uvc_urb->pages, uvc_urb->dma);
++		} else {
++			usb_free_coherent(stream->dev->udev, stream->urb_size,
++					  uvc_urb->buffer, uvc_urb->dma);
++		}
+ #else
+ 		kfree(uvc_urb->buffer);
+ #endif
+@@ -1734,6 +1751,42 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+ 	stream->urb_size = 0;
+ }
+ 
++#ifndef CONFIG_DMA_NONCOHERENT
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream, struct uvc_urb *uvc_urb,
++				 gfp_t gfp_flags)
++{
++	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
++
++	if (!dma_can_alloc_noncontiguous(dma_dev)) {
++		uvc_urb->buffer = usb_alloc_coherent(stream->dev->udev, stream->urb_size,
++						     gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
++		return uvc_urb->buffer != NULL;
++	}
++
++	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
++						 &uvc_urb->dma, gfp_flags | __GFP_NOWARN, 0);
++	if (!uvc_urb->pages)
++		return false;
++
++	uvc_urb->buffer = vmap(uvc_urb->pages, PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
++			       VM_DMA_COHERENT, PAGE_KERNEL);
++	if (!uvc_urb->buffer) {
++		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->pages, uvc_urb->dma);
++		return false;
++	}
++
++	return true;
++}
++#else
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream, struct uvc_urb *uvc_urb,
++				 gfp_t gfp_flags)
++{
++	uvc_urb->buffer = kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
++
++	return uvc_urb->buffer != NULL;
++}
++#endif
++
+ /*
+  * Allocate transfer buffers. This function can be called with buffers
+  * already allocated when resuming from suspend, in which case it will
+@@ -1764,19 +1817,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+ 
+ 	/* Retry allocations until one succeed. */
+ 	for (; npackets > 1; npackets /= 2) {
++		stream->urb_size = psize * npackets;
+ 		for (i = 0; i < UVC_URBS; ++i) {
+ 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+ 
+-			stream->urb_size = psize * npackets;
+-#ifndef CONFIG_DMA_NONCOHERENT
+-			uvc_urb->buffer = usb_alloc_coherent(
+-				stream->dev->udev, stream->urb_size,
+-				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+-#else
+-			uvc_urb->buffer =
+-			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+-#endif
+-			if (!uvc_urb->buffer) {
++			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+ 				uvc_free_urb_buffers(stream);
+ 				break;
+ 			}
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 60d830d74ac1..80eeeaf3cd06 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -544,6 +544,7 @@ struct uvc_urb {
+ 
+ 	char *buffer;
+ 	dma_addr_t dma;
++	struct page **pages;
+ 
+ 	unsigned int async_operations;
+ 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
 -- 
-Eduardo
+2.29.2.299.gdc1121823c-goog
 
