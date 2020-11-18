@@ -2,141 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C41C56201
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 22:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFD5C63697
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 22:57:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63C51246E4
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 22:40:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64C13246E8
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Nov 2020 22:57:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="D1BdkFas"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OJeWjm92"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726426AbgKRWki (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 17:40:38 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:60434 "EHLO
+        id S1726500AbgKRW4l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 17:56:41 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:43336 "EHLO
         aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726295AbgKRWkh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 17:40:37 -0500
+        with ESMTP id S1726457AbgKRW4l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 17:56:41 -0500
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIMYM2j053900;
-        Wed, 18 Nov 2020 22:38:48 GMT
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIMsVvI085507;
+        Wed, 18 Nov 2020 22:54:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=m6wLHiKM+bSFMHahGiYbPBVS/ny3WBpJuh+PlKd3o2U=;
- b=D1BdkFasMIku94ns2M0cLij1YVJ/AUsyuHjpByxuY3K7NNpPqjFU27m7AlAC6zFcRwNS
- 5DmY6gn5Nq5E4RwAlUJ8jUcv/tKIlvY25MwSEPPdtF2RvDgzhcbb9L6W/hRRu9sErfkG
- dctIdofu4T1K0zHwKsfCt8NbEShzFS9ZCm4VQEx8oBnwl1U8iE5P50+uwWJ2/Eghj3jV
- P2BzV+zZjIn0nx42QuJzbavfOrZb6O+cxIcvaf376VpzLvQDnkvDyCjxnml1TJPU5LiQ
- VViITkvjCtSzFSTuDwDHFMwO3LvGsXh+csgYmdhAOkRRAJQ7kuy5QHKKQ43JypoOLNp+ fQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 34t4rb2qwf-1
+ bh=XxpL9XzMtnUsCDI1cqX0tLBID7hXFz4WaVSnV84QLvM=;
+ b=OJeWjm92ss0S+LtenEBUdFtR4jItyL3Fnm/idn1wY4j4Dhq648st2BlTO9zuuaHgwUm5
+ N9NHOueq7j/c5ZDfPkUTLk3rOSPJikawqaon9pFVcYKAxewXy3QiLJJ/7iUHx14Ts9OH
+ YBtmiERRWpQ8fpzvrpjQPgSSJ9itkZpktH8AKK10jcHRByT5pO04vNjI5ZRtYOUN22zD
+ tGpGwOHqoLiNEOIpa/nZHqaw4sucbSRl3dTv9zM42JYHI4uskS1dcxD/CVjsPuh4qy9h
+ PPD/BkUM893cJdZiit5zxtJ/A1ahN6yNVSJVuvAb8vEwW72vr52ofWs+8O33NHo66WPX 8A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2130.oracle.com with ESMTP id 34t4rb2sce-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 18 Nov 2020 22:38:48 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIMVM0w007892;
-        Wed, 18 Nov 2020 22:38:47 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 34umd169mg-1
+        Wed, 18 Nov 2020 22:54:31 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIMfel8052638;
+        Wed, 18 Nov 2020 22:54:31 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 34uspvd68x-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 18 Nov 2020 22:38:47 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AIMceTm025687;
-        Wed, 18 Nov 2020 22:38:41 GMT
+        Wed, 18 Nov 2020 22:54:31 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AIMsRgd025515;
+        Wed, 18 Nov 2020 22:54:28 GMT
 Received: from [192.168.2.112] (/50.38.35.18)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 18 Nov 2020 14:38:40 -0800
-Subject: Re: [PATCH v4 03/21] mm/hugetlb: Introduce a new config
- HUGETLB_PAGE_FREE_VMEMMAP
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        with ESMTP ; Wed, 18 Nov 2020 14:54:27 -0800
+Subject: Re: [PATCH v4 04/21] mm/hugetlb: Introduce nr_free_vmemmap_pages in
+ the struct hstate
+To:     Oscar Salvador <osalvador@suse.de>,
+        Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        x86@kernel.org, hpa@zytor.com, dave.hansen@linux.intel.com,
+        luto@kernel.org, peterz@infradead.org, viro@zeniv.linux.org.uk,
         akpm@linux-foundation.org, paulmck@kernel.org,
         mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
         rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
         jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        willy@infradead.org, osalvador@suse.de, mhocko@suse.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
+        willy@infradead.org, mhocko@suse.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
 References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <20201113105952.11638-4-songmuchun@bytedance.com>
+ <20201113105952.11638-5-songmuchun@bytedance.com>
+ <20201116133310.GA32129@linux>
 From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <697ee4b7-edcc-e3b8-676c-935ec445c05d@oracle.com>
-Date:   Wed, 18 Nov 2020 14:38:37 -0800
+Message-ID: <e2e367e3-a130-576e-906c-12f69db18af8@oracle.com>
+Date:   Wed, 18 Nov 2020 14:54:25 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20201113105952.11638-4-songmuchun@bytedance.com>
+In-Reply-To: <20201116133310.GA32129@linux>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 mlxscore=0 phishscore=0
- spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011180155
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 bulkscore=0 suspectscore=2 adultscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011180156
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809 signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1015
  malwarescore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
  mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=2 spamscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011180155
+ engine=8.12.0-2009150000 definitions=main-2011180157
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/13/20 2:59 AM, Muchun Song wrote:
-> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
-> whether to enable the feature of freeing unused vmemmap associated
-> with HugeTLB pages. Now only support x86.
+On 11/16/20 5:33 AM, Oscar Salvador wrote:
+> On Fri, Nov 13, 2020 at 06:59:35PM +0800, Muchun Song wrote:
+>> +void __init hugetlb_vmemmap_init(struct hstate *h)
+>> +{
+>> +	unsigned int order = huge_page_order(h);
+>> +	unsigned int vmemmap_pages;
+>> +
+>> +	vmemmap_pages = ((1 << order) * sizeof(struct page)) >> PAGE_SHIFT;
+>> +	/*
+>> +	 * The head page and the first tail page are not to be freed to buddy
+>> +	 * system, the others page will map to the first tail page. So there
+> "the remaining pages" might be more clear.
 > 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  arch/x86/mm/init_64.c |  2 +-
->  fs/Kconfig            | 14 ++++++++++++++
->  2 files changed, 15 insertions(+), 1 deletion(-)
+>> +	 * are (@vmemmap_pages - RESERVE_VMEMMAP_NR) pages can be freed.
+> "that can be freed"
 > 
-> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-> index 0a45f062826e..0435bee2e172 100644
-> --- a/arch/x86/mm/init_64.c
-> +++ b/arch/x86/mm/init_64.c
-> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
->  
->  static void __init register_page_bootmem_info(void)
->  {
-> -#ifdef CONFIG_NUMA
-> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
->  	int i;
->  
->  	for_each_online_node(i)
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 976e8b9033c4..67e1bc99574f 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -245,6 +245,20 @@ config HUGETLBFS
->  config HUGETLB_PAGE
->  	def_bool HUGETLBFS
->  
-> +config HUGETLB_PAGE_FREE_VMEMMAP
-> +	def_bool HUGETLB_PAGE
-> +	depends on X86
-> +	depends on SPARSEMEM_VMEMMAP
-> +	depends on HAVE_BOOTMEM_INFO_NODE
-> +	help
-> +	  When using SPARSEMEM_VMEMMAP, the system can save up some memory
+>> +	 *
+>> +	 * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? This is
+>> +	 * not expected to happen unless the system is corrupted. So on the
+>> +	 * safe side, it is only a safety net.
+>> +	 */
+>> +	if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
+>> +		h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
+>> +	else
+>> +		h->nr_free_vmemmap_pages = 0;
+> 
+> This made think of something.
+> Since struct hstate hstates is global, all the fields should be defined to 0.
+> So, the following assignments in hugetlb_add_hstate:
+> 
+>         h->nr_huge_pages = 0;
+>         h->free_huge_pages = 0;
+> 
+> should not be needed.
+> Actually, we do not initialize other values like resv_huge_pages
+> or surplus_huge_pages.
+> 
+> If that is the case, the "else" could go.
+> 
+> Mike?
 
-Should that read,
+Correct.  Those assignments have been in the code for a very long time.
 
-	When using HUGETLB_PAGE_FREE_VMEMMAP, ...
+> The changes itself look good to me.
+> I think that putting all the vemmap stuff into hugetlb-vmemmap.* was
+> the right choice.
 
-as the help message is for this config option.
-
+Agree!
 -- 
 Mike Kravetz
