@@ -2,221 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CBBC63697
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 01:06:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE5C2C71156
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 01:26:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8426922363
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 01:06:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D34C246C0
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 01:26:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mxdTQ/3O"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.b="cnmT6i+A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbgKSBG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 20:06:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725947AbgKSBG5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 20:06:57 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9406AC0613D4;
-        Wed, 18 Nov 2020 17:06:57 -0800 (PST)
+        id S1727196AbgKSB0F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 20:26:05 -0500
+Received: from gproxy7-pub.mail.unifiedlayer.com ([70.40.196.235]:56410 "EHLO
+        gproxy7-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727271AbgKSB0F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 20:26:05 -0500
+X-Greylist: delayed 1482 seconds by postgrey-1.27 at vger.kernel.org; Wed, 18 Nov 2020 20:26:04 EST
+Received: from cmgw10.unifiedlayer.com (unknown [10.9.0.10])
+        by gproxy7.mail.unifiedlayer.com (Postfix) with ESMTP id E641F215C2C
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 18:01:21 -0700 (MST)
+Received: from bh-25.webhostbox.net ([208.91.199.152])
+        by cmsmtp with ESMTP
+        id fYK9kNe2lDlydfYK9kDnzF; Wed, 18 Nov 2020 18:01:21 -0700
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.3 cv=Dfw5VMlW c=1 sm=1 tr=0
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
+ a=nNwsprhYR40A:10:nop_rcvd_month_year
+ a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=pGLkceISAAAA:8
+ a=Q3Wkuqm_2-rY-xIXcIMA:9 a=CjuIK1q_8ugA:10:nop_charset_2
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=DkkuC7VWEA5rRpQu3YK0mSSXd45pdIlKRWtL53OACIQ=; b=mxdTQ/3OC5TCr90LtaZiv6/FqR
-        Jfd2m1//leZEM5AxDifA6+F3GugpswdGWbh2qqV4ueuBiNOoskoxzchoZyRaP9w0ychgO1LqzYOXx
-        k523oMstVx3E2RoLdSCyWE8D/OKqBC7O4vwyv+bFW9bEt7B9kHG9V3gUE1ocq3EvCG8mu0cOC+VNR
-        Km4NSwa69+ZMFyn3d3wqsInfWb4RjKaE70Kx6rnZy43OFRotYTDAtr76J+8NZ9PHqfLp35UEte80J
-        6F3ll8qUTEZtryn8NBdd57wEAwNe+BGrZs5M3HcXsL7sWng2cjOTBR93HGej3xDxZ57dMD0i1fYuQ
-        RPKAkubA==;
-Received: from [2601:1c0:6280:3f0::bcc4]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kfYPS-0000Oi-Gw; Thu, 19 Nov 2020 01:06:50 +0000
-Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
- and ARM
-To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc:     john.p.donnelly@oracle.com, stable@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=OgnrqXLq5/S+DH9C+VfZjZgrwNPc+RbuiHFVXIWuaeY=; b=cnmT6i+A45udFmFlPPXcn3blKa
+        rUAHR/g8Y7jFBElyc1S7M59TmcZBFkQxZh9BcZPT8xKz/9hoCiOUyUjGks8tCdwSsacS44BNlO4mf
+        WbkQ387cMufUNADxp7tNpsRNwnNzrz5LAdxwewt93SJA9p3Heo8R4xUpIKFZRPoC31tQN0/kfAd9E
+        81zmoa8RbNUjv0Hf91AG1ltKE2ipRKv9W+wDYyeQUZfAtBa90+ck/PqOwnEusn2/FXAfiuPueEn0K
+        N1FLQEEG1lNR5Elxw/vN7MKSdhx7kfU0oOrY4CQhf03Y6j0wrbzXK0oYGjTNIDPzFT+CE1fknh/PP
+        O202M12A==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57080 helo=localhost)
+        by bh-25.webhostbox.net with esmtpa (Exim 4.93)
+        (envelope-from <linux@roeck-us.net>)
+        id 1kfYK8-000BCM-A4; Thu, 19 Nov 2020 01:01:20 +0000
+Date:   Wed, 18 Nov 2020 17:01:19 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Tao Ren <rentao.bupt@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Jean Delvare <jdelvare@suse.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        =?UTF-8?Q?Diego_Elio_Petten=c3=b2?= <flameeyes@flameeyes.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7f9e6b63-1727-379b-55b7-9ad2bbdb2e5b@infradead.org>
-Date:   Wed, 18 Nov 2020 17:06:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
+        mikechoi@fb.com
+Subject: Re: [PATCH v2 0/2] hwmon: (max127) Add Maxim MAX127 hardware
+ monitoring
+Message-ID: <20201119010119.GA248686@roeck-us.net>
+References: <20201118230929.18147-1-rentao.bupt@gmail.com>
+ <20201118232719.GI1853236@lunn.ch>
+ <20201118234252.GA18681@taoren-ubuntu-R90MNF91>
 MIME-Version: 1.0
-In-Reply-To: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201118234252.GA18681@taoren-ubuntu-R90MNF91>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1kfYK8-000BCM-A4
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57080
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 7
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 11/18/20 3:24 PM, Saeed Mirzamohammadi wrote:
-> This adds crashkernel=auto feature to configure reserved memory for
-> vmcore creation to both x86 and ARM platforms based on the total memory
-> size.
+On Wed, Nov 18, 2020 at 03:42:53PM -0800, Tao Ren wrote:
+> On Thu, Nov 19, 2020 at 12:27:19AM +0100, Andrew Lunn wrote:
+> > On Wed, Nov 18, 2020 at 03:09:27PM -0800, rentao.bupt@gmail.com wrote:
+> > > From: Tao Ren <rentao.bupt@gmail.com>
+> > > 
+> > > The patch series adds hardware monitoring driver for the Maxim MAX127
+> > > chip.
+> > 
+> > Hi Tao
+> > 
+> > Why are using sending a hwmon driver to the networking mailing list?
+> > 
+> >     Andrew
 > 
-> Cc: stable@vger.kernel.org
-
-why?
-
-> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
-> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-> ---
->  Documentation/admin-guide/kdump/kdump.rst |  5 +++++
->  arch/arm64/Kconfig                        | 26 ++++++++++++++++++++++-
->  arch/arm64/configs/defconfig              |  1 +
->  arch/x86/Kconfig                          | 26 ++++++++++++++++++++++-
->  arch/x86/configs/x86_64_defconfig         |  1 +
->  kernel/crash_core.c                       | 20 +++++++++++++++--
->  6 files changed, 75 insertions(+), 4 deletions(-)
+> Hi Andrew,
 > 
+> I added netdev because the mailing list is included in "get_maintainer.pl
+> Documentation/hwmon/index.rst" output. Is it the right command to find
+> reviewers? Could you please suggest? Thank you.
 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 1515f6f153a0..d359dcffa80e 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
+I have no idea why running get_maintainer.pl on
+Documentation/hwmon/index.rst returns such a large list of mailing
+lists and people. For some reason it includes everyone in the XDP
+maintainer list. If anyone has an idea how that happens, please
+let me know - we'll want to get this fixed to avoid the same problem
+in the future.
 
-> @@ -1135,6 +1135,30 @@ config CRASH_DUMP
->  
->  	  For more details see Documentation/admin-guide/kdump/kdump.rst
->  
-> +if CRASH_DUMP
-> +
-> +config CRASH_AUTO_STR
-> +        string "Memory reserved for crash kernel"
-
-use tab instead of spaces above.
-
-> +	depends on CRASH_DUMP
-> +        default "1G-64G:128M,64G-1T:256M,1T-:512M"
-
-ditto.
-
-> +	help
-> +	  This configures the reserved memory dependent
-> +	  on the value of System RAM. The syntax is:
-> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
-> +	              range=start-[end]
-> +
-> +	  For example:
-> +	      crashkernel=512M-2G:64M,2G-:128M
-> +
-> +	  This would mean:
-> +
-> +	      1) if the RAM is smaller than 512M, then don't reserve anything
-> +	         (this is the "rescue" case)
-> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-> +	      3) if the RAM size is larger than 2G, then reserve 128M
-> +
-> +endif # CRASH_DUMP
-> +
->  config XEN_DOM0
->  	def_bool y
->  	depends on XEN
-
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index f6946b81f74a..bacd17312bb1 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-
-> @@ -2049,6 +2049,30 @@ config CRASH_DUMP
->  	  (CONFIG_RELOCATABLE=y).
->  	  For more details see Documentation/admin-guide/kdump/kdump.rst
->  
-> +if CRASH_DUMP
-> +
-> +config CRASH_AUTO_STR
-> +        string "Memory reserved for crash kernel" if X86_64
-
-ditto.
-
-> +	depends on CRASH_DUMP
-> +        default "1G-64G:128M,64G-1T:256M,1T-:512M"
-
-ditto.
-
-> +	help
-> +	  This configures the reserved memory dependent
-> +	  on the value of System RAM. The syntax is:
-> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
-> +	              range=start-[end]
-> +
-> +	  For example:
-> +	      crashkernel=512M-2G:64M,2G-:128M
-> +
-> +	  This would mean:
-> +
-> +	      1) if the RAM is smaller than 512M, then don't reserve anything
-> +	         (this is the "rescue" case)
-> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-> +	      3) if the RAM size is larger than 2G, then reserve 128M
-> +
-> +endif # CRASH_DUMP
-> +
->  config KEXEC_JUMP
->  	bool "kexec jump"
->  	depends on KEXEC && HIBERNATION
-
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 106e4500fd53..a44cd9cc12c4 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -7,6 +7,7 @@
->  #include <linux/crash_core.h>
->  #include <linux/utsname.h>
->  #include <linux/vmalloc.h>
-> +#include <linux/kexec.h>
->  
->  #include <asm/page.h>
->  #include <asm/sections.h>
-> @@ -41,6 +42,15 @@ static int __init parse_crashkernel_mem(char *cmdline,
->  					unsigned long long *crash_base)
->  {
->  	char *cur = cmdline, *tmp;
-> +	unsigned long long total_mem = system_ram;
-> +
-> +	/*
-> +	 * Firmware sometimes reserves some memory regions for it's own use.
-
-	                                                       its
-
-> +	 * so we get less than actual system memory size.
-> +	 * Workaround this by round up the total size to 128M which is
-> +	 * enough for most test cases.
-> +	 */
-> +	total_mem = roundup(total_mem, SZ_128M);
-
-
-thanks.
--- 
-~Randy
-
+Guenter
