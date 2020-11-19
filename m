@@ -4,132 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AA3C388F9
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C50F4C56201
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:54:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B22092158C
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:43:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CCBA2224A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:54:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YkZZUcOh"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lJgJ0exM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725890AbgKSUmS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 15:42:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50131 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726189AbgKSUmR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 15:42:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605818536;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pgYqjANhFZVw2xsV1NPryI63UVScbHN7GEpAwzgrcBA=;
-        b=YkZZUcOhgjbqs0dFE0fdahNBR14lida7kIYW/rmHr9+vJ90U798AZTbjFM+deEMxf7nySg
-        +ls01ctKa+HN8ivadiNpwHVnVo2M2BXIdTM9ONWBOdbDbKIoA9W91f0PaZ67SeQZE/dZfv
-        DWXuIBB9ux2rOtiSnoG/AkSSXI+RUiY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-J2xKKEZ6OOWubPMcg1L6iQ-1; Thu, 19 Nov 2020 15:42:10 -0500
-X-MC-Unique: J2xKKEZ6OOWubPMcg1L6iQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C76F11005D5C;
-        Thu, 19 Nov 2020 20:42:04 +0000 (UTC)
-Received: from carbon (unknown [10.36.110.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7DFF810016F4;
-        Thu, 19 Nov 2020 20:41:56 +0000 (UTC)
-Date:   Thu, 19 Nov 2020 21:41:55 +0100
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Joe Perches <joe@perches.com>, Guenter Roeck <linux@roeck-us.net>,
-        Tao Ren <rentao.bupt@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Jean Delvare <jdelvare@suse.com>,
+        id S1726227AbgKSUy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 15:54:58 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:52242 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbgKSUy6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 15:54:58 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJKsL7g122414;
+        Thu, 19 Nov 2020 20:54:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=jUdxTuSHtsuS3WsA4fd2+z7O66RBMlImwnbK4D6tItg=;
+ b=lJgJ0exMOfKGfTU9qWgUxdSdYpQ7NX5JU5l4WBWJenUkHxDJaa3j2YYohjmeLEOYdezl
+ qxAAEJlDVNSTe45OQ9YCpmse4BssJrkQEjgi8DX3EeMVH6vZIzLDeP7rBo11d7AGWaqK
+ Vqzsc0iqyPKC71ssR9QcY3jJpZ/vcus6xBma3KGXUfHRaL5HumWoF7gkwS4V/QEhY4W5
+ 4VSglFI4FtI9HPmrdOX6VXsxrX6su1gDEqPGxTC4OnJ5g/NARWHeyaV6SrlWCGNUwvfj
+ ue32zhNoTBN3XjboQUS7Q2x1OKtA6qaNwi12imQfb+dNYsh5KhRxi5H/x8kN9aRY1lTa lA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2130.oracle.com with ESMTP id 34t4rb7s1m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 19 Nov 2020 20:54:21 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJKnjGO117244;
+        Thu, 19 Nov 2020 20:52:15 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 34uspwp9ru-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 19 Nov 2020 20:52:15 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AJKqDZq028770;
+        Thu, 19 Nov 2020 20:52:13 GMT
+Received: from dhcp-10-159-251-58.vpn.oracle.com (/10.159.251.58)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 19 Nov 2020 12:52:13 -0800
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
+ and ARM
+From:   Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+In-Reply-To: <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
+Date:   Thu, 19 Nov 2020 12:52:10 -0800
+Cc:     John Donnelly <john.p.donnelly@oracle.com>, stable@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
-        mikechoi@fb.com, brouer@redhat.com
-Subject: Re: XDP maintainer match (Was  [PATCH v2 0/2] hwmon: (max127) Add
- Maxim MAX127 hardware monitoring)
-Message-ID: <20201119214155.5285e2d2@carbon>
-In-Reply-To: <20201119095928.01fd10e0@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-References: <20201118230929.18147-1-rentao.bupt@gmail.com>
-        <20201118232719.GI1853236@lunn.ch>
-        <20201118234252.GA18681@taoren-ubuntu-R90MNF91>
-        <20201119010119.GA248686@roeck-us.net>
-        <20201119012653.GA249502@roeck-us.net>
-        <20201119074634.2e9cb21b@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-        <20201119173535.1474743d@carbon>
-        <088057533a9feb330964bdab0b1b8d2f69b7a22c.camel@perches.com>
-        <20201119095928.01fd10e0@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        =?utf-8?Q?Diego_Elio_Petten=C3=B2?= <flameeyes@flameeyes.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Message-Id: <8F545EB3-9AA4-45AE-84D2-7C0B5CF43FF6@oracle.com>
+References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+ <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
+To:     Kairui Song <kasong@redhat.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 bulkscore=0 suspectscore=3 adultscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190142
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=3 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190143
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Nov 2020 09:59:28 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+Hi,
+[I=E2=80=99m resending this email as it failed to be sent to certain =
+emails.]
 
-> On Thu, 19 Nov 2020 09:09:53 -0800 Joe Perches wrote:
-> > On Thu, 2020-11-19 at 17:35 +0100, Jesper Dangaard Brouer wrote: =20
-> > > On Thu, 19 Nov 2020 07:46:34 -0800 Jakub Kicinski <kuba@kernel.org> w=
-rote:   =20
-> >  =20
-> > > I think it is a good idea to change the keyword (K:), but I'm not sure
-> > > this catch what we want, maybe it does.  The pattern match are meant =
-to
-> > > catch drivers containing XDP related bits.
-> > >=20
-> > > Previously Joe Perches <joe@perches.com> suggested this pattern match,
-> > > which I don't fully understand... could you explain Joe?
-> > >=20
-> > > =C2=A0=C2=A0(?:\b|_)xdp(?:\b|_)   =20
-> >=20
-> > This regex matches only:
-> >=20
-> > 	xdp
-> > 	xdp_<anything>
-> > 	<anything>_xdp_<anything>
-> > 	<anything>_xdp
-> >  =20
-> > > For the filename (N:) regex match, I'm considering if we should remove
-> > > it and list more files explicitly.  I think normal glob * pattern
-> > > works, which should be sufficient.   =20
-> >=20
-> > Lists are generally more specific than regex globs. =20
+> And I think crashkernel=3Dauto could be used as an indicator that user
+> want the kernel to control the crashkernel size, so some further work
+> could be done to adjust the crashkernel more accordingly. eg. when
+> memory encryption is enabled, increase the crashkernel value for the
+> auto estimation, as it's known to consume more crashkernel memory.
 >=20
-> Checking like Alexei did it seems Joe's version is faster and better:
+Thanks for the suggestion! I tried to keep it simple and leave it to the =
+user to change Kconfig in case a different range is needed. Based on =
+experience, these ranges work well for most of the regular cases.
+
 >=20
-> $ git grep -l -E "[^a-z0-9]xdp[^a-z0-9]" | wc -l
-> 295
-> $ git grep -l -E '(\b|_)xdp(\b|_)' | wc -l
-> 297
-> $ time git grep -l -E '(\b|_)xdp(\b|_)' > /tmp/a
+> But why not make it arch-independent? This crashkernel=3Dauto idea
+> should simply work with every arch.
 
-Okay, I guess this is the pattern you want: '(\b|_)xdp(\b|_)'
+Thanks! I=E2=80=99ll be making it arch-independent in the v2 patch.
 
-=20
-> Joe would you like to send a patch, or should I?
+>=20
+> I think this rounding may be better moved to the arch specified part
+> where parse_crashkernel is called?
 
-As you noticed I already send out a patch, I can send a new with your
-pattern, as it seems to be faster.
+Thanks for the suggestion. Could you please elaborate why do we need to =
+do that?
 
---=20
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+Thanks,
+Saeed
 
