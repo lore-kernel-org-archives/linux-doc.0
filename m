@@ -2,147 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8977AC63777
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 21:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B52B9C63798
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 23:24:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 434DE2222A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 21:57:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5956C221FE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 23:24:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="oAErOylk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbgKSV5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 16:57:12 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:55131 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgKSV5L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 16:57:11 -0500
-Received: from mail-ed1-f70.google.com ([209.85.208.70])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <guilherme.piccoli@canonical.com>)
-        id 1kfrv9-0001aZ-Ek
-        for linux-doc@vger.kernel.org; Thu, 19 Nov 2020 21:56:51 +0000
-Received: by mail-ed1-f70.google.com with SMTP id d3so2893288eds.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2020 13:56:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lhFyzHKwMpafV6CqL/rG6oJZPrxLkevFP6v3DPlHTjQ=;
-        b=ocaPERTjAwhY6YF4Y+QG+Ovk9dwsBVhPBqcmCbrfGdLneaD2vXwoOiW3Ef8N1IXVwA
-         iuGjSSA60TeVDvUkgr6Ny92zb0HaHY34y8DTW3iIEa7ahFqB1+OXI7CezZ0kttdfpLTD
-         ZoBXIwdmABeSiEdqKag7huT5W8nrFTB6W12PfFRcObF1Xhmi3NiDZECfOGSq4zI4Jmt0
-         jHl8H5gW5YJLsTIV7HBSr2Ezt0xNjjvSevzXG8o8xGqmL5vyhH/PNlrmYGIgG7sqdcIS
-         rAU+WeXIm29rCLyyi5RvGKM5qm+jn6uN0helDwYu9n+m8RmkNKYIDxI2sFkIdecQeWEq
-         TdvQ==
-X-Gm-Message-State: AOAM531OFtRP9WSLdjls8d2hr0hJbUx9fyDSSGVnbrqvKORPwJGJsOqY
-        8deyCCQJ7XW5/9aCCcB2UShq6+ShQs9R7t9f4bMMXCMzYVaKdUOleuoTTIPx/Tm71lV4bhbaoUo
-        Ah1qDW1XoybH5NKSsV+jTgzmY1bNYxfQOHDut2cZeAq/4332/Sz9fQA==
-X-Received: by 2002:a17:906:c298:: with SMTP id r24mr12518330ejz.381.1605823010846;
-        Thu, 19 Nov 2020 13:56:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyeZ68/adrbEJ2QL8FWoGR/7QczQEdL/SJ/roqlAOfSUFE97woxfB9XeYew72aotj7J5ZRFC0uKzMIuINdlucY=
-X-Received: by 2002:a17:906:c298:: with SMTP id r24mr12518308ejz.381.1605823010561;
- Thu, 19 Nov 2020 13:56:50 -0800 (PST)
+        id S1726738AbgKSXYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 18:24:30 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:43234 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbgKSXYa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 18:24:30 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJNJi8S109296;
+        Thu, 19 Nov 2020 23:21:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=GfpuRBjcGPdXLBnfKyBS75dHIdLZ8ysgivpC94EPeoo=;
+ b=oAErOylkGBKb/WjMroHHPzf3cqVSD59FmuTWCdrVLMC7TB9PEopmMWYRvj+99daHeS/H
+ QRrFAhHP1UUogJEHyqZ7joTr3cGYY+nkBAR/gc+c4arMXrnpSUN8VFkz0D95vWKYWp20
+ E2T/X0oYGBaTFd9S5Y6exzJcgLL/fJ7z4g9ZTEMEhrnZGVU/XP2N3+PDLbdQl4H6fp94
+ wbuRBPZwrXcVDrY2IfxXEoj8QFT077A7iWb04AvKcOwNZt1zjZTcbVTuEKccbTbhGgrY
+ cs0yK0FACAXctJZEucQ0jzwfEbwckygRctQggaxOtdbzCaQgINgiQj30CyTNK0nVr56t gQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 34t7vng6m0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 19 Nov 2020 23:21:53 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJNJax9156353;
+        Thu, 19 Nov 2020 23:21:52 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 34ts0uew3v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 19 Nov 2020 23:21:52 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AJNLaVH011344;
+        Thu, 19 Nov 2020 23:21:36 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 19 Nov 2020 15:21:35 -0800
+Subject: Re: [External] Re: [PATCH v4 05/21] mm/hugetlb: Introduce pgtable
+ allocation/freeing helpers
+To:     Muchun Song <songmuchun@bytedance.com>,
+        Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20201113105952.11638-1-songmuchun@bytedance.com>
+ <20201113105952.11638-6-songmuchun@bytedance.com>
+ <20201117150604.GA15679@linux>
+ <CAMZfGtW=Oyaoooow9_i+R1LkvGpcFoUjBxYzGqBZsOa-t-sFsg@mail.gmail.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <44efc25e-525b-9e51-60e4-da20deb25ded@oracle.com>
+Date:   Thu, 19 Nov 2020 15:21:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
-In-Reply-To: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
-From:   Guilherme Piccoli <gpiccoli@canonical.com>
-Date:   Thu, 19 Nov 2020 18:56:14 -0300
-Message-ID: <CAHD1Q_yA37wWrOscBHpSFEjFecGFcrzY6R6qU_iMESzYArV_Kg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
- and ARM
-To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, john.p.donnelly@oracle.com,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "# v4 . 16+" <stable@vger.kernel.org>,
-        Li Yang <leoyang.li@nxp.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        =?UTF-8?Q?Diego_Elio_Petten=C3=B2?= <flameeyes@flameeyes.com>,
-        Olof Johansson <olof@lixom.net>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
-        Dann Frazier <dann.frazier@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMZfGtW=Oyaoooow9_i+R1LkvGpcFoUjBxYzGqBZsOa-t-sFsg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 suspectscore=2 spamscore=0 malwarescore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190160
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=2
+ malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011190160
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Saeed, thanks for your patch/idea! Comments inline, below.
+On 11/18/20 10:17 PM, Muchun Song wrote:
+> On Tue, Nov 17, 2020 at 11:06 PM Oscar Salvador <osalvador@suse.de> wrote:
+>>
+>> On Fri, Nov 13, 2020 at 06:59:36PM +0800, Muchun Song wrote:
+>>> +#define page_huge_pte(page)          ((page)->pmd_huge_pte)
+>>
+>> Seems you do not need this one anymore.
+>>
+>>> +void vmemmap_pgtable_free(struct page *page)
+>>> +{
+>>> +     struct page *pte_page, *t_page;
+>>> +
+>>> +     list_for_each_entry_safe(pte_page, t_page, &page->lru, lru) {
+>>> +             list_del(&pte_page->lru);
+>>> +             pte_free_kernel(&init_mm, page_to_virt(pte_page));
+>>> +     }
+>>> +}
+>>> +
+>>> +int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
+>>> +{
+>>> +     unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
+>>> +
+>>> +     /* Store preallocated pages on huge page lru list */
+>>> +     INIT_LIST_HEAD(&page->lru);
+>>> +
+>>> +     while (nr--) {
+>>> +             pte_t *pte_p;
+>>> +
+>>> +             pte_p = pte_alloc_one_kernel(&init_mm);
+>>> +             if (!pte_p)
+>>> +                     goto out;
+>>> +             list_add(&virt_to_page(pte_p)->lru, &page->lru);
+>>> +     }
+>>
+>> Definetely this looks better and easier to handle.
+>> Btw, did you explore Matthew's hint about instead of allocating a new page,
+>> using one of the ones you are going to free to store the ptes?
+>> I am not sure whether it is feasible at all though.
+> 
+> Hi Oscar and Matthew,
+> 
+> I have started an investigation about this. Finally, I think that it
+> may not be feasible. If we use a vmemmap page frame as a
+> page table when we split the PMD table firstly, in this stage,
+> we need to set 512 pte entry to the vmemmap page frame. If
+> someone reads the tail struct page struct of the HugeTLB,
+> it can get the arbitrary value (I am not sure it actually exists,
+> maybe the memory compaction module can do this). So on
+> the safe side, I think that allocating a new page is a good
+> choice.
 
-On Wed, Nov 18, 2020 at 8:29 PM Saeed Mirzamohammadi
-<saeed.mirzamohammadi@oracle.com> wrote:
->
-> This adds crashkernel=auto feature to configure reserved memory for
-> vmcore creation to both x86 and ARM platforms based on the total memory
-> size.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
-> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-> ---
->  Documentation/admin-guide/kdump/kdump.rst |  5 +++++
->  arch/arm64/Kconfig                        | 26 ++++++++++++++++++++++-
->  arch/arm64/configs/defconfig              |  1 +
->  arch/x86/Kconfig                          | 26 ++++++++++++++++++++++-
->  arch/x86/configs/x86_64_defconfig         |  1 +
->  kernel/crash_core.c                       | 20 +++++++++++++++--
->  6 files changed, 75 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> index 75a9dd98e76e..f95a2af64f59 100644
-> --- a/Documentation/admin-guide/kdump/kdump.rst
-> +++ b/Documentation/admin-guide/kdump/kdump.rst
-> @@ -285,7 +285,12 @@ This would mean:
->      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
->      3) if the RAM size is larger than 2G, then reserve 128M
->
-> +Or you can use crashkernel=auto if you have enough memory. The threshold
-> +is 1G on x86_64 and arm64. If your system memory is less than the threshold,
-> +crashkernel=auto will not reserve memory. The size changes according to
-> +the system memory size like below:
->
-> +    x86_64/arm64: 1G-64G:128M,64G-1T:256M,1T-:512M
+Thanks for looking into this.
 
-As mentioned in the thread, this was tried before and never got merged
-- I'm not sure the all the reasons, but I speculate that a stronger
-reason is that it'd likely fail in many cases. I've seen cases of 256G
-servers that require crashkernel=600M (or more), due to the amount of
-devices. Also, the minimum nowadays would likely be 96M or more - I'm
-looping Cascardo and Dann (Debian/Ubuntu maintainers of kdump stuff)
-so they maybe can jump in with even more examples/considerations.
+If I understand correctly, the issue is that you need the pte page to set
+up the new mappings.  In your current code, this is done before removing
+the pages of struct pages.  This keeps everything 'consistent' as things
+are remapped.
 
-What we've been trying to do in Ubuntu/Debian is using an estimator
-approach [0] - this is purely userspace and tries to infer the amount
-of necessary memory a kdump minimal[1] kernel would take. I'm not
--1'ing your approach totally, but I think a bit more consideration is
-needed in the ranges, at least accounting the number of devices of the
-machine or something like that.
+If you want to use one of the 'pages of struct pages' for the new pte
+page, then there will be a period of time when things are inconsistent.
+Before setting up the mapping, some code could potentially access that
+pages of struct pages.
 
-Cheers,
-
-
-Guilherme
-
-[0] https://salsa.debian.org/debian/makedumpfile/-/merge_requests/7
-[1] Minimal as having a reduced initrd + "shrinking" parameters (like
-nr_cpus=1).
+I tend to agree that allocating allocating a new page is the safest thing
+to do here.  Or, perhaps someone can think of a way make this safe.
+-- 
+Mike Kravetz
