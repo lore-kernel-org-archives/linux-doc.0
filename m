@@ -2,208 +2,334 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0911C63798
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 03:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97562C6379D
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 06:10:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BABB24709
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 03:00:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D00F246CE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 06:10:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="LM92KKlO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f6r4/3Wz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726238AbgKSDAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 22:00:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725964AbgKSDAq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 22:00:46 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B5D4C061A04
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 19:00:46 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id g7so3064462pfc.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 19:00:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rRdwwTYB3THrODEV2neHSr1r681wlaqYPsv7e09Hwos=;
-        b=LM92KKlORG+zZ7ND3In9NvLTUuK9re084Me4WdGG6FNQ/FegfXF8bEDKTnKVS8A54b
-         bBZYilNcw10GGxe98u61T7cHexzpuGG9oumoCCgI0cTCI8hi9HcmJNw0aJuVCfn5eNtH
-         PhSKFNxOIv1A4Xtht3ctoaHXv66tBIz/sPAckb0N6dszngr9dU5iHarjcO2qpFmEnAHL
-         leBBlyeB/4Nl9L4E5XMn4pBxymZsMlRFFCPA3aDCRchZMPJMvhuw8LyaUFMDp5BOyuUw
-         +WMxlr72ywZgxXAuhdDi0izJsqaZRJ+FtUrpGsk+5oLU6DLyGoDvE2jZBy9Qi3pRoYYo
-         jpCQ==
+        id S1725970AbgKSGKD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 01:10:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54143 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726386AbgKSGKD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 01:10:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605766201;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=nw1nBoxlkrIi+sBPh1ycm+OiKo8H6cgaHJAgodwyazE=;
+        b=f6r4/3WzkvXLvUGyPE0WjEfK9KDJoeu9pe5nmETd71Xh58vKMECHuld+b+dn/nMJHDZCTI
+        tlV2DzEB7piBOZisKs6oYsvYv9S5ektkRFoogKPLIzkiHkp4C3ddc5EJMhw1a49NTTZLww
+        LfQs3JVvVR30eA2iIKhqKWjt3XjFYis=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-clf1FqMPNcuD0tuI-6swgg-1; Thu, 19 Nov 2020 01:09:51 -0500
+X-MC-Unique: clf1FqMPNcuD0tuI-6swgg-1
+Received: by mail-io1-f69.google.com with SMTP id j10so3830172iog.22
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 22:09:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rRdwwTYB3THrODEV2neHSr1r681wlaqYPsv7e09Hwos=;
-        b=mh0dsCHRSSi+Pb6MduiBvJ74FcT7Mg56m6pYL4t9bNgNxTvx/ab8wrZIKJP0YxXcAs
-         TqS10s00AveqIYCA+ETNrsme13nkzq1Lq36WuJu/vtc7W/5OIyt7bDBmaeGzGttBReTW
-         xmOp90J+2Wr7TitMmAynwTFiE9PM1HYlZq4eRshGMvGCtlKtEsf7qp+T7S55FaVqSiUx
-         /6qbubFf6El2o6YDaxT7yaqfkWv4UAzp/3pVMOKrfMS+eX8mK3VfO6zWWnWsHtefeTS7
-         npVicxunqNOGDuWQyHM05J4yBNWrtVMeikTcoSV+F7LwiV3wRYxvdJ3P6o7Bf0v28Wy8
-         lJfA==
-X-Gm-Message-State: AOAM533mxa0wEsQligAyfl0AvCZ8F0mQk+3VMXJdA5UBwGqryYHnZpem
-        9o4V4g50650AhqVtZQcqzCChugLiGVHPPNR9rOFrBQ==
-X-Google-Smtp-Source: ABdhPJwDXbhX5HRqxoUbDoFpK+cRpKc7xoI2mgS53bPJI3up3v6EqKVj7uqMndhkyNIuEMh+3AsTFluC7FJRlufAaGY=
-X-Received: by 2002:a62:16c1:0:b029:18c:8a64:fc04 with SMTP id
- 184-20020a6216c10000b029018c8a64fc04mr7238875pfw.59.1605754845606; Wed, 18
- Nov 2020 19:00:45 -0800 (PST)
+        bh=nw1nBoxlkrIi+sBPh1ycm+OiKo8H6cgaHJAgodwyazE=;
+        b=pBegL/IjROzKBCxHCvM1c3y2WZJ4j8AfBNkO4TzOUpsoeY2sV0pX3FlkmDoq/u8fvv
+         kXJ0ANOcGzXWS03wHOBZn7qYMVgg1UmJEW5k2ZuvaiFwQXZ++0pfmBr9dNPAuzMxwlzX
+         sZONibC5yLjv+4AoSQ/Rx2Mhxo/7xwvkDBzLqVJXBtap1VDNA/27oSsDcg/hkWhH4FmP
+         bbjTzMrqTPxV5n0280rnLuPMpOZGMa/R6gjdx+cxsDz6tZqtZd8KtVdVsTeiW5lZG1ej
+         hQrV0TNG3WLztvRG2PwoTkHRB6G3IHAWQ/kFdVRNj3FjxVEXz3HUGu3LN2kB6CjLyKeF
+         4lzA==
+X-Gm-Message-State: AOAM532nZ/U9kn0Tgi/Q4mBin4fa1QUiPyeoawySUrXHbnN+ZLKDv3b+
+        qPBfXK4q7pEB3j/oiSNbVE9irtou58YeU8vBZtsMW8Kp7aWqzUH0RH1dpOpL0dfkbBKPYsdcBft
+        lgLljoHJ49iNvuQosbaaSHBxOvDGRrUFbN5yM
+X-Received: by 2002:a5d:8151:: with SMTP id f17mr19804609ioo.129.1605766190568;
+        Wed, 18 Nov 2020 22:09:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyWIXELKZsH573YkHKg2jO/a7U4wowfnv6t5HOOehUSVdlQ5EV2g4Z+KgcnDqp5f5IR9y+ndhDFb/BxdXGy8eA=
+X-Received: by 2002:a5d:8151:: with SMTP id f17mr19804551ioo.129.1605766190252;
+ Wed, 18 Nov 2020 22:09:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <20201113105952.11638-5-songmuchun@bytedance.com> <88af8545-14b7-08de-f121-e12295d5d5b9@oracle.com>
-In-Reply-To: <88af8545-14b7-08de-f121-e12295d5d5b9@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 19 Nov 2020 11:00:07 +0800
-Message-ID: <CAMZfGtXRqTpqJoGonMdTcE4HjPEy98FBFiry3Rry5=Jpfen1xw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v4 04/21] mm/hugetlb: Introduce
- nr_free_vmemmap_pages in the struct hstate
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+In-Reply-To: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+From:   Kairui Song <kasong@redhat.com>
+Date:   Thu, 19 Nov 2020 14:09:39 +0800
+Message-ID: <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
+Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
+ and ARM
+To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc:     john.p.donnelly@oracle.com, stable@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        =?UTF-8?Q?Diego_Elio_Petten=C3=B2?= <flameeyes@flameeyes.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 19, 2020 at 7:48 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+On Thu, Nov 19, 2020 at 7:29 AM Saeed Mirzamohammadi
+<saeed.mirzamohammadi@oracle.com> wrote:
 >
-> On 11/13/20 2:59 AM, Muchun Song wrote:
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > new file mode 100644
-> > index 000000000000..a6c9948302e2
-> > --- /dev/null
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -0,0 +1,108 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Free some vmemmap pages of HugeTLB
-> > + *
-> > + * Copyright (c) 2020, Bytedance. All rights reserved.
-> > + *
-> > + *     Author: Muchun Song <songmuchun@bytedance.com>
-> > + *
->
-> Oscar has already made some suggestions to change comments.  I would suggest
-> changing the below text to something like the following.
+> This adds crashkernel=auto feature to configure reserved memory for
+> vmcore creation to both x86 and ARM platforms based on the total memory
+> size.
 
-Thanks Mike. I will change the below comments.
+Thanks for the patch! This is very helpful for distribution makers,
+this allows the distro to have better control of the crashkernel size
+and ship it with the kernel. The crashkernel value is sensitive to
+kernel and driver changes, so shipping it with the kernel makes sense.
+
+And I think crashkernel=auto could be used as an indicator that user
+want the kernel to control the crashkernel size, so some further work
+could be done to adjust the crashkernel more accordingly. eg. when
+memory encryption is enabled, increase the crashkernel value for the
+auto estimation, as it's known to consume more crashkernel memory.
+
+There have been a lot of efforts trying to push this in upstream:
+https://lkml.org/lkml/2018/5/20/262
+https://lkml.org/lkml/2009/8/12/61
+
+Still, it's not yet accepted. it's good to see more people working on this.
+
+But why not make it arch-independent? This crashkernel=auto idea
+should simply work with every arch.
 
 >
-> > + * Nowadays we track the status of physical page frames using struct page
-> > + * structures arranged in one or more arrays. And here exists one-to-one
-> > + * mapping between the physical page frame and the corresponding struct page
-> > + * structure.
-> > + *
-> > + * The HugeTLB support is built on top of multiple page size support that
-> > + * is provided by most modern architectures. For example, x86 CPUs normally
-> > + * support 4K and 2M (1G if architecturally supported) page sizes. Every
-> > + * HugeTLB has more than one struct page structure. The 2M HugeTLB has 512
-> > + * struct page structure and 1G HugeTLB has 4096 struct page structures. But
-> > + * in the core of HugeTLB only uses the first 4 (Use of first 4 struct page
-> > + * structures comes from HUGETLB_CGROUP_MIN_ORDER.) struct page structures to
-> > + * store metadata associated with each HugeTLB. The rest of the struct page
-> > + * structures are usually read the compound_head field which are all the same
-> > + * value. If we can free some struct page memory to buddy system so that we
-> > + * can save a lot of memory.
-> > + *
+> Cc: stable@vger.kernel.org
+> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
+> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+> ---
+>  Documentation/admin-guide/kdump/kdump.rst |  5 +++++
+>  arch/arm64/Kconfig                        | 26 ++++++++++++++++++++++-
+>  arch/arm64/configs/defconfig              |  1 +
+>  arch/x86/Kconfig                          | 26 ++++++++++++++++++++++-
+>  arch/x86/configs/x86_64_defconfig         |  1 +
+>  kernel/crash_core.c                       | 20 +++++++++++++++--
+>  6 files changed, 75 insertions(+), 4 deletions(-)
 >
-> struct page structures (page structs) are used to describe a physical page
-> frame.  By default, there is a one-to-one mapping from a page frame to
-> it's corresponding page struct.
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index 75a9dd98e76e..f95a2af64f59 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -285,7 +285,12 @@ This would mean:
+>      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+>      3) if the RAM size is larger than 2G, then reserve 128M
 >
-> HugeTLB pages consist of multiple base page size pages and is supported by
-> many architectures. See hugetlbpage.rst in the Documentation directory for
-> more details.  On the x86 architecture, HugeTLB pages of size 2MB and 1GB
-> are currently supported.  Since the base page size on x86 is 4KB, a 2MB
-> HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
-> 4096 base pages.  For each base page, there is a corresponding page struct.
+> +Or you can use crashkernel=auto if you have enough memory. The threshold
+> +is 1G on x86_64 and arm64. If your system memory is less than the threshold,
+> +crashkernel=auto will not reserve memory. The size changes according to
+> +the system memory size like below:
 >
-> Within the HugeTLB subsystem, only the first 4 page structs are used to
-> contain unique information about a HugeTLB page.  HUGETLB_CGROUP_MIN_ORDER
-> provides this upper limit.  The only 'useful' information in the remaining
-> page structs is the compound_head field, and this field is the same for all
-> tail pages.
+> +    x86_64/arm64: 1G-64G:128M,64G-1T:256M,1T-:512M
 >
-> By removing redundant page structs for HugeTLB pages, memory can returned
-> to the buddy allocator for other uses.
+>  Boot into System Kernel
+>  =======================
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 1515f6f153a0..d359dcffa80e 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1124,7 +1124,7 @@ comment "Support for PE file signature verification disabled"
+>         depends on KEXEC_SIG
+>         depends on !EFI || !SIGNED_PE_FILE_VERIFICATION
 >
-> > + * When the system boot up, every 2M HugeTLB has 512 struct page structures
-> > + * which size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
-> > + *
-> > + *    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
-> > + * +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-> > + * |           |                     |     0     | -------------> |     0     |
-> > + * |           |                     |     1     | -------------> |     1     |
-> > + * |           |                     |     2     | -------------> |     2     |
-> > + * |           |                     |     3     | -------------> |     3     |
-> > + * |           |                     |     4     | -------------> |     4     |
-> > + * |     2M    |                     |     5     | -------------> |     5     |
-> > + * |           |                     |     6     | -------------> |     6     |
-> > + * |           |                     |     7     | -------------> |     7     |
-> > + * |           |                     +-----------+                +-----------+
-> > + * |           |
-> > + * |           |
-> > + * +-----------+
-> > + *
-> > + *
+> -config CRASH_DUMP
+> +menuconfig CRASH_DUMP
+>         bool "Build kdump crash kernel"
+>         help
+>           Generate crash dump after being started by kexec. This should
+> @@ -1135,6 +1135,30 @@ config CRASH_DUMP
 >
-> I think we want the description before the next diagram.
+>           For more details see Documentation/admin-guide/kdump/kdump.rst
 >
-> Reworded description here:
+> +if CRASH_DUMP
+> +
+> +config CRASH_AUTO_STR
+> +        string "Memory reserved for crash kernel"
+> +       depends on CRASH_DUMP
+> +        default "1G-64G:128M,64G-1T:256M,1T-:512M"
+> +       help
+> +         This configures the reserved memory dependent
+> +         on the value of System RAM. The syntax is:
+> +         crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> +                     range=start-[end]
+> +
+> +         For example:
+> +             crashkernel=512M-2G:64M,2G-:128M
+> +
+> +         This would mean:
+> +
+> +             1) if the RAM is smaller than 512M, then don't reserve anything
+> +                (this is the "rescue" case)
+> +             2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> +             3) if the RAM size is larger than 2G, then reserve 128M
+> +
+> +endif # CRASH_DUMP
+> +
+>  config XEN_DOM0
+>         def_bool y
+>         depends on XEN
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index 5cfe3cf6f2ac..899ef3b6a78f 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -69,6 +69,7 @@ CONFIG_SECCOMP=y
+>  CONFIG_KEXEC=y
+>  CONFIG_KEXEC_FILE=y
+>  CONFIG_CRASH_DUMP=y
+> +# CONFIG_CRASH_AUTO_STR is not set
+>  CONFIG_XEN=y
+>  CONFIG_COMPAT=y
+>  CONFIG_RANDOMIZE_BASE=y
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index f6946b81f74a..bacd17312bb1 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -2035,7 +2035,7 @@ config KEXEC_BZIMAGE_VERIFY_SIG
+>         help
+>           Enable bzImage signature verification support.
 >
-> The value of compound_head is the same for all tail pages.  The first page of
-> page structs (page 0) associated with the HugeTLB page contains the 4 page
-> structs necessary to describe the HugeTLB.  The only use of the remaining pages
-> of page structs (page 1 to page 7) is to point to compound_head.  Therefore,
-> we can remap pages 2 to 7 to page 1.  Only 2 pages of page structs will be used
-> for each HugeTLB page.  This will allow us to free the remaining 6 pages to
-> the buddy allocator.
+> -config CRASH_DUMP
+> +menuconfig CRASH_DUMP
+>         bool "kernel crash dumps"
+>         depends on X86_64 || (X86_32 && HIGHMEM)
+>         help
+> @@ -2049,6 +2049,30 @@ config CRASH_DUMP
+>           (CONFIG_RELOCATABLE=y).
+>           For more details see Documentation/admin-guide/kdump/kdump.rst
 >
-> Here is how things look after remapping.
+> +if CRASH_DUMP
+> +
+> +config CRASH_AUTO_STR
+> +        string "Memory reserved for crash kernel" if X86_64
+> +       depends on CRASH_DUMP
+> +        default "1G-64G:128M,64G-1T:256M,1T-:512M"
+> +       help
+> +         This configures the reserved memory dependent
+> +         on the value of System RAM. The syntax is:
+> +         crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> +                     range=start-[end]
+> +
+> +         For example:
+> +             crashkernel=512M-2G:64M,2G-:128M
+> +
+> +         This would mean:
+> +
+> +             1) if the RAM is smaller than 512M, then don't reserve anything
+> +                (this is the "rescue" case)
+> +             2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> +             3) if the RAM size is larger than 2G, then reserve 128M
+> +
+> +endif # CRASH_DUMP
+> +
+>  config KEXEC_JUMP
+>         bool "kexec jump"
+>         depends on KEXEC && HIBERNATION
+> diff --git a/arch/x86/configs/x86_64_defconfig b/arch/x86/configs/x86_64_defconfig
+> index 9936528e1939..7a87fbecf40b 100644
+> --- a/arch/x86/configs/x86_64_defconfig
+> +++ b/arch/x86/configs/x86_64_defconfig
+> @@ -33,6 +33,7 @@ CONFIG_EFI_MIXED=y
+>  CONFIG_HZ_1000=y
+>  CONFIG_KEXEC=y
+>  CONFIG_CRASH_DUMP=y
+> +# CONFIG_CRASH_AUTO_STR is not set
+>  CONFIG_HIBERNATION=y
+>  CONFIG_PM_DEBUG=y
+>  CONFIG_PM_TRACE_RTC=y
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 106e4500fd53..a44cd9cc12c4 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/crash_core.h>
+>  #include <linux/utsname.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/kexec.h>
 >
-> > + *
-> > + *    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
-> > + * +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-> > + * |           |                     |     0     | -------------> |     0     |
-> > + * |           |                     |     1     | -------------> |     1     |
-> > + * |           |                     |     2     | -------------> +-----------+
-> > + * |           |                     |     3     | -----------------^ ^ ^ ^ ^
-> > + * |           |                     |     4     | -------------------+ | | |
-> > + * |     2M    |                     |     5     | ---------------------+ | |
-> > + * |           |                     |     6     | -----------------------+ |
-> > + * |           |                     |     7     | -------------------------+
-> > + * |           |                     +-----------+
-> > + * |           |
-> > + * |           |
-> > + * +-----------+
+>  #include <asm/page.h>
+>  #include <asm/sections.h>
+> @@ -41,6 +42,15 @@ static int __init parse_crashkernel_mem(char *cmdline,
+>                                         unsigned long long *crash_base)
+>  {
+>         char *cur = cmdline, *tmp;
+> +       unsigned long long total_mem = system_ram;
+> +
+> +       /*
+> +        * Firmware sometimes reserves some memory regions for it's own use.
+> +        * so we get less than actual system memory size.
+> +        * Workaround this by round up the total size to 128M which is
+> +        * enough for most test cases.
+> +        */
+> +       total_mem = roundup(total_mem, SZ_128M);
+
+I think this rounding may be better moved to the arch specified part
+where parse_crashkernel is called?
+
 >
+>         /* for each entry of the comma-separated list */
+>         do {
+> @@ -85,13 +95,13 @@ static int __init parse_crashkernel_mem(char *cmdline,
+>                         return -EINVAL;
+>                 }
+>                 cur = tmp;
+> -               if (size >= system_ram) {
+> +               if (size >= total_mem) {
+>                         pr_warn("crashkernel: invalid size\n");
+>                         return -EINVAL;
+>                 }
+>
+>                 /* match ? */
+> -               if (system_ram >= start && system_ram < end) {
+> +               if (total_mem >= start && total_mem < end) {
+>                         *crash_size = size;
+>                         break;
+>                 }
+> @@ -250,6 +260,12 @@ static int __init __parse_crashkernel(char *cmdline,
+>         if (suffix)
+>                 return parse_crashkernel_suffix(ck_cmdline, crash_size,
+>                                 suffix);
+> +#ifdef CONFIG_CRASH_AUTO_STR
+> +       if (strncmp(ck_cmdline, "auto", 4) == 0) {
+> +               ck_cmdline = CONFIG_CRASH_AUTO_STR;
+> +               pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
+> +       }
+> +#endif
+>         /*
+>          * if the commandline contains a ':', then that's the extended
+>          * syntax -- if not, it must be the classic syntax
 > --
-> Mike Kravetz
+> 2.18.4
+>
 
 
+--
+Best Regards,
+Kairui Song
 
--- 
-Yours,
-Muchun
