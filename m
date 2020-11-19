@@ -2,86 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F6AC63697
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 14:32:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0062BC63697
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 15:46:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 700A424199
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 14:32:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D272246AA
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 15:46:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3SbU4I4"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="eJFgy/ER"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727952AbgKSOcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 09:32:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49994 "EHLO mail.kernel.org"
+        id S1728908AbgKSPqi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 10:46:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42152 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727925AbgKSOcF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Nov 2020 09:32:05 -0500
-Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1728583AbgKSPqh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Nov 2020 10:46:37 -0500
+Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AE5BF24698;
-        Thu, 19 Nov 2020 14:32:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 813182224A;
+        Thu, 19 Nov 2020 15:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605796324;
-        bh=92Xo3XX0A9aX2YZjJ6Dw2mrAOtyQpgkTytlRW5htnF4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T3SbU4I46hbnvVwNfsKyGmgOubHdTVzXNMGg6j8AAWmn0YSGckjfsLxG4bocn1cWM
-         PmVmN7mNMlwh9sfcGZ9UWDcR27sSaMN3RcgDbh24EaNGr78avWuGIzDuJ/gTFVooaq
-         zFn7mpiITtU5zUuWINBE6qOCaMJgk3k7/XMS/e7I=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Chen Yu <yu.c.chen@intel.com>, Chen Yu <yu.chen.surf@gmail.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [RFC PATCH 3/3] docs: bootconfig: Use hexadecimal ASCII string for size and checksum
-Date:   Thu, 19 Nov 2020 23:32:00 +0900
-Message-Id: <160579632075.503380.14698462910603491212.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <160579629161.503380.9118263439060046721.stgit@devnote2>
-References: <160579629161.503380.9118263439060046721.stgit@devnote2>
-User-Agent: StGit/0.19
+        s=default; t=1605800796;
+        bh=ZvKprxlPeDR11nAv0IeB4RNZKc7/A57CYBYK8dwYGvA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eJFgy/ERDAHnV44gummxbYRBsX1kbc6TtE7RiXMtxbNIkKe7OhRg5AJfcPrxFKqjD
+         RvGoJEuoxmZSF+VACQj2A8eU2SVNDpagHniFKlgF8AkQdfRkaQSpgD5aLptwItPHad
+         ogoqmgOfEn08wfYIcOdiAOnWKZDBDMa2FN3swJpI=
+Date:   Thu, 19 Nov 2020 07:46:34 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Tao Ren <rentao.bupt@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
+        mikechoi@fb.com
+Subject: Re: [PATCH v2 0/2] hwmon: (max127) Add Maxim MAX127 hardware
+ monitoring
+Message-ID: <20201119074634.2e9cb21b@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <20201119012653.GA249502@roeck-us.net>
+References: <20201118230929.18147-1-rentao.bupt@gmail.com>
+        <20201118232719.GI1853236@lunn.ch>
+        <20201118234252.GA18681@taoren-ubuntu-R90MNF91>
+        <20201119010119.GA248686@roeck-us.net>
+        <20201119012653.GA249502@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To make the bootconfig format more platform independent, use
-8-bytes hexadecimal ASCII string for size and checksum field
-in the footer. This will allow us to apply bootconfig to the
-cross build initrd without caring the endianness.
+On Wed, 18 Nov 2020 17:26:53 -0800 Guenter Roeck wrote:
+> On Wed, Nov 18, 2020 at 05:01:19PM -0800, Guenter Roeck wrote:
+> > On Wed, Nov 18, 2020 at 03:42:53PM -0800, Tao Ren wrote:  
+> > > On Thu, Nov 19, 2020 at 12:27:19AM +0100, Andrew Lunn wrote:  
+> > > > On Wed, Nov 18, 2020 at 03:09:27PM -0800, rentao.bupt@gmail.com wrote:  
+> > > > > From: Tao Ren <rentao.bupt@gmail.com>
+> > > > > 
+> > > > > The patch series adds hardware monitoring driver for the Maxim MAX127
+> > > > > chip.  
+> > > > 
+> > > > Hi Tao
+> > > > 
+> > > > Why are using sending a hwmon driver to the networking mailing list?
+> > > > 
+> > > >     Andrew  
+> > > 
+> > > Hi Andrew,
+> > > 
+> > > I added netdev because the mailing list is included in "get_maintainer.pl
+> > > Documentation/hwmon/index.rst" output. Is it the right command to find
+> > > reviewers? Could you please suggest? Thank you.  
+> > 
+> > I have no idea why running get_maintainer.pl on
+> > Documentation/hwmon/index.rst returns such a large list of mailing
+> > lists and people. For some reason it includes everyone in the XDP
+> > maintainer list. If anyone has an idea how that happens, please
+> > let me know - we'll want to get this fixed to avoid the same problem
+> > in the future.
+> 
+> I found it. The XDP maintainer entry has:
+> 
+> K:    xdp
+> 
+> This matches Documentation/hwmon/index.rst.
+> 
+> $ grep xdp Documentation/hwmon/index.rst
+>    xdpe12284
+> 
+> It seems to me that a context match such as "xdp" in MAINTAINERS isn't
+> really appropriate. "xdp" matches a total of 348 files in the kernel.
+> The large majority of those is not XDP related. The maintainers
+> of XDP (and all the listed mailing lists) should not be surprised
+> to get a large number of odd review requests if they want to review
+> every single patch on files which include the term "xdp".
 
-This commit updates the document to define the format.
+Agreed, we should fix this. For maintainers with high patch volume life
+would be so much easier if people CCed the right folks to get reviews,
+so we should try our best to fix get_maintainer.
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Documentation/admin-guide/bootconfig.rst |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+XDP folks, any opposition to changing the keyword / filename to:
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index 363599683784..1c6d6919d9e6 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -140,7 +140,11 @@ Since the boot configuration file is loaded with initrd, it will be added
- to the end of the initrd (initramfs) image file with padding, size,
- checksum and 12-byte magic word as below.
- 
--[initrd][bootconfig][padding][size(u32)][checksum(u32)][#BOOTCONFIG\n]
-+[initrd][bootconfig][padding][size][checksum][#BOOTCONFIG\n]
-+
-+The size and checksum fields are 8 bytes hexadecimal ASCII numbers fully
-+padded with '0' on the left to the full width of the field, for example,
-+the integer 1234 is represented by the ASCII string "000004d2".
- 
- When the boot configuration is added to the initrd image, the total
- file size is aligned to 4 bytes. To fill the gap, null characters
+	[^a-z0-9]xdp[^a-z0-9]
 
+?
