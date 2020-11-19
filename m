@@ -2,128 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A04C9C6369E
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:30:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F72C63697
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:52:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 412E9246E8
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:30:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 897C12225E
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:52:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="vwCrC9bt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727158AbgKSM35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 07:29:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45316 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbgKSM35 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 07:29:57 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43288C0613CF;
-        Thu, 19 Nov 2020 04:29:57 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kfj4S-0001JF-0u; Thu, 19 Nov 2020 13:29:52 +0100
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1605203187.git.linux@leemhuis.info>
- <20201113153313.68ff210c@lwn.net>
- <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
- <20201118172958.5b014a44@lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and yet
- more detailed & helpful
-Message-ID: <ada5d01f-47a9-5734-2fc8-3de2d7aa86e4@leemhuis.info>
-Date:   Thu, 19 Nov 2020 13:29:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1727271AbgKSMvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 07:51:42 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:56083 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727103AbgKSMvm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 07:51:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1605790302; x=1637326302;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=seGsIDsNhmWuP2Cjs6gFXzfbcZ1elM5hlAecchVtBF4=;
+  b=vwCrC9btAp/7cFGB17DVQTGPT3PMtfX25WPRDCTErwtC0XEYeMDpWE7B
+   W6kQFMFeGHogoX34xl3kSKclisxk1qQDZQKLBXSSahZH/hhu4g48y2v6N
+   4kcdCKyqd5Az29oiOI3LqCclqQdcWHxe/72VFMj7lZ4YYixBiR1j5ZiWB
+   w=;
+X-IronPort-AV: E=Sophos;i="5.77,490,1596499200"; 
+   d="scan'208";a="67415804"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 19 Nov 2020 12:51:32 +0000
+Received: from EX13MTAUWC002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id 9D0B6A1CCD;
+        Thu, 19 Nov 2020 12:51:29 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 19 Nov 2020 12:51:29 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.162.146) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 19 Nov 2020 12:51:20 +0000
+Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
+To:     Christian Borntraeger <borntraeger@de.ibm.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jann Horn <jannh@google.com>
+CC:     Willy Tarreau <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "Andy Lutomirski" <luto@kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Eric Biggers" <ebiggers@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        "Qemu Developers" <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        "Michal Hocko" <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Pavel Machek" <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        "areber@redhat.com" <areber@redhat.com>,
+        "Pavel Emelyanov" <ovzxemul@gmail.com>,
+        Andrey Vagin <avagin@gmail.com>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        "Pavel Tikhomirov" <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
+From:   Alexander Graf <graf@amazon.de>
+Message-ID: <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
+Date:   Thu, 19 Nov 2020 13:51:18 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <20201118172958.5b014a44@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605788997;cd067995;
-X-HE-SMSGID: 1kfj4S-0001JF-0u
+X-Originating-IP: [10.43.162.146]
+X-ClientProxiedBy: EX13D41UWB004.ant.amazon.com (10.43.161.135) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 19.11.20 um 01:29 schrieb Jonathan Corbet:
-> On Sun, 15 Nov 2020 11:13:52 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> 
->>> So I've not had a chance to try to read through the whole thing again,
->>> will try to do so in the near future.
->> Great, thx, looking forward to it.
-> OK, I have made a *quick* pass through the whole thing and sent a small
-> number of comments separately.
+CgpPbiAxOS4xMS4yMCAxMzowMiwgQ2hyaXN0aWFuIEJvcm50cmFlZ2VyIHdyb3RlOgo+IAo+IE9u
+IDE2LjExLjIwIDE2OjM0LCBDYXRhbmdpdSwgQWRyaWFuIENvc3RpbiB3cm90ZToKPj4gLSBCYWNr
+Z3JvdW5kCj4+Cj4+IFRoZSBWTSBHZW5lcmF0aW9uIElEIGlzIGEgZmVhdHVyZSBkZWZpbmVkIGJ5
+IE1pY3Jvc29mdCAocGFwZXI6Cj4+IGh0dHA6Ly9nby5taWNyb3NvZnQuY29tL2Z3bGluay8/TGlu
+a0lkPTI2MDcwOSkgYW5kIHN1cHBvcnRlZCBieQo+PiBtdWx0aXBsZSBoeXBlcnZpc29yIHZlbmRv
+cnMuCj4+Cj4+IFRoZSBmZWF0dXJlIGlzIHJlcXVpcmVkIGluIHZpcnR1YWxpemVkIGVudmlyb25t
+ZW50cyBieSBhcHBzIHRoYXQgd29yawo+PiB3aXRoIGxvY2FsIGNvcGllcy9jYWNoZXMgb2Ygd29y
+bGQtdW5pcXVlIGRhdGEgc3VjaCBhcyByYW5kb20gdmFsdWVzLAo+PiB1dWlkcywgbW9ub3Rvbmlj
+YWxseSBpbmNyZWFzaW5nIGNvdW50ZXJzLCBldGMuCj4+IFN1Y2ggYXBwcyBjYW4gYmUgbmVnYXRp
+dmVseSBhZmZlY3RlZCBieSBWTSBzbmFwc2hvdHRpbmcgd2hlbiB0aGUgVk0KPj4gaXMgZWl0aGVy
+IGNsb25lZCBvciByZXR1cm5lZCB0byBhbiBlYXJsaWVyIHBvaW50IGluIHRpbWUuCj4+Cj4+IFRo
+ZSBWTSBHZW5lcmF0aW9uIElEIGlzIGEgc2ltcGxlIGNvbmNlcHQgbWVhbnQgdG8gYWxsZXZpYXRl
+IHRoZSBpc3N1ZQo+PiBieSBwcm92aWRpbmcgYSB1bmlxdWUgSUQgdGhhdCBjaGFuZ2VzIGVhY2gg
+dGltZSB0aGUgVk0gaXMgcmVzdG9yZWQKPj4gZnJvbSBhIHNuYXBzaG90LiBUaGUgaHcgcHJvdmlk
+ZWQgVVVJRCB2YWx1ZSBjYW4gYmUgdXNlZCB0bwo+PiBkaWZmZXJlbnRpYXRlIGJldHdlZW4gVk1z
+IG9yIGRpZmZlcmVudCBnZW5lcmF0aW9ucyBvZiB0aGUgc2FtZSBWTS4KPj4KPj4gLSBQcm9ibGVt
+Cj4+Cj4+IFRoZSBWTSBHZW5lcmF0aW9uIElEIGlzIGV4cG9zZWQgdGhyb3VnaCBhbiBBQ1BJIGRl
+dmljZSBieSBtdWx0aXBsZQo+PiBoeXBlcnZpc29yIHZlbmRvcnMgYnV0IG5laXRoZXIgdGhlIHZl
+bmRvcnMgb3IgdXBzdHJlYW0gTGludXggaGF2ZSBubwo+PiBkZWZhdWx0IGRyaXZlciBmb3IgaXQg
+bGVhdmluZyB1c2VycyB0byBmZW5kIGZvciB0aGVtc2VsdmVzLgo+IAo+IEkgc2VlIHRoYXQgdGhl
+IHFlbXUgaW1wbGVtZW50YXRpb24gaXMgc3RpbGwgdW5kZXIgZGlzY3Vzc2lvbi4gV2hhdCBpcwoK
+VWgsIHRoZSBBQ1BJIFZtZ2VuaWQgZGV2aWNlIGVtdWxhdGlvbiBpcyBpbiBRRU1VIHNpbmNlIDIu
+OS4wIDopLgoKPiB0aGUgc3RhdHVzIG9mIHRoZSBvdGhlciBleGlzdGluZyBpbXBsZW1lbnRhdGlv
+bnMuIERvIHRoZXkgYWxyZWFkeSBleGlzdD8KPiBJbiBvdGhlciB3b3JkcyBpcyBBQ1BJIGEgZ2l2
+ZW4/Cj4gSSB0aGluayB0aGUgbWFqb3JpdHkgb2YgdGhpcyBkcml2ZXIgY291bGQgYmUgdXNlZCB3
+aXRoIGp1c3QgYSBkaWZmZXJlbnQKPiBiYWNrZW5kIGZvciBwbGF0Zm9ybXMgd2l0aG91dCBBQ1BJ
+IHNvIGluIGFueSBjYXNlIHdlIGNvdWxkIGZhY3RvciBvdXQKPiB0aGUgYmFja2VuZCAoYWNwaSwg
+dmlydGlvLCB3aGF0ZXZlcikgYnV0IGlmIHdlIGFyZSBvcGVuIHdlIGNvdWxkIG1heWJlCj4gc3Rh
+cnQgd2l0aCBzb21ldGhpbmcgZWxzZS4KCkkgYWdyZWUgMTAwJS4gSSBkb24ndCB0aGluayB3ZSBy
+ZWFsbHkgbmVlZCBhIG5ldyBmcmFtZXdvcmsgaW4gdGhlIGtlcm5lbCAKZm9yIHRoYXQuIFdlIGNh
+biBqdXN0IGhhdmUgZm9yIGV4YW1wbGUgYW4gczM5MHggc3BlY2lmaWMgZHJpdmVyIHRoYXQgCmFs
+c28gcHJvdmlkZXMgdGhlIHNhbWUgbm90aWZpY2F0aW9uIG1lY2hhbmlzbSB0aHJvdWdoIGEgZGV2
+aWNlIG5vZGUgdGhhdCAKaXMgYWxzbyBuYW1lZCAiL2Rldi92bWdlbmlkIiwgbm8/CgpPciBhbHRl
+cm5hdGl2ZWx5IHdlIGNhbiBzcGxpdCB0aGUgZ2VuZXJpYyBwYXJ0IG9mIHRoaXMgZHJpdmVyIGFz
+IHNvb24gYXMgCmEgc2Vjb25kIG9uZSBjb21lcyBhbG9uZyBhbmQgdGhlbiBoYXZlIGJvdGggZHJp
+dmVyIGluY2x1ZGUgdGhhdCBnZW5lcmljIApsb2dpYy4KClRoZSBvbmx5IHBpZWNlIHdoZXJlIEkn
+bSB1bnN1cmUgaXMgaG93IHRoaXMgd2lsbCBpbnRlcmFjdCB3aXRoIENSSVUuIENhbiAKY29udGFp
+bmVycyBlbXVsYXRlIGlvY3RscyBhbmQgZGV2aWNlIG5vZGVzPwoKCkFsZXgKCgoKQW1hem9uIERl
+dmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGlu
+Ckdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MK
+RWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3
+MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
 
-Great, thx, much appreciated.
-
-> There are things that could be tweaked
-> (there always will be) but I'm not sure we should worry about those yet.
-> I would suggest doing this:
-> 
->   - Collapse the whole thing down to a patch adding reporting-bugs-v2.rst
->     (or some suitable name).
-
-Maybe just "reporting-issues.rst" or "reporting-issues-wip.rst". The 
-text talks about issues anyway and rarely uses the word "bug".
-
->  I do wonder if it should also move to the
->     process manual as part of this; not only admins will report bugs.
-
-
-I had wondered about this myself a few weeks ago, but I assumed someone 
-had good reasons to put it in the admin section.
-
-/me looks closer
-
-Hmmm, now I'm unsure myself where to place it:
-
-  * Documentation/admin/ is introduced as "The Linux kernel user’s and 
-administrator’s guide" 
-(https://www.kernel.org/doc/html/latest/admin-guide/). So maybe it's the 
-right place that just uses a directory name that's easily misunderstood :-/
-
-  * the process section starts with the words "So you want to be a Linux 
-kernel developer? Welcome!" 
-(https://www.kernel.org/doc/html/latest/process/). That might be a bit 
-intimidating for people that just want to report a bug.
-
-I guess it's best if you decide.
-
->   - Add a comment at the top saying it's a proposed replacement and
->     soliciting comments.  You could also put some of your other questions
->     into the text for now and see if anybody reacts.
-> 
->   - In a separate patch you could add a comment to the existing document
->     pointing to the new one as the true source of wisdom.
-
-Will do.
-
->   - Dual licensed CC-SA-4.0 is fine with me.  CC-BY is OK if you really
->     want to do it that way.  
-
-I'm unsure and would appreciate options from others here.
-
-Here are some of my thoughts about this:
-
-What do we loose by dual-licensing it under a liberal license like 
-CC-BY? It afaics makes it a lot more attractive for websites or books 
-authors to use this text as a base, as they don't need to fear that 
-"share alike" or the GPL might have consequences on the surroundings. 
-I'd say that's a good thing for the kernel, as it increases the chances 
-the texts built upon ours remain close to what we expect on this topic.
-
-That's why I currently think using CC-BY is a good idea.
-
-> Either way, though, you'll need to add the
->     license itself under LICENSES/preferred before it can go into the SPDX
->     tag.
-
-Agh, yes, of course, will keep it in mind when above point is settled.
-
-Ciao, Thorsten
