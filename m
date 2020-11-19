@@ -2,126 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71FB5C8300C
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 21:06:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A7FC388F9
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 21:19:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1964B223FD
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 21:06:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="N/N/9quX"
+	by mail.kernel.org (Postfix) with ESMTP id 6C55A22240
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 21:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726464AbgKSVF4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 16:05:56 -0500
-Received: from m42-4.mailgun.net ([69.72.42.4]:40976 "EHLO m42-4.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726398AbgKSVFz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Nov 2020 16:05:55 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1605819955; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=wip3SqxPDZ8IG7Sc4+GAbXTApb3DFMxp79tDHTBbQ88=; b=N/N/9quXdPcbfHU5scRKp0BUDgihHy+MLgLhxcXvJSKE0AzGBEVOJjGQ1l1p3Li9r0XB/ejm
- UGuQtsOHCqiE3IYlSzP/6xNb8upgbPvlGtfG70P76/XjcJFdAgHjU3iMvE69aiR9q7UGoyEv
- BAtWygDw6hcwFPtiIVDa5MI6aR4=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5fb6de32b9b39088ed0e5e5c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 19 Nov 2020 21:05:54
- GMT
-Sender: sidgup=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 47133C43467; Thu, 19 Nov 2020 21:05:53 +0000 (UTC)
-Received: from sidgup-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: sidgup)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id CA1DFC43460;
-        Thu, 19 Nov 2020 21:05:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org CA1DFC43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
-From:   Siddharth Gupta <sidgup@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, ohad@wizery.com,
-        linux-remoteproc@vger.kernel.org
-Cc:     Siddharth Gupta <sidgup@codeaurora.org>,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v8 1/4] remoteproc: core: Add ops to enable custom coredump functionality
-Date:   Thu, 19 Nov 2020 13:05:32 -0800
-Message-Id: <1605819935-10726-2-git-send-email-sidgup@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1605819935-10726-1-git-send-email-sidgup@codeaurora.org>
-References: <1605819935-10726-1-git-send-email-sidgup@codeaurora.org>
+        id S1726168AbgKSVTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 16:19:15 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:54908 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbgKSVTO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 16:19:14 -0500
+Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 0070E3A303A
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2020 21:07:17 +0000 (UTC)
+X-Originating-IP: 91.224.148.103
+Received: from localhost.localdomain (unknown [91.224.148.103])
+        (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id A51B3240003;
+        Thu, 19 Nov 2020 21:06:55 +0000 (UTC)
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        linux-mtd@lists.infradead.org
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] docs: mtd: Avoid htmldocs warnings
+Date:   Thu, 19 Nov 2020 22:06:54 +0100
+Message-Id: <20201119210654.24754-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201113123831.32429-1-miquel.raynal@bootlin.com>
+References: 
+MIME-Version: 1.0
+X-linux-mtd-patch-notification: thanks
+X-linux-mtd-patch-commit: a115d8f6af3815df51a7a81bda7911a8fa1c1ec1
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Each remoteproc might have different requirements for coredumps and might
-want to choose the type of dumps it wants to collect. This change allows
-remoteproc drivers to specify their own custom dump function to be executed
-in place of rproc_coredump. If the coredump op is not specified by the
-remoteproc driver it will be set to rproc_coredump by default.
+On Fri, 2020-11-13 at 12:38:31 UTC, Miquel Raynal wrote:
+> Moving files around produced the following warnings:
+> 
+>        Error: Cannot open file drivers/mtd/nand/raw/nand_ecc.c
+>        Error: Cannot open file drivers/mtd/nand/raw/nand_ecc.c
+> 
+> Fix one by just dropping the reference because it is not relevant, the
+> other by using a better noun instead of a file name.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
----
- drivers/remoteproc/remoteproc_core.c | 6 +++++-
- include/linux/remoteproc.h           | 2 ++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next.
 
-diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-index dab2c0f..eba7543 100644
---- a/drivers/remoteproc/remoteproc_core.c
-+++ b/drivers/remoteproc/remoteproc_core.c
-@@ -1704,7 +1704,7 @@ int rproc_trigger_recovery(struct rproc *rproc)
- 		goto unlock_mutex;
- 
- 	/* generate coredump */
--	rproc_coredump(rproc);
-+	rproc->ops->coredump(rproc);
- 
- 	/* load firmware */
- 	ret = request_firmware(&firmware_p, rproc->firmware, dev);
-@@ -2126,6 +2126,10 @@ static int rproc_alloc_ops(struct rproc *rproc, const struct rproc_ops *ops)
- 	if (!rproc->ops)
- 		return -ENOMEM;
- 
-+	/* Default to rproc_coredump if no coredump function is specified */
-+	if (!rproc->ops->coredump)
-+		rproc->ops->coredump = rproc_coredump;
-+
- 	if (rproc->ops->load)
- 		return 0;
- 
-diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-index 3fa3ba6..a419878 100644
---- a/include/linux/remoteproc.h
-+++ b/include/linux/remoteproc.h
-@@ -375,6 +375,7 @@ enum rsc_handling_status {
-  * @get_boot_addr:	get boot address to entry point specified in firmware
-  * @panic:	optional callback to react to system panic, core will delay
-  *		panic at least the returned number of milliseconds
-+ * @coredump:	  collect firmware dump after the subsystem is shutdown
-  */
- struct rproc_ops {
- 	int (*prepare)(struct rproc *rproc);
-@@ -393,6 +394,7 @@ struct rproc_ops {
- 	int (*sanity_check)(struct rproc *rproc, const struct firmware *fw);
- 	u64 (*get_boot_addr)(struct rproc *rproc, const struct firmware *fw);
- 	unsigned long (*panic)(struct rproc *rproc);
-+	void (*coredump)(struct rproc *rproc);
- };
- 
- /**
--- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Miquel
