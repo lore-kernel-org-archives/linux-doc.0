@@ -2,120 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A491C6379D
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 17:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAC3C56201
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 18:31:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB9B2246DE
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 17:59:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8633C241A6
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 18:31:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="v4ZtqpY2"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gm30n5gi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729335AbgKSR7b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 12:59:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59360 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729265AbgKSR7a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Nov 2020 12:59:30 -0500
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 382EC2225B;
-        Thu, 19 Nov 2020 17:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605808770;
-        bh=Ta3tsz+YYOgNDaVSrDSReSog0hdPUxrDoz7tjhPgBp8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=v4ZtqpY2LAz/9Nfm6jgZ5XJMCJesqYR/Z4WxVWn3ygJvWBVacjqbC2MVHDaO5xuuV
-         KHOQFQoHiIvHJ3UeOFKgiRAX5aVTwFGJ4B5NeinELaVuWGB3/aMAetQHqBghFvPb03
-         xS+00bjvrJE6FVTSlRLcXq9sfIhkgFS9Elb6L0wg=
-Date:   Thu, 19 Nov 2020 09:59:28 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Jesper Dangaard Brouer <brouer@redhat.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Tao Ren <rentao.bupt@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
-        mikechoi@fb.com
-Subject: Re: XDP maintainer match (Was  [PATCH v2 0/2] hwmon: (max127) Add
- Maxim MAX127 hardware monitoring)
-Message-ID: <20201119095928.01fd10e0@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <088057533a9feb330964bdab0b1b8d2f69b7a22c.camel@perches.com>
-References: <20201118230929.18147-1-rentao.bupt@gmail.com>
-        <20201118232719.GI1853236@lunn.ch>
-        <20201118234252.GA18681@taoren-ubuntu-R90MNF91>
-        <20201119010119.GA248686@roeck-us.net>
-        <20201119012653.GA249502@roeck-us.net>
-        <20201119074634.2e9cb21b@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-        <20201119173535.1474743d@carbon>
-        <088057533a9feb330964bdab0b1b8d2f69b7a22c.camel@perches.com>
+        id S1728846AbgKSSb6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 13:31:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45000 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728466AbgKSSb5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 13:31:57 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA029C0613CF;
+        Thu, 19 Nov 2020 10:31:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=3Fwbov0n/MTQM8HXNLsQRtheMQrRru7ITImZeahaocM=; b=gm30n5gi+X6YNW+bkT1R9GCzef
+        jKNYBLUUTEIfDIs0dElmSSo98C8sE50LbXtmsDWGVOdXuW4tzPOnaG7rH7Av2xhEinvwiNCw52RFp
+        YAHuxpWP8oE5oDuKIT2YDbMG4jbnLH7EEFJevy38L2EAVkr7gnc57+9v9eXdTmb2wDGq7UklLVlN5
+        qFFfuAxxBnJlNrzbWdjxyc/4Dmk/9NDQNPXK9Eeqt78PCRvEqKOJOW/PMfMcJVnrv7RvLWSKtgJdi
+        oM7uWQRr3PrLGzgxPiZ2rJDEfHtmHCOerZ5xYKWBWoWA40O8xaBZSp9xVVNEaFwhrkhwcbFr8VAsV
+        E1tSqiJg==;
+Received: from [2601:1c0:6280:3f0::bcc4]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kfoie-0008WP-KL; Thu, 19 Nov 2020 18:31:44 +0000
+Subject: Re: [PATCH] docs: add a reset controller chapter to the driver API
+ docs
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Vivek Gautam <vivek.gautam@codeaurora.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ramiro Oliveira <Ramiro.Oliveira@synopsys.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Amjad Ouled-Ameur <aouledameur@baylibre.com>,
+        kernel@pengutronix.de
+References: <20201117103306.17010-1-p.zabel@pengutronix.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <48b0c216-69de-5c3b-1d2d-9cb23e0bc8bf@infradead.org>
+Date:   Thu, 19 Nov 2020 10:31:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201117103306.17010-1-p.zabel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Nov 2020 09:09:53 -0800 Joe Perches wrote:
-> On Thu, 2020-11-19 at 17:35 +0100, Jesper Dangaard Brouer wrote:
-> > On Thu, 19 Nov 2020 07:46:34 -0800 Jakub Kicinski <kuba@kernel.org> wro=
-te: =20
->=20
-> > I think it is a good idea to change the keyword (K:), but I'm not sure
-> > this catch what we want, maybe it does.  The pattern match are meant to
-> > catch drivers containing XDP related bits.
-> >=20
-> > Previously Joe Perches <joe@perches.com> suggested this pattern match,
-> > which I don't fully understand... could you explain Joe?
-> >=20
-> > =C2=A0=C2=A0(?:\b|_)xdp(?:\b|_) =20
->=20
-> This regex matches only:
->=20
-> 	xdp
-> 	xdp_<anything>
-> 	<anything>_xdp_<anything>
-> 	<anything>_xdp
->=20
-> > For the filename (N:) regex match, I'm considering if we should remove
-> > it and list more files explicitly.  I think normal glob * pattern
-> > works, which should be sufficient. =20
->=20
-> Lists are generally more specific than regex globs.
+Hi,
 
-Checking like Alexei did it seems Joe's version is faster and better:
-
-$ git grep -l -E "[^a-z0-9]xdp[^a-z0-9]" | wc -l
-295
-$ git grep -l -E '(\b|_)xdp(\b|_)' | wc -l
-297
-$ time git grep -l -E '(\b|_)xdp(\b|_)' > /tmp/a
-
-real	0m5.171s
-user	0m32.657s
-sys	0m0.664s
-$ time git grep -l -E "[^a-z0-9]xdp[^a-z0-9]" > /tmp/b
-
-real	0m16.627s
-user	1m48.149s
-sys	0m0.977s
-09:56 linux$ diff /tmp/a /tmp/b
-4d3
-< Documentation/networking/index.rst
-189d187
-< samples/bpf/.gitignore
+On 11/17/20 2:33 AM, Philipp Zabel wrote:
+> Add initial reset controller API documentation. This is mostly intended
+> to describe the concepts to users of the consumer API, and to tie the
+> kerneldoc comments we already have into the driver API documentation.
+> 
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> ---
+> Changes since the RFC [1]:
+> - Replaced all :c:func:`function` with function() (Jonathan Corbet)
+> - Typo fixes and wording improvements (Randy Dunlap)
+> - Mention new reset_control_rearm() API as a counterpart to
+>   reset_control_reset() for shared resets in the Triggering section
+> - Grammar fix in the Querying section
+> - Add reset.rst to MAINTAINERS
+> 
+> [1] https://lore.kernel.org/lkml/20191022164547.22632-1-p.zabel@pengutronix.de/
+> ---
+>  Documentation/driver-api/index.rst |   1 +
+>  Documentation/driver-api/reset.rst | 219 +++++++++++++++++++++++++++++
+>  MAINTAINERS                        |   1 +
+>  3 files changed, 221 insertions(+)
+>  create mode 100644 Documentation/driver-api/reset.rst
 
 
-Joe would you like to send a patch, or should I?
+> diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
+> new file mode 100644
+> index 000000000000..00a6ad79dd6c
+> --- /dev/null
+> +++ b/Documentation/driver-api/reset.rst
+> @@ -0,0 +1,219 @@
+
+
+> +Querying
+> +--------
+> +
+> +Only some reset controllers support querying the current status of a reset
+> +line, via reset_control_status().
+> +This function returns a positive non-zero value if the given reset line is
+> +asserted.
+
+Maybe note that reset_control_status() does not accept a reset control array
+as its input parameter.
+
+> +
+> +Reset control arrays
+> +--------------------
+> +
+> +Some drivers need to assert a bunch of reset lines in no particular order.
+> +devm_reset_control_array_get() returns an opaque reset control handle that can
+> +be used to assert, deassert, or trigger all specified reset controls at once.
+> +The reset control API does not guarantee the order in which the individual
+> +controls therein are handled.
+
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+thanks.
+-- 
+~Randy
+
