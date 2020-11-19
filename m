@@ -2,118 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0062BC63697
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 15:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F359CC56201
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 16:20:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D272246AA
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 15:46:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89C5822261
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 16:20:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="eJFgy/ER"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UtO+zfQT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728908AbgKSPqi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 10:46:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42152 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728583AbgKSPqh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Nov 2020 10:46:37 -0500
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 813182224A;
-        Thu, 19 Nov 2020 15:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605800796;
-        bh=ZvKprxlPeDR11nAv0IeB4RNZKc7/A57CYBYK8dwYGvA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eJFgy/ERDAHnV44gummxbYRBsX1kbc6TtE7RiXMtxbNIkKe7OhRg5AJfcPrxFKqjD
-         RvGoJEuoxmZSF+VACQj2A8eU2SVNDpagHniFKlgF8AkQdfRkaQSpgD5aLptwItPHad
-         ogoqmgOfEn08wfYIcOdiAOnWKZDBDMa2FN3swJpI=
-Date:   Thu, 19 Nov 2020 07:46:34 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Tao Ren <rentao.bupt@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
-        mikechoi@fb.com
-Subject: Re: [PATCH v2 0/2] hwmon: (max127) Add Maxim MAX127 hardware
- monitoring
-Message-ID: <20201119074634.2e9cb21b@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <20201119012653.GA249502@roeck-us.net>
-References: <20201118230929.18147-1-rentao.bupt@gmail.com>
-        <20201118232719.GI1853236@lunn.ch>
-        <20201118234252.GA18681@taoren-ubuntu-R90MNF91>
-        <20201119010119.GA248686@roeck-us.net>
-        <20201119012653.GA249502@roeck-us.net>
+        id S1727809AbgKSQUo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 11:20:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727734AbgKSQUn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 11:20:43 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC7EC0613CF;
+        Thu, 19 Nov 2020 08:20:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=BaLzUQ3GKRTm+Bsx275rLFBfY2cJqM7f3zzkxOvpr50=; b=UtO+zfQTHQ5c21g7eN9pefLDaU
+        0UFlVxqM5t1oU9JlvnD0Cy0iKbsJPYC3spWy7ezdIKvgJgxQAQYdvLgeWa/ul1jSKmiaHHmMLx7gs
+        lyqMRGynqnGGvz0EDr7dhcRU/khFp4awDT6L0/7XCsA2Fvd2L4GqYhPZHHB131psDfN1aN5JTqA83
+        Jd8XtwT1vkegCroEPdGESfgGhZCGi+dgkGiQX7zh67xbqOMzF0I8v9qLut92JcHzNNTqYlNtaYmmr
+        tyfZJr+TOztdwBUasO1Kt3mTLyU5fOVgg7srbpQ/+meEE46aZ5M/9wTIPvwdFCStAsndtsm4hn9ZS
+        byhaK4qA==;
+Received: from [2601:1c0:6280:3f0::bcc4]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kfmfo-0003cE-PV; Thu, 19 Nov 2020 16:20:41 +0000
+Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and yet
+ more detailed & helpful
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1605203187.git.linux@leemhuis.info>
+ <20201113153313.68ff210c@lwn.net>
+ <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
+ <20201118172958.5b014a44@lwn.net>
+ <ada5d01f-47a9-5734-2fc8-3de2d7aa86e4@leemhuis.info>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <be9d810e-a95b-9d44-09f1-19fd6bd07c4b@infradead.org>
+Date:   Thu, 19 Nov 2020 08:20:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <ada5d01f-47a9-5734-2fc8-3de2d7aa86e4@leemhuis.info>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 18 Nov 2020 17:26:53 -0800 Guenter Roeck wrote:
-> On Wed, Nov 18, 2020 at 05:01:19PM -0800, Guenter Roeck wrote:
-> > On Wed, Nov 18, 2020 at 03:42:53PM -0800, Tao Ren wrote:  
-> > > On Thu, Nov 19, 2020 at 12:27:19AM +0100, Andrew Lunn wrote:  
-> > > > On Wed, Nov 18, 2020 at 03:09:27PM -0800, rentao.bupt@gmail.com wrote:  
-> > > > > From: Tao Ren <rentao.bupt@gmail.com>
-> > > > > 
-> > > > > The patch series adds hardware monitoring driver for the Maxim MAX127
-> > > > > chip.  
-> > > > 
-> > > > Hi Tao
-> > > > 
-> > > > Why are using sending a hwmon driver to the networking mailing list?
-> > > > 
-> > > >     Andrew  
-> > > 
-> > > Hi Andrew,
-> > > 
-> > > I added netdev because the mailing list is included in "get_maintainer.pl
-> > > Documentation/hwmon/index.rst" output. Is it the right command to find
-> > > reviewers? Could you please suggest? Thank you.  
-> > 
-> > I have no idea why running get_maintainer.pl on
-> > Documentation/hwmon/index.rst returns such a large list of mailing
-> > lists and people. For some reason it includes everyone in the XDP
-> > maintainer list. If anyone has an idea how that happens, please
-> > let me know - we'll want to get this fixed to avoid the same problem
-> > in the future.
+On 11/19/20 4:29 AM, Thorsten Leemhuis wrote:
+> Am 19.11.20 um 01:29 schrieb Jonathan Corbet:
+>> On Sun, 15 Nov 2020 11:13:52 +0100
+>> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>>
+>>>> So I've not had a chance to try to read through the whole thing again,
+>>>> will try to do so in the near future.
+>>> Great, thx, looking forward to it.
+>> OK, I have made a *quick* pass through the whole thing and sent a small
+>> number of comments separately.
 > 
-> I found it. The XDP maintainer entry has:
+> Great, thx, much appreciated.
 > 
-> K:    xdp
+>> There are things that could be tweaked
+>> (there always will be) but I'm not sure we should worry about those yet.
+>> I would suggest doing this:
+>>
+>>   - Collapse the whole thing down to a patch adding reporting-bugs-v2.rst
+>>     (or some suitable name).
 > 
-> This matches Documentation/hwmon/index.rst.
+> Maybe just "reporting-issues.rst" or "reporting-issues-wip.rst". The text talks about issues anyway and rarely uses the word "bug".
 > 
-> $ grep xdp Documentation/hwmon/index.rst
->    xdpe12284
+>>  I do wonder if it should also move to the
+>>     process manual as part of this; not only admins will report bugs.
 > 
-> It seems to me that a context match such as "xdp" in MAINTAINERS isn't
-> really appropriate. "xdp" matches a total of 348 files in the kernel.
-> The large majority of those is not XDP related. The maintainers
-> of XDP (and all the listed mailing lists) should not be surprised
-> to get a large number of odd review requests if they want to review
-> every single patch on files which include the term "xdp".
+> 
+> I had wondered about this myself a few weeks ago, but I assumed someone had good reasons to put it in the admin section.
+> 
+> /me looks closer
+> 
+> Hmmm, now I'm unsure myself where to place it:
+> 
+>  * Documentation/admin/ is introduced as "The Linux kernel user’s and administrator’s guide" (https://www.kernel.org/doc/html/latest/admin-guide/). So maybe it's the right place that just uses a directory name that's easily misunderstood :-/
+> 
+>  * the process section starts with the words "So you want to be a Linux kernel developer? Welcome!" (https://www.kernel.org/doc/html/latest/process/). That might be a bit intimidating for people that just want to report a bug.
+> 
+> I guess it's best if you decide.
+I prefer to leave it in /admin-guide/.
 
-Agreed, we should fix this. For maintainers with high patch volume life
-would be so much easier if people CCed the right folks to get reviews,
-so we should try our best to fix get_maintainer.
+-- 
+~Randy
 
-XDP folks, any opposition to changing the keyword / filename to:
-
-	[^a-z0-9]xdp[^a-z0-9]
-
-?
