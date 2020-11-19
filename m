@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAF0C64E75
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 14:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEBCC64E7A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 14:32:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 485CB24698
+	by mail.kernel.org (Postfix) with ESMTP id 0877E246A7
 	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 14:32:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="KdZ3XcWO"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="RoxUn7/j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727543AbgKSObh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 09:31:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49798 "EHLO mail.kernel.org"
+        id S1727931AbgKSOb4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 09:31:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49926 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727513AbgKSObh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Nov 2020 09:31:37 -0500
+        id S1727925AbgKSOb4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Nov 2020 09:31:56 -0500
 Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8DC7F24181;
-        Thu, 19 Nov 2020 14:31:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AE54824655;
+        Thu, 19 Nov 2020 14:31:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605796297;
-        bh=yLmGWtslaATkDUKppuDRrUUebo2kqyZbD0vXgVP3bh0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=KdZ3XcWOCCCdpNsDroK2VNg+yE3iHI71L2y3oAKaXHrs/QitZuMQQi9fLEw1bSi9X
-         LyzetDa1W0Npgc0LRlN/w/ySiBprotxhihJkYslfXKT670Sie+eK1RrixDmX4ftVFc
-         83WSXcuc3XjnwnWuGujRyz4nR1n8zcbmPBk53yTE=
+        s=default; t=1605796315;
+        bh=NyEHUo7vvd5Jv//2zWViwF0WdKTgAYi2JS+Hryju1z4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RoxUn7/jx9cBkDlhQm3F4lPq0Tm5Y2c1ROM7DcxBGNah0MPG00xIndslFLqEH4+a+
+         IBCs8s0zoe5zxmoQ28xKYA8EagqD2kVTSnZ10YFpJMqGl1I2GKlCecTSPjWi1Fldc6
+         EQHKof/WK6RJH5S051uXI/seIrI4Ltm9gAat7FHA=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>,
         Linus Torvalds <torvalds@linux-foundation.org>
@@ -41,10 +41,12 @@ Cc:     Chen Yu <yu.c.chen@intel.com>, Chen Yu <yu.chen.surf@gmail.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Ingo Molnar <mingo@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [RFC PATCH 0/3] bootconfig: Use hexadecimal ASCII string for size and checksum
-Date:   Thu, 19 Nov 2020 23:31:32 +0900
-Message-Id: <160579629161.503380.9118263439060046721.stgit@devnote2>
+Subject: [RFC PATCH 2/3] tools/bootconfig: Use hexadecimal ASCII string for size and checksum
+Date:   Thu, 19 Nov 2020 23:31:51 +0900
+Message-Id: <160579631164.503380.17889801017052432263.stgit@devnote2>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <160579629161.503380.9118263439060046721.stgit@devnote2>
+References: <160579629161.503380.9118263439060046721.stgit@devnote2>
 User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -53,38 +55,132 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+To make the bootconfig format more platform independent, use
+8-bytes hexadecimal ASCII string for size and checksum field
+in the footer. This will allow us to apply bootconfig to the
+cross build initrd without caring the endianness.
 
-Here is a seires of patches to change the bootconfig footer format
-to use 8-bytes hexadecimal ASCII string for size and checksum instead
-of u32.
+This commit updates bootconfig and its test so that it can handle
+new format.
 
-In the previous thread for alignment series[1], Steve pointed that
-the current footer format makes it hard to apply the bootconfig for
-cross-build initrd if the target endianness is different from the
-host machine.
-
-So, this changes the size and checksum format to 8-bytes hexadecimal
-ASCII string as same as cpio. Since that is a string, we don't need
-to care of the difference of the endianness anymore.
-
-Thank you,
-
-[1] https://lore.kernel.org/lkml/20201118112249.30d20147@gandalf.local.home/
-
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 ---
+ tools/bootconfig/main.c             |   43 ++++++++++++++++++++++-------------
+ tools/bootconfig/test-bootconfig.sh |    2 +-
+ 2 files changed, 28 insertions(+), 17 deletions(-)
 
-Masami Hiramatsu (3):
-      bootconfig: Use hexadecimal ASCII string for size and checksum
-      tools/bootconfig: Use hexadecimal ASCII string for size and checksum
-      docs: bootconfig: Use hexadecimal ASCII string for size and checksum
+diff --git a/tools/bootconfig/main.c b/tools/bootconfig/main.c
+index 4a445b6304bb..16eb5d4b9947 100644
+--- a/tools/bootconfig/main.c
++++ b/tools/bootconfig/main.c
+@@ -155,11 +155,12 @@ static int pr_errno(const char *msg, int err)
+ 
+ static int load_xbc_from_initrd(int fd, char **buf)
+ {
+-	struct stat stat;
+-	int ret;
+-	u32 size = 0, csum = 0, rcsum;
+ 	char magic[BOOTCONFIG_MAGIC_LEN];
++	u32 size = 0, csum = 0, rcsum;
++	struct stat stat;
+ 	const char *msg;
++	char sbuf[9], *p;
++	int ret;
+ 
+ 	ret = fstat(fd, &stat);
+ 	if (ret < 0)
+@@ -178,22 +179,33 @@ static int load_xbc_from_initrd(int fd, char **buf)
+ 	if (memcmp(magic, BOOTCONFIG_MAGIC, BOOTCONFIG_MAGIC_LEN) != 0)
+ 		return 0;
+ 
+-	if (lseek(fd, -(8 + BOOTCONFIG_MAGIC_LEN), SEEK_END) < 0)
++	if (lseek(fd, -(16 + BOOTCONFIG_MAGIC_LEN), SEEK_END) < 0)
+ 		return pr_errno("Failed to lseek for size", -errno);
+ 
+-	if (read(fd, &size, sizeof(u32)) < 0)
++	sbuf[8] = '\0';
++	if (read(fd, sbuf, 8) < 0)
+ 		return pr_errno("Failed to read size", -errno);
++	size = strtoul(sbuf, &p, 16);
++	if (p != sbuf + 8) {
++		pr_err("Found invalid size field\n");
++		return -EINVAL;
++	}
+ 
+-	if (read(fd, &csum, sizeof(u32)) < 0)
++	if (read(fd, sbuf, 8) < 0)
+ 		return pr_errno("Failed to read checksum", -errno);
++	csum = strtoul(sbuf, &p, 16);
++	if (p != sbuf + 8) {
++		pr_err("Found invalid checksum field\n");
++		return -EINVAL;
++	}
+ 
+ 	/* Wrong size error  */
+-	if (stat.st_size < size + 8 + BOOTCONFIG_MAGIC_LEN) {
++	if (stat.st_size < size + 16 + BOOTCONFIG_MAGIC_LEN) {
+ 		pr_err("bootconfig size is too big\n");
+ 		return -E2BIG;
+ 	}
+ 
+-	if (lseek(fd, stat.st_size - (size + 8 + BOOTCONFIG_MAGIC_LEN),
++	if (lseek(fd, stat.st_size - (size + 16 + BOOTCONFIG_MAGIC_LEN),
+ 		  SEEK_SET) < 0)
+ 		return pr_errno("Failed to lseek", -errno);
+ 
+@@ -324,7 +336,7 @@ static int delete_xbc(const char *path)
+ 		ret = fstat(fd, &stat);
+ 		if (!ret)
+ 			ret = ftruncate(fd, stat.st_size
+-					- size - 8 - BOOTCONFIG_MAGIC_LEN);
++					- size - 16 - BOOTCONFIG_MAGIC_LEN);
+ 		if (ret)
+ 			ret = -errno;
+ 	} /* Ignore if there is no boot config in initrd */
+@@ -354,8 +366,7 @@ static int apply_xbc(const char *path, const char *xbc_path)
+ 	csum = checksum((unsigned char *)buf, size);
+ 
+ 	/* Backup the bootconfig data */
+-	data = calloc(size + BOOTCONFIG_ALIGN +
+-		      sizeof(u32) + sizeof(u32) + BOOTCONFIG_MAGIC_LEN, 1);
++	data = calloc(size + BOOTCONFIG_ALIGN + 16 + BOOTCONFIG_MAGIC_LEN, 1);
+ 	if (!data)
+ 		return -ENOMEM;
+ 	memcpy(data, buf, size);
+@@ -401,17 +412,17 @@ static int apply_xbc(const char *path, const char *xbc_path)
+ 	}
+ 
+ 	/* To align up the total size to BOOTCONFIG_ALIGN, get padding size */
+-	total_size = stat.st_size + size + sizeof(u32) * 2 + BOOTCONFIG_MAGIC_LEN;
++	total_size = stat.st_size + size + 16 + BOOTCONFIG_MAGIC_LEN;
+ 	pad = ((total_size + BOOTCONFIG_ALIGN - 1) & (~BOOTCONFIG_ALIGN_MASK)) - total_size;
+ 	size += pad;
+ 
+ 	/* Add a footer */
+ 	p = data + size;
+-	*(u32 *)p = size;
+-	p += sizeof(u32);
++	sprintf(p, "%08x", size);
++	p += 8;
+ 
+-	*(u32 *)p = csum;
+-	p += sizeof(u32);
++	sprintf(p, "%08x", csum);
++	p += 8;
+ 
+ 	memcpy(p, BOOTCONFIG_MAGIC, BOOTCONFIG_MAGIC_LEN);
+ 	p += BOOTCONFIG_MAGIC_LEN;
+diff --git a/tools/bootconfig/test-bootconfig.sh b/tools/bootconfig/test-bootconfig.sh
+index baed891d0ba4..a40926b8927c 100755
+--- a/tools/bootconfig/test-bootconfig.sh
++++ b/tools/bootconfig/test-bootconfig.sh
+@@ -60,7 +60,7 @@ echo "Show command test"
+ xpass $BOOTCONF $INITRD
+ 
+ echo "File size check"
+-total_size=$(expr $bconf_size + $initrd_size + 9 + 12 + $ALIGN - 1 )
++total_size=$(expr $bconf_size + $initrd_size + 17 + 12 + $ALIGN - 1 )
+ total_size=$(expr $total_size / $ALIGN)
+ total_size=$(expr $total_size \* $ALIGN)
+ xpass test $new_size -eq $total_size
 
-
- Documentation/admin-guide/bootconfig.rst |    6 +++-
- init/main.c                              |   20 ++++++++++----
- tools/bootconfig/main.c                  |   43 +++++++++++++++++++-----------
- tools/bootconfig/test-bootconfig.sh      |    2 +
- 4 files changed, 48 insertions(+), 23 deletions(-)
-
---
-Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
