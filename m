@@ -2,160 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B25CC2D0E4
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 06:18:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5114C2D0E4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 07:22:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E08ED246AD
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 06:18:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93F29246E8
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 07:22:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="SlQ9yXcP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SykaFT23"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbgKSGSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 01:18:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44480 "EHLO
+        id S1726282AbgKSHWf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 02:22:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725799AbgKSGSB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 01:18:01 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08CF5C0613D4
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 22:18:01 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id w6so3473809pfu.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2020 22:18:01 -0800 (PST)
+        with ESMTP id S1726107AbgKSHWf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 02:22:35 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511D5C0613CF;
+        Wed, 18 Nov 2020 23:22:35 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id t8so3591602pfg.8;
+        Wed, 18 Nov 2020 23:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7pQ2zj7Jlr1PXAZIscOwv68xrKkz77uBgfi3u8q3/iE=;
-        b=SlQ9yXcPGWcqpNgsvUA5elpHwLWom+AQYZiYOdSgGaRs4scyCqq6tE/AKEJ5uZ5b81
-         lF/hyH+57tlZdv2coRV+X45arqUqjkR0aAKl7EvCtUTrgZP+Uzms/5sBiY3pTURzH+NC
-         6Jq2WJzC83rdSI2D2P+t4I2rC91XAWEmdYYGuaTMprvtZR9RngYuSZDfDBvCIalkaajC
-         YNIP91xlct/SLzjaBBdRAp3jZjyj7Tb1pv7IN8kaOASxqS7Gh8Z/TBedIdlo1Q/pY6JQ
-         cWKq1j2A4i2DOxMN3dAlM7OXOublT36ylMrsTYwjHxLJk5ZpCUi0cAvL165vdMl/2bDy
-         oXXQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1RR09oXTHNj5D+VKWnXusC3Un6VRBPlQtmYv6ZSUsVI=;
+        b=SykaFT23R/hVbaREPLzvW2AP15wUqLT+sWT6x4PeBzYCErRpZXTA1blPK8ZCNOSxv9
+         z/GwsF9uEXlQR2OLiRYvAzouSE8DSpnE24YnQkxJFQONJa7luOgYcXwZfdJkrPRxT0Gu
+         kAX5lmyGFh/3df3LBvVhI0+6/LIPvbIGmYYzvt4o3biOa5rKpVjRcdwg7aaiduza9Zn3
+         MWwUrm3AVbMFTJQ+S/Gqgn/bvoan5rIB3N8hHg5cEdFqJck0lIQdUHrcn9fM33vEMfKj
+         oyTr57Bz8FN2o1sYa+eyj3Rv2XZ7eh5TCuPjJRLUHeX+M+SCVAu8CDYTYdIZOvwfUr0P
+         UfFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7pQ2zj7Jlr1PXAZIscOwv68xrKkz77uBgfi3u8q3/iE=;
-        b=oEXPgeUiP/Sg3G1cQFXAttYBiMacLB1+4M3LnPE1Xuxoqs4s5XjN+VJpTf5nI2U5Aw
-         ZxRzckHXNA+mXM1SAvyPvSSH4PqcW+TELLZ9ufHkqipZHPz1XD30xKOy1z3uA0DfBlbG
-         46CzTHO8CIlkZZYv5BydlY3bIaQL13wOfTI9E6F1197PrBd5Ynu9p3DKGlEccIWcIson
-         2dUCIXmo21h9t+9Ezi0PBtJlWaMzXqaNK3wna0Raf65YiI3v8/0eB7RaiOyA+QeKiGPt
-         8McI9EpcuAMmJWf86EZs5d3raBndq0KTzf8PNM1owgQtDTWIs4d+JHVV9okFwVKLL9ok
-         6REQ==
-X-Gm-Message-State: AOAM5302ZBVW65whfMvUWAAL1GKlOF+Xr0P147DV2ivZOuuZ/N2G3dLf
-        t84rGDeCqpyPw2oDI6xYSKr0dHSUDP8tp2JbNcfm3Q==
-X-Google-Smtp-Source: ABdhPJzMCPjAh/2kqnjwOxyzOIsWkWSrhvfMsYkNgJM3IRKRm7eO5+zvHPlxtMjOwCYAaHDaqSWr4Tkcrzo6Lbmbiss=
-X-Received: by 2002:a17:90b:88b:: with SMTP id bj11mr2853956pjb.229.1605766680507;
- Wed, 18 Nov 2020 22:18:00 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1RR09oXTHNj5D+VKWnXusC3Un6VRBPlQtmYv6ZSUsVI=;
+        b=Z6+1QJDmvtgTvkwfz3hdv7wIIKH9ec2a+LAFH4/zMADv8giAnJ6KGHvzcMmz2x8tAU
+         wTiQSZqcs9CTft6po5WIiwOPv/US8nHl4wa97c1W7YqUf/39rh8EwCQzkZ2Tii4lLtAt
+         iAIqnF6kvepN/TcueR9RQl8kg9eLETOUGNHNDD9Yg+/e8tSyvTu6QkizzX2+RDEjFcGX
+         /D/6Gcaslz1go0gL49MnWViUzUh+blWmv5a8MjH20oAp3rKuXsj6RG9wZon8sqGmhzRc
+         1ZvfDAXKmFaEcJpJL+AgJodCF6I/RAFnAXnUsDEqb3E/Tdo7RB0INcOcI0YjPRJGOZk3
+         O67Q==
+X-Gm-Message-State: AOAM5308NFDH5ua9OWuRC5WCJZJNFKArwV5ltmyusUOWNZI/i1K6bnwp
+        C1Cby87MbBMPCPpWn7NtJaw=
+X-Google-Smtp-Source: ABdhPJwSM7bcPvfkrjRN4rBPjOShGGjdnAqFCLalTUBjlOLyt6Pi2bllffDYwvcM9ExJ8zAEz39WSQ==
+X-Received: by 2002:a17:90a:8d03:: with SMTP id c3mr3172717pjo.100.1605770554821;
+        Wed, 18 Nov 2020 23:22:34 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
+        by smtp.gmail.com with ESMTPSA id v191sm27585931pfc.19.2020.11.18.23.22.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 18 Nov 2020 23:22:34 -0800 (PST)
+Date:   Wed, 18 Nov 2020 23:22:26 -0800
+From:   Tao Ren <rentao.bupt@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com,
+        mikechoi@fb.com
+Subject: Re: [PATCH v2 0/2] hwmon: (max127) Add Maxim MAX127 hardware
+ monitoring
+Message-ID: <20201119072225.GA19877@taoren-ubuntu-R90MNF91>
+References: <20201118230929.18147-1-rentao.bupt@gmail.com>
+ <20201118232719.GI1853236@lunn.ch>
+ <20201118234252.GA18681@taoren-ubuntu-R90MNF91>
+ <20201119010119.GA248686@roeck-us.net>
+ <20201119012653.GA249502@roeck-us.net>
 MIME-Version: 1.0
-References: <20201113105952.11638-1-songmuchun@bytedance.com>
- <20201113105952.11638-6-songmuchun@bytedance.com> <20201117150604.GA15679@linux>
-In-Reply-To: <20201117150604.GA15679@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 19 Nov 2020 14:17:21 +0800
-Message-ID: <CAMZfGtW=Oyaoooow9_i+R1LkvGpcFoUjBxYzGqBZsOa-t-sFsg@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v4 05/21] mm/hugetlb: Introduce pgtable
- allocation/freeing helpers
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201119012653.GA249502@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 11:06 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Fri, Nov 13, 2020 at 06:59:36PM +0800, Muchun Song wrote:
-> > +#define page_huge_pte(page)          ((page)->pmd_huge_pte)
->
-> Seems you do not need this one anymore.
->
-> > +void vmemmap_pgtable_free(struct page *page)
-> > +{
-> > +     struct page *pte_page, *t_page;
-> > +
-> > +     list_for_each_entry_safe(pte_page, t_page, &page->lru, lru) {
-> > +             list_del(&pte_page->lru);
-> > +             pte_free_kernel(&init_mm, page_to_virt(pte_page));
-> > +     }
-> > +}
-> > +
-> > +int vmemmap_pgtable_prealloc(struct hstate *h, struct page *page)
-> > +{
-> > +     unsigned int nr = pgtable_pages_to_prealloc_per_hpage(h);
-> > +
-> > +     /* Store preallocated pages on huge page lru list */
-> > +     INIT_LIST_HEAD(&page->lru);
-> > +
-> > +     while (nr--) {
-> > +             pte_t *pte_p;
-> > +
-> > +             pte_p = pte_alloc_one_kernel(&init_mm);
-> > +             if (!pte_p)
-> > +                     goto out;
-> > +             list_add(&virt_to_page(pte_p)->lru, &page->lru);
-> > +     }
->
-> Definetely this looks better and easier to handle.
-> Btw, did you explore Matthew's hint about instead of allocating a new page,
-> using one of the ones you are going to free to store the ptes?
-> I am not sure whether it is feasible at all though.
+On Wed, Nov 18, 2020 at 05:26:53PM -0800, Guenter Roeck wrote:
+> On Wed, Nov 18, 2020 at 05:01:19PM -0800, Guenter Roeck wrote:
+> > On Wed, Nov 18, 2020 at 03:42:53PM -0800, Tao Ren wrote:
+> > > On Thu, Nov 19, 2020 at 12:27:19AM +0100, Andrew Lunn wrote:
+> > > > On Wed, Nov 18, 2020 at 03:09:27PM -0800, rentao.bupt@gmail.com wrote:
+> > > > > From: Tao Ren <rentao.bupt@gmail.com>
+> > > > > 
+> > > > > The patch series adds hardware monitoring driver for the Maxim MAX127
+> > > > > chip.
+> > > > 
+> > > > Hi Tao
+> > > > 
+> > > > Why are using sending a hwmon driver to the networking mailing list?
+> > > > 
+> > > >     Andrew
+> > > 
+> > > Hi Andrew,
+> > > 
+> > > I added netdev because the mailing list is included in "get_maintainer.pl
+> > > Documentation/hwmon/index.rst" output. Is it the right command to find
+> > > reviewers? Could you please suggest? Thank you.
+> > 
+> > I have no idea why running get_maintainer.pl on
+> > Documentation/hwmon/index.rst returns such a large list of mailing
+> > lists and people. For some reason it includes everyone in the XDP
+> > maintainer list. If anyone has an idea how that happens, please
+> > let me know - we'll want to get this fixed to avoid the same problem
+> > in the future.
+> > 
+> 
+> I found it. The XDP maintainer entry has:
+> 
+> K:    xdp
+> 
+> This matches Documentation/hwmon/index.rst.
+> 
+> $ grep xdp Documentation/hwmon/index.rst
+>    xdpe12284
+> 
+> It seems to me that a context match such as "xdp" in MAINTAINERS isn't
+> really appropriate. "xdp" matches a total of 348 files in the kernel.
+> The large majority of those is not XDP related. The maintainers
+> of XDP (and all the listed mailing lists) should not be surprised
+> to get a large number of odd review requests if they want to review
+> every single patch on files which include the term "xdp".
+> 
+> Guenter
 
-Hi Oscar and Matthew,
-
-I have started an investigation about this. Finally, I think that it
-may not be feasible. If we use a vmemmap page frame as a
-page table when we split the PMD table firstly, in this stage,
-we need to set 512 pte entry to the vmemmap page frame. If
-someone reads the tail struct page struct of the HugeTLB,
-it can get the arbitrary value (I am not sure it actually exists,
-maybe the memory compaction module can do this). So on
-the safe side, I think that allocating a new page is a good
-choice.
-
-Thanks.
-
->
->
-> > --- a/mm/hugetlb_vmemmap.h
-> > +++ b/mm/hugetlb_vmemmap.h
-> > @@ -9,12 +9,24 @@
-> >  #ifndef _LINUX_HUGETLB_VMEMMAP_H
-> >  #define _LINUX_HUGETLB_VMEMMAP_H
-> >  #include <linux/hugetlb.h>
-> > +#include <linux/mm.h>
->
-> why do we need this here?
->
-> --
-> Oscar Salvador
-> SUSE L3
+Thanks Guenter and Andrew. Given xdp maintainers were included by
+mistake, I will remove them from the future discussions of this hwmon
+patch series.
 
 
+Cheers,
 
--- 
-Yours,
-Muchun
+Tao
