@@ -2,157 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C1FC6379F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:03:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A04C9C6369E
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:30:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7999C246F1
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:03:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="o7fkJ6Ft"
+	by mail.kernel.org (Postfix) with ESMTP id 412E9246E8
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 12:30:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbgKSMDY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 07:03:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46830 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726495AbgKSMDX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 07:03:23 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AJC1juS015700;
-        Thu, 19 Nov 2020 07:02:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=LhudYgp7LwyrzB9nzt7AbefNHLUSPXxp2TUOfBUDXPo=;
- b=o7fkJ6FtiGRijn5pIBAGGina1Qkkr4fdwDVKkAbDO/AV01TwrzuCzH5q/J204nfAucNa
- rSDhumvhzocyOnYOe8/BJRE9br990fWreOtVQuqohH0GuHLuJToEqZxt199FTDOtn8l6
- 2ZREDQAofFAU97dwCecaexqsUmO3S6UD1BE3RlwFfM3ZiZO48y6jHALi+EGv8/NZMy1b
- dQfs2nYv11E+56oqOxagsGt038uHKmiedaax3ZRJZfKikMWmOKS32MsDizVv5yuRtoG4
- DJ/QUmor6hHENVRhLoGdjSrrBYaA7MwUVpIhV478qlAEHbIyLQlN+oQx9Ao/G8evUIg9 Rg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 34wg685eje-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 Nov 2020 07:02:25 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJC2Mqg018550;
-        Thu, 19 Nov 2020 07:02:24 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 34wg685edm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 Nov 2020 07:02:24 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJBrJJe029665;
-        Thu, 19 Nov 2020 12:02:19 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma05fra.de.ibm.com with ESMTP id 34v69usa0p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 Nov 2020 12:02:19 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0AJC2HNP63111558
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 Nov 2020 12:02:17 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4099352054;
-        Thu, 19 Nov 2020 12:02:17 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.22.151])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id AFB9152051;
-        Thu, 19 Nov 2020 12:02:15 +0000 (GMT)
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-To:     "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        "Graf (AWS), Alexander" <graf@amazon.de>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jann Horn <jannh@google.com>
-Cc:     Willy Tarreau <w@1wt.eu>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "bonzini@gnu.org" <bonzini@gnu.org>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        "oridgar@gmail.com" <oridgar@gmail.com>,
-        "ghammer@redhat.com" <ghammer@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        "areber@redhat.com" <areber@redhat.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Andrey Vagin <avagin@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-        "gil@azul.com" <gil@azul.com>,
-        "asmehra@redhat.com" <asmehra@redhat.com>,
-        "dgunigun@redhat.com" <dgunigun@redhat.com>,
-        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-From:   Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
-Date:   Thu, 19 Nov 2020 13:02:15 +0100
+        id S1727158AbgKSM35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 07:29:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725783AbgKSM35 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 07:29:57 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43288C0613CF;
+        Thu, 19 Nov 2020 04:29:57 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kfj4S-0001JF-0u; Thu, 19 Nov 2020 13:29:52 +0100
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1605203187.git.linux@leemhuis.info>
+ <20201113153313.68ff210c@lwn.net>
+ <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
+ <20201118172958.5b014a44@lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and yet
+ more detailed & helpful
+Message-ID: <ada5d01f-47a9-5734-2fc8-3de2d7aa86e4@leemhuis.info>
+Date:   Thu, 19 Nov 2020 13:29:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-In-Reply-To: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-19_08:2020-11-19,2020-11-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
- malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- mlxlogscore=999 phishscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011190087
+In-Reply-To: <20201118172958.5b014a44@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605788997;cd067995;
+X-HE-SMSGID: 1kfj4S-0001JF-0u
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Am 19.11.20 um 01:29 schrieb Jonathan Corbet:
+> On Sun, 15 Nov 2020 11:13:52 +0100
+> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> 
+>>> So I've not had a chance to try to read through the whole thing again,
+>>> will try to do so in the near future.
+>> Great, thx, looking forward to it.
+> OK, I have made a *quick* pass through the whole thing and sent a small
+> number of comments separately.
 
-On 16.11.20 16:34, Catangiu, Adrian Costin wrote:
-> - Background
-> 
-> The VM Generation ID is a feature defined by Microsoft (paper:
-> http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-> multiple hypervisor vendors.
-> 
-> The feature is required in virtualized environments by apps that work
-> with local copies/caches of world-unique data such as random values,
-> uuids, monotonically increasing counters, etc.
-> Such apps can be negatively affected by VM snapshotting when the VM
-> is either cloned or returned to an earlier point in time.
-> 
-> The VM Generation ID is a simple concept meant to alleviate the issue
-> by providing a unique ID that changes each time the VM is restored
-> from a snapshot. The hw provided UUID value can be used to
-> differentiate between VMs or different generations of the same VM.
-> 
-> - Problem
-> 
-> The VM Generation ID is exposed through an ACPI device by multiple
-> hypervisor vendors but neither the vendors or upstream Linux have no
-> default driver for it leaving users to fend for themselves.
+Great, thx, much appreciated.
 
-I see that the qemu implementation is still under discussion. What is 
-the status of the other existing implementations. Do they already exist?
-In other words is ACPI a given?
-I think the majority of this driver could be used with just a different
-backend for platforms without ACPI so in any case we could factor out
-the backend (acpi, virtio, whatever) but if we are open we could maybe
-start with something else.
+> There are things that could be tweaked
+> (there always will be) but I'm not sure we should worry about those yet.
+> I would suggest doing this:
+> 
+>   - Collapse the whole thing down to a patch adding reporting-bugs-v2.rst
+>     (or some suitable name).
+
+Maybe just "reporting-issues.rst" or "reporting-issues-wip.rst". The 
+text talks about issues anyway and rarely uses the word "bug".
+
+>  I do wonder if it should also move to the
+>     process manual as part of this; not only admins will report bugs.
+
+
+I had wondered about this myself a few weeks ago, but I assumed someone 
+had good reasons to put it in the admin section.
+
+/me looks closer
+
+Hmmm, now I'm unsure myself where to place it:
+
+  * Documentation/admin/ is introduced as "The Linux kernel user’s and 
+administrator’s guide" 
+(https://www.kernel.org/doc/html/latest/admin-guide/). So maybe it's the 
+right place that just uses a directory name that's easily misunderstood :-/
+
+  * the process section starts with the words "So you want to be a Linux 
+kernel developer? Welcome!" 
+(https://www.kernel.org/doc/html/latest/process/). That might be a bit 
+intimidating for people that just want to report a bug.
+
+I guess it's best if you decide.
+
+>   - Add a comment at the top saying it's a proposed replacement and
+>     soliciting comments.  You could also put some of your other questions
+>     into the text for now and see if anybody reacts.
+> 
+>   - In a separate patch you could add a comment to the existing document
+>     pointing to the new one as the true source of wisdom.
+
+Will do.
+
+>   - Dual licensed CC-SA-4.0 is fine with me.  CC-BY is OK if you really
+>     want to do it that way.  
+
+I'm unsure and would appreciate options from others here.
+
+Here are some of my thoughts about this:
+
+What do we loose by dual-licensing it under a liberal license like 
+CC-BY? It afaics makes it a lot more attractive for websites or books 
+authors to use this text as a base, as they don't need to fear that 
+"share alike" or the GPL might have consequences on the surroundings. 
+I'd say that's a good thing for the kernel, as it increases the chances 
+the texts built upon ours remain close to what we expect on this topic.
+
+That's why I currently think using CC-BY is a good idea.
+
+> Either way, though, you'll need to add the
+>     license itself under LICENSES/preferred before it can go into the SPDX
+>     tag.
+
+Agh, yes, of course, will keep it in mind when above point is settled.
+
+Ciao, Thorsten
