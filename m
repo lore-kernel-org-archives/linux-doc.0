@@ -2,120 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61C16C6379D
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E2C8C6379D
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:40:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 001EE22261
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:17:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0EE6221FB
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 20:39:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="igDCXO+n"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bzt7RHlp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbgKSUR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 15:17:29 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:38406 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgKSUR2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 15:17:28 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJKDtl4126955;
-        Thu, 19 Nov 2020 20:16:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=exJiYbKDaQ+mS7WeA5ZmXfOrJdrDQ6I1VDXprbdJi44=;
- b=igDCXO+nPk312wyV7avhl10cwoTCb0ddqYiqv/EZ2IQbz6n6oyVNvbz1wgLx8wUPyoyp
- zfnK/wDkwHWvEjmNW4TLWMEf95getD69GOpc8VouJDEbkQkRd4HP/2nbNuwJZ5hlmfND
- 5PKyPhKcNdJY5qHPb0KKAL+bKbaxdsz3E5/y0TaKrCn94Xdkv1nB4cwICqsAxdhWMsLQ
- /eDUXeVreRK5HmqRLcPfpF9Oij1vkvx9/MwxWjaHqLUZQSF6YClG7HqhAMSXgG8H1DQ/
- syVhB8P+0YKlsTR+6Dl+QjLumRNT1B8Vs0SbN1a3viYI3Y2LbfBdsAVeiLOgp98wic1u 3A== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 34t7vnffdf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 19 Nov 2020 20:16:35 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJKAeDD152540;
-        Thu, 19 Nov 2020 20:16:35 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 34ts60fvtp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 Nov 2020 20:16:35 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AJKGPHH029775;
-        Thu, 19 Nov 2020 20:16:25 GMT
-Received: from dhcp-10-159-251-58.vpn.oracle.com (/10.159.251.58)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 19 Nov 2020 12:16:24 -0800
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
- and ARM
-From:   Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-In-Reply-To: <7f9e6b63-1727-379b-55b7-9ad2bbdb2e5b@infradead.org>
-Date:   Thu, 19 Nov 2020 12:16:21 -0800
-Cc:     John Donnelly <john.p.donnelly@oracle.com>, stable@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        =?utf-8?Q?Diego_Elio_Petten=C3=B2?= <flameeyes@flameeyes.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <353AE355-18C6-41DD-869B-F93CBE1271BC@oracle.com>
-References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
- <7f9e6b63-1727-379b-55b7-9ad2bbdb2e5b@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 phishscore=0
- suspectscore=3 mlxscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011190139
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=3
- malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011190139
+        id S1726310AbgKSUj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 15:39:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbgKSUj3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 15:39:29 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0156C0613CF
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2020 12:39:28 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id a15so7273901edy.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2020 12:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qJ4yHj2o6CJPlclc4Dlue1pFs+YW5Xtp3Pnvold2gGU=;
+        b=bzt7RHlpMxYBkqf5zz9ANDxyXQc65RQ67tJSR3v1pY5U4BJMAXZn1pI/d1T0zkdiPu
+         s8sO9+GMASROgyMF5j9RJhjjd9K7nN9ep+hNiSvgYp9G2Iu/3YQVYvfTon/4+VbuDJcN
+         H20qyMlRZ/uSGpibuTSbyFGscPAeMGVt7ZU92CMLshWBBIA6M/DP14AOIjjXNbwJqETL
+         w5S6LHYV5Y1FhOYbDtECPwtOIKeswdrBwWZDL3gj7MChde2jCFuhrVkfY9opGmun5+d3
+         lckS1vhfPZ4LTLvWbdO4GZOeNH1A48CiFvI4XIpe8Nh6tQw81rR5NSxvSStCtxSJHX/Y
+         Sccw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qJ4yHj2o6CJPlclc4Dlue1pFs+YW5Xtp3Pnvold2gGU=;
+        b=H6o4MkTd9pnHdOYdBkteLl7kcyPXblZfMZGQFVFTrtQJ9weyTnEXaawIh8NzeYKgMF
+         hqtBFhj7jsqPAdLFhIR0abZxmmBHzKjUGYP/Uf0c7uW2GFCjiAuMBUJy1OCUlPzJunsa
+         aco+ZljBzZgWq4pMSruHI+whfpjPR8Qx6bXYOkQB7n3z9Ln6Cng5ZD6VjpkQCeMsJxlQ
+         r6blihxX5JMtmfMoyJE7f5y1FZtk7YzJlA5ELE5xyAPQ7OEsqERqG27U0RY9igzQeNlV
+         leI76NZMNeaT3vNegrL8J5gSS4YJ7kgBBB7Pqh2qevyLhAmqP+lqLWxrt6hlei/XVcJB
+         72Xg==
+X-Gm-Message-State: AOAM532hGIwsQnEgWEng2vQjHePWioPxj5TCqat65hSEqTog+yWVgdqy
+        Od1i30AJ29pyRvsBwDVzkTNGzpQT/+XFHmz2rjfooQ==
+X-Google-Smtp-Source: ABdhPJy8wzlppYBs8HMU5d+8U8upwmmjqwlOvisvT7hKI6zk7qZ47GGZpODqwvrwEGYytZDoFv1EuU3tAGJPtdUe2M4=
+X-Received: by 2002:aa7:cc14:: with SMTP id q20mr7978782edt.140.1605818367084;
+ Thu, 19 Nov 2020 12:39:27 -0800 (PST)
+MIME-Version: 1.0
+References: <20201026210052.3775167-1-lokeshgidra@google.com>
+In-Reply-To: <20201026210052.3775167-1-lokeshgidra@google.com>
+From:   Lokesh Gidra <lokeshgidra@google.com>
+Date:   Thu, 19 Nov 2020 12:39:15 -0800
+Message-ID: <CA+EESO7N7gFkG_Vqy5j1oCZif8RaiCJ146GrQAKq3P1SCUi+ng@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] Control over userfaultfd kernel-fault handling
+To:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Daniel Colascione <dancol@dancol.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Kalesh Singh <kaleshsingh@google.com>,
+        Calin Juravle <calin@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Nitin Gupta <nigupta@nvidia.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->=20
->> @@ -1135,6 +1135,30 @@ config CRASH_DUMP
->>=20
->> 	  For more details see Documentation/admin-guide/kdump/kdump.rst
->>=20
->> +if CRASH_DUMP
->> +
->> +config CRASH_AUTO_STR
->> +        string "Memory reserved for crash kernel"
->=20
-> use tab instead of spaces above.
->=20
-
-Thanks, Randy. I=E2=80=99ll be fixing the them in the v2. I=E2=80=99ll =
-be removing the =E2=80=98CC: stable=E2=80=99 as well.
-
-Saeed
-
+On Mon, Oct 26, 2020 at 2:00 PM Lokesh Gidra <lokeshgidra@google.com> wrote:
+>
+> This patch series is split from [1]. The other series enables SELinux
+> support for userfaultfd file descriptors so that its creation and
+> movement can be controlled.
+>
+> It has been demonstrated on various occasions that suspending kernel
+> code execution for an arbitrary amount of time at any access to
+> userspace memory (copy_from_user()/copy_to_user()/...) can be exploited
+> to change the intended behavior of the kernel. For instance, handling
+> page faults in kernel-mode using userfaultfd has been exploited in [2, 3].
+> Likewise, FUSE, which is similar to userfaultfd in this respect, has been
+> exploited in [4, 5] for similar outcome.
+>
+> This small patch series adds a new flag to userfaultfd(2) that allows
+> callers to give up the ability to handle kernel-mode faults with the
+> resulting UFFD file object. It then adds a 'user-mode only' option to
+> the unprivileged_userfaultfd sysctl knob to require unprivileged
+> callers to use this new flag.
+>
+> The purpose of this new interface is to decrease the chance of an
+> unprivileged userfaultfd user taking advantage of userfaultfd to
+> enhance security vulnerabilities by lengthening the race window in
+> kernel code.
+>
+> [1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@google.com/
+> [2] https://duasynt.com/blog/linux-kernel-heap-spray
+> [3] https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit
+> [4] https://googleprojectzero.blogspot.com/2016/06/exploiting-recursion-in-linux-kernel_20.html
+> [5] https://bugs.chromium.org/p/project-zero/issues/detail?id=808
+>
+> Changes since v5:
+>
+>   - Added printk_once when unprivileged_userfaultfd is set to 0 and
+>     userfaultfd syscall is called without UFFD_USER_MODE_ONLY in the
+>     absence of CAP_SYS_PTRACE capability.
+>
+> Changes since v4:
+>
+>   - Added warning when bailing out from handling kernel fault.
+>
+> Changes since v3:
+>
+>   - Modified the meaning of value '0' of unprivileged_userfaultfd
+>     sysctl knob. Setting this knob to '0' now allows unprivileged users
+>     to use userfaultfd, but can handle page faults in user-mode only.
+>   - The default value of unprivileged_userfaultfd sysctl knob is changed
+>     to '0'.
+>
+> Changes since v2:
+>
+>   - Removed 'uffd_flags' and directly used 'UFFD_USER_MODE_ONLY' in
+>     userfaultfd().
+>
+> Changes since v1:
+>
+>   - Added external references to the threats from allowing unprivileged
+>     users to handle page faults from kernel-mode.
+>   - Removed the new sysctl knob restricting handling of page
+>     faults from kernel-mode, and added an option for the same
+>     in the existing 'unprivileged_userfaultfd' knob.
+>
+> Lokesh Gidra (2):
+>   Add UFFD_USER_MODE_ONLY
+>   Add user-mode only option to unprivileged_userfaultfd sysctl knob
+>
+>  Documentation/admin-guide/sysctl/vm.rst | 15 ++++++++++-----
+>  fs/userfaultfd.c                        | 20 +++++++++++++++++---
+>  include/uapi/linux/userfaultfd.h        |  9 +++++++++
+>  3 files changed, 36 insertions(+), 8 deletions(-)
+>
+> --
+> 2.29.0.rc1.297.gfa9743e501-goog
+>
+It's been quite some time since this patch-series has received
+'Reviewed-by' by Andrea. Please let me know if anything is blocking it
+from taking forward.
