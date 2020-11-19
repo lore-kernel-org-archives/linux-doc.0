@@ -2,78 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1D0C63697
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 00:30:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CBBC63697
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 01:06:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FAC6246E8
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 00:30:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8426922363
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Nov 2020 01:06:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mxdTQ/3O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgKSA37 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Nov 2020 19:29:59 -0500
-Received: from ms.lwn.net ([45.79.88.28]:47478 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726098AbgKSA37 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Nov 2020 19:29:59 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 412B22B2;
-        Thu, 19 Nov 2020 00:29:59 +0000 (UTC)
-Date:   Wed, 18 Nov 2020 17:29:58 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and
- yet more detailed & helpful
-Message-ID: <20201118172958.5b014a44@lwn.net>
-In-Reply-To: <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
-References: <cover.1605203187.git.linux@leemhuis.info>
-        <20201113153313.68ff210c@lwn.net>
-        <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
-Organization: LWN.net
+        id S1726413AbgKSBG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Nov 2020 20:06:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725947AbgKSBG5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Nov 2020 20:06:57 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9406AC0613D4;
+        Wed, 18 Nov 2020 17:06:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=DkkuC7VWEA5rRpQu3YK0mSSXd45pdIlKRWtL53OACIQ=; b=mxdTQ/3OC5TCr90LtaZiv6/FqR
+        Jfd2m1//leZEM5AxDifA6+F3GugpswdGWbh2qqV4ueuBiNOoskoxzchoZyRaP9w0ychgO1LqzYOXx
+        k523oMstVx3E2RoLdSCyWE8D/OKqBC7O4vwyv+bFW9bEt7B9kHG9V3gUE1ocq3EvCG8mu0cOC+VNR
+        Km4NSwa69+ZMFyn3d3wqsInfWb4RjKaE70Kx6rnZy43OFRotYTDAtr76J+8NZ9PHqfLp35UEte80J
+        6F3ll8qUTEZtryn8NBdd57wEAwNe+BGrZs5M3HcXsL7sWng2cjOTBR93HGej3xDxZ57dMD0i1fYuQ
+        RPKAkubA==;
+Received: from [2601:1c0:6280:3f0::bcc4]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kfYPS-0000Oi-Gw; Thu, 19 Nov 2020 01:06:50 +0000
+Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
+ and ARM
+To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc:     john.p.donnelly@oracle.com, stable@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        =?UTF-8?Q?Diego_Elio_Petten=c3=b2?= <flameeyes@flameeyes.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7f9e6b63-1727-379b-55b7-9ad2bbdb2e5b@infradead.org>
+Date:   Wed, 18 Nov 2020 17:06:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 15 Nov 2020 11:13:52 +0100
-Thorsten Leemhuis <linux@leemhuis.info> wrote:
+Hi,
 
-> > So I've not had a chance to try to read through the whole thing again,
-> > will try to do so in the near future.  
+On 11/18/20 3:24 PM, Saeed Mirzamohammadi wrote:
+> This adds crashkernel=auto feature to configure reserved memory for
+> vmcore creation to both x86 and ARM platforms based on the total memory
+> size.
 > 
-> Great, thx, looking forward to it.
+> Cc: stable@vger.kernel.org
 
-OK, I have made a *quick* pass through the whole thing and sent a small
-number of comments separately. There are things that could be tweaked
-(there always will be) but I'm not sure we should worry about those yet.
-I would suggest doing this:
+why?
 
- - Collapse the whole thing down to a patch adding reporting-bugs-v2.rst
-   (or some suitable name).  I do wonder if it should also move to the
-   process manual as part of this; not only admins will report bugs.
+> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
+> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+> ---
+>  Documentation/admin-guide/kdump/kdump.rst |  5 +++++
+>  arch/arm64/Kconfig                        | 26 ++++++++++++++++++++++-
+>  arch/arm64/configs/defconfig              |  1 +
+>  arch/x86/Kconfig                          | 26 ++++++++++++++++++++++-
+>  arch/x86/configs/x86_64_defconfig         |  1 +
+>  kernel/crash_core.c                       | 20 +++++++++++++++--
+>  6 files changed, 75 insertions(+), 4 deletions(-)
+> 
 
- - Add a comment at the top saying it's a proposed replacement and
-   soliciting comments.  You could also put some of your other questions
-   into the text for now and see if anybody reacts.  
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 1515f6f153a0..d359dcffa80e 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
 
- - In a separate patch you could add a comment to the existing document
-   pointing to the new one as the true source of wisdom.
+> @@ -1135,6 +1135,30 @@ config CRASH_DUMP
+>  
+>  	  For more details see Documentation/admin-guide/kdump/kdump.rst
+>  
+> +if CRASH_DUMP
+> +
+> +config CRASH_AUTO_STR
+> +        string "Memory reserved for crash kernel"
 
- - Dual licensed CC-SA-4.0 is fine with me.  CC-BY is OK if you really
-   want to do it that way.  Either way, though, you'll need to add the
-   license itself under LICENSES/preferred before it can go into the SPDX
-   tag.
+use tab instead of spaces above.
 
-With that, I'd say let's just merge it and bash on it from there.
+> +	depends on CRASH_DUMP
+> +        default "1G-64G:128M,64G-1T:256M,1T-:512M"
 
-Thanks,
+ditto.
 
-jon
+> +	help
+> +	  This configures the reserved memory dependent
+> +	  on the value of System RAM. The syntax is:
+> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> +	              range=start-[end]
+> +
+> +	  For example:
+> +	      crashkernel=512M-2G:64M,2G-:128M
+> +
+> +	  This would mean:
+> +
+> +	      1) if the RAM is smaller than 512M, then don't reserve anything
+> +	         (this is the "rescue" case)
+> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> +	      3) if the RAM size is larger than 2G, then reserve 128M
+> +
+> +endif # CRASH_DUMP
+> +
+>  config XEN_DOM0
+>  	def_bool y
+>  	depends on XEN
+
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index f6946b81f74a..bacd17312bb1 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+
+> @@ -2049,6 +2049,30 @@ config CRASH_DUMP
+>  	  (CONFIG_RELOCATABLE=y).
+>  	  For more details see Documentation/admin-guide/kdump/kdump.rst
+>  
+> +if CRASH_DUMP
+> +
+> +config CRASH_AUTO_STR
+> +        string "Memory reserved for crash kernel" if X86_64
+
+ditto.
+
+> +	depends on CRASH_DUMP
+> +        default "1G-64G:128M,64G-1T:256M,1T-:512M"
+
+ditto.
+
+> +	help
+> +	  This configures the reserved memory dependent
+> +	  on the value of System RAM. The syntax is:
+> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> +	              range=start-[end]
+> +
+> +	  For example:
+> +	      crashkernel=512M-2G:64M,2G-:128M
+> +
+> +	  This would mean:
+> +
+> +	      1) if the RAM is smaller than 512M, then don't reserve anything
+> +	         (this is the "rescue" case)
+> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> +	      3) if the RAM size is larger than 2G, then reserve 128M
+> +
+> +endif # CRASH_DUMP
+> +
+>  config KEXEC_JUMP
+>  	bool "kexec jump"
+>  	depends on KEXEC && HIBERNATION
+
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 106e4500fd53..a44cd9cc12c4 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/crash_core.h>
+>  #include <linux/utsname.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/kexec.h>
+>  
+>  #include <asm/page.h>
+>  #include <asm/sections.h>
+> @@ -41,6 +42,15 @@ static int __init parse_crashkernel_mem(char *cmdline,
+>  					unsigned long long *crash_base)
+>  {
+>  	char *cur = cmdline, *tmp;
+> +	unsigned long long total_mem = system_ram;
+> +
+> +	/*
+> +	 * Firmware sometimes reserves some memory regions for it's own use.
+
+	                                                       its
+
+> +	 * so we get less than actual system memory size.
+> +	 * Workaround this by round up the total size to 128M which is
+> +	 * enough for most test cases.
+> +	 */
+> +	total_mem = roundup(total_mem, SZ_128M);
+
+
+thanks.
+-- 
+~Randy
+
