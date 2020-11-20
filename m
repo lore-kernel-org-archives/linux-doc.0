@@ -2,108 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3487BC6379F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:17:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23EA7C63777
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:27:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB69B2224C
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:17:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4EB522226
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:27:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LE6dPOwz"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gEplfDzJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727700AbgKTJRA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 04:17:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48009 "EHLO
+        id S1727286AbgKTJ1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 04:27:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41448 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727239AbgKTJRA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 04:17:00 -0500
+        by vger.kernel.org with ESMTP id S1727024AbgKTJ1W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 04:27:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605863818;
+        s=mimecast20190719; t=1605864441;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ITZXc1TXvVFkkNpcVLTYs8BZNWT7SU+qlHrGasDetMo=;
-        b=LE6dPOwzcTfwPOp5E/ZeEt0VpPDL6Jb9/r64Tdy4JYYqstGAbBTEQbvvJ3nLPHPDM88tYp
-        Y5c9MgZ7Q8gi1WkJsd3jPL7ckrsX9sBvfdR+csLY1kiI9AGYyyCeZKmCa2q2jZJwbiBRrj
-        yr5mb0XDHd0KyKCDRpjMlM2MsfPpheY=
+        bh=KlxOBewGXWN3HOKYRRw+C3ApbHJeGd+c+gin3g9QdWQ=;
+        b=gEplfDzJMkN/ktgWKK1aZ7m6N6mOZ03ttF4E2Bu+lHJCZIwHEVR9w3lasZH9T696McohOw
+        eovfYZC6St9RppJYxNrTlC6wLO2FEQqbLgGSAS5UZmikVMFsDzRgv7tL3cTGfZWVnhtQsV
+        f2QXCa7xs0ZM8TTve7FjaHTdWfnvzeQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-y8ps-3dMPUGoeQojge184g-1; Fri, 20 Nov 2020 04:16:54 -0500
-X-MC-Unique: y8ps-3dMPUGoeQojge184g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-513-hPIF7dlKMGinxX5_bH1DLw-1; Fri, 20 Nov 2020 04:27:16 -0500
+X-MC-Unique: hPIF7dlKMGinxX5_bH1DLw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D0CD1DDF2;
-        Fri, 20 Nov 2020 09:16:49 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A686E85B67D;
+        Fri, 20 Nov 2020 09:27:12 +0000 (UTC)
 Received: from [10.36.114.78] (ovpn-114-78.ams2.redhat.com [10.36.114.78])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A02919725;
-        Fri, 20 Nov 2020 09:16:44 +0000 (UTC)
-Subject: Re: [PATCH v5 21/21] mm/hugetlb: Disable freeing vmemmap if struct
- page size is not power of two
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C168210016DB;
+        Fri, 20 Nov 2020 09:27:06 +0000 (UTC)
+Subject: Re: [PATCH v5 00/21] Free some vmemmap pages of hugetlb page
+To:     Michal Hocko <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
         dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
         viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
         paulmck@kernel.org, mchehab+huawei@kernel.org,
         pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
         oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
         almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org
 References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120064325.34492-22-songmuchun@bytedance.com>
+ <20201120084202.GJ3200@dhcp22.suse.cz>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat GmbH
-Message-ID: <dc77d433-b5f0-0f4a-a4e9-f888b079618a@redhat.com>
-Date:   Fri, 20 Nov 2020 10:16:43 +0100
+Message-ID: <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
+Date:   Fri, 20 Nov 2020 10:27:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201120064325.34492-22-songmuchun@bytedance.com>
+In-Reply-To: <20201120084202.GJ3200@dhcp22.suse.cz>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20.11.20 07:43, Muchun Song wrote:
-> We only can free the unused vmemmap to the buddy system when the
-> size of struct page is a power of two.
+On 20.11.20 09:42, Michal Hocko wrote:
+> On Fri 20-11-20 14:43:04, Muchun Song wrote:
+> [...]
 > 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->   mm/hugetlb_vmemmap.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> Thanks for improving the cover letter and providing some numbers. I have
+> only glanced through the patchset because I didn't really have more time
+> to dive depply into them.
 > 
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index c3b3fc041903..7bb749a3eea2 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -671,7 +671,8 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
->   	unsigned int order = huge_page_order(h);
->   	unsigned int vmemmap_pages;
->   
-> -	if (hugetlb_free_vmemmap_disabled) {
-> +	if (hugetlb_free_vmemmap_disabled ||
-> +	    !is_power_of_2(sizeof(struct page))) {
->   		pr_info("disable free vmemmap pages for %s\n", h->name);
->   		return;
->   	}
+> Overall it looks promissing. To summarize. I would prefer to not have
+> the feature enablement controlled by compile time option and the kernel
+> command line option should be opt-in. I also do not like that freeing
+> the pool can trigger the oom killer or even shut the system down if no
+> oom victim is eligible.
 > 
+> One thing that I didn't really get to think hard about is what is the
+> effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
+> invalid when racing with the split. How do we enforce that this won't
+> blow up?
 
-This patch should be merged into the original patch that introduced 
-vmemmap freeing.
+I have the same concerns - the sections are online the whole time and 
+anybody with pfn_to_online_page() can grab them
+
+I think we have similar issues with memory offlining when removing the 
+vmemmap, it's just very hard to trigger and we can easily protect by 
+grabbing the memhotplug lock. I once discussed with Dan using rcu to 
+protect the SECTION_IS_ONLINE bit, to make sure anybody who did a 
+pfn_to_online_page() stopped using the page. Of course, such an approach 
+is not easy to use in this context where the sections stay online the 
+whole time ... we would have to protect vmemmap table entries using rcu 
+or similar, which can get quite ugly.
+
+To keep things easy, maybe simply never allow to free these hugetlb 
+pages again for now? If they were reserved during boot and the vmemmap 
+condensed, then just let them stick around for all eternity.
+
+Once we have a safe approach on how to modify an online vmemmap, we can 
+enable this freeing, and eventually also dynamically manage vmemmaps for 
+runtime-allocated huge pages.
 
 -- 
 Thanks,
