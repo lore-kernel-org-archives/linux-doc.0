@@ -2,127 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2CFC63798
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 22:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D4DC2D0E4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 23:33:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2330B2408E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 22:29:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A673A2242A
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 23:33:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G5VJUQua"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="em2YocFl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728561AbgKTW3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 17:29:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728186AbgKTW3y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 17:29:54 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A521C061A04
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 14:29:54 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id v144so15587314lfa.13
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 14:29:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rN2oDMLkDXvF2d0qSHyE1KGJoI0coYurxX8BvFhI+bY=;
-        b=G5VJUQuazvZ46rb86s40Pn6WkJ8vF48RjwI203WsXZ9Dd/97U9zAuv02njfWIOciBV
-         QuSh0dRcRHb6kNB5R91cqfNYC3Nx6BskGC8Id4k04GJmqF+iTSL0z/vx19itSZMS+dny
-         GX6UFvM4nLEOfv88ofsMR/2MQJp/CTfeCiBq4RMzNChRcKghzB+b2vhazIrHXFWol38n
-         pfrMAxiWdO7fXF7LhFiySxUhhlwuVHmMt2IU2HAhlY57qt8oywDFoatbjiKMM0J1tI0a
-         F2+QJ/feDTYc37U0EswhVkKC6ECmTYbgvZ1lbayAJ7xC0KxdUPr0mf9Jsvw5GLqRUrhv
-         ttbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rN2oDMLkDXvF2d0qSHyE1KGJoI0coYurxX8BvFhI+bY=;
-        b=Ac9LGYJ7DZVb6QXoiTJqS5JFDWl9S+87p8R3Rarcic/xZDT8196CrocB48uc8l4n+C
-         cVQop9ZKsVs8IUvWKXsFm4Foch5hpXPx24JKXOFMCpI988vFnjOaVVwugLo8q34yretB
-         TM2tmX7d42z+ULso1yZ9rXVGDq9QYq11OFGS7HwarPrD+mo156yVbK/+8kNnCIdzU8Tj
-         NlDmWv/ANQAf6hi44S4WfCZStZKxvn3z7aQaBBgCuXnRbatlY1i9DZR2lTf55SNNW3bk
-         E8yv+mgTowCFnXc7dGVuVfuIznDEGtD9j6onlMctym39TxYYA/+7rBdsAF+DBtBIbNms
-         nt0Q==
-X-Gm-Message-State: AOAM531gIriIZvKngsiFnVNmO7TN1smNVz8WDltc01Rydb/sy1j864WH
-        mRrGO/6ZyRyshy0yr6JVYxFkh969MOK1oon1HltpLg==
-X-Google-Smtp-Source: ABdhPJz7KhY3kkkWmPWTE7oEp1RrYqakWRzVBA4phAIJXfRGBYOb72PMtSpg2EcEFuNfIDhSB+mhcRErvgpdubnMvSw=
-X-Received: by 2002:a19:686:: with SMTP id 128mr8504175lfg.198.1605911392397;
- Fri, 20 Nov 2020 14:29:52 -0800 (PST)
-MIME-Version: 1.0
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-In-Reply-To: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 20 Nov 2020 23:29:25 +0100
-Message-ID: <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-To:     "Catangiu, Adrian Costin" <acatan@amazon.com>
-Cc:     "Graf (AWS), Alexander" <graf@amazon.de>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy Tarreau <w@1wt.eu>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        id S1727248AbgKTXdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 18:33:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726255AbgKTXdk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Nov 2020 18:33:40 -0500
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 74BA52240B;
+        Fri, 20 Nov 2020 23:33:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1605915219;
+        bh=gL+6V5nQ0C4us5yeUEMOZ4DAiQWOFVXFIqBNpK1mOkE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=em2YocFlJIdEpjLcJkL+hvBruZzAJUC1SasATzoALDCQF1Zu2idf98v4dkDObOBC2
+         mdhBpO3hZwmfzO8heER6rU5rjWQKYTMsg40dPu+Q7k/b2EocHlwOJwtz7wypquvEss
+         JSVewi6HliXOR+r2ki9kxtqdMRfSpt5k/yvI4C80=
+Date:   Fri, 20 Nov 2020 15:33:37 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Lokesh Gidra <lokeshgidra@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
         Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "bonzini@gnu.org" <bonzini@gnu.org>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        "oridgar@gmail.com" <oridgar@gmail.com>,
-        "ghammer@redhat.com" <ghammer@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        "areber@redhat.com" <areber@redhat.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Andrey Vagin <avagin@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-        "gil@azul.com" <gil@azul.com>,
-        "asmehra@redhat.com" <asmehra@redhat.com>,
-        "dgunigun@redhat.com" <dgunigun@redhat.com>,
-        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Daniel Colascione <dancol@dancol.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kaleshsingh@google.com,
+        calin@google.com, surenb@google.com, jeffv@google.com,
+        kernel-team@android.com, Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Nitin Gupta <nigupta@nvidia.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linux-mm@kvack.kernel.org, Daniel Colascione <dancol@google.com>
+Subject: Re: [PATCH v6 1/2] Add UFFD_USER_MODE_ONLY
+Message-Id: <20201120153337.431dc36c1975507bb1e44596@linux-foundation.org>
+In-Reply-To: <20201120030411.2690816-2-lokeshgidra@google.com>
+References: <20201120030411.2690816-1-lokeshgidra@google.com>
+        <20201120030411.2690816-2-lokeshgidra@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 4:35 PM Catangiu, Adrian Costin
-<acatan@amazon.com> wrote:
-> This patch is a driver that exposes a monotonic incremental Virtual
-> Machine Generation u32 counter via a char-dev FS interface that
-> provides sync and async VmGen counter updates notifications. It also
-> provides VmGen counter retrieval and confirmation mechanisms.
->
-> The hw provided UUID is not exposed to userspace, it is internally
-> used by the driver to keep accounting for the exposed VmGen counter.
-> The counter starts from zero when the driver is initialized and
-> monotonically increments every time the hw UUID changes (the VM
-> generation changes).
->
-> On each hw UUID change, the new hypervisor-provided UUID is also fed
-> to the kernel RNG.
+On Thu, 19 Nov 2020 19:04:10 -0800 Lokesh Gidra <lokeshgidra@google.com> wrote:
 
-As for v1:
+> userfaultfd handles page faults from both user and kernel code.
+> Add a new UFFD_USER_MODE_ONLY flag for userfaultfd(2) that makes
+> the resulting userfaultfd object refuse to handle faults from kernel
+> mode, treating these faults as if SIGBUS were always raised, causing
+> the kernel code to fail with EFAULT.
+> 
+> A future patch adds a knob allowing administrators to give some
+> processes the ability to create userfaultfd file objects only if they
+> pass UFFD_USER_MODE_ONLY, reducing the likelihood that these processes
+> will exploit userfaultfd's ability to delay kernel page faults to open
+> timing windows for future exploits.
 
-Is there a reasonable usecase for the "confirmation" mechanism? It
-doesn't seem very useful to me.
+Can we assume that an update to the userfaultfd(2) manpage is in the
+works?
 
-How do you envision integrating this with libraries that have to work
-in restrictive seccomp sandboxes? If this was in the vDSO, that would
-be much easier.
+> --- a/fs/userfaultfd.c
+> +++ b/fs/userfaultfd.c
+> @@ -405,6 +405,13 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
+>  
+>  	if (ctx->features & UFFD_FEATURE_SIGBUS)
+>  		goto out;
+> +	if ((vmf->flags & FAULT_FLAG_USER) == 0 &&
+> +	    ctx->flags & UFFD_USER_MODE_ONLY) {
+> +		printk_once(KERN_WARNING "uffd: Set unprivileged_userfaultfd "
+> +			"sysctl knob to 1 if kernel faults must be handled "
+> +			"without obtaining CAP_SYS_PTRACE capability\n");
+> +		goto out;
+> +	}
+>  
+>  	/*
+>  	 * If it's already released don't get it. This avoids to loop
+> @@ -1965,10 +1972,11 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
+>  	BUG_ON(!current->mm);
+>  
+>  	/* Check the UFFD_* constants for consistency.  */
+> +	BUILD_BUG_ON(UFFD_USER_MODE_ONLY & UFFD_SHARED_FCNTL_FLAGS);
+
+Are we sure this is true for all architectures?
+
+>  	BUILD_BUG_ON(UFFD_CLOEXEC != O_CLOEXEC);
+>  	BUILD_BUG_ON(UFFD_NONBLOCK != O_NONBLOCK);
+>  
+> -	if (flags & ~UFFD_SHARED_FCNTL_FLAGS)
+> +	if (flags & ~(UFFD_SHARED_FCNTL_FLAGS | UFFD_USER_MODE_ONLY))
+>  		return -EINVAL;
+>  
+>  	ctx = kmem_cache_alloc(userfaultfd_ctx_cachep, GFP_KERNEL);
+> diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
+> index e7e98bde221f..5f2d88212f7c 100644
+> --- a/include/uapi/linux/userfaultfd.h
+> +++ b/include/uapi/linux/userfaultfd.h
+> @@ -257,4 +257,13 @@ struct uffdio_writeprotect {
+>  	__u64 mode;
+>  };
+>  
+> +/*
+> + * Flags for the userfaultfd(2) system call itself.
+> + */
+> +
+> +/*
+> + * Create a userfaultfd that can handle page faults only in user mode.
+> + */
+> +#define UFFD_USER_MODE_ONLY 1
+> +
+>  #endif /* _LINUX_USERFAULTFD_H */
+
+It would be nice to define this in include/linux/userfaultfd_k.h,
+alongside the other flags.  But I guess it has to be here because it's
+part of the userspace API.
