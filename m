@@ -2,72 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9743BC2D0E4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 21:59:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5093EC56202
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 22:24:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 416392245F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 21:59:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0471822470
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 22:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727974AbgKTV7c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 16:59:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725890AbgKTV7c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 16:59:32 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3727BC0613CF;
-        Fri, 20 Nov 2020 13:59:32 -0800 (PST)
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1726898AbgKTWYS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 17:24:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33132 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726255AbgKTWYR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Nov 2020 17:24:17 -0500
+Received: from gaia (unknown [2.26.170.190])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DFA855A0;
-        Fri, 20 Nov 2020 21:59:31 +0000 (UTC)
-Date:   Fri, 20 Nov 2020 14:59:30 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and
- yet more detailed & helpful
-Message-ID: <20201120145930.5e59cc1b@lwn.net>
-In-Reply-To: <ada5d01f-47a9-5734-2fc8-3de2d7aa86e4@leemhuis.info>
-References: <cover.1605203187.git.linux@leemhuis.info>
-        <20201113153313.68ff210c@lwn.net>
-        <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
-        <20201118172958.5b014a44@lwn.net>
-        <ada5d01f-47a9-5734-2fc8-3de2d7aa86e4@leemhuis.info>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B3CD2245F;
+        Fri, 20 Nov 2020 22:24:16 +0000 (UTC)
+Date:   Fri, 20 Nov 2020 22:24:13 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        adobriyan@gmail.com
+Subject: Re: [PATCH] Documentation: document /proc api for arm64 MTE vm flags
+Message-ID: <20201120222413.GA28722@gaia>
+References: <20201106101940.5777-1-szabolcs.nagy@arm.com>
+ <20201120144408.GE24344@gaia>
+ <20201120110003.5bba61d5@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201120110003.5bba61d5@lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Nov 2020 13:29:51 +0100
-Thorsten Leemhuis <linux@leemhuis.info> wrote:
+On Fri, Nov 20, 2020 at 11:00:03AM -0700, Jonathan Corbet wrote:
+> On Fri, 20 Nov 2020 14:44:09 +0000
+> Catalin Marinas <catalin.marinas@arm.com> wrote:
+> 
+> > On Fri, Nov 06, 2020 at 10:19:40AM +0000, Szabolcs Nagy wrote:
+> > > Document that /proc/PID/smaps shows PROT_MTE settings in VmFlags.
+> > > Support for this was introduced in
+> > > 
+> > >   commit 9f3419315f3cdc41a7318e4d50ba18a592b30c8c
+> > >   arm64: mte: Add PROT_MTE support to mmap() and mprotect()
+> > > 
+> > > Signed-off-by: Szabolcs Nagy <szabolcs.nagy@arm.com>
+> > > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> > > Cc: linux-doc@vger.kernel.org
+> > > ---
+> > >  Documentation/filesystems/proc.rst | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> > > index 533c79e8d2cd..e5fa972d4c76 100644
+> > > --- a/Documentation/filesystems/proc.rst
+> > > +++ b/Documentation/filesystems/proc.rst
+> > > @@ -546,6 +546,7 @@ encoded manner. The codes are the following:
+> > >      nh    no huge page advise flag
+> > >      mg    mergable advise flag
+> > >      bt    arm64 BTI guarded page
+> > > +    mt    arm64 MTE allocation tags are enabled
+> > >      ==    =======================================
+> > >  
+> > >  Note that there is no guarantee that every flag and associated mnemonic will  
+> > 
+> > Are you ok with picking up this patch (it can be left for 5.11) or
+> > should I queue it in the arm64 tree?
+> 
+> It wasn't sent to me, so it wasn't on my radar.  Up to you, I'm happy to
+> grab it if you'd prefer.
 
-> >   - Dual licensed CC-SA-4.0 is fine with me.  CC-BY is OK if you really
-> >     want to do it that way.    
-> 
-> I'm unsure and would appreciate options from others here.
-> 
-> Here are some of my thoughts about this:
-> 
-> What do we loose by dual-licensing it under a liberal license like 
-> CC-BY? It afaics makes it a lot more attractive for websites or books 
-> authors to use this text as a base, as they don't need to fear that 
-> "share alike" or the GPL might have consequences on the surroundings. 
-> I'd say that's a good thing for the kernel, as it increases the chances 
-> the texts built upon ours remain close to what we expect on this topic.
-> 
-> That's why I currently think using CC-BY is a good idea.
+Please do grab it. Thanks.
 
-It's a matter of preferences; I like -SA better as a closer match to the
-kernel's GPL licensing.  But it's your text, so it's your choice.
-
-jon
+-- 
+Catalin
