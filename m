@@ -2,117 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D20D4C63798
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 08:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65593C6379D
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 08:55:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 661A722256
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 08:55:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2089722253
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 08:55:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="T4Bxv0Lz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T1qI09CM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726172AbgKTIyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 03:54:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36500 "EHLO
+        id S1727114AbgKTIyr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 03:54:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726123AbgKTIyW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 03:54:22 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C818EC061A04
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 00:54:20 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id 34so6724019pgp.10
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 00:54:20 -0800 (PST)
+        with ESMTP id S1726799AbgKTIyr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 03:54:47 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6899FC0613CF;
+        Fri, 20 Nov 2020 00:54:47 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id g7so7232244pfc.2;
+        Fri, 20 Nov 2020 00:54:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+/obyKwhLmELIOTNjIjMVdmJhk74zSgJefv372u+mWk=;
-        b=T4Bxv0LzpQqYFqnbeoS5z/ymTAG70N5QauApvRu4qkPvG7VYaK9AXKbvZlE86tp5yk
-         fcPnYwapwHzMDp+jEDGBEvDwx6spPXhDfJyf8sgWfTNABV200qxPHXrK3Rit6Oce0j5l
-         wLfS+XEwnskhpBt15tIZ6iOu4IDS00Khmp5i6lhieuw8Y8iAT+u/rx3Fo8BvBaASOEi/
-         iba04pd7eKQjZL9vCbNICUU4idRDKUOEEYQUOoAheAntgu6yoGk5inGNaVsx+E6lDiTT
-         2SCFgLs6lj3X/wvtIGkcFFI3BPo4tKQjVr1niCgGn1jiSixtv99mnKU0DJFAui7wSVSB
-         bcNA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J/GGZ6aBy0fAJHljiYm9GCn8PhX9nN8QvN23eDsxWuk=;
+        b=T1qI09CMPKnjLyDYy5sS1ZvKis/W3pvPci8guN7/8hK87Tzs/WoHCgxsuwGdXrhURS
+         aBnSfNwCs6wmBWQBBi0kfPVEJvfImuz3ZjK5Utw2DDXHlmSBC6q5Y3UpgagZZgy1eqi/
+         yIWa84v8guKk08Wsq/+Jl18AtYuCPNUO2yuGoUUb0pLWBG8GljbWiJ9q8r1h38MDlrgz
+         q/J4F0A6W3Jx/knO+EnmHsdJ3a2uTaVVq6HtYxnyDfe9hUnvv/vsUpF156stnorc5scJ
+         4bfFw1p8aGUAL66NGMj51G5A4mHc/Q/wLG2sYKIe75SDBplUBVCnw3mvBcYoOCDn2EVg
+         +mUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+/obyKwhLmELIOTNjIjMVdmJhk74zSgJefv372u+mWk=;
-        b=MTqFKMN5D3KGoV7Rid2KTqdULUIp5LkWPEke/K1LN5sMEqRmxWKauKlmzxL808cVrj
-         Ch1Cn/e5Oz/S4OfbCS4d73+IvJp+Y3JyJYTduG1JPawhUS5HIRC7499t5yy+IKuxiq4N
-         dTz3t3529xh8yx8aNLywk0rJFERw+VHkjWkIHY98DcTXK+VY/hFzvAWNupK/XU36e0hv
-         rzaCY2iKvebf0GCxe+tefpBF7Pa5iAIV5ri1t7pNqyNX/diCZNMzcp3FqVEJoystzA29
-         oAM9c+IgTDuNJ18PgB8zX0EWbVhPsddkuzaQmSZvFL+7GldXhL9/e9BnUs8o5mGsfUgR
-         nKhw==
-X-Gm-Message-State: AOAM532HAV0sjvZL7MAhM/fhJ2Sci4Y+tO8XxTslOSwkxbmDcRccdcI4
-        reYCTWHePYkkNbj3KITuFogYxREfe5M0ktjgMoQLIA==
-X-Google-Smtp-Source: ABdhPJy1+LfEuD8o9GFskPkG8bpoSM/jlOhzy1Ph5ajz7lZTeqmYNK0X1dfui/R4WQbABZDeaxI2ByEigdWN7vPUj54=
-X-Received: by 2002:a17:90a:ae14:: with SMTP id t20mr9193687pjq.13.1605862460402;
- Fri, 20 Nov 2020 00:54:20 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J/GGZ6aBy0fAJHljiYm9GCn8PhX9nN8QvN23eDsxWuk=;
+        b=Wa6/WrnfvaG29/mmeTVj4AvvO/yOaaEH9aWRIdTGKO2BUwzHslFrKJDzvQMimXkWQh
+         6o8RrNnqPAj6Huy47jQ1RdJj2ZT1QocIT//iXlearNyXQawkKQUAqyIZSXcxQ28mOYoO
+         p4fHybmU9UtOBtT2poLJlcAcI3Zfe46/ZLSHdm4aiBT1VENWWjlolGa5OXs35HESdw4F
+         C6+gyGE54Mfbmb4CigIUDVvA1DC7bDR7v7KrLyRKIymAHkdq4GuNO7ELnLfbUDU8ToWQ
+         dXkcJ2BBtAf2C4PYvWDkoXFhmwOkbk1xoT/c16oy4bOI1Bd9PWMrkJOPqmYo6/Alre25
+         rsNQ==
+X-Gm-Message-State: AOAM532tqvQ6OUPrgWFnnCGfit/Q8eZ1BARr0x4xgfQ4BOQRON39s7lm
+        +x0Uhqki/JUfjqICZMKVUSmjQ2JB6+g=
+X-Google-Smtp-Source: ABdhPJywHQyJ4kLhi69aEm0AdkK7Bpe/GnTHUS4lbV9KMn5cRw1YJ4PoVKVXo/A811o9pUjYqKjN4g==
+X-Received: by 2002:a17:90b:208:: with SMTP id fy8mr9132287pjb.204.1605862486817;
+        Fri, 20 Nov 2020 00:54:46 -0800 (PST)
+Received: from localhost ([47.251.4.198])
+        by smtp.gmail.com with ESMTPSA id s189sm2734936pfb.60.2020.11.20.00.54.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 20 Nov 2020 00:54:46 -0800 (PST)
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+To:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Cc:     Lai Jiangshan <laijs@linux.alibaba.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Avi Kivity <avi@qumranet.com>, linux-doc@vger.kernel.org
+Subject: [PATCH] kvm/x86/mmu: use the correct inherited permissions to get shadow page
+Date:   Fri, 20 Nov 2020 17:55:17 +0800
+Message-Id: <20201120095517.19211-1-jiangshanlai@gmail.com>
+X-Mailer: git-send-email 2.19.1.6.gb485710b
 MIME-Version: 1.0
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120064325.34492-4-songmuchun@bytedance.com> <20201120074950.GB3200@dhcp22.suse.cz>
- <CAMZfGtWuCuuR+N8h-509BbDL8CN+s_djsodPN0Wb1+YHbF9PHw@mail.gmail.com> <20201120084750.GK3200@dhcp22.suse.cz>
-In-Reply-To: <20201120084750.GK3200@dhcp22.suse.cz>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 20 Nov 2020 16:53:37 +0800
-Message-ID: <CAMZfGtW2QEuRgYv_WXjN5OU+EhLPO9UHJ+8puSoVG8cwKQBvjA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v5 03/21] mm/hugetlb: Introduce a new
- config HUGETLB_PAGE_FREE_VMEMMAP
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 4:47 PM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Fri 20-11-20 16:35:16, Muchun Song wrote:
-> [...]
-> > > That being said, unless there are huge advantages to introduce a
-> > > config option I would rather not add it because our config space is huge
-> > > already and the more we add the more future code maintainance that will
-> > > add. If you want the config just for dependency checks then fine by me.
-> >
-> > Yeah, it is only for dependency checks :)
->
-> OK, I must have misread the definition to think that it requires user to
-> enable explicitly.
->
-> Anyway this feature cannot be really on by default due to overhead. So
-> the command line option default has to be flipped.
+From: Lai Jiangshan <laijs@linux.alibaba.com>
 
-Got it. Thanks for your suggestion.
+Commit 41074d07c78b ("KVM: MMU: Fix inherited permissions for emulated
+guest pte updates") said role.access is common access permissions for
+all ptes in this shadow page, which is the inherited permissions from
+the parent ptes.
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+But the commit did not enforce this definition when kvm_mmu_get_page()
+is called in FNAME(fetch). Rather, it uses a random (last level pte's
+combined) access permissions. And the permissions won't be checked again
+in next FNAME(fetch) since the spte is present. It might fail to meet
+guest's expectation when guest sets up spaghetti pagetables.
 
+Fixes: 41074d07c78b ("KVM: MMU: Fix inherited permissions for emulated guest pte updates")
+Signed-off-by: Lai Jiangshan <laijs@linux.alibaba.com>
+---
+ Documentation/virt/kvm/mmu.rst |  4 ++--
+ arch/x86/kvm/mmu/paging_tmpl.h | 14 +++++++++-----
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-
+diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
+index 1c030dbac7c4..b31586504a9a 100644
+--- a/Documentation/virt/kvm/mmu.rst
++++ b/Documentation/virt/kvm/mmu.rst
+@@ -171,8 +171,8 @@ Shadow pages contain the following information:
+     shadow pages) so role.quadrant takes values in the range 0..3.  Each
+     quadrant maps 1GB virtual address space.
+   role.access:
+-    Inherited guest access permissions in the form uwx.  Note execute
+-    permission is positive, not negative.
++    Inherited guest access permissions from the parent ptes in the form uwx.
++    Note execute permission is positive, not negative.
+   role.invalid:
+     The page is invalid and should not be used.  It is a root page that is
+     currently pinned (by a cpu hardware register pointing to it); once it is
+diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+index 50e268eb8e1a..00a0bfaed6e8 100644
+--- a/arch/x86/kvm/mmu/paging_tmpl.h
++++ b/arch/x86/kvm/mmu/paging_tmpl.h
+@@ -90,8 +90,8 @@ struct guest_walker {
+ 	gpa_t pte_gpa[PT_MAX_FULL_LEVELS];
+ 	pt_element_t __user *ptep_user[PT_MAX_FULL_LEVELS];
+ 	bool pte_writable[PT_MAX_FULL_LEVELS];
+-	unsigned pt_access;
+-	unsigned pte_access;
++	unsigned int pt_access[PT_MAX_FULL_LEVELS];
++	unsigned int pte_access;
+ 	gfn_t gfn;
+ 	struct x86_exception fault;
+ };
+@@ -418,13 +418,15 @@ static int FNAME(walk_addr_generic)(struct guest_walker *walker,
+ 		}
+ 
+ 		walker->ptes[walker->level - 1] = pte;
++
++		/* Convert to ACC_*_MASK flags for struct guest_walker.  */
++		walker->pt_access[walker->level - 1] = FNAME(gpte_access)(pt_access ^ walk_nx_mask);
+ 	} while (!is_last_gpte(mmu, walker->level, pte));
+ 
+ 	pte_pkey = FNAME(gpte_pkeys)(vcpu, pte);
+ 	accessed_dirty = have_ad ? pte_access & PT_GUEST_ACCESSED_MASK : 0;
+ 
+ 	/* Convert to ACC_*_MASK flags for struct guest_walker.  */
+-	walker->pt_access = FNAME(gpte_access)(pt_access ^ walk_nx_mask);
+ 	walker->pte_access = FNAME(gpte_access)(pte_access ^ walk_nx_mask);
+ 	errcode = permission_fault(vcpu, mmu, walker->pte_access, pte_pkey, access);
+ 	if (unlikely(errcode))
+@@ -463,7 +465,8 @@ static int FNAME(walk_addr_generic)(struct guest_walker *walker,
+ 	}
+ 
+ 	pgprintk("%s: pte %llx pte_access %x pt_access %x\n",
+-		 __func__, (u64)pte, walker->pte_access, walker->pt_access);
++		 __func__, (u64)pte, walker->pte_access,
++		 walker->pt_access[walker->level - 1]);
+ 	return 1;
+ 
+ error:
+@@ -635,7 +638,7 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
+ 	bool huge_page_disallowed = exec && nx_huge_page_workaround_enabled;
+ 	struct kvm_mmu_page *sp = NULL;
+ 	struct kvm_shadow_walk_iterator it;
+-	unsigned direct_access, access = gw->pt_access;
++	unsigned int direct_access, access;
+ 	int top_level, level, req_level, ret;
+ 	gfn_t base_gfn = gw->gfn;
+ 
+@@ -667,6 +670,7 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
+ 		sp = NULL;
+ 		if (!is_shadow_present_pte(*it.sptep)) {
+ 			table_gfn = gw->table_gfn[it.level - 2];
++			access = gw->pt_access[it.level - 2];
+ 			sp = kvm_mmu_get_page(vcpu, table_gfn, addr, it.level-1,
+ 					      false, access);
+ 		}
 -- 
-Yours,
-Muchun
+2.19.1.6.gb485710b
+
