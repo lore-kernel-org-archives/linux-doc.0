@@ -2,132 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA32EC63777
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 10:43:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15ACAC63798
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 10:46:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D3172242A
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 10:43:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="jiRnb2Vu"
+	by mail.kernel.org (Postfix) with ESMTP id B5BF3206FB
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 10:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727187AbgKTKna (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 05:43:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53418 "EHLO
+        id S1726894AbgKTKqY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 05:46:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726123AbgKTKn3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 05:43:29 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB5EC061A04
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 02:43:29 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id 34so6946978pgp.10
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 02:43:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mQuIBxgF3nInKkS93utHCBrC42W7hV1R/eZWClqzWyY=;
-        b=jiRnb2Vun3WvAKHS2DVxvEth9FjyVS5SogsErgiDU4+Q6Nsl1EGkcY74MuYVE4cdHt
-         4UkhpyFGRkFL0rkcjKRRhqb2HrxSRT3UyE6BJJ/QTpKI9yRuYogR7MAQQlXKOxcrBILc
-         xWvHgkwZgKZpJOiX0hqQ+dfqZOfNS2i0tGSUzlQ8eYltW413589oOzimfkKRfZRgXZbu
-         ovGqzcvtMNNluYeI3x1gx4YA/2VWUdbmVMGdr3n6B6s7XvGbTV1t+yezpa9kCTest+gj
-         TWKYtrUPbumihdKMfV1amAuikbAsIGwbTvMzjI1aY+Ua669lZKvVfq1+kUqq+xOYAMvx
-         vu+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mQuIBxgF3nInKkS93utHCBrC42W7hV1R/eZWClqzWyY=;
-        b=odZHIUQLCWrDr1rf+z2G1ylJMfjqLZwzFA86vdzOCf4mbaoDMoofthdHWQMG7D1tG6
-         TpY3u0ntruQqyWnWXo4NALYTrRhah9yWab+zg3aQYXl9/uyR+RlYudCgRmiHA4MJZ7WK
-         7hoeJyZpg1puO2+0Zj3NA3fECKLioPvVX+fwDfEohVx38K6und01GBuz9PBjUKAUlI5H
-         FTSpl5ZnLJgQpxLgzQM6slodeCsoo91nPOcDI6A/E+dcVgX9zuRwrT8axLIM2FN5nd7N
-         LIgsLEUWw9TLxqEwzpgHAG4c0qCycMnOZ69ihHZOfivrw1LRtAUHqt8yT0TIeixi9SK5
-         Qd9w==
-X-Gm-Message-State: AOAM531vxDfw65+faPG7VWtgvPZrfRGkIUbcQ8xxdS1fU4IZXVLOosb3
-        R9PjX4NcdYUwuzq5fWZK6UyZqdeMQQDG8a4pWA84iA==
-X-Google-Smtp-Source: ABdhPJzU2lJHp8cWhl4H5eA0FRp40MwByTZiz8vUxJJfLjqWf4fU0UXLqt245oSkK/Dg28Trz55Pdn020p1OgPAU5sw=
-X-Received: by 2002:a63:fe0c:: with SMTP id p12mr16046991pgh.31.1605869009142;
- Fri, 20 Nov 2020 02:43:29 -0800 (PST)
+        with ESMTP id S1725956AbgKTKqY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 05:46:24 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5477FC0613CF;
+        Fri, 20 Nov 2020 02:46:24 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kg3vn-0003MW-8K; Fri, 20 Nov 2020 11:46:19 +0100
+To:     Jonathan Corbet <corbet@lwn.net>
+References: <cover.1605203187.git.linux@leemhuis.info>
+ <20201113153313.68ff210c@lwn.net>
+ <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
+ <20201118172958.5b014a44@lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and yet
+ more detailed & helpful
+Message-ID: <2dcea97c-7b98-1ad2-d2ba-e7f7d77dc855@leemhuis.info>
+Date:   Fri, 20 Nov 2020 11:46:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120064325.34492-22-songmuchun@bytedance.com> <dc77d433-b5f0-0f4a-a4e9-f888b079618a@redhat.com>
-In-Reply-To: <dc77d433-b5f0-0f4a-a4e9-f888b079618a@redhat.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 20 Nov 2020 18:42:46 +0800
-Message-ID: <CAMZfGtXEf01XeLhTS5_EuTTWYKKj8DzUzCQJ=zXB_3VGB3MMDw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v5 21/21] mm/hugetlb: Disable freeing
- vmemmap if struct page size is not power of two
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201118172958.5b014a44@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1605869184;bb9553f8;
+X-HE-SMSGID: 1kg3vn-0003MW-8K
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 5:16 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 20.11.20 07:43, Muchun Song wrote:
-> > We only can free the unused vmemmap to the buddy system when the
-> > size of struct page is a power of two.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >   mm/hugetlb_vmemmap.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index c3b3fc041903..7bb749a3eea2 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -671,7 +671,8 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
-> >       unsigned int order = huge_page_order(h);
-> >       unsigned int vmemmap_pages;
-> >
-> > -     if (hugetlb_free_vmemmap_disabled) {
-> > +     if (hugetlb_free_vmemmap_disabled ||
-> > +         !is_power_of_2(sizeof(struct page))) {
-> >               pr_info("disable free vmemmap pages for %s\n", h->name);
-> >               return;
-> >       }
-> >
->
-> This patch should be merged into the original patch that introduced
-> vmemmap freeing.
+Am 19.11.20 um 01:29 schrieb Jonathan Corbet:
+> On Sun, 15 Nov 2020 11:13:52 +0100
+> Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
-Oh, yeah. Will do.
+>   - Collapse the whole thing down to a patch adding reporting-bugs-v2.rst
+>     (or some suitable name).  I do wonder if it should also move to the
+>     process manual as part of this; not only admins will report bugs.
 
->
-> --
-> Thanks,
->
-> David / dhildenb
->
+After a night's sleep and Randy's comment I for now settled on
+Documentation/admin-guide/reporting-issues.rst
 
+>   - Add a comment at the top saying it's a proposed replacement and
+>     soliciting comments.  [...]
+Struggled a bit to find the right words, but I think this should work:
 
--- 
-Yours,
-Muchun
+```
+.. important::
+
+    This document is being prepared to replace 
+Documentation/admin-guide/reporting-bugs.rst. The main work is done and 
+you are already free to follow its instructions when reporting issues to 
+the Linux kernel developers. But keep in mind, below text still needs a 
+few finishing touches and review. It was merged to the Linux kernel 
+sources at this stage to make this process easier and increase the 
+text's visibility.
+
+    Any improvements for the text or other feedback is thus very much 
+welcome. Please send it to 'Thorsten Leemhuis <linux@leemhuis.info>' and 
+'Jonathan Corbet <corbet@lwn.net>', ideally with 'Linux kernel mailing 
+list (LKML) <linux-kernel@vger.kernel.org>' and the 'Linux Kernel 
+Documentation List <linux-doc@vger.kernel.org>' in CC.
+
+    Areas in the text that still need work or discussion contain a hint 
+like this which point out the remaining issues; all of them start with 
+the word "FIXME" to make them easy to find.
+```
+
+Randy let me know if you want to be mentioned there, too.
+
+>   - In a separate patch you could add a comment to the existing document
+>     pointing to the new one as the true source of wisdom.
+
+This is what I plan to add:
+
+```
+.. note::
+
+    Instead of reading below text consider reading this document 
+instead: Documentation/admin-guide/reporting-issues.rst. It's intended 
+to replace below text in the near future, as it's easier to grasp and 
+more straight forward; it also provides way more details and more 
+accurately describes the steps currently needed when reporting bugs to 
+the Linux developers.
+```
+
+Ciao, Thorsten
