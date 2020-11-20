@@ -2,86 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE723C388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 01:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1C5C6379D
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 01:37:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 644BC22256
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 01:22:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="06OIwS6d"
+	by mail.kernel.org (Postfix) with ESMTP id 52D5B2225E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 01:37:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726117AbgKTBWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 20:22:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34764 "EHLO mail.kernel.org"
+        id S1727115AbgKTBhZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 20:37:25 -0500
+Received: from namei.org ([65.99.196.166]:54286 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725936AbgKTBWH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Nov 2020 20:22:07 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E467922254;
-        Fri, 20 Nov 2020 01:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1605835326;
-        bh=oyL8tyDHbJ3qIIoumYURc5U/JKtxezYzrlsKEz9We3g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=06OIwS6dO1uCJbzpKkAfU0LgV6NR0sEh63PDccOurGJc8jcYZca+MbtftmA4ozfT1
-         +XWNisle68uETojyIOjBOHcLdc5F81GbfN4/OJEnDpwW/QdD7GwGISM0/GjwiJ3A9K
-         lKnSoOzPVM7CBZkxQMlPAerewzNfZHktmX2nl7Go=
-Date:   Thu, 19 Nov 2020 17:22:04 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Lokesh Gidra <lokeshgidra@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Kalesh Singh <kaleshsingh@google.com>,
-        Calin Juravle <calin@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH v6 0/2] Control over userfaultfd kernel-fault handling
-Message-Id: <20201119172204.6787046c9036d0bbdcbc2dfc@linux-foundation.org>
-In-Reply-To: <CA+EESO7N7gFkG_Vqy5j1oCZif8RaiCJ146GrQAKq3P1SCUi+ng@mail.gmail.com>
-References: <20201026210052.3775167-1-lokeshgidra@google.com>
-        <CA+EESO7N7gFkG_Vqy5j1oCZif8RaiCJ146GrQAKq3P1SCUi+ng@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726806AbgKTBhY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Nov 2020 20:37:24 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id 0AK1b15J016168;
+        Fri, 20 Nov 2020 01:37:01 GMT
+Date:   Fri, 20 Nov 2020 12:37:01 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+cc:     Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v1 2/9] landlock: Cosmetic fixes for filesystem
+ management
+In-Reply-To: <20201111213442.434639-3-mic@digikod.net>
+Message-ID: <alpine.LRH.2.21.2011201236530.15634@namei.org>
+References: <20201111213442.434639-1-mic@digikod.net> <20201111213442.434639-3-mic@digikod.net>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="1665246916-1830264887-1605836222=:15634"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Nov 2020 12:39:15 -0800 Lokesh Gidra <lokeshgidra@google.com> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> It's been quite some time since this patch-series has received
-> 'Reviewed-by' by Andrea. Please let me know if anything is blocking it
-> from taking forward.
+--1665246916-1830264887-1605836222=:15634
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-This series has not been shared with linux-mm@kvack.kernel.org, so many
-of the people who are familiar with userfaultfd will never have seen
-it.
+On Wed, 11 Nov 2020, Mickaël Salaün wrote:
 
-Please fix that and resend, and we'll see how it goes?
+> Improve comments and make get_inode_object() more readable.  The kfree()
+> call is correct but we should mimimize as much as possible lock windows.
+> 
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+
+
+Reviewed-by: James Morris <jamorris@linux.microsoft.com>
+
+> ---
+>  security/landlock/fs.c | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+> index b67c821bb40b..33fc7ae17c7f 100644
+> --- a/security/landlock/fs.c
+> +++ b/security/landlock/fs.c
+> @@ -85,8 +85,8 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
+>  			return object;
+>  		}
+>  		/*
+> -		 * We're racing with release_inode(), the object is going away.
+> -		 * Wait for release_inode(), then retry.
+> +		 * We are racing with release_inode(), the object is going
+> +		 * away.  Wait for release_inode(), then retry.
+>  		 */
+>  		spin_lock(&object->lock);
+>  		spin_unlock(&object->lock);
+> @@ -107,21 +107,21 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
+>  			lockdep_is_held(&inode->i_lock));
+>  	if (unlikely(object)) {
+>  		/* Someone else just created the object, bail out and retry. */
+> -		kfree(new_object);
+>  		spin_unlock(&inode->i_lock);
+> +		kfree(new_object);
+>  
+>  		rcu_read_lock();
+>  		goto retry;
+> -	} else {
+> -		rcu_assign_pointer(inode_sec->object, new_object);
+> -		/*
+> -		 * @inode will be released by hook_sb_delete() on its
+> -		 * superblock shutdown.
+> -		 */
+> -		ihold(inode);
+> -		spin_unlock(&inode->i_lock);
+> -		return new_object;
+>  	}
+> +
+> +	rcu_assign_pointer(inode_sec->object, new_object);
+> +	/*
+> +	 * @inode will be released by hook_sb_delete() on its superblock
+> +	 * shutdown.
+> +	 */
+> +	ihold(inode);
+> +	spin_unlock(&inode->i_lock);
+> +	return new_object;
+>  }
+>  
+>  /* All access rights which can be tied to files. */
+> 
+
+-- 
+James Morris
+<jmorris@namei.org>
+
+--1665246916-1830264887-1605836222=:15634--
