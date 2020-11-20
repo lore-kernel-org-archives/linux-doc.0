@@ -2,145 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C68A9C63798
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4889C5519F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 10:33:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68B06222BA
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:44:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 78E5C2242B
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 10:33:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gajonlih"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="MXukd6hd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727556AbgKTJn6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 04:43:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53301 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727457AbgKTJn5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 04:43:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605865435;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZwdHt+LWlPpn5AnW9j4bNwWOooSLgU3rF8T4LtW1bPs=;
-        b=gajonlih1PfsaIPo4Cvp6gFZ92/HE4hF8wgzoGTLO86BRJ7dMFux8T0hh5Y+HP4TC98h0M
-        Tmeul0jsO4FSBAvgqoQr3/3FH3ZxoUqTgr8SpOq4nVF9ZUYJ9FYIo7eo63EPkKog6NxznN
-        XXluYjjfsO4l5Wh0nKTQE8BgNL0iMMM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-fR3VtGVkMPKYU73JVMnOig-1; Fri, 20 Nov 2020 04:43:51 -0500
-X-MC-Unique: fR3VtGVkMPKYU73JVMnOig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B6011835AA2;
-        Fri, 20 Nov 2020 09:43:47 +0000 (UTC)
-Received: from [10.36.114.78] (ovpn-114-78.ams2.redhat.com [10.36.114.78])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id ECAF619D9F;
-        Fri, 20 Nov 2020 09:43:40 +0000 (UTC)
-Subject: Re: [PATCH v5 00/21] Free some vmemmap pages of hugetlb page
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, song.bao.hua@hisilicon.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120084202.GJ3200@dhcp22.suse.cz>
- <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
- <20201120093912.GM3200@dhcp22.suse.cz>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <eda50930-05b5-0ad9-2985-8b6328f92cec@redhat.com>
-Date:   Fri, 20 Nov 2020 10:43:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1727145AbgKTKdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 05:33:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726483AbgKTKdR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 05:33:17 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B20C0613CF
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 02:33:17 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id q10so7469940pfn.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 02:33:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UsS6BwELHQFBs6wYocFk33SI0hNJVApsWPqjjwO0pIg=;
+        b=MXukd6hdqebfCVmvaC32gdmcgYyA7hCeC+66VEc/xj+GYVdeI7SmMc9yfOaKn2grMJ
+         QSI0j4cqgRutOMouMjuv4tGNmiOJ+NUw9s391xQJJqjs5P9XVGISyx2680WhGChty4Xc
+         ORvQzynmtkhN0WHynNb2WJFv1f/mSDSjsRYrwNdU2/NrwpocFeTfrxh8IpylO5uZF2HB
+         QiQBcvmmJFIAbUATdSXgNh0A+BMqBCcesIh7ZQCDkwzb4+gCiYuXPDcIrHZAFE2Yr6UV
+         w5gsqc6JxQ3N7NzWfLDuD+VTwZUTnUKW9DLkgD6wZUv0ElJ9HX3frAWbb1Mgqgie6pgi
+         56hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UsS6BwELHQFBs6wYocFk33SI0hNJVApsWPqjjwO0pIg=;
+        b=HA9Ot3+Ri1TgvuyC58ODm9cIxGvHlF0RVHYmAjjz4ibAxl0EsezSLn62ZgZN/uYuPJ
+         MKj4ZRU/dyvx+UvjIa+2OkKMuxR/bQjl7VARaRrF74qPwPzdg56j5OCF2KVqTlKS6X3s
+         7P7W868tB0KtugPI4c/XnI3N0Q7YvbiXuvd5DZZwl0ZeQvQrEsvxsTpp+/tbLKeS+4cs
+         ab3lmmPMtNY9rPKE0H3Lv3RCc2sfc4YGsNMyKVdiy7QcijxFg7iTUXRbiiKoXB63IMWE
+         CQNhC0dbAMc56CU0lQFKNmmyEty/zpNrvoGe5vs4wumUhsqJST+c2kHeXbEwe3ZZnteA
+         qzkw==
+X-Gm-Message-State: AOAM530OSFOsCMB9lQPSfsUJvB0HbKxdI+WFubMd088wjGBFVW/+cKQM
+        3i+vCaN7ynXIN36hblFxes9JIck/wopIf7kIPFE3cg==
+X-Google-Smtp-Source: ABdhPJxfv45R/dS1L8+h3jIhMzMxG7gkHNSADvlzeP3zS+xAY8Bn0OgWgJ4R3njDshhjg8x0srlDY4mieIZF69vDhdc=
+X-Received: by 2002:a17:90b:941:: with SMTP id dw1mr9467911pjb.147.1605868396746;
+ Fri, 20 Nov 2020 02:33:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201120093912.GM3200@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120064325.34492-16-songmuchun@bytedance.com> <20201120081940.GE3200@dhcp22.suse.cz>
+In-Reply-To: <20201120081940.GE3200@dhcp22.suse.cz>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 20 Nov 2020 18:32:34 +0800
+Message-ID: <CAMZfGtUZJ2dCtVa67X9ackjbxVVJSn=7Y4DtUJzG4yNghDnNCQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v5 15/21] mm/hugetlb: Set the PageHWPoison
+ to the raw error page
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20.11.20 10:39, Michal Hocko wrote:
-> On Fri 20-11-20 10:27:05, David Hildenbrand wrote:
->> On 20.11.20 09:42, Michal Hocko wrote:
->>> On Fri 20-11-20 14:43:04, Muchun Song wrote:
->>> [...]
->>>
->>> Thanks for improving the cover letter and providing some numbers. I have
->>> only glanced through the patchset because I didn't really have more time
->>> to dive depply into them.
->>>
->>> Overall it looks promissing. To summarize. I would prefer to not have
->>> the feature enablement controlled by compile time option and the kernel
->>> command line option should be opt-in. I also do not like that freeing
->>> the pool can trigger the oom killer or even shut the system down if no
->>> oom victim is eligible.
->>>
->>> One thing that I didn't really get to think hard about is what is the
->>> effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
->>> invalid when racing with the split. How do we enforce that this won't
->>> blow up?
->>
->> I have the same concerns - the sections are online the whole time and
->> anybody with pfn_to_online_page() can grab them
->>
->> I think we have similar issues with memory offlining when removing the
->> vmemmap, it's just very hard to trigger and we can easily protect by
->> grabbing the memhotplug lock.
-> 
-> I am not sure we can/want to span memory hotplug locking out to all pfn
-> walkers. But you are right that the underlying problem is similar but
-> much harder to trigger because vmemmaps are only removed when the
-> physical memory is hotremoved and that happens very seldom. Maybe it
-> will happen more with virtualization usecases. But this work makes it
-> even more tricky. If a pfn walker races with a hotremove then it would
-> just blow up when accessing the unmapped physical address space. For
-> this feature a pfn walker would just grab a real struct page re-used for
-> some unpredictable use under its feet. Any failure would be silent and
-> hard to debug.
+On Fri, Nov 20, 2020 at 4:19 PM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Fri 20-11-20 14:43:19, Muchun Song wrote:
+> > Because we reuse the first tail page, if we set PageHWPosion on a
+> > tail page. It indicates that we may set PageHWPoison on a series
+> > of pages. So we can use the head[4].mapping to record the real
+> > error page index and set the raw error page PageHWPoison later.
+>
+> This really begs more explanation. Maybe I misremember but If there
+> is a HWPoison hole in a hugepage then the whole page is demolished, no?
+> If that is the case then why do we care about tail pages?
 
-Right, we don't want the memory hotplug locking, thus discussions 
-regarding rcu. Luckily, for now I never saw a BUG report regarding this 
-- maybe because the time between memory offlining (offline_pages()) and 
-memory/vmemmap getting removed (try_remove_memory()) is just too long. 
-Someone would have to sleep after pfn_to_online_page() for quite a while 
-to trigger it.
+It seems like that I should make the commit log more clear. If there is
+a HWPoison hole in a HugeTLB, we should dissolve the HugeTLB page.
+It means that we set the HWPoison on the raw error page(not the head
+page) and free the HugeTLB to the buddy allocator. Then we will remove
+only one HWPoison page from the buddy free list. You can see the
+take_page_off_buddy() for more details. Thanks.
 
-> 
-> [...]
->> To keep things easy, maybe simply never allow to free these hugetlb pages
->> again for now? If they were reserved during boot and the vmemmap condensed,
->> then just let them stick around for all eternity.
-> 
-> Not sure I understand. Do you propose to only free those vmemmap pages
-> when the pool is initialized during boot time and never allow to free
-> them up? That would certainly make it safer and maybe even simpler wrt
-> implementation.
+>
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  mm/hugetlb.c         | 11 +++--------
+> >  mm/hugetlb_vmemmap.h | 39 +++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 42 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > index 055604d07046..b853aacd5c16 100644
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> > @@ -1383,6 +1383,7 @@ static void __free_hugepage(struct hstate *h, struct page *page)
+> >       int i;
+> >
+> >       alloc_huge_page_vmemmap(h, page);
+> > +     subpage_hwpoison_deliver(page);
+> >
+> >       for (i = 0; i < pages_per_huge_page(h); i++) {
+> >               page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
+> > @@ -1944,14 +1945,8 @@ int dissolve_free_huge_page(struct page *page)
+> >               int nid = page_to_nid(head);
+> >               if (h->free_huge_pages - h->resv_huge_pages == 0)
+> >                       goto out;
+> > -             /*
+> > -              * Move PageHWPoison flag from head page to the raw error page,
+> > -              * which makes any subpages rather than the error page reusable.
+> > -              */
+> > -             if (PageHWPoison(head) && page != head) {
+> > -                     SetPageHWPoison(page);
+> > -                     ClearPageHWPoison(head);
+> > -             }
+> > +
+> > +             set_subpage_hwpoison(head, page);
+> >               list_del(&head->lru);
+> >               h->free_huge_pages--;
+> >               h->free_huge_pages_node[nid]--;
+> > diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+> > index 779d3cb9333f..65e94436ffff 100644
+> > --- a/mm/hugetlb_vmemmap.h
+> > +++ b/mm/hugetlb_vmemmap.h
+> > @@ -20,6 +20,29 @@ void __init gather_vmemmap_pgtable_init(struct huge_bootmem_page *m,
+> >  void alloc_huge_page_vmemmap(struct hstate *h, struct page *head);
+> >  void free_huge_page_vmemmap(struct hstate *h, struct page *head);
+> >
+> > +static inline void subpage_hwpoison_deliver(struct page *head)
+> > +{
+> > +     struct page *page = head;
+> > +
+> > +     if (PageHWPoison(head))
+> > +             page = head + page_private(head + 4);
+> > +
+> > +     /*
+> > +      * Move PageHWPoison flag from head page to the raw error page,
+> > +      * which makes any subpages rather than the error page reusable.
+> > +      */
+> > +     if (page != head) {
+> > +             SetPageHWPoison(page);
+> > +             ClearPageHWPoison(head);
+> > +     }
+> > +}
+> > +
+> > +static inline void set_subpage_hwpoison(struct page *head, struct page *page)
+> > +{
+> > +     if (PageHWPoison(head))
+> > +             set_page_private(head + 4, page - head);
+> > +}
+> > +
+> >  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
+> >  {
+> >       return h->nr_free_vmemmap_pages;
+> > @@ -56,6 +79,22 @@ static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+> >  {
+> >  }
+> >
+> > +static inline void subpage_hwpoison_deliver(struct page *head)
+> > +{
+> > +}
+> > +
+> > +static inline void set_subpage_hwpoison(struct page *head, struct page *page)
+> > +{
+> > +     /*
+> > +      * Move PageHWPoison flag from head page to the raw error page,
+> > +      * which makes any subpages rather than the error page reusable.
+> > +      */
+> > +     if (PageHWPoison(head) && page != head) {
+> > +             SetPageHWPoison(page);
+> > +             ClearPageHWPoison(head);
+> > +     }
+> > +}
+> > +
+> >  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
+> >  {
+> >       return 0;
+> > --
+> > 2.11.0
+> >
+>
+> --
+> Michal Hocko
+> SUSE Labs
 
-Exactly, let's keep it simple for now. I guess most use cases of this 
-(virtualization, databases, ...) will allocate hugepages during boot and 
-never free them.
+
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Yours,
+Muchun
