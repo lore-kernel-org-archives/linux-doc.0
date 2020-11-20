@@ -2,175 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82B71C5519F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:35:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0F2C6379D
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:38:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1483122404
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:35:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16333223B0
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 09:38:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cbpQTy1f"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="SYxcW6HI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727369AbgKTJew (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 04:34:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27178 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727310AbgKTJeu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 04:34:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605864888;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gbikbOFWLmH51xEMI3CZCcV1DBmB6rsbo4SOuPJyr+Q=;
-        b=cbpQTy1fmfZEEGUZr9Zjcj2Ha6vhpZ8gbi1xjgbChaMxkwqZ6fscIacyVef89080c2mxGk
-        P6UTsE72bvs15s78WDVSnKGcmfHmk2jb+rStsNOht4pJQp/Z5HzjIvpGz6+ea9p0qj9RYj
-        fwBlllgLa8BHWEVcwvZKMS85vTaxwlI=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-nwFiYxwkNUOy57hd35r-kQ-1; Fri, 20 Nov 2020 04:34:47 -0500
-X-MC-Unique: nwFiYxwkNUOy57hd35r-kQ-1
-Received: by mail-io1-f69.google.com with SMTP id b4so6991597ioa.4
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 01:34:46 -0800 (PST)
+        id S1726321AbgKTJhx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 04:37:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727123AbgKTJhw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 04:37:52 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC164C0613CF
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 01:37:51 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id r18so6826468pgu.6
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 01:37:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Irqz9SDqUIDSV5L/8FdFdXAurDYsnyc+HWaKMTHel6Y=;
+        b=SYxcW6HISIb8Awuh3nmJxgBqMNn6Q5GeMGaNN4zWGoyErVEU+AZ6B7m7JrV2+aVg/I
+         qKv9JPOYAWnCAT+77ENHbA0k0suOlxx8gRsdjzajNwuUzaTKLTJVooMbRGtWd+194Fhs
+         3CwBMuEyoIWueQNySRtc0S3biNBTuMrHggzoUWAFee8WLDSUVlmcpjvOHU3ma2hNKn49
+         2j//Ku7/vTvBvqjgtoS3EE8Z4UzTujVrgtrGX1iCL0LyE0sM6+rYkiGPliBe1aickIOt
+         fTrJTmvKQkEes7ltwtIat40s17xslYkJu7DhUKLTElLqX7NCeVbEIlMeij/RqzE1BiW9
+         piiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gbikbOFWLmH51xEMI3CZCcV1DBmB6rsbo4SOuPJyr+Q=;
-        b=jKGmx9OVwLDGGGV5qYGKDr325e5zS1twn8m5sxd1+KDd/Pe55vGwb8tMQqR8/Q9NZV
-         /h/xxQFIUSBog9atc7qwKgH4L7BAbJ7ca1pdGw9cmY86r5KdDFjh1j6pPE9BfWKzkmDS
-         3hp6S73vTBhrCxnl8Arq0KL543kApW2yM+0E3gCWW/duTQV9Xc147mShC65Hc/+CeU58
-         BTkRzirFiqHgqF/0Rx5JeJ+98cMjSpV4iuaPwzemnGh4Pwz9D460UXhs2H0/r0wYsS8T
-         JOagA5Roi8ErwIJiEOxLOXSI0i4NA5TipoVQKfwHx9iPh8FMda30X9kuC2tt18uoxKHG
-         XzcA==
-X-Gm-Message-State: AOAM533cAGsSYyJOspzfZyWDdVUldWev3d9mymVxJCYAAzI3TUyHuBVa
-        ZeKQf+TZao0q0q91zjuzdi8y2wjrp92XfsRKPZdj6zLIVOFLVY3cmro/IGB7cnk73CsyFYcYoKN
-        zZ2zbTsw4DEeGXOKugr842iKLFcCrJKszb1Z0
-X-Received: by 2002:a05:6e02:e8e:: with SMTP id t14mr4572450ilj.207.1605864886426;
-        Fri, 20 Nov 2020 01:34:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwZTkOfTuI3Fs1qspxBePJyTE8vzwQ8naLykgg6urOciQRhNvxGx1ixR75FmurFgow5FjHHGWgcjObn0wV/Cq8=
-X-Received: by 2002:a05:6e02:e8e:: with SMTP id t14mr4572436ilj.207.1605864886218;
- Fri, 20 Nov 2020 01:34:46 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=Irqz9SDqUIDSV5L/8FdFdXAurDYsnyc+HWaKMTHel6Y=;
+        b=oagidnl8vcSLuDnp43rcrLUFtLj5qD55eZQKYHkdeVBed+k40/ELm6xJZOzcK6+rmG
+         q0twpx2TD5UgV6YAyL7iXxoj6VKKCQcGemWTbeGXC6qmwE5Nw2dUHVLy2VFMyqF3gLj9
+         fMOzv7qoB81VPKCPpUg6Ee7GOkEPB/C2R9p3NmFsDbPELvIAGYgpqdM/UgM65P3KWO92
+         or2WbSnKSIR/kIV+k5iKCmJJE0xteFPVL2FfaF87GcoAid2Lr9uaNoZ5v0XYETPdT21r
+         soQprHEcGNW3CDdi18R1VnNb6XwpvQwWod3aUrOV1CKQcnSHVQY3KtGHRmB6+4naD7OH
+         QNHw==
+X-Gm-Message-State: AOAM530H0YKAMyaUbbsMFbfoTA7wxILOCHw98E9KgxOAculU0RjIHaMx
+        wYCRpJ63D8DL4Kxv+BB+jTupZCje/Us0lF73uu9tog==
+X-Google-Smtp-Source: ABdhPJw9yspq9j/qG1NKAt5aapXI1Q0GtnvJsXQ+8BEuEA6w4nEfVelDgROJG5yjDGSXPqb9X0CBLn7z1ViZeLeqFp4=
+X-Received: by 2002:a17:90b:941:: with SMTP id dw1mr9250411pjb.147.1605865071332;
+ Fri, 20 Nov 2020 01:37:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
- <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com> <AC36B9BC-654C-4FC1-8EA3-94B986639F1E@oracle.com>
-In-Reply-To: <AC36B9BC-654C-4FC1-8EA3-94B986639F1E@oracle.com>
-From:   Kairui Song <kasong@redhat.com>
-Date:   Fri, 20 Nov 2020 17:34:35 +0800
-Message-ID: <CACPcB9d7kU1TYaF-g2GH16Wg=hrQu71sGDoC8uMFFMc6oW_duQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
- and ARM
-To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc:     John Donnelly <john.p.donnelly@oracle.com>, stable@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        =?UTF-8?Q?Diego_Elio_Petten=C3=B2?= <flameeyes@flameeyes.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120064325.34492-12-songmuchun@bytedance.com> <20201120081123.GC3200@dhcp22.suse.cz>
+ <CAMZfGtWVxCPpL7=0dfHa7_qtakmGDMLP0twWoyM=gVou=HRmEg@mail.gmail.com> <20201120092826.GL3200@dhcp22.suse.cz>
+In-Reply-To: <20201120092826.GL3200@dhcp22.suse.cz>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 20 Nov 2020 17:37:09 +0800
+Message-ID: <CAMZfGtVPNdykd=E2bEje0GCdZT9ksLy2BdaRZ41eRDbGQp0_rg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v5 11/21] mm/hugetlb: Allocate the vmemmap
+ pages associated with each hugetlb page
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 4:28 AM Saeed Mirzamohammadi
-<saeed.mirzamohammadi@oracle.com> wrote:
+On Fri, Nov 20, 2020 at 5:28 PM Michal Hocko <mhocko@suse.com> wrote:
 >
-> Hi,
+> On Fri 20-11-20 16:51:59, Muchun Song wrote:
+> > On Fri, Nov 20, 2020 at 4:11 PM Michal Hocko <mhocko@suse.com> wrote:
+> > >
+> > > On Fri 20-11-20 14:43:15, Muchun Song wrote:
+> > > [...]
+> > > > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> > > > index eda7e3a0b67c..361c4174e222 100644
+> > > > --- a/mm/hugetlb_vmemmap.c
+> > > > +++ b/mm/hugetlb_vmemmap.c
+> > > > @@ -117,6 +117,8 @@
+> > > >  #define RESERVE_VMEMMAP_NR           2U
+> > > >  #define RESERVE_VMEMMAP_SIZE         (RESERVE_VMEMMAP_NR << PAGE_SHIFT)
+> > > >  #define TAIL_PAGE_REUSE                      -1
+> > > > +#define GFP_VMEMMAP_PAGE             \
+> > > > +     (GFP_KERNEL | __GFP_NOFAIL | __GFP_MEMALLOC)
+> > >
+> > > This is really dangerous! __GFP_MEMALLOC would allow a complete memory
+> > > depletion. I am not even sure triggering the OOM killer is a reasonable
+> > > behavior. It is just unexpected that shrinking a hugetlb pool can have
+> > > destructive side effects. I believe it would be more reasonable to
+> > > simply refuse to shrink the pool if we cannot free those pages up. This
+> > > sucks as well but it isn't destructive at least.
+> >
+> > I find the instructions of __GFP_MEMALLOC from the kernel doc.
+> >
+> > %__GFP_MEMALLOC allows access to all memory. This should only be used when
+> > the caller guarantees the allocation will allow more memory to be freed
+> > very shortly.
+> >
+> > Our situation is in line with the description above. We will free a HugeTLB page
+> > to the buddy allocator which is much larger than that we allocated shortly.
 >
-> And I think crashkernel=3Dauto could be used as an indicator that user
-> want the kernel to control the crashkernel size, so some further work
-> could be done to adjust the crashkernel more accordingly. eg. when
-> memory encryption is enabled, increase the crashkernel value for the
-> auto estimation, as it's known to consume more crashkernel memory.
+> Yes that is a part of the description. But read it in its full entirety.
+>  * %__GFP_MEMALLOC allows access to all memory. This should only be used when
+>  * the caller guarantees the allocation will allow more memory to be freed
+>  * very shortly e.g. process exiting or swapping. Users either should
+>  * be the MM or co-ordinating closely with the VM (e.g. swap over NFS).
+>  * Users of this flag have to be extremely careful to not deplete the reserve
+>  * completely and implement a throttling mechanism which controls the
+>  * consumption of the reserve based on the amount of freed memory.
+>  * Usage of a pre-allocated pool (e.g. mempool) should be always considered
+>  * before using this flag.
 >
-> Thanks for the suggestion! I tried to keep it simple and leave it to the =
-user to change Kconfig in case a different range is needed. Based on experi=
-ence, these ranges work well for most of the regular cases.
+> GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_HIGH
 
-Yes, I think the current implementation is a very good start.
+We want to free the HugeTLB page to the buddy allocator, but before that,
+we need to allocate some pages as vmemmap pages, so here we cannot
+handle allocation failures. I think that we should replace the
+__GFP_RETRY_MAYFAIL to __GFP_NOFAIL.
 
-There are some use cases, where kernel is expected to reserve more memory, =
-like:
-- when memory encryption is enabled, an extra swiotlb size of memory
-should be reserved
-- on pcc, fadump will expect more memory to be reserved
+GFP_KERNEL | __GFP_NOFAIL | __GFP_HIGH
 
-I believe there are a lot more cases like these.
-I tried to come up with some patches to let the kernel reserve more
-memory automatically, when such conditions are detected, but changing
-the crashkernel=3D specified value is really weird.
-
-But if we have a crashkernel=3Dauto, then kernel automatically reserve
-more memory will make sense.
-
-> But why not make it arch-independent? This crashkernel=3Dauto idea
-> should simply work with every arch.
->
->
-> Thanks! I=E2=80=99ll be making it arch-independent in the v2 patch.
->
->
-> #include <asm/page.h>
-> #include <asm/sections.h>
-> @@ -41,6 +42,15 @@ static int __init parse_crashkernel_mem(char *cmdline,
->                                        unsigned long long *crash_base)
-> {
->        char *cur =3D cmdline, *tmp;
-> +       unsigned long long total_mem =3D system_ram;
-> +
-> +       /*
-> +        * Firmware sometimes reserves some memory regions for it's own u=
-se.
-> +        * so we get less than actual system memory size.
-> +        * Workaround this by round up the total size to 128M which is
-> +        * enough for most test cases.
-> +        */
-> +       total_mem =3D roundup(total_mem, SZ_128M);
->
->
-> I think this rounding may be better moved to the arch specified part
-> where parse_crashkernel is called?
->
->
-> Thanks for the suggestion. Could you please elaborate why do we need to d=
-o that?
-
-Every arch gets their total memory value using different methods,
-(just check every parse_crashkernel call, and the system_ram param is
-filled in many different ways), so I'm really not sure if this
-rounding is always suitable.
+This meets our needs here. Thanks.
 
 >
-> Thanks,
-> Saeed
+> sounds like a more reasonable fit to me.
 >
->
---
-Best Regards,
-Kairui Song
+> --
+> Michal Hocko
+> SUSE Labs
 
+
+
+-- 
+Yours,
+Muchun
