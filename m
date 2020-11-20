@@ -2,87 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA8A6C2D0E4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 18:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2992FC2D0E4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 18:01:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85AC62242B
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 18:00:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B177D2240B
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 18:01:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YAofb6qX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728588AbgKTSAG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 13:00:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728561AbgKTSAG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 13:00:06 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A32AC0613CF
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 10:00:06 -0800 (PST)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1729094AbgKTSAg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 13:00:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57574 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728561AbgKTSAf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 13:00:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605895233;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JxskEXwutt4P1nZSKgawl/xEgyUPfquuR5hR5qwSjZM=;
+        b=YAofb6qXRZb424IaniSlwERtCoNEUtaY7B5h73IDegWhCecykWHJKmr0i/bJPGtBYiFc24
+        wCKHF4rwNgVk0RMWjBdVXK+uLZumMhWmzgirwZ/n4hzgfRdRT1EO0rfTE9CZ097NtwLmZw
+        MGdEvpKqaQKTdXltp/K68k08lKT3N54=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-KXpfjzaZNAWdTW2OD65koQ-1; Fri, 20 Nov 2020 13:00:27 -0500
+X-MC-Unique: KXpfjzaZNAWdTW2OD65koQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0881835A;
-        Fri, 20 Nov 2020 18:00:04 +0000 (UTC)
-Date:   Fri, 20 Nov 2020 11:00:03 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        adobriyan@gmail.com
-Subject: Re: [PATCH] Documentation: document /proc api for arm64 MTE vm
- flags
-Message-ID: <20201120110003.5bba61d5@lwn.net>
-In-Reply-To: <20201120144408.GE24344@gaia>
-References: <20201106101940.5777-1-szabolcs.nagy@arm.com>
-        <20201120144408.GE24344@gaia>
-Organization: LWN.net
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C42D100C601;
+        Fri, 20 Nov 2020 18:00:23 +0000 (UTC)
+Received: from [10.36.114.78] (ovpn-114-78.ams2.redhat.com [10.36.114.78])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BCE8260862;
+        Fri, 20 Nov 2020 18:00:16 +0000 (UTC)
+Subject: Re: [PATCH v5 00/21] Free some vmemmap pages of hugetlb page
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Michal Hocko <mhocko@suse.com>
+Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, song.bao.hua@hisilicon.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120084202.GJ3200@dhcp22.suse.cz>
+ <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
+ <20201120093912.GM3200@dhcp22.suse.cz>
+ <eda50930-05b5-0ad9-2985-8b6328f92cec@redhat.com>
+ <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <af95bcad-80dd-d2a4-0178-b9d2869e97cf@redhat.com>
+Date:   Fri, 20 Nov 2020 19:00:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 20 Nov 2020 14:44:09 +0000
-Catalin Marinas <catalin.marinas@arm.com> wrote:
-
-> On Fri, Nov 06, 2020 at 10:19:40AM +0000, Szabolcs Nagy wrote:
-> > Document that /proc/PID/smaps shows PROT_MTE settings in VmFlags.
-> > Support for this was introduced in
-> > 
-> >   commit 9f3419315f3cdc41a7318e4d50ba18a592b30c8c
-> >   arm64: mte: Add PROT_MTE support to mmap() and mprotect()
-> > 
-> > Signed-off-by: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> > Cc: linux-doc@vger.kernel.org
-> > ---
-> >  Documentation/filesystems/proc.rst | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > index 533c79e8d2cd..e5fa972d4c76 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -546,6 +546,7 @@ encoded manner. The codes are the following:
-> >      nh    no huge page advise flag
-> >      mg    mergable advise flag
-> >      bt    arm64 BTI guarded page
-> > +    mt    arm64 MTE allocation tags are enabled
-> >      ==    =======================================
-> >  
-> >  Note that there is no guarantee that every flag and associated mnemonic will  
+On 20.11.20 18:45, Mike Kravetz wrote:
+> On 11/20/20 1:43 AM, David Hildenbrand wrote:
+>> On 20.11.20 10:39, Michal Hocko wrote:
+>>> On Fri 20-11-20 10:27:05, David Hildenbrand wrote:
+>>>> On 20.11.20 09:42, Michal Hocko wrote:
+>>>>> On Fri 20-11-20 14:43:04, Muchun Song wrote:
+>>>>> [...]
+>>>>>
+>>>>> Thanks for improving the cover letter and providing some numbers. I have
+>>>>> only glanced through the patchset because I didn't really have more time
+>>>>> to dive depply into them.
+>>>>>
+>>>>> Overall it looks promissing. To summarize. I would prefer to not have
+>>>>> the feature enablement controlled by compile time option and the kernel
+>>>>> command line option should be opt-in. I also do not like that freeing
+>>>>> the pool can trigger the oom killer or even shut the system down if no
+>>>>> oom victim is eligible.
+>>>>>
+>>>>> One thing that I didn't really get to think hard about is what is the
+>>>>> effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
+>>>>> invalid when racing with the split. How do we enforce that this won't
+>>>>> blow up?
+>>>>
+>>>> I have the same concerns - the sections are online the whole time and
+>>>> anybody with pfn_to_online_page() can grab them
+>>>>
+>>>> I think we have similar issues with memory offlining when removing the
+>>>> vmemmap, it's just very hard to trigger and we can easily protect by
+>>>> grabbing the memhotplug lock.
+>>>
+>>> I am not sure we can/want to span memory hotplug locking out to all pfn
+>>> walkers. But you are right that the underlying problem is similar but
+>>> much harder to trigger because vmemmaps are only removed when the
+>>> physical memory is hotremoved and that happens very seldom. Maybe it
+>>> will happen more with virtualization usecases. But this work makes it
+>>> even more tricky. If a pfn walker races with a hotremove then it would
+>>> just blow up when accessing the unmapped physical address space. For
+>>> this feature a pfn walker would just grab a real struct page re-used for
+>>> some unpredictable use under its feet. Any failure would be silent and
+>>> hard to debug.
+>>
+>> Right, we don't want the memory hotplug locking, thus discussions regarding rcu. Luckily, for now I never saw a BUG report regarding this - maybe because the time between memory offlining (offline_pages()) and memory/vmemmap getting removed (try_remove_memory()) is just too long. Someone would have to sleep after pfn_to_online_page() for quite a while to trigger it.
+>>
+>>>
+>>> [...]
+>>>> To keep things easy, maybe simply never allow to free these hugetlb pages
+>>>> again for now? If they were reserved during boot and the vmemmap condensed,
+>>>> then just let them stick around for all eternity.
+>>>
+>>> Not sure I understand. Do you propose to only free those vmemmap pages
+>>> when the pool is initialized during boot time and never allow to free
+>>> them up? That would certainly make it safer and maybe even simpler wrt
+>>> implementation.
+>>
+>> Exactly, let's keep it simple for now. I guess most use cases of this (virtualization, databases, ...) will allocate hugepages during boot and never free them.
 > 
-> Are you ok with picking up this patch (it can be left for 5.11) or
-> should I queue it in the arm64 tree?
+> Not sure if I agree with that last statement.  Database and virtualization
+> use cases from my employer allocate allocate hugetlb pages after boot.  It
+> is shortly after boot, but still not from boot/kernel command line.
 
-It wasn't sent to me, so it wasn't on my radar.  Up to you, I'm happy to
-grab it if you'd prefer.
+Right, but the ones that care about this optimization for now could be 
+converted, I assume? I mean we are talking about "opt-in" from 
+sysadmins, so requiring to specify a different cmdline parameter does 
+not sound to weird to me. And it should simplify a first version quite a 
+lot.
 
+The more I think about this, the more I believe doing these vmemmap 
+modifications after boot are very dangerous.
+
+> 
+> Somewhat related, but not exactly addressing this issue ...
+> 
+> One idea discussed in a previous patch set was to disable PMD/huge page
+> mapping of vmemmap if this feature was enabled.  This would eliminate a bunch
+> of the complex code doing page table manipulation.  It does not address
+> the issue of struct page pages going away which is being discussed here,
+> but it could be a way to simply the first version of this code.  If this
+> is going to be an 'opt in' feature as previously suggested, then eliminating
+> the  PMD/huge page vmemmap mapping may be acceptable.  My guess is that
+> sysadmins would only 'opt in' if they expect most of system memory to be used
+> by hugetlb pages.  We certainly have database and virtualization use cases
+> where this is true.
+
+It sounds like a hack to me, which does not fully solve the problem. But 
+yeah, it's a simplification.
+
+-- 
 Thanks,
 
-jon
+David / dhildenb
+
