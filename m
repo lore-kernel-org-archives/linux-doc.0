@@ -4,67 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16FB9C63777
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 11:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDA2C56202
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 12:41:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A850F22255
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 11:57:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC3F12222F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 12:41:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="zogu4RFW"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="QtGGwEfC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727960AbgKTL5J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 06:57:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
+        id S1728175AbgKTMlc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 07:41:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727934AbgKTL5J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 06:57:09 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEECEC061A04
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 03:57:08 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id w14so7633653pfd.7
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 03:57:08 -0800 (PST)
+        with ESMTP id S1725952AbgKTMlb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 07:41:31 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E09C0617A7
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 04:41:30 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id t37so7113177pga.7
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 04:41:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0HATfyO4gy8O0ZQ5jHHmrKLiQEgDtfHpD05h/4ZZGaU=;
-        b=zogu4RFWxSnWMmjlhO9tUVIrrKIEj4I7+aL54B7p9OPIs7mCTMKOZwK40HxeC+lf2v
-         dwN5Q45vjBrAU1/Vw9Xbg3OZVBOHAckhT5wBgjXGy4/Pokx2i+hu7DHSGN9MKASyva1d
-         FAga+WRJNW+vB9Blp7uYa698KvQ0hoDt3o7QWCFAGCAHLj/7my4NHkPbNbvdRzTWWDqX
-         Ncs4VLgrgx21N2ZKT7kT/leyiSc+F44wkB1ECS3oiDwTe35zhiAiOwsF1rdIu/dQb2nx
-         M+3VsB40Dcie/hgrZCj74fZxcmP5GFuBzP2IY3z+IxZB8G30DWyBMRUMDBufUrYUzeK3
-         03FQ==
+        bh=2xmKB7TKmyuJqAeHaXMBy48tPAGfs/Dc4x/Ex91iYPg=;
+        b=QtGGwEfCUUfQtF6A4LP4HRak+3zHqLMer9XuFEfRr7YiX37HK0ez2RQIKrjEKckYk0
+         LlQ5hEPW49q3qOwBrRHEE9T6kimslhXPXCIt8+xP6cguuYLGRbjwn/oquxWnwlwi3+6D
+         cHPYyX6fg6/P5NVhLIjQ0409FlWkJ1a1MqS7P3vsxtyLDLnQo/wmrut9s9wyXCd1naMo
+         BOdclSR5a3Gev9lqt3duFEdBgSFQA0vIBxgTRHEq36RKzQicNOdOpBpn/aqvTBIxYAnS
+         gwRz5YivYvPPMiw6p16AwteVC8H1QpCWuQhLCXAmRFAgv8ybc/1uURlnaafFFttStnga
+         cXPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0HATfyO4gy8O0ZQ5jHHmrKLiQEgDtfHpD05h/4ZZGaU=;
-        b=PQGLB71ZbTs3T8FHLsrLxV5Q82t4ZIfhY2W3GFYlJCcTAVP/dZRmcumSCdnsARxYcb
-         JfS0IURckLPpTmmvRuw0kPrnckG8JGb75+2t2JIYB8P4/0MjC/TgYMOT5PvrA2KT7hlA
-         unb6a42zdkhovpK4F6Hr+GGTgacif3eakrT/pItPFERrU1W29O202ZV1prCCvfUAAKuq
-         w6Qz4eD10tD2a8skgZRv2p8Z7AAzfxk1pa95Iu26Ua8ZukhXuGl+jac1secbj7itLLQQ
-         Ga07wH21Ui2Kge6umwbUNaOP5NDmEkCnSAdbmxJL/2HESUouGzbELjieOLK3UbN1IvGU
-         f1QQ==
-X-Gm-Message-State: AOAM533aS9OjuHswokbKtH4xEruHCUEEObkik1RPSJXFzUiv1tUDDLQk
-        liUXYDPYkP7d3BGWXx3ZZG2a8m5SnW5ualhIe8MYkQ==
-X-Google-Smtp-Source: ABdhPJysLesbqaepefZ43Fir9e7ymcgRNMVnacBD4NCUo1vSVUIHvrqwftTyZFDYpyODPgqNoFIyRqu2S2WC+mjZgq4=
-X-Received: by 2002:a63:594a:: with SMTP id j10mr16411186pgm.341.1605873428424;
- Fri, 20 Nov 2020 03:57:08 -0800 (PST)
+        bh=2xmKB7TKmyuJqAeHaXMBy48tPAGfs/Dc4x/Ex91iYPg=;
+        b=SoWn4FCy4RAhvjAMk1veF1m8mFPIiynDOB5E6dSAXSUPxGuZnMTlHlpwf56nR+yc/h
+         HXj+5n5/DKdgnYDLoZnA6Ce/EOHFjxpPYSApwio2YJ8YqfMf1CXz/UXIAWa4DrE5gvHG
+         5XC+Dn0hVI2AESBLtLmJHm3yGg7Py5/Oo99Nr48fvbR2fBZlJOxbGcP8aoJArgvbuCg2
+         BxDhaRZpn9MYLE3qhI7FbsABX79pK8+XUc4aaMbdDomjLmysA2Zg7CU03DaTu8L0Z6nH
+         aWTQ9z54KlD6JkiYKhU+e5vmwPHF5K9ARwE0FQ3LrjhvyCLdffLq7OPGd3q5rXi81gi2
+         FJZQ==
+X-Gm-Message-State: AOAM5313p6FBpACzW9m1CjXrkoJ5/IXheg9v8aHP1DIqbWwkYFzb24io
+        Vx+6FXdMMSgN7H2BhREJyGGSzbNH53Nles5TSDUvvw==
+X-Google-Smtp-Source: ABdhPJzaMHjGp7RmlCC2dPw3XwN836wo8cYS+yqSHJ8vjWJsnq+Pj+Qa4bwNtUmvR7lSR54QIGbJwmaQW9nRh3wcRQQ=
+X-Received: by 2002:aa7:9aaf:0:b029:197:c3e4:88e8 with SMTP id
+ x15-20020aa79aaf0000b0290197c3e488e8mr5849185pfi.2.1605876089605; Fri, 20 Nov
+ 2020 04:41:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120064325.34492-12-songmuchun@bytedance.com> <20201120081123.GC3200@dhcp22.suse.cz>
- <CAMZfGtWVxCPpL7=0dfHa7_qtakmGDMLP0twWoyM=gVou=HRmEg@mail.gmail.com>
- <20201120092826.GL3200@dhcp22.suse.cz> <CAMZfGtVPNdykd=E2bEje0GCdZT9ksLy2BdaRZ41eRDbGQp0_rg@mail.gmail.com>
- <20201120111033.GN3200@dhcp22.suse.cz>
-In-Reply-To: <20201120111033.GN3200@dhcp22.suse.cz>
+References: <20201120064325.34492-1-songmuchun@bytedance.com> <20201120084202.GJ3200@dhcp22.suse.cz>
+In-Reply-To: <20201120084202.GJ3200@dhcp22.suse.cz>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 20 Nov 2020 19:56:25 +0800
-Message-ID: <CAMZfGtWY9+8BUafREoYSi9ATL6tO6F7LGANz-1KXXueoiFAO_g@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v5 11/21] mm/hugetlb: Allocate the vmemmap
- pages associated with each hugetlb page
+Date:   Fri, 20 Nov 2020 20:40:46 +0800
+Message-ID: <CAMZfGtWJXni21J=Yn55gksKy9KZnDScCjKmMasNz5XUwx3OcKw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
+ hugetlb page
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -90,76 +86,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 7:10 PM Michal Hocko <mhocko@suse.com> wrote:
+On Fri, Nov 20, 2020 at 4:42 PM Michal Hocko <mhocko@suse.com> wrote:
 >
-> On Fri 20-11-20 17:37:09, Muchun Song wrote:
-> > On Fri, Nov 20, 2020 at 5:28 PM Michal Hocko <mhocko@suse.com> wrote:
-> > >
-> > > On Fri 20-11-20 16:51:59, Muchun Song wrote:
-> > > > On Fri, Nov 20, 2020 at 4:11 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > > >
-> > > > > On Fri 20-11-20 14:43:15, Muchun Song wrote:
-> > > > > [...]
-> > > > > > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > > > > > index eda7e3a0b67c..361c4174e222 100644
-> > > > > > --- a/mm/hugetlb_vmemmap.c
-> > > > > > +++ b/mm/hugetlb_vmemmap.c
-> > > > > > @@ -117,6 +117,8 @@
-> > > > > >  #define RESERVE_VMEMMAP_NR           2U
-> > > > > >  #define RESERVE_VMEMMAP_SIZE         (RESERVE_VMEMMAP_NR << PAGE_SHIFT)
-> > > > > >  #define TAIL_PAGE_REUSE                      -1
-> > > > > > +#define GFP_VMEMMAP_PAGE             \
-> > > > > > +     (GFP_KERNEL | __GFP_NOFAIL | __GFP_MEMALLOC)
-> > > > >
-> > > > > This is really dangerous! __GFP_MEMALLOC would allow a complete memory
-> > > > > depletion. I am not even sure triggering the OOM killer is a reasonable
-> > > > > behavior. It is just unexpected that shrinking a hugetlb pool can have
-> > > > > destructive side effects. I believe it would be more reasonable to
-> > > > > simply refuse to shrink the pool if we cannot free those pages up. This
-> > > > > sucks as well but it isn't destructive at least.
-> > > >
-> > > > I find the instructions of __GFP_MEMALLOC from the kernel doc.
-> > > >
-> > > > %__GFP_MEMALLOC allows access to all memory. This should only be used when
-> > > > the caller guarantees the allocation will allow more memory to be freed
-> > > > very shortly.
-> > > >
-> > > > Our situation is in line with the description above. We will free a HugeTLB page
-> > > > to the buddy allocator which is much larger than that we allocated shortly.
-> > >
-> > > Yes that is a part of the description. But read it in its full entirety.
-> > >  * %__GFP_MEMALLOC allows access to all memory. This should only be used when
-> > >  * the caller guarantees the allocation will allow more memory to be freed
-> > >  * very shortly e.g. process exiting or swapping. Users either should
-> > >  * be the MM or co-ordinating closely with the VM (e.g. swap over NFS).
-> > >  * Users of this flag have to be extremely careful to not deplete the reserve
-> > >  * completely and implement a throttling mechanism which controls the
-> > >  * consumption of the reserve based on the amount of freed memory.
-> > >  * Usage of a pre-allocated pool (e.g. mempool) should be always considered
-> > >  * before using this flag.
-> > >
-> > > GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_HIGH
-> >
-> > We want to free the HugeTLB page to the buddy allocator, but before that,
-> > we need to allocate some pages as vmemmap pages, so here we cannot
-> > handle allocation failures.
+> On Fri 20-11-20 14:43:04, Muchun Song wrote:
+> [...]
 >
-> Why cannot you simply refuse to shrink the pool size?
+> Thanks for improving the cover letter and providing some numbers. I have
+> only glanced through the patchset because I didn't really have more time
+> to dive depply into them.
 >
-> > I think that we should replace the
-> > __GFP_RETRY_MAYFAIL to __GFP_NOFAIL.
-> >
-> > GFP_KERNEL | __GFP_NOFAIL | __GFP_HIGH
-> >
-> > This meets our needs here. Thanks.
->
-> Please read again my concern about the disruptive behavior or explain
-> why it is desirable.
+> Overall it looks promissing. To summarize. I would prefer to not have
+> the feature enablement controlled by compile time option and the kernel
+> command line option should be opt-in. I also do not like that freeing
+> the pool can trigger the oom killer or even shut the system down if no
+> oom victim is eligible.
 
-OK, I will come up with a solution which does not use the
-__GFP_NOFAIL. Thanks.
+Hi Michal,
+
+I have replied to you about those questions on the other mail thread.
+
+Thanks.
 
 >
+> One thing that I didn't really get to think hard about is what is the
+> effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
+> invalid when racing with the split. How do we enforce that this won't
+> blow up?
+
+This feature depends on the CONFIG_SPARSEMEM_VMEMMAP,
+in this case, the pfn_to_page can work. The return value of the
+pfn_to_page is actually the address of it's struct page struct.
+I can not figure out where the problem is. Can you describe the
+problem in detail please? Thanks.
+
+>
+> I have also asked in a previous version whether the vmemmap manipulation
+> should be really unconditional. E.g. shortlived hugetlb pages allocated
+> from the buddy allocator directly rather than for a pool. Maybe it
+> should be restricted for the pool allocation as those are considered
+> long term and therefore the overhead will be amortized and freeing path
+> restrictions better understandable.
+
+Yeah, I agree with you. This can be an optimization. And we can
+add it to the todo list and implement it in the future. Now the patch
+series is already huge.
+
+>
+> >  Documentation/admin-guide/kernel-parameters.txt |   9 +
+> >  Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +
+> >  arch/x86/include/asm/hugetlb.h                  |  17 +
+> >  arch/x86/include/asm/pgtable_64_types.h         |   8 +
+> >  arch/x86/mm/init_64.c                           |   7 +-
+> >  fs/Kconfig                                      |  14 +
+> >  include/linux/bootmem_info.h                    |  78 +++
+> >  include/linux/hugetlb.h                         |  19 +
+> >  include/linux/hugetlb_cgroup.h                  |  15 +-
+> >  include/linux/memory_hotplug.h                  |  27 -
+> >  mm/Makefile                                     |   2 +
+> >  mm/bootmem_info.c                               | 124 ++++
+> >  mm/hugetlb.c                                    | 163 ++++-
+> >  mm/hugetlb_vmemmap.c                            | 765 ++++++++++++++++++++++++
+> >  mm/hugetlb_vmemmap.h                            | 103 ++++
+>
+> I will need to look closer but I suspect that a non-trivial part of the
+> vmemmap manipulation really belongs to mm/sparse-vmemmap.c because the
+> split and remapping shouldn't really be hugetlb specific. Sure hugetlb
+> knows how to split but all the splitting should be implemented in
+> vmemmap proper.
+>
+> >  mm/memory_hotplug.c                             | 116 ----
+> >  mm/sparse.c                                     |   5 +-
+> >  17 files changed, 1295 insertions(+), 180 deletions(-)
+> >  create mode 100644 include/linux/bootmem_info.h
+> >  create mode 100644 mm/bootmem_info.c
+> >  create mode 100644 mm/hugetlb_vmemmap.c
+> >  create mode 100644 mm/hugetlb_vmemmap.h
+>
+> Thanks!
 > --
 > Michal Hocko
 > SUSE Labs
