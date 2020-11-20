@@ -2,102 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE343C388F9
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 01:53:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B8CDC63798
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 02:27:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7DAAA2145D
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 01:53:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0203222BA
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 02:27:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DLZ7lTcs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbgKTBxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Nov 2020 20:53:31 -0500
-Received: from namei.org ([65.99.196.166]:54324 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726122AbgKTBxb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Nov 2020 20:53:31 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id 0AK1qcDI017804;
-        Fri, 20 Nov 2020 01:52:38 GMT
-Date:   Fri, 20 Nov 2020 12:52:38 +1100 (AEDT)
-From:   James Morris <jmorris@namei.org>
-To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        Jann Horn <jannh@google.com>
-cc:     "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
-Subject: Re: [PATCH v24 02/12] landlock: Add ruleset and domain management
-In-Reply-To: <20201112205141.775752-3-mic@digikod.net>
-Message-ID: <alpine.LRH.2.21.2011201251010.15634@namei.org>
-References: <20201112205141.775752-1-mic@digikod.net> <20201112205141.775752-3-mic@digikod.net>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1725944AbgKTC06 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Nov 2020 21:26:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20748 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725937AbgKTC05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Nov 2020 21:26:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605839216;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4sxKhMof86hickCRVUEuAEtymNQnjon9Bfb0eSzoC34=;
+        b=DLZ7lTcsQgo4wZGboMZCQrBKGq5bqLUjXDXQtenAfRPly49+CWffU7vSkTV2cEEaIYJkPP
+        mh+ahPj6DB/3rm65m3sldneLpA+hpFA6uhvgMaHzx+6BJuR+1XJGLmNIp2pPnNhlFyxxex
+        p+D2mTOaLcONDMO51ecUbyZAy/qQa70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-sOa4YTahNv2t3MXF3bnYLw-1; Thu, 19 Nov 2020 21:26:43 -0500
+X-MC-Unique: sOa4YTahNv2t3MXF3bnYLw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12C6A180E46F;
+        Fri, 20 Nov 2020 02:26:39 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-196.pek2.redhat.com [10.72.12.196])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CAF110013BD;
+        Fri, 20 Nov 2020 02:26:25 +0000 (UTC)
+Date:   Fri, 20 Nov 2020 10:26:22 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Guilherme Piccoli <gpiccoli@canonical.com>
+Cc:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, john.p.donnelly@oracle.com,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "# v4 . 16+" <stable@vger.kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Diego Elio =?iso-8859-1?Q?Petten=F2?= <flameeyes@flameeyes.com>,
+        Olof Johansson <olof@lixom.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
+        Dann Frazier <dann.frazier@canonical.com>
+Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
+ and ARM
+Message-ID: <20201120022622.GA3731@dhcp-128-65.nay.redhat.com>
+References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+ <CAHD1Q_yA37wWrOscBHpSFEjFecGFcrzY6R6qU_iMESzYArV_Kg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="1665246916-1401825409-1605837159=:15634"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHD1Q_yA37wWrOscBHpSFEjFecGFcrzY6R6qU_iMESzYArV_Kg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---1665246916-1401825409-1605837159=:15634
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Thu, 12 Nov 2020, Mickaël Salaün wrote:
-
-> Cc: James Morris <jmorris@namei.org>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Serge E. Hallyn <serge@hallyn.com>
-> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-> ---
+Hi Guilherme,
+On 11/19/20 at 06:56pm, Guilherme Piccoli wrote:
+> Hi Saeed, thanks for your patch/idea! Comments inline, below.
 > 
-> Changes since v23:
-> * Always intersect access rights.  Following the filesystem change
->   logic, make ruleset updates more consistent by always intersecting
->   access rights (boolean AND) instead of combining them (boolean OR) for
->   the same layer.  This defensive approach could also help avoid user
->   space to inadvertently allow multiple access rights for the same
->   object (e.g.  write and execute access on a path hierarchy) instead of
->   dealing with such inconsistency.  This can happen when there is no
->   deduplication of objects (e.g. paths and underlying inodes) whereas
->   they get different access rights with landlock_add_rule(2).
-> * Add extra checks to make sure that:
->   - there is always an (allocated) object in each used rules;
->   - when updating a ruleset with a new rule (i.e. not merging two
->     rulesets), the ruleset doesn't contain multiple layers.
-> * Hide merge parameter from the public landlock_insert_rule() API.  This
->   helps avoid misuse of this function.
-> * Replace a remaining hardcoded 1 with SINGLE_DEPTH_NESTING.
+> On Wed, Nov 18, 2020 at 8:29 PM Saeed Mirzamohammadi
+> <saeed.mirzamohammadi@oracle.com> wrote:
+> >
+> > This adds crashkernel=auto feature to configure reserved memory for
+> > vmcore creation to both x86 and ARM platforms based on the total memory
+> > size.
+> >
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
+> > Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+> > ---
+> >  Documentation/admin-guide/kdump/kdump.rst |  5 +++++
+> >  arch/arm64/Kconfig                        | 26 ++++++++++++++++++++++-
+> >  arch/arm64/configs/defconfig              |  1 +
+> >  arch/x86/Kconfig                          | 26 ++++++++++++++++++++++-
+> >  arch/x86/configs/x86_64_defconfig         |  1 +
+> >  kernel/crash_core.c                       | 20 +++++++++++++++--
+> >  6 files changed, 75 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> > index 75a9dd98e76e..f95a2af64f59 100644
+> > --- a/Documentation/admin-guide/kdump/kdump.rst
+> > +++ b/Documentation/admin-guide/kdump/kdump.rst
+> > @@ -285,7 +285,12 @@ This would mean:
+> >      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> >      3) if the RAM size is larger than 2G, then reserve 128M
+> >
+> > +Or you can use crashkernel=auto if you have enough memory. The threshold
+> > +is 1G on x86_64 and arm64. If your system memory is less than the threshold,
+> > +crashkernel=auto will not reserve memory. The size changes according to
+> > +the system memory size like below:
+> >
+> > +    x86_64/arm64: 1G-64G:128M,64G-1T:256M,1T-:512M
+> 
+> As mentioned in the thread, this was tried before and never got merged
+> - I'm not sure the all the reasons, but I speculate that a stronger
+> reason is that it'd likely fail in many cases. I've seen cases of 256G
 
-Jann: any chance you could review this patch again given the changes 
-above?
+Yes, there were a few tries, last time I tried to set a default value, I
+do not think people are strongly against it.  We have been using the
+auto in Red Hat for long time, it does work for most of usual cases
+like Saeed said in the patch. But I think all of us are aligned it is
+not possible to satisfy all the user cases.  Anyway I also think this is
+good to have.
 
-Thanks.
+> servers that require crashkernel=600M (or more), due to the amount of
+> devices. Also, the minimum nowadays would likely be 96M or more - I'm
+> looping Cascardo and Dann (Debian/Ubuntu maintainers of kdump stuff)
+> so they maybe can jump in with even more examples/considerations.
 
+Another reason of people have different feeling about the memory
+requirement is currently distributions are doing different on kdump,
+especially for the userspace part. Kairui did a lot of work in dracut to
+reduce the memory requirements in dracut, for example only add dump
+required kernel modules in 2nd kernel initramfs, also we have a lot of
+other twicks for dracut to use "hostonly" mode, eg. hostonly multipath
+configurations will just bring up necessary paths instead of creating
+all of the multipath devices.
 
--- 
-James Morris
-<jmorris@namei.org>
+> 
+> What we've been trying to do in Ubuntu/Debian is using an estimator
+> approach [0] - this is purely userspace and tries to infer the amount
+> of necessary memory a kdump minimal[1] kernel would take. I'm not
+> -1'ing your approach totally, but I think a bit more consideration is
+> needed in the ranges, at least accounting the number of devices of the
+> machine or something like that.
 
---1665246916-1401825409-1605837159=:15634--
+There are definitely room to improve and make it better in the future,
+but I think this is a good start and simple enough proposal for the time
+being :)
+
+> 
+> Cheers,
+> 
+> 
+> Guilherme
+> 
+> [0] https://salsa.debian.org/debian/makedumpfile/-/merge_requests/7
+> [1] Minimal as having a reduced initrd + "shrinking" parameters (like
+> nr_cpus=1).
+> 
+
+Thanks
+Dave
+
