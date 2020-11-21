@@ -2,331 +2,333 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D904FC388F9
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 10:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F21AEC388F9
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 13:03:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9671D21741
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 10:30:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADE5C22206
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 13:03:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727314AbgKUKaJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Nov 2020 05:30:09 -0500
-Received: from mail-m121143.qiye.163.com ([115.236.121.143]:38628 "EHLO
-        mail-m121143.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727217AbgKUKaI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Nov 2020 05:30:08 -0500
-X-Greylist: delayed 334 seconds by postgrey-1.27 at vger.kernel.org; Sat, 21 Nov 2020 05:30:07 EST
-Received: from ubuntu.localdomain (unknown [58.250.176.229])
-        by mail-m121143.qiye.163.com (Hmail) with ESMTPA id 777A25401C3;
-        Sat, 21 Nov 2020 18:24:30 +0800 (CST)
-From:   Bailu Lin <bailu.lin@vivo.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Bailu Lin <bailu.lin@vivo.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com
-Subject: [PATCH] Documentation: Chinese translation of  Documentation/arm64/elf_hwcaps.rst
-Date:   Sat, 21 Nov 2020 02:23:37 -0800
-Message-Id: <20201121102355.32864-1-bailu.lin@vivo.com>
-X-Mailer: git-send-email 2.20.1
+        id S1727661AbgKUNDn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Nov 2020 08:03:43 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:33567 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727531AbgKUNDm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Nov 2020 08:03:42 -0500
+Received: by mail-oi1-f196.google.com with SMTP id k26so14005217oiw.0;
+        Sat, 21 Nov 2020 05:03:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3fSrNN5cdMc3n/QeXiEijlArkZhDgKdlCFlvtJINQ3E=;
+        b=ZyphX5CEfXFDBgh600zWuIxqOnSgBYdO7IUhPAVV+TKBAceHWoDQT5WuZN2B+g4XaM
+         0QHbejiO46UkLtfSH2mRHU/lmLQE4SJ8Rr1OUJ5Kh7UUOhOTlDOy3sm2vtnMwCNQx5lB
+         +W3ywZfNNSRbNsJ/fjM6pPFXyCRhxT4lHz8Xvw9UJrQSydO8lyfjV2aGbsADDJ88CGwl
+         IusXb7c2D6ZYJS0Bmt9x/2oIU5m4qN6+v+2cgKfzlr2UImA3qX6UDRZF80+rEIAKMOsR
+         yb5vXu0Edrmfs9gZCuXr7/t+stdwNjg0oJTFqXJfTno1iVm6F/5AyzF+mLwcWjK6WF1Q
+         /+tA==
+X-Gm-Message-State: AOAM533fn8q7BzYSaKlIA1Yiv9JbVjlqsf2BnfswybFb8fdRy56n7k0S
+        dcdZh/FdrWoM4X0YzdZPUA==
+X-Google-Smtp-Source: ABdhPJwrgTUmv+wZP0NYn3HS02TUgoEFFBPuTQ9ADhX3rCAytd46HakLApZiuMex/f6mOhMPsbm1zA==
+X-Received: by 2002:aca:ab93:: with SMTP id u141mr8753181oie.19.1605963820361;
+        Sat, 21 Nov 2020 05:03:40 -0800 (PST)
+Received: from xps15 ([2607:fb90:5feb:6270:cdf7:680e:59f2:6ccd])
+        by smtp.gmail.com with ESMTPSA id l1sm2995678otj.17.2020.11.21.05.03.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2020 05:03:39 -0800 (PST)
+Received: (nullmailer pid 2093033 invoked by uid 1000);
+        Sat, 21 Nov 2020 13:03:36 -0000
+Date:   Sat, 21 Nov 2020 07:03:36 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Cc:     leoyang.li@nxp.com, corbet@lwn.net,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+        linuxppc-dev@lists.ozlabs.org, ioana.ciornei@nxp.com,
+        Ionut-robert Aron <ionut-robert.aron@nxp.com>
+Subject: Re: [PATCH v3] dt-bindings: misc: convert fsl,qoriq-mc from txt to
+ YAML
+Message-ID: <20201121130336.GA2086043@robh.at.kernel.org>
+References: <20201112133254.7291-1-laurentiu.tudor@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZHUkYHUwfSEIZTBlJVkpNS05CTk9JTEpLSUhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6LDo4Dj8iEQI1VhwDIU4Z
-        Ok4KCjFVSlVKTUtOQk5PSUxKT0NLVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
-        VUlOS1VKTE1VSUlCWVdZCAFZQUJLTUM3Bg++
-X-HM-Tid: 0a75ea557655b038kuuu777a25401c3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201112133254.7291-1-laurentiu.tudor@nxp.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a Chinese translated version of
- Documentation/arm64/elf_hwcaps.rst
+On Thu, Nov 12, 2020 at 03:32:54PM +0200, Laurentiu Tudor wrote:
+> From: Ionut-robert Aron <ionut-robert.aron@nxp.com>
+> 
+> Convert fsl,qoriq-mc to YAML in order to automate the verification
+> process of dts files. In addition, update MAINTAINERS accordingly
+> and, while at it, add some missing files.
+> 
+> Signed-off-by: Ionut-robert Aron <ionut-robert.aron@nxp.com>
+> [laurentiu.tudor@nxp.com: update MINTAINERS, updates & fixes in schema]
+> Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+> ---
+> Changes in v3:
+>  - dropped duplicated "fsl,qoriq-mc-dpmac" schema and replaced with
+>    reference to it
+>  - fixed a dt_binding_check warning
+> Changes in v2:
+>  - fixed errors reported by yamllint
+>  - dropped multiple unnecessary quotes
+>  - used schema instead of text in description
+>  - added constraints on dpmac reg property
+> 
+>  .../devicetree/bindings/misc/fsl,qoriq-mc.txt | 196 ------------------
+>  .../bindings/misc/fsl,qoriq-mc.yaml           | 187 +++++++++++++++++
+>  .../ethernet/freescale/dpaa2/overview.rst     |   5 +-
+>  MAINTAINERS                                   |   4 +-
+>  4 files changed, 194 insertions(+), 198 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>  create mode 100644 Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
 
-Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
----
- Documentation/arm64/elf_hwcaps.rst            |   2 +
- .../translations/zh_CN/arm64/elf_hwcaps.rst   | 240 ++++++++++++++++++
- .../translations/zh_CN/arm64/index.rst        |   1 +
- 3 files changed, 243 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
 
-diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-index bbd9cf54db6c..87821662eeb2 100644
---- a/Documentation/arm64/elf_hwcaps.rst
-+++ b/Documentation/arm64/elf_hwcaps.rst
-@@ -1,3 +1,5 @@
-+.. _elf_hwcaps_index:
-+
- ================
- ARM64 ELF hwcaps
- ================
-diff --git a/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst b/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
-new file mode 100644
-index 000000000000..c7e4385ee63f
---- /dev/null
-+++ b/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
-@@ -0,0 +1,240 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
-+
-+Translator: Bailu Lin <bailu.lin@vivo.com>
-+
-+================
-+ARM64 ELF hwcaps
-+================
-+
-+这篇文档描述了 arm64 ELF hwcaps 的使用方法和规范。
-+
-+
-+1. 简介
-+-------
-+
-+有些硬件或软件功能仅在某些 CPU 实现上和/或在具体某个内核配置上可用，但
-+对于处于 EL0 的用户空间代码没有可用的架构发现机制。内核通过在辅助向量表
-+公开一组称为 hwcaps 的标志而把这些功能开放给用户空间。
-+
-+用户空间软件可以通过获取辅助向量的 AT_HWCAP 或 AT_HWCAP2 条目来测试功能，
-+并测试是否设置了相关标志，例如::
-+
-+	bool floating_point_is_present(void)
-+	{
-+		unsigned long hwcaps = getauxval(AT_HWCAP);
-+		if (hwcaps & HWCAP_FP)
-+			return true;
-+
-+		return false;
-+	}
-+
-+如果软件依赖于 hwcap 描述的功能，在尝试使用该功能前则应检查相关的 hwcap
-+标志以验证该功能是否存在。
-+
-+不能通过其他方式探查这些功能。当一个功能不可用时，尝试使用它可能导致不可
-+预测的行为，并且无法保证能确切的知道该功能不可用，例如 SIGILL。
-+
-+
-+2. Hwcaps 的说明
-+----------------
-+
-+大多数 hwcaps 旨在说明通过架构 ID 寄存器(处于 EL0 的用户空间代码无法访问)
-+描述的功能的存在。这些 hwcap 通过 ID 寄存器字段定义，并且应根据 ARM 体系
-+结构参考手册（ARM ARM）中定义的字段来解释说明。
-+
-+这些 hwcaps 以下面的形式描述::
-+
-+    Functionality implied by idreg.field == val.
-+
-+当 idreg.field 中有 val 时，hwcaps 表示 ARM ARM 定义的功能是有效的，但是
-+并不是说要完全和 val 相等，也不是说 idreg.field 描述的其他功能就是缺失的。
-+
-+其他 hwcaps 可能表明无法仅由 ID 寄存器描述的功能的存在。这些 hwcaps 可能
-+没有被 ID 寄存器描述，需要参考其他文档。
-+
-+
-+3. AT_HWCAP 中公开的 hwcaps
-+---------------------------
-+
-+HWCAP_FP
-+    ID_AA64PFR0_EL1.FP == 0b0000 表示的功能。
-+
-+HWCAP_ASIMD
-+    ID_AA64PFR0_EL1.AdvSIMD == 0b0000 表示的功能。
-+
-+HWCAP_EVTSTRM
-+    通用计时器频率配置为大约100KHz以生成事件。
-+
-+HWCAP_AES
-+    ID_AA64ISAR0_EL1.AES == 0b0001 表示的功能。
-+
-+HWCAP_PMULL
-+    ID_AA64ISAR0_EL1.AES == 0b0010 表示的功能。
-+
-+HWCAP_SHA1
-+    ID_AA64ISAR0_EL1.SHA1 == 0b0001 表示的功能。
-+
-+HWCAP_SHA2
-+    ID_AA64ISAR0_EL1.SHA2 == 0b0001 表示的功能。
-+
-+HWCAP_CRC32
-+    ID_AA64ISAR0_EL1.CRC32 == 0b0001 表示的功能。
-+
-+HWCAP_ATOMICS
-+    ID_AA64ISAR0_EL1.Atomic == 0b0010 表示的功能。
-+
-+HWCAP_FPHP
-+    ID_AA64PFR0_EL1.FP == 0b0001 表示的功能。
-+
-+HWCAP_ASIMDHP
-+    ID_AA64PFR0_EL1.AdvSIMD == 0b0001 表示的功能。
-+
-+HWCAP_CPUID
-+    根据 Documentation/arm64/cpu-feature-registers.rst 描述，EL0 可以访问
-+    某些 ID 寄存器。
-+
-+    这些 ID 寄存器可能表示功能的可用性。
-+
-+HWCAP_ASIMDRDM
-+    ID_AA64ISAR0_EL1.RDM == 0b0001 表示的功能。
-+
-+HWCAP_JSCVT
-+    ID_AA64ISAR1_EL1.JSCVT == 0b0001 表示的功能。
-+
-+HWCAP_FCMA
-+    ID_AA64ISAR1_EL1.FCMA == 0b0001 表示的功能。
-+
-+HWCAP_LRCPC
-+    ID_AA64ISAR1_EL1.LRCPC == 0b0001 表示的功能。
-+
-+HWCAP_DCPOP
-+    ID_AA64ISAR1_EL1.DPB == 0b0001 表示的功能。
-+
-+HWCAP_SHA3
-+    ID_AA64ISAR0_EL1.SHA3 == 0b0001 表示的功能。
-+
-+HWCAP_SM3
-+    ID_AA64ISAR0_EL1.SM3 == 0b0001 表示的功能。
-+
-+HWCAP_SM4
-+    ID_AA64ISAR0_EL1.SM4 == 0b0001 表示的功能。
-+
-+HWCAP_ASIMDDP
-+    ID_AA64ISAR0_EL1.DP == 0b0001 表示的功能。
-+
-+HWCAP_SHA512
-+    ID_AA64ISAR0_EL1.SHA2 == 0b0010 表示的功能。
-+
-+HWCAP_SVE
-+    ID_AA64PFR0_EL1.SVE == 0b0001 表示的功能。
-+
-+HWCAP_ASIMDFHM
-+    ID_AA64ISAR0_EL1.FHM == 0b0001 表示的功能。
-+
-+HWCAP_DIT
-+    ID_AA64PFR0_EL1.DIT == 0b0001 表示的功能。
-+
-+HWCAP_USCAT
-+    ID_AA64MMFR2_EL1.AT == 0b0001 表示的功能。
-+
-+HWCAP_ILRCPC
-+    ID_AA64ISAR1_EL1.LRCPC == 0b0010 表示的功能。
-+
-+HWCAP_FLAGM
-+    ID_AA64ISAR0_EL1.TS == 0b0001 表示的功能。
-+
-+HWCAP_SSBS
-+    ID_AA64PFR1_EL1.SSBS == 0b0010 表示的功能。
-+
-+HWCAP_SB
-+    ID_AA64ISAR1_EL1.SB == 0b0001 表示的功能。
-+
-+HWCAP_PACA
-+    如 Documentation/arm64/pointer-authentication.rst 所描述，
-+    ID_AA64ISAR1_EL1.APA == 0b0001 或 ID_AA64ISAR1_EL1.API == 0b0001
-+    表示的功能。
-+
-+HWCAP_PACG
-+    如 Documentation/arm64/pointer-authentication.rst 所描述，
-+    ID_AA64ISAR1_EL1.GPA == 0b0001 或 ID_AA64ISAR1_EL1.GPI == 0b0001
-+    表示的功能。
-+
-+HWCAP2_DCPODP
-+
-+    ID_AA64ISAR1_EL1.DPB == 0b0010 表示的功能。
-+
-+HWCAP2_SVE2
-+
-+    ID_AA64ZFR0_EL1.SVEVer == 0b0001 表示的功能。
-+
-+HWCAP2_SVEAES
-+
-+    ID_AA64ZFR0_EL1.AES == 0b0001 表示的功能。
-+
-+HWCAP2_SVEPMULL
-+
-+    ID_AA64ZFR0_EL1.AES == 0b0010 表示的功能。
-+
-+HWCAP2_SVEBITPERM
-+
-+    ID_AA64ZFR0_EL1.BitPerm == 0b0001 表示的功能。
-+
-+HWCAP2_SVESHA3
-+
-+    ID_AA64ZFR0_EL1.SHA3 == 0b0001 表示的功能。
-+
-+HWCAP2_SVESM4
-+
-+    ID_AA64ZFR0_EL1.SM4 == 0b0001 表示的功能。
-+
-+HWCAP2_FLAGM2
-+
-+    ID_AA64ISAR0_EL1.TS == 0b0010 表示的功能。
-+
-+HWCAP2_FRINT
-+
-+    ID_AA64ISAR1_EL1.FRINTTS == 0b0001 表示的功能。
-+
-+HWCAP2_SVEI8MM
-+
-+    ID_AA64ZFR0_EL1.I8MM == 0b0001 表示的功能。
-+
-+HWCAP2_SVEF32MM
-+
-+    ID_AA64ZFR0_EL1.F32MM == 0b0001 表示的功能。
-+
-+HWCAP2_SVEF64MM
-+
-+    ID_AA64ZFR0_EL1.F64MM == 0b0001 表示的功能。
-+
-+HWCAP2_SVEBF16
-+
-+    ID_AA64ZFR0_EL1.BF16 == 0b0001 表示的功能。
-+
-+HWCAP2_I8MM
-+
-+    ID_AA64ISAR1_EL1.I8MM == 0b0001 表示的功能。
-+
-+HWCAP2_BF16
-+
-+    ID_AA64ISAR1_EL1.BF16 == 0b0001 表示的功能。
-+
-+HWCAP2_DGH
-+
-+    ID_AA64ISAR1_EL1.DGH == 0b0001 表示的功能。
-+
-+HWCAP2_RNG
-+
-+    ID_AA64ISAR0_EL1.RNDR == 0b0001 表示的功能。
-+
-+HWCAP2_BTI
-+
-+    ID_AA64PFR0_EL1.BT == 0b0001 表示的功能。
-+
-+
-+4. 未使用的 AT_HWCAP 位
-+-----------------------
-+
-+为了与用户空间交互，内核保证 AT_HWCAP 的第62、63位将始终返回0。
-diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
-index f51fed166326..57dc5de5ccc5 100644
---- a/Documentation/translations/zh_CN/arm64/index.rst
-+++ b/Documentation/translations/zh_CN/arm64/index.rst
-@@ -16,3 +16,4 @@ ARM64 架构
-     amu
-     hugetlbpage
-     perf
-+    elf_hwcaps
--- 
-2.20.1
+> diff --git a/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml b/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
+> new file mode 100644
+> index 000000000000..1dda2ad29717
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
+> @@ -0,0 +1,187 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright 2020 NXP
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +maintainers:
+> +  - Laurentiu Tudor <laurentiu.tudor@nxp.com>
+> +
+> +title: Freescale Management Complex
+> +
+> +description: |
+> +  The Freescale Management Complex (fsl-mc) is a hardware resource
+> +  manager that manages specialized hardware objects used in
+> +  network-oriented packet processing applications. After the fsl-mc
+> +  block is enabled, pools of hardware resources are available, such as
+> +  queues, buffer pools, I/O interfaces. These resources are building
+> +  blocks that can be used to create functional hardware objects/devices
+> +  such as network interfaces, crypto accelerator instances, L2 switches,
+> +  etc.
+> +
+> +  For an overview of the DPAA2 architecture and fsl-mc bus see:
+> +  Documentation/networking/device_drivers/freescale/dpaa2/overview.rst
+> +
+> +  As described in the above overview, all DPAA2 objects in a DPRC share the
+> +  same hardware "isolation context" and a 10-bit value called an ICID
+> +  (isolation context id) is expressed by the hardware to identify
+> +  the requester.
+> +
+> +  The generic 'iommus' property is insufficient to describe the relationship
+> +  between ICIDs and IOMMUs, so an iommu-map property is used to define
+> +  the set of possible ICIDs under a root DPRC and how they map to
+> +  an IOMMU.
+> +
+> +  For generic IOMMU bindings, see:
+> +  Documentation/devicetree/bindings/iommu/iommu.txt.
+> +
+> +  For arm-smmu binding, see:
+> +  Documentation/devicetree/bindings/iommu/arm,smmu.yaml.
+> +
+> +  MC firmware binary images can be found here:
+> +  https://github.com/NXP/qoriq-mc-binary
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,qoriq-mc
+> +    description:
+> +      A Freescale Management Complex compatible with this binding must have
+> +      Block Revision Registers BRR1 and BRR2 at offset 0x0BF8 and 0x0BFC in
+> +      the MC control register region.
+> +
+> +  reg:
+> +    minItems: 1
+> +    items:
+> +      - description: the command portal for this machine
+> +      - description:
+> +          MC control registers. This region may not be present in some
+> +          scenarios, such as in the device tree presented to a virtual
+> +          machine.
+> +
+> +  ranges:
+> +    description: |
+> +      A standard property. Defines the mapping between the child MC address
+> +      space and the parent system address space.
+> +
+> +      The MC address space is defined by 3 components:
+> +                <region type> <offset hi> <offset lo>
+> +
+> +      Valid values for region type are:
+> +                  0x0 - MC portals
+> +                  0x1 - QBMAN portals
+> +
+> +  '#address-cells':
+> +    const: 3
+> +
+> +  '#size-cells':
+> +    const: 1
+> +
+> +  dpmacs:
+> +    type: object
+> +    description:
+> +      The fsl-mc node may optionally have dpmac sub-nodes that describe the
+> +      relationship between the Ethernet MACs which belong to the MC and the
+> +      Ethernet PHYs on the system board.
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^(dpmac@[0-9a-f]+)|(ethernet@[0-9a-f]+)$":
+> +        type: object
+> +
+> +        description:
+> +          see Documentation/devicetree/bindings/net/fsl,qoriq-mc-dpmac.yaml
 
+Use $ref here.
+
+> +
+> +  iommu-map:
+> +    description: |
+> +      Maps an ICID to an IOMMU and associated iommu-specifier data.
+> +
+> +      The property is an arbitrary number of tuples of
+> +      (icid-base, iommu, iommu-base, length).
+> +
+> +      Any ICID i in the interval [icid-base, icid-base + length) is
+> +      associated with the listed IOMMU, with the iommu-specifier
+> +      (i - icid-base + iommu-base).
+> +
+> +  msi-map:
+> +    description: |
+> +      Maps an ICID to a GIC ITS and associated msi-specifier data.
+> +
+> +      The property is an arbitrary number of tuples of
+> +      (icid-base, gic-its, msi-base, length).
+> +
+> +      Any ICID in the interval [icid-base, icid-base + length) is
+> +      associated with the listed GIC ITS, with the msi-specifier
+> +      (i - icid-base + msi-base).
+> +
+> +  msi-parent:
+> +    deprecated: true
+> +    description:
+> +      Points to the MSI controller node handling message interrupts for the MC.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - iommu-map
+> +  - msi-map
+> +  - ranges
+> +  - '#address-cells'
+> +  - '#size-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      smmu: iommu@5000000 {
+> +        compatible = "arm,mmu-500";
+> +        #global-interrupts = <1>;
+> +        #iommu-cells = <1>;
+> +        reg = <0 0x5000000 0 0x800000>;
+> +        stream-match-mask = <0x7c00>;
+> +        interrupts = <0 13 4>,
+> +                     <0 146 4>, <0 147 4>,
+> +                     <0 148 4>, <0 149 4>,
+> +                     <0 150 4>, <0 151 4>,
+> +                     <0 152 4>, <0 153 4>;
+> +      };
+> +
+> +      fsl_mc: fsl-mc@80c000000 {
+> +        compatible = "fsl,qoriq-mc";
+> +        reg = <0x00000008 0x0c000000 0 0x40>,    /* MC portal base */
+> +        <0x00000000 0x08340000 0 0x40000>; /* MC control reg */
+> +        /* define map for ICIDs 23-64 */
+> +        iommu-map = <23 &smmu 23 41>;
+> +        /* define msi map for ICIDs 23-64 */
+> +        msi-map = <23 &its 23 41>;
+> +        #address-cells = <3>;
+> +        #size-cells = <1>;
+> +
+> +        /*
+> +        * Region type 0x0 - MC portals
+> +        * Region type 0x1 - QBMAN portals
+> +        */
+> +        ranges = <0x0 0x0 0x0 0x8 0x0c000000 0x4000000
+> +                  0x1 0x0 0x0 0x8 0x18000000 0x8000000>;
+> +
+> +        dpmacs {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          ethernet@1 {
+> +            compatible = "fsl,qoriq-mc-dpmac";
+> +            reg = <1>;
+> +            phy-handle = <&mdio0_phy0>;
+> +          };
+> +        };
+> +      };
+> +    };
+> diff --git a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
+> index d638b5a8aadd..b3261c5871cc 100644
+> --- a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
+> +++ b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
+> @@ -28,6 +28,9 @@ interfaces, an L2 switch, or accelerator instances.
+>  The MC provides memory-mapped I/O command interfaces (MC portals)
+>  which DPAA2 software drivers use to operate on DPAA2 objects.
+>  
+> +MC firmware binary images can be found here:
+> +https://github.com/NXP/qoriq-mc-binary
+> +
+>  The diagram below shows an overview of the DPAA2 resource management
+>  architecture::
+>  
+> @@ -338,7 +341,7 @@ Key functions include:
+>    a bind of the root DPRC to the DPRC driver
+>  
+>  The binding for the MC-bus device-tree node can be consulted at
+> -*Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt*.
+> +*Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml*.
+>  The sysfs bind/unbind interfaces for the MC-bus can be consulted at
+>  *Documentation/ABI/testing/sysfs-bus-fsl-mc*.
+>  
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b516bb34a8d5..e0ce6e2b663c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14409,9 +14409,11 @@ M:	Stuart Yoder <stuyoder@gmail.com>
+>  M:	Laurentiu Tudor <laurentiu.tudor@nxp.com>
+>  L:	linux-kernel@vger.kernel.org
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+> +F:	Documentation/devicetree/bindings/misc/fsl,dpaa2-console.yaml
+> +F:	Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
+>  F:	Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
+>  F:	drivers/bus/fsl-mc/
+> +F:	include/linux/fsl/mc.h
+>  
+>  QT1010 MEDIA DRIVER
+>  M:	Antti Palosaari <crope@iki.fi>
+> -- 
+> 2.17.1
+> 
