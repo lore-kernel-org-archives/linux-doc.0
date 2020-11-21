@@ -2,143 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D4DC2D0E4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 23:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D161C6379D
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 04:03:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A673A2242A
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Nov 2020 23:33:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5021122269
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 04:03:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="em2YocFl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V3ft2O8J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727248AbgKTXdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 18:33:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726255AbgKTXdk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Nov 2020 18:33:40 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 74BA52240B;
-        Fri, 20 Nov 2020 23:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1605915219;
-        bh=gL+6V5nQ0C4us5yeUEMOZ4DAiQWOFVXFIqBNpK1mOkE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=em2YocFlJIdEpjLcJkL+hvBruZzAJUC1SasATzoALDCQF1Zu2idf98v4dkDObOBC2
-         mdhBpO3hZwmfzO8heER6rU5rjWQKYTMsg40dPu+Q7k/b2EocHlwOJwtz7wypquvEss
-         JSVewi6HliXOR+r2ki9kxtqdMRfSpt5k/yvI4C80=
-Date:   Fri, 20 Nov 2020 15:33:37 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Lokesh Gidra <lokeshgidra@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kaleshsingh@google.com,
-        calin@google.com, surenb@google.com, jeffv@google.com,
-        kernel-team@android.com, Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-mm@kvack.kernel.org, Daniel Colascione <dancol@google.com>
-Subject: Re: [PATCH v6 1/2] Add UFFD_USER_MODE_ONLY
-Message-Id: <20201120153337.431dc36c1975507bb1e44596@linux-foundation.org>
-In-Reply-To: <20201120030411.2690816-2-lokeshgidra@google.com>
-References: <20201120030411.2690816-1-lokeshgidra@google.com>
-        <20201120030411.2690816-2-lokeshgidra@google.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727166AbgKUEDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Nov 2020 23:03:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45592 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbgKUEDR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 23:03:17 -0500
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B88DC061A49
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 20:03:15 -0800 (PST)
+Received: by mail-oi1-x243.google.com with SMTP id m13so12919487oih.8
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 20:03:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=d+Jt7Kw8tpbR0XZRec6xgDcNSJxFLJiVa/Gv05lalew=;
+        b=V3ft2O8JeSSLMy1nZsUqp23pVt9eilwqNNaJ56mAPY3c4Px4/iFl7M1t8ww4Ilfhru
+         4Sz1i4Rdgy9ormCWbNs36UPOAAZM7DbHZDP56Qth9Nxgqw6Zn1PGQygV4M3/kQcAx7RL
+         x9+f4zU1depG3fJ1LmEFunDbPTePXby+FCOl3YdEwfmA26Edtg0MuMiYJKUnrn+1HAZE
+         3u9nXxptvpeVxQ1adajzI/rH4xBMVKsMBte1uHGXMgBTa9ACOKW6FJ1S7zuV8s4wnc5Y
+         tKeHrudxFAgkhGD4XNQxf8+DEWvQdR+3/GoAw2ZgKng94WulU1km7lCF1ejtbJk02zB9
+         xF/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=d+Jt7Kw8tpbR0XZRec6xgDcNSJxFLJiVa/Gv05lalew=;
+        b=sgo5i9DrAplJHLcqqK3OOQmrYubT/7hdzCFW0+9rNZSdqRG92p4MTuZeLssKusFMAo
+         VtXdB2ZFIAMPnP4nAz7U9NNBTHPpvGHGMJ54TaENCwP5VBwMXyTbkYDHkh2+I9vLuuuk
+         ViR1VO5DSIBKzwoMILR8CG2jw/qbP88Ppvc+iWQteNyqUM3DwFuUt95ITDqqOPOoCw5E
+         txnSxqq0gmQxNdoFKm9nQBT8qrOo1xJRPPJ0xIxCLFgyZV0BnZEKbp9qnJwHwk6d2mSA
+         jXt+995QP4jo4mRP8xqFUFMPL+OETFFnd5nNzoQ3AVXENl5mA7zWr/HjXDR8BbD6IX/i
+         jAGg==
+X-Gm-Message-State: AOAM530vHcsOtJz4AMZy9leCybQk7JXarnNe4h76hZTOAJxx1PPrXj7u
+        Jhk4P2In4pWnBjlF6YmDRGRTfg==
+X-Google-Smtp-Source: ABdhPJxVDjWGCc5NwMV+giup5gCgzYtcJnesWwSzwDESxca8dWpFgXUfe5hC+9eX7BMITuhs6jJQIA==
+X-Received: by 2002:aca:a9c8:: with SMTP id s191mr8025691oie.11.1605931394890;
+        Fri, 20 Nov 2020 20:03:14 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id o63sm2781105ooa.10.2020.11.20.20.03.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2020 20:03:14 -0800 (PST)
+Date:   Fri, 20 Nov 2020 22:03:12 -0600
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Siddharth Gupta <sidgup@codeaurora.org>
+Cc:     agross@kernel.org, ohad@wizery.com,
+        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 1/4] remoteproc: core: Add ops to enable custom
+ coredump functionality
+Message-ID: <20201121040312.GJ9177@builder.lan>
+References: <1605819935-10726-1-git-send-email-sidgup@codeaurora.org>
+ <1605819935-10726-2-git-send-email-sidgup@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1605819935-10726-2-git-send-email-sidgup@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Nov 2020 19:04:10 -0800 Lokesh Gidra <lokeshgidra@google.com> wrote:
+On Thu 19 Nov 15:05 CST 2020, Siddharth Gupta wrote:
 
-> userfaultfd handles page faults from both user and kernel code.
-> Add a new UFFD_USER_MODE_ONLY flag for userfaultfd(2) that makes
-> the resulting userfaultfd object refuse to handle faults from kernel
-> mode, treating these faults as if SIGBUS were always raised, causing
-> the kernel code to fail with EFAULT.
+> Each remoteproc might have different requirements for coredumps and might
+> want to choose the type of dumps it wants to collect. This change allows
+> remoteproc drivers to specify their own custom dump function to be executed
+> in place of rproc_coredump. If the coredump op is not specified by the
+> remoteproc driver it will be set to rproc_coredump by default.
 > 
-> A future patch adds a knob allowing administrators to give some
-> processes the ability to create userfaultfd file objects only if they
-> pass UFFD_USER_MODE_ONLY, reducing the likelihood that these processes
-> will exploit userfaultfd's ability to delay kernel page faults to open
-> timing windows for future exploits.
 
-Can we assume that an update to the userfaultfd(2) manpage is in the
-works?
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-> --- a/fs/userfaultfd.c
-> +++ b/fs/userfaultfd.c
-> @@ -405,6 +405,13 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
->  
->  	if (ctx->features & UFFD_FEATURE_SIGBUS)
->  		goto out;
-> +	if ((vmf->flags & FAULT_FLAG_USER) == 0 &&
-> +	    ctx->flags & UFFD_USER_MODE_ONLY) {
-> +		printk_once(KERN_WARNING "uffd: Set unprivileged_userfaultfd "
-> +			"sysctl knob to 1 if kernel faults must be handled "
-> +			"without obtaining CAP_SYS_PTRACE capability\n");
-> +		goto out;
-> +	}
->  
->  	/*
->  	 * If it's already released don't get it. This avoids to loop
-> @@ -1965,10 +1972,11 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
->  	BUG_ON(!current->mm);
->  
->  	/* Check the UFFD_* constants for consistency.  */
-> +	BUILD_BUG_ON(UFFD_USER_MODE_ONLY & UFFD_SHARED_FCNTL_FLAGS);
+Regards,
+Bjorn
 
-Are we sure this is true for all architectures?
-
->  	BUILD_BUG_ON(UFFD_CLOEXEC != O_CLOEXEC);
->  	BUILD_BUG_ON(UFFD_NONBLOCK != O_NONBLOCK);
+> Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+> ---
+>  drivers/remoteproc/remoteproc_core.c | 6 +++++-
+>  include/linux/remoteproc.h           | 2 ++
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+> index dab2c0f..eba7543 100644
+> --- a/drivers/remoteproc/remoteproc_core.c
+> +++ b/drivers/remoteproc/remoteproc_core.c
+> @@ -1704,7 +1704,7 @@ int rproc_trigger_recovery(struct rproc *rproc)
+>  		goto unlock_mutex;
 >  
-> -	if (flags & ~UFFD_SHARED_FCNTL_FLAGS)
-> +	if (flags & ~(UFFD_SHARED_FCNTL_FLAGS | UFFD_USER_MODE_ONLY))
->  		return -EINVAL;
+>  	/* generate coredump */
+> -	rproc_coredump(rproc);
+> +	rproc->ops->coredump(rproc);
 >  
->  	ctx = kmem_cache_alloc(userfaultfd_ctx_cachep, GFP_KERNEL);
-> diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
-> index e7e98bde221f..5f2d88212f7c 100644
-> --- a/include/uapi/linux/userfaultfd.h
-> +++ b/include/uapi/linux/userfaultfd.h
-> @@ -257,4 +257,13 @@ struct uffdio_writeprotect {
->  	__u64 mode;
+>  	/* load firmware */
+>  	ret = request_firmware(&firmware_p, rproc->firmware, dev);
+> @@ -2126,6 +2126,10 @@ static int rproc_alloc_ops(struct rproc *rproc, const struct rproc_ops *ops)
+>  	if (!rproc->ops)
+>  		return -ENOMEM;
+>  
+> +	/* Default to rproc_coredump if no coredump function is specified */
+> +	if (!rproc->ops->coredump)
+> +		rproc->ops->coredump = rproc_coredump;
+> +
+>  	if (rproc->ops->load)
+>  		return 0;
+>  
+> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+> index 3fa3ba6..a419878 100644
+> --- a/include/linux/remoteproc.h
+> +++ b/include/linux/remoteproc.h
+> @@ -375,6 +375,7 @@ enum rsc_handling_status {
+>   * @get_boot_addr:	get boot address to entry point specified in firmware
+>   * @panic:	optional callback to react to system panic, core will delay
+>   *		panic at least the returned number of milliseconds
+> + * @coredump:	  collect firmware dump after the subsystem is shutdown
+>   */
+>  struct rproc_ops {
+>  	int (*prepare)(struct rproc *rproc);
+> @@ -393,6 +394,7 @@ struct rproc_ops {
+>  	int (*sanity_check)(struct rproc *rproc, const struct firmware *fw);
+>  	u64 (*get_boot_addr)(struct rproc *rproc, const struct firmware *fw);
+>  	unsigned long (*panic)(struct rproc *rproc);
+> +	void (*coredump)(struct rproc *rproc);
 >  };
 >  
-> +/*
-> + * Flags for the userfaultfd(2) system call itself.
-> + */
-> +
-> +/*
-> + * Create a userfaultfd that can handle page faults only in user mode.
-> + */
-> +#define UFFD_USER_MODE_ONLY 1
-> +
->  #endif /* _LINUX_USERFAULTFD_H */
-
-It would be nice to define this in include/linux/userfaultfd_k.h,
-alongside the other flags.  But I guess it has to be here because it's
-part of the userspace API.
+>  /**
+> -- 
+> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> 
