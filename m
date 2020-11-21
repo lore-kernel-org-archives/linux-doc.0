@@ -2,119 +2,331 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98074C64E75
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 10:11:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D904FC388F9
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 10:30:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79D8422202
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 10:11:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9671D21741
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 10:30:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727435AbgKUKLb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Nov 2020 05:11:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727384AbgKUKLa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Nov 2020 05:11:30 -0500
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [IPv6:2001:1600:4:17::190a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A916BC0613CF;
-        Sat, 21 Nov 2020 02:11:30 -0800 (PST)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CdThx34w6zlhnKD;
-        Sat, 21 Nov 2020 11:11:29 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CdThv53fQzlh8T9;
-        Sat, 21 Nov 2020 11:11:27 +0100 (CET)
-Subject: Re: [PATCH v24 01/12] landlock: Add object management
-To:     Jann Horn <jannh@google.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        id S1727314AbgKUKaJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Nov 2020 05:30:09 -0500
+Received: from mail-m121143.qiye.163.com ([115.236.121.143]:38628 "EHLO
+        mail-m121143.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727217AbgKUKaI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Nov 2020 05:30:08 -0500
+X-Greylist: delayed 334 seconds by postgrey-1.27 at vger.kernel.org; Sat, 21 Nov 2020 05:30:07 EST
+Received: from ubuntu.localdomain (unknown [58.250.176.229])
+        by mail-m121143.qiye.163.com (Hmail) with ESMTPA id 777A25401C3;
+        Sat, 21 Nov 2020 18:24:30 +0800 (CST)
+From:   Bailu Lin <bailu.lin@vivo.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201112205141.775752-1-mic@digikod.net>
- <20201112205141.775752-2-mic@digikod.net>
- <CAG48ez0GryN4i0xCP22utLTqF5_o5J3nMBs+VC0DpQ+s09Bx6g@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <b684a6b7-93d5-3040-32ca-caf4d244cd6f@digikod.net>
-Date:   Sat, 21 Nov 2020 11:11:27 +0100
-User-Agent: 
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Bailu Lin <bailu.lin@vivo.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kernel@vivo.com
+Subject: [PATCH] Documentation: Chinese translation of  Documentation/arm64/elf_hwcaps.rst
+Date:   Sat, 21 Nov 2020 02:23:37 -0800
+Message-Id: <20201121102355.32864-1-bailu.lin@vivo.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez0GryN4i0xCP22utLTqF5_o5J3nMBs+VC0DpQ+s09Bx6g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZHUkYHUwfSEIZTBlJVkpNS05CTk9JTEpLSUhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6LDo4Dj8iEQI1VhwDIU4Z
+        Ok4KCjFVSlVKTUtOQk5PSUxKT0NLVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
+        VUlOS1VKTE1VSUlCWVdZCAFZQUJLTUM3Bg++
+X-HM-Tid: 0a75ea557655b038kuuu777a25401c3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This is a Chinese translated version of
+ Documentation/arm64/elf_hwcaps.rst
 
-On 21/11/2020 08:00, Jann Horn wrote:
-> On Thu, Nov 12, 2020 at 9:51 PM Mickaël Salaün <mic@digikod.net> wrote:
->> A Landlock object enables to identify a kernel object (e.g. an inode).
->> A Landlock rule is a set of access rights allowed on an object.  Rules
->> are grouped in rulesets that may be tied to a set of processes (i.e.
->> subjects) to enforce a scoped access-control (i.e. a domain).
->>
->> Because Landlock's goal is to empower any process (especially
->> unprivileged ones) to sandbox themselves, we cannot rely on a
->> system-wide object identification such as file extended attributes.
->> Indeed, we need innocuous, composable and modular access-controls.
->>
->> The main challenge with these constraints is to identify kernel objects
->> while this identification is useful (i.e. when a security policy makes
->> use of this object).  But this identification data should be freed once
->> no policy is using it.  This ephemeral tagging should not and may not be
->> written in the filesystem.  We then need to manage the lifetime of a
->> rule according to the lifetime of its objects.  To avoid a global lock,
->> this implementation make use of RCU and counters to safely reference
->> objects.
->>
->> A following commit uses this generic object management for inodes.
->>
->> Cc: James Morris <jmorris@namei.org>
->> Cc: Kees Cook <keescook@chromium.org>
->> Cc: Serge E. Hallyn <serge@hallyn.com>
->> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->> Reviewed-by: Jann Horn <jannh@google.com>
-> 
-> Still looks good, except for one comment:
-> 
-> [...]
->> +       /**
->> +        * @lock: Guards against concurrent modifications.  This lock might be
->> +        * held from the time @usage drops to zero until any weak references
->> +        * from @underobj to this object have been cleaned up.
->> +        *
->> +        * Lock ordering: inode->i_lock nests inside this.
->> +        */
->> +       spinlock_t lock;
-> 
-> Why did you change this to "might be held" (v22 had "must")? Is the
-> "might" a typo?
-> 
+Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+---
+ Documentation/arm64/elf_hwcaps.rst            |   2 +
+ .../translations/zh_CN/arm64/elf_hwcaps.rst   | 240 ++++++++++++++++++
+ .../translations/zh_CN/arm64/index.rst        |   1 +
+ 3 files changed, 243 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
 
-Good catch, a typo indeed.
+diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+index bbd9cf54db6c..87821662eeb2 100644
+--- a/Documentation/arm64/elf_hwcaps.rst
++++ b/Documentation/arm64/elf_hwcaps.rst
+@@ -1,3 +1,5 @@
++.. _elf_hwcaps_index:
++
+ ================
+ ARM64 ELF hwcaps
+ ================
+diff --git a/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst b/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
+new file mode 100644
+index 000000000000..c7e4385ee63f
+--- /dev/null
++++ b/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
+@@ -0,0 +1,240 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
++
++Translator: Bailu Lin <bailu.lin@vivo.com>
++
++================
++ARM64 ELF hwcaps
++================
++
++这篇文档描述了 arm64 ELF hwcaps 的使用方法和规范。
++
++
++1. 简介
++-------
++
++有些硬件或软件功能仅在某些 CPU 实现上和/或在具体某个内核配置上可用，但
++对于处于 EL0 的用户空间代码没有可用的架构发现机制。内核通过在辅助向量表
++公开一组称为 hwcaps 的标志而把这些功能开放给用户空间。
++
++用户空间软件可以通过获取辅助向量的 AT_HWCAP 或 AT_HWCAP2 条目来测试功能，
++并测试是否设置了相关标志，例如::
++
++	bool floating_point_is_present(void)
++	{
++		unsigned long hwcaps = getauxval(AT_HWCAP);
++		if (hwcaps & HWCAP_FP)
++			return true;
++
++		return false;
++	}
++
++如果软件依赖于 hwcap 描述的功能，在尝试使用该功能前则应检查相关的 hwcap
++标志以验证该功能是否存在。
++
++不能通过其他方式探查这些功能。当一个功能不可用时，尝试使用它可能导致不可
++预测的行为，并且无法保证能确切的知道该功能不可用，例如 SIGILL。
++
++
++2. Hwcaps 的说明
++----------------
++
++大多数 hwcaps 旨在说明通过架构 ID 寄存器(处于 EL0 的用户空间代码无法访问)
++描述的功能的存在。这些 hwcap 通过 ID 寄存器字段定义，并且应根据 ARM 体系
++结构参考手册（ARM ARM）中定义的字段来解释说明。
++
++这些 hwcaps 以下面的形式描述::
++
++    Functionality implied by idreg.field == val.
++
++当 idreg.field 中有 val 时，hwcaps 表示 ARM ARM 定义的功能是有效的，但是
++并不是说要完全和 val 相等，也不是说 idreg.field 描述的其他功能就是缺失的。
++
++其他 hwcaps 可能表明无法仅由 ID 寄存器描述的功能的存在。这些 hwcaps 可能
++没有被 ID 寄存器描述，需要参考其他文档。
++
++
++3. AT_HWCAP 中公开的 hwcaps
++---------------------------
++
++HWCAP_FP
++    ID_AA64PFR0_EL1.FP == 0b0000 表示的功能。
++
++HWCAP_ASIMD
++    ID_AA64PFR0_EL1.AdvSIMD == 0b0000 表示的功能。
++
++HWCAP_EVTSTRM
++    通用计时器频率配置为大约100KHz以生成事件。
++
++HWCAP_AES
++    ID_AA64ISAR0_EL1.AES == 0b0001 表示的功能。
++
++HWCAP_PMULL
++    ID_AA64ISAR0_EL1.AES == 0b0010 表示的功能。
++
++HWCAP_SHA1
++    ID_AA64ISAR0_EL1.SHA1 == 0b0001 表示的功能。
++
++HWCAP_SHA2
++    ID_AA64ISAR0_EL1.SHA2 == 0b0001 表示的功能。
++
++HWCAP_CRC32
++    ID_AA64ISAR0_EL1.CRC32 == 0b0001 表示的功能。
++
++HWCAP_ATOMICS
++    ID_AA64ISAR0_EL1.Atomic == 0b0010 表示的功能。
++
++HWCAP_FPHP
++    ID_AA64PFR0_EL1.FP == 0b0001 表示的功能。
++
++HWCAP_ASIMDHP
++    ID_AA64PFR0_EL1.AdvSIMD == 0b0001 表示的功能。
++
++HWCAP_CPUID
++    根据 Documentation/arm64/cpu-feature-registers.rst 描述，EL0 可以访问
++    某些 ID 寄存器。
++
++    这些 ID 寄存器可能表示功能的可用性。
++
++HWCAP_ASIMDRDM
++    ID_AA64ISAR0_EL1.RDM == 0b0001 表示的功能。
++
++HWCAP_JSCVT
++    ID_AA64ISAR1_EL1.JSCVT == 0b0001 表示的功能。
++
++HWCAP_FCMA
++    ID_AA64ISAR1_EL1.FCMA == 0b0001 表示的功能。
++
++HWCAP_LRCPC
++    ID_AA64ISAR1_EL1.LRCPC == 0b0001 表示的功能。
++
++HWCAP_DCPOP
++    ID_AA64ISAR1_EL1.DPB == 0b0001 表示的功能。
++
++HWCAP_SHA3
++    ID_AA64ISAR0_EL1.SHA3 == 0b0001 表示的功能。
++
++HWCAP_SM3
++    ID_AA64ISAR0_EL1.SM3 == 0b0001 表示的功能。
++
++HWCAP_SM4
++    ID_AA64ISAR0_EL1.SM4 == 0b0001 表示的功能。
++
++HWCAP_ASIMDDP
++    ID_AA64ISAR0_EL1.DP == 0b0001 表示的功能。
++
++HWCAP_SHA512
++    ID_AA64ISAR0_EL1.SHA2 == 0b0010 表示的功能。
++
++HWCAP_SVE
++    ID_AA64PFR0_EL1.SVE == 0b0001 表示的功能。
++
++HWCAP_ASIMDFHM
++    ID_AA64ISAR0_EL1.FHM == 0b0001 表示的功能。
++
++HWCAP_DIT
++    ID_AA64PFR0_EL1.DIT == 0b0001 表示的功能。
++
++HWCAP_USCAT
++    ID_AA64MMFR2_EL1.AT == 0b0001 表示的功能。
++
++HWCAP_ILRCPC
++    ID_AA64ISAR1_EL1.LRCPC == 0b0010 表示的功能。
++
++HWCAP_FLAGM
++    ID_AA64ISAR0_EL1.TS == 0b0001 表示的功能。
++
++HWCAP_SSBS
++    ID_AA64PFR1_EL1.SSBS == 0b0010 表示的功能。
++
++HWCAP_SB
++    ID_AA64ISAR1_EL1.SB == 0b0001 表示的功能。
++
++HWCAP_PACA
++    如 Documentation/arm64/pointer-authentication.rst 所描述，
++    ID_AA64ISAR1_EL1.APA == 0b0001 或 ID_AA64ISAR1_EL1.API == 0b0001
++    表示的功能。
++
++HWCAP_PACG
++    如 Documentation/arm64/pointer-authentication.rst 所描述，
++    ID_AA64ISAR1_EL1.GPA == 0b0001 或 ID_AA64ISAR1_EL1.GPI == 0b0001
++    表示的功能。
++
++HWCAP2_DCPODP
++
++    ID_AA64ISAR1_EL1.DPB == 0b0010 表示的功能。
++
++HWCAP2_SVE2
++
++    ID_AA64ZFR0_EL1.SVEVer == 0b0001 表示的功能。
++
++HWCAP2_SVEAES
++
++    ID_AA64ZFR0_EL1.AES == 0b0001 表示的功能。
++
++HWCAP2_SVEPMULL
++
++    ID_AA64ZFR0_EL1.AES == 0b0010 表示的功能。
++
++HWCAP2_SVEBITPERM
++
++    ID_AA64ZFR0_EL1.BitPerm == 0b0001 表示的功能。
++
++HWCAP2_SVESHA3
++
++    ID_AA64ZFR0_EL1.SHA3 == 0b0001 表示的功能。
++
++HWCAP2_SVESM4
++
++    ID_AA64ZFR0_EL1.SM4 == 0b0001 表示的功能。
++
++HWCAP2_FLAGM2
++
++    ID_AA64ISAR0_EL1.TS == 0b0010 表示的功能。
++
++HWCAP2_FRINT
++
++    ID_AA64ISAR1_EL1.FRINTTS == 0b0001 表示的功能。
++
++HWCAP2_SVEI8MM
++
++    ID_AA64ZFR0_EL1.I8MM == 0b0001 表示的功能。
++
++HWCAP2_SVEF32MM
++
++    ID_AA64ZFR0_EL1.F32MM == 0b0001 表示的功能。
++
++HWCAP2_SVEF64MM
++
++    ID_AA64ZFR0_EL1.F64MM == 0b0001 表示的功能。
++
++HWCAP2_SVEBF16
++
++    ID_AA64ZFR0_EL1.BF16 == 0b0001 表示的功能。
++
++HWCAP2_I8MM
++
++    ID_AA64ISAR1_EL1.I8MM == 0b0001 表示的功能。
++
++HWCAP2_BF16
++
++    ID_AA64ISAR1_EL1.BF16 == 0b0001 表示的功能。
++
++HWCAP2_DGH
++
++    ID_AA64ISAR1_EL1.DGH == 0b0001 表示的功能。
++
++HWCAP2_RNG
++
++    ID_AA64ISAR0_EL1.RNDR == 0b0001 表示的功能。
++
++HWCAP2_BTI
++
++    ID_AA64PFR0_EL1.BT == 0b0001 表示的功能。
++
++
++4. 未使用的 AT_HWCAP 位
++-----------------------
++
++为了与用户空间交互，内核保证 AT_HWCAP 的第62、63位将始终返回0。
+diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
+index f51fed166326..57dc5de5ccc5 100644
+--- a/Documentation/translations/zh_CN/arm64/index.rst
++++ b/Documentation/translations/zh_CN/arm64/index.rst
+@@ -16,3 +16,4 @@ ARM64 架构
+     amu
+     hugetlbpage
+     perf
++    elf_hwcaps
+-- 
+2.20.1
+
