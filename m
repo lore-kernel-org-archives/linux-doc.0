@@ -2,116 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C5DC388F9
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 04:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FC5C63697
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 07:00:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 530572242B
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 04:05:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 411D722240
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Nov 2020 07:00:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gY5vw82/"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NAf9nl2J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbgKUEFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Nov 2020 23:05:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
+        id S1726543AbgKUHAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Nov 2020 02:00:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726433AbgKUEFo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Nov 2020 23:05:44 -0500
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D06DC061A47
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 20:05:44 -0800 (PST)
-Received: by mail-ot1-x343.google.com with SMTP id g19so10728570otp.13
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 20:05:44 -0800 (PST)
+        with ESMTP id S1726058AbgKUHAY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Nov 2020 02:00:24 -0500
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BFC7C061A49
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 23:00:23 -0800 (PST)
+Received: by mail-lj1-x242.google.com with SMTP id v20so12417397ljk.8
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2020 23:00:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=vDCzn8IpZ7D1wHWvbrDgdoNWq9ddfRFT4DNN+T24cXc=;
-        b=gY5vw82/h1f9OVJ6eYtJiP9As4gPHncfRQvhz8TcCdbhtOmCxWl33fmyGQ6MvrZL6A
-         waOVRIqwe0WcHXmIblrUj19BejHVizPjBSFo2hNrkki0O7hlNlGU3yuOQkaBZrESXzmR
-         qE+uvja8Olo04T/4NAfKxAci/eyYLNH65J3s5cLeZ3VlfRrzVIlHqU1wwUIGI0QJXRpk
-         ohNEt48kmWR8niX3dPmKODoDL6iaRgJdTFDao7BK9GH7XkmEHIJcGOvDzdMh/biLtPPl
-         4xbJyPHkbmsek6hQwgZtdchqWy4LjTQnOOjTlvXyLDKsu9lrNkb9cQ1A7FdnKoVjbKeH
-         c7KA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=X7o0m3hQXVmVofbCR6L473p8htdBcLYyTWc2pJqZOUM=;
+        b=NAf9nl2J7IrdmpQMU2t/+SODdOjUjzxQqsSksle5M3l6Ywri6/LWuLY60ItJmETxox
+         z2485qDtzcZq4U8ptX5mV32Ds+iGsHITL/G++mgluYxor/atna2PNO96gnuZ9eSDli3A
+         5YrOYozkM2esFvaUNe2lQ0jxlcdKo64nZZ8pWX8rKG3JIFhXACukB9nxastIxuNvxQwi
+         m72FEnkLoHzVUECvi7NKtdHoiQma263Ss/twJenvsetmtxc+Fz3/ib+Kowi86tegJZ9T
+         L5IzUl6TiURt6iNTyUYZjfH9tlL3oH6hVOmtT19/HgNgWR2EhrXZODwaZrS85DwyHUuy
+         aGmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vDCzn8IpZ7D1wHWvbrDgdoNWq9ddfRFT4DNN+T24cXc=;
-        b=ESqevNZ6dBIpEjR+EdGeJ2WFzS1fDc4KgRZMJWX6bzMQwhAaBQL+24ugDPoBt7BZ61
-         NOh4xQI8FdSyGNZKy9VXdyrzEQCf7e/d7rlrqXy6Q8d8zUd7WpzY0hXI57C4ibJcpZIA
-         wwfbzcjLdoxzJyMlVSeskygCooP8vcHBzoBzCfa5sZUJHd/1mDwQDInuECu1qonqHbLt
-         hQlTKbJDiZr08Cod2LhZp/xUnstKWkQcYpZWjO+E7CvydgU1Ace0nmsO3dP5NmS8192V
-         m24xSUNY4L4kAD+2s6isvSLywSWvVPU0gCds3pft8XfR5Rbl7UbecBKhcmV7y3VWuvak
-         0muQ==
-X-Gm-Message-State: AOAM531vB/Xnh4OgYgkUjZFAd8Q0gjIgddXCwcD3omg73VTEgiMQs1mg
-        KJBg3Onj/53gokF2Qts8s0sQZQ==
-X-Google-Smtp-Source: ABdhPJyEoLAlB4m/u91It7w5xf0owODbLy8PAPhdLNw5Vc0V3GxHTc8Ur+ZzMXEXgxSWKQFTLiGEow==
-X-Received: by 2002:a05:6830:1e95:: with SMTP id n21mr16865592otr.49.1605931543881;
-        Fri, 20 Nov 2020 20:05:43 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id r206sm2760502oih.14.2020.11.20.20.05.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 20:05:43 -0800 (PST)
-Date:   Fri, 20 Nov 2020 22:05:41 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Siddharth Gupta <sidgup@codeaurora.org>
-Cc:     agross@kernel.org, ohad@wizery.com,
-        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 4/4] remoteproc: qcom: Add minidump id for sm8150 modem
-Message-ID: <20201121040541.GM9177@builder.lan>
-References: <1605819935-10726-1-git-send-email-sidgup@codeaurora.org>
- <1605819935-10726-5-git-send-email-sidgup@codeaurora.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=X7o0m3hQXVmVofbCR6L473p8htdBcLYyTWc2pJqZOUM=;
+        b=qGd/oPd6RFGGlvjiHpUD/Tvn7Or0TCOAHzQGl9iKVh36uZ9m6uZ69o+eWxziDGbEab
+         Z2rmYoP1eZo+wFefc4/9eHJ9x8Et011Z7Q34YoBhi4qak3WRLxfp9LbhFP3LTCQNAQFw
+         p3k9YsSPc3p3Xo2Qgqvp/Qd3R3rkNEAY+UTYztihHVNJgN89NTMgux1GSTp8pjd7avOW
+         ajUxXshqLNOuHoRGidjhAhDXfUdAH7z3nNbfHlp20j1lkYA0qcMzvyg5oB9d7j5VCXRs
+         Xtzh587ZvKX4S5WaDHLHl/3siXie4RVn8cXzRUdWg+4N1wF3P/mEZWHDb1dWRo4pM0CO
+         /WIA==
+X-Gm-Message-State: AOAM532TE5mFj7KeC3+QjeMhm+bfSkpRKVGoAOCZucD8HloeAeIXQ63N
+        6rNZ6EJDs4RjFg7h6M+Mh0iOVR2L3spltS5Qy+bPsg==
+X-Google-Smtp-Source: ABdhPJyQlluKPoz0OIWNJejUmA2oBeD6J48fIKEWng63DXZFe9Wj5F7lo9xUW1sQakHx3A+Zc/rgyFU8fgOEwoYO4Ic=
+X-Received: by 2002:a2e:8350:: with SMTP id l16mr9449286ljh.47.1605942021665;
+ Fri, 20 Nov 2020 23:00:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1605819935-10726-5-git-send-email-sidgup@codeaurora.org>
+References: <20201112205141.775752-1-mic@digikod.net> <20201112205141.775752-2-mic@digikod.net>
+In-Reply-To: <20201112205141.775752-2-mic@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Sat, 21 Nov 2020 08:00:00 +0100
+Message-ID: <CAG48ez0GryN4i0xCP22utLTqF5_o5J3nMBs+VC0DpQ+s09Bx6g@mail.gmail.com>
+Subject: Re: [PATCH v24 01/12] landlock: Add object management
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 19 Nov 15:05 CST 2020, Siddharth Gupta wrote:
+On Thu, Nov 12, 2020 at 9:51 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> A Landlock object enables to identify a kernel object (e.g. an inode).
+> A Landlock rule is a set of access rights allowed on an object.  Rules
+> are grouped in rulesets that may be tied to a set of processes (i.e.
+> subjects) to enforce a scoped access-control (i.e. a domain).
+>
+> Because Landlock's goal is to empower any process (especially
+> unprivileged ones) to sandbox themselves, we cannot rely on a
+> system-wide object identification such as file extended attributes.
+> Indeed, we need innocuous, composable and modular access-controls.
+>
+> The main challenge with these constraints is to identify kernel objects
+> while this identification is useful (i.e. when a security policy makes
+> use of this object).  But this identification data should be freed once
+> no policy is using it.  This ephemeral tagging should not and may not be
+> written in the filesystem.  We then need to manage the lifetime of a
+> rule according to the lifetime of its objects.  To avoid a global lock,
+> this implementation make use of RCU and counters to safely reference
+> objects.
+>
+> A following commit uses this generic object management for inodes.
+>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> Reviewed-by: Jann Horn <jannh@google.com>
 
-> Add minidump id for modem in sm8150 chipset so that the regions to be
-> included in the coredump generated upon a crash is based on the minidump
-> tables in SMEM instead of those in the ELF header.
-> 
-> Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+Still looks good, except for one comment:
 
-When reposting patches without modifications, please add any
-Acked-by, Reviewed-by or Tested-by that you received previously.
+[...]
+> +       /**
+> +        * @lock: Guards against concurrent modifications.  This lock mig=
+ht be
+> +        * held from the time @usage drops to zero until any weak referen=
+ces
+> +        * from @underobj to this object have been cleaned up.
+> +        *
+> +        * Lock ordering: inode->i_lock nests inside this.
+> +        */
+> +       spinlock_t lock;
 
-
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Regards,
-Bjorn
-
-> ---
->  drivers/remoteproc/qcom_q6v5_pas.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
-> index ca05c2ef..e61ef88 100644
-> --- a/drivers/remoteproc/qcom_q6v5_pas.c
-> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
-> @@ -630,6 +630,7 @@ static const struct adsp_data mpss_resource_init = {
->  	.crash_reason_smem = 421,
->  	.firmware_name = "modem.mdt",
->  	.pas_id = 4,
-> +	.minidump_id = 3,
->  	.has_aggre2_clk = false,
->  	.auto_boot = false,
->  	.active_pd_names = (char*[]){
-> -- 
-> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+Why did you change this to "might be held" (v22 had "must")? Is the
+"might" a typo?
