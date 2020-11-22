@@ -2,92 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E1CC56201
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 05:43:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE734C63777
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 07:30:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FBA820789
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 05:43:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71D1921973
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 07:30:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VVgHO3AP"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="MFWHJNou"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbgKVFm6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Nov 2020 00:42:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54854 "EHLO
+        id S1727369AbgKVHaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Nov 2020 02:30:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbgKVFm6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 00:42:58 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B10C0613CF;
-        Sat, 21 Nov 2020 21:42:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=JC0o2YFP3/XK0Z+DYUzEpVTffCSvfBkCYVaE/ZBBaNE=; b=VVgHO3APzvYMuhhXiRLhCWzsuM
-        vh5lklOC6Ypiici9y0PGBh7jmc8k3NZ8PltaQ0wYV6KfI2gBR1p9qxzjOxF6HnDZOjSBM5cgu0Jwh
-        V2DVnQpFEgUQCknT3OQ2vNNtRGvMBce8xl3/NYowgi0vNefgjs0QK4qmTCbPS7f+AbTlhc1TkNU7J
-        c4b6/WSaP+CCYjkA8ZZbyFc5qV8Xnv54eVLB1dxc2+qReKIsQZp1h1NbwyHQuLbNZNnVlReJHnkYS
-        4ssLHMmstHsXFRP06d/8lnyB4KumhNlDzecNnuZ8pOJl6hEYp1FLLVfHBM8ZWvEkSgnOeIWGTRCqx
-        jZrNASXw==;
-Received: from [2601:1c0:6280:3f0::bcc4]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kgi9H-0005cA-FL; Sun, 22 Nov 2020 05:42:55 +0000
-Subject: Re: [RFC PATCH v2 00/26] Make reporting-bugs easier to grasp and yet
- more detailed & helpful
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1605203187.git.linux@leemhuis.info>
- <20201113153313.68ff210c@lwn.net>
- <458eb542-ff4d-e734-67fd-01e8378d4864@leemhuis.info>
- <20201118172958.5b014a44@lwn.net>
- <2dcea97c-7b98-1ad2-d2ba-e7f7d77dc855@leemhuis.info>
- <20201120145813.76b7b326@lwn.net>
- <dda474a6-db81-89bb-1f9f-ccf2558d2840@leemhuis.info>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b5f5dfad-07bb-b518-0dff-3aa340333046@infradead.org>
-Date:   Sat, 21 Nov 2020 21:42:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        with ESMTP id S1727244AbgKVHaV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 02:30:21 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B320DC0613CF
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2020 23:30:19 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id c66so11960932pfa.4
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2020 23:30:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=KYx1eNdrI2dF7Hg46yl8EzwrSDaEmC+lVYIEoOmHAZg=;
+        b=MFWHJNoutPM2IP/2KjbFlh07dajFWsb4OR5iaq7tTrbrBiv1J9ipJHp7s2T+9CIqUs
+         G4Q2B02f6N6HpHvCZmvqQtAhRbHzDe2c2HX8d6nn6lyr7MFldRlwe3VFc76kEzpEFnr3
+         mR2UY7qxIURkaNtpi7Fe7OARFhB0wpuXwb9VXc6H0bou1ALOkYZ/uQGHUrupS9WLoMXf
+         5M6BxjInvATYW4fpAAuOvy+LXdyMt/KH+73/AFs47qzgS0SKPax1Ibz9IUB95OlHmniq
+         wWFiOvlDmmTkmoTGp/+lBpNToNGrirR0vKxUY6lW3s8vwZFHA4iDBaE97V8tnAi2klQb
+         mBPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KYx1eNdrI2dF7Hg46yl8EzwrSDaEmC+lVYIEoOmHAZg=;
+        b=GyEnmhZgb7OGREvfuDQLlzYsf4qEa4ZG98Xz+RAocNW+NOUN2JPBHWNBq0CPG+oFyI
+         9GKS02kftn0v+GGwXjT6YUnTdrSh28/V/hiqsPR52hBhHumRd/CVU99711ygZBg6yR7p
+         p+zLxTEXTjDb1sRfvzyAV9OoN96tqDVZ12cliXZJUVNHqfHZPPK7ho0QnO/V0SkrvfV2
+         QXO5d5Bgc/VELIgl/QhBrM8BkvF5mXjqAg4CcUFJOaNiM02H2yQX+a9mOZw3IDRtosVp
+         0UXKwzWopqwmn8MBHIi3Bp/xxB/6YTQJmoJpZIVPgXnhkZR3ROvrvxn4uKBC5IP+X5Y4
+         ozZw==
+X-Gm-Message-State: AOAM531P5QwB8JKiYlzyfThXEVeL0jd/OUfQL4pOfz4x8ispH1Y9GUfs
+        sNhHes6RHG6xL5hg5uKJQaZqhC+O9BcvI1tuP0FmrQ==
+X-Google-Smtp-Source: ABdhPJzwOPZM4fxIMmlJL214kfq5JIf5rNiHXammfFM4uFN7bttIzKgBVBMoHgWIZEjM9tTva2o+eVDdjfOFUivMjxk=
+X-Received: by 2002:a17:90a:ae14:: with SMTP id t20mr19309393pjq.13.1606030219110;
+ Sat, 21 Nov 2020 23:30:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <dda474a6-db81-89bb-1f9f-ccf2558d2840@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120084202.GJ3200@dhcp22.suse.cz> <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
+ <20201120093912.GM3200@dhcp22.suse.cz> <eda50930-05b5-0ad9-2985-8b6328f92cec@redhat.com>
+ <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
+In-Reply-To: <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Sun, 22 Nov 2020 15:29:40 +0800
+Message-ID: <CAMZfGtUSc6QNTy34U5GQgFMzJ6_pcYJUFZwy4hNexrGN0f0hKA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
+ hugetlb page
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/21/20 9:33 PM, Thorsten Leemhuis wrote:
-> Am 20.11.20 um 22:58 schrieb Jonathan Corbet:
->> On Fri, 20 Nov 2020 11:46:07 +0100
->> Thorsten Leemhuis <linux@leemhuis.info> wrote:
->>> Am 19.11.20 um 01:29 schrieb Jonathan Corbet:
->>>> On Sun, 15 Nov 2020 11:13:52 +0100
->>>> Thorsten Leemhuis <linux@leemhuis.info> wrote:
->>>
->>>>    - Collapse the whole thing down to a patch adding reporting-bugs-v2.rst
->>>>      (or some suitable name).  I do wonder if it should also move to the
->>>>      process manual as part of this; not only admins will report bugs.
->>> After a night's sleep and Randy's comment I for now settled on
->>> Documentation/admin-guide/reporting-issues.rst
->> Keeping it in the admin guide is OK.  Not sure about the name, though; if
->> you're really dead set against bugs, maybe reporting-problems.rst?
-> 
-> Well, I'm not dead set against bugs, but it somehow seems wrong to me: people have problems/issues they deal with, which in the end might turn out to not be a bug/error in the code at all. That afaics why tracker software for such reports is often called "issue tracker" instead of "bug tracker" (and nearly nobody calls them problem trackers afaics).. That's why I went with "issues" in the name and the text.
-> 
-> But in the end I'm not a native English speaker, so I guess it's better if I follow advice from those. Randy, what would you choose?
+On Sat, Nov 21, 2020 at 1:47 AM Mike Kravetz <mike.kravetz@oracle.com> wrot=
+e:
+>
+> On 11/20/20 1:43 AM, David Hildenbrand wrote:
+> > On 20.11.20 10:39, Michal Hocko wrote:
+> >> On Fri 20-11-20 10:27:05, David Hildenbrand wrote:
+> >>> On 20.11.20 09:42, Michal Hocko wrote:
+> >>>> On Fri 20-11-20 14:43:04, Muchun Song wrote:
+> >>>> [...]
+> >>>>
+> >>>> Thanks for improving the cover letter and providing some numbers. I =
+have
+> >>>> only glanced through the patchset because I didn't really have more =
+time
+> >>>> to dive depply into them.
+> >>>>
+> >>>> Overall it looks promissing. To summarize. I would prefer to not hav=
+e
+> >>>> the feature enablement controlled by compile time option and the ker=
+nel
+> >>>> command line option should be opt-in. I also do not like that freein=
+g
+> >>>> the pool can trigger the oom killer or even shut the system down if =
+no
+> >>>> oom victim is eligible.
+> >>>>
+> >>>> One thing that I didn't really get to think hard about is what is th=
+e
+> >>>> effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
+> >>>> invalid when racing with the split. How do we enforce that this won'=
+t
+> >>>> blow up?
+> >>>
+> >>> I have the same concerns - the sections are online the whole time and
+> >>> anybody with pfn_to_online_page() can grab them
+> >>>
+> >>> I think we have similar issues with memory offlining when removing th=
+e
+> >>> vmemmap, it's just very hard to trigger and we can easily protect by
+> >>> grabbing the memhotplug lock.
+> >>
+> >> I am not sure we can/want to span memory hotplug locking out to all pf=
+n
+> >> walkers. But you are right that the underlying problem is similar but
+> >> much harder to trigger because vmemmaps are only removed when the
+> >> physical memory is hotremoved and that happens very seldom. Maybe it
+> >> will happen more with virtualization usecases. But this work makes it
+> >> even more tricky. If a pfn walker races with a hotremove then it would
+> >> just blow up when accessing the unmapped physical address space. For
+> >> this feature a pfn walker would just grab a real struct page re-used f=
+or
+> >> some unpredictable use under its feet. Any failure would be silent and
+> >> hard to debug.
+> >
+> > Right, we don't want the memory hotplug locking, thus discussions regar=
+ding rcu. Luckily, for now I never saw a BUG report regarding this - maybe =
+because the time between memory offlining (offline_pages()) and memory/vmem=
+map getting removed (try_remove_memory()) is just too long. Someone would h=
+ave to sleep after pfn_to_online_page() for quite a while to trigger it.
+> >
+> >>
+> >> [...]
+> >>> To keep things easy, maybe simply never allow to free these hugetlb p=
+ages
+> >>> again for now? If they were reserved during boot and the vmemmap cond=
+ensed,
+> >>> then just let them stick around for all eternity.
+> >>
+> >> Not sure I understand. Do you propose to only free those vmemmap pages
+> >> when the pool is initialized during boot time and never allow to free
+> >> them up? That would certainly make it safer and maybe even simpler wrt
+> >> implementation.
+> >
+> > Exactly, let's keep it simple for now. I guess most use cases of this (=
+virtualization, databases, ...) will allocate hugepages during boot and nev=
+er free them.
+>
+> Not sure if I agree with that last statement.  Database and virtualizatio=
+n
+> use cases from my employer allocate allocate hugetlb pages after boot.  I=
+t
+> is shortly after boot, but still not from boot/kernel command line.
+>
+> Somewhat related, but not exactly addressing this issue ...
+>
+> One idea discussed in a previous patch set was to disable PMD/huge page
+> mapping of vmemmap if this feature was enabled.  This would eliminate a b=
+unch
+> of the complex code doing page table manipulation.  It does not address
+> the issue of struct page pages going away which is being discussed here,
+> but it could be a way to simply the first version of this code.  If this
+> is going to be an 'opt in' feature as previously suggested, then eliminat=
+ing
+> the  PMD/huge page vmemmap mapping may be acceptable.  My guess is that
+> sysadmins would only 'opt in' if they expect most of system memory to be =
+used
+> by hugetlb pages.  We certainly have database and virtualization use case=
+s
+> where this is true.
 
-I'm fine with "issues."
+Hi Mike,
 
-I do recall that at my first job (that was in the previous century or
-previous millennium) they were called "trouble reports."  :)
+Yeah, I agree with you that the first version of this feature should be
+simply. I can do that (disable PMD/huge page mapping of vmemmap)
+in the next version patch. But I have another question: what the
+problem is when struct page pages go away? I have not understood
+the issues discussed here, hope you can answer for me. Thanks.
 
--- 
-~Randy
+> --
+> Mike Kravetz
 
+
+
+--=20
+Yours,
+Muchun
