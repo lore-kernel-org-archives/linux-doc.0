@@ -2,98 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A00C5519F
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 13:13:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BC9C56202
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 13:30:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A33620731
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 13:13:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F7FC2074B
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 13:30:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="tS642YVi"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="FApQXX5y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727424AbgKVNNL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Nov 2020 08:13:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42938 "EHLO mail.kernel.org"
+        id S1727757AbgKVNap (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Nov 2020 08:30:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726436AbgKVNNK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 22 Nov 2020 08:13:10 -0500
+        id S1726436AbgKVNao (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 22 Nov 2020 08:30:44 -0500
 Received: from kernel.org (unknown [77.125.7.142])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EEE5A20724;
-        Sun, 22 Nov 2020 13:13:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F44620738;
+        Sun, 22 Nov 2020 13:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606050790;
-        bh=TjQ8YDqQM6PWcMTGEeeBPCud8rCB1HrhNYqg0vnG+qc=;
+        s=default; t=1606051844;
+        bh=Ui9+fAg9vTpjZ7mDJtx+D82PTfYwHRUF4Gto5x3fYIQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tS642YVi4bL5YLam4oXfNr2AXnFJqWbXaNv+E1cyO3Bchqe0R6lYTpj8GZViEK5eN
-         gHj74pvPqj/YVHgEPtFxhJL2vP1KB0xoaX0xVA79MarKDR3SbePLncvwsXffd/NoJU
-         oux/NAKCQv1QssX5Ng+F5vtlhUPGC0BgRzla0oZA=
-Date:   Sun, 22 Nov 2020 15:13:03 +0200
+        b=FApQXX5yCoQF7ilrazML+580A6EUDC0weaeM0D0xuzwM71B3h40mSZdgpcJumUEak
+         MUrEAso1A8L+Rp9SbsM6Ips8fCa3p7bncJcSxsSPyreo6u9/JJyTRBcJnDmbUVqjYH
+         kVSb9u2pp0auWa98VBPxELsK19/KxaMUP2sPsXDE=
+Date:   Sun, 22 Nov 2020 15:30:30 +0200
 From:   Mike Rapoport <rppt@kernel.org>
-To:     Barry Song <song.bao.hua@hisilicon.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxarm@huawei.com
-Subject: Re: [PATCH] Documentation/admin-guide: mark memmap parameter is
- supported by a few architectures
-Message-ID: <20201122131303.GF8537@kernel.org>
-References: <20201118014145.29596-1-song.bao.hua@hisilicon.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 21/21] mm/hugetlb: Disable freeing vmemmap if struct
+ page size is not power of two
+Message-ID: <20201122133030.GG8537@kernel.org>
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120064325.34492-22-songmuchun@bytedance.com>
+ <20201120082552.GI3200@dhcp22.suse.cz>
+ <9b26c749-3bb6-4b16-d1fc-da7ec5d1e8a5@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201118014145.29596-1-song.bao.hua@hisilicon.com>
+In-Reply-To: <9b26c749-3bb6-4b16-d1fc-da7ec5d1e8a5@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 02:41:45PM +1300, Barry Song wrote:
-> early_param memmap is only implemented on X86, MIPS and XTENSA. To avoid
-> wasting users’ time on trying this on platform like ARM, mark it clearly.
+On Fri, Nov 20, 2020 at 10:15:30AM +0100, David Hildenbrand wrote:
+> On 20.11.20 09:25, Michal Hocko wrote:
+> > On Fri 20-11-20 14:43:25, Muchun Song wrote:
+> > > We only can free the unused vmemmap to the buddy system when the
+> > > size of struct page is a power of two.
+> > 
+> > Can we actually have !power_of_2 struct pages?
 > 
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> AFAIK multiples of 8 bytes (56, 64, 72) are possible.
 
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-
-> ---
->  * the background was that I spent one hour on using memmap on arm64, only
->    to find memmap= is not implemented on most architectures;
-> 
->  Documentation/admin-guide/kernel-parameters.rst | 1 +
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-> index 6d421694d98e..06fb1b4aa849 100644
-> --- a/Documentation/admin-guide/kernel-parameters.rst
-> +++ b/Documentation/admin-guide/kernel-parameters.rst
-> @@ -172,6 +172,7 @@ parameter is applicable::
->  	X86	Either 32-bit or 64-bit x86 (same as X86-32+X86-64)
->  	X86_UV	SGI UV support is enabled.
->  	XEN	Xen support is enabled
-> +	XTENSA	xtensa architecture is enabled.
->  
->  In addition, the following text indicates that the option::
->  
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 526d65d8573a..8bdbc555f221 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2709,7 +2709,7 @@
->  			option description.
->  
->  	memmap=nn[KMG]@ss[KMG]
-> -			[KNL] Force usage of a specific region of memory.
-> +			[KNL, X86, MIPS, XTENSA] Force usage of a specific region of memory.
->  			Region of memory to be used is from ss to ss+nn.
->  			If @ss[KMG] is omitted, it is equivalent to mem=nn[KMG],
->  			which limits max address to nn[KMG].
+Or multiples of 4 for 32-bit (28, 32, 36). 
+ 
 > -- 
-> 2.25.1
+> Thanks,
+> 
+> David / dhildenb
+> 
 > 
 
 -- 
