@@ -2,207 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE734C63777
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 07:30:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F302BC63777
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 09:26:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71D1921973
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 07:30:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF7FC2084C
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 09:26:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="MFWHJNou"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VSGqEpxg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727369AbgKVHaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Nov 2020 02:30:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
+        id S1727369AbgKVJ0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Nov 2020 04:26:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727244AbgKVHaV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 02:30:21 -0500
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B320DC0613CF
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2020 23:30:19 -0800 (PST)
-Received: by mail-pf1-x444.google.com with SMTP id c66so11960932pfa.4
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2020 23:30:19 -0800 (PST)
+        with ESMTP id S1727364AbgKVJ0A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 04:26:00 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF15BC0613CF;
+        Sun, 22 Nov 2020 01:25:59 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id q34so11400097pgb.11;
+        Sun, 22 Nov 2020 01:25:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=KYx1eNdrI2dF7Hg46yl8EzwrSDaEmC+lVYIEoOmHAZg=;
-        b=MFWHJNoutPM2IP/2KjbFlh07dajFWsb4OR5iaq7tTrbrBiv1J9ipJHp7s2T+9CIqUs
-         G4Q2B02f6N6HpHvCZmvqQtAhRbHzDe2c2HX8d6nn6lyr7MFldRlwe3VFc76kEzpEFnr3
-         mR2UY7qxIURkaNtpi7Fe7OARFhB0wpuXwb9VXc6H0bou1ALOkYZ/uQGHUrupS9WLoMXf
-         5M6BxjInvATYW4fpAAuOvy+LXdyMt/KH+73/AFs47qzgS0SKPax1Ibz9IUB95OlHmniq
-         wWFiOvlDmmTkmoTGp/+lBpNToNGrirR0vKxUY6lW3s8vwZFHA4iDBaE97V8tnAi2klQb
-         mBPQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yLNf64cxRwyCkQ3UwwzNzMfSfN7sMJmJohesR2Q1JJA=;
+        b=VSGqEpxg+T1nAqFaEn3HalChOB0AZCOeaimtpZAWMCeItGIKb+L2eqvE2LdZE+6aUS
+         wjVBN338VwTR7dCF0NjdZYHmv4PRFQoUPbXhCvQk/ZMSCLPGrSS2XUXd9ZjzbgX5ES48
+         QqJH8cMowiK/6Q8aWHzGsDyOX187lpXhGNWmf6L+R5jgbvdCFv4IMDmK7uCw0RZwk1xr
+         XGv7SAaRVsi+a90swe90WjJNoskwf9M01bU6DLqzkNe7u1BtoLPx8B0QKCrJgfUv9F4c
+         57llE+egVUG0ldkzKVALREUnxgOEg721fHLRWG/l9CtQsmBy+fTR56VIAiHcoSE52+9J
+         XZLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KYx1eNdrI2dF7Hg46yl8EzwrSDaEmC+lVYIEoOmHAZg=;
-        b=GyEnmhZgb7OGREvfuDQLlzYsf4qEa4ZG98Xz+RAocNW+NOUN2JPBHWNBq0CPG+oFyI
-         9GKS02kftn0v+GGwXjT6YUnTdrSh28/V/hiqsPR52hBhHumRd/CVU99711ygZBg6yR7p
-         p+zLxTEXTjDb1sRfvzyAV9OoN96tqDVZ12cliXZJUVNHqfHZPPK7ho0QnO/V0SkrvfV2
-         QXO5d5Bgc/VELIgl/QhBrM8BkvF5mXjqAg4CcUFJOaNiM02H2yQX+a9mOZw3IDRtosVp
-         0UXKwzWopqwmn8MBHIi3Bp/xxB/6YTQJmoJpZIVPgXnhkZR3ROvrvxn4uKBC5IP+X5Y4
-         ozZw==
-X-Gm-Message-State: AOAM531P5QwB8JKiYlzyfThXEVeL0jd/OUfQL4pOfz4x8ispH1Y9GUfs
-        sNhHes6RHG6xL5hg5uKJQaZqhC+O9BcvI1tuP0FmrQ==
-X-Google-Smtp-Source: ABdhPJzwOPZM4fxIMmlJL214kfq5JIf5rNiHXammfFM4uFN7bttIzKgBVBMoHgWIZEjM9tTva2o+eVDdjfOFUivMjxk=
-X-Received: by 2002:a17:90a:ae14:: with SMTP id t20mr19309393pjq.13.1606030219110;
- Sat, 21 Nov 2020 23:30:19 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yLNf64cxRwyCkQ3UwwzNzMfSfN7sMJmJohesR2Q1JJA=;
+        b=sK8joSUKnNgJmwQEN05r1+kR9O2uy1AXR8Jkub6VSB6iZOEOXPrKdpK6ia+qWb0Tqh
+         gdma27AchDL7Fjca5+x0qrOY15pF0fX7p2nHXnWP29tPumCiXJngg0XQxuUC7cXc2jDf
+         PlwxALmOKdJhS43GXDu3nktG6DqwZzzb3WoDaQl53LxYHYND+DOcFv7nRDennUA8tG0z
+         qwPrZHLoJy5uHXrakERvwmM/UOKhRCM/+cqwGozTqMm6zR1lQS4bLd9P2oKwZeMSzeWG
+         Tafu2UuW+DY8bw4HGOllO0HnizrpsVivBzgV4VGx65DCkJwoKjnkm1DtGPeSZl2s+na9
+         2Jeg==
+X-Gm-Message-State: AOAM532EvKa5pOc14AB/C31+VKx0ZkXCt8JuBeoZR/Dc7fVP557sYFIZ
+        IXQV94NKqG8zfARsR0VcAM8=
+X-Google-Smtp-Source: ABdhPJzypt4O1tQ6sk09hDVizpeDqRCGRkN6F1rnvELSMIOyTUDFOtfBzn3iJtQrjkPjik5L4WoYEg==
+X-Received: by 2002:a62:7ac2:0:b029:18b:c5bb:303d with SMTP id v185-20020a627ac20000b029018bc5bb303dmr20950694pfc.71.1606037159002;
+        Sun, 22 Nov 2020 01:25:59 -0800 (PST)
+Received: from localhost.localdomain ([240d:1a:8f0:6c00:89cb:88d1:b6b2:3345])
+        by smtp.gmail.com with ESMTPSA id k23sm3643090pfk.50.2020.11.22.01.25.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2020 01:25:57 -0800 (PST)
+From:   Alexandre Courbot <gnurou@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Alexandre Courbot <gnurou@gmail.com>
+Subject: [PATCH] Documentation: gpio: fix typo and unclear legacy API section
+Date:   Sun, 22 Nov 2020 18:25:48 +0900
+Message-Id: <20201122092548.61979-1-gnurou@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120084202.GJ3200@dhcp22.suse.cz> <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
- <20201120093912.GM3200@dhcp22.suse.cz> <eda50930-05b5-0ad9-2985-8b6328f92cec@redhat.com>
- <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
-In-Reply-To: <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Sun, 22 Nov 2020 15:29:40 +0800
-Message-ID: <CAMZfGtUSc6QNTy34U5GQgFMzJ6_pcYJUFZwy4hNexrGN0f0hKA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
- hugetlb page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 21, 2020 at 1:47 AM Mike Kravetz <mike.kravetz@oracle.com> wrot=
-e:
->
-> On 11/20/20 1:43 AM, David Hildenbrand wrote:
-> > On 20.11.20 10:39, Michal Hocko wrote:
-> >> On Fri 20-11-20 10:27:05, David Hildenbrand wrote:
-> >>> On 20.11.20 09:42, Michal Hocko wrote:
-> >>>> On Fri 20-11-20 14:43:04, Muchun Song wrote:
-> >>>> [...]
-> >>>>
-> >>>> Thanks for improving the cover letter and providing some numbers. I =
-have
-> >>>> only glanced through the patchset because I didn't really have more =
-time
-> >>>> to dive depply into them.
-> >>>>
-> >>>> Overall it looks promissing. To summarize. I would prefer to not hav=
-e
-> >>>> the feature enablement controlled by compile time option and the ker=
-nel
-> >>>> command line option should be opt-in. I also do not like that freein=
-g
-> >>>> the pool can trigger the oom killer or even shut the system down if =
-no
-> >>>> oom victim is eligible.
-> >>>>
-> >>>> One thing that I didn't really get to think hard about is what is th=
-e
-> >>>> effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
-> >>>> invalid when racing with the split. How do we enforce that this won'=
-t
-> >>>> blow up?
-> >>>
-> >>> I have the same concerns - the sections are online the whole time and
-> >>> anybody with pfn_to_online_page() can grab them
-> >>>
-> >>> I think we have similar issues with memory offlining when removing th=
-e
-> >>> vmemmap, it's just very hard to trigger and we can easily protect by
-> >>> grabbing the memhotplug lock.
-> >>
-> >> I am not sure we can/want to span memory hotplug locking out to all pf=
-n
-> >> walkers. But you are right that the underlying problem is similar but
-> >> much harder to trigger because vmemmaps are only removed when the
-> >> physical memory is hotremoved and that happens very seldom. Maybe it
-> >> will happen more with virtualization usecases. But this work makes it
-> >> even more tricky. If a pfn walker races with a hotremove then it would
-> >> just blow up when accessing the unmapped physical address space. For
-> >> this feature a pfn walker would just grab a real struct page re-used f=
-or
-> >> some unpredictable use under its feet. Any failure would be silent and
-> >> hard to debug.
-> >
-> > Right, we don't want the memory hotplug locking, thus discussions regar=
-ding rcu. Luckily, for now I never saw a BUG report regarding this - maybe =
-because the time between memory offlining (offline_pages()) and memory/vmem=
-map getting removed (try_remove_memory()) is just too long. Someone would h=
-ave to sleep after pfn_to_online_page() for quite a while to trigger it.
-> >
-> >>
-> >> [...]
-> >>> To keep things easy, maybe simply never allow to free these hugetlb p=
-ages
-> >>> again for now? If they were reserved during boot and the vmemmap cond=
-ensed,
-> >>> then just let them stick around for all eternity.
-> >>
-> >> Not sure I understand. Do you propose to only free those vmemmap pages
-> >> when the pool is initialized during boot time and never allow to free
-> >> them up? That would certainly make it safer and maybe even simpler wrt
-> >> implementation.
-> >
-> > Exactly, let's keep it simple for now. I guess most use cases of this (=
-virtualization, databases, ...) will allocate hugepages during boot and nev=
-er free them.
->
-> Not sure if I agree with that last statement.  Database and virtualizatio=
-n
-> use cases from my employer allocate allocate hugetlb pages after boot.  I=
-t
-> is shortly after boot, but still not from boot/kernel command line.
->
-> Somewhat related, but not exactly addressing this issue ...
->
-> One idea discussed in a previous patch set was to disable PMD/huge page
-> mapping of vmemmap if this feature was enabled.  This would eliminate a b=
-unch
-> of the complex code doing page table manipulation.  It does not address
-> the issue of struct page pages going away which is being discussed here,
-> but it could be a way to simply the first version of this code.  If this
-> is going to be an 'opt in' feature as previously suggested, then eliminat=
-ing
-> the  PMD/huge page vmemmap mapping may be acceptable.  My guess is that
-> sysadmins would only 'opt in' if they expect most of system memory to be =
-used
-> by hugetlb pages.  We certainly have database and virtualization use case=
-s
-> where this is true.
+The "Interacting With the Legacy GPIO Subsystem" of the documentation
+was unclear at best, and even included a sentence that seems to say the
+opposite of what it should say about the lifetime of the return value of
+the conversion functions.
 
-Hi Mike,
+Try to clarify things a bit and hopefully make that section more
+readable.
 
-Yeah, I agree with you that the first version of this feature should be
-simply. I can do that (disable PMD/huge page mapping of vmemmap)
-in the next version patch. But I have another question: what the
-problem is when struct page pages go away? I have not understood
-the issues discussed here, hope you can answer for me. Thanks.
+Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+---
+ Documentation/driver-api/gpio/consumer.rst | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-> --
-> Mike Kravetz
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index 423492d125b9..173e4c7b037d 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -440,18 +440,20 @@ For details refer to Documentation/firmware-guide/acpi/gpio-properties.rst
+ 
+ Interacting With the Legacy GPIO Subsystem
+ ==========================================
+-Many kernel subsystems still handle GPIOs using the legacy integer-based
+-interface. Although it is strongly encouraged to upgrade them to the safer
+-descriptor-based API, the following two functions allow you to convert a GPIO
+-descriptor into the GPIO integer namespace and vice-versa::
++Many kernel subsystems and drivers still handle GPIOs using the legacy
++integer-based interface. It is strongly recommended to update these to the new
++gpiod interface. For cases where both interfaces need to be used, the following
++two functions allow to convert a GPIO descriptor into the GPIO integer namespace
++and vice-versa::
+ 
+ 	int desc_to_gpio(const struct gpio_desc *desc)
+ 	struct gpio_desc *gpio_to_desc(unsigned gpio)
+ 
+-The GPIO number returned by desc_to_gpio() can be safely used as long as the
+-GPIO descriptor has not been freed. All the same, a GPIO number passed to
+-gpio_to_desc() must have been properly acquired, and usage of the returned GPIO
+-descriptor is only possible after the GPIO number has been released.
++The GPIO number returned by desc_to_gpio() can safely be used as a parameter of
++the gpio\_*() functions for as long as the GPIO descriptor `desc` is not freed.
++All the same, a GPIO number passed to gpio_to_desc() must first be properly
++acquired using e.g. gpio_request_one(), and the returned GPIO descriptor is only
++considered valid until that GPIO number is released using gpio_free().
+ 
+ Freeing a GPIO obtained by one API with the other API is forbidden and an
+ unchecked error.
+-- 
+2.29.2
 
-
-
---=20
-Yours,
-Muchun
