@@ -2,246 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B35C63697
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 21:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 721C1C63697
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 21:57:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD7C0206FB
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 21:20:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A6BC20715
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 21:57:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fbC4IE3M"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Hn3EFG/p"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730621AbgKWVUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 16:20:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730286AbgKWVUC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 16:20:02 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78329C061A4E
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 13:20:01 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id r24so9668401lfm.8
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 13:20:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=D4j9ipcYfkgbYW3IfC3r3VIMquqoN+L6cwpP+cS0BfI=;
-        b=fbC4IE3Ma5k4BEntewlv8v44ErN69EIIdl+LZnfvxK31fInFQJfwmWF2sg7nACKjA9
-         I6b6ZNKtoWl64a5fVPHAmoBsBsZ6nToMj+Obly0NP8Ez97fTOJgdkj7137/mnilNhpEh
-         BqN/AIpYIzPy50MtZSNUjDDXyHutg+qwuyV4uGBbMumFfpKVEfROV/wlL9zO6wHExM4K
-         moZZ3tIvtcR81IIWpQIx6JoA2Jqcw0URh9PDkR4MFHcyap+48kzcU5s1UCS3OtJ7ukUf
-         tIaKNvwoxdNVe3mpc7VFjd4B+mci1IQXbzUjkulToK+KErFEffmZ/hPOqt64fX6Z14DN
-         s4EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=D4j9ipcYfkgbYW3IfC3r3VIMquqoN+L6cwpP+cS0BfI=;
-        b=giPHqNcwc298B2JfrGx64tWpKPyo0YDLKDwz/XFpncvNdhBkRc1/7b2g6MuXJank0p
-         FFDuIrHV7aGS9EAArUUtyfpTG5zqhhzN5J7FnSpI/qk2Xiv90cCjEIVrIpags2HKWS+K
-         CzDhjhbHe4dQCj4N1ZQjZPxpiiVpBrgPEbnLus8AfIOmvItotFVvBPj90pACNbqebeNq
-         7RhS0LyenjTH36CilVgGAnUgDDCnAYUG0z62bNx/So/WiIlTK4zO6X9GDXPOCkrJF+gg
-         hNlDT8Zh/fO2GehHat41WuKipsU/4mI8AnooFMSXDW68eMlI5NJpdPTUk8HmDLy+YMd+
-         OdQQ==
-X-Gm-Message-State: AOAM532JTbRBiSteTCLBf9TQNUprchegjeKT23F6GIWsYqa7MTPMXP7p
-        +nRfyinvRglbX8my1XQr9WWDbHgVqESNeHx1drl0FA==
-X-Google-Smtp-Source: ABdhPJyZNIPvvHuqqE5lpIUT0dScn3UUr49Bfga2lpEazQCiXcQJAC/sc7oZqgLOpkGR6U56kkuVO/8yEnsIFrrECV4=
-X-Received: by 2002:ac2:5a49:: with SMTP id r9mr381970lfn.381.1606166399488;
- Mon, 23 Nov 2020 13:19:59 -0800 (PST)
+        id S1730869AbgKWV5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 16:57:24 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:57998 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729996AbgKWV5X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 16:57:23 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0ANLmhqb183588;
+        Mon, 23 Nov 2020 21:54:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=QS70EniYffD3NO8MOrygFxL3m3h1RyzaH/V0dC+MHjo=;
+ b=Hn3EFG/pozRIF94rlt1UjKxA3fNixYHqSUNMNWGUBaMEePuRnCeMT/TWH1DETIRTlJ54
+ p2T3B4R49Sof2BCWUOSiujuJxjnaynrk2umU+VfMdvuTUeHmjqNHZemtLCgmKxDrG1+A
+ XPt7ZTVYw4hYZIQ3ajqxRLeSkElT7k6BryAtLWIkA6y3cYZkxyQJkZsE/B1c2CGhhABp
+ bTlDmPKegynrlgePslwfjyWuZnwyATt+IlyuN6B8eH/j1/5z/oWKK2IOVplDJ9au/eef
+ yP4/SS4YVFS9TNFJkW5U6mpJRe/lQTUn7gAPMw6Q8Z3tIEOTuN3N7d20ILU5BILsuDYE dQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2130.oracle.com with ESMTP id 34xrdaqs49-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 23 Nov 2020 21:54:25 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0ANLpdB9006174;
+        Mon, 23 Nov 2020 21:52:25 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 34yx8j06x0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 23 Nov 2020 21:52:25 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0ANLqHDG021845;
+        Mon, 23 Nov 2020 21:52:18 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 23 Nov 2020 13:52:17 -0800
+Subject: Re: [PATCH v5 00/21] Free some vmemmap pages of hugetlb page
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, song.bao.hua@hisilicon.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120084202.GJ3200@dhcp22.suse.cz>
+ <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
+ <20201120093912.GM3200@dhcp22.suse.cz>
+ <eda50930-05b5-0ad9-2985-8b6328f92cec@redhat.com>
+ <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
+ <20201123073842.GA27488@dhcp22.suse.cz>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <37f4bf02-c438-9fbd-32ea-8bedbe30c4da@oracle.com>
+Date:   Mon, 23 Nov 2020 13:52:13 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20201112205141.775752-1-mic@digikod.net> <20201112205141.775752-8-mic@digikod.net>
- <CAG48ez3HA63CX852LLDFCcNyzRGwAr3x_cvA1-t8tgDxfF1dOQ@mail.gmail.com>
- <1d524ea9-85eb-049c-2156-05cad6d6fcfd@digikod.net> <CAG48ez2cmsrZbUEmQmzPQugJikkvfs_MWmMizxmoyspCeXAXRQ@mail.gmail.com>
- <7831e55d-34ef-cf74-3d47-15e2e1edf96c@digikod.net>
-In-Reply-To: <7831e55d-34ef-cf74-3d47-15e2e1edf96c@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 23 Nov 2020 22:19:32 +0100
-Message-ID: <CAG48ez2V-eSH2+HL9zrYYD4QMpP4a5y8=mTQtk20PB0wUz_4Tw@mail.gmail.com>
-Subject: Re: [PATCH v24 07/12] landlock: Support filesystem access-control
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>, James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201123073842.GA27488@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9814 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 suspectscore=2
+ bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011230139
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9814 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 impostorscore=0 mlxscore=0
+ mlxlogscore=999 spamscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 adultscore=0 suspectscore=2 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011230139
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 10:16 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
- wrote:
-> On 23/11/2020 20:44, Jann Horn wrote:
-> > On Sat, Nov 21, 2020 at 11:06 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.=
-net> wrote:
-> >> On 21/11/2020 08:00, Jann Horn wrote:
-> >>> On Thu, Nov 12, 2020 at 9:52 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod=
-.net> wrote:
-> >>>> Thanks to the Landlock objects and ruleset, it is possible to identi=
-fy
-> >>>> inodes according to a process's domain.  To enable an unprivileged
-> >>>> process to express a file hierarchy, it first needs to open a direct=
-ory
-> >>>> (or a file) and pass this file descriptor to the kernel through
-> >>>> landlock_add_rule(2).  When checking if a file access request is
-> >>>> allowed, we walk from the requested dentry to the real root, followi=
-ng
-> >>>> the different mount layers.  The access to each "tagged" inodes are
-> >>>> collected according to their rule layer level, and ANDed to create
-> >>>> access to the requested file hierarchy.  This makes possible to iden=
-tify
-> >>>> a lot of files without tagging every inodes nor modifying the
-> >>>> filesystem, while still following the view and understanding the use=
-r
-> >>>> has from the filesystem.
-> >>>>
-> >>>> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does no=
-t
-> >>>> keep the same struct inodes for the same inodes whereas these inodes=
- are
-> >>>> in use.
-> >>>>
-> >>>> This commit adds a minimal set of supported filesystem access-contro=
-l
-> >>>> which doesn't enable to restrict all file-related actions.  This is =
-the
-> >>>> result of multiple discussions to minimize the code of Landlock to e=
-ase
-> >>>> review.  Thanks to the Landlock design, extending this access-contro=
-l
-> >>>> without breaking user space will not be a problem.  Moreover, seccom=
-p
-> >>>> filters can be used to restrict the use of syscall families which ma=
-y
-> >>>> not be currently handled by Landlock.
-> >>>>
-> >>>> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> >>>> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-> >>>> Cc: James Morris <jmorris@namei.org>
-> >>>> Cc: Jann Horn <jannh@google.com>
-> >>>> Cc: Jeff Dike <jdike@addtoit.com>
-> >>>> Cc: Kees Cook <keescook@chromium.org>
-> >>>> Cc: Richard Weinberger <richard@nod.at>
-> >>>> Cc: Serge E. Hallyn <serge@hallyn.com>
-> >>>> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> >>>> ---
-> >>>>
-> >>>> Changes since v23:
-> >>>> * Enforce deterministic interleaved path rules.  To have consistent
-> >>>>   layered rules, granting access to a path implies that all accesses
-> >>>>   tied to inodes, from the requested file to the real root, must be
-> >>>>   checked.  Otherwise, stacked rules may result to overzealous
-> >>>>   restrictions.  By excluding the ability to add exceptions in the s=
-ame
-> >>>>   layer (e.g. /a allowed, /a/b denied, and /a/b/c allowed), we get
-> >>>>   deterministic interleaved path rules.  This removes an optimizatio=
-n
-> >>>
-> >>> I don't understand the "deterministic interleaved path rules" part.
-> >>
-> >> I explain bellow.
-> >>
-> >>>
-> >>>
-> >>> What if I have a policy like this?
-> >>>
-> >>> /home/user READ
-> >>> /home/user/Downloads READ+WRITE
-> >>>
-> >>> That's a reasonable policy, right?
-> >>
-> >> Definitely, I forgot this, thanks for the outside perspective!
-> >>
-> >>>
-> >>> If I then try to open /home/user/Downloads/foo in WRITE mode, the loo=
-p
-> >>> will first check against the READ+WRITE rule for /home/user, that
-> >>> check will pass, and then it will check against the READ rule for /,
-> >>> which will deny the access, right? That seems bad.
-> >>
-> >> Yes that was the intent.
-> >>
-> >>>
-> >>>
-> >>> The v22 code ensured that for each layer, the most specific rule (the
-> >>> first we encounter on the walk) always wins, right? What's the proble=
-m
-> >>> with that?
-> >>
-> >> This can be explained with the interleaved_masked_accesses test:
-> >> https://github.com/landlock-lsm/linux/blob/landlock-v24/tools/testing/=
-selftests/landlock/fs_test.c#L647
-> >>
-> >> In this case there is 4 stacked layers:
-> >> layer 1: allows s1d1/s1d2/s1d3/file1
-> >> layer 2: allows s1d1/s1d2/s1d3
-> >>          denies s1d1/s1d2
-> >> layer 3: allows s1d1
-> >> layer 4: allows s1d1/s1d2
-> >>
-> >> In the v23, access to file1 would be allowed until layer 3, but layer =
-4
-> >> would merge a new rule for the s1d2 inode. Because we don't record whe=
-re
-> >> exactly the access come from, we can't tell that layer 2 allowed acces=
-s
-> >> thanks to s1d3 and that its s1d2 rule was ignored. I think this behavi=
-or
-> >> doesn't make sense from the user point of view.
-> >
-> > Aah, I think I'm starting to understand the issue now. Basically, with
-> > the current UAPI, the semantics have to be "an access is permitted if,
-> > for each policy layer, at least one rule encountered on the pathwalk
-> > permits the access; rules that deny the access are irrelevant". And if
-> > it turns out that someone needs to be able to deny access to specific
-> > inodes, we'll have to extend struct landlock_path_beneath_attr.
->
-> Right, I'll add this to the documentation (aligned with the new
-> implementation).
->
-> >
-> > That reminds me... if we do need to make such a change in the future,
-> > it would be easier in terms of UAPI compatibility if
-> > landlock_add_rule() used copy_struct_from_user(), which is designed to
-> > create backwards and forwards compatibility with other version of UAPI
-> > headers. So adding that now might save us some headaches later.
->
-> I used copy_struct_from_user() before v21, but Arnd wasn't a fan of
-> having type and size arguments, so we simplified the UAPI in the v21 by
-> removing the size argument. The type argument is enough to extend the
-> structure, but indeed, we lose the forward compatibility. Relying on one
-> syscall per rule type seems too much, though.
+On 11/22/20 11:38 PM, Michal Hocko wrote:
+> On Fri 20-11-20 09:45:12, Mike Kravetz wrote:
+>> On 11/20/20 1:43 AM, David Hildenbrand wrote:
+> [...]
+>>>>> To keep things easy, maybe simply never allow to free these hugetlb pages
+>>>>> again for now? If they were reserved during boot and the vmemmap condensed,
+>>>>> then just let them stick around for all eternity.
+>>>>
+>>>> Not sure I understand. Do you propose to only free those vmemmap pages
+>>>> when the pool is initialized during boot time and never allow to free
+>>>> them up? That would certainly make it safer and maybe even simpler wrt
+>>>> implementation.
+>>>
+>>> Exactly, let's keep it simple for now. I guess most use cases of this (virtualization, databases, ...) will allocate hugepages during boot and never free them.
+>>
+>> Not sure if I agree with that last statement.  Database and virtualization
+>> use cases from my employer allocate allocate hugetlb pages after boot.  It
+>> is shortly after boot, but still not from boot/kernel command line.
+> 
+> Is there any strong reason for that?
+> 
 
-You have a point there, I guess having a type argument is enough. (And
-if userspace tries to load a ruleset with "deny" rules that isn't
-supported by the current kernel, userspace will have to deal with that
-in some way anyway.)
+The reason I have been given is that it is preferable to have SW compute
+the number of needed huge pages after boot based on total memory, rather
+than have a sysadmin calculate the number and add a boot parameter.
 
-So thinking about it more, I guess the current version is probably
-actually fine, too.
+>> Somewhat related, but not exactly addressing this issue ...
+>>
+>> One idea discussed in a previous patch set was to disable PMD/huge page
+>> mapping of vmemmap if this feature was enabled.  This would eliminate a bunch
+>> of the complex code doing page table manipulation.  It does not address
+>> the issue of struct page pages going away which is being discussed here,
+>> but it could be a way to simply the first version of this code.  If this
+>> is going to be an 'opt in' feature as previously suggested, then eliminating
+>> the  PMD/huge page vmemmap mapping may be acceptable.  My guess is that
+>> sysadmins would only 'opt in' if they expect most of system memory to be used
+>> by hugetlb pages.  We certainly have database and virtualization use cases
+>> where this is true.
+> 
+> Would this simplify the code considerably? I mean, the vmemmap page
+> tables will need to be updated anyway. So that code has to stay. PMD
+> entry split shouldn't be the most complex part of that operation.  On
+> the other hand dropping large pages for all vmemmaps will likely have a
+> performance.
+
+I agree with your points.  This was just one way in which the patch set
+could be simplified.
+-- 
+Mike Kravetz
