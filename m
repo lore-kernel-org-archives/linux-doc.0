@@ -2,147 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3788AC63777
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 21:49:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A209C5519F
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 03:15:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F369320782
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Nov 2020 21:49:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B8C720DD4
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 03:15:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gAPL0Zd0"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="AXE3qcuK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726498AbgKVVtK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Nov 2020 16:49:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33614 "EHLO
+        id S1727620AbgKWDPh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Nov 2020 22:15:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726339AbgKVVtK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 16:49:10 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46477C0613CF;
-        Sun, 22 Nov 2020 13:49:10 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id v12so13023047pfm.13;
-        Sun, 22 Nov 2020 13:49:10 -0800 (PST)
+        with ESMTP id S1727590AbgKWDPh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 22:15:37 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA551C061A4C
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2020 19:15:36 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id q34so12909425pgb.11
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2020 19:15:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+kGNoLLnyvYj54sIYNg+yEQxr8OU1H3KIfMv0EVZHNc=;
-        b=gAPL0Zd0tcbTyPHShleI5QTPJM5FZ8BZeX/kKAVCiMn6xPLCNzqV4Bv+1hj0wPmP0e
-         bEYviEFF22VqkLh0zJ0/qqyNjH2Nw940qoYeADdw6FZURkBBv40r1e9vq2WWM2auqRgs
-         XFyhC5bc3cfagFkKLuc5l1Y1/bckw8yQFauK7GeTWVaMa7fWJPy8ufX1sFl/OgjbpjWa
-         rpU3Lg+n/0ItdLcX3gz36lFPlT/yjYJ2W80K2t1j/3/LauvAFyOCEL6/5OnzM24vnvfH
-         sttEq/Bd34zpVetEXIvwgYN2FJWENbEf7i2q8WGtSsTMxalQBaxW2uzBQlT1b5XWB8oo
-         lzDQ==
+        bh=1PkJLLTHTHGvD+6CtGT0JeNBynTOmH00lzXh1tBHgdk=;
+        b=AXE3qcuKn7MS7+bY1HUIYsfwTG1XJGA7xLViJTzXwgBVDETzOpmegz5ECIjDn2PI6h
+         zrcfQeSm3Vptg3QLVl59UvnleVo11+Y/AKzjtWAFtcwkXUVGQfDwiF7QYd4CD4cGmN4w
+         xioSYxW5L0BNvgRH3OJCAGFpx9iArOMLbfFhG0D78VIA8qMjQaKbSGu8OrRIJWaTFGzR
+         wxtcXQR5QVGAablFJ6/mYQWeToPYeHaoIkBTLfHglYGcZvgIorxjZUYtuAMzI/o7lyF6
+         0olX85dcFaO+Bt/dg9cNtpdq9kfu2AUcn0374Vr8dOaSvp90AbUGXjb3wimXzUg1dxyy
+         N/gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+kGNoLLnyvYj54sIYNg+yEQxr8OU1H3KIfMv0EVZHNc=;
-        b=Y3e9yqcuHoVLKIzkt5DTU/1p/cv+a/puLnPVkwt/Bn+ONpoofUk4eY3AwTYdPUnw/x
-         n/xha4Tq+vMseAj+XnnA0f6xA3tlQKW1l0DRjcz1ubsMz1qglu0ZDGOEmmFLFfJpxwE1
-         RsepUcnCt6I3OzL+tXsrpBkhTnr49AzLxZZqa2eO2iTqb/dCmPA0rw/6/y+9aRo1xRkT
-         Cl8oNoB6Kq7hjLGU+c852HpkGs34a4AfXDkcKLVt7movs0A5Fhi/x4aiHKPXWpNARtJc
-         3NFSk3NNm8ho39lhnwEQVai5flvtdGby0O41A/vF4fwk/PI39xo47GOy8oEWc23rSROR
-         DZ/w==
-X-Gm-Message-State: AOAM530V1XlU7P2bQeSGnLGv7c5iHEjvHf6bpQjWqNybX+IRo8iHOwhY
-        ynDLePnPgGTE6+T1i3VnaeD1E5vXfW099fKcQb8K76iMK+fFm7O4
-X-Google-Smtp-Source: ABdhPJxV6lA6ghtou6EpKCE18fdMtuWx0iK+rbIJw372e6dZDjyUjLMB9YO7mnJJ6TdK8ZJQPw4lxQtRj7hrg4sLFHE=
-X-Received: by 2002:a62:55c6:0:b029:197:f982:e980 with SMTP id
- j189-20020a6255c60000b0290197f982e980mr4549251pfb.40.1606081749791; Sun, 22
- Nov 2020 13:49:09 -0800 (PST)
+        bh=1PkJLLTHTHGvD+6CtGT0JeNBynTOmH00lzXh1tBHgdk=;
+        b=p6SwwGL/vaIZAh2itnFUGa3O11gE6kej+0n//yhDIcpVqWOsCQmP2ZmHIv74eKIfT3
+         IGoVA3gZfqpMQ43bfdMH4YrR+jOfr73gDCoWRhdE0RuVRkSZ5in1hLb9B8AKEwRLSh2J
+         EztUVqsfKE6BiNeNMd5fn5KxFQe6BfekjiRKL3MlMR7dwi4+LDMsdzaKVaNlfsxjo4d0
+         csYBWTiJ9wNF5THp3AzV5uKyegrZ9VDILzwcbd+YtQJbp2fWooUREMZNPGaNpnFCYE9V
+         ipmEtdaTU07Sx5CazrVSCHzQTQHy1XAaxcv1X7L3/zu+RuIHQNu5jSNq+Ft5bI3tvDxo
+         x+bA==
+X-Gm-Message-State: AOAM531R4oQsyvHrIcEuLRliR8YDlwrmDPxHdaEv6MCcTuQ+/2mlT6pK
+        G4+5BQdYGItWfgm3kOlDHR8r1mj3DQTD7gf4fA80tg==
+X-Google-Smtp-Source: ABdhPJxKovdhcbkAgrBDEdjMU7ZJHmMEXN8Mq3F1RYkM6JeOu075ftsAAt6nPr79OpJpAUY1RCGxxxOksG4bUMsVeKQ=
+X-Received: by 2002:a63:594a:: with SMTP id j10mr25427312pgm.341.1606101336098;
+ Sun, 22 Nov 2020 19:15:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20201122092548.61979-1-gnurou@gmail.com> <CAAVeFuJ+j5qDq457h-LESmd5CY+rXUFQqGpn960S2Cz0d1O0Jw@mail.gmail.com>
-In-Reply-To: <CAAVeFuJ+j5qDq457h-LESmd5CY+rXUFQqGpn960S2Cz0d1O0Jw@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 22 Nov 2020 23:48:52 +0200
-Message-ID: <CAHp75Vf7OaaZZhsGg=PVQfVXCdfKozZzizdUBQOQ-YNXVySwXQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: fix typo and unclear legacy API section
-To:     Alexandre Courbot <gnurou@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120064325.34492-22-songmuchun@bytedance.com> <20201120082552.GI3200@dhcp22.suse.cz>
+ <20201122190002.GH4327@casper.infradead.org>
+In-Reply-To: <20201122190002.GH4327@casper.infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 23 Nov 2020 11:14:59 +0800
+Message-ID: <CAMZfGtW9drQ7OBhf0wMG4joVz=5UAN1d8P=GQxs2M4MjKoBwxw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v5 21/21] mm/hugetlb: Disable freeing
+ vmemmap if struct page size is not power of two
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 11:31 AM Alexandre Courbot <gnurou@gmail.com> wrote:
+On Mon, Nov 23, 2020 at 3:00 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> On Sun, Nov 22, 2020 at 6:25 PM Alexandre Courbot <gnurou@gmail.com> wrote:
+> On Fri, Nov 20, 2020 at 09:25:52AM +0100, Michal Hocko wrote:
+> > On Fri 20-11-20 14:43:25, Muchun Song wrote:
+> > > We only can free the unused vmemmap to the buddy system when the
+> > > size of struct page is a power of two.
 > >
-> > The "Interacting With the Legacy GPIO Subsystem" of the documentation
-> > was unclear at best, and even included a sentence that seems to say the
-> > opposite of what it should say about the lifetime of the return value of
-> > the conversion functions.
-> >
-> > Try to clarify things a bit and hopefully make that section more
-> > readable.
-> >
-> > Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+> > Can we actually have !power_of_2 struct pages?
 >
-> Realized after sending this should also have a
+> Yes.  On x86-64, if you don't enable MEMCG, it's 56 bytes.  On SPARC64,
+> if you do enable MEMCG, it's 72 bytes.  On 32-bit systems, it's
+> anything from 32-44 bytes, depending on MEMCG, WANT_PAGE_VIRTUAL and
+> LAST_CPUPID_NOT_IN_PAGE_FLAGS.
 >
-> Reported-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->
-> Apologies for the omission Andy!
 
-NP
-
-And perhaps
-BugLink: https://stackoverflow.com/q/64455505/2511795
-
->
-> > ---
-> >  Documentation/driver-api/gpio/consumer.rst | 18 ++++++++++--------
-> >  1 file changed, 10 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-> > index 423492d125b9..173e4c7b037d 100644
-> > --- a/Documentation/driver-api/gpio/consumer.rst
-> > +++ b/Documentation/driver-api/gpio/consumer.rst
-> > @@ -440,18 +440,20 @@ For details refer to Documentation/firmware-guide/acpi/gpio-properties.rst
-> >
-> >  Interacting With the Legacy GPIO Subsystem
-> >  ==========================================
-> > -Many kernel subsystems still handle GPIOs using the legacy integer-based
-> > -interface. Although it is strongly encouraged to upgrade them to the safer
-> > -descriptor-based API, the following two functions allow you to convert a GPIO
-> > -descriptor into the GPIO integer namespace and vice-versa::
-> > +Many kernel subsystems and drivers still handle GPIOs using the legacy
-> > +integer-based interface. It is strongly recommended to update these to the new
-> > +gpiod interface. For cases where both interfaces need to be used, the following
-> > +two functions allow to convert a GPIO descriptor into the GPIO integer namespace
-> > +and vice-versa::
-> >
-> >         int desc_to_gpio(const struct gpio_desc *desc)
-> >         struct gpio_desc *gpio_to_desc(unsigned gpio)
-> >
-> > -The GPIO number returned by desc_to_gpio() can be safely used as long as the
-> > -GPIO descriptor has not been freed. All the same, a GPIO number passed to
-> > -gpio_to_desc() must have been properly acquired, and usage of the returned GPIO
-> > -descriptor is only possible after the GPIO number has been released.
-> > +The GPIO number returned by desc_to_gpio() can safely be used as a parameter of
-> > +the gpio\_*() functions for as long as the GPIO descriptor `desc` is not freed.
-> > +All the same, a GPIO number passed to gpio_to_desc() must first be properly
-> > +acquired using e.g. gpio_request_one(), and the returned GPIO descriptor is only
-> > +considered valid until that GPIO number is released using gpio_free().
-> >
-> >  Freeing a GPIO obtained by one API with the other API is forbidden and an
-> >  unchecked error.
-> > --
-> > 2.29.2
-> >
+On x86-64, even if you do not enable MEMCG, it's also 64 bytes. Because
+CONFIG_HAVE_ALIGNED_STRUCT_PAGE is defined if we use SLUB.
 
 
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Yours,
+Muchun
