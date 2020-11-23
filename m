@@ -2,174 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 956D6C2D0E4
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5FFBC63697
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:45:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35A8620728
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:17:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 830E420719
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:45:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ecz6nru9"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ucprSht0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731777AbgKWTR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 14:17:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34258 "EHLO
+        id S1730650AbgKWTol (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 14:44:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729183AbgKWTR5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 14:17:57 -0500
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 836D7C061A4D
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 11:17:56 -0800 (PST)
-Received: by mail-ej1-x643.google.com with SMTP id gj5so24932389ejb.8
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 11:17:56 -0800 (PST)
+        with ESMTP id S1730575AbgKWTok (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 14:44:40 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DAE5C061A4E
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 11:44:40 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id u18so25423710lfd.9
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 11:44:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HdQbgY+fGm8jxB4Ao2qaLqB1m6FKX93p0ZpDSNmzhRg=;
-        b=ecz6nru9/eO/okMaZi3M1SqeAWBy3jSLMgd0jjhCQTgpbarec4ajNZc2z34SiLaYXP
-         QaJ9mapXUBOQPHDszmlLh7XP42arbTRfXumSHa93MXICjloDTusJOZUbBPLUWOXgbgKZ
-         pQ9+nKsc1i6ipcAuXP0mxabxLfUkdI0xLURbCfbeS8wWY5rV7x0QYGWPjdqiSV52K55x
-         r78U+tHwgUxkiwIykrn1oTB8ldikaa6SeVOhCeVlAv4TB8gcYfIO54wMnjufMeoPn641
-         F1cxLMBeI9aeXeCsYDbEt+ePAmXOLWf4j+g0oiKvF1rdE0jaZD3q/81yQfnX86AGm3aN
-         H+Cw==
+         :cc:content-transfer-encoding;
+        bh=WkkyfzYc5dkm/KIiF9W4jRT3BRx+3sqZpO+ldzSWHAU=;
+        b=ucprSht07o3L8qhZLLc2Vt4PubCLLYecCKNAauQVntt/WOQx0TnUKdvhSMo4O3kPUB
+         uaUTYfr9u7VuLEvtbM35aoZwakgOWHYVHjw4Mng7Nx7VrQbWv4Tt/KS5ugKh9SaGeFX2
+         RVWHUO8H6oE35g5xy4ExNT0J9tz1RPg7b9HOQlsjqvp5KHt1ZdUObef9cJxmfTjtGs3e
+         thKIj2KnAjmAnht0O8u+JMUIDM9eFbTD7ieYfOqhRhtEVosbjAvqv+gyPmolJ+wWqzdt
+         5ZUswM45maUXB35BfcN7RSu535krwgoOUgZM4t2JGI8pMMDiwiDnaCVZppVOab7LjX70
+         E/mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HdQbgY+fGm8jxB4Ao2qaLqB1m6FKX93p0ZpDSNmzhRg=;
-        b=Uxs8fz+KbatpFZOhVydQCXw7juBrew3keDQzYynqnlY8fIywbL0u6QKAH31Xd5S4lz
-         UTENji5V7r2PDMiWfJfWH+VAHOwVFKXttr3MJGJMNFKWVox/WBfqqSuPkDIi2eKHoaI4
-         PDW0Hk8M5rwcrzNGTJSNHZte/f8oyrB+D5UpT6iipVXVFjAN6RhMizyh6ScNhZ/RbUt/
-         IopqYqEdCHMPvYcfMJcjEP81E7a2guqQFARzyR/t1onOztPQ1WHeu6+am2ZmDc7cwSTu
-         lkvXAgqmHtKqeRpEOCHA5LZsH8an+S7+FKuGekGRiOUMkTGG2Bbv7XNq14WmVMVT9IUk
-         98Ew==
-X-Gm-Message-State: AOAM532HvpdHyDtadcJWETR5yARM0xXh615xgar7yYjT6j0rhJGR/5EU
-        FUvDBgILOHBo707IjenikCzwNINqWZzROyARcQlFTw==
-X-Google-Smtp-Source: ABdhPJxls2+tu09Rb1v/Dt0hKt61j+cTOrCnH79IazHpSsNU2scVK5iT+mwhaQK0QUof4aS2TvFYL72oX+JQ5QIXnVs=
-X-Received: by 2002:a17:906:c059:: with SMTP id bm25mr1009217ejb.20.1606159074807;
- Mon, 23 Nov 2020 11:17:54 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WkkyfzYc5dkm/KIiF9W4jRT3BRx+3sqZpO+ldzSWHAU=;
+        b=RA4pJVLCZfdaB4Rrp8idm5ytMv1MFjCqVDEWobhrd+y5xAdqeXYfzKTqVMLb6ZLk3j
+         ffd+B8DxIvi4hWg2badK6jzoYeuuecbvA4bKmv1ZDFYMsgwWSXGSypRnLMGStFBAO+Um
+         gFhzZPvXHrhc3wp0bNoJPw43hRuosv07hOTZiCiT8hn+rMSdJ0gNjuhSyVJIrGNYAhaZ
+         hFHB+GCSZHmvMq8xquDdOdlclyxT1XhLyl5sUBtMo06Ymx/gSeWKEAcI89alvWQhUSJz
+         4z0ERpH+KKtMR46p5a/PgCfa7d1uK7I7EgIm/97tZ3Mdq5TkJar/ryQ1ZZXnhzgUBZgu
+         CwBw==
+X-Gm-Message-State: AOAM5322k0z+NBVdg2JJrBx/09B/XXVNr8x8E8GN885oRV/f+g0vC4Ca
+        o2n8jN18Hxw492AgFTObDOgLbrO+FN4HU2lGGo1qqg==
+X-Google-Smtp-Source: ABdhPJxvAu80d98nm8DgUgnbxicof2cbnVoJUKvK4sfJq22s1FLjdXhc3R1+79TzlVPSsvuacsn9pSzptfgKcYYBWqk=
+X-Received: by 2002:ac2:5a49:: with SMTP id r9mr259465lfn.381.1606160678276;
+ Mon, 23 Nov 2020 11:44:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20201120030411.2690816-1-lokeshgidra@google.com>
- <20201120030411.2690816-2-lokeshgidra@google.com> <20201120153337.431dc36c1975507bb1e44596@linux-foundation.org>
-In-Reply-To: <20201120153337.431dc36c1975507bb1e44596@linux-foundation.org>
-From:   Lokesh Gidra <lokeshgidra@google.com>
-Date:   Mon, 23 Nov 2020 11:17:43 -0800
-Message-ID: <CA+EESO7xnnJAsPneuy1dNj6F47gViGiL-z8rajY5EoGdFWs+-A@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] Add UFFD_USER_MODE_ONLY
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Kalesh Singh <kaleshsingh@google.com>,
-        Calin Juravle <calin@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-mm@kvack.kernel.org, Daniel Colascione <dancol@google.com>,
-        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
+References: <20201112205141.775752-1-mic@digikod.net> <20201112205141.775752-8-mic@digikod.net>
+ <CAG48ez3HA63CX852LLDFCcNyzRGwAr3x_cvA1-t8tgDxfF1dOQ@mail.gmail.com> <1d524ea9-85eb-049c-2156-05cad6d6fcfd@digikod.net>
+In-Reply-To: <1d524ea9-85eb-049c-2156-05cad6d6fcfd@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 23 Nov 2020 20:44:11 +0100
+Message-ID: <CAG48ez2cmsrZbUEmQmzPQugJikkvfs_MWmMizxmoyspCeXAXRQ@mail.gmail.com>
+Subject: Re: [PATCH v24 07/12] landlock: Support filesystem access-control
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 3:33 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Thu, 19 Nov 2020 19:04:10 -0800 Lokesh Gidra <lokeshgidra@google.com> wrote:
->
-> > userfaultfd handles page faults from both user and kernel code.
-> > Add a new UFFD_USER_MODE_ONLY flag for userfaultfd(2) that makes
-> > the resulting userfaultfd object refuse to handle faults from kernel
-> > mode, treating these faults as if SIGBUS were always raised, causing
-> > the kernel code to fail with EFAULT.
+On Sat, Nov 21, 2020 at 11:06 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
+ wrote:
+> On 21/11/2020 08:00, Jann Horn wrote:
+> > On Thu, Nov 12, 2020 at 9:52 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
+et> wrote:
+> >> Thanks to the Landlock objects and ruleset, it is possible to identify
+> >> inodes according to a process's domain.  To enable an unprivileged
+> >> process to express a file hierarchy, it first needs to open a director=
+y
+> >> (or a file) and pass this file descriptor to the kernel through
+> >> landlock_add_rule(2).  When checking if a file access request is
+> >> allowed, we walk from the requested dentry to the real root, following
+> >> the different mount layers.  The access to each "tagged" inodes are
+> >> collected according to their rule layer level, and ANDed to create
+> >> access to the requested file hierarchy.  This makes possible to identi=
+fy
+> >> a lot of files without tagging every inodes nor modifying the
+> >> filesystem, while still following the view and understanding the user
+> >> has from the filesystem.
+> >>
+> >> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does not
+> >> keep the same struct inodes for the same inodes whereas these inodes a=
+re
+> >> in use.
+> >>
+> >> This commit adds a minimal set of supported filesystem access-control
+> >> which doesn't enable to restrict all file-related actions.  This is th=
+e
+> >> result of multiple discussions to minimize the code of Landlock to eas=
+e
+> >> review.  Thanks to the Landlock design, extending this access-control
+> >> without breaking user space will not be a problem.  Moreover, seccomp
+> >> filters can be used to restrict the use of syscall families which may
+> >> not be currently handled by Landlock.
+> >>
+> >> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> >> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> >> Cc: James Morris <jmorris@namei.org>
+> >> Cc: Jann Horn <jannh@google.com>
+> >> Cc: Jeff Dike <jdike@addtoit.com>
+> >> Cc: Kees Cook <keescook@chromium.org>
+> >> Cc: Richard Weinberger <richard@nod.at>
+> >> Cc: Serge E. Hallyn <serge@hallyn.com>
+> >> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> >> ---
+> >>
+> >> Changes since v23:
+> >> * Enforce deterministic interleaved path rules.  To have consistent
+> >>   layered rules, granting access to a path implies that all accesses
+> >>   tied to inodes, from the requested file to the real root, must be
+> >>   checked.  Otherwise, stacked rules may result to overzealous
+> >>   restrictions.  By excluding the ability to add exceptions in the sam=
+e
+> >>   layer (e.g. /a allowed, /a/b denied, and /a/b/c allowed), we get
+> >>   deterministic interleaved path rules.  This removes an optimization
 > >
-> > A future patch adds a knob allowing administrators to give some
-> > processes the ability to create userfaultfd file objects only if they
-> > pass UFFD_USER_MODE_ONLY, reducing the likelihood that these processes
-> > will exploit userfaultfd's ability to delay kernel page faults to open
-> > timing windows for future exploits.
+> > I don't understand the "deterministic interleaved path rules" part.
 >
-> Can we assume that an update to the userfaultfd(2) manpage is in the
-> works?
+> I explain bellow.
 >
-Yes, I'm working on it. Can the kernel version which will have these
-patches be known now so that I can mention it in the manpage?
+> >
+> >
+> > What if I have a policy like this?
+> >
+> > /home/user READ
+> > /home/user/Downloads READ+WRITE
+> >
+> > That's a reasonable policy, right?
+>
+> Definitely, I forgot this, thanks for the outside perspective!
+>
+> >
+> > If I then try to open /home/user/Downloads/foo in WRITE mode, the loop
+> > will first check against the READ+WRITE rule for /home/user, that
+> > check will pass, and then it will check against the READ rule for /,
+> > which will deny the access, right? That seems bad.
+>
+> Yes that was the intent.
+>
+> >
+> >
+> > The v22 code ensured that for each layer, the most specific rule (the
+> > first we encounter on the walk) always wins, right? What's the problem
+> > with that?
+>
+> This can be explained with the interleaved_masked_accesses test:
+> https://github.com/landlock-lsm/linux/blob/landlock-v24/tools/testing/sel=
+ftests/landlock/fs_test.c#L647
+>
+> In this case there is 4 stacked layers:
+> layer 1: allows s1d1/s1d2/s1d3/file1
+> layer 2: allows s1d1/s1d2/s1d3
+>          denies s1d1/s1d2
+> layer 3: allows s1d1
+> layer 4: allows s1d1/s1d2
+>
+> In the v23, access to file1 would be allowed until layer 3, but layer 4
+> would merge a new rule for the s1d2 inode. Because we don't record where
+> exactly the access come from, we can't tell that layer 2 allowed access
+> thanks to s1d3 and that its s1d2 rule was ignored. I think this behavior
+> doesn't make sense from the user point of view.
 
-> > --- a/fs/userfaultfd.c
-> > +++ b/fs/userfaultfd.c
-> > @@ -405,6 +405,13 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
-> >
-> >       if (ctx->features & UFFD_FEATURE_SIGBUS)
-> >               goto out;
-> > +     if ((vmf->flags & FAULT_FLAG_USER) == 0 &&
-> > +         ctx->flags & UFFD_USER_MODE_ONLY) {
-> > +             printk_once(KERN_WARNING "uffd: Set unprivileged_userfaultfd "
-> > +                     "sysctl knob to 1 if kernel faults must be handled "
-> > +                     "without obtaining CAP_SYS_PTRACE capability\n");
-> > +             goto out;
-> > +     }
-> >
-> >       /*
-> >        * If it's already released don't get it. This avoids to loop
-> > @@ -1965,10 +1972,11 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
-> >       BUG_ON(!current->mm);
-> >
-> >       /* Check the UFFD_* constants for consistency.  */
-> > +     BUILD_BUG_ON(UFFD_USER_MODE_ONLY & UFFD_SHARED_FCNTL_FLAGS);
->
-> Are we sure this is true for all architectures?
+Aah, I think I'm starting to understand the issue now. Basically, with
+the current UAPI, the semantics have to be "an access is permitted if,
+for each policy layer, at least one rule encountered on the pathwalk
+permits the access; rules that deny the access are irrelevant". And if
+it turns out that someone needs to be able to deny access to specific
+inodes, we'll have to extend struct landlock_path_beneath_attr.
 
-Yes, none of the architectures are using the least-significant bit for
-O_CLOEXEC or O_NONBLOCK.
+That reminds me... if we do need to make such a change in the future,
+it would be easier in terms of UAPI compatibility if
+landlock_add_rule() used copy_struct_from_user(), which is designed to
+create backwards and forwards compatibility with other version of UAPI
+headers. So adding that now might save us some headaches later.
+
+
+> In the v24, access to file1 would only be allowed with layer 1. The
+> layer 2, would deny access to file1 because of the s1d2 rule. This makes
+> the reasoning consistent and deterministic whatever the layers are,
+> while storing the same access and layer bits. But I agree that this may
+> not be desirable.
 >
-> >       BUILD_BUG_ON(UFFD_CLOEXEC != O_CLOEXEC);
-> >       BUILD_BUG_ON(UFFD_NONBLOCK != O_NONBLOCK);
-> >
-> > -     if (flags & ~UFFD_SHARED_FCNTL_FLAGS)
-> > +     if (flags & ~(UFFD_SHARED_FCNTL_FLAGS | UFFD_USER_MODE_ONLY))
-> >               return -EINVAL;
-> >
-> >       ctx = kmem_cache_alloc(userfaultfd_ctx_cachep, GFP_KERNEL);
-> > diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
-> > index e7e98bde221f..5f2d88212f7c 100644
-> > --- a/include/uapi/linux/userfaultfd.h
-> > +++ b/include/uapi/linux/userfaultfd.h
-> > @@ -257,4 +257,13 @@ struct uffdio_writeprotect {
-> >       __u64 mode;
-> >  };
-> >
-> > +/*
-> > + * Flags for the userfaultfd(2) system call itself.
-> > + */
-> > +
-> > +/*
-> > + * Create a userfaultfd that can handle page faults only in user mode.
-> > + */
-> > +#define UFFD_USER_MODE_ONLY 1
-> > +
-> >  #endif /* _LINUX_USERFAULTFD_H */
->
-> It would be nice to define this in include/linux/userfaultfd_k.h,
-> alongside the other flags.  But I guess it has to be here because it's
-> part of the userspace API.
+> In a perfect v25, file1 should be allowed by all these layers. I didn't
+> find a simple solution to this while minimizing the memory allocated by
+> rule (cf. struct landlock_rule: mainly 32-bits for access rights and
+> 64-bits for the layers that contributed to this ANDed accesses). I would
+> like to avoid storing 32-bits access rights per stacked layer. Do you
+> see another solution?
+
+I don't think you can avoid storing the access rights per layer unless
+you actually merge the layers when setting up the ruleset (which would
+be messy). But I don't think that's a big problem. A straightforward
+implementation might become inefficient if you stack too many policy
+layers, but I don't think that's a problem for an initial
+implementation - the common usecase is probably going to be a single
+layer, or maybe two, or something like that?
+
+If you had a ton of layers, most of them would likely specify the same
+access permissions - so one possible optimization might be to use the
+current representation if all rules matching the inode specify the
+same permissions, and use a different representation otherwise. But I
+don't think such an optimization is necessary at this point.
