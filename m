@@ -2,349 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD36C2D0E4
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03548C63697
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:38:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A332F20731
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:24:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8B6A2074B
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:38:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="lZJNaK+z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725998AbgKWHY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 02:24:27 -0500
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:50573 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725320AbgKWHY1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 02:24:27 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UGDrm5O_1606116261;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UGDrm5O_1606116261)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 23 Nov 2020 15:24:22 +0800
-Subject: Re: [PATCH] Documentation: Chinese translation of
- Documentation/arm64/elf_hwcaps.rst
-To:     Bailu Lin <bailu.lin@vivo.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com
-References: <20201121102355.32864-1-bailu.lin@vivo.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <7f743148-9638-aacc-7947-433c8fa7476d@linux.alibaba.com>
-Date:   Mon, 23 Nov 2020 15:22:34 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1727076AbgKWHiz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 02:38:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43526 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725320AbgKWHiz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Nov 2020 02:38:55 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606117133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=DAbMhd58MepnJ3wMNvb/zcTlCSLnBv7xL56Vesu5R1o=;
+        b=lZJNaK+zKvjftgQ9k5+/adyl3XY7aEfdiOJ+dAXhG8va60Zactln2x6BiRwuIU5QSiP+dD
+        6Z4L18p2ngk3lSmCPyCYLT8jYUt8r1AYwVRlGbE49ILwX3ecjFTvGnwhpaMvOj9bf/OWtJ
+        VM5o7sQcwiSv3lWFCvjBQAGKju6BcZs=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 7EB96ABDE;
+        Mon, 23 Nov 2020 07:38:53 +0000 (UTC)
+Date:   Mon, 23 Nov 2020 08:38:42 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, song.bao.hua@hisilicon.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 00/21] Free some vmemmap pages of hugetlb page
+Message-ID: <20201123073842.GA27488@dhcp22.suse.cz>
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120084202.GJ3200@dhcp22.suse.cz>
+ <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
+ <20201120093912.GM3200@dhcp22.suse.cz>
+ <eda50930-05b5-0ad9-2985-8b6328f92cec@redhat.com>
+ <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20201121102355.32864-1-bailu.lin@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-在 2020/11/21 下午6:23, Bailu Lin 写道:
-> This is a Chinese translated version of
->  Documentation/arm64/elf_hwcaps.rst
+On Fri 20-11-20 09:45:12, Mike Kravetz wrote:
+> On 11/20/20 1:43 AM, David Hildenbrand wrote:
+[...]
+> >>> To keep things easy, maybe simply never allow to free these hugetlb pages
+> >>> again for now? If they were reserved during boot and the vmemmap condensed,
+> >>> then just let them stick around for all eternity.
+> >>
+> >> Not sure I understand. Do you propose to only free those vmemmap pages
+> >> when the pool is initialized during boot time and never allow to free
+> >> them up? That would certainly make it safer and maybe even simpler wrt
+> >> implementation.
+> > 
+> > Exactly, let's keep it simple for now. I guess most use cases of this (virtualization, databases, ...) will allocate hugepages during boot and never free them.
 > 
-> Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
-> ---
->  Documentation/arm64/elf_hwcaps.rst            |   2 +
->  .../translations/zh_CN/arm64/elf_hwcaps.rst   | 240 ++++++++++++++++++
->  .../translations/zh_CN/arm64/index.rst        |   1 +
->  3 files changed, 243 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
+> Not sure if I agree with that last statement.  Database and virtualization
+> use cases from my employer allocate allocate hugetlb pages after boot.  It
+> is shortly after boot, but still not from boot/kernel command line.
+
+Is there any strong reason for that?
+
+> Somewhat related, but not exactly addressing this issue ...
 > 
-> diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-> index bbd9cf54db6c..87821662eeb2 100644
-> --- a/Documentation/arm64/elf_hwcaps.rst
-> +++ b/Documentation/arm64/elf_hwcaps.rst
-> @@ -1,3 +1,5 @@
-> +.. _elf_hwcaps_index:
-> +
->  ================
->  ARM64 ELF hwcaps
->  ================
-> diff --git a/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst b/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
-> new file mode 100644
-> index 000000000000..c7e4385ee63f
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
-> @@ -0,0 +1,240 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
-> +
-> +Translator: Bailu Lin <bailu.lin@vivo.com>
-> +
-> +================
-> +ARM64 ELF hwcaps
-> +================
-> +
-> +这篇文档描述了 arm64 ELF hwcaps 的使用方法和规范。
+> One idea discussed in a previous patch set was to disable PMD/huge page
+> mapping of vmemmap if this feature was enabled.  This would eliminate a bunch
+> of the complex code doing page table manipulation.  It does not address
+> the issue of struct page pages going away which is being discussed here,
+> but it could be a way to simply the first version of this code.  If this
+> is going to be an 'opt in' feature as previously suggested, then eliminating
+> the  PMD/huge page vmemmap mapping may be acceptable.  My guess is that
+> sysadmins would only 'opt in' if they expect most of system memory to be used
+> by hugetlb pages.  We certainly have database and virtualization use cases
+> where this is true.
 
-is it better to use 语义 for "semantics'? and 用法 is enough for usages.
-
-> +
-> +
-> +1. 简介
-> +-------
-> +
-> +有些硬件或软件功能仅在某些 CPU 实现上和/或在具体某个内核配置上可用，但
-> +对于处于 EL0 的用户空间代码没有可用的架构发现机制。内核通过在辅助向量表
-> +公开一组称为 hwcaps 的标志而把这些功能开放给用户空间。
-
-expose, means 暴露 or 揭示， not '开放'， 
-
-> +
-> +用户空间软件可以通过获取辅助向量的 AT_HWCAP 或 AT_HWCAP2 条目来测试功能，
-> +并测试是否设置了相关标志，例如::
-> +
-> +	bool floating_point_is_present(void)
-> +	{
-> +		unsigned long hwcaps = getauxval(AT_HWCAP);
-> +		if (hwcaps & HWCAP_FP)
-> +			return true;
-> +
-> +		return false;
-> +	}
-> +
-> +如果软件依赖于 hwcap 描述的功能，在尝试使用该功能前则应检查相关的 hwcap
-> +标志以验证该功能是否存在。
-> +
-> +不能通过其他方式探查这些功能。当一个功能不可用时，尝试使用它可能导致不可
-> +预测的行为，并且无法保证能确切的知道该功能不可用，例如 SIGILL。
-> +
-> +
-> +2. Hwcaps 的说明
-> +----------------
-> +
-> +大多数 hwcaps 旨在说明通过架构 ID 寄存器(处于 EL0 的用户空间代码无法访问)
-> +描述的功能的存在。这些 hwcap 通过 ID 寄存器字段定义，并且应根据 ARM 体系
-> +结构参考手册（ARM ARM）中定义的字段来解释说明。
-> +
-> +这些 hwcaps 以下面的形式描述::
-> +
-> +    Functionality implied by idreg.field == val.
-
-Why this line isn't aligned with next section all detailed explanation?
-Do we need to translate or keep Enghlish version for all of them?
-
-
-> +
-> +当 idreg.field 中有 val 时，hwcaps 表示 ARM ARM 定义的功能是有效的，但是
-> +并不是说要完全和 val 相等，也不是说 idreg.field 描述的其他功能就是缺失的。
-> +
-> +其他 hwcaps 可能表明无法仅由 ID 寄存器描述的功能的存在。这些 hwcaps 可能
-> +没有被 ID 寄存器描述，需要参考其他文档。
-> +
-> +
-> +3. AT_HWCAP 中公开的 hwcaps
-
-it should be 揭示 not 公开
-
-> +---------------------------
-> +
-> +HWCAP_FP
-> +    ID_AA64PFR0_EL1.FP == 0b0000 表示的功能。
-
-ID_AA64PFR0_EL1.FP == 0b0000 表示有此功能。Is this better?
-
-Thanks
-Alex
-
-
-> +
-> +HWCAP_ASIMD
-> +    ID_AA64PFR0_EL1.AdvSIMD == 0b0000 表示的功能。
-> +
-> +HWCAP_EVTSTRM
-> +    通用计时器频率配置为大约100KHz以生成事件。
-> +
-> +HWCAP_AES
-> +    ID_AA64ISAR0_EL1.AES == 0b0001 表示的功能。
-> +
-> +HWCAP_PMULL
-> +    ID_AA64ISAR0_EL1.AES == 0b0010 表示的功能。
-> +
-> +HWCAP_SHA1
-> +    ID_AA64ISAR0_EL1.SHA1 == 0b0001 表示的功能。
-> +
-> +HWCAP_SHA2
-> +    ID_AA64ISAR0_EL1.SHA2 == 0b0001 表示的功能。
-> +
-> +HWCAP_CRC32
-> +    ID_AA64ISAR0_EL1.CRC32 == 0b0001 表示的功能。
-> +
-> +HWCAP_ATOMICS
-> +    ID_AA64ISAR0_EL1.Atomic == 0b0010 表示的功能。
-> +
-> +HWCAP_FPHP
-> +    ID_AA64PFR0_EL1.FP == 0b0001 表示的功能。
-> +
-> +HWCAP_ASIMDHP
-> +    ID_AA64PFR0_EL1.AdvSIMD == 0b0001 表示的功能。
-> +
-> +HWCAP_CPUID
-> +    根据 Documentation/arm64/cpu-feature-registers.rst 描述，EL0 可以访问
-> +    某些 ID 寄存器。
-> +
-> +    这些 ID 寄存器可能表示功能的可用性。
-> +
-> +HWCAP_ASIMDRDM
-> +    ID_AA64ISAR0_EL1.RDM == 0b0001 表示的功能。
-> +
-> +HWCAP_JSCVT
-> +    ID_AA64ISAR1_EL1.JSCVT == 0b0001 表示的功能。
-> +
-> +HWCAP_FCMA
-> +    ID_AA64ISAR1_EL1.FCMA == 0b0001 表示的功能。
-> +
-> +HWCAP_LRCPC
-> +    ID_AA64ISAR1_EL1.LRCPC == 0b0001 表示的功能。
-> +
-> +HWCAP_DCPOP
-> +    ID_AA64ISAR1_EL1.DPB == 0b0001 表示的功能。
-> +
-> +HWCAP_SHA3
-> +    ID_AA64ISAR0_EL1.SHA3 == 0b0001 表示的功能。
-> +
-> +HWCAP_SM3
-> +    ID_AA64ISAR0_EL1.SM3 == 0b0001 表示的功能。
-> +
-> +HWCAP_SM4
-> +    ID_AA64ISAR0_EL1.SM4 == 0b0001 表示的功能。
-> +
-> +HWCAP_ASIMDDP
-> +    ID_AA64ISAR0_EL1.DP == 0b0001 表示的功能。
-> +
-> +HWCAP_SHA512
-> +    ID_AA64ISAR0_EL1.SHA2 == 0b0010 表示的功能。
-> +
-> +HWCAP_SVE
-> +    ID_AA64PFR0_EL1.SVE == 0b0001 表示的功能。
-> +
-> +HWCAP_ASIMDFHM
-> +    ID_AA64ISAR0_EL1.FHM == 0b0001 表示的功能。
-> +
-> +HWCAP_DIT
-> +    ID_AA64PFR0_EL1.DIT == 0b0001 表示的功能。
-> +
-> +HWCAP_USCAT
-> +    ID_AA64MMFR2_EL1.AT == 0b0001 表示的功能。
-> +
-> +HWCAP_ILRCPC
-> +    ID_AA64ISAR1_EL1.LRCPC == 0b0010 表示的功能。
-> +
-> +HWCAP_FLAGM
-> +    ID_AA64ISAR0_EL1.TS == 0b0001 表示的功能。
-> +
-> +HWCAP_SSBS
-> +    ID_AA64PFR1_EL1.SSBS == 0b0010 表示的功能。
-> +
-> +HWCAP_SB
-> +    ID_AA64ISAR1_EL1.SB == 0b0001 表示的功能。
-> +
-> +HWCAP_PACA
-> +    如 Documentation/arm64/pointer-authentication.rst 所描述，
-> +    ID_AA64ISAR1_EL1.APA == 0b0001 或 ID_AA64ISAR1_EL1.API == 0b0001
-> +    表示的功能。
-> +
-> +HWCAP_PACG
-> +    如 Documentation/arm64/pointer-authentication.rst 所描述，
-> +    ID_AA64ISAR1_EL1.GPA == 0b0001 或 ID_AA64ISAR1_EL1.GPI == 0b0001
-> +    表示的功能。
-> +
-> +HWCAP2_DCPODP
-> +
-> +    ID_AA64ISAR1_EL1.DPB == 0b0010 表示的功能。
-> +
-> +HWCAP2_SVE2
-> +
-> +    ID_AA64ZFR0_EL1.SVEVer == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVEAES
-> +
-> +    ID_AA64ZFR0_EL1.AES == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVEPMULL
-> +
-> +    ID_AA64ZFR0_EL1.AES == 0b0010 表示的功能。
-> +
-> +HWCAP2_SVEBITPERM
-> +
-> +    ID_AA64ZFR0_EL1.BitPerm == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVESHA3
-> +
-> +    ID_AA64ZFR0_EL1.SHA3 == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVESM4
-> +
-> +    ID_AA64ZFR0_EL1.SM4 == 0b0001 表示的功能。
-> +
-> +HWCAP2_FLAGM2
-> +
-> +    ID_AA64ISAR0_EL1.TS == 0b0010 表示的功能。
-> +
-> +HWCAP2_FRINT
-> +
-> +    ID_AA64ISAR1_EL1.FRINTTS == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVEI8MM
-> +
-> +    ID_AA64ZFR0_EL1.I8MM == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVEF32MM
-> +
-> +    ID_AA64ZFR0_EL1.F32MM == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVEF64MM
-> +
-> +    ID_AA64ZFR0_EL1.F64MM == 0b0001 表示的功能。
-> +
-> +HWCAP2_SVEBF16
-> +
-> +    ID_AA64ZFR0_EL1.BF16 == 0b0001 表示的功能。
-> +
-> +HWCAP2_I8MM
-> +
-> +    ID_AA64ISAR1_EL1.I8MM == 0b0001 表示的功能。
-> +
-> +HWCAP2_BF16
-> +
-> +    ID_AA64ISAR1_EL1.BF16 == 0b0001 表示的功能。
-> +
-> +HWCAP2_DGH
-> +
-> +    ID_AA64ISAR1_EL1.DGH == 0b0001 表示的功能。
-> +
-> +HWCAP2_RNG
-> +
-> +    ID_AA64ISAR0_EL1.RNDR == 0b0001 表示的功能。
-> +
-> +HWCAP2_BTI
-> +
-> +    ID_AA64PFR0_EL1.BT == 0b0001 表示的功能。
-> +
-> +
-> +4. 未使用的 AT_HWCAP 位
-> +-----------------------
-> +
-> +为了与用户空间交互，内核保证 AT_HWCAP 的第62、63位将始终返回0。
-> diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rst
-> index f51fed166326..57dc5de5ccc5 100644
-> --- a/Documentation/translations/zh_CN/arm64/index.rst
-> +++ b/Documentation/translations/zh_CN/arm64/index.rst
-> @@ -16,3 +16,4 @@ ARM64 架构
->      amu
->      hugetlbpage
->      perf
-> +    elf_hwcaps
-> 
+Would this simplify the code considerably? I mean, the vmemmap page
+tables will need to be updated anyway. So that code has to stay. PMD
+entry split shouldn't be the most complex part of that operation.  On
+the other hand dropping large pages for all vmemmaps will likely have a
+performance.
+-- 
+Michal Hocko
+SUSE Labs
