@@ -6,38 +6,35 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46345C6379D
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 13:13:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E445C388F9
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 13:14:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6A3020709
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 13:13:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5D412076E
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 13:14:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eeEoYa3p"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="BovGW7Do"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387409AbgKWMpt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 07:45:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387411AbgKWMps (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 07:45:48 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35831C0613CF;
-        Mon, 23 Nov 2020 04:45:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=D/+uQXuYCHVJTryMNhtIQ0wirxLovQ10MM/7dftfXjA=; b=eeEoYa3psy1tQ0tTz+3MV500iq
-        llvX2Sq8XRxLgLc4WkoFbfknD5IuMj5jxeQbAoExJ8GueJ5c7jbEdBYzy4ZAv5TgoNvzjoYcaAJE2
-        NY3ZUBdJMTt+QbgdfbWC0Blm/oZq+tJsp7r6NZhWe6bK11IlKbXjWJCKokcbLb6f0r0ZWuw98vK33
-        /NgveDC9KrZI+yM1PMYnsRCLpwGDyj5/6DHqZ7Skbu8j1mhFfbLHoFlwy5JPoK7PbBKu1/LoDzr5h
-        M35LHR3GTV8EJpVz41HDlLhuiX/y/RVJPHyPje9sA5X1J9Nwv4d+N89FUyEUsROJ6Ktf+W7q8/u/m
-        6jp0E+bQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1khBDV-0000hM-8q; Mon, 23 Nov 2020 12:45:13 +0000
-Date:   Mon, 23 Nov 2020 12:45:13 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Michal Hocko <mhocko@suse.com>
+        id S2388577AbgKWNNr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 08:13:47 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41246 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388568AbgKWNNo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Nov 2020 08:13:44 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606137221; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rv9w9/llZazFt1Z6bqz4fjM+bsJ8PYyhjd+2a7iwKww=;
+        b=BovGW7DoOC8krOpDGxMAvISB+An1UZdqsVUv0y+mOwCm8gQma8GRfSmZfwYSeLpHtd4a0/
+        tL9UdmdQTm1PU6J92WQP00NeFdV6eO8Y3Y0lZDPaeByUGaMvOUAdiycCP9E47AAgaodsRu
+        q3uicdbuKCt6m7LZUTwpc+6v7wB2XDg=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 78EB1AC2E;
+        Mon, 23 Nov 2020 13:13:41 +0000 (UTC)
+Date:   Mon, 23 Nov 2020 14:13:39 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Muchun Song <songmuchun@bytedance.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -59,9 +56,8 @@ Cc:     Muchun Song <songmuchun@bytedance.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
  hugetlb page
-Message-ID: <20201123124513.GI4327@casper.infradead.org>
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120084202.GJ3200@dhcp22.suse.cz>
+Message-ID: <20201123131339.GO27488@dhcp22.suse.cz>
+References: <20201120084202.GJ3200@dhcp22.suse.cz>
  <CAMZfGtWJXni21J=Yn55gksKy9KZnDScCjKmMasNz5XUwx3OcKw@mail.gmail.com>
  <20201120131129.GO3200@dhcp22.suse.cz>
  <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
@@ -70,32 +66,41 @@ References: <20201120064325.34492-1-songmuchun@bytedance.com>
  <20201123094344.GG27488@dhcp22.suse.cz>
  <CAMZfGtUjsAKuQ_2NijKGPZYX7OBO_himtBDMKNkYb_0_o5CJGA@mail.gmail.com>
  <20201123104258.GJ27488@dhcp22.suse.cz>
+ <20201123124513.GI4327@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201123104258.GJ27488@dhcp22.suse.cz>
+In-Reply-To: <20201123124513.GI4327@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 11:42:58AM +0100, Michal Hocko wrote:
-> On Mon 23-11-20 18:36:33, Muchun Song wrote:
-> > > No I really mean that pfn_to_page will give you a struct page pointer
-> > > from pages which you release from the vmemmap page tables. Those pages
-> > > might get reused as soon sa they are freed to the page allocator.
+On Mon 23-11-20 12:45:13, Matthew Wilcox wrote:
+> On Mon, Nov 23, 2020 at 11:42:58AM +0100, Michal Hocko wrote:
+> > On Mon 23-11-20 18:36:33, Muchun Song wrote:
+> > > > No I really mean that pfn_to_page will give you a struct page pointer
+> > > > from pages which you release from the vmemmap page tables. Those pages
+> > > > might get reused as soon sa they are freed to the page allocator.
+> > > 
+> > > We will remap vmemmap pages 2-7 (virtual addresses) to page
+> > > frame 1. And then we free page frame 2-7 to the buddy allocator.
 > > 
-> > We will remap vmemmap pages 2-7 (virtual addresses) to page
-> > frame 1. And then we free page frame 2-7 to the buddy allocator.
+> > And this doesn't really happen in an atomic fashion from the pfn walker
+> > POV, right? So it is very well possible that 
+> > 
+> > struct page *page = pfn_to_page();
+> > // remapping happens here
+> > // page content is no longer valid because its backing memory can be
+> > // reused for whatever purpose.
 > 
-> And this doesn't really happen in an atomic fashion from the pfn walker
-> POV, right? So it is very well possible that 
-> 
-> struct page *page = pfn_to_page();
-> // remapping happens here
-> // page content is no longer valid because its backing memory can be
-> // reused for whatever purpose.
+> pfn_to_page() returns you a virtual address.  That virtual address
+> remains a valid pointer to exactly the same contents, it's just that
+> the page tables change to point to a different struct page which has
+> the same compound_head().
 
-pfn_to_page() returns you a virtual address.  That virtual address
-remains a valid pointer to exactly the same contents, it's just that
-the page tables change to point to a different struct page which has
-the same compound_head().
+You are right. I have managed to completely confuse myself. Sorry about
+the noise!
+
+-- 
+Michal Hocko
+SUSE Labs
