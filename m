@@ -2,90 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC421C388F9
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 22:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23058C64E7A
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 23:46:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 759F720715
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 22:02:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E097A20729
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 23:46:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PaJdSMiw"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="BEoa4Qic"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729762AbgKWWCH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 17:02:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729668AbgKWWCG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 17:02:06 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0789C0613CF;
-        Mon, 23 Nov 2020 14:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=mhCpis23NqY63c8NxX6Wxg38gWQuSreQ5clgMaAKViA=; b=PaJdSMiw4iN/I92Z9bYbMfvscb
-        9HdMsduPzdTIWJyB7e51N3arRZiy6S9g2BEVESuiG4aHlFqUVtzpiHADx5/vpdb4EsfqzxwQaJ501
-        8X4XZ1f5cae1Gtb2wfzzBtKYWL7eHl8h08lFMoGtaHk3ITOOet0NdKxNtaDLhK8dVho/V1FEmI6tA
-        6veew9XNjrE/VaddCQg6FI8xVBEcLcBX2HPiuKZyg3iAna/mlju19wC6xuBdRs/tvvZwJ74mYuWUm
-        UrjkO13j9FbNlho28eMkAfhgPXwyhed3yB0Sd18s9qs6YQGExCsFAOXewM+LpBP5pCPAVNO8gNi0w
-        dA3THayQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1khJtZ-0005K1-So; Mon, 23 Nov 2020 22:01:13 +0000
-Date:   Mon, 23 Nov 2020 22:01:13 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        David Hildenbrand <david@redhat.com>,
-        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        osalvador@suse.de, song.bao.hua@hisilicon.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 00/21] Free some vmemmap pages of hugetlb page
-Message-ID: <20201123220113.GW4327@casper.infradead.org>
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120084202.GJ3200@dhcp22.suse.cz>
- <6b1533f7-69c6-6f19-fc93-c69750caaecc@redhat.com>
- <20201120093912.GM3200@dhcp22.suse.cz>
- <eda50930-05b5-0ad9-2985-8b6328f92cec@redhat.com>
- <55e53264-a07a-a3ec-4253-e72c718b4ee6@oracle.com>
- <20201123073842.GA27488@dhcp22.suse.cz>
- <37f4bf02-c438-9fbd-32ea-8bedbe30c4da@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        id S1726904AbgKWXpz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 18:45:55 -0500
+Received: from nat-hk.nvidia.com ([203.18.50.4]:21978 "EHLO nat-hk.nvidia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726630AbgKWXpz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Nov 2020 18:45:55 -0500
+Received: from HKMAIL101.nvidia.com (Not Verified[10.18.92.77]) by nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fbc49ae0000>; Tue, 24 Nov 2020 07:45:50 +0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL101.nvidia.com
+ (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Nov
+ 2020 23:45:47 +0000
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (104.47.38.54) by
+ HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Mon, 23 Nov 2020 23:45:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G/6/wHjqLAa1Fvq0z19HpHWiYP7iB8QAdSKNj/JCUTD457s8iog4FjdFD6DwtuMOPEyevjYY4F+ShtkYYBMM0LB3Yap5JpG9LTPB7mZRJ69Jp3vWNs9WByoNQq2Uo8uLkxmVvu1hwfO1OHH66EmDrPpSR6lSqep5m/hlmwlSVdnJn0mKKmrWJwe/nfx8IO67QKCsce7oEGpTfRewpTQVsJGlXaz3ZHYyKluCwQp+Q2ZIp6ng2q4p0C1xeA/UktdcgwuddK86PXDDO3ZC85cJGRmYUJpgJC/vd14L2rZqii7OYskxzLu6i5BIjltIcOg1VbkU99Bx0q1la1n7RAK/OQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E01IzcN4XoZ6n+sfxHTo73e1HBdmVfQ3RmtpDQ4t1h4=;
+ b=LPwZOIDoILW/l9wm63ii5Jk8OSxNEna9lVWsBF5uoqcM6K+tZ9r1nk82Lrdh895XMjaQx7bj2tyQDJqfRCeCT1zJaXBjiktFKuTC7u8kO4axbQRFh2VIIuGAWornXDqAtG8Gj2X3WM9WEJojAOCmkReDjsFBfWn7x39virhxaf/APBS8iDHGHHkFKFokyPVUoR5gmwoefT7D49SKYA2/oRqQiXPQ5ZxpWPdfol3CIZHUFX2YrBLh5wYUL5Q7MseSSstTTDidjGlN5+DP8jmxl1/6W2kpP6x8Bz68VY7VQJqRe4mwic8yvj+R5adueYO8YstsXYHvRMQwp17Guj4vUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB4778.namprd12.prod.outlook.com (2603:10b6:5:167::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.25; Mon, 23 Nov
+ 2020 23:45:43 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::e40c:730c:156c:2ef9]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::e40c:730c:156c:2ef9%7]) with mapi id 15.20.3589.022; Mon, 23 Nov 2020
+ 23:45:43 +0000
+Date:   Mon, 23 Nov 2020 19:45:42 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        =?utf-8?B?SMOla29u?= Bugge <haakon.bugge@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Danit Goldberg <danitg@mellanox.com>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Divya Indi <divya.indi@oracle.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+        Moni Shoua <monis@mellanox.com>,
+        "Or Gerlitz" <ogerlitz@mellanox.com>,
+        Parav Pandit <parav@mellanox.com>,
+        "Sagi Grimberg" <sagi@grimberg.me>,
+        Ursula Braun <ubraun@linux.ibm.com>,
+        Xi Wang <wangxi11@huawei.com>,
+        Yamin Friedman <yaminf@mellanox.com>,
+        <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <target-devel@vger.kernel.org>
+Subject: Re: [PATCH v4 07/27] IB: fix kernel-doc markups
+Message-ID: <20201123234542.GA142861@nvidia.com>
+References: <cover.1605521731.git.mchehab+huawei@kernel.org>
+ <4983a0c6fe5dbc2c779d2b5950a6f90f81a16d56.1605521731.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <37f4bf02-c438-9fbd-32ea-8bedbe30c4da@oracle.com>
+In-Reply-To: <4983a0c6fe5dbc2c779d2b5950a6f90f81a16d56.1605521731.git.mchehab+huawei@kernel.org>
+X-ClientProxiedBy: BL0PR02CA0071.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::48) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by BL0PR02CA0071.namprd02.prod.outlook.com (2603:10b6:207:3d::48) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21 via Frontend Transport; Mon, 23 Nov 2020 23:45:43 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1khLWg-000bAy-7V; Mon, 23 Nov 2020 19:45:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1606175150; bh=E01IzcN4XoZ6n+sfxHTo73e1HBdmVfQ3RmtpDQ4t1h4=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+         From:To:CC:Subject:Message-ID:References:Content-Type:
+         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType;
+        b=BEoa4QiccrY265iqHUpgSzIo2RLsJuTbTSVfaQ05KIRZlCsIAoBAbXwqw4nvzz6Og
+         wcRlLjRne2NISETCbo12ASmp5TjAgp2DoJbdxS8kSBdspyIGTkmW0s8TEYWHJLDNnQ
+         4uM44NCmtE0Qa/cPB+lpyc7ElBW6TJ/+WuB7TTiZoh387hw3sVPhakeREtv0oyT2jD
+         GXAXUeUX6Z76tnjbPfHFj+Pe0XOPev/CLuDkkkBY1/Wii7yHpx/k65bkOaaR4pLwTT
+         LD30Ivpe3wE2uG9wGFRofSRbKyNq7yFQ461pA1tOCd/0O0GhKQ2g9Dtk6fabOP+u59
+         FC2n4rHrvDy1w==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 01:52:13PM -0800, Mike Kravetz wrote:
-> On 11/22/20 11:38 PM, Michal Hocko wrote:
-> > On Fri 20-11-20 09:45:12, Mike Kravetz wrote:
-> >> Not sure if I agree with that last statement.  Database and virtualization
-> >> use cases from my employer allocate allocate hugetlb pages after boot.  It
-> >> is shortly after boot, but still not from boot/kernel command line.
-> > 
-> > Is there any strong reason for that?
-> 
-> The reason I have been given is that it is preferable to have SW compute
-> the number of needed huge pages after boot based on total memory, rather
-> than have a sysadmin calculate the number and add a boot parameter.
+On Mon, Nov 16, 2020 at 11:18:03AM +0100, Mauro Carvalho Chehab wrote:
 
-Oh, I remember this bug!  I think it was posted publically, even.
-If the sysadmin configures, say, 90% of the RAM to be hugepages and
-then a DIMM fails and the sysadmin doesn't remember to adjust the boot
-parameter, Linux does some pretty horrible things and the symptom is
-"Linux doesn't boot".
+> +/**
+> + * ib_alloc_pd - Allocates an unused protection domain.
+> + * @device: The device on which to allocate the protection domain.
+> + * @flags: protection domain flags
+> + *
+> + * A protection domain object provides an association between QPs, shared
+> + * receive queues, address handles, memory regions, and memory windows.
+> + *
+> + * Every PD has a local_dma_lkey which can be used as the lkey value for local
+> + * memory operations.
+> + */
+>  #define ib_alloc_pd(device, flags) \
+>  	__ib_alloc_pd((device), (flags), KBUILD_MODNAME)
 
+Why this hunk adding a completely new description in this patch?
+
+Jason
