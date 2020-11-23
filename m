@@ -6,67 +6,67 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 185C7C388F9
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 12:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8B3C83022
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 13:06:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AED1120857
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 12:42:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C434720773
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 13:06:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="BlokZ/Pz"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="wdtiVdCS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732524AbgKWMmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 07:42:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57492 "EHLO
+        id S2388513AbgKWNGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 08:06:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732648AbgKWMlT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 07:41:19 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D39C061A4D
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 04:41:19 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id l1so539895pld.5
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 04:41:19 -0800 (PST)
+        with ESMTP id S2388510AbgKWNGC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 08:06:02 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40277C061A4F
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 05:06:02 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id l17so3761905pgk.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 05:06:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=x/P5N+aOgL+Wbp5LDW9WUHH3BDfKq+6QZULV8RGl/RI=;
-        b=BlokZ/Pz5XeHpSjC+MSruML4P8RkddSgJRa8c6tIXeWoh16b9Wj6x87Q9DtCPdMwzV
-         15wElAT5ukt5h5AZbTm433f/zV+j1s42ItZqY+ezTxmefPyn+cDUFO+938Y5fNBm6stH
-         Y7PCY3iuT3vDa+XurhzV5FRb96TjlAX4yW/Y+L8PuG41s/L4qs6rhCsi2F7u7XmSzFG6
-         RCTbIlXQYthfLHcvJ/vghfpwJJf2qQ3brYryXbJA7dVOUZQ/ColzuRCb9K1wZY+Rj88B
-         2noNhzOhd4CjBMGVd5OyV/uudyuj5lq5gXHufcTlQPJr3TJ2ZqpGlY7hMLHOTUYbwb29
-         IAWg==
+        bh=02jqOVqVG3o3zemslXDICxm50Q80xsNgcwxbt1BQaO8=;
+        b=wdtiVdCSXTYkX5Llm07WsCeM2l5OjQx0QT7j6/20KXIXC5Cz4YvF9BaMBeNHFUcdn1
+         TJOy7xJAHMWIurkODNbdhsHz13BBKEclsv/THVJRS6rEuPh24SnDOHbJVF8V1SHnqjPp
+         oBgoisa5jgquZi4Pxjx5BoLu/ESItCsecVzOIe7Bqh6wa4uWK80WSra2iqTrqBuIk5Qg
+         NV+54zyqCwhX2UwU7Wxp34u/na3qlnA6mq5Q7N/NFNzZYnRBvHLec/c8jyb2P0UjGGtn
+         aBtLG8nfs00RpR1cK/vy012TRFipmmjbzfqzLiMr2hAijZLJdmuSMW5WhOLELMp3WxUB
+         UVxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=x/P5N+aOgL+Wbp5LDW9WUHH3BDfKq+6QZULV8RGl/RI=;
-        b=dy+jkYb3KU+PNMFkURsb5Q5oG4tdgkszUOsDZlMDVsAM9zv493zqI/RkpWM4eM97h5
-         yXUPl4M+0VKNfv6s+Edo9VMLw8cmQcVbKXX8GAdj1xhD/5qSglfLILC/gSu4M5fxK4AZ
-         s16nT9/QZOGQ7mH+PtE9tiwUlcgwph8/4a4/I9KtHnh3lKtgd0ieHJxyGDjCku5A9zd8
-         pPjbQT7C0liISJ9tzkv+UkRbjHsrwDaVaruqANR/RCEC+olDreiUWQTEkJgldrJ0oUU6
-         ESLJVKjVJs3mvedjVM+S6Ah1Krj9dMugL9OclYrZRIn+Wz8uGxeKs8ruE8vOdQwwXEJT
-         PL1A==
-X-Gm-Message-State: AOAM531QX5lNRmrSzCM/ZbhABZIj4nwdKsR3Me9IVw3lwH4KlWmrT4Te
-        V7gKS1VMBNiZ0Gkdpkyihmg1ss6M/EKtfq79AGairg==
-X-Google-Smtp-Source: ABdhPJz9qr7a0zkKVT9IfcMthloG1hw4ZSqZsLVrN/ctqcHYcVJjOjMVeC/6+5Fwvq+i7o9PgEnq9csgleUeS3Fpk10=
-X-Received: by 2002:a17:902:76c8:b029:d9:d6c3:357d with SMTP id
- j8-20020a17090276c8b02900d9d6c3357dmr18683104plt.34.1606135278722; Mon, 23
- Nov 2020 04:41:18 -0800 (PST)
+        bh=02jqOVqVG3o3zemslXDICxm50Q80xsNgcwxbt1BQaO8=;
+        b=APYHKWzWJxcVUNB/rto39oJkcnuwKfu+LLfnNdmwUtyl8+tVkgzQq4seBvzvtUqTZg
+         Z4RiSt0rtt8OzqIMUIgc5R0IHug17MSS7p5mTz4xvTZpTTboFYCZonUhThumfhQkEbMV
+         LC5Xww64i70zJYEP9kf66PvF9b56dAvSzbPX+GQMEizhPjzYMu00e12uGJrnaYNLgI0S
+         L1jeQfdPWvrlxA56RsczFFFQc202EAa/nR2jR5V4HO7+TsKwR1h+cCnCYqunqp8Y+/rP
+         MeT3JMRteo2D5AV6MMJrBsESpwhG6KVULfTcKAA5kz7fVb6a78lwpy7Glfqpv8NYkFwD
+         A4sQ==
+X-Gm-Message-State: AOAM533EPBwQZ9Y/UCxDEmEITa/yJ6KMLxp3t7RzAMGbQuwonm4aoyXl
+        iiiUEt3Zxxa7XeAELwvtYjRBFZZgku346l/a2ljczQ==
+X-Google-Smtp-Source: ABdhPJw3p1FWKUpZ9PGL0u6MoANh2yKcf/YhnTR4E6ftHWfkWBw+A8Y2BLWvYmo51GlR128zahdNafwS/gBghxutmgU=
+X-Received: by 2002:a63:ff18:: with SMTP id k24mr26654043pgi.273.1606136761761;
+ Mon, 23 Nov 2020 05:06:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20201120131129.GO3200@dhcp22.suse.cz> <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120084202.GJ3200@dhcp22.suse.cz> <CAMZfGtWJXni21J=Yn55gksKy9KZnDScCjKmMasNz5XUwx3OcKw@mail.gmail.com>
+ <20201120131129.GO3200@dhcp22.suse.cz> <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
  <20201123074046.GB27488@dhcp22.suse.cz> <CAMZfGtV9WBu0OVi0fw4ab=t4zzY-uVn3amsa5ZHQhZBy88exFw@mail.gmail.com>
  <20201123094344.GG27488@dhcp22.suse.cz> <CAMZfGtUjsAKuQ_2NijKGPZYX7OBO_himtBDMKNkYb_0_o5CJGA@mail.gmail.com>
- <20201123104258.GJ27488@dhcp22.suse.cz> <CAMZfGtVzv0qPaK8GALaf8CiaPf2Z9+js24gFtFv5_RfhAyXaRA@mail.gmail.com>
- <20201123113208.GL27488@dhcp22.suse.cz> <CAMZfGtXUNXdqse-tsCFyqePJ65L-1EgkYW416+Hu+_6OVu7FjA@mail.gmail.com>
- <20201123121842.GM27488@dhcp22.suse.cz>
-In-Reply-To: <20201123121842.GM27488@dhcp22.suse.cz>
+ <20201123104258.GJ27488@dhcp22.suse.cz> <20201123124513.GI4327@casper.infradead.org>
+In-Reply-To: <20201123124513.GI4327@casper.infradead.org>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 23 Nov 2020 20:40:40 +0800
-Message-ID: <CAMZfGtVboaBuP_jYHeaQHwQ4gJoXuJC47g1UwTa+aUL4bqo=zw@mail.gmail.com>
+Date:   Mon, 23 Nov 2020 21:05:23 +0800
+Message-ID: <CAMZfGtX0XaNNL6eDTnggDdiL5RVywOAYaELv-gJhGadTMMyOBA@mail.gmail.com>
 Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
  hugetlb page
-To:     Michal Hocko <mhocko@suse.com>
+To:     Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
@@ -79,7 +79,6 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         anshuman.khandual@arm.com, jroedel@suse.de,
         Mina Almasry <almasrymina@google.com>,
         David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
         Oscar Salvador <osalvador@suse.de>,
         "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
         Xiongchun duan <duanxiongchun@bytedance.com>,
@@ -91,51 +90,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 8:18 PM Michal Hocko <mhocko@suse.com> wrote:
+On Mon, Nov 23, 2020 at 8:45 PM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> On Mon 23-11-20 20:07:23, Muchun Song wrote:
-> > On Mon, Nov 23, 2020 at 7:32 PM Michal Hocko <mhocko@suse.com> wrote:
-> [...]
-> > > > > > > No I really mean that pfn_to_page will give you a struct page pointer
-> > > > > > > from pages which you release from the vmemmap page tables. Those pages
-> > > > > > > might get reused as soon sa they are freed to the page allocator.
-> > > > > >
-> > > > > > We will remap vmemmap pages 2-7 (virtual addresses) to page
-> > > > > > frame 1. And then we free page frame 2-7 to the buddy allocator.
-> > > > >
-> > > > > And this doesn't really happen in an atomic fashion from the pfn walker
-> > > > > POV, right? So it is very well possible that
-> > > >
-> > > > Yeah, you are right. But it may not be a problem for HugeTLB pages.
-> > > > Because in most cases, we only read the tail struct page and get the
-> > > > head struct page through compound_head() when the pfn is within
-> > > > a HugeTLB range. Right?
+> On Mon, Nov 23, 2020 at 11:42:58AM +0100, Michal Hocko wrote:
+> > On Mon 23-11-20 18:36:33, Muchun Song wrote:
+> > > > No I really mean that pfn_to_page will give you a struct page pointer
+> > > > from pages which you release from the vmemmap page tables. Those pages
+> > > > might get reused as soon sa they are freed to the page allocator.
 > > >
-> > > Many pfn walkers would encounter the head page first and then skip over
-> > > the rest. Those should be reasonably safe. But there is no guarantee and
-> > > the fact that you need a valid page->compound_head which might get
-> > > scribbled over once you have the struct page makes this extremely
-> > > subtle.
+> > > We will remap vmemmap pages 2-7 (virtual addresses) to page
+> > > frame 1. And then we free page frame 2-7 to the buddy allocator.
 > >
-> > In this patch series, we can guarantee that the page->compound_head
-> > is always valid. Because we reuse the first tail page. Maybe you need to
-> > look closer at this series. Thanks.
+> > And this doesn't really happen in an atomic fashion from the pfn walker
+> > POV, right? So it is very well possible that
+> >
+> > struct page *page = pfn_to_page();
+> > // remapping happens here
+> > // page content is no longer valid because its backing memory can be
+> > // reused for whatever purpose.
 >
-> I must be really terrible exaplaining my concern. Let me try one last
-> time. It is really _irrelevant_ what you do with tail pages. The
-> underlying problem is that you are changing struct pages under users
-> without any synchronization. What used to be a valid struct page will
-> turn into garbage as soon as you remap vmemmap page tables.
+> pfn_to_page() returns you a virtual address.  That virtual address
+> remains a valid pointer to exactly the same contents, it's just that
+> the page tables change to point to a different struct page which has
+> the same compound_head().
 
-Thank you very much for your patient explanation. So if the pfn walkers
-always try get the head struct page through compound_head() when it
-encounter a tail struct page. There will be no concerns. Do you agree?
+I agree with you.
 
-> --
-> Michal Hocko
-> SUSE Labs
+Hi Michal,
 
-
+Maybe you need to look at this.
 
 -- 
 Yours,
