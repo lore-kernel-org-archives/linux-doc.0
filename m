@@ -2,90 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768B2C2D0E4
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 12:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2D3C388F9
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 12:19:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5A8720728
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 12:14:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 389DD20888
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 12:19:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="FWVhzNqz"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Q4MvfuOY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729325AbgKWMNy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 07:13:54 -0500
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:25209 "EHLO
-        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728842AbgKWMNx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 07:13:53 -0500
-Date:   Mon, 23 Nov 2020 12:13:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1606133631;
-        bh=LStuA4HgDouAi9zNu6A+4vTmzx/59sZCCzPfuW7Ijhg=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=FWVhzNqzaO0vln33sZkEl8XwFqqbeztUlRllYiy692D4Bq8SrXUtPtCv6QjhpSwp3
-         LYGeBh69TOkC7uEMIMcS5TQp2E2v3ATIFDkXVMCv21WYrtHEVElEib05dOhbumXGB6
-         sWhA4WUtXfjgm4EBAjPFFAofwYa25C/oLj7qEoFo=
-To:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
-        andrealmeid@collabora.com
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH] docs: dt: Use full path to enable cross-reference
-Message-ID: <20201123121333.59274-1-nfraprado@protonmail.com>
+        id S1729316AbgKWMSq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 07:18:46 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44824 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729308AbgKWMSq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Nov 2020 07:18:46 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606133924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=t1n0bl10c6m95DWi5xYuSHqG3jOj8hN5IrXcSggafl0=;
+        b=Q4MvfuOYSyYXHmAEGGhUA8ePzEEjpQCH1lmDmkV0EqMYWNawqsy3dwuH/chm2yyk8gy7Qg
+        chZmckVej9kuKiVnE3781b6jlxYlUbX3iGni3+AIYZ7r7IajfNmuNexEqg8KMtLz+rb7/l
+        chij4NlD0xKRhO9yBZx2MKSNkhPl9Dw=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 76399AFC1;
+        Mon, 23 Nov 2020 12:18:44 +0000 (UTC)
+Date:   Mon, 23 Nov 2020 13:18:42 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
+ hugetlb page
+Message-ID: <20201123121842.GM27488@dhcp22.suse.cz>
+References: <20201120131129.GO3200@dhcp22.suse.cz>
+ <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
+ <20201123074046.GB27488@dhcp22.suse.cz>
+ <CAMZfGtV9WBu0OVi0fw4ab=t4zzY-uVn3amsa5ZHQhZBy88exFw@mail.gmail.com>
+ <20201123094344.GG27488@dhcp22.suse.cz>
+ <CAMZfGtUjsAKuQ_2NijKGPZYX7OBO_himtBDMKNkYb_0_o5CJGA@mail.gmail.com>
+ <20201123104258.GJ27488@dhcp22.suse.cz>
+ <CAMZfGtVzv0qPaK8GALaf8CiaPf2Z9+js24gFtFv5_RfhAyXaRA@mail.gmail.com>
+ <20201123113208.GL27488@dhcp22.suse.cz>
+ <CAMZfGtXUNXdqse-tsCFyqePJ65L-1EgkYW416+Hu+_6OVu7FjA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtXUNXdqse-tsCFyqePJ65L-1EgkYW416+Hu+_6OVu7FjA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use full path to reference writing-schema.rst so that it becomes a
-cross-reference.
+On Mon 23-11-20 20:07:23, Muchun Song wrote:
+> On Mon, Nov 23, 2020 at 7:32 PM Michal Hocko <mhocko@suse.com> wrote:
+[...]
+> > > > > > No I really mean that pfn_to_page will give you a struct page pointer
+> > > > > > from pages which you release from the vmemmap page tables. Those pages
+> > > > > > might get reused as soon sa they are freed to the page allocator.
+> > > > >
+> > > > > We will remap vmemmap pages 2-7 (virtual addresses) to page
+> > > > > frame 1. And then we free page frame 2-7 to the buddy allocator.
+> > > >
+> > > > And this doesn't really happen in an atomic fashion from the pfn walker
+> > > > POV, right? So it is very well possible that
+> > >
+> > > Yeah, you are right. But it may not be a problem for HugeTLB pages.
+> > > Because in most cases, we only read the tail struct page and get the
+> > > head struct page through compound_head() when the pfn is within
+> > > a HugeTLB range. Right?
+> >
+> > Many pfn walkers would encounter the head page first and then skip over
+> > the rest. Those should be reasonably safe. But there is no guarantee and
+> > the fact that you need a valid page->compound_head which might get
+> > scribbled over once you have the struct page makes this extremely
+> > subtle.
+> 
+> In this patch series, we can guarantee that the page->compound_head
+> is always valid. Because we reuse the first tail page. Maybe you need to
+> look closer at this series. Thanks.
 
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
----
-
-Hi Jon,
-
-do you think this would be the way to go, or should we instead extend autom=
-arkup
-to work on relative paths to doc pages, so that this reference would work a=
-s is?
-
-Thanks,
-N=C3=ADcolas
-
- Documentation/devicetree/bindings/submitting-patches.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/submitting-patches.rst b/Doc=
-umentation/devicetree/bindings/submitting-patches.rst
-index 0aab2b3f16d0..68129ff09967 100644
---- a/Documentation/devicetree/bindings/submitting-patches.rst
-+++ b/Documentation/devicetree/bindings/submitting-patches.rst
-@@ -25,7 +25,8 @@ I. For patch submitters
-=20
-        make dt_binding_check
-=20
--     See ../writing-schema.rst for more details about schema and tools set=
-up.
-+     See Documentation/devicetree/writing-schema.rst for more details abou=
-t
-+     schema and tools setup.
-=20
-   3) DT binding files should be dual licensed. The preferred license tag i=
-s
-      (GPL-2.0-only OR BSD-2-Clause).
---=20
-2.29.2
-
-
+I must be really terrible exaplaining my concern. Let me try one last
+time. It is really _irrelevant_ what you do with tail pages. The
+underlying problem is that you are changing struct pages under users
+without any synchronization. What used to be a valid struct page will
+turn into garbage as soon as you remap vmemmap page tables.
+-- 
+Michal Hocko
+SUSE Labs
