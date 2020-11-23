@@ -2,69 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C8AC56202
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 10:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64011C63777
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 10:43:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 054BC2076E
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 10:37:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 141D320773
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 10:43:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="UTFKQgOo"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="DtL35ygU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726529AbgKWKhP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 05:37:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbgKWKhP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 05:37:15 -0500
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6959C061A4D
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 02:37:13 -0800 (PST)
-Received: by mail-pf1-x444.google.com with SMTP id v12so14493237pfm.13
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 02:37:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4eFIlDBCGuePrKXo7ssxRUnh/an23uWR8hRv/nfBrew=;
-        b=UTFKQgOoJYizpumITmdB9VlaPcXqQMrksxuklKmUZv6ApbQDov2zF5scuZArYl6A6Y
-         yd++i3f42p9lH3up/PA2WaDRuPwQVAlAVGj44ZMj/p0UxW8aMb/UDXzHAF/8F7bjBa92
-         bNWPUY6R2T4umft7PJYwJOFOPTOsAdzFQfZAkD+cIEIIb//UmiUZGZ33v4AVzaZhwBTj
-         td+K9uJO9oe3itDjbfRgjBVVceT1Wxzx39v5xAZ9+5rFZiJf0ZCiTgQdV7Do5bTaS6It
-         MOItu/J02q00pSJgoJsVqQaJlPL3pCB/UEdDyK5E5dY97QGYQUJWZ/U/NsRTqHV7m9pk
-         Gz8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4eFIlDBCGuePrKXo7ssxRUnh/an23uWR8hRv/nfBrew=;
-        b=itLYONkc0OcVh8Dwml6R4LpiumtNXEyE1OGM5BG6+oGgSbc5wqEwdphCNI/b0qdsvM
-         4ScQRiQOTdyXvlCp91cssoXd6MxWNU12xav0Q9LRuVlffYJ7huQu51/51L2t2HkJNRmL
-         HfNVI98gWB/tfUx70gCtPm0SzUNcEQeYf/fA4RChYKOEdiPUUf1t4BCIcsXfrHTrUrqO
-         UKRqRJpYEuQlTE6pAbwgROriGrGe5teyELCpE+vhJK4JffEu+lvNuu07KYDWmrCoA8jw
-         GSKHjleO0uYJ5rmdVuabcUi3Z7MtqRGepHFkGLPQBGEVzSopBdJPAemXBmGrnr1rRTQH
-         ghPg==
-X-Gm-Message-State: AOAM530CxMYPo211boc3S0FBs8s7HNplmXW+GCieCWwC+7NDvB6C/mx1
-        0PYZn95D1o057OLj/sQPDUAGk1w3Q8HQXEQeUaJVGg==
-X-Google-Smtp-Source: ABdhPJz8PxEYWSwkBesY8S8Gp7xJgr4OI3mDgYlO5QJdSzdxdF6WwhS7tyxFNc2WD1b+YhcyppNVwief6iy0SpHqQSI=
-X-Received: by 2002:a63:fe0c:: with SMTP id p12mr26221772pgh.31.1606127833192;
- Mon, 23 Nov 2020 02:37:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120084202.GJ3200@dhcp22.suse.cz> <CAMZfGtWJXni21J=Yn55gksKy9KZnDScCjKmMasNz5XUwx3OcKw@mail.gmail.com>
- <20201120131129.GO3200@dhcp22.suse.cz> <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
- <20201123074046.GB27488@dhcp22.suse.cz> <CAMZfGtV9WBu0OVi0fw4ab=t4zzY-uVn3amsa5ZHQhZBy88exFw@mail.gmail.com>
- <20201123094344.GG27488@dhcp22.suse.cz>
-In-Reply-To: <20201123094344.GG27488@dhcp22.suse.cz>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 23 Nov 2020 18:36:33 +0800
-Message-ID: <CAMZfGtUjsAKuQ_2NijKGPZYX7OBO_himtBDMKNkYb_0_o5CJGA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
- hugetlb page
-To:     Michal Hocko <mhocko@suse.com>
+        id S1728617AbgKWKnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 05:43:02 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39626 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725907AbgKWKnB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Nov 2020 05:43:01 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606128180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pFsAgqEF6rCorJPEzwduvsXSgM44bZXUvbIYui99MCA=;
+        b=DtL35ygUL3Uzf5GavQeNA+QTIh5N0c7udmZkQriWUhO5FMnjuGAXKRDfZd3V+VKKdLLp5l
+        TayBlp1wsYFV+BPvDH1ToIhuqojQSqFMlPKZl48S7JJwJe4hyTi4+vMxSTeOe3Zzgmjzsd
+        8AXQLYnutgm23bZAGnyR9o3Jt7Nv2SA=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id CF697ABCE;
+        Mon, 23 Nov 2020 10:42:59 +0000 (UTC)
+Date:   Mon, 23 Nov 2020 11:42:58 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
@@ -84,110 +55,123 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
+ hugetlb page
+Message-ID: <20201123104258.GJ27488@dhcp22.suse.cz>
+References: <20201120064325.34492-1-songmuchun@bytedance.com>
+ <20201120084202.GJ3200@dhcp22.suse.cz>
+ <CAMZfGtWJXni21J=Yn55gksKy9KZnDScCjKmMasNz5XUwx3OcKw@mail.gmail.com>
+ <20201120131129.GO3200@dhcp22.suse.cz>
+ <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
+ <20201123074046.GB27488@dhcp22.suse.cz>
+ <CAMZfGtV9WBu0OVi0fw4ab=t4zzY-uVn3amsa5ZHQhZBy88exFw@mail.gmail.com>
+ <20201123094344.GG27488@dhcp22.suse.cz>
+ <CAMZfGtUjsAKuQ_2NijKGPZYX7OBO_himtBDMKNkYb_0_o5CJGA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtUjsAKuQ_2NijKGPZYX7OBO_himtBDMKNkYb_0_o5CJGA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 5:43 PM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Mon 23-11-20 16:53:53, Muchun Song wrote:
-> > On Mon, Nov 23, 2020 at 3:40 PM Michal Hocko <mhocko@suse.com> wrote:
-> > >
-> > > On Fri 20-11-20 23:44:26, Muchun Song wrote:
-> > > > On Fri, Nov 20, 2020 at 9:11 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > > >
-> > > > > On Fri 20-11-20 20:40:46, Muchun Song wrote:
-> > > > > > On Fri, Nov 20, 2020 at 4:42 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > > > > >
-> > > > > > > On Fri 20-11-20 14:43:04, Muchun Song wrote:
-> > > > > > > [...]
-> > > > > > >
-> > > > > > > Thanks for improving the cover letter and providing some numbers. I have
-> > > > > > > only glanced through the patchset because I didn't really have more time
-> > > > > > > to dive depply into them.
-> > > > > > >
-> > > > > > > Overall it looks promissing. To summarize. I would prefer to not have
-> > > > > > > the feature enablement controlled by compile time option and the kernel
-> > > > > > > command line option should be opt-in. I also do not like that freeing
-> > > > > > > the pool can trigger the oom killer or even shut the system down if no
-> > > > > > > oom victim is eligible.
-> > > > > >
-> > > > > > Hi Michal,
-> > > > > >
-> > > > > > I have replied to you about those questions on the other mail thread.
-> > > > > >
-> > > > > > Thanks.
-> > > > > >
-> > > > > > >
-> > > > > > > One thing that I didn't really get to think hard about is what is the
-> > > > > > > effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
-> > > > > > > invalid when racing with the split. How do we enforce that this won't
-> > > > > > > blow up?
-> > > > > >
-> > > > > > This feature depends on the CONFIG_SPARSEMEM_VMEMMAP,
-> > > > > > in this case, the pfn_to_page can work. The return value of the
-> > > > > > pfn_to_page is actually the address of it's struct page struct.
-> > > > > > I can not figure out where the problem is. Can you describe the
-> > > > > > problem in detail please? Thanks.
-> > > > >
-> > > > > struct page returned by pfn_to_page might get invalid right when it is
-> > > > > returned because vmemmap could get freed up and the respective memory
-> > > > > released to the page allocator and reused for something else. See?
+On Mon 23-11-20 18:36:33, Muchun Song wrote:
+> On Mon, Nov 23, 2020 at 5:43 PM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Mon 23-11-20 16:53:53, Muchun Song wrote:
+> > > On Mon, Nov 23, 2020 at 3:40 PM Michal Hocko <mhocko@suse.com> wrote:
 > > > >
-> > > > If the HugeTLB page is already allocated from the buddy allocator,
-> > > > the struct page of the HugeTLB can be freed? Does this exist?
+> > > > On Fri 20-11-20 23:44:26, Muchun Song wrote:
+> > > > > On Fri, Nov 20, 2020 at 9:11 PM Michal Hocko <mhocko@suse.com> wrote:
+> > > > > >
+> > > > > > On Fri 20-11-20 20:40:46, Muchun Song wrote:
+> > > > > > > On Fri, Nov 20, 2020 at 4:42 PM Michal Hocko <mhocko@suse.com> wrote:
+> > > > > > > >
+> > > > > > > > On Fri 20-11-20 14:43:04, Muchun Song wrote:
+> > > > > > > > [...]
+> > > > > > > >
+> > > > > > > > Thanks for improving the cover letter and providing some numbers. I have
+> > > > > > > > only glanced through the patchset because I didn't really have more time
+> > > > > > > > to dive depply into them.
+> > > > > > > >
+> > > > > > > > Overall it looks promissing. To summarize. I would prefer to not have
+> > > > > > > > the feature enablement controlled by compile time option and the kernel
+> > > > > > > > command line option should be opt-in. I also do not like that freeing
+> > > > > > > > the pool can trigger the oom killer or even shut the system down if no
+> > > > > > > > oom victim is eligible.
+> > > > > > >
+> > > > > > > Hi Michal,
+> > > > > > >
+> > > > > > > I have replied to you about those questions on the other mail thread.
+> > > > > > >
+> > > > > > > Thanks.
+> > > > > > >
+> > > > > > > >
+> > > > > > > > One thing that I didn't really get to think hard about is what is the
+> > > > > > > > effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
+> > > > > > > > invalid when racing with the split. How do we enforce that this won't
+> > > > > > > > blow up?
+> > > > > > >
+> > > > > > > This feature depends on the CONFIG_SPARSEMEM_VMEMMAP,
+> > > > > > > in this case, the pfn_to_page can work. The return value of the
+> > > > > > > pfn_to_page is actually the address of it's struct page struct.
+> > > > > > > I can not figure out where the problem is. Can you describe the
+> > > > > > > problem in detail please? Thanks.
+> > > > > >
+> > > > > > struct page returned by pfn_to_page might get invalid right when it is
+> > > > > > returned because vmemmap could get freed up and the respective memory
+> > > > > > released to the page allocator and reused for something else. See?
+> > > > >
+> > > > > If the HugeTLB page is already allocated from the buddy allocator,
+> > > > > the struct page of the HugeTLB can be freed? Does this exist?
+> > > >
+> > > > Nope, struct pages only ever get deallocated when the respective memory
+> > > > (they describe) is hotremoved via hotplug.
+> > > >
+> > > > > If yes, how to free the HugeTLB page to the buddy allocator
+> > > > > (cannot access the struct page)?
+> > > >
+> > > > But I do not follow how that relates to my concern above.
 > > >
-> > > Nope, struct pages only ever get deallocated when the respective memory
-> > > (they describe) is hotremoved via hotplug.
+> > > Sorry. I shouldn't understand your concerns.
 > > >
-> > > > If yes, how to free the HugeTLB page to the buddy allocator
-> > > > (cannot access the struct page)?
+> > > vmemmap pages                 page frame
+> > > +-----------+   mapping to   +-----------+
+> > > |           | -------------> |     0     |
+> > > +-----------+                +-----------+
+> > > |           | -------------> |     1     |
+> > > +-----------+                +-----------+
+> > > |           | -------------> |     2     |
+> > > +-----------+                +-----------+
+> > > |           | -------------> |     3     |
+> > > +-----------+                +-----------+
+> > > |           | -------------> |     4     |
+> > > +-----------+                +-----------+
+> > > |           | -------------> |     5     |
+> > > +-----------+                +-----------+
+> > > |           | -------------> |     6     |
+> > > +-----------+                +-----------+
+> > > |           | -------------> |     7     |
+> > > +-----------+                +-----------+
 > > >
-> > > But I do not follow how that relates to my concern above.
+> > > In this patch series, we will free the page frame 2-7 to the
+> > > buddy allocator. You mean that pfn_to_page can return invalid
+> > > value when the pfn is the page frame 2-7? Thanks.
 > >
-> > Sorry. I shouldn't understand your concerns.
-> >
-> > vmemmap pages                 page frame
-> > +-----------+   mapping to   +-----------+
-> > |           | -------------> |     0     |
-> > +-----------+                +-----------+
-> > |           | -------------> |     1     |
-> > +-----------+                +-----------+
-> > |           | -------------> |     2     |
-> > +-----------+                +-----------+
-> > |           | -------------> |     3     |
-> > +-----------+                +-----------+
-> > |           | -------------> |     4     |
-> > +-----------+                +-----------+
-> > |           | -------------> |     5     |
-> > +-----------+                +-----------+
-> > |           | -------------> |     6     |
-> > +-----------+                +-----------+
-> > |           | -------------> |     7     |
-> > +-----------+                +-----------+
-> >
-> > In this patch series, we will free the page frame 2-7 to the
-> > buddy allocator. You mean that pfn_to_page can return invalid
-> > value when the pfn is the page frame 2-7? Thanks.
->
-> No I really mean that pfn_to_page will give you a struct page pointer
-> from pages which you release from the vmemmap page tables. Those pages
-> might get reused as soon sa they are freed to the page allocator.
+> > No I really mean that pfn_to_page will give you a struct page pointer
+> > from pages which you release from the vmemmap page tables. Those pages
+> > might get reused as soon sa they are freed to the page allocator.
+> 
+> We will remap vmemmap pages 2-7 (virtual addresses) to page
+> frame 1. And then we free page frame 2-7 to the buddy allocator.
 
-We will remap vmemmap pages 2-7 (virtual addresses) to page
-frame 1. And then we free page frame 2-7 to the buddy allocator.
-Then accessing the struct page pointer that returned by pfn_to_page
-will be reflected on page frame 1. I think that here is no problem.
+And this doesn't really happen in an atomic fashion from the pfn walker
+POV, right? So it is very well possible that 
 
-Thanks.
-
-> --
-> Michal Hocko
-> SUSE Labs
-
-
-
+struct page *page = pfn_to_page();
+// remapping happens here
+// page content is no longer valid because its backing memory can be
+// reused for whatever purpose.
 -- 
-Yours,
-Muchun
+Michal Hocko
+SUSE Labs
