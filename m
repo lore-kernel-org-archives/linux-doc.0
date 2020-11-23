@@ -2,208 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623D6C8300B
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 04:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F19C63777
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 04:59:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32224207FF
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 04:55:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F41DB2137B
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 04:59:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="UTyJutcu"
+	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="iGPwGA/4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbgKWEzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Nov 2020 23:55:33 -0500
-Received: from conuserg-08.nifty.com ([210.131.2.75]:27317 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726885AbgKWEzT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 23:55:19 -0500
-Received: from grover.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 0AN4sGHh016676;
-        Mon, 23 Nov 2020 13:54:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 0AN4sGHh016676
+        id S1727622AbgKWE7F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Nov 2020 23:59:05 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:40075 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727459AbgKWE7F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Nov 2020 23:59:05 -0500
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 0AN4wZji006726;
+        Mon, 23 Nov 2020 13:58:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0AN4wZji006726
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606107260;
-        bh=UaokmMy66noPBcllqXh/sjDOT6CGTkZW3p03cwQ7oPE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UTyJutcuEhCq7ktGgTSJJWNN4w5yvfmuMF946o9s4IidT48CZMmWZvuSY7GSevRZm
-         lMWeIAaEo7pirj+cCxVO25BkgYg34bxUwzQUabGbdadM8LMskcJ4O5Oa63WBk7mvuR
-         6gzynMBJwQqKIaPcX6+fpsfRaCa3DiPCGpN/OnA4ih1xk4fhLVoQWVuJPPCKYThOjE
-         E6sELHdj3oDD7whhI8R2nx6SXRwv67GI7LHDN0XW2IS+QPIXbFmW48HHmNqDcELK41
-         0i+FuzWs46cgFkPHhvcQOmGjSj9eIBNw7elatlxv/qt/y2qizqqSkUitWAt87BN4om
-         2GKFVAUXwXx3g==
-X-Nifty-SrcIP: [126.90.211.135]
+        s=dec2015msa; t=1606107515;
+        bh=+LEwj9RIP6B0v+fIagUSiNb+k53AZBbMfGdY35alS/0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=iGPwGA/4IAEd9JkZHJZIgkAY2k6Y9HTXqoPP22+LeMQEYSGLFwQemh8NZGwxCg3ah
+         qxeITYoWU6eQBr0gDR7Cl5AGbAJY134t2a45EbOa+G/nC7mv4SIu96zVHtNfuSuIMm
+         ULQdEUR/eS/NINLlWf27l0JMsWIA7CxcDmnp0mn/HFBLv/yi2qwTVklaj1y3N90To7
+         6eUzdXvwATH+3/v6T8/XMYf3oAAVXaUEqEtcw+JCAtXvShQeN9kiJYL5aVWxeABJIg
+         fKF5ynoxUNwI/jNt7iJcVA8ABHIF9xbuSOH8O6Yo+3Cu9Ehcv8ZhFlzqr0hGcdlTNY
+         UBggMXQGr3BmQ==
+X-Nifty-SrcIP: [209.85.214.172]
+Received: by mail-pl1-f172.google.com with SMTP id t18so8272929plo.0;
+        Sun, 22 Nov 2020 20:58:35 -0800 (PST)
+X-Gm-Message-State: AOAM533erxTx0d1b8vYVbOjsW41TRJArp4fuEplxgUB9FD2uHKShqzEk
+        xVTaPpjeNY6MrUallkDULEDiVU2jSEvBDPbBusU=
+X-Google-Smtp-Source: ABdhPJzCVFp0M56iuKPlCB10k/Z+nsmP4Q0CTPSwcKkybeuvqPFO5caR2C45S+axiewACNiCPqNHmrsPeS9qaX+Q+JQ=
+X-Received: by 2002:a17:902:d346:b029:d9:d097:ed15 with SMTP id
+ l6-20020a170902d346b02900d9d097ed15mr18191255plk.1.1606107514572; Sun, 22 Nov
+ 2020 20:58:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20201123045403.63402-1-masahiroy@kernel.org> <20201123045403.63402-3-masahiroy@kernel.org>
+In-Reply-To: <20201123045403.63402-3-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
+Date:   Mon, 23 Nov 2020 13:57:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARXem8v+gW-dT2g6_3_4EvZ6=P0t0M9wfLfv7axRUCctQ@mail.gmail.com>
+Message-ID: <CAK7LNARXem8v+gW-dT2g6_3_4EvZ6=P0t0M9wfLfv7axRUCctQ@mail.gmail.com>
+Subject: Re: [PATCH 3/7] kbuild: doc: fix 'List directories to visit when
+ descending' section
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] kbuild: doc: split if_changed explanation to a separate section
-Date:   Mon, 23 Nov 2020 13:54:01 +0900
-Message-Id: <20201123045403.63402-5-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201123045403.63402-1-masahiroy@kernel.org>
-References: <20201123045403.63402-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The if_changed macro is currently explained in the section
-"Commands useful for building a boot image", but the use of
-if_changed is not limited to the boot image.
+On Mon, Nov 23, 2020 at 1:54 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Fix state information:
 
-It is often used together with custom rules. Let's split it as a
-separate section, and insert it after the "Custom Rules" section.
 
-I slightly reworded the explanation, re-numbered to fill the <deleted>
-section, and also fixed the broken indentation of the Note: part.
+I mean "Fix stale information"
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- Documentation/kbuild/makefiles.rst | 94 +++++++++++++++++-------------
- 1 file changed, 52 insertions(+), 42 deletions(-)
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index f5a983709df7..49afcb1d3695 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -16,9 +16,9 @@ This document describes the Linux kernel Makefiles.
- 	   --- 3.5 Library file goals - lib-y
- 	   --- 3.6 Descending down in directories
- 	   --- 3.7 Compilation flags
--	   --- 3.8 <deleted>
--	   --- 3.9 Dependency tracking
--	   --- 3.10 Custom Rules
-+	   --- 3.8 Dependency tracking
-+	   --- 3.9 Custom Rules
-+	   --- 3.10 Command change detection
- 	   --- 3.11 $(CC) support functions
- 	   --- 3.12 $(LD) support functions
- 	   --- 3.13 Script Invocation
-@@ -410,7 +410,7 @@ more details, with real examples.
- 		AFLAGS_iwmmxt.o      := -Wa,-mcpu=iwmmxt
- 
- 
--3.9 Dependency tracking
-+3.8 Dependency tracking
- -----------------------
- 
- 	Kbuild tracks dependencies on the following:
-@@ -422,8 +422,8 @@ more details, with real examples.
- 	Thus, if you change an option to $(CC) all affected files will
- 	be re-compiled.
- 
--3.10 Custom Rules
--------------------
-+3.9 Custom Rules
-+----------------
- 
- 	Custom rules are used when the kbuild infrastructure does
- 	not provide the required support. A typical example is
-@@ -499,6 +499,52 @@ more details, with real examples.
- 
- 	will be displayed with "make KBUILD_VERBOSE=0".
- 
-+3.10 Command change detection
-+-----------------------------
-+
-+	When the rule is evaluated, timestamps are compared between the target
-+	and its prerequisite files. GNU Make updates the target when any of the
-+	prerequisites is newer than that.
-+
-+	The target should be rebuilt also when the command line has changed
-+	since the last invocation. This is not supported by Make itself, so
-+	Kbuild achieves this by a kind of meta-programming.
-+
-+	if_changed is the macro used for this purpose, in the following form::
-+
-+		quiet_cmt_<command> = ...
-+		      cmd_<command> = ...
-+
-+		<target>: <source(s)> FORCE
-+			$(call if_changed,<command>)
-+
-+	Any target that utilizes if_changed must be listed in $(targets),
-+	otherwise the command line check will fail, and the target will
-+	always be built.
-+
-+	If the target is already listed in the recognized syntax such as
-+	obj-y/m, lib-y/m, extra-y/m, hostprogs, userprogs, Kbuild automatically
-+	add it to $(targets). Otherwise, the target must be explicitly added
-+	to $(targets).
-+
-+	Assignments to $(targets) are without $(obj)/ prefix. if_changed may be
-+	used in conjunction with custom rules as defined in "3.9 Custom Rules".
-+
-+	Note: It is a typical mistake to forget the FORCE prerequisite.
-+	Another common pitfall is that whitespace is sometimes significant; for
-+	instance, the below will fail (note the extra space after the comma)::
-+
-+		target: source(s) FORCE
-+
-+	**WRONG!**	$(call if_changed, objcopy)
-+
-+	Note:
-+		if_changed should not be used more than once per target.
-+		It stores the executed command in a corresponding .cmd
-+		file and multiple calls would result in overwrites and
-+		unwanted results when the target is up to date and only the
-+		tests on changed commands trigger execution of commands.
-+
- 3.11 $(CC) support functions
- ----------------------------
- 
-@@ -1287,42 +1333,6 @@ When kbuild executes, the following steps are followed (roughly):
-     Kbuild provides a few macros that are useful when building a
-     boot image.
- 
--    if_changed
--	if_changed is the infrastructure used for the following commands.
--
--	Usage::
--
--		target: source(s) FORCE
--			$(call if_changed,ld/objcopy/gzip/...)
--
--	When the rule is evaluated, it is checked to see if any files
--	need an update, or the command line has changed since the last
--	invocation. The latter will force a rebuild if any options
--	to the executable have changed.
--	Any target that utilises if_changed must be listed in $(targets),
--	otherwise the command line check will fail, and the target will
--	always be built.
--	Assignments to $(targets) are without $(obj)/ prefix.
--	if_changed may be used in conjunction with custom rules as
--	defined in "3.10 Custom Rules".
--
--	Note: It is a typical mistake to forget the FORCE prerequisite.
--	Another common pitfall is that whitespace is sometimes
--	significant; for instance, the below will fail (note the extra space
--	after the comma)::
--
--		target: source(s) FORCE
--
--	**WRONG!**	$(call if_changed, ld/objcopy/gzip/...)
--
--        Note:
--	      if_changed should not be used more than once per target.
--              It stores the executed command in a corresponding .cmd
--
--        file and multiple calls would result in overwrites and
--        unwanted results when the target is up to date and only the
--        tests on changed commands trigger execution of commands.
--
-     ld
- 	Link target. Often, LDFLAGS_$@ is used to set specific options to ld.
- 
+>
+>  - Fix the section number in the reference from 6.4 to 7.4.
+>
+>  - Remove init-y and net-y. They were removed by commit 23febe375d94
+>    ("kbuild: merge init-y into core-y") and commit 95fb6317b3ab
+>    ("kbuild: merge net-y and virt-y into drivers-y"), respectively.
+>
+>  - Update the example because arch/sparc64/Makefile does not exit.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+
+
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
