@@ -6,63 +6,64 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 221D3C2D0E4
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 08:03:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2150C63777
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 08:55:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1FFB2076E
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 08:03:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CF0C20732
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 08:55:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="PsvMXAco"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="S70EpVIP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727859AbgKWICl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 03:02:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42864 "EHLO
+        id S1727907AbgKWIyh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 03:54:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727741AbgKWICk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 03:02:40 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B2EC061A4D
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 00:02:40 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id q10so14186554pfn.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 00:02:40 -0800 (PST)
+        with ESMTP id S1726801AbgKWIyf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 03:54:35 -0500
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5F2C061A4E
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 00:54:33 -0800 (PST)
+Received: by mail-pl1-x643.google.com with SMTP id u2so8507300pls.10
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 00:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LjW5kf1b1Fcrz9tIggA1cpzx5YJFFwp+TEs9UtQIZsw=;
-        b=PsvMXAcoEQ4hU0UZyLqO+PoN3PXrPBxWC79QMPfmg/GeikUA+SP8/ijNRw21dSTXiJ
-         xNPNUGCNDUPwI6ifrInTqzcWJKex5iemykaV2fHR+J5/zcJTfvCdDZCgfwNA4YMJg1k0
-         pnW3LHjw4DSuK+4v91P6GJ270fMdQtRMW5csIIxjxrv0croy/8qu2J0TkgMk3qbqE4O+
-         Urs14aeqs+PCcTeQPCDHwqqTnM9TUgBa+NlQongfRf9g7OD17aGWB8RxYwznDsxCxu5Z
-         UJqU6o2Q7MvZRsBqPFfMaRzBB8oji3PoIckEUKR84XfDUAyhPSjqi4OR+g4Hd6uwP5B0
-         Yg2A==
+        bh=+bYpsl8R9NvO/I5lN+BmuwOl70TRIsehsuL2xad98dg=;
+        b=S70EpVIPjzIAK5nZ7KUmoydETAntPJamCslr4CbpuhjTFouDc0sfycP4I9S5jc4V12
+         3CYcPiUZJR1TrV3XChtafJEEb3kabGjGfG3pIbI7kG+en3p+Zmw5NFGwHKmlDC8QsREc
+         NYM+Gg4XzlqhW6d5Lg59iSB2acN5FN0eUBt94oTklB0VzsDC6RErR76C55MuchLXj6oM
+         ktJbtKcbViCqOijsP7s73R2j7CaPPGR0DA0FZ8+onobungDtZd2SjRvZ1tkpmtbFfmGw
+         q91FKsW0XkTmSnkZG86k4rrObeOrzNg4NnukYemJktelhKtPS6Ezi9VxYIGjBoJTWllt
+         7qxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LjW5kf1b1Fcrz9tIggA1cpzx5YJFFwp+TEs9UtQIZsw=;
-        b=fR9499mWDCe1Jir9enemEDonX+IrgEr5rPQZ3qDqDztdLaiH4Jo5PUpYM1hjdcrNOG
-         INuGuuW/R7PZ1MYdaOpBH0GjZSIRqy5Xhd2xymwPy7kwQ5om1yVh/XMGU5JdI4Bfmcf+
-         zL95cZOKFjgt60qRLe6USlfnVjQgHmWYoZkUxRjlx7Cc6sUqnG16opZFogSwZGRJqD3Y
-         lBRePw3XkUtOXU57bQGUHf8c5MngtiDvPnL2ZjoTwnrZCXZug+VTHQ7cr/e3PtEUuTKn
-         KX/zbB/+YyGqP787jOrPEth2hStCDgyRZ04Vmr2H2uTjkhdJDPUvgBtZsZHpWDHDXBV2
-         CE0g==
-X-Gm-Message-State: AOAM5319caCGBupf/H1yotO1Qn/4CtjCQkOf3V5taWGKuHAc9Zplk9KL
-        pih+Mrx1dmq7i5Af4LnwI2hBn5e6+3eCBz7JHN+noQ==
-X-Google-Smtp-Source: ABdhPJz4q3i27WpndCtivA4jdkLBmsJFiWT7v+RK+RF8zB1bKuJ/sddH4D73BQja9ZIobFqLizBVKi+BNz073q7oDn8=
-X-Received: by 2002:aa7:8105:0:b029:18e:c8d9:2c24 with SMTP id
- b5-20020aa781050000b029018ec8d92c24mr23947117pfi.49.1606118559844; Mon, 23
- Nov 2020 00:02:39 -0800 (PST)
+        bh=+bYpsl8R9NvO/I5lN+BmuwOl70TRIsehsuL2xad98dg=;
+        b=W2zv4jTNH37AQ10FgKAXSUvp4JoPNUf1iQCq5aitJVz25KCqIXyhmnFdx9Qi2PsRoQ
+         gdRbCdlh1BBY4blYvR+5pZUV72X1bCXTMaDBDxeiKOppnNsz1b2NmspHF29AHNePPvwX
+         Dx9V9TZMj9MDiqYhLs9opzZSs4QQCJw1fHX2gDKOhJRW/FVVQpYqjpGRY/RgMI1UxdIK
+         QFANcIV3VcsUox9e0SPrBRDDxdHwuIFOgtQhnFrEewkdoPlagdueteTD2BGujGQDcJDb
+         /Fnq4Weva2mSY2De2DAwOPpjA+6Tn+EmnQiGMoGfUYWf3vfv/Km+TF6hsezAMDm/8pTP
+         Pwrw==
+X-Gm-Message-State: AOAM531TdUXtNxRtTLnm+i1ygnWEDcwv1qU2JAYH7EpuukpjNkRtmUoN
+        K0TK/P8va1y6XcZdeLVEZcjBtKS2XWAl+5RyeVNrZQ==
+X-Google-Smtp-Source: ABdhPJwq0k/O5Uc/JRdE+7QUeFuc9rwPeHWeJehd8e8HxO9FsA6DBl6oXeKnVkQ75hHtSHTg49fQ6xxBtkD8Wa9RyPE=
+X-Received: by 2002:a17:902:c14b:b029:d6:ab18:108d with SMTP id
+ 11-20020a170902c14bb02900d6ab18108dmr23794233plj.20.1606121672924; Mon, 23
+ Nov 2020 00:54:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120064325.34492-14-songmuchun@bytedance.com> <20201120081638.GD3200@dhcp22.suse.cz>
- <CAMZfGtX3DUJggAzz_06Z2atHPknkCir6a49a983TsWOHt5ZQUQ@mail.gmail.com> <20201123074804.GC27488@dhcp22.suse.cz>
-In-Reply-To: <20201123074804.GC27488@dhcp22.suse.cz>
+ <20201120084202.GJ3200@dhcp22.suse.cz> <CAMZfGtWJXni21J=Yn55gksKy9KZnDScCjKmMasNz5XUwx3OcKw@mail.gmail.com>
+ <20201120131129.GO3200@dhcp22.suse.cz> <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
+ <20201123074046.GB27488@dhcp22.suse.cz>
+In-Reply-To: <20201123074046.GB27488@dhcp22.suse.cz>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 23 Nov 2020 16:01:59 +0800
-Message-ID: <CAMZfGtVvubZLuzYDC3x605jSSFO+JTk4xU0BVMwxmo26tOdHBg@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v5 13/21] mm/hugetlb: Use PG_slab to
- indicate split pmd
+Date:   Mon, 23 Nov 2020 16:53:53 +0800
+Message-ID: <CAMZfGtV9WBu0OVi0fw4ab=t4zzY-uVn3amsa5ZHQhZBy88exFw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
+ hugetlb page
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -88,37 +89,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 3:48 PM Michal Hocko <mhocko@suse.com> wrote:
+On Mon, Nov 23, 2020 at 3:40 PM Michal Hocko <mhocko@suse.com> wrote:
 >
-> On Fri 20-11-20 17:30:27, Muchun Song wrote:
-> > On Fri, Nov 20, 2020 at 4:16 PM Michal Hocko <mhocko@suse.com> wrote:
+> On Fri 20-11-20 23:44:26, Muchun Song wrote:
+> > On Fri, Nov 20, 2020 at 9:11 PM Michal Hocko <mhocko@suse.com> wrote:
 > > >
-> > > On Fri 20-11-20 14:43:17, Muchun Song wrote:
-> > > > When we allocate hugetlb page from buddy, we may need split huge pmd
-> > > > to pte. When we free the hugetlb page, we can merge pte to pmd. So
-> > > > we need to distinguish whether the previous pmd has been split. The
-> > > > page table is not allocated from slab. So we can reuse the PG_slab
-> > > > to indicate that the pmd has been split.
+> > > On Fri 20-11-20 20:40:46, Muchun Song wrote:
+> > > > On Fri, Nov 20, 2020 at 4:42 PM Michal Hocko <mhocko@suse.com> wrote:
+> > > > >
+> > > > > On Fri 20-11-20 14:43:04, Muchun Song wrote:
+> > > > > [...]
+> > > > >
+> > > > > Thanks for improving the cover letter and providing some numbers. I have
+> > > > > only glanced through the patchset because I didn't really have more time
+> > > > > to dive depply into them.
+> > > > >
+> > > > > Overall it looks promissing. To summarize. I would prefer to not have
+> > > > > the feature enablement controlled by compile time option and the kernel
+> > > > > command line option should be opt-in. I also do not like that freeing
+> > > > > the pool can trigger the oom killer or even shut the system down if no
+> > > > > oom victim is eligible.
+> > > >
+> > > > Hi Michal,
+> > > >
+> > > > I have replied to you about those questions on the other mail thread.
+> > > >
+> > > > Thanks.
+> > > >
+> > > > >
+> > > > > One thing that I didn't really get to think hard about is what is the
+> > > > > effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
+> > > > > invalid when racing with the split. How do we enforce that this won't
+> > > > > blow up?
+> > > >
+> > > > This feature depends on the CONFIG_SPARSEMEM_VMEMMAP,
+> > > > in this case, the pfn_to_page can work. The return value of the
+> > > > pfn_to_page is actually the address of it's struct page struct.
+> > > > I can not figure out where the problem is. Can you describe the
+> > > > problem in detail please? Thanks.
 > > >
-> > > PageSlab is used outside of the slab allocator proper and that code
-> > > might get confused by this AFAICS.
+> > > struct page returned by pfn_to_page might get invalid right when it is
+> > > returned because vmemmap could get freed up and the respective memory
+> > > released to the page allocator and reused for something else. See?
 > >
-> > I got your concerns. Maybe we can use PG_private instead of the
-> > PG_slab.
+> > If the HugeTLB page is already allocated from the buddy allocator,
+> > the struct page of the HugeTLB can be freed? Does this exist?
 >
-> Reusing a page flag arbitrarily is not that easy. Hugetlb pages have a
-> lot of spare room in struct page so I would rather use something else.
+> Nope, struct pages only ever get deallocated when the respective memory
+> (they describe) is hotremoved via hotplug.
+>
+> > If yes, how to free the HugeTLB page to the buddy allocator
+> > (cannot access the struct page)?
+>
+> But I do not follow how that relates to my concern above.
 
-This page is the PMD page table of vmemmap, not the vmemmap page
-of HugeTLB. And the page table does not use PG_private. Maybe it is
-enough. Thanks.
+Sorry. I shouldn't understand your concerns.
 
+vmemmap pages                 page frame
++-----------+   mapping to   +-----------+
+|           | -------------> |     0     |
++-----------+                +-----------+
+|           | -------------> |     1     |
++-----------+                +-----------+
+|           | -------------> |     2     |
++-----------+                +-----------+
+|           | -------------> |     3     |
++-----------+                +-----------+
+|           | -------------> |     4     |
++-----------+                +-----------+
+|           | -------------> |     5     |
++-----------+                +-----------+
+|           | -------------> |     6     |
++-----------+                +-----------+
+|           | -------------> |     7     |
++-----------+                +-----------+
+
+In this patch series, we will free the page frame 2-7 to the
+buddy allocator. You mean that pfn_to_page can return invalid
+value when the pfn is the page frame 2-7? Thanks.
+
+>
 > --
 > Michal Hocko
 > SUSE Labs
 
 
 
--- 
+--
 Yours,
 Muchun
