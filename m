@@ -2,249 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1928CC63697
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 956D6C2D0E4
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:17:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8F82206FA
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:03:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35A8620728
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 19:17:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cpumtOl8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ecz6nru9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729237AbgKWTDN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 14:03:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60218 "EHLO
+        id S1731777AbgKWTR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 14:17:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729140AbgKWTDN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 14:03:13 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196A6C0613CF;
-        Mon, 23 Nov 2020 11:03:13 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id t3so1273846pgi.11;
-        Mon, 23 Nov 2020 11:03:13 -0800 (PST)
+        with ESMTP id S1729183AbgKWTR5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 14:17:57 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 836D7C061A4D
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 11:17:56 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id gj5so24932389ejb.8
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2020 11:17:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yMuGjAGAYA+5ImbfC3OSe/xsrUqI4pHb2wVel7Ahm0Y=;
-        b=cpumtOl8Hz9K/isd0gwzNo8XSlMa4wMmT8gH7nLi/Mc16Nd4BOlI/+Mq6l4WyKKzR5
-         eargzdQq2Z6yaF/D2/DWzFt4X0iwusR6LHTk90uX9o1s0gGWJ+Gl3R9KeRcov0jIBd/D
-         ieQX8eU3sCM8QAvANmDPMq9bFYGRbA8MZHeM1h07Arc8Ft/4MN7k8C+MdILF1xt3Fas2
-         db1VzZnZoguVudl4f0KhSFVpoEcO69ywT4gtWgAtGKHtNLHB0li9p3xEpNx8Zqtd/X03
-         roxC1VjTUgOybpemA64HOjAYDMNh63oVORwXvvYdMWrYMLmLzS/e3BeZ42Lh1FP1DX9V
-         mBsA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HdQbgY+fGm8jxB4Ao2qaLqB1m6FKX93p0ZpDSNmzhRg=;
+        b=ecz6nru9/eO/okMaZi3M1SqeAWBy3jSLMgd0jjhCQTgpbarec4ajNZc2z34SiLaYXP
+         QaJ9mapXUBOQPHDszmlLh7XP42arbTRfXumSHa93MXICjloDTusJOZUbBPLUWOXgbgKZ
+         pQ9+nKsc1i6ipcAuXP0mxabxLfUkdI0xLURbCfbeS8wWY5rV7x0QYGWPjdqiSV52K55x
+         r78U+tHwgUxkiwIykrn1oTB8ldikaa6SeVOhCeVlAv4TB8gcYfIO54wMnjufMeoPn641
+         F1cxLMBeI9aeXeCsYDbEt+ePAmXOLWf4j+g0oiKvF1rdE0jaZD3q/81yQfnX86AGm3aN
+         H+Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yMuGjAGAYA+5ImbfC3OSe/xsrUqI4pHb2wVel7Ahm0Y=;
-        b=OKr/pOFeCR6buSLpO3MALpxgozQkLa/OUaWpk2ln45tsm/ZqB1zCCjwR/YYuxBU0aC
-         Jz7THwR/jqirDmYuYTXkOMRJ9Owf1JcnqfLw0Pl/85oMXn7EI+ePRXJs1XajB2f47VpJ
-         HUOh8BBnKc1ZDjEuv7DTiHfJIbsG/GPeZDeT4Ipy0xRkAJwR6ZAgUJVeu/MFDxm2xsz8
-         RtWyMtgxNVJzK1zqElBxIHZ+Nk0+RmqjelrsfX+tyzkkgyDh3gTceVBi/3dxJif5NDPY
-         ZkoBJpjb+4T/ruYNV5RyalQ9fl0YjAhQv7f4d1dYOYm7pIaJRWFHH8+rN1kMMDP1PK53
-         tDHQ==
-X-Gm-Message-State: AOAM531nbryLYzBwBBV0zhOvXNMK+/KeBYvpcS/YDfiBd0Gcxausb/w/
-        H3o+E7OAYDNfGNg+uko4ZXA=
-X-Google-Smtp-Source: ABdhPJwl8aybCD5NSXzQDDjdEDdtIbfM9OHag1+2pZRRFIqG+7hmC9anyar4R3Lrk+dUKLLVIGRhzA==
-X-Received: by 2002:a62:52c6:0:b029:18c:a1fa:2fc2 with SMTP id g189-20020a6252c60000b029018ca1fa2fc2mr777841pfb.50.1606158192579;
-        Mon, 23 Nov 2020 11:03:12 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
-        by smtp.gmail.com with ESMTPSA id z128sm11365946pgz.69.2020.11.23.11.03.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 23 Nov 2020 11:03:12 -0800 (PST)
-Date:   Mon, 23 Nov 2020 11:03:09 -0800
-From:   Tao Ren <rentao.bupt@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        taoren@fb.com, mikechoi@fb.com
-Subject: Re: [PATCH v4 1/2] hwmon: (max127) Add Maxim MAX127 hardware
- monitoring driver
-Message-ID: <20201123190308.GB7697@taoren-ubuntu-R90MNF91>
-References: <20201123074532.3730-1-rentao.bupt@gmail.com>
- <20201123074532.3730-2-rentao.bupt@gmail.com>
- <20201123131832.GB136636@roeck-us.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HdQbgY+fGm8jxB4Ao2qaLqB1m6FKX93p0ZpDSNmzhRg=;
+        b=Uxs8fz+KbatpFZOhVydQCXw7juBrew3keDQzYynqnlY8fIywbL0u6QKAH31Xd5S4lz
+         UTENji5V7r2PDMiWfJfWH+VAHOwVFKXttr3MJGJMNFKWVox/WBfqqSuPkDIi2eKHoaI4
+         PDW0Hk8M5rwcrzNGTJSNHZte/f8oyrB+D5UpT6iipVXVFjAN6RhMizyh6ScNhZ/RbUt/
+         IopqYqEdCHMPvYcfMJcjEP81E7a2guqQFARzyR/t1onOztPQ1WHeu6+am2ZmDc7cwSTu
+         lkvXAgqmHtKqeRpEOCHA5LZsH8an+S7+FKuGekGRiOUMkTGG2Bbv7XNq14WmVMVT9IUk
+         98Ew==
+X-Gm-Message-State: AOAM532HvpdHyDtadcJWETR5yARM0xXh615xgar7yYjT6j0rhJGR/5EU
+        FUvDBgILOHBo707IjenikCzwNINqWZzROyARcQlFTw==
+X-Google-Smtp-Source: ABdhPJxls2+tu09Rb1v/Dt0hKt61j+cTOrCnH79IazHpSsNU2scVK5iT+mwhaQK0QUof4aS2TvFYL72oX+JQ5QIXnVs=
+X-Received: by 2002:a17:906:c059:: with SMTP id bm25mr1009217ejb.20.1606159074807;
+ Mon, 23 Nov 2020 11:17:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201123131832.GB136636@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201120030411.2690816-1-lokeshgidra@google.com>
+ <20201120030411.2690816-2-lokeshgidra@google.com> <20201120153337.431dc36c1975507bb1e44596@linux-foundation.org>
+In-Reply-To: <20201120153337.431dc36c1975507bb1e44596@linux-foundation.org>
+From:   Lokesh Gidra <lokeshgidra@google.com>
+Date:   Mon, 23 Nov 2020 11:17:43 -0800
+Message-ID: <CA+EESO7xnnJAsPneuy1dNj6F47gViGiL-z8rajY5EoGdFWs+-A@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] Add UFFD_USER_MODE_ONLY
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Daniel Colascione <dancol@dancol.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Kalesh Singh <kaleshsingh@google.com>,
+        Calin Juravle <calin@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Nitin Gupta <nigupta@nvidia.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linux-mm@kvack.kernel.org, Daniel Colascione <dancol@google.com>,
+        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 05:18:32AM -0800, Guenter Roeck wrote:
-> On Sun, Nov 22, 2020 at 11:45:31PM -0800, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> > 
-> > Add hardware monitoring driver for the Maxim MAX127 chip.
-> > 
-> > MAX127 min/max range handling code is inspired by the max197 driver.
-> > 
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> > ---
-> >  Changes in v4:
-> >    - delete unnecessary "#include" lines.
-> >    - simplify i2c_transfer() error handling.
-> >    - add mutex to protect ctrl_byte in write_min|max() functions.
-> >  Changes in v3:
-> >    - no code change. xdp maintainers were removed from to/cc list.
-> >  Changes in v2:
-> >    - replace devm_hwmon_device_register_with_groups() with
-> >      devm_hwmon_device_register_with_info() API.
-> >    - divide min/max read and write methods to separate functions.
-> >    - fix raw-to-vin conversion logic.
-> >    - refine ctrl_byte handling so mutex is not needed to protect the
-> >      byte.
-> >    - improve i2c_transfer() error handling.
-> >    - a few other improvements (comments, variable naming, and etc.).
-> > 
-> >  drivers/hwmon/Kconfig  |   9 ++
-> >  drivers/hwmon/Makefile |   1 +
-> >  drivers/hwmon/max127.c | 346 +++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 356 insertions(+)
-> >  create mode 100644 drivers/hwmon/max127.c
-> > 
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index 9d600e0c5584..716df51edc87 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -950,6 +950,15 @@ config SENSORS_MAX1111
-> >  	  This driver can also be built as a module. If so, the module
-> >  	  will be called max1111.
-> >  
-> > +config SENSORS_MAX127
-> > +	tristate "Maxim MAX127 12-bit 8-channel Data Acquisition System"
-> > +	depends on I2C
-> > +	help
-> > +	  Say y here to support Maxim's MAX127 DAS chips.
-> > +
-> > +	  This driver can also be built as a module. If so, the module
-> > +	  will be called max127.
-> > +
-> >  config SENSORS_MAX16065
-> >  	tristate "Maxim MAX16065 System Manager and compatibles"
-> >  	depends on I2C
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index 1083bbfac779..01ca5d3fbad4 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -127,6 +127,7 @@ obj-$(CONFIG_SENSORS_LTC4260)	+= ltc4260.o
-> >  obj-$(CONFIG_SENSORS_LTC4261)	+= ltc4261.o
-> >  obj-$(CONFIG_SENSORS_LTQ_CPUTEMP) += ltq-cputemp.o
-> >  obj-$(CONFIG_SENSORS_MAX1111)	+= max1111.o
-> > +obj-$(CONFIG_SENSORS_MAX127)	+= max127.o
-> >  obj-$(CONFIG_SENSORS_MAX16065)	+= max16065.o
-> >  obj-$(CONFIG_SENSORS_MAX1619)	+= max1619.o
-> >  obj-$(CONFIG_SENSORS_MAX1668)	+= max1668.o
-> > diff --git a/drivers/hwmon/max127.c b/drivers/hwmon/max127.c
-> > new file mode 100644
-> > index 000000000000..1c54146b6086
-> > --- /dev/null
-> > +++ b/drivers/hwmon/max127.c
-> > @@ -0,0 +1,346 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
+On Fri, Nov 20, 2020 at 3:33 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Thu, 19 Nov 2020 19:04:10 -0800 Lokesh Gidra <lokeshgidra@google.com> wrote:
+>
+> > userfaultfd handles page faults from both user and kernel code.
+> > Add a new UFFD_USER_MODE_ONLY flag for userfaultfd(2) that makes
+> > the resulting userfaultfd object refuse to handle faults from kernel
+> > mode, treating these faults as if SIGBUS were always raised, causing
+> > the kernel code to fail with EFAULT.
+> >
+> > A future patch adds a knob allowing administrators to give some
+> > processes the ability to create userfaultfd file objects only if they
+> > pass UFFD_USER_MODE_ONLY, reducing the likelihood that these processes
+> > will exploit userfaultfd's ability to delay kernel page faults to open
+> > timing windows for future exploits.
+>
+> Can we assume that an update to the userfaultfd(2) manpage is in the
+> works?
+>
+Yes, I'm working on it. Can the kernel version which will have these
+patches be known now so that I can mention it in the manpage?
+
+> > --- a/fs/userfaultfd.c
+> > +++ b/fs/userfaultfd.c
+> > @@ -405,6 +405,13 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
+> >
+> >       if (ctx->features & UFFD_FEATURE_SIGBUS)
+> >               goto out;
+> > +     if ((vmf->flags & FAULT_FLAG_USER) == 0 &&
+> > +         ctx->flags & UFFD_USER_MODE_ONLY) {
+> > +             printk_once(KERN_WARNING "uffd: Set unprivileged_userfaultfd "
+> > +                     "sysctl knob to 1 if kernel faults must be handled "
+> > +                     "without obtaining CAP_SYS_PTRACE capability\n");
+> > +             goto out;
+> > +     }
+> >
+> >       /*
+> >        * If it's already released don't get it. This avoids to loop
+> > @@ -1965,10 +1972,11 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
+> >       BUG_ON(!current->mm);
+> >
+> >       /* Check the UFFD_* constants for consistency.  */
+> > +     BUILD_BUG_ON(UFFD_USER_MODE_ONLY & UFFD_SHARED_FCNTL_FLAGS);
+>
+> Are we sure this is true for all architectures?
+
+Yes, none of the architectures are using the least-significant bit for
+O_CLOEXEC or O_NONBLOCK.
+>
+> >       BUILD_BUG_ON(UFFD_CLOEXEC != O_CLOEXEC);
+> >       BUILD_BUG_ON(UFFD_NONBLOCK != O_NONBLOCK);
+> >
+> > -     if (flags & ~UFFD_SHARED_FCNTL_FLAGS)
+> > +     if (flags & ~(UFFD_SHARED_FCNTL_FLAGS | UFFD_USER_MODE_ONLY))
+> >               return -EINVAL;
+> >
+> >       ctx = kmem_cache_alloc(userfaultfd_ctx_cachep, GFP_KERNEL);
+> > diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
+> > index e7e98bde221f..5f2d88212f7c 100644
+> > --- a/include/uapi/linux/userfaultfd.h
+> > +++ b/include/uapi/linux/userfaultfd.h
+> > @@ -257,4 +257,13 @@ struct uffdio_writeprotect {
+> >       __u64 mode;
+> >  };
+> >
 > > +/*
-> > + * Hardware monitoring driver for MAX127.
-> > + *
-> > + * Copyright (c) 2020 Facebook Inc.
+> > + * Flags for the userfaultfd(2) system call itself.
 > > + */
 > > +
-> > +#include <linux/err.h>
-> > +#include <linux/hwmon.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/init.h>
-> > +#include <linux/module.h>
-> > +
 > > +/*
-> > + * MAX127 Control Byte. Refer to MAX127 datasheet, Table 1 "Control-Byte
-> > + * Format" for details.
+> > + * Create a userfaultfd that can handle page faults only in user mode.
 > > + */
-> > +#define MAX127_CTRL_START	BIT(7)
-> > +#define MAX127_CTRL_SEL_SHIFT	4
-> > +#define MAX127_CTRL_RNG		BIT(3)
-> > +#define MAX127_CTRL_BIP		BIT(2)
-> > +#define MAX127_CTRL_PD1		BIT(1)
-> > +#define MAX127_CTRL_PD0		BIT(0)
+> > +#define UFFD_USER_MODE_ONLY 1
 > > +
-> > +#define MAX127_NUM_CHANNELS	8
-> > +#define MAX127_SET_CHANNEL(ch)	(((ch) & 7) << MAX127_CTRL_SEL_SHIFT)
-> > +
-> > +/*
-> > + * MAX127 channel input ranges. Refer to MAX127 datasheet, Table 3 "Range
-> > + * and Polarity Selection" for details.
-> > + */
-> > +#define MAX127_FULL_RANGE	10000	/* 10V */
-> > +#define MAX127_HALF_RANGE	5000	/* 5V */
-> > +
-> > +/*
-> > + * MAX127 returns 2 bytes at read:
-> > + *   - the first byte contains data[11:4].
-> > + *   - the second byte contains data[3:0] (MSB) and 4 dummy 0s (LSB).
-> > + * Refer to MAX127 datasheet, "Read a Conversion (Read Cycle)" section
-> > + * for details.
-> > + */
-> > +#define MAX127_DATA_LEN		2
-> > +#define MAX127_DATA_SHIFT	4
-> > +
-> > +#define MAX127_SIGN_BIT		BIT(11)
-> > +
-> > +struct max127_data {
-> > +	struct mutex lock;
-> > +	struct i2c_client *client;
-> > +	u8 ctrl_byte[MAX127_NUM_CHANNELS];
-> > +};
-> > +
-> > +static int max127_select_channel(struct i2c_client *client, u8 ctrl_byte)
-> > +{
-> > +	int status;
-> > +	struct i2c_msg msg = {
-> > +		.addr = client->addr,
-> > +		.flags = 0,
-> > +		.len = sizeof(ctrl_byte),
-> > +		.buf = &ctrl_byte,
-> > +	};
-> > +
-> > +	status = i2c_transfer(client->adapter, &msg, 1);
-> > +
-> > +	return (status == 1) ? 0 : -EIO;
-> 
-> This isn't what I said and asked for. It drops the unnecessary else,
-> but now it overwrites an error value.
-> 
-> Guenter
-> 
-> > +}
-> > +
-> > +static int max127_read_channel(struct i2c_client *client, long *val)
-> > +{
-> > +	int status;
-> > +	u8 i2c_data[MAX127_DATA_LEN];
-> > +	struct i2c_msg msg = {
-> > +		.addr = client->addr,
-> > +		.flags = I2C_M_RD,
-> > +		.len = sizeof(i2c_data),
-> > +		.buf = i2c_data,
-> > +	};
-> > +
-> > +	status = i2c_transfer(client->adapter, &msg, 1);
-> > +	if (status != 1)
-> > +		return -EIO;
-> 
-> This isn't what I asked for.
-> 
-> Guenter
-
-Both places are fixed in v5. Thanks for the clarify, Guenter.
-
-
-Cheers,
-
-Tao
+> >  #endif /* _LINUX_USERFAULTFD_H */
+>
+> It would be nice to define this in include/linux/userfaultfd_k.h,
+> alongside the other flags.  But I guess it has to be here because it's
+> part of the userspace API.
