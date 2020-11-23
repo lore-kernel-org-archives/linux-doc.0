@@ -2,127 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F87C63777
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CBEC63697
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:45:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3429E20738
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:41:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 960692074B
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 07:45:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ezVAS4q+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfdFOa/y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727058AbgKWHku (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 02:40:50 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44606 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726302AbgKWHku (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Nov 2020 02:40:50 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1606117249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qDKd/j/QMUNk+/p2NwiTiy96ayOEs3BuwGOqaQL5s+c=;
-        b=ezVAS4q+yY3KB7/f2FALGK82bgAjW+b5kVyFv4xuqGO6lb82TcYoJxP6KhSaKImDGnkbAt
-        Tt8TWcoLgHPwD61QMXVwnQ/J1Q79H3FMW7WYKYnCzjqUNbRqHvhTAUbO6Bc01xLi42FhIi
-        DkFUPz+KuuqcjYnSGwamDnkv23XrGpU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id D9D65ABCE;
-        Mon, 23 Nov 2020 07:40:48 +0000 (UTC)
-Date:   Mon, 23 Nov 2020 08:40:46 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v5 00/21] Free some vmemmap pages of
- hugetlb page
-Message-ID: <20201123074046.GB27488@dhcp22.suse.cz>
-References: <20201120064325.34492-1-songmuchun@bytedance.com>
- <20201120084202.GJ3200@dhcp22.suse.cz>
- <CAMZfGtWJXni21J=Yn55gksKy9KZnDScCjKmMasNz5XUwx3OcKw@mail.gmail.com>
- <20201120131129.GO3200@dhcp22.suse.cz>
- <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtWNDJWWTtpUDtngtgNiOoSd6sJpdAB6MnJW8KH0gePfYA@mail.gmail.com>
+        id S1727397AbgKWHpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 02:45:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40264 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbgKWHpl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 02:45:41 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14C9C0613CF;
+        Sun, 22 Nov 2020 23:45:41 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id s63so3597547pgc.8;
+        Sun, 22 Nov 2020 23:45:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=BFitlouLqV5WjAV4yis+SNy1ksEBkbSXVdeVWFMxCgQ=;
+        b=FfdFOa/yYakciFlKN4s4XKzdLppr3kFkdihyIqw6pVOmbiIvPV4hnA+HOCX4tMdJ+5
+         kwyOZ0IOBV9C7zvY/+LD4FRDDCj2Q9g2o+MammUxnHjQuLzmzl5ebbdUFr/aYZkuQH3C
+         IsIOwrPgUGdg0wO9jVME4yIEKj2FWwGFU1itdcjjBAK/EbVOOBSB+05kb2xFoNQvHwRZ
+         GHX2T2H9d0UZjf3vKW8fPqcS62E9J1TeIJxPmTSaEdPelUFsnI6tc66YG/bUWZpBwg+P
+         4jtC2j1P1NTvwMzGEHgU01iAQ8z5Xqvo0t5lGYPHEfwq/XeubjjrkA8tVy7q9CPlCVDU
+         RViQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=BFitlouLqV5WjAV4yis+SNy1ksEBkbSXVdeVWFMxCgQ=;
+        b=C0xR4+hmCZrNS0Fhbc9EEGxlZ1qG2zNPwl47M5/WmpUcCdMDAJkxjS+XysG7cam3X9
+         5RmDNvVDK8meg9mwTsqrmrRgD6uTpD0edMcVjXUbCrvzddxIgfGTOqLVVP3AguZP18rL
+         MBIMYGK/GWhRl/zJIk+VqHfwCiXyRxuFawycbaGeIh5zThJ8CKKY5t0IhHIF31V9i1N2
+         EI8dbFecRpEKYqxlE9yh8p9e/cRdokodr5ulSXln3LAIZQqypIzzlfvUt8z4WfA8uv4v
+         c0QRoRDCfDJM18tq6ULfLajzEieLbkmiRa13+QWmuzZOdzKJ5MmASGdXzPbvCJk1s8y/
+         j5Yw==
+X-Gm-Message-State: AOAM530P0Ie4Mu3yo5VGmiCHSq0pEwhRYvjg/uF7gE4vK35vNcZFNKGN
+        93NdPKv80zv89rlerp1SaaQ=
+X-Google-Smtp-Source: ABdhPJyXUUqOuVScJwF1uK//p0FtqpPoILzGVsy9yWd3AX1S6EqzWMd6jO710sDbiwjkEihrx4PXIg==
+X-Received: by 2002:a65:4c0a:: with SMTP id u10mr527328pgq.294.1606117541329;
+        Sun, 22 Nov 2020 23:45:41 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
+        by smtp.gmail.com with ESMTPSA id 12sm13176340pjn.19.2020.11.22.23.45.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2020 23:45:40 -0800 (PST)
+From:   rentao.bupt@gmail.com
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        openbmc@lists.ozlabs.org, taoren@fb.com, mikechoi@fb.com
+Cc:     Tao Ren <rentao.bupt@gmail.com>
+Subject: [PATCH v4 0/2] hwmon: (max127) Add Maxim MAX127 hardware monitoring
+Date:   Sun, 22 Nov 2020 23:45:30 -0800
+Message-Id: <20201123074532.3730-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 20-11-20 23:44:26, Muchun Song wrote:
-> On Fri, Nov 20, 2020 at 9:11 PM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Fri 20-11-20 20:40:46, Muchun Song wrote:
-> > > On Fri, Nov 20, 2020 at 4:42 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > >
-> > > > On Fri 20-11-20 14:43:04, Muchun Song wrote:
-> > > > [...]
-> > > >
-> > > > Thanks for improving the cover letter and providing some numbers. I have
-> > > > only glanced through the patchset because I didn't really have more time
-> > > > to dive depply into them.
-> > > >
-> > > > Overall it looks promissing. To summarize. I would prefer to not have
-> > > > the feature enablement controlled by compile time option and the kernel
-> > > > command line option should be opt-in. I also do not like that freeing
-> > > > the pool can trigger the oom killer or even shut the system down if no
-> > > > oom victim is eligible.
-> > >
-> > > Hi Michal,
-> > >
-> > > I have replied to you about those questions on the other mail thread.
-> > >
-> > > Thanks.
-> > >
-> > > >
-> > > > One thing that I didn't really get to think hard about is what is the
-> > > > effect of vmemmap manipulation wrt pfn walkers. pfn_to_page can be
-> > > > invalid when racing with the split. How do we enforce that this won't
-> > > > blow up?
-> > >
-> > > This feature depends on the CONFIG_SPARSEMEM_VMEMMAP,
-> > > in this case, the pfn_to_page can work. The return value of the
-> > > pfn_to_page is actually the address of it's struct page struct.
-> > > I can not figure out where the problem is. Can you describe the
-> > > problem in detail please? Thanks.
-> >
-> > struct page returned by pfn_to_page might get invalid right when it is
-> > returned because vmemmap could get freed up and the respective memory
-> > released to the page allocator and reused for something else. See?
-> 
-> If the HugeTLB page is already allocated from the buddy allocator,
-> the struct page of the HugeTLB can be freed? Does this exist?
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Nope, struct pages only ever get deallocated when the respective memory
-(they describe) is hotremoved via hotplug.
+The patch series adds hardware monitoring driver for the Maxim MAX127
+chip.
 
-> If yes, how to free the HugeTLB page to the buddy allocator
-> (cannot access the struct page)?
+Patch #1 adds the max127 hardware monitoring driver, and patch #2 adds
+documentation for the driver.
 
-But I do not follow how that relates to my concern above.
+Tao Ren (2):
+  hwmon: (max127) Add Maxim MAX127 hardware monitoring driver
+  docs: hwmon: Document max127 driver
+
+ Documentation/hwmon/index.rst  |   1 +
+ Documentation/hwmon/max127.rst |  45 +++++
+ drivers/hwmon/Kconfig          |   9 +
+ drivers/hwmon/Makefile         |   1 +
+ drivers/hwmon/max127.c         | 346 +++++++++++++++++++++++++++++++++
+ 5 files changed, 402 insertions(+)
+ create mode 100644 Documentation/hwmon/max127.rst
+ create mode 100644 drivers/hwmon/max127.c
 
 -- 
-Michal Hocko
-SUSE Labs
+2.17.1
+
